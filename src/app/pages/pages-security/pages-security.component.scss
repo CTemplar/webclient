@@ -1,0 +1,28 @@
+.items {
+  padding: 3rem 0;
+}
+
+.main.container {
+  padding-bottom: 1rem !important;
+}
+
+.last.container {
+  padding-bottom: calc(6rem + 112.5px) !important;
+}
+
+.items {
+  .description {
+    font-size: 16px !important;
+  }
+}
+
+
+.ui.items>.item>.content+.image {
+  padding-left: 1.5em;
+}
+
+.ui.items>.item>.content {
+-ms-flex-item-align: center;
+-ms-grid-row-align: center;
+align-self: center;
+}

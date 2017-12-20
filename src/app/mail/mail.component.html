@@ -1,0 +1,35 @@
+<div class="app-mail">
+  <div class="sidebar">
+    <app-mail-sidebar></app-mail-sidebar>
+  </div>
+  <div class="content">
+    <app-mail-header></app-mail-header>
+    <router-outlet></router-outlet>
+    <!-- <app-mail-footer></app-mail-footer> -->
+  </div>
+  <div *ngIf="composing" class="compose" [ngClass]="{'minimized': minimize}">
+    <form #form="ngForm">
+      <div class="header">
+        New message
+        <i class="close icon" (click)="mailService.composing.emit(false); minimize = false"></i>
+        <i class="icon" [ngClass]="{'compress': !minimize, 'expand': minimize}" (click)="minimize = !minimize"></i>
+      </div>
+      <div *ngIf="!minimize" class="inputs">
+        <input [(ngModel)]="message.to_header" #to_header="ngModel" name="to_header" placeholder="your-friend@gmail.com" autofocus required>
+        <input [(ngModel)]="message.subject" #subject="ngModel" name="subject" placeholder="How are you?" required>
+      </div>
+      <div *ngIf="!minimize" class="textarea">
+        <textarea [(ngModel)]="message.body" #body="ngModel" name="body" placeholder="Message"></textarea>
+      </div>
+      <div *ngIf="!minimize" class="footer">
+        <button class="ui icon button" (click)="save()">
+          <i class="save icon"></i>
+        </button>
+        <button class="ui icon button" (click)="delete()">
+          <i class="trash icon"></i>
+        </button>
+        <button class="uppercase ui red button" (click)="send()">Send</button>
+      </div>
+    </form>
+  </div>
+</div>

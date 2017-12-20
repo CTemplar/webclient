@@ -1,0 +1,25 @@
+.call-to-action {
+  padding: 7rem 0 7rem;
+  position: relative;
+  // -webkit-clip-path: polygon(0 21%, 100% 0, 100% 100%, 0% 100%);
+  // clip-path: polygon(0 21%, 100% 0, 100% 100%, 0% 100%);
+
+  .medium.image {
+    position: absolute;
+     top: -112.5px;
+     right: calc(50% - 150px);
+  }
+
+  h2 {
+    font-weight: normal;
+  }
+
+  .red.button {
+    text-transform: uppercase;
+    margin-top: 1em;
+  }
+}
+
+.app-footer {
+  padding: 6rem 0 5rem;
+}

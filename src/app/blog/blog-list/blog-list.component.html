@@ -1,0 +1,32 @@
+<div class="main ui container">
+  <div class="page heading ui center aligned basic segment">
+    <h1 class="uppercase">Blog</h1>
+  </div>
+  <div class="ui items">
+    <div class="featured item">
+      <div class="ui large rounded image">
+        <div class="ui {{ post.category.color }} ribbon label">{{ post.category.name }}</div>
+        <img src="{{ post.image_featured }}">
+      </div>
+      <div class="content">
+        <a class="header" routerLink="/blog/{{ post.slug }}">{{ post.name }}</a>
+        <div class="description">
+          {{ post.excerpt_long }}
+        </div>
+        <div class="ui divider"></div>
+        <div class="extra">
+          <span class="right floated">
+            <i class="comments icon"></i>
+            {{ post.comments_count }} comments
+          </span>
+          <span>
+            <i class="calendar icon"></i>
+            {{ post.date }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui hidden divider"></div>
+  <app-blog-latest pagination="true"></app-blog-latest>
+</div>

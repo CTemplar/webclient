@@ -1,0 +1,15 @@
+<div class="app-mail-header">
+  <div class="ui large action input">
+    <input type="text" placeholder="Search...">
+    <button class="ui large icon button">
+      <i class="search icon"></i>
+    </button>
+  </div>
+  <!-- <div class="ui large right floated icon button"><i class="user icon"></i></div> -->
+  <button class="ui large right floated icon button" (click)="usersService.signOut()">
+    <i class="sign out icon"></i>
+  </button>
+  <button class="ui large right floated icon button" [routerLink]="['/mail', 'settings']">
+    <i class="settings icon"></i>
+  </button>
+</div>

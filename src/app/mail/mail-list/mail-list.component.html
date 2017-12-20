@@ -1,0 +1,56 @@
+<div class="app-mail-list">
+  <div class="toolbar">
+    <div class="left-side">
+      <button class="ui large icon button" (click)="mailService.fetch()">
+        <i class="refresh icon"></i>
+      </button>
+      <div *ngIf="messages.length > 0" class="ui large dropdown button" suiDropdown>
+        <i class="checkmark box icon"></i>
+        <i class="dropdown icon"></i>
+        <div class="menu" suiDropdownMenu>
+          <div class="item" (click)="checkbox(messages)">All</div>
+          <div class="item" (click)="checkbox()">None</div>
+        </div>
+      </div>
+      <div *ngIf="messages.length > 0" class="ui large icon buttons">
+        <button *ngIf="button('inbox')" class="ui button" (click)="mailService.move(selected, 'inbox')"><i class="inbox icon"></i></button>
+        <button *ngIf="button('archive')" class="ui button" (click)="mailService.move(selected, 'archive')"><i class="archive icon"></i></button>
+        <button *ngIf="button('spam')" class="ui button" (click)="mailService.move(selected, 'spam')"><i class="protect icon"></i></button>
+        <button class="ui button" (click)="mailService.move(selected, 'trash')"><i class="trash icon"></i></button>
+      </div>
+    </div>
+    <div *ngIf="page_max" class="right-side">
+      <span class="text">Page {{ page }} of {{ page_max }}</span>
+      <button class="ui large left attached button" [routerLink]="['/mail', folder, 'page', page-1]" [disabled]="page <= 1">
+        <i class="chevron left icon"></i>
+      </button>
+      <button class="ui large right attached button" [routerLink]="['/mail', folder, 'page', page+1]" [disabled]="page >= page_max">
+        <i class="chevron right icon"></i>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!messages.length">No messages yet notification (TODO).</div>
+
+  <table class="ui large table">
+    <tbody>
+      <tr *ngFor="let message of messages" [routerLink]="['/mail', 'message', message.id]" [ngClass]="{'read': message.read}">
+        <td class="collapsing" (click)="checkbox([message]); $event.stopPropagation()">
+          <div class="ui fitted checkbox">
+            <input type="checkbox" [checked]="selected.includes(message)">
+            <label></label>
+          </div>
+        </td>
+        <td *ngIf="message.folder != 'draft'" class="collapsing"><sui-rating class="large star" [ngModel]="message.starred" (click)="mailService.star(message); $event.stopPropagation()" [maximum]="1"></sui-rating></td>
+        <td class="collapsing">{{ message.from_header }}</td>
+        <td>
+          <b>{{ message.subject }}</b>
+        </td>
+        <td class="collapsing">2.5KB</td>
+        <td class="collapsing">{{ message.processed }}</td>
+        <td *ngIf="message.secure && message.folder !='draft'" class="collapsing"><i class="lock icon"></i></td>
+        <td *ngIf="!message.secure && message.folder !='draft'" class="collapsing"><i class="unlock icon"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

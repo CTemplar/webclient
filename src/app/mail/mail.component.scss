@@ -1,0 +1,85 @@
+.app-mail {
+  display: flex;
+  height: 100vh;
+
+  .sidebar {
+    width: 300px;
+    position: fixed;
+    height: 100vh;
+  }
+
+  .content {
+    flex: 1;
+    margin-left: calc(300px + .5rem);
+    border-left: 1px solid #ccc;
+  }
+
+  .compose {
+    height: 500px;
+    width: 800px;
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    border: 1px solid #ccc;
+    background: white;
+    overflow: hidden;
+    box-shadow:         0px 0px 13px 0px rgba(50, 50, 50, .5);
+
+    &.minimized {
+      height: auto;
+    }
+
+    .header {
+      padding: 1rem;
+      color: white;
+      background: #1b1c1d;
+
+      .icon {
+        float: right;
+        margin-left: 1rem;
+        margin-right: 0;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-flow: column;
+      height: 100%;
+    }
+
+    .inputs {
+      flex: 0;
+    }
+
+    input {
+      width: 100%;
+      display: block;
+      border: none;
+      padding: 1rem;
+    }
+
+    input:nth-of-type(2) {
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .textarea {
+      flex: 1;
+    }
+
+    textarea {
+      padding: 1rem;
+      width: 100%;
+      height: 100%;
+      border: none;
+      resize: none;
+    }
+
+    .footer {
+      background: #f4f4f4;
+      border-top: 1px solid #ccc;
+      padding: 1rem;
+      text-align: right;
+    }
+  }
+}

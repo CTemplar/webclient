@@ -1,0 +1,42 @@
+.app-mail-detail {
+  .left-side {
+    float: left;
+  }
+
+  .right-side {
+    float: right;
+
+    .text {
+      margin-right: 1rem;
+    }
+  }
+
+  .title, .toolbar, .metadata {
+    border-bottom: 1px solid #ccc;
+    padding: 1.5rem;
+    overflow: auto;
+  }
+
+  .title {
+    h1 {
+      padding-top: .5rem;
+    }
+
+    .icon {
+      padding-top: 1rem;
+    }
+  }
+
+  .metadata {
+    background: #fafafa;
+  }
+
+  .content {
+    padding: 3rem 1.5rem;
+    border-bottom: 1px solid #ccc;
+  }
+
+  div.reply {
+    padding: 1.5rem;
+  }
+}

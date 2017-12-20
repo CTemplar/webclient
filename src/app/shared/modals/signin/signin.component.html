@@ -1,0 +1,28 @@
+<div class="header uppercase">Enter to your account</div>
+<div class="content">
+  <form (keydown.enter)="signIn()" #form="ngForm">
+    <sui-message *ngIf="error" class="error" [isDismissable]="false">
+      <p>{{ error  }}</p>
+    </sui-message>
+    <div *ngIf="error" class="ui hidden divider"></div>
+    <p>Accessing you account is easy as 1, 2, 3! Choose your desired username and password.</p>
+    <div class="ui hidden divider"></div>
+    <label>Username</label>
+    <div class="ui large fluid left icon labeled input" [ngClass]="{'error': !username.valid && !username.pristine}">
+      <i class="spy icon"></i>
+      <input [(ngModel)]="user.username" #username="ngModel" name="username" placeholder="cia-officer" autofocus required>
+      <div class="ui label">
+        @ctemplar.com
+      </div>
+    </div>
+    <div class="ui hidden divider"></div>
+    <label>Password</label>
+    <div class="ui large fluid left icon input" [ngClass]="{'error': !password.valid && !password.pristine}">
+      <input [(ngModel)]="user.password" #password="ngModel" name="password" placeholder="qwerty123" type="password" required>
+      <i class="privacy icon"></i>
+    </div>
+  </form>
+</div>
+<div class="actions">
+  <button (click)="signIn()" [disabled]="!form.form.valid" class="ui green button">Continue</button>
+</div>

@@ -1,0 +1,61 @@
+<div class="app-mail-detail">
+  <div class="toolbar">
+    <div class="left-side">
+      <button class="ui large icon button" [routerLink]="['/mail', message.folder]">
+        <i class="long arrow left icon"></i>
+      </button>
+      <div class="ui large icon buttons">
+        <button *ngIf="message.folder != 'draft'" class="ui button" [ngClass]="{'active': message.folder == 'inbox'}" (click)="mailService.move([message], 'inbox')"><i class="inbox icon"></i></button>
+        <button *ngIf="message.folder != 'draft'" class="ui button" [ngClass]="{'active': message.folder == 'archive'}" (click)="mailService.move([message], 'archive')"><i class="archive icon"></i></button>
+        <button *ngIf="message.folder != 'draft'" class="ui button" [ngClass]="{'active': message.folder == 'spam'}" (click)="mailService.move([message], 'spam')"><i class="protect icon"></i></button>
+        <button class="ui button" [ngClass]="{'active': message.folder == 'trash'}" (click)="mailService.move([message], 'trash')"><i class="trash icon"></i></button>
+      </div>
+    </div>
+    <div *ngIf="message_end" class="right-side">
+      <span class="text">Message {{ message_current }} of {{ message_end }}</span>
+      <button class="ui large left attached button" [routerLink]="['/mail', 'message', message_prev]" [disabled]="message_current == 1">
+        <i class="chevron left icon"></i>
+      </button>
+      <button class="ui large right attached button" [routerLink]="['/mail', 'message', message_next]" [disabled]="message_current == message_end">
+        <i class="chevron right icon"></i>
+      </button>
+    </div>
+  </div>
+  <div class="title">
+    <h1 class="left-side ui heading">
+      {{ message.subject }}
+      <sui-rating *ngIf="message.folder != 'draft'" class="huge star" [ngModel]="message.starred" (click)="mailService.star(message)" [maximum]="1"></sui-rating>
+    </h1>
+    <div *ngIf="message.folder != 'draft'" class="right-side">
+      <i *ngIf="message.secure" class="large lock icon"></i>
+      <i *ngIf="!message.secure" class="large unlock icon"></i>
+    </div>
+  </div>
+  <div class="metadata">
+    <div class="left-side">
+      From: {{ message.from_header }}<br>
+      To: {{ message.to_header }}
+    </div>
+    <div class="right-side">
+      <span class="text">{{ message.processed }}</span>
+      <div *ngIf="message.folder != 'draft'" class="ui large icon buttons">
+        <button class="ui button disabled"><i class="reply all icon"></i></button>
+        <button class="ui button disabled"><i class="reply icon"></i></button>
+        <button class="ui button disabled"><i class="share icon"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <pre>{{ message.text }}</pre>
+  </div>
+  <div *ngIf="message.folder != 'draft'" class="reply">
+    <form class="ui reply form">
+      <div class="field">
+        <textarea></textarea>
+      </div>
+      <div class="ui primary submit labeled icon button">
+        <i class="icon edit"></i> Reply message
+      </div>
+    </form>
+  </div>
+</div>

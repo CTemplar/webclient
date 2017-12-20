@@ -1,0 +1,25 @@
+<div class="app-header ui top fixed inverted secondary huge menu">
+  <div class="ui container">
+    <div class="horizontally fitted header item">
+      <img class="logo" src="/assets/logo/logo_1.svg"> CTemplar
+    </div>
+    <div class="right menu">
+      <a class="item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <i class="home icon" style="margin: 0"></i>
+      </a>
+      <a class="item" routerLink="/about" routerLinkActive="active">About</a>
+      <a class="item" routerLink="/blog" routerLinkActive="active">Blog</a>
+      <a class="item" routerLink="/pricing" routerLinkActive="active">Pricing</a>
+      <a class="item" routerLink="/security" routerLinkActive="active">Security</a>
+      <a class="item">Support</a>
+      <a *ngIf="!usersService.signedIn()" class="item" (click)="signIn()">Login</a>
+      <div *ngIf="!usersService.signedIn()" class="horizontally fitted item">
+        <a class="ui red button" (click)="signUp()"><b>Sign up</b></a>
+      </div>
+      <div *ngIf="usersService.signedIn()" class="horizontally fitted item">
+        <a class="ui red button" [routerLink]="['/mail']"><b>Mailbox</b></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="app-header-padding"></div>

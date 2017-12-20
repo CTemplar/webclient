@@ -1,0 +1,37 @@
+<div class="app-blog-latest">
+  <div class="ui {{ columns }} cards">
+    <a class="{{ post.category.color }} card" routerLink="/blog/{{ post.slug }}" *ngFor="let post of posts">
+      <div class="ui image">
+        <div class="ui {{ post.category.color }} ribbon label">{{ post.category.name }}</div>
+        <img src="{{ post.image_card }}">
+      </div>
+      <div class="content">
+        <div class="header">{{ post.name }}</div>
+        <div class="description">{{ post.excerpt }}</div>
+      </div>
+      <div class="extra content">
+        <span class="right floated">
+          <i class="comments icon"></i>
+          {{ post.comments_count }} comments
+        </span>
+        <span>
+          <i class="calendar icon"></i>
+          {{ post.date }}
+        </span>
+      </div>
+    </a>
+  </div>
+  <div *ngIf="pagination">
+    <div class="ui hidden divider"></div>
+    <div class="ui center aligned basic segment">
+      <button class="ui left attached large button" [routerLink]="['/blog/page', page-1]" [disabled]="page <= 1">
+        <i class="arrow left icon"></i>
+        Prev.
+      </button>
+      <button class="ui right attached large button" [routerLink]="['/blog/page', page+1]" [disabled]="page >= page_max">
+        Next
+        <i class="arrow right icon"></i>
+      </button>
+    </div>
+  </div>
+</div>

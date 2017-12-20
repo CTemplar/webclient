@@ -1,0 +1,37 @@
+.app-welcome {
+  background: linear-gradient(rgba(27,28,29,1), rgba(27,28,29,.5)), url('/assets/img/home/welcome.jpg') no-repeat center fixed !important;
+  background-size: cover;
+  padding: 15rem 0;
+  -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 66%, 50% 100%, 0% 66%, 0 0);
+  clip-path: polygon(50% 0%, 100% 0, 100% 75%, 50% 100%, 0% 75%, 0 0);
+
+  .red.button {
+    margin-top: 3rem;
+  }
+
+  h1 {
+    font-size: 3em;
+    font-weight: normal;
+  }
+
+  h2 {
+    font-weight: normal;
+  }
+}
+
+
+@media only screen and (max-width: 700px) {
+  .welcome {
+    min-height: 350px;
+
+    h1 {
+      font-size: 2em;
+      margin-top: 1.5em;
+    }
+
+    h2 {
+      margin-top: 0.5em;
+      font-size: 1.5em;
+    }
+  }
+}

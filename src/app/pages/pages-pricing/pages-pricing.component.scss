@@ -1,0 +1,29 @@
+.table:not(.align-left) {
+  text-align: center;
+}
+
+.price, .uppercase:not(button) {
+  font-weight: bold;
+}
+
+.price {
+  font-size: 3rem;
+  display: block;
+  padding: 2rem 0 1rem;
+}
+
+span.red {
+  color: #db2828;
+}
+
+span.yellow {
+  color: #fbbd08;
+}
+
+.padded {
+  height: calc(0.2em + 121px);
+}
+
+button {
+  margin: 1rem 0 !important;
+}

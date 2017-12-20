@@ -1,0 +1,43 @@
+.app-mail-list {
+  .toolbar {
+    border-bottom: 1px solid #ccc;
+    padding: 1.5rem;
+
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .left-side {
+      float: left;
+    }
+
+    .right-side {
+      float: right;
+      
+      .text {
+        margin-right: 1rem;
+      }
+    }
+  }
+  
+  .table {
+    margin-top: 0;
+    border: 0;
+    cursor: pointer;
+
+    tr.read {
+      background: #f2f2f2;
+    }
+
+    td:first-child {
+      padding: 1.5rem;
+      padding-right: 0;
+    }
+
+    td:last-child {
+      padding-right: 1.5rem;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.items {
+  padding: 3rem 0;
+}
+
+.main.container {
+  padding-bottom: 6rem !important;
+}
+
+.last.container {
+  padding-bottom: calc(6rem + 112.5px) !important;
+}
+
+.secondary.basic.segment {
+  .description {
+    font-size: 15px;
+  }
+}
