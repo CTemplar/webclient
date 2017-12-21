@@ -1,0 +1,23 @@
+# NodeJS
+node_modules
+
+# System Files
+.DS_Store
+Thumbs.db
+.editorconfig
+
+# IDE - VSCode
+.vscode/*
+.settings/
+
+# compiled output
+/dist
+/tmp
+
+# misc
+npm-debug.log
+testem.log
+
+# e2e
+/e2e/*.js
+/e2e/*.map
