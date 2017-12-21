@@ -11,5 +11,5 @@ export function apiHeaders() {
   }
 }
 
-export const apiUrl = 'http://localhost:1338/v1/';
+export const apiUrl = 'https://api.ctemplar.com/v1/';
 
