@@ -39,5 +39,9 @@
     td:last-child {
       padding-right: 1.5rem;
     }
+
+    tr.checked {
+      background: #ffc;
+    }
   }
 }
