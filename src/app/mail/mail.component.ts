@@ -32,23 +32,36 @@ export class MailComponent implements OnDestroy, OnInit {
 
   save() {
     this.message.outgoing = false;
-    this.mailService.postMessage(this.message)
-      .subscribe(data => {
-      }, error => {
-        console.log('ERROR SAVING');
-      });
-    this.mailService.composing.emit(false);
+    if (!this.message.id) {
+      this.mailService.postMessage(this.message)
+        .subscribe(data => {
+          this.mailService.composing.emit(false);
+        }, error => {
+          console.log('ERROR SAVING');
+        });
+    } else {
+      delete this.message.processed;
+      this.mailService.patchMessage(this.message.id, this.message)
+        .subscribe(data => {
+          this.mailService.composing.emit(false);
+        }, error => {
+          console.log('ERROR UPDATING');
+        });
+    }
   }
 
   send() {
     this.message.outgoing = true;
+    if (this.message.id) {
+      delete this.message.processed;
+    }
+
     this.mailService.postMessage(this.message)
       .subscribe(data => {
         this.mailService.composing.emit(false);
       }, error => {
         console.log('ERROR SENDING');
       });
-
   }
 
   ngOnDestroy() {
@@ -57,11 +70,10 @@ export class MailComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.sharedService.isMail.emit(true);
-
     this.mailService.composing
       .subscribe(data => {
-        if(data) {
-          if (typeof data === 'object'){
+        if (data) {
+          if (typeof data === 'object') {
             this.message = data;
           } else {
             this.message = new Message;
