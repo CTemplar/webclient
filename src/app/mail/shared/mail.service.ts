@@ -22,7 +22,7 @@ import { SharedService } from '../../shared/shared.service';
 @Injectable()
 export class MailService {
   reload: EventEmitter<boolean> = new EventEmitter();
-  composing: EventEmitter<boolean> = new EventEmitter();
+  composing: EventEmitter<any> = new EventEmitter();
   messages: Message[];
   message: Message;
   inbox: Message[];
@@ -132,7 +132,7 @@ export class MailService {
           this.deleteMessage(message.id)
             .subscribe(data => {
               if (count === (messages.length - 1)) {
-                this.reload.emit(true);
+                this.fetch();
               }
             });
         }, delay);

@@ -37,6 +37,7 @@ export class MailComponent implements OnDestroy, OnInit {
       }, error => {
         console.log('ERROR SAVING');
       });
+    this.mailService.composing.emit(false);
   }
 
   send() {
@@ -58,6 +59,17 @@ export class MailComponent implements OnDestroy, OnInit {
     this.sharedService.isMail.emit(true);
 
     this.mailService.composing
-      .subscribe(data => this.composing = data);
+      .subscribe(data => {
+        if(data) {
+          if (typeof data === 'object'){
+            this.message = data;
+          } else {
+            this.message = new Message;
+          }
+          this.composing = true;
+        } else {
+          this.composing = false;
+        }
+      });
   }
 }

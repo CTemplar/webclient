@@ -1,5 +1,5 @@
 // Angular
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 // Models
@@ -28,6 +28,7 @@ export class MailListComponent implements OnInit {
   constructor(
     public mailService: MailService,
     private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   button(folder: string) {
@@ -58,7 +59,13 @@ export class MailListComponent implements OnInit {
       this.mailService.reload.emit(false);
     }
   }
-
+  onMailClick(message: Message){
+    if (message.folder === 'draft'){
+      this.mailService.composing.emit(message);
+    } else {
+      this.router.navigate(['/mail', 'message', message.id]);
+    }
+  }
   ngOnInit() {
     this.route.params
       .subscribe(params => {

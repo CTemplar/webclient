@@ -34,7 +34,7 @@
 
   <table class="ui large table">
     <tbody>
-      <tr *ngFor="let message of messages" [routerLink]="['/mail', 'message', message.id]" [ngClass]="{'read': message.read}">
+      <tr *ngFor="let message of messages" [ngClass]="{'read': message.read}" (click)="onMailClick(message)">
         <td class="collapsing" (click)="checkbox([message]); $event.stopPropagation()">
           <div class="ui fitted checkbox">
             <input type="checkbox" [checked]="selected.includes(message)">
