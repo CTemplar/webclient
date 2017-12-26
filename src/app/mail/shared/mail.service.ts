@@ -1,6 +1,8 @@
 // Angular
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { Location} from '@angular/common';
 
 // Helpers
 import { apiHeaders, apiUrl } from '../../shared/config';
@@ -11,6 +13,7 @@ import { Message } from './mail';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { map, tap } from 'rxjs/operators';
+import 'rxjs/add/operator/filter';
 
 // Services
 import { SharedService } from '../../shared/shared.service';
@@ -32,12 +35,25 @@ export class MailService {
   spam: Message[];
   starred: Message[];
   trash: Message[];
+  mailCheck: any;
 
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
-  ) {}
-
+    private router: Router,
+    private location: Location,
+  ) {
+    router.events.filter(event => event instanceof NavigationEnd).subscribe((url: any) => {
+      if (location.path().startsWith('/mail')) {
+        if (!this.mailCheck) {
+          this.mailCheck = setInterval(this.fetch.bind(this), 60000);
+        }
+      } else {
+        clearInterval(this.mailCheck);
+        this.mailCheck = null;
+      }
+    });
+  }
   deleteMessage(id: number): Observable<Message> {
     const url = `${apiUrl}mails/messages/${id}/`;
     return this.http.delete<Message>(url, apiHeaders());
