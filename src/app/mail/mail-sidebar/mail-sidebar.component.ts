@@ -14,6 +14,10 @@ export class MailSidebarComponent implements OnInit {
     public mailService: MailService,
   ) { }
 
+  countUnread() {
+    return this.mailService.inbox.filter((message) => !message.read).length;
+  }
+
   ngOnInit() {
   }
 

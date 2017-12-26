@@ -59,8 +59,8 @@ export class MailListComponent implements OnInit {
       this.mailService.reload.emit(false);
     }
   }
-  onMailClick(message: Message){
-    if (message.folder === 'draft'){
+  onMailClick(message: Message) {
+    if (message.folder === 'draft') {
       this.mailService.composing.emit(message);
     } else {
       this.router.navigate(['/mail', 'message', message.id]);
