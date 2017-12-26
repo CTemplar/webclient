@@ -1,7 +1,9 @@
 <div class="app-mail-sidebar ui huge fluid inverted vertical menu">
   <a class="item" [routerLink]="['/']">
     <img src="/assets/logo/logo_1.svg">
+    <span>CTEMPLAR</span>
   </a>
+  <div class="ui divider full-width"></div>
   <div class="item">
     <button class="uppercase ui fluid red button" (click)="mailService.composing.emit(true)">Compose</button>
   </div>
@@ -40,10 +42,22 @@
     <i class="trash icon"></i>
     Trash
   </a>
-  <!-- <div class="ui hidden divider"></div> -->
+  <div class="ui divider"></div>
+  <a class="item">
+    <div class="ui small label hidden"></div>
+    <i class="folder icon"></i>
+    <span>ADD FOLDER</span>
+  </a>
+  <a class="item">
+    <div class="ui small label hidden"></div>
+    <i class="tag icon"></i>
+    <span>ADD LABEL</span>
+  </a>
   <div class="item">
-    Used storage: 43MB of 100MB
-    <!-- <br>Upgrade account -->
+    <div class="advertise">
+        <span>Advertise Goes Here</span>
+    </div>
+    <span>Used storage: 43MB of 100MB<br>Upgrade account</span>
   </div>
 
 </div>
