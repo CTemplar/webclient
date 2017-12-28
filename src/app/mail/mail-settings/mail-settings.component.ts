@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+// Services
+import { MailService } from '../shared/mail.service';
+
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MailSettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private mailService: MailService,
+  ) {
+    this.mailService.refresh();
+  }
 
   ngOnInit() {
   }
