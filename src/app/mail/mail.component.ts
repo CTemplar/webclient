@@ -22,6 +22,8 @@ export class MailComponent implements OnDestroy, OnInit {
   message = new Message;
   composing = true;
   minimize = false;
+  mailCheck: any;
+  startChecking: any;
 
   constructor(
     private mailService: MailService,
@@ -50,7 +52,10 @@ export class MailComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.sharedService.isMail.emit(true);
+
+    this.startChecking = this.sharedService.startInterval(60, () => this.sharedService.isMail.emit(true));
+    this.mailCheck = this.sharedService.isMail.subscribe(() => this.mailService.fetch());
+
     this.mailService.composing
       .subscribe(data => {
         if (data) {
@@ -67,5 +72,7 @@ export class MailComponent implements OnDestroy, OnInit {
   }
   ngOnDestroy() {
     this.sharedService.isMail.emit(false);
+    this.mailCheck.unsubscribe();
+    clearInterval(this.startChecking);
   }
 }

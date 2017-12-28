@@ -26,4 +26,9 @@ export class SharedService {
     this.http.patch(url, {'trigger': true}).subscribe();
   }
 
+  // Immediate start of setInterval function
+  startInterval(seconds, callback) {
+    callback();
+    return setInterval(callback, seconds * 1000);
+  }
 }
