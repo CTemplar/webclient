@@ -30,42 +30,23 @@ export class MailComponent implements OnDestroy, OnInit {
   ) {
   }
 
-  save() {
-    this.message.outgoing = false;
-    if (!this.message.id) {
-      this.mailService.postMessage(this.message)
-        .subscribe(data => {
-          this.mailService.composing.emit(false);
-        }, error => {
-          console.log('ERROR SAVING');
-        });
-    } else {
-      delete this.message.processed;
-      this.mailService.patchMessage(this.message.id, this.message)
-        .subscribe(data => {
-          this.mailService.composing.emit(false);
-        }, error => {
-          console.log('ERROR UPDATING');
-        });
-    }
-  }
-
-  send() {
-    this.message.outgoing = true;
-    if (this.message.id) {
-      delete this.message.processed;
-    }
-
-    this.mailService.postMessage(this.message)
-      .subscribe(data => {
-        this.mailService.composing.emit(false);
-      }, error => {
-        console.log('ERROR SENDING');
-      });
-  }
-
-  ngOnDestroy() {
-    this.sharedService.isMail.emit(false);
+  save(isOutgoing) {
+      this.message.outgoing = isOutgoing;
+      const successHandler = data => {
+        this.mailService.composing.emit(!isOutgoing);
+        this.message.processed = 'just now';
+      };
+      const errorHandler = error => console.log(`ERROR ${isOutgoing ? 'SENDING' : 'SAVING'}`);
+      if (isOutgoing && this.message.to_header || !isOutgoing) {
+        if (!this.message.id) {
+            this.mailService.postMessage(this.message).subscribe(successHandler, errorHandler);
+        } else {
+          delete this.message.processed;
+          this.mailService.patchMessage(this.message.id, this.message).subscribe(successHandler, errorHandler);
+        }
+      } else {
+        console.log('Please Input Email');
+      }
   }
 
   ngOnInit() {
@@ -83,5 +64,8 @@ export class MailComponent implements OnDestroy, OnInit {
           this.composing = false;
         }
       });
+  }
+  ngOnDestroy() {
+    this.sharedService.isMail.emit(false);
   }
 }

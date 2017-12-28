@@ -22,13 +22,13 @@
         <textarea [(ngModel)]="message.body" #body="ngModel" name="body" placeholder="Message"></textarea>
       </div>
       <div *ngIf="!minimize" class="footer">
-        <button class="ui icon button" (click)="save()">
+        <button class="ui icon button" (click)="save(false)">
           <i class="save icon"></i>
         </button>
         <button class="ui icon button" (click)="delete()">
           <i class="trash icon"></i>
         </button>
-        <button class="uppercase ui red button" (click)="send()">Send</button>
+        <button class="uppercase ui red button" (click)="save(true)">Send</button>
       </div>
     </form>
   </div>
