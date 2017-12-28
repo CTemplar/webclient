@@ -11,18 +11,27 @@
 }
 
 .items {
-  .description {
-    font-size: 16px !important;
+  .number {
+    font-size: 4.2rem;
+    line-height: 5.8rem;
+  }
+  .header-content {
+    font-size: 2.2rem;
+    line-height: 2.2rem;
+  }
+  .description p{
+    font-size: 1.2rem !important;
+    line-height: 2rem;
   }
 }
 
-
-.ui.items>.item>.content+.image {
-  padding-left: 1.5em;
-}
-
-.ui.items>.item>.content {
--ms-flex-item-align: center;
--ms-grid-row-align: center;
-align-self: center;
+.ui.items > .item > .content {
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
+  padding-left: 3rem;
+  color: #000000;
+  & + .image {
+    padding-left: 3rem;
+  }
 }

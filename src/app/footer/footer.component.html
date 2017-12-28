@@ -3,12 +3,12 @@
   <div *ngIf="usersService.signedIn()" class="ui text container">
     <h1>Donate <b>world's most secure email</b> now!</h1>
     <h2>Help us keeping the good work by making a donation now. There isn't small amount, everything will help us keeping the service.</h2>
-    <button class="ui huge red button" [routerLink]="['/donate']">Make your donation</button>
+    <button class="ui huge button btn-red" [routerLink]="['/donate']">Make your donation</button>
   </div>
   <div *ngIf="!usersService.signedIn()" class="ui text container">
     <h1>Register <b>world's most secure email</b> now!</h1>
     <h2>Send unbreakable emails and protect your key personal and professional details trough next-gen encryption.</h2>
-    <button class="ui huge red button" (click)="signUp()">Sign up for free</button>
+    <button class="ui huge button btn-red" (click)="signUp()">Sign up for free</button>
   </div>
 </div>
 

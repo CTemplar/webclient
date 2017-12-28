@@ -3,8 +3,8 @@
   <div class="ui text container">
     <h1><b>Take back your freedom</b> with encrypted communications</h1>
     <h2><b>Send unbreakable emails</b> and protect your personal and professional details <b>through next-gen encryption</b>.</h2>
-    <div *ngIf="usersService.signedIn()" class="uppercase ui huge red button" [routerLink]="['/mail']">Open mailbox</div>
-    <div *ngIf="!usersService.signedIn()" class="uppercase ui huge red button" (click)="signUp()">Sign up for free</div>
+    <div *ngIf="usersService.signedIn()" class="uppercase ui huge button btn-red" [routerLink]="['/mail']">Open mailbox</div>
+    <div *ngIf="!usersService.signedIn()" class="uppercase ui huge button btn-red" (click)="signUp()">Sign up for free</div>
   </div>
 </div>
 <!-- /welcome -->

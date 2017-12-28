@@ -28,7 +28,10 @@ body {
   padding: 0 0 5rem;
 
   h1 {
-    font-size: 3rem;
+    font-size: 4rem;
+    color: #34495E;
+    line-height: 4.85714rem;
+    font-weight: 300;
   }
 
   h2 {
@@ -84,7 +87,7 @@ body {
 
   p {
     margin: 0;
-    color: white;
+    color: #FFFFFF;
     font-size: 24px;
   }
 
@@ -93,3 +96,22 @@ body {
   }
 }
 
+// Buttons
+
+.button.btn-red {
+  background: linear-gradient(#E74C3C, #C0392B) !important;
+  color: #D8D8D8;
+  &:hover {
+    background: #C0392B;
+    color: #FFFFFF;
+  }
+}
+
+.button.btn-blue {
+  background: #34495E;
+  color: #FFFFFF;
+  &:hover {
+    background: #2C3E50;
+    color: #FFFFFF;
+  }
+}
