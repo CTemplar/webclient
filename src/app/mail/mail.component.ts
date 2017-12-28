@@ -20,7 +20,7 @@ import { UsersService } from '../users/shared/users.service';
 })
 export class MailComponent implements OnDestroy, OnInit {
   message = new Message;
-  composing = true;
+  composing = false;
   minimize = false;
   mailCheck: any;
   startChecking: any;
