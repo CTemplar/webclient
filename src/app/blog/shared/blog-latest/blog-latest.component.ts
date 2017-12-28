@@ -18,13 +18,13 @@ import { BlogService } from "../blog.service";
   styleUrls: ['./blog-latest.component.scss']
 })
 export class BlogLatestComponent implements OnInit {
-  @Input() columns = 'three'
-  @Input() limit = 6
-  page = 1
-  page_max: number
-  @Input() pagination = false
-  posts: Post[]
-  
+  @Input() columns = 'three';
+  @Input() limit = 6;
+  page = 1;
+  page_max: number;
+  @Input() pagination = false;
+  posts: Post[];
+
   constructor(
     private blogService: BlogService,
     private route: ActivatedRoute,
@@ -36,9 +36,9 @@ export class BlogLatestComponent implements OnInit {
       .subscribe(params => {
         if (!Number.isNaN(+params['page'])) {
           this.page = +params['page'];
-          this.page_max = Math.ceil(this.blogService.posts.length / this.limit)
+          this.page_max = Math.ceil(this.blogService.posts.length / this.limit);
         }
-        this.posts = this.blogService.list(this.page, this.limit)
+        this.posts = this.blogService.list(this.page, this.limit);
       });
   }
 }
