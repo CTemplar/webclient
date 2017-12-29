@@ -1,4 +1,4 @@
-// Agular
+// Angular
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 // Models
