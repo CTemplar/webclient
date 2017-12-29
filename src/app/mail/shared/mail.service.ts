@@ -37,8 +37,8 @@ export class MailService {
     private http: HttpClient,
     private sharedService: SharedService,
   ) {}
-  deleteMessage(id: number): Observable<Message> {
-    const url = `${apiUrl}mails/messages/${id}/`;
+  deleteMessage(id: string): Observable<Message> {
+    const url = `${apiUrl}mails/messages/?id__in=${id}`;
     return this.http.delete<Message>(url, apiHeaders());
   }
 
@@ -60,8 +60,8 @@ export class MailService {
         }));
   }
 
-  patchMessage(id: number, body: object): Observable<Message> {
-    const url = `${apiUrl}mails/messages/${id}/`;
+  patchMessage(id: any, body: object): Observable<Message> {
+    const url = `${apiUrl}mails/messages/?id__in=${id}`;
     return this.http.patch<Message>(url, body, apiHeaders());
   }
 
@@ -123,30 +123,25 @@ export class MailService {
   }
 
   move(messages: Message[], folder: string) {
-    for (const message of messages) {
-      const count = messages.indexOf(message);
-      const delay = count * 500;
-      if (['trash', 'spam', 'draft', 'sent'].includes(message.folder) && folder === 'trash') {
-        setTimeout(() => {
-          this.deleteMessage(message.id)
-            .subscribe(data => {
-              if (count === (messages.length - 1)) {
-                this.fetch();
-              }
-            });
-        }, delay);
+    let in_folder: string;
+    let deletes: string;
+    const ids = messages.map((message) => message.id);
+    deletes = ids.join(',');
+    if (ids.length > 0) {
+      in_folder = messages[0].folder;
+      if (['trash', 'spam', 'draft', 'sent'].includes(in_folder) && folder === 'trash') {
+        this.deleteMessage(deletes)
+          .subscribe( () => {
+            this.fetch();
+          });
       } else {
-        folder = (message.folder === folder) ? 'inbox' : folder;
-        message.folder = folder;
-        setTimeout(() => {
-          this.patchMessage(message.id, {'folder': folder})
-            .subscribe(data => {
-              if (count === (messages.length - 1)) {
-                this.reload.emit(true);
-              }
-            });
-        }, delay);
+        this.patchMessage(deletes, {'folder': folder})
+          .subscribe(() => {
+            this.fetch();
+          });
       }
+    } else {
+      console.log('Message Selection Error');
     }
   }
 
