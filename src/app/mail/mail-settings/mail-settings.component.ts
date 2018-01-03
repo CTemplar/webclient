@@ -1,3 +1,4 @@
+// Angular
 import { Component, OnInit } from '@angular/core';
 
 // Services
@@ -12,9 +13,7 @@ export class MailSettingsComponent implements OnInit {
 
   constructor(
     private mailService: MailService,
-  ) {
-    this.mailService.refresh();
-  }
+  ) {}
 
   ngOnInit() {
   }
