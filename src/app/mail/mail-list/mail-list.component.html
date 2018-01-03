@@ -46,6 +46,7 @@
         <td>
           <b>{{ message.subject }}</b>
         </td>
+        <td class="collapsing">{{ message.date }}, {{ message.time}} </td>
         <td class="collapsing">2.5KB</td>
         <td class="collapsing">{{ message.processed }}</td>
         <td *ngIf="message.secure && message.folder !='draft'" class="collapsing"><i class="lock icon"></i></td>

@@ -37,7 +37,7 @@
       To: {{ message.to_header }}
     </div>
     <div class="right-side">
-      <span class="text">{{ message.processed }}</span>
+      <span class="text">{{ message.date }}, {{ message.time }}</span>
       <div *ngIf="message.folder != 'draft'" class="ui large icon buttons">
         <button class="ui button disabled"><i class="reply all icon"></i></button>
         <button class="ui button disabled"><i class="reply icon"></i></button>
