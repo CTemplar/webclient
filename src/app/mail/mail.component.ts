@@ -52,9 +52,8 @@ export class MailComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-
-    this.startChecking = this.sharedService.startInterval(60, () => this.sharedService.isMail.emit(true));
-    this.mailCheck = this.sharedService.isMail.subscribe(() => this.mailService.fetch());
+    this.sharedService.isMail.emit(true);
+    this.startChecking = this.sharedService.startInterval(60, () => this.mailService.fetch());
 
     this.mailService.composing
       .subscribe(data => {
@@ -72,7 +71,6 @@ export class MailComponent implements OnDestroy, OnInit {
   }
   ngOnDestroy() {
     this.sharedService.isMail.emit(false);
-    this.mailCheck.unsubscribe();
     clearInterval(this.startChecking);
   }
 }
