@@ -11,7 +11,7 @@ import { MailService } from '../shared/mail.service';
 export class MailSidebarComponent implements OnInit {
 
   constructor(
-    private mailService: MailService,
+    public mailService: MailService,
   ) { }
 
   countUnread() {

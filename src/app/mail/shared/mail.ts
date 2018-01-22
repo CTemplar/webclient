@@ -11,5 +11,7 @@ export class Message {
   secure: boolean;
   starred: boolean;
   outgoing: boolean;
+  date: string;
+  time: string;
 }
 
