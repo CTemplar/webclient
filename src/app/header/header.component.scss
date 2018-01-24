@@ -1,11 +1,71 @@
-.app-header {
-  background: #34495E !important;
+@import '../../styles/variables';
+
+.app-header.ui.menu {
+  background-color: $color-primary;
 
   * {
     text-transform: uppercase;
   }
+
+  > .container {
+    padding: 15px 0;
+
+    .item, .item .btn-red {
+      font-size: 12px;
+      letter-spacing: 0.6px;
+
+      &.item.active:not(.fitted) {
+        background: transparent;
+
+        &:after {
+          content: " ";
+          background: $color-white;
+          height: 2px;
+          width: 38px;
+          position: absolute;
+          top: 30px;
+          left: -7px;
+        }
+      }
+
+      &.item:not(.fitted):hover {
+        background: transparent;
+        color: $color-white;
+      }
+
+      &.btn-red {
+        padding: 10px 25px;
+      }
+    }
+
+    .item.header {
+      font-size: 20px;
+      padding: 0;
+    }
+
+    .separator {
+      color: rgba(255,255,255,.7);
+      position: relative;
+      top: 10px;
+      margin: 0 2px;
+    }
+  }
+
+  &.home-header {
+    background-color: transparent;
+    transition: background-color 0.5s;
+  }
+
+  &.has-scroll {
+    background-color: $color-primary;
+    transition: background-color 0.5s;
+  }
 }
 
 .app-header-padding {
-  padding-top: 59px;
+  padding-bottom: 75px;
+
+  &.home-header {
+    padding-bottom: 0;
+  }
 }

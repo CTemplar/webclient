@@ -1,8 +1,9 @@
 @import '~semantic-ui-css/semantic.min.css';
+@import 'styles/variables';
+@import 'styles/elements/buttons';
 
 body {
 }
-
 
 .main.container {
   padding: 6rem 0 calc(6rem + 112.5px);
@@ -16,8 +17,6 @@ body {
 * {
   outline: none;
 }
-
-
 
 // TOOLS
 .uppercase {
@@ -97,15 +96,6 @@ body {
 }
 
 // Buttons
-
-.button.btn-red {
-  background: linear-gradient(#E74C3C, #C0392B) !important;
-  color: #D8D8D8;
-  &:hover {
-    background: #C0392B;
-    color: #FFFFFF;
-  }
-}
 
 .button.btn-blue {
   background: #34495E;

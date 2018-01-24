@@ -1,5 +1,6 @@
 // Angular
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Modals
 import { SignInModal } from '../shared/modals/signin/signin.component';
@@ -18,11 +19,14 @@ import { UsersService } from '../users/shared/users.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     public modalService: SuiModalService,
     public usersService: UsersService,
+    public router: Router
   ) {}
+
+  hasScroll = false;
 
   signIn() {
     this.modalService.open(new SignInModal());
@@ -30,5 +34,19 @@ export class HeaderComponent {
 
   signUp() {
     this.modalService.open(new SignUpModal());
+  }
+
+  ngOnInit() {
+    window.addEventListener('scroll', this.scroll, true);
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('scroll', this.scroll, true);
+  }
+
+  scroll = (): void => {
+    if (this.router.url === '/') {
+      this.hasScroll = window.scrollY > 100;
+    }
   }
 }
