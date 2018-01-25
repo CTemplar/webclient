@@ -2,6 +2,7 @@
 
 .app-header.ui.menu {
   background-color: $color-primary;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.38);
 
   * {
     text-transform: uppercase;
@@ -53,12 +54,13 @@
 
   &.home-header {
     background-color: transparent;
-    transition: background-color 0.5s;
+    box-shadow: none;
   }
 
   &.has-scroll {
     background-color: $color-primary;
     transition: background-color 0.5s;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.38);
   }
 }
 

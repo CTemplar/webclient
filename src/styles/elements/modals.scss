@@ -1,0 +1,45 @@
+.ui.modal {
+  border-radius: 4px;
+  min-width: 510px;
+
+  .header {
+    font-size: 14px !important;
+    letter-spacing: 0.7px;
+    color: $color-primary;
+    padding: 20px;
+    border-bottom: none;
+  }
+
+  .close.icon {
+    top: 22px;
+    right: 20px;
+    height: 12px;
+    width: 12px;
+    background-image: url(/assets/img/cross.svg);
+    background-repeat: no-repeat;
+    margin: 0;
+
+    &:before {
+      content: '';
+    }
+  }
+  
+  img.close.icon {
+    display: block;
+    top: 14px;
+    right: 15px;
+    height: 20px;
+    width: 20px;
+  }
+
+  .content {
+    background: $color-light-grey;
+  }
+
+  .actions {
+    background: $color-light-grey;
+    border-top: none;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+}
