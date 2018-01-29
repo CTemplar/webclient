@@ -1,12 +1,12 @@
+<img class="ui medium image cta-image" src="/assets/logo/logo_1.svg">
 <div class="call-to-action ui vertical center aligned secondary segment">
-  <img class="ui medium image" src="/assets/logo/logo_1.svg">
   <div *ngIf="usersService.signedIn()" class="ui text container">
-    <h1>Donate <b>world's most secure email</b> now!</h1>
+    <span class="featured-title">Donate <b>world's most secure email</b> now!</span>
     <h2>Help us keeping the good work by making a donation now. There isn't small amount, everything will help us keeping the service.</h2>
     <button class="ui huge button btn-red" [routerLink]="['/donate']">Make your donation</button>
   </div>
   <div *ngIf="!usersService.signedIn()" class="ui text container">
-    <h1>Register <b>world's most secure email</b> now!</h1>
+    <span class="featured-title">Register <b>world's most secure email</b> now!</span>
     <h2>Send unbreakable emails and protect your key personal and professional details trough next-gen encryption.</h2>
     <button class="ui huge button btn-red" (click)="signUp()">Sign up for free</button>
   </div>
@@ -19,16 +19,16 @@
         <h3 class="ui inverted header">Company</h3>
         <div class="ui inverted link list">
           <a class="item" routerLink="/about">
-            <i class="right triangle icon"></i> About
+            <i class="right angle icon"></i> About
           </a>
           <a class="item" routerLink="/donate">
-            <i class="right triangle icon"></i> Donate
+            <i class="right angle icon"></i> Donate
           </a>
           <a class="item" routerLink="/pricing">
-            <i class="right triangle icon"></i> Pricing
+            <i class="right angle icon"></i> Pricing
           </a>
           <a class="item">
-            <i class="right triangle icon"></i> Support
+            <i class="right angle icon"></i> Support
           </a>
         </div>
       </div>
@@ -36,33 +36,16 @@
         <h3 class="ui inverted header">&nbsp;</h3>
         <div class="ui inverted link list">
           <a class="item" routerLink="/blog">
-            <i class="right triangle icon"></i> Blog
+            <i class="right angle icon"></i> Blog
           </a>
           <a class="item" routerLink="/media-kit">
-            <i class="right triangle icon"></i> Media-kit
+            <i class="right angle icon"></i> Media-kit
           </a>
           <a class="item" routerLink="/onion">
-            <i class="right triangle icon"></i> Onion address
+            <i class="right angle icon"></i> Onion address
           </a>
           <a class="item" routerLink="/security">
-            <i class="right triangle icon"></i> Security
-          </a>
-        </div>
-      </div>
-      <div class="three wide column">
-        <h3 class="ui inverted header">Legal</h3>
-        <div class="ui inverted link list">
-          <a routerLink="/privacy" class="item">
-            <i class="right triangle icon"></i> Privacy policy
-          </a>
-          <a class="item">
-            <i class="right triangle icon"></i> Report abuse
-          </a>
-          <a routerLink="/terms" class="item">
-            <i class="right triangle icon"></i> Terms and conditions
-          </a>
-          <a class="item">
-            <i class="right triangle icon"></i> Transparency report
+            <i class="right angle icon"></i> Security
           </a>
         </div>
       </div>
@@ -70,21 +53,38 @@
         <h3 class="ui inverted header">Social</h3>
         <div class="ui inverted link list">
           <a class="item">
-            <i class="right triangle icon"></i> Facebook
+            <i class="right angle icon"></i> Facebook
           </a>
           <a class="item">
-            <i class="right triangle icon"></i> Google+
+            <i class="right angle icon"></i> Google+
           </a>
           <a class="item">
-            <i class="right triangle icon"></i> Reddit
+            <i class="right angle icon"></i> Reddit
           </a>
           <a class="item">
-            <i class="right triangle icon"></i> Twitter
+            <i class="right angle icon"></i> Twitter
+          </a>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h3 class="ui inverted header">Legal</h3>
+        <div class="ui inverted link list">
+          <a routerLink="/privacy" class="item">
+            <i class="right angle icon"></i> Privacy policy
+          </a>
+          <a class="item">
+            <i class="right angle icon"></i> Report abuse
+          </a>
+          <a routerLink="/terms" class="item">
+            <i class="right angle icon"></i> Terms and conditions
+          </a>
+          <a class="item">
+            <i class="right angle icon"></i> Transparency report
           </a>
         </div>
       </div>
       <div class="four wide column">
-        <p>
+        <!--<p>
           <i class="phone icon"></i> (+354) 800-310-4167
         </p>
         <p>
@@ -93,14 +93,12 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Armula 4 &amp; 6<br>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;108 Reykjavík<br>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iceland
-        </p>
+        </p>-->
       </div>
     </div>
     <div class="ui inverted section divider"></div>
-    <br>
-    <img class="ui centered tiny image" src="/assets/logo/logo_1.svg">
-    <div class="ui center aligned basic inverted segment">
-      <p>Crafted with love by enthusiast around the world.<br>&copy;2017 CTemplar Ltd., all rights reserved.</p>
+    <div class="ui center aligned basic inverted segment footer-text">
+      <p>&copy;2018 CTemplar. All Rights Reserved.</p>
     </div>
   </div>
 </div>

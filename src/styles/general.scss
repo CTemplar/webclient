@@ -1,0 +1,17 @@
+// Links
+a {
+  font-size: 16px;
+  font-style: italic;
+  color: $color-light-blue;
+  text-decoration: underline;
+
+  &:hover, &:focus {
+    color: $color-light-blue;
+    text-decoration: underline;
+  }
+}
+
+// Layout
+.main.container, .last.container {
+  padding-bottom: 70px !important;
+}

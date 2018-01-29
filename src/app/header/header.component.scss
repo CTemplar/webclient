@@ -14,6 +14,7 @@
     .item, .item .btn-red {
       font-size: 12px;
       letter-spacing: 0.6px;
+      font-style: normal;
 
       &.item.active:not(.fitted) {
         background: transparent;
