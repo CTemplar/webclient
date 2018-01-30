@@ -1,9 +1,9 @@
 <div class="main ui container">
   <div class="page heading ui center aligned basic segment">
-    <h1 class="uppercase">Blog</h1>
+    <h1 class="section-title">Blog</h1>
   </div>
   <div class="ui items">
-    <div class="featured item">
+    <div class="featured item featured-card">
       <div class="ui large rounded image">
         <div class="ui {{ post.category.color }} ribbon label">{{ post.category.name }}</div>
         <img src="{{ post.image_featured }}">
@@ -13,16 +13,17 @@
         <div class="description">
           {{ post.excerpt_long }}
         </div>
-        <div class="ui divider"></div>
-        <div class="extra">
-          <span class="right floated">
-            <i class="comments icon"></i>
-            {{ post.comments_count }} comments
-          </span>
-          <span>
-            <i class="calendar icon"></i>
-            {{ post.date }}
-          </span>
+        <div class="extra-wrapper">
+          <div class="ui divider"></div>
+          <div class="extra">
+            <span class="right floated">
+              {{ post.comments_count }} comments
+            </span>
+            <span>
+              Posted on
+              {{ post.date }}
+            </span>
+          </div>
         </div>
       </div>
     </div>

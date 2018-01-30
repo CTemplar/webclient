@@ -23,13 +23,11 @@
   <div *ngIf="pagination">
     <div class="ui hidden divider"></div>
     <div class="ui center aligned basic segment">
-      <button class="ui left attached large button" [routerLink]="['/blog/page', page-1]" [disabled]="page <= 1">
-        <i class="arrow left icon"></i>
+      <button class="ui left button btn-blue" [routerLink]="['/blog/page', page-1]" [disabled]="page <= 1">
         Prev.
       </button>
-      <button class="ui right attached large button" [routerLink]="['/blog/page', page+1]" [disabled]="page >= page_max">
+      <button class="ui right button btn-blue" [routerLink]="['/blog/page', page+1]" [disabled]="page >= page_max">
         Next
-        <i class="arrow right icon"></i>
       </button>
     </div>
   </div>
