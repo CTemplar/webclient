@@ -46,4 +46,8 @@
     padding-top: 10px;
     color: rgba(0, 0, 0, 0.38);
   }
+
+  &:hover {
+    transform: none;
+  }
 }

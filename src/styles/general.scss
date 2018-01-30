@@ -15,3 +15,35 @@ a {
 .main.container, .last.container {
   padding-bottom: 70px !important;
 }
+
+// Typography
+.section-title {
+  font-size: 56px;
+  font-weight: 900 !important;
+  color: $color-primary;
+  text-transform: uppercase;
+
+  span {
+    font-weight: 300;
+  }
+}
+.section-description {
+  font-size: 32px;
+  font-weight: 300;
+  margin-top: 40px;
+  color: rgba(0, 0, 0, 0.87);
+
+  span {
+    font-weight: 900;
+  }
+}
+.blog-latest {
+  font-size: 32px !important;
+  font-weight: 300 !important;
+  text-align: center;
+  margin-bottom: 40px !important;
+
+  b {
+    font-weight: 900;
+  }
+}
