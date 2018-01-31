@@ -2,14 +2,14 @@
 
   <div class="ui text container">
     <div class="page heading ui center aligned basic segment plan">
-      <h1 class="uppercase">Pricing plans</h1>
+      <h1 class="section-title">Pricing <span>plans</span></h1>
       <p>We do not show ads or make money by abusing your privacy. Instead, we depend on your support to keep the service running. Revenue from paid accounts is used to futher develop CTemplar and support free users such as democracy activists and dissidents who need privacy but can't necessarily afford it.</p>
     </div>
   </div>
 
-  <div class="ui four column grid">
+  <div class="ui four column grid content-wrapper">
     <div class="column">
-      <table class="align-left ui very basic striped table">
+      <table class="align-left ui very basic striped table left-table">
         <tbody>
           <tr><td class="padded"></td></tr>
           <tr><td>Users</td></tr>
@@ -23,6 +23,7 @@
           <tr><td>Autoresponders</td></tr>
           <tr><td>Catch-all address</td></tr>
           <tr><td>Multi-user support</td></tr>
+          <tr><td>Hourly backups</td></tr>
         </tbody>
       </table>
     </div>
@@ -31,9 +32,9 @@
         <tbody>
           <tr>
             <td>
-              <span class="uppercase">Free</span>
+              <span class="uppercase type">Free</span>
               <span class="price">$0</span>
-              per month
+              <span class="period">per month</span>
             </td>
           </tr>
           <tr><td>1</td></tr>
@@ -47,8 +48,9 @@
           <tr><td><i class="remove icon"></i></td></tr>
           <tr><td><i class="remove icon"></i></td></tr>
           <tr><td><i class="remove icon"></i></td></tr>
-          <tr *ngIf="usersService.signedIn()"><td><button class="uppercase ui black disabled button">Your plan</button></td></tr>
-          <tr *ngIf="!usersService.signedIn()"><td><button class="uppercase ui black button" (click)="signUp()">Sign Up</button></td></tr>
+          <tr><td><i class="remove icon"></i></td></tr>
+          <tr *ngIf="usersService.signedIn()"><td><button class="uppercase ui btn-blue btn-small disabled button">Your plan</button></td></tr>
+          <tr *ngIf="!usersService.signedIn()"><td><button class="uppercase ui btn-blue btn-small button" (click)="signUp()">Sign Up</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -57,9 +59,9 @@
         <tbody>
           <tr>
             <td>
-              <span class="uppercase">Officer</span>
+              <span class="uppercase type">Officer</span>
               <span class="price red">$7</span>
-              <span class="red">per month</span>
+              <span class="period">per month</span>
             </td>
           </tr>
           <tr><td>1</td></tr>
@@ -73,8 +75,9 @@
           <tr><td><i class="checkmark icon"></i></td></tr>
           <tr><td><i class="remove icon"></i></td></tr>
           <tr><td><i class="remove icon"></i></td></tr>
-          <tr *ngIf="usersService.signedIn()"><td><button class="uppercase ui red disabled button">Upgrade now!</button></td></tr>
-          <tr *ngIf="!usersService.signedIn()"><td><button class="uppercase ui red disabled button">Coming soon!</button></td></tr>
+          <tr><td><i class="remove icon"></i></td></tr>
+          <tr *ngIf="usersService.signedIn()"><td><button class="uppercase ui btn-red btn-small disabled button">Upgrade now!</button></td></tr>
+          <tr *ngIf="!usersService.signedIn()"><td><button class="uppercase ui btn-red btn-small disabled button">Coming soon!</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -83,9 +86,9 @@
         <tbody>
           <tr>
             <td>
-              <span class="uppercase">Commander</span>
+              <span class="uppercase type">Commander</span>
               <span class="price yellow">$10</span>
-              <span class="yellow">per month</span>
+              <span class="period">per month</span>
             </td>
           </tr>
           <tr><td>3</td></tr>
@@ -99,8 +102,9 @@
           <tr><td><i class="checkmark icon"></i></td></tr>
           <tr><td><i class="checkmark icon"></i></td></tr>
           <tr><td><i class="checkmark icon"></i></td></tr>
-          <tr *ngIf="usersService.signedIn()"><td><button class="uppercase ui yellow disabled button">Upgrade now</button></td></tr>
-          <tr *ngIf="!usersService.signedIn()"><td><button class="uppercase ui yellow disabled button">Coming soon!</button></td></tr>
+          <tr><td><i class="checkmark icon"></i></td></tr>
+          <tr *ngIf="usersService.signedIn()"><td><button class="uppercase ui btn-yellow btn-small disabled button">Upgrade now</button></td></tr>
+          <tr *ngIf="!usersService.signedIn()"><td><button class="uppercase ui btn-yellow btn-small disabled button">Coming soon!</button></td></tr>
         </tbody>
       </table>
     </div>

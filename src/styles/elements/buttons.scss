@@ -8,6 +8,11 @@
   padding: 15px 40px;
   transition: none;
 
+  &.disabled {
+    background-color: #abb2b9;
+    border-color: #abb2b9;
+  }
+
   &.btn-red {
     color: $color-white;
     background-image: linear-gradient(259deg, $color-light-red, $color-red);
@@ -16,5 +21,30 @@
     &:hover, &:focus {
       background: $color-red;
     }
+
+    &.disabled {
+      background-color: #e6b0ab;
+      border-color: #e6b0ab;
+    }
+  }
+
+  &.btn-yellow {
+    color: $color-white;
+    background-image: linear-gradient(252deg, #f1c40f, #f39c12);
+    border: solid 1px #f39c12;
+
+    &:hover, &:focus {
+      background: $color-red;
+    }
+
+    &.disabled {
+      background-color: #fbd8a1;
+      border-color: #fbd8a1;
+    }
+  }
+
+  &.btn-small {
+    font-size: 12px;
+    padding: 10px 25px;
   }
 }

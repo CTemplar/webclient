@@ -1,3 +1,99 @@
+@import '../../../styles/variables';
+
+.content-wrapper {
+  margin-bottom: 30px;
+}
+
+.heading {
+  p {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: rgba(0, 0, 0, 0.87);
+  }
+}
+
+.ui.table, .ui.table.basic.striped {
+  tr {
+    td {
+      border-top: none;
+    }
+
+    &:nth-child(2n) {
+      background-color: $color-light-grey !important;
+    }
+  }
+
+  &.black, &.red, &.yellow {
+    border-top: 1px solid rgba(34,36,38,.15);
+
+    tr {
+      td {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.87);
+      }
+    }
+
+    .type {
+      font-size: 14px;
+      letter-spacing: 0.7px;
+      color: #34495e;
+    }
+
+    .price {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: 2.8px;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: normal;
+      padding: 0;
+    }
+
+    .period {
+      font-size: 16px;
+      font-style: italic;
+      font-stretch: normal;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    &.black {
+      .price, .period {
+        background-image: linear-gradient(232deg, #34495e, #2c3e50);
+      }
+    }
+
+    &.red {
+      .price, .period {
+        background-image: linear-gradient(232deg, #e74c3c, #c0392b);
+      }
+    }
+
+    &.yellow {
+      .price, .period {
+        background-image: linear-gradient(232deg, #f1c40f, #f39c12);
+      }
+    }
+  }
+
+  &.left-table {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.54);
+    margin-top: 17px;
+
+    tr {
+      td {
+        line-height: 21px;
+      }
+    }
+  }
+}
+
 .table:not(.align-left) {
   text-align: center;
 }

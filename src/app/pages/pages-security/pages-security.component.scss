@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 .items {
   padding: 3rem 0;
 }
@@ -8,16 +10,22 @@
 
 .items {
   .number {
-    font-size: 4.2rem;
-    line-height: 5.8rem;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.87);
+    line-height: normal;
   }
   .header-content {
-    font-size: 2.2rem;
-    line-height: 2.2rem;
+    font-size: 32px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.87);
+    line-height: normal;
+    margin: 8px 0 18px;
   }
   .description p{
-    font-size: 1.2rem !important;
-    line-height: 2rem;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.54);
   }
 }
 
@@ -30,4 +38,11 @@
   & + .image {
     padding-left: 3rem;
   }
+}
+
+.secondary.basic.segment {
+  -webkit-clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 90%);
+  clip-path: polygon(0 10%, 100% 0%, 100% 100%, 0% 90%);
+  padding: 50px 15px;
+  background: $color-light-grey;
 }
