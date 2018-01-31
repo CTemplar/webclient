@@ -1,10 +1,15 @@
-<div class="main ui text container">
+<div class="main ui text container detailed-post">
   <div class="page heading ui center aligned basic segment">
-    <h1 class="uppercase">Blog</h1>
+    <h1 class="section-title">Blog</h1>
   </div>
-  <img class="ui fluid rounded image" src="{{ post.image }}">
-  <i class="calendar icon"></i> {{ post.date }} &nbsp;&nbsp;&nbsp;&nbsp;
-  <i class="comments icon"></i> {{ post.comments_count }} comments
+  <div class="ui fluid rounded image">
+    <div class="ui {{ post.category.color }} ribbon label">{{ post.category.name }}</div>
+    <img src="{{ post.image }}">
+  </div>
+  <div class="extra">
+    Posted on {{ post.date }} &nbsp;&nbsp;|&nbsp;&nbsp;
+    {{ post.comments_count }} comments
+  </div>
   <div class="ui divider"></div>
   <h1 class="ui header">{{ post.name }}</h1>
   <div class="description">
@@ -15,14 +20,14 @@
 <div class="ui secondary basic segment">
   <div class="comments ui text container">
     <div class="ui threaded comments">
-      <h3 class="ui dividing header">Comments</h3>
+      <h3 class="ui header">Comments</h3>
       <div *ngFor="let comment of blogService.comments" class="comment">
         <a class="avatar">
           <img src="https://ui-avatars.com/api/?name={{ comment.username }}">
         </a>
         <div class="content">
-          <a class="author">{{ comment.username }}</a>
-          <div class="metadata">
+          <span class="author">{{ comment.username }}</span>
+          <div class="metadata"> |
             <span class="date">{{ comment.date }}</span>
           </div>
           <div class="text">
@@ -34,15 +39,16 @@
         </div>
       </div>
       <div class="ui hidden divider"></div>
-      <form (ngSubmit)="addComment(); form.form.reset()" #form="ngForm" class="ui reply form">
+      <h3 class="ui header">Add Comment</h3>
+      <form (ngSubmit)="addComment(); form.form.reset()" #form="ngForm" class="ui reply form comments-form">
         <input [(ngModel)]="comment.reply" #reply="ngModel" name="reply" type="hidden"> 
-        <div class="field">
+        <div class="field" *ngIf="usersService.signedIn()">
           <textarea [(ngModel)]="comment.text" #text="ngModel" name="text" required></textarea>
         </div>
-        <button *ngIf="usersService.signedIn()" class="ui blue labeled submit icon button" [disabled]="!form.form.valid">
-          <i class="icon edit"></i> Add comment
+        <button *ngIf="usersService.signedIn()" class="ui btn-blue submit button" [disabled]="!form.form.valid">
+          Submit
         </button>
-        <div *ngIf="!usersService.signedIn()">You need to be identified to comment.</div>
+        <div class="not-logged" *ngIf="!usersService.signedIn()">You need to be identified to comment.</div>
       </form>
     </div>
   </div>
@@ -50,6 +56,6 @@
 
 <div class="ui hidden section divider"></div>
 <div class="last ui container">
-  <h1 class="ui header">Latest from our blog</h1>
+  <h2 class="ui header blog-latest">Related <b>Posts</b></h2>
   <app-blog-latest columns="two" limit="4"></app-blog-latest>
 </div>

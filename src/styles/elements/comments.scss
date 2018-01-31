@@ -1,0 +1,41 @@
+.comments {
+  .header {
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .comment {
+    .avatar {
+      img {
+        width: 52px;
+        height: 52px;
+      }
+    }
+
+    .content {
+      .author, .metadata {
+        font-size: 14px;
+        font-style: italic;
+        font-weight: normal;
+        color: rgba(0, 0, 0, 0.38);
+
+        &.author {
+          color: rgba(0, 0, 0, 0.87);
+        }
+      }
+
+      .text {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.54);
+      }
+    }
+  }
+  
+  .comments-form {
+    text-align: center;
+  }
+
+  .not-logged {
+    text-align: left;
+  }
+}

@@ -15,3 +15,22 @@
 .fluid.rounded.image {
   margin-bottom: 1rem;
 }
+
+.detailed-post {
+  .header {
+    font-size: 32px;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .description {
+    font-size: 14px;
+    line-height: 1.71;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.secondary.basic.segment {
+  -webkit-clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 90%);
+  clip-path: polygon(0 10%, 100% 0%, 100% 100%, 0% 90%);
+  padding: 50px 15px;
+}
