@@ -9,8 +9,8 @@
   transition: none;
 
   &.disabled {
-    background-color: #abb2b9;
-    border-color: #abb2b9;
+    background-color: $color-blue-disabled;
+    border-color: $color-blue-disabled;
   }
 
   &.btn-red {
@@ -23,23 +23,23 @@
     }
 
     &.disabled {
-      background-color: #e6b0ab;
-      border-color: #e6b0ab;
+      background-color: $color-red-disabled;
+      border-color: $color-red-disabled;
     }
   }
 
   &.btn-yellow {
     color: $color-white;
-    background-image: linear-gradient(252deg, #f1c40f, #f39c12);
-    border: solid 1px #f39c12;
+    background-image: linear-gradient(252deg, $color-light-yellow, $color-yellow);
+    border: solid 1px $color-yellow;
 
     &:hover, &:focus {
-      background: $color-red;
+      background: #f39c12;
     }
 
     &.disabled {
-      background-color: #fbd8a1;
-      border-color: #fbd8a1;
+      background-color: $color-yellow-disabled;
+      border-color: $color-yellow-disabled;
     }
   }
 

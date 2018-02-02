@@ -18,7 +18,7 @@
         <a class="ui button btn-red" (click)="signUp()"><b>Sign up</b></a>
       </div>
       <div *ngIf="usersService.signedIn()" class="horizontally fitted item">
-        <a class="ui button btn-red" [routerLink]="['/mail']"><b>Mailbox</b></a>
+        <a class="ui button btn-red btn-mailbox" [routerLink]="['/mail']"><b>Mailbox</b></a>
       </div>
     </div>
   </div>

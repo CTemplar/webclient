@@ -8,7 +8,8 @@ import { SignUpComponent } from './modals/signup/signup.component';
 import { SignInComponent, SignInModal } from './modals/signin/signin.component';
 
 // Modules
-import { SuiMessageModule } from 'ng2-semantic-ui'
+import { SuiMessageModule } from 'ng2-semantic-ui';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,10 +20,14 @@ import { SuiMessageModule } from 'ng2-semantic-ui'
     CommonModule,
     FormsModule,
     SuiMessageModule,
+    AngularSvgIconModule,
   ],
   declarations: [
     SignUpComponent,
     SignInComponent,
+  ],
+  exports: [
+    AngularSvgIconModule,
   ],
   entryComponents: [
     SignInComponent,

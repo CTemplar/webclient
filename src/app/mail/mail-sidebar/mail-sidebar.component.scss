@@ -1,9 +1,33 @@
+@import '../../../styles/variables';
+
 .app-mail-sidebar.ui.vertical.menu {
   border-radius: 0;
   height: 100%;
   position: relative;
   background: #34495E;
+  border-right: 1px solid $forms-border-color;
+
+  .inbox-logo {
+    font-size: 20px !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-style: normal !important;
+    letter-spacing: 1px !important;
+    color: $color-white !important;
+
+    img {
+      margin-left: -15px;
+    }
+  }
+
   .item {
+    font-size: 14px;
+    font-style: normal;
+    letter-spacing: normal;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 20px;
+    padding: 10px 15px;
+
     span {
       font-size: 12px;
     }
@@ -44,6 +68,33 @@
         background: #C0392B;
         border-color: #E74C3C;
       }
+    }
+
+    .svg-icon {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      top: 1px;
+      text-align: center;
+      margin-right: 5px;
+
+      path {
+        fill: $color-white !important;
+        opacity: 1 !important;
+      }
+    }
+
+    .label {
+      border-radius: 2px;
+      background-color: rgba(0, 0, 0, 0.38);
+      padding: 4px;
+      height: 20px;
+      min-width: 20px;
+      line-height: 11px;
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.12);
     }
   }
   div.ui.divider {

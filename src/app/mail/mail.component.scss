@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .app-mail {
   display: flex;
   height: 100vh;
@@ -11,7 +13,7 @@
   .content {
     flex: 1;
     margin-left: calc(300px + .5rem);
-    border-left: 1px solid #ccc;
+    border-left: 1px solid $forms-border-color;
   }
 
   .compose {

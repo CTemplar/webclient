@@ -1,56 +1,55 @@
 <div class="app-mail-sidebar ui huge fluid inverted vertical menu">
-  <a class="item" [routerLink]="['/']">
-    <img src="/assets/logo/logo_1.svg">
-    <span>CTEMPLAR</span>
+  <a class="item inbox-logo" [routerLink]="['/']">
+    <img src="/assets/logo/logo_1.svg"> CTemplar
   </a>
   <div class="ui divider full-width"></div>
   <div class="item">
-    <button class="uppercase ui fluid red button" (click)="mailService.composing.emit(true)">Compose</button>
+    <button class="uppercase ui fluid btn-red btn-small button" (click)="mailService.composing.emit(true)">Compose</button>
   </div>
   <a class="item" [routerLink]="['inbox']" [routerLinkActive]="['active']">
     <div class="ui small label" [class.red]="countUnread() > 0">{{ countUnread() }}</div>
-    <i class="inbox icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/drawer.svg"></svg-icon>
     Inbox
   </a>
   <a class="item" [routerLink]="['sent']" [routerLinkActive]="['active']">
     <div class="ui small label">{{ mailService.sent.length }}</div>
-    <i class="send icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/drawer-paper.svg"></svg-icon>
     Sent
   </a>
   <a class="item" [routerLink]="['archive']" [routerLinkActive]="['active']">
     <div class="ui small label">{{ mailService.archive.length }}</div>
-    <i class="archive icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/paper-plane.svg"></svg-icon>
     Archive
   </a>
   <a class="item" [routerLink]="['draft']" [routerLinkActive]="['active']">
     <div class="ui small label">{{ mailService.draft.length }}</div>
-    <i class="edit icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/star.svg"></svg-icon>
     Draft
   </a>
   <a class="item" [routerLink]="['spam']" [routerLinkActive]="['active']">
     <div class="ui small label">{{ mailService.spam.length }}</div>
-    <i class="protect icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/box.svg"></svg-icon>
     Spam
   </a>
   <a class="item" [routerLink]="['starred']" [routerLinkActive]="['active']">
     <div class="ui small label">{{ mailService.starred.length }}</div>
-    <i class="star icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/drawer-warning.svg"></svg-icon>
     Starred
   </a>
   <a class="item" [routerLink]="['trash']" [routerLinkActive]="['active']">
     <div class="ui small label">{{ mailService.trash.length }}</div>
-    <i class="trash icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/trash.svg"></svg-icon>
     Trash
   </a>
   <div class="ui divider"></div>
   <a class="item">
     <div class="ui small label hidden"></div>
-    <i class="folder icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/folder.svg"></svg-icon>
     <span>ADD FOLDER</span>
   </a>
   <a class="item">
     <div class="ui small label hidden"></div>
-    <i class="tag icon"></i>
+    <svg-icon class="svg-icon" src="/assets/img/inbox/sidebar/label.svg"></svg-icon>
     <span>ADD LABEL</span>
   </a>
   <div class="item">

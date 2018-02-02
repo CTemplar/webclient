@@ -47,3 +47,23 @@ a {
     font-weight: 900;
   }
 }
+
+// SVG Icons
+.app-mail-sidebar {
+  .item {
+    .svg-icon {
+      path {
+        color: $color-white;
+        fill-opacity: 0.7;
+      }
+    }
+
+    &.active {
+      .svg-icon {
+        path {
+          fill-opacity: 1;
+        }
+      }
+    }
+  }
+}
