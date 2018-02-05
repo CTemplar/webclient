@@ -1,3 +1,4 @@
+// Global
 label {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.54);
@@ -5,11 +6,12 @@ label {
   display: inline-block;
 }
 
-input, textarea, select {
+.ui.input input, textarea, select {
   font-size: 16px;
   font-style: italic;
   color: rgba(0, 0, 0, 0.38);
   border-color: $forms-border-color;
+  border-radius: 4px;
 
   &::placeholder {
     color: $forms-placeholder-color;
@@ -30,4 +32,14 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   background-color: $color-white !important;
   background-image: none !important;
   color: rgba(0, 0, 0, 0.38) !important;
+}
+
+// Inbox
+.app-mail {
+  .ui.input input, textarea, select {
+    border-radius: 2px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-style: normal;
+  }
 }

@@ -1,9 +1,47 @@
+@import '../../../styles/variables';
+
 .app-mail-header {
-  background: #fafafa;
-  border-bottom: 1px solid #ccc;
-  padding: 1.5rem;
+  height: 64px;
+  background: $color-light-grey;
+  border-bottom: 1px solid $general-border-color;
+  padding: 16px 24px;
 
   .input {
-    width: 600px;
+    width: 560px;
+
+    .btn-search {
+      width: 56px;
+      padding: 9px 19px;
+
+      svg-icon {
+        position: relative;
+        top: -2px;
+      }
+    }
+  }
+
+  .buttons.right {
+    position: relative;
+    top: -8px;
+
+    .button {
+      background: $color-white;
+      border: 1px solid $general-border-color;
+      border-radius: 2px;
+      height: 48px;
+      width: 48px;
+
+      &.left {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        position: relative;
+        right: -1px;
+      }
+
+      &.right {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
   }
 }

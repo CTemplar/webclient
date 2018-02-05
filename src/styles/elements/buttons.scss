@@ -13,6 +13,21 @@
     border-color: $color-blue-disabled;
   }
 
+  &.btn-blue {
+    color: $color-white;
+    background-image: linear-gradient(259deg, $color-blue, $color-dark-blue);
+    border-color: $color-blue;
+
+    &:hover, &:focus {
+      background: $color-blue;
+    }
+
+    &.disabled {
+      background-color: $color-blue-disabled;
+      border-color: $color-blue-disabled;
+    }
+  }
+
   &.btn-red {
     color: $color-white;
     background-image: linear-gradient(259deg, $color-light-red, $color-red);
@@ -46,5 +61,6 @@
   &.btn-small {
     font-size: 12px;
     padding: 10px 25px;
+    height: 32px;
   }
 }
