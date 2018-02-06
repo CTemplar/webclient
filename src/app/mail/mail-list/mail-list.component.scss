@@ -13,10 +13,14 @@
 
     .left-side {
       float: left;
+      position: relative;
+      top: -1px;
     }
 
     .right-side {
       float: right;
+      position: relative;
+      top: 1px;
       
       .text {
         margin-right: 1rem;

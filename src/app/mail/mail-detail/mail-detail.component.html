@@ -1,34 +1,36 @@
 <div class="app-mail-detail">
   <div class="toolbar">
     <div class="left-side">
-      <button class="ui large icon button" [routerLink]="['/mail', message.folder]">
-        <i class="long arrow left icon"></i>
+      <button class="ui btn-back btn-inbox btn-small large icon button" [routerLink]="['/mail', message.folder]">
+        <svg-icon class="svg-icon" src="/assets/img/inbox/detail/arrow-left.svg"></svg-icon>
       </button>
-      <div class="ui large icon buttons">
-        <button *ngIf="message.folder != 'draft'" class="ui button" [ngClass]="{'active': message.folder == 'inbox'}" (click)="mailService.move([message], 'inbox')"><i class="inbox icon"></i></button>
-        <button *ngIf="message.folder != 'draft'" class="ui button" [ngClass]="{'active': message.folder == 'archive'}" (click)="mailService.move([message], 'archive')"><i class="archive icon"></i></button>
-        <button *ngIf="message.folder != 'draft'" class="ui button" [ngClass]="{'active': message.folder == 'spam'}" (click)="mailService.move([message], 'spam')"><i class="protect icon"></i></button>
-        <button class="ui button" [ngClass]="{'active': message.folder == 'trash'}" (click)="mailService.move([message], 'trash')"><i class="trash icon"></i></button>
+      <div class="ui btn-actions btn-inbox btn-small large icon buttons">
+        <button *ngIf="message.folder != 'draft'" class="ui btn-inbox btn-small button" [ngClass]="{'active': message.folder == 'inbox'}" (click)="mailService.move([message], 'inbox')"><i class="inbox icon"></i></button>
+        <button *ngIf="message.folder != 'draft'" class="ui btn-inbox btn-small button" [ngClass]="{'active': message.folder == 'archive'}" (click)="mailService.move([message], 'archive')"><i class="archive icon"></i></button>
+        <button *ngIf="message.folder != 'draft'" class="ui btn-inbox btn-small button" [ngClass]="{'active': message.folder == 'spam'}" (click)="mailService.move([message], 'spam')"><i class="protect icon"></i></button>
+        <button class="ui btn-inbox btn-small button" [ngClass]="{'active': message.folder == 'trash'}" (click)="mailService.move([message], 'trash')"><i class="trash icon"></i></button>
       </div>
     </div>
     <div *ngIf="message_end" class="right-side">
       <span class="text">Message {{ message_current }} of {{ message_end }}</span>
-      <button class="ui large left attached button" [routerLink]="['/mail', 'message', message_prev]" [disabled]="message_current == 1">
-        <i class="chevron left icon"></i>
+      <button class="ui btn-pag-left btn-inbox btn-small large left attached button" [routerLink]="['/mail', 'message', message_prev]" [disabled]="message_current == 1">
+        <i class="angle left icon"></i>
       </button>
-      <button class="ui large right attached button" [routerLink]="['/mail', 'message', message_next]" [disabled]="message_current == message_end">
-        <i class="chevron right icon"></i>
+      <button class="ui btn-pag-right btn-inbox btn-small large right attached button" [routerLink]="['/mail', 'message', message_next]" [disabled]="message_current == message_end">
+        <i class="angle right icon"></i>
       </button>
     </div>
   </div>
   <div class="title">
     <h1 class="left-side ui heading">
       {{ message.subject }}
-      <sui-rating *ngIf="message.folder != 'draft'" class="huge star" [ngModel]="message.starred" (click)="mailService.star(message)" [maximum]="1"></sui-rating>
+      <span *ngIf="message.folder != 'draft'">
+        <i *ngIf="message.secure" class="large lock icon"></i>
+        <i *ngIf="!message.secure" class="large unlock icon"></i>
+      </span>
     </h1>
-    <div *ngIf="message.folder != 'draft'" class="right-side">
-      <i *ngIf="message.secure" class="large lock icon"></i>
-      <i *ngIf="!message.secure" class="large unlock icon"></i>
+    <div class="right-side">
+      <sui-rating *ngIf="message.folder != 'draft'" class="huge star" [ngModel]="message.starred" (click)="mailService.star(message)" [maximum]="1"></sui-rating>
     </div>
   </div>
   <div class="metadata">
@@ -38,10 +40,19 @@
     </div>
     <div class="right-side">
       <span class="text">{{ message.date }}, {{ message.time }}</span>
-      <div *ngIf="message.folder != 'draft'" class="ui large icon buttons">
-        <button class="ui button disabled"><i class="reply all icon"></i></button>
-        <button class="ui button disabled"><i class="reply icon"></i></button>
-        <button class="ui button disabled"><i class="share icon"></i></button>
+      <div *ngIf="message.folder != 'draft'" class="ui mail-actions btn-inbox btn-small large icon buttons">
+        <button class="ui btn-inbox btn-small button disabled">
+          <!--<i class="reply all icon"></i>-->
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/reply-all.svg"></svg-icon>
+        </button>
+        <button class="ui btn-inbox btn-small button disabled">
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/reply.svg"></svg-icon>
+          <!--<i class="reply icon"></i>-->
+        </button>
+        <button class="ui btn-inbox btn-small button disabled">
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/forward.svg"></svg-icon>
+          <!--<i class="share icon"></i>-->
+        </button>
       </div>
     </div>
   </div>
@@ -53,8 +64,8 @@
       <div class="field">
         <textarea></textarea>
       </div>
-      <div class="ui primary submit labeled icon button">
-        <i class="icon edit"></i> Reply message
+      <div class="ui primary submit btn-small btn-blue button">
+        Send
       </div>
     </form>
   </div>
