@@ -1,3 +1,4 @@
+// General
 .ui.button {
   border-radius: 2px;
   border: solid 1px;
@@ -62,5 +63,32 @@
     font-size: 12px;
     padding: 10px 25px;
     height: 32px;
+  }
+}
+
+// Inbox
+.ui.button {
+  &.btn-inbox {
+    background: $inbox-btn-background-color;
+    border-color: $inbox-btn-border-color;
+    padding: 8px 19px;
+
+    svg-icon {
+      position: relative;
+      top: -1px;
+    }
+
+    .menu {
+      border: 1px solid $inbox-btn-border-color;
+      border-radius: 2px;
+      margin-top: 3px;
+      box-shadow: none;
+
+      .item {
+        font-size: 12px;
+        padding: 13px 25px;
+        color: rgba(0, 0, 0, 0.87);
+      }
+    }
   }
 }

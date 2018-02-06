@@ -1,7 +1,9 @@
+@import '../../../styles/variables';
+
 .app-mail-list {
   .toolbar {
-    border-bottom: 1px solid #ccc;
-    padding: 1.5rem;
+    border-bottom: 1px solid $general-border-color;
+    padding: 15px 24px;
 
     &:after {
       content: '';
@@ -20,20 +22,111 @@
         margin-right: 1rem;
       }
     }
+
+    .btn-filter {
+      padding: 7px 8px;
+
+      .checkbox {
+        position: relative;
+        top: -1px;
+      }
+
+      i {
+        font-size: 22px;
+        width: 16px;
+        margin: 0px 1px 0 5px;
+        position: relative;
+        top: -1px;
+      }
+    }
+
+    .btn-refresh {
+      position: relative;
+      top: 3px;
+    }
+
+    .btn-actions {
+      margin-left: 15px;
+
+      .button {
+        border: 1px solid $general-border-color;
+        padding: 5px 12px;
+
+        &:first-child {
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+          position: relative;
+          right: -1px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          position: relative;
+          left: -1px;
+        }
+      }
+    }
+
+    .text {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .btn-pag-left, .btn-pag-right {
+      border: 1px solid $general-border-color;
+      box-shadow: none !important;
+      padding: 9px 5px;
+
+      i {
+        font-size: 18px;
+      }
+
+      &.btn-pag-left {
+        margin-right: -4px;
+
+        i {
+          position: relative;
+          right: -5px;
+        }
+      }
+
+      &.btn-pag-right {
+        i {
+          position: relative;
+          left: -4px;
+        }
+      }
+    }
   }
   
-  .table {
+  .mail-list {
     margin-top: 0;
     border: 0;
     cursor: pointer;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.87);
 
     tr.read {
-      background: #f2f2f2;
+      background: $color-light-grey;
+    }
+
+    td {
+      padding: 13px;
+
+      .checkbox {
+        top: 2px;
+      }
+
+      sui-rating {
+        position: relative;
+        top: 1px;
+      }
     }
 
     td:first-child {
-      padding: 1.5rem;
       padding-right: 0;
+      padding-left: 24px;
     }
 
     td:last-child {
