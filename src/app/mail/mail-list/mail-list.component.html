@@ -15,6 +15,15 @@
       <button class="ui large icon btn-refresh btn-inbox btn-small button" (click)="mailService.fetch()">
         <svg-icon class="svg-icon" src="/assets/img/inbox/list/refresh.svg"></svg-icon>
       </button>
+      <div class="ui btn-submenu btn-inbox btn-small large dropdown button" suiDropdown>
+        More
+        <i class="angle down icon"></i>
+        <div class="menu" suiDropdownMenu>
+          <div class="item">Add star</div>
+          <div class="item">Mark as read</div>
+          <div class="item">Mark as unread</div>
+        </div>
+      </div>
       <div *ngIf="messages.length > 0" class="ui btn-actions btn-inbox btn-small large icon buttons">
         <button *ngIf="button('inbox')" class="ui btn-inbox btn-small button" (click)="mailService.move(selected, 'inbox')"><i class="inbox icon"></i></button>
         <button *ngIf="button('archive')" class="ui btn-inbox btn-small button" (click)="mailService.move(selected, 'archive')"><i class="archive icon"></i></button>
@@ -53,12 +62,10 @@
         <td class="collapsing">2.5KB</td>
         <td class="collapsing">{{ message.processed }}</td>
         <td *ngIf="message.secure && message.folder !='draft'" class="collapsing">
-          <i class="lock icon"></i>
-          <!--<svg-icon class="svg-icon" src="/assets/img/inbox/list/protect.svg"></svg-icon>-->
+          <svg-icon class="svg-icon secure-icon" src="/assets/img/inbox/list/group.svg"></svg-icon>
         </td>
         <td *ngIf="!message.secure && message.folder !='draft'" class="collapsing">
-          <i class="unlock icon"></i>
-          <!--<svg-icon class="svg-icon" src="/assets/img/inbox/list/protect.svg"></svg-icon>-->
+          <svg-icon class="svg-icon secure-icon disabled" src="/assets/img/inbox/list/group.svg"></svg-icon>
         </td>
       </tr>
     </tbody>

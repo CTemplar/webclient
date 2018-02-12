@@ -67,3 +67,31 @@ a {
     }
   }
 }
+.svg-icon {
+  &.white-icon {
+    path {
+      //fill: $color-white;
+    }
+  }
+
+  &.secure-icon {
+    path {
+      fill: rgba(0, 0, 0, 0.87);
+    }
+  }
+}
+.app-mail-header {
+  .buttons {
+    button {
+      .svg-icon {
+        opacity: 0.6;
+      }
+
+      &:hover {
+        .svg-icon {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

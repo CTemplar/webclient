@@ -1,0 +1,77 @@
+@import '../../../styles/variables';
+
+.app-mail-settings {
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    border-top: 1px solid $general-border-color;
+    border-bottom: 1px solid $general-border-color;
+    padding: 15px 25px;
+    margin-bottom: 40px;
+
+    &.first {
+      border-top: none;
+    }
+  }
+
+  .btn-back {
+    padding: 5px 19px;
+    position: relative;
+    top: -2px;
+    margin-right: 12px;
+
+    svg-icon {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  label {
+    padding-left: 25px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.54);
+    position: relative;
+    top: 8px;
+  }
+
+  select {
+    border-radius: 2px;
+    border: solid 1px $general-border-color;
+  }
+
+  .info {
+    font-size: 11px;
+    color: rgba(0, 0, 0, 0.38);
+
+    a {
+      font-size: 11px;
+      color: $color-light-blue;
+      font-style: normal;
+    }
+  }
+
+  .featured {
+    background: $inbox-btn-background-color;
+    padding: 20px;
+    margin-left: 25px;
+
+    .title {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .description {
+      display: block;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .link a {
+      text-transform: uppercase;
+      font-style: normal;
+      font-size: 10px;
+    }
+  }
+}

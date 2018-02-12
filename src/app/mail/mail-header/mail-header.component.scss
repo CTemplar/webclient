@@ -25,22 +25,72 @@
     top: -8px;
 
     .button {
+      position: relative;
       background: $color-white;
       border: 1px solid $general-border-color;
       border-radius: 2px;
       height: 48px;
       width: 48px;
 
-      &.left {
-        border-bottom-right-radius: 0;
-        border-top-right-radius: 0;
+      &:hover {
+        border-color: $color-light-grey-variant;
+        background-color: $color-light-grey;
         position: relative;
-        right: -1px;
+        z-index: 9999;
       }
 
-      &.right {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+      .badge {
+        border-radius: 2px;
+        font-size: 8px;
+        font-weight: bold;
+        color: #fff;
+        position: absolute;
+        top: 7px;
+        right: 11px;
+        padding: 0px 3px;
+        line-height: 12px;
+
+        &.blue {
+          background-color: $color-light-blue;
+        }
+
+        &.red {
+          background-color: $color-light-red;
+        }
+      }
+    }
+
+    .buttons-group {
+      display: inline-block;
+      margin-left: 15px;
+      position: relative;
+      top: 0;
+
+      .button {
+        margin-right: -1px;
+        border-radius: 0;
+
+        &.dropdown {
+          position: relative;
+          top: -1px;
+
+          .menu {
+            top: 49px;
+          }
+        }
+
+        &:first-child {
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          margin-right: 0;
+          position: relative;
+          top: -1px;
+        }
       }
     }
   }

@@ -6,11 +6,32 @@
     </button>
   </div>
   <div class="ui buttons right floated">
-    <button class="ui large icon button left" [routerLink]="['/mail', 'settings']">
-      <i class="settings icon"></i>
+    <button class="ui large icon button left">
+      <svg-icon class="svg-icon" src="/assets/img/inbox/header/apps.svg"></svg-icon>
     </button>
-    <button class="ui large icon button right" (click)="usersService.signOut()">
-      <i class="sign out icon"></i>
-    </button>
+    <div class="buttons-group">
+      <button class="ui large icon button" [routerLink]="['/mail', 'settings']">
+        <svg-icon class="svg-icon" src="/assets/img/inbox/header/bell.svg"></svg-icon>
+        <span class="badge red">4</span>
+      </button>
+      <button class="ui large icon button dropdown" suiDropdown>
+        <svg-icon class="svg-icon" src="/assets/img/inbox/header/gear.svg"></svg-icon>
+        <div class="menu" suiDropdownMenu>
+          <div class="item" [routerLink]="['/mail', 'settings']">General</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Security</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Appearance</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Filters</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Multi-users</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Domains</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Payments</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Keys</div>
+          <div class="item" [routerLink]="['/mail', 'settings']">Donate</div>
+        </div>
+      </button>
+      <button class="ui large icon button" (click)="usersService.signOut()">
+        <svg-icon class="svg-icon" src="/assets/img/inbox/header/user.svg"></svg-icon>
+        <span class="badge blue">F</span>
+      </button>
+    </div>
   </div>
 </div>

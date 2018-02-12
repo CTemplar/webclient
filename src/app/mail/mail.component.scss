@@ -32,14 +32,24 @@
     }
 
     .header {
-      padding: 1rem;
+      padding: 7px 15px;
       color: white;
       background: #34495e;
+      font-size: 12px;
+      font-weight: bold;
 
-      .icon {
+      .svg-icon {
         float: right;
-        margin-left: 1rem;
+        margin-left: 15px;
         margin-right: 0;
+        color: $color-white;
+        width: 20px;
+        height: 20px;
+        overflow: hidden;
+
+        path {
+          fill: $color-white;
+        }
       }
     }
 
@@ -65,6 +75,40 @@
       border-bottom: 1px solid #ccc;
     }
 
+    .to-wrapper {
+      border-bottom: 1px solid $general-border-color;
+      position: relative;
+
+      span {
+        position: absolute;
+        top: 8px;
+        left: 15px;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.38);
+      }
+
+      input {
+        padding: 9px 15px 9px 40px;
+      }
+    }
+
+    .subject-wrapper {
+      border-bottom: 1px solid $general-border-color;
+      position: relative;
+
+      span {
+        position: absolute;
+        top: 8px;
+        left: 15px;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.38);
+      }
+
+      input {
+        padding: 9px 15px 9px 66px;
+      }
+    }
+
     .textarea {
       flex: 1;
     }
@@ -75,13 +119,98 @@
       height: 100%;
       border: none;
       resize: none;
+      font-size: 12px;
+      font-style: normal;
     }
 
     .footer {
       background: #f4f4f4;
       border-top: 1px solid #ccc;
-      padding: 1rem;
+      height: 50px;
+      padding: 8px 10px 0 10px;
       text-align: right;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+
+      .left-side {
+        float: left;
+
+        .buttons-group {
+          margin-right: 10px;
+        }
+
+        > .button {
+          position: relative;
+          top: -3px;
+          margin-right: 10px;
+        }
+
+        .btn-submenu {
+          padding: 7px 8px;
+          font-size: 10px;
+          font-weight: bold;
+          letter-spacing: 0.5px;
+          color: rgba(0, 0, 0, 0.38);
+          line-height: 8px;
+          position: relative;
+          top: -4px;
+
+          i {
+            font-size: 22px;
+            width: 16px;
+            margin: 0 -4px 0 3px;
+            position: relative;
+            top: 3px;
+          }
+        }
+      }
+
+      .right-side {
+        float: right;
+      }
+
+      .btn-send {
+        float: right;
+        margin-left: 10px;
+      }
+
+      .btn-icon {
+        padding: 8px 5px;
+      }
+    }
+
+    .button {
+      border: 1px solid $general-border-color;
+      margin: 0;
+
+      svg-icon {
+        height: 20px;
+        width: 20px;
+        overflow: hidden;
+      }
+    }
+
+    .buttons-group {
+      display: inline-block;
+      height: 32px;
+      overflow: hidden;
+
+      .button {
+        margin-right: -4px;
+        border-radius: 0;
+
+        &:first-child {
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          margin-right: 0;
+        }
+      }
     }
   }
 }

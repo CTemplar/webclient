@@ -44,6 +44,24 @@
       }
     }
 
+    .btn-submenu {
+      padding: 7px 8px;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      color: rgba(0, 0, 0, 0.38);
+      line-height: 8px;
+      margin-left: 15px;
+
+      i {
+        font-size: 22px;
+        width: 16px;
+        margin: 0 -4px 0 3px;
+        position: relative;
+        top: 3px;
+      }
+    }
+
     .btn-refresh {
       position: relative;
       top: 3px;
@@ -125,6 +143,16 @@
       sui-rating {
         position: relative;
         top: 1px;
+      }
+
+      .secure-icon {
+        position: relative;
+        top: 1px;
+        left: -5px;
+      }
+
+      .disabled {
+        opacity: 0.5;
       }
     }
 

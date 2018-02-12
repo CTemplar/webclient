@@ -1,3 +1,356 @@
-<p>
-  mail-settings works!
-</p>
+<div class="app-mail-settings">
+  <form class="ui form">
+    <h2 class="first">
+      <button class="ui btn-back btn-inbox btn-small large icon button" [routerLink]="['/mail']">
+        <svg-icon class="svg-icon" src="/assets/img/inbox/detail/arrow-left.svg"></svg-icon>
+      </button>
+      General Settings
+    </h2>
+
+    <div class="ui grid">
+      <div class="row">
+        <div class="three wide column">
+          <label>Language</label>
+        </div>
+        <div class="five wide column">
+          <select class="ui fluid dropdown">
+            <option>English (USA)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Current Time Zone</label>
+        </div>
+        <div class="five wide column">
+          <select class="ui fluid dropdown">
+            <option>UTC+1 (Italy, Germany)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Automatically save contacts</label>
+        </div>
+        <div class="five wide column">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="contacts" checked="" tabindex="0" class="hidden">
+                <label>Enabled</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="contacts" tabindex="0" class="hidden">
+                <label>Disabled</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Vacation responder</label>
+        </div>
+        <div class="five wide column">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="vacation" checked="" tabindex="0" class="hidden">
+                <label>Enabled</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="vacation" tabindex="0" class="hidden">
+                <label>Disabled</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Security Settings</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="three wide column">
+          <label>Password</label>
+        </div>
+        <div class="five wide column">
+          <input type="password">
+          <span class="info">Last time changed 3 month ago. <a href="#">Change now</a></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Two-factor authentication</label>
+        </div>
+        <div class="five wide column">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="authentication" checked="" tabindex="0" class="hidden">
+                <label>Enabled</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="authentication" tabindex="0" class="hidden">
+                <label>Disabled</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Recovery email</label>
+        </div>
+        <div class="five wide column">
+          <input type="text">
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Security alerts</label>
+        </div>
+        <div class="five wide column">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="authentication" checked="" tabindex="0" class="hidden">
+                <label>Enabled</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="authentication" tabindex="0" class="hidden">
+                <label>Disabled</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Appearance</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="three wide column">
+          <label>Display name</label>
+        </div>
+        <div class="five wide column">
+          <input type="text">
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Signature</label>
+        </div>
+        <div class="five wide column">
+          <textarea></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Emails per page</label>
+        </div>
+        <div class="five wide column">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="emails" checked="" tabindex="0" class="hidden">
+                <label>20</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="emails" tabindex="0" class="hidden">
+                <label>50</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="emails" tabindex="0" class="hidden">
+                <label>100</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="emails" tabindex="0" class="hidden">
+                <label>200</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Load embedded content</label>
+        </div>
+        <div class="five wide column">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="content" checked="" tabindex="0" class="hidden">
+                <label>Yes</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="content" tabindex="0" class="hidden">
+                <label>No</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="content" tabindex="0" class="hidden">
+                <label>Only images</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Show snippets</label>
+        </div>
+        <div class="five wide column">
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="snippets" checked="" tabindex="0" class="hidden">
+                <label>Yes</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="snippets" tabindex="0" class="hidden">
+                <label>No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Filters</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="title">You have no filters yet.</span>
+            <span class="description">Add a filter to perform actions such as automatically labeling or archiving.</span>
+            <span class="link"><a href="#">Add custom filter</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Whitelist</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="title">Whitelist is empty.</span>
+            <span class="description">Messages from contacts in the whitelist always go to Inbox folder. Marking a message as not spam adds the address to the Whitelist.</span>
+            <span class="link"><a href="#">Add whitelist contact</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Blacklist</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="title">Blacklist is empty.</span>
+            <span class="description">Messages from contacts in the blacklist always go to Spam folder. Marking a message as spam adds the address to the Blacklist.</span>
+            <span class="link"><a href="#">Add blacklist contact</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Multi-users</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="description">Create and administer sub-accounts and assign them email addresses on your custom domain. To enable this feature, upgrade your account.</span>
+            <span class="link"><a href="#">Upgrade account</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Domains</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="description">Use your own domain with CTemplar and use your own email address, e.g. name@domain.com. To enable this feature, upgrade your account.</span>
+            <span class="link"><a href="#">Upgrade account</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Payments</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="description">You have no saved payment methods.</span>
+            <span class="link"><a href="#">Add new method</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Keys</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="description">Download your PGP Keys for use with other PGP compatible services.  Only incoming messages in inline OpenPGP format are currently supported.</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Email address</label>
+        </div>
+        <div class="five wide column">
+          <select class="ui fluid dropdown">
+            <option>johnsimpson@ctemplar.com</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Fingerprint</label>
+        </div>
+        <div class="five wide column">
+          <input type="text">
+          <span class="info"><a href="#">Download publick key (2048 Bit)</a></span>
+        </div>
+      </div>
+    </div>
+
+    <h2>Donate</h2>
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column">
+          <div class="featured">
+            <span class="description">Your donation helps us support more users and continue to develop CTemplar as free and open source software.</span>
+            <span class="link"><a href="#">Make a donation</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
