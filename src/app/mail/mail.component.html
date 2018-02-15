@@ -11,10 +11,12 @@
     <form #form="ngForm">
       <div class="header">
         New message
-        <svg-icon class="svg-icon white-icon" src="/assets/img/inbox/compose/close.svg" (click)="mailService.composing.emit(false); minimize = false"></svg-icon>
-        <svg-icon class="svg-icon white-icon" src="/assets/img/inbox/compose/minimize.svg" *ngIf="!minimize" (click)="minimize = !minimize"></svg-icon>
-        <svg-icon class="svg-icon white-icon" src="/assets/img/inbox/compose/maximize.svg" *ngIf="minimize" (click)="minimize = !minimize"></svg-icon>
-        <svg-icon class="svg-icon white-icon" src="/assets/img/inbox/compose/expand.svg"></svg-icon>
+        <div class="actions">
+          <svg-icon class="svg-icon" src="/assets/img/inbox/compose/close.svg" (click)="mailService.composing.emit(false); minimize = false"></svg-icon>
+          <svg-icon class="svg-icon" src="/assets/img/inbox/compose/expand.svg"></svg-icon>
+          <svg-icon class="svg-icon" src="/assets/img/inbox/compose/minimize.svg" *ngIf="!minimize" (click)="minimize = !minimize"></svg-icon>
+          <svg-icon class="svg-icon" src="/assets/img/inbox/compose/maximize.svg" *ngIf="minimize" (click)="minimize = !minimize"></svg-icon>
+        </div>
       </div>
       <div *ngIf="!minimize" class="inputs">
         <div class="to-wrapper">

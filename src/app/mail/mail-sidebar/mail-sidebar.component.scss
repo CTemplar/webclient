@@ -64,6 +64,7 @@
       background: #E74C3C;
       letter-spacing: 1px;
       border-color: #C0392B;
+
       &:hover {
         background: #C0392B;
         border-color: #E74C3C;
@@ -95,6 +96,11 @@
 
     &.active {
       background: rgba(255, 255, 255, 0.12);
+    }
+
+    &:hover:not(.active) {
+      background: transparent;
+      color: $color-white;
     }
   }
   div.ui.divider {

@@ -38,17 +38,26 @@
       font-size: 12px;
       font-weight: bold;
 
-      .svg-icon {
+      .actions {
         float: right;
-        margin-left: 15px;
-        margin-right: 0;
-        color: $color-white;
-        width: 20px;
-        height: 20px;
-        overflow: hidden;
+        display: inline-block;
+        position: relative;
+        right: -11px;
+        top: 2px;
 
-        path {
-          fill: $color-white;
+        .svg-icon {
+          cursor: pointer;
+          float: right;
+          margin-left: 12px;
+          margin-right: 0;
+          color: $color-white;
+          width: 20px;
+          height: 20px;
+          overflow: hidden;
+
+          path {
+            fill: $color-white;
+          }
         }
       }
     }

@@ -58,7 +58,7 @@ a {
       }
     }
 
-    &.active {
+    &.active, &:hover {
       .svg-icon {
         path {
           fill-opacity: 1;
@@ -94,6 +94,22 @@ a {
       &:hover {
         .svg-icon {
           opacity: 1;
+        }
+      }
+    }
+  }
+}
+.compose {
+  .header {
+    .svg-icon {
+      path {
+        fill-opacity: 0.7;
+        fill: $color-white;
+      }
+
+      &:hover {
+        path {
+          fill-opacity: 1;
         }
       }
     }

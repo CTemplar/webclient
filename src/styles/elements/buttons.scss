@@ -67,6 +67,29 @@
 }
 
 // Inbox
+.app-mail {
+  .ui.button.btn-red {
+    background-image: none;
+    background-color: #e74c3c;
+    border-color: #c0392b;
+
+    &:hover, &:focus {
+      background: #ff4d3b;
+      border-color: #c0392b;
+    }
+
+    &:active {
+      background: #c0392b;
+      border-color: #c0392b;
+    }
+
+    &.disabled {
+      background: #f6b8b1;
+      border-color: #f6b8b1;
+    }
+  }
+}
+
 .ui.button {
   &.btn-inbox {
     background: $inbox-btn-background-color;
@@ -83,16 +106,30 @@
       border-radius: 2px;
       margin-top: 3px;
       box-shadow: none;
+      background-color: $color-light-grey;
+      padding: 10px 0;
 
       .item {
         font-size: 12px;
-        padding: 13px 25px;
+        padding: 7px 25px !important;
         color: rgba(0, 0, 0, 0.87);
+
+        &:hover {
+          background-color: $color-white;
+        }
       }
     }
 
     &:hover {
-      border-color: $color-light-grey-variant;
+      border-color: $color-light-grey-variant !important;
+      position: relative;
+    }
+
+    &.active {
+      &:hover {
+        background-color: $inbox-btn-background-color;
+        border-color: $inbox-btn-border-color;
+      }
     }
   }
 }
