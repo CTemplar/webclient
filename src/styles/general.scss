@@ -75,8 +75,12 @@ a {
   }
 
   &.secure-icon {
-    path {
-      fill: rgba(0, 0, 0, 0.87);
+    g {
+      fill-opacity: 1;
+
+      path {
+        fill: rgba(0, 0, 0, 0.87);
+      }
     }
   }
 }

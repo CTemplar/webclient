@@ -12,7 +12,7 @@
           <div class="item" (click)="checkbox()">None</div>
         </div>
       </div>
-      <button class="ui large icon btn-refresh btn-inbox btn-small button" (click)="mailService.fetch()">
+      <button class="ui large icon btn-refresh btn-inbox btn-small button" data-inverted="" data-tooltip="Refresh" data-position="bottom center" (click)="mailService.fetch()">
         <svg-icon class="svg-icon" src="/assets/img/inbox/list/refresh.svg"></svg-icon>
       </button>
       <div class="ui btn-submenu btn-inbox btn-small large dropdown button" suiDropdown>
@@ -53,7 +53,10 @@
             <label></label>
           </div>
         </td>
-        <td *ngIf="message.folder != 'draft'" class="collapsing"><sui-rating class="large star" [ngModel]="message.starred" (click)="mailService.star(message); $event.stopPropagation()" [maximum]="1"></sui-rating></td>
+        <td *ngIf="message.folder != 'draft'" class="collapsing">
+          <svg-icon class="svg-icon star-icon" src="/assets/img/inbox/list/star_on.svg" *ngIf="message.starred" (click)="mailService.star(message); $event.stopPropagation()"></svg-icon>
+          <svg-icon class="svg-icon star-icon" src="/assets/img/inbox/list/star_off.svg" *ngIf="!message.starred" (click)="mailService.star(message); $event.stopPropagation()"></svg-icon>
+        </td>
         <td class="collapsing">{{ message.from_header }}</td>
         <td>
           <b>{{ message.subject }}</b>
@@ -65,6 +68,53 @@
           <svg-icon class="svg-icon secure-icon" src="/assets/img/inbox/list/group.svg"></svg-icon>
         </td>
         <td *ngIf="!message.secure && message.folder !='draft'" class="collapsing">
+          <svg-icon class="svg-icon secure-icon disabled" src="/assets/img/inbox/list/group.svg"></svg-icon>
+        </td>
+      </tr>
+
+      <!-- Examples -->
+      <tr>
+        <td class="collapsing">
+          <div class="ui fitted checkbox">
+            <input type="checkbox">
+            <label></label>
+          </div>
+        </td>
+        <td class="collapsing">
+          <svg-icon class="svg-icon star-icon" src="/assets/img/inbox/list/star_off.svg"></svg-icon>
+        </td>
+        <td class="collapsing">Administrator &lt;admin@ctemplar.com&gt;</td>
+        <td>
+          <div class="ui label">
+            Delete in 5:25:32
+          </div>
+          <b>Welcome to CTemplar!</b>
+        </td>
+        <td class="collapsing">22 January 2018, 16:33 </td>
+        <td class="collapsing">2.5KB</td>
+        <td class="collapsing"></td>
+        <td class="collapsing">
+          <svg-icon class="svg-icon secure-icon" src="/assets/img/inbox/list/group.svg"></svg-icon>
+        </td>
+      </tr>
+      <tr class="read">
+        <td class="collapsing">
+          <div class="ui fitted checkbox">
+            <input type="checkbox">
+            <label></label>
+          </div>
+        </td>
+        <td class="collapsing">
+          <svg-icon class="svg-icon star-icon" src="/assets/img/inbox/list/star_off.svg"></svg-icon>
+        </td>
+        <td class="collapsing">Administrator &lt;admin@ctemplar.com&gt;</td>
+        <td>
+          <b>Welcome to CTemplar!</b>
+        </td>
+        <td class="collapsing">22 January 2018, 16:33 </td>
+        <td class="collapsing">2.5KB</td>
+        <td class="collapsing"></td>
+        <td class="collapsing">
           <svg-icon class="svg-icon secure-icon disabled" src="/assets/img/inbox/list/group.svg"></svg-icon>
         </td>
       </tr>

@@ -5,7 +5,7 @@
   <div class="content">
     <app-mail-header></app-mail-header>
     <router-outlet></router-outlet>
-    <!-- <app-mail-footer></app-mail-footer> -->
+    <app-mail-footer></app-mail-footer>
   </div>
   <div *ngIf="composing" class="compose" [ngClass]="{'minimized': minimize}">
     <form #form="ngForm">

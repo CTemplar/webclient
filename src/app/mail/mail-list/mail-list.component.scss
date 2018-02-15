@@ -131,6 +131,7 @@
 
     tr.read {
       background: $color-light-grey;
+      color: rgba(0, 0, 0, 0.54);
     }
 
     td {
@@ -145,6 +146,11 @@
         top: 1px;
       }
 
+      .star-icon {
+        position: relative;
+        top: 1px;
+      }
+
       .secure-icon {
         position: relative;
         top: 1px;
@@ -152,7 +158,18 @@
       }
 
       .disabled {
-        opacity: 0.5;
+        opacity: 0.3;
+      }
+
+      .ui.label {
+        font-size: 9px;
+        background-color: #f39c12;
+        color: $color-white;
+        border-radius: 2px;
+        padding: 4px 7px;
+        margin-right: 9px;
+        position: relative;
+        top: -1px;
       }
     }
 
