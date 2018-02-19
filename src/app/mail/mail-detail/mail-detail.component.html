@@ -4,6 +4,43 @@
       <button class="ui btn-back btn-inbox btn-small large icon button" [routerLink]="['/mail', message.folder]">
         <svg-icon class="svg-icon" src="/assets/img/inbox/detail/arrow-left.svg"></svg-icon>
       </button>
+      <div class="buttons-group group-1">
+        <button class="ui btn-icon btn-inbox btn-small button">
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/box.svg"></svg-icon>
+        </button>
+        <button class="ui btn-icon btn-inbox btn-small button">
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/warning-octagon.svg"></svg-icon>
+        </button>
+        <button class="ui btn-icon btn-inbox btn-small button">
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/trash.svg"></svg-icon>
+        </button>
+      </div>
+      <div class="buttons-group group-2">
+        <div class="ui btn-submenu btn-inbox btn-small large dropdown button" suiDropdown>
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/folder.svg"></svg-icon>
+          <i class="angle down icon"></i>
+          <div class="menu" suiDropdownMenu>
+            <div class="item">Option 1</div>
+            <div class="item">Option 2</div>
+          </div>
+        </div>
+        <div class="ui btn-submenu btn-inbox btn-small large dropdown button" suiDropdown>
+          <svg-icon class="svg-icon" src="/assets/img/inbox/detail/label.svg"></svg-icon>
+          <i class="angle down icon"></i>
+          <div class="menu" suiDropdownMenu>
+            <div class="item">Option 1</div>
+            <div class="item">Option 2</div>
+          </div>
+        </div>
+      </div>
+      <div class="ui more btn-submenu btn-inbox btn-small large dropdown button" suiDropdown>
+        More
+        <i class="angle down icon"></i>
+        <div class="menu" suiDropdownMenu>
+          <div class="item">Option 1</div>
+          <div class="item">Option 2</div>
+        </div>
+      </div>
       <div class="ui btn-actions btn-inbox btn-small large icon buttons">
         <button *ngIf="message.folder != 'draft'" class="ui btn-inbox btn-small button" [ngClass]="{'active': message.folder == 'inbox'}" (click)="mailService.move([message], 'inbox')"><i class="inbox icon"></i></button>
         <button *ngIf="message.folder != 'draft'" class="ui btn-inbox btn-small button" [ngClass]="{'active': message.folder == 'archive'}" (click)="mailService.move([message], 'archive')"><i class="archive icon"></i></button>
@@ -25,12 +62,13 @@
     <h1 class="left-side ui heading">
       {{ message.subject }}
       <span *ngIf="message.folder != 'draft'">
-        <i *ngIf="message.secure" class="large lock icon"></i>
-        <i *ngIf="!message.secure" class="large unlock icon"></i>
+        <svg-icon class="svg-icon secure-icon" src="/assets/img/inbox/list/group.svg" *ngIf="message.secure"></svg-icon>
+        <svg-icon class="svg-icon secure-icon disabled" src="/assets/img/inbox/list/group.svg" *ngIf="!message.secure"></svg-icon>
       </span>
     </h1>
     <div class="right-side">
-      <sui-rating *ngIf="message.folder != 'draft'" class="huge star" [ngModel]="message.starred" (click)="mailService.star(message)" [maximum]="1"></sui-rating>
+      <svg-icon class="svg-icon star-icon" src="/assets/img/inbox/list/star_on.svg" *ngIf="message.folder != 'draft' && message.starred" (click)="mailService.star(message); $event.stopPropagation()"></svg-icon>
+      <svg-icon class="svg-icon star-icon" src="/assets/img/inbox/list/star_off.svg" *ngIf="message.folder != 'draft' && !message.starred" (click)="mailService.star(message); $event.stopPropagation()"></svg-icon>
     </div>
   </div>
   <div class="metadata">
@@ -42,16 +80,13 @@
       <span class="text">{{ message.date }}, {{ message.time }}</span>
       <div *ngIf="message.folder != 'draft'" class="ui mail-actions btn-inbox btn-small large icon buttons">
         <button class="ui btn-inbox btn-small button disabled">
-          <!--<i class="reply all icon"></i>-->
           <svg-icon class="svg-icon" src="/assets/img/inbox/detail/reply-all.svg"></svg-icon>
         </button>
         <button class="ui btn-inbox btn-small button disabled">
           <svg-icon class="svg-icon" src="/assets/img/inbox/detail/reply.svg"></svg-icon>
-          <!--<i class="reply icon"></i>-->
         </button>
         <button class="ui btn-inbox btn-small button disabled">
           <svg-icon class="svg-icon" src="/assets/img/inbox/detail/forward.svg"></svg-icon>
-          <!--<i class="share icon"></i>-->
         </button>
       </div>
     </div>
@@ -60,12 +95,75 @@
     <pre>{{ message.text }}</pre>
   </div>
   <div *ngIf="message.folder != 'draft'" class="reply">
-    <form class="ui reply form">
-      <div class="field">
-        <textarea></textarea>
+    <img src="http://via.placeholder.com/48x48" class="avatar">
+    <form>
+      <div class="inputs">
+        <div class="to-wrapper">
+          <span>
+            To:
+          </span>
+          <input name="to_header" placeholder="johndoe@gmail.com" required>
+        </div>
+        <div class="subject-wrapper">
+          <span>
+            Subject:
+          </span>
+          <input name="subject" placeholder="Re: Welcome to CTemplar!" required>
+        </div>
       </div>
-      <div class="ui primary submit labeled icon btn-small btn-blue button">
-        Send
+      <div class="textarea">
+        <textarea name="body" placeholder="Message"></textarea>
+      </div>
+      <div class="footer">
+        <div class="left-side">
+          <div class="buttons-group">
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/paperclip.svg"></svg-icon>
+            </button>
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/picture.svg"></svg-icon>
+            </button>
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/link.svg"></svg-icon>
+            </button>
+          </div>
+          <div class="buttons-group">
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/lock.svg"></svg-icon>
+            </button>
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/clock.svg"></svg-icon>
+            </button>
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/fingerprint.svg"></svg-icon>
+            </button>
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/self-timer.svg"></svg-icon>
+            </button>
+          </div>
+          <button class="ui btn-icon btn-inbox btn-small button">
+            <svg-icon class="svg-icon" src="/assets/img/inbox/compose/keyboard-show.svg"></svg-icon>
+          </button>
+          <div class="ui btn-submenu btn-inbox btn-small large dropdown button" suiDropdown>
+            More
+            <i class="angle down icon"></i>
+            <div class="menu" suiDropdownMenu>
+              <div class="item">Option 1</div>
+              <div class="item">Option 2</div>
+            </div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="buttons-group">
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/floppy-disk.svg"></svg-icon>
+            </button>
+            <button class="ui btn-icon btn-inbox btn-small button">
+              <svg-icon class="svg-icon" src="/assets/img/inbox/compose/trash.svg"></svg-icon>
+            </button>
+          </div>
+          <button class="uppercase ui button btn-small btn-blue btn-send">Send</button>
+        </div>
       </div>
     </form>
   </div>

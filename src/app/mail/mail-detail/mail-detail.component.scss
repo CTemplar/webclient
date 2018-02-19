@@ -9,7 +9,8 @@
     .btn-back {
       padding: 5px 19px;
       position: relative;
-      top: -2px;
+      top: -8px;
+      margin-right: 22px;
 
       svg-icon {
         position: relative;
@@ -17,8 +18,73 @@
       }
     }
 
+    .buttons-group {
+      display: inline-block;
+      height: 32px;
+      margin-right: 10px;
+
+      .button {
+        margin-right: -4px;
+        border-radius: 0;
+
+        &:first-child {
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          margin-right: 0;
+        }
+      }
+    }
+
+    .btn-submenu {
+      padding: 7px 8px;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      color: rgba(0, 0, 0, 0.38);
+      line-height: 8px;
+      position: relative;
+      top: -4px;
+
+      i {
+        font-size: 22px;
+        width: 16px;
+        margin: 0 -4px 0 3px;
+        position: relative;
+        top: 3px;
+      }
+    }
+
+    .group-1 {
+      position: relative;
+      top: -3px;
+      margin-right: 22px;
+    }
+
+    .group-2 {
+      position: relative;
+      top: 4px;
+      margin-right: 22px;
+
+      .svg-icon {
+        position: relative;
+        top: 1px;
+      }
+    }
+
+    .more {
+      position: relative;
+      top: -8px;
+    }
+
     .btn-actions {
-      margin-left: 15px;
+      margin-left: 19px;
+      position: relative;
+      top: -6px;
 
       .button {
         border: 1px solid $general-border-color;
@@ -80,7 +146,8 @@
   .toolbar {
     border-bottom: 1px solid $general-border-color;
     padding: 16px 24px;
-    overflow: auto;
+    overflow: visible;
+    height: 66px;
   }
 
   .title, .metadata {
@@ -98,11 +165,20 @@
       margin: 0;
 
       span {
-        i {
+        .svg-icon {
           padding: 0;
           position: relative;
-          top: -2px;
+          top: 3px;
+          margin-left: 5px;
         }
+      }
+    }
+
+    .right-side {
+      .svg-icon {
+        padding: 0;
+        position: relative;
+        top: 2px;
       }
     }
 
@@ -154,7 +230,180 @@
     color: rgba(0, 0, 0, 0.87);
   }
 
-  div.reply {
-    padding: 15px 24px;
+  .reply {
+    position: relative;
+    border: 1px solid $general-border-color;
+    border-radius: 2px;
+    background: white;
+    margin-right: 25px;
+    margin-left: 82px;
+    margin-top: 25px;
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      position: absolute;
+      left: -60px;
+      top: 0;
+    }
+
+    form {
+      display: flex;
+      flex-flow: column;
+      height: 100%;
+    }
+
+    .inputs {
+      flex: 0;
+    }
+
+    input {
+      width: 100%;
+      display: block;
+      border: none;
+      padding: 1rem;
+    }
+
+    input:nth-of-type(2) {
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .to-wrapper {
+      border-bottom: 1px solid $general-border-color;
+      position: relative;
+
+      span {
+        position: absolute;
+        top: 8px;
+        left: 15px;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.38);
+      }
+
+      input {
+        padding: 9px 15px 9px 40px;
+      }
+    }
+
+    .subject-wrapper {
+      border-bottom: 1px solid $general-border-color;
+      position: relative;
+
+      span {
+        position: absolute;
+        top: 8px;
+        left: 15px;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.38);
+      }
+
+      input {
+        padding: 9px 15px 9px 66px;
+      }
+    }
+
+    .textarea {
+      flex: 1;
+    }
+
+    textarea {
+      padding: 1rem;
+      width: 100%;
+      height: 100%;
+      border: none;
+      resize: none;
+      font-size: 12px;
+      font-style: normal;
+    }
+
+    .footer {
+      background: #f4f4f4;
+      border-top: 1px solid $general-border-color;
+      height: 50px;
+      padding: 8px 10px 0 10px;
+      text-align: right;
+      width: 100%;
+
+      .left-side {
+        float: left;
+
+        .buttons-group {
+          margin-right: 10px;
+        }
+
+        > .button {
+          position: relative;
+          top: -3px;
+          margin-right: 10px;
+        }
+
+        .btn-submenu {
+          padding: 7px 8px;
+          font-size: 10px;
+          font-weight: bold;
+          letter-spacing: 0.5px;
+          color: rgba(0, 0, 0, 0.38);
+          line-height: 8px;
+          position: relative;
+          top: -4px;
+
+          i {
+            font-size: 22px;
+            width: 16px;
+            margin: 0 -4px 0 3px;
+            position: relative;
+            top: 3px;
+          }
+        }
+      }
+
+      .right-side {
+        float: right;
+      }
+
+      .btn-send {
+        float: right;
+        margin-left: 10px;
+      }
+
+      .btn-icon {
+        padding: 8px 5px;
+      }
+    }
+
+    .button {
+      border: 1px solid $general-border-color;
+      margin: 0;
+
+      svg-icon {
+        height: 20px;
+        width: 20px;
+        overflow: hidden;
+      }
+    }
+
+    .buttons-group {
+      display: inline-block;
+      height: 32px;
+      overflow: hidden;
+
+      .button {
+        margin-right: -4px;
+        border-radius: 0;
+
+        &:first-child {
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          margin-right: 0;
+        }
+      }
+    }
   }
 }

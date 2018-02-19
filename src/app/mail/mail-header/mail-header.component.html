@@ -1,8 +1,61 @@
 <div class="app-mail-header">
-  <div class="ui large action input">
+  <div class="ui large action input input-wrapper">
     <input type="text" placeholder="Search...">
     <button class="ui large icon button btn-small btn-blue btn-search">
       <svg-icon class="svg-icon" src="/assets/img/inbox/header/search.svg"></svg-icon>
+    </button>
+    <button class="ui large dropdown advanced-search-dropdown" suiDropdown>
+      <svg-icon class="svg-icon arrow-up" src="/assets/img/inbox/header/arrow-up.svg"></svg-icon>
+      <svg-icon class="svg-icon arrow-down" src="/assets/img/inbox/header/arrow-down.svg"></svg-icon>
+      <div class="menu" suiDropdownMenu>
+        <div class="ui labeled input">
+          <div class="ui label">
+            Keywords:
+          </div>
+          <input type="text">
+        </div>
+        <div class="ui labeled input">
+          <div class="ui label">
+            Search:
+          </div>
+          <input type="text">
+        </div>
+        <div class="ui labeled input">
+          <div class="ui label">
+            From:
+          </div>
+          <input type="text">
+        </div>
+        <div class="ui labeled input">
+          <div class="ui label">
+            To:
+          </div>
+          <input type="text">
+        </div>
+        <div class="dates">
+          <div class="start">
+            <div class="ui labeled input">
+              <div class="ui label">
+                Start date:
+              </div>
+              <input type="text">
+            </div>
+          </div>
+          <div class="end">
+            <div class="ui labeled input">
+              <div class="ui label">
+                End date:
+              </div>
+              <input type="text">
+            </div>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="sixteen wide column">
+            <button class="uppercase ui button btn-small btn-blue btn-advanced-search">Search</button>
+          </div>
+        </div>
+      </div>
     </button>
   </div>
   <div class="ui buttons right floated">

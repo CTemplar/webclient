@@ -26,6 +26,77 @@
     }
   }
 
+  .quick-nav {
+    position: fixed;
+    width: 206px;
+    right: 25px;
+    top: 78px;
+    background: white;
+    box-shadow: 0 0 13px 0 rgba(50, 50, 50, .5);
+    border-radius: 2px;
+
+    .header {
+      padding: 7px 15px;
+      color: white;
+      background: #34495e;
+      font-size: 12px;
+      font-weight: bold;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+
+      .actions {
+        float: right;
+        display: inline-block;
+        position: relative;
+        right: -11px;
+        top: 2px;
+
+        .svg-icon {
+          cursor: pointer;
+          float: right;
+          margin-left: 12px;
+          margin-right: 0;
+          color: $color-white;
+          width: 20px;
+          height: 20px;
+          overflow: hidden;
+        }
+      }
+    }
+
+    .content {
+      border-bottom-left-radius: 2px;
+      border-bottom-right-radius: 2px;
+      border: 1px solid $general-border-color;
+      border-top: none;
+      padding: 10px 15px;
+
+      ul {
+        margin: 0;
+        list-style: none;
+        padding: 0;
+
+        li {
+          a {
+            cursor: pointer;
+            font-size: 12px;
+            font-style: normal;
+            color: rgba(0, 0, 0, 0.54);
+            text-decoration: none;
+            line-height: 24px;
+          }
+
+          &.selected {
+            a {
+              font-weight: bold;
+              color: #34495e;
+            }
+          }
+        }
+      }
+    }
+  }
+
   label {
     padding-left: 25px;
     font-size: 12px;

@@ -6,8 +6,9 @@
   border-bottom: 1px solid $general-border-color;
   padding: 16px 24px;
 
-  .input {
+  .input-wrapper {
     width: 560px;
+    position: relative;
 
     .btn-search {
       width: 56px;
@@ -16,6 +17,104 @@
       svg-icon {
         position: relative;
         top: -2px;
+      }
+    }
+
+    .advanced-search-dropdown {
+      position: absolute;
+      right: 62px;
+      top: 6px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid $color-light-grey-variant;
+      background-color: $color-light-grey;
+      border-radius: 2px;
+
+      .arrow-down {
+        position: absolute;
+        left: 4px;
+        top: -1px;
+      }
+
+      .arrow-up {
+        display: none;
+        position: absolute;
+        top: -2px;
+        left: 4px;
+      }
+
+      &.active {
+        .arrow-down {
+          display: none;
+        }
+
+        .arrow-up {
+          display: block;
+        }
+      }
+
+      .menu {
+        width: 504px;
+        right: -7px;
+        left: auto;
+        top: 27px;
+        border-radius: 2px;
+        padding-top: 10px;
+        padding-bottom: 20px;
+
+        .input {
+          height: 32px;
+          margin: 10px 20px;
+
+          .label {
+            min-width: auto;
+            background-color: $inbox-btn-background-color;
+            border: 1px solid $general-border-color;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+            font-size: 10px;
+            font-weight: bold;
+            font-style: normal;
+            color: rgba(0, 0, 0, 0.38);
+            text-transform: uppercase;
+            line-height: 20px;
+          }
+        }
+
+        .dates {
+          .start, .end {
+            width: 50%;
+            display: inline-block;
+
+            .input {
+              margin-top: 0;
+              margin-bottom: 0;
+
+              .label {
+                line-height: 15px;
+              }
+            }
+
+            &.start {
+              .input {
+                margin-left: 20px;
+                width: 138px;
+              }
+            }
+
+            &.end {
+              .input {
+                width: 227px;
+                margin-left: 0;
+              }
+            }
+          }
+        }
+
+        .btn-advanced-search {
+          margin-left: 20px;
+          margin-top: 10px;
+        }
       }
     }
   }
@@ -239,7 +338,7 @@
 
               &.disabled {
                 opacity: 1;
-                
+
                 .name {
                   color: rgba(0, 0, 0, 0.54);
                 }

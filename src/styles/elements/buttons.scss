@@ -123,6 +123,7 @@
     &:hover {
       border-color: $color-light-grey-variant !important;
       position: relative;
+      z-index: 1;
     }
 
     &.active {
