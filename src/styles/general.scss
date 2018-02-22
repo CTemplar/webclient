@@ -61,6 +61,11 @@ a {
 }
 
 // SVG Icons
+.svg-icon.pricing-check {
+  path {
+    fill: rgba(0, 0, 0, 0.87);;
+  }
+}
 .app-mail-sidebar {
   .item {
     .svg-icon {

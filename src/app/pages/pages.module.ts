@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { SharedModule } from '../shared/shared.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { BlogModule } from '../blog/blog.module';
 
@@ -17,9 +18,19 @@ import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     PagesRoutingModule,
     BlogModule
   ],
-  declarations: [PagesComponent, PagesAboutComponent, PagesSecurityComponent, PagesPricingComponent, PagesOnionComponent, PagesDonateComponent, PagesPrivacyComponent, PagesMediaKitComponent, PagesTermsComponent]
+  declarations: [
+    PagesComponent,
+    PagesAboutComponent,
+    PagesSecurityComponent,
+    PagesPricingComponent,
+    PagesOnionComponent,
+    PagesDonateComponent,
+    PagesPrivacyComponent,
+    PagesMediaKitComponent,
+    PagesTermsComponent]
 })
 export class PagesModule { }
