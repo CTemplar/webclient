@@ -265,7 +265,7 @@
           <div class="featured">
             <span class="title">You have no filters yet.</span>
             <span class="description">Add a filter to perform actions such as automatically labeling or archiving.</span>
-            <span class="link"><a href="#">Add custom filter</a></span>
+            <span class="link"><a (click)="addCustomFilter()">Add custom filter</a></span>
           </div>
         </div>
       </div>
@@ -278,7 +278,7 @@
           <div class="featured">
             <span class="title">Whitelist is empty.</span>
             <span class="description">Messages from contacts in the whitelist always go to Inbox folder. Marking a message as not spam adds the address to the Whitelist.</span>
-            <span class="link"><a href="#">Add whitelist contact</a></span>
+            <span class="link"><a (click)="addWhitelistContact()">Add whitelist contact</a></span>
           </div>
         </div>
       </div>
@@ -291,7 +291,7 @@
           <div class="featured">
             <span class="title">Blacklist is empty.</span>
             <span class="description">Messages from contacts in the blacklist always go to Spam folder. Marking a message as spam adds the address to the Blacklist.</span>
-            <span class="link"><a href="#">Add blacklist contact</a></span>
+            <span class="link"><a (click)="addBlacklistContact()">Add blacklist contact</a></span>
           </div>
         </div>
       </div>
@@ -327,7 +327,7 @@
         <div class="eight wide column">
           <div class="featured">
             <span class="description">You have no saved payment methods.</span>
-            <span class="link"><a href="#">Add new method</a></span>
+            <span class="link"><a (click)="addPaymentMethod()">Add new method</a></span>
           </div>
         </div>
       </div>
@@ -369,7 +369,7 @@
         <div class="eight wide column">
           <div class="featured">
             <span class="description">Your donation helps us support more users and continue to develop CTemplar as free and open source software.</span>
-            <span class="link"><a href="#">Make a donation</a></span>
+            <span class="link"><a (click)="makeADonation()">Make a donation</a></span>
           </div>
         </div>
       </div>

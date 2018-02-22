@@ -13,8 +13,10 @@
 
     .left-side {
       float: left;
-      position: relative;
-      top: -1px;
+
+      > .button {
+        float: left;
+      }
     }
 
     .right-side {
@@ -44,6 +46,10 @@
       }
     }
 
+    .btn-refresh {
+      margin-left: 2px;
+    }
+
     .btn-submenu {
       padding: 7px 8px;
       font-size: 10px;
@@ -60,11 +66,6 @@
         position: relative;
         top: 3px;
       }
-    }
-
-    .btn-refresh {
-      position: relative;
-      top: 3px;
     }
 
     .btn-actions {
@@ -119,6 +120,39 @@
           left: -4px;
         }
       }
+    }
+  }
+
+  .no-messages {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 30px;
+
+    .icon-wrapper {
+      width: 120px;
+      height: 120px;
+      background-color: $inbox-btn-background-color;
+      border-radius: 50%;
+      margin: 0 auto;
+
+      .svg-icon {
+        position: relative;
+        top: 39px;
+        left: 5px;
+      }
+    }
+
+    p {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #757575;
+    }
+
+    a {
+      font-size: 24px;
+      font-weight: bold;
+      font-style: normal;
+      color: #35495D;
     }
   }
   

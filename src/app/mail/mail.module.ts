@@ -14,6 +14,13 @@ import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 
 import { SuiDropdownModule, SuiRatingModule } from 'ng2-semantic-ui';
 
+// Modals
+import { BlacklistComponent } from './mail-settings/modals/blacklist/blacklist.component';
+import { CustomFilterComponent } from './mail-settings/modals/custom-filter/custom-filter.component';
+import { MakeADonationComponent } from './mail-settings/modals/make-a-donation/make-a-donation.component';
+import { PaymentMethodComponent } from './mail-settings/modals/payment-method/payment-method.component';
+import { WhitelistComponent } from './mail-settings/modals/whitelist/whitelist.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,7 +37,19 @@ import { SuiDropdownModule, SuiRatingModule } from 'ng2-semantic-ui';
     MailFooterComponent,
     MailListComponent,
     MailDetailComponent,
-    MailSettingsComponent
+    MailSettingsComponent,
+    BlacklistComponent,
+    CustomFilterComponent,
+    MakeADonationComponent,
+    PaymentMethodComponent,
+    WhitelistComponent,
+  ],
+  entryComponents: [
+    BlacklistComponent,
+    CustomFilterComponent,
+    MakeADonationComponent,
+    PaymentMethodComponent,
+    WhitelistComponent,
   ]
 })
 export class MailModule {}

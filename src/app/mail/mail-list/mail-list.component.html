@@ -42,7 +42,13 @@
     </div>
   </div>
 
-  <div *ngIf="!messages.length">No messages yet notification (TODO).</div>
+  <div class="no-messages" *ngIf="!messages.length">
+    <div class="icon-wrapper">
+      <svg-icon class="svg-icon" src="/assets/img/inbox/folder.svg"></svg-icon>
+    </div>
+    <p>You have no messages yet.</p>
+    <a href="#">Write First Message</a>
+  </div>
 
   <table class="ui large table mail-list">
     <tbody>

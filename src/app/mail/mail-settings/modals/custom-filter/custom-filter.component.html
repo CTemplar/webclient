@@ -1,0 +1,79 @@
+<div class="app-mail">
+  <div class="header">Add custom filter</div>
+  <div class="content">
+    <form class="ui form">
+      <div class="ui grid">
+        <div class="four wide column">
+          <span class="label">Filter name:</span>
+        </div>
+        <div class="twelve wide column">
+          <input type="text">
+        </div>
+      </div>
+      <div class="ui grid">
+        <div class="four wide column">
+          <span class="label">Condition:</span>
+        </div>
+        <div class="twelve wide column">
+          <select class="ui fluid dropdown">
+            <option>If the subject</option>
+          </select>
+          <select class="ui fluid dropdown margin-top">
+            <option>Contains</option>
+          </select>
+          <input type="text" class="margin-top">
+        </div>
+      </div>
+      <div class="ui grid">
+        <div class="four wide column">
+          <span class="label">Actions:</span>
+        </div>
+        <div class="twelve wide column">
+          <div class="ui grid">
+            <div class="four wide column">
+              <div class="ui fitted checkbox">
+                <input type="checkbox">
+                <label>move to</label>
+              </div>
+            </div>
+            <div class="twelve wide column">
+              <select class="ui fluid dropdown">
+                <option>Inbox</option>
+              </select>
+            </div>
+          </div>
+          <div class="ui grid margin-top-none">
+            <div class="five wide column">
+              <div class="ui fitted checkbox">
+                <input type="checkbox" disabled="disabled">
+                <label>apply label</label>
+              </div>
+            </div>
+            <div class="eleven wide column">
+              <select class="ui fluid dropdown" disabled="disabled">
+                <option></option>
+              </select>
+            </div>
+          </div>
+          <div class="ui grid margin-top-none">
+            <div class="six wide column">
+              <div class="ui fitted checkbox">
+                <input type="checkbox" disabled="disabled">
+                <label>mark as read</label>
+              </div>
+            </div>
+            <div class="ten wide column">
+              <div class="ui fitted checkbox">
+                <input type="checkbox" disabled="disabled">
+                <label>mark as starred</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="footer align-right">
+    <button class="uppercase ui button btn-small btn-blue">Add Filter</button>
+  </div>
+</div>

@@ -42,4 +42,39 @@
     text-align: center;
     padding-bottom: 20px;
   }
+
+  .app-mail {
+    .header {
+      background: $color-light-grey;
+      border-bottom: 1px solid $modal-border-color;
+      font-size: 14px;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .content {
+      padding: 20px 20px 25px 20px;
+
+      .label {
+        font-size: 12px;
+        line-height: 32px;
+        color: rgba(0, 0, 0, 0.54);
+      }
+
+      input {
+        padding: 7px 15px;
+        height: 32px;
+        border-radius: 2px;
+      }
+    }
+
+    .footer {
+      background: $modal-footer-background-color;
+      padding: 15px 20px;
+
+      .button {
+        margin: 0;
+      }
+    }
+  }
 }

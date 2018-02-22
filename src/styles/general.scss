@@ -1,5 +1,6 @@
 // Links
 a {
+  cursor: pointer;
   font-size: 16px;
   font-style: italic;
   color: $color-light-blue;
@@ -46,6 +47,17 @@ a {
   b {
     font-weight: 900;
   }
+}
+
+// Alignment
+.align-left {
+  text-align: left !important;
+}
+.align-center {
+  text-align: center !important;
+}
+.align-right {
+  text-align: right !important;
 }
 
 // SVG Icons
