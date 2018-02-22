@@ -15,6 +15,8 @@ import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 import { SuiDropdownModule, SuiRatingModule } from 'ng2-semantic-ui';
 
 // Modals
+import { AddFolderComponent } from './mail-sidebar/modals/add-folder/add-folder.component';
+import { AddLabelComponent } from './mail-sidebar/modals/add-label/add-label.component';
 import { BlacklistComponent } from './mail-settings/modals/blacklist/blacklist.component';
 import { CustomFilterComponent } from './mail-settings/modals/custom-filter/custom-filter.component';
 import { MakeADonationComponent } from './mail-settings/modals/make-a-donation/make-a-donation.component';
@@ -38,6 +40,8 @@ import { WhitelistComponent } from './mail-settings/modals/whitelist/whitelist.c
     MailListComponent,
     MailDetailComponent,
     MailSettingsComponent,
+    AddFolderComponent,
+    AddLabelComponent,
     BlacklistComponent,
     CustomFilterComponent,
     MakeADonationComponent,
@@ -45,6 +49,8 @@ import { WhitelistComponent } from './mail-settings/modals/whitelist/whitelist.c
     WhitelistComponent,
   ],
   entryComponents: [
+    AddFolderComponent,
+    AddLabelComponent,
     BlacklistComponent,
     CustomFilterComponent,
     MakeADonationComponent,

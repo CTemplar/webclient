@@ -22,6 +22,7 @@ export class MailComponent implements OnDestroy, OnInit {
   message = new Message;
   composing = false;
   minimize = false;
+  maximize = false;
   mailCheck: any;
   startChecking: any;
 
