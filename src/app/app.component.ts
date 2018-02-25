@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 // Services
 import { BlogService } from './blog/shared/blog.service';
 import { MailService } from './mail/shared/mail.service';
+import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
 import { SharedService } from './shared/shared.service';
 import { UsersService } from './users/shared/users.service';
 
@@ -113,11 +114,17 @@ export class AppComponent implements OnInit {
   constructor(
     private blogService: BlogService,
     private mailService: MailService,
+    private _ngxZendeskWebwidgetService: ngxZendeskWebwidgetService,
     private router: Router,
     private route: ActivatedRoute,
     private sharedService: SharedService,
     private usersService: UsersService,
   ) {
+    // Auto-fill Zendesk contact form if logged in:
+    // _ngxZendeskWebwidgetService.identify({
+    //     name: 'Testing',
+    //     email: 'test@testing.com'
+    // });
     this.sharedService.isMail
       .subscribe(data => this.isMail = data);
     this.sharedService.isBlogReady

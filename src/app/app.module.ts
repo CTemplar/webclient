@@ -16,6 +16,7 @@ import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
 import { MailModule } from './mail/mail.module';
+import { ngxZendeskWebwidgetConfig, ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -31,6 +32,13 @@ import { UsersService } from './users/shared/users.service';
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
+  accountUrl = 'ctemplar.zendesk.com';
+  beforePageLoad(zE) {
+    zE.setLocale('en');
+    zE.show();
+  }
+}
 
 @NgModule({
   declarations: [
@@ -45,6 +53,7 @@ import { UsersService } from './users/shared/users.service';
     HomeModule,
     HttpClientModule,
     MailModule,
+    ngxZendeskWebwidgetModule.forRoot(ZendeskConfig),
     PagesModule,
     SharedModule,
     SuiModule,
