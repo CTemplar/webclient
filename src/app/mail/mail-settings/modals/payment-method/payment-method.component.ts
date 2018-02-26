@@ -13,6 +13,11 @@ export class PaymentMethodComponent {
   constructor(
     public modal: SuiModal<void>,
   ) {}
+
+  // Selects
+  paymentType = 'credit card';
+  month = '01';
+  day = '2018';
 }
 
 export class PaymentMethodModal extends ComponentModalConfig<void> {

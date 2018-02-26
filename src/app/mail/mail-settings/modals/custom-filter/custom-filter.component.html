@@ -15,12 +15,18 @@
           <span class="label">Condition:</span>
         </div>
         <div class="twelve wide column">
-          <select class="ui fluid dropdown">
-            <option>If the subject</option>
-          </select>
-          <select class="ui fluid dropdown margin-top">
-            <option>Contains</option>
-          </select>
+          <sui-select class="selection"
+                      [(ngModel)]="condition1"
+                      [ngModelOptions]="{standalone: true}"
+          >
+            <sui-select-option value="If the subject"></sui-select-option>
+          </sui-select>
+          <sui-select class="selection  margin-top"
+                      [(ngModel)]="condition2"
+                      [ngModelOptions]="{standalone: true}"
+          >
+            <sui-select-option value="Contains"></sui-select-option>
+          </sui-select>
           <input type="text" class="margin-top">
         </div>
       </div>
@@ -37,9 +43,12 @@
               </div>
             </div>
             <div class="twelve wide column">
-              <select class="ui fluid dropdown">
-                <option>Inbox</option>
-              </select>
+              <sui-select class="selection bottom-select"
+                          [(ngModel)]="moveTo"
+                          [ngModelOptions]="{standalone: true}"
+              >
+                <sui-select-option value="Inbox"></sui-select-option>
+              </sui-select>
             </div>
           </div>
           <div class="ui grid margin-top-none">
@@ -50,9 +59,9 @@
               </div>
             </div>
             <div class="eleven wide column">
-              <select class="ui fluid dropdown" disabled="disabled">
-                <option></option>
-              </select>
+              <sui-select class="selection bottom-select">
+                <sui-select-option value=""></sui-select-option>
+              </sui-select>
             </div>
           </div>
           <div class="ui grid margin-top-none">

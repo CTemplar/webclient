@@ -12,7 +12,7 @@ import { MailListComponent } from './mail-list/mail-list.component';
 import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 
-import { SuiDropdownModule, SuiRatingModule } from 'ng2-semantic-ui';
+import { SuiDropdownModule, SuiRatingModule, SuiSelectModule } from 'ng2-semantic-ui';
 
 // Modals
 import { AddFolderComponent } from './mail-sidebar/modals/add-folder/add-folder.component';
@@ -31,6 +31,7 @@ import { WhitelistComponent } from './mail-settings/modals/whitelist/whitelist.c
     MailRoutingModule,
     SuiDropdownModule,
     SuiRatingModule,
+    SuiSelectModule,
   ],
   declarations: [
     MailComponent,

@@ -35,9 +35,12 @@
           <label>Language</label>
         </div>
         <div class="five wide column">
-          <select class="ui fluid dropdown">
-            <option>English (USA)</option>
-          </select>
+          <sui-select class="selection"
+            [(ngModel)]="language"
+            [ngModelOptions]="{standalone: true}"
+            >
+            <sui-select-option value="English (USA)"></sui-select-option>
+          </sui-select>
         </div>
       </div>
       <div class="row">
@@ -45,9 +48,12 @@
           <label>Current Time Zone</label>
         </div>
         <div class="five wide column">
-          <select class="ui fluid dropdown">
-            <option>UTC+1 (Italy, Germany)</option>
-          </select>
+          <sui-select class="selection"
+                      [(ngModel)]="timeZone"
+                      [ngModelOptions]="{standalone: true}"
+          >
+            <sui-select-option value="UTC+1 (Italy, Germany)"></sui-select-option>
+          </sui-select>
         </div>
       </div>
       <div class="row">
@@ -94,7 +100,7 @@
       </div>
     </div>
 
-    <h2>Security Settings</h2>
+    <h2 id="security-settings">Security Settings</h2>
     <div class="ui grid">
       <div class="row">
         <div class="three wide column">
@@ -157,7 +163,7 @@
       </div>
     </div>
 
-    <h2>Appearance</h2>
+    <h2 id="appearance">Appearance</h2>
     <div class="ui grid">
       <div class="row">
         <div class="three wide column">
@@ -258,7 +264,7 @@
       </div>
     </div>
 
-    <h2>Filters</h2>
+    <h2 id="filters">Filters</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">
@@ -271,7 +277,7 @@
       </div>
     </div>
 
-    <h2>Whitelist</h2>
+    <h2 id="whitelist">Whitelist</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">
@@ -284,7 +290,7 @@
       </div>
     </div>
 
-    <h2>Blacklist</h2>
+    <h2 id="blacklist">Blacklist</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">
@@ -297,7 +303,7 @@
       </div>
     </div>
 
-    <h2>Multi-users</h2>
+    <h2 id="multi-users">Multi-users</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">
@@ -309,7 +315,7 @@
       </div>
     </div>
 
-    <h2>Domains</h2>
+    <h2 id="domains">Domains</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">
@@ -321,7 +327,7 @@
       </div>
     </div>
 
-    <h2>Payments</h2>
+    <h2 id="payments">Payments</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">
@@ -333,7 +339,7 @@
       </div>
     </div>
 
-    <h2>Keys</h2>
+    <h2 id="keys">Keys</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">
@@ -347,9 +353,14 @@
           <label>Email address</label>
         </div>
         <div class="five wide column">
-          <select class="ui fluid dropdown">
-            <option>johnsimpson@ctemplar.com</option>
-          </select>
+          <div class="five wide column">
+            <sui-select class="selection"
+                        [(ngModel)]="email"
+                        [ngModelOptions]="{standalone: true}"
+            >
+              <sui-select-option value="johnsimpson@ctemplar.com"></sui-select-option>
+            </sui-select>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -363,7 +374,7 @@
       </div>
     </div>
 
-    <h2>Donate</h2>
+    <h2 id="donate">Donate</h2>
     <div class="ui grid">
       <div class="row">
         <div class="eight wide column">

@@ -13,6 +13,11 @@ export class MakeADonationComponent {
   constructor(
     public modal: SuiModal<void>,
   ) {}
+
+  // Selects
+  amount = '10$';
+  month = '01';
+  day = '2018';
 }
 
 export class MakeADonationModal extends ComponentModalConfig<void> {

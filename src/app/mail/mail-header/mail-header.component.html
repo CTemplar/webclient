@@ -87,15 +87,17 @@
       <button class="ui large icon button dropdown" suiDropdown>
         <svg-icon class="svg-icon" src="/assets/img/inbox/header/gear.svg"></svg-icon>
         <div class="menu" suiDropdownMenu>
-          <div class="item" [routerLink]="['/mail', 'settings']">General</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Security</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Appearance</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Filters</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Multi-users</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Domains</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Payments</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Keys</div>
-          <div class="item" [routerLink]="['/mail', 'settings']">Donate</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" >General</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="security-settings">Security</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="appearance">Appearance</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="filters">Filters</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="whitelist">Whitelist</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="blacklist">Blacklist</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="multi-users">Multi-users</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="domains">Domains</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="payments">Payments</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="keys">Keys</div>
+          <div class="item" [routerLink]="['/mail', 'settings']" fragment="donate">Donate</div>
         </div>
       </button>
       <button class="ui large icon button dropdown user-dropdown" suiDropdown>

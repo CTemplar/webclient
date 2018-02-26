@@ -7,9 +7,12 @@
           <span class="label">Select amount:</span>
         </div>
         <div class="twelve wide column">
-          <select class="ui fluid dropdown">
-            <option>10$</option>
-          </select>
+          <sui-select class="selection"
+                      [(ngModel)]="amount"
+                      [ngModelOptions]="{standalone: true}"
+          >
+            <sui-select-option value="10$"></sui-select-option>
+          </sui-select>
         </div>
       </div>
       <div class="ui grid">
@@ -35,14 +38,20 @@
         <div class="twelve wide column">
           <div class="ui grid">
             <div class="eight wide column">
-              <select class="ui fluid dropdown">
-                <option>01</option>
-              </select>
+              <sui-select class="selection"
+                          [(ngModel)]="month"
+                          [ngModelOptions]="{standalone: true}"
+              >
+                <sui-select-option value="01"></sui-select-option>
+              </sui-select>
             </div>
             <div class="eight wide column">
-              <select class="ui fluid dropdown">
-                <option>2018</option>
-              </select>
+              <sui-select class="selection year-select"
+                          [(ngModel)]="day"
+                          [ngModelOptions]="{standalone: true}"
+              >
+                <sui-select-option value="2018"></sui-select-option>
+              </sui-select>
             </div>
           </div>
         </div>
@@ -54,7 +63,7 @@
         <div class="twelve wide column">
           <div class="ui grid">
             <div class="eight wide column">
-              <input type="text">
+              <input type="text" class="security-code">
             </div>
             <div class="eight wide column"></div>
           </div>

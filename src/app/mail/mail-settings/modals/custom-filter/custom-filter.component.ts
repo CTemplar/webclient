@@ -13,6 +13,11 @@ export class CustomFilterComponent {
   constructor(
     public modal: SuiModal<void>,
   ) {}
+
+  // Selects
+  condition1 = 'If the subject';
+  condition2 = 'Contains';
+  moveTo = 'Inbox';
 }
 
 export class CustomFilterModal extends ComponentModalConfig<void> {
