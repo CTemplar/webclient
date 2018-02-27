@@ -16,6 +16,9 @@ a {
 .main.container, .last.container {
   padding-bottom: 70px !important;
 }
+body.login-background {
+  background: url('/assets/img/pages/login/background.jpg');
+}
 
 // Typography
 .section-title {

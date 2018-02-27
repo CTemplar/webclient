@@ -6,6 +6,9 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { BlogModule } from '../blog/blog.module';
 
 import { PagesComponent } from './pages.component';
+import { PagesLoginComponent } from './pages-login/pages-login.component';
+import { PagesCreateAccountComponent } from './pages-create-account/pages-create-account.component';
+import { PagesBillingInformationComponent } from './pages-billing-information/pages-billing-information.component';
 import { PagesAboutComponent } from './pages-about/pages-about.component';
 import { PagesSecurityComponent } from './pages-security/pages-security.component';
 import { PagesPricingComponent } from './pages-pricing/pages-pricing.component';
@@ -24,6 +27,9 @@ import { PagesTermsComponent } from './pages-terms/pages-terms.component';
   ],
   declarations: [
     PagesComponent,
+    PagesLoginComponent,
+    PagesCreateAccountComponent,
+    PagesBillingInformationComponent,
     PagesAboutComponent,
     PagesSecurityComponent,
     PagesPricingComponent,
