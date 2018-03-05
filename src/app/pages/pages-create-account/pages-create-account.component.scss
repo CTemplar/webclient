@@ -4,132 +4,99 @@
   margin-bottom: 30px;
 }
 
-.heading {
-  p {
-    font-size: 20px;
-    font-weight: 300;
-    line-height: 1.4;
-    color: rgba(0, 0, 0, 0.87);
-  }
+.page.heading {
+  padding-bottom: 20px;
 }
 
-.ui.table, .ui.table.basic.striped {
-  tr {
-    td {
-      border-top: none;
-    }
+.featured-light-content {
+  border-radius: 2px;
+  padding: 20px 65px;
+  background-color: #fcfcfc;
 
-    &:nth-child(2n) {
-      background-color: $color-light-grey !important;
-    }
+  &.margin-top {
+    margin-top: 20px;
   }
 
-  &.black, &.red, &.yellow {
-    border-top: 1px solid rgba(34,36,38,.15);
-
-    tr {
-      td {
-        font-size: 16px;
-        color: rgba(0, 0, 0, 0.87);
-      }
-    }
-
-    .type {
-      font-size: 14px;
-      letter-spacing: 0.7px;
-      color: #34495e;
-    }
-
-    .price {
-      font-size: 56px;
-      font-weight: 900;
-      letter-spacing: 2.8px;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: normal;
-      padding: 0;
-    }
-
-    .period {
-      font-size: 16px;
-      font-style: italic;
-      font-stretch: normal;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    &.black {
-      .price, .period {
-        background-image: linear-gradient(232deg, #34495e, #2c3e50);
-      }
-    }
-
-    &.red {
-      .price, .period {
-        background-image: linear-gradient(232deg, #e74c3c, #c0392b);
-      }
-    }
-
-    &.yellow {
-      .price, .period {
-        background-image: linear-gradient(232deg, #f1c40f, #f39c12);
-      }
-    }
-  }
-
-  &.left-table {
+  p {
+    text-align: left;
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.54);
-    margin-top: 17px;
-
-    tr {
-      td {
-        line-height: 21px;
-      }
-    }
+    color: #848484;
   }
 }
 
-.table:not(.align-left) {
-  text-align: center;
+.ui.input input {
+  padding: 14px 15px;
 }
 
-.price, .uppercase:not(button) {
-  font-weight: bold;
+.number-wrapper {
+  position: relative;
+
+  .number {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    background: #fafafa;
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 4px 7px 0 rgba(6, 0, 68, 0.15);
+    display: block;
+    height: 32px;
+    width: 32px;
+    padding: 6px 11px;
+    top: 23px;
+    left: -31px;
+  }
 }
 
-.price {
-  font-size: 3rem;
+h2 {
+  font-size: 24px;
+  font-weight: 900;
+  color: #212121;
+}
+
+.description {
+  font-size: 14px;
+  color: #757575;
+  margin-top: -10px;
+}
+
+.ui.large.wide {
+  width: 100%;
+}
+
+.at {
+  font-size: 24px;
+  font-style: italic;
+  color: #000;
+  position: relative;
+  top: 12px;
+  left: -5px;
+}
+
+.red {
+  color: #CE0B24;
+}
+
+.info-1 {
+  font-size: 12px;
   display: block;
-  padding: 2rem 0 1rem;
-}
+  color: #808080;
+  margin-top: -10px;
+  margin-bottom: -10px;
 
-span.red {
-  color: #db2828;
-}
-
-span.yellow {
-  color: #fbbd08;
-}
-
-.padded {
-  height: calc(0.2em + 121px);
-}
-
-button {
-  margin: 1rem 0 !important;
-}
-
-.plan {
-  p {
-  font-size: 1.42857rem;
-  line-height: 2rem;
+  a {
+    font-size: 12px;
+    font-style: normal;
   }
-  h1 {
-    margin-bottom: 5rem;
+}
+
+.info-2 {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 50px;
+
+  a {
+    font-size: 16px;
+    font-style: normal;
   }
 }

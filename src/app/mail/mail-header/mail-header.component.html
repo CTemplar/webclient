@@ -4,7 +4,7 @@
     <button class="ui large icon button btn-small btn-blue btn-search">
       <svg-icon class="svg-icon" src="/assets/img/inbox/header/search.svg"></svg-icon>
     </button>
-    <button class="ui large dropdown advanced-search-dropdown" suiDropdown>
+    <!--<button class="ui large dropdown advanced-search-dropdown" suiDropdown>
       <svg-icon class="svg-icon arrow-up" src="/assets/img/inbox/header/arrow-up.svg"></svg-icon>
       <svg-icon class="svg-icon arrow-down" src="/assets/img/inbox/header/arrow-down.svg"></svg-icon>
       <div class="menu" suiDropdownMenu>
@@ -56,14 +56,14 @@
           </div>
         </div>
       </div>
-    </button>
+    </button>-->
   </div>
   <div class="ui buttons right floated">
     <button class="ui large icon button left">
       <svg-icon class="svg-icon" src="/assets/img/inbox/header/apps.svg"></svg-icon>
     </button>
     <div class="buttons-group">
-      <button class="ui large icon button dropdown notifications-dropdown" suiDropdown>
+      <!--<button class="ui large icon button dropdown notifications-dropdown" suiDropdown>
         <svg-icon class="svg-icon" src="/assets/img/inbox/header/bell.svg"></svg-icon>
         <span class="badge red">4</span>
         <div class="menu" suiDropdownMenu>
@@ -83,8 +83,11 @@
             <p><a href="#">All notifications (43)</a></p>
           </div>
         </div>
+      </button>-->
+      <button class="ui large icon button" [routerLink]="['/mail', 'settings']">
+        <svg-icon class="svg-icon" src="/assets/img/inbox/header/gear.svg"></svg-icon>
       </button>
-      <button class="ui large icon button dropdown" suiDropdown>
+      <!--<button class="ui large icon button dropdown" suiDropdown>
         <svg-icon class="svg-icon" src="/assets/img/inbox/header/gear.svg"></svg-icon>
         <div class="menu" suiDropdownMenu>
           <div class="item" [routerLink]="['/mail', 'settings']" >General</div>
@@ -99,8 +102,11 @@
           <div class="item" [routerLink]="['/mail', 'settings']" fragment="keys">Keys</div>
           <div class="item" [routerLink]="['/mail', 'settings']" fragment="donate">Donate</div>
         </div>
+      </button>-->
+      <button class="ui large icon button sign-out-button" (click)="usersService.signOut()">
+        <svg-icon class="svg-icon" src="/assets/img/inbox/header/user.svg"></svg-icon>
       </button>
-      <button class="ui large icon button dropdown user-dropdown" suiDropdown>
+      <!--<button class="ui large icon button dropdown user-dropdown" suiDropdown>
         <svg-icon class="svg-icon" src="/assets/img/inbox/header/user.svg"></svg-icon>
         <span class="badge blue">F</span>
         <div class="menu" suiDropdownMenu>
@@ -137,7 +143,7 @@
             <p><a href="#">Add Account</a></p>
           </div>
         </div>
-      </button>
+      </button>-->
     </div>
   </div>
 </div>

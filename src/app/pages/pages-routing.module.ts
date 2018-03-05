@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { PagesLoginComponent } from './pages-login/pages-login.component';
 import { PagesCreateAccountComponent } from './pages-create-account/pages-create-account.component';
 import { PagesBillingInformationComponent } from './pages-billing-information/pages-billing-information.component';
+import { PagesAccountTypeComponent } from './pages-account-type/pages-account-type.component';
 import { PagesAboutComponent } from './pages-about/pages-about.component';
 import { PagesDonateComponent } from './pages-donate/pages-donate.component';
 import { PagesMediaKitComponent } from './pages-media-kit/pages-media-kit.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: "login", component: PagesLoginComponent },
   { path: "create-account", component: PagesCreateAccountComponent },
   { path: "billing-information", component: PagesBillingInformationComponent },
+  { path: "account-type", component: PagesAccountTypeComponent },
   { path: "about", component: PagesAboutComponent },
   { path: "donate", component: PagesDonateComponent },
   { path: "media-kit", component: PagesMediaKitComponent },

@@ -9,17 +9,12 @@ import { UsersService } from '../../users/shared/users.service';
 
 
 @Component({
-  selector: 'app-pages-billing-information',
-  templateUrl: './pages-billing-information.component.html',
-  styleUrls: ['./pages-billing-information.component.scss']
+  selector: 'app-pages-account-type',
+  templateUrl: './pages-account-type.component.html',
+  styleUrls: ['./pages-account-type.component.scss']
 })
-export class PagesBillingInformationComponent {
+export class PagesAccountTypeComponent {
   constructor(
     public usersService: UsersService,
   ) {}
-
-  paymentMethod = 'Stripe';
-  country = 'Country';
-  date = 'Date';
-  year = 'Year';
 }

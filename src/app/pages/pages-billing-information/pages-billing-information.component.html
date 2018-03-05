@@ -5,4 +5,120 @@
       <h1 class="section-title">Billing information</h1>
     </div>
   </div>
+
+  <div class="ui two column centered grid">
+    <div class="row">
+      <div class="column">
+        <h2 class="first-title">Overview</h2>
+
+        <div class="overview-detail-row">
+          <span class="label">Plan</span> Ctemplar PLUS
+        </div>
+        <div class="overview-detail-row">
+          <span class="label">Billing</span> Annually
+        </div>
+        <div class="overview-detail-row">
+          <span class="label">Price</span> 48.00 €  <span class="light">(4.00€/month)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <div class="ui grid">
+          <div class="four wide column padding-right-none">
+            <span class="label-alone">Payment Method:</span>
+          </div>
+          <div class="twelve wide column align-center">
+            <sui-select class="selection site"
+                        [(ngModel)]="paymentMethod"
+                        [ngModelOptions]="{standalone: true}"
+            >
+              <sui-select-option value="Stripe"></sui-select-option>
+            </sui-select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <h2>Password</h2>
+
+        <div class="ui grid">
+          <div class="sixteen wide column">
+            <div class="ui large wide input">
+              <input type="text" value="John">
+            </div>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="sixteen wide column">
+            <div class="ui large wide input">
+              <input type="text" placeholder="Card Number">
+            </div>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three column row">
+            <div class="column">
+              <sui-select class="selection site"
+                          [(ngModel)]="date"
+                          [ngModelOptions]="{standalone: true}"
+              >
+                <sui-select-option value="Date"></sui-select-option>
+              </sui-select>
+            </div>
+            <div class="column">
+              <sui-select class="selection site"
+                          [(ngModel)]="year"
+                          [ngModelOptions]="{standalone: true}"
+              >
+                <sui-select-option value="Year"></sui-select-option>
+              </sui-select>
+            </div>
+            <div class="column">
+              <div class="ui large wide input">
+                <input type="text" placeholder="Security Code">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="eight wide column">
+            <div class="ui large wide input">
+              <input type="text" placeholder="Zip / Postal Code">
+            </div>
+          </div>
+          <div class="eight wide column">
+            <sui-select class="selection site"
+                        [(ngModel)]="country"
+                        [ngModelOptions]="{standalone: true}"
+            >
+              <sui-select-option value="Country"></sui-select-option>
+            </sui-select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <h2>Promo Code</h2>
+
+        <div class="ui action input promo-code-wrapper">
+          <input class="ui large input" type="text" placeholder="Type Your Code">
+          <button class="ui button uppercase">Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="uppercase ui button btn-blue">Submit</button>
+    </div>
+
+    <div class="row">
+      <p class="cancel-link"><a href="#">Cancel</a></p>
+    </div>
+  </div>
 </div>

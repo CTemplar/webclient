@@ -1,0 +1,178 @@
+@import '../../../styles/variables';
+
+.card {
+  border-radius: 4px;
+  background-color: #fafafa;
+
+  &.highlighted {
+    box-shadow: 0 5px 30px 4px rgba(1, 70, 109, 0.11);
+    position: relative;
+    top: -20px;
+    background-color: $color-white;
+  }
+
+  .header {
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    h2 {
+      font-size: 32px;
+      font-weight: bold;
+      color: $color-white;
+      margin: 0;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      font-weight: bold;
+      color: $color-white;
+    }
+  }
+
+  &.yellow {
+    .header {
+      background-image: linear-gradient(193deg, #e89e09, #f1bc0f);
+    }
+  }
+
+  &.red {
+    .header {
+      background-image: linear-gradient(193deg, #c0392b, #e74c3c);
+    }
+  }
+
+  .content {
+    padding: 20px;
+
+    .items-list {
+      list-style: none;
+      margin: 0;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 8px 0;
+
+      li {
+        position: relative;
+        font-size: 16px;
+        color: #000;
+        padding: 7px 10px;
+
+        &.cross {
+          text-decoration: line-through;
+        }
+
+        img {
+          margin-right: 10px;
+          position: relative;
+        }
+
+        .info {
+          position: absolute;
+          top: 7px;
+          right: 0;
+          width: 20px;
+          height: 20px;
+          border: solid 1px #3c71a4;
+          border-radius: 50%;
+          color: #3c71a4;
+          font-size: 14px;
+          font-weight: bold;
+          padding: 0 7px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .section {
+      position: relative;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 20px 0;
+
+      .info {
+        position: absolute;
+        top: 25px;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        border: solid 1px #3c71a4;
+        border-radius: 50%;
+        color: #3c71a4;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 0 7px;
+        cursor: pointer;
+      }
+
+      .free {
+        font-size: 32px;
+        font-weight: 300;
+        margin: 10px 0;
+        color: #8d8d8d;
+        display: inline-block;
+        line-height: normal;
+      }
+    }
+
+    .cta-wrapper {
+      padding: 25px 0 10px 0;
+    }
+
+    .pay-type-wrapper {
+      label {
+        font-size: 16px;
+        color: #7c7c7c;
+      }
+
+      input[type="radio"]:checked+label {
+        color: #000;
+      }
+
+      .badge {
+        border-radius: 4px;
+        border: 1px solid #CE0B24;
+        padding: 3px 5px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #CE0B24;
+        margin-left: 10px;
+      }
+
+      .ui.radio.checkbox {
+        width: 100%;
+        position: relative;
+        margin-bottom: 10px;
+
+        .price {
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 16px;
+          font-weight: 300;
+          color: #707070;
+
+          span {
+            font-size: 18px;
+            font-weight: 900;
+            color: #34475B;
+          }
+
+          &.with-text {
+            top: -5px;
+          }
+        }
+
+        .info-text {
+          font-size: 9px;
+          text-transform: uppercase;
+          color: #707070;
+          position: absolute;
+          right: 0;
+          top: 15px;
+        }
+      }
+    }
+  }
+}

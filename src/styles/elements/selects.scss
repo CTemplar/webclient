@@ -50,4 +50,15 @@
       background: $color-white;
     }
   }
+
+  &.site {
+    .icon {
+      top: 15px !important;
+    }
+
+    .text {
+      font-size: 16px !important;
+      font-style: italic !important;
+    }
+  }
 }

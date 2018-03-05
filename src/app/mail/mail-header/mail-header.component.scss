@@ -351,6 +351,10 @@
           }
         }
 
+        &.sign-out-button {
+          top: -4px !important;
+        }
+
         &:first-child {
           border-top-left-radius: 2px;
           border-bottom-left-radius: 2px;
