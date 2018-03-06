@@ -1,6 +1,6 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { ActivatedRoute, Router, Event, NavigationStart } from '@angular/router';
 
 // Semantic UI
 import { UsersService } from '../../users/shared/users.service';

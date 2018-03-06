@@ -1,6 +1,6 @@
 // Angular
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, Event, NavigationStart } from '@angular/router';
 
 // Modals
 import { SignInModal } from '../shared/modals/signin/signin.component';
@@ -23,10 +23,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     public modalService: SuiModalService,
     public usersService: UsersService,
-    public router: Router
-  ) {}
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    router.events.subscribe( (event: Event) => {
+      if (event instanceof NavigationStart) {
+        this.mobileMenuOpen = false;
+      }
+    });
+  }
 
   hasScroll = false;
+  mobileMenuOpen = false;
 
   signIn() {
     this.modalService.open(new SignInModal());
@@ -48,5 +56,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.router.url === '/') {
       this.hasScroll = window.scrollY > 100;
     }
+  }
+
+  openMobileNav() {
+    this.mobileMenuOpen = true;
+  }
+
+  closeMobileNav() {
+    this.mobileMenuOpen = false;
   }
 }
