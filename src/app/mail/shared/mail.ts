@@ -6,6 +6,7 @@ export class Message {
   to_header: string;
   body: string;
   text: string;
+  html: string;
   processed: string;
   read: boolean;
   secure: boolean;

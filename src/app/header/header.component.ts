@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public modalService: SuiModalService,
     public usersService: UsersService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
