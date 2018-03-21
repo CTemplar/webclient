@@ -1,5 +1,6 @@
 # NodeJS
 node_modules
+slices/node_modules
 
 # System Files
 .DS_Store
@@ -21,3 +22,6 @@ testem.log
 # e2e
 /e2e/*.js
 /e2e/*.map
+
+# slices > resources
+slices/resources

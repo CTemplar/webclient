@@ -1,0 +1,27 @@
+{
+  "name": "ctemplar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "autoprefixer": "postcss -u autoprefixer -r assets/css/style.css",
+    "scss": "node-sass --source-map true --output-style compressed -o assets/css scss",
+    "watch:scss": "node-sass -w scss --source-map true --output-style compressed -o assets/css scss",
+    "serve": "browser-sync start --proxy \"http://local.abob.com/ctemplar/slices\" --files \"assets/css/*.css\"",
+    "build:all": "npm run scss && npm run autoprefixer",
+    "watch:all": "parallelshell \"npm run serve\" \"npm run watch:scss\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^7.1.6",
+    "browser-sync": "^2.23.6",
+    "node-sass": "^4.7.2",
+    "parallelshell": "^3.0.2",
+    "postcss-cli": "^5.0.0"
+  },
+  "browserslist": [
+    "defaults",
+    "last 8 iOS versions"
+  ]
+}

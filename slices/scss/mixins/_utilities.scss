@@ -1,0 +1,52 @@
+/*
+** @partial: _utilities.scss
+*/
+
+/* Build mixin for form element's placeholders */
+@mixin placeholder($selector, $color, $font-size, $font-family, $case) {
+  #{$selector}::-webkit-input-placeholder {
+    color: $color;
+    font-size: $font-size;
+    font-family: $font-family;
+    text-transform: $case;
+  }
+  #{$selector}::-moz-placeholder {
+    color: $color;
+    font-size: $font-size;
+    font-family: $font-family;
+    text-transform: $case;
+  }
+  #{$selector}:-ms-input-placeholder {
+    color: $color;
+    font-size: $font-size;
+    font-family: $font-family;
+    text-transform: $case;
+  }
+  #{$selector}:-moz-placeholder {
+    color: $color;
+    font-size: $font-size;
+    font-family: $font-family;
+    text-transform: $case;
+  }
+}
+
+/* Make mixin for background image properties */
+@mixin make-bkg-image($repeat: no-repeat, $position: center center, $size: cover) {
+  background: {
+    repeat: $repeat;
+    position: $position;
+    size: $size;
+  };
+  @content;
+}
+
+/* Build mixin for selection feature */
+$prefixes: ("-moz-", "");
+@mixin selection($bkg: $brand-primary, $color: $brand-white) {
+  @each $prefix in $prefixes {
+    ::#{$prefix}selection {
+      background: $bkg;
+      color: $color;
+    }
+  }
+}

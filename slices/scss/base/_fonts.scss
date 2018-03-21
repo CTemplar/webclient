@@ -1,0 +1,69 @@
+/**
+* @partial: _fonts.scss :: Custom fonts
+*/
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('#{$fonts}/webfonts/Roboto-Regular.eot');
+    src: url('#{$fonts}/webfonts/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+        url('#{$fonts}/webfonts/Roboto-Regular.woff') format('woff'),
+        url('#{$fonts}/webfonts/Roboto-Regular.ttf') format('truetype'),
+        url('#{$fonts}/webfonts/Roboto-Regular.svg#Roboto-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('#{$fonts}/webfonts/Lato-Bold.eot');
+    src: url('#{$fonts}/webfonts/Lato-Bold.eot?#iefix') format('embedded-opentype'),
+        url('#{$fonts}/webfonts/Lato-Bold.woff') format('woff'),
+        url('#{$fonts}/webfonts/Lato-Bold.ttf') format('truetype'),
+        url('#{$fonts}/webfonts/Lato-Bold.svg#Lato-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('#{$fonts}/webfonts/Lato-Regular.eot');
+    src: url('#{$fonts}/webfonts/Lato-Regular.eot?#iefix') format('embedded-opentype'),
+        url('#{$fonts}/webfonts/Lato-Regular.woff') format('woff'),
+        url('#{$fonts}/webfonts/Lato-Regular.ttf') format('truetype'),
+        url('#{$fonts}/webfonts/Lato-Regular.svg#Lato-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('#{$fonts}/webfonts/Lato-Light.eot');
+    src: url('#{$fonts}/webfonts/Lato-Light.eot?#iefix') format('embedded-opentype'),
+        url('#{$fonts}/webfonts/Lato-Light.woff') format('woff'),
+        url('#{$fonts}/webfonts/Lato-Light.ttf') format('truetype'),
+        url('#{$fonts}/webfonts/Lato-Light.svg#Lato-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('#{$fonts}/webfonts/Lato-Italic.eot');
+    src: url('#{$fonts}/webfonts/Lato-Italic.eot?#iefix') format('embedded-opentype'),
+        url('#{$fonts}/webfonts/Lato-Italic.woff') format('woff'),
+        url('#{$fonts}/webfonts/Lato-Italic.ttf') format('truetype'),
+        url('#{$fonts}/webfonts/Lato-Italic.svg#Lato-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('#{$fonts}/webfonts/Roboto-Bold.eot');
+    src: url('#{$fonts}/webfonts/Roboto-Bold.eot?#iefix') format('embedded-opentype'),
+        url('#{$fonts}/webfonts/Roboto-Bold.woff') format('woff'),
+        url('#{$fonts}/webfonts/Roboto-Bold.ttf') format('truetype'),
+        url('#{$fonts}/webfonts/Roboto-Bold.svg#Roboto-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}

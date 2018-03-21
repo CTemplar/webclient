@@ -1,0 +1,125 @@
+/**
+* @partial : _variables.scss
+*/
+
+/** 
+* ==============================================================================
+*     Defining custom variables to be used throughout the project
+* ==============================================================================
+*/
+
+// == DEFINING PATH REALTED VARIABLES TO ACCESS THE RESOURCES
+$assets:                "assets/";
+$images:                "../images/";
+$content:               "../../contents/";
+$fonts:                 "../fonts/";
+
+// == Z-INDEX MASTER LIST
+
+$zindex-neg:              -1;
+$zindex-zero:              0;
+$zindex-default:           1;
+$zindex-high:              2;
+$zindex-top:               1000;
+
+/** 
+* ==============================================================================
+*     Overriding bootstrap's varaibles with own brand's variables
+* ==============================================================================
+*/
+
+//== Colors
+//
+//## Brand colors for use across Bootstrap.
+
+$brand-primary:			    #e74c3c;
+$brand-secondary:		    #c0392b;
+$brand-success:			    #3498db;
+$brand-info:			      #f1c40f;
+$brand-warning:			    #f39c12;
+$brand-danger:			    #e62739;
+$brand-white:			      #ffffff;
+$brand-black:			      #212121;
+$brand-gray:			      rgba(0, 0, 0, 0.54);
+$brand-light-gray:      rgba(0, 0, 0, 0.38);
+$brand-blue:            #3498db;
+$menu-link:             rgba(255, 255, 255, 0.7);
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+$body-bg:               $brand-white;
+$body-color:            $brand-black;
+//** Global text color on `<body>`.
+$text-color:            $brand-black;
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:  		 "Lato", Helvetica, Arial, sans-serif;
+$font-family-sans-serif-std:  	 "Roboto", Helvetica, Arial, sans-serif;
+$font-family-base-medium:		 "Lato", Helvetica, Arial, sans-serif;
+$font-family-base:        		 $font-family-sans-serif;
+$font-family-std-base:        	 $font-family-sans-serif-std;
+
+// $font-size-base:          		16px;
+
+//** Unit-less `line-height` for use in components like buttons.
+// $line-height-base:        1.25; // 20/14
+
+$font-weight-normal: 			normal;
+$font-weight-bold:				bold;
+
+//** Headings small color
+$headings-small-color:     $brand-gray;
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+// $small-font-size:		86.6025%;
+$font-size-h1: 			      3.125rem;
+$font-size-h2: 			      1.875rem;
+$font-size-h3: 			      1.5rem;
+$font-size-h4: 			      1.25rem;
+$font-size-h5: 			      1.125rem;
+$font-size-h6: 			      0.875rem;
+
+$headings-line-height:   1.15;
+
+$line-height-base: 1.75;
+
+//** Global textual link color.
+$link-color:            	$brand-blue;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      	darken($link-color, 15%);
+//** Link hover decoration.
+$link-hover-decoration: 	none;
+
+//** Text muted color
+$text-muted:              $brand-gray;
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+	xs: 0,
+	sm: 768px,
+	md: 1024px,
+	lg: 1200px,
+	xl: 1440px
+);
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-xs-max-width: 1170px;
+
+$container-max-widths: (
+	xs: $container-xs-max-width,
+);
