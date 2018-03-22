@@ -33,9 +33,9 @@
 /* Make mixin for background image properties */
 @mixin make-bkg-image($repeat: no-repeat, $position: center center, $size: cover) {
   background: {
-    repeat: $repeat;
-    position: $position;
-    size: $size;
+    repeat: $repeat !important;
+    position: $position !important;
+    size: $size !important;
   };
   @content;
 }
@@ -49,4 +49,24 @@ $prefixes: ("-moz-", "");
       color: $color;
     }
   }
+}
+
+// == Mixin to make font families
+@mixin make_font_families($list, $val) {
+	// Counter initializes to 1
+	$i: 1;
+
+	// Looping each item through each loop
+	@each $l in $list {
+		// Catch each item in list passed as first argument
+		.ff-#{$l} {
+			font-family: nth($val, $i);
+		}
+
+		// Incrementing counter
+		$i: $i + 1;
+
+		// Below line of statement allows to append code later where the mixin is executed
+		@content;
+	} 
 }

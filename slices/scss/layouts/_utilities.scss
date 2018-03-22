@@ -50,3 +50,8 @@
 		background: transparentize($brand-black, 0.5);
 	}
 }
+
+// == Has background cover
+.has-cover {
+	@include make-bkg-image();
+}

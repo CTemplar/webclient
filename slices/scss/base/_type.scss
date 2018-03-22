@@ -3,3 +3,30 @@
 */
 
 // == Typograhy styles
+
+// == Typo families mixins
+$ff_list: lato, roboto;
+$ff_val: $font-family-lato, $font-family-roboto;
+
+@include make_font_families($ff_list, $ff_val);
+
+// == Para
+p, .para, address, blockquote {
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// == Headings
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    
+}
+
+h1, .h1 {
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+}
+
+h3, .h3 {
+    font-size: 1rem;
+}

@@ -39,8 +39,8 @@ var $footer = $('#colophon');
 	d.documentElement.setAttribute("data-useragent",  navigator.userAgent);
 	d.documentElement.setAttribute("data-platform", navigator.platform );
 
-	/*
-	** Add heloper class on DOM element on window resize
+	/**
+	* Add heloper class on DOM element on window resize
 	*/
 	function activateResizeHandler() {	    
 	    var resizeClass = 'resize-active',
@@ -84,6 +84,16 @@ var $footer = $('#colophon');
 	}
 
 	w.placeholderEffect($('.form-control'));
+
+	/**
+	* Mobile menu
+	*/
+	$('.navbar-toggler').on('click', function(e) {
+		$(this).toggleClass('opened');
+		$('body').toggleClass('menu-opened');
+		$('.' + $(this).attr('data-target')).toggleClass('shown');
+		e.preventDefault();
+	});
 
 	/**
 	*  == Actions on window resize 

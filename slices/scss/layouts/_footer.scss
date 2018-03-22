@@ -1,3 +1,68 @@
 /**
 * Header scss file which includes style rules related to header
 */
+
+.site-footer {
+    padding: 2rem calc(2rem - 0.938rem);
+    color: $menu-link;
+    font-size: 0.875rem;
+
+    address {
+        @include media("<=sm") {
+            br {
+                display: none;
+            }
+        }
+    }
+}
+
+.footer-col:not(:last-of-type) {
+    margin-bottom: 1.875rem;
+}
+
+.footer-widget {
+    &-title {
+        margin-bottom: 0.75rem;
+        color: $brand-white;
+        font-size: 1.125rem;
+    }
+}
+
+.lists {
+    margin: 0 0;
+    padding: 0 0;
+    list-style: none;
+
+    >li:not(:last-of-type) {
+        margin-bottom: 0.5rem;
+    }
+
+    >li>a {
+        display: inline-block;
+        color: $menu-link;
+        vertical-align: top;
+
+        &:hover {
+            color: $brand-white;
+        }
+    }
+}
+
+.lists-arrow {
+    >li>a {
+        position: relative;
+        padding-left: 1.25rem;
+
+        &::before {
+            position: absolute;
+            top: 0.5rem;
+            left: 0;
+            content: "";
+            border-style: solid;
+            border-width: .0938rem .0938rem 0 0;
+            width: 0.35rem;
+            height: 0.35rem;
+            transform: rotate(45deg);
+        }
+    }
+}

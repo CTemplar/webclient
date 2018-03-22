@@ -1,3 +1,35 @@
 /**
 * Hero banner scss file which includes hero baner style rules
 */
+
+// == Home page hero style
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // background: linear-gradient(#34495e,rgba(44,62,80,.1));
+}
+
+.hero-home {
+    min-height: 25rem;
+    // min-height: 41.875rem;
+}
+
+.hero-content {    
+    padding-left: 15px;
+    padding-right: 15px;
+    max-width: 340px;
+    //max-width: 775px;
+}
+
+.hero-title {
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 15px;
+    max-width: 300px;
+}
+
+.hero .btn {
+    margin-top: 0.875rem;
+}

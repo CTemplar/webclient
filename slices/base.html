@@ -10,6 +10,10 @@
         <link rel="apple-touch-icon" href="icon.png">
         <!-- Place favicon.ico in the root directory -->
 
+		<!-- Font Awesome library -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
+
+		<!-- Main style sheet -->
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body class="home front-template">
@@ -18,8 +22,57 @@
     	<div class="app-outer">
 
     		<!-- REUSABLE COMPONENT :: HEADER -->
-    		<header id="mastHead" class="topnavbar is-sticky" role="ribbon">
+    		<header id="mastHead" class="topnavbar is-sticky fixed-top" role="ribbon">
     			<div class="container">
+					<nav class="navbar navbar-expand-lg" role="navigation">
+						<div class="row align-items-center">
+							<div class="col navbar-col navbar-brand-col">
+								<figure class="navbar-brand-holder">
+									<a class="navbar-brand ff-roboto text-uppercase" href="">
+										<img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
+										<strong>ctemplar</strong>
+									</a>
+								</figure>
+							</div>
+
+							<div class="col navbar-col navbar-menu-col">
+								<button class="navbar-toggler hidden-md-up" role="button" data-target="navbar-collapsable-content" aria-controls="ctemplarMenuContent"  aria-label="Toggle navigation">
+									<span class="navbar-toggler-icon"></span>
+									<span class="navbar-toggler-icon"></span>
+									<span class="navbar-toggler-icon"></span>
+									<span class="navbar-toggler-icon"></span>
+									Menu
+								</button>
+
+								<div class="navbar-collapsable-content">
+									<ul class="navbar-nav p-0 m-0 list-style-none">
+										<li class="nav-item active"><a href="" class="nav-link">Home <span class="sr-only">(current)</span></a></li>
+										<li class="nav-item"><a href="" class="nav-link">About</a></li>
+										<li class="nav-item"><a href="" class="nav-link">Security</a></li>
+										<li class="nav-item"><a href="" class="nav-link">Pricing</a></li>
+										<li class="nav-item"><a href="" class="nav-link">Blog</a></li>
+										<li class="nav-item"><a href="" class="nav-link">Support</a></li>
+										<li class="nav-item hidden-md-up"><a href="" class="nav-link nav-action-link">Login</a></li>
+										<li class="nav-item hidden-md-up"><a href="" class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn">Sign up</a></li>
+									</ul>
+								</div>
+
+								<ul class="user-actions-list p-0 m-0 list-style-none">
+									<li class="user-actions-item hidden-sm-down"><a href="" class="user-actions-link">Login</a></li>
+									<li class="user-actions-item hidden-sm-down"><a href="" class="user-actions-link btn btn-sm btn-gradient-primary signup-btn">Sign Up</a></li>
+									<li class="user-actions-item lang-selector">
+										<div class="dropdown lang-selector-dropdown">
+											<button class="dropdown-toggle" type="button" id="langDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe hidden-sm-down"></i>En</button>
+											<div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="langDropdownMenuButton">
+												<a class="dropdown-item" href="">Ru</a>
+												<a class="dropdown-item" href="">Es</a>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
     			</div>
     		</header><!-- /.REUSABLE COMPONENT :: HEADER ENDS -->
 
@@ -27,24 +80,87 @@
     		<main id="main" role="main">
     			<div class="content">
 
-    				<div class="container">
-    					<div class="px-5 py-5 text-center">
-    						<figure class="mb-3">
-    							<a href=""><img alt="Site Logo" class="img" src="assets/images/logo.svg" /></a>
-    						</figure>
-    						<h1 class="text-primary text-uppercase">Ctemplar, coming soon!</h1>
-    					</div>
-    				</div>
-
-    				<!-- HERO BANNER -->
-    				<!-- /.HERO BANNER ENDS -->
+					<!-- HERO BANNER -->
+					<section class="hero hero-home has-cover text-center" style="background-image: url(contents/home/index-banner.png);">
+						<div class="hero-content text-white">
+							<h1 class="hero-title"><strong>Take Back Your Liberty</strong> with Encrypted Communication</h1>
+							<h3 class="hero-subtitle">Send unbreakable emails and protect your key professional and personal details trough next-gen encryption</h3>
+							<a href="" class="btn btn-gradient-primary">Sign up for free</a>
+						</div>
+					</section><!-- /.HERO BANNER ENDS -->
 
     			</div><!-- /.App content ends -->
     		</main><!-- /.App main content body ends -->
 
     		<!-- REUSABLE COMPONENT :: FOOTER -->
-    		<footer id="colphon" class="footer" role="contetinfo">
-    			
+    		<footer id="colphon" class="site-footer bg-inverse" role="contetinfo">
+    			<div class="container">
+					<div class="row footer-widgets">
+						<div class="col-6 footer-col footer-col-5">
+							<div class="footer-widget">
+								<h4 class="footer-widget-title">CTemplar</h4>
+								<div class="footer-widget-body">
+									<ul class="lists lists-arrow">
+										<li><a href="">Security</a></li>
+										<li><a href="">Pricing</a></li>
+										<li><a href="">Media Kit</a></li>
+										<li><a href="">Onioon site</a></li>
+										<li><a href="">Support</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 footer-col footer-col-5">
+							<div class="footer-widget">
+								<h4 class="footer-widget-title">Compay</h4>
+								<div class="footer-widget-body">
+									<ul class="lists lists-arrow">
+										<li><a href="">About</a></li>
+										<li><a href="">Blog</a></li>
+										<li><a href="">Team</a></li>
+										<li><a href="">Careers</a></li>
+										<li><a href="">Donate</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 footer-col footer-col-5">
+							<div class="footer-widget">
+								<h4 class="footer-widget-title">Social</h4>
+								<div class="footer-widget-body">
+									<ul class="lists lists-arrow">
+										<li><a href="">Facebook</a></li>
+										<li><a href="">Twitter</a></li>
+										<li><a href="">Google+</a></li>
+										<li><a href="">Linkedin</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 footer-col footer-col-5">
+							<div class="footer-widget">
+								<h4 class="footer-widget-title">Legal</h4>
+								<div class="footer-widget-body">
+									<ul class="lists lists-arrow">
+										<li><a href="">Privacy Policy</a></li>
+										<li><a href="">Terms &amp; Conditions</a></li>
+										<li><a href="">Transparency Report</a></li>
+										<li><a href="">Report Abuse</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 footer-col footer-col-5">
+							<div class="footer-widget">
+								<h4 class="footer-widget-title">Our Address</h4>
+								<div class="footer-widget-body">
+									<address> Orange Project ehf <br/> Armula 4 &amp; 6 <br/> Reykjavík, <br/> 108 <br/> Iceland
+									</address>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
     		</footer><!-- /.REUSABLE COMPONENT :: FOOTER ENDS -->
 
     	</div><!-- /.App starts ends -->

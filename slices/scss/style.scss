@@ -7,15 +7,8 @@
 */
 @import "config/include-media-config";
 
-/**
-* IMPORTING PARTIALS FROM BASE DIRECTORY
-*/
-
 // == variables partials from base directory before everything to override varaibles with !default flags inside any vendor projects
 @import "base/variables";
-// == typograhy and fonts
-@import "base/fonts";
-@import "base/type";
 
 /**
 * IMPORTING PARTIALS FROM VENDORS DIRECTORY
@@ -29,6 +22,14 @@
 * IMPORTING PARTIALS FROM MIXINS DIRECTORY
 */
 @import "mixins/utilities";
+
+/**
+* IMPORTING PARTIALS FROM BASE DIRECTORY
+*/
+
+// == typograhy and fonts
+@import "base/fonts";
+@import "base/type";
 
 /**
 * IMPORTING PARTIALS FROM LAYOUT DIRECTORY
