@@ -3,8 +3,17 @@
 */
 
 .btn {
-    min-width: 250px;
+    min-width: 100px;
     text-transform: uppercase;
+}
+
+.btn-lg {
+    min-width: 250px;
+
+    @include media(">sm") {
+        padding-top: 0.938rem;
+        padding-bottom: 0.938rem;
+    }
 }
 
 .btn-gradient {

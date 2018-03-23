@@ -1,0 +1,14 @@
+/**
+* Block modules scss file which includes reusable block related style rules
+*/
+
+// == Equal gap
+.gap-p-eq {
+	padding-top: 5.625rem;
+	padding-bottom: 5.625rem;
+}
+
+.l-block-title {
+	margin-bottom: 3rem;
+	color: rgba(0, 0, 0, 0.87);
+}

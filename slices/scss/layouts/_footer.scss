@@ -3,9 +3,13 @@
 */
 
 .site-footer {
-    padding: 2rem calc(2rem - 0.938rem);
+    padding: 1.875rem calc(2rem - 0.938rem);
     color: $menu-link;
     font-size: 0.875rem;
+
+    @include media(">sm") {
+        padding: 3.125rem calc(2rem - 0.938rem) 2rem;
+    }
 
     address {
         @include media("<=sm") {
@@ -18,6 +22,25 @@
 
 .footer-col:not(:last-of-type) {
     margin-bottom: 1.875rem;
+
+    @include media(">sm") {
+        margin-bottom: 0;
+    }
+}
+
+.footer-col.footer-col-5 {
+    @include media(">sm") {
+        flex-basis: auto;
+        flex-grow: 1;
+        flex-shrink: 0;
+        width: auto;
+        max-width: inherit;
+    }
+
+    @include media(">=ipad") {        
+        flex: 0 0 20%;
+        max-width: 20%
+    }
 }
 
 .footer-widget {
@@ -25,6 +48,11 @@
         margin-bottom: 0.75rem;
         color: $brand-white;
         font-size: 1.125rem;
+        font-weight: bold;
+
+        @include media(">sm") {
+            margin-bottom: 1.5rem;
+        }
     }
 }
 
@@ -48,10 +76,30 @@
     }
 }
 
+.lists-inline {
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 1;
+
+    >li,>.lists-item {
+        &:not(:last-of-type) {
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    >li.active,
+    >.lists-item.active {
+        .lists-link,
+        a {
+            color: $brand-white;
+        }
+    }
+}
+
 .lists-arrow {
     >li>a {
         position: relative;
-        padding-left: 1.25rem;
+        padding-left: 1.33rem;
 
         &::before {
             position: absolute;
@@ -64,5 +112,58 @@
             height: 0.35rem;
             transform: rotate(45deg);
         }
+    }
+}
+
+.lists-dashed {
+    margin-right: -13px;
+    margin-left: -13px;
+
+    >li {
+        position: relative;
+        padding: 0 13px;
+
+        &:not(:last-of-type) {
+            &::before {
+                position: absolute;
+                top: 0%;
+                right: 0;
+                bottom: 0;
+                content: "";
+                border-right: 1px solid $menu-link;
+                width: 1px;
+                // transform: translateY(-50%);
+            }
+        }
+    }
+}
+
+.footer-bottom-row {
+    position: relative;
+    margin-top: 1.875rem;
+    padding-top: 1.875rem;
+
+    @include media(">sm") {
+        margin-top: 2.188rem;
+        padding-top: 2.188rem;
+    }
+
+    &::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        content: "";
+        background: rgba(255, 255, 255, 0.12);
+        height: 1px;
+        width: 100%;
+    }
+}
+
+.footer-lang-list {
+    margin-bottom: 0.875rem;
+
+    @include media(">sm") {
+        margin-bottom: 0.4rem;
     }
 }

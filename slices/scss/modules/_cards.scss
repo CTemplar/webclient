@@ -1,0 +1,67 @@
+/**
+* Card modules scss file which includes reusable cards related style rules
+*/
+
+// == badge
+.badge {
+    display: inline-block;
+    padding: 0.219rem 0.681rem;
+    vertical-align: top;
+}
+
+// == Feature card
+.feature-icon-holder {
+    margin-bottom: 2.5rem;
+}
+
+// == News / Blog post cards
+.news-card-holder {
+    color: $brand-gray;
+    font-size: 0.75rem;
+
+    &:hover,
+    &:focus {
+        color: $brand-gray;
+    }
+}
+
+.news-card .badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+}
+
+.news-pic-holder {
+    margin-bottom: 1rem;
+}
+
+.news-card-title {
+    margin-bottom: 0.875rem;
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
+}
+
+.news-card-footer {
+    margin-top: 0.75rem;
+    padding-top: 0.875rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.news-meta-list {
+    display: flex;
+    align-items: center;
+    margin: 0 -10px;
+    padding-left: 0;
+    color: $brand-light-gray;
+    font-style: italic;
+    list-style: none;
+
+    >li {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 10px;
+        &:last-of-type {
+            text-align: right;
+        }
+    }
+}

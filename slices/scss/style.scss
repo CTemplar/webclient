@@ -42,8 +42,9 @@
 /**
 * IMPORTING PARTIALS FROM MODULES DIRECTORY
 */
-@import "modules/hero";
 @import "modules/menu";
+@import "modules/hero";
+@import "modules/cards";
 
 // == OVERRIDING BOOTSTRAP modules
 @import "modules/bootstrap-overrides/overrides";

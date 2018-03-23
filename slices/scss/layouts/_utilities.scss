@@ -55,3 +55,8 @@
 .has-cover {
 	@include make-bkg-image();
 }
+
+// == Disable transition in window resize
+.resize-active * {
+	transition: none !important
+}

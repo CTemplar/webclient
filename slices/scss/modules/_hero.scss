@@ -12,15 +12,41 @@
 }
 
 .hero-home {
-    min-height: 25rem;
-    // min-height: 41.875rem;
+    min-height: 25rem;    
+
+    @include media("<ipad", ">=870px") {
+        min-height: 30rem;
+    }
+
+    @include media(">=ipad") {
+        padding-bottom: 47%;
+        min-height: auto;
+        // min-height: 41.875rem;
+    }
+
+    // &::before {
+    //     @extend %position-abs-full !optional;
+    //     z-index: -1;
+    //     content: "";
+    //     background: linear-gradient(to top, #34495e 0%,rgba(44,62,80,.1) 50%);
+    // }
 }
 
 .hero-content {    
     padding-left: 15px;
     padding-right: 15px;
     max-width: 340px;
-    //max-width: 775px;
+
+    @include media(">sm") {
+        max-width: 580px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    @include media(">=ipad") {
+        max-width: 775px;
+    }
 }
 
 .hero-title {
@@ -28,8 +54,29 @@
     margin-left: auto;
     padding: 0 15px;
     max-width: 300px;
+
+    @include media("<ipad", ">sm") {
+        max-width: 400px;
+    }
+
+    @include media(">=ipad") {
+        max-width: inherit;
+    }
+    
+}
+
+.hero-subtitle {
+    line-height: 1.5;
 }
 
 .hero .btn {
     margin-top: 0.875rem;
+
+    @include media(">sm") {
+        margin-top: 1.125rem;
+    }
+
+    @include media(">=ipad") {
+        margin-top: 2.35rem;
+    }
 }

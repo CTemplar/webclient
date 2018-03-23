@@ -11,8 +11,10 @@
 var winResizer = null;
 var winDelay = 10;
 var $dom = $('html, body');
-var $header = $('#masthead');
+var $header = $('#mastHead');
 var $footer = $('#colophon');
+
+var headerHeight = $header.outerHeight();
 
 // Passing parameters to self invoking functions as an alias to "window", "document", "body" and "jQuery" objects
 ;(function(w, d, $, undefined) {
@@ -31,6 +33,18 @@ var $footer = $('#colophon');
 	w.onload = function() {
 		$('body').addClass('page-loaded');
 	};
+
+	/**
+	 * Sticy header
+	 */
+	$(w).on('scroll', function() {
+		var winScrollPer = $(this).scrollTop();
+		if ( winScrollPer >= headerHeight) {
+			$header.addClass('header-is-stuck');
+		} else {
+			$header.removeClass('header-is-stuck');
+		}
+	});
 
 	/**
 	* Add data-user-agent attribute to root of the DOM
@@ -101,7 +115,12 @@ var $footer = $('#colophon');
 	$(w).on('resize', function() {
 		if(winResizer == null) clearTimeout(winResizer);
 		setTimeout(function() {
-			
+
+			// == activateResizeHandler code
+			activateResizeHandler();
+
+			// == Update header height
+			headerHeight = $header.outerHeight();
 		}, winDelay);
 	});
 

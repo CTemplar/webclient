@@ -54,9 +54,9 @@ $brand-inverse:				$brand-black;
 
 //** Background color for `<body>`.
 $body-bg:               $brand-white;
-$body-color:            $brand-black;
+$body-color:            rgba(0, 0, 0, 0.54);;
 //** Global text color on `<body>`.
-$text-color:            $brand-black;
+$text-color:            $brand-gray;
 
 //== Typography
 //
@@ -66,17 +66,6 @@ $font-family-lato:  		    "Lato", Helvetica, Arial, sans-serif;
 $font-family-roboto:  	 		"Roboto", Helvetica, Arial, sans-serif;
 $font-family-base:        		$font-family-lato;
 $font-family-std-base:        	$font-family-roboto;
-
-// $font-size-base:          		16px;
-
-//** Unit-less `line-height` for use in components like buttons.
-// $line-height-base:        1.25; // 20/14
-
-$font-weight-normal: 			normal;
-$font-weight-bold:				bold;
-
-//** Headings small color
-$headings-small-color:     $brand-gray;
 
 // Fonts
 //
@@ -88,10 +77,24 @@ $font-size-h3: 			      1.5rem;
 $font-size-h4: 			      1.25rem;
 $font-size-h5: 			      1.125rem;
 $font-size-h6: 			      0.875rem;
+$font-size-lg:				  1rem;
 
 $headings-line-height:   	  1.21;
-$headings-font-weight:		  300;
 $line-height-base: 			  1.5;
+
+// $font-size-base:          		16px;
+
+//** Unit-less `line-height` for use in components like buttons.
+// $line-height-base:        1.25; // 20/14
+
+$font-weight-normal: 			normal;
+$font-weight-bold:				bold;
+$headings-font-weight:			300;
+$headings-font-family:			$font-family-base;
+
+//** Headings small color
+$headings-small-color:     		$brand-gray;
+
 
 //** Global textual link color.
 $link-color:            	$brand-blue;
@@ -130,6 +133,8 @@ $container-max-widths: (
 
 $btn-padding-y: 				0.938rem;
 $btn-padding-x: 				0.938rem;
+$btn-padding-x-sm:				0.625rem;
+$btn-padding-y-sm:				0.5633rem;
 $btn-border-radius: 			2px;
 $btn-font-weight: 				600;
 $btn-line-height: 				1;

@@ -17,6 +17,10 @@ p, .para, address, blockquote {
     }
 }
 
+.small {
+    font-size: 12px;
+}
+
 // == Headings
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     
@@ -24,9 +28,30 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 
 h1, .h1 {
     margin-bottom: 0.75rem;
-    font-size: 1.5rem;
+    @include media("<=sm") {
+        font-size: 1.5rem;
+    }
+
+    @include media("<ipad", ">sm") {
+        margin-bottom: 1rem;
+        font-size: 1.875rem;
+    }
+
+    @include media(">=ipad") {
+        margin-bottom: 1.25rem;
+    }
+}
+
+h2, .h2 {
+    margin-bottom: 1.5rem;
 }
 
 h3, .h3 {
-    font-size: 1rem;
+    @include media("<=sm") {
+        font-size: 1rem;
+    }
+
+    @include media("<ipad", ">sm") {
+        font-size: 1.125rem;
+    }
 }
