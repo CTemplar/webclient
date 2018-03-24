@@ -44,6 +44,7 @@ $brand-white:			    #ffffff;
 $brand-black:			    #212121;
 $brand-gray:			    rgba(0, 0, 0, 0.54);
 $brand-light-gray:     		rgba(0, 0, 0, 0.38);
+$brand-faded:				#fafafa;
 $brand-blue:                #3498db;
 $menu-link:                 rgba(255, 255, 255, 0.7);
 $brand-inverse:				$brand-black;
@@ -72,7 +73,7 @@ $font-family-std-base:        	$font-family-roboto;
 // Font, line-height, and color for body text, headings, and more.
 // $small-font-size:		86.6025%;
 $font-size-h1: 			      3.5rem;
-$font-size-h2: 			      1.875rem;
+$font-size-h2: 			      2rem;
 $font-size-h3: 			      1.5rem;
 $font-size-h4: 			      1.25rem;
 $font-size-h5: 			      1.125rem;
@@ -138,6 +139,8 @@ $btn-padding-y-sm:				0.5633rem;
 $btn-border-radius: 			2px;
 $btn-font-weight: 				600;
 $btn-line-height: 				1;
+$btn-border-radius-lg:			2px;
+$btn-border-radius-sm:			2px;
 
 // == Dropdowns
 $dropdown-min-width:			74px;
@@ -148,3 +151,33 @@ $dropdown-box-shadow:			0px 0px 0px 0px rgba(0,0,0,0.01), 0 5px 32px 10px rgba(0
 $dropdown-item-padding-x:		1.375rem;
 $dropdown-link-active-bg:		#f7f7f7;
 $dropdown-link-active-color:	$brand-black;
+
+$spacer:   1rem;
+$spacer-x: $spacer;
+$spacer-y: $spacer;
+$spacers: (
+  0: (
+    x: 0,
+    y: 0
+  ),
+  1: (
+    x: ($spacer-x * .25),
+    y: ($spacer-y * .25)
+  ),
+  2: (
+    x: ($spacer-x * .5),
+    y: ($spacer-y * .5)
+  ),
+  3: (
+    x: $spacer-x,
+    y: $spacer-y
+  ),
+  4: (
+    x: ($spacer-x * 2.15),
+    y: ($spacer-y * 2.15)
+  ),
+  5: (
+    x: ($spacer-x * 3),
+    y: ($spacer-y * 3)
+  )
+);

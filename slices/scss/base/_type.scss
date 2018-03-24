@@ -21,6 +21,10 @@ p, .para, address, blockquote {
     font-size: 12px;
 }
 
+.fw-r {
+    font-weight: 400;
+}
+
 // == Headings
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     
@@ -44,6 +48,9 @@ h1, .h1 {
 
 h2, .h2 {
     margin-bottom: 1.5rem;
+    @include media("<=sm") {
+        font-size: 1.25rem;
+    }
 }
 
 h3, .h3 {
@@ -53,5 +60,12 @@ h3, .h3 {
 
     @include media("<ipad", ">sm") {
         font-size: 1.125rem;
+    }
+}
+
+h4, .h4 {
+    margin-bottom: 0.938rem;
+    @include media("<=sm") {
+        font-size: 1rem;
     }
 }

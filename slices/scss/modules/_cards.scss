@@ -11,17 +11,32 @@
 
 // == Feature card
 .feature-icon-holder {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.25rem;
+
+    @include media(">sm") {
+		margin-bottom: 2.5rem;
+	}
 }
 
 // == News / Blog post cards
 .news-card-holder {
     color: $brand-gray;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
+
+    @include media(">sm") {
+        font-size: 0.75rem;
+    }
 
     &:hover,
     &:focus {
         color: $brand-gray;
+    }
+
+    &:hover {
+        .news-img {
+            transform: scale3d(1.2, 1.2, 1.2);
+            transition: all ceaser($ease) 3s;
+        }
     }
 }
 
@@ -32,7 +47,14 @@
 }
 
 .news-pic-holder {
+    position: relative;
+    overflow: hidden;
     margin-bottom: 1rem;
+
+    .news-img {
+        transform: scale3d(1, 1, 1);
+        transition: all ceaser($ease) 1.5s;
+    }
 }
 
 .news-card-title {

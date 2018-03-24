@@ -5,6 +5,10 @@
 .btn {
     min-width: 100px;
     text-transform: uppercase;
+    &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
 }
 
 .btn-lg {
