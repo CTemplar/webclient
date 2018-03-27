@@ -1,0 +1,39 @@
+/**
+* Bootstrap overrides button scss file
+*/
+
+.btn {
+    min-width: 100px;
+    text-transform: uppercase;
+    &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+}
+
+.btn-lg {
+    min-width: 250px;
+
+    @include media(">sm") {
+        padding-top: 0.938rem;
+        padding-bottom: 0.938rem;
+    }
+}
+
+.btn-gradient {
+    &-primary {
+        background: linear-gradient(259deg, #e74c3c, #c0392b) !important;
+        border: solid 1px #c0392b;
+        color: $brand-white !important;
+    }
+}
+
+// == gradients buttons
+// $btn_class_list: primary, secondary, success, info, warning, danger, dark;
+// $btn_color_val: $brand-primary, $brand-secondary, $brand-success, $brand-info, $brand-warning, $brand-danger, $brand-black;
+
+// @for $i from 1 through length($btn_class_list) {
+//     .btn-gradient-#{nth($btn_class_list, $i)} {
+//         background: linear-gradient(259deg, lighten(nth($btn_color_val, $i), 5%), darken(nth($btn_color_val, $i), 5%));
+//     }
+// }

@@ -1,0 +1,19 @@
+// @import "compass/css3/transition"
+@import "ease-types"
+@import "easing-vars"
+
+$ceaser-legacy: false !default
+
+@function ceaser($type: $ease)
+  @if $ceaser-legacy
+    $easingValue: returnEaseType($type)
+    @return cubic-bezier(unquote($easingValue))
+  @else
+    @return cubic-bezier(unquote($type))
+
+@mixin ceaser-transition($properties: all, $duration: 500ms, $type: $ease, $delay: 0ms)
+  @if $ceaser-legacy
+    $easingValue : returnEaseType($type)
+    @include transition($properties $duration cubic-bezier(unquote($easingValue)) $delay)
+  @else
+    @include transition($properties $duration cubic-bezier(unquote($type)) $delay)

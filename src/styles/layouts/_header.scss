@@ -1,0 +1,205 @@
+/**
+* Header scss file which includes style rules related to header
+*/
+
+// == topnav bar :: header
+.topnavbar {
+    padding: 0.938rem 0.938rem; //~0.875rem 1.875rem;
+    background: transparent;
+    transition: all ease-in-out 0.35s;
+
+    .menu-opened & {
+        background: transparentize($brand-secondary, 0.1);
+    }
+
+    @include media(">sm") {
+        padding: 1.25rem 0.938rem; //~0.875rem 1.875rem;
+
+        // == is stuck on page scroll
+        &.header-is-stuck {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+    }
+
+    @include media(">=laptop") {
+        padding: 1.5rem 1.875rem; //~0.875rem 1.875rem;
+    }
+
+    // == is stuck on page scroll
+    &.header-is-stuck {
+        background: $brand-secondary;
+    }
+}
+
+// == header columns
+.navbar-brand-col {
+    flex: 0 0 15%;
+    max-width: 15%;
+}
+
+// == Navbar menu col
+.navbar-menu-col {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 85%;
+    max-width: 85%;
+}
+
+// == header logo
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    color: $brand-white !important;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    line-height: 1;
+
+    @include media(">sm") {
+        font-size: 1.25rem;
+    }
+}
+
+.navbar-brand-logo {
+    margin-right: 5px;
+    max-width: 20px;
+
+    @include media(">sm") {
+        margin-right: 10px;
+        max-width: 32px;
+    }
+}
+
+// == User actions
+.list-style-none {
+    list-style: none;
+}
+
+@include media(">sm") {
+    .user-actions-list {
+        margin-right: -0.75rem;
+        margin-left: -0.75rem;
+        padding: 0 0 0 2.5rem !important;
+    }
+
+    .user-actions-item {
+        padding-right: 0.75rem;
+        padding-left: 0.75rem;
+    }
+}
+
+.user-actions-list {
+    display: flex;
+    align-items: center;
+
+    @include media(">sm", "<ipad") {
+        padding-left: 0.25rem !important;
+    }
+}
+
+.user-actions-item:not(.lang-selector) {
+    @include media(">sm", "<ipad") {
+        position: absolute;
+        right: 21rem;
+
+        &:nth-of-type(2) {
+            right: 13.25rem;
+        }
+    }
+}
+
+// == Dropdown override
+.dropdown-menu {
+    opacity: 0;
+    pointer-events: none;
+    display: block !important;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all ceaser($easeInOutQuint) 0.35s;
+}
+
+.show>.dropdown-menu {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateY(0px);
+}
+
+.dropdown-toggle {
+    &::after {
+        display: none !important;
+    }
+
+    &::before {
+        position: absolute;
+        top: 50%;
+        right: 0.6rem;
+        margin-top: -0.1rem; //~-0.15rem;
+        content: "";
+        border-style: solid;
+        border-width: .0938rem .0938rem 0 0;
+        width: 0.41rem;
+        height: 0.41rem;
+        transform: translateY(-50%) rotate(135deg);
+        transition: all ceaser($ease) 0.2s;
+    }
+
+    .show & {
+        &::before {
+            margin-top: 0.1rem;
+            transform: translateY(-50%) rotate(-45deg);
+        }
+    }
+}
+
+.lang-selector {
+    width: 2.875rem;
+    height: 1.875rem;
+
+    .dropdown-toggle {
+        padding: 0.325rem 0.4rem 0.48899rem;
+        background: transparent;
+        border: solid 1px rgba(224, 224, 224, 0.22);
+        border-radius: 2px;
+        color: $brand-white;
+        cursor: pointer;
+        font-family: $font-family-lato;
+        font-size: 0.875rem;
+        line-height: 1.14;
+        width: 100%;
+        text-align: left;
+    }
+
+    @include media(">sm") {
+        width: (4.625rem + 1.5rem);
+        height: 1.875rem;
+
+        .dropdown-toggle {
+            .fa {
+                margin-right: 0.33rem;
+            }
+
+            &::before {
+                right: 0.70rem;
+            }
+        }
+    }
+
+    @include media(">=ipad") {
+        // width: (4.625rem + 1.5rem);
+        height: 2rem;
+        .dropdown-toggle {
+            padding: 0.43rem 0.4rem 0.48899rem;
+        }
+    }
+}
+
+.dropdown-item {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    
+    &:not(:last-child) {
+        border-bottom: 1px solid rgba(224,224,224,0.5);
+    }
+}

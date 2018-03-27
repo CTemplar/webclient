@@ -1,0 +1,15 @@
+/**
+* Bootstrap overrides scss file which includes other partials
+*/
+
+@import "button";
+
+// == Text
+.text-dark {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+// == Background
+.bg-faded {
+    background-color: $brand-faded !important;
+}

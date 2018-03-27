@@ -1,115 +1,55 @@
-@import '~semantic-ui-css/semantic.min.css';
-@import 'styles/variables';
-@import 'styles/elements/buttons';
-@import 'styles/elements/modals';
-@import 'styles/elements/forms';
-@import 'styles/elements/cards';
-@import 'styles/elements/ribbons';
-@import 'styles/elements/comments';
-@import 'styles/elements/tooltips';
-@import 'styles/elements/selects';
-@import 'styles/general';
+// Font Awesome
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 
-body {
-}
+/**
+* master sass file, which includes all the partial files
+*/
 
-.main.container {
-  padding: 6rem 0 calc(6rem + 112.5px);
-}
+/**
+* IMPORTING PARTIALS FROM CONFIG DIRECTORY
+*/
+@import "styles/config/include-media-config";
 
-// HOTFIXES
-.ui.large.dropdown.button {
-  vertical-align: bottom;
-}
+// == variables partials from base directory before everything to override varaibles with !default flags inside any vendor projects
+@import "styles/base/variables";
 
-* {
-  outline: none;
-}
+/**
+* IMPORTING PARTIALS FROM VENDORS DIRECTORY
+*/
 
-// TOOLS
-.uppercase {
-  text-transform: uppercase !important;
-}
+@import "styles/vendors/include-media/include-media"; // SASS plugin for better media query detection
+@import "styles/vendors/bootstrap/ctemplar-bootstrap"; // Bootstrap sass modules
+@import "styles/vendors/ceaser/ceaser-easing"; // Ceaser easing for smooth transition effects
 
-.page.heading {
-  padding: 0 0 5rem;
+/**
+* IMPORTING PARTIALS FROM MIXINS DIRECTORY
+*/
+@import "styles/mixins/utilities";
 
-  h1 {
-    font-size: 4rem;
-    color: #34495E;
-    line-height: 4.85714rem;
-    font-weight: 300;
-  }
+/**
+* IMPORTING PARTIALS FROM BASE DIRECTORY
+*/
 
-  h2 {
-    font-size: 2rem;
-  }
-}
+// == typograhy and fonts
+@import "styles/base/fonts";
+@import "styles/base/type";
 
-.p-0 {
-  padding: 0 !important;
-}
+/**
+* IMPORTING PARTIALS FROM LAYOUT DIRECTORY
+*/
+@import "styles/layouts/global";
+@import "styles/layouts/utilities";
+@import "styles/layouts/header";
+@import "styles/layouts/footer";
 
-.pt-0 {
-  padding-top: 0 !important;
-}
+/**
+* IMPORTING PARTIALS FROM MODULES DIRECTORY
+*/
+@import "styles/modules/menu";
+@import "styles/modules/hero";
+@import "styles/modules/blocks";
+@import "styles/modules/cards";
 
-.m-0 {
-  margin: 0 !important;
-}
-
-
-// LOADING
-
-@keyframes pulse_animation {
-  0% { transform: scale(1); }
-  30% { transform: scale(1); }
-  40% { transform: scale(1.15); }
-  50% { transform: scale(1); }
-  60% { transform: scale(1); }
-  70% { transform: scale(1.08); }
-  80% { transform: scale(1); }
-  100% { transform: scale(1); }
-}
-
-.loading {
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #E74C3C;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-
-  .logo {
-    max-width: 100%;
-    animation-name: pulse_animation;
-    animation-duration: 2000ms;
-    transform-origin: 50% 50%;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-  }
-
-  p {
-    margin: 0;
-    color: #FFFFFF;
-    font-size: 24px;
-  }
-
-  .author {
-    font-size: 18px;
-  }
-}
-
-// Buttons
-
-.button.btn-blue {
-  background: #34495E;
-  color: #FFFFFF;
-  &:hover {
-    background: #2C3E50;
-    color: #FFFFFF;
-  }
-}
+// == OVERRIDING BOOTSTRAP modules
+@import "styles/modules/bootstrap-overrides/overrides";

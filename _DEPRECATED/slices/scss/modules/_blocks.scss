@@ -1,0 +1,105 @@
+/**
+* Block modules scss file which includes reusable block related style rules
+*/
+
+// == Equal gap
+.gap-p-eq {
+	padding-top: 2.5rem;
+	padding-bottom: 2.5rem;
+
+	@include media(">sm") {
+		padding-top: 3.750rem;
+		padding-bottom: 3.750rem;
+	}
+
+	@include media(">=ipad") {
+		padding-top: 5.625rem;
+		padding-bottom: 5.625rem;
+	}
+}
+
+.gap-p-sm {
+	padding-top: 2.5rem;
+	padding-bottom: 2.5rem;
+
+	@include media(">sm") {
+		padding-top: 3.750rem;
+		padding-bottom: 3.750rem;
+	}
+}
+
+.l-block-title {
+	margin-bottom: 1.875rem;
+	color: rgba(0, 0, 0, 0.87);
+
+	@include media(">sm") {
+		margin-bottom: 3rem;
+	}
+}
+
+.l-block-subtitile  {
+	line-height: 1.5;
+}
+
+// == Home page feature block
+.feature-block {
+	.l-block-body {
+		@include media("<ipad", ">sm") {
+			margin: 0 auto;
+			max-width: 570px;;
+		}
+	}
+}
+
+// == Home page news block
+.is-clipped {
+	position: relative;
+	margin-top: 4rem;
+	
+	@include media(">sm") {
+		margin-top: 7rem;
+	}
+	// padding-top: 2rem;//~6.500rem;
+
+	&::before {
+		position: absolute;
+		content: "";
+		display: block;
+		background: $brand-faded;
+		width: calc(115% + 4rem);
+		height: 4.5rem;
+	}
+
+	&.top {
+		&::before {
+			top: -2rem;
+			
+			transform: skew(48deg) rotate(-6deg);
+
+			@include media(">sm") {
+				top: -4rem;
+				left: -9%;
+				height: 6rem;
+				transform: skew(48deg) rotate(-2deg);
+			}
+		}	
+	}
+}
+
+.secure-logo-holder .logo-lg {
+	margin-top: -4rem !important;
+
+	@include media(">sm") {
+		margin-top: -7.25rem !important;
+	}
+}
+
+.logo-lg {
+	width: 4.125rem;
+	height: 4.125rem;
+
+	@include media(">sm") {
+		width: 6rem;
+		height: 6rem;
+	}
+}

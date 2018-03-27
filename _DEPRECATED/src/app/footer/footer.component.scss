@@ -1,0 +1,78 @@
+@import '../../styles/variables';
+
+.cta-image {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -57px;
+  width: 200px !important;
+}
+
+.call-to-action {
+  padding: 140px 0 70px;
+  position: relative;
+  -webkit-clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+  clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+  background: $color-light-grey;
+
+  .medium.image {
+    position: absolute;
+     top: -112.5px;
+     right: calc(50% - 150px);
+  }
+
+  .featured-title {
+    font-size: 32px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.87);
+
+    b {
+      font-weight: 900;
+    }
+  }
+
+  h2 {
+    font-weight: 300;
+    margin-bottom: 30px;
+  }
+
+  .red.button {
+    text-transform: uppercase;
+    margin-top: 1em;
+  }
+}
+
+.app-footer {
+  padding: 50px 0 30px;
+  background: #212121;
+
+  .column {
+    box-shadow: none !important;
+
+    h3 {
+      font-size: 20px;
+      font-weight: normal;
+    }
+
+    a {
+      font-size: 14px;
+      line-height: 2.29;
+      font-style: normal;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .footer-text {
+    padding: 0;
+    margin: 0;
+
+    p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}

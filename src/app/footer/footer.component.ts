@@ -1,29 +1,15 @@
-// Angular
-import { Component } from '@angular/core';
-
-// Modals
-import { SignUpModal } from '../shared/modals/signup/signup.component';
-
-// Semantic UI
-import { SuiModalService } from 'ng2-semantic-ui';
-import { UsersService } from '../users/shared/users.service';
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent {
-  constructor(
-    public modalService: SuiModalService,
-    public usersService: UsersService,
-  ) {}
+export class FooterComponent implements OnInit {
 
-  signUp() {
-    this.modalService.open(new SignUpModal());
+  constructor() { }
+
+  ngOnInit() {
   }
+
 }

@@ -1,33 +1,10 @@
-// Angular
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-
-// Components
-import { BlogDetailComponent } from './blog-detail/blog-detail.component';
-import { BlogLatestComponent } from './shared/blog-latest/blog-latest.component';
-import { BlogListComponent } from './blog-list/blog-list.component';
-
-// Modules
-import { BlogRoutingModule } from './blog-routing.module';
-import { SuiPaginationModule } from 'ng2-semantic-ui'
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
-    BlogRoutingModule,
-    CommonModule,
-    FormsModule,
-    SuiPaginationModule,
+    CommonModule
   ],
-  declarations: [
-    BlogLatestComponent,
-    BlogListComponent,
-    BlogDetailComponent
-  ],
-  exports: [BlogLatestComponent]
+  declarations: []
 })
-export class BlogModule {}
+export class BlogModule { }

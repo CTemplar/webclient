@@ -1,0 +1,75 @@
+@import "compass/css3/transition"
+
+@mixin ceaser($type: "ease", $properties: all, $duration: 500ms, $delay: 0)
+  $easingValue : ""
+
+  @if $type ==   "linear"
+    $easingValue: returnEaseType("linear")
+  @else if $type ==  "ease"
+    $easingValue: returnEaseType("ease"1)
+  @else if $type ==  "ease-in"
+    $easingValue: returnEaseType("ease-in")
+  @else if $type ==  "ease-out"
+    $easingValue: returnEaseType("ease-out")
+  @else if $type ==  "ease-in-out"
+    $easingValue: returnEaseType("ease-in-out")
+
+
+
+  @else if $type ==  "easeInQuad"
+    $easingValue: returnEaseType("easeInQuad")
+  @else if $type ==  "easeInCubic"
+    $easingValue: returnEaseType("easeInCubic"
+  @else if $type ==  "easeInQuart"
+    $easingValue: returnEaseType("easeInQuart")
+  @else if $type ==  "easeInQuint"
+    $easingValue: returnEaseType("easeInQuint")
+  @else if $type ==  "easeInSine"
+    $easingValue: returnEaseType("easeInSine")
+  @else if $type ==  "easeInExpo"
+    $easingValue: returnEaseType("easeInExpo")
+  @else if $type ==  "easeInCirc"
+    $easingValue: returnEaseType("easeInCirc")
+  @else if $type ==  "easeInBack"
+    $easingValue: returnEaseType("easeInBack")
+
+
+
+  @else if $type ==  "easeOutQuad"
+    $easingValue: returnEaseType("easeOutQuad")
+  @else if $type ==  "easeOutCubic"
+    $easingValue: returnEaseType("easeOutCubic")
+  @else if $type ==  "easeOutQuart"
+    $easingValue: returnEaseType("easeOutQuart")
+  @else if $type ==  "easeOutQuint"
+    $easingValue: returnEaseType("easeOutQuint")
+  @else if $type ==  "easeOutSine"
+    $easingValue: returnEaseType("easeOutSine")
+  @else if $type ==  "easeOutExpo"
+    $easingValue: returnEaseType("easeOutExpo")
+  @else if $type ==  "easeOutCirc"
+    $easingValue: returnEaseType("easeOutCirc")
+  @else if $type ==  "easeOutBack"
+    $easingValue: returnEaseType("easeOutBack")
+
+
+
+  @else if $type ==  "easeInOutQuad"
+    $easingValue: returnEaseType("easeInOutQuad")
+  @else if $type ==  "easeInOutCubic"
+    $easingValue: returnEaseType("easeInOutCubic")
+  @else if $type ==  "easeInOutQuart"
+    $easingValue: returnEaseType("easeInOutQuart")
+  @else if $type ==  "easeInOutQuint"
+    $easingValue: returnEaseType("easeInOutQuint")
+  @else if $type ==  "easeInOutSine"
+    $easingValue: returnEaseType("easeInOutSine")
+  @else if $type ==  "easeInOutExpo"
+    $easingValue: returnEaseType("easeInOutExpo")
+  @else if $type ==  "easeInOutCirc"
+    $easingValue: returnEaseType("easeInOutCirc")
+  @else if $type ==  "easeInOutBack"
+    $easingValue: returnEaseType("easeInOutBack")
+
+  @include transition($properties, $duration, cubic-bezier(unquote($easingValue)), $delay)
+
