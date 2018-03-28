@@ -18,8 +18,33 @@ html {
 	// }
 }
 
+// == app outer wrapper
 .app-outer {
 	overflow-x: hidden;
+	
+	// == inner page app outer
+	.inner-template & {
+		padding-top: 3.625rem;
+
+		@include media(">sm") {
+			padding-top: 4.5rem;
+		}
+
+		@include media(">=laptop") {
+			padding-top: 5rem;
+		}
+	}
+}
+
+// == custom container
+.container-lg {
+	max-width: 1310px;
+	width: 100%;
+}
+
+.container-xs {
+	max-width: 775px;
+	width: 100%;
 }
 
 // == Utilities

@@ -3,29 +3,33 @@
 */
 
 /* Build mixin for form element's placeholders */
-@mixin placeholder($selector, $color, $font-size, $font-family, $case) {
+@mixin placeholder($selector, $color, $font-size, $font-family, $case, $font-style) {
   #{$selector}::-webkit-input-placeholder {
     color: $color;
     font-size: $font-size;
     font-family: $font-family;
+    font-style: $font-style;
     text-transform: $case;
   }
   #{$selector}::-moz-placeholder {
     color: $color;
     font-size: $font-size;
     font-family: $font-family;
+    font-style: $font-style;
     text-transform: $case;
   }
   #{$selector}:-ms-input-placeholder {
     color: $color;
     font-size: $font-size;
     font-family: $font-family;
+    font-style: $font-style;
     text-transform: $case;
   }
   #{$selector}:-moz-placeholder {
     color: $color;
     font-size: $font-size;
     font-family: $font-family;
+    font-style: $font-style;
     text-transform: $case;
   }
 }

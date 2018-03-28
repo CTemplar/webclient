@@ -1,0 +1,13 @@
+/**
+* Bootstrap form override
+*/
+
+/* Fix chrome's autofill input filed issue */
+input:-webkit-autofill {
+	-webkit-text-fill-color: $brand-black !important;
+    -webkit-box-shadow: 0 0 0 1000px $brand-white inset !important;
+}
+
+/* Include placeholder mixin */
+@include placeholder('.form-control', $brand-light-gray, '', $font-family-lato, 'initial', italic);
+@include placeholder('.form-control.error', $brand-danger, '', $font-family-lato, 'initial', italic);

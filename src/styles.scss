@@ -46,10 +46,13 @@ $fa-font-path: "~font-awesome/fonts";
 /**
 * IMPORTING PARTIALS FROM MODULES DIRECTORY
 */
+@import "styles/modules/preloader";
 @import "styles/modules/menu";
 @import "styles/modules/hero";
 @import "styles/modules/blocks";
-@import "styles/modules/cards";
+@import "styles/modules/lists";
+@import "styles/modules/cards/cards";
+@import "styles/modules/comments/comments";
 
 // == OVERRIDING BOOTSTRAP modules
 @import "styles/modules/bootstrap-overrides/overrides";

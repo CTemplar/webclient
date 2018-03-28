@@ -24,14 +24,12 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	@content;
 }
 
 // == Full position for pseudo elemets
 %position-abs-pseudo-full {
 	@extend %position-abs-full !optional;
 	content: "";
-	@content;
 }
 
 // == Parent width link

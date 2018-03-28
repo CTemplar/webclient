@@ -13,8 +13,8 @@
 	}
 
 	@include media(">=ipad") {
-		padding-top: 5.625rem;
-		padding-bottom: 5.625rem;
+		padding-top: 5rem;//~5.625rem;
+		padding-bottom: 5rem; //5.625rem;
 	}
 }
 
@@ -22,7 +22,12 @@
 	padding-top: 2.5rem;
 	padding-bottom: 2.5rem;
 
-	@include media(">sm") {
+	// @include media(">sm") {
+	// 	padding-top: 3.750rem;
+	// 	padding-bottom: 3.750rem;
+	// }
+
+	@include media(">=ipad") {
 		padding-top: 3.750rem;
 		padding-bottom: 3.750rem;
 	}
@@ -37,60 +42,146 @@
 	}
 }
 
-.l-block-subtitile  {
+.page-title {
+	margin-bottom: 1.875rem;
+	color: rgba(0, 0, 0, 0.87);
+
+	@include media(">sm") {
+		margin-bottom: 2.750rem;
+	}
+
+	@include media(">=ipad") {
+		margin-bottom: 3.750rem;
+	}
+}
+
+.l-block-subtitle  {
 	line-height: 1.5;
 }
 
-// == Home page feature block
-.feature-block {
-	.l-block-body {
-		@include media("<ipad", ">sm") {
-			margin: 0 auto;
-			max-width: 570px;;
-		}
-	}
+.title-horz-line {
+	margin: 1.25rem 0;
+	padding: 1.125rem 0;
+	border-top: 3px solid #e6e8ea;
+	border-bottom: 3px solid #e6e8ea;
+    line-height: 1.6;
 }
 
-// == Home page news block
+// == clipped shape
 .is-clipped {
 	position: relative;
-	margin-top: 4rem;
-	
-	@include media(">sm") {
-		margin-top: 7rem;
-	}
-	// padding-top: 2rem;//~6.500rem;
+	margin-top: 3.875rem;//~4rem;
 
-	&::before {
+	&-sm,
+	&.secure-email-block {
+		padding: 1.125rem 0 2.5rem;
+		
+		@include media(">sm") {
+			padding: 1.125rem 0 3.75rem;
+			margin-top: 5.25rem;//~7rem;
+		}
+	}
+
+	&-lg {
+		margin-top: 3.125rem;
+		padding: 1.125rem 0 2.5rem;
+		
+		@include media(">sm") {
+			margin-top: 3.875rem;
+			padding-top: 5rem;
+    		padding-bottom: 5rem;
+		}
+
+		@include media(">sm") {
+			padding-top: 3.75rem;
+    		padding-bottom: 3.75rem;
+		}
+	}
+
+	&.top::before,
+	&.bottom::after {
 		position: absolute;
+		top: -2rem;
 		content: "";
 		display: block;
 		background: $brand-faded;
 		width: calc(115% + 4rem);
-		height: 4.5rem;
+		height: 4.5rem;	
+		transform: skew(48deg) rotate(-4deg);
+
+		@include media(">sm") {
+			height: 6rem;
+		}
 	}
 
-	&.top {
-		&::before {
-			top: -2rem;
-			
-			transform: skew(48deg) rotate(-6deg);
+	&.top-left::before,
+	&.bottom-left::after {
+		// top: -4rem;
+		left: -9%;
+		transform: skew(48deg) rotate(-2deg);
 
+		@include media("<=sm") {
+			height: 3.45rem;
+			transform: skew(-48deg) rotate(-4deg);
+		}
+	}
+
+	&.top-right::before,
+	&.bottom-right::after {
+		right: -9%;
+		transform: skew(-48deg) rotate(2deg);
+
+		@include media("<=sm") {
+			height: 3.125rem;
+			transform: skew(-48deg) rotate(4deg);
+		}
+	}
+
+	&.bottom {
+		&::after {
+			position: relative;
+			top: auto;
+			bottom: -1.75rem;
+			display: block;
+			
 			@include media(">sm") {
-				top: -4rem;
-				left: -9%;
-				height: 6rem;
-				transform: skew(48deg) rotate(-2deg);
+				height: 5rem;
 			}
-		}	
+		}
+	}
+
+	&.bottom-left::after {
+		right: auto;
+		left: -9%;
+		transform: skew(48deg) rotate(-2deg);
+	}
+
+	&.bottom-right::after {
+		right: auto;
+		left: -9%;
+		margin-bottom: 2.5rem;
+	}
+
+	// == white clip
+	&.bg-white {
+		&::before,
+		&::after {
+			background: $brand-white;
+		}
+	}
+
+	&.bottom-white {
+		&::after {
+			background: $brand-white;
+		}
 	}
 }
 
 .secure-logo-holder .logo-lg {
-	margin-top: -4rem !important;
+	margin-top: -5rem !important;//~-4rem !important;
 
 	@include media(">sm") {
-		margin-top: -7.25rem !important;
+		margin-top: -6.4rem !important;//~-7.25rem !important;
 	}
 }
 
@@ -101,5 +192,68 @@
 	@include media(">sm") {
 		width: 6rem;
 		height: 6rem;
+	}
+}
+
+// == Inner pages
+.ctemplar-stace-img {
+	max-width: 320px;
+	@include media(">sm") {
+		max-width: 448px;
+	}
+}
+
+// == Tiles
+.tile-card {
+	@include media("<=sm") {
+		.title-horz-line {
+			margin-top: 0;
+		}
+
+		.btn-lg {
+			padding-right: 1.5rem;
+			padding-left: 1.5rem;
+			font-size: 13px;
+		}
+	}
+
+	@include media("<ipad", ">sm") {
+		padding: 0 1.875rem
+	}
+}
+
+.tile-card.px-lg {
+	.l-block-title {
+		margin-right: -6.5rem;
+		margin-left: -6.5rem;
+	}
+}
+
+.tile-card-counter {
+	font-size: 2.8125rem;
+	line-height: 1.25;
+
+	@include media(">sm") {
+		font-size: 4rem;
+	}
+}
+
+// == Utilities spacings
+
+.px-xs {
+	@include media("<ipad", ">sm") {
+		padding: 0 1.875rem
+	}
+}
+
+.px-md {
+	@include media("<ipad", ">sm") {
+		padding: 0 5.625rem
+	}
+}
+
+.px-lg {
+	@include media("<ipad", ">sm") {
+		padding: 0 8.438rem
 	}
 }

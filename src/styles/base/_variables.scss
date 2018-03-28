@@ -12,9 +12,8 @@
 
 // == DEFINING PATH REALTED VARIABLES TO ACCESS THE RESOURCES
 $assets:                "assets/";
-$images:                "../images/";
-$content:               "../../contents/";
-$fonts:                 "../fonts/";
+$images:                "assets/images/";
+$fonts:                 "assets/fonts/";
 
 // == Z-INDEX MASTER LIST
 
@@ -22,7 +21,7 @@ $zindex-neg:              -1;
 $zindex-zero:              0;
 $zindex-default:           1;
 $zindex-high:              2;
-$zindex-top:               1000;
+$zindex-top:               9999;
 
 /** 
 * ==============================================================================
@@ -48,6 +47,9 @@ $brand-faded:				#fafafa;
 $brand-blue:                #3498db;
 $menu-link:                 rgba(255, 255, 255, 0.7);
 $brand-inverse:				$brand-black;
+$brand-blue:          #3a4e63;
+$facebook-color:      #2D408B;
+$twitter-color:      #3299EF;
 
 //== Scaffolding
 //
@@ -78,10 +80,10 @@ $font-size-h3: 			      1.5rem;
 $font-size-h4: 			      1.25rem;
 $font-size-h5: 			      1.125rem;
 $font-size-h6: 			      0.875rem;
-$font-size-lg:				  1rem;
+$font-size-lg:				    1rem;
 
-$headings-line-height:   	  1.21;
-$line-height-base: 			  1.5;
+$headings-line-height:   	1.21;
+$line-height-base: 			  1.625;
 
 // $font-size-base:          		16px;
 
@@ -90,11 +92,11 @@ $line-height-base: 			  1.5;
 
 $font-weight-normal: 			normal;
 $font-weight-bold:				bold;
-$headings-font-weight:			300;
-$headings-font-family:			$font-family-base;
+$headings-font-weight:		400;
+$headings-font-family:		$font-family-base;
 
 //** Headings small color
-$headings-small-color:     		$brand-gray;
+$headings-small-color:    $brand-gray;
 
 
 //** Global textual link color.
@@ -134,23 +136,35 @@ $container-max-widths: (
 
 $btn-padding-y: 				0.938rem;
 $btn-padding-x: 				0.938rem;
-$btn-padding-x-sm:				0.625rem;
-$btn-padding-y-sm:				0.5633rem;
-$btn-border-radius: 			2px;
-$btn-font-weight: 				600;
-$btn-line-height: 				1;
-$btn-border-radius-lg:			2px;
-$btn-border-radius-sm:			2px;
+$btn-padding-x-sm:			0.625rem;
+$btn-padding-y-sm:			0.5633rem;
+$btn-padding-x-lg:			3.43066rem;
+$btn-border-radius: 		2px;
+$btn-font-weight: 			600;
+$btn-line-height: 			1;
+$btn-border-radius-lg:	2px;
+$btn-border-radius-sm:	2px;
+
+$btn-secondary-bg:      $brand-secondary;
+$btn-secondary-color:   $brand-white;
+$btn-secondary-border:  $brand-secondary;
 
 // == Dropdowns
 $dropdown-min-width:			74px;
-$dropdown-margin-top: 			0;
-$border-radius:					2px;
+$dropdown-margin-top: 		0;
+$border-radius:					  2px;
 $dropdown-padding-y: 			0;
 $dropdown-box-shadow:			0px 0px 0px 0px rgba(0,0,0,0.01), 0 5px 32px 10px rgba(0,0,0,0.05);
-$dropdown-item-padding-x:		1.375rem;
-$dropdown-link-active-bg:		#f7f7f7;
+$dropdown-item-padding-x:	1.375rem;
+$dropdown-link-active-bg:	#f7f7f7;
 $dropdown-link-active-color:	$brand-black;
+
+// == Form fields
+$form-group-margin-bottom:  1.5rem;
+$input-border-color:        #e0e0e0;
+$input-border-radius:       4px;
+$input-padding-y:           0.813rem;
+ $input-padding-x:          1rem;
 
 $spacer:   1rem;
 $spacer-x: $spacer;
@@ -179,5 +193,13 @@ $spacers: (
   5: (
     x: ($spacer-x * 3),
     y: ($spacer-y * 3)
+  ),
+  6: (
+    x: ($spacer-x * 4),
+    y: ($spacer-y * 4)
+  ),
+  7: (
+    x: ($spacer-x * 5),
+    y: ($spacer-y * 5)
   )
 );

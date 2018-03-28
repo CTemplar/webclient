@@ -141,6 +141,10 @@
         // transform: translateY(-1.2rem);
         transition: all ceaser($easeInOutQuint) 0.35s;
 
+        .header-is-stuck & {
+            top: 64px;
+        }
+
         &.shown {
             opacity: 1;
             pointer-events: auto;
@@ -187,7 +191,7 @@
 
 @include media("<=sm") {
     .navbar-collapsable-content {
-        top: 60px
+        top: 60px !important
     }
 }
 

@@ -26,9 +26,16 @@
         padding: 1.5rem 1.875rem; //~0.875rem 1.875rem;
     }
 
+    // == secondary / inner page header
+    &-secondary {
+        background: $brand-secondary;
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.01), 0 2px 22px 3px rgba(0,0,0,0.05)
+    }
+
     // == is stuck on page scroll
     &.header-is-stuck {
         background: $brand-secondary;
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.01), 0 2px 22px 3px rgba(0,0,0,0.05)
     }
 }
 

@@ -3,10 +3,19 @@
 */
 
 @import "button";
+@import "form";
 
 // == Text
 .text-dark {
     color: rgba(0, 0, 0, 0.87);
+}
+
+.text-secondary {
+    color: $brand-secondary;
+}
+
+.text-secodary-faded {
+    color: rgba(52, 73, 94, 0.87);
 }
 
 // == Background

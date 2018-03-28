@@ -17,12 +17,34 @@ p, .para, address, blockquote {
     }
 }
 
-.small {
-    font-size: 12px;
+.small,
+.text-small {
+    font-size: 0.75rem;
 }
 
-.fw-r {
-    font-weight: 400;
+.text-medium {
+    font-size: 0.875rem;
+}
+
+.fw-light {
+    font-weight: 300;
+}
+
+// == blockquote
+blockquote,
+.blockquote {
+    color: rgba(52, 73, 94, 0.87);
+    font-size: 1.25rem;
+    line-height: 1.6;
+}
+
+//
+// Add the correct font weight in Chrome, Edge, and Safari.
+//
+
+b,
+strong {
+  font-weight: 600;
 }
 
 // == Headings
@@ -54,6 +76,9 @@ h2, .h2 {
 }
 
 h3, .h3 {
+    margin-bottom: 1.75rem;
+    line-height: 1.5;
+
     @include media("<=sm") {
         font-size: 1rem;
     }

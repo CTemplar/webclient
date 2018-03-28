@@ -1,9 +1,10 @@
 /**
-* Card modules scss file which includes reusable cards related style rules
+* Post card modules scss file which includes reusable post cards
 */
 
 // == badge
 .badge {
+    z-index: 1;
     display: inline-block;
     padding: 0.219rem 0.681rem;
     vertical-align: top;
@@ -67,6 +68,12 @@
     margin-top: 0.75rem;
     padding-top: 0.875rem;
     border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+    .news-card-full & {
+        @include media(">=laptop") {
+            margin-top: 3.25rem;
+        }
+    }
 }
 
 .news-meta-list {
