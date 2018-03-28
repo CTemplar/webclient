@@ -2,15 +2,6 @@
 * @partial: _preloader.scss
 */
 
-// == Hide real body content before preloader loads
-.app-outer {
-    height: 100vh;
-
-    .page-loaded & {
-        height: auto;
-    }
-}
-
 // == Preloader
 .app-preloader {
     position: fixed;
