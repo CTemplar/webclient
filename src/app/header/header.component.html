@@ -61,10 +61,10 @@
               <a href="" class="user-actions-link btn btn-sm btn-gradient-primary signup-btn">Sign Up</a>
             </li>
             <li class="user-actions-item lang-selector">
-              <div class="dropdown lang-selector-dropdown">
-                <button class="dropdown-toggle" type="button" id="langDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div ngbDropdown placement="bottom-right" class="lang-selector-dropdown">
+                <button class="dropdown-toggle" type="button" id="langDropdownMenuButton" ngbDropdownToggle>
                   <i class="fa fa-globe hidden-xs-down"></i>En</button>
-                <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="langDropdownMenuButton">
+                <div ngbDropdownMenu class="text-center" aria-labelledby="langDropdownMenuButton">
                   <a class="dropdown-item" href="">Ru</a>
                   <a class="dropdown-item" href="">Es</a>
                 </div>

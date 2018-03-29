@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
     this.menuIsOpened = bool === false ? true : false;
   }
 
-  // == Listeing scroll event for window object
+  // == Listening to scroll event for window object
   @HostListener("window:scroll", [])
   onWindowScroll() {
     let number = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
