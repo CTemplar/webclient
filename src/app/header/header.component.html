@@ -5,7 +5,7 @@
       <div class="row align-items-center">
         <div class="col navbar-col navbar-brand-col">
           <figure class="navbar-brand-holder">
-            <a class="navbar-brand ff-roboto text-uppercase" href="base.html">
+            <a class="navbar-brand ff-roboto text-uppercase" routerLink="">
               <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
               <strong>ctemplar</strong>
             </a>
@@ -24,31 +24,31 @@
 
           <div class="navbar-collapsable-content" [ngClass]="{ 'shown': menuIsOpened }">
             <ul class="navbar-nav my-0 px-0 list-style-none">
-              <li class="nav-item active">
-                <a href="base.html" class="nav-link">Home
+              <li class="nav-item" routerLinkActive="active">
+                <a routerLink="" class="nav-link">Home
                   <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="about.html" class="nav-link">About</a>
+                <a href class="nav-link">About</a>
               </li>
               <li class="nav-item">
-                <a href="security.html" class="nav-link">Security</a>
+                <a href class="nav-link">Security</a>
               </li>
               <li class="nav-item">
-                <a href="pricing.html" class="nav-link">Pricing</a>
+                <a href class="nav-link">Pricing</a>
               </li>
               <li class="nav-item">
-                <a href="blog.html" class="nav-link">Blog</a>
+                <a href class="nav-link">Blog</a>
               </li>
               <li class="nav-item">
-                <a href="support.html" class="nav-link">Support</a>
+                <a href class="nav-link">Support</a>
               </li>
               <li class="nav-item hidden-sm-up">
-                <a href="login.html" class="nav-link nav-action-link">Login</a>
+                <a href class="nav-link nav-action-link">Login</a>
               </li>
               <li class="nav-item hidden-sm-up">
-                <a href="signup.html" class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn">Sign up</a>
+                <a href class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn">Sign up</a>
               </li>
             </ul>
           </div>

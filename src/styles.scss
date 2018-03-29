@@ -1,7 +1,3 @@
-// Font Awesome
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
-
 /**
 * master sass file, which includes all the partial files
 */
@@ -19,8 +15,9 @@ $fa-font-path: "~font-awesome/fonts";
 */
 
 @import "styles/vendors/include-media/include-media"; // SASS plugin for better media query detection
-@import "styles/vendors/bootstrap/ctemplar-bootstrap"; // Bootstrap sass modules
-@import "styles/vendors/ceaser/ceaser-easing"; // Ceaser easing for smooth transition effects
+@import "styles/vendors/fontawesome/fontawesome"; // Fontawesome SASS modules
+@import "styles/vendors/bootstrap/ctemplar-bootstrap"; // Bootstrap SASS modules
+@import "styles/vendors/ceaser/ceaser-easing"; // Ceaser easing SASS module for smooth transition effects
 
 /**
 * IMPORTING PARTIALS FROM MIXINS DIRECTORY

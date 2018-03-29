@@ -15,6 +15,9 @@ $assets:                "assets/";
 $images:                "assets/images/";
 $fonts:                 "assets/fonts/";
 
+// == Set font awesome path
+$fa-font-path:          $fonts;
+
 // == Z-INDEX MASTER LIST
 
 $zindex-neg:              -1;
@@ -33,20 +36,20 @@ $zindex-top:               9999;
 //
 //## Brand colors for use across Bootstrap.
 
-$brand-primary:			    #e74c3c;
-$brand-secondary:		    #091f35;
-$brand-success:			    #3498db;
-$brand-info:			    #f1c40f;
-$brand-warning:			    #f39c12;
-$brand-danger:			    #e62739;
-$brand-white:			    #ffffff;
-$brand-black:			    #212121;
-$brand-gray:			    rgba(0, 0, 0, 0.54);
-$brand-light-gray:     		rgba(0, 0, 0, 0.38);
-$brand-faded:				#fafafa;
+$brand-primary:         #e74c3c;
+$brand-secondary:       #091f35;
+$brand-success:         #3498db;
+$brand-info:          #f1c40f;
+$brand-warning:         #f39c12;
+$brand-danger:          #e62739;
+$brand-white:         #ffffff;
+$brand-black:         #212121;
+$brand-gray:          rgba(0, 0, 0, 0.54);
+$brand-light-gray:        rgba(0, 0, 0, 0.38);
+$brand-faded:       #fafafa;
 $brand-blue:                #3498db;
 $menu-link:                 rgba(255, 255, 255, 0.7);
-$brand-inverse:				$brand-black;
+$brand-inverse:       $brand-black;
 $brand-blue:          #3a4e63;
 $facebook-color:      #2D408B;
 $twitter-color:      #3299EF;
@@ -65,46 +68,46 @@ $text-color:            $brand-gray;
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-$font-family-lato:  		    "Lato", Helvetica, Arial, sans-serif;
-$font-family-roboto:  	 		"Roboto", Helvetica, Arial, sans-serif;
-$font-family-base:        		$font-family-lato;
-$font-family-std-base:        	$font-family-roboto;
+$font-family-lato:          "Lato", Helvetica, Arial, sans-serif;
+$font-family-roboto:        "Roboto", Helvetica, Arial, sans-serif;
+$font-family-base:            $font-family-lato;
+$font-family-std-base:          $font-family-roboto;
 
 // Fonts
 //
 // Font, line-height, and color for body text, headings, and more.
-// $small-font-size:		86.6025%;
-$font-size-h1: 			      3.5rem;
-$font-size-h2: 			      2rem;
-$font-size-h3: 			      1.5rem;
-$font-size-h4: 			      1.25rem;
-$font-size-h5: 			      1.125rem;
-$font-size-h6: 			      0.875rem;
-$font-size-lg:				    1rem;
+// $small-font-size:    86.6025%;
+$font-size-h1:            3.5rem;
+$font-size-h2:            2rem;
+$font-size-h3:            1.5rem;
+$font-size-h4:            1.25rem;
+$font-size-h5:            1.125rem;
+$font-size-h6:            0.875rem;
+$font-size-lg:            1rem;
 
-$headings-line-height:   	1.21;
-$line-height-base: 			  1.625;
+$headings-line-height:    1.21;
+$line-height-base:        1.625;
 
-// $font-size-base:          		16px;
+// $font-size-base:             16px;
 
 //** Unit-less `line-height` for use in components like buttons.
 // $line-height-base:        1.25; // 20/14
 
-$font-weight-normal: 			normal;
-$font-weight-bold:				bold;
-$headings-font-weight:		400;
-$headings-font-family:		$font-family-base;
+$font-weight-normal:      normal;
+$font-weight-bold:        bold;
+$headings-font-weight:    400;
+$headings-font-family:    $font-family-base;
 
 //** Headings small color
 $headings-small-color:    $brand-gray;
 
 
 //** Global textual link color.
-$link-color:            	$brand-blue;
+$link-color:              $brand-blue;
 //** Link hover color set via `darken()` function.
-$link-hover-color:      	darken($link-color, 15%);
+$link-hover-color:        darken($link-color, 15%);
 //** Link hover decoration.
-$link-hover-decoration: 	none;
+$link-hover-decoration:   none;
 
 //** Text muted color
 $text-muted:              $brand-gray;
@@ -115,11 +118,11 @@ $text-muted:              $brand-gray;
 // adapting to different screen sizes, for use in media queries.
 
 $grid-breakpoints: (
-	xs: 0,
-	sm: 768px,
-	md: 1024px,
-	lg: 1200px,
-	xl: 1440px
+  xs: 0,
+  sm: 768px,
+  md: 1024px,
+  lg: 1200px,
+  xl: 1440px
 );
 
 // Grid containers
@@ -129,35 +132,35 @@ $grid-breakpoints: (
 $container-xs-max-width: 1170px;
 
 $container-max-widths: (
-	xs: $container-xs-max-width,
+  xs: $container-xs-max-width,
 );
 
 // == Buttons
 
-$btn-padding-y: 				0.938rem;
-$btn-padding-x: 				0.938rem;
-$btn-padding-x-sm:			0.625rem;
-$btn-padding-y-sm:			0.5633rem;
-$btn-padding-x-lg:			3.43066rem;
-$btn-border-radius: 		2px;
-$btn-font-weight: 			600;
-$btn-line-height: 			1;
-$btn-border-radius-lg:	2px;
-$btn-border-radius-sm:	2px;
+$btn-padding-y:         0.938rem;
+$btn-padding-x:         0.938rem;
+$btn-padding-x-sm:      0.625rem;
+$btn-padding-y-sm:      0.5633rem;
+$btn-padding-x-lg:      3.43066rem;
+$btn-border-radius:     2px;
+$btn-font-weight:       600;
+$btn-line-height:       1;
+$btn-border-radius-lg:  2px;
+$btn-border-radius-sm:  2px;
 
 $btn-secondary-bg:      $brand-secondary;
 $btn-secondary-color:   $brand-white;
 $btn-secondary-border:  $brand-secondary;
 
 // == Dropdowns
-$dropdown-min-width:			74px;
-$dropdown-margin-top: 		0;
-$border-radius:					  2px;
-$dropdown-padding-y: 			0;
-$dropdown-box-shadow:			0px 0px 0px 0px rgba(0,0,0,0.01), 0 5px 32px 10px rgba(0,0,0,0.05);
-$dropdown-item-padding-x:	1.375rem;
-$dropdown-link-active-bg:	#f7f7f7;
-$dropdown-link-active-color:	$brand-black;
+$dropdown-min-width:      74px;
+$dropdown-margin-top:     0;
+$border-radius:           2px;
+$dropdown-padding-y:      0;
+$dropdown-box-shadow:     0px 0px 0px 0px rgba(0,0,0,0.01), 0 5px 32px 10px rgba(0,0,0,0.05);
+$dropdown-item-padding-x: 1.375rem;
+$dropdown-link-active-bg: #f7f7f7;
+$dropdown-link-active-color:  $brand-black;
 
 // == Form fields
 $form-group-margin-bottom:  1.5rem;

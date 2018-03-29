@@ -4,7 +4,8 @@
 
 .btn {
     min-width: 100px;
-    text-transform: uppercase;
+    text-transform: uppercase;    
+
     &:focus {
         outline: none !important;
         box-shadow: none !important;
@@ -24,6 +25,10 @@
         background: linear-gradient(259deg, #e74c3c, #c0392b) !important;
         border: solid 1px #c0392b;
         color: $brand-white !important;
+
+        &:hover {
+            background: linear-gradient(259deg, darken(#e74c3c, 5%), darken(#c0392b, 5%)) !important;
+        }
     }
 }
 

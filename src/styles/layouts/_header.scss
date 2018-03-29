@@ -117,6 +117,11 @@
 }
 
 // == Dropdown override
+.dropdown[placement="bottom-right"] .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
 .dropdown-menu {
     opacity: 0;
     pointer-events: none;
