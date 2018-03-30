@@ -17,6 +17,12 @@
 	}
 }
 
+.position-sm-static {
+	@include media(">=ipad") {
+		position: static;
+	}
+}
+
 // == Full absolute position element
 %position-abs-full {
 	position: absolute;
@@ -52,6 +58,11 @@
 // == Has background cover
 .has-cover {
 	@include make-bkg-image();
+}
+
+// == Is shadowed
+.is-shadowed {
+	box-shadow: 0px 10px 40px 0px transparentize($brand-success, 0.9)
 }
 
 // == Disable transition in window resize

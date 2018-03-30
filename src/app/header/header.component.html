@@ -1,5 +1,5 @@
 <!-- REUSABLE COMPONENT :: HEADER -->
-<header id="mastHead" class="topnavbar topnavbar-primary fixed-top" [class.header-is-stuck]="navIsFixed" [ngClass]="{ 'has-menu-shown': menuIsOpened }" role="banner">
+<header id="mastHead" class="topnavbar fixed-top" [class.header-is-stuck]="navIsFixed" [ngClass]="{ 'has-menu-shown': menuIsOpened, 'topnavbar-primary': this.router.url === '/', 'topnavbar-secondary': this.router.url !== '/' }" role="banner">
   <div class="container">
     <nav class="navbar navbar-expand-lg" role="navigation">
       <div class="row align-items-center">
@@ -24,13 +24,13 @@
 
           <div class="navbar-collapsable-content" [ngClass]="{ 'shown': menuIsOpened }">
             <ul class="navbar-nav my-0 px-0 list-style-none">
-              <li class="nav-item" routerLinkActive="active">
-                <a routerLink="" class="nav-link">Home
+              <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/" class="nav-link">Home
                   <span class="sr-only">(current)</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href class="nav-link">About</a>
+              <li class="nav-item" routerLinkActive="active">
+                <a routerLink="/about" class="nav-link">About</a>
               </li>
               <li class="nav-item">
                 <a href class="nav-link">Security</a>
@@ -60,7 +60,7 @@
             <li class="user-actions-item hidden-xs-down">
               <a href="" class="user-actions-link btn btn-sm btn-gradient-primary signup-btn">Sign Up</a>
             </li>
-            <li class="user-actions-item lang-selector">
+            <li class="user-actions-item btn-dropdown">
               <div ngbDropdown placement="bottom-right" class="lang-selector-dropdown">
                 <button class="dropdown-toggle" type="button" id="langDropdownMenuButton" ngbDropdownToggle>
                   <i class="fa fa-globe hidden-xs-down"></i>En</button>

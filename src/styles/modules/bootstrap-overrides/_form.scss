@@ -2,6 +2,10 @@
 * Bootstrap form override
 */
 
+select::-ms-expand {
+    display: none !important;
+}
+
 /* Fix chrome's autofill input filed issue */
 input:-webkit-autofill {
 	-webkit-text-fill-color: $brand-black !important;
@@ -11,3 +15,17 @@ input:-webkit-autofill {
 /* Include placeholder mixin */
 @include placeholder('.form-control', $brand-light-gray, '', $font-family-lato, 'initial', italic);
 @include placeholder('.form-control.error', $brand-danger, '', $font-family-lato, 'initial', italic);
+
+.form-control {
+    font-family: inherit;
+}
+
+select, select.form-control {
+    background: url(#{$images}select-arrow.svg);
+    background-position: calc(100% - 10px) center;
+    background-repeat: no-repeat;
+    background-size: 13px;
+
+    -webkit-appearance: none;
+    appearance: none;
+}

@@ -1,5 +1,6 @@
 import { Component, HostBinding, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,16 @@ export class AppComponent {
   public windowIsResized: boolean = false;
   public resizeTimeout: number = null;
 
-  constructor(@Inject(DOCUMENT) private document: any) { }
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit() {
+    // Fire events once app has been initialized - this code scroll to the top of each page on routing
+    this.router.events.subscribe(params => window.scrollTo(0, 0));
+  }
 
   // == Listening to resize event for window object
   @HostListener("window:resize", ['$event'])

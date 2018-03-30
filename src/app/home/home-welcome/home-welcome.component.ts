@@ -1,8 +1,7 @@
-// == Angular core modules
+// == Angular modules
 import { Component, OnInit } from '@angular/core';
 
 // == Components
-
 @Component({
   selector: 'app-home-welcome',
   templateUrl: './home-welcome.component.html',

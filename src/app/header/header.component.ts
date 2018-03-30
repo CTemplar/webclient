@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { ActivatedRoute, Router, Event, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,11 @@ export class HeaderComponent implements OnInit {
   public navIsFixed: boolean = false;
   public menuIsOpened: boolean = false;
 
-  constructor(@Inject(DOCUMENT) private document: any) { }
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    private route: ActivatedRoute,
+    public router: Router
+  ) { }
 
   ngOnInit() {
   }

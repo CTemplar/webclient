@@ -23,7 +23,8 @@ html {
 	overflow-x: hidden;
 	
 	// == inner page app outer
-	.inner-template & {
+	.inner-template &,
+	&.app-outer-secondary {
 		padding-top: 3.625rem;
 
 		@include media(">sm") {
@@ -45,6 +46,24 @@ html {
 .container-xs {
 	max-width: 775px;
 	width: 100%;
+}
+
+.container-sm {
+	max-width: 905px;
+	width: 100%;
+}
+
+// == Grid
+.row-lg {
+	@include media(">=ipad") {
+		margin-right: -2.188rem;
+		margin-left: -2.188rem;
+
+		>[class*="col-"] {
+			padding-right: 2.188rem;
+			padding-left: 2.188rem;
+		}
+	}
 }
 
 // == Utilities

@@ -257,3 +257,21 @@
 		padding: 0 8.438rem
 	}
 }
+
+// == Pages > Price page
+.l-block-header .btn-dropdown {
+	@include media(">sm") {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	@include media("<ipad", ">sm") {
+		right: 3rem;
+	}
+}
+
+// == Pages > donate page
+.donate-content-holder {
+	max-width: 585px;
+}

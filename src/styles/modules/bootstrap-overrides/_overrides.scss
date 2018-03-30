@@ -4,6 +4,7 @@
 
 @import "button";
 @import "form";
+@import "dropdown";
 
 // == Text
 .text-dark {
@@ -16,6 +17,10 @@
 
 .text-secodary-faded {
     color: rgba(52, 73, 94, 0.87);
+}
+
+.text-green {
+    color: $brand-green
 }
 
 // == Background

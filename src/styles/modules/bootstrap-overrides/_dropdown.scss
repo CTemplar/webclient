@@ -1,0 +1,127 @@
+/**
+* Bootstrap overrides dropdown scss file
+*/
+
+.dropdown[placement="bottom-right"] .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-menu {
+    opacity: 0;
+    pointer-events: none;
+    display: block !important;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all ceaser($easeInOutQuint) 0.35s;
+}
+
+.show>.dropdown-menu {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateY(0px);
+}
+
+.dropdown-toggle {
+    &::after {
+        display: none !important;
+    }
+
+    &::before {
+        position: absolute;
+        top: 50%;
+        right: 0.6rem;
+        margin-top: -0.1rem; //~-0.15rem;
+        content: "";
+        border-color: $gray-9e9e9e;
+        border-style: solid;
+        border-width: .0938rem .0938rem 0 0;
+        width: 0.41rem;
+        height: 0.41rem;
+        transform: translateY(-50%) rotate(135deg);
+        transition: all ceaser($ease) 0.2s;
+    }
+
+    .show & {
+        &::before {
+            margin-top: 0.1rem;
+            transform: translateY(-50%) rotate(-45deg);
+        }
+    }
+}
+
+.btn-dropdown {
+    // width: 2.875rem;
+    // height: 1.875rem;
+
+    .dropdown-toggle {
+        position: relative;
+        padding: 0.325rem 0.4rem 0.48899rem;
+        background: transparent;
+        border: solid 1px $input-border-color;
+        border-radius: 2px;
+        color: $brand-black;
+        cursor: pointer;
+        font-family: $font-family-lato;
+        font-size: 0.875rem;
+        line-height: 1.14;
+        width: 2.875rem;
+        height: 1.875rem;
+        text-align: left;
+    }
+
+    @include media(">sm") {
+        // width: (4.625rem + 1.5rem);
+        // height: 1.875rem;
+        .dropdown-toggle {
+            width: 4.625rem;
+            height: 1.875rem;
+            .fa {
+                margin-right: 0.33rem;
+            }
+
+            &::before {
+                right: 0.70rem;
+            }
+        }
+    }
+
+    @include media(">=ipad") {
+        // width: (4.625rem + 1.5rem);
+        // height: 2rem;
+        .dropdown-toggle {
+            height: 2rem;
+            padding: 0.43rem 0.65rem 0.48899rem;
+        }
+    }
+
+    // == large
+    &-lg {
+        .dropdown-toggle {
+            height: 2.5rem;
+            border-radius: 4px;
+            @include media(">sm") {
+                // height: 2.5rem;  
+            }
+        }
+    }
+}
+
+.lang-selector-dropdown .dropdown-toggle {
+    border-color: rgba(224, 224, 224, 0.22);
+    color: $brand-white;
+
+    &::before {
+        border-color: $brand-white;
+    }
+}
+
+.dropdown-item {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    
+    &:not(:last-child) {
+        border-bottom: 1px solid rgba(224,224,224,0.5);
+    }
+}

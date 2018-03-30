@@ -1,0 +1,93 @@
+/**
+* Package card modules scss file which includes style rules related to pricing
+*/
+
+// == package card
+.package-card {
+    padding-bottom: 2.813rem;
+    border-radius: 4px;
+}
+
+.package-card-header {
+    padding: 1.813rem 1.25rem;
+    border-radius: 4px 4px 0 0;
+}
+
+.package-card-basic {
+    @include media(">sm") {
+        margin-top: 3.125rem;
+    }
+    .package-card-header {
+        background: linear-gradient(259deg, #f1c20f, #f49315) !important;
+    }
+}
+
+.package-card-prime {
+    .package-card-header {
+        background: linear-gradient(259deg, #e74c3c, #c0392b) !important;
+    }
+}
+
+.package-card-body,
+.package-card-footer {
+    padding: 0 1.25rem;
+}
+
+// == package card lists
+.package-list-item {
+    position: relative;
+    padding: 0.70rem 0.75rem 0.70rem 2.5rem;
+    line-height: 1;
+    font-weight: 600;
+
+    &.has-border {
+        padding: 1.25rem 0.75rem 1.25rem 2.5rem;
+        border-bottom: 1px solid $border-gray;
+
+        .fa {
+            position: absolute;
+            top: 1.25rem;
+            left: 0.75rem;
+        }
+
+        + .package-list-item:not(.has-border) {
+            margin-top: 0.75rem;
+        }
+    }
+
+    &.has-icon-center {
+        .fa {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    .fa {
+        position: absolute;
+        top: 0.7rem;
+        left: 0.75rem;
+    }
+}
+
+// == package-text-holder
+.package-text-holder {
+    margin: 1.25rem 0 2.188rem;
+    padding: 2.5rem 0.75rem;
+    border-top: 1px solid $border-gray;
+    border-bottom: 1px solid $border-gray;
+}
+
+.package-text-holder-sm {
+    padding: 1.25rem 0.75rem;
+}
+
+.package-storage-select {
+    padding: 0.15rem 0.625rem;
+    height: calc(2.876rem - 6px) !important;
+}
+
+.package-coming-soon {
+    h5 {
+        padding-left: 0.75rem;
+    }
+}
