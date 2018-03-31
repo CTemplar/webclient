@@ -10,6 +10,7 @@ import { MailModule } from '../mail/mail.module';
 // == Pages main component
 import { PagesComponent } from './pages.component';
 import { PagesAboutComponent } from './pages-about/pages-about.component';
+import { PagesSecurityComponent } from './pages-security/pages-security.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { PagesAboutComponent } from './pages-about/pages-about.component';
     BlogModule,
     MailModule
   ],
-  declarations: [PagesComponent, PagesAboutComponent]
+  declarations: [PagesComponent, PagesAboutComponent, PagesSecurityComponent]
 })
 export class PagesModule { }
