@@ -11,6 +11,8 @@ import { MailModule } from '../mail/mail.module';
 import { PagesComponent } from './pages.component';
 import { PagesAboutComponent } from './pages-about/pages-about.component';
 import { PagesSecurityComponent } from './pages-security/pages-security.component';
+import { PagesDonateComponent } from './pages-donate/pages-donate.component';
+import { PagesPricingComponent } from './pages-pricing/pages-pricing.component';
 
 @NgModule({
   imports: [
@@ -19,6 +21,6 @@ import { PagesSecurityComponent } from './pages-security/pages-security.componen
     BlogModule,
     MailModule
   ],
-  declarations: [PagesComponent, PagesAboutComponent, PagesSecurityComponent]
+  declarations: [PagesComponent, PagesAboutComponent, PagesSecurityComponent, PagesDonateComponent, PagesPricingComponent]
 })
 export class PagesModule { }

@@ -33,7 +33,7 @@ export class AppComponent {
   onResize(event) {
     this.windowIsResized = true;
     if (this.resizeTimeout && this.windowIsResized) {
-      this.windowIsResized = true;
+      // this.windowIsResized = true;
       clearTimeout(this.resizeTimeout);
     }
 

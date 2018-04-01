@@ -2,11 +2,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-// == Components
+// == Angular Components
 import { HomeComponent } from './home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent}
+  { path: '', component: HomeComponent }
 ];
 
 @NgModule({

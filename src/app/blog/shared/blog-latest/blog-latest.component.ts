@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./blog-latest.component.scss']
 })
 export class BlogLatestComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
