@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   constructor(
     private blogService: BlogService,
     @Inject(DOCUMENT) private document: any,
-    private router: Router,
+    public router: Router,
   ) {
     // this.sharedService.isMail
     //   .subscribe(data => this.isMail = data);
