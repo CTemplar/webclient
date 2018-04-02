@@ -2,19 +2,15 @@
 <div class="app-outer" [class.resize-active]="windowIsResized" [ngClass]="{ 'app-outer-secondary': this.router.url !== '/' }">
     <!-- Rendering app header component -->
     <app-header></app-header>
-
     <!-- App main content body -->
     <main id="main" role="main">
         <div class="content">
-
             <!-- Render Routed Contents -->
             <router-outlet></router-outlet>
-
         </div>
         <!-- /.App content ends -->
     </main>
     <!-- /.App main content body ends -->
-
     <!-- Rendering app footer component -->
     <app-footer></app-footer>
 </div> <!-- App outer ends -->

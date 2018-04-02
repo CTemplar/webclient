@@ -1,10 +1,14 @@
-// == Angular modules
+// Angular
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-// == Angular components
-import { BlogListComponent } from './blog-list/blog-list.component';
+// Components
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { BlogListComponent } from './blog-list/blog-list.component';
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 const routes: Routes = [
   { path: 'blog', component: BlogListComponent },

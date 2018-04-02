@@ -1,24 +1,32 @@
-// == Angular modules
-import { NgModule } from '@angular/core';
+// Angular
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-// == Feature modules
+// Modules
 import { HomeRoutingModule } from './home-routing.module';
 import { BlogModule } from '../blog/blog.module';
 import { MailModule } from '../mail/mail.module';
 
-// == Home page related Components
+// Components
 import { HomeComponent } from './home.component';
 import { HomeWelcomeComponent } from './home-welcome/home-welcome.component';
 import { HomeFeaturesComponent } from './home-features/home-features.component';
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 @NgModule({
   imports: [
     CommonModule,
     HomeRoutingModule,
     BlogModule,
-    MailModule
+    MailModule,
   ],
-  declarations: [HomeComponent, HomeWelcomeComponent, HomeFeaturesComponent]
+  declarations: [
+    HomeComponent,
+    HomeFeaturesComponent,
+    HomeWelcomeComponent,
+   ]
 })
 export class HomeModule { }

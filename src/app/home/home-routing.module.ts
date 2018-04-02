@@ -1,9 +1,13 @@
-// == Angular core modules
+// Angular
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-// == Angular Components
+// Components
 import { HomeComponent } from './home.component';
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent }
