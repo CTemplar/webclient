@@ -1,16 +1,20 @@
-// == Angular modules
-import { NgModule } from '@angular/core';
+// Angular
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-// == Feature modules
+// Modules
 import { BlogRoutingModule } from './blog-routing.module';
 import { MailModule } from '../mail/mail.module';
 
-// == Angular components
-import { BlogLatestComponent } from './shared/blog-latest/blog-latest.component';
-import { BlogRelatedComponent } from './blog-related/blog-related.component';
-import { BlogListComponent } from './blog-list/blog-list.component';
+// Components
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { BlogLatestComponent } from './shared/blog-latest/blog-latest.component';
+import { BlogListComponent } from './blog-list/blog-list.component';
+import { BlogRelatedComponent } from './blog-detail/blog-related/blog-related.component';
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 @NgModule({
   imports: [
@@ -18,7 +22,15 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
     BlogRoutingModule,
     MailModule
   ],
-  declarations: [BlogLatestComponent, BlogRelatedComponent, BlogListComponent, BlogDetailComponent],
-  exports: [BlogLatestComponent, BlogRelatedComponent]
+  declarations: [
+    BlogDetailComponent,
+    BlogLatestComponent,
+    BlogListComponent,
+    BlogRelatedComponent,
+  ],
+  exports: [
+    BlogLatestComponent,
+    BlogRelatedComponent,
+  ]
 })
 export class BlogModule { }

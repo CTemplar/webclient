@@ -1,10 +1,14 @@
-// == Angular modules
-import { NgModule } from '@angular/core';
+// Angular
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-// == Angular components
+// Components
 import { FooterComponent } from './footer.component';
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 @NgModule({
   imports: [
@@ -12,6 +16,6 @@ import { FooterComponent } from './footer.component';
     RouterModule
   ],
   declarations: [FooterComponent],
-  exports: [ FooterComponent ]
+  exports: [FooterComponent]
 })
 export class FooterModule { }

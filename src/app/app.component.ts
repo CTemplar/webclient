@@ -1,34 +1,63 @@
-import { Component, HostBinding, HostListener, Inject } from '@angular/core';
+// Angular
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+
+// Services
+import { BlogService } from './blog/shared/blog.service';
+// import { MailService } from './mail/shared/mail.service';
+// import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
+// import { SharedService } from './shared/shared.service';
+// import { UsersService } from './users/shared/users.service';
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  // title = 'app';
+export class AppComponent implements OnInit {
+  // Switch header and footer inside mail view
+  isMail = false;
+  // When everything is ready, isReady is true and the loader disappears
+  // isBlogReady = false;
+  // isMailReady = false;
+  // isBlogReady = false;
+  // isReady = false;
+  // Loading quotes
+  // quotes = [];
 
-  /**
-   * The below code is to disable transition on DOM elements on window resize. The css3 transition creats flickring effect on resize.
-   */
-  // Public property of boolean type set false by default
+  // Disable transition on DOM elements on window resize
+  // The CSS3 transition creates flickring effect on resize
   public windowIsResized: boolean = false;
   public resizeTimeout: number = null;
 
   constructor(
+    private blogService: BlogService,
     @Inject(DOCUMENT) private document: any,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+  ) {
+    // this.sharedService.isMail
+    //   .subscribe(data => this.isMail = data);
+    // this.sharedService.isBlogReady
+    //   .subscribe(data => this.isBlogReady = data);
+    // this.sharedService.isMailReady
+    //   .subscribe(data => this.isMailReady = data);
+    // this.sharedService.isReady
+    //   .subscribe(data => this.isReady = data);
+ }
 
   ngOnInit() {
-    // Fire events once app has been initialized - this code scroll to the top of each page on routing
+    // Scroll to the top of each page on routing
     this.router.events.subscribe(params => window.scrollTo(0, 0));
+    // Fire loader
+    this.loader();
   }
 
-  // == Listening to resize event for window object
+  // Resize event for window object
   @HostListener("window:resize", ['$event'])
   onResize(event) {
     this.windowIsResized = true;
@@ -36,9 +65,37 @@ export class AppComponent {
       // this.windowIsResized = true;
       clearTimeout(this.resizeTimeout);
     }
-
     this.resizeTimeout = setTimeout((() => {
       this.windowIsResized = false;
     }).bind(this), 10);
+  }
+
+  loader() {
+    this.blogService.cache();
+    // this.quote = this.quotes[Math.floor(Math.random() * 5)];
+    // window.addEventListener('load', () => {
+    //   setTimeout(() => {
+    //     this.sharedService.isReady.emit(true);
+    //   }, 5000);
+    // });
+    //
+    // if (this.usersService.signedIn()) {
+    //   this.usersService.verifyToken().subscribe(_ => {
+    //     this.blogService.cache();
+    //     this.mailService.cache();
+    //     this.usersService.refreshToken().subscribe();
+    //   },
+    //     error => this.usersService.signOut(),
+    //   );
+    // } else {
+    //   this.blogService.cache();
+    //   this.sharedService.isMailReady.emit(true);
+    // }
+    //
+    // this.route.queryParams.subscribe(params => {
+    //   if (params['ref']) {
+    //     this.sharedService.patchReferrer(params['ref']);
+    //     window.history.replaceState(null, null, window.location.pathname);
+    //   }});
   }
 }
