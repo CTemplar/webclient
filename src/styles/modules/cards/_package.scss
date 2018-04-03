@@ -9,8 +9,27 @@
 }
 
 .package-card-header {
+    position: relative;
     padding: 1.813rem 1.25rem;
     border-radius: 4px 4px 0 0;
+
+    .js-card-swiper {
+        position: absolute;
+        top: 50%;
+        right: 1.25rem;
+        padding: 0 0;
+        background: none;
+        border: 0;
+        color: $brand-white;
+        line-height: 1;
+        outline: 0;
+        transform: translateY(-50%);
+
+        &.left {
+            right: auto;
+            left: 1.25rem;
+        }
+    }
 }
 
 .package-card-basic {
@@ -38,10 +57,10 @@
     position: relative;
     padding: 0.70rem 0.75rem 0.70rem 2.5rem;
     line-height: 1;
-    font-weight: 600;
+    font-weight: 400;
 
     &.has-border {
-        padding: 1.25rem 0.75rem 1.25rem 2.5rem;
+        padding: 1.25rem 0 1.25rem 2.5rem;
         border-bottom: 1px solid $border-gray;
 
         .fa {
@@ -87,7 +106,15 @@
 }
 
 .package-coming-soon {
-    h5 {
+    h6 {
         padding-left: 0.75rem;
+    }
+
+    .package-list {
+        color: rgba(97, 97, 97, 0.87);
+    }
+
+    .fa {
+        opacity: 0.4;
     }
 }

@@ -33,6 +33,17 @@
 	}
 }
 
+.l-block-group .l-block-header {
+	margin: 0 auto;
+	max-width: 745px;
+
+	margin-bottom: 1.875rem;
+
+	@include media(">sm") {
+		margin-bottom: 3rem;
+	}
+}
+
 .l-block-title {
 	margin-bottom: 1.875rem;
 	color: rgba(0, 0, 0, 0.87);
@@ -242,19 +253,22 @@
 
 .px-xs {
 	@include media("<ipad", ">sm") {
-		padding: 0 1.875rem
+		padding-right: 1.875rem;
+		padding-left: 1.875rem
 	}
 }
 
 .px-md {
 	@include media("<ipad", ">sm") {
-		padding: 0 5.625rem
+		padding-right: 5.625rem;
+		padding-left: 5.625rem
 	}
 }
 
 .px-lg {
 	@include media("<ipad", ">sm") {
-		padding: 0 8.438rem
+		padding-right: 8.438rem;
+		padding-left: 8.438rem
 	}
 }
 
@@ -262,7 +276,7 @@
 .l-block-header .btn-dropdown {
 	@include media(">sm") {
 		position: absolute;
-		top: 0;
+		top: 0.875rem;
 		right: 0;
 	}
 
@@ -274,4 +288,100 @@
 // == Pages > donate page
 .donate-content-holder {
 	max-width: 585px;
+}
+
+// == Pages > media kit page
+.v-card {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&::after {
+		content: "";
+		display: block;
+		padding-bottom: percentage(198 / 264);
+		width: 100%;
+	}
+}
+
+.media-card-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	padding: 0.938rem;
+	width: 100%;
+	transform: translateX(-50%) translateY(-50%);
+}
+
+.media-actions-list {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: -0.75rem;
+	margin-left: -0.75rem;
+
+	>li {
+		padding-right: 0.75rem;
+		padding-left: 0.75rem;
+		line-height: 1;
+
+		>a {
+			color: $brand-success;
+			font-size: 0.875rem;
+
+			&:hover {
+				color: darken($brand-success, 5%);
+			}
+
+			i {
+				display: inline-block;
+				margin-right: 0.5rem;
+			}
+		}
+	}
+}
+
+// == Pages > onions page
+.onions-pic-holder {
+	max-width: 360px;
+}
+
+.onion-lg-btn {
+	@include media("<=sm") {
+		padding-right: 0.938rem;
+		padding-left: 0.938rem;
+		font-size: 0.875rem;
+	}
+}
+
+// == Pages > privacy policy
+.static-text-holder {
+	h3 {
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	h3 {
+		margin-top: 1.875rem;
+		margin-bottom: 0.875rem;
+		color: rgba(0, 0, 0, 0.87);
+
+		@include media(">sm") {
+			margin-top: 3.125rem;
+			margin-bottom: 0.938rem;
+		}
+	}
+
+	ul,
+	ol {
+		padding-left: 0.625rem;
+		list-style-position: inside;
+	}
 }

@@ -2,6 +2,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+// Bootstrap
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 // Modules
 import { PagesRoutingModule } from './pages-routing.module';
 import { BlogModule } from '../blog/blog.module';
@@ -24,6 +27,7 @@ import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.compon
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     PagesRoutingModule,
     BlogModule,
     MailModule
