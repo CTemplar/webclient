@@ -17,6 +17,10 @@ p, .para, address, blockquote {
     }
 }
 
+.text-normal {
+    text-transform: none;
+}
+
 .small,
 .text-small {
     font-size: 0.75rem;

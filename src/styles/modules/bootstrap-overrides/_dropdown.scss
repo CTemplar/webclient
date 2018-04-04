@@ -11,6 +11,7 @@
     opacity: 0;
     pointer-events: none;
     display: block !important;
+    box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.1);
     visibility: hidden;
     transform: translateY(10px);
     transition: all ceaser($easeInOutQuint) 0.35s;
@@ -149,7 +150,8 @@
         border-top-right-radius: 0;
         text-align: left;
         transform: none;
-        transition: none;       
+        transition: none;
+        visibility: visible;    
     }
 
     .show {

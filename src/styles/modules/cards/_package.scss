@@ -4,8 +4,12 @@
 
 // == package card
 .package-card {
-    padding-bottom: 2.813rem;
+    padding-bottom: 1.875rem;
     border-radius: 4px;
+
+    @include media(">sm") {
+        padding-bottom: 2.813rem;
+    }
 }
 
 .package-card-header {
@@ -49,24 +53,35 @@
 
 .package-card-body,
 .package-card-footer {
-    padding: 0 1.25rem;
+    padding: 0 0.938rem;
+
+    @include media(">=ipad") {
+        padding: 0 1.25rem;
+    }
 }
 
 // == package card lists
 .package-list-item {
     position: relative;
-    padding: 0.70rem 0.75rem 0.70rem 2.5rem;
+    padding: 0.70rem 0.75rem 0.70rem 1.875rem;
     line-height: 1;
     font-weight: 400;
+    
+    @include media(">=ipad") {
+        padding: 0.70rem 0.75rem 0.70rem 2.5rem;
+    }
 
     &.has-border {
-        padding: 1.25rem 0 1.25rem 2.5rem;
+        padding: 1.25rem 0 1.25rem 1.875rem;
         border-bottom: 1px solid $border-gray;
+        
+        @include media(">=ipad") {
+            padding: 1.25rem 0 1.25rem 2.5rem;
+        }
 
         .fa {
             position: absolute;
             top: 1.25rem;
-            left: 0.75rem;
         }
 
         + .package-list-item:not(.has-border) {
@@ -84,20 +99,33 @@
     .fa {
         position: absolute;
         top: 0.7rem;
-        left: 0.75rem;
+        left: 0;
+
+        @include media(">=ipad") {
+            left: 0.75rem;
+        }
     }
 }
 
 // == package-text-holder
 .package-text-holder {
-    margin: 1.25rem 0 2.188rem;
-    padding: 2.5rem 0.75rem;
+    margin: 1.125rem 0 1.625rem;
+    padding: 0.938rem 0.75rem;
     border-top: 1px solid $border-gray;
     border-bottom: 1px solid $border-gray;
+
+    @include media(">sm") {
+        margin: 1.25rem 0 2.188rem;
+        padding: 2.5rem 0.75rem;
+    }
 }
 
 .package-text-holder-sm {
-    padding: 1.25rem 0.75rem;
+    padding: 0.938rem 0 0.938rem 0;//~1.25rem 0.75rem;
+
+    @include media(">=ipad") {
+        padding: 0.938rem 0 0.938rem 0.75rem;//~1.25rem 0.75rem;
+    }
 }
 
 .package-storage-select {
@@ -116,5 +144,47 @@
 
     .fa {
         opacity: 0.4;
+    }
+}
+
+.pay-type-list {
+    >li {
+        &:not(:last-of-type) {
+            margin-bottom: 0.875rem;
+        }
+    }
+}
+
+.package-card .badge {
+    margin-left: 0.5rem;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid $brand-primary;
+    color: $brand-primary;
+    font-size: 0.875rem;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+// == Small screen code for package cards
+@include media("<=sm") {
+    .package-card {
+        font-size: 0.875rem;
+        h2 {
+            font-size: 1.750rem;
+        }
+    }
+
+    .package-basic-col.is-inactive-slide,
+    .package-prime-col.is-inactive-slide,
+    .package-prime-col {
+        display: none;
+    }
+
+    .package-basic-col.is-inactive-slide + .package-prime-col {
+        display: block;
+    }
+
+    .currency-select-dropdown > .dropdown-toggle {
+        width: 100% !important;
     }
 }

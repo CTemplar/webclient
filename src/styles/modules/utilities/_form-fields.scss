@@ -1,0 +1,61 @@
+/**
+* Fancy form fields styles
+*/
+
+.fancy-field-group {
+
+}
+
+.fancy-field-control {
+    display: none !important;
+}
+
+.fancy-field-control + label {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+    padding-left: 1.625rem;
+    color: $brand-light-gray;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: all ceaser($easeInOutQuint) 0.35s;
+
+    &::before,
+    &::after {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        content: "";
+        transform: translateY(-50%);
+        transition: all ceaser($easeInOutQuint) 0.35s;
+    }
+
+    &::before {
+        background: $brand-white;
+        border: 1px solid lighten($brand-light-gray, 50%);
+        border-radius: 50%;
+        height: 1.25rem;
+        width: 1.25rem;
+    }
+
+    &::after {
+        left: 0.25rem;
+        background: transparent;
+        border-radius: 50%;
+        height: 0.75rem;
+        width: 0.75rem;
+    }
+}
+
+// == Checked
+.fancy-field-control:checked + label {
+    color: $brand-secondary;
+
+    &::before {
+        border-color: $brand-secondary;
+    }
+    
+    &::after {
+        background: $brand-secondary;
+    }
+}
