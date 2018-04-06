@@ -135,7 +135,9 @@
 
 .package-coming-soon {
     h6 {
-        padding-left: 0.75rem;
+        @include media(">sm") {
+            padding-left: 0.75rem;
+        }
     }
 
     .package-list {
@@ -157,34 +159,111 @@
 
 .package-card .badge {
     margin-left: 0.5rem;
-    padding: 0.5rem 0.625rem;
+    padding: 0.5rem 0.3rem;
     border: 1px solid $brand-primary;
     color: $brand-primary;
     font-size: 0.875rem;
     font-weight: bold;
     vertical-align: middle;
+
+    @include media(">sm") {
+        padding: 0.5rem 0.625rem;
+    }
 }
 
 // == Small screen code for package cards
 @include media("<=sm") {
-    .package-card {
-        font-size: 0.875rem;
-        h2 {
-            font-size: 1.750rem;
+    // .package-basic-col.is-inactive-slide,
+    // .package-prime-col.is-inactive-slide,
+    // .package-basic-col {
+    //     display: none;
+    // }
+
+    // .package-prime-col.is-inactive-slide + .package-basic-col {
+    //     display: block;
+    // }
+
+    .package-basic-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+        transform: translateX(-45px);
+        transition: all ceaser($easeInOutQuint) 0.35s;
+
+        &.is-active-slide {
+            transform: translateX(-100%);
+        }
+
+        .package-card {
+            margin-right: 0;
+            margin-left: auto;
         }
     }
 
-    .package-basic-col.is-inactive-slide,
-    .package-prime-col.is-inactive-slide,
     .package-prime-col {
-        display: none;
+        flex: 0 0 100%;
+        max-width: 100%;
+        transform: translateX(calc(-100% + 45px));
+        transition: all ceaser($easeInOutQuint) 0.35s;
+
+        &.is-active-slide,
+        &.active-slide {
+            transform: translateX(0%);
+        }
+
+        .package-card {
+            margin-left: 0;
+        }
     }
 
-    .package-basic-col.is-inactive-slide + .package-prime-col {
-        display: block;
+    .package-card {
+        font-size: 0.875rem;
+        width: calc(100% - 15px);
+
+        h2 {
+            font-size: 1.750rem;
+        }
+
+        .btn-lg {
+            padding: .75rem 1.875rem;
+            min-width: 235px;
+        }
     }
 
     .currency-select-dropdown > .dropdown-toggle {
         width: 100% !important;
+    }
+
+    .pay-price + .small {
+        font-size: 0.688rem;
+    }
+
+    // Package tab
+    .package-xs-tab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1.25rem -0.625rem 1.25rem;
+        padding: 0 0;
+        line-height: 1;
+
+        >li {
+            padding: 0 0.625rem;
+
+            &.is-active>a,
+            &.active>a {
+                color: $brand-black !important;
+                text-decoration: underline !important;
+            }
+        }
+
+        >li>a {
+            color: $brand-gray;
+            font-size: 0.875rem;
+            font-weight: 500;
+
+            &:hover {
+                color: $brand-black !important;
+            }
+        }
     }
 }

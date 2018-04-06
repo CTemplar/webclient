@@ -16,8 +16,21 @@ input:-webkit-autofill {
 @include placeholder('.form-control', $brand-light-gray, '', $font-family-lato, 'initial', italic);
 @include placeholder('.form-control.error', $brand-danger, '', $font-family-lato, 'initial', italic);
 
+.form-group {
+    @include media("<=sm") {
+        margin-bottom: 1.25rem;
+    }
+}
+
 .form-control {
     font-family: inherit;
+}
+
+.form-control-lg {
+    @include media("<=sm") {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
 }
 
 select, select.form-control {

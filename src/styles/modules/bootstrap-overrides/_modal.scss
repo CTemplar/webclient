@@ -1,0 +1,45 @@
+/**
+* Overriding bootstrap modal
+*/
+
+.modal,
+.modal-type-default {
+    text-align: center;
+}
+
+.modal-header {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.modal-title {
+    line-height: 1;
+}
+
+.modal-body {
+    padding: 1.5rem 1.563rem 2.5rem 1.563rem;
+    border-bottom-left-radius: $border-radius-lg;
+    border-bottom-right-radius: $border-radius-lg;
+
+    @include media(">sm") {
+        padding: 1.875rem 1.563rem 3.125rem 1.563rem;
+    }
+}
+
+.modal::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -1px;
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+// .modal-open #mastHead {
+//     width: calc(100% - 17px);
+// }

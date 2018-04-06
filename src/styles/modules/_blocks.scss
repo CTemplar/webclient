@@ -386,3 +386,26 @@
 		list-style-position: inside;
 	}
 }
+
+// == Pages > Login / Signup page
+.login-content-holder {
+	max-width: 360px;
+}
+
+.btn.login-btn {
+	min-width: inherit;
+}
+
+.password-toggle {
+	cursor: pointer;
+
+	&.is-shown {
+		color: $brand-black !important;
+	}
+}
+
+.login-content-holder {
+	label {
+		font-size: 1rem;
+	}
+}

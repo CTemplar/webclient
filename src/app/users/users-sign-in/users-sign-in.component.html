@@ -1,3 +1,140 @@
-<p>
-  users-sign-in works!
-</p>
+<!-- PAGE SECTION -->
+<section class="l-block l-block-text bg-white text-center text-white gap-p-eq has-cover" style="background-image: url(assets/images/user-actions/login-bg.png);">
+  <div class="container container-xs">
+    <header class="l-block-header position-relative">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
+          <h1 class="l-block-title text-white text-uppercase">
+            <strong>User Login</strong>
+          </h1>
+        </div>
+      </div>
+    </header>
+    <div class="l-block-body px-xs">
+      <div class="l-content-holder login-content-holder mx-auto mt-md-3">
+        <div class="form">
+          <form>
+            <div class="form-group">
+              <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
+              <input class="form-control form-control-lg" id="loginUsername" placeholder="Username" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up">Password</label>
+              <div class="input-group">
+                <input #input formControlName="password" class="form-control form-control-lg border-right-0" id="loginPassword" placeholder="Password"
+                  type="password" aria-describedby="passwordToggle" />
+                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(input)">
+                  <i class="fa fa-eye"></i>
+                </span>
+              </div>
+            </div>
+            <div class="form-group form-user-actions mt-4 mt-sm-5">
+              <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">Login</button>
+            </div>
+          </form>
+        </div>
+        <div class="form-alternative-content">
+          <div class="reset-password mb-0 mb-sm-2">
+            <a class="text-faded" (click)="open(content)" role="button">
+              <small>
+                <u>Reset Password</u>
+              </small>
+            </a>
+          </div>
+          <div class="create-account">
+            <a href="" class="text-white">
+              <strong>
+                <u>Create Account</u>
+              </strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.Site container ends -->
+</section>
+<!-- /.PAGE SECTION ENDS -->
+
+<ng-template #content let-c="close" let-d="dismiss" class="modal-type-default">
+  <div class="modal-header text-center justify-content-center">
+    <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
+      <strong>Reset Password</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <p>We will send a reset code to your
+        <a href="">recovery email</a> to reset your password. </p>
+      <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails if you
+        reset your password.</p>
+      <p>If you did not set a recovery email then your account is not recoverable.</p>
+
+      <div class="login-content-holder mx-auto mt-4 pt-sm-2">
+        <div class="form">
+          <form>
+            <div class="form-group">
+              <label for="resetPasswordUsername" class="d-block text-muted text-left hidden-sm-up">Username to Reset</label>
+              <input class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Usernamet to reset" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="resetPasswordemail" class="d-block text-muted text-left hidden-sm-up">Recovery Email</label>
+              <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="text" />
+            </div>
+            <div class="form-group form-user-actions text-center mb-0">
+              <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">Reset Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Password reset modal -->
+<!-- Modal -->
+<div class="modal modal-type-default fade" id="resetPasswordModalx" tabindex="-1" role="dialog" aria-labelledby="resetPasswordModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center justify-content-center">
+        <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
+          <strong>Reset Password</strong>
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-faded">
+        <div class="text-holder text-dark text-medium">
+          <p>We will send a reset code to your
+            <a href="">recovery email</a> to reset your password. </p>
+          <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails if
+            you reset your password.</p>
+          <p>If you did not set a recovery email then your account is not recoverable.</p>
+
+          <div class="login-content-holder mx-auto mt-4 pt-sm-2">
+            <div class="form">
+              <form>
+                <div class="form-group">
+                  <label for="resetPasswordUsername" class="d-block text-muted text-left hidden-sm-up">Username to Reset</label>
+                  <input class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Usernamet to reset" type="text" />
+                </div>
+                <div class="form-group">
+                  <label for="resetPasswordemail" class="d-block text-muted text-left hidden-sm-up">Recovery Email</label>
+                  <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="text" />
+                </div>
+                <div class="form-group form-user-actions text-center mb-0">
+                  <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">Reset Password</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

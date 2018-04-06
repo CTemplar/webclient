@@ -24,65 +24,18 @@
       </div>
     </header>
     <div class="l-block-body px-xs">
-      <div class="package-card-holder mt-4 mt-sm-5">
-        <div class="row row-lg">
-          <div class="col-sm-6 package-basic-col mb-4 mb-sm-0" [class.is-inactive-slide]="1 === selectedIndex">
-            <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
-              <header class="package-card-header text-center">
-                <h2 class="text-white m-0">
-                  <strong>Free</strong>
-                </h2>
-                <button role="button" class="js-card-swiper hidden-sm-up" (click)="toggleSlides(1)"><i class="fa fa-chevron-right"></i></button>
-              </header>
-              <div class="package-card-body">
-                <ul class="package-list mb-0 list-style-none pl-0">
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 User</li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>250 Mb Storage</li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 E-mail Address</li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>100 Messages per Day</li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>3 Folders</li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Limited Support</li>
-                  <li class="package-list-item">
-                    <i class="fa fa-times text-danger"></i>
-                    <del>Dead Mans Timer</del>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-times text-danger"></i>
-                    <del>Delayed Delivery Timer</del>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-times text-danger"></i>
-                    <del>Self Destruct Timer</del>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-times text-danger"></i>
-                    <del>Encryption for non-CTemplar Users</del>
-                  </li>
-                </ul>
-              </div>
-              <footer class="package-card-footer text-center">
-                <div class="package-text-holder">
-                  <h2 class="m-0 fw-light">free</h2>
-                </div>
-                <div class="package-actions">
-                  <a href="" class="btn btn-lg btn-gradient-info">Select Free</a>
-                </div>
-              </footer>
-            </div>
-          </div>
-          <div class="col-sm-6 package-prime-col" [class.is-inactive-slide]="2 === selectedIndex">
+      <div class="package-card-holder mt-3 mt-sm-0 mt-md-5">
+        <ul class="package-xs-tab list-style-none hidden-sm-up">
+            <li class="active" [class.is-active]="1 === selectedIndex"><a role="button" (click)="toggleSlides(1);">Prime</a></li>
+            <li [class.is-active]="2 === selectedIndex"><a role="button" (click)="toggleSlides(2);">Free</a></li>
+        </ul>
+        <div class="row flex-nowrap row-lg">
+          <div class="col-sm-6 flex-sm-last package-prime-col active-slide" [class.is-active-slide]="1 === selectedIndex">
             <div class="package-card package-card-prime is-shadowed bg-white text-dark">
               <header class="package-card-header text-center">
                 <h2 class="text-white m-0">
                   <strong>Prime</strong>
                 </h2>
-                <button role="button" class="js-card-swiper left hidden-sm-up" (click)="toggleSlides(2)"><i class="fa fa-chevron-left"></i></button>
               </header>
               <div class="package-card-body">
                 <ul class="package-list mb-0 list-style-none pl-0">
@@ -129,11 +82,9 @@
                   <li class="package-list-item">
                     <i class="fa fa-check text-green"></i>Encryption for non-CTemplar Users</li>
                 </ul>
-                <div class="package-coming-soon mt-4">
-                  <h6 class="text-muted mb-3">
-                    <u>Features to be added to this package soon:</u>
-                  </h6>
-                  <ul class="package-list mb-0 list-style-none pl-0">
+                <div class="package-coming-soon mt-3 mt-sm-4">
+                  <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u>Features to be added to this package soon:</u></a></h6>
+                  <!-- <ul class="package-list mb-0 list-style-none pl-0">
                     <li class="package-list-item">
                       <i class="fa fa-check text-green"></i>1 Custom Domain</li>
                     <li class="package-list-item">
@@ -144,7 +95,7 @@
                       <i class="fa fa-check text-green"></i>Autoresponder</li>
                     <li class="package-list-item">
                       <i class="fa fa-check text-green"></i>Notifications</li>
-                  </ul>
+                  </ul> -->
                 </div>
               </div>
               <footer class="package-card-footer">
@@ -159,7 +110,10 @@
                           </div>
                         </div>
                         <div class="col-4 text-right">
-                          <div class="pay-price"><strong>$8</strong><span class="text-muted">/mo</span></div>
+                          <div class="pay-price">
+                            <strong>$8</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -173,7 +127,10 @@
                           </div>
                         </div>
                         <div class="col-4 text-right">
-                          <div class="pay-price"><strong>$6.4</strong><span class="text-muted">/mo</span></div>
+                          <div class="pay-price">
+                            <strong>$6.4</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
                           <div class="small text-muted">Billed as $65/yr</div>
                         </div>
                       </div>
@@ -181,7 +138,58 @@
                   </ul>
                 </div>
                 <div class="package-actions text-center">
-                  <a href="" class="btn btn-lg btn-gradient-primary">Select Prime $8/<span class="text-normal">mo</span></a>
+                  <a href="" class="btn btn-lg btn-gradient-primary">Select Prime $8/
+                    <span class="text-normal">mo</span>
+                  </a>
+                </div>
+              </footer>
+            </div>
+          </div>
+          <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
+            <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
+              <header class="package-card-header text-center">
+                <h2 class="text-white m-0">
+                  <strong>Free</strong>
+                </h2>
+              </header>
+              <div class="package-card-body">
+                <ul class="package-list mb-0 list-style-none pl-0">
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 User</li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>250 Mb Storage</li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 E-mail Address</li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>100 Messages per Day</li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>3 Folders</li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Limited Support</li>
+                  <li class="package-list-item">
+                    <i class="fa fa-times text-danger"></i>
+                    <del>Dead Mans Timer</del>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-times text-danger"></i>
+                    <del>Delayed Delivery Timer</del>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-times text-danger"></i>
+                    <del>Self Destruct Timer</del>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-times text-danger"></i>
+                    <del>Encryption for non-CTemplar Users</del>
+                  </li>
+                </ul>
+              </div>
+              <footer class="package-card-footer text-center">
+                <div class="package-text-holder">
+                  <h2 class="m-0 fw-light">free</h2>
+                </div>
+                <div class="package-actions">
+                  <a href="" class="btn btn-lg btn-gradient-info">Select Free</a>
                 </div>
               </footer>
             </div>

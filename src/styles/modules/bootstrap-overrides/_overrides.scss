@@ -5,29 +5,16 @@
 @import "button";
 @import "form";
 @import "dropdown";
+@import "modal";
 
 // == Text
-.text-dark {
-    color: rgba(0, 0, 0, 0.87);
-}
-
-.text-secondary {
-    color: $brand-secondary;
-}
-
-.text-secodary-faded {
-    color: rgba(52, 73, 94, 0.87);
-}
-
-.text-green {
-    color: $brand-green
-}
+@include text-emphasis-variant('.text-dark', rgba(0, 0, 0, 0.87));
+@include text-emphasis-variant('.text-secondary', $brand-secondary);
+@include text-emphasis-variant('.text-secondary-faded', rgba(52, 73, 94, 0.87));
+@include text-emphasis-variant('.text-faded', #c4c4c4);
+@include text-emphasis-variant('.text-green', $brand-green);
 
 // == Background
-.bg-faded {
-    background-color: $brand-faded !important;
-}
-
-.bg-secondary {
-	background-color: $brand-secondary !important;	
-}
+@include bg-variant('.bg-faded', $brand-faded);
+@include bg-variant('.bg-secondary', $brand-secondary);
+@include bg-variant('.bg-white', $brand-white);

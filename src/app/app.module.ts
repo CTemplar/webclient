@@ -22,6 +22,7 @@ import { PagesModule } from './pages/pages.module';
 import { BlogService } from './blog/shared/blog.service';
 // import { MailService } from './mail/shared/mail.service';
 import { SharedService } from './shared/shared.service';
+import { UsersModule } from './users/users.module';
 // import { UsersService } from './users/shared/users.service';
 
 
@@ -44,6 +45,7 @@ import { SharedService } from './shared/shared.service';
     HomeModule,
     MailModule,
     PagesModule,
+    UsersModule,
   ],
   providers: [
     BlogService,

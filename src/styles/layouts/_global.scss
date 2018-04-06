@@ -89,6 +89,9 @@ img, .img {
 
 a {
 	transition: all ceaser($easeInOutQuint) 0.35s;
+	&:focus {
+		outline: 0;
+	}
 }
 
 // Input fields

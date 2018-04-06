@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-users-sign-in',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersSignInComponent implements OnInit {
 
-  constructor() { }
+  // == NgBootstrap Modal stuffs
+  closeResult: string;
+
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
+  }
+
+  // == Open NgbModal
+  open(content) {
+    this.modalService.open(content);
+  }
+
+  // == Toggle password visibility
+  togglePassword(input: any): any {
+    if (input.value === '') return;
+    input.type = input.type === 'password' ?  'text' : 'password';
   }
 
 }
