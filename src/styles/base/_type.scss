@@ -30,6 +30,10 @@ p, .para, address, blockquote {
     font-size: 0.875rem;
 }
 
+.text-case-normal {
+    text-transform: none !important;
+}
+
 .fw-light {
     font-weight: 300;
 }

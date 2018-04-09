@@ -1,0 +1,51 @@
+@import '../../styles/base/variables';
+
+// == Mailbox common
+.mailbox-content {
+	min-height: 100vh;
+
+	h1 {
+		margin-bottom: 2rem;
+		font-size: 1.125rem;
+		text-transform: uppercase;
+	}
+
+	h2, p {
+		font-size: 0.875rem;
+	}
+
+	small {
+		font-size: 0.75rem;
+	}
+}
+
+.mailbox-main-content {
+	min-height: 100vh;
+	margin-left: 290px;
+}
+
+// == Alert
+.l-alert {
+	padding: 0.688rem 1.563rem;
+	border: 1px solid #bdbdbd !important;
+	border-radius: 2px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12);
+	color: $brand-black;
+	font-size: 0.75rem;
+
+	a {
+		color: $brand-black;
+	}
+}
+
+.l-alert-warning {
+	background-color: #fff2df !important;
+}
+
+.l-alert-danger {
+	background-color: #ffe1df !important;
+}
+
+.l-alert-success {
+	background-color: #dff2ff !important;
+}

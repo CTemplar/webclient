@@ -1,7 +1,7 @@
 <!-- App outer -->
-<div class="app-outer" [class.resize-active]="windowIsResized" [ngClass]="{ 'app-outer-secondary': this.router.url !== '/' }">
+<div class="app-outer" [class.resize-active]="windowIsResized" [ngClass]="{ 'app-outer-secondary': this.router.url !== '/' && this.router.url !== '/mail', 'app-outer-mailbox': this.router.url === '/mail' }">
     <!-- Rendering app header component -->
-    <app-header></app-header>
+    <app-header *ngIf="this.router.url !== '/mail'"></app-header>
     <!-- App main content body -->
     <main id="main" role="main">
         <div class="content">
@@ -12,5 +12,5 @@
     </main>
     <!-- /.App main content body ends -->
     <!-- Rendering app footer component -->
-    <app-footer></app-footer>
+    <app-footer *ngIf="this.router.url !== '/mail'"></app-footer>
 </div> <!-- App outer ends -->

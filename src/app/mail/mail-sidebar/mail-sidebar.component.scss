@@ -1,0 +1,41 @@
+@import '../../../styles/base/variables';
+
+// == Sidebar
+.mailbox-sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #34495e;
+	width: 290px;
+}
+
+.mailbox-sidebar-inner {
+	padding-bottom: 1.25rem;
+}
+
+.mailbox-brand,
+.mail-compose-section {
+	padding: 0.938rem 1.563rem;
+}
+
+.mailbox-brand {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+// == Buttons
+.btn-lg.mailbox-btn {
+	padding: .5633rem 3.43066rem;
+	font-size: 0.875rem;
+	min-width: 240px;
+}
+
+.btn-primary.mailbox-btn {
+	&:hover {
+		background-color: #ff4d3b;
+	}
+
+	&:focus {
+		background-color: #ff4d3b;
+	}
+}

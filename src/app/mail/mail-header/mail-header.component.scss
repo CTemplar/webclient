@@ -1,0 +1,88 @@
+@import '../../../styles/base/variables';
+
+// == Mailbox navbar
+.mailbox-navbar {
+	padding: 0.5rem 1.563rem;
+	background-color: $brand-faded;
+	border: 1px solid $dropdown-border-color;
+}
+
+// == Search form
+.search-form {
+	.form-control {
+		padding-right: 3.438rem + 0.938rem
+	}
+
+	.search-btn {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		padding-right: 0.938rem;
+		padding-left: 0.938rem;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		min-width: 55px;
+	}
+}
+
+// == User actions icons
+.mailbox-actions-menu {
+	margin: 0 -0.5rem;
+	padding: 0 0;
+	list-style: none;
+
+	>li {
+		padding: 0 0.5rem;
+
+		>a {
+			display: block;
+			padding: 0.219rem 0.688rem;
+			border: 1px solid $dropdown-border-color;
+			color: $brand-light-gray;
+			font-size: 1.5rem;
+			text-align: center;
+		}
+	}
+
+	.lang-dropdown .dropdown-toggle {
+		padding-top: 0.938rem;
+		padding-bottom: 0.938rem;
+		color: $brand-light-gray;
+		height: 3rem;
+		width: 4.625rem;
+
+		&::before {
+			margin-top: 0rem;
+		}
+	}
+
+	.show.lang-dropdown .dropdown-toggle {
+		color: $brand-secondary;
+		&::before {
+			margin-top: 0.1rem;
+			border-color: $brand-secondary;
+		}
+	}
+
+	.fa-globe {
+		margin-right: 0.25rem;
+	}
+}
+
+.mailbox-lang .dropdown-menu {
+	margin-top: 2px;
+	padding: 0.625rem 0;
+	background-color: $brand-faded;
+
+	>.dropdown-item {
+		padding: 0 0.938rem;
+		border-bottom: 0;
+		font-size: 0.875rem;
+		line-height: 1.2;
+
+		&:not(:last-of-type) {
+			margin-bottom: 0.5rem;
+		}
+	}
+}

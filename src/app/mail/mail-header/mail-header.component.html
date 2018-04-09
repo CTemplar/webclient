@@ -1,3 +1,30 @@
-<p>
-  mail-header works!
-</p>
+<nav class="navbar mailbox-navbar" role="navigation">
+    <div class="row align-items-center">
+        <div class="col-sm-6">
+            <div class="form search-form">
+                <form>
+                    <div class="form-group mb-0 position-relative">
+                        <input class="form-control form-control-sm" type="text" placeholder="Search" />
+                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <ul class="mailbox-actions-menu d-flex justify-content-end">
+                <li class=""><a href=""><i class="fa fa-cog"></i></a></li>
+                <li class="mailbox-settings pr-0"><a href="" class="border-right-0"><i class="fa fa-cog"></i></a></li>
+                <li class="mailbox-signout pl-0"><a href=""><i class="fa fa-sign-out-alt"></i></a></li>
+                <li class="mailbox-lang mailbox-dropdown btn-dropdown">
+                    <div ngbDropdown class="lang-dropdown">
+                        <button class="dropdown-toggle" type="button" id="langDropdownMenuButton" ngbDropdownToggle><i class="fa fa-globe hidden-xs-down"></i>En</button>
+                        <div ngbDropdownMenu class="dropdown-menu-right text-center" aria-labelledby="langDropdownMenuButton">
+                            <a class="dropdown-item" href="">Ru</a>
+                            <a class="dropdown-item" href="">Es</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

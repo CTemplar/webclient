@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+// Components
+import { MailComponent } from './mail.component';
+
+const routes: Routes = [
+	{ path: 'mail', component: MailComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
