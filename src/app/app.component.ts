@@ -7,7 +7,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { BlogService } from './blog/shared/blog.service';
 // import { MailService } from './mail/shared/mail.service';
 // import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
-// import { SharedService } from './shared/shared.service';
+import { SharedService } from './shared/shared.service';
 // import { UsersService } from './users/shared/users.service';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -23,9 +23,6 @@ export class AppComponent implements OnInit {
   // Switch header and footer inside mail view
   isMail = false;
   // When everything is ready, isReady is true and the loader disappears
-  // isBlogReady = false;
-  // isMailReady = false;
-  // isBlogReady = false;
   // isReady = false;
   // Loading quotes
   // quotes = [];
@@ -36,21 +33,19 @@ export class AppComponent implements OnInit {
   public resizeTimeout: number = null;
 
   constructor(
-    private blogService: BlogService,
     @Inject(DOCUMENT) private document: any,
     public router: Router,
+    private blogService: BlogService,
+    private sharedService: SharedService,
   ) {
-    // this.sharedService.isMail
-    //   .subscribe(data => this.isMail = data);
-    // this.sharedService.isBlogReady
-    //   .subscribe(data => this.isBlogReady = data);
-    // this.sharedService.isMailReady
-    //   .subscribe(data => this.isMailReady = data);
+    this.sharedService.isMail
+      .subscribe(data => this.isMail = data);
     // this.sharedService.isReady
     //   .subscribe(data => this.isReady = data);
  }
 
   ngOnInit() {
+
     // Scroll to the top of each page on routing
     this.router.events.subscribe(params => window.scrollTo(0, 0));
     // Fire loader

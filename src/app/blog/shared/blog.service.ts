@@ -54,7 +54,7 @@ export class BlogService {
   }
 
   cache() {
-    this.getPosts().subscribe(_ => this.sharedService.isBlogReady.emit(true));
+    this.getPosts().subscribe();
   }
 
   detail(slug: string) {

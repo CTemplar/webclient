@@ -13,8 +13,6 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class SharedService {
   isMail: EventEmitter<boolean> = new EventEmitter();
-  isBlogReady: EventEmitter<boolean> = new EventEmitter();
-  isMailReady: EventEmitter<boolean> = new EventEmitter();
   isReady: EventEmitter<boolean> = new EventEmitter();
   //
   // constructor(
