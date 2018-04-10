@@ -28,3 +28,62 @@
         </div>
     </div>
 </nav>
+<div class="mailbox-actionbar">
+    <div class="row">
+        <div class="col-6">
+            <ul class="mailbox-actionbar-menu">
+                <li class="btn-dropdown mailbox-dropdown">
+                    <div ngbDropdown>
+                        <button ngbDropdownToggle class="dropdown-toggle" type="button" id="langDropdownMenuButton">
+                            <span class="fancy-field-group">
+                                <input class="d-none fancy-field-control" id="mailboxBulkActions" name="[]" type="checkbox" />
+                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
+                            </span>
+                        </button>
+                        <div ngbDropdownMenu class="text-center" aria-labelledby="langDropdownMenuButton">
+                            <a class="dropdown-item" href="">Ru</a>
+                            <a class="dropdown-item" href="">Es</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="pr-0">
+                    <a href="" class="disabled"><i class="fa fa-archive"></i></a>
+                </li>
+                <li class="pr-0 pl-0">
+                    <a href="" class="disabled"><i class="fa fa-exclamation-circle"></i></a>
+                </li>
+                <li class="pl-0">
+                    <a href="" class="disabled"><i class="fa fa-trash"></i></a>
+                </li>
+                <li class="btn-dropdown mailbox-dropdown">
+                    <div ngbDropdown>
+                        <button ngbDropdownToggle class="dropdown-toggle disabled" type="button"><i class="fa fa-folder"></i></button>
+                        <div ngbDropdownMenu class="text-center" aria-labelledby="langDropdownMenuButton">
+                            <a class="dropdown-item" href="">Ru</a>
+                            <a class="dropdown-item" href="">Es</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg">
+                    <div ngbDropdown class="dropdown">
+                        <button ngbDropdownToggle class="dropdown-toggle disabled" type="button" id="langDropdownMenuButton" >More</button>
+                        <div ngbDropdownMenu class="text-center" aria-labelledby="langDropdownMenuButton">
+                            <a class="dropdown-item" href="">Ru</a>
+                            <a class="dropdown-item" href="">Es</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-6">
+            <div class="mail-controls d-flex align-items-center justify-content-end">
+                <div class="mail-result-text text-muted"><small>1-50 of 2346</small></div>
+                <div class="mail-nav-control">
+                    <button role="button" class="mail-nav-control-prev"><i class="fa fa-chevron-left"></i></button>
+                    <button role="button" class="mail-nav-control-next"><i class="fa fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

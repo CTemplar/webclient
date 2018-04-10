@@ -35,6 +35,10 @@ html {
 			padding-top: 5rem;
 		}
 	}
+
+	&.app-outer-mailbox {
+		padding-top: 0 !important;
+	}
 }
 
 // == custom container

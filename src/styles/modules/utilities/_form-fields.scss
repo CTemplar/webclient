@@ -3,14 +3,14 @@
 */
 
 .fancy-field-group {
-
 }
 
 .fancy-field-control {
     display: none !important;
 }
 
-.fancy-field-control + label {
+// == Radioboxes
+input[type="radio"].fancy-field-control + label {
     position: relative;
     display: inline-block;
     margin-bottom: 0;
@@ -48,7 +48,63 @@
 }
 
 // == Checked
-.fancy-field-control:checked + label {
+input[type="radio"].fancy-field-control:checked + label {
+    color: $brand-secondary;
+
+    &::before {
+        border-color: $brand-secondary;
+    }
+    
+    &::after {
+        background: $brand-secondary;
+    }
+}
+
+// == Checkboxes
+input[type="checkbox"].fancy-field-control + label {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+    padding-left: 1.625rem;
+    color: $brand-light-gray;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: all ceaser($easeInOutQuint) 0.35s;
+
+    &.fancy-field-empty {
+        padding: 0 0;
+        height: 1rem;
+        width: 1rem;
+    }
+
+    &::before,
+    &::after {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        content: "";
+        transform: translateY(-50%);
+        transition: all ceaser($easeInOutQuint) 0.35s;
+    }
+
+    &::before {
+        background: $brand-white;
+        border: 1px solid lighten($brand-light-gray, 50%);
+        border-radius: 2px;
+        height: 1rem;
+        width: 1rem;
+    }
+
+    &::after {
+        left: 0.25rem;
+        background: transparent;
+        height: 2px;
+        width: 0.5rem;
+    }
+}
+
+// == Checked
+input[type="checkbox"].fancy-field-control:checked + label {
     color: $brand-secondary;
 
     &::before {

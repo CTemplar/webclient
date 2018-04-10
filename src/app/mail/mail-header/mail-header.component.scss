@@ -57,16 +57,16 @@
 		}
 	}
 
-	.show.lang-dropdown .dropdown-toggle {
-		color: $brand-secondary;
-		&::before {
-			margin-top: 0.1rem;
-			border-color: $brand-secondary;
-		}
-	}
-
 	.fa-globe {
 		margin-right: 0.25rem;
+	}
+}
+
+.mailbox-dropdown .show.dropdown .dropdown-toggle {
+	color: $brand-secondary;
+	&::before {
+		margin-top: 0.1rem;
+		border-color: $brand-secondary;
 	}
 }
 
@@ -83,6 +83,122 @@
 
 		&:not(:last-of-type) {
 			margin-bottom: 0.5rem;
+		}
+	}
+}
+
+// == Actions bar
+.mailbox-actionbar {
+	padding: 1rem 1.563rem;
+	border-bottom: 1px solid $input-border-color;
+}
+
+.mailbox-actionbar-menu {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin: 0 -0.75rem;
+	padding: 0 0;
+	list-style: none;
+
+	>li {
+		padding: 0 0.75rem;
+		>a,
+		.dropdown-toggle {
+			display: flex;
+			align-items: center;
+			padding: 0.219rem 0.688rem;
+			background: #f5f5f5;
+			border: 1px solid $input-border-color;
+			border-radius: 2px;
+			color: rgba(0,0,0,0.38);			
+			height: 2rem;
+			width: 3.5rem;
+
+			&.disabled {
+				pointer-events: none;
+				color: $input-border-color !important;
+
+				&::before {
+					border-color: $input-border-color !important;
+				}
+			}
+		}
+
+		>a {
+			justify-content: center;
+		}
+
+		.dropdown-toggle::before {
+			border-color: $gray-9e9e9e;
+		}
+
+		&:nth-of-type(2),
+		&:nth-of-type(3) {
+			>a {
+				border-right: 0;
+				border-radius: 0;
+			}
+		}
+
+		&:nth-of-type(4) {
+			>a {
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+		}
+
+		&.mailbox-dropdown-lg {
+			a,
+			.dropdown-toggle {
+				font-size: 0.625rem;
+				width: 4.500rem;
+				letter-spacing: 0.5px;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+	.fancy-field-group {
+		display: block;
+		margin-top: -0.1rem;
+		line-height: 1;
+	}
+}
+
+.mail-result-text {
+	margin-right: 0.75rem;
+}
+
+.mail-nav-control {
+	display: flex;
+	align-items: center;
+	justify-content: ceter;
+
+	[class*="mail-nav-control-"] {
+		background: #f5f5f5;
+		border: 1px solid $dropdown-border-color;
+		border-radius: 2px;
+		color: $gray-9e9e9e;
+		font-size: 0.75rem;
+		height: 2rem;
+		width: 2rem;
+		line-height: 2rem;
+
+		&:first-of-type {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+
+		&:last-of-type {
+			border-left: 0;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+
+		.fa {
+			display: block;
+			line-height: 1;
 		}
 	}
 }

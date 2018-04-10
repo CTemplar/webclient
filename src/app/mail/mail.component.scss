@@ -19,9 +19,16 @@
 	}
 }
 
+// == Mailbox content
+.app-outer-mailbox {
+	small {
+		font-size: 0.75rem;
+	}
+}
+
 .mailbox-main-content {
-	min-height: 100vh;
 	margin-left: 290px;
+	min-height: 100vh;
 }
 
 // == Alert
