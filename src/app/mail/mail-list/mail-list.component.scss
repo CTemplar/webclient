@@ -1,0 +1,104 @@
+@import '../../../styles/base/variables';
+
+// == Listings
+.mail-list-row {
+	padding: 1rem 1.563rem;
+	border-bottom: 1px solid $input-border-color;
+	font-size: 0.75rem;
+	line-height: 1;
+
+	&.is-unread {
+		color: $brand-black;
+	}
+
+	&.is-read {
+		background: #f5f5f5;
+		color: $brand-gray;
+	}
+
+	&.is-checked {
+		background: rgba(241, 196, 15, 0.12);
+	}
+}
+
+.mail-list-inner-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	margin: 0 -0.625rem;
+}
+
+.mail-list-inner-row > .mail-list-col {
+	flex: 0 0 17%;
+	max-width: 17%;
+	padding: 0 0.625rem;
+}
+
+.mail-list-inner-row > .mail-list-col-lg {
+	flex: 0 0 70%;
+	max-width: 70%;
+}
+
+.mail-list-inner-row > .mail-list-col-xs {
+	flex: 0 0 13%;
+	max-width: 13%;
+}
+
+.mail-list-col-row {
+	display: flex;
+	align-items: center;
+	margin: 0 -0.375rem;
+}
+
+.mail-list-col-row > .mail-list-col-item {
+	padding: 0 0.375rem;
+}
+
+.mail-list-col-xs-row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin: 0 -0.75rem;
+}
+
+.mail-list-col-xs-row > .mail-list-col-xs-item {
+	padding: 0 0.75rem;
+}
+
+.mail-list-row {
+	.fa-star {
+		font-size: 0.938rem;
+		color: $input-border-color;
+	}
+
+	&.is-unread .mail-from-name {
+		font-weight: bold;
+	}
+
+	.mail-file-size, 
+	.mail-sent-date {
+		font-size: 0.625rem;
+	}
+
+	.mail-security-status.is-disabled {
+		color: $input-border-color;
+	}
+	
+	.mail-status-type.is-fav .fa-star {
+		color: $brand-info;
+	}
+
+	.mail-desc {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.mail-delete-badge {
+	margin-right: 0.938rem;
+
+	.badge {
+		padding: 0.21rem 0.5rem 0.23rem 0.5rem;
+		line-height: 1;
+	}
+}

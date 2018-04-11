@@ -57,20 +57,20 @@
 		}
 	}
 
+	.show.lang-dropdown .dropdown-toggle {
+		color: $brand-secondary;
+		&::before {
+			margin-top: 0.1rem;
+			border-color: $brand-secondary;
+		}
+	}
+
 	.fa-globe {
 		margin-right: 0.25rem;
 	}
 }
 
-.mailbox-dropdown .show.dropdown .dropdown-toggle {
-	color: $brand-secondary;
-	&::before {
-		margin-top: 0.1rem;
-		border-color: $brand-secondary;
-	}
-}
-
-.mailbox-lang .dropdown-menu {
+.mailbox-dropdown .dropdown-menu {
 	margin-top: 2px;
 	padding: 0.625rem 0;
 	background-color: $brand-faded;

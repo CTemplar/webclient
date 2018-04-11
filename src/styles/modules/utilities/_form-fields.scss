@@ -96,10 +96,25 @@ input[type="checkbox"].fancy-field-control + label {
     }
 
     &::after {
+        left: 0.375rem;
+        top: 0.156rem;
+        width: 5px;
+        height: 9px;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+}
+
+input[type="checkbox"].fancy-field-control.checked-type-minus + label {
+    &::after {
+        top: 50%;
         left: 0.25rem;
         background: transparent;
         height: 2px;
         width: 0.5rem;
+        transform: translateY(-50%) translateX(0) rotate(0deg);
     }
 }
 
@@ -111,6 +126,12 @@ input[type="checkbox"].fancy-field-control:checked + label {
         border-color: $brand-secondary;
     }
     
+    &::after {
+        border-color: $brand-secondary;
+    }
+}
+
+input[type="checkbox"].fancy-field-control.checked-type-minus:checked + label {
     &::after {
         background: $brand-secondary;
     }
