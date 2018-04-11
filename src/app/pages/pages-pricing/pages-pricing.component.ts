@@ -21,7 +21,7 @@ export class PagesPricingComponent implements OnInit {
   }
 
   // == Toggle active state of the slide in price page
-  toggleSlides(index, $event) {
+  toggleSlides(index) {
     this.selectedIndex = index;
     document.querySelector('.package-xs-tab > li').classList.remove('active');
     document.querySelector('.package-prime-col').classList.remove('active-slide');
