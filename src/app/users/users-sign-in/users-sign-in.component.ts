@@ -8,9 +8,6 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class UsersSignInComponent implements OnInit {
 
-  // == NgBootstrap Modal stuffs
-  closeResult: string;
-
   constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
