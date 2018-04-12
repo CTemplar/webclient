@@ -22,6 +22,6 @@ export class BlogListComponent {
   constructor(
     private blogService: BlogService,
   ) {
-    this.featured = this.blogService.featured()
+    // this.featured = this.blogService.featured();
   }
 }

@@ -13,20 +13,27 @@
     <div class="l-block-body px-xs">
       <div class="l-content-holder login-content-holder mx-auto mt-md-3">
         <div class="form">
-          <form>
-            <div class="form-group">
+          <form class="login-form" [formGroup]="lgoinForm" #form="ngForm" (ngSubmit)="login(lgoinForm.value)">
+            <div class="form-group" [ngClass]="{'is-validate': lgoinForm.controls.email.invalid && showFormErrors}">
               <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
-              <input class="form-control form-control-lg" id="loginUsername" placeholder="Username" type="text" />
+              <input class="form-control form-control-lg" id="loginUsername" placeholder="Username" type="text" name="email" formControlName="email" required/>
+              <span *ngIf="lgoinForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
+                <span *ngIf="lgoinForm.controls['email'].errors.required">The email is required.</span>
+                <span *ngIf="lgoinForm.controls['email'].errors.pattern && lgoinForm.value.email">The email is invalid.</span>
+              </span>
             </div>
-            <div class="form-group">
+            <div class="form-group" [ngClass]="{'is-validate': lgoinForm.controls.password.invalid && showFormErrors}">
               <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up">Password</label>
               <div class="input-group">
                 <input #input formControlName="password" class="form-control form-control-lg border-right-0" id="loginPassword" placeholder="Password"
-                  type="password" aria-describedby="passwordToggle" />
+                  type="password" aria-describedby="passwordToggle" name="password" formControlName="password" required/>
                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(input)">
                   <i class="fa fa-eye"></i>
                 </span>
               </div>
+              <span *ngIf="lgoinForm.controls['password'].errors && showFormErrors" class="validate-message">
+                <span *ngIf="lgoinForm.controls['password'].errors.required">The password is required.</span>
+              </span>
             </div>
             <div class="form-group form-user-actions mt-4 mt-sm-5">
               <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">Login</button>
@@ -75,14 +82,14 @@
 
       <div class="login-content-holder mx-auto mt-4 pt-sm-2">
         <div class="form">
-          <form>
+          <form [formGroup]="resetForm" #form="ngForm" (ngSubmit)="resetPassword(resetForm.value)">
             <div class="form-group">
               <label for="resetPasswordUsername" class="d-block text-muted text-left hidden-sm-up">Username to Reset</label>
-              <input class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Usernamet to reset" type="text" />
+              <input class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Usernamet to reset" type="text" formControlName="name"/>
             </div>
             <div class="form-group">
               <label for="resetPasswordemail" class="d-block text-muted text-left hidden-sm-up">Recovery Email</label>
-              <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="text" />
+              <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="text" formControlName="email"/>
             </div>
             <div class="form-group form-user-actions text-center mb-0">
               <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">Reset Password</button>

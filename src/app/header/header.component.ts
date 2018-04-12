@@ -29,18 +29,22 @@ export class HeaderComponent implements OnInit {
 
   // == Setup click event to toggle mobile menu
   toggleState() { // click handler
-    let bool = this.menuIsOpened;
+    const bool = this.menuIsOpened;
     this.menuIsOpened = bool === false ? true : false;
   }
 
   // == Listening to scroll event for window object
   @HostListener("window:scroll", [])
   onWindowScroll() {
-    let number = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
+    const number = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
     if (number > document.getElementById('mastHead').offsetHeight) {
       this.navIsFixed = true;
     } else if (this.navIsFixed && number < 10) {
       this.navIsFixed = false;
     }
+  }
+
+  closeMenu() {
+    this.menuIsOpened = false;
   }
 }
