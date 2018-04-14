@@ -26,6 +26,7 @@ body {
 // == app outer wrapper
 .app-outer {
 	overflow-x: hidden;
+	position: relative;
 	
 	// == inner page app outer
 	.inner-template &,

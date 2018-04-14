@@ -1,4 +1,7 @@
 @import '../../../styles/base/variables';
+@import '../../../styles/vendors/include-media/include-media';
+@import '../../../styles/config/include-media-config';
+@import '../../../styles/vendors/ceaser/ceaser-easing';
 
 // == Mailbox footer
 #mailboxFooter {
@@ -7,8 +10,20 @@
 	bottom: 0;
 	left: 0;
 	// margin-left: 290px;
-	padding: 1.5rem 1.563rem;
+	padding: 1.5rem 0.938rem;
 	background: $brand-white;
+
+	@include media(">sm") {
+		padding: 1.5rem 1.563rem;
+	}
+
+	@include media("<ipad", ">sm") {
+		margin-left: 68px;
+	}
+
+	@include media(">=ipad") {
+		margin-left: 290px;
+	}
 }
 
 .mailbox-footer-menu {

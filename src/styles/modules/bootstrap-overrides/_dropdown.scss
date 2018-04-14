@@ -24,6 +24,10 @@
     transform: translateY(0px);
 }
 
+.dropdown-menu-right {
+    left: auto !important;
+}
+
 .dropdown-toggle {
     &::after {
         display: none !important;

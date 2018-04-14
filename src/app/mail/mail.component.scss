@@ -1,23 +1,7 @@
 @import '../../styles/base/variables';
-
-// == Mailbox common
-// .mailbox-content {
-// 	min-height: 100vh;
-
-// 	h1 {
-// 		margin-bottom: 2rem;
-// 		font-size: 1.125rem;
-// 		text-transform: uppercase;
-// 	}
-
-// 	h2, p {
-// 		font-size: 0.875rem;
-// 	}
-
-// 	small {
-// 		font-size: 0.75rem;
-// 	}
-// }
+@import '../../styles/vendors/include-media/include-media';
+@import '../../styles/config/include-media-config';
+@import '../../styles/vendors/ceaser/ceaser-easing';
 
 // == Mailbox content
 .app-outer-mailbox {
@@ -26,8 +10,18 @@
 	}
 }
 
+// == Mailbox content
 .mailbox-main-content {
 	position: relative;
-	margin-left: 290px;
+	// margin-left: 68px;
+	padding-bottom: 3.75rem;
 	min-height: 100vh;
+
+	@include media("<ipad", ">sm") {
+		margin-left: 68px;
+	}
+
+	@include media(">=ipad") {
+		margin-left: 290px;
+	}
 }
