@@ -19,22 +19,38 @@
 
 .l-alert-warning {
 	background-color: #fff2df !important;
+	@include media(">sm") {
+		min-width: 405px;
+	}
 }
 
 .l-alert-danger {
 	background-color: #ffe1df !important;
+	@include media(">sm") {
+		min-width: 465px;
+	}
 }
 
 .l-alert-success {
 	background-color: #dff2ff !important;
+	@include media(">sm") {
+		min-width: 300px;
+	}
 }
 
 .l-alert-is-floated {
 	position: absolute;
-	top: 77px;
-	left: 50%;
+	top: 52px;
+	right: 0;
+	left: 0;
 	z-index: $zindex-default;
-	transform: translateX(-50%);
+
+	@include media(">sm") {
+		top: 77px;
+		right: auto;
+		left: 50%;
+		transform: translateX(-50%);
+	}
 }
 
 // == Mailbox navbar
@@ -45,6 +61,11 @@
 	border: 1px solid $dropdown-border-color;
 
 	@include media("<=sm") {
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		z-index: $zindex-default + 9;
 		padding: 1.125rem 0.938rem;
 		background: $brand-secondary;
 		border: 0;
@@ -106,6 +127,12 @@
 				max-width: 265px;
 			}
 		}
+	}
+}
+
+.header-fixed-spacer {
+	@include media("<=sm") {
+		margin-top: 52px;
 	}
 }
 
@@ -195,6 +222,55 @@
 	}
 }
 
+// == Mobile search elements
+.mailbox-xs-search-item {
+	.dropdown-toggle {
+		color: $brand-white;
+		&::before {
+			display: none;
+		}
+	}
+
+	.show>.dropdown-toggle {
+		opacity: 0;
+	}
+
+	.dropdown {
+		position: static;
+	}
+
+	.dropdown-menu {
+		position: absolute;
+		top: -0.5rem !important;
+		right: 0.938rem;
+		left: 0.938rem !important;
+		z-index: $zindex-default;
+		min-width: inherit;
+		background: transparent;
+		box-shadow: none;
+		border: 0;
+		border-radius: 0;
+		transform: none;
+		transition: none;
+	}
+
+	.form-control {
+		padding: 0.469rem 0.938rem + 2rem 0.469rem 0.938rem;
+		border: 0;
+		border-top-left-radius: 2px;
+		border-bottom-left-radius: 2px;
+	}
+
+	.search-btn {
+		padding: 0.5rem 0.625rem;
+		border-color: #2c3e50;
+		border-top-right-radius: 2px;
+		border-bottom-right-radius: 2px;
+		min-width: 2rem;
+		transition: none;
+	}
+}
+
 // == Actions bar
 .mailbox-actionbar {
 	padding: 1rem 0.938rem;
@@ -220,7 +296,8 @@
 	}
 }
 
-.mailbox-actionbar-menu {
+.mailbox-actionbar-menu,
+.more-xs-options-list {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -237,9 +314,14 @@
 
 		@include media("<=sm") {
 			&.more-xs-options {
-				>a {
+				>.dropdown>.dropdown-toggle {
+					justify-content: center;
 					border-left: 0;
 					border-radius: 0 2px 2px 0;
+
+					&::before {
+						display: none;
+					}
 				}
 			}
 
@@ -319,6 +401,47 @@
 		display: block;
 		margin-top: -0.1rem;
 		line-height: 1;
+	}
+
+	@include media("<=sm") {
+		.show>.dropdown-toggle {
+			color: $brand-secondary;
+			&::before {
+				border-color: $brand-secondary;
+			}
+		}
+	}
+}
+
+// == Divider
+.divider-item {
+	margin: 0.375rem 0.938rem;
+	border-top: 1px solid $divider-color;
+}
+
+// == Mailbox small screen options
+.more-xs-options {
+	.mobiledOptionsDropdown {
+		padding: 0.75rem 0.938rem;
+		background: $brand-faded;
+		&.dropdown-menu {
+			margin-top: 1px;
+			right: 0;
+			left: auto !important;
+		}
+
+		.dropdown-toggle {
+			width: 3.5rem;
+		}
+
+		.dropdown-menu {
+			top: 42px !important;
+			left: -67px !important;
+		}
+	}
+
+	.more-xs-options-list {
+		flex-wrap: nowrap;
 	}
 }
 

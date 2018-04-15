@@ -33,6 +33,10 @@
     padding: 1.563rem 1.5rem 1.563rem 1.5rem;
     border-bottom-left-radius: $border-radius-lg;
     border-bottom-right-radius: $border-radius-lg;
+
+    @include media(">sm") {
+        padding: 1.563rem 1.5rem 1.563rem 1.5rem;
+    }
 }
 
 .modal-footer {
@@ -76,7 +80,12 @@
 
 .modal-dialog.modal-sm {
     max-width: 480px;
-    width: 100%;
+
+    @include media("<=sm") {
+        .modal-body {
+            padding: 1.25rem 0.938rem;
+        }
+    }
 }
 
 .modal-dialog.modal-sm {

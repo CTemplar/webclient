@@ -1,7 +1,9 @@
-<app-mail-sidebar></app-mail-sidebar>
+<div class="mailbox-content-outer">
+	<app-mail-sidebar></app-mail-sidebar>
 
-<div class="mailbox-main-content">
-	<app-mail-header></app-mail-header>
-	<router-outlet></router-outlet>
-	<app-mail-footer></app-mail-footer>
+	<div class="mailbox-main-content">
+		<app-mail-header></app-mail-header>
+		<router-outlet></router-outlet>
+		<app-mail-footer></app-mail-footer>
+	</div>
 </div>

@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MailHeaderComponent implements OnInit {
 
-  constructor() { }
+  // Public property of boolean type set false by default
+  public menuIsOpened: boolean = false;
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  // == Setup click event to toggle mobile menu
+  toggleState($event) { // click handler
+    let bool = this.menuIsOpened;
+    this.menuIsOpened = bool === false ? true : false;
   }
 
 }

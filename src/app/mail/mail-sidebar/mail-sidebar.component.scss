@@ -14,8 +14,13 @@
 	width: 200px;
 
 	@include media("<=sm") {
+		z-index: $zindex-default + 10;
 		transform: translateX(-100%);
 		transition: all ease 0.35s;
+
+		&.is-sidebar-expanded {
+			transform: translateX(0%);
+		}
 	}
 
 	@include media("<ipad", ">sm") {
@@ -57,8 +62,11 @@
 
 .mailbox-brand,
 .mail-compose-section {
-	padding: 1.25rem 0.938rem;
-	text-align: center;
+	padding: 1.33rem 0.938rem;
+
+	@include media(">sm") {
+		text-align: center;
+	}
 
 	@include media(">=ipad") {
 		padding: 1.031rem 1.563rem;
@@ -72,6 +80,14 @@
 }
 
 // == Mailbox sidebar menu
+.navbar-toggle-text {
+	display: none;
+	@include media("<=sm") {
+		display: block;
+		padding-left: 2rem;
+	}
+}
+
 .mailbox-sidebar-nav {
 	list-style: none;
 	margin: 0 0;
@@ -79,8 +95,12 @@
 	line-height: 1;
 
 	.divider-item {
-		margin: 0.938rem 0;
+		margin: 0.625rem 0;
 		border-top-color: rgba(255, 255, 255, 0.12);
+
+		@include media(">sm") {
+			margin: 0.938rem 0;
+		}
 
 		@include media(">=ipad") {
 			margin: 0.938rem 1.563rem;
@@ -101,7 +121,7 @@
 .mailbox-sidebar-nav-link {
 	position: relative;
 	display: block;
-	padding: 0.813rem 0.938rem 0.813rem 0.938rem;
+	padding: 0.813rem 0.938rem 0.813rem 3rem;
 	color: $menu-link;
 	min-height: 2.5rem;
 	line-height: 1;
@@ -125,8 +145,12 @@
 	>.badge {
 		position: absolute;
 		top: 50%;
-		left: 1.563rem;
+		left: 0.938rem;
 		transform: translateY(-50%);
+
+		@include media(">sm") {
+			left: 1.563rem;
+		}
 
 		@include media(">=ipad") {
 			// left: 1.563rem;
@@ -162,10 +186,16 @@
 				line-height: 1;
 			}
 		}
+
+		@include media("<=sm") {
+			&.badge-sm {
+				right: 0.938rem;
+			}
+		}
 	}
 
 	.mailbox-sidebar-nav-label {
-		@include media("<ipad") {
+		@include media("<ipad", ">sm") {
 			display: none;
 		}
 	}
@@ -208,9 +238,13 @@
 .mailbox-sidebar-footer {
 	position: absolute;
 	right: 0.938rem;
-	bottom: 3.125rem;
+	bottom: .938rem;
 	left: 0.938rem;
 	line-height: 1;
+
+	@include media(">sm") {
+		bottom: 3.125rem;
+	}
 
 	@include media(">=ipad") {
 		right: 1.563rem;
@@ -222,6 +256,20 @@
 .mailbox-sidebar-footer-text {	
 	color: rgba(255, 255, 255, 0.5);
 	font-size: 0.688rem;
+}
+
+.visible-in-sm {
+	display: none !important;
+	@include media("<ipad", ">sm") {
+		display: block !important;
+	}
+}
+
+.hidden-in-sm {
+	display: block !important;
+	@include media("<ipad", ">sm") {
+		display: none !important;
+	}
 }
 
 // == Buttons
@@ -335,5 +383,30 @@
 				}
 			}
 		}
+	}
+}
+
+// == Mail compose button on mobile
+.mail-compose-xs-btn.is-sticky {
+	position: fixed;
+	top: 50%;
+	right: 0.938rem;
+	z-index: $zindex-default;
+	transform: translateY(-50%);
+
+	.btn.mailbox-compose-btn {
+		border-radius: 50%;
+		border: solid 1px #c0392b;
+		box-shadow: 0 2px 4px 0 rgba(1, 9, 15, 0.3);
+		height: 3.125rem;
+		width: 3.125rem;
+	}
+}
+
+// == Modal cotents
+.modal-form-label {
+	@include media("<=sm") {
+		margin-bottom: 0.5rem;
+		font-size: 0.875rem;
 	}
 }

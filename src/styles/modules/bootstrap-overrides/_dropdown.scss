@@ -47,12 +47,12 @@
         transform: translateY(-50%) rotate(135deg);
         transition: all ceaser($ease) 0.2s;
     }
+}
 
-    .show & {
-        &::before {
-            margin-top: 0.1rem;
-            transform: translateY(-50%) rotate(-45deg);
-        }
+.show>.dropdown-toggle {
+    &::before {
+        margin-top: 0.1rem;
+        transform: translateY(-50%) rotate(-45deg);
     }
 }
 

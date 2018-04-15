@@ -30,24 +30,37 @@
                         </div>
                     </div>
                 </li>
-                <li class="mailbox-search-item hidden-sm-up">
-                    <a href="javascript:void(0);" class="" role="button"><i class="fa fa-search"></i></a>
+                <li class="mailbox-xs-search-item hidden-sm-up">                    
+                    <div ngbDropdown>
+                        <a ngbDropdownToggle role="button"><i class="fa fa-search"></i></a>
+                        <div ngbDropdownMenu>
+                            <div class="form search-form">
+                                <form>
+                                    <div class="form-group mb-0 position-relative">
+                                        <input class="form-control form-control-sm" type="text" placeholder="Search" />
+                                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="l-alert l-alert-danger l-alert-is-floated d-md-inline-block text-center d-none">
+<div class="header-fixed-spacer hidden-sm-up"></div>
+<div class="l-alert l-alert-danger l-alert-is-floated d-sm-inline-block text-center d-none">
     <div class="l-alert-inner">
         <div>Your message hasn't been sent because of Internet connection. &nbsp;&nbsp;&nbsp;<a href=""><u>Try to connect</u></a></div>
     </div>
 </div>
-<div class="l-alert l-alert-warning l-alert-is-floated d-md-inline-block text-center d-none">
+<div class="l-alert l-alert-warning l-alert-is-floated d-sm-inline-block text-center d-none">
     <div class="l-alert-inner">
         <div>The conversation has been moved to the Trash. &nbsp;&nbsp;&nbsp;<a href=""><u>Learn more</u></a> &nbsp;&nbsp;&nbsp;<a href=""><u>Undo</u></a></div>
     </div>
 </div>
-<div class="l-alert l-alert-success l-alert-is-floated d-md-inline-block text-center d-none">
+<div class="l-alert l-alert-success l-alert-is-floated d-sm-inline-block text-center d-none">
     <div class="l-alert-inner">
         <div>Your message has been sent. &nbsp;&nbsp;&nbsp;<a href=""><u>View Message</u></a></div>
     </div>
@@ -82,8 +95,32 @@
                 <li class="px-0">
                     <a href="" class="disabled"><i class="fa fa-trash"></i></a>
                 </li>
-                <li class="pl-0 hidden-sm-up more-xs-options">
-                    <a href="" class="disabled"><i class="fa fa-trash"></i></a>
+                <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
+                    <div ngbDropdown>
+                        <a ngbDropdownToggle role="button" id="dropdownConfig"><i class="fa fa-ellipsis-v"></i></a>
+                        <div ngbDropdownMenu class="mobiledOptionsDropdown"  aria-labelledby="dropdownConfig">
+                            <ul class="more-xs-options-list">
+                                <li>
+                                    <a href="" class="disabled"><i class="fa fa-exclamation-circle"></i></a>
+                                </li>
+                                <li class="btn-dropdown mailbox-dropdown folders-dropdown">
+                                    <div ngbDropdown>
+                                        <button ngbDropdownToggle class="disabledx" type="button"><i class="fa fa-folder"></i></button>
+                                        <div ngbDropdownMenu  aria-labelledby="langDropdownMenuButton">
+                                            <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder 1</a>
+                                            <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another Folder 21</a>
+                                            <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
+                                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Inbox</a>
+                                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Draft</a>
+                                            <a class="dropdown-item" href=""><i class="fa fa-archive"></i>Archive</a>
+                                            <span class="divider-item d-block"></span>
+                                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i class="fa fa-folder"></i>Create folder</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
                 <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
                     <div ngbDropdown>

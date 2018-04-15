@@ -1,12 +1,13 @@
-<aside class="mailbox-sidebar" role="complementary">
+<aside class="mailbox-sidebar" role="complementary">	
 	<div class="mailbox-sidebar-inner">
 
 		<div class="mailbox-brand">
-			<button class="navbar-toggler hidden-xs-down hidden-md-up" role="button">
+			<button class="navbar-toggler hidden-md-up" role="button">
 				<span class="navbar-toggler-icon"></span>
 				<span class="navbar-toggler-icon"></span>
 				<span class="navbar-toggler-icon"></span>
 				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggle-text">Menu</span>
 			</button>
 			<figure class="navbar-brand-holder hidden-sm-down">
 				<a class="navbar-brand ff-roboto text-uppercase" routerLink="">
@@ -16,7 +17,7 @@
 			</figure>
 		</div>
 
-		<div class="mail-compose-section">
+		<div class="mail-compose-section hidden-xs-down">
 			<a href="" class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn">
 				<span class="hidden-sm-down">Compose</span>
 			</a>
@@ -91,11 +92,11 @@
 		</nav>
 
 		<div class="mailbox-sidebar-footer text-center">
-			<div class="mailbox-sidebar-footer-text mb-0 mb-md-1 hidden-md-up">Used
+			<div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">Used
 				<div class="text-white mt-1">43 MB</div>
 			</div>
-			<div class="mailbox-sidebar-footer-text mb-1 hidden-sm-down">Used storage: 43 MB of 100 MB</div>
-			<a href="" class="btn-link text-white hidden-sm-down">
+			<div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">Used storage: 43 MB of 100 MB</div>
+			<a href="" class="btn-link text-white visible-in-sm">
 				<small>
 					<u>Upgrade account</u>
 				</small>
@@ -104,6 +105,10 @@
 
 	</div>
 </aside>
+
+<div class="mail-compose-xs-btn is-sticky hidden-sm-up">
+	<a href="" class="btn btn-primary mailbox-compose-btn"></a>
+</div>
 
 <!-- Create folders Modal -->
 <ng-template #content let-c="close" let-d="dismiss" ng-modal-class="mailbox-modal">
@@ -121,7 +126,7 @@
 				<div class="form-group">
 					<div class="row align-items-center">
 						<div class="col-sm-3">
-							<label for="folderName" class="mb-0">
+							<label for="folderName" class="modal-form-label mb-2 mb-sm-0">
 								<small>Folder name:</small>
 							</label>
 						</div>
@@ -133,7 +138,7 @@
 				<div class="form-group mb-0">
 					<div class="row">
 						<div class="col-sm-3">
-							<label for="colorSelection" class="mb-0 pt-sm-2">
+							<label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
 								<small>Select color:</small>
 							</label>
 						</div>
@@ -190,7 +195,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="modal-footer justify-content-end">
+	<div class="modal-footer justify-content-center justify-content-sm-end">
 		<a href="" class="btn btn-secondary btn-sm">Create</a>
 	</div>
 </ng-template>

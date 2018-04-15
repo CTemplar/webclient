@@ -7,7 +7,7 @@ import { SharedService } from '../shared/shared.service';
   styleUrls: ['./mail.component.scss']
 })
 export class MailComponent implements OnDestroy, OnInit {
-
+  
   constructor(
     private sharedService: SharedService,
   ) {
