@@ -11,10 +11,13 @@
 	bottom: 0;
 	left: 0;
 	background-color: #34495e;
-	width: 200px;
+	width: 220px;
+
+	@include media("<ipad") {
+		z-index: $zindex-default + 10;
+	}
 
 	@include media("<=sm") {
-		z-index: $zindex-default + 10;
 		transform: translateX(-100%);
 		transition: all ease 0.35s;
 
@@ -25,6 +28,10 @@
 
 	@include media("<ipad", ">sm") {
 		width: 68px;
+
+		&.is-sidebar-expanded {
+			width: 220px;
+		}
 	}
 
 	@include media(">=ipad") {
@@ -57,15 +64,29 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
 	padding-bottom: 1.25rem;
+
+	@include media("<=sm") {
+		padding-bottom: 8rem;
+	}
 }
 
 .mailbox-brand,
 .mail-compose-section {
-	padding: 1.33rem 0.938rem;
+	padding: 1.407rem 0.938rem;
+
+	@include media("<=sm") {
+		padding: 0.969rem 0.938rem;
+	}
 
 	@include media(">sm") {
 		text-align: center;
+
+		.is-sidebar-expanded & {
+			text-align: left;
+		}
 	}
 
 	@include media(">=ipad") {
@@ -75,17 +96,51 @@
 }
 
 .mailbox-brand {
+	position: relative;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 	line-height: 1;
+}
+
+.prime-account-content {
+	position: absolute;
+	top: 50%;
+	right: 0.938rem;
+	color: $brand-white;
+	transform: translateY(-50%);
+
+	@include media("<ipad", ">sm") {
+		display: none;
+
+		.is-sidebar-expanded & {
+			display: block;
+		}
+	}
+
+	@include media(">=ipad") {
+		right: 1.563rem;
+	}
+
+	.prime-account-text {
+		margin-left: 0.25rem;
+		font-size: 0.75rem;
+	}
 }
 
 // == Mailbox sidebar menu
 .navbar-toggle-text {
 	display: none;
-	@include media("<=sm") {
-		display: block;
-		padding-left: 2rem;
+
+	@include media("<ipad") {
+		.is-sidebar-expanded & {
+			display: block;
+			padding-left: 2rem;
+		}
 	}
+
+	// @include media("<=sm") {
+	// 	display: block;
+	// 	padding-left: 2rem;
+	// }
 }
 
 .mailbox-sidebar-nav {
@@ -126,6 +181,10 @@
 	min-height: 2.5rem;
 	line-height: 1;
 
+	.is-sidebar-expanded & {
+		// padding-left: 0.938rem;
+	}
+
 	@include media(">=ipad") {
 		padding: 0.813rem 1.563rem 0.813rem 3.375rem;
 	}
@@ -147,6 +206,12 @@
 		top: 50%;
 		left: 0.938rem;
 		transform: translateY(-50%);
+
+		@include media("<ipad", ">sm") {
+			.is-sidebar-expanded & {
+				left: 0.938rem;
+			}
+		}
 
 		@include media(">sm") {
 			left: 1.563rem;
@@ -184,6 +249,11 @@
 				height: auto;
 				width: auto;
 				line-height: 1;
+
+				.is-sidebar-expanded & {
+					left: auto;
+					right: 0.938rem;
+				}
 			}
 		}
 
@@ -197,6 +267,10 @@
 	.mailbox-sidebar-nav-label {
 		@include media("<ipad", ">sm") {
 			display: none;
+
+			.is-sidebar-expanded & {
+				display: block;
+			}
 		}
 	}
 }
@@ -212,6 +286,14 @@
 	padding-left: 3.25rem;
 	list-style: none;
 
+	@include media("<ipad") {
+		display: none;
+		.is-sidebar-expanded & {
+			display: block;
+			padding-left: 2.75rem;
+		}
+	}
+
 	>li:first-child {
 		padding-top: 0.938rem;
 		border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -223,6 +305,7 @@
 
 	>li>a{
 		position: relative;
+		display: flex;
 		padding-left: 0.875rem;
 		color: $menu-link;
 
@@ -231,6 +314,10 @@
 			top: 50%;
 			left: 0;
 			transform: translateY(-50%);
+		}
+
+		@include media("<=sm") {			
+			font-size: 0.625rem;
 		}
 	}
 }
@@ -241,6 +328,11 @@
 	bottom: .938rem;
 	left: 0.938rem;
 	line-height: 1;
+
+	@include media("<=sm") {
+		bottom: -8rem;
+		padding-bottom: 0.938rem;
+	}
 
 	@include media(">sm") {
 		bottom: 3.125rem;
@@ -262,6 +354,10 @@
 	display: none !important;
 	@include media("<ipad", ">sm") {
 		display: block !important;
+
+		.is-sidebar-expanded & {
+			display: none !important;
+		}
 	}
 }
 
@@ -269,6 +365,10 @@
 	display: block !important;
 	@include media("<ipad", ">sm") {
 		display: none !important;
+
+		.is-sidebar-expanded & {
+			display: block !important;
+		}
 	}
 }
 
@@ -297,6 +397,7 @@
 		height: 2.25rem;
 		width: 2.25rem;
 		min-width: inherit;
+		transition: none;
 
 		&::before,
 		&::after {
@@ -313,6 +414,21 @@
 		&::after {
 			height: 2px;
 			width: 1rem;
+		}
+	}
+
+	.is-sidebar-expanded & {
+		padding: .5633rem 3.43066rem;
+		height: auto;
+		width: 100%;
+
+		&::before,
+		&::after {
+			display: none;
+		}
+		
+		.hidden-sm-down {
+			display: block !important;
 		}
 	}
 }

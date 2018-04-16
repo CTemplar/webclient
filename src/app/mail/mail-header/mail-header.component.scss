@@ -40,7 +40,7 @@
 
 .l-alert-is-floated {
 	position: absolute;
-	top: 52px;
+	top: 0px;
 	right: 0;
 	left: 0;
 	z-index: $zindex-default;
@@ -195,6 +195,12 @@
 
 	.fa-globe {
 		margin-right: 0.25rem;
+	}
+}
+
+.lang-dropdown.dropdown .dropdown-menu {
+	@include media("<=sm") {
+		width: 65px;
 	}
 }
 

@@ -17,13 +17,13 @@
 		padding: 1.5rem 1.563rem;
 	}
 
-	@include media("<ipad", ">sm") {
-		margin-left: 68px;
-	}
+	// @include media("<ipad", ">sm") {
+	// 	margin-left: 68px;
+	// }
 
-	@include media(">=ipad") {
-		margin-left: 290px;
-	}
+	// @include media(">=ipad") {
+	// 	margin-left: 290px;
+	// }
 }
 
 .mailbox-footer-menu {

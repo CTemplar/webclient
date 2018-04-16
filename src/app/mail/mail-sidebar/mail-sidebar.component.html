@@ -1,4 +1,4 @@
-<aside class="mailbox-sidebar" role="complementary">	
+<aside id="mailbox-sidebar" class="mailbox-sidebar is-sidebar-expandedx" role="complementary">	
 	<div class="mailbox-sidebar-inner">
 
 		<div class="mailbox-brand">
@@ -15,6 +15,10 @@
 					<strong>ctemplar</strong>
 				</a>
 			</figure>
+			<div class="prime-account-content">
+				<i class="fa fa-lock"></i>
+				<span class="prime-account-text">Prime</span>
+			</div>
 		</div>
 
 		<div class="mail-compose-section hidden-xs-down">
@@ -73,18 +77,18 @@
 				<li class="mailbox-sidebar-nav-item add-folder text-uppercase">
 					<a href="javascript:void(0);" class="mailbox-sidebar-nav-link" (click)="open(content)" role="button">
 						<i class="fa fa-folder"></i> <span class="mailbox-sidebar-nav-label">Add folder</span> </a>
-					<ul class="folders-list hidden-sm-down">
+					<ul class="folders-list">
 						<li>
 							<a href="">
-								<span class="folder-color-box is-success"></span>Folder 1</a>
+								<span class="folder-color-box is-success"></span><span class="folders-list-text">Folder 1</span></a>
 						</li>
 						<li>
 							<a href="">
-								<span class="folder-color-box is-info"></span>Another Folder 2</a>
+								<span class="folder-color-box is-info"></span><span class="folders-list-text">Another Folder 2</span></a>
 						</li>
 						<li>
 							<a href="">
-								<span class="folder-color-box is-warning"></span>Folder 33</a>
+								<span class="folder-color-box is-warning"></span><span class="folders-list-text">Folder 33</span></a>
 						</li>
 					</ul>
 				</li>
@@ -96,7 +100,7 @@
 				<div class="text-white mt-1">43 MB</div>
 			</div>
 			<div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">Used storage: 43 MB of 100 MB</div>
-			<a href="" class="btn-link text-white visible-in-sm">
+			<a href="" class="btn-link text-white hidden-in-sm">
 				<small>
 					<u>Upgrade account</u>
 				</small>
