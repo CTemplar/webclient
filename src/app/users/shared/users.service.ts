@@ -59,11 +59,12 @@ export class UsersService {
     const url = `${apiUrl}auth/get/`;
     return this.http.post<any>(url, body)
       .pipe(tap(data => {
+        console.log('tap', data);
           // this.sharedService.isMailReady.emit(false);
           sessionStorage.setItem('token', data.token);
           this.setTokenExpiration();
           // this.mailService.cache();
-          this.router.navigate(['/mail']);
+          // this.router.navigate(['/mail']);
         }),
         catchError(this.handleError('signIn', 'failed'))
       );

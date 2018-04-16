@@ -10,6 +10,8 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 
+import { UsersService } from './shared/users.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +20,7 @@ import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
     NgbModule,
     UsersRoutingModule
   ],
-  declarations: [UsersSignInComponent, UsersSignUpComponent]
+  declarations: [UsersSignInComponent, UsersSignUpComponent],
+  providers: [ UsersService ]
 })
 export class UsersModule { }

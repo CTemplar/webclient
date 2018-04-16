@@ -15,6 +15,17 @@ $error-red: #e94e4c;
 }
 
 .login-form {
+    position: relative;
+    padding-top: 35px;
+
+    &__failed {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        text-align: center;
+        color: $error-red;
+    }
     .form-group {
         position: relative;
     }

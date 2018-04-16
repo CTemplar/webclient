@@ -40,7 +40,13 @@ export class BlogService {
     return this.http.get<Post[]>(url)
       .pipe(
         map(data => data['results']),
-        tap(data => this.posts = data),
+        tap(data => {
+          if (this.posts) {
+            this.posts = this.posts.concat(data);
+          } else {
+            this.posts = data;
+          }
+        }),
       );
   }
 
@@ -71,5 +77,9 @@ export class BlogService {
     const end = (page === NaN) ? limit : limit * page;
     const start = end - limit;
     return this.posts.slice(start, end);
+  }
+
+  findPostwithId(id) {
+    return this.posts.find(item => item.id == id);
   }
 }
