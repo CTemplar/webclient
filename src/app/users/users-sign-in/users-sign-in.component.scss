@@ -4,13 +4,20 @@ $error-red: #e94e4c;
         border-color: $error-red;
     }
     .validate-message {
-        font-size: 12px;
+        display: block;
+        margin-bottom: 0.375rem;
         color: $error-red;
+        font-size: 0.875rem; 
+        text-align: left;       
     }
 
     .input-group {
         border: 1px solid  $error-red;
         border-radius: 4px;
+
+        .form-control {
+            border: 0;
+        }
     }
 }
 
@@ -27,12 +34,11 @@ $error-red: #e94e4c;
         color: $error-red;
     }
     .form-group {
-        position: relative;
+        // position: relative;
     }
 
     .validate-message {
-        position: absolute;
-        left: 0px;
-
+        // position: absolute;
+        // left: 0px;
     }
 }

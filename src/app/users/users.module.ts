@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
+import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
 
 import { UsersService } from './shared/users.service';
 
@@ -20,7 +21,7 @@ import { UsersService } from './shared/users.service';
     NgbModule,
     UsersRoutingModule
   ],
-  declarations: [UsersSignInComponent, UsersSignUpComponent],
+  declarations: [UsersSignInComponent, UsersSignUpComponent, UsersCreateAccountComponent],
   providers: [ UsersService ]
 })
 export class UsersModule { }

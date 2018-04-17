@@ -52,5 +52,12 @@
 @import "styles/modules/cards/cards";
 @import "styles/modules/comments/comments";
 
-// == OVERRIDING BOOTSTRAP modules
+/**
+* OVERRIDING BOOTSTRAP MODULES
+*/
 @import "styles/modules/bootstrap-overrides/overrides";
+
+/**
+* IMPORTING PAGES MODULES
+*/
+@import "styles/pages/user-actions/form-pages";

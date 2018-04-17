@@ -1,0 +1,123 @@
+/**
+* @partial: _inbox.scss
+*/
+
+// == Create account page
+.form-card-holder {
+	max-width: 505px;
+}
+
+.info-card {
+	padding: 1.25rem 0.938rem;
+	border-radius: 2px;
+	
+	@include media("<=sm") {		
+		line-height: 1.5;
+
+		.text-medium {
+			font-size: 0.75rem;
+		}
+
+		br {
+			display: none;
+		}
+	}
+}
+
+.lh-sm {
+	line-height: 1.25;
+}
+
+.form-step-card-holder {
+	counter-reset: counterStep;
+
+	.form-step-card {
+		position: relative;
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0rem;
+			counter-increment: counterStep;
+			content: counter(counterStep);
+			background: $brand-faded;
+			border-radius: 50%;
+			box-shadow: 0 4px 7px 0 rgba(6, 0, 68, 0.15);
+			color: $brand-black;
+			font-weight: 600;
+			height: 2rem;
+			width: 2rem;
+			line-height: 2rem;
+			text-align: center;
+
+			@include media(">sm") {
+				left: -3rem;
+			}
+		}
+
+		.form-step-card-title {
+			@include media("<=sm") {
+				padding-left: 3rem;
+			}
+		}
+	}
+}
+
+.form-step-card {
+	&:not(:last-of-type) {
+		@include media(">sm") {
+			margin-bottom: 1.875rem;
+		}
+	}
+
+	@include media("<=sm") {
+		label {
+			font-size: 0.875rem;
+			width: 100%;
+		}
+
+		.fancy-field-control-lg+label.fancy-field-empty::after {
+			top: 0.21rem;
+		}
+	}
+}
+
+.form-step-card-title {
+	@include media("<=sm") {
+		font-size: 1.25rem;
+	}
+}
+
+.form-step-card-subtitle {
+	margin-top: 0.5rem;
+	margin-bottom: 0.938rem;
+	line-height: 1.25;
+
+	@include media(">sm") {
+		margin-top: 0;
+		margin-bottom: 1.125rem;
+	}
+}
+
+.userame-field-group {
+	.form-control {
+		@include media(">sm") {
+			width: calc(50% - 25px);
+		}
+
+		@include media("<=sm") {
+			&.is-readonly {
+				width: calc(100% - 50px);
+			}
+		}
+	}
+
+	.domain-separator {
+		width: 3.125rem;
+		font-size: 1.5rem;
+	}
+
+	.is-readonly {
+		background: $brand-white;
+		font-style: italic;
+	}
+}

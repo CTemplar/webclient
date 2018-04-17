@@ -1,0 +1,138 @@
+<!-- PAGE SECTION -->
+<section class="l-block l-block-text bg-white gap-p-eq">
+  <div class="container container-sm">
+    <header class="l-block-header position-relative text-center">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
+          <h1 class="l-block-title text-uppercase text-secondary mb-3 pb-2">
+            <strong>Create your account</strong>
+          </h1>
+        </div>
+      </div>
+    </header>
+    <div class="l-block-body px-md">
+      <div class="form-card-holder mx-auto">
+        <div class="info-card bg-faded text-sm-center">
+          <p class="text-medium">Take back your privacy!
+            <br/> Crearting your secure email account takes less than 2 minutes</p>
+        </div>
+
+        <div class="form">
+          <form>
+            <div class="form-step-card-holder mt-3 mt-sm-4">
+              <div class="form-step-card">
+                <h3 class="form-step-card-title text-dark mb-0">
+                  <strong>Username and domain</strong>
+                </h3>
+                <div class="form-step-card-subtitle">
+                  <small>This will be your new Ctemplar email address.</small>
+                </div>
+                <div class="form-group">
+                  <div class="form-inline userame-field-group">
+                    <label for="username" class="d-block text-muted text-left hidden-sm-up">Choose userame</label>
+                    <input class="form-control text-dark mb-3 mb-sm-0" id="username" placeholder="Choose username" type="text" />
+                    <span class="domain-separator text-center text-dark">@</span>
+                    <input class="form-control text-dark is-readonly" value="ctemplar.com" type="text" readonly />
+                  </div>
+                </div>
+              </div>
+              <div class="form-step-card">
+                <h3 class="form-step-card-title text-dark mb-0">
+                  <strong>Password</strong>
+                </h3>
+                <div class="form-step-card-subtitle">
+                  <small>Your password must be at least 10 characters. Password can contain only latin letters and cannot contain
+                    symbols such «-+!@. etc.</small>
+                </div>
+                <div class="form-group">
+                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose Password</label>
+                  <div class="input-group">
+                    <input #input class="form-control border-right-0" id="choosePassword" placeholder="Choose Password" type="password" aria-describedby="passwordToggle">
+                    <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(input)">
+                      <i class="fa fa-eye"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm Password</label>
+                  <div class="input-group">
+                    <input #input2 class="form-control border-right-0" id="confirmPassword" placeholder="Confirm Password" type="password" aria-describedby="cofirmpasswordToggle">
+                    <span class="input-group-addon password-toggle bg-white text-muted" id="cofirmpasswordToggle" (click)="togglePassword(input2)">
+                      <i class="fa fa-eye"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="info-card d-flex bg-faded">
+                    <span class="fancy-field-group mr-3">
+                      <input class="d-none fancy-field-control fancy-field-control-lg" id="moreInfoCheckbox" name="[]" type="checkbox" />
+                      <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
+                    </span>
+                    <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': isTextToggled }">
+                      <span class="info-text">
+                        <small>By checking this box you understand that If you lose your password and do not set a recovery email
+                          your account will not be recoverable.</small>
+                      </span>
+                      <a href="javascript:void(0);" (click)="toggleText()">
+                          <u><small>More info</small>
+                        </u>
+                      </a>
+                    </div>
+                    <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': !isTextToggled }">
+                      <span class="info-text">
+                        <small>By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable. <br/> Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address. Less</small>
+                      </span>
+                      <a href="javascript:void(0);" (click)="toggleText()">
+                          <u><small>Less</small>
+                        </u>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-step-card">
+                <h3 class="form-step-card-title text-dark mb-0">
+                  <strong>Recovery email(optional)</strong>
+                </h3>
+                <div class="form-step-card-subtitle">
+                  <small>This is used to recover your account if you forget your password</small>
+                </div>
+                <div class="form-group">
+                  <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up">Recovery email</label>
+                  <input class="form-control text-dark" id="recoveryEmail" placeholder="Recovery email" type="text" />
+                </div>
+              </div>
+              <div class="form-group text-center">
+                <button class="btn btn-lg btn-secondary" type="submit" role="button">Create Account</button>
+              </div>
+
+              <div class="info-card d-flex align-items-center bg-faded mb-3">
+                <span class="fancy-field-group mr-3">
+                  <input class="d-none fancy-field-control fancy-field-control-lg" id="termsConditionCheckbox" name="[]" type="checkbox" />
+                  <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
+                </span>
+                <div class="checkbox-text lh-sm">
+                  <span class="info-text">
+                    <small>Please check this box if you agree to abide by our
+                      <a routerLink="/terms">
+                        <u>Terms and Conditions</u>
+                      </a>
+                    </small>
+                  </span>
+                </div>
+              </div>
+
+              <div class="text-holder text-center">
+                <a routerLink="/signin">
+                  <u>Already have an Account?</u>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.Site container ends -->
+</section>
+<!-- /.PAGE SECTION ENDS -->

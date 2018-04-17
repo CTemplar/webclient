@@ -24,6 +24,10 @@ input:-webkit-autofill {
 
 .form-control {
     font-family: inherit;
+
+    .is-validate & {
+        border-color: $brand-danger;
+    }
 }
 
 .form-control-lg {
