@@ -21,10 +21,10 @@ const routes: Routes = [
   { path: 'donate', component: PagesDonateComponent },
   { path: 'pricing', component: PagesPricingComponent },
   { path: 'security', component: PagesSecurityComponent },
-  { path: "media-kit", component: PagesMediaKitComponent },
-  { path: "tor-onion", component: PagesTorOnionComponent },
-  { path: "privacy", component: PagesPrivacyComponent },
-  { path: "terms", component: PagesTermsComponent },
+  { path: 'media-kit', component: PagesMediaKitComponent },
+  { path: 'tor-onion', component: PagesTorOnionComponent },
+  { path: 'privacy', component: PagesPrivacyComponent },
+  { path: 'terms', component: PagesTermsComponent },
 ];
 
 @NgModule({

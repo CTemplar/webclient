@@ -12,6 +12,8 @@ import { BlogLatestComponent } from './shared/blog-latest/blog-latest.component'
 import { BlogListComponent } from './blog-list/blog-list.component';
 import { BlogRelatedComponent } from './blog-detail/blog-related/blog-related.component';
 
+import { BlogService } from './shared/blog.service';
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -31,6 +33,9 @@ import { BlogRelatedComponent } from './blog-detail/blog-related/blog-related.co
   exports: [
     BlogLatestComponent,
     BlogRelatedComponent,
+  ],
+  providers: [
+    BlogService
   ]
 })
 export class BlogModule { }

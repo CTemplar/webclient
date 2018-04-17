@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class UsersSignUpComponent implements OnInit {
 
   // == Defining public property as boolean
-  public selectedIndex: number = -1; // Assuming no element are selected initially
+  public selectedIndex = -1; // Assuming no element are selected initially
 
   constructor() { }
 

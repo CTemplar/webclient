@@ -1,0 +1,38 @@
+$error-red: #e94e4c;
+.is-validate {
+    #loginUsername {
+        border-color: $error-red;
+    }
+    .validate-message {
+        font-size: 12px;
+        color: $error-red;
+    }
+
+    .input-group {
+        border: 1px solid  $error-red;
+        border-radius: 4px;
+    }
+}
+
+.login-form {
+    position: relative;
+    padding-top: 35px;
+
+    &__failed {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        text-align: center;
+        color: $error-red;
+    }
+    .form-group {
+        position: relative;
+    }
+
+    .validate-message {
+        position: absolute;
+        left: 0px;
+
+    }
+}

@@ -16,7 +16,7 @@
 <!-- /.PAGE INTRO SECTION ENDS -->
 
 <!-- SINGLE POST CONTENT SECTION -->
-<section class="l-block single-news-block gap-p-eq pt-0 bg-white">
+<section class="l-block single-news-block gap-p-eq pt-0 bg-white" *ngIf="blog">
   <div class="container container-xs">
     <div class="l-block-body px-xs">
       <div class="row">
@@ -24,18 +24,21 @@
         <div class="col-12 mb-4 mb-sm-5">
           <article class="news-card single-post-card">
             <figure class="single-post-pic-holder position-relative mb-0">
-              <img alt="News thumbnail" class="img news-img" src="assets/images/blog/blog-banner.jpg" />
+              <div class="loader-area" [hidden]="isLoaded">
+                <img src="assets/icons/spinner.svg" />
+              </div>
+              <img alt="News thumbnail" class="img news-img" (load)="isLoaded = true" [hidden]="!isLoaded" src="{{ blog.image }}"/>
               <span class="badge badge-sm badge-info text-uppercase">
-                <strong>News</strong>
+                <strong>{{ blog.category.name }}</strong>
               </span>
             </figure>
             <div class="news-meta">
               <div class="row align-items-center">
                 <div class="col-sm-7 pb-1 pb-sm-0 mb-2 mb-sm-0">
                   <ul class="news-meta-list list-style-none">
-                    <li>Posted on 26 February 2016</li>
+                    <li>Posted on {{ blog.date }}</li>
                     <li>
-                      <u>14 comments</u>
+                      <u>{{ blog.comments_count }} comments</u>
                     </li>
                   </ul>
                 </div>
@@ -63,54 +66,9 @@
             <!-- /.SINGLE BLOG POST META ENDS -->
             <div class="single-post-card-body text-medium">
               <h2 class="text-dark">
-                <strong>CTemplar now includes Bitcoin support! You can now get secure email anonymously.</strong>
+                <strong>{{ blog.name }}</strong>
               </h2>
-              <p>Starting from version 1.12 of CTemplar, it is now possible to pay for premium CTemplar secure email account
-                using Bitcoin. We have designed the payment system to work seamlessly so that Bitcoin payments are automatically
-                converted to CTemplar credits which can be used to pay for upgrades, pay invoices, or top up your account.
-                This feature was long overdue, so we are glad to finally introduce this.
-                <br/>
-                <br/>Long time followers of CTemplar will know that we actually have a deep connection with Bitcoin, going all
-                the way back to the very beginning of CTemplar’s story. We have always been quite interested in cryptocurrencies
-                and blockchain, as they empower the same principles that inspired us to create CTemplar. These are the principles
-                of freedom, privacy, and an Internet ecosystem where all have an equal opportunity to thrive, free from many
-                of the artificial constructs that control commerce today.
-                <br/>
-                <br/>Our appreciation of cryptocurrencies deepened after we had a first hand experience with the potential of
-                Bitcoin. Back in 2014 when CTemplar first launched, our first community fundraiser was infamously frozen
-                by PayPal, leaving us without access to the funds necessary to run the service. However, thanks to Bitcoin
-                and the
-                <a href="">support of the Bitcoin community</a>, we were able to continue to receive funds via Bitcoin ensuring the
-                success of the project.
-                <br/>
-                <br/>Three years on, ProtonMail has come a long way, and we are still proud to have many users from the global
-                cryptocurrency community. As we mentioned in our guide on how to buy Bitcoins, secure email can actually
-                play an important role in keeping Bitcoins secure, either as an email address to use with online Bitcoin
-                wallets or exchanges, or for the storage of sensitive data.
-                <br/>
-                <br/>Over the past three years, we have had an unofficial way of accepting Bitcoins which involved manually sending
-                BTC to our Bitcoin donation address, and manually confirming the transaction with our support team to receive
-                account credits. However, the general increase in the number of Bitcoin transactions over the years has made
-                that approach unfeasible and made development of an automated system necessary.
-                <strong>We feel this is indicative of a broader trend, where the increased mainstream interest in Bitcoin will make
-                  it harder for merchants not to support Bitcoin, which will lead to more Bitcoin support, more transactions,
-                  and perhaps the continued appreciation of Bitcoin prices.</strong>
-                <br/>
-                <br/>From a business perspective, we have witnessed the fragility and uncertainty of the traditional financial
-                sector, with PayPal, credit card, and bank account freezes, fraud, or hacks becoming increasingly common.
-                For any operating business, cryptocurrencies are an important form of diversification. Whereas companies
-                in the past might have held multiple fiat currencies distributed cross multiple financial institutions as
-                insurance, ProtonMail is now also holding a significant portion of our reserves in Bitcoin.
-                <strong>Ultimately, we believe having a more significant portion of our revenue via Bitcoin or other cryptocurrencies
-                  actually reduces our business risk</strong>, by providing more redundancy in the event of the failure of
-                more traditional payment methods. While this is fairly progressive thinking today, we believe that with time,
-                more businesses will also adopt this view.
-                <br/>
-                <br/>We’re excited to further deepen our connections with the cryptocurrency community with this step, and we
-                look forward to doing our part to ensure that the brighter future promised by blockchain does become a reality.
-                In the coming quarters, we plan to continue improving cryptocurrency support as part of our mission to build
-                the most secure email service ever. Let us know which coins or tokens you would like us to support next on
-                Twitter, Facebook, Reddit or Instagram.</p>
+              <p [innerHTML]="blog.text"></p>
             </div>
             <!-- /.SINGLE BLOG POST BODY ENDS -->
           </article>
@@ -124,23 +82,23 @@
 <!-- /.SINGLE POST CONTENT SECTION ENDS -->
 
 <!-- SINGLE POST COMMENT SECTION -->
-<section class="l-block mt-0 pb-0 bg-faded is-clipped is-clipped-lg top top-left bottom bottom-right">
+<section class="l-block mt-0 pb-0 bg-faded is-clipped is-clipped-lg top top-left bottom bottom-right" *ngIf="blog">
   <div class="container container-xs">
     <div class="l-block-body px-xs">
 
       <!-- Comment content -->
       <div class="comment-holder">
         <h3 class="text-dark">
-          <strong>14 Comments</strong>
+          <strong>{{ blog.comments_count }} Comments</strong>
         </h3>
-        <div class="comment-card">
+        <div class="comment-card" *ngFor="let comment of blog.comments">
           <div class="comment-row">
             <div class="comment-avatar"></div>
             <div class="comment-detail">
               <div class="comment-meta">
                 <div class="comment-meta-list">
-                  <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                  <span class="comment-date">August 15, 2017 at 5:18 pm</span>
+                  <span class="comment-author text-dark">{{ comment.username }}</span> &nbsp;|&nbsp;
+                  <span class="comment-date">{{ comment.date }}</span>
                 </div>
                 <div class="comment-reply">
                   <a href="">
@@ -150,15 +108,12 @@
                 </div>
               </div>
               <div class="comment-body">
-                <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper. Mauris
-                  nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam ullamcorper,
-                  nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus rutrum
-                  fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
+                <p>{{ comment.text }}</p>
               </div>
             </div>
           </div>
           <div class="comment-replies">
-            <div class="comment-row">
+            <div class="comment-row" *ngFor="let reply of comment.replies">
               <div class="comment-avatar"></div>
               <div class="comment-detail">
                 <div class="comment-meta">
@@ -181,83 +136,10 @@
                 </div>
               </div>
             </div>
-            <div class="comment-row">
-              <div class="comment-avatar"></div>
-              <div class="comment-detail">
-                <div class="comment-meta">
-                  <div class="comment-meta-list">
-                    <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                    <span class="comment-date">August 15, 2017 at 5:18 pm</span>
-                  </div>
-                  <div class="comment-reply">
-                    <a href="">
-                      <i class="fas fa-reply"></i>
-                      <u>reply</u>
-                    </a>
-                  </div>
-                </div>
-                <div class="comment-body">
-                  <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper.
-                    Mauris nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam
-                    ullamcorper, nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus
-                    rutrum fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
 
-        <div class="comment-card">
-          <div class="comment-row">
-            <div class="comment-avatar"></div>
-            <div class="comment-detail">
-              <div class="comment-meta">
-                <div class="comment-meta-list">
-                  <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                  <span class="comment-date">August 15, 2017 at 5:18 pm</span>
-                </div>
-                <div class="comment-reply">
-                  <a href="">
-                    <i class="fas fa-reply"></i>
-                    <u>reply</u>
-                  </a>
-                </div>
-              </div>
-              <div class="comment-body">
-                <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper. Mauris
-                  nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam ullamcorper,
-                  nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus rutrum
-                  fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="comment-card">
-          <div class="comment-row">
-            <div class="comment-avatar"></div>
-            <div class="comment-detail">
-              <div class="comment-meta">
-                <div class="comment-meta-list">
-                  <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                  <span class="comment-date">August 15, 2017 at 5:18 pm</span>
-                </div>
-                <div class="comment-reply">
-                  <a href="">
-                    <i class="fas fa-reply"></i>
-                    <u>reply</u>
-                  </a>
-                </div>
-              </div>
-              <div class="comment-body">
-                <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper. Mauris
-                  nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam ullamcorper,
-                  nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus rutrum
-                  fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Comment form -->

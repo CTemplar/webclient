@@ -12,6 +12,8 @@ export class Comment {
   reply_to: number;
   text: string;
   date: string;
+  username?: string;
+  replies?: any[];
 }
 
 export class Post {
@@ -28,4 +30,6 @@ export class Post {
   image: string;
   image_card: string;
   image_featured: string;
+  isloaded?: boolean;
+  comments?: Comment[];
 }
