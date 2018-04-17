@@ -24,7 +24,10 @@
         <div class="col-12 mb-4 mb-sm-5">
           <article class="news-card single-post-card">
             <figure class="single-post-pic-holder position-relative mb-0">
-              <img alt="News thumbnail" class="img news-img" (load)="loaded = true" [hidden]="!loaded" src="{{ blog.image }}"/>
+              <div class="loader-area" [hidden]="isLoaded">
+                <img src="assets/icons/spinner.svg" />
+              </div>
+              <img alt="News thumbnail" class="img news-img" (load)="isLoaded = true" [hidden]="!isLoaded" src="{{ blog.image }}"/>
               <span class="badge badge-sm badge-info text-uppercase">
                 <strong>{{ blog.category.name }}</strong>
               </span>
@@ -79,23 +82,23 @@
 <!-- /.SINGLE POST CONTENT SECTION ENDS -->
 
 <!-- SINGLE POST COMMENT SECTION -->
-<section class="l-block mt-0 pb-0 bg-faded is-clipped is-clipped-lg top top-left bottom bottom-right">
+<section class="l-block mt-0 pb-0 bg-faded is-clipped is-clipped-lg top top-left bottom bottom-right" *ngIf="blog">
   <div class="container container-xs">
     <div class="l-block-body px-xs">
 
       <!-- Comment content -->
       <div class="comment-holder">
         <h3 class="text-dark">
-          <strong>14 Comments</strong>
+          <strong>{{ blog.comments_count }} Comments</strong>
         </h3>
-        <div class="comment-card">
+        <div class="comment-card" *ngFor="let comment of blog.comments">
           <div class="comment-row">
             <div class="comment-avatar"></div>
             <div class="comment-detail">
               <div class="comment-meta">
                 <div class="comment-meta-list">
-                  <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                  <span class="comment-date">August 15, 2017 at 5:18 pm</span>
+                  <span class="comment-author text-dark">{{ comment.username }}</span> &nbsp;|&nbsp;
+                  <span class="comment-date">{{ comment.date }}</span>
                 </div>
                 <div class="comment-reply">
                   <a href="">
@@ -105,15 +108,12 @@
                 </div>
               </div>
               <div class="comment-body">
-                <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper. Mauris
-                  nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam ullamcorper,
-                  nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus rutrum
-                  fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
+                <p>{{ comment.text }}</p>
               </div>
             </div>
           </div>
           <div class="comment-replies">
-            <div class="comment-row">
+            <div class="comment-row" *ngFor="let reply of comment.replies">
               <div class="comment-avatar"></div>
               <div class="comment-detail">
                 <div class="comment-meta">
@@ -136,83 +136,10 @@
                 </div>
               </div>
             </div>
-            <div class="comment-row">
-              <div class="comment-avatar"></div>
-              <div class="comment-detail">
-                <div class="comment-meta">
-                  <div class="comment-meta-list">
-                    <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                    <span class="comment-date">August 15, 2017 at 5:18 pm</span>
-                  </div>
-                  <div class="comment-reply">
-                    <a href="">
-                      <i class="fas fa-reply"></i>
-                      <u>reply</u>
-                    </a>
-                  </div>
-                </div>
-                <div class="comment-body">
-                  <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper.
-                    Mauris nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam
-                    ullamcorper, nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus
-                    rutrum fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
 
-        <div class="comment-card">
-          <div class="comment-row">
-            <div class="comment-avatar"></div>
-            <div class="comment-detail">
-              <div class="comment-meta">
-                <div class="comment-meta-list">
-                  <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                  <span class="comment-date">August 15, 2017 at 5:18 pm</span>
-                </div>
-                <div class="comment-reply">
-                  <a href="">
-                    <i class="fas fa-reply"></i>
-                    <u>reply</u>
-                  </a>
-                </div>
-              </div>
-              <div class="comment-body">
-                <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper. Mauris
-                  nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam ullamcorper,
-                  nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus rutrum
-                  fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="comment-card">
-          <div class="comment-row">
-            <div class="comment-avatar"></div>
-            <div class="comment-detail">
-              <div class="comment-meta">
-                <div class="comment-meta-list">
-                  <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                  <span class="comment-date">August 15, 2017 at 5:18 pm</span>
-                </div>
-                <div class="comment-reply">
-                  <a href="">
-                    <i class="fas fa-reply"></i>
-                    <u>reply</u>
-                  </a>
-                </div>
-              </div>
-              <div class="comment-body">
-                <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper. Mauris
-                  nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam ullamcorper,
-                  nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus rutrum
-                  fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Comment form -->

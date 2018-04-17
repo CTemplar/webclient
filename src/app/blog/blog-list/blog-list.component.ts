@@ -44,10 +44,17 @@ export class BlogListComponent implements OnInit {
   }
 
   sortPosts(newPosts) {
+    newPosts.map((post: Post) => {
+      post.isloaded = false;
+      if (post.text.length > 500) {
+        post.excerpt = post.text.substring(0, 500) + '...';
+      } else {
+        post.excerpt = post.text;
+      }
+    });
     if (!this.postPosition) {
       this.firstPost = newPosts[0];
       this.posts = newPosts.slice(1);
-      console.log('aaaaa', this.posts);
       this.setParmsofPosts(newPosts.length, -1);
     } else {
       this.posts = this.posts.concat(newPosts);

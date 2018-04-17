@@ -22,12 +22,15 @@
       <div class="row">
         <!-- BLOG FIRST POST WITH FULL WIDTH -->
         <article class="col-12 mb-4 mb-sm-5 first-post">
-          <a routerLink="/blog/{{ firstPost.id }}" class="d-block news-card-holder">
+          <a routerLink="/blog/{{ firstPost.slug }}" class="d-block news-card-holder">
             <div class="news-card news-card-full px-lg position-relative">
               <div class="row align-items-center">
                 <div class="col-md-6">
                   <figure class="news-pic-holder mb-md-0 position-relative">
-                    <img alt="News thumbnail" class="img news-img" (load)="loaded = true" [hidden]="!loaded" src="{{ firstPost.image_card }}"/>
+                    <div class="loader-area" [hidden]="firstPost.isloaded">
+                      <img src="assets/icons/spinner.svg" />
+                    </div>
+                    <img alt="News thumbnail" class="img news-img" (load)="firstPost.isloaded = true" [hidden]="!firstPost.isloaded" src="{{ firstPost.image_card }}"/>
                     <span class="badge badge-sm badge-info text-uppercase">
                       <strong>{{ firstPost.category.name }}</strong>
                     </span>
@@ -36,7 +39,7 @@
                 <div class="col-md-6">
                   <div class="news-card-body">
                     <h4 class="news-card-title">{{ firstPost.name }}</h4>
-                    <p>{{ firstPost.excerpt }}</p>
+                    <div>{{ firstPost.excerpt }}</div>
                   </div>
                   <footer class="news-card-footer">
                     <ul class="news-meta-list">
@@ -53,18 +56,21 @@
         </article>
         <!-- BLOG FIRST POST WITH FULL WIDTH ENDS -->
 
-        <article class="col-md-4 col-sm-6 mb-4 mb-sm-5" *ngFor= "let post of posts">
-          <a routerLink="/blog/{{ post.id }}" class="d-block news-card-holder">
+        <article class="col-md-4 col-sm-6 mb-4 mb-sm-5 normal-post" *ngFor= "let post of posts">
+          <a routerLink="/blog/{{ post.slug }}" class="d-block news-card-holder">
             <div class="news-card position-relative">
               <span class="badge badge-sm badge-info text-uppercase">
                 <strong>{{ post.category.name }}</strong>
               </span>
               <div class="news-card-body">
                 <figure class="news-pic-holder">
-                  <img alt="News thumbnail" class="img news-img" (load)="loaded = true" [hidden]="!loaded" src="{{ post.image_card }}"/>
+                  <div class="loader-area" [hidden]="post.isloaded">
+                    <img src="assets/icons/spinner.svg" />
+                  </div>
+                  <img alt="News thumbnail" class="img news-img" (load)="post.isloaded = true" [hidden]="!post.isloaded" src="{{ post.image_card }}"/>
                 </figure>
                 <h4 class="news-card-title">{{ post.name }}</h4>
-                <p>{{ post.excerpt }}</p>
+                <div>{{ post.excerpt }}</div>
               </div>
               <footer class="news-card-footer">
                 <ul class="news-meta-list">

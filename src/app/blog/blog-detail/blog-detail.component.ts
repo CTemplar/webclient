@@ -16,15 +16,18 @@ import { BlogService } from '../shared/blog.service';
   styleUrls: ['./blog-detail.component.scss']
 })
 export class BlogDetailComponent implements OnInit {
-  id: string;
+  slug: string;
   blog: Post;
+  isLoaded: boolean = false;
 
   constructor(private blogService: BlogService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.blog = this.blogService.findPostwithId(this.id);
-    console.log(this.blog);
+    this.slug = this.route.snapshot.paramMap.get('slug');
+    this.blogService.findPostwithSlug(this.slug).subscribe((data) => {
+      this.blog = data;
+      console.log(this.blog);
+    });
   }
 
 }

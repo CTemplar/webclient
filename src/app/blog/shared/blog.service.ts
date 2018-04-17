@@ -79,7 +79,8 @@ export class BlogService {
     return this.posts.slice(start, end);
   }
 
-  findPostwithId(id) {
-    return this.posts.find(item => item.id == id);
+  findPostwithSlug(slug) {
+    const url = `${apiUrl}blog/posts/${slug}`;
+    return this.http.get<Post>(url);
   }
 }
