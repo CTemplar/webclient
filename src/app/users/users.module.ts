@@ -10,6 +10,7 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
+import { UsersBillingInfoComponent } from './users-billing-info/users-billing-info.component';
 
 import { UsersService } from './shared/users.service';
 
@@ -21,7 +22,7 @@ import { UsersService } from './shared/users.service';
     NgbModule,
     UsersRoutingModule
   ],
-  declarations: [UsersSignInComponent, UsersSignUpComponent, UsersCreateAccountComponent],
+  declarations: [UsersSignInComponent, UsersSignUpComponent, UsersCreateAccountComponent, UsersBillingInfoComponent],
   providers: [ UsersService ]
 })
 export class UsersModule { }

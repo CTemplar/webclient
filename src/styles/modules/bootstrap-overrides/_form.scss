@@ -28,6 +28,23 @@ input:-webkit-autofill {
     .is-validate & {
         border-color: $brand-danger;
     }
+
+    @include media("<=sm") {
+        padding: 0.782rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    &:focus {
+        box-shadow: 0 0 4px 0 rgba(51, 72, 93, 0.3) !important;
+    }
+}
+
+.input-group {
+    .form-control {
+        &:focus {
+            box-shadow: none !important;
+        }
+    }
 }
 
 .form-control-lg {
