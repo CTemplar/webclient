@@ -97,8 +97,8 @@
             <div class="comment-detail">
               <div class="comment-meta">
                 <div class="comment-meta-list">
-                  <span class="comment-author text-dark">{{ comment.username }}</span> &nbsp;|&nbsp;
-                  <span class="comment-date">{{ comment.date }}</span>
+                  <span class="comment-author text-dark">{{ comment.author }}</span> &nbsp;|&nbsp;
+                  <span class="comment-datetime">{{ comment.datetime }}</span>
                 </div>
                 <div class="comment-reply">
                   <a href="">
@@ -118,8 +118,8 @@
               <div class="comment-detail">
                 <div class="comment-meta">
                   <div class="comment-meta-list">
-                    <span class="comment-author text-dark">Deanna Pena</span> &nbsp;|&nbsp;
-                    <span class="comment-date">August 15, 2017 at 5:18 pm</span>
+                    <span class="comment-author text-dark">{{ reply.author }}</span> &nbsp;|&nbsp;
+                    <span class="comment-datetime">{{ reply.datetime }}</span>
                   </div>
                   <div class="comment-reply">
                     <a href="">
@@ -129,14 +129,11 @@
                   </div>
                 </div>
                 <div class="comment-body">
-                  <p>Aenean quis purus sed orci faucibus congue vitae ut tellus. Aliquam elementum aliquet dolor id semper.
-                    Mauris nec nunc blandit, facilisis lacus quis, aliquet sem. Ut interdum eget eros vel feugiat. Etiam
-                    ullamcorper, nisi a congue efficitur, lorem magna tincidunt nunc, at gravida purus risus sed neque. Phasellus
-                    rutrum fermentum nulla, nec viverra justo convallis eu. Integer vitae molestie orci. Suspendisse potenti.</p>
+                  <p>{{ reply.text }}</p>
                 </div>
               </div>
             </div>
-            
+
           </div>
         </div>
 
