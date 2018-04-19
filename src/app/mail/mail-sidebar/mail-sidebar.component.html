@@ -203,3 +203,78 @@
 		<a href="" class="btn btn-secondary btn-sm">Create</a>
 	</div>
 </ng-template>
+
+<!-- Mail compose dialog -->
+<div class="mail-composer">
+	<div class="mail-composer-dialog">
+		<div class="mail-composer-header">
+			<div class="mail-composer-title">New message</div>
+			<div class="mail-composer-header-actions">
+				<div class="mail-actions-list">
+					<div class="mail-actions-item"><i class="fa fa-times"></i></div>
+					<div class="mail-actions-item"><i class="fa fa-times"></i></div>
+				</div>
+			</div>
+		</div>
+		<div class="mail-composer-body">
+			<form>
+				<div class="mail-compose-field-group">
+					<div class="mail-compose-field">
+						<span class="mail-label label-to">To:</span>
+						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
+						<div class="extra-mail-label">
+							<span class="mail-label mail-floated-label">Cc</span>
+							<span class="mail-label mail-floated-label">Bcc</span>
+						</div>
+					</div>
+					<div class="mail-compose-field border-bottom-0 d-none">
+						<span class="mail-label label-to">Cc:</span>
+						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
+					</div>
+					<div class="mail-compose-field d-none">
+						<span class="mail-label label-to">Bcc:</span>
+						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
+					</div>
+					<div class="mail-compose-field">
+						<span class="mail-label label-to">Subject:</span>
+						<textarea class="mail-compose-control" id="recepietTo" rows="1">Re: Welcome to CTemplar!</textarea>
+					</div>
+				</div>
+			</form>
+			<div class="mail-compose-editable-body">
+				<div class="mail-compose-box">
+					<div class="mail-compose-box-inner">
+						<div class="mail-compose-editable-box" contenteditable="true">
+							<div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted.</div>
+							<div style="line-height: 1.7;"><br/></div>
+							<div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mail-composer-footer">
+			<div class="mail-composer-footer-row d-flex align-items-center">
+				<div class="mail-composer-footer-col mail-composer-footer-col-lg">
+					<ul class="mail-composer-footer-actions d-flex align-items-center">
+						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
+						<li class="pr-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
+						<li class="px-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
+						<li class="px-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
+						<li class="pl-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
+						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
+						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
+						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
+					</ul>
+				</div>
+				<div class="mail-composer-footer-col mail-composer-footer-col-sm">
+					<ul class="mail-composer-footer-actions d-flex align-items-center justify-content-end">
+						<li class="pr-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
+						<li class="pl-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
+						<li><a href="" class="btn btn-sm btn-secondary btn-mail-send">Send</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
