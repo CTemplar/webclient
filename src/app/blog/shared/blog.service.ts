@@ -63,21 +63,21 @@ export class BlogService {
     this.getPosts().subscribe();
   }
 
-  detail(slug: string) {
-    this.post = this.posts.find(item => item.slug === slug);
-    this.getComments(this.post.id).subscribe();
-    return this.post;
-  }
+  // detail(slug: string) {
+  //   this.post = this.posts.find(item => item.slug === slug);
+  //   this.getComments(this.post.id).subscribe();
+  //   return this.post;
+  // }
 
   // featured() {
   //   return this.posts.find(item => item.featured === true);
   // }
 
-  list(page: number, limit: number) {
-    const end = (page === NaN) ? limit : limit * page;
-    const start = end - limit;
-    return this.posts.slice(start, end);
-  }
+  // list(page: number, limit: number) {
+  //   const end = (page === NaN) ? limit : limit * page;
+  //   const start = end - limit;
+  //   return this.posts.slice(start, end);
+  // }
 
   // TODO: We should look for cached post first!
   findPostwithSlug(slug) {

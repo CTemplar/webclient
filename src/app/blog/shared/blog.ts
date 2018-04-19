@@ -25,6 +25,7 @@ export class Post {
   image: string;
   image_card: string;
   image_featured: string;
-  isloaded?: boolean;
   comments?: Comment[];
+  excerpt?: string;
+  isloaded?: boolean;
 }
