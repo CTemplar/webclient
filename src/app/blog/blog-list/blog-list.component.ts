@@ -17,7 +17,6 @@ import { BlogService } from '../shared/blog.service';
   styleUrls: ['./blog-list.component.scss']
 })
 export class BlogListComponent implements OnInit {
-  featured: Post;
   posts: Post[];
   firstPost: Post;
   postPosition: number = 0;
@@ -25,9 +24,7 @@ export class BlogListComponent implements OnInit {
 
   constructor(
     private blogService: BlogService,
-  ) {
-    // this.featured = this.blogService.featured();
-  }
+  ) {}
 
   ngOnInit() {
     this.getPosts();

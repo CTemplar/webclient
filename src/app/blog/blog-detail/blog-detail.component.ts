@@ -1,6 +1,8 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+// Models
 import { Post } from '../shared/blog';
 
 // Services
@@ -20,14 +22,15 @@ export class BlogDetailComponent implements OnInit {
   blog: Post;
   isLoaded: boolean = false;
 
-  constructor(private blogService: BlogService, private route: ActivatedRoute) { }
+  constructor(
+    private blogService: BlogService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.blogService.findPostwithSlug(this.slug).subscribe((data) => {
       this.blog = data;
-      console.log(this.blog);
     });
   }
-
 }

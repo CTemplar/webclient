@@ -50,14 +50,14 @@ export class BlogService {
       );
   }
 
-  getComments(id: number): Observable<Comment[]> {
-    const url = `${apiUrl}blog/comments/?limit=500&post=${id}`;
-    return this.http.get<Comment[]>(url)
-      .pipe(
-        map(data => data['results']),
-        tap(data => this.comments = data),
-      );
-  }
+  // getComments(id: number): Observable<Comment[]> {
+  //   const url = `${apiUrl}blog/comments/?limit=500&post=${id}`;
+  //   return this.http.get<Comment[]>(url)
+  //     .pipe(
+  //       map(data => data['results']),
+  //       tap(data => this.comments = data),
+  //     );
+  // }
 
   cache() {
     this.getPosts().subscribe();
@@ -69,9 +69,9 @@ export class BlogService {
     return this.post;
   }
 
-  featured() {
-    return this.posts.find(item => item.featured === true);
-  }
+  // featured() {
+  //   return this.posts.find(item => item.featured === true);
+  // }
 
   list(page: number, limit: number) {
     const end = (page === NaN) ? limit : limit * page;
@@ -79,8 +79,9 @@ export class BlogService {
     return this.posts.slice(start, end);
   }
 
+  // TODO: We should look for cached post first!
   findPostwithSlug(slug) {
-    const url = `${apiUrl}blog/posts/${slug}`;
+    const url = `${apiUrl}blog/posts/${slug}/`;
     return this.http.get<Post>(url);
   }
 }
