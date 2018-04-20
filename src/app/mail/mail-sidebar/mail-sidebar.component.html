@@ -1,4 +1,4 @@
-<aside id="mailbox-sidebar" class="mailbox-sidebar is-sidebar-expandedx" role="complementary">	
+<aside id="mailbox-sidebar" class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
 	<div class="mailbox-sidebar-inner">
 
 		<div class="mailbox-brand">
@@ -76,19 +76,27 @@
 				<li class="divider-item"></li>
 				<li class="mailbox-sidebar-nav-item add-folder text-uppercase">
 					<a href="javascript:void(0);" class="mailbox-sidebar-nav-link" (click)="open(content)" role="button">
-						<i class="fa fa-folder"></i> <span class="mailbox-sidebar-nav-label">Add folder</span> </a>
+						<i class="fa fa-folder"></i>
+						<span class="mailbox-sidebar-nav-label">Add folder</span>
+					</a>
 					<ul class="folders-list">
 						<li>
 							<a href="">
-								<span class="folder-color-box is-success"></span><span class="folders-list-text">Folder 1</span></a>
+								<span class="folder-color-box is-success"></span>
+								<span class="folders-list-text">Folder 1</span>
+							</a>
 						</li>
 						<li>
 							<a href="">
-								<span class="folder-color-box is-info"></span><span class="folders-list-text">Another Folder 2</span></a>
+								<span class="folder-color-box is-info"></span>
+								<span class="folders-list-text">Another Folder 2</span>
+							</a>
 						</li>
 						<li>
 							<a href="">
-								<span class="folder-color-box is-warning"></span><span class="folders-list-text">Folder 33</span></a>
+								<span class="folder-color-box is-warning"></span>
+								<span class="folders-list-text">Folder 33</span>
+							</a>
 						</li>
 					</ul>
 				</li>
@@ -205,14 +213,18 @@
 </ng-template>
 
 <!-- Mail compose dialog -->
-<div class="mail-composer">
+<div class="mail-composer is-fullscreenx">
 	<div class="mail-composer-dialog">
 		<div class="mail-composer-header">
 			<div class="mail-composer-title">New message</div>
 			<div class="mail-composer-header-actions">
 				<div class="mail-actions-list">
-					<div class="mail-actions-item"><i class="fa fa-times"></i></div>
-					<div class="mail-actions-item"><i class="fa fa-times"></i></div>
+					<div class="mail-actions-item">
+						<i class="fa fa-times"></i>
+					</div>
+					<div class="mail-actions-item">
+						<i class="fa fa-times"></i>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -245,9 +257,39 @@
 				<div class="mail-compose-box">
 					<div class="mail-compose-box-inner">
 						<div class="mail-compose-editable-box" contenteditable="true">
-							<div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted.</div>
-							<div style="line-height: 1.7;"><br/></div>
-							<div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted.</div>
+							<div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails.
+								CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end
+								encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications
+								with them will be automatically end-to-end encrypted.</div>
+							<div style="line-height: 1.7;">
+								<br/>
+							</div>
+							<div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">CTemplar is an open-source community-driven project and basic accounts are always free. However, the costs to run
+								CTemplar are quite high, and we depend on support from the community to keep the service running. If you would like
+								to support the project, you can upgrade to a paid account. Your support is essential to ensuring that CTemplar is
+								financially stable and can continue to offer the service to the public.</div>
+							<br/>
+						</div>
+						<div class="attach-uploader-holder">
+							<div class="attach-uploader">
+								<div class="attach-name">filename.doc
+									<span class="attach-size">(340 K) </span>
+								</div>
+								<button role="button" class="attach-uploader-close">
+									<i class="fa fa-times"></i>
+								</button>
+							</div>
+							<div class="attach-uploader">
+								<div class="attach-name">other_filename.doc
+									<span class="attach-size">(1,556 K) </span>
+								</div>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+								<button role="button" class="attach-uploader-close">
+									<i class="fa fa-times"></i>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -257,21 +299,66 @@
 			<div class="mail-composer-footer-row d-flex align-items-center">
 				<div class="mail-composer-footer-col mail-composer-footer-col-lg">
 					<ul class="mail-composer-footer-actions d-flex align-items-center">
-						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
-						<li class="pr-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
-						<li class="px-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
-						<li class="px-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
-						<li class="pl-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
-						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
-						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
-						<li><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn"><i class="fa fa-inbox"></i></button></li>
+						<li>
+							<button role="button" class="actions-btn mail-attach-btn disabled">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li class="pr-0">
+							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-r-0">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li class="px-0">
+							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-0">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li class="px-0">
+							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-0">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li class="pl-0">
+							<button role="button" class="actions-btn mail-attach-btn border-radius-l-0">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li>
+							<button role="button" class="actions-btn mail-attach-btn">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li>
+							<button role="button" class="actions-btn mail-attach-btn">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li>
+							<button role="button" class="actions-btn mail-attach-btn">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
 					</ul>
 				</div>
 				<div class="mail-composer-footer-col mail-composer-footer-col-sm">
 					<ul class="mail-composer-footer-actions d-flex align-items-center justify-content-end">
-						<li class="pr-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
-						<li class="pl-0"><button role="button" class="mail-composer-footer-actions-btn mail-attach-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
-						<li><a href="" class="btn btn-sm btn-secondary btn-mail-send">Send</a></li>
+						<li class="pr-0">
+							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-r-0">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li class="pl-0">
+							<button role="button" class="actions-btn mail-attach-btn border-radius-l-0">
+								<i class="fa fa-inbox"></i>
+							</button>
+						</li>
+						<li>
+							<a href="" class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded">
+								<i class="hidden-sm-up fa fa-inbox"></i>
+								<span class="hidden-xs-down">Send</span>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>

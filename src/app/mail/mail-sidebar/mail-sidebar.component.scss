@@ -529,26 +529,53 @@
 
 
 // == Mail composer
+$mail_composer_padding_x: 0.75rem;
+
 .mail-composer {
 	position: fixed;
-	right: 1.563rem;
-	bottom: 1.563rem;//~4.375rem;
-	z-index: $zindex-default + 9998;
-	box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.25);
-	width: 45.313rem;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: $zindex-default + 999;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: $brand-white;
 
-	&.is-fullscreen {
-		top: 9rem;
+	@include media(">sm") {
+		top: auto;
+		right: 1.563rem;
+		bottom: 4.375rem;
+		left: auto;
+		overflow: inherit;
+		box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.25);
+		width: 45.313rem;
+	}
+}
 
-		.mail-compose-editable-box {
-			min-height: 610px;
+// == Is minimized
+.mail-composer.is-minimized {
+	.mail-composer-body,
+	.mail-composer-footer {
+		display: none;
+	}
+}
+
+// == Is full screen
+.mail-composer.is-fullscreen {
+	// top: 5.12rem;
+	@include media(">sm") {
+		width: calc(100% - 340px);
+
+		.mail-compose-box-inner {
+			min-height: 627px;			
 		}
 	}
 }
 
 .mail-composer-header {
 	position: relative;
-	padding: 0.625rem;
+	padding: 0.625rem $mail_composer_padding_x;
 	background: $brand-secondary;
 }
 
@@ -561,7 +588,7 @@
 .mail-actions-list {
 	position: absolute;
 	top: 50%;
-	right: 0.625rem;
+	right: $mail_composer_padding_x;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -586,7 +613,7 @@
 	display: flex;
 	align-items: center;
 	position: relative;
-	padding: 0 .625rem;
+	padding: 0 $mail_composer_padding_x;
 	background: $brand-white;
 	border-bottom: 1px solid $input-border-color;
 	font-size: 0.75rem;
@@ -628,11 +655,11 @@
 
 .mail-compose-editable-body {
 	overflow-y: hidden;
-	max-height: 650px;
+	max-height: 667px;
 }
 
 .mail-compose-box {
-	max-height: 650px;
+	max-height: 667px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	font-size: 0.75rem;
@@ -666,13 +693,14 @@
 }
 
 .mail-compose-box-inner {
-	padding: 1.25rem 0.625rem;
+	padding: 1.25rem $mail_composer_padding_x;
 	background: $brand-white;
+	min-height: 165px;
 }
 
 .mail-compose-editable-box {
 	background: $brand-white;
-	min-height: 210px;
+	// min-height: 165px;
 
 	&[contenteditable]:focus {
 		outline: 0;
@@ -681,10 +709,18 @@
 
 // Mail composer footer
 .mail-composer-footer {
-	padding: 0.5rem 0.625rem;
+	padding: 0.5rem $mail_composer_padding_x;
 	background: $brand-faded;
 	border-top: 1px solid $input-border-color;
 	border-bottom: 1px solid $input-border-color;
+
+	@include media("<=sm") {
+		position: absolute;
+		top: 105px;
+		right: 0;
+		left: 0;
+		border-top: 0;
+	}
 }
 
 .mail-composer-footer-row {
@@ -714,20 +750,20 @@
 		padding: 0 .375rem;
 	}
 
-	.mail-composer-footer-actions-btn {
-		padding: 0.125rem 0.5rem;
-		background: $brand-faded;
-		border: 1px solid $input-border-color;
-		border-radius: 2px;
-		height: 2rem;
-		width: 2.25rem;
-		color: $brand-light-gray;
-	}
-
 	.btn-mail-send {
 		font-size: 0.75rem;
 		min-width: 85px;
 	}
+}
+
+.actions-btn {
+	padding: 0.125rem 0.5rem;
+	background: $brand-faded;
+	border: 1px solid $input-border-color;
+	border-radius: 2px;
+	height: 2rem;
+	width: 2.25rem;
+	color: $brand-light-gray;
 }
 
 .border-radius-0 {
@@ -742,4 +778,85 @@
 .border-radius-l-0 {
 	border-top-left-radius: 0 !important;
 	border-bottom-left-radius: 0 !important;
+}
+
+// == Attachment uploader
+.disabled {
+	pointer-events: none;
+}
+
+.attach-uploader {
+	position: relative;
+	margin-bottom: 0.5rem;
+	padding: 0.563rem 1.563rem 0.563rem 0.75rem;
+	background: $brand-faded;
+	border: 1px solid $input-border-color;
+	border-radius: 2px;
+	max-width: 360px;
+	line-height: 1;
+	width: 100%;
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+
+	// == Progress bar
+	.progress {
+		position: absolute;
+		top: 50%;
+		right: 1.875rem;
+		background: $brand-white;
+		border: 1px solid $input-border-color;
+		border-radius: 0;
+		width: 95px;
+		transform: translateY(-50%);
+	}
+
+	.progress-bar {
+		height: 0.875rem;
+		background: $brand-secondary;
+	}
+}
+
+.attach-uploader-close {
+	position: absolute;
+	top: 50%;
+	right: 0.75rem;
+	margin-top: .063rem;
+	padding: 0 0;
+	background: transparent;
+	border: 0;
+	color: $brand-light-gray;
+	transform: translateY(-50%);
+}
+
+.attach-name {
+	color: #34495e;
+}
+
+.attach-size {
+	margin-left: 0.375rem;
+	color: #979797;
+}
+
+.btn.btn-xs-rounded {
+	@include media("<=sm") {
+		padding: 0 0;
+		background: $brand-primary;
+		border: solid 1px #c0392b;
+		border-radius: 50%;
+		box-shadow: 0 2px 4px 0 rgba(1, 9, 15, 0.3);
+		height: 3.125rem;
+		width: 3.125rem;
+		line-height: 3.125rem;
+		min-width: inherit !important;
+	}
+}
+
+.btn.btn-mail-send {
+	@include media("<=sm") {
+		position: fixed;
+		right: 0.938rem;
+		bottom: 5.625rem;
+	}
 }
