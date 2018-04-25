@@ -1,21 +1,24 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-
 // Models
 import { Post } from '../../models/blog';
+
+// Rxjs
+import { Observable } from 'rxjs/Observable';
 
 // Services
 import { BlogService } from '../../providers/blog.service';
 
+// Store
+import { Store } from '@ngrx/store';
 import { BlogState } from '../../store/datatypes';
 import { selectBlogState } from '../../store/selectors';
 import { GetPosts } from '../../store/actions/blog.actions';
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+
 
 @Component({
   selector: 'app-blog-list',
