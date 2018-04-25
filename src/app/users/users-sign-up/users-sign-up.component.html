@@ -56,12 +56,11 @@
                         </select> -->
                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                       <div ngbDropdown class="storage-select-dropdown">
-                        <button class="dropdown-toggle" type="button" id="storageDropdownMenuButton" ngbDropdownToggle>5 Gb Storage</button>
+                        <button class="dropdown-toggle" type="button" id="storageDropdownMenuButton" ngbDropdownToggle>
+                          {{ selectedStorage.type }}
+                        </button>
                         <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="storageDropdownMenuButton">
-                          <a class="dropdown-item" href="">10 Gb Storage + $4/MO </a>
-                          <a class="dropdown-item" href="">15 Gb Storage + $8/MO</a>
-                          <a class="dropdown-item" href="">20 Gb Storage + $12/MO</a>
-                          <a class="dropdown-item" href="">25 Gb Storage + $16/MO</a>
+                          <a class="dropdown-item" (click)="onChangeType(item)" *ngFor="let item of storageList">{{ item.type }} ${{item.money }}/MO </a>
                         </div>
                       </div>
                     </div>
@@ -107,45 +106,32 @@
               <footer class="package-card-footer">
                 <div class="package-text-holder package-text-holder-sm">
                   <ul class="pay-type-list list-style-none mb-0 pl-0">
-                    <li>
+                    <li *ngFor="let payment of mainPayments; let i = index;">
                       <div class="row row-xs">
                         <div class="col-8">
                           <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="pay-monthly" name="[]" type="radio" checked />
-                            <label for="pay-monthly">Pay Monthly</label>
+                            <input class="d-none fancy-field-control" id="{{ payment.id }}" name="[]" type="radio" [checked]= 'payment.checked' value="{{i}}}" (change)="onChangePayment(i)"/>
+                            <label for="{{ payment.id }}">{{ payment.title }}</label>
+                            <span class="badge" *ngIf="payment.id === 'pay-annullay'">-20%</span>
                           </div>
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>$8</strong>
+                            <strong>${{ payment.moMoney }}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="pay-annullay" name="[]" type="radio" />
-                            <label for="pay-annullay">Pay Annually</label>
-                            <span class="badge">-20%</span>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="pay-price">
-                            <strong>$6.4</strong>
-                            <span class="text-muted">/mo</span>
-                          </div>
-                          <div class="small text-muted">Billed as $65/yr</div>
+                          <div class="small text-muted" *ngIf="payment.id === 'pay-annullay'">Billed as ${{ payment.totalMoney }}/yr</div>
                         </div>
                       </div>
                     </li>
                   </ul>
                 </div>
                 <div class="package-actions text-center">
-                  <a href="" class="btn btn-lg btn-gradient-primary">Select Prime $8/
+                  <a routerLink="/create-account" class="btn btn-lg btn-gradient-primary" *ngIf="!selectedPayment">Select Prime ${{ mainPayments[0].moMoney }}/
                     <span class="text-normal">mo</span>
+                  </a>
+                  <a routerLink="/create-account" class="btn btn-lg btn-gradient-primary" *ngIf="selectedPayment">Select Prime ${{ mainPayments[1].totalMoney }}/
+                    <span class="text-normal">yr</span>
                   </a>
                 </div>
               </footer>
@@ -195,7 +181,7 @@
                   <h2 class="m-0 fw-light">free</h2>
                 </div>
                 <div class="package-actions">
-                  <a href="" class="btn btn-lg btn-gradient-info">Select Free</a>
+                  <a routerLink="/create-account" class="btn btn-lg btn-gradient-info">Select Free</a>
                 </div>
               </footer>
             </div>

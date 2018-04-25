@@ -3,7 +3,12 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { UsersService } from '../shared/users.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { AuthState } from '../../store/datatypes';
+import { selectAuthState } from '../../store/selectors';
+import { LogIn } from '../../store/actions/auth.action';
 
 @Component({
   selector: 'app-users-sign-in',
@@ -13,13 +18,17 @@ import { UsersService } from '../shared/users.service';
 export class UsersSignInComponent implements OnInit {
   lgoinForm: FormGroup;
   resetForm: FormGroup;
-  showFormErrors = false;
-  isLoginState: boolean = true;
+  showFormErrors = true;
+  errorMessage: string = '';
+  isLoading: boolean = false;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
+  getState: Observable<any>;
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder,
-    private userService: UsersService, private router: Router) { }
+    private router: Router, private store: Store<AuthState>) {
+      this.getState = this.store.select(selectAuthState);
+    }
 
   ngOnInit() {
     this.lgoinForm = this.formBuilder.group({
@@ -30,6 +39,11 @@ export class UsersSignInComponent implements OnInit {
     this.resetForm = this.formBuilder.group({
       'name': ['', [Validators.required]],
       'email': ['', [Validators.required]]
+    });
+
+    this.getState.subscribe((state) => {
+      this.isLoading = false;
+      this.errorMessage = state.errorMessage;
     });
   }
 
@@ -49,22 +63,12 @@ export class UsersSignInComponent implements OnInit {
   login(user) {
     this.showFormErrors = true;
     if (this.lgoinForm.valid) {
-      this.userService.signIn(user)
-      .subscribe((result) => {
-        if (result === 'failed') {
-          this.isLoginState = false;
-        } else {
-          this.isLoginState = true;
-          this.router.navigate(['/mail']);
-        }
-      }, (err) => {
-        this.isLoginState = false;
-      });
+      this.isLoading = true;
+      this.store.dispatch(new LogIn(user));
     }
   }
 
   resetPassword(data) {
-    console.log(data);
     this.resetModalRef.close();
   }
 

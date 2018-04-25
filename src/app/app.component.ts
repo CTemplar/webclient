@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
 // Services
-import { BlogService } from './blog/shared/blog.service';
+import { BlogService } from './providers/blog.service';
 // import { MailService } from './mail/shared/mail.service';
 // import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
 import { SharedService } from './shared/shared.service';
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
   }
 
   // Resize event for window object
-  @HostListener("window:resize", ['$event'])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windowIsResized = true;
     if (this.resizeTimeout && this.windowIsResized) {

@@ -8,7 +8,7 @@ import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailListComponent } from './mail-list/mail-list.component';
 
 const routes: Routes = [
-	{ path: 'mail', component: MailComponent, children: [
+  { path: 'mail', component: MailComponent, children: [
     { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
     { path: 'settings', component: MailSettingsComponent },
     { path: ':folder', redirectTo: ':folder/page/1', pathMatch: 'full' },

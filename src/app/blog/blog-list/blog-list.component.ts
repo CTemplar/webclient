@@ -1,15 +1,21 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
 // Models
-import { Post } from '../shared/blog';
+import { Post } from '../../models/blog';
 
 // Services
-import { BlogService } from '../shared/blog.service';
+import { BlogService } from '../../providers/blog.service';
+
+import { BlogState } from '../../store/datatypes';
+import { selectBlogState } from '../../store/selectors';
+import { GetPosts } from '../../store/actions/blog.actions';
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-
 
 @Component({
   selector: 'app-blog-list',
@@ -23,24 +29,27 @@ export class BlogListComponent implements OnInit {
   postPosition: number = 0;
   positionCount: number = 7;
 
+  getBlogState$: Observable<any>;
+
   constructor(
-    private blogService: BlogService,
+    private blogService: BlogService, private store: Store<BlogState>
   ) {
+    this.getBlogState$ = this.store.select(selectBlogState);
     // this.featured = this.blogService.featured();
   }
 
   ngOnInit() {
+    this.getBlogState$.subscribe((blogState: BlogState) => {
+      if (blogState.newPosts) {
+        this.sortPosts(blogState.newPosts);
+      }
+    });
+
     this.getPosts();
   }
 
   getPosts() {
-    this.blogService.getPosts(this.positionCount, this.postPosition)
-    .subscribe((results) => {
-      console.log(results);
-      if (results.length) {
-        this.sortPosts(results);
-      }
-    });
+    this.store.dispatch(new GetPosts({limit: this.positionCount, offset: this.postPosition}));
   }
 
   sortPosts(newPosts) {

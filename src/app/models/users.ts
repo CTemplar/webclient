@@ -12,10 +12,16 @@ export class Membership {
 }
 
 export class User {
-  id: number;
-  username: string;
-  password: string;
-  is_active: boolean;
-  newsletter: boolean;
-  membership: Membership;
+  id?: number;
+  username?: string;
+  password?: string;
+  is_active?: boolean;
+  newsletter?: boolean;
+  membership?: Membership;
+  token?: string;
+}
+
+export interface Storage {
+  type: string;
+  money: number;
 }

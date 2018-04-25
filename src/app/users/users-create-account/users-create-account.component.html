@@ -18,7 +18,8 @@
         </div>
 
         <div class="form">
-          <form>
+          <form class="signup-form" [formGroup]="signupForm" #form="ngForm" (ngSubmit)="signup()">
+            <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
             <div class="form-step-card-holder mt-3 mt-sm-4">
               <div class="form-step-card">
                 <h3 class="form-step-card-title text-dark mb-0">
@@ -28,12 +29,15 @@
                   <small>This will be your new Ctemplar email address.</small>
                 </div>
                 <div class="form-group">
-                  <div class="form-inline userame-field-group">
+                  <div class="form-inline userame-field-group" [ngClass]="{'is-validate': signupForm.controls.username.invalid && !signupForm.controls.username.pristine}">
                     <label for="username" class="d-block text-muted text-left hidden-sm-up">Choose userame</label>
-                    <input class="form-control text-dark mb-3 mb-sm-0" id="username" placeholder="Choose username" type="text" />
+                    <input class="form-control text-dark mb-3 mb-sm-0" id="username" placeholder="Choose username" type="text" name="username" formControlName="username"/>
                     <span class="domain-separator text-center text-dark">@</span>
-                    <input class="form-control text-dark is-readonly" value="ctemplar.com" type="text" readonly />
+                    <input class="form-control text-dark is-readonly email-input" value="ctemplar.com" type="text" readonly />
                   </div>
+                  <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine" id="email-valid" class="validate-message">
+                    <span>The username is required.</span>
+                  </span>
                 </div>
               </div>
               <div class="form-step-card">
@@ -46,26 +50,33 @@
                 </div>
                 <div class="form-group">
                   <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose Password</label>
-                  <div class="input-group">
-                    <input #input class="form-control border-right-0" id="choosePassword" placeholder="Choose Password" type="password" aria-describedby="passwordToggle">
+                  <div class="input-group" [ngClass]="{'is-validate': signupForm.controls.password.invalid && !signupForm.controls.password.pristine}">
+                    <input #input class="form-control border-right-0" id="choosePassword" placeholder="Choose Password" type="password" aria-describedby="passwordToggle" name="password" formControlName="password">
                     <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(input)">
                       <i class="fa fa-eye"></i>
                     </span>
                   </div>
+                  <span *ngIf="signupForm.controls['password'].errors && !signupForm.controls.password.pristine" class="validate-message">
+                    <span *ngIf="signupForm.controls['password'].errors.required">The password is required.</span>
+                    <span *ngIf="signupForm.controls['password'].errors.pattern">The password style is wrong.</span>
+                  </span>
                 </div>
                 <div class="form-group">
                   <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm Password</label>
-                  <div class="input-group">
-                    <input #input2 class="form-control border-right-0" id="confirmPassword" placeholder="Confirm Password" type="password" aria-describedby="cofirmpasswordToggle">
+                  <div class="input-group" [ngClass]="{'is-validate': signupForm.controls.confirmPwd.invalid && !signupForm.controls.confirmPwd.pristine}">
+                    <input #input2 class="form-control border-right-0" id="confirmPassword" placeholder="Confirm Password" type="password" aria-describedby="cofirmpasswordToggle" name="confirmPwd" formControlName="confirmPwd">
                     <span class="input-group-addon password-toggle bg-white text-muted" id="cofirmpasswordToggle" (click)="togglePassword(input2)">
                       <i class="fa fa-eye"></i>
                     </span>
                   </div>
+                  <span *ngIf="signupForm.controls['confirmPwd'].errors && !signupForm.controls.confirmPwd.pristine" class="validate-message">
+                    <span>Passwords do not match.</span>
+                  </span>
                 </div>
                 <div class="form-group">
                   <div class="info-card d-flex bg-faded">
                     <span class="fancy-field-group mr-3">
-                      <input class="d-none fancy-field-control fancy-field-control-lg" id="moreInfoCheckbox" name="[]" type="checkbox" />
+                      <input class="d-none fancy-field-control fancy-field-control-lg" id="moreInfoCheckbox" name="[]" type="checkbox" [(ngModel)] = "isRecoveryEmail" [ngModelOptions]="{standalone: true}"/>
                       <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
                     </span>
                     <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': isTextToggled }">
@@ -80,7 +91,7 @@
                     </div>
                     <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': !isTextToggled }">
                       <span class="info-text">
-                        <small>By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable. <br/> Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address. Less</small>
+                        <small>By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable. <br/> Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.</small>
                       </span>
                       <a href="javascript:void(0);" (click)="toggleText()">
                           <u><small>Less</small>
@@ -90,7 +101,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-step-card">
+              <div class="form-step-card" [ngClass]="{'is-validate': signupForm.controls.recoveryEmail.invalid}" *ngIf="!isRecoveryEmail">
                 <h3 class="form-step-card-title text-dark mb-0">
                   <strong>Recovery email(optional)</strong>
                 </h3>
@@ -99,7 +110,10 @@
                 </div>
                 <div class="form-group">
                   <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up">Recovery email</label>
-                  <input class="form-control text-dark" id="recoveryEmail" placeholder="Recovery email" type="text" />
+                  <input class="form-control text-dark" id="recoveryEmail" placeholder="Recovery email" type="text" name="recoveryEmail" formControlName="recoveryEmail"/>
+                  <span *ngIf="signupForm.controls['recoveryEmail'].errors" id="email-valid" class="validate-message">
+                    <span>The email is invalid.</span>
+                  </span>
                 </div>
               </div>
               <div class="form-group text-center">
@@ -108,7 +122,7 @@
 
               <div class="info-card d-flex align-items-center bg-faded mb-3">
                 <span class="fancy-field-group mr-3">
-                  <input class="d-none fancy-field-control fancy-field-control-lg" id="termsConditionCheckbox" name="[]" type="checkbox" />
+                  <input class="d-none fancy-field-control fancy-field-control-lg" id="termsConditionCheckbox" name="[]" type="checkbox" [(ngModel)]="isConfirmedPrivacy" [ngModelOptions]="{standalone: true}"/>
                   <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
                 </span>
                 <div class="checkbox-text lh-sm">
@@ -136,3 +150,5 @@
   <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
+
+<img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg" />

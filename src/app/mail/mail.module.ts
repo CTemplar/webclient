@@ -20,7 +20,15 @@ import { MailListComponent } from './mail-list/mail-list.component';
     NgbModule,
     MailRoutingModule
   ],
-  declarations: [MailComponent, MailFooterComponent, MailHeaderComponent, MailSettingsComponent, MailSidebarComponent, MailDetailComponent, MailListComponent],
+  declarations: [
+    MailComponent,
+    MailFooterComponent,
+    MailHeaderComponent,
+    MailSettingsComponent,
+    MailSidebarComponent,
+    MailDetailComponent,
+    MailListComponent
+  ],
   exports: [MailFooterComponent]
 })
 export class MailModule { }

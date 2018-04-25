@@ -1,0 +1,38 @@
+$error-red: #e94e4c;
+.is-validate {
+    &.input-group {
+        border: 1px solid  $error-red;
+        border-radius: 4px;
+
+        .form-control {
+            border: 0;
+        }
+        .input-group-addon {
+          border: 0;
+        }
+    }
+}
+
+.signup-form {
+    position: relative;
+    padding-top: 5px;
+    .validate-message {
+        display: block;
+        margin-bottom: 0.375rem;
+        color: $error-red !important;
+        font-size: 0.875rem; 
+        text-align: left;       
+    }
+
+    &__failed {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        color: $error-red;
+    }
+    .email-input {
+      border: none !important;
+    }
+}

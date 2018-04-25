@@ -1,6 +1,6 @@
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 // Bootstrap
@@ -17,13 +17,21 @@ import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
 import { MailModule } from './mail/mail.module';
 import { PagesModule } from './pages/pages.module';
+import { UsersModule } from './users/users.module';
+
+import { AppStoreModule } from './store/store.module';
 
 // Services
-import { BlogService } from './blog/shared/blog.service';
+import { BlogService } from './providers/blog.service';
 // import { MailService } from './mail/shared/mail.service';
 import { SharedService } from './shared/shared.service';
-import { UsersModule } from './users/users.module';
-// import { UsersService } from './users/shared/users.service';
+import { OpenPgpService } from './providers/openpgp.service';
+
+import {
+  TokenInterceptor, ErrorInterceptor
+} from './providers/token.interceptor';
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -38,6 +46,7 @@ import { UsersModule } from './users/users.module';
     BrowserModule,
     HttpClientModule,
     NgbModule.forRoot(),
+    AppStoreModule,
     AppRoutingModule,
     BlogModule,
     FooterModule,
@@ -50,6 +59,12 @@ import { UsersModule } from './users/users.module';
   providers: [
     BlogService,
     SharedService,
+    OpenPgpService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Helpers
-import { apiUrl } from '../../shared/config';
+import { apiUrl } from '../shared/config';
 
 // Models
-import { User } from './users';
+import { User } from '../Models/users';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -17,18 +17,27 @@ import { catchError, map, tap } from 'rxjs/operators';
 // Services
 // import { MailService } from '../../mail/shared/mail.service';
 // import { SharedService } from '../../shared/shared.service';
+import { OpenPgpService } from './openpgp.service';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-
+declare var openpgp;
 @Injectable()
 export class UsersService {
+  options: any;
+  encrypted: any;
+  pubkey: any;
+  privkey: any;
+  passpharse: any;
+  privKeyObj: any;
+
   constructor(
     private http: HttpClient,
     // private mailService: MailService,
     // private sharedService: SharedService,
     private router: Router,
+    private openPgpService: OpenPgpService
   ) {}
 
   setTokenExpiration() {
@@ -56,18 +65,8 @@ export class UsersService {
   }
 
   signIn(body): Observable<any> {
-    const url = `${apiUrl}auth/get/`;
-    return this.http.post<any>(url, body)
-      .pipe(tap(data => {
-        console.log('tap', data);
-          // this.sharedService.isMailReady.emit(false);
-          sessionStorage.setItem('token', data.token);
-          this.setTokenExpiration();
-          // this.mailService.cache();
-          // this.router.navigate(['/mail']);
-        }),
-        catchError(this.handleError('signIn', 'failed'))
-      );
+    const url = `${apiUrl}users/auth/signin/`;
+    return this.http.post<any>(url, body);
   }
 
   signOut() {
@@ -77,18 +76,32 @@ export class UsersService {
     // this.mailService.clear();
   }
 
-  signUp(body): Observable<any> {
-    const url = `${apiUrl}users/`;
-    return this.http.post<any>(url, body)
-      .pipe(tap(_ => this.signIn(body).subscribe()),
-        catchError(this.handleError('signUp', 'failed'))
-      );
+  signUp(user): Observable<any> {
+    const url = `${apiUrl}users/auth/signup/`;
+    const body = {
+      fingerprint: this.openPgpService.getFingerprint(),
+      private_key: this.openPgpService.getPrivateKey(),
+      public_key: this.openPgpService.getPubKey(),
+      username: user.username,
+      password: user.password,
+      is_spammer: false
+    };
+
+    console.log('body', body);
+    return this.http.post<any>(url, body);
+      // .pipe(tap(_ => this.signIn(body).subscribe()),
+      //   catchError(this.handleError('signUp', 'failed'))
+      // );
   }
 
   verifyToken(): Observable<any> {
     const body = {'token': sessionStorage.getItem('token')};
     const url = `${apiUrl}auth/verify/`;
     return this.http.post<any>(url, body);
+  }
+
+  getToken(): string {
+    return localStorage.getItem('token');
   }
 
   private handleError<T> (operation = 'operation', result?: T) {

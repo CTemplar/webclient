@@ -1,10 +1,17 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Post } from '../shared/blog';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { Post } from '../../models/blog';
 
 // Services
-import { BlogService } from '../shared/blog.service';
+import { BlogService } from '../../providers/blog.service';
+
+import { BlogState } from '../../store/datatypes';
+import { selectBlogState } from '../../store/selectors';
+import { GetPostDetail } from '../../store/actions/blog.actions';
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -20,14 +27,24 @@ export class BlogDetailComponent implements OnInit {
   blog: Post;
   isLoaded: boolean = false;
 
-  constructor(private blogService: BlogService, private route: ActivatedRoute) { }
+  getBlogState$: Observable<any>;
+
+  constructor(private blogService: BlogService, private route: ActivatedRoute, private store: Store<BlogState>) {
+    this.getBlogState$ = this.store.select(selectBlogState);
+  }
 
   ngOnInit() {
     this.slug = this.route.snapshot.paramMap.get('slug');
-    this.blogService.findPostwithSlug(this.slug).subscribe((data) => {
-      this.blog = data;
-      console.log(this.blog);
+    this.getBlogState$.subscribe((blogState: BlogState) => {
+      if (blogState.selectedPost) {
+        this.blog = blogState.selectedPost;
+      }
     });
+    this.getPost();
+  }
+
+  getPost() {
+    this.store.dispatch(new GetPostDetail(this.slug));
   }
 
 }

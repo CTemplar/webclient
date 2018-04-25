@@ -3,17 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 // Helpers
-import { apiHeaders, apiUrl } from '../../shared/config';
+import { apiHeaders, apiUrl } from '../shared/config';
 
 // Models
-import { Comment, Post } from './blog';
+import { Comment, Post } from '../models/blog';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { map, tap } from 'rxjs/operators';
 
 // Services
-import { SharedService } from '../../shared/shared.service';
+import { SharedService } from '../shared/shared.service';
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -39,14 +39,15 @@ export class BlogService {
     const url = `${apiUrl}blog/posts/?limit=${limit}&offset=${offset}`;
     return this.http.get<Post[]>(url)
       .pipe(
-        map(data => data['results']),
-        tap(data => {
-          if (this.posts) {
-            this.posts = this.posts.concat(data);
-          } else {
-            this.posts = data;
-          }
-        }),
+        map(data => data['results'])
+        // ,
+        // tap(data => {
+        //   if (this.posts) {
+        //     this.posts = this.posts.concat(data);
+        //   } else {
+        //     this.posts = data;
+        //   }
+        // }),
       );
   }
 
@@ -79,7 +80,7 @@ export class BlogService {
     return this.posts.slice(start, end);
   }
 
-  findPostwithSlug(slug) {
+  getPostwithSlug(slug) {
     const url = `${apiUrl}blog/posts/${slug}`;
     return this.http.get<Post>(url);
   }
