@@ -51,34 +51,34 @@ export class BlogService {
       );
   }
 
-  getComments(id: number): Observable<Comment[]> {
-    const url = `${apiUrl}blog/comments/?limit=500&post=${id}`;
-    return this.http.get<Comment[]>(url)
-      .pipe(
-        map(data => data['results']),
-        tap(data => this.comments = data),
-      );
-  }
+  // getComments(id: number): Observable<Comment[]> {
+  //   const url = `${apiUrl}blog/comments/?limit=500&post=${id}`;
+  //   return this.http.get<Comment[]>(url)
+  //     .pipe(
+  //       map(data => data['results']),
+  //       tap(data => this.comments = data),
+  //     );
+  // }
 
   cache() {
     this.getPosts().subscribe();
   }
 
-  detail(slug: string) {
-    this.post = this.posts.find(item => item.slug === slug);
-    this.getComments(this.post.id).subscribe();
-    return this.post;
-  }
+  // detail(slug: string) {
+  //   this.post = this.posts.find(item => item.slug === slug);
+  //   this.getComments(this.post.id).subscribe();
+  //   return this.post;
+  // }
 
-  featured() {
-    return this.posts.find(item => item.featured === true);
-  }
+  // featured() {
+  //   return this.posts.find(item => item.featured === true);
+  // }
 
-  list(page: number, limit: number) {
-    const end = (page === NaN) ? limit : limit * page;
-    const start = end - limit;
-    return this.posts.slice(start, end);
-  }
+  // list(page: number, limit: number) {
+  //   const end = (page === NaN) ? limit : limit * page;
+  //   const start = end - limit;
+  //   return this.posts.slice(start, end);
+  // }
 
   getPostwithSlug(slug) {
     const url = `${apiUrl}blog/posts/${slug}`;

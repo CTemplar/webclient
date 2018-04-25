@@ -46,5 +46,4 @@ export class BlogDetailComponent implements OnInit {
   getPost() {
     this.store.dispatch(new GetPostDetail(this.slug));
   }
-
 }

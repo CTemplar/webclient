@@ -23,7 +23,6 @@ import { GetPosts } from '../../store/actions/blog.actions';
   styleUrls: ['./blog-list.component.scss']
 })
 export class BlogListComponent implements OnInit {
-  featured: Post;
   posts: Post[];
   firstPost: Post;
   postPosition: number = 0;

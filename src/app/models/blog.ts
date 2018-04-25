@@ -1,19 +1,17 @@
 export class Category {
   id: number;
   name: string;
-  slug: string;
   color: string;
 }
 
 export class Comment {
   id: number;
   post: number;
-  user: number;
   reply_to: number;
   text: string;
-  date: string;
-  username?: string;
-  replies?: any[];
+  datetime: string;
+  author?: string;
+  replies?: Comment[];
 }
 
 export class Post {
@@ -21,15 +19,13 @@ export class Post {
   category: Category;
   name: string;
   slug: string;
-  featured: boolean;
   text: string;
   date: string;
   comments_count: number;
-  excerpt: string;
-  excerpt_long: string;
   image: string;
   image_card: string;
   image_featured: string;
-  isloaded?: boolean;
   comments?: Comment[];
+  excerpt?: string;
+  isloaded?: boolean;
 }
