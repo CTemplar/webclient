@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -8,7 +8,10 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class MailSidebarComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, config: NgbDropdownConfig) {
+    // customize default values of dropdowns used by this component tree
+    config.autoClose = "outside";
+  }
 
   ngOnInit() {
   }

@@ -541,6 +541,7 @@ $mail_composer_padding_x: 0.75rem;
 	overflow-x: hidden;
 	overflow-y: auto;
 	background: $brand-white;
+	font-size: 0.875rem;
 
 	@include media(">sm") {
 		top: auto;
@@ -575,14 +576,21 @@ $mail_composer_padding_x: 0.75rem;
 
 .mail-composer-header {
 	position: relative;
-	padding: 0.625rem $mail_composer_padding_x;
+	padding: 1.063rem $mail_composer_padding_x;
 	background: $brand-secondary;
+
+	@include media(">sm") {
+		padding: 0.625rem $mail_composer_padding_x;
+	}
 }
 
-.mail-composer-title {
-	font-size: 0.75rem;
+.mail-composer-title {	
 	color: $brand-white;
 	line-height: 1.33;
+
+	@include media(">sm") {
+		font-size: 0.75rem;
+	}
 }
 
 .mail-actions-list {
@@ -616,7 +624,10 @@ $mail_composer_padding_x: 0.75rem;
 	padding: 0 $mail_composer_padding_x;
 	background: $brand-white;
 	border-bottom: 1px solid $input-border-color;
-	font-size: 0.75rem;
+
+	@include media(">sm") {
+		font-size: 0.75rem;
+	}
 
 	.mail-label {
 		display: block;
@@ -627,12 +638,16 @@ $mail_composer_padding_x: 0.75rem;
 
 	.mail-compose-control {
 		margin-right: 3.125rem;
-		padding: 0.688rem 0 0.5rem;
+		padding: 0.813rem 0;
 		border: 0;
 		line-height: 1.3;
 		resize: none;
 		width: 100%;
 		overflow: hidden;
+
+		@include media(">sm") {
+			padding: 0.688rem 0 0.5rem;
+		}
 	}
 }
 
@@ -656,14 +671,21 @@ $mail_composer_padding_x: 0.75rem;
 .mail-compose-editable-body {
 	overflow-y: hidden;
 	max-height: 667px;
+
+	@include media("<=sm") {
+		margin-top: 49px;
+	}
 }
 
 .mail-compose-box {
 	max-height: 667px;
 	overflow-x: hidden;
 	overflow-y: auto;
-	font-size: 0.75rem;
 	line-height: 1.67rem;
+
+	@include media(">sm") {
+		font-size: 0.75rem;
+	}
 }
 
 // == Scrollbar styling
@@ -716,18 +738,18 @@ $mail_composer_padding_x: 0.75rem;
 
 	@include media("<=sm") {
 		position: absolute;
-		top: 105px;
+		top: 142px;
 		right: 0;
 		left: 0;
 		border-top: 0;
 	}
 }
 
-.mail-composer-footer-row {
+.mail-composer-actions-row {
 	margin: 0 -0.625rem;	
 }
 
-.mail-composer-footer-col {
+.mail-composer-actions-col {
 	padding: 0 0.625rem;
 	
 	&-lg {
@@ -741,13 +763,19 @@ $mail_composer_padding_x: 0.75rem;
 	}
 }
 
-.mail-composer-footer-actions {
+.mail-composer-actions {
 	margin: 0 -.375rem;
 	padding: 0 0;
 	list-style: none;
 
 	>li {
 		padding: 0 .375rem;
+
+		@include media("<=sm") {
+			&:last-of-type {
+				padding: 0;
+			}
+		}
 	}
 
 	.btn-mail-send {
@@ -764,6 +792,11 @@ $mail_composer_padding_x: 0.75rem;
 	height: 2rem;
 	width: 2.25rem;
 	color: $brand-light-gray;
+
+	.show > & {
+		background: $brand-white;
+		box-shadow: 0 2px 9px 0 rgba($brand-black, 0.15);
+	}
 }
 
 .border-radius-0 {
@@ -808,8 +841,12 @@ $mail_composer_padding_x: 0.75rem;
 		background: $brand-white;
 		border: 1px solid $input-border-color;
 		border-radius: 0;
-		width: 95px;
+		width: 55px;
 		transform: translateY(-50%);
+
+		@include media(">sm") {
+			width: 95px;
+		}
 	}
 
 	.progress-bar {
@@ -849,7 +886,7 @@ $mail_composer_padding_x: 0.75rem;
 		height: 3.125rem;
 		width: 3.125rem;
 		line-height: 3.125rem;
-		min-width: inherit !important;
+		min-width: inherit;
 	}
 }
 
@@ -858,5 +895,65 @@ $mail_composer_padding_x: 0.75rem;
 		position: fixed;
 		right: 0.938rem;
 		bottom: 5.625rem;
+	}
+}
+
+// == Typo actions holder
+.dropdown-menu.typo-actions-dropdown-menu {
+	left: 50% !important;
+	transform: translateX(-50%) translateY(10px) !important;
+}
+
+.show>.dropdown-menu.typo-actions-dropdown-menu {
+	transform: translateX(-50%) translateY(0%) !important;
+}
+
+.dropup .dropdown-menu {
+	margin-bottom: 8px;
+}
+
+.mail-comopser-typo-actions-holder {
+	padding: 0.625rem 0.75rem;
+}
+
+.actions-btn.dropdown-toggle:not(.hide-arrow) {
+	width: 3.125rem;
+	text-align: left;
+}
+
+// == Color picker
+.dropdown-menu {
+	.color-picker-holder {
+		padding: 1.125rem 1.563rem;
+		width: 352px;//~370px;
+	}
+}
+
+.color-picker-title {
+	margin-bottom: 0.875rem;
+	color: $brand-black;
+	font-size: 0.75rem;
+	line-height: 1;
+}
+
+.color-picker-list {
+	margin: 0 -2px;
+	padding: 0 0;
+	list-style: none;
+
+	>li {
+		margin-bottom: 4px;
+		padding: 0 2px;
+		.color-shape {
+			position: relative;
+			border-radius: 0;
+			height: 1rem;
+			width: 1rem;
+			cursor: pointer;
+
+			&.is-selected {
+				border: 2px solid #9b9b9b !important;
+			}
+		}
 	}
 }

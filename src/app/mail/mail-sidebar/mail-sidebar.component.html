@@ -236,19 +236,19 @@
 						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
 						<div class="extra-mail-label">
 							<span class="mail-label mail-floated-label">Cc</span>
-							<span class="mail-label mail-floated-label">Bcc</span>
+							<span class="mail-label mail-floated-label mr-0">Bcc</span>
 						</div>
 					</div>
 					<div class="mail-compose-field border-bottom-0 d-none">
-						<span class="mail-label label-to">Cc:</span>
+						<span class="mail-label label-cc">Cc:</span>
 						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
 					</div>
 					<div class="mail-compose-field d-none">
-						<span class="mail-label label-to">Bcc:</span>
+						<span class="mail-label label-bcc">Bcc:</span>
 						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
 					</div>
 					<div class="mail-compose-field">
-						<span class="mail-label label-to">Subject:</span>
+						<span class="mail-label label-subject">Subject:</span>
 						<textarea class="mail-compose-control" id="recepietTo" rows="1">Re: Welcome to CTemplar!</textarea>
 					</div>
 				</div>
@@ -296,72 +296,227 @@
 			</div>
 		</div>
 		<div class="mail-composer-footer">
-			<div class="mail-composer-footer-row d-flex align-items-center">
-				<div class="mail-composer-footer-col mail-composer-footer-col-lg">
-					<ul class="mail-composer-footer-actions d-flex align-items-center">
-						<li>
-							<button role="button" class="actions-btn mail-attach-btn disabled">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li class="pr-0">
-							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-r-0">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li class="px-0">
-							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-0">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li class="px-0">
-							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-0">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li class="pl-0">
-							<button role="button" class="actions-btn mail-attach-btn border-radius-l-0">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li>
-							<button role="button" class="actions-btn mail-attach-btn">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li>
-							<button role="button" class="actions-btn mail-attach-btn">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li>
-							<button role="button" class="actions-btn mail-attach-btn">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-					</ul>
-				</div>
-				<div class="mail-composer-footer-col mail-composer-footer-col-sm">
-					<ul class="mail-composer-footer-actions d-flex align-items-center justify-content-end">
-						<li class="pr-0">
-							<button role="button" class="actions-btn mail-attach-btn border-right-0 border-radius-r-0">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li class="pl-0">
-							<button role="button" class="actions-btn mail-attach-btn border-radius-l-0">
-								<i class="fa fa-inbox"></i>
-							</button>
-						</li>
-						<li>
-							<a href="" class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded">
-								<i class="hidden-sm-up fa fa-inbox"></i>
-								<span class="hidden-xs-down">Send</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
+            <div class="mail-composer-actions-row d-flex align-items-center">
+                <div class="mail-composer-actions-col mail-composer-actions-col-lg">
+                    <ul class="mail-composer-actions d-flex align-items-center">
+                        <li><button role="button" class="actions-btn mail-attach-btn disabled"><i class="fa fa-inbox"></i></button></li>
+                        <li class="pr-0"><button role="button" class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
+                        <li class="px-0"><button role="button" class="actions-btn mail-clock-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
+                        <li class="px-0"><button role="button" class="actions-btn mail-sign-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
+                        <li class="pl-0"><button role="button" class="actions-btn mail-self-timer-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
+                        <li><button role="button" class="actions-btn mail-dead-btn"><i class="fa fa-inbox"></i></button></li>
+                        <li><button role="button" class="actions-btn mail-keyboard-btn"><i class="fa fa-inbox"></i></button></li>
+                        <li>
+                        	<div ngbDropdown placement="top" class="dropdown">
+                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button">A</button>
+                                <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
+                                    <div class="mail-comopser-typo-actions-holder">
+                                    	<ul class="mail-composer-actions d-flex align-items-center justify-content-end">
+			                                <li class="pr-0">
+			                                	<div ngbDropdown class="sub-dropdown dropup">
+				                                	<button ngbDropdownToggle role="button" class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0" id="typoFamilyDropdownMenu" role="button"><i class="fa fa-inbox d-none"></i>T</button>
+				                                	<div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoFamilyDropdownMenu">
+				                                	</div>
+				                                </div>
+			                                </li>
+			                                <li class="pl-0">
+			                                	<div ngbDropdown class="dropdown dropup">
+				                                	<button ngbDropdownToggle role="button" class="actions-btn mail-font-family-btn" id="typoFamilyDropdownMenu"><i class="fa fa-inbox d-none"></i>T</button>
+				                                	<div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoFamilyDropdownMenu">
+				                                	</div>
+				                                </div>
+			                                </li>
+
+			                                <li class="pr-0"><button role="button" class="actions-btn mail-bold-btn border-right-0 border-radius-r-0">B</button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-italic-btn border-right-0 border-radius-0"><em>I</em></button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-underline-btn border-right-0 border-radius-0">U</button></li>
+			                                <li class="pl-0">
+			                                	<div ngbDropdown placement="top" class="dropdown">
+				                                	<button ngbDropdownToggle class="actions-btn mail-font-color-btn border-radius-l-0" id="typoColorDropdownMenu" role="button"><i class="fa fa-inbox d-none"></i>A</button>
+				                                	<div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoColorDropdownMenu">
+				                                		<div class="color-picker-holder">
+				                                			<div class="row">
+				                                				<div class="col-sm-6 mb-3 mb-sm-0">
+				                                					<div class="color-picker">
+				                                						<div class="color-picker-title"><strong>Background Color</strong></div>
+				                                						<ul class="color-picker-list d-flex flex-wrap">
+				                                							<li><div class="color-shape" style="background: #000000;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #616161;"></div></li>
+				                                							<li><div class="color-shape" style="background: #828282;"></div></li>
+				                                							<li><div class="color-shape" style="background: #adadad;"></div></li>
+				                                							<li><div class="color-shape" style="background: #d2d2d2;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e9e9e9;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffffff;border:1px solid #e5e5e5;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #730000;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #ae0000;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e60000;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ff2121;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ff7676;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffc9c9;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffefef;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #734600;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #ae6200;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e66300;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ff8c21;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffc576;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffe9c9;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffe9c9;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #737200;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #a0ae00;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e6e300;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fff621;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fdff76;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fffdc9;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffffef;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #0f7300;"></div></li>
+				                                							<li><div class="color-shape" style="background: #0eae00;"></div></li>
+				                                							<li><div class="color-shape" style="background: #1ee600;"></div></li>
+				                                							<li><div class="color-shape" style="background: #21ff38;"></div></li>
+				                                							<li><div class="color-shape" style="background: #76ff76;"></div></li>
+				                                							<li><div class="color-shape" style="background: #c9ffd0;"></div></li>
+				                                							<li><div class="color-shape" style="background: #effff1;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #006e73;"></div></li>
+				                                							<li><div class="color-shape" style="background: #00aeac;"></div></li>
+				                                							<li><div class="color-shape" style="background: #00dce6;"></div></li>
+				                                							<li><div class="color-shape" style="background: #21f4ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #76fff4;"></div></li>
+				                                							<li><div class="color-shape" style="background: #c9fffc;"></div></li>
+				                                							<li><div class="color-shape" style="background: #effeff;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #000173;"></div></li>
+				                                							<li><div class="color-shape" style="background: #0016ae;"></div></li>
+				                                							<li><div class="color-shape" style="background: #0100e6;"></div></li>
+				                                							<li><div class="color-shape" style="background: #5555ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #7681ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #cdc9ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #f1efff;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #530073;"></div></li>
+				                                							<li><div class="color-shape" style="background: #7500ae;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ba00e6;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e955ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #de76ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #f2c9ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fcefff;"></div></li>
+				                                						</ul>
+				                                					</div>
+				                                				</div>
+
+				                                				<div class="col-sm-6 mb-3 mb-sm-0">
+				                                					<div class="color-picker">
+				                                						<div class="color-picker-title"><strong>Text Color</strong></div>
+				                                						<ul class="color-picker-list d-flex flex-wrap">
+				                                							<li><div class="color-shape" style="background: #000000;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #616161;"></div></li>
+				                                							<li><div class="color-shape" style="background: #828282;"></div></li>
+				                                							<li><div class="color-shape" style="background: #adadad;"></div></li>
+				                                							<li><div class="color-shape" style="background: #d2d2d2;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e9e9e9;"></div></li>
+				                                							<li><div class="color-shape is-selected" style="background: #ffffff;border:1px solid #e5e5e5;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #730000;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #ae0000;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e60000;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ff2121;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ff7676;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffc9c9;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffefef;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #734600;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #ae6200;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e66300;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ff8c21;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffc576;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffe9c9;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffe9c9;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #737200;"></div></li>
+				                                							<li><div class="color-shape" style="
+				                                							background: #a0ae00;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e6e300;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fff621;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fdff76;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fffdc9;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ffffef;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #0f7300;"></div></li>
+				                                							<li><div class="color-shape" style="background: #0eae00;"></div></li>
+				                                							<li><div class="color-shape" style="background: #1ee600;"></div></li>
+				                                							<li><div class="color-shape" style="background: #21ff38;"></div></li>
+				                                							<li><div class="color-shape" style="background: #76ff76;"></div></li>
+				                                							<li><div class="color-shape" style="background: #c9ffd0;"></div></li>
+				                                							<li><div class="color-shape" style="background: #effff1;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #006e73;"></div></li>
+				                                							<li><div class="color-shape" style="background: #00aeac;"></div></li>
+				                                							<li><div class="color-shape" style="background: #00dce6;"></div></li>
+				                                							<li><div class="color-shape" style="background: #21f4ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #76fff4;"></div></li>
+				                                							<li><div class="color-shape" style="background: #c9fffc;"></div></li>
+				                                							<li><div class="color-shape" style="background: #effeff;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #000173;"></div></li>
+				                                							<li><div class="color-shape" style="background: #0016ae;"></div></li>
+				                                							<li><div class="color-shape" style="background: #0100e6;"></div></li>
+				                                							<li><div class="color-shape" style="background: #5555ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #7681ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #cdc9ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #f1efff;"></div></li>
+
+				                                							<li><div class="color-shape" style="background: #530073;"></div></li>
+				                                							<li><div class="color-shape" style="background: #7500ae;"></div></li>
+				                                							<li><div class="color-shape" style="background: #ba00e6;"></div></li>
+				                                							<li><div class="color-shape" style="background: #e955ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #de76ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #f2c9ff;"></div></li>
+				                                							<li><div class="color-shape" style="background: #fcefff;"></div></li>
+				                                						</ul>
+				                                					</div>
+				                                				</div>
+				                                			</div>
+				                                		</div>
+				                                	</div>
+				                                </div>
+			                                </li>
+
+			                                <li class="pr-0"><button role="button" class="actions-btn mail-align-right-btn border-right-0 border-radius-r-0">R</button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-align-center-btn border-right-0 border-radius-0">C</button></li>
+			                                <li class="pl-0"><button role="button" class="actions-btn mail-align-left-btn border-radius-l-0"><i class="fa fa-inbox d-none"></i>L</button></li>
+
+			                                <li class="pr-0"><button role="button" class="actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0">R</button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-order-list-btn border-right-0 border-radius-0">C</button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"><i class="fa fa-inbox d-none"></i>ID</button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-indent-increase-btn border-right-0 border-radius-0"><i class="fa fa-inbox d-none"></i>II</button></li>
+			                                <li class="pl-0"><button role="button" class="actions-btn mail-quote-right-btn border-radius-l-0"><i class="fa fa-inbox d-none"></i>Q</button></li>
+
+			                                <li><button role="button" class="actions-btn mail-format-clear-btn"><i class="fa fa-inbox d-none"></i>FC</button></li>
+			                            </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mail-composer-actions-col mail-composer-actions-col-sm">
+                    <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
+                        <li class="pr-0"><button role="button" class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
+                        <li class="pl-0"><button role="button" class="actions-btn mail-garbage-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
+                        <li><a href="" class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"><i class="hidden-sm-up fa fa-inbox"></i><span class="hidden-xs-down">Send</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 	</div>
 </div>

@@ -11,7 +11,8 @@
     opacity: 0;
     pointer-events: none;
     display: block !important;
-    box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.1);
+    // box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 14px 0 rgba($brand-black, 0.17);
     visibility: hidden;
     transform: translateY(10px);
     transition: all ceaser($easeInOutQuint) 0.35s;
@@ -29,7 +30,8 @@
 }
 
 .dropdown-toggle {
-    &::after {
+    &::after,
+    &.hide-arrow::before {
         display: none !important;
     }
 
