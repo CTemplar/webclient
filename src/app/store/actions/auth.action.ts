@@ -1,5 +1,5 @@
+// Ngrx
 import { Action } from '@ngrx/store';
-
 
 export enum AuthActionTypes {
   LOGIN = '[Auth] Login',

@@ -1,5 +1,5 @@
+// Ngrx
 import { Action } from '@ngrx/store';
-
 
 export enum BlogActionTypes {
   GET_POSTS = '[Blog] GET_POSTS',

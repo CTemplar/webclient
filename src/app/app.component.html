@@ -1,5 +1,6 @@
 <!-- App outer -->
-<div class="app-outer" [class.resize-active]="windowIsResized" [ngClass]="{ 'app-outer-secondary': this.router.url !== '/' && !isMail, 'app-outer-mailbox': isMail }">
+<!-- <div class="app-outer" [class.resize-active]="windowIsResized" [ngClass]="{ 'app-outer-secondary': this.router.url !== '/' && !isMail, 'app-outer-mailbox': isMail }"> -->
+<div class="app-outer" [class.resize-active]="windowIsResized">
     <!-- Rendering app header component -->
     <app-header [hidden]="isMail"></app-header>
     <!-- App main content body -->

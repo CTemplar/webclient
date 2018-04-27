@@ -1,12 +1,16 @@
+// Angular
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Params
 } from '@angular/router';
-import { createFeatureSelector, ActionReducerMap } from '@ngrx/store';
 
+// Ngrx
+import { createFeatureSelector, ActionReducerMap, createSelector } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-import { RouterStateUrl, AppState, BlogState } from '../datatypes';
+
+// Model
+import { RouterStateUrl, AppState, BlogState, MailState } from '../datatypes';
 
 
 export const getRouterState = createFeatureSelector<
@@ -15,7 +19,17 @@ export const getRouterState = createFeatureSelector<
 
 export const selectAuthState = createFeatureSelector<AppState>('auth');
 export const selectBlogState = createFeatureSelector<AppState>('blog');
-// export const selectNewposts$ = createFeatureSelector<BlogState>('newPosts');
+export const selectBlogState1 = (state: AppState) => state.blog;
+export const getNewBlogs = createSelector(
+  selectBlogState1,
+  (state: BlogState) => state.newPosts
+);
+
+export const selectMailState = (state: AppState) => state.mail;
+export const getMails = createSelector(
+  selectMailState,
+  (state: MailState) => state.mails
+);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

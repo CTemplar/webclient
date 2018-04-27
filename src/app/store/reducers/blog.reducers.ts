@@ -1,11 +1,14 @@
+// Custom Action
 import { BlogActionTypes, BlogActionAll } from '../actions/blog.actions';
 
+// Model
 import { BlogState } from '../datatypes';
 
 export const initialState: BlogState = {
   posts: [],
   comments: [],
-  categories: []
+  categories: [],
+  newPosts: []
 };
 
 export function reducer(state = initialState, action: BlogActionAll): BlogState {

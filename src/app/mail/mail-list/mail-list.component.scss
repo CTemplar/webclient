@@ -16,7 +16,7 @@
 	}
 
 	&.is-unread {
-		color: $brand-black;
+		color: $brand-black !important;
 	}
 
 	&.is-read {

@@ -23,7 +23,7 @@ import { AppStoreModule } from './store/store.module';
 
 // Services
 import { BlogService } from './providers/blog.service';
-// import { MailService } from './mail/shared/mail.service';
+import { MailService } from './providers/mail.service';
 import { SharedService } from './shared/shared.service';
 import { OpenPgpService } from './providers/openpgp.service';
 
@@ -60,6 +60,7 @@ import {
     BlogService,
     SharedService,
     OpenPgpService,
+    MailService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

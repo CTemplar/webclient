@@ -1,7 +1,12 @@
+// Angular
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
+
+// Ngrx
+import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+
+// Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
@@ -9,7 +14,10 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
 
+// Service
 import { UsersService } from '../../providers/users.service';
+
+// Custom Actions
 import {
   AuthActionTypes,
   LogIn, LogInSuccess, LogInFailure,

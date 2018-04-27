@@ -11,7 +11,16 @@ export class OpenPgpService {
   private privKeyObj: any;
   private fingerprint: string;
 
-  constructor() {}
+  constructor() {
+    const localPubKey = localStorage.getItem('pubkey');
+    const localPrivKey = localStorage.getItem('privkey');
+    if (localPrivKey) {
+      this.pubkey = localPubKey;
+      this.privkey = localPrivKey;
+      this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
+      this.decryptPrivateKey();
+    }
+  }
 
   generateKey(user) {
     this.passpharse = user.password;
@@ -27,12 +36,8 @@ export class OpenPgpService {
       localStorage.setItem('privkey', this.privkey);
       this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
       this.fingerprint = openpgp.key.readArmored(this.pubkey).keys[0].primaryKey.getFingerprint();
-
+      this.decryptPrivateKey();
       return true;
-
-      // this.privKeyObj.decrypt(this.passpharse).then(() => {
-      //   this.makeEncrypt();
-      // });
     });
   }
 
@@ -48,6 +53,11 @@ export class OpenPgpService {
     return this.privkey;
   }
 
+  async decryptPrivateKey() {
+    this.passpharse = 'aaaaaaaaaa';
+    await this.privKeyObj.decrypt(this.passpharse);
+  }
+
   makeEncrypt() {
     this.options = {
       data: 'hello world',
@@ -60,15 +70,17 @@ export class OpenPgpService {
     });
   }
 
-  makeDecrypt() {
+  makeDecrypt(str) {
     this.options = {
-      message: openpgp.message.readArmored(this.encrypted),
+      message: openpgp.message.readArmored(str),
       publicKeys: openpgp.key.readArmored(this.pubkey).keys,
       privateKeys: [this.privKeyObj]
     };
 
-    openpgp.decrypt(this.options).then((plaintext) => {
-      console.log('plaintext', plaintext.data);
+    return openpgp.decrypt(this.options).then((plaintext) => {
+      console.log('mail.content');
+      console.log(plaintext);
+      return plaintext.data;
     });
 
   }

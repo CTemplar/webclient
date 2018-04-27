@@ -1,14 +1,18 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+
+// Rxjs
 import { Observable } from 'rxjs/Observable';
 
+// Models
 import { Post } from '../../models/blog';
 
 // Services
 import { BlogService } from '../../providers/blog.service';
 
+// Store
+import { Store } from '@ngrx/store';
 import { BlogState } from '../../store/datatypes';
 import { selectBlogState } from '../../store/selectors';
 import { GetPostDetail } from '../../store/actions/blog.actions';

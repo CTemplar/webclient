@@ -1,10 +1,15 @@
+// Angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
+// Ngrx
 import { Effect, Actions } from '@ngrx/effects';
+
+// Custom Action
 import * as RouterActions from '../actions/router.action';
 
+// Rxjs
 import { tap, map } from 'rxjs/operators';
 
 @Injectable()

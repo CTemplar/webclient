@@ -1,5 +1,8 @@
-import { Action } from '@ngrx/store';
+// Angular
 import { NavigationExtras } from '@angular/router';
+
+// Ngrx
+import { Action } from '@ngrx/store';
 
 export const GO = '[Router] Go';
 export const BACK = '[Router] Back';
