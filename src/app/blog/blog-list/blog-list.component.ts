@@ -43,18 +43,20 @@ export class BlogListComponent implements OnInit {
     this.getBlogState$.subscribe(blogs => {
       if (blogs.length) {
         this.sortPosts(blogs);
+      } else {
+        this.getPosts();
       }
     });
-    if (!this.posts.length) {
-      this.getPosts();
-    }
   }
 
   getPosts() {
+    console.log(this.positionCount);
+    console.log(this.postPosition);
     this.store.dispatch(new GetPosts({limit: this.positionCount, offset: this.postPosition}));
   }
 
   sortPosts(newPosts) {
+    console.log(newPosts);
     newPosts.map((post: Post) => {
       post.isloaded = false;
       if (post.text.length > 500) {
