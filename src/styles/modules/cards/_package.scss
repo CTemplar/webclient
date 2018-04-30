@@ -14,8 +14,12 @@
 
 .package-card-header {
     position: relative;
-    padding: 1.813rem 1.25rem;
+    padding: 0.813rem 1.25rem;
     border-radius: 4px 4px 0 0;
+
+    @include media(">sm") {
+        padding: 1.813rem 1.25rem;
+    }
 
     .js-card-swiper {
         position: absolute;

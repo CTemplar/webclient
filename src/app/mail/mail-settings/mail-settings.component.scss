@@ -3,8 +3,14 @@
 @import '../../../styles/config/include-media-config';
 @import '../../../styles/vendors/ceaser/ceaser-easing';
 
+// == Settings page
 .ui-header {
-	padding: 1.25rem 1.563rem;
+	padding: 1.25rem 0.938rem;
+
+	@include media(">=ipad") {
+		padding: 1.25rem 1.563rem;
+	}
+
 	&.ui-header-bordered {
 		border: 1px solid #f5f5f5;
 	}
@@ -16,64 +22,93 @@
 }
 
 .mailbox-section-body  {
-	padding-top: 2.5rem;
-	padding-bottom: 2.5rem;
+	padding-top: 2.15rem;
+	padding-bottom: 2.15rem;
+
+	@include media(">sm") {
+		padding-top: 2.5rem;
+		padding-bottom: 2.5rem;
+	}
 }
 
 // == Info list
+
 .info-list {
-	.info-list-item {
-		display: flex;
-		align-items: center;
-		padding: 1.25rem 1.563rem;
-		background: $brand-faded;
-		border: 1px solid #f5f5f5;		
-		font-size: 0.875rem;
-		line-height: 1.14;
-
-		&:not(:last-of-type) {
-			border-bottom: 0;
-		}
-	}
-
-	.info-list-text {
-		>span {
-			display: block;
-			&:not(:last-of-type) {
-				margin-bottom: 0.875rem;
-			}
-		}
-	}
-
-	.info-list-label {
-		margin-right: 1.25rem;
-		font-weight: bold;
-		width: 65px;
-	}
-
-	.info-list-val {
-		width: calc(100% - 65px - 1.25rem);
-	}
-
+	// == Large list
 	&-lg {
 		.info-list-label {
-			width: 155px;
+			width: 170px;
 		}
 
 		.info-list-val {
-			width: calc(100% - 155px - 1.25rem);
+			width: calc(100% - 170px - 1.25rem);
 		}
+	}
+}
+
+.info-list-item {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	padding: 1.188rem 0.938rem;
+	background: $brand-faded;
+	border: 1px solid #f5f5f5;		
+	font-size: 0.875rem;
+	line-height: 1.14;
+
+	&:not(:last-of-type) {
+		border-bottom: 0;
+	}
+
+	@include media(">=ipad") {		
+		padding: 1.188rem 1.563rem;
+	}
+}
+
+.info-list-label {
+	margin-right: 1.25rem;
+	font-weight: bold;
+	width: 65px;
+}
+
+.info-list-val {
+	width: calc(100% - 65px - 1.25rem);
+}
+
+.info-list-val-text {
+	&:not(:last-of-type) {
+		margin-bottom: 0.625rem;
+	}
+}
+
+.info-list-item-row {
+	display: flex;
+	align-items: center;
+	flex: 0 0 100%;
+	max-width: 100%;
+
+	&:not(:last-of-type) {
+		margin-bottom: 0.938rem;
+	}
+
+	.info-list-label-text:first-of-type {
+		margin-right: 1.125rem;
 	}
 }
 
 // == Progressbar
 .progress-lg {
-	line-height: 1.25rem;
-
 	.progress-bar {
-		height: 1.25rem;
 		border-radius: 0 4px 4px 0;
+	}
 
+	@include media(">sm") {
+		line-height: 1.25rem;
+
+		.progress-bar {
+			height: 1.25rem;
+			border-radius: 0 4px 4px 0;
+		}
 	}
 }
 
