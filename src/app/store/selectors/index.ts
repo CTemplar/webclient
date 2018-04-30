@@ -20,9 +20,24 @@ export const getRouterState = createFeatureSelector<
 export const selectAuthState = createFeatureSelector<AppState>('auth');
 export const selectBlogState = createFeatureSelector<AppState>('blog');
 export const selectBlogState1 = (state: AppState) => state.blog;
+
+export const getBlogDetail = createSelector(
+  selectBlogState1,
+  (state: BlogState) => state.selectedPost
+);
 export const getNewBlogs = createSelector(
   selectBlogState1,
   (state: BlogState) => state.newPosts
+);
+
+export const getRelatedBlogs = createSelector(
+  selectBlogState1,
+  (state: BlogState) => state.relatedPosts
+);
+
+export const getNewCommentState = createSelector(
+  selectBlogState1,
+  (state: BlogState) => state.errorMessage
 );
 
 export const selectMailState = (state: AppState) => state.mail;

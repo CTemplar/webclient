@@ -41,7 +41,9 @@ export class BlogListComponent implements OnInit {
 
   ngOnInit() {
     this.getBlogState$.subscribe(blogs => {
-      this.sortPosts(blogs);
+      if (blogs.length) {
+        this.sortPosts(blogs);
+      }
     });
     if (!this.posts.length) {
       this.getPosts();

@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
   }
 
   loader() {
-    this.blogService.cache();
+    // this.blogService.cache();
     // this.quote = this.quotes[Math.floor(Math.random() * 5)];
     // window.addEventListener('load', () => {
     //   setTimeout(() => {

@@ -20,7 +20,7 @@ import { BlogService } from '../../providers/blog.service';
 // Custom Actions
 import {
   BlogActionTypes,
-  GetPosts, PutPosts, GetPostDetail, PutPostDetail
+  GetPosts, PutPosts, GetPostDetail, PutPostDetail, PostComment, PostCommentSuccess, PostCommentFailure, GetRelatedPosts, PutRelatedPosts
 } from '../actions/blog.actions';
 
 
@@ -44,15 +44,37 @@ export class BlogEffects {
         });
     });
 
+  @Effect()
+  GetPostDetail: Observable<any> = this.actions
+    .ofType(BlogActionTypes.GET_POST_DETAIL)
+    .map((action: GetPostDetail) => action.payload)
+    .switchMap(payload => {
+      return this.blogService.getPostwithSlug(payload)
+        .map((post) => {
+          return new PutPostDetail(post);
+        });
+    });
+
+  @Effect()
+  PostComment: Observable<any> = this.actions
+    .ofType(BlogActionTypes.POST_COMMENT)
+    .map((action: PostComment) => action.payload)
+    .switchMap(payload => {
+      return this.blogService.addComment(payload)
+        .map((post) => {
+          return new PostCommentSuccess(post);
+        }).catch((error) => {
+          return Observable.of(new PostCommentFailure({ error: error }));
+        });
+    });
     @Effect()
-    GetPostDetail: Observable<any> = this.actions
-      .ofType(BlogActionTypes.GET_POST_DETAIL)
-      .map((action: GetPostDetail) => action.payload)
+    GetRelatedPosts: Observable<any> = this.actions
+      .ofType(BlogActionTypes.GET_RELATED_POSTS)
+      .map((action: GetRelatedPosts) => action.payload)
       .switchMap(payload => {
-        return this.blogService.getPostwithSlug(payload)
-          .map((post) => {
-            return new PutPostDetail(post);
+        return this.blogService.getRelatedPosts(payload)
+          .map((posts) => {
+            return new PutRelatedPosts(posts);
           });
       });
-
 }

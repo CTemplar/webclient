@@ -22,7 +22,7 @@
       <div class="row">
         <!-- BLOG FIRST POST WITH FULL WIDTH -->
         <article class="col-12 mb-4 mb-sm-5 first-post">
-          <a routerLink="/blog/{{ firstPost.slug }}" class="d-block news-card-holder">
+          <a routerLink="/blog/{{ firstPost.slug }}/" class="d-block news-card-holder">
             <div class="news-card news-card-full px-lg position-relative">
               <div class="row align-items-center">
                 <div class="col-md-6">
@@ -57,7 +57,7 @@
         <!-- BLOG FIRST POST WITH FULL WIDTH ENDS -->
 
         <article class="col-md-4 col-sm-6 mb-4 mb-sm-5 normal-post" *ngFor= "let post of posts">
-          <a routerLink="/blog/{{ post.slug }}" class="d-block news-card-holder">
+          <a routerLink="/blog/{{ post.slug }}/" class="d-block news-card-holder">
             <div class="news-card position-relative">
               <span class="badge badge-sm badge-info text-uppercase">
                 <strong>{{ post.category.name }}</strong>

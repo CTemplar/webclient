@@ -30,6 +30,9 @@ export interface BlogState {
   categories: Category[];
   newPosts?: Post[];
   selectedPost?: Post;
+  errorMessage: string | null;
+  newComment?: Comment;
+  relatedPosts?: Post[];
 }
 
 export interface MailState {

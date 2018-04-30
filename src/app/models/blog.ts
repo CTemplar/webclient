@@ -7,9 +7,9 @@ export class Category {
 export class Comment {
   id: number;
   post: number;
-  reply_to: number;
+  reply_to?: number;
   text: string;
-  datetime: string;
+  datetime?: string;
   author?: string;
   replies?: Comment[];
 }

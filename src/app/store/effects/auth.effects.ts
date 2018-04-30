@@ -54,7 +54,6 @@ export class AuthEffects {
   LogInSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((user) => {
-      localStorage.setItem('token', user.payload.token);
       this.router.navigateByUrl('/mail');
     })
   );
@@ -82,7 +81,8 @@ export class AuthEffects {
   SignUpSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.SIGNUP_SUCCESS),
     tap((user) => {
-      localStorage.setItem('token', user.payload.token);
+      sessionStorage.setItem('token', user.payload.token);
+      this.authService.setTokenExpiration();
       // this.router.navigateByUrl('/');
     })
   );
@@ -96,7 +96,7 @@ export class AuthEffects {
   public LogOut: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGOUT),
     tap((user) => {
-      localStorage.removeItem('token');
+      this.authService.signOut();
     })
   );
 

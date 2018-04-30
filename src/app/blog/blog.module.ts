@@ -1,6 +1,7 @@
 // Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
@@ -23,7 +24,9 @@ import { BlogService } from '../providers/blog.service';
   imports: [
     CommonModule,
     BlogRoutingModule,
-    MailModule
+    MailModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     BlogDetailComponent,

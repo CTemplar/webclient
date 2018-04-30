@@ -101,7 +101,7 @@
                   <span class="comment-datetime">{{ comment.datetime }}</span>
                 </div>
                 <div class="comment-reply">
-                  <a href="">
+                  <a (click)="openReplyModal(content, comment.id)">
                     <i class="fas fa-reply"></i>
                     <u>reply</u>
                   </a>
@@ -122,7 +122,7 @@
                     <span class="comment-datetime">{{ reply.datetime }}</span>
                   </div>
                   <div class="comment-reply">
-                    <a href="">
+                    <a (click)="openReplyModal(content, reply.id)">
                       <i class="fas fa-reply"></i>
                       <u>reply</u>
                     </a>
@@ -144,27 +144,31 @@
         <h3 class="text-dark">
           <strong>Add Comment</strong>
         </h3>
-        <div class="comment-form form">
-          <form>
+        <div class="comment-login" *ngIf="!isActive">
+          <p>To add a commnet you should log in</p>
+        </div>
+        <div class="row" *ngIf="!isActive">
+          <div class="col-12">
+            <div class="form-group mb-0">
+              <button routerLink="/signin" class="btn btn-secondary btn-lg comment-submit-btn" type="button" role="button">Log IN</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="comment-form form" *ngIf="isActive">
+          <form [formGroup]="commentForm" #form="ngForm" (ngSubmit)="addCommnet(commentForm.value)">
             <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <input class="form-control" type="text" placeholder="Your name" />
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <input class="form-control" type="text" placeholder="Your email" />
-                </div>
-              </div>
               <div class="col-12">
-                <div class="form-group">
-                  <textarea class="form-control" placeholder="Your message" rows="4"></textarea>
+                <div class="form-group" [ngClass]="{'is-validate': commentForm.controls.comment.invalid && !commentForm.controls.comment.pristine}">
+                  <textarea class="form-control" placeholder="Your message" rows="4" name="comment" formControlName="comment"></textarea>
+                  <span *ngIf="commentForm.controls['comment'].errors && !commentForm.controls.comment.pristine" class="validate-message">
+                    <span>The Comment is required.</span>
+                  </span>
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group text-center mb-0">
-                  <button class="btn btn-secondary btn-lg comment-submit-btn" type="button" role="button">Submit</button>
+                  <button class="btn btn-secondary btn-lg comment-login-btn" type="submit" role="button">Submit</button>
                 </div>
               </div>
             </div>
@@ -178,4 +182,31 @@
 <!-- /.SINGLE POST COMMENT SECTION ENDS -->
 
 <!-- Rendering related posts -->
-<app-blog-related></app-blog-related>
+<app-blog-related *ngIf="blog" [category]="blog.category.id" [blogId]="blog.id"></app-blog-related>
+
+<ng-template #content let-c="close" let-d="dismiss" class="modal-type-default">
+  <div class="modal-header text-center justify-content-center">
+    <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
+      <strong>Add Comment</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="form reply-form">
+      <form [formGroup]="replyForm" #form="ngForm" (ngSubmit)="replyCommnet(replyForm.value)">
+        <div class="form-group" [ngClass]="{'is-validate': replyForm.controls.comment.invalid && !replyForm.controls.comment.pristine}">
+          <textarea class="form-control" placeholder="Your message" rows="4" name="comment" formControlName="comment"></textarea>
+          <span *ngIf="replyForm.controls['comment'].errors && !replyForm.controls.comment.pristine" class="validate-message">
+            <span>The Comment is required.</span>
+          </span>
+        </div>
+        <div class="form-group form-user-actions text-center mb-0">
+          <button class="btn btn-secondary btn-sm reply-btn" role="button" type="submit">Reply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
