@@ -2,6 +2,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatKeyboardModule } from '@ngx-material-keyboard/core';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -23,15 +25,13 @@ import { AppStoreModule } from './store/store.module';
 
 // Services
 import { BlogService } from './providers/blog.service';
-// import { MailService } from './mail/shared/mail.service';
+import { MailService } from './providers/mail.service';
 import { SharedService } from './shared/shared.service';
 import { OpenPgpService } from './providers/openpgp.service';
 
 import {
   TokenInterceptor, ErrorInterceptor
 } from './providers/token.interceptor';
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,6 +45,8 @@ import {
   imports: [
     BrowserModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatKeyboardModule,
     NgbModule.forRoot(),
     AppStoreModule,
     AppRoutingModule,
@@ -60,6 +62,7 @@ import {
     BlogService,
     SharedService,
     OpenPgpService,
+    MailService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

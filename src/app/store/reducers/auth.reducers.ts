@@ -1,5 +1,7 @@
+// Custom Action
 import { AuthActionTypes, AuthActionAll } from '../actions/auth.action';
 
+// Model
 import { AuthState } from '../datatypes';
 
 export const initialState: AuthState = {

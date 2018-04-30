@@ -1,4 +1,7 @@
+// Angular
 import { Component, OnInit } from '@angular/core';
+
+// Model
 import { Storage } from '../../models/users';
 
 @Component({

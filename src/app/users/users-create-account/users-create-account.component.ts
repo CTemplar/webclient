@@ -1,12 +1,18 @@
+// Angular
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators, PatternValidator } from '@angular/forms';
-import {AbstractControl} from '@angular/forms';
-import { Store } from '@ngrx/store';
+import {FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } from '@angular/forms';
+
+// Rxjs
 import { Observable } from 'rxjs/Observable';
+
+// Store
+import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/datatypes';
 import { selectAuthState } from '../../store/selectors';
 import { SignUp } from '../../store/actions/auth.action';
+
+// Service
 import { OpenPgpService } from '../../providers/openpgp.service';
 
 declare var openpgp;
@@ -53,7 +59,8 @@ export class UsersCreateAccountComponent implements OnInit {
         Validators.pattern('^[a-zA-Z0-9]{10,50}$')]
       ],
       'confirmPwd': ['', [Validators.required]],
-      'recoveryEmail': ['', [Validators.pattern('[^ @]*@[^ @]*')]]
+      'recoveryEmail': ['', [Validators.pattern('[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)' +
+              '*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')]]
     }, {
       validator: PasswordValidation.MatchPassword
     });

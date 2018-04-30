@@ -1,11 +1,15 @@
+// Angular
 import { Component, OnInit } from '@angular/core';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+
+// Bootstrap
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
+// Store
 import { AuthState } from '../../store/datatypes';
 import { selectAuthState } from '../../store/selectors';
 import { LogIn } from '../../store/actions/auth.action';
@@ -18,7 +22,7 @@ import { LogIn } from '../../store/actions/auth.action';
 export class UsersSignInComponent implements OnInit {
   lgoinForm: FormGroup;
   resetForm: FormGroup;
-  showFormErrors = true;
+  showFormErrors = false;
   errorMessage: string = '';
   isLoading: boolean = false;
   // == NgBootstrap Modal stuffs

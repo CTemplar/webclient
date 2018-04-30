@@ -19,6 +19,8 @@ export class User {
   newsletter?: boolean;
   membership?: Membership;
   token?: string;
+  pubkey?: string;
+  privkey?: string;
 }
 
 export interface Storage {

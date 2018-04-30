@@ -1,7 +1,12 @@
+// Angular
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
+
+// Ngrx
+import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+
+// Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
@@ -9,7 +14,10 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
 
+// Service
 import { UsersService } from '../../providers/users.service';
+
+// Custom Actions
 import {
   AuthActionTypes,
   LogIn, LogInSuccess, LogInFailure,
@@ -46,7 +54,6 @@ export class AuthEffects {
   LogInSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((user) => {
-      localStorage.setItem('token', user.payload.token);
       this.router.navigateByUrl('/mail');
     })
   );
@@ -74,7 +81,8 @@ export class AuthEffects {
   SignUpSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.SIGNUP_SUCCESS),
     tap((user) => {
-      localStorage.setItem('token', user.payload.token);
+      sessionStorage.setItem('token', user.payload.token);
+      this.authService.setTokenExpiration();
       // this.router.navigateByUrl('/');
     })
   );
@@ -88,7 +96,7 @@ export class AuthEffects {
   public LogOut: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGOUT),
     tap((user) => {
-      localStorage.removeItem('token');
+      this.authService.signOut();
     })
   );
 

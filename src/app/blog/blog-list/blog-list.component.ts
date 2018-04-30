@@ -13,7 +13,7 @@ import { BlogService } from '../../providers/blog.service';
 // Store
 import { Store } from '@ngrx/store';
 import { BlogState } from '../../store/datatypes';
-import { selectBlogState } from '../../store/selectors';
+import { getNewBlogs } from '../../store/selectors';
 import { GetPosts } from '../../store/actions/blog.actions';
 
 //////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ import { GetPosts } from '../../store/actions/blog.actions';
   styleUrls: ['./blog-list.component.scss']
 })
 export class BlogListComponent implements OnInit {
-  posts: Post[];
+  posts: Post[] = [];
   firstPost: Post;
   postPosition: number = 0;
   positionCount: number = 7;
@@ -34,20 +34,20 @@ export class BlogListComponent implements OnInit {
   getBlogState$: Observable<any>;
 
   constructor(
-    private blogService: BlogService, private store: Store<BlogState>
+    private blogService: BlogService, private store: Store<any>
   ) {
-    this.getBlogState$ = this.store.select(selectBlogState);
-    // this.featured = this.blogService.featured();
+    this.getBlogState$ = this.store.select(getNewBlogs);
   }
 
   ngOnInit() {
-    this.getBlogState$.subscribe((blogState: BlogState) => {
-      if (blogState.newPosts) {
-        this.sortPosts(blogState.newPosts);
+    this.getBlogState$.subscribe(blogs => {
+      if (blogs.length) {
+        this.sortPosts(blogs);
       }
     });
-
-    this.getPosts();
+    if (!this.posts.length) {
+      this.getPosts();
+    }
   }
 
   getPosts() {

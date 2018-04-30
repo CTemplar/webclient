@@ -36,18 +36,10 @@ export class BlogService {
   }
 
   getPosts(limit = 500, offset = 0): Observable<Post[]> {
-    const url = `${apiUrl}blog/posts/?limit=${limit}&offset=${offset}`;
+    const url = `${apiUrl}blog/posts/?limit=${limit}&offset=${offset}/`;
     return this.http.get<Post[]>(url)
       .pipe(
         map(data => data['results'])
-        // ,
-        // tap(data => {
-        //   if (this.posts) {
-        //     this.posts = this.posts.concat(data);
-        //   } else {
-        //     this.posts = data;
-        //   }
-        // }),
       );
   }
 
@@ -81,7 +73,15 @@ export class BlogService {
   // }
 
   getPostwithSlug(slug) {
-    const url = `${apiUrl}blog/posts/${slug}`;
+    const url = `${apiUrl}blog/posts/${slug}/`;
     return this.http.get<Post>(url);
+  }
+
+  getRelatedPosts(cateogry) {
+    const url = `${apiUrl}blog/posts/?category=${cateogry}`;
+    return this.http.get<Post>(url)
+    .pipe(
+      map(data => data['results'])
+    );
   }
 }

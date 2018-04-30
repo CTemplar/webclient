@@ -18,7 +18,7 @@ export class MailHeaderComponent implements OnInit {
 
   // == Setup click event to toggle mobile menu
   toggleState($event) { // click handler
-    let bool = this.menuIsOpened;
+    const bool = this.menuIsOpened;
     this.menuIsOpened = bool === false ? true : false;
   }
 

@@ -1,11 +1,16 @@
+// Custom Action
 import { BlogActionTypes, BlogActionAll } from '../actions/blog.actions';
 
+// Model
 import { BlogState } from '../datatypes';
 
 export const initialState: BlogState = {
   posts: [],
   comments: [],
-  categories: []
+  categories: [],
+  newPosts: [],
+  errorMessage: null,
+  relatedPosts: []
 };
 
 export function reducer(state = initialState, action: BlogActionAll): BlogState {
@@ -27,6 +32,25 @@ export function reducer(state = initialState, action: BlogActionAll): BlogState 
       return {
         ...state,
         selectedPost: action.payload
+      };
+    }
+    case BlogActionTypes.POST_COMMENT_FAILURE: {
+      return {
+        ...state,
+        errorMessage: 'Failed'
+      };
+    }
+    case BlogActionTypes.POST_COMMENT_SUCCESS: {
+      return {
+        ...state,
+        errorMessage: 'success'
+      };
+    }
+
+    case BlogActionTypes.PUT_RELATED_POSTS: {
+      return {
+        ...state,
+        relatedPosts: action.payload
       };
     }
     default: {

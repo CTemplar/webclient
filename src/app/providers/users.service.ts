@@ -66,7 +66,11 @@ export class UsersService {
 
   signIn(body): Observable<any> {
     const url = `${apiUrl}users/auth/signin/`;
-    return this.http.post<any>(url, body);
+    return this.http.post<any>(url, body)
+    .pipe(tap(data => {
+      sessionStorage.setItem('token', data.token);
+      this.setTokenExpiration();
+    }));
   }
 
   signOut() {
@@ -86,12 +90,7 @@ export class UsersService {
       password: user.password,
       is_spammer: false
     };
-
-    console.log('body', body);
     return this.http.post<any>(url, body);
-      // .pipe(tap(_ => this.signIn(body).subscribe()),
-      //   catchError(this.handleError('signUp', 'failed'))
-      // );
   }
 
   verifyToken(): Observable<any> {
@@ -101,7 +100,23 @@ export class UsersService {
   }
 
   getToken(): string {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
+  }
+
+  getNecessaryTokenUrl(url) {
+    if (url.indexOf('blog/posts') > -1) {
+      return true;
+    }
+
+    if (url.indexOf('auth/signup') > -1) {
+      return true;
+    }
+
+    if (url.indexOf('auth/signin') > -1) {
+      return true;
+    }
+
+    return false;
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
