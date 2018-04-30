@@ -213,7 +213,7 @@
 </ng-template>
 
 <!-- Mail compose dialog -->
-<div class="mail-composer is-fullscreenx">
+<div class="mail-composer is-minimizedx is-fullscreenx" style="display:none;">
 	<div class="mail-composer-dialog">
 		<div class="mail-composer-header">
 			<div class="mail-composer-title">New message</div>
@@ -299,41 +299,166 @@
             <div class="mail-composer-actions-row d-flex align-items-center">
                 <div class="mail-composer-actions-col mail-composer-actions-col-lg">
                     <ul class="mail-composer-actions d-flex align-items-center">
-                        <li><button role="button" class="actions-btn mail-attach-btn disabled"><i class="fa fa-inbox"></i></button></li>
-                        <li class="pr-0"><button role="button" class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
-                        <li class="px-0"><button role="button" class="actions-btn mail-clock-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
-                        <li class="px-0"><button role="button" class="actions-btn mail-sign-btn border-right-0 border-radius-0"><i class="fa fa-inbox"></i></button></li>
-                        <li class="pl-0"><button role="button" class="actions-btn mail-self-timer-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
-                        <li><button role="button" class="actions-btn mail-dead-btn"><i class="fa fa-inbox"></i></button></li>
-                        <li><button role="button" class="actions-btn mail-keyboard-btn"><i class="fa fa-inbox"></i></button></li>
+                        <li><button role="button" class="actions-btn mail-attach-btn" placement="top" ngbTooltip="Upload attachment"><i class="icon icon-attachment"></i></button></li>
+                        <li class="pr-0"><button role="button" class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0" placement="top" ngbTooltip="Mail"><i class="icon icon-mail"></i></button></li>
+                        <li class="px-0"><button role="button" class="actions-btn mail-clock-btn border-right-0 border-radius-0" placement="top" ngbTooltip="Clock"><i class="icon icon-clock"></i></button></li>
+                        <li class="px-0"><button role="button" class="actions-btn mail-sign-btn border-right-0 border-radius-0" placement="top" ngbTooltip="Signature"><i class="icon icon-sign"></i></button></li>
+                        <li class="pl-0">
+							<div ngbDropdown placement="top" class="dropdown">
+								<button ngbDropdownToggle class="hide-arrow actions-btn mail-self-timer-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Self Timer"><i class="icon icon-self-timer"></i></button>
+								<div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded" aria-labelledby="delayedTimerDropdownMenu">
+									<button role="button" class="close"><i class="fa fa-times"></i></button>
+									<div class="timer-dropdown-content">
+										<div class="dropdown-header">
+											<div class="dropdown-menu-title text-dark text-center"><strong>Delayed Delivery</strong></div>
+										</div>
+										<div class="dropdown-body">
+											<div class="timer-set-content">
+												<div class="timer-set-title">Email will be sent after set time</div>
+												<div class="timer-set-row d-flex align-items-center">
+													<div class="timer-set-col">
+														<span class="timer-set-label ml-0">after</span>
+														<span ngbDropdown placement="top" class="dropdown">
+															<button ngbDropdownToggle class="actions-btn bg-white" id="daysTimerDropdownMenu" role="button">1</button>
+															<div ngbDropdownMenu class="left-0" aria-labelledby="daysTimerDropdownMenu">
+																<a href="" class="dropdown-link">1</a>
+																<a href="" class="dropdown-link">2</a>
+																<a href="" class="dropdown-link">3</a>
+																<a href="" class="dropdown-link">4</a>
+																<a href="" class="dropdown-link">5</a>
+																<a href="" class="dropdown-link">6</a>
+																<a href="" class="dropdown-link">7</a>
+															</div>
+														</span>
+														<span class="timer-set-label mr-0">Days</span>
+													</div>
+													<div class="timer-set-col">
+														<span ngbDropdown placement="top" class="dropdown">
+															<button ngbDropdownToggle class="actions-btn bg-white" id="hoursTimerDropdownMenu" role="button">1</button>
+															<div ngbDropdownMenu class="left-0" aria-labelledby="hoursTimerDropdownMenu">
+																<a href="" class="dropdown-link">1</a>
+																<a href="" class="dropdown-link">2</a>
+																<a href="" class="dropdown-link">3</a>
+																<a href="" class="dropdown-link">4</a>
+																<a href="" class="dropdown-link">5</a>
+																<a href="" class="dropdown-link">6</a>
+																<a href="" class="dropdown-link">7</a>
+															</div>
+														</span>
+														<span class="timer-set-label mr-0">Hours</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="dropdown-footer text-center">
+											<a href="" class="btn btn-sm btn-secondary">Schedule</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+                        <li>
+							<div ngbDropdown placement="top" class="dropdown">
+								<button ngbDropdownToggle class="hide-arrow actions-btn mail-dead-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Dead Man"><i class="icon icon-dead"></i></button>
+								<div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded" aria-labelledby="delayedTimerDropdownMenu">
+									<button role="button" class="close"><i class="fa fa-times"></i></button>
+									<div class="timer-dropdown-content">
+										<div class="dropdown-header">
+											<div class="dropdown-menu-title text-dark text-center"><strong>Dead Man's Timer</strong></div>
+										</div>
+										<div class="dropdown-body">
+											<div class="timer-set-content">
+												<div class="timer-set-title">If you do not log into your account after this set time, the email will be sent</div>
+												<div class="timer-set-row d-flex align-items-center">
+													<div class="timer-set-col">
+														<span class="timer-set-label ml-0">in</span>
+														<span ngbDropdown placement="top" class="dropdown">
+															<button ngbDropdownToggle class="actions-btn bg-white" id="daysTimerDropdownMenu" role="button">1</button>
+															<div ngbDropdownMenu class="left-0" aria-labelledby="daysTimerDropdownMenu">
+																<a href="" class="dropdown-link">1</a>
+																<a href="" class="dropdown-link">2</a>
+																<a href="" class="dropdown-link">3</a>
+																<a href="" class="dropdown-link">4</a>
+																<a href="" class="dropdown-link">5</a>
+																<a href="" class="dropdown-link">6</a>
+																<a href="" class="dropdown-link">7</a>
+															</div>
+														</span>
+														<span class="timer-set-label mr-0">Days</span>
+													</div>
+													<div class="timer-set-col">
+														<span ngbDropdown placement="top" class="dropdown">
+															<button ngbDropdownToggle class="actions-btn bg-white" id="hoursTimerDropdownMenu" role="button">1</button>
+															<div ngbDropdownMenu class="left-0" aria-labelledby="hoursTimerDropdownMenu">
+																<a href="" class="dropdown-link">1</a>
+																<a href="" class="dropdown-link">2</a>
+																<a href="" class="dropdown-link">3</a>
+																<a href="" class="dropdown-link">4</a>
+																<a href="" class="dropdown-link">5</a>
+																<a href="" class="dropdown-link">6</a>
+																<a href="" class="dropdown-link">7</a>
+															</div>
+														</span>
+														<span class="timer-set-label mr-0">Hours</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="dropdown-footer text-center">
+											<a href="" class="btn btn-sm btn-secondary">Schedule</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+                        <li><button role="button" class="actions-btn mail-keyboard-btn" placement="top" ngbTooltip="Keyboard Show"><i class="icon icon-keyboard-show"></i></button></li>
                         <li>
                         	<div ngbDropdown placement="top" class="dropdown">
-                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button">A</button>
+                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" ngbTooltip="Typography">A</button>
                                 <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
                                     <div class="mail-comopser-typo-actions-holder">
                                     	<ul class="mail-composer-actions d-flex align-items-center justify-content-end">
 			                                <li class="pr-0">
-			                                	<div ngbDropdown class="sub-dropdown dropup">
-				                                	<button ngbDropdownToggle role="button" class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0" id="typoFamilyDropdownMenu" role="button"><i class="fa fa-inbox d-none"></i>T</button>
-				                                	<div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoFamilyDropdownMenu">
+			                                	<div ngbDropdown placement="top" class="dropup">
+				                                	<button ngbDropdownToggle role="button" class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0" id="typoFamilyDropdownMenu" role="button"><i class="icon icon-text-size"></i></button>
+				                                	<div ngbDropdownMenu class="typo-family-dropdown-menu" aria-labelledby="typoFamilyDropdownMenu">
+				                                		<div class="typo-holder">
+				                                			<ul class="typo-list list-styled">
+				                                				<li><a href="" class="typo-select-link">Hiragino Sans</a></li>
+				                                				<li><a href="" class="typo-select-link is-active">Lato</a></li>
+				                                				<li><a href="" class="typo-select-link">Roboto</a></li>
+				                                				<li><a href="" class="typo-select-link">Abril Fatface</a></li>
+				                                				<li><a href="" class="typo-select-link">Andale Mono</a></li>
+				                                				<li><a href="" class="typo-select-link">Arial</a></li>
+				                                				<li><a href="" class="typo-select-link">Times New Roman</a></li>
+				                                			</ul>
+				                                		</div>
 				                                	</div>
 				                                </div>
 			                                </li>
 			                                <li class="pl-0">
-			                                	<div ngbDropdown class="dropdown dropup">
-				                                	<button ngbDropdownToggle role="button" class="actions-btn mail-font-family-btn" id="typoFamilyDropdownMenu"><i class="fa fa-inbox d-none"></i>T</button>
-				                                	<div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoFamilyDropdownMenu">
+			                                	<div ngbDropdown placement="top" class="dropup">
+				                                	<button ngbDropdownToggle role="button" class="actions-btn mail-font-family-btn" id="typoFamilyDropdownMenu"><i class="icon icon-text-size-alt"></i></button>
+				                                	<div ngbDropdownMenu class="typo-size-dropdown-menu" aria-labelledby="typoFamilyDropdownMenu">
+				                                		<div class="typo-holder">
+				                                			<ul class="typo-list list-styled">
+				                                				<li><a href="" class="typo-select-link is-small">Small</a></li>
+				                                				<li><a href="" class="typo-select-link is-active is-normal">Normal</a></li>
+				                                				<li><a href="" class="typo-select-link is-large">Large</a></li>
+				                                				<li><a href="" class="typo-select-link is-huge">Huge</a></li>
+				                                			</ul>
+				                                		</div>
 				                                	</div>
 				                                </div>
 			                                </li>
 
-			                                <li class="pr-0"><button role="button" class="actions-btn mail-bold-btn border-right-0 border-radius-r-0">B</button></li>
-			                                <li class="px-0"><button role="button" class="actions-btn mail-italic-btn border-right-0 border-radius-0"><em>I</em></button></li>
-			                                <li class="px-0"><button role="button" class="actions-btn mail-underline-btn border-right-0 border-radius-0">U</button></li>
+			                                <li class="pr-0"><button role="button" class="actions-btn mail-bold-btn border-right-0 border-radius-r-0"><i class="icon icon-bold"></i></button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-italic-btn border-right-0 border-radius-0"><i class="icon icon-italic"></i></button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-underline-btn border-right-0 border-radius-0"><i class="icon icon-underline"></i></button></li>
 			                                <li class="pl-0">
 			                                	<div ngbDropdown placement="top" class="dropdown">
-				                                	<button ngbDropdownToggle class="actions-btn mail-font-color-btn border-radius-l-0" id="typoColorDropdownMenu" role="button"><i class="fa fa-inbox d-none"></i>A</button>
-				                                	<div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoColorDropdownMenu">
+				                                	<button ngbDropdownToggle class="actions-btn mail-font-color-btn border-radius-l-0" id="typoColorDropdownMenu" role="button"><i class="icon icon-text-color"></i></button>
+				                                	<div ngbDropdownMenu class="left-0" aria-labelledby="typoColorDropdownMenu">
 				                                		<div class="color-picker-holder">
 				                                			<div class="row">
 				                                				<div class="col-sm-6 mb-3 mb-sm-0">
@@ -491,17 +616,17 @@
 				                                </div>
 			                                </li>
 
-			                                <li class="pr-0"><button role="button" class="actions-btn mail-align-right-btn border-right-0 border-radius-r-0">R</button></li>
-			                                <li class="px-0"><button role="button" class="actions-btn mail-align-center-btn border-right-0 border-radius-0">C</button></li>
-			                                <li class="pl-0"><button role="button" class="actions-btn mail-align-left-btn border-radius-l-0"><i class="fa fa-inbox d-none"></i>L</button></li>
+			                                <li class="pr-0"><button role="button" class="actions-btn mail-align-right-btn border-right-0 border-radius-r-0"><i class="icon icon-text-align-right"></i></button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-align-center-btn border-right-0 border-radius-0"><i class="icon icon-text-align-center"></i></button></li>
+			                                <li class="pl-0"><button role="button" class="actions-btn mail-align-left-btn border-radius-l-0"><i class="icon icon-text-align-left"></i></button></li>
 
-			                                <li class="pr-0"><button role="button" class="actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0">R</button></li>
-			                                <li class="px-0"><button role="button" class="actions-btn mail-order-list-btn border-right-0 border-radius-0">C</button></li>
-			                                <li class="px-0"><button role="button" class="actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"><i class="fa fa-inbox d-none"></i>ID</button></li>
-			                                <li class="px-0"><button role="button" class="actions-btn mail-indent-increase-btn border-right-0 border-radius-0"><i class="fa fa-inbox d-none"></i>II</button></li>
-			                                <li class="pl-0"><button role="button" class="actions-btn mail-quote-right-btn border-radius-l-0"><i class="fa fa-inbox d-none"></i>Q</button></li>
+			                                <li class="pr-0"><button role="button" class="actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"><i class="icon icon-unorder-list"></i></button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-order-list-btn border-right-0 border-radius-0"><i class="icon icon-ordered-list"></i></button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"><i class="icon icon-indent-decrease"></i></button></li>
+			                                <li class="px-0"><button role="button" class="actions-btn mail-indent-increase-btn border-right-0 border-radius-0"><i class="icon icon-indent-increase"></i></button></li>
+			                                <li class="pl-0"><button role="button" class="actions-btn mail-quote-right-btn border-radius-l-0"><i class="icon icon-quote-right"></i></button></li>
 
-			                                <li><button role="button" class="actions-btn mail-format-clear-btn"><i class="fa fa-inbox d-none"></i>FC</button></li>
+			                                <li><button role="button" class="actions-btn mail-format-clear-btn"><i class="icon icon-format-clear"></i></button></li>
 			                            </ul>
                                     </div>
                                 </div>
@@ -511,9 +636,9 @@
                 </div>
                 <div class="mail-composer-actions-col mail-composer-actions-col-sm">
                     <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
-                        <li class="pr-0"><button role="button" class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"><i class="fa fa-inbox"></i></button></li>
-                        <li class="pl-0"><button role="button" class="actions-btn mail-garbage-btn border-radius-l-0"><i class="fa fa-inbox"></i></button></li>
-                        <li><a href="" class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"><i class="hidden-sm-up fa fa-inbox"></i><span class="hidden-xs-down">Send</span></a></li>
+                        <li class="pr-0"><button role="button" class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0" placement="top" ngbTooltip="Save Disk"><i class="icon icon-save-disk"></i></button></li>
+                        <li class="pl-0"><button role="button" class="actions-btn mail-garbage-btn border-radius-l-0" placement="top" ngbTooltip="Discard Mail"><i class="icon icon-garbage"></i></button></li>
+                        <li><a href="" class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" placement="top" ngbTooltip="Send Mail"><i class="hidden-sm-up fa fa-paper-plane"></i><span class="hidden-xs-down">Send</span></a></li>
                     </ul>
                 </div>
             </div>

@@ -18,3 +18,42 @@
 @include bg-variant('.bg-faded', $brand-faded);
 @include bg-variant('.bg-secondary', $brand-secondary);
 @include bg-variant('.bg-white', $brand-white);
+
+
+// == Tooltips
+.tooltip {
+    font-size: 0.75rem;
+    
+    &-inner {
+        border-radius: 2px;
+    }
+}
+
+.tooltip>.arrow {
+	position: absolute;
+	display: block;
+	width: .8rem;
+	height: .4rem;
+
+	&::before {
+		position: absolute;
+		content: "";
+		border-color: transparent;
+		border-style: solid;
+	}
+}
+
+.bs-tooltip-top {
+	padding: 0.4rem 0;
+	left: calc(50% - 0.4rem);
+
+	.arrow {
+		bottom: 0;
+
+		&::before {
+			top: 0;
+			border-width: .4rem .4rem 0;
+			border-top-color: #000;
+		}
+	}
+}
