@@ -232,4 +232,361 @@
             </div>
         </div>
 	</section>
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>General settings</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Language</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="btn-dropdown btn-dropdown-select">
+                                <div ngbDropdown class="dropdown-sm">
+                                    <button ngbDropdownToggle role="button" id="langDropdownMenuButton">English(USA)</button>
+                                    <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
+                                        <a class="dropdown-item" href="">English(USA)</a>
+                                        <a class="dropdown-item" href="">Russian</a>
+                                        <a class="dropdown-item" href="">English(UK)</a>
+                                        <a class="dropdown-item" href="">Spanish</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Current time zone</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="btn-dropdown btn-dropdown-select">
+                                <div ngbDropdown class="dropdown-sm">
+                                    <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">UTC+1 (Italy, Germany)</button>
+                                    <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton">
+                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Automatically save contacts</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row row-sm">
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField1" name="[1]" type="radio" checked />
+                                        <label for="autoSaveField1">Enabled</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField2" name="[1]" type="radio" disabled />
+                                        <label for="autoSaveField2">Disabled</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Vacation responder</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row row-sm">
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="responderField1" name="[2]" type="radio" checked />
+                                        <label for="responderField1">Enabled</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="responderField2" name="[2]" type="radio" disabled />
+                                        <label for="responderField2">Disabled</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Security settings</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label for="securityPassword" class="form-label mb-0">Password</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <input class="form-control form-control-sm" id="securityPassword" type="password" placeholder="********" />
+                            <span class="form-label-text mt-1">Last time changed 3 month ago. <a href=""><u>Change now</u></a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Two-factor authentication</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row row-sm">
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="authenticationField1" name="[3]" type="radio" checked />
+                                        <label for="authenticationField1">Enabled</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="authenticationField2" name="[3]" type="radio" disabled />
+                                        <label for="authenticationField2">Disabled</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label for="recoveryMail" class="form-label mb-0">Recovery email</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <input class="form-control form-control-sm" id="recoveryMail" type="text" placeholder="johnsimpson@gmail.com" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Security alerts</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row row-sm">
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField1" name="[4]" type="radio" checked />
+                                        <label for="securityField1">Enabled</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField2" name="[4]" type="radio" disabled />
+                                        <label for="securityField2">Disabled</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Appearance</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label for="displayName" class="form-label mb-0">Display name</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <input class="form-control form-control-sm" id="displayName" type="text" placeholder="John Simpson" />                                          
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label for="signature" class="form-label mb-0">Signature</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-control form-control-sm form-control-contenteditable" id="signature" contenteditable="true">
+                                <div style="margin-bottom: 3px;">---------</div>
+                                <div style="margin-bottom: 3px;">Best regards,</div>
+                                <div style="margin-bottom: 3px;">John</div>
+                            </div>                                      
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Emails per page</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row row-sm">
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1" name="[5]" type="radio" checked />
+                                        <label for="emailCoutField1">20</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2" name="[5]" type="radio" disabled />
+                                        <label for="emailCoutField2">50</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3" name="[5]" type="radio" disabled />
+                                        <label for="emailCoutField3">100</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField4" name="[5]" type="radio" disabled />
+                                        <label for="emailCoutField4">200</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Load embedded content</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row row-sm">
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="embeddedContentField1" name="[6]" type="radio" checked />
+                                        <label for="embeddedContentField1">Yes</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="embeddedContentField2" name="[6]" type="radio" disabled />
+                                        <label for="embeddedContentField2">No</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="embeddedContentField3" name="[6]" type="radio" disabled />
+                                        <label for="embeddedContentField3">Only images</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-0">Show snippets</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row row-sm">
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="showSnippetsField1" name="[7]" type="radio" checked />
+                                        <label for="showSnippetsField1">Yes</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                    <div class="fancy-field-group">
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="showSnippetsField2" name="[7]" type="radio" disabled />
+                                        <label for="showSnippetsField2">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">                               
+                <ul class="ui-list ui-list-styled list-styled">
+                    <li class="ui-list-item">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField1" name="" type="checkbox" checked />
+                                    <label for="switcherField1"></label>
+                                    <span class="toggle-switcher-text">My spam filter</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField3" name="" type="checkbox" checked />
+                                    <label for="switcherField3"></label>
+                                    <span class="toggle-switcher-text">Important messages filter</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField2" name="" type="checkbox" />
+                                    <label for="switcherField2"></label>
+                                    <span class="toggle-switcher-text">Auto-labeling test</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-card">
+                    <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
+                    <a href="" class="text-uppercase btn-link"><u>Add custom filter</u></a>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>

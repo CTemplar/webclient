@@ -22,12 +22,19 @@
 }
 
 .mailbox-section-body  {
-	padding-top: 2.15rem;
-	padding-bottom: 2.15rem;
+	padding: 2.15rem .938rem;
 
-	@include media(">sm") {
-		padding-top: 2.5rem;
-		padding-bottom: 2.5rem;
+	@include media(">=ipad") {
+		padding: 2.5rem 1.563rem;
+	}
+
+	// == Small
+	&-sm {
+		padding: 1.875rem .938rem;
+
+		@include media(">=ipad") {
+			padding: 2.25rem 1.563rem;
+		}
 	}
 }
 
@@ -117,4 +124,112 @@
 	.progress-bar {
 		background: $brand-secondary;
 	}
+}
+
+// == Custom grid : 10px gutter
+.row-sm {
+	margin-right: -.75rem;
+	margin-left: -.75rem;
+
+	>[class*="col-"] {
+		padding-right: .75rem;
+		padding-left: .75rem;
+	}
+}
+
+.flex-auto-col {
+	flex: 0 0 auto;
+	max-width: inherit;
+	width: auto;
+}
+
+// == Setting form content card
+.form-content-row,
+.ui-list {
+	&:not(:last-child) {
+		margin-bottom: 1.25rem;
+	}
+}
+
+.form-content-holder {
+	max-width: 570px;
+	font-size: 0.75rem;
+
+	.form-control-sm {
+		padding-right: 0.75rem;
+		padding-left: 0.75rem;
+		font-size: 0.75rem;
+	}
+}
+
+.form-control-contenteditable {
+	min-height: 5.750rem;
+}
+
+.dropdown.dropdown-sm {
+	.dropdown-toggle {
+		padding-right: 0.75rem;
+		padding-left: 0.75rem;
+		border-radius: 2px;
+		font-size: 0.75rem;
+		height: 2rem;
+		width: 100%;
+		line-height: 1;
+
+		&::before {
+			right: 0.75rem;
+		}
+	}
+
+	.dropdown-item {
+		font-size: 0.75rem;
+		line-height: 1;
+	}
+}
+
+.form-label-text {
+	display: block;
+	font-size: .688rem;
+}
+
+// == Settings action list
+.setting-actions-list {
+	margin-right: -.625rem;
+	margin-left: -.625rem;
+
+	>li {
+		padding-right: .625rem;
+		padding-left: .625rem;
+
+		.icon {
+			color: $brand-light-gray;
+			font-size: 1.125rem;
+		}
+	}
+}
+
+// == UI list
+.ui-list-item {
+	padding: 0.875rem 0.938rem;
+	line-height: 1;	
+}
+
+.ui-list-styled .ui-list-item {
+	border: 1px solid $input-border-color;
+
+	&:not(:last-of-type) {
+		border-bottom: 0;
+	}
+}
+
+.info-card {
+	background: #f5f5f5;
+
+	p {
+		margin-bottom: 0.25rem;
+	}
+}
+
+.form-content-holder .btn-link {
+	font-size: 0.625rem;
 }
