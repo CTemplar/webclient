@@ -53,7 +53,7 @@ export class UsersSignInComponent implements OnInit {
 
   // == Open NgbModal
   open(content) {
-    this.resetModalRef = this.modalService.open(content);
+    this.resetModalRef = this.modalService.open(content, {windowClass: 'modal-md'});
   }
 
   // == Toggle password visibility

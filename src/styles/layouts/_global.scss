@@ -64,14 +64,16 @@ body {
 }
 
 // == Grid
-.row-lg {
-	@include media(">=ipad") {
-		margin-right: -2.188rem;
-		margin-left: -2.188rem;
+body:not(.sidebar-expanded) {
+	.row-lg {
+		@include media(">=ipad") {
+			margin-right: -2.188rem;
+			margin-left: -2.188rem;
 
-		>[class*="col-"] {
-			padding-right: 2.188rem;
-			padding-left: 2.188rem;
+			>[class*="col-"] {
+				padding-right: 2.188rem;
+				padding-left: 2.188rem;
+			}
 		}
 	}
 }

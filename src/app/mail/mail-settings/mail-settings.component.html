@@ -4,6 +4,7 @@
     		<h3 class="ui-header-title text-dark mb-0"><strong>Dashboard</strong></h3>
     	</header>
     </section>
+
     <section class="mailbox-section">
     	<div class="mailbox-section-body pt-0">
     		<div class="desc-card-holder">
@@ -85,6 +86,7 @@
             </div>
     	</div>
 	</section>
+
 	<section class="mailbox-section">
 		<div class="ui-header ui-header-bordered position-relative">
     		<h5 class="ui-header-subtitle text-dark mb-0"><strong>Account Type</strong></h5>
@@ -232,6 +234,7 @@
             </div>
         </div>
 	</section>
+
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>General settings</strong></h5>
@@ -327,6 +330,7 @@
             </div>
         </div>
     </section>
+
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Security settings</strong></h5>
@@ -336,18 +340,18 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="securityPassword" class="form-label mb-0">Password</label>
+                            <label for="securityPassword" class="form-label mb-sm-0">Password</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="securityPassword" type="password" placeholder="********" />
-                            <span class="form-label-text mt-1">Last time changed 3 month ago. <a href=""><u>Change now</u></a></span>
+                            <span class="form-label-text mt-1">Last time changed 3 month ago. <a href="javascript:void(0);" role="button" (click)="changePasswordOpen(content)"><strong><u>Change now</u></strong></a></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Two-factor authentication</label>
+                            <label class="form-label mb-sm-0">Two-factor authentication</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -370,7 +374,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="recoveryMail" class="form-label mb-0">Recovery email</label>
+                            <label for="recoveryMail" class="form-label mb-sm-0">Recovery email</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="recoveryMail" type="text" placeholder="johnsimpson@gmail.com" />
@@ -380,7 +384,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Security alerts</label>
+                            <label class="form-label mb-sm-0">Security alerts</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -403,6 +407,7 @@
             </div>
         </div>
     </section>
+
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Appearance</strong></h5>
@@ -412,7 +417,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="displayName" class="form-label mb-0">Display name</label>
+                            <label for="displayName" class="form-label mb-sm-0">Display name</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="displayName" type="text" placeholder="John Simpson" />                                          
@@ -422,7 +427,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="signature" class="form-label mb-0">Signature</label>
+                            <label for="signature" class="form-label mb-sm-0">Signature</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="form-control form-control-sm form-control-contenteditable" id="signature" contenteditable="true">
@@ -436,7 +441,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Emails per page</label>
+                            <label class="form-label mb-sm-0">Emails per page</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -471,7 +476,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Load embedded content</label>
+                            <label class="form-label mb-sm-0">Load embedded content</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -500,7 +505,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Show snippets</label>
+                            <label class="form-label mb-sm-0">Show snippets</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -523,6 +528,7 @@
             </div>
         </div>
     </section>
+
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
@@ -530,16 +536,16 @@
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">                               
                 <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item">
+                    <li class="ui-list-item ui-list-item-xs-full">
                         <div class="row row-xs align-items-center">
-                            <div class="col-sm-8">
+                            <div class="col-10 col-sm-8">
                                 <div class="toggle-switcher">
                                     <input class="d-none toggle-switcher-control" id="switcherField1" name="" type="checkbox" checked />
                                     <label for="switcherField1"></label>
                                     <span class="toggle-switcher-text">My spam filter</span>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                                     <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
                                     <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
@@ -547,16 +553,16 @@
                             </div>
                         </div>
                     </li>
-                    <li class="ui-list-item">
+                    <li class="ui-list-item ui-list-item-xs-full">
                         <div class="row row-xs align-items-center">
-                            <div class="col-sm-8">
+                            <div class="col-10 col-sm-8">
                                 <div class="toggle-switcher">
                                     <input class="d-none toggle-switcher-control" id="switcherField3" name="" type="checkbox" checked />
                                     <label for="switcherField3"></label>
                                     <span class="toggle-switcher-text">Important messages filter</span>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                                     <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
                                     <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
@@ -564,16 +570,16 @@
                             </div>
                         </div>
                     </li>
-                    <li class="ui-list-item">
+                    <li class="ui-list-item ui-list-item-xs-full">
                         <div class="row row-xs align-items-center">
-                            <div class="col-sm-8">
+                            <div class="col-10 col-sm-8">
                                 <div class="toggle-switcher">
                                     <input class="d-none toggle-switcher-control" id="switcherField2" name="" type="checkbox" />
                                     <label for="switcherField2"></label>
                                     <span class="toggle-switcher-text">Auto-labeling test</span>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                                     <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
                                     <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
@@ -584,9 +590,300 @@
                 </ul>
                 <div class="info-card">
                     <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
-                    <a href="" class="text-uppercase btn-link"><u>Add custom filter</u></a>
+                    <a href="" class="text-uppercase btn-link"><strong><u>Add custom filter</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Whhitelist</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">                               
+                <ul class="ui-list ui-list-styled list-styled">
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">kitty.gonzales83@example.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">henry.stewart76@example.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">joy.kennedy25@example.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-card">
+                    <p>Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message as not spam adds the address to the Whitelist.</p>
+                    <a href="" class="text-uppercase btn-link"><strong><u>Add whitelist contact</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Blacklist</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">                               
+                <ul class="ui-list ui-list-styled list-styled">
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">kitty.gonzales83@example.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">henry.stewart76@example.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">joy.kennedy25@example.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-card">
+                    <p>Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message as spam adds the address to the Blacklist.</p>
+                    <a href="" class="text-uppercase btn-link"><strong><u>Add blacklist contact</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Multi-users</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <div class="info-card">
+                    <p>Create and administer sub-accounts and assign them email addresses on your custom domain. To enable this feature, upgrade your account.</p>
+                    <a href="" class="text-uppercase btn-link"><strong><u>Upgrade account</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Domains</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">                               
+                <ul class="ui-list ui-list-styled list-styled">
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">@demo.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">@example.com</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-card">
+                    <p>Use your own domain with CTemplar and use your own email address, e.g. name@domain.com.</p>
+                    <a href="" class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Payments</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">                               
+                <ul class="ui-list ui-list-styled list-styled">
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="form-label text-dark mb-0">xxxx xxxx xxxx 8634</div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-card">
+                    <a href="" class="text-uppercase btn-link"><strong><u>Add new method</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Keys</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <div class="info-card">
+                    <p>Download your PGP Keys for use with other PGP compatible services.  Only incoming messages in inline OpenPGP format are currently supported.</p>
+                    <a href="" class="text-uppercase btn-link"><strong><u>Add new method</u></strong></a>
+                </div>
+
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label class="form-label mb-sm-0">Email address</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="btn-dropdown btn-dropdown-select">
+                                <div ngbDropdown class="dropdown-sm">
+                                    <button ngbDropdownToggle class="dropdown-toggle" id="emailAddressDropdownMenuButton" role="button">johnsimpson@ctemplar.com</button>
+                                    <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
+                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-content-row">
+                    <div class="row align-items-center">
+                        <div class="col-sm-5">
+                            <label for="fingerPrint" class="form-label mb-sm-0">Fingerprint</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <input class="form-control form-control-sm" id="fingerPrint" type="text" value="o8bg359348b24p08gn34408g4p389gbpq938g" readonly="" />
+                            <span class="form-label-text mt-1"><a href=""><strong><u>Download public key (2048 Bit)</u></strong></a></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Donate</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <div class="info-card">
+                    <p>Your donation helps us support more users and continue to develop CTemplar as free and open source software.</p>
+                    <a href="" class="text-uppercase btn-link"><strong><u>Make a donation</u></strong></a>
                 </div>
             </div>
         </div>
     </section>
 </div>
+
+<!-- Modal groups -->
+
+<!-- Change password Modal -->
+<ng-template #content let-c="close" let-d="dismiss" ng-modal-class="mailbox-modal">
+    <div class="modal-header justify-content-center align-items-center text-center">
+        <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="text-holder text-dark text-medium">
+            <p>We will send a reset code to your <a href="">recovery email</a> to reset your password. </p>
+            <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails if you reset your password.</p>
+            <p>If you did not set a recovery email then your account is not recoverable.</p>
+            
+            <div class="login-content-holder mx-auto mt-2 pt-sm-2">
+                <div class="form">
+                    <form>
+                        <div class="form-group form-group-sm">
+                            <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old Password</label>
+                            <input class="form-control form-control-lg" id="oldPassword" placeholder="Old Password" type="text" />
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New Password</label>
+                            <input class="form-control form-control-lg" id="newPassword" placeholder="New Password" type="text" />
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label for="repeatNewPassword" class="d-block text-muted text-left hidden-sm-up">Repeat New Password</label>
+                            <input class="form-control form-control-lg" id="repeatNewPassword" placeholder="Repeat New Password" type="text" />
+                        </div>
+                        <div class="form-group form-user-actions text-center mb-0">
+                            <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">Apply</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

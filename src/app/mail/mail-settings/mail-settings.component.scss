@@ -30,7 +30,7 @@
 
 	// == Small
 	&-sm {
-		padding: 1.875rem .938rem;
+		padding: 1.563rem .938rem;
 
 		@include media(">=ipad") {
 			padding: 2.25rem 1.563rem;
@@ -39,7 +39,6 @@
 }
 
 // == Info list
-
 .info-list {
 	// == Large list
 	&-lg {
@@ -145,7 +144,8 @@
 
 // == Setting form content card
 .form-content-row,
-.ui-list {
+.ui-list,
+.info-card {
 	&:not(:last-child) {
 		margin-bottom: 1.25rem;
 	}
@@ -154,6 +154,10 @@
 .form-content-holder {
 	max-width: 570px;
 	font-size: 0.75rem;
+
+	@include media("<=sm") {
+		font-size: 0.875rem;
+	}
 
 	.form-control-sm {
 		padding-right: 0.75rem;
@@ -179,10 +183,29 @@
 		&::before {
 			right: 0.75rem;
 		}
+
+		.form-content-holder & {
+			@include media("<=sm") {
+				font-size: 0.875rem;
+				height: 2.625rem;
+			}
+		}
 	}
 
 	.dropdown-item {
 		font-size: 0.75rem;
+		line-height: 1;
+
+		@include media("<=sm") {
+			font-size: 0.875rem;
+		}
+	}
+}
+
+.form-label {
+	@include media("<=sm") {
+		margin-bottom: 0.75rem;
+		font-size: 0.875rem;
 		line-height: 1;
 	}
 }
@@ -194,24 +217,32 @@
 
 // == Settings action list
 .setting-actions-list {
-	margin-right: -.625rem;
-	margin-left: -.625rem;
+	margin-right: -.563rem;
+	margin-left: -.563rem;
 
 	>li {
-		padding-right: .625rem;
-		padding-left: .625rem;
+		padding-right: .563rem;
+		padding-left: .563rem;
 
 		.icon {
 			color: $brand-light-gray;
-			font-size: 1.125rem;
+			font-size: 1.063rem;
+			line-height: 1.188;
 		}
 	}
 }
 
 // == UI list
 .ui-list-item {
-	padding: 0.875rem 0.938rem;
-	line-height: 1;	
+	padding: 0.907rem 0.938rem;
+	line-height: 1;
+
+	&-xs-full {
+		@include media("<=sm") {
+			margin-right: -.938rem;
+			margin-left: -.938rem;
+		}
+	}
 }
 
 .ui-list-styled .ui-list-item {
@@ -224,6 +255,7 @@
 
 .info-card {
 	background: #f5f5f5;
+	// line-height: 1.25;
 
 	p {
 		margin-bottom: 0.25rem;

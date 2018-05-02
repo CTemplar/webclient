@@ -82,7 +82,7 @@ export class BlogDetailComponent implements OnInit {
 
   openReplyModal(content, id) {
     this.replyId = id;
-    this.replyModalRef = this.modalService.open(content);
+    this.replyModalRef = this.modalService.open(content, {windowClass: 'modal-md'});
   }
 
   replyCommnet(body) {
