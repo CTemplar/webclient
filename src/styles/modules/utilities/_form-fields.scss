@@ -135,6 +135,20 @@ input[type="checkbox"].fancy-field-control-lg  + label.fancy-field-empty {
     }
 }
 
+input[type="radio"].fancy-field-control-sm  + label {
+    padding-left: 1.5rem;
+
+    &::before {
+        height: 1rem;
+        width: 1rem;
+    }
+
+    &::after {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+}
+
 // == Checked
 input[type="checkbox"].fancy-field-control:checked + label {
     color: $brand-secondary;
@@ -151,5 +165,74 @@ input[type="checkbox"].fancy-field-control:checked + label {
 input[type="checkbox"].fancy-field-control.checked-type-minus:checked + label {
     &::after {
         background: $brand-secondary;
+    }
+}
+
+// == Switch toggle fancy field
+.toggle-switcher {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.toggle-switcher-control + label {
+    position: relative;
+    margin-bottom: 0;
+    margin-right: 1rem;
+    background: $brand-faded;
+    border: 1px solid $input-border-color;
+    border-radius: 0.625rem;
+    height: 1.25rem;
+    width: 3.750rem;
+    transition: all ceaser($easeInOutQuint) 0.35s;
+
+    &::before,
+    &::after {
+        position: absolute;
+        top: 50%;
+        left: 2px;
+        border-radius: 0.5rem;
+        color: rgba(0, 0, 0, 0.12);
+        font-size: 0.5rem;
+        width: 1.75rem;
+        height: 1rem;
+        line-height: 1rem;
+        text-align: center;
+        transform:  translateY(-50%);
+        transition: all ceaser($easeInOutQuint) 0.35s;
+    }
+
+    &::before {
+        content: "ON";
+        width: 1.5rem;
+        background: transparent;
+    }
+
+    &::after {
+        right: 2px;
+        left: auto;
+        content: "OFF";
+        background: #e0e0e0;
+    }
+
+    + .toggle-switcher-text {
+        color: $brand-light-gray;
+    }
+}
+
+.toggle-switcher-control:checked + label {
+    &::before {
+        background: #34495e;
+        color: $brand-white;
+        width: 1.75rem;
+    }
+
+    &::after {
+        background: transparent;
+        width: 1.5rem;
+    }
+
+    + .toggle-switcher-text {
+        color: $brand-secondary;
     }
 }

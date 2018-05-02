@@ -91,8 +91,8 @@ h3, .h3 {
         font-size: 1rem;
     }
 
-    @include media("<ipad", ">sm") {
-        font-size: 1.125rem;
+    @include media("<ipad") {
+        font-size: 1.25rem;
     }
 }
 
@@ -100,5 +100,17 @@ h4, .h4 {
     margin-bottom: 0.938rem;
     @include media("<=sm") {
         font-size: 1rem;
+    }
+}
+
+h5, .h5 {
+    margin-bottom: 0.938rem;
+    
+    @include media("<=sm") {
+        font-size: 1rem;
+    }
+
+    @include media("<ipad", ">sm") {
+        font-size: 1.125rem;
     }
 }
