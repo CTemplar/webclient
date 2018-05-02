@@ -22,7 +22,7 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
   constructor(private sharedService: SharedService) {}
 
   ngOnInit() {
-    this.sharedService.hideFooter.emit(true);
+    this.sharedService.hideFooterCallToAction.emit(true);
 
     this.storageList = [
       {type: '5 Gb Storage', money: 2},
@@ -62,6 +62,6 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
+    this.sharedService.hideFooterCallToAction.emit(false);
   }
 }

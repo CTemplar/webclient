@@ -23,7 +23,7 @@ import { SharedService } from '../../shared/shared.service';
   styleUrls: ['./users-sign-in.component.scss']
 })
 export class UsersSignInComponent implements OnDestroy, OnInit {
-  lgoinForm: FormGroup;
+  loginForm: FormGroup;
   resetForm: FormGroup;
   showFormErrors = false;
   errorMessage: string = '';
@@ -41,9 +41,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     }
 
   ngOnInit() {
-    this.sharedService.hideFooter.emit(true);
+    this.sharedService.hideFooterCallToAction.emit(true);
 
-    this.lgoinForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       'username': ['', [ Validators.required ]],
       'password': ['', [Validators.required]]
     });
@@ -74,7 +74,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   login(user) {
     this.showFormErrors = true;
-    if (this.lgoinForm.valid) {
+    if (this.loginForm.valid) {
       this.isLoading = true;
       this.store.dispatch(new LogIn(user));
     }
@@ -85,6 +85,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
+    this.sharedService.hideFooterCallToAction.emit(false);
   }
 }

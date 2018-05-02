@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   // Switch header for the current view
   hideHeader = false;
 
-
   // When everything is ready, isReady is true and the loader disappears
   // isReady = false;
   // Loading quotes

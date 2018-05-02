@@ -13,16 +13,16 @@
     <div class="l-block-body px-xs">
       <div class="l-content-holder login-content-holder mx-auto mt-md-0">
         <div class="form">          
-          <form class="login-form" [formGroup]="lgoinForm" #form="ngForm" (ngSubmit)="login(lgoinForm.value)">
+          <form class="login-form" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
             <div *ngIf="errorMessage" class="login-form__failed">{{ errorMessage }}</div>
-            <div class="form-group" [ngClass]="{'is-validate': lgoinForm.controls.username.invalid && showFormErrors}">
+            <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
               <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
               <input [matKeyboard]="'Azərbaycanca'" class="form-control form-control-lg" id="loginUsername" placeholder="Username" type="text" name="username" formControlName="username" required/>
-              <span *ngIf="lgoinForm.controls['username'].errors && showFormErrors" id="email-valid" class="validate-message">
-                <span *ngIf="lgoinForm.controls['username'].errors.required">The username is required.</span>
+              <span *ngIf="loginForm.controls['username'].errors && showFormErrors" id="email-valid" class="validate-message">
+                <span *ngIf="loginForm.controls['username'].errors.required">The username is required.</span>
               </span>
             </div>
-            <div class="form-group" [ngClass]="{'is-validate': lgoinForm.controls.password.invalid && showFormErrors}">
+            <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.password.invalid && showFormErrors}">
               <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up">Password</label>
               <div class="input-group">
                 <input [matKeyboard]="'Azərbaycanca'" #input formControlName="password" class="form-control form-control-lg border-right-0" id="loginPassword" placeholder="Password"
@@ -31,8 +31,8 @@
                   <i class="fa fa-eye"></i>
                 </span>
               </div>
-              <span *ngIf="lgoinForm.controls['password'].errors && showFormErrors" class="validate-message">
-                <span *ngIf="lgoinForm.controls['password'].errors.required">The password is required.</span>
+              <span *ngIf="loginForm.controls['password'].errors && showFormErrors" class="validate-message">
+                <span *ngIf="loginForm.controls['password'].errors.required">The password is required.</span>
               </span>
             </div>
             <div class="form-group form-user-actions mt-4 mt-sm-5">
@@ -85,14 +85,23 @@
       <div class="login-content-holder mx-auto mt-4 pt-sm-2">
         <div class="form">
           <form [formGroup]="resetForm" #form="ngForm" (ngSubmit)="resetPassword(resetForm.value)">
+            <div *ngIf="errorMessage" class="reset-form__failed">{{ errorMessage }}</div>
             <div class="form-group">
               <label for="resetPasswordUsername" class="d-block text-muted text-left hidden-sm-up">Username to Reset</label>
-              <input class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Usernamet to reset" type="text" formControlName="name"/>
+              <input class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Username to reset" type="text" formControlName="name" required />
+              <span *ngIf="resetForm.controls['name'].errors && showFormErrors" id="name-valid" class="validate-message">
+                <span *ngIf="resetForm.controls['name'].errors.required">The username is required.</span>
+              </span>
             </div>
+            
             <div class="form-group">
-              <label for="resetPasswordemail" class="d-block text-muted text-left hidden-sm-up">Recovery Email</label>
-              <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="text" formControlName="email"/>
+              <label for="resetPasswordemail" class="d-block text-muted text-left hidden-sm-up">Recovery Email</label>                 
+              <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="text" formControlName="email" required/>
+              <span *ngIf="resetForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
+                <span *ngIf="resetForm.controls['email'].errors.required">The recovery email is required.</span>
+              </span>
             </div>
+            
             <div class="form-group form-user-actions text-center mb-0">
               <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">Reset Password</button>
             </div>

@@ -49,6 +49,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   getState: Observable<any>;
 
   constructor(private formBuilder: FormBuilder,
+              private router: Router,
               private store: Store<AuthState>,
               private openPgpService: OpenPgpService,
               private sharedService: SharedService
@@ -58,7 +59,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
 
-    this.sharedService.hideFooter.emit(true);
+    this.sharedService.hideFooterCallToAction.emit(true);
 
     this.signupForm = this.formBuilder.group({
       'username': ['', [ Validators.required ]],
@@ -102,13 +103,18 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   signup() {
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isLoading = true;
+      console.log(this.signupForm.value);
       this.openPgpService.generateKey(this.signupForm.value).then(() => {
         this.store.dispatch(new SignUp(this.signupForm.value));
       });
     }
   }
 
+  private navigateToBillingPage() {
+    this.router.navigateByUrl('/billing-info');
+  }
+
   ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
+    this.sharedService.hideFooterCallToAction.emit(false);
   }
 }
