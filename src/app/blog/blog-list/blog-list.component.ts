@@ -49,7 +49,7 @@ export class BlogListComponent implements OnInit {
       if (blogs.length) {
         this.sortPosts(blogs);
       } else {
-        this.getPosts();
+        this.getPosts(); 
       }
     });
   }
