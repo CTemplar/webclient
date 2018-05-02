@@ -9,12 +9,14 @@ import { Observable } from 'rxjs/Observable';
 
 // Services
 import { BlogService } from '../../providers/blog.service';
+import { SpinnerService } from '../../shared/spinner/services/spinner.service';
 
 // Store
 import { Store } from '@ngrx/store';
 import { BlogState } from '../../store/datatypes';
 import { getNewBlogs } from '../../store/selectors';
 import { GetPosts } from '../../store/actions/blog.actions';
+
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -35,7 +37,9 @@ export class BlogListComponent implements OnInit {
   getBlogState$: Observable<any>;
 
   constructor(
-    private blogService: BlogService, private store: Store<any>
+    private blogService: BlogService,
+    private store: Store<any>,
+    private spinnerService : SpinnerService
   ) {
     this.getBlogState$ = this.store.select(getNewBlogs);
   }
@@ -51,11 +55,9 @@ export class BlogListComponent implements OnInit {
   }
 
   getPosts() {
-    this.isLoading = true;
     console.log(this.positionCount);
     console.log(this.postPosition);
     this.store.dispatch(new GetPosts({ limit: this.positionCount, offset: this.postPosition }));
-    this.isLoading = false;
   }
 
   sortPosts(newPosts) {
