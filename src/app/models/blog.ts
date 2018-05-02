@@ -1,7 +1,7 @@
 export class Category {
   id: number;
   name: string;
-  color: string;
+  color: string; 
 }
 
 export class Comment {
