@@ -1,5 +1,5 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } from '@angular/forms';
 
@@ -14,6 +14,7 @@ import { SignUp } from '../../store/actions/auth.action';
 
 // Service
 import { OpenPgpService } from '../../providers/openpgp.service';
+import { SharedService } from '../../shared/shared.service';
 
 declare var openpgp;
 
@@ -37,7 +38,7 @@ export class PasswordValidation {
   templateUrl: './users-create-account.component.html',
   styleUrls: ['./users-create-account.component.scss']
 })
-export class UsersCreateAccountComponent implements OnInit {
+export class UsersCreateAccountComponent implements OnDestroy, OnInit {
 
   public isTextToggled: boolean = false;
   signupForm: FormGroup;
@@ -47,11 +48,19 @@ export class UsersCreateAccountComponent implements OnInit {
   errorMessage: string = '';
   getState: Observable<any>;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<AuthState>, private openPgpService: OpenPgpService) {
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private store: Store<AuthState>,
+              private openPgpService: OpenPgpService,
+              private sharedService: SharedService
+                 ) {
     this.getState = this.store.select(selectAuthState);
   }
 
   ngOnInit() {
+
+    this.sharedService.hideFooterCallToAction.emit(true);
+
     this.signupForm = this.formBuilder.group({
       'username': ['', [ Validators.required ]],
       'password': ['', [
@@ -94,10 +103,18 @@ export class UsersCreateAccountComponent implements OnInit {
   signup() {
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isLoading = true;
+      console.log(this.signupForm.value);
       this.openPgpService.generateKey(this.signupForm.value).then(() => {
         this.store.dispatch(new SignUp(this.signupForm.value));
       });
     }
   }
 
+  private navigateToBillingPage() {
+    this.router.navigateByUrl('/billing-info');
+  }
+
+  ngOnDestroy() {
+    this.sharedService.hideFooterCallToAction.emit(false);
+  }
 }

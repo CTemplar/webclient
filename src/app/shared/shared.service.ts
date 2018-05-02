@@ -12,8 +12,11 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SharedService {
-  isMail: EventEmitter<boolean> = new EventEmitter();
   isReady: EventEmitter<boolean> = new EventEmitter();
+  hideFooter: EventEmitter<boolean> = new EventEmitter();
+  hideHeader: EventEmitter<boolean> = new EventEmitter();
+  hideFooterCallToAction: EventEmitter<boolean> = new EventEmitter();
+
   //
   // constructor(
   //   private http: HttpClient,

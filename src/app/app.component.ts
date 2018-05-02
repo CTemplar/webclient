@@ -20,8 +20,12 @@ import { SharedService } from './shared/shared.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  // Switch header and footer inside mail view
-  isMail = false;
+  // Switch footer for the current view
+  hideFooter = false;
+
+  // Switch header for the current view
+  hideHeader = false;
+
   // When everything is ready, isReady is true and the loader disappears
   // isReady = false;
   // Loading quotes
@@ -38,8 +42,10 @@ export class AppComponent implements OnInit {
     private blogService: BlogService,
     private sharedService: SharedService,
   ) {
-    this.sharedService.isMail
-      .subscribe(data => this.isMail = data);
+    this.sharedService.hideHeader
+      .subscribe(data => this.hideHeader = data);
+    this.sharedService.hideFooter
+      .subscribe(data => this.hideFooter = data);
     // this.sharedService.isReady
     //   .subscribe(data => this.isReady = data);
  }

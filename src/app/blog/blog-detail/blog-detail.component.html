@@ -156,7 +156,7 @@
         </div>
 
         <div class="comment-form form" *ngIf="isActive">
-          <form [formGroup]="commentForm" #form="ngForm" (ngSubmit)="addCommnet(commentForm.value)">
+          <form [formGroup]="commentForm" #form="ngForm" (ngSubmit)="addComment(commentForm.value)">
             <div class="row">
               <div class="col-12">
                 <div class="form-group" [ngClass]="{'is-validate': commentForm.controls.comment.invalid && !commentForm.controls.comment.pristine}">
@@ -195,7 +195,7 @@
   </div>
   <div class="modal-body bg-faded">
     <div class="form reply-form">
-      <form [formGroup]="replyForm" #form="ngForm" (ngSubmit)="replyCommnet(replyForm.value)">
+      <form [formGroup]="replyForm" #form="ngForm" (ngSubmit)="replyComment(replyForm.value)">
         <div class="form-group" [ngClass]="{'is-validate': replyForm.controls.comment.invalid && !replyForm.controls.comment.pristine}">
           <textarea class="form-control" placeholder="Your message" rows="4" name="comment" formControlName="comment"></textarea>
           <span *ngIf="replyForm.controls['comment'].errors && !replyForm.controls.comment.pristine" class="validate-message">
