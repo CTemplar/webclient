@@ -1,5 +1,5 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy , OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,12 +14,15 @@ import { AuthState } from '../../store/datatypes';
 import { selectAuthState } from '../../store/selectors';
 import { LogIn } from '../../store/actions/auth.action';
 
+// Service
+import { SharedService } from '../../shared/shared.service';
+
 @Component({
   selector: 'app-users-sign-in',
   templateUrl: './users-sign-in.component.html',
   styleUrls: ['./users-sign-in.component.scss']
 })
-export class UsersSignInComponent implements OnInit {
+export class UsersSignInComponent implements OnDestroy, OnInit {
   lgoinForm: FormGroup;
   resetForm: FormGroup;
   showFormErrors = false;
@@ -29,12 +32,17 @@ export class UsersSignInComponent implements OnInit {
   resetModalRef: any;
   getState: Observable<any>;
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder,
-    private router: Router, private store: Store<AuthState>) {
+  constructor(private modalService: NgbModal,
+              private formBuilder: FormBuilder,
+              private router: Router,
+              private store: Store<AuthState>,
+              private sharedService: SharedService ) {
       this.getState = this.store.select(selectAuthState);
     }
 
   ngOnInit() {
+    this.sharedService.hideFooter.emit(true);
+
     this.lgoinForm = this.formBuilder.group({
       'username': ['', [ Validators.required ]],
       'password': ['', [Validators.required]]
@@ -76,4 +84,7 @@ export class UsersSignInComponent implements OnInit {
     this.resetModalRef.close();
   }
 
+  ngOnDestroy() {
+    this.sharedService.hideFooter.emit(false);
+  }
 }

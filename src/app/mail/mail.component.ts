@@ -14,10 +14,12 @@ export class MailComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.sharedService.isMail.emit(true);
+    this.sharedService.hideFooter.emit(true);
+    this.sharedService.hideHeader.emit(true);
   }
 
   ngOnDestroy() {
-    this.sharedService.isMail.emit(false);
+    this.sharedService.hideFooter.emit(false);
+    this.sharedService.hideHeader.emit(false);
   }
 }

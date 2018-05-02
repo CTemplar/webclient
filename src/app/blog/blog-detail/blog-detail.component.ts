@@ -85,14 +85,14 @@ export class BlogDetailComponent implements OnInit {
     this.replyModalRef = this.modalService.open(content);
   }
 
-  replyCommnet(body) {
+  replyComment(body) {
     if (this.replyForm.valid) {
       this.postComment(body.comment);
       this.replyModalRef.close();
     }
   }
 
-  addCommnet(body) {
+  addComment(body) {
     if (this.commentForm.valid) {
       this.postComment(body.comment);
     }
