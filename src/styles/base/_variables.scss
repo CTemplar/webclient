@@ -167,7 +167,7 @@ $dropdown-item-padding-x: 1.375rem;
 $dropdown-link-active-bg: #f7f7f7;
 $dropdown-link-active-color:  $brand-black;
 $dropdown-border-color:   #e0e0e0;
-$dropdown-link-hover-bg:   $brand-white; 
+$dropdown-link-hover-bg:   $brand-faded; 
 
 // == Form fields
 $form-group-margin-bottom:  1.5rem;
@@ -190,6 +190,10 @@ $modal-header-border-width: 0;
 $modal-inner-padding:       null;
 $border-radius-lg:          4px;
 $modal-dialog-margin:       0.938rem;
+
+$modal-lg:                    auto;
+$modal-md:                    auto;
+$modal-sm:                    auto;
 
 // == Close
 $close-font-size:           2rem;

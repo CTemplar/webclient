@@ -18,7 +18,7 @@ export class MailSidebarComponent implements OnInit {
 
   // == Open NgbModal
   open(content) {
-    this.modalService.open(content, {size: 'sm'});
+    this.modalService.open(content, {windowClass: 'modal-sm'});
   }
 
 }
