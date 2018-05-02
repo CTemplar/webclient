@@ -7,7 +7,7 @@ Thumbs.db
 .editorconfig
 
 # IDE - VSCode
-.vm/
+.vs/
 .vscode
 .settings
 
