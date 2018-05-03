@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PagesRoutingModule } from './pages-routing.module';
 import { BlogModule } from '../blog/blog.module';
 import { MailModule } from '../mail/mail.module';
+import { SharedModule } from '../shared/shared.module';
 
 // Components
 import { PagesAboutComponent } from './pages-about/pages-about.component';
@@ -20,6 +21,7 @@ import { PagesSecurityComponent } from './pages-security/pages-security.componen
 import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
 
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -30,7 +32,8 @@ import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.compon
     NgbModule,
     PagesRoutingModule,
     BlogModule,
-    MailModule
+    MailModule,
+    SharedModule
   ],
   declarations: [
     PagesAboutComponent,

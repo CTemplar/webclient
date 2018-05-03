@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 // Models
-import { Post } from '../../models/blog';
+import { Post, Mode, NumberOfColumns } from '../../models/blog';
 import { User } from '../../models/users';
 
 // Services
@@ -44,6 +44,9 @@ export class BlogDetailComponent implements OnInit {
   replyId: number;
   isPostedComment: boolean = false;
 
+  numberOfColumns: NumberOfColumns;
+  mode: Mode;
+
   getBlogState$: Observable<any>;
   getAuthState$: Observable<any>;
 
@@ -53,6 +56,9 @@ export class BlogDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.numberOfColumns = NumberOfColumns.Two;
+    this.mode = Mode.Related;
+
     this.isActive = this.userService.signedIn();
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.getBlogState$.subscribe((blogState: BlogState) => {

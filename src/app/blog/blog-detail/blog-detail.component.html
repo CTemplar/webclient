@@ -182,7 +182,8 @@
 <!-- /.SINGLE POST COMMENT SECTION ENDS -->
 
 <!-- Rendering related posts -->
-<app-blog-related *ngIf="blog" [category]="blog.category.id" [blogId]="blog.id"></app-blog-related>
+<!--<app-blog-related *ngIf="blog" [category]="blog.category.id" [blogId]="blog.id"></app-blog-related>-->
+<app-blog-sample *ngIf="blog" [mode]="mode" [numberOfColumns]="numberOfColumns" [category]="blog.category.id" [blogId]="blog.id"></app-blog-sample>
 
 <ng-template #content let-c="close" let-d="dismiss" class="modal-type-default">
   <div class="modal-header text-center justify-content-center">

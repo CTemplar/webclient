@@ -29,3 +29,14 @@ export class Post {
   excerpt?: string;
   isloaded?: boolean;
 }
+
+export enum NumberOfColumns {
+  Two = 2, 
+  Three = 3
+}
+
+export enum Mode {
+  Recent,
+  Related
+}
+
