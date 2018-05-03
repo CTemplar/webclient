@@ -174,6 +174,7 @@ $form-group-margin-bottom:  1.5rem;
 $input-border-color:        #e0e0e0;
 $input-border-focus:        $input-border-color;
 $input-border-radius:       4px;
+$input-border-radius-sm:    2px;
 $input-padding-y-sm:        0.406777rem;
 $input-padding-x-sm:        0.938rem;
 $input-padding-y:           0.813rem;
@@ -186,14 +187,14 @@ $input-border-radius-lg:    4px;
 $modal-header-padding:      1.5rem;
 $modal-md:                  555px;
 $close-color:               rgba(0, 0, 0, 0.54);
-$modal-header-border-width: 0;
+$modal-header-border-width: 1px;
 $modal-inner-padding:       null;
 $border-radius-lg:          4px;
 $modal-dialog-margin:       0.938rem;
 
-$modal-lg:                    auto;
-$modal-md:                    auto;
-$modal-sm:                    auto;
+$modal-lg:                    inherit;
+$modal-md:                    inherit;
+$modal-sm:                    inherit;
 
 // == Close
 $close-font-size:           2rem;
