@@ -3,7 +3,6 @@
 @import '../../../styles/config/include-media-config';
 @import '../../../styles/vendors/ceaser/ceaser-easing';
 
-// == Settings page
 .ui-header {
 	padding: 1.25rem 0.938rem;
 
@@ -143,7 +142,18 @@
 }
 
 // == Setting form content card
-.form-content-row,
+.form-content-row {
+	&:not(:last-child) {
+		margin-bottom: 1.125rem;
+	}
+}
+
+.form-content-row-sm {
+	&:not(:last-child) {
+		margin-bottom: .875rem;
+	}
+}
+
 .ui-list,
 .info-card {
 	&:not(:last-child) {
@@ -163,6 +173,10 @@
 		padding-right: 0.75rem;
 		padding-left: 0.75rem;
 		font-size: 0.75rem;
+
+		@include media(">sm") {
+			height: 2rem;
+		}
 	}
 }
 
@@ -265,3 +279,38 @@
 .form-content-holder .btn-link {
 	font-size: 0.625rem;
 }
+
+// == Modals
+[class*="col-"].form-content-right-stretch,
+[class*="col-"].add-filter-moveto-col {
+	flex: 0 0 68.22%;
+	max-width: 68.22%;
+
+	@include media(">sm") {
+		flex: 0 0 72.83%;//~72.83%;
+		max-width: 72.83%;
+	}
+}
+
+[class*="col-"].add-filter-applylabel-col {
+	flex: 0 0 63%;
+	max-width: 63%;
+
+	@include media(">sm") {
+		flex: 0 0 68.7%;
+		max-width: 68.7%;
+	}
+}
+
+.dropdown-toggle.has-icon,
+.dropdown-item.has-icon {
+	display: flex;
+	align-items: center;
+	.icon {
+		margin-top: -1px;
+		margin-right: 0.625rem;
+		font-size: 1rem;
+	}
+}
+
+// == Modal :: Add custom filter

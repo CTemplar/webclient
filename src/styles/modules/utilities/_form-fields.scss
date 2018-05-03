@@ -60,6 +60,20 @@ input[type="radio"].fancy-field-control:checked + label {
     }
 }
 
+input[type="radio"].fancy-field-control-sm  + label {
+    padding-left: 1.5rem;
+
+    &::before {
+        height: 1rem;
+        width: 1rem;
+    }
+
+    &::after {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+}
+
 // == Checkboxes
 input[type="checkbox"].fancy-field-control  + label {
     position: relative;
@@ -129,23 +143,17 @@ input[type="checkbox"].fancy-field-control-lg  + label.fancy-field-empty {
 
     &::after {
         // top: 0.07rem;
-        left: 0.4rem;
         width: 7px;
         height: 10px;
     }
 }
 
-input[type="radio"].fancy-field-control-sm  + label {
-    padding-left: 1.5rem;
-
-    &::before {
-        height: 1rem;
-        width: 1rem;
-    }
-
+input[type="checkbox"].fancy-field-control-sm  + label {
     &::after {
-        width: 0.5rem;
-        height: 0.5rem;
+        top: 0.36rem;
+        @include media(">sm") {
+            top: 0.25rem;
+        }
     }
 }
 

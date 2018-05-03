@@ -26,9 +26,26 @@ export class MailSettingsComponent implements OnInit {
     document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
 
+  // == Methods related to ngbModal
+
   // == Open change password NgbModal
-  changePasswordOpen(content) {
-    this.modalService.open(content, {windowClass: 'modal-md'});
+  changePasswordModalOpen(passwordContent) {
+    this.modalService.open(passwordContent, {windowClass: 'modal-md'});
+  }
+
+  // == Open add custom filter NgbModal
+  addCustomFilterModalOpen(customFilterContent) {
+    this.modalService.open(customFilterContent, {windowClass: 'modal-sm'});
+  }
+
+  // == Open add white list NgbModal
+  whitelistModalOpen(whitelistContent) {
+    this.modalService.open(whitelistContent, {windowClass: 'modal-sm'});
+  }
+
+  // == Open add black list NgbModal
+  blacklistModalOpen(blacklistContent) {
+    this.modalService.open(blacklistContent, {windowClass: 'modal-sm'});
   }
 
 }

@@ -9,11 +9,18 @@
 
 .modal,
 .modal-lg {
+    border-radius: 2px;
     text-align: center;
+
+    .modal-dialog {
+        width: 100%;
+    }
 }
 
 .modal-header {
     padding: 0.75rem 1.5rem;
+    background: $brand-faded;
+    border-radius: 2px;
     line-height: 1;
 
     .modal-lg &,
@@ -44,6 +51,7 @@
     padding-right: 1.5rem;
     padding-left: 1.5rem;
     background: #f5f5f5;
+    border-radius: 2px;
 }
 
 .modal-type-default,
