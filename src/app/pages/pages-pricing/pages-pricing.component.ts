@@ -1,5 +1,8 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+// Service
+import { SharedService } from '../../shared/shared.service';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -10,14 +13,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './pages-pricing.component.html',
   styleUrls: ['./pages-pricing.component.scss']
 })
-export class PagesPricingComponent implements OnInit {
+export class PagesPricingComponent implements OnDestroy, OnInit {
 
   // == Defining public property as boolean
   public selectedIndex: number = -1; // Assuming no element are selected initially
 
-  constructor() { }
+  constructor(private sharedService: SharedService ) { }
 
   ngOnInit() {
+    this.sharedService.hideFooterCallToAction.emit(true);
   }
 
   // == Toggle active state of the slide in price page
@@ -27,4 +31,7 @@ export class PagesPricingComponent implements OnInit {
     document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
 
+  ngOnDestroy() {
+    this.sharedService.hideFooterCallToAction.emit(false);
+  }
 }
