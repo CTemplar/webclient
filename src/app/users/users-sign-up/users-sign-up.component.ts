@@ -37,9 +37,9 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
     this.makePayments();
   }
   makePayments() {
-    this.mainPayments[0].moMoney = this.selectedStorage.money;
-    this.mainPayments[1].moMoney = (this.selectedStorage.money * 0.8).toFixed(1);
-    this.mainPayments[1].totalMoney = (this.selectedStorage.money * 9.6).toFixed(1);
+    this.mainPayments[0].moMoney = this.selectedStorage.price;
+    this.mainPayments[1].moMoney = (this.selectedStorage.price * 0.8).toFixed(1);
+    this.mainPayments[1].totalMoney = (this.selectedStorage.price * 9.6).toFixed(1);
   }
   onChangePayment(index) {
     this.selectedPayment = index;

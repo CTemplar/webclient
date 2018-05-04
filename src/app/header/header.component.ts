@@ -1,6 +1,6 @@
 // Angular
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
-import { ActivatedRoute, Router, Event, NavigationStart } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
 ///////////////////////////////////////////////////////////////////////////////

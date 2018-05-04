@@ -1,3 +1,14 @@
 {
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\blog",
+    "\\src\\app\\blog\\shared",
+    "\\src\\app\\blog\\shared\\blog-sample",
+    "\\src\\app\\models",
+    "\\src\\app\\shared"
+  ],
+  "SelectedNode": "\\src\\app\\models\\blog.ts",
   "PreviewInSolutionExplorer": false
 }

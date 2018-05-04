@@ -10,7 +10,7 @@ import { Comment, Post } from '../models/blog';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 // Services
 import { SharedService } from '../shared/shared.service';

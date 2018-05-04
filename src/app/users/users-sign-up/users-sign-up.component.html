@@ -61,7 +61,7 @@
                           {{ selectedStorage.type }}
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="storageDropdownMenuButton">
-                          <a class="dropdown-item" (click)="onChangeType(item)" *ngFor="let item of storageList">{{ item.type }} ${{item.money }}/MO </a>
+                          <a class="dropdown-item" (click)="onChangeType(item)" *ngFor="let item of storageList">{{ item.type }} ${{item.price }}/MO </a>
                         </div>
                       </div>
                     </div>

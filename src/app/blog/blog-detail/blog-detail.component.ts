@@ -7,18 +7,17 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 // Bootstrap
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Models
 import { Post, Mode, NumberOfColumns } from '../../models/blog';
-import { User } from '../../models/users';
 
 // Services
 import { UsersService } from '../../providers/users.service';
 
 // Store
 import { Store } from '@ngrx/store';
-import { BlogState } from '../../store/datatypes';
+import { BlogState, AuthState } from '../../store/datatypes';
 import { selectBlogState } from '../../store/selectors';
 import { GetPostDetail } from '../../store/actions/blog.actions';
 import { selectAuthState } from '../../store/selectors';
@@ -53,13 +52,16 @@ export class BlogDetailComponent implements OnInit {
   constructor(private userService: UsersService, private route: ActivatedRoute, private store: Store<any>,
     private formBuilder: FormBuilder, private modalService: NgbModal) {
     this.getBlogState$ = this.store.select(selectBlogState);
+    this.getAuthState$ = this.store.select(selectAuthState);
   }
 
   ngOnInit() {
     this.numberOfColumns = NumberOfColumns.Two;
     this.mode = Mode.Related;
 
-    this.isActive = this.userService.signedIn();
+    //this.isActive = this.userService.signedIn();
+    this.updateUserAuthStatus(); 
+
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.getBlogState$.subscribe((blogState: BlogState) => {
       if (blogState.selectedPost) {
@@ -105,10 +107,20 @@ export class BlogDetailComponent implements OnInit {
   }
 
   postComment (comment) {
-    this.isPostedComment = true;
-    const body = {text: comment, post: this.blog.id, reply_to: this.replyId};
-    this.store.dispatch(new PostComment(body));
+    if (this.isActive) {
+      this.isPostedComment = true;
+      const body = { text: comment, post: this.blog.id, reply_to: this.replyId };
+      this.store.dispatch(new PostComment(body));
+    } else {
+    
+    }
   }
 
-
+  private updateUserAuthStatus(): void {
+    this.getAuthState$.subscribe((authState: AuthState) => {
+      if (authState.user.membership) {
+        this.isActive = authState.isAuthenticated;
+      }
+    });
+  }
 }

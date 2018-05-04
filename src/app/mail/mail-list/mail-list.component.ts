@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
 
 // Store
 import { Store } from '@ngrx/store';
-import { MailState } from '../../store/datatypes';
 import { getMails } from '../../store/selectors';
 import { GetMails } from '../../store/actions/mail.actions';
 

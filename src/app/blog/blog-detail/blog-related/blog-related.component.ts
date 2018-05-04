@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
 
 // Store
 import { Store } from '@ngrx/store';
-import { BlogState } from '../../../store/datatypes';
 import { getRelatedBlogs } from '../../../store/selectors';
 import { GetRelatedPosts } from '../../../store/actions/blog.actions';
 
