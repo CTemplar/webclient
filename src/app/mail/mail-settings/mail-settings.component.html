@@ -1,13 +1,13 @@
 <div class="mailbox-sub-content">
-	<section class="mailbox-section">
-    	<header class="ui-header ui-header-bordered border-top-0">
-    		<h3 class="ui-header-title text-dark mb-0"><strong>Dashboard</strong></h3>
-    	</header>
+    <section class="mailbox-section">
+        <header class="ui-header ui-header-bordered border-top-0">
+            <h3 class="ui-header-title text-dark mb-0"><strong>Dashboard</strong></h3>
+        </header>
     </section>
 
     <section class="mailbox-section">
-    	<div class="mailbox-section-body pt-0">
-    		<div class="desc-card-holder">
+        <div class="mailbox-section-body pt-0">
+            <div class="desc-card-holder">
                 <div class="row">
                     <div class="col-md-6 mb-4 mb-sm-0">
                         <div class="desc-card">
@@ -84,29 +84,29 @@
                     </div>
                 </div>
             </div>
-    	</div>
-	</section>
+        </div>
+    </section>
 
-	<section class="mailbox-section">
-		<div class="ui-header ui-header-bordered position-relative">
-    		<h5 class="ui-header-subtitle text-dark mb-0"><strong>Account Type</strong></h5>
+    <section class="mailbox-section">
+        <div class="ui-header ui-header-bordered position-relative">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Account Type</strong></h5>
             <div class="l-alert l-alert-danger l-alert-is-floated d-inline-block text-center hidden-md-up">
                 <div class="l-alert-inner">
                     <div>Free plan available only for 250 Mb Storage. &nbsp;&nbsp;&nbsp;<a href=""><u>Clear Storage</u></a></div>
                 </div>
             </div>
-    	</div>
-    	<div class="mailbox-section-body">
-    		<div class="container container-sm">
-            	<div class="package-card-holder settings-package-card-holder">
+        </div>
+        <div class="mailbox-section-body">
+            <div class="container container-sm">
+                <div class="package-card-holder settings-package-card-holder">
                     <ul class="package-xs-tab list-style-none mt-0 hidden-sm-up">
-			          <li class="active" [class.is-active]="1 === selectedIndex">
-			            <a role="button" (click)="toggleSlides(1);">Prime</a>
-			          </li>
-			          <li [class.is-active]="2 === selectedIndex">
-			            <a role="button" (click)="toggleSlides(2);">Free</a>
-			          </li>
-			        </ul>
+                      <li class="active" [class.is-active]="1 === selectedIndex">
+                        <a role="button" (click)="toggleSlides(1);">Prime</a>
+                      </li>
+                      <li [class.is-active]="2 === selectedIndex">
+                        <a role="button" (click)="toggleSlides(2);">Free</a>
+                      </li>
+                    </ul>
                     <div class="row flex-nowrap row-lg">
                         <div class="col-sm-6 flex-sm-last package-prime-col active-slide" [class.is-active-slide]="1 === selectedIndex">
                             <div class="package-card package-card-prime is-shadowed bg-white text-dark">
@@ -114,90 +114,90 @@
                                 <div class="package-card-body">
                                     <ul class="package-list mb-0 list-style-none pl-0">
                                         <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1 User</li>
-										<li class="package-list-item has-border has-icon-center">
-											<i class="fa fa-check text-green"></i>
-											<!-- <select class="form-control package-storage-select">
-												<option selected>50 Mb Storage</option>
-												<option>100 Mb Storage</option>
-												<option>100 Mb Storage</option>
-												<option>200 Mb Storage</option>
-												<option>300 Mb Storage</option>
-												<option>400 Mb Storage</option>
-												<option>500 Mb Storage</option>
-											</select> -->
-											<div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-												<div ngbDropdown class="storage-select-dropdown">
-													<button ngbDropdownToggle role="button" id="storageDropdownMenuButton">5 Gb Storage</button>
-													<div ngbDropdownMenu aria-labelledby="storageDropdownMenuButton">
-														<a class="dropdown-item" href="">10 Gb Storage + $4/MO </a>
-														<a class="dropdown-item" href="">15 Gb Storage + $8/MO</a>
-														<a class="dropdown-item" href="">20 Gb Storage + $12/MO</a>
-														<a class="dropdown-item" href="">25 Gb Storage + $16/MO</a>
-													</div>
-												</div>
-											</div>
-										</li>
+                                        <li class="package-list-item has-border has-icon-center">
+                                            <i class="fa fa-check text-green"></i>
+                                            <!-- <select class="form-control package-storage-select">
+                                                <option selected>50 Mb Storage</option>
+                                                <option>100 Mb Storage</option>
+                                                <option>100 Mb Storage</option>
+                                                <option>200 Mb Storage</option>
+                                                <option>300 Mb Storage</option>
+                                                <option>400 Mb Storage</option>
+                                                <option>500 Mb Storage</option>
+                                            </select> -->
+                                            <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                                <div ngbDropdown class="storage-select-dropdown">
+                                                    <button ngbDropdownToggle role="button" id="storageDropdownMenuButton">5 Gb Storage</button>
+                                                    <div ngbDropdownMenu aria-labelledby="storageDropdownMenuButton">
+                                                        <a class="dropdown-item" href="">10 Gb Storage + $4/MO </a>
+                                                        <a class="dropdown-item" href="">15 Gb Storage + $8/MO</a>
+                                                        <a class="dropdown-item" href="">20 Gb Storage + $12/MO</a>
+                                                        <a class="dropdown-item" href="">25 Gb Storage + $16/MO</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
                                         <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1 E-mail Address</li>
                                         <li class="package-list-item"><i class="fa fa-check text-green"></i>100 Messages per Day</li>
                                         <li class="package-list-item"><i class="fa fa-check text-green"></i>200 Folders</li>
                                         <li class="package-list-item"><i class="fa fa-check text-green"></i>Normal Support</li>
                                         <li class="package-list-item"><i class="fa fa-check text-green"></i>Dead Mans Timer</li>
-										<li class="package-list-item"><i class="fa fa-check text-green"></i>Delayed Delivery Timer
-										</li>
-										<li class="package-list-item"><i class="fa fa-check text-green"></i>Self Destruct Timer</li>
-										<li class="package-list-item"><i class="fa fa-check text-green"></i>Encryption for non-CTemplar Users</li>
-									</ul>
-									<div class="package-coming-soon mt-3 mt-sm-4">
-										<h6 class="text-muted mb-3 mb-sm-4"><a href=""><u>Features to be added to this package soon:</u></a></h6>
-										<!-- <ul class="package-list mb-0 list-style-none pl-0">
-											<li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
-											<li class="package-list-item"><i class="fa fa-check text-green"></i>+4 Email Address’s (5 Total)</li>
-											<li class="package-list-item"><i class="fa fa-check text-green"></i>Custom Filters</li>
-											<li class="package-list-item"><i class="fa fa-check text-green"></i>Autoresponder</li>
-											<li class="package-list-item"><i class="fa fa-check text-green"></i>Notifications</li>
-										</ul> -->
-									</div>
-								</div>
-								<footer class="package-card-footer">
-									<div class="package-text-holder package-text-holder-sm">
-										<ul class="pay-type-list list-style-none mb-0 pl-0">
-											<li>
-												<div class="row row-xs">
-													<div class="col-8">
-														<div class="fancy-field-group">
-															<input class="d-none fancy-field-control" id="pay-monthly" name="[]" type="radio" checked />
-															<label for="pay-monthly">Pay Monthly</label>
-														</div>
-													</div>
-													<div class="col-4 text-right">
-														<div class="pay-price"><strong>$8</strong><span class="text-muted">/mo</span></div>
-													</div>
-												</div>
-											</li>
-											<li>
-												<div class="row row-xs">
-													<div class="col-8">
-														<div class="fancy-field-group">
-															<input class="d-none fancy-field-control" id="pay-annullay" name="[]" type="radio" />
-															<label for="pay-annullay">Pay Annually</label>
-															<span class="badge">-20%</span>
-														</div>
-													</div>
-													<div class="col-4 text-right">
-														<div class="pay-price"><strong>$6.4</strong><span class="text-muted">/mo</span></div>
-														<div class="small text-muted">Billed as $65/yr</div>
-													</div>
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div class="package-actions text-center">
+                                        <li class="package-list-item"><i class="fa fa-check text-green"></i>Delayed Delivery Timer
+                                        </li>
+                                        <li class="package-list-item"><i class="fa fa-check text-green"></i>Self Destruct Timer</li>
+                                        <li class="package-list-item"><i class="fa fa-check text-green"></i>Encryption for non-CTemplar Users</li>
+                                    </ul>
+                                    <div class="package-coming-soon mt-3 mt-sm-4">
+                                        <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u>Features to be added to this package soon:</u></a></h6>
+                                        <!-- <ul class="package-list mb-0 list-style-none pl-0">
+                                            <li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
+                                            <li class="package-list-item"><i class="fa fa-check text-green"></i>+4 Email Address’s (5 Total)</li>
+                                            <li class="package-list-item"><i class="fa fa-check text-green"></i>Custom Filters</li>
+                                            <li class="package-list-item"><i class="fa fa-check text-green"></i>Autoresponder</li>
+                                            <li class="package-list-item"><i class="fa fa-check text-green"></i>Notifications</li>
+                                        </ul> -->
+                                    </div>
+                                </div>
+                                <footer class="package-card-footer">
+                                    <div class="package-text-holder package-text-holder-sm">
+                                        <ul class="pay-type-list list-style-none mb-0 pl-0">
+                                            <li>
+                                                <div class="row row-xs">
+                                                    <div class="col-8">
+                                                        <div class="fancy-field-group">
+                                                            <input class="d-none fancy-field-control" id="pay-monthly" name="[]" type="radio" checked />
+                                                            <label for="pay-monthly">Pay Monthly</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <div class="pay-price"><strong>$8</strong><span class="text-muted">/mo</span></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="row row-xs">
+                                                    <div class="col-8">
+                                                        <div class="fancy-field-group">
+                                                            <input class="d-none fancy-field-control" id="pay-annullay" name="[]" type="radio" />
+                                                            <label for="pay-annullay">Pay Annually</label>
+                                                            <span class="badge">-20%</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        <div class="pay-price"><strong>$6.4</strong><span class="text-muted">/mo</span></div>
+                                                        <div class="small text-muted">Billed as $65/yr</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="package-actions text-center">
                                         <div class="pb-2 mb-3">
                                             <a href="" class="btn-link text-uppercase text-primary"><strong>Current Plan</strong></a>
                                         </div>
-										<a href="" class="btn btn-lg btn-gradient-primary">Select Prime $8/<span class="text-normal">mo</span></a>
-									</div>
-								</footer>
+                                        <a href="" class="btn btn-lg btn-gradient-primary">Select Prime $8/<span class="text-normal">mo</span></a>
+                                    </div>
+                                </footer>
                             </div>
                         </div>
                         <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
@@ -212,28 +212,28 @@
                                         <li class="package-list-item"><i class="fa fa-check text-green"></i>3 Folders</li>
                                         <li class="package-list-item"><i class="fa fa-check text-green"></i>Limited Support</li>
                                         <li class="package-list-item"><i class="fa fa-times text-danger"></i><del>Dead Mans Timer</del></li>
-										<li class="package-list-item"><i class="fa fa-times text-danger"></i><del>Delayed Delivery Timer</del>
-										</li>
-										<li class="package-list-item"><i class="fa fa-times text-danger"></i><del>Self Destruct Timer</del></li>
-										<li class="package-list-item"><i class="fa fa-times text-danger"></i><del>Encryption for non-CTemplar Users</del></li>
+                                        <li class="package-list-item"><i class="fa fa-times text-danger"></i><del>Delayed Delivery Timer</del>
+                                        </li>
+                                        <li class="package-list-item"><i class="fa fa-times text-danger"></i><del>Self Destruct Timer</del></li>
+                                        <li class="package-list-item"><i class="fa fa-times text-danger"></i><del>Encryption for non-CTemplar Users</del></li>
                                     </ul>
-								</div>
-								<footer class="package-card-footer text-center">
-									<div class="package-text-holder">
-										<h2 class="m-0 fw-light text-muted">free</h2>
-									</div>
-									<div class="package-actions">
+                                </div>
+                                <footer class="package-card-footer text-center">
+                                    <div class="package-text-holder">
+                                        <h2 class="m-0 fw-light text-muted">free</h2>
+                                    </div>
+                                    <div class="package-actions">
                                         <a href="" class="btn-link text-uppercase text-info"><strong>Current Plan</strong></a>
-										<a href="" class="btn btn-lg btn-gradient-info d-none">Select Free</a>
-									</div>
-								</footer>
+                                        <a href="" class="btn btn-lg btn-gradient-info d-none">Select Free</a>
+                                    </div>
+                                </footer>
                             </div>
-						</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-	</section>
+    </section>
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
@@ -708,7 +708,7 @@
             <div class="form-content-holder">
                 <div class="info-card">
                     <p>Create and administer sub-accounts and assign them email addresses on your custom domain. To enable this feature, upgrade your account.</p>
-                    <a href="" class="text-uppercase btn-link"><strong><u>Upgrade account</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="billingInfoModalOpen(billingInfoContent)"><strong><u>Upgrade account</u></strong></a>
                 </div>
             </div>
         </div>
@@ -750,7 +750,7 @@
                 </ul>
                 <div class="info-card">
                     <p>Use your own domain with CTemplar and use your own email address, e.g. name@domain.com.</p>
-                    <a href="" class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a>
+                    <!-- <a href="" class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a> -->
                 </div>
             </div>
         </div>
@@ -778,7 +778,7 @@
                     </li>
                 </ul>
                 <div class="info-card">
-                    <a href="" class="text-uppercase btn-link"><strong><u>Add new method</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u>Add new method</u></strong></a>
                 </div>
             </div>
         </div>
@@ -839,7 +839,7 @@
             <div class="form-content-holder">
                 <div class="info-card">
                     <p>Your donation helps us support more users and continue to develop CTemplar as free and open source software.</p>
-                    <a href="" class="text-uppercase btn-link"><strong><u>Make a donation</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="makeDonationModalOpen(makeDonationContent)"><strong><u>Make a donation</u></strong></a>
                 </div>
             </div>
         </div>
@@ -850,7 +850,7 @@
 
 <!-- Change password Modal -->
 <ng-template #passwordContent let-c="close" let-d="dismiss">
-    <div class="modal-header justify-content-center align-items-center text-center">
+    <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
         <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
@@ -891,7 +891,7 @@
 <ng-template #customFilterContent let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h3 class="modal-title w-100 text-dark" id="customFilterModalLabel"><strong>Add custom filter</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -1038,7 +1038,7 @@
 <ng-template #whitelistContent let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h3 class="modal-title w-100 text-dark" id="whitelistModalLabel"><strong>Add to whitelist</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -1081,7 +1081,7 @@
 <ng-template #blacklistContent let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h3 class="modal-title w-100 text-dark" id="blacklistModalLabel"><strong>Add to blacklist</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -1119,3 +1119,412 @@
         <a href="" class="btn btn-secondary btn-sm">Add</a>
     </div>
 </ng-template><!-- /.Add blacklist Modal ends -->
+
+<!-- Billing Information Modal -->
+<ng-template #billingInfoContent let-c="close" let-d="dismiss">
+    <div class="modal-header text-sm-center justify-content-sm-center">
+        <h3 class="modal-title w-100 text-dark" id="billingInformationModalLabel"><strong>Billing Information</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="form-card-holder mx-auto">
+            <div class="form">
+                <form>
+                    <div class="form-card-holder billing-form-card-holder">
+                        <div class="form-step-card">
+                            <h3 class="form-step-card-title text-dark mb-3"><strong>Overview</strong></h3>
+                            <div class="billing-overview">
+                                <div class="billing-overview-row">
+                                    <label class="billing-overview-label mb-0">Plan</label>
+                                    <div class="billing-overview-val text-secondary"><strong>Ctemplar PRIME</strong></div>
+                                </div>
+                                <div class="billing-overview-row">
+                                    <label class="billing-overview-label mb-0">Billing</label>
+                                    <div class="billing-overview-val text-secondary"><strong>Annually</strong></div>
+                                </div>
+                                <div class="billing-overview-row">
+                                    <label class="billing-overview-label mb-0">Price</label>
+                                    <div class="billing-overview-val text-secondary"><strong>48.00 € </strong>(4.00€/month)</div>
+                                </div>
+                                <div class="billing-overview-row payment-method-row">
+                                    <label class="billing-overview-label">Payment Method: </label>
+                                    <div class="billing-overview-val text-secondary">
+                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                            <div ngbDropdown class="payment-select-dropdown">
+                                                <button ngbDropdownToggle id="paymentDropdownMenuButton" role="button">Stripe</button>
+                                                <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
+                                                    <a class="dropdown-item text-muted" href=""><em>Stripe</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Credit/Debit card</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Bitcoin</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Monero</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Ethereum</em></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-step-card">
+                            <h3 class="form-step-card-title text-dark mb-3"><strong>Payment Information</strong></h3>
+                            <div class="form-group">
+                                <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on Card</label>
+                                <input class="form-control" id="personName" placeholder="Name on Card" value="John" type="text">
+                            </div>
+                            <div class="form-group has-error">
+                                <span class="d-block text-right error-msg">Required field</span>
+                                <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card Number</label>
+                                <input class="form-control error" id="cardName" placeholder="Card Number" type="text">
+                            </div>
+                            <div class="form-group form-group-3-col">
+                                <div class="form-group-row">
+                                    <div class="form-group-col">
+                                        <label class="d-block text-muted text-left hidden-sm-up">Date</label>
+                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                            <div ngbDropdown class="date-select-dropdown">
+                                                <button ngbDropdownToggle id="dateDropdownMenuButton" role="button">Date</button>
+                                                <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
+                                                    <a class="dropdown-item text-muted" href=""><em>Date</em></a>
+                                                    <a class="dropdown-item text-muted" 
+                                                    href=""><em>01</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>02</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>03</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>04</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>05</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>06</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>07</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>08</em></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-col">
+                                        <label class="d-block text-muted text-left hidden-sm-up">Year</label>
+                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                            <div ngbDropdown class="year-select-dropdown">
+                                                <button ngbDropdownToggle id="yearDropdownMenuButton" role="button">Year</button>
+                                                <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
+                                                    <a class="dropdown-item text-muted" href=""><em>Year</em></a>
+                                                    <a class="dropdown-item text-muted" 
+                                                    href=""><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-col">
+                                        <label for="securityCode" class="d-block text-muted text-left hidden-sm-up">Security Code</label>
+                                        <input class="form-control" id="securityCode" placeholder="Security Code" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-2-col">
+                                <div class="form-group-row">
+                                    <div class="form-group-col">
+                                        <label for="zipCode" class="d-block text-muted text-left hidden-sm-up">ZIP / Postal Code</label>
+                                        <input class="form-control" id="zipCode" placeholder="ZIP / Postal Code" value="ZIP / Postal Code" type="text">
+                                    </div>
+                                    <div class="form-group-col">
+                                        <label class="d-block text-muted text-left hidden-sm-up">Country</label>
+                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                            <div ngbDropdown class="country-select-dropdown">
+                                                <button ngbDropdownToggle id="countryDropdownMenuButton" role="button">Country</button>
+                                                <div ngbDropdownMenu aria-labelledby="countryDropdownMenuButton">
+                                                    <a class="dropdown-item text-muted" href=""><em>Country</em></a>
+                                                    <a class="dropdown-item text-muted" 
+                                                    href=""><em>Afghanistan</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Belgium</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Canada</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Denmark</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Egypt</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>France</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>Germany</em></a>
+                                                    <a class="dropdown-item text-muted" 
+                                                    href=""><em>Ireland</em></a>
+                                                    <a class="dropdown-item text-muted" href=""><em>USA</em></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-step-card mt-4 mt-sm-5">
+                            <h3 class="form-step-card-title text-dark mb-3"><strong>Promo Code</strong></h3>
+                            <div class="form-group position-relative type-code-holder">
+                                <label for="promoCode" class="d-block text-muted text-left hidden-sm-up">Promo Code</label>
+                                <input class="form-control" id="promoCode" placeholder="Type Your Code" type="text">
+                                <button class="btn code-apply-btn" role="button" disabled>Apply</button>
+                            </div>
+                        </div>
+                        <div class="form-group text-center mt-3 mt-sm-4 mb-0">
+                            <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button">Submit</button>
+                        </div>
+
+                        <div class="text-holder mt-2 text-center"><a href="">Cancel</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.Billing Information Modal ends -->
+
+<!-- Add new payment method Modal -->
+<ng-template #newPaymentMethodContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark" id="addPaymentMethodModalLabel"><strong>Add payment method</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="form-content-holder">
+            <div class="form-group">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0">Type:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="btn-dropdown btn-dropdown-select">
+                            <div ngbDropdown class="dropdown-sm">
+                                <button ngbDropdownToggle id="paymentTypeDropdownMenuButton" role="button">credit card</button>
+                                <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
+                                    <a class="dropdown-item" href="">credit card</a>
+                                    <a class="dropdown-item" href="">debit card</a>
+                                    <a class="dropdown-item" href="">credit card</a>
+                                    <a class="dropdown-item" href="">debit card</a>
+                                    <a class="dropdown-item" href="">credit card</a>
+                                    <a class="dropdown-item" href="">debit card</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="nameoncardField">Name on card:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-content-row mb-0">
+                            <input class="form-control form-control-sm" id="nameoncardField" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="cardNumberField">Card number:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-content-row mb-0">
+                            <input class="form-control form-control-sm" id="cardNumberField" placeholder="0000-0000-0000-0000" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="blacklistName">Expirty date:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="row row-xs-sm align-items-center">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div class="btn-dropdown btn-dropdown-select">
+                                    <div ngbDropdown class="dropdown-sm">
+                                        <button ngbDropdownToggle id="expiryMonthDropdownMenuButton" role="button">01</button>
+                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="expiryMonthDropdownMenuButton">
+                                            <a class="dropdown-item" href="">01</a>
+                                            <a class="dropdown-item" href="">02</a>
+                                            <a class="dropdown-item" href="">03</a>
+                                            <a class="dropdown-item" href="">04</a>
+                                            <a class="dropdown-item" href="">05</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn-dropdown btn-dropdown-select">
+                                    <div ngbDropdown class="dropdown-sm">
+                                        <button ngbDropdownToggle id="expiryYearDropdownMenuButton" role="button">2018</button>
+                                        <div ngbDropdownMenu aria-labelledby="expiryYearDropdownMenuButton">
+                                            <a class="dropdown-item" href="">2018</a>
+                                            <a class="dropdown-item" href="">2017</a>
+                                            <a class="dropdown-item" href="">2016</a>
+                                            <a class="dropdown-item" href="">2015</a>
+                                            <a class="dropdown-item" href="">2014</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-0">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="securityCardField">Security code:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-content-row mb-0">
+                            <div class="row row-xs-sm align-items-center">
+                                <div class="col-sm-6">
+                                    <div class="form-field-has-icon position-relative">
+                                        <input class="form-control form-control-sm" id="securityCardField" placeholder="" type="text" />
+                                        <i class="icon icon-warning"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer justify-content-center justify-content-sm-end">
+        <a href="" class="btn btn-secondary btn-sm">Add</a>
+    </div>
+</ng-template><!-- /.Add new payment method Modal ends -->
+
+<!-- Make a donation Modal -->
+<ng-template #makeDonationContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong>Make a donation</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="form-content-holder">
+            <div class="form-group">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0">Select amount:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="btn-dropdown btn-dropdown-select">
+                            <div ngbDropdown class="dropdown-sm">
+                                <button ngbDropdownToggle id="paymentTypeDropdownMenuButton" role="button">10$</button>
+                                <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
+                                    <a class="dropdown-item" href="">10$</a>
+                                    <a class="dropdown-item" href="">10$</a>
+                                    <a class="dropdown-item" href="">10$</a>
+                                    <a class="dropdown-item" href="">10$</a>
+                                    <a class="dropdown-item" href="">10$</a>
+                                    <a class="dropdown-item" href="">10$</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="nameoncardField">Name on card:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-content-row mb-0">
+                            <input class="form-control form-control-sm" id="nameoncardField" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="cardNumberField">Card number:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-content-row mb-0">
+                            <input class="form-control form-control-sm" id="cardNumberField" placeholder="0000-0000-0000-0000" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="blacklistName">Expirty date:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="row row-xs-sm align-items-center">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div class="btn-dropdown btn-dropdown-select">
+                                    <div ngbDropdown class="dropdown-sm">
+                                        <button ngbDropdownToggle id="expiryMonthDropdownMenuButton" role="button">01</button>
+                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="expiryMonthDropdownMenuButton">
+                                            <a class="dropdown-item" href="">01</a>
+                                            <a class="dropdown-item" href="">02</a>
+                                            <a class="dropdown-item" href="">03</a>
+                                            <a class="dropdown-item" href="">04</a>
+                                            <a class="dropdown-item" href="">05</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn-dropdown btn-dropdown-select">
+                                    <div ngbDropdown class="dropdown-sm">
+                                        <button ngbDropdownToggle id="expiryYearDropdownMenuButton" role="button">2018</button>
+                                        <div ngbDropdownMenu aria-labelledby="expiryYearDropdownMenuButton">
+                                            <a class="dropdown-item" href="">2018</a>
+                                            <a class="dropdown-item" href="">2017</a>
+                                            <a class="dropdown-item" href="">2016</a>
+                                            <a class="dropdown-item" href="">2015</a>
+                                            <a class="dropdown-item" href="">2014</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-0">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label mb-sm-0" for="securityCardField">Security code:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-content-row mb-0">
+                            <div class="row row-xs-sm align-items-center">
+                                <div class="col-sm-6">
+                                    <div class="form-field-has-icon position-relative">
+                                        <input class="form-control form-control-sm" id="securityCardField" placeholder="" type="text" />
+                                        <i class="icon icon-warning"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer justify-content-center justify-content-sm-end">
+        <a href="" class="btn btn-secondary btn-sm">Add</a>
+    </div>
+</ng-template><!-- /.Make a donation Modal ends -->

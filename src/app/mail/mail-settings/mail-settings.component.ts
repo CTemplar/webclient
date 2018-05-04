@@ -30,22 +30,37 @@ export class MailSettingsComponent implements OnInit {
 
   // == Open change password NgbModal
   changePasswordModalOpen(passwordContent) {
-    this.modalService.open(passwordContent, {windowClass: 'modal-md'});
+    this.modalService.open(passwordContent, {centered: true, windowClass: 'modal-md'});
   }
 
   // == Open add custom filter NgbModal
   addCustomFilterModalOpen(customFilterContent) {
-    this.modalService.open(customFilterContent, {windowClass: 'modal-sm'});
+    this.modalService.open(customFilterContent, {centered: true, windowClass: 'modal-sm'});
   }
 
   // == Open add white list NgbModal
   whitelistModalOpen(whitelistContent) {
-    this.modalService.open(whitelistContent, {windowClass: 'modal-sm'});
+    this.modalService.open(whitelistContent, {centered: true, windowClass: 'modal-sm'});
   }
 
   // == Open add black list NgbModal
   blacklistModalOpen(blacklistContent) {
-    this.modalService.open(blacklistContent, {windowClass: 'modal-sm'});
+    this.modalService.open(blacklistContent, {centered: true, windowClass: 'modal-sm'});
+  }
+
+  // == Open billing information NgbModal
+  billingInfoModalOpen(billingInfoContent) {
+    this.modalService.open(billingInfoContent, {centered: true, windowClass: 'modal-lg'});
+  }
+
+  // == Open add new payment NgbModal
+  newPaymentMethodModalOpen(newPaymentMethodContent) {
+    this.modalService.open(newPaymentMethodContent, {centered: true, windowClass: 'modal-sm'});
+  }
+
+  // == Open make a donation NgbModal
+  makeDonationModalOpen(makeDonationContent) {
+    this.modalService.open(makeDonationContent, {centered: true, windowClass: 'modal-sm'});
   }
 
 }

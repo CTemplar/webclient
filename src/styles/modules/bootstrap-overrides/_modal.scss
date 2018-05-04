@@ -2,6 +2,10 @@
 * Overriding bootstrap modal
 */
 
+.close {
+    transition: all ceaser($easeInOutQuint) 0.35s;
+}
+
 .modal-sm .close {
     margin-left: 0.25rem;
     font-size: 1.75rem;
@@ -9,23 +13,38 @@
 
 .modal,
 .modal-lg {
-    border-radius: 2px;
-    text-align: center;
+    border-radius: 2px;    
+    // text-align: center;
 
     .modal-dialog {
-        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+        width: calc(100% - 30px);
     }
 }
 
 .modal-header {
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 0.938rem;
     background: $brand-faded;
     border-radius: 2px;
     line-height: 1;
 
+    @include media(">sm") {
+        padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+    }
+
     .modal-lg &,
     .modal-md & {
-        padding: 1.5rem 1.563rem;
+
+        @include media(">sm") {
+            padding: 1.5rem 1.75rem;
+        }
+
+        @include media("<=sm") {
+            .modal-title {
+                font-size: 1rem;
+            }
+        }
     }
 }
 
@@ -38,7 +57,7 @@
 }
 
 .modal-body {
-    padding: 1.563rem 1.5rem 1.563rem 1.5rem;
+    padding: 1.125rem 0.938rem;
     border-bottom-left-radius: $border-radius-lg;
     border-bottom-right-radius: $border-radius-lg;
 
@@ -55,10 +74,9 @@
 }
 
 .modal-type-default,
-.modal-lg,
 .modal-md {
     .modal-body {
-        padding: 1.5rem 1.563rem 2.5rem 1.563rem;
+        padding: 1.125rem 0.938rem 1.5rem 0.938rem;
 
         @include media(">sm") {
             padding: 1.875rem 1.563rem 3.125rem 1.563rem;
@@ -66,25 +84,41 @@
     }
 }
 
-.modal::before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -5px;
-}
+// .modal::before {
+//     content: '';
+//     display: inline-block;
+//     height: 100%;
+//     vertical-align: middle;
+//     margin-right: -5px;
+// }
 
-.modal-dialog {
-    display: inline-block;
-    text-align: left;
-    vertical-align: middle;
-}
+// .modal-dialog {
+//     display: inline-block;
+//     text-align: left;
+//     vertical-align: middle;
+// }
 
 // == Mailbox modal
 .mailbox-modal {
     .modal-dialog {
         max-width: 480px;
         // width: 100%;
+    }
+}
+
+.modal-lg .modal-dialog {
+    max-width: 650px;
+
+    @include media(">sm") {
+        .modal-body {
+            padding: 1.25rem 2.5rem 1.875rem;
+        }
+    }
+
+    @include media(">=ipad") {
+        .modal-body {
+            padding: 1.25rem 4.375rem 1.875rem;
+        }
     }
 }
 
@@ -111,5 +145,29 @@
 .modal-sm .modal-dialog {
     .btn {
         font-size: 0.75rem;
+    }
+}
+
+// == Billing information form
+.modal .form-card-holder {
+    max-width: inherit;
+
+    .form-step-card-title {
+        font-size: 1rem;
+    }
+}
+
+// == Vertically centered
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 1rem);
+
+    @include media(">sm") {
+        min-height: calc(100% - 3.5rem);
+    }
+
+    .modal-content {
+        width: 100%;
     }
 }

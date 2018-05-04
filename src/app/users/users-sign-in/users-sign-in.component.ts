@@ -61,7 +61,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   // == Open NgbModal
   open(content) {
-    this.resetModalRef = this.modalService.open(content, {windowClass: 'modal-md'});
+    this.resetModalRef = this.modalService.open(content, {centered: true, windowClass: 'modal-md'});
   }
 
   // == Toggle password visibility
