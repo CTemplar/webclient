@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NumberOfColumns, Mode } from '../../models/blog';
 
 @Component({
   selector: 'app-pages-about',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pages-about.component.scss']
 })
 export class PagesAboutComponent implements OnInit {
-
+  numberOfColumns: NumberOfColumns;
+  mode : Mode;
   constructor() { }
 
   ngOnInit() {
+    this.numberOfColumns = NumberOfColumns.Three;
+    this.mode = Mode.Recent;
   }
 
 }

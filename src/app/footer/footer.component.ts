@@ -1,5 +1,5 @@
 // Angular
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 // Service
 import { SharedService } from '../shared/shared.service';

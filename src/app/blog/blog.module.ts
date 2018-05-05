@@ -16,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
 
 // Services
 import { BlogService } from '../providers/blog.service';
+import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component';
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -36,10 +37,12 @@ import { BlogService } from '../providers/blog.service';
     BlogLatestComponent,
     BlogListComponent,
     BlogRelatedComponent,
+    BlogSampleComponent,
   ],
   exports: [
     BlogLatestComponent,
     BlogRelatedComponent,
+    BlogSampleComponent
   ],
   providers: [
     BlogService
