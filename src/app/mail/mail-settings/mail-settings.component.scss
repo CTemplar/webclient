@@ -39,6 +39,15 @@
 	}
 }
 
+.mailbox-section-body {
+	.container-sm {
+		@include media("<laptop") {
+			padding-right: 0;
+			padding-left: 0;
+		}
+	}
+}
+
 // == Info list
 .info-list {
 	// == Large list

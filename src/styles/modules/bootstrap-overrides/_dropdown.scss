@@ -141,6 +141,7 @@
 .dropdown-item {
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
+    cursor: pointer;
     
     &:not(:last-child) {
         border-bottom: 1px solid rgba(224,224,224,0.5);

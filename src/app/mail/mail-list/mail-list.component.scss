@@ -129,7 +129,7 @@
 		}
 	}
 
-	.fancy-field-group {
+	.iconncy-field-group {
 		display: block;
 		margin-top: -0.1rem;
 		line-height: 1;
@@ -207,7 +207,7 @@
 			border-bottom-left-radius: 0;
 		}
 
-		.fa {
+		.icon {
 			display: block;
 			line-height: 1;
 		}
@@ -245,7 +245,7 @@
 }
 
 .dropdown-item {
-	.fa {
+	.icon {
 		margin-right: 0.625rem;
 	}
 }
@@ -433,7 +433,7 @@
 }
 
 .mail-list-row {
-	.fa-star {
+	.icon-star {
 		font-size: 0.938rem;
 		color: $input-border-color;
 	}
@@ -458,9 +458,17 @@
 	.mail-security-status {
 		color: #34495e;
 	}
+
+	.mail-status-type .icon-star  {
+		color: $dropdown-border-color;
+	}
 	
-	.mail-status-type.is-fav .fa-star {
-		color: $brand-info;
+	.mail-status-type.is-fav .icon-star-filled {
+		color: $brand-warning;
+	}
+
+	.icon {
+		font-size: 0.938rem;
 	}
 
 	.mail-from-name {
@@ -546,7 +554,7 @@
 			border-bottom-left-radius: 0;
 		}
 
-		.fa {
+		.icon {
 			display: block;
 			line-height: 1;
 		}

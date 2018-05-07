@@ -75,7 +75,7 @@
 
 .mailbox-brand,
 .mail-compose-section {
-	padding: 1.407rem 0.938rem;
+	padding: 1.34444rem 0.938rem;
 
 	@include media("<=sm") {
 		padding: 0.969rem 0.938rem;
@@ -105,7 +105,10 @@
 	position: absolute;
 	top: 50%;
 	right: 0.938rem;
+	display: flex;
+	align-items: center;
 	color: $brand-white;
+	font-size: 1rem;
 	transform: translateY(-50%);
 
 	@include media("<ipad", ">sm") {
@@ -121,7 +124,7 @@
 	}
 
 	.prime-account-text {
-		margin-left: 0.25rem;
+		margin-left: 0.3rem;
 		font-size: 0.75rem;
 	}
 }
@@ -200,7 +203,7 @@
 		color: $brand-white;
 	}
 
-	>.fa,
+	>.icon,
 	>.badge {
 		position: absolute;
 		top: 50%;
@@ -222,7 +225,7 @@
 		}
 	}
 
-	>.fa {
+	>.icon {
 		font-size: 0.938rem;
 	}
 
