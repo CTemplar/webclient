@@ -14,7 +14,7 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
   public selectedIndex: number = -1; // Assuming no element are selected initially
   constructor(private sharedService: SharedService) { }
   ngOnInit() {
-    this.sharedService.hideFooterCallToAction.emit(true);
+    this.sharedService.hideFooter.emit(true);
   }
   // == Toggle active state of the slide in price page
   toggleSlides(index) {
@@ -23,6 +23,6 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
     document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
   ngOnDestroy() {
-    this.sharedService.hideFooterCallToAction.emit(false);
+    this.sharedService.hideFooter.emit(false);
   }
 }
