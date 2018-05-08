@@ -28,6 +28,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-minimize:before {
+  content: "\e92d";
+}
+.icon-maximize:before {
+  content: "\e92a";
+}
 .icon-chevron-left:before {
   content: "\e92b";
 }

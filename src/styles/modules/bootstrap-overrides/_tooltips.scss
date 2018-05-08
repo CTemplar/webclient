@@ -5,6 +5,7 @@
 // == Tooltips
 .tooltip {
     font-size: 0.75rem;
+    white-space: nowrap;
     
     &-inner {
         border-radius: 2px;

@@ -118,112 +118,27 @@
 	</div>
 </aside>
 
+<!-- Compose button to be used in small screens -->
 <div class="mail-compose-xs-btn is-sticky hidden-sm-up">
 	<a href="" class="btn btn-primary mailbox-compose-btn"></a>
 </div>
 
-<!-- Create folders Modal -->
-<ng-template #content let-c="close" let-d="dismiss" ng-modal-class="mailbox-modal">
-	<div class="modal-header">
-		<h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-			<strong>Create new folder</strong>
-		</h3>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	<div class="modal-body bg-faded">
-		<div class="form">
-			<form>
-				<div class="form-group">
-					<div class="row align-items-center">
-						<div class="col-sm-3">
-							<label for="folderName" class="modal-form-label mb-2 mb-sm-0">
-								<small>Folder name:</small>
-							</label>
-						</div>
-						<div class="col-sm-9">
-							<input class="form-control form-control-sm" id="folderName" type="text" />
-						</div>
-					</div>
-				</div>
-				<div class="form-group mb-0">
-					<div class="row">
-						<div class="col-sm-3">
-							<label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
-								<small>Select color:</small>
-							</label>
-						</div>
-						<div class="col-sm-9">
-							<div class="color-boxes-holder">
-								<ul class="color-boxes-group">
-									<li>
-										<div class="color-shape is-active" style="background: #1abc9c;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #2ecc71;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #3498db;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #9b59b6;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #f1c40f;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #e67e22;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #e74c3c;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #16a085;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #27ae60;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #2980b9;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #8e44ad;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #f39c12;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #d35400;"></div>
-									</li>
-									<li>
-										<div class="color-shape" style="background: #c0392b;"></div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<div class="modal-footer justify-content-center justify-content-sm-end">
-		<a href="" class="btn btn-secondary btn-sm">Create</a>
-	</div>
-</ng-template>
-
 <!-- Mail compose dialog -->
-<div class="mail-composer is-minimizedx is-fullscreenx" style="display:none;">
+<div class="mail-composer is-minimizedx is-fullscreenx">
 	<div class="mail-composer-dialog">
 		<div class="mail-composer-header">
 			<div class="mail-composer-title">New message</div>
 			<div class="mail-composer-header-actions">
 				<div class="mail-actions-list">
 					<div class="mail-actions-item">
-						<i class="icon fa-times"></i>
+						<button role="button" placement="top" ngbTooltip="Minimize">
+							<i class="icon icon-minimize"></i>
+						</button>
 					</div>
 					<div class="mail-actions-item">
-						<i class="icon fa-times"></i>
+						<button role="button" placement="top" ngbTooltip="Close">
+							<i class="icon icon-cross"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -241,15 +156,15 @@
 					</div>
 					<div class="mail-compose-field border-bottom-0 d-none">
 						<span class="mail-label label-cc">Cc:</span>
-						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
+						<textarea class="mail-compose-control" id="recepietCc" rows="1">johndoe@gmail.com</textarea>
 					</div>
 					<div class="mail-compose-field d-none">
 						<span class="mail-label label-bcc">Bcc:</span>
-						<textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
+						<textarea class="mail-compose-control" id="recepietBcc" rows="1">johndoe@gmail.com</textarea>
 					</div>
 					<div class="mail-compose-field">
 						<span class="mail-label label-subject">Subject:</span>
-						<textarea class="mail-compose-control" id="recepietTo" rows="1">Re: Welcome to CTemplar!</textarea>
+						<textarea class="mail-compose-control" id="subject" rows="1">Re: Welcome to CTemplar!</textarea>
 					</div>
 				</div>
 			</form>
@@ -275,8 +190,8 @@
 								<div class="attach-name">filename.doc
 									<span class="attach-size">(340 K) </span>
 								</div>
-								<button role="button" class="attach-uploader-close">
-									<i class="icon fa-times"></i>
+								<button role="button" class="attach-uploader-close" placement="top" ngbTooltip="Remove">
+									<i class="icon icon-cross"></i>
 								</button>
 							</div>
 							<div class="attach-uploader">
@@ -286,8 +201,8 @@
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
-								<button role="button" class="attach-uploader-close">
-									<i class="icon fa-times"></i>
+								<button role="button" class="attach-uploader-close" placement="top" ngbTooltip="Remove">
+									<i class="icon icon-cross"></i>
 								</button>
 							</div>
 						</div>
@@ -307,7 +222,7 @@
 							<div ngbDropdown placement="top" class="dropdown">
 								<button ngbDropdownToggle class="hide-arrow actions-btn mail-self-timer-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Self Timer"><i class="icon icon-self-timer"></i></button>
 								<div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded" aria-labelledby="delayedTimerDropdownMenu">
-									<button role="button" class="close"><i class="icon fa-times"></i></button>
+									<button role="button" class="close"><i class="icon icon-cross"></i></button>
 									<div class="timer-dropdown-content">
 										<div class="dropdown-header">
 											<div class="dropdown-menu-title text-dark text-center"><strong>Delayed Delivery</strong></div>
@@ -361,7 +276,7 @@
 							<div ngbDropdown placement="top" class="dropdown">
 								<button ngbDropdownToggle class="hide-arrow actions-btn mail-dead-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Dead Man"><i class="icon icon-dead"></i></button>
 								<div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded" aria-labelledby="delayedTimerDropdownMenu">
-									<button role="button" class="close"><i class="icon fa-times"></i></button>
+									<button role="button" class="close"><i class="icon icon-cross"></i></button>
 									<div class="timer-dropdown-content">
 										<div class="dropdown-header">
 											<div class="dropdown-menu-title text-dark text-center"><strong>Dead Man's Timer</strong></div>
@@ -414,7 +329,7 @@
                         <li><button role="button" class="actions-btn mail-keyboard-btn" placement="top" ngbTooltip="Keyboard Show"><i class="icon icon-keyboard-show"></i></button></li>
                         <li>
                         	<div ngbDropdown placement="top" class="dropdown">
-                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" ngbTooltip="Typography">A</button>
+                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" ngbTooltip="Typography"><i class="icon icon-text-color"></i></button>
                                 <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
                                     <div class="mail-comopser-typo-actions-holder">
                                     	<ul class="mail-composer-actions d-flex align-items-center justify-content-end">
@@ -645,3 +560,93 @@
         </div>
 	</div>
 </div>
+
+<!-- Create folders Modal -->
+<ng-template #content let-c="close" let-d="dismiss" ng-modal-class="mailbox-modal">
+	<div class="modal-header">
+		<h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
+			<strong>Create new folder</strong>
+		</h3>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body bg-faded">
+		<div class="form">
+			<form>
+				<div class="form-group">
+					<div class="row align-items-center">
+						<div class="col-sm-3">
+							<label for="folderName" class="modal-form-label mb-2 mb-sm-0">
+								<small>Folder name:</small>
+							</label>
+						</div>
+						<div class="col-sm-9">
+							<input class="form-control form-control-sm" id="folderName" type="text" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group mb-0">
+					<div class="row">
+						<div class="col-sm-3">
+							<label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
+								<small>Select color:</small>
+							</label>
+						</div>
+						<div class="col-sm-9">
+							<div class="color-boxes-holder">
+								<ul class="color-boxes-group">
+									<li>
+										<div class="color-shape is-active" style="background: #1abc9c;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #2ecc71;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #3498db;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #9b59b6;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #f1c40f;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #e67e22;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #e74c3c;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #16a085;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #27ae60;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #2980b9;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #8e44ad;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #f39c12;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #d35400;"></div>
+									</li>
+									<li>
+										<div class="color-shape" style="background: #c0392b;"></div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer justify-content-center justify-content-sm-end">
+		<a href="" class="btn btn-secondary btn-sm">Create</a>
+	</div>
+</ng-template><!-- /.Create folders Modal ends -->
