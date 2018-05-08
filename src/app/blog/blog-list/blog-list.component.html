@@ -87,7 +87,10 @@
       </div>
     </div>
     <footer class="l-block-footer text-center">
-      <button class="btn btn-lg btn-secondary" (click) = "getPosts()" role="button">Load more posts</button>
+      <button class="btn btn-lg btn-secondary" (click) = "getPosts()" role="button" [disabled]="this.isPostsLoading">
+        <img [hidden]="!this.isPostsLoading" src="assets/icons/spinner.svg" style="height: 16px;"/>
+        <span [hidden]="this.isPostsLoading">Load more posts</span>
+      </button>
     </footer>
   </div>
   <!-- /.Site container ends -->
