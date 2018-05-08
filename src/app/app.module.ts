@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatKeyboardModule } from '@ngx-material-keyboard/core';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -47,7 +46,6 @@ import {
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatKeyboardModule,
     NgbModule.forRoot(),
     AppStoreModule,
     AppRoutingModule,

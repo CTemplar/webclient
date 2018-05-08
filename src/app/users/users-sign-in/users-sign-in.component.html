@@ -19,7 +19,7 @@
             <div *ngIf="errorMessage" class="login-form__failed">{{ errorMessage }}</div>
             <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
               <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
-              <input [matKeyboard]="'Azərbaycanca'" class="form-control form-control-lg" id="loginUsername" placeholder="Username" type="text" name="username" formControlName="username" required/>
+              <input class="form-control form-control-lg" id="loginUsername" placeholder="Username" type="text" name="username" formControlName="username" required/>
               <span *ngIf="loginForm.controls['username'].errors && showFormErrors" id="email-valid" class="validate-message">
                 <span *ngIf="loginForm.controls['username'].errors.required">The username is required.</span>
               </span>
@@ -27,7 +27,7 @@
             <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.password.invalid && showFormErrors}">
               <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up">Password</label>
               <div class="input-group">
-                <input [matKeyboard]="'Azərbaycanca'" #input formControlName="password" class="form-control form-control-lg border-right-0" id="loginPassword" placeholder="Password"
+                <input #input formControlName="password" class="form-control form-control-lg border-right-0" id="loginPassword" placeholder="Password"
                   type="password" aria-describedby="passwordToggle" name="password" formControlName="password" required/>
                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(input)">
                   <i class="fa fa-eye"></i>
