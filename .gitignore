@@ -6,10 +6,11 @@ node_modules
 Thumbs.db
 .editorconfig
 
-# IDE - VSCode
+# IDE
 .vs/
 .vscode
 .settings
+.idea/
 
 # compiled output
 /dist

@@ -59,7 +59,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
 
-    this.sharedService.hideFooterCallToAction.emit(true);
+    this.sharedService.hideFooter.emit(true);
 
     this.signupForm = this.formBuilder.group({
       'username': ['', [ Validators.required ]],
@@ -115,6 +115,6 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.sharedService.hideFooterCallToAction.emit(false);
+    this.sharedService.hideFooter.emit(false);
   }
 }
