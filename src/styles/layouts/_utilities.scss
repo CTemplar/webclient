@@ -5,21 +5,28 @@
 // == Element Positioning
 .position {
 	&-absolute {
-		position: absolute;
+		position: absolute !important;
 	}
 
 	&-relative {
-		position: relative;
+		position: relative !important;
 	}
 
 	&-static {
-		position: static;
+		position: static !important;
 	}
 }
 
 .position-sm-static {
 	@include media(">=ipad") {
-		position: static;
+		position: static !important;
+	}
+}
+
+// == Border utilities
+.border-top-md-0 {
+	@include media(">=ipad") {
+		border-top: 0 !important;
 	}
 }
 

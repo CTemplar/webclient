@@ -36,7 +36,13 @@
 	}
 
 	&.ui-header-bordered {
-		border: 1px solid $dropdown-border-color;
+		border: 1px solid darken($brand-faded, 3%); //$dropdown-border-color;
+		border-right: 0;
+		border-left: 0;
+	}
+
+	&.border-all-corner {
+		border: 1px solid darken($brand-faded, 3%);
 	}
 }
 
@@ -97,7 +103,7 @@
 // == Mail composer
 $mail_composer_padding_x: 0.75rem;
 
-.mail-composer {
+.mail-composer.is-sticky {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -106,8 +112,14 @@ $mail_composer_padding_x: 0.75rem;
 	z-index: $zindex-default + 999;
 	overflow-x: hidden;
 	overflow-y: auto;
+	display: none;
 	background: $brand-white;
 	font-size: 0.875rem;
+
+	// == is-minimized
+	&.is-active {
+		display: block;
+	}
 
 	@include media(">sm") {
 		top: auto;
@@ -120,11 +132,23 @@ $mail_composer_padding_x: 0.75rem;
 	}
 }
 
+// == Mail compose is-bordered
+.mail-composer.is-borderd {
+	border: 1px solid $dropdown-border-color;
+}
+
 // == Is minimized
 .mail-composer.is-minimized {
 	.mail-composer-body,
 	.mail-composer-footer {
 		display: none;
+	}
+}
+
+.mail-composer.is-maximized {
+	.mail-composer-body,
+	.mail-composer-footer {
+		display: block;
 	}
 }
 
@@ -481,7 +505,7 @@ $mail_composer_padding_x: 0.75rem;
 	}
 }
 
-.btn.btn-mail-send {
+.send-mail-item {
 	@include media("<=sm") {
 		position: fixed;
 		right: 0.938rem;

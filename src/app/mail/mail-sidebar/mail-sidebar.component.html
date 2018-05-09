@@ -22,9 +22,9 @@
 		</div>
 
 		<div class="mail-compose-section hidden-xs-down">
-			<a href="" class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn">
+			<button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn" role="button" (click)="showMailComposeModal();">
 				<span class="hidden-sm-down">Compose</span>
-			</a>
+			</button>
 		</div>
 
 		<nav class="mailbox-sidebar-navbar">
@@ -120,11 +120,11 @@
 
 <!-- Compose button to be used in small screens -->
 <div class="mail-compose-xs-btn is-sticky hidden-sm-up">
-	<a href="" class="btn btn-primary mailbox-compose-btn"></a>
+	<button class="btn btn-primary mailbox-compose-btn" role="button" (click)="showMailComposeModal();"></button>
 </div>
 
 <!-- Mail compose dialog -->
-<div class="mail-composer is-minimizedx is-fullscreenx">
+<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx" [class.is-active]="isComposeVisible">
 	<div class="mail-composer-dialog">
 		<div class="mail-composer-header">
 			<div class="mail-composer-title">New message</div>
@@ -136,7 +136,7 @@
 						</button>
 					</div>
 					<div class="mail-actions-item">
-						<button role="button" placement="top" ngbTooltip="Close">
+						<button role="button" placement="top" ngbTooltip="Close" (click)="hideMailComposeModal();">
 							<i class="icon icon-cross"></i>
 						</button>
 					</div>
@@ -553,7 +553,7 @@
                     <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
                         <li class="pr-0"><button role="button" class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0" placement="top" ngbTooltip="Save Disk"><i class="icon icon-save-disk"></i></button></li>
                         <li class="pl-0"><button role="button" class="actions-btn mail-garbage-btn border-radius-l-0" placement="top" ngbTooltip="Discard Mail"><i class="icon icon-garbage"></i></button></li>
-                        <li><a href="" class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" placement="top" ngbTooltip="Send Mail"><i class="hidden-sm-up icon icon-paper-plane"></i><span class="hidden-xs-down">Send</span></a></li>
+                        <li class="send-mail-item"><a href="" class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" placement="top" ngbTooltip="Send Mail"><i class="hidden-sm-up icon icon-paper-plane"></i><span class="hidden-xs-down">Send</span></a></li>
                     </ul>
                 </div>
             </div>
