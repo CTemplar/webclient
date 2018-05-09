@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// virtual keyboard module
-import { MatKeyboardModule } from '@ngx-material-keyboard/core';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -28,7 +26,6 @@ import { UsersService } from '../providers/users.service';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    MatKeyboardModule,
     UsersRoutingModule,
     PagesModule
   ],

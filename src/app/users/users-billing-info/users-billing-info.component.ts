@@ -16,11 +16,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   constructor(private sharedService: SharedService) { }
 
   ngOnInit() {
-    this.sharedService.hideFooterCallToAction.emit(true);
+    this.sharedService.hideFooter.emit(true);
   }
 
 
   ngOnDestroy() {
-    this.sharedService.hideFooterCallToAction.emit(false);
+    this.sharedService.hideFooter.emit(false);
   }
 }

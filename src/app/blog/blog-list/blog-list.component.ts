@@ -31,7 +31,7 @@ export class BlogListComponent implements OnInit {
   firstPost: Post;
   postPosition: number = 0;
   positionCount: number = 7;
-  isLoading : boolean = false;
+  isPostsLoading: boolean = false;
 
   getBlogState$: Observable<any>;
 
@@ -56,10 +56,12 @@ export class BlogListComponent implements OnInit {
   getPosts() {
     console.log(this.positionCount);
     console.log(this.postPosition);
+    this.isPostsLoading = true;
     this.store.dispatch(new GetPosts({ limit: this.positionCount, offset: this.postPosition }));
   }
 
   sortPosts(newPosts) {
+    this.isPostsLoading = false;
     console.log(newPosts);
     newPosts.map((post: Post) => {
       post.isloaded = false;

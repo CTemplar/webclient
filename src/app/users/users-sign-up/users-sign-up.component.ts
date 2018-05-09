@@ -17,7 +17,7 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
   public selectedIndex = -1; // Assuming no element are selected initially
   constructor(private sharedService: SharedService) { }
   ngOnInit() {
-    this.sharedService.hideFooterCallToAction.emit(true);
+    this.sharedService.hideFooter.emit(true);
     this.storageList = StorageData;
     this.selectedStorage = this.storageList[0];
     this.mainPayments = [
@@ -45,6 +45,6 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
     this.selectedPayment = index;
   }
   ngOnDestroy() {
-    this.sharedService.hideFooterCallToAction.emit(false);
+    this.sharedService.hideFooter.emit(false);
   }
 }

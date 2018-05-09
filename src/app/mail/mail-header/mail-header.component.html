@@ -11,19 +11,19 @@
                 <form>
                     <div class="form-group mb-0 position-relative">
                         <input class="form-control form-control-sm" type="text" placeholder="Search" />
-                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="icon icon-search"></i></button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="col-sm-6 mailbox-navbar-col">
             <ul class="mailbox-actions-menu d-flex justify-content-end">
-                <li class=""><a href=""><i class="fa fa-cog"></i></a></li>
-                <li class="mailbox-settings pr-sm-0"><a href="" class="border-right-0"><i class="fa fa-cog"></i></a></li>
-                <li class="mailbox-signout pl-sm-0"><a href=""><i class="fa fa-sign-out-alt"></i></a></li>
+                <li class=""><a href=""><i class="icon icon-login"></i></a></li>
+                <li class="mailbox-settings pr-sm-0"><a href="" class="border-right-0"><i class="icon icon-gear"></i></a></li>
+                <li class="mailbox-signout pl-sm-0"><a href=""><i class="icon icon-logout"></i></a></li>
                 <li class="mailbox-lang mailbox-dropdown btn-dropdown">
                     <div ngbDropdown class="lang-dropdown">
-                        <button type="button" id="langDropdownMenuButton" ngbDropdownToggle><i class="fa fa-globe hidden-xs-down"></i>En</button>
+                        <button type="button" id="langDropdownMenuButton" ngbDropdownToggle><i class="icon icon-earth-globe hidden-xs-down"></i>En</button>
                         <div ngbDropdownMenu class="dropdown-menu-right text-center" aria-labelledby="langDropdownMenuButton">
                             <a class="dropdown-item" href="">Ru</a>
                             <a class="dropdown-item" href="">Es</a>
@@ -32,13 +32,13 @@
                 </li>
                 <li class="mailbox-xs-search-item hidden-sm-up">                    
                     <div ngbDropdown>
-                        <a ngbDropdownToggle role="button"><i class="fa fa-search"></i></a>
+                        <a ngbDropdownToggle role="button"><i class="icon icon-search"></i></a>
                         <div ngbDropdownMenu>
                             <div class="form search-form">
                                 <form>
                                     <div class="form-group mb-0 position-relative">
                                         <input class="form-control form-control-sm" type="text" placeholder="Search" />
-                                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="fa fa-search"></i></button>
+                                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="icon icon-search"></i></button>
                                     </div>
                                 </form>
                             </div>
@@ -65,99 +65,3 @@
         <div>Your message has been sent. &nbsp;&nbsp;&nbsp;<a href=""><u>View Message</u></a></div>
     </div>
 </div>
-<!-- <div class="mailbox-actionbar">
-    <div class="row">
-        <div class="col-12 col-sm-8 mailbox-actionbar-col">
-            <ul class="mailbox-actionbar-menu">
-                <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
-                    <div ngbDropdown>
-                        <button ngbDropdownToggle class="dropdown-toggle" type="button" id="langDropdownMenuButton">
-                            <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions" name="[]" type="checkbox" />
-                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
-                            </span>
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" href="">All</a>
-                            <a class="dropdown-item" href="">Read</a>
-                            <a class="dropdown-item" href="">Unread</a>
-                            <a class="dropdown-item" href="">Starred</a>
-                            <a class="dropdown-item" href="">Unstarred</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="pr-0">
-                    <a href="" class="disabled"><i class="fa fa-archive"></i></a>
-                </li>
-                <li class="pr-0 pl-0 hidden-xs-down">
-                    <a href="" class="disabled"><i class="fa fa-exclamation-circle"></i></a>
-                </li>
-                <li class="pl-0">
-                    <a href="" class="disabled"><i class="fa fa-trash"></i></a>
-                </li>
-                <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
-                    <div ngbDropdown>
-                        <a ngbDropdownToggle role="button" id="dropdownConfig"><i class="fa fa-ellipsis-v"></i></a>
-                        <div ngbDropdownMenu class="mobiledOptionsDropdown"  aria-labelledby="dropdownConfig">
-                            <ul class="more-xs-options-list">
-                                <li>
-                                    <a href="" class="disabled"><i class="fa fa-exclamation-circle"></i></a>
-                                </li>
-                                <li class="btn-dropdown mailbox-dropdown folders-dropdown">
-                                    <div ngbDropdown>
-                                        <button ngbDropdownToggle class="disabledx" type="button"><i class="fa fa-folder"></i></button>
-                                        <div ngbDropdownMenu  aria-labelledby="langDropdownMenuButton">
-                                            <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder 1</a>
-                                            <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another Folder 21</a>
-                                            <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
-                                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Inbox</a>
-                                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Draft</a>
-                                            <a class="dropdown-item" href=""><i class="fa fa-archive"></i>Archive</a>
-                                            <span class="divider-item d-block"></span>
-                                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i class="fa fa-folder"></i>Create folder</a>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
-                    <div ngbDropdown>
-                        <button ngbDropdownToggle class="dropdown-toggle disabledx" type="button"><i class="fa fa-folder"></i></button>
-                        <div ngbDropdownMenu  aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder 1</a>
-                            <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another Folder 21</a>
-                            <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
-                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Inbox</a>
-                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Draft</a>
-                            <a class="dropdown-item" href=""><i class="fa fa-archive"></i>Archive</a>
-                            <span class="divider-item d-block"></span>
-                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i class="fa fa-folder"></i>Create folder</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown">
-                    <div ngbDropdown class="dropdown">
-                        <button ngbDropdownToggle class="dropdown-toggle disabledx" type="button" id="langDropdownMenuButton" >More</button>
-                        <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" href="">Add star</a>
-                            <a class="dropdown-item" href="">Mark as read</a>
-                            <a class="dropdown-item" href="">Mark as unread</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down">
-            <div class="mail-controls d-flex align-items-center justify-content-end">
-                <div class="mail-result-text text-muted"><small>1-50 of 2346</small></div>
-                <div class="mail-nav-control">
-                    <button role="button" class="mail-nav-control-prev"><i class="fa fa-chevron-left"></i></button>
-                    <button role="button" class="mail-nav-control-next"><i class="fa fa-chevron-right"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->

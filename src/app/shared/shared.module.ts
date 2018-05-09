@@ -10,6 +10,7 @@ import { PaymentSelectorComponent } from './price-plan/prime-plan/payment-select
 import { CurrencyDropdownComponent } from './price-plan/currency-dropdown/currency-dropdown.component';
 import { FreePlanComponent } from './price-plan/free-plan/free-plan.component';
 import { PrimePlanComponent } from './price-plan/prime-plan/prime-plan.component';
+import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,9 +18,7 @@ import { LoadingComponent } from './loading/loading.component';
 
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [
     SpinnerComponent,
     PricePlanComponent,
@@ -28,15 +27,15 @@ import { LoadingComponent } from './loading/loading.component';
     CurrencyDropdownComponent,
     FreePlanComponent,
     PrimePlanComponent,
-    LoadingComponent
+    LoadingComponent,
+    SpinnerImageComponent
   ],
   exports: [
     SpinnerComponent,
     PricePlanComponent,
-    LoadingComponent
+    LoadingComponent,
+    SpinnerImageComponent
   ],
-  providers: [
-    SpinnerService
-  ]
+  providers: [SpinnerService]
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -4,7 +4,7 @@
             <ul class="mailbox-actionbar-menu">
                 <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
                     <div ngbDropdown>
-                        <button ngbDropdownToggle class="dropdown-toggle" type="button" id="langDropdownMenuButton">
+                        <button ngbDropdownToggle class="dropdown-toggle" role="button" id="langDropdownMenuButton">
                             <span class="fancy-field-group">
                                 <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions" name="[]" type="checkbox" />
                                 <label for="mailboxBulkActions" class="fancy-field-empty"></label>
@@ -20,34 +20,34 @@
                     </div>
                 </li>
                 <li class="pr-0">
-                    <a href="" class="disabled"><i class="fa fa-archive"></i></a>
+                    <a href="" class="disabled"><i class="icon icon-archive"></i></a>
                 </li>
                 <li class="pr-0 pl-0 hidden-xs-down">
-                    <a href="" class="disabled"><i class="fa fa-exclamation-circle"></i></a>
+                    <a href="" class="disabled"><i class="icon icon-warning"></i></a>
                 </li>
                 <li class="pl-0">
-                    <a href="" class="disabled"><i class="fa fa-trash"></i></a>
+                    <a href="" class="disabled"><i class="icon icon-garbage"></i></a>
                 </li>
                 <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
                     <div ngbDropdown>
-                        <a ngbDropdownToggle role="button" id="dropdownConfig"><i class="fa fa-ellipsis-v"></i></a>
+                        <a ngbDropdownToggle role="button" id="dropdownConfig"><i class="icon icon-ellipsis-v"></i></a>
                         <div ngbDropdownMenu class="mobiledOptionsDropdown"  aria-labelledby="dropdownConfig">
                             <ul class="more-xs-options-list">
                                 <li>
-                                    <a href="" class="disabled"><i class="fa fa-exclamation-circle"></i></a>
+                                    <a href="" class="disabled"><i class="icon icon-warning"></i></a>
                                 </li>
                                 <li class="btn-dropdown mailbox-dropdown folders-dropdown">
                                     <div ngbDropdown>
-                                        <button ngbDropdownToggle class="disabledx" type="button"><i class="fa fa-folder"></i></button>
+                                        <button ngbDropdownToggle class="disabledx" role="button"><i class="icon icon-folder"></i></button>
                                         <div ngbDropdownMenu  aria-labelledby="langDropdownMenuButton">
                                             <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder 1</a>
                                             <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another Folder 21</a>
                                             <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
-                                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Inbox</a>
-                                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Draft</a>
-                                            <a class="dropdown-item" href=""><i class="fa fa-archive"></i>Archive</a>
+                                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Inbox</a>
+                                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Draft</a>
+                                            <a class="dropdown-item" href=""><i class="icon icon-archive"></i>Archive</a>
                                             <span class="divider-item d-block"></span>
-                                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i class="fa fa-folder"></i>Create folder</a>
+                                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i class="icon icon-folder"></i>Create folder</a>
                                         </div>
                                     </div>
                                 </li>
@@ -57,22 +57,22 @@
                 </li>
                 <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
                     <div ngbDropdown>
-                        <button ngbDropdownToggle class="dropdown-toggle disabledx" type="button"><i class="fa fa-folder"></i></button>
+                        <button ngbDropdownToggle class="dropdown-toggle disabledx" role="button"><i class="icon icon-folder"></i></button>
                         <div ngbDropdownMenu  aria-labelledby="langDropdownMenuButton">
                             <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder 1</a>
                             <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another Folder 21</a>
                             <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
-                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Inbox</a>
-                            <a class="dropdown-item" href=""><i class="fa fa-inbox"></i>Draft</a>
-                            <a class="dropdown-item" href=""><i class="fa fa-archive"></i>Archive</a>
+                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Inbox</a>
+                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Draft</a>
+                            <a class="dropdown-item" href=""><i class="icon icon-archive"></i>Archive</a>
                             <span class="divider-item d-block"></span>
-                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i class="fa fa-folder"></i>Create folder</a>
+                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i class="icon icon-folder"></i>Create folder</a>
                         </div>
                     </div>
                 </li>
                 <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown">
                     <div ngbDropdown class="dropdown">
-                        <button ngbDropdownToggle class="dropdown-toggle disabledx" type="button" id="langDropdownMenuButton" >More</button>
+                        <button ngbDropdownToggle class="dropdown-toggle disabledx" role="button" id="langDropdownMenuButton" >More</button>
                         <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
                             <a class="dropdown-item" href="">Add star</a>
                             <a class="dropdown-item" href="">Mark as read</a>
@@ -87,8 +87,8 @@
             <div class="mail-controls d-flex align-items-center justify-content-end">
                 <div class="mail-result-text text-muted"><small>1-50 of 2346</small></div>
                 <div class="mail-nav-control">
-                    <button role="button" class="mail-nav-control-prev"><i class="fa fa-chevron-left"></i></button>
-                    <button role="button" class="mail-nav-control-next"><i class="fa fa-chevron-right"></i></button>
+                    <button role="button" class="mail-nav-control-prev"><i class="icon icon-chevron-left"></i></button>
+                    <button role="button" class="mail-nav-control-next"><i class="icon icon-chevron-right"></i></button>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -130,7 +130,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -170,7 +170,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -210,7 +210,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -228,7 +228,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -250,7 +250,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -293,7 +293,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -311,7 +311,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -333,7 +333,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -351,7 +351,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -373,7 +373,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -391,7 +391,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -416,7 +416,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -434,7 +434,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -456,7 +456,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -474,7 +474,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -496,7 +496,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -514,7 +514,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -536,7 +536,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -554,7 +554,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -579,7 +579,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -597,7 +597,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -619,7 +619,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -637,7 +637,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -659,7 +659,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -677,7 +677,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type is-fav">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -702,7 +702,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-lock"></i>
                     </div>
                 </div>
             </div>
@@ -721,7 +721,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -743,7 +743,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-secured"></i>
                     </div>
                 </div>
             </div>
@@ -761,7 +761,7 @@
                     </div>
                     <div class="mail-list-col-item mail-status">
                         <div class="mail-status-type" [ngClass]="{'is-fav': mail.starred}">
-                            <i class="fa fa-star"></i>
+                            <i class="icon icon-star-filled"></i>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
@@ -786,7 +786,7 @@
                     <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
                     <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
                     <div class="mail-list-col-xs-item mail-security-status is-disabled">
-                        <i class="fa fa-lock"></i>
+                        <i class="icon icon-secured"></i>
                     </div>
                 </div>
             </div>
@@ -804,10 +804,10 @@
                 </div>
                 <div class="mail-nav-control">
                     <button role="button" class="mail-nav-control-prev">
-                        <i class="fa fa-chevron-left"></i>
+                        <i class="icon icon-chevron-left"></i>
                     </button>
                     <button role="button" class="mail-nav-control-next">
-                        <i class="fa fa-chevron-right"></i>
+                        <i class="icon icon-chevron-right"></i>
                     </button>
                 </div>
             </div>

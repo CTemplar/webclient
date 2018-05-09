@@ -114,11 +114,11 @@
 			}
 
 			@include media(">sm") {
-				padding: 0.219rem 0.688rem;
+				padding: 0.438rem 0.813rem;
 				background: $brand-faded;
 				border: 1px solid $dropdown-border-color;
 				color: $brand-light-gray;
-				font-size: 1.5rem;
+				font-size: 1.25rem;
 			}
 		}
 
@@ -131,6 +131,7 @@
 		padding-top: 0.938rem;
 		padding-bottom: 0.938rem;
 		color: $brand-light-gray;
+		font-size: 0.875rem;
 		height: 3rem;
 		width: 4.625rem;
 
@@ -147,8 +148,11 @@
 		}
 	}
 
-	.fa-globe {
-		margin-right: 0.25rem;
+	.icon-earth-globe {
+		display: inline-block;
+		margin-right: 0.35rem;
+		font-size: 1rem;
+	    vertical-align: top;
 	}
 }
 
@@ -357,7 +361,7 @@
 // 		}
 // 	}
 
-// 	.fancy-field-group {
+// 	.iconncy-field-group {
 // 		display: block;
 // 		margin-top: -0.1rem;
 // 		line-height: 1;
@@ -435,7 +439,7 @@
 // 			border-bottom-left-radius: 0;
 // 		}
 
-// 		.fa {
+// 		.icon {
 // 			display: block;
 // 			line-height: 1;
 // 		}
@@ -473,7 +477,7 @@
 // }
 
 // .dropdown-item {
-// 	.fa {
+// 	.icon {
 // 		margin-right: 0.625rem;
 // 	}
 // }

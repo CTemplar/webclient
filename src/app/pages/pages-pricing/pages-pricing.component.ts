@@ -15,7 +15,7 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
   @Input('hideHeader') hideHeader: boolean;
   constructor(private sharedService: SharedService) {}
   ngOnInit() {
-    this.sharedService.hideFooterCallToAction.emit(true);
+    this.sharedService.hideFooter.emit(true);
   }
   // == Toggle active state of the slide in price page
   toggleSlides(index) {
@@ -26,6 +26,6 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
       .classList.remove('active-slide');
   }
   ngOnDestroy() {
-    this.sharedService.hideFooterCallToAction.emit(false);
+    this.sharedService.hideFooter.emit(false);
   }
 }

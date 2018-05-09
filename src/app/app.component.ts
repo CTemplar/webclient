@@ -65,7 +65,6 @@ export class AppComponent implements OnInit {
 
     this.getLoadingState$.subscribe((loadingState: LoadingState) => {
       this.isLoading = loadingState.loading;
-      console.log(this.isLoading);
     });
   }
 
