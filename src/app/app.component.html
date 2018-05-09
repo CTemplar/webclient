@@ -1,6 +1,7 @@
 <!-- App outer -->
 <!-- <div class="app-outer" [class.resize-active]="windowIsResized" [ngClass]="{ 'app-outer-secondary': this.router.url !== '/' && !isMail, 'app-outer-mailbox': isMail }"> -->
-<div class="app-outer" [class.resize-active]="windowIsResized">
+  <app-loading [isLoading]="isLoading"></app-loading>
+  <div class="app-outer" [class.resize-active]="windowIsResized" [hidden]="isLoading">
     <app-header [hidden]="hideHeader"></app-header>
     <main id="main" role="main">
         <div class="content">

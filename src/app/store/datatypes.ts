@@ -40,9 +40,14 @@ export interface MailState {
   folders: any[];
 }
 
+export interface LoadingState {
+  loading: boolean | true;
+}
+
 export interface AppState {
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   auth: AuthState;
   blog: BlogState;
   mail: MailState;
+  loading: LoadingState;
 }

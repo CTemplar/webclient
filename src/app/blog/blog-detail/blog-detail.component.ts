@@ -59,8 +59,8 @@ export class BlogDetailComponent implements OnInit {
     this.numberOfColumns = NumberOfColumns.Two;
     this.mode = Mode.Related;
 
-    //this.isActive = this.userService.signedIn();
-    this.updateUserAuthStatus(); 
+    // this.isActive = this.userService.signedIn();
+    this.updateUserAuthStatus();
 
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.getBlogState$.subscribe((blogState: BlogState) => {
@@ -112,7 +112,7 @@ export class BlogDetailComponent implements OnInit {
       const body = { text: comment, post: this.blog.id, reply_to: this.replyId };
       this.store.dispatch(new PostComment(body));
     } else {
-    
+
     }
   }
 

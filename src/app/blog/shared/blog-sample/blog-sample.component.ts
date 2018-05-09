@@ -14,7 +14,7 @@ import { getRelatedBlogs } from '../../../store/selectors';
 import { GetRelatedPosts } from '../../../store/actions/blog.actions';
 import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions/blog.actions';
-
+import { Loaded } from '../../../store/actions/loading.action';
 
 @Component({
   selector: 'app-blog-sample',
@@ -40,9 +40,9 @@ export class BlogSampleComponent implements OnInit {
   ngOnInit() {
     if (this.mode === Mode.Recent) {
       this.updateRecentState();
-    }else if (this.mode === Mode.Related) {
+    } else if (this.mode === Mode.Related) {
       this.updateRelatedState();
-    } 
+    }
   }
 
   updateRecentState() {
@@ -54,9 +54,10 @@ export class BlogSampleComponent implements OnInit {
             post.excerpt = post.text.substring(0, 500) + '...';
           } else {
             post.excerpt = post.text;
-          } 
+          }
         });
         this.posts = blogs.slice(0, this.numberOfColumns);
+        this.store.dispatch(new Loaded({}));
       }
     });
     if (!this.posts.length) {

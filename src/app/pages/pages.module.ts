@@ -44,6 +44,9 @@ import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.compon
     PagesTorOnionComponent,
     PagesPrivacyComponent,
     PagesTermsComponent
+  ],
+  exports: [
+    PagesPricingComponent
   ]
 })
 export class PagesModule { }

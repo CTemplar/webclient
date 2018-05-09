@@ -10,6 +10,7 @@ import { PaymentSelectorComponent } from './price-plan/prime-plan/payment-select
 import { CurrencyDropdownComponent } from './price-plan/currency-dropdown/currency-dropdown.component';
 import { FreePlanComponent } from './price-plan/free-plan/free-plan.component';
 import { PrimePlanComponent } from './price-plan/prime-plan/prime-plan.component';
+import { LoadingComponent } from './loading/loading.component';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,11 +27,13 @@ import { PrimePlanComponent } from './price-plan/prime-plan/prime-plan.component
     PaymentSelectorComponent,
     CurrencyDropdownComponent,
     FreePlanComponent,
-    PrimePlanComponent
+    PrimePlanComponent,
+    LoadingComponent
   ],
   exports: [
     SpinnerComponent,
-    PricePlanComponent
+    PricePlanComponent,
+    LoadingComponent
   ],
   providers: [
     SpinnerService

@@ -20,6 +20,7 @@ export const getRouterState = createFeatureSelector<
 export const selectAuthState = createFeatureSelector<AppState>('auth');
 export const selectBlogState = createFeatureSelector<AppState>('blog');
 export const selectBlogState1 = (state: AppState) => state.blog;
+export const selectLoadingState = createFeatureSelector<AppState>('loading');
 
 export const getBlogDetail = createSelector(
   selectBlogState1,

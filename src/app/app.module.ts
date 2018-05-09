@@ -20,7 +20,7 @@ import { HomeModule } from './home/home.module';
 import { MailModule } from './mail/mail.module';
 import { PagesModule } from './pages/pages.module';
 import { UsersModule } from './users/users.module';
-
+import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
 
 // Services
@@ -40,9 +40,7 @@ import {
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -58,6 +56,7 @@ import {
     MailModule,
     PagesModule,
     UsersModule,
+    SharedModule
   ],
   providers: [
     BlogService,
@@ -72,4 +71,4 @@ import {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
