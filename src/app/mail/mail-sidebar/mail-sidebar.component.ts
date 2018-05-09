@@ -8,6 +8,9 @@ import {NgbModal, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class MailSidebarComponent implements OnInit {
 
+  // Public property of boolean type set false by default
+  public isComposeVisible: boolean = false;
+
   constructor(private modalService: NgbModal, config: NgbDropdownConfig) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = "outside";
@@ -19,6 +22,20 @@ export class MailSidebarComponent implements OnInit {
   // == Open NgbModal
   open(content) {
     this.modalService.open(content, {centered: true, windowClass: 'modal-sm'});
+  }
+
+  // == Show mail compose modal
+  // == Setup click event to toggle mobile menu
+  showMailComposeModal() { // click handler
+    const bool = this.isComposeVisible;
+    this.isComposeVisible = true;
+  }
+
+  // == Show mail compose modal
+  // == Setup click event to toggle mobile menu
+  hideMailComposeModal() { // click handler
+    const bool = this.isComposeVisible;
+    this.isComposeVisible = false;
   }
 
 }
