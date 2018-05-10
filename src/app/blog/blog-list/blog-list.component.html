@@ -27,10 +27,10 @@
               <div class="row align-items-center">
                 <div class="col-md-6">
                   <figure class="news-pic-holder mb-md-0 position-relative">
-                    <div class="loader-area" [hidden]="firstPost.isloaded">
+                    <div class="loader-area" [hidden]="firstPost.isLoaded">
                       <img src="assets/icons/spinner.svg" />
                     </div>
-                    <img alt="News thumbnail" class="img news-img" (load)="firstPost.isloaded = true" [hidden]="!firstPost.isloaded" src="{{ firstPost.image_card }}"/>
+                    <img alt="News thumbnail" class="img news-img" (load)="firstPost.isLoaded = true" [hidden]="!firstPost.isLoaded" src="{{ firstPost.image_card }}"/>
                     <span class="badge badge-sm badge-info text-uppercase">
                       <strong>{{ firstPost.category.name }}</strong>
                     </span>
@@ -64,10 +64,10 @@
               </span>
               <div class="news-card-body">
                 <figure class="news-pic-holder">
-                  <div class="loader-area" [hidden]="post.isloaded">
+                  <div class="loader-area" [hidden]="post.isLoaded">
                     <img src="assets/icons/spinner.svg" />
                   </div>
-                  <img alt="News thumbnail" class="img news-img" (load)="post.isloaded = true" [hidden]="!post.isloaded" src="{{ post.image_card }}"/>
+                  <img alt="News thumbnail" class="img news-img" (load)="post.isLoaded = true" [hidden]="!post.isLoaded" src="{{ post.image_card }}"/>
                 </figure>
                 <h4 class="news-card-title">{{ post.name }}</h4>
                 <div>{{ post.excerpt }}</div>

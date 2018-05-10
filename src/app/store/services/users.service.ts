@@ -14,13 +14,8 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
-// Services
-// import { MailService } from '../../mail/shared/mail.service';
-// import { SharedService } from '../../shared/shared.service';
 import { OpenPgpService } from './openpgp.service';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 
 declare var openpgp;
 @Injectable()

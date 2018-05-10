@@ -4,8 +4,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 // Model
 import { Payment, Storage} from '../../../store/models';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 @Component({
   selector: 'app-prime-plan',
   templateUrl: './prime-plan.component.html',

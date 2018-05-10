@@ -24,7 +24,7 @@ export class User {
 }
 
 export interface Storage {
-  id:number;
+  id: number;
   type: string;
   price: number;
 }
@@ -35,13 +35,13 @@ export interface Payment {
   selected: boolean;
   monthlyFee: any;
   totalAnnualFee: any;
-  monthyDiscountRate?: number;
+  monthlyDiscountRate?: number;
   annualDiscountRate?: number;
   classId?: string;
 }
 
 export const StorageData: Storage[] = [
-  { id: 1, type: '5 Gb Storage',  price: 2 },
+  { id: 1, type: '5 Gb Storage', price: 2 },
   { id: 2, type: '10 Gb Storage', price: 4 },
   { id: 3, type: '15 Gb Storage', price: 8 },
   { id: 4, type: '20 Gb Storage', price: 12 },
@@ -49,7 +49,24 @@ export const StorageData: Storage[] = [
 ];
 
 export const PaymentData: Payment[] = [
-  { id: 1, title: 'Pay Monthly', selected: true, monthlyFee: 0, totalAnnualFee: 0, monthyDiscountRate: 0.8, annualDiscountRate: 0.9, classId: 'pay-monthly' },
-  { id: 2, title: 'Pay Annually', selected: false, monthlyFee: 0, totalAnnualFee: 0, monthyDiscountRate: 0.8, annualDiscountRate: 0.9, classId: 'pay-monthly'  }
+  {
+    id: 1,
+    title: 'Pay Monthly',
+    selected: true,
+    monthlyFee: 0,
+    totalAnnualFee: 0,
+    monthlyDiscountRate: 0.8,
+    annualDiscountRate: 0.9,
+    classId: 'pay-monthly'
+  },
+  {
+    id: 2,
+    title: 'Pay Annually',
+    selected: false,
+    monthlyFee: 0,
+    totalAnnualFee: 0,
+    monthlyDiscountRate: 0.8,
+    annualDiscountRate: 0.9,
+    classId: 'pay-monthly'
+  }
 ];
-

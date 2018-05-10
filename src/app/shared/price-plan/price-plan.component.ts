@@ -4,8 +4,6 @@ import { Component, OnInit } from '@angular/core';
 // Model
 import { Storage, StorageData, PaymentData, Payment } from '../../store/models';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 @Component({
   selector: 'app-price-plan',
   templateUrl: './price-plan.component.html',
@@ -53,7 +51,7 @@ export class PricePlanComponent implements OnInit {
       if (plan.id === 1) {
         plan.monthlyFee = this.selectedStorage.price;
       } else {
-        plan.monthlyFee = (this.selectedStorage.price * plan.monthyDiscountRate).toFixed(1);
+        plan.monthlyFee = (this.selectedStorage.price * plan.monthlyDiscountRate).toFixed(1);
         plan.totalAnnualFee = (this.selectedStorage.price * plan.annualDiscountRate).toFixed(1);
       }
     });

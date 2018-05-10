@@ -11,9 +11,6 @@ import { MailModule } from '../mail/mail.module';
 import { HomeComponent } from './home.component';
 import { HomeWelcomeComponent } from './home-welcome/home-welcome.component';
 import { HomeFeaturesComponent } from './home-features/home-features.component';
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
 
 @NgModule({
   imports: [

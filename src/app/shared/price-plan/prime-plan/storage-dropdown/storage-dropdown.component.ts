@@ -4,8 +4,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 // Model
 import { Storage} from '../../../../store/models';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 @Component({
   selector: 'app-storage-dropdown',
   templateUrl: './storage-dropdown.component.html',

@@ -12,10 +12,6 @@ import { PagesSecurityComponent } from './pages-security/pages-security.componen
 import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
 const routes: Routes = [
   { path: 'about', component: PagesAboutComponent },
   { path: 'donate', component: PagesDonateComponent },

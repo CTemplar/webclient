@@ -6,10 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { apiUrl } from '../../shared/config';
 import { Observable } from 'rxjs/Observable';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
 @Injectable()
 export class SharedService {
   isReady: EventEmitter<boolean> = new EventEmitter();

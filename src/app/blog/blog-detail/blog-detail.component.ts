@@ -24,9 +24,6 @@ import { GetPostDetail } from '../../store/actions';
 import { selectAuthState } from '../../store/selectors';
 import { PostComment } from '../../store/actions';
 
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
 
 @Component({
   selector: 'app-blog-detail',
@@ -90,8 +87,11 @@ export class BlogDetailComponent implements OnInit {
   }
 
   openReplyModal(content, id) {
-    this.replyId = id;
-    this.replyModalRef = this.modalService.open(content, {centered: true, windowClass: 'modal-md'});
+    this.updateUserAuthStatus();
+    if (this.isActive) {
+      this.replyId = id;
+      this.replyModalRef = this.modalService.open(content, {centered: true, windowClass: 'modal-md'});
+    }
   }
 
   replyComment(body) {

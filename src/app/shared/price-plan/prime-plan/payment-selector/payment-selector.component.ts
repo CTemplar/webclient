@@ -4,8 +4,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 // Model
 import { Payment } from '../../../../store/models';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 @Component({
   selector: 'app-payment-selector',
   templateUrl: './payment-selector.component.html',

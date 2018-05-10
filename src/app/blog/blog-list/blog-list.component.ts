@@ -18,10 +18,6 @@ import { GetPosts } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
-
 @Component({
   selector: 'app-blog-list',
   templateUrl: './blog-list.component.html',
@@ -52,8 +48,6 @@ export class BlogListComponent implements OnInit {
         this.getPosts();
       }
     });
-    this.store.dispatch(new FinalLoading({ loadingState: false }));
-
   }
 
   getPosts() {
@@ -79,6 +73,7 @@ export class BlogListComponent implements OnInit {
       this.posts = this.posts.concat(newPosts);
       this.setParamsOfPosts(newPosts.length, 0);
     }
+    this.store.dispatch(new FinalLoading({ loadingState: false }));
 
   }
 

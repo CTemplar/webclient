@@ -6,10 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { BlogListComponent } from './blog-list/blog-list.component';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
 const routes: Routes = [
   { path: 'blog', component: BlogListComponent },
   { path: 'blog/:slug', component: BlogDetailComponent },

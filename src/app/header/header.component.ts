@@ -3,10 +3,6 @@ import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -34,7 +30,7 @@ export class HeaderComponent implements OnInit {
   }
 
   // == Listening to scroll event for window object
-  @HostListener("window:scroll", [])
+  @HostListener('window:scroll', [])
   onWindowScroll() {
     const number = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
     if (number > document.getElementById('mastHead').offsetHeight) {

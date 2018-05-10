@@ -3,9 +3,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
 @Component({
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',

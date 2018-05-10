@@ -13,10 +13,6 @@ import { PrimePlanComponent } from './price-plan/prime-plan/prime-plan.component
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
 @NgModule({
   imports: [CommonModule],
   declarations: [

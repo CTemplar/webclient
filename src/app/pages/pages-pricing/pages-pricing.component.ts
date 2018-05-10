@@ -2,8 +2,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
+
 @Component({
   selector: 'app-pages-pricing',
   templateUrl: './pages-pricing.component.html',
