@@ -10,11 +10,12 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/datatypes';
 import { selectAuthState } from '../../store/selectors';
-import { SignUp } from '../../store/actions/auth.action';
+import { SignUp } from '../../store/actions';
 
 // Service
-import { OpenPgpService } from '../../providers/openpgp.service';
-import { SharedService } from '../../shared/shared.service';
+import { OpenPgpService } from '../../core/services';
+import { SharedService } from '../../core/services';
+import { BlogLoaded } from '../../store/actions';
 
 declare var openpgp;
 

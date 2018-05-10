@@ -15,7 +15,7 @@ import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
 
 // Service
-import { UsersService } from '../../providers/users.service';
+import { UsersService } from '../../core/services';
 
 // Custom Actions
 import {
@@ -23,7 +23,7 @@ import {
   LogIn, LogInSuccess, LogInFailure,
   SignUp, SignUpSuccess, SignUpFailure,
   LogOut,
-} from '../actions/auth.action';
+} from '../actions';
 
 
 @Injectable()

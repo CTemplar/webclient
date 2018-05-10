@@ -4,11 +4,16 @@ import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
 // Services
-import { BlogService } from './providers/blog.service';
+import { BlogService } from './core/services';
 // import { MailService } from './mail/shared/mail.service';
 // import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
-import { SharedService } from './shared/shared.service';
+import { SharedService } from './core/services';
 // import { UsersService } from './users/shared/users.service';
+import { Observable } from 'rxjs/Observable';
+import { selectLoadingState } from './store/selectors';
+import { Store } from '@ngrx/store';
+import { LoadingState } from './store/datatypes';
+import { BlogLoading } from './store/actions';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -35,27 +40,32 @@ export class AppComponent implements OnInit {
   // The CSS3 transition creates flickring effect on resize
   public windowIsResized: boolean = false;
   public resizeTimeout: number = null;
-
+  public getLoadingState$: Observable<any>;
+  public isLoading: boolean = true;
   constructor(
     @Inject(DOCUMENT) private document: any,
     public router: Router,
     private blogService: BlogService,
     private sharedService: SharedService,
+    private store: Store<any>
   ) {
-    this.sharedService.hideHeader
-      .subscribe(data => this.hideHeader = data);
-    this.sharedService.hideFooter
-      .subscribe(data => this.hideFooter = data);
+    this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
+    this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
+    this.getLoadingState$ = this.store.select(selectLoadingState);
+
     // this.sharedService.isReady
     //   .subscribe(data => this.isReady = data);
- }
+  }
 
   ngOnInit() {
-
     // Scroll to the top of each page on routing
     this.router.events.subscribe(params => window.scrollTo(0, 0));
     // Fire loader
     this.loader();
+
+    this.getLoadingState$.subscribe((loadingState: LoadingState) => {
+      this.isLoading = loadingState.blogLoading;
+    });
   }
 
   // Resize event for window object
@@ -66,9 +76,18 @@ export class AppComponent implements OnInit {
       // this.windowIsResized = true;
       clearTimeout(this.resizeTimeout);
     }
-    this.resizeTimeout = setTimeout((() => {
-      this.windowIsResized = false;
-    }).bind(this), 10);
+    this.resizeTimeout = setTimeout(
+      (() => {
+        this.windowIsResized = false;
+      }).bind(this),
+      10
+    );
+  }
+
+  private updateBlogLoadingStatus(): void {
+    this.getLoadingState$.subscribe((loadingState: LoadingState) => {
+      this.isLoading = loadingState.blogLoading;
+    });
   }
 
   loader() {

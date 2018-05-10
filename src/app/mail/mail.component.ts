@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { SharedService } from '../shared/shared.service';
+import { SharedService } from '../core/services';
 
 @Component({
   selector: 'app-mail',
@@ -8,7 +8,7 @@ import { SharedService } from '../shared/shared.service';
   encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit {
-  
+
   constructor(
     private sharedService: SharedService,
   ) {

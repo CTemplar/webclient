@@ -12,10 +12,10 @@ import { Observable } from 'rxjs/Observable';
 // Store
 import { AuthState } from '../../store/datatypes';
 import { selectAuthState } from '../../store/selectors';
-import { LogIn } from '../../store/actions/auth.action';
+import { LogIn } from '../../store/actions';
 
 // Service
-import { SharedService } from '../../shared/shared.service';
+import { SharedService } from '../../core/services';
 
 @Component({
   selector: 'app-users-sign-in',

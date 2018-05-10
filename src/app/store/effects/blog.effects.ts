@@ -13,15 +13,16 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 // Service
-import { BlogService } from '../../providers/blog.service';
+import { BlogService } from '../../core/services';
 
 // Custom Actions
 import {
   BlogActionTypes,
   GetPosts, PutPosts, GetPostDetail, PutPostDetail, PostComment, PostCommentSuccess, PostCommentFailure, GetRelatedPosts, PutRelatedPosts
-} from '../actions/blog.actions';
+} from '../actions';
 
 
 @Injectable()
@@ -39,9 +40,8 @@ export class BlogEffects {
     .map((action: GetPosts) => action.payload)
     .switchMap(payload => {
       return this.blogService.getPosts(payload.limit, payload.offset)
-        .map((posts) => {
-          return new PutPosts(posts);
-        });
+        .map(posts =>  new PutPosts(posts))
+        .catch(() => of(new PutPosts('')));
     });
 
   @Effect()

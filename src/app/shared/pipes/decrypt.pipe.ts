@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { OpenPgpService } from '../../providers/openpgp.service';
+import { OpenPgpService } from '../../core/services';
 
 @Pipe({
   name: 'decrypt'

@@ -1,5 +1,5 @@
 // Custom Action
-import { BlogActionTypes, BlogActionAll } from '../actions/blog.actions';
+import { BlogActionTypes, BlogActionAll } from '../actions';
 
 // Model
 import { BlogState } from '../datatypes';

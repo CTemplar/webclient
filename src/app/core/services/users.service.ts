@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Helpers
-import { apiUrl } from '../shared/config';
+import { apiUrl } from '../../shared/config';
 
 // Models
-import { User } from '../models/users';
+import { User } from '../models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';

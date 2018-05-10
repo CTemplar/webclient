@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { Effect, Actions } from '@ngrx/effects';
 
 // Custom Action
-import * as RouterActions from '../actions/router.action';
+import * as RouterActions from '../actions';
 
 // Rxjs
 import { tap, map } from 'rxjs/operators';

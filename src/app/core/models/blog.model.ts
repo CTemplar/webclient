@@ -1,7 +1,7 @@
 export class Category {
   id: number;
   name: string;
-  color: string; 
+  color: string;
 }
 
 export class Comment {
@@ -27,11 +27,11 @@ export class Post {
   image_featured: string;
   comments?: Comment[];
   excerpt?: string;
-  isloaded?: boolean;
+  isLoaded?: boolean;
 }
 
 export enum NumberOfColumns {
-  Two = 2, 
+  Two = 2,
   Three = 3
 }
 

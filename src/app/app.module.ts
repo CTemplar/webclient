@@ -19,18 +19,16 @@ import { HomeModule } from './home/home.module';
 import { MailModule } from './mail/mail.module';
 import { PagesModule } from './pages/pages.module';
 import { UsersModule } from './users/users.module';
-
+import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
 
 // Services
-import { BlogService } from './providers/blog.service';
-import { MailService } from './providers/mail.service';
-import { SharedService } from './shared/shared.service';
-import { OpenPgpService } from './providers/openpgp.service';
+import { BlogService } from './core/services';
+import { MailService } from './core/services';
+import { SharedService } from './core/services';
+import { OpenPgpService } from './core/services';
 
-import {
-  TokenInterceptor, ErrorInterceptor
-} from './providers/token.interceptor';
+import { TokenInterceptor, ErrorInterceptor } from './core/services';
 
 
 
@@ -39,9 +37,7 @@ import {
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -56,6 +52,7 @@ import {
     MailModule,
     PagesModule,
     UsersModule,
+    SharedModule
   ],
   providers: [
     BlogService,
@@ -70,4 +67,4 @@ import {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

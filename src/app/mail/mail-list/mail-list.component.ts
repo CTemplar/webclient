@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Models
-import { Mail } from '../../models/mail';
+import { Mail } from '../../core/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
 import { getMails } from '../../store/selectors';
-import { GetMails } from '../../store/actions/mail.actions';
+import { GetMails } from '../../store/actions';
 
 @Component({
   selector: 'app-mail-list',

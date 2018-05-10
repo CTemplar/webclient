@@ -15,10 +15,10 @@ import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
 import { UsersBillingInfoComponent } from './users-billing-info/users-billing-info.component';
-
+import { PagesModule } from '../pages/pages.module';
 
 // Service
-import { UsersService } from '../providers/users.service';
+import { UsersService } from '../core/services';
 
 @NgModule({
   imports: [
@@ -26,7 +26,8 @@ import { UsersService } from '../providers/users.service';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    PagesModule
   ],
   declarations: [UsersSignInComponent, UsersSignUpComponent, UsersCreateAccountComponent, UsersBillingInfoComponent],
   providers: [ UsersService ]

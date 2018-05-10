@@ -10,18 +10,19 @@ import { Observable } from 'rxjs/Observable';
 import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Models
-import { Post, Mode, NumberOfColumns } from '../../models/blog';
+import { Post, Mode, NumberOfColumns } from '../../core/models';
 
 // Services
-import { UsersService } from '../../providers/users.service';
+import { UsersService } from '../../core/services';
+import { BlogLoaded, BlogLoading } from '../../store/actions';
 
 // Store
 import { Store } from '@ngrx/store';
 import { BlogState, AuthState } from '../../store/datatypes';
 import { selectBlogState } from '../../store/selectors';
-import { GetPostDetail } from '../../store/actions/blog.actions';
+import { GetPostDetail } from '../../store/actions';
 import { selectAuthState } from '../../store/selectors';
-import { PostComment } from '../../store/actions/blog.actions';
+import { PostComment } from '../../store/actions';
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -59,9 +60,8 @@ export class BlogDetailComponent implements OnInit {
     this.numberOfColumns = NumberOfColumns.Two;
     this.mode = Mode.Related;
 
-    //this.isActive = this.userService.signedIn();
-    this.updateUserAuthStatus(); 
-
+    // this.isActive = this.userService.signedIn();
+    this.updateUserAuthStatus();
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.getBlogState$.subscribe((blogState: BlogState) => {
       if (blogState.selectedPost) {
@@ -112,13 +112,17 @@ export class BlogDetailComponent implements OnInit {
       const body = { text: comment, post: this.blog.id, reply_to: this.replyId };
       this.store.dispatch(new PostComment(body));
     } else {
-    
+
     }
   }
-
+  private updateLoadingStatus(): void {
+    setTimeout(() => {
+      this.store.dispatch(new BlogLoading({}));
+    });
+  }
   private updateUserAuthStatus(): void {
     this.getAuthState$.subscribe((authState: AuthState) => {
-      if (authState.user.membership) {
+      if (authState.user && authState.user.membership) {
         this.isActive = authState.isAuthenticated;
       }
     });

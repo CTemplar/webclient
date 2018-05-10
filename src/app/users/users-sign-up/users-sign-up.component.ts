@@ -1,8 +1,8 @@
 // Angular
 import { Component, OnDestroy, OnInit } from '@angular/core';
 // Model
-import { Storage, StorageData } from '../../models/users';
-import { SharedService } from '../../shared/shared.service';
+import { Storage, StorageData } from '../../core/models';
+import { SharedService } from '../../core/services';
 @Component({
   selector: 'app-users-sign-up',
   templateUrl: './users-sign-up.component.html',
