@@ -13,7 +13,6 @@ import { Observable } from 'rxjs/Observable';
 import { selectLoadingState } from './store/selectors';
 import { Store } from '@ngrx/store';
 import { LoadingState } from './store/datatypes';
-import { BlogLoading } from './store/actions';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,7 +63,7 @@ export class AppComponent implements OnInit {
     this.loader();
 
     this.getLoadingState$.subscribe((loadingState: LoadingState) => {
-      this.isLoading = loadingState.blogLoading;
+      this.isLoading = loadingState.Loading;
     });
   }
 
@@ -84,9 +83,9 @@ export class AppComponent implements OnInit {
     );
   }
 
-  private updateBlogLoadingStatus(): void {
+  private updateLoadingStatus(): void {
     this.getLoadingState$.subscribe((loadingState: LoadingState) => {
-      this.isLoading = loadingState.blogLoading;
+      this.isLoading = loadingState.Loading;
     });
   }
 

@@ -15,6 +15,7 @@ import { SpinnerService } from '../../shared/spinner/services/spinner.service';
 import { Store } from '@ngrx/store';
 import { getNewBlogs } from '../../store/selectors';
 import { GetPosts } from '../../store/actions';
+import { FinalLoading } from '../../store/actions';
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -51,18 +52,17 @@ export class BlogListComponent implements OnInit {
         this.getPosts();
       }
     });
+    this.store.dispatch(new FinalLoading({ loadingState: false }));
+
   }
 
   getPosts() {
-    console.log(this.positionCount);
-    console.log(this.postPosition);
     this.isPostsLoading = true;
     this.store.dispatch(new GetPosts({ limit: this.positionCount, offset: this.postPosition }));
   }
 
   sortPosts(newPosts) {
     this.isPostsLoading = false;
-    console.log(newPosts);
     newPosts.map((post: Post) => {
       post.isLoaded = false;
       if (post.text.length > 500) {

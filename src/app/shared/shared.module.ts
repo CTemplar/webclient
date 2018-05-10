@@ -27,8 +27,8 @@ import { LoadingComponent } from './loading/loading.component';
     CurrencyDropdownComponent,
     FreePlanComponent,
     PrimePlanComponent,
-    LoadingComponent,
-    SpinnerImageComponent
+    SpinnerImageComponent,
+    LoadingComponent
   ],
   exports: [
     SpinnerComponent,

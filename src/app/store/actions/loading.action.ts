@@ -1,20 +1,41 @@
 import { Action } from '@ngrx/store';
 
 export enum LoadingActionTypes {
-  LOADING = '[Loading] Loading',
-  LOADED = '[Loading] Loaded'
+  RELATED_LOADING = '[Loading] Related Loading',
+  RELATED_LOADED = '[Loading] Related Loaded',
+  RECENT_LOADING = '[Loading] Recent Loading',
+  RECENT_LOADED = '[Loading] Recent Loaded',
+  FINAL_LOADING = '[Loading] Loading'
 }
 
-export class BlogLoading implements Action {
-  readonly type = LoadingActionTypes.LOADING;
+export class RelatedBlogLoading implements Action {
+  readonly type = LoadingActionTypes.RELATED_LOADING;
   constructor(public payload: any) { }
 }
 
-export class BlogLoaded implements Action {
-  readonly type = LoadingActionTypes.LOADED;
+export class RelatedBlogLoaded implements Action {
+  readonly type = LoadingActionTypes.RELATED_LOADED;
   constructor(public payload: any) {}
+}
+export class RecentBlogLoading implements Action {
+  readonly type = LoadingActionTypes.RECENT_LOADING;
+  constructor(public payload: any) { }
+}
+
+export class RecentBlogLoaded implements Action {
+  readonly type = LoadingActionTypes.RECENT_LOADED;
+  constructor(public payload: any) { }
+}
+
+export class FinalLoading implements Action {
+  readonly type = LoadingActionTypes.FINAL_LOADING;
+  constructor(public payload: any) {
+  }
 }
 
 export type LoadingActionAll =
-  | BlogLoading
-  | BlogLoaded;
+  | RelatedBlogLoading
+  | RelatedBlogLoaded
+  | RecentBlogLoading
+  | RecentBlogLoaded
+  | FinalLoading;

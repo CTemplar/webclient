@@ -15,7 +15,6 @@ import { SignUp } from '../../store/actions';
 // Service
 import { OpenPgpService } from '../../core/services';
 import { SharedService } from '../../core/services';
-import { BlogLoaded } from '../../store/actions';
 
 declare var openpgp;
 

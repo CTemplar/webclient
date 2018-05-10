@@ -39,6 +39,7 @@ import { TokenInterceptor, ErrorInterceptor } from './core/services';
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    SharedModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -51,8 +52,7 @@ import { TokenInterceptor, ErrorInterceptor } from './core/services';
     HomeModule,
     MailModule,
     PagesModule,
-    UsersModule,
-    SharedModule
+    UsersModule
   ],
   providers: [
     BlogService,

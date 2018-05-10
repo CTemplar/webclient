@@ -14,7 +14,7 @@ import { Post, Mode, NumberOfColumns } from '../../core/models';
 
 // Services
 import { UsersService } from '../../core/services';
-import { BlogLoaded, BlogLoading } from '../../store/actions';
+import { RelatedBlogLoaded, RelatedBlogLoading } from '../../store/actions';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -62,6 +62,7 @@ export class BlogDetailComponent implements OnInit {
 
     // this.isActive = this.userService.signedIn();
     this.updateUserAuthStatus();
+    this.updateRelatedBlogLoadingStatus();
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.getBlogState$.subscribe((blogState: BlogState) => {
       if (blogState.selectedPost) {
@@ -115,10 +116,8 @@ export class BlogDetailComponent implements OnInit {
 
     }
   }
-  private updateLoadingStatus(): void {
-    setTimeout(() => {
-      this.store.dispatch(new BlogLoading({}));
-    });
+  private updateRelatedBlogLoadingStatus(): void {
+      this.store.dispatch(new RelatedBlogLoading({}));
   }
   private updateUserAuthStatus(): void {
     this.getAuthState$.subscribe((authState: AuthState) => {

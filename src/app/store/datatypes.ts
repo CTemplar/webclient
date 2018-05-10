@@ -13,6 +13,7 @@ export interface RouterStateUrl {
   url: string;
   queryParams: Params;
   params: Params;
+  state: any;
 }
 
 export interface AuthState {
@@ -41,7 +42,9 @@ export interface MailState {
 }
 
 export interface LoadingState {
-  blogLoading: boolean | true;
+  RecentBlogLoading: boolean | true;
+  RelatedBlogLoading: boolean | true;
+  Loading: boolean | true;
 }
 
 export interface AppState {

@@ -4,8 +4,16 @@ import { NumberOfColumns, Mode } from '../core/models';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+import { selectLoadingState, getRouterState } from '../store/selectors';
 
+// Store
+import { Store } from '@ngrx/store';
+// Rxjs
+import { Observable } from 'rxjs/Observable';
+import { LoadingState, RouterStateUrl } from '../store/datatypes';
 
+// Actions
+import { FinalLoading } from '../store/actions';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,11 +22,27 @@ import { NumberOfColumns, Mode } from '../core/models';
 export class HomeComponent implements OnInit {
   numberOfColumns: NumberOfColumns;
   mode: Mode;
-  constructor() { }
+  getRelatedBlogsState$: Observable<any>;
+  getRouterState$: Observable<any>;
+  currentUrl: String;
+  constructor(private store: Store<any>) {
+    this.getRelatedBlogsState$ = this.store.select(selectLoadingState);
+    this.getRouterState$ = this.store.select(getRouterState);
+  }
 
   ngOnInit() {
     this.numberOfColumns = NumberOfColumns.Three;
     this.mode = Mode.Recent;
+    this.getRelatedBlogsState$.subscribe((loadingState: LoadingState) => {
+      if (loadingState.RecentBlogLoading === false) {
+        if (this.currentUrl === '/' && loadingState.Loading === true) {
+          this.store.dispatch(new FinalLoading({loadingState: false}));
+        }
+      }
+    });
+    this.getRouterState$.subscribe((routerStateUrl: RouterStateUrl) => {
+      this.currentUrl = routerStateUrl.state.url;
+      console.log(this.currentUrl);
+    });
   }
-
 }

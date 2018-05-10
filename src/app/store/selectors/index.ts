@@ -13,9 +13,7 @@ import * as fromRouter from '@ngrx/router-store';
 import { RouterStateUrl, AppState, BlogState, MailState } from '../datatypes';
 
 
-export const getRouterState = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
->('routerReducer');
+export const getRouterState = createFeatureSelector<AppState>('routerReducer');
 
 export const selectAuthState = createFeatureSelector<AppState>('auth');
 export const selectBlogState = createFeatureSelector<AppState>('blog');
@@ -59,6 +57,6 @@ export class CustomSerializer
     }
     const { params } = state;
 
-    return { url, queryParams, params };
+    return { url, queryParams, params, state };
   }
 }

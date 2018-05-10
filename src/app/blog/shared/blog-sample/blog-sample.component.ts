@@ -1,5 +1,5 @@
 // Angular
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 // Models
 import { Post, NumberOfColumns, Mode } from '../../../core/models';
@@ -14,21 +14,21 @@ import { getRelatedBlogs } from '../../../store/selectors';
 import { GetRelatedPosts } from '../../../store/actions';
 import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions';
-import { BlogLoaded, BlogLoading } from '../../../store/actions';
+import { RelatedBlogLoaded, RelatedBlogLoading, RecentBlogLoaded, RecentBlogLoading } from '../../../store/actions';
 
 @Component({
   selector: 'app-blog-sample',
   templateUrl: './blog-sample.component.html',
   styleUrls: ['./blog-sample.component.scss']
 })
-export class BlogSampleComponent implements OnInit {
+export class BlogSampleComponent implements OnInit, OnDestroy {
   @Input('category') category?: number;
   @Input('blogId') blogId?: number;
   @Input('numberOfColumns') numberOfColumns: NumberOfColumns;
   @Input('mode') mode: Mode;
 
   posts: Post[] = [];
-
+  isLoading: boolean ;
   getRelatedBlogsState$: Observable<any>;
   getNewBlogState$: Observable<any>;
 
@@ -38,14 +38,12 @@ export class BlogSampleComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     if (this.mode === Mode.Recent) {
       this.updateRecentState();
     } else if (this.mode === Mode.Related) {
       this.updateRelatedState();
     }
-    setTimeout(() => {
-      this.store.dispatch(new BlogLoading({}));
-    });
   }
 
   updateRecentState() {
@@ -60,7 +58,7 @@ export class BlogSampleComponent implements OnInit {
           }
         });
         this.posts = blogs.slice(0, this.numberOfColumns);
-        this.store.dispatch(new BlogLoaded({}));
+        setTimeout(() => this.store.dispatch(new RecentBlogLoaded({})));
       }
     });
     if (!this.posts.length) {
@@ -85,10 +83,12 @@ export class BlogSampleComponent implements OnInit {
             return false;
           })
           .slice(0, this.numberOfColumns);
+        this.store.dispatch(new RelatedBlogLoaded({}));
       }
     });
     if (!this.posts.length || this.posts[0].category.id !== this.category) {
       this.getRelatedPosts();
+      this.store.dispatch(new RelatedBlogLoaded({}));
     }
   }
 
@@ -100,7 +100,8 @@ export class BlogSampleComponent implements OnInit {
     this.store.dispatch(new GetPosts({ limit: 7, offset: 0 }));
   }
 
-  onDestroy() {
-    this.store.dispatch(new BlogLoading({}));
+  ngOnDestroy() {
+    this.store.dispatch(new RecentBlogLoading({}));
+    this.store.dispatch(new RelatedBlogLoading({}));
   }
 }
