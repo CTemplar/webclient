@@ -2,13 +2,13 @@
 import { Component, OnInit } from '@angular/core';
 
 // Models
-import { Post } from '../../models/blog';
+import { Post } from '../../core/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 
 // Services
-import { BlogService } from '../../providers/blog.service';
+import { BlogService } from '../../core/providers';
 import { SpinnerService } from '../../shared/spinner/services/spinner.service';
 
 // Store
@@ -38,7 +38,7 @@ export class BlogListComponent implements OnInit {
   constructor(
     private blogService: BlogService,
     private store: Store<any>,
-    private spinnerService : SpinnerService
+    private spinnerService: SpinnerService
   ) {
     this.getBlogState$ = this.store.select(getNewBlogs);
   }
@@ -48,7 +48,7 @@ export class BlogListComponent implements OnInit {
       if (blogs.length) {
         this.sortPosts(blogs);
       } else {
-        this.getPosts(); 
+        this.getPosts();
       }
     });
   }
@@ -64,7 +64,7 @@ export class BlogListComponent implements OnInit {
     this.isPostsLoading = false;
     console.log(newPosts);
     newPosts.map((post: Post) => {
-      post.isloaded = false;
+      post.isLoaded = false;
       if (post.text.length > 500) {
         post.excerpt = post.text.substring(0, 500) + '...';
       } else {

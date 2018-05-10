@@ -5,9 +5,9 @@ import {  Params } from '@angular/router';
 import * as fromRouter from '@ngrx/router-store';
 
 // Models
-import { User } from '../models/users';
-import { Post, Category, Comment } from '../models/blog';
-import { Mail } from '../models/mail';
+import { User } from '../core/models';
+import { Post, Category, Comment } from '../core/models';
+import { Mail } from '../core/models';
 
 export interface RouterStateUrl {
   url: string;

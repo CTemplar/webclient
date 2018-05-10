@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { BlogLatestComponent } from './shared/blog-latest/blog-latest.component';
 import { BlogListComponent } from './blog-list/blog-list.component';
-import { BlogRelatedComponent } from './blog-detail/blog-related/blog-related.component';
 
 // Modules
 import { BlogRoutingModule } from './blog-routing.module';
@@ -15,7 +14,7 @@ import { MailModule } from '../mail/mail.module';
 import { SharedModule } from '../shared/shared.module';
 
 // Services
-import { BlogService } from '../providers/blog.service';
+import { BlogService } from '../core/providers';
 import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component';
 
 
@@ -36,12 +35,10 @@ import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component'
     BlogDetailComponent,
     BlogLatestComponent,
     BlogListComponent,
-    BlogRelatedComponent,
     BlogSampleComponent,
   ],
   exports: [
     BlogLatestComponent,
-    BlogRelatedComponent,
     BlogSampleComponent
   ],
   providers: [

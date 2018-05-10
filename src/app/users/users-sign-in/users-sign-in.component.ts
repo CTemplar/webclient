@@ -15,7 +15,7 @@ import { selectAuthState } from '../../store/selectors';
 import { LogIn } from '../../store/actions/auth.action';
 
 // Service
-import { SharedService } from '../../shared/shared.service';
+import { SharedService } from '../../core/providers';
 
 @Component({
   selector: 'app-users-sign-in',

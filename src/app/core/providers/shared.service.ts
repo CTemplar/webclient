@@ -3,7 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // Helpers
-import { apiUrl } from './config';
+import { apiUrl } from '../../shared/config';
 import { Observable } from 'rxjs/Observable';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,9 +18,9 @@ export class SharedService {
   hideFooterCallToAction: EventEmitter<boolean> = new EventEmitter();
 
   //
-  // constructor(
-  //   private http: HttpClient,
-  // ) {}
+  constructor(
+    private http: HttpClient,
+  ) {}
   //
   // patchReferrer(slug: string): void {
   //   const url = `${apiUrl}stats/referrer/${slug}/`;

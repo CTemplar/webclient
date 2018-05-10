@@ -15,7 +15,7 @@ import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
 
 // Services
-import { MailService } from '../../providers/mail.service';
+import { MailService } from '../../core/providers';
 
 // Custom Actions
 import {

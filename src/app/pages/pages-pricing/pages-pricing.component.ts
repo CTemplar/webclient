@@ -1,7 +1,7 @@
 // Angular
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 // Service
-import { SharedService } from '../../shared/shared.service';
+import { SharedService } from '../../core/providers';
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 @Component({

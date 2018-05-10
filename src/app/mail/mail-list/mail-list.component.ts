@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Models
-import { Mail } from '../../models/mail';
+import { Mail } from '../../core/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';

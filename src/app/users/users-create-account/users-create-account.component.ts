@@ -13,8 +13,8 @@ import { selectAuthState } from '../../store/selectors';
 import { SignUp } from '../../store/actions/auth.action';
 
 // Service
-import { OpenPgpService } from '../../providers/openpgp.service';
-import { SharedService } from '../../shared/shared.service';
+import { OpenPgpService } from '../../core/providers';
+import { SharedService } from '../../core/providers';
 
 declare var openpgp;
 

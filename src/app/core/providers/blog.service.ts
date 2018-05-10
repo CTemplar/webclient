@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 // Helpers
-import { apiHeaders, apiUrl } from '../shared/config';
+import { apiHeaders, apiUrl } from '../../shared/config';
 
 // Models
 import { Comment, Post } from '../models/blog';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
 // Services
-import { SharedService } from '../shared/shared.service';
+import { SharedService } from './shared.service';
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////

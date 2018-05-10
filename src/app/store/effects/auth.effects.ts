@@ -15,7 +15,7 @@ import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
 
 // Service
-import { UsersService } from '../../providers/users.service';
+import { UsersService } from '../../core/providers';
 
 // Custom Actions
 import {

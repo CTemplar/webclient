@@ -2,7 +2,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 // Models
-import { Post, NumberOfColumns, Mode } from '../../../models/blog';
+import { Post, NumberOfColumns, Mode } from '../../../core/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -14,7 +14,7 @@ import { getRelatedBlogs } from '../../../store/selectors';
 import { GetRelatedPosts } from '../../../store/actions/blog.actions';
 import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions/blog.actions';
-import { Loaded } from '../../../store/actions/loading.action';
+import { Loaded, Loading } from '../../../store/actions/loading.action';
 
 @Component({
   selector: 'app-blog-sample',
@@ -30,11 +30,11 @@ export class BlogSampleComponent implements OnInit {
   posts: Post[] = [];
 
   getRelatedBlogsState$: Observable<any>;
-  getBlogState$: Observable<any>;
+  getNewBlogState$: Observable<any>;
 
   constructor(private store: Store<any>) {
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
-    this.getBlogState$ = this.store.select(getNewBlogs);
+    this.getNewBlogState$ = this.store.select(getNewBlogs);
   }
 
   ngOnInit() {
@@ -43,13 +43,16 @@ export class BlogSampleComponent implements OnInit {
     } else if (this.mode === Mode.Related) {
       this.updateRelatedState();
     }
+    setTimeout(() => {
+      this.store.dispatch(new Loading({}));
+    });
   }
 
   updateRecentState() {
-    this.getBlogState$.subscribe(blogs => {
+    this.getNewBlogState$.subscribe(blogs => {
       if (blogs.length) {
         blogs.map((post: Post) => {
-          post.isloaded = false;
+          post.isLoaded = false;
           if (post.text.length > 500) {
             post.excerpt = post.text.substring(0, 500) + '...';
           } else {
@@ -68,18 +71,20 @@ export class BlogSampleComponent implements OnInit {
   updateRelatedState() {
     this.getRelatedBlogsState$.subscribe(blogs => {
       if (blogs.length && blogs[0].category.id === this.category) {
-        this.posts = blogs.filter((post: Post) => {
-          post.isloaded = false;
-          if (post.text.length > 500) {
-            post.excerpt = post.text.substring(0, 500) + '...';
-          } else {
-            post.excerpt = post.text;
-          }
-          if (post.id !== this.blogId) {
-            return true;
-          }
-          return false;
-        }).slice(0, this.numberOfColumns);
+        this.posts = blogs
+          .filter((post: Post) => {
+            post.isLoaded = false;
+            if (post.text.length > 500) {
+              post.excerpt = post.text.substring(0, 500) + '...';
+            } else {
+              post.excerpt = post.text;
+            }
+            if (post.id !== this.blogId) {
+              return true;
+            }
+            return false;
+          })
+          .slice(0, this.numberOfColumns);
       }
     });
     if (!this.posts.length || this.posts[0].category.id !== this.category) {
@@ -93,5 +98,9 @@ export class BlogSampleComponent implements OnInit {
 
   getPosts() {
     this.store.dispatch(new GetPosts({ limit: 7, offset: 0 }));
+  }
+
+  onDestroy() {
+    this.store.dispatch(new Loading({}));
   }
 }

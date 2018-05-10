@@ -16,13 +16,13 @@ import { tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 // Service
-import { BlogService } from '../../providers/blog.service';
+import { BlogService } from '../../core/providers';
 
 // Custom Actions
 import {
   BlogActionTypes,
   GetPosts, PutPosts, GetPostDetail, PutPostDetail, PostComment, PostCommentSuccess, PostCommentFailure, GetRelatedPosts, PutRelatedPosts
-} from '../actions/blog.actions';
+} from '../actions';
 
 
 @Injectable()

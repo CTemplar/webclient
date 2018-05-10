@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Models
-import { Post } from '../../../models/blog';
+import { Post } from '../../../core/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -34,7 +34,7 @@ export class BlogLatestComponent implements OnInit {
     this.getBlogState$.subscribe(blogs => {
       if (blogs.length) {
         blogs.map((post: Post) => {
-          post.isloaded = false;
+          post.isLoaded = false;
           if (post.text.length > 500) {
             post.excerpt = post.text.substring(0, 500) + '...';
           } else {

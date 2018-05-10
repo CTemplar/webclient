@@ -10,10 +10,11 @@ import { Observable } from 'rxjs/Observable';
 import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Models
-import { Post, Mode, NumberOfColumns } from '../../models/blog';
+import { Post, Mode, NumberOfColumns } from '../../core/models';
 
 // Services
-import { UsersService } from '../../providers/users.service';
+import { UsersService } from '../../core/providers';
+import { Loaded, Loading } from '../../store/actions/loading.action';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -61,7 +62,6 @@ export class BlogDetailComponent implements OnInit {
 
     // this.isActive = this.userService.signedIn();
     this.updateUserAuthStatus();
-
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.getBlogState$.subscribe((blogState: BlogState) => {
       if (blogState.selectedPost) {
@@ -115,10 +115,14 @@ export class BlogDetailComponent implements OnInit {
 
     }
   }
-
+  private updateLoadingStatus(): void {
+    setTimeout(() => {
+      this.store.dispatch(new Loading({}));
+    });
+  }
   private updateUserAuthStatus(): void {
     this.getAuthState$.subscribe((authState: AuthState) => {
-      if (authState.user.membership) {
+      if (authState.user && authState.user.membership) {
         this.isActive = authState.isAuthenticated;
       }
     });
