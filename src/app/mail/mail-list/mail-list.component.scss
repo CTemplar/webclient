@@ -214,24 +214,6 @@
 	}
 }
 
-.mailbox-dropdown .dropdown-menu {
-	margin-top: 2px;
-	// padding: 0.625rem 0;
-	background-color: $brand-faded;
-
-	>.dropdown-item {
-		position: relative;
-		padding: 0.625rem 0.938rem;
-		border-bottom: 0;
-		font-size: 0.875rem;
-		line-height: 1.2;
-
-		// &:not(:last-of-type) {
-		// 	margin-bottom: 0.5rem;
-		// }
-	}
-}
-
 .checkbox-dropdown .dropdown {
 	.dropdown-menu {
 		width: 112px;

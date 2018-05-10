@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../core/services';
 
 @Component({
   selector: 'app-mail',
   templateUrl: './mail.component.html',
-  styleUrls: ['./mail.component.scss']
+  styleUrls: ['./mail.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit {
 
