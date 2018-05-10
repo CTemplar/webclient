@@ -5,16 +5,16 @@ export enum LoadingActionTypes {
   LOADED = '[Loading] Loaded'
 }
 
-export class Loading implements Action {
+export class BlogLoading implements Action {
   readonly type = LoadingActionTypes.LOADING;
   constructor(public payload: any) { }
 }
 
-export class Loaded implements Action {
+export class BlogLoaded implements Action {
   readonly type = LoadingActionTypes.LOADED;
   constructor(public payload: any) {}
 }
 
 export type LoadingActionAll =
-  | Loading
-  | Loaded;
+  | BlogLoading
+  | BlogLoaded;

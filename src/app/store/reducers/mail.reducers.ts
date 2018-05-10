@@ -1,5 +1,5 @@
 // Custom Action
-import { MailActionTypes, MailActionAll } from '../actions/mail.actions';
+import { MailActionTypes, MailActionAll } from '../actions';
 
 // Model
 import { MailState } from '../datatypes';

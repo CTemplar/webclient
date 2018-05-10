@@ -15,13 +15,13 @@ import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
 
 // Services
-import { MailService } from '../../core/providers';
+import { MailService } from '../../core/services';
 
 // Custom Actions
 import {
   MailActionTypes,
   GetMails, GetMailsSuccess
-} from '../actions/mail.actions';
+} from '../actions';
 
 
 @Injectable()

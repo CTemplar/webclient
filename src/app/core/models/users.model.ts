@@ -24,7 +24,7 @@ export class User {
 }
 
 export interface Storage {
-  id:number,
+  id:number;
   type: string;
   price: number;
 }
@@ -37,7 +37,7 @@ export interface Payment {
   totalAnnualFee: any;
   monthyDiscountRate?: number;
   annualDiscountRate?: number;
-  classId? : string;
+  classId?: string;
 }
 
 export const StorageData: Storage[] = [
@@ -49,7 +49,7 @@ export const StorageData: Storage[] = [
 ];
 
 export const PaymentData: Payment[] = [
-  { id: 1, title: 'Pay Monthly', selected: true, monthlyFee: 0, totalAnnualFee: 0, monthyDiscountRate: 0.8, annualDiscountRate: 0.9, classId:'pay-monthly' },
+  { id: 1, title: 'Pay Monthly', selected: true, monthlyFee: 0, totalAnnualFee: 0, monthyDiscountRate: 0.8, annualDiscountRate: 0.9, classId: 'pay-monthly' },
   { id: 2, title: 'Pay Annually', selected: false, monthlyFee: 0, totalAnnualFee: 0, monthyDiscountRate: 0.8, annualDiscountRate: 0.9, classId: 'pay-monthly'  }
 ];
 

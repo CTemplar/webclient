@@ -8,13 +8,13 @@ import { Post } from '../../core/models';
 import { Observable } from 'rxjs/Observable';
 
 // Services
-import { BlogService } from '../../core/providers';
+import { BlogService } from '../../core/services';
 import { SpinnerService } from '../../shared/spinner/services/spinner.service';
 
 // Store
 import { Store } from '@ngrx/store';
 import { getNewBlogs } from '../../store/selectors';
-import { GetPosts } from '../../store/actions/blog.actions';
+import { GetPosts } from '../../store/actions';
 
 
 //////////////////////////////////////////////////////////////////////////////

@@ -11,10 +11,10 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { BlogState } from '../../../store/datatypes';
 import { getRelatedBlogs } from '../../../store/selectors';
-import { GetRelatedPosts } from '../../../store/actions/blog.actions';
+import { GetRelatedPosts } from '../../../store/actions';
 import { getNewBlogs } from '../../../store/selectors';
-import { GetPosts } from '../../../store/actions/blog.actions';
-import { Loaded, Loading } from '../../../store/actions/loading.action';
+import { GetPosts } from '../../../store/actions';
+import { BlogLoaded, BlogLoading } from '../../../store/actions';
 
 @Component({
   selector: 'app-blog-sample',
@@ -44,7 +44,7 @@ export class BlogSampleComponent implements OnInit {
       this.updateRelatedState();
     }
     setTimeout(() => {
-      this.store.dispatch(new Loading({}));
+      this.store.dispatch(new BlogLoading({}));
     });
   }
 
@@ -60,7 +60,7 @@ export class BlogSampleComponent implements OnInit {
           }
         });
         this.posts = blogs.slice(0, this.numberOfColumns);
-        this.store.dispatch(new Loaded({}));
+        this.store.dispatch(new BlogLoaded({}));
       }
     });
     if (!this.posts.length) {
@@ -101,6 +101,6 @@ export class BlogSampleComponent implements OnInit {
   }
 
   onDestroy() {
-    this.store.dispatch(new Loading({}));
+    this.store.dispatch(new BlogLoading({}));
   }
 }

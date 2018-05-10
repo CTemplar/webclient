@@ -1,3 +1,3 @@
-export * from './blog';
-export * from './mail';
-export * from './users';
+export * from './blog.model';
+export * from './mail.model';
+export * from './users.model';

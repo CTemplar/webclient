@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SharedService } from '../core/providers';
+import { SharedService } from '../core/services';
 
 @Component({
   selector: 'app-mail',

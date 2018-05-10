@@ -18,7 +18,7 @@ import { UsersBillingInfoComponent } from './users-billing-info/users-billing-in
 import { PagesModule } from '../pages/pages.module';
 
 // Service
-import { UsersService } from '../core/providers';
+import { UsersService } from '../core/services';
 
 @NgModule({
   imports: [

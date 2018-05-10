@@ -23,14 +23,12 @@ import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
 
 // Services
-import { BlogService } from './core/providers';
-import { MailService } from './core/providers';
-import { SharedService } from './core/providers';
-import { OpenPgpService } from './core/providers';
+import { BlogService } from './core/services';
+import { MailService } from './core/services';
+import { SharedService } from './core/services';
+import { OpenPgpService } from './core/services';
 
-import {
-  TokenInterceptor, ErrorInterceptor
-} from './core/providers';
+import { TokenInterceptor, ErrorInterceptor } from './core/services';
 
 
 

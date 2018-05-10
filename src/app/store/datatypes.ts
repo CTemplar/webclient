@@ -41,7 +41,7 @@ export interface MailState {
 }
 
 export interface LoadingState {
-  loading: boolean | true;
+  blogLoading: boolean | true;
 }
 
 export interface AppState {

@@ -13,16 +13,16 @@ import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Post, Mode, NumberOfColumns } from '../../core/models';
 
 // Services
-import { UsersService } from '../../core/providers';
-import { Loaded, Loading } from '../../store/actions/loading.action';
+import { UsersService } from '../../core/services';
+import { BlogLoaded, BlogLoading } from '../../store/actions';
 
 // Store
 import { Store } from '@ngrx/store';
 import { BlogState, AuthState } from '../../store/datatypes';
 import { selectBlogState } from '../../store/selectors';
-import { GetPostDetail } from '../../store/actions/blog.actions';
+import { GetPostDetail } from '../../store/actions';
 import { selectAuthState } from '../../store/selectors';
-import { PostComment } from '../../store/actions/blog.actions';
+import { PostComment } from '../../store/actions';
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -117,7 +117,7 @@ export class BlogDetailComponent implements OnInit {
   }
   private updateLoadingStatus(): void {
     setTimeout(() => {
-      this.store.dispatch(new Loading({}));
+      this.store.dispatch(new BlogLoading({}));
     });
   }
   private updateUserAuthStatus(): void {

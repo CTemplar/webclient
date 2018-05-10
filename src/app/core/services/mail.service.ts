@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { apiUrl } from '../../shared/config';
 
 // Models
-import { Mail } from '../models/mail';
+import { Mail } from '../models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';

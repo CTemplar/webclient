@@ -4,16 +4,16 @@ import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
 // Services
-import { BlogService } from './core/providers';
+import { BlogService } from './core/services';
 // import { MailService } from './mail/shared/mail.service';
 // import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
-import { SharedService } from './core/providers';
+import { SharedService } from './core/services';
 // import { UsersService } from './users/shared/users.service';
 import { Observable } from 'rxjs/Observable';
 import { selectLoadingState } from './store/selectors';
 import { Store } from '@ngrx/store';
 import { LoadingState } from './store/datatypes';
-import { Loading } from './store/actions/loading.action';
+import { BlogLoading } from './store/actions';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
     this.loader();
 
     this.getLoadingState$.subscribe((loadingState: LoadingState) => {
-      this.isLoading = loadingState.loading;
+      this.isLoading = loadingState.blogLoading;
     });
   }
 
@@ -84,9 +84,9 @@ export class AppComponent implements OnInit {
     );
   }
 
-  private updateLoadingStatus(): void {
+  private updateBlogLoadingStatus(): void {
     this.getLoadingState$.subscribe((loadingState: LoadingState) => {
-      this.isLoading = loadingState.loading;
+      this.isLoading = loadingState.blogLoading;
     });
   }
 

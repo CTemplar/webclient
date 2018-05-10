@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { apiHeaders, apiUrl } from '../../shared/config';
 
 // Models
-import { Comment, Post } from '../models/blog';
+import { Comment, Post } from '../models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';

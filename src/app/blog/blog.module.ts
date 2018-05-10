@@ -14,7 +14,7 @@ import { MailModule } from '../mail/mail.module';
 import { SharedModule } from '../shared/shared.module';
 
 // Services
-import { BlogService } from '../core/providers';
+import { BlogService } from '../core/services';
 import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component';
 
 

@@ -1,23 +1,23 @@
 // Custom Action
-import { LoadingActionTypes, LoadingActionAll } from '../actions/loading.action';
+import { LoadingActionTypes, LoadingActionAll } from '../actions';
 
 // Model
 import { LoadingState } from '../datatypes';
 
 export const initialState: LoadingState = {
-  loading: false
+  blogLoading: false
 };
 
 export function reducer(state = initialState, action: LoadingActionAll): LoadingState {
   switch (action.type) {
     case LoadingActionTypes.LOADING: {
       return {
-        loading: true
+        blogLoading: true
       };
     }
     case LoadingActionTypes.LOADED: {
       return {
-        loading: false
+        blogLoading: false
       };
     }
     default: {

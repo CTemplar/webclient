@@ -1,5 +1,5 @@
 // Custom Action
-import { AuthActionTypes, AuthActionAll } from '../actions/auth.action';
+import { AuthActionTypes, AuthActionAll } from '../actions';
 
 // Model
 import { AuthState } from '../datatypes';
