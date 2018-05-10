@@ -13,9 +13,10 @@ import { Observable } from 'rxjs/Observable';
 import { AuthState } from '../../store/datatypes';
 import { selectAuthState } from '../../store/selectors';
 import { LogIn } from '../../store/actions';
+import { FinalLoading } from '../../store/actions';
 
 // Service
-import { SharedService } from '../../core/services';
+import { SharedService } from '../../store/services';
 
 @Component({
   selector: 'app-users-sign-in',
@@ -41,6 +42,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.store.dispatch(new FinalLoading({ loadingState: false }));
+    });
+
     this.sharedService.hideFooter.emit(true);
 
     this.loginForm = this.formBuilder.group({

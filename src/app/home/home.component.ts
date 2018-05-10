@@ -1,6 +1,6 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
-import { NumberOfColumns, Mode } from '../core/models';
+import { NumberOfColumns, Mode } from '../store/models';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,6 @@ export class HomeComponent implements OnInit {
     });
     this.getRouterState$.subscribe((routerStateUrl: RouterStateUrl) => {
       this.currentUrl = routerStateUrl.state.url;
-      console.log(this.currentUrl);
     });
   }
 }

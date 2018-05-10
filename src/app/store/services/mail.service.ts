@@ -26,7 +26,7 @@ export class MailService {
   encrypted: any;
   pubkey: any;
   privkey: any;
-  passpharse: any;
+  passphrase: any;
   privKeyObj: any;
 
   constructor(

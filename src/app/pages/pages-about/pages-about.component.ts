@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NumberOfColumns, Mode } from '../../core/models';
+import { NumberOfColumns, Mode } from '../../store/models';
 
 @Component({
   selector: 'app-pages-about',

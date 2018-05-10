@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Model
-import { Storage, StorageData, PaymentData, Payment } from '../../core/models';
+import { Storage, StorageData, PaymentData, Payment } from '../../store/models';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

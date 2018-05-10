@@ -29,7 +29,7 @@ export class UsersService {
   encrypted: any;
   pubkey: any;
   privkey: any;
-  passpharse: any;
+  passphrase: any;
   privKeyObj: any;
 
   constructor(

@@ -1,8 +1,8 @@
 // Angular
 import { Component, OnDestroy, OnInit } from '@angular/core';
 // Model
-import { Storage, StorageData } from '../../core/models';
-import { SharedService } from '../../core/services';
+import { Storage, StorageData } from '../../store/models';
+import { SharedService } from '../../store/services';
 
 import { RelatedBlogLoaded, RecentBlogLoaded } from '../../store/actions';
 import { Store } from '@ngrx/store';

@@ -14,12 +14,9 @@ import { MailModule } from '../mail/mail.module';
 import { SharedModule } from '../shared/shared.module';
 
 // Services
-import { BlogService } from '../core/services';
+import { BlogService } from '../store/services';
 import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component';
 
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 
 
 @NgModule({

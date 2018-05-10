@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 
 // Service
-import { SharedService } from '../core/services';
+import { SharedService } from '../store/services';
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ export class FooterComponent {
   hideFooterCallToAction: boolean = false;
 
   constructor(private sharedService: SharedService) {
-    this.sharedService.hideFooterCallToAction
+    this.sharedService.hideFooter
       .subscribe(data => this.hideFooterCallToAction = data);
   }
 }

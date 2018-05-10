@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 // Models
-import { Post, NumberOfColumns, Mode } from '../../../core/models';
+import { Post, NumberOfColumns, Mode } from '../../../store/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -31,13 +31,14 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
   isLoading: boolean ;
   getRelatedBlogsState$: Observable<any>;
   getNewBlogState$: Observable<any>;
-
+  modeObj: Object;
   constructor(private store: Store<any>) {
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
     this.getNewBlogState$ = this.store.select(getNewBlogs);
   }
 
   ngOnInit() {
+    this.modeObj = new Object({Recent: 0, Related: 1});
     this.isLoading = true;
     if (this.mode === Mode.Recent) {
       this.updateRecentState();

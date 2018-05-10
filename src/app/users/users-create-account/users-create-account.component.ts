@@ -13,8 +13,8 @@ import { selectAuthState } from '../../store/selectors';
 import { SignUp } from '../../store/actions';
 
 // Service
-import { OpenPgpService } from '../../core/services';
-import { SharedService } from '../../core/services';
+import { OpenPgpService } from '../../store/services';
+import { SharedService } from '../../store/services';
 
 declare var openpgp;
 
@@ -103,7 +103,6 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   signup() {
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isLoading = true;
-      console.log(this.signupForm.value);
       this.openPgpService.generateKey(this.signupForm.value).then(() => {
         this.store.dispatch(new SignUp(this.signupForm.value));
       });

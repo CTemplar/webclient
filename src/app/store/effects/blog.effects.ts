@@ -16,7 +16,7 @@ import { tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 // Service
-import { BlogService } from '../../core/services';
+import { BlogService } from '../../store/services';
 
 // Custom Actions
 import {

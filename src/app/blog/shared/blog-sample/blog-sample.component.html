@@ -2,12 +2,16 @@
 <section class="l-block news-block gap-p-eq bg-white">
   <div class="container">
     <header class="l-block-header text-center">
-      <h2 class="l-block-title" *ngIf="mode === 0">Latest From <strong>Our Blog</strong></h2>
-      <h2 class="l-block-title" *ngIf="mode === 1">Related <strong>Post</strong></h2>
+      <h2 class="l-block-title" *ngIf="mode === modeObj.Recent">Latest From
+        <strong>Our Blog</strong>
+      </h2>
+      <h2 class="l-block-title" *ngIf="mode === modeObj.Related">Related
+        <strong>Post</strong>
+      </h2>
     </header>
-    <div class="l-block-body" [class.mb-sm-5]="mode===0" [class.mb-4]="mode===0">
-      <div class="row" [class.justify-content-center]="mode===1">
-        <article class="col-md-4 col-sm-6 mb-4 mb-sm-0" [class.mb-sm-5]="mode===1" *ngFor="let post of posts">
+    <div class="l-block-body" [ngClass]="{'mb-sm-5': mode.Recent, 'mb-4': mode.Recent}">
+      <div class="row" [class.justify-content-center]="mode===modeObj.Related">
+        <article class="col-md-4 col-sm-6 mb-4 mb-sm-0" [class.mb-sm-5]="mode===modeObj.Related" *ngFor="let post of posts">
           <a routerLink="blog/{{ post.slug }}/" class="d-block news-card-holder">
             <div class="news-card position-relative">
               <span class="badge badge-sm badge-info text-uppercase">
@@ -15,10 +19,11 @@
               </span>
               <div class="news-card-body">
                 <figure class="news-pic-holder">
-                  <div class="loader-area" [hidden]="post.isloaded">
+                  <div class="loader-area" [hidden]="post.isLoaded">
                     <img src="assets/icons/spinner.svg" />
                   </div>
-                  <img alt="News thumbnail" class="img news-img" (load)="post.isloaded = true" [hidden]="!post.isloaded" src="{{ post.image_card }}" />
+                  <img alt="News thumbnail" class="img news-img" (load)="post.isLoaded = true" [hidden]="!post.isLoaded" src="{{ post.image_card }}"
+                  />
                 </figure>
                 <h4 class="news-card-title">{{ post.name }}</h4>
                 <p>{{ post.excerpt }}</p>
@@ -36,7 +41,7 @@
         </article>
       </div>
     </div>
-    <footer class="l-block-footer text-center" *ngIf="mode === 0">
+    <footer class="l-block-footer text-center" *ngIf="mode===modeObj.Recent">
       <a routerLink="/blog" class="text-success">
         <em>
           <u>Read more from our blog</u>

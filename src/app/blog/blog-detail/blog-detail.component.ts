@@ -10,10 +10,10 @@ import { Observable } from 'rxjs/Observable';
 import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Models
-import { Post, Mode, NumberOfColumns } from '../../core/models';
+import { Post, Mode, NumberOfColumns } from '../../store/models';
 
 // Services
-import { UsersService } from '../../core/services';
+import { UsersService } from '../../store/services';
 import { RelatedBlogLoaded, RelatedBlogLoading } from '../../store/actions';
 
 // Store

@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
 // Services
-import { BlogService } from './core/services';
+import { BlogService } from './store/services';
 // import { MailService } from './mail/shared/mail.service';
 // import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
-import { SharedService } from './core/services';
+import { SharedService } from './store/services';
 // import { UsersService } from './users/shared/users.service';
 import { Observable } from 'rxjs/Observable';
 import { selectLoadingState } from './store/selectors';

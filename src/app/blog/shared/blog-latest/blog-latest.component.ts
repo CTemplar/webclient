@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Models
-import { Post } from '../../../core/models';
+import { Post } from '../../../store/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -11,9 +11,6 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions';
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 
 @Component({

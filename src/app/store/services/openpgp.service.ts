@@ -7,7 +7,7 @@ export class OpenPgpService {
   encrypted: any;
   private pubkey: any;
   private privkey: any;
-  private passpharse: any;
+  private passphrase: any;
   private privKeyObj: any;
   private fingerprint: string;
 
@@ -23,11 +23,11 @@ export class OpenPgpService {
   }
 
   generateKey(user) {
-    this.passpharse = user.password;
+    this.passphrase = user.password;
     const options = {
       userIds: [{name: user.username, email: `${user.username}@ctemplar.com` }],
       numbits: 4096,
-      passphrase: this.passpharse
+      passphrase: this.passphrase
     };
     return openpgp.generateKey(options).then((key) => {
       this.pubkey = key.publicKeyArmored;
@@ -54,8 +54,8 @@ export class OpenPgpService {
   }
 
   async decryptPrivateKey() {
-    this.passpharse = 'aaaaaaaaaa';
-    await this.privKeyObj.decrypt(this.passpharse);
+    this.passphrase = 'aaaaaaaaaa';
+    await this.privKeyObj.decrypt(this.passphrase);
   }
 
   makeEncrypt() {
@@ -78,8 +78,6 @@ export class OpenPgpService {
     };
 
     return openpgp.decrypt(this.options).then((plaintext) => {
-      console.log('mail.content');
-      console.log(plaintext);
       return plaintext.data;
     });
 

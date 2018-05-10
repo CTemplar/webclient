@@ -2,13 +2,13 @@
 import { Component, OnInit } from '@angular/core';
 
 // Models
-import { Post } from '../../core/models';
+import { Post } from '../../store/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 
 // Services
-import { BlogService } from '../../core/services';
+import { BlogService } from '../../store/services';
 import { SpinnerService } from '../../shared/spinner/services/spinner.service';
 
 // Store
@@ -74,15 +74,15 @@ export class BlogListComponent implements OnInit {
     if (!this.postPosition) {
       this.firstPost = newPosts[0];
       this.posts = newPosts.slice(1);
-      this.setParmsofPosts(newPosts.length, -1);
+      this.setParamsOfPosts(newPosts.length, -1);
     } else {
       this.posts = this.posts.concat(newPosts);
-      this.setParmsofPosts(newPosts.length, 0);
+      this.setParamsOfPosts(newPosts.length, 0);
     }
 
   }
 
-  setParmsofPosts(length, isFirst) {
+  setParamsOfPosts(length, isFirst) {
     this.postPosition += length;
     if ((length - isFirst) < 6) {
       this.positionCount = 12 - length + isFirst;
