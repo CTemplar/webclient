@@ -1,0 +1,121 @@
+<aside id="mailbox-sidebar" class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
+	<div class="mailbox-sidebar-inner">
+
+		<div class="mailbox-brand">
+			<button class="navbar-toggler hidden-md-up" role="button">
+				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggle-text">Menu</span>
+			</button>
+			<figure class="navbar-brand-holder hidden-sm-down">
+				<a class="navbar-brand ff-roboto text-uppercase" routerLink="">
+					<img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
+					<strong>ctemplar</strong>
+				</a>
+			</figure>
+			<div class="prime-account-content">
+				<i class="icon icon-secure-shield"></i>
+				<span class="prime-account-text">Prime</span>
+			</div>
+		</div>
+
+		<div class="mail-compose-section hidden-xs-down">
+			<a href="" class="btn btn-lg btn-outline-white mailbox-btn has-icon"><i class="icon icon-arrow-left mr-1 v-middle"></i><span class="hidden-sm-down">Back to mail</span></a>
+		</div>
+
+		<nav class="mailbox-sidebar-navbar">
+			<ul class="mailbox-sidebar-nav">
+                <li class="mailbox-sidebar-nav-item active">
+                    <a href="" class="mailbox-sidebar-nav-link no-icon"><span class="mailbox-sidebar-nav-label">All Contacts</span> <span class="badge badge-square hidden-sm-down">78</span><span class="badge badge-sm badge-square hidden-md-up">1234</span></a>
+                </li>
+            </ul>
+		</nav>
+
+		<div class="mailbox-sidebar-footer text-center">
+			<div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">Used
+				<div class="text-white mt-1">43 MB</div>
+			</div>
+			<div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">Used storage: 43 MB of 100 MB</div>
+			<a href="" class="btn-link text-white hidden-in-sm">
+				<small>
+					<u>Upgrade account</u>
+				</small>
+			</a>
+		</div>
+
+	</div>
+</aside>
+
+<div class="mailbox-actionbar">
+    <div class="row">
+        <div class="col-12 col-sm-8 mailbox-actionbar-col">
+            <ul class="mailbox-actionbar-menu">
+                <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
+                    <div ngbDropdown>
+                        <button ngbDropdownToggle class="dropdown-toggle" role="button" id="langDropdownMenuButton">
+                            <span class="fancy-field-group">
+                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions" name="[]" type="checkbox" />
+                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
+                            </span>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
+                            <a class="dropdown-item" href="">All</a>
+                            <a class="dropdown-item" href="">Read</a>
+                            <a class="dropdown-item" href="">Unread</a>
+                            <a class="dropdown-item" href="">Starred</a>
+                            <a class="dropdown-item" href="">Unstarred</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="px-0">
+                    <a href="" class="no-icon">Edit</a>
+                </li>
+                <li class="pr-0 pl-0">
+                    <a href=""><i class="icon icon-garbage"></i></a>
+                </li>
+                <li class="pl-0 hidden-sm-up more-xs-options">
+                    <a href="" class="disabled"><i class="icon icon-trash"></i></a>
+                </li>
+                <li class="pr-0">
+                    <a href="" class="no-icon">Compose</a>
+                </li>
+                <li>
+                    <a href="" class="no-icon">New Contact</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down">
+            <div class="mail-controls d-flex align-items-center justify-content-end">
+                <div class="mail-result-text text-muted"><small>1-50 of 2346</small></div>
+                <div class="mail-nav-control">
+                    <button role="button" class="mail-nav-control-prev"><i class="icon icon-chevron-left"></i></button>
+                    <button role="button" class="mail-nav-control-next"><i class="icon icon-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mailbox-footer-actionbar hidden-sm-up">
+    <div class="row justify-content-end">
+
+        <div class="col-12 mailbox-actionbar-col">
+            <div class="mail-controls d-flex align-items-center justify-content-end">
+                <div class="mail-result-text text-muted">
+                    <small>1-50 of 2346</small>
+                </div>
+                <div class="mail-nav-control">
+                    <button role="button" class="mail-nav-control-prev">
+                        <i class="icon icon-chevron-left"></i>
+                    </button>
+                    <button role="button" class="mail-nav-control-next">
+                        <i class="icon icon-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
