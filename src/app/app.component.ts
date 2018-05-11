@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
     this.getLoadingState$ = this.store.select(selectLoadingState);
   }
 
+
   ngOnInit() {
     this.router.events.subscribe(params => window.scrollTo(0, 0));
     this.getLoadingState$.subscribe((loadingState: LoadingState) => {

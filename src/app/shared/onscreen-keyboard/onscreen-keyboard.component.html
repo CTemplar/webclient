@@ -1,0 +1,29 @@
+<div class="keyboard">
+  <div class="container" id="keyboardcontainer">
+    <div class="row row--spacebetween">
+      <div class="key" title="key" *ngFor="let key of keys1" (click)="keyPressEvent(key)">{{key}}</div>
+    </div>
+    <div class="row row--center row--flexend--lg">
+      <div class="key" title="key" *ngFor="let key of keys2" (click)="keyPressEvent(key)">{{key}}</div>
+      <div class="key go darken hide--sm font--sm">Go</div>
+    </div>
+    <div class="row row--center">
+      <div class="key darken left absolute--sm">&#8679;</div>
+      <div class="key" title="key" *ngFor="let key of keys3" (click)="keyPressEvent(key)">{{key}}</div>
+      <div class="key hide--sm">!,</div>
+      <div class="key hide--sm">?.</div>
+      <div class="key darken hide--sm" style="flex-grow: 1;">&#8679;</div>
+      <div class="key darken right absolute--sm show--sm">⌫</div>
+    </div>
+    <div class="row">
+      <div class="key darken font--sm">
+        <span class="hide--sm">.?</span>123</div>
+      <div class="key darken font--sm">()</div>
+      <div class="key">()</div>
+      <div class="key space font--sm">space</div>
+      <div class="key darken return show--sm font--sm">return</div>
+      <div class="key darken hide--sm font--sm" style="flex-grow: 0.065;">.?123</div>
+      <div class="key darken hide--sm font--sm" (click)="keyPressEvent('Down')">Down</div>
+    </div>
+  </div>
+</div>

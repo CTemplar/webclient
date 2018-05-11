@@ -1,5 +1,10 @@
 // Angular
-import { Component, OnDestroy , OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -32,14 +37,21 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
   getState: Observable<any>;
+  focusedInput: string = '';
+  username: string = '';
+  password: string = '';
+  @ViewChild('usernameVC') userNameVC: any;
+  @ViewChild('passwordVC') passwordVC;
 
-  constructor(private modalService: NgbModal,
-              private formBuilder: FormBuilder,
-              private router: Router,
-              private store: Store<AuthState>,
-              private sharedService: SharedService ) {
-      this.getState = this.store.select(selectAuthState);
-    }
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private store: Store<AuthState>,
+    private sharedService: SharedService
+  ) {
+    this.getState = this.store.select(selectAuthState);
+  }
 
   ngOnInit() {
     setTimeout(() => {
@@ -49,24 +61,28 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.sharedService.hideFooter.emit(true);
 
     this.loginForm = this.formBuilder.group({
-      'username': ['', [ Validators.required ]],
-      'password': ['', [Validators.required]]
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
 
     this.resetForm = this.formBuilder.group({
-      'name': ['', [Validators.required]],
-      'email': ['', [Validators.required]]
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required]]
     });
 
-    this.getState.subscribe((state) => {
+    this.getState.subscribe(state => {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
+
   }
 
   // == Open NgbModal
   open(content) {
-    this.resetModalRef = this.modalService.open(content, {centered: true, windowClass: 'modal-md'});
+    this.resetModalRef = this.modalService.open(content, {
+      centered: true,
+      windowClass: 'modal-md'
+    });
   }
 
   // == Toggle password visibility
@@ -74,7 +90,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (!input.value) {
       return;
     }
-    input.type = input.type === 'password' ?  'text' : 'password';
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   login(user) {
@@ -91,5 +107,30 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
+  }
+  setFocusedInput(inputName: string) {
+    this.focusedInput = inputName;
+  }
+
+  focusOut() {
+    console.log('fdsfds');
+  }
+
+  getKeyPressed(keyString) {
+    if (keyString === 'Down') {
+      this.focusedInput = '';
+    }
+    if (this.focusedInput === 'username') {
+      this.userNameVC.nativeElement.focus();
+      if (keyString === '⌫') {
+        this.username = this.username.slice(0, -1);
+      } else {
+        this.username += keyString;
+      }
+      console.log(this.username);
+    }
+    if (this.focusedInput === 'password') {
+      this.password += keyString;
+    }
   }
 }
