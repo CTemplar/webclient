@@ -21,6 +21,9 @@ export class MailListComponent implements OnInit {
   mails: Mail[];
   getMailsState$: Observable<any>;
 
+  // Public property of boolean type set false by default
+  public isComposeVisible: boolean = false;
+
   constructor( private store: Store<any> ) {
     this.getMailsState$ = this.store.select(getMails);
   }
@@ -35,6 +38,13 @@ export class MailListComponent implements OnInit {
 
   getMails() {
     this.store.dispatch(new GetMails({limit: 1000, offset: 0}));
+  }
+
+  // == Show mail compose modal
+  // == Setup click event to toggle mobile menu
+  hideMailComposeModal() { // click handler
+    const bool = this.isComposeVisible;
+    this.isComposeVisible = false;
   }
 
 }

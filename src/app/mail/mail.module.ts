@@ -15,6 +15,7 @@ import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 import { MailSidebarComponent } from './mail-sidebar/mail-sidebar.component';
 import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailListComponent } from './mail-list/mail-list.component';
+import { MailContactComponent } from './mail-contact/mail-contact.component';
 
 // Custom Pipe
 import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
@@ -33,7 +34,8 @@ import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
     MailSidebarComponent,
     MailDetailComponent,
     MailListComponent,
-    DecryptPipe
+    MailContactComponent,
+    DecryptPipe    
   ],
   exports: [MailFooterComponent]
 })

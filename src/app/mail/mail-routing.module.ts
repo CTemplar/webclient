@@ -6,14 +6,16 @@ import { MailComponent } from './mail.component';
 import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailListComponent } from './mail-list/mail-list.component';
+import { MailContactComponent } from './mail-contact/mail-contact.component';
 
 const routes: Routes = [
   { path: 'mail', component: MailComponent, children: [
     { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
     { path: 'settings', component: MailSettingsComponent },
+    { path: 'contact', component: MailContactComponent },
     { path: ':folder', redirectTo: ':folder/page/1', pathMatch: 'full' },
     { path: ':folder/page/:page', component: MailListComponent },
-    { path: 'message/:id', component: MailDetailComponent }
+    { path: 'message/:id', component: MailDetailComponent },    
   ]}
 ];
 

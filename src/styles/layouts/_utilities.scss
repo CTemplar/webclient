@@ -30,6 +30,20 @@
 	}
 }
 
+// .border-radius-0 {
+// 	border-radius: 0 !important
+// }
+
+.border-radius-left-0 {
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important
+}
+
+.border-radius-right-0 {
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important
+}
+
 // == Full absolute position element
 %position-abs-full {
 	position: absolute;
