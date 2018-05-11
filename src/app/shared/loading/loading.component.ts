@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LoadingComponent implements OnInit {
   @Input('isLoading') isLoading?: boolean;
-  @Input('quote') quote?: object;
+  @Input('quote') quote?: any;
   constructor() {}
 
   ngOnInit() {}
