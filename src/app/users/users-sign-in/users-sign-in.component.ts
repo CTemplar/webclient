@@ -127,10 +127,14 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       } else {
         this.username += keyString;
       }
-      console.log(this.username);
     }
     if (this.focusedInput === 'password') {
-      this.password += keyString;
+      this.passwordVC.nativeElement.focus();
+      if (keyString === '⌫') {
+        this.password = this.password.slice(0, -1);
+      } else {
+        this.password += keyString;
+      }
     }
   }
 }

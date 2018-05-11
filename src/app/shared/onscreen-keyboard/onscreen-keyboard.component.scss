@@ -1,10 +1,3 @@
-// TODO:
-// - Icons
-// - Pressed states
-// - number keyboard
-// - emoji keyboard
-// - OS switch? (Android/iOS)
-
 $ipad--width: 768px;
 $iphone--width: 375px;
 
@@ -21,7 +14,7 @@ $iphone--width: 375px;
 	right: 0;
 	bottom: 0;
 	left: 0;
-	
+	z-index: 1;
 	.container {
 		width: 100%;
 		// max-width: 375px;
