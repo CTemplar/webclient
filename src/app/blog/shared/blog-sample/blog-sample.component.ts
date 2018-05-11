@@ -16,11 +16,17 @@ import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions';
 import { RelatedBlogLoaded, RelatedBlogLoading, RecentBlogLoaded, RecentBlogLoading } from '../../../store/actions';
 
+interface ModeInterface {
+  Recent: number;
+  Related: number;
+}
+
 @Component({
   selector: 'app-blog-sample',
   templateUrl: './blog-sample.component.html',
   styleUrls: ['./blog-sample.component.scss']
 })
+
 export class BlogSampleComponent implements OnInit, OnDestroy {
   @Input('category') category?: number;
   @Input('blogId') blogId?: number;
@@ -31,14 +37,16 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
   isLoading: boolean ;
   getRelatedBlogsState$: Observable<any>;
   getNewBlogState$: Observable<any>;
-  modeObj: Object;
+  modeObj: ModeInterface = {
+    Recent: 0,
+    Related: 1
+  };
   constructor(private store: Store<any>) {
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
     this.getNewBlogState$ = this.store.select(getNewBlogs);
   }
 
   ngOnInit() {
-    this.modeObj = new Object({Recent: 0, Related: 1});
     this.isLoading = true;
     if (this.mode === Mode.Recent) {
       this.updateRecentState();
