@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
 import { selectLoadingState } from './store/selectors';
 import { Store } from '@ngrx/store';
 import { LoadingState } from './store/datatypes';
-
+import { quotes } from './store/quotes';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +25,9 @@ export class AppComponent implements OnInit {
   public resizeTimeout: number = null;
   public getLoadingState$: Observable<any>;
   public isLoading: boolean = true;
+
+  quote: object;
+
   constructor(
     @Inject(DOCUMENT) private document: any,
     public router: Router,
@@ -35,7 +38,6 @@ export class AppComponent implements OnInit {
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
     this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
     this.getLoadingState$ = this.store.select(selectLoadingState);
-
   }
 
   ngOnInit() {
@@ -43,6 +45,9 @@ export class AppComponent implements OnInit {
     this.getLoadingState$.subscribe((loadingState: LoadingState) => {
       this.isLoading = loadingState.Loading;
     });
+
+    this.quote = quotes[Math.floor(Math.random() * 5)];
+
   }
 
   // Resize event for window object
