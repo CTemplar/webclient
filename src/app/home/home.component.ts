@@ -12,6 +12,11 @@ import { LoadingState, RouterStateUrl } from '../store/datatypes';
 
 // Actions
 import { FinalLoading } from '../store/actions';
+
+// Services
+import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,9 +28,17 @@ export class HomeComponent implements OnInit {
   getRelatedBlogsState$: Observable<any>;
   getRouterState$: Observable<any>;
   currentUrl: String;
-  constructor(private store: Store<any>) {
+  constructor(
+    private store: Store<any>,
+    private _ngxZendeskWebwidgetService: ngxZendeskWebwidgetService
+  ) {
     this.getRelatedBlogsState$ = this.store.select(selectLoadingState);
     this.getRouterState$ = this.store.select(getRouterState);
+    _ngxZendeskWebwidgetService.identify({
+      name: '',
+      email: ''
+    });
+    _ngxZendeskWebwidgetService.show();
   }
 
   ngOnInit() {
@@ -34,7 +47,7 @@ export class HomeComponent implements OnInit {
     this.getRelatedBlogsState$.subscribe((loadingState: LoadingState) => {
       if (loadingState.RecentBlogLoading === false) {
         if (this.currentUrl === '/' && loadingState.Loading === true) {
-          this.store.dispatch(new FinalLoading({loadingState: false}));
+          this.store.dispatch(new FinalLoading({ loadingState: false }));
         }
       }
     });

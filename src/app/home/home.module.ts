@@ -12,6 +12,7 @@ import { HomeComponent } from './home.component';
 import { HomeWelcomeComponent } from './home-welcome/home-welcome.component';
 import { HomeFeaturesComponent } from './home-features/home-features.component';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,10 +20,6 @@ import { HomeFeaturesComponent } from './home-features/home-features.component';
     BlogModule,
     MailModule,
   ],
-  declarations: [
-    HomeComponent,
-    HomeFeaturesComponent,
-    HomeWelcomeComponent,
-   ]
+  declarations: [HomeComponent, HomeFeaturesComponent, HomeWelcomeComponent]
 })
-export class HomeModule { }
+export class HomeModule {}

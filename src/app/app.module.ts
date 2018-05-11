@@ -21,7 +21,18 @@ import { PagesModule } from './pages/pages.module';
 import { UsersModule } from './users/users.module';
 import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
+import {
+  ngxZendeskWebwidgetModule,
+  ngxZendeskWebwidgetConfig
+} from 'ngx-zendesk-webwidget';
 
+export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
+  accountUrl = 'ctemplar.zendesk.com';
+  beforePageLoad(zE) {
+    zE.setLocale('en');
+    zE.hide();
+  }
+}
 // Services
 import { BlogService } from './store/services';
 import { MailService } from './store/services';
@@ -47,7 +58,9 @@ import { TokenInterceptor, ErrorInterceptor } from './store/services';
     HomeModule,
     MailModule,
     PagesModule,
-    UsersModule
+    UsersModule,
+    ngxZendeskWebwidgetModule.forRoot(ZendeskConfig)
+
   ],
   providers: [
     BlogService,
