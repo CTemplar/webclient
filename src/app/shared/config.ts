@@ -7,4 +7,4 @@ export function apiHeaders() {
   };
 }
 
-export const apiUrl = 'https://api.ctemplar.com/v1/';
+export const apiUrl = 'https://api.ctemplar.com/';
