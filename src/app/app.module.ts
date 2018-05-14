@@ -24,7 +24,7 @@ import { AppStoreModule } from './store/store.module';
 import {
   ngxZendeskWebwidgetModule,
   ngxZendeskWebwidgetConfig
-} from 'ngx-zendesk-webwidget';
+} from './shared/ngx-zendesk-webwidget';
 
 export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
   accountUrl = 'ctemplar.zendesk.com';
@@ -60,7 +60,6 @@ import { TokenInterceptor, ErrorInterceptor } from './store/services';
     PagesModule,
     UsersModule,
     ngxZendeskWebwidgetModule.forRoot(ZendeskConfig)
-
   ],
   providers: [
     BlogService,

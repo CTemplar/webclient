@@ -14,7 +14,7 @@ import { Post, Mode, NumberOfColumns } from '../../store/models';
 
 // Services
 import { UsersService } from '../../store/services';
-import { RelatedBlogLoaded, RelatedBlogLoading } from '../../store/actions';
+import { RelatedBlogLoaded, RelatedBlogLoading, FinalLoading } from '../../store/actions';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -72,6 +72,7 @@ export class BlogDetailComponent implements OnInit {
         this.replyId = null;
         this.getPost();
       }
+      this.store.dispatch(new FinalLoading({ loadingState: false }));
     });
     this.replyForm = this.formBuilder.group({
       'comment': ['', [Validators.required]]

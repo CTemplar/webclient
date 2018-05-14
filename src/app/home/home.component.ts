@@ -14,7 +14,7 @@ import { LoadingState, RouterStateUrl } from '../store/datatypes';
 import { FinalLoading } from '../store/actions';
 
 // Services
-import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
+import { ngxZendeskWebwidgetService } from '../shared/ngx-zendesk-webwidget';
 
 
 @Component({
