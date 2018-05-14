@@ -11,6 +11,7 @@ export class SharedService {
   isReady: EventEmitter<boolean> = new EventEmitter();
   hideFooter: EventEmitter<boolean> = new EventEmitter();
   hideHeader: EventEmitter<boolean> = new EventEmitter();
+  hideEntireFooter: EventEmitter<boolean> = new EventEmitter();
 
   //
   constructor(

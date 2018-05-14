@@ -1,5 +1,5 @@
 <!-- FOOTER SECURE EMAIL BLOCK -->
-<section class="l-block secure-email-block is-clipped top top-left gap-p-sm bg-faded text-dark text-center" [hidden]="hideFooterCallToAction">
+<section class="l-block secure-email-block is-clipped top top-left gap-p-sm bg-faded text-dark text-center" [hidden]="hideFooterCallToAction || hideEntireFooterCallToAction">
   <div class="container">
       <header class="l-block-header">
           <figure class="secure-logo-holder">
@@ -23,7 +23,7 @@
 <!-- /.FOOTER SECURE EMAIL BLOCK ENDS -->
 
 <!-- REUSABLE COMPONENT :: FOOTER -->
-<footer id="colphon" class="site-footer bg-inverse" role="contetinfo">
+<footer id="colphon" class="site-footer bg-inverse" role="contetinfo" [hidden]="hideEntireFooterCallToAction">
   <div class="container">
     <div class="row footer-widgets">
       <div class="col-6 footer-col footer-col-5">
