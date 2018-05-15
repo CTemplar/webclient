@@ -16,7 +16,7 @@ export class Comment {
 
 export class Post {
   id: number;
-  category: Category;
+  category: number;
   name: string;
   slug: string;
   text: string;

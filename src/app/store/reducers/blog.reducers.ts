@@ -7,7 +7,7 @@ import { BlogState } from '../datatypes';
 export const initialState: BlogState = {
   posts: [],
   comments: [],
-  categories: [],
+  categories: [{id: 0, name: null, color: null}],
   newPosts: [],
   errorMessage: null,
   relatedPosts: []
@@ -51,6 +51,13 @@ export function reducer(state = initialState, action: BlogActionAll): BlogState 
       return {
         ...state,
         relatedPosts: action.payload
+      };
+    }
+
+    case BlogActionTypes.PUT_CATEGORIES: {
+      state.categories = state.categories.concat(action.payload);
+      return {
+        ...state
       };
     }
     default: {

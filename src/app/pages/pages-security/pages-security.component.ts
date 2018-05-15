@@ -1,6 +1,11 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 
+// Actions
+import { FinalLoading } from '../../store/actions';
+
+// Store
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-pages-security',
   templateUrl: './pages-security.component.html',
@@ -8,9 +13,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PagesSecurityComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private store: Store<any>,
+  ) { }
 
   ngOnInit() {
+    this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
 }

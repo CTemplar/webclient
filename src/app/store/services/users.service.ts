@@ -111,6 +111,9 @@ export class UsersService {
       return true;
     }
 
+    if (url.indexOf('blog/categories') > -1) {
+      return true;
+    }
     return false;
   }
 

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Models
-import { Post, Mode, NumberOfColumns } from '../../store/models';
+import { Post, Mode, NumberOfColumns, Category } from '../../store/models';
 
 // Services
 import { UsersService } from '../../store/services';
@@ -19,8 +19,8 @@ import { RelatedBlogLoaded, RelatedBlogLoading, FinalLoading } from '../../store
 // Store
 import { Store } from '@ngrx/store';
 import { BlogState, AuthState } from '../../store/datatypes';
-import { selectBlogState } from '../../store/selectors';
-import { GetPostDetail } from '../../store/actions';
+import { selectBlogState, getCategories } from '../../store/selectors';
+import { GetPostDetail, GetCategories } from '../../store/actions';
 import { selectAuthState } from '../../store/selectors';
 import { PostComment } from '../../store/actions';
 
@@ -40,6 +40,8 @@ export class BlogDetailComponent implements OnInit {
   replyModalRef: any;
   replyId: number;
   isPostedComment: boolean = false;
+  getCategories$: Observable<any>;
+  categories: Category[];
 
   numberOfColumns: NumberOfColumns;
   mode: Mode;
@@ -47,10 +49,19 @@ export class BlogDetailComponent implements OnInit {
   getBlogState$: Observable<any>;
   getAuthState$: Observable<any>;
 
-  constructor(private userService: UsersService, private route: ActivatedRoute, private store: Store<any>,
-    private formBuilder: FormBuilder, private modalService: NgbModal) {
+  constructor(
+    private userService: UsersService,
+    private route: ActivatedRoute,
+    private store: Store<any>,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
+  ) {
     this.getBlogState$ = this.store.select(selectBlogState);
     this.getAuthState$ = this.store.select(selectAuthState);
+    this.getCategories$ = this.store.select(getCategories);
+    this.getCategories$.subscribe(categories => {
+      this.categories = categories;
+    });
   }
 
   ngOnInit() {
@@ -64,6 +75,9 @@ export class BlogDetailComponent implements OnInit {
     this.getBlogState$.subscribe((blogState: BlogState) => {
       if (blogState.selectedPost) {
         this.blog = blogState.selectedPost;
+        if (this.categories.length - 1 < this.blog.category ) {
+          this.store.dispatch(new GetCategories({}));
+        }
       }
       if (blogState.errorMessage === 'success' && this.isPostedComment) {
         this.replyForm.reset();
@@ -72,26 +86,29 @@ export class BlogDetailComponent implements OnInit {
         this.replyId = null;
         this.getPost();
       }
-      this.store.dispatch(new FinalLoading({ loadingState: false }));
     });
     this.replyForm = this.formBuilder.group({
-      'comment': ['', [Validators.required]]
+      comment: ['', [Validators.required]]
     });
     this.commentForm = this.formBuilder.group({
-      'comment': ['', [Validators.required]]
+      comment: ['', [Validators.required]]
     });
     this.getPost();
   }
 
   getPost() {
     this.store.dispatch(new GetPostDetail(this.slug));
+    setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
   }
 
   openReplyModal(content, id) {
     this.updateUserAuthStatus();
     if (this.isActive) {
       this.replyId = id;
-      this.replyModalRef = this.modalService.open(content, {centered: true, windowClass: 'modal-md'});
+      this.replyModalRef = this.modalService.open(content, {
+        centered: true,
+        windowClass: 'modal-md'
+      });
     }
   }
 
@@ -108,17 +125,20 @@ export class BlogDetailComponent implements OnInit {
     }
   }
 
-  postComment (comment) {
+  postComment(comment) {
     if (this.isActive) {
       this.isPostedComment = true;
-      const body = { text: comment, post: this.blog.id, reply_to: this.replyId };
+      const body = {
+        text: comment,
+        post: this.blog.id,
+        reply_to: this.replyId
+      };
       this.store.dispatch(new PostComment(body));
     } else {
-
     }
   }
   private updateRelatedBlogLoadingStatus(): void {
-      this.store.dispatch(new RelatedBlogLoading({}));
+    this.store.dispatch(new RelatedBlogLoading({}));
   }
   private updateUserAuthStatus(): void {
     this.getAuthState$.subscribe((authState: AuthState) => {

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { apiHeaders, apiUrl } from '../../shared/config';
 
 // Models
-import { Comment, Post } from '../models';
+import { Comment, Post, Category } from '../models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -39,34 +39,9 @@ export class BlogService {
       );
   }
 
-  // getComments(id: number): Observable<Comment[]> {
-  //   const url = `${apiUrl}blog/comments/?limit=500&post=${id}`;
-  //   return this.http.get<Comment[]>(url)
-  //     .pipe(
-  //       map(data => data['results']),
-  //       tap(data => this.comments = data),
-  //     );
-  // }
-
   cache() {
     this.getPosts().subscribe();
   }
-
-  // detail(slug: string) {
-  //   this.post = this.posts.find(item => item.slug === slug);
-  //   this.getComments(this.post.id).subscribe();
-  //   return this.post;
-  // }
-
-  // featured() {
-  //   return this.posts.find(item => item.featured === true);
-  // }
-
-  // list(page: number, limit: number) {
-  //   const end = (page === NaN) ? limit : limit * page;
-  //   const start = end - limit;
-  //   return this.posts.slice(start, end);
-  // }
 
   getPostwithSlug(slug) {
     const url = `${apiUrl}blog/posts/${slug}/`;
@@ -76,6 +51,14 @@ export class BlogService {
   getRelatedPosts(cateogry) {
     const url = `${apiUrl}blog/posts/?category=${cateogry}`;
     return this.http.get<Post>(url)
+    .pipe(
+      map(data => data['results'])
+    );
+  }
+
+  getCategories(limit = 500, offset = 0): Observable<Category[]> {
+    const url = `${apiUrl}blog/categories/`;
+    return this.http.get<Category[]>(url)
     .pipe(
       map(data => data['results'])
     );

@@ -53,6 +53,7 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
     } else if (this.mode === Mode.Related) {
       this.updateRelatedState();
     }
+
   }
 
   updateRecentState() {
@@ -95,7 +96,7 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
         this.store.dispatch(new RelatedBlogLoaded({}));
       }
     });
-    if (!this.posts.length || this.posts[0].category.id !== this.category) {
+    if (!this.posts.length || this.posts[0].category !== this.category) {
       this.getRelatedPosts();
       this.store.dispatch(new RelatedBlogLoaded({}));
     }

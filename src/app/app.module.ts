@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LocalStorageModule } from '@ngx-pwa/local-storage';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +25,7 @@ import { AppStoreModule } from './store/store.module';
 import {
   ngxZendeskWebwidgetModule,
   ngxZendeskWebwidgetConfig
-} from './shared/ngx-zendesk-webwidget';
+} from 'ngx-zendesk-webwidget';
 
 export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
   accountUrl = 'ctemplar.zendesk.com';
@@ -47,6 +48,7 @@ import { TokenInterceptor, ErrorInterceptor } from './store/services';
   imports: [
     SharedModule,
     BrowserModule,
+    LocalStorageModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule.forRoot(),
