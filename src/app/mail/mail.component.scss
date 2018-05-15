@@ -221,6 +221,11 @@
 		@include media(">=ipad") {
 			padding: 0.813rem 1.563rem;
 		}
+
+		.is-sidebar-expanded & {
+			padding-left: .938rem;
+			transition: none;
+		}
 	}
 
 	.active & {
@@ -273,6 +278,8 @@
 		text-align: center;
 
 		@include media("<ipad") {
+			right: 1.313rem;
+
 			&.badge-sm {
 				top: 0.75rem;
 				right: 0.5rem;
@@ -283,11 +290,11 @@
 				height: auto;
 				width: auto;
 				line-height: 1;
+			}
 
-				.is-sidebar-expanded & {
-					left: auto;
-					right: 0.938rem;
-				}
+			.is-sidebar-expanded & {
+				left: auto;
+				right: .938rem;
 			}
 		}
 
@@ -369,6 +376,7 @@
 	padding: .5rem 3.43066rem;//~.5633rem 3.43066rem;
 	font-size: 0.875rem;
 	letter-spacing: 0.7px;
+	min-width: 240px;
 }
 
 .btn-primary.mailbox-btn {
@@ -381,6 +389,7 @@
 .mailbox-btn.has-icon {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 
 .btn-outline-white.mailbox-btn {
@@ -393,66 +402,102 @@
 	}
 }
 
-.btn.mailbox-compose-btn {
-	@include media("<ipad") {
+@include media("<ipad") {
+	.btn.btn-xs-squared {
 		position: relative;
+		justify-content: center;
 		padding: 0 0;
 		border: solid 1px #c0392b;
+		font-size: 1.125rem;
 		height: 2.25rem;
 		width: 2.25rem;
 		min-width: inherit;
+		text-align: center;
 		transition: none;
 
-		&::before,
-		&::after {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			content: "";
-			background: $brand-white;
-			height: 1rem;
-			width: 2px;
-			transform: translateX(-50%) translateY(-50%);
-		}
+		// &::before,
+		// &::after {
+		// 	position: absolute;
+		// 	top: 50%;
+		// 	left: 50%;
+		// 	content: "";
+		// 	background: $brand-white;
+		// 	height: 1rem;
+		// 	width: 2px;
+		// 	transform: translateX(-50%) translateY(-50%);
+		// }
 
-		&::after {
-			height: 2px;
-			width: 1rem;
-		}
+		// &::after {
+		// 	height: 2px;
+		// 	width: 1rem;
+		// }
 	}
 
-	.is-sidebar-expanded & {
+	.is-sidebar-expanded {
 		padding: .5633rem 3.43066rem;
 		height: auto;
 		width: 100%;
 
-		&::before,
-		&::after {
-			display: none;
+		// &::before,
+		// &::after {
+		// 	display: none;
+		// }
+
+		.btn.btn-xs-squared {
+			font-size: 0.875rem;
+			min-width: 190px;
+		}
+
+		.mailbox-compose-btn {
+			.icon {
+				display: none !important;
+			}
+		}
+
+		.mailbox-back-btn {
+			.icon {
+				margin-right: 0.5rem !important;
+			}
 		}
 		
-		.hidden-sm-down {
+		.mailbox-btn-text {
 			display: block !important;
 		}
 	}
 }
 
 // == Mail compose button on mobile
-.mail-compose-xs-btn.is-sticky {
-	position: fixed;
-	top: 50%;
-	right: 0.938rem;
-	z-index: $zindex-default;
-	transform: translateY(-50%);
+@include media("<=sm") {
+	.btn-xs-holder.is-sticky {
+		position: fixed;
+		top: 50%;
+		right: 0.938rem;
+		z-index: $zindex-default;
+		transform: translateY(-50%);
+	}
 
-	.btn.mailbox-compose-btn {
+	.btn.btn-xs-rounded {
+		justify-content: center;
+		padding: 0 0;
 		border-radius: 50%;
-		border: solid 1px #c0392b;
-		box-shadow: 0 2px 4px 0 rgba(1, 9, 15, 0.3);
+		font-size: 1.125rem !important;
 		height: 3.125rem;
 		width: 3.125rem;
+		line-height: 3.125rem;
+		min-width: inherit !important;
+
+		&.btn-primary,
+		&.btn-mail-send {
+			background: $brand-primary;
+			border: solid 1px #c0392b;
+			box-shadow: 0 2px 4px 0 rgba(1, 9, 15, 0.3);
+		}
+
+		&.btn-success {
+			border: solid 1px #2980ba;
+		}
 	}
-} /* Sidebar ends */
+}/* Sidebar ends */
 
 
 // == Actions bar
@@ -944,7 +989,7 @@
 		&.mail-list-col-xs {
 			position: absolute;
 			top: 0.938rem;
-			right: 0.375rem;
+			right: 0;//~0.375rem;
 		}
 	}
 
@@ -1500,20 +1545,6 @@ $mail_composer_padding_x: 0.75rem;
 .attach-size {
 	margin-left: 0.375rem;
 	color: #979797;
-}
-
-.btn.btn-xs-rounded {
-	@include media("<=sm") {
-		padding: 0 0;
-		background: $brand-primary;
-		border: solid 1px #c0392b;
-		border-radius: 50%;
-		box-shadow: 0 2px 4px 0 rgba(1, 9, 15, 0.3);
-		height: 3.125rem;
-		width: 3.125rem;
-		line-height: 3.125rem;
-		min-width: inherit;
-	}
 }
 
 .send-mail-item {
