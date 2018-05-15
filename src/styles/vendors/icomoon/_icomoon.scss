@@ -28,6 +28,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-add-user:before {
+  content: "\e930";
+}
+.icon-plus:before {
+  content: "\e931";
+}
 .icon-arrow-left:before {
   content: "\e92f";
 }
