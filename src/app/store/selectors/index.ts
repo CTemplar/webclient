@@ -24,10 +24,17 @@ export const getBlogDetail = createSelector(
   selectBlogState1,
   (state: BlogState) => state.selectedPost
 );
+
 export const getNewBlogs = createSelector(
   selectBlogState1,
   (state: BlogState) => state.newPosts
 );
+
+export const getCategories = createSelector(
+  selectBlogState1,
+  (state: BlogState) => state.categories
+);
+
 
 export const getRelatedBlogs = createSelector(
   selectBlogState1,

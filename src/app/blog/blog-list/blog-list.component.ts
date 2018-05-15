@@ -2,19 +2,18 @@
 import { Component, OnInit } from '@angular/core';
 
 // Models
-import { Post } from '../../store/models';
+import { Post, Category } from '../../store/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 
 // Services
-import { BlogService } from '../../store/services';
 import { SpinnerService } from '../../shared/spinner/services/spinner.service';
 
 // Store
 import { Store } from '@ngrx/store';
-import { getNewBlogs } from '../../store/selectors';
-import { GetPosts } from '../../store/actions';
+import { getNewBlogs, getCategories } from '../../store/selectors';
+import { GetPosts, GetCategories } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 
@@ -31,16 +30,21 @@ export class BlogListComponent implements OnInit {
   isPostsLoading: boolean = false;
 
   getBlogState$: Observable<any>;
-
+  getCategories$: Observable<any>;
+  categories: Category[];
   constructor(
-    private blogService: BlogService,
     private store: Store<any>,
     private spinnerService: SpinnerService
   ) {
     this.getBlogState$ = this.store.select(getNewBlogs);
+    this.getCategories$ = this.store.select(getCategories);
+    this.getCategories$.subscribe(categories => {
+      this.categories = categories;
+    });
   }
 
   ngOnInit() {
+    this.getCategories();
     this.getBlogState$.subscribe(blogs => {
       if (blogs.length) {
         this.sortPosts(blogs);
@@ -52,7 +56,14 @@ export class BlogListComponent implements OnInit {
 
   getPosts() {
     this.isPostsLoading = true;
-    this.store.dispatch(new GetPosts({ limit: this.positionCount, offset: this.postPosition }));
+    this.store.dispatch(
+      new GetPosts({ limit: this.positionCount, offset: this.postPosition })
+    );
+  }
+
+  getCategories() {
+    this.isPostsLoading = true;
+    this.store.dispatch(new GetCategories({}));
   }
 
   sortPosts(newPosts) {
@@ -74,12 +85,11 @@ export class BlogListComponent implements OnInit {
       this.setParamsOfPosts(newPosts.length, 0);
     }
     this.store.dispatch(new FinalLoading({ loadingState: false }));
-
   }
 
   setParamsOfPosts(length, isFirst) {
     this.postPosition += length;
-    if ((length - isFirst) < 6) {
+    if (length - isFirst < 6) {
       this.positionCount = 12 - length + isFirst;
     } else {
       this.positionCount = 6;

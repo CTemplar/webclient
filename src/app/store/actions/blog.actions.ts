@@ -12,6 +12,8 @@ export enum BlogActionTypes {
   POST_COMMENT_FAILURE = '[Blog] POST_COMMENT_FAILURE',
   GET_RELATED_POSTS = '[Blog] GET_RELATED_POSTS',
   PUT_RELATED_POSTS = '[Blog] PUT_RELATED_POSTS',
+  GET_CATEGORIES = '[Blog] GET_CATEGORIES',
+  PUT_CATEGORIES = '[Blog] PUT_CATEGORIES'
 }
 
 export class GetPosts implements Action {
@@ -64,6 +66,16 @@ export class PutRelatedPosts implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetCategories implements Action {
+  readonly type = BlogActionTypes.GET_CATEGORIES;
+  constructor(public payload: any) {}
+}
+
+export class PutCategories implements Action {
+  readonly type = BlogActionTypes.PUT_CATEGORIES;
+  constructor(public payload: any) {}
+}
+
 export type BlogActionAll =
   | GetPosts
   | PutPosts
@@ -74,4 +86,6 @@ export type BlogActionAll =
   | PostCommentSuccess
   | PostCommentFailure
   | GetRelatedPosts
-  | PutRelatedPosts;
+  | PutRelatedPosts
+  | GetCategories
+  | PutCategories;

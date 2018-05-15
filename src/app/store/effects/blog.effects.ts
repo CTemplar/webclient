@@ -21,7 +21,12 @@ import { BlogService } from '../../store/services';
 // Custom Actions
 import {
   BlogActionTypes,
-  GetPosts, PutPosts, GetPostDetail, PutPostDetail, PostComment, PostCommentSuccess, PostCommentFailure, GetRelatedPosts, PutRelatedPosts
+  GetPosts,
+  PutPosts,
+  GetPostDetail,
+  PutPostDetail,
+  PostComment,
+  PostCommentSuccess, PostCommentFailure, GetRelatedPosts, PutRelatedPosts, GetCategories, PutCategories
 } from '../actions';
 
 
@@ -77,4 +82,13 @@ export class BlogEffects {
             return new PutRelatedPosts(posts);
           });
       });
+
+    @Effect()
+    GetCategories: Observable<any> = this.actions
+    .ofType(BlogActionTypes.GET_CATEGORIES)
+    .map((action: GetCategories) => action.payload)
+    .switchMap(payload => {
+      return this.blogService.getCategories()
+      .map((post) => new PutCategories(post));
+    });
 }
