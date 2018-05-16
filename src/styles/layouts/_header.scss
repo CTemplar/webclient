@@ -13,7 +13,7 @@
     }
 
     @include media(">sm") {
-        padding: 1.25rem 0;//~0.938rem; //~0.875rem 1.875rem;
+        padding: 1.5rem 0; //1.25rem 0;//~0.938rem; //~0.875rem 1.875rem;
 
         // == is stuck on page scroll
         &.header-is-stuck {
@@ -23,7 +23,7 @@
     }
 
     @include media(">=laptop") {
-        padding: 1.5rem 0; //~1.875rem; //~0.875rem 1.875rem;
+        //padding: 1.5rem 0; //~1.875rem; //~0.875rem 1.875rem;
     }
 
     // == secondary / inner page header

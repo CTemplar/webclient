@@ -29,7 +29,7 @@
         width: 0;
         transform-origin: center;
         transform: scale3d(0, 0, 0) translateX(-50%);
-        transition: all ceaser($easeInOutQuint) 0.35s;
+        // transition: all ceaser($easeInOutQuint) 0.35s;
     }
 
     .active & {
