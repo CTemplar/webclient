@@ -10,7 +10,7 @@ import { createFeatureSelector, ActionReducerMap, createSelector } from '@ngrx/s
 import * as fromRouter from '@ngrx/router-store';
 
 // Model
-import { RouterStateUrl, AppState, BlogState, MailState } from '../datatypes';
+import { RouterStateUrl, AppState, BlogState, MailState, KeyboardState } from '../datatypes';
 
 
 export const getRouterState = createFeatureSelector<AppState>('routerReducer');
@@ -19,7 +19,13 @@ export const selectAuthState = createFeatureSelector<AppState>('auth');
 export const selectBlogState = createFeatureSelector<AppState>('blog');
 export const selectBlogState1 = (state: AppState) => state.blog;
 export const selectLoadingState = createFeatureSelector<AppState>('loading');
+export const selectKeyboardState = createFeatureSelector<AppState>('keyboard');
+export const selectKeyboardState_detail = (state: AppState) => state.keyboard;
 
+export const getKeyPressed = createSelector(
+  selectKeyboardState_detail,
+  (state: KeyboardState) => state.keyPressed
+);
 export const getBlogDetail = createSelector(
   selectBlogState1,
   (state: BlogState) => state.selectedPost

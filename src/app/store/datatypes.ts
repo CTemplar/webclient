@@ -47,10 +47,19 @@ export interface LoadingState {
   Loading: boolean | true;
 }
 
+export interface KeyboardState {
+  keyboardFocused: boolean;
+  keyPressed: {
+    key: string
+  };
+  focusedInput: string;
+}
+
 export interface AppState {
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   auth: AuthState;
   blog: BlogState;
   mail: MailState;
   loading: LoadingState;
+  keyboard: KeyboardState;
 }

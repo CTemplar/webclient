@@ -108,33 +108,4 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
   }
-  setFocusedInput(inputName: string) {
-    this.focusedInput = inputName;
-  }
-
-  focusOut() {
-    console.log('fdsfds');
-  }
-
-  getKeyPressed(keyString) {
-    if (keyString === 'Down') {
-      this.focusedInput = '';
-    }
-    if (this.focusedInput === 'username') {
-      this.userNameVC.nativeElement.focus();
-      if (keyString === '⌫') {
-        this.username = this.username.slice(0, -1);
-      } else {
-        this.username += keyString;
-      }
-    }
-    if (this.focusedInput === 'password') {
-      this.passwordVC.nativeElement.focus();
-      if (keyString === '⌫') {
-        this.password = this.password.slice(0, -1);
-      } else {
-        this.password += keyString;
-      }
-    }
-  }
 }

@@ -1,19 +1,19 @@
-<div class="keyboard">
+<div class="keyboard" [hidden]="!showKeyboard" tabIndex="-1">
   <div class="container" id="keyboardcontainer">
     <div class="row row--spacebetween">
-      <div class="key" title="key" *ngFor="let key of keys1" (click)="keyPressEvent(key)">{{key}}</div>
+      <button class="key" title="key" *ngFor="let key of keys1" tabIndex="-1" (click)="keyPressEvent(key)">{{key}}</button>
     </div>
     <div class="row row--center row--flexend--lg">
-      <div class="key" title="key" *ngFor="let key of keys2" (click)="keyPressEvent(key)">{{key}}</div>
-      <div class="key go darken hide--sm font--sm">Go</div>
+      <button class="key" title="key" *ngFor="let key of keys2" (click)="keyPressEvent(key)">{{key}}</button>
+      <button class="key go darken hide--sm font--sm">Go</button>
     </div>
     <div class="row row--center">
       <div class="key darken left absolute--sm">&#8679;</div>
-      <div class="key" title="key" *ngFor="let key of keys3" (click)="keyPressEvent(key)">{{key}}</div>
-      <div class="key hide--sm">!,</div>
-      <div class="key hide--sm">?.</div>
-      <div class="key darken hide--sm" style="flex-grow: 1;">&#8679;</div>
-      <div class="key darken right absolute--sm show--sm">⌫</div>
+      <button class="key" title="key" *ngFor="let key of keys3" (click)="keyPressEvent(key)">{{key}}</button>
+      <button class="key hide--sm">!,</button>
+      <button class="key hide--sm">?.</button>
+      <button class="key darken hide--sm" style="flex-grow: 1;">&#8679;</button>
+      <button class="key darken right absolute--sm show--sm">⌫</button>
     </div>
     <div class="row">
       <div class="key darken font--sm">

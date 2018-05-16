@@ -12,7 +12,7 @@ export class SharedService {
   hideFooter: EventEmitter<boolean> = new EventEmitter();
   hideHeader: EventEmitter<boolean> = new EventEmitter();
   hideEntireFooter: EventEmitter<boolean> = new EventEmitter();
-
+  keyPressed: EventEmitter<any> = new EventEmitter();
   //
   constructor(
     private http: HttpClient,
