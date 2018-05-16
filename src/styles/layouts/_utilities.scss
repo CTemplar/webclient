@@ -30,6 +30,13 @@
 	}
 }
 
+// == Gaps
+.pb-xs-0 {
+	@include media("<=sm") {
+		padding-bottom: 0 !important;
+	}
+}
+
 // .border-radius-0 {
 // 	border-radius: 0 !important
 // }

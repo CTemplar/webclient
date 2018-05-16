@@ -22,13 +22,13 @@
 		</div>
 
 		<div class="mail-compose-section hidden-xs-down">
-			<a href="" class="btn btn-lg btn-outline-white mailbox-btn has-icon"><i class="icon icon-arrow-left icon-sm mr-2"></i><span class="hidden-sm-down">Back to mail</span></a>
+			<a href="" class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"><i class="icon icon-arrow-left icon-sm mr-md-2"></i><span class="mailbox-btn-text hidden-sm-down">Back to mail</span></a>
 		</div>
 
 		<nav class="mailbox-sidebar-navbar">
 			<ul class="mailbox-sidebar-nav">
                 <li class="mailbox-sidebar-nav-item active">
-                    <a href="" class="mailbox-sidebar-nav-link no-icon"><span class="mailbox-sidebar-nav-label">All Contacts</span> <span class="badge badge-square hidden-sm-down">78</span><span class="badge badge-sm badge-square hidden-md-up">1234</span></a>
+                    <a href="" class="mailbox-sidebar-nav-link no-icon"><span class="mailbox-sidebar-nav-label">All Contacts</span> <span class="badge badge-square">78</span></a>
                 </li>
             </ul>
 		</nav>
@@ -47,6 +47,11 @@
 
 	</div>
 </aside>
+
+<!-- Add user button to be used in small screens -->
+<div class="btn-xs-holder is-sticky hidden-sm-up">
+    <button class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon" role="button"  placement="top" ngbTooltip="Add User"><i class="icon icon-add-user text-white"></i></button>
+</div>
 
 <div class="mailbox-actionbar border-bottom-0">
     <div class="row">
@@ -97,9 +102,9 @@
 </div>
 
 <div class="mailbox-section">
-    <div class="mailbox-section-body pt-0">
+    <div class="mailbox-section-body pt-0 pb-xs-0">
         <div class="mail-contact">
-            <div class="mail-contact-header mail-list-row border-bottom-0 hidden-sm-down">
+            <div class="mail-contact-header mail-list-row border-bottom-0 hidden-xs-down">
                 <div class="mail-list-inner-row align-items-center">
                     <div class="col-sm-4 col-lg-3 mail-contact-col-sm">
                         <div class="mail-contact-title text-uppercase"><strong>Name</strong></div>
