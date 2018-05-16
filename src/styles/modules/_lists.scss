@@ -37,7 +37,8 @@
     >.lists-item.active {
         .lists-link,
         a {
-            color: $brand-white;
+            color: $brand-white !important;
+            text-decoration: none !important;
         }
     }
 }
@@ -113,7 +114,7 @@
         &::after {
             position: absolute;
             top: 0.6rem;
-            left: 0.5rem;
+            left: 0.45rem;//~0.5rem;
             content: "";
             border-style: solid;
             border-width: .0938rem .0938rem 0 0;
