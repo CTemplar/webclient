@@ -15,6 +15,9 @@ import { GetRelatedPosts } from '../../../store/actions';
 import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions';
 import { RelatedBlogLoaded, RelatedBlogLoading, RecentBlogLoaded, RecentBlogLoading } from '../../../store/actions';
+import { Category } from '../../../store/models';
+import { selectBlogState, getCategories } from '../../../store/selectors';
+import { GetPostDetail, GetCategories } from '../../../store/actions';
 
 interface ModeInterface {
   Recent: number;
@@ -26,7 +29,6 @@ interface ModeInterface {
   templateUrl: './blog-sample.component.html',
   styleUrls: ['./blog-sample.component.scss']
 })
-
 export class BlogSampleComponent implements OnInit, OnDestroy {
   @Input('category') category?: number;
   @Input('blogId') blogId?: number;
@@ -34,17 +36,24 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
   @Input('mode') mode: Mode;
 
   posts: Post[] = [];
-  isLoading: boolean ;
+  isLoading: boolean;
   getRelatedBlogsState$: Observable<any>;
   getNewBlogState$: Observable<any>;
   modeObj: ModeInterface = {
     Recent: 0,
     Related: 1
   };
+  getCategories$: Observable<any>;
+  categories: Category[];
+
   constructor(private store: Store<any>) {
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
     this.getNewBlogState$ = this.store.select(getNewBlogs);
-  }
+    this.getCategories$ = this.store.select(getCategories);
+    this.getCategories$.subscribe(categories => {
+      this.categories = categories;
+    });
+   }
 
   ngOnInit() {
     this.isLoading = true;
@@ -53,7 +62,6 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
     } else if (this.mode === Mode.Related) {
       this.updateRelatedState();
     }
-
   }
 
   updateRecentState() {
@@ -65,6 +73,9 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
             post.excerpt = post.text.substring(0, 500) + '...';
           } else {
             post.excerpt = post.text;
+          }
+          if (this.categories.length - 1 < post.category) {
+            this.store.dispatch(new GetCategories({}));
           }
         });
         this.posts = blogs.slice(0, this.numberOfColumns);

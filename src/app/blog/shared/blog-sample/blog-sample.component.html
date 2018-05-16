@@ -15,7 +15,7 @@
           <a routerLink="blog/{{ post.slug }}/" class="d-block news-card-holder">
             <div class="news-card position-relative">
               <span class="badge badge-sm badge-info text-uppercase">
-                <strong>{{ post.category.name }}</strong>
+                <strong>{{ categories[post.category].name }}</strong>
               </span>
               <div class="news-card-body">
                 <figure class="news-pic-holder">

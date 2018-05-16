@@ -1,5 +1,5 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NumberOfColumns, Mode } from '../store/models';
 
 import { selectLoadingState, getRouterState } from '../store/selectors';
@@ -22,7 +22,7 @@ import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   numberOfColumns: NumberOfColumns;
   mode: Mode;
   getRelatedBlogsState$: Observable<any>;
@@ -54,5 +54,9 @@ export class HomeComponent implements OnInit {
     this.getRouterState$.subscribe((routerStateUrl: RouterStateUrl) => {
       this.currentUrl = routerStateUrl.state.url;
     });
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new FinalLoading({loadingState: true}));
   }
 }

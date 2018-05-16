@@ -1,5 +1,5 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
@@ -30,7 +30,7 @@ import { PostComment } from '../../store/actions';
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.scss']
 })
-export class BlogDetailComponent implements OnInit {
+export class BlogDetailComponent implements OnInit, OnDestroy {
   slug: string;
   blog: Post;
   isLoaded: boolean = false;
@@ -146,5 +146,9 @@ export class BlogDetailComponent implements OnInit {
         this.isActive = authState.isAuthenticated;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new FinalLoading({loadingState: true}));
   }
 }
