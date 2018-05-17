@@ -10,8 +10,7 @@ const routes: Routes = [
   { path: 'blog', component: BlogListComponent },
   {
     path: 'blog/:slug',
-    component: BlogDetailComponent,
-    runGuardsAndResolvers: 'paramsChange'
+    component: BlogDetailComponent
   }
 ];
 
