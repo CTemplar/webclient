@@ -119,9 +119,10 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
     this.getRouterState$.subscribe((routerStateUrl: RouterStateUrl) => {
       // console.log(routerStateUrl.state)
-      if (this.currentUrl !== '' && this.currentUrl !== routerStateUrl.state.url) {
+      if (this.currentUrl !== '' && this.currentUrl !== routerStateUrl.state.url && routerStateUrl.state.url.includes('/blog/')) {
+        console.log('fdsf');
         this.store.dispatch(new RelatedBlogLoading({ loadingState: true }));
-        window.location.reload();
+        // window.location.reload();
       }
       this.currentUrl = routerStateUrl.state.url;
     });
