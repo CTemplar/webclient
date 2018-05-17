@@ -1,4 +1,39 @@
+@import '../../../styles/base/variables';
+@import '../../../styles/vendors/include-media/include-media';
+@import '../../../styles/config/include-media-config';
+@import '../../../styles/vendors/ceaser/ceaser-easing';
+
 $error-red: #e94e4c;
+
+.userame-field-group {
+    .form-control {
+        @include media(">sm") {
+            width: calc(78% - 24px);
+
+            &.is-readonly {
+                width: calc(22% - 24px);
+            }
+        }
+
+        @include media("<=sm") {
+            &.is-readonly {
+                width: calc(100% - 48px);
+            }
+        }
+    }
+
+    .domain-separator {
+        margin-left: 0.75rem;
+        width: 2.25rem;
+        font-size: 1.5rem;
+    }
+
+    .is-readonly {
+        background: $brand-white;
+        font-style: italic;
+    }
+}
+
 .is-validate {
     &.input-group {
         border: 1px solid  $error-red;
@@ -34,5 +69,9 @@ $error-red: #e94e4c;
     }
     .email-input {
       border: none !important;
+      &:focus {
+        box-shadow: none;
+        outline: none;
+      }
     }
 }
