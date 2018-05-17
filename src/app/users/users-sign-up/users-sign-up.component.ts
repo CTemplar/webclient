@@ -4,7 +4,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Storage, StorageData } from '../../store/models';
 import { SharedService } from '../../store/services';
 
-import { RelatedBlogLoading, RecentBlogLoading } from '../../store/actions';
+import { FinalLoading } from '../../store/actions';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -44,8 +44,7 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
       }
     ];
     this.makePayments();
-    this.store.dispatch(new RelatedBlogLoading({loadingState: false}));
-    this.store.dispatch(new RecentBlogLoading({loadingState: false}));
+    this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
   // == Toggle active state of the slide in price page
   toggleSlides(index) {
@@ -73,5 +72,6 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
   }
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

@@ -2,6 +2,12 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
+import {
+  FinalLoading
+} from '../../store/actions';
+
+// Store
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-pages-pricing',
@@ -14,9 +20,13 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
   @Input('hideHeader') hideHeader: boolean;
   @Input('blockGapsZero') blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
 
-  constructor(private sharedService: SharedService) {}
+  constructor(
+    private sharedService: SharedService,
+    private store: Store<any>
+  ) {}
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
+    this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
   // == Toggle active state of the slide in price page
   toggleSlides(index) {
@@ -28,5 +38,6 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
   }
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

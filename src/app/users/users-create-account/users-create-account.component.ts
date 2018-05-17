@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/datatypes';
 import { selectAuthState } from '../../store/selectors';
-import { SignUp } from '../../store/actions';
+import { SignUp, FinalLoading } from '../../store/actions';
 
 // Service
 import { OpenPgpService } from '../../store/services';
@@ -78,7 +78,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
-
+    this.store.dispatch(new FinalLoading({loadingState: false}));
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -114,6 +114,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideFooter.emit(false);
   }
 }
