@@ -1,5 +1,5 @@
 <!-- PAGE SECTION -->
-<section class="l-block l-block-text bg-white gap-p-eq">
+<section class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
   <div class="container container-sm">
     <header class="l-block-header position-relative text-center" [hidden]="hideHeader">
       <div class="row justify-content-center">
@@ -94,7 +94,7 @@
                   </li>
                 </ul>
                 <div class="package-coming-soon mt-3 mt-sm-4">
-                  <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u>Features to be added to this package soon:</u></a></h6>
+                  <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u>Features to be added to this package soon</u></a></h6>
                   <!-- <ul class="package-list mb-0 list-style-none pl-0">
                     <li class="package-list-item">
                       <i class="fa fa-check text-green"></i>1 Custom Domain</li>

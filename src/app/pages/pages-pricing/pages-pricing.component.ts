@@ -12,6 +12,8 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
   // == Defining public property as boolean
   public selectedIndex: number = -1; // Assuming no element are selected initially
   @Input('hideHeader') hideHeader: boolean;
+  @Input('blockGapsZero') blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
+
   constructor(private sharedService: SharedService) {}
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);

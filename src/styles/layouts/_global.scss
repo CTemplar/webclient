@@ -65,6 +65,11 @@ body {
 .container-sm {
 	max-width: 905px;
 	width: 100%;
+
+	[class*="container-"] {
+		padding-right: 0;
+		padding-left: 0;
+	}
 }
 
 // == Grid
