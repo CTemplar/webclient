@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NumberOfColumns, Mode } from '../../store/models';
 import {
    FinalLoading
@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
   templateUrl: './pages-about.component.html',
   styleUrls: ['./pages-about.component.scss']
 })
-export class PagesAboutComponent implements OnInit {
+export class PagesAboutComponent implements OnInit, OnDestroy {
   numberOfColumns: NumberOfColumns;
   mode: Mode;
   constructor(private store: Store<any>) { }
@@ -21,7 +21,12 @@ export class PagesAboutComponent implements OnInit {
   ngOnInit() {
     this.numberOfColumns = NumberOfColumns.Three;
     this.mode = Mode.Recent;
-    this.store.dispatch(new FinalLoading({}));
+    this.store.dispatch(new FinalLoading({ loadingState: false}));
   }
 
+  ngOnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
+  }
 }

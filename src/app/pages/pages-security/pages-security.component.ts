@@ -1,5 +1,5 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // Actions
 import { FinalLoading } from '../../store/actions';
@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
   templateUrl: './pages-security.component.html',
   styleUrls: ['./pages-security.component.scss']
 })
-export class PagesSecurityComponent implements OnInit {
+export class PagesSecurityComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<any>,
@@ -21,4 +21,7 @@ export class PagesSecurityComponent implements OnInit {
     this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
+  ngOnDestroy() {
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
+  }
 }
