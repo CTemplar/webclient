@@ -8,7 +8,7 @@
     border-radius: 4px;
 
     @include media(">sm") {
-        padding-bottom: 2.813rem;
+        padding-bottom: 2.5rem;//~2.813rem;
     }
 }
 
@@ -97,6 +97,11 @@
         }
     }
 
+    &.is-sm {
+       padding-top: .53rem;
+       padding-bottom: .53rem;
+    }
+
     &.has-icon-center {
         .fa {
             top: 50%;
@@ -116,7 +121,7 @@
 }
 
 // == package-text-holder
-.package-text-holder {
+.package-divider {
     margin: 1.125rem 0 1.625rem;
     padding: 0.938rem 0.75rem;
     border-top: 1px solid $border-gray;
@@ -124,11 +129,11 @@
 
     @include media(">sm") {
         margin: 1.25rem 0 2.188rem;
-        padding: 2.5rem 0.75rem;
+        padding: 2rem 0.75rem;
     }
 }
 
-.package-text-holder-sm {
+.package-divider-sm {
     padding: 0.938rem 0 0.938rem 0;//~1.25rem 0.75rem;
 
     @include media(">=ipad") {

@@ -45,6 +45,7 @@
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
+    letter-spacing: 0.5px;
 }
 
 .news-pic-holder {
@@ -53,6 +54,7 @@
     margin-bottom: 1rem;
 
     .news-img {
+        border-radius: 4px;
         transform: scale3d(1, 1, 1);
         transition: all ceaser($ease) 1.5s;
     }
