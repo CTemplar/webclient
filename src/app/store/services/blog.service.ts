@@ -27,12 +27,12 @@ export class BlogService {
   ) {}
 
   addComment(body): Observable<Comment> {
-    const url = `${apiUrl}blog/comments/`;
+    const url = `${apiUrl}blog/comments`;
     return this.http.post<Comment>(url, body, apiHeaders());
   }
 
   getPosts(limit = 500, offset = 0): Observable<Post[]> {
-    const url = `${apiUrl}blog/posts/?limit=${limit}&offset=${offset}/`;
+    const url = `${apiUrl}blog/posts/?limit=${limit}&offset=${offset}`;
     return this.http.get<Post[]>(url)
       .pipe(
         map(data => data['results'])
@@ -44,7 +44,7 @@ export class BlogService {
   }
 
   getPostwithSlug(slug) {
-    const url = `${apiUrl}blog/posts/${slug}/`;
+    const url = `${apiUrl}blog/posts/${slug}`;
     return this.http.get<Post>(url);
   }
 
@@ -57,7 +57,7 @@ export class BlogService {
   }
 
   getCategories(limit = 500, offset = 0): Observable<Category[]> {
-    const url = `${apiUrl}blog/categories/`;
+    const url = `${apiUrl}blog/categories`;
     return this.http.get<Category[]>(url)
     .pipe(
       map(data => data['results'])
