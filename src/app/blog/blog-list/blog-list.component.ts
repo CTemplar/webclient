@@ -1,8 +1,8 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // Models
-import { Post, Category } from '../../store/models';
+import { Post, Category, Mode} from '../../store/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -15,6 +15,8 @@ import { Store } from '@ngrx/store';
 import { getNewBlogs, getCategories } from '../../store/selectors';
 import { GetPosts, GetCategories } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
+// Models
+import { NumberOfColumns } from '../../store/models';
 
 
 @Component({
@@ -22,7 +24,7 @@ import { FinalLoading } from '../../store/actions';
   templateUrl: './blog-list.component.html',
   styleUrls: ['./blog-list.component.scss']
 })
-export class BlogListComponent implements OnInit {
+export class BlogListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   firstPost: Post;
   postPosition: number = 0;
@@ -32,6 +34,9 @@ export class BlogListComponent implements OnInit {
   getBlogState$: Observable<any>;
   getCategories$: Observable<any>;
   categories: Category[];
+  mode: Mode;
+  numberOfColumns: NumberOfColumns;
+
   constructor(
     private store: Store<any>,
     private spinnerService: SpinnerService
@@ -44,6 +49,9 @@ export class BlogListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mode = Mode.Recent;
+    this.numberOfColumns = NumberOfColumns.Three;
+
     this.getCategories();
     this.getBlogState$.subscribe(blogs => {
       if (blogs.length) {
@@ -94,5 +102,9 @@ export class BlogListComponent implements OnInit {
     } else {
       this.positionCount = 6;
     }
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

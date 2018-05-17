@@ -8,7 +8,11 @@ import { BlogListComponent } from './blog-list/blog-list.component';
 
 const routes: Routes = [
   { path: 'blog', component: BlogListComponent },
-  { path: 'blog/:slug', component: BlogDetailComponent },
+  {
+    path: 'blog/:slug',
+    component: BlogDetailComponent,
+    runGuardsAndResolvers: 'paramsChange'
+  }
 ];
 
 @NgModule({

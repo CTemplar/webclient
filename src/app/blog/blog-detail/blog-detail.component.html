@@ -163,7 +163,7 @@
   </div>
 </section>
 
-<app-blog-sample *ngIf="blog" [mode]="mode" [numberOfColumns]="numberOfColumns" [category]="blog.category.id" [blogId]="blog.id"></app-blog-sample>
+<app-blog-sample *ngIf="blog" [mode]="mode" [posts]="posts"></app-blog-sample>
 
 <ng-template #content let-c="close" let-d="dismiss" class="modal-type-default">
   <div class="modal-header text-center justify-content-center">

@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
-import { BlogLatestComponent } from './shared/blog-latest/blog-latest.component';
 import { BlogListComponent } from './blog-list/blog-list.component';
 
 // Modules
@@ -30,12 +29,10 @@ import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component'
   ],
   declarations: [
     BlogDetailComponent,
-    BlogLatestComponent,
     BlogListComponent,
     BlogSampleComponent,
   ],
   exports: [
-    BlogLatestComponent,
     BlogSampleComponent
   ],
   providers: [

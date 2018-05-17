@@ -14,9 +14,9 @@ import { getRelatedBlogs } from '../../../store/selectors';
 import { GetRelatedPosts } from '../../../store/actions';
 import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions';
-import { RelatedBlogLoaded, RelatedBlogLoading, RecentBlogLoaded, RecentBlogLoading } from '../../../store/actions';
+import {  RelatedBlogLoading, RecentBlogLoading } from '../../../store/actions';
 import { Category } from '../../../store/models';
-import { selectBlogState, getCategories } from '../../../store/selectors';
+import { selectBlogState } from '../../../store/selectors';
 import { GetPostDetail, GetCategories } from '../../../store/actions';
 
 interface ModeInterface {
@@ -34,8 +34,8 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
   @Input('blogId') blogId?: number;
   @Input('numberOfColumns') numberOfColumns: NumberOfColumns;
   @Input('mode') mode: Mode;
+  @Input('posts') posts: Post[];
 
-  posts: Post[] = [];
   isLoading: boolean;
   getRelatedBlogsState$: Observable<any>;
   getNewBlogState$: Observable<any>;
@@ -49,41 +49,17 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
   constructor(private store: Store<any>) {
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
     this.getNewBlogState$ = this.store.select(getNewBlogs);
-    this.getCategories$ = this.store.select(getCategories);
-    this.getCategories$.subscribe(categories => {
-      this.categories = categories;
+    this.getCategories$ = this.store.select(selectBlogState);
+    this.getCategories$.subscribe(state => {
+      this.categories = state.categories;
     });
-   }
+  }
 
   ngOnInit() {
     this.isLoading = true;
     if (this.mode === Mode.Recent) {
-      this.updateRecentState();
     } else if (this.mode === Mode.Related) {
-      this.updateRelatedState();
-    }
-  }
-
-  updateRecentState() {
-    this.getNewBlogState$.subscribe(blogs => {
-      if (blogs.length) {
-        blogs.map((post: Post) => {
-          post.isLoaded = false;
-          if (post.text.length > 500) {
-            post.excerpt = post.text.substring(0, 500) + '...';
-          } else {
-            post.excerpt = post.text;
-          }
-          if (this.categories.length - 1 < post.category) {
-            this.store.dispatch(new GetCategories({}));
-          }
-        });
-        this.posts = blogs.slice(0, this.numberOfColumns);
-        setTimeout(() => this.store.dispatch(new RecentBlogLoaded({})));
-      }
-    });
-    if (!this.posts.length) {
-      this.getPosts();
+      // this.updateRelatedState();
     }
   }
 
@@ -104,12 +80,12 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
             return false;
           })
           .slice(0, this.numberOfColumns);
-        this.store.dispatch(new RelatedBlogLoaded({}));
+        this.store.dispatch(new RelatedBlogLoading({ loadingState: false }));
       }
     });
     if (!this.posts.length || this.posts[0].category !== this.category) {
       this.getRelatedPosts();
-      this.store.dispatch(new RelatedBlogLoaded({}));
+      this.store.dispatch(new RelatedBlogLoading({ loadingState: false }));
     }
   }
 
@@ -122,7 +98,7 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new RecentBlogLoading({}));
-    this.store.dispatch(new RelatedBlogLoading({}));
+    this.store.dispatch(new RecentBlogLoading({ loadingState: true }));
+    this.store.dispatch(new RelatedBlogLoading({ loadingState: true }));
   }
 }

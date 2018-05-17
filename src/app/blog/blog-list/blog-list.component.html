@@ -55,7 +55,8 @@
           </a>
         </article>
         <!-- BLOG FIRST POST WITH FULL WIDTH ENDS -->
-
+       <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
+<!-- 
         <article class="col-md-4 col-sm-6 mb-4 mb-sm-5 normal-post" *ngFor= "let post of posts">
           <a routerLink="/blog/{{ post.slug }}/" class="d-block news-card-holder">
             <div class="news-card position-relative">
@@ -83,7 +84,7 @@
             </div>
           </a>
         </article>
-    
+     -->
       </div>
     </div>
     <footer class="l-block-footer text-center">

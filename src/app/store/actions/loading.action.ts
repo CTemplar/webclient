@@ -13,19 +13,11 @@ export class RelatedBlogLoading implements Action {
   constructor(public payload: any) { }
 }
 
-export class RelatedBlogLoaded implements Action {
-  readonly type = LoadingActionTypes.RELATED_LOADED;
-  constructor(public payload: any) {}
-}
 export class RecentBlogLoading implements Action {
   readonly type = LoadingActionTypes.RECENT_LOADING;
   constructor(public payload: any) { }
 }
 
-export class RecentBlogLoaded implements Action {
-  readonly type = LoadingActionTypes.RECENT_LOADED;
-  constructor(public payload: any) { }
-}
 
 export class FinalLoading implements Action {
   readonly type = LoadingActionTypes.FINAL_LOADING;
@@ -35,7 +27,5 @@ export class FinalLoading implements Action {
 
 export type LoadingActionAll =
   | RelatedBlogLoading
-  | RelatedBlogLoaded
   | RecentBlogLoading
-  | RecentBlogLoaded
   | FinalLoading;

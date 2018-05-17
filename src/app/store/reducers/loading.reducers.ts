@@ -13,16 +13,10 @@ export const initialState: LoadingState = {
 export function reducer(state = initialState, action: LoadingActionAll): LoadingState {
   switch (action.type) {
     case LoadingActionTypes.RECENT_LOADING: {
-      return { ...state, RecentBlogLoading: true };
-    }
-    case LoadingActionTypes.RECENT_LOADED: {
-      return { ...state, RecentBlogLoading: false };
+      return { ...state, RecentBlogLoading: action.payload.loadingState };
     }
     case LoadingActionTypes.RELATED_LOADING: {
-      return { ...state, RelatedBlogLoading: true };
-    }
-    case LoadingActionTypes.RELATED_LOADED: {
-      return { ...state, RelatedBlogLoading: false };
+      return { ...state, RelatedBlogLoading: action.payload.loadingState };
     }
     case LoadingActionTypes.FINAL_LOADING: {
       return { ...state, Loading: action.payload.loadingState};
