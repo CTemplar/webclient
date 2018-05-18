@@ -6,11 +6,24 @@
 // == Mail contacts style
 
 .mail-contact {
-	@include media(">ipad") {
+	@include media(">=ipad") {
 		overflow-x: hidden;
 		overflow-y: auto;
 		padding-right: 1.125rem;
-		height: calc(100vh - 14.875rem);
+		height: calc(100vh - 225px); //~calc(100vh - 14.875rem);
+
+		.is-splitted & {
+			padding-right: 0.5rem;
+		}
+	}
+}
+
+.mail-contact-listing-col {
+	.is-splitted & {
+		@include media(">=ipad") {
+			flex: 0 0 55%;
+			max-width: 55%;
+		}
 	}
 }
 
@@ -47,9 +60,20 @@
 	margin-left: -0.938rem;
 }
 
+// == Mail contact list
+.mail-list-col-row {
+	@include media(">sm") {
+		margin: 0 -.5rem;
+
+		.mail-list-col-item {
+			padding: 0 .5rem;
+		}
+	}
+}
+
 // == Smaller screen { max-width: 767px}
 @include media("<=sm") {
-	.mail-list-row.is-unread .mail-from-name {
+	.mail-list-row .mail-from-name {
 		padding-left: 2.33rem;
 	}
 
@@ -61,5 +85,59 @@
 		top: .05rem;
 		right: auto;
 		left: 2.5rem;
+	}
+}
+
+// == Add new contact entry
+.mail-contact-entry-col {
+	display: none;
+	@include media(">=ipad") {
+		flex: 0 0 45%;
+		max-width: 45%;
+	}
+
+	.is-splitted & {
+		display: block;
+	}
+}
+
+// == Is grid layout splitted
+.is-splitted {
+	.mail-list-inner-row {
+		.mail-contact-col-sm {
+			flex: 0 0 42%;
+			max-width: 42%;
+		}
+
+		.mail-contact-col-lg {
+			flex: 0 0 58%;
+			max-width: 58%;
+		}
+	}	
+}
+
+// == Mail actions form
+.mail-actions-form-holder {
+	padding-left: 0.625rem;
+}
+
+.mail-actions-form-title {
+	margin-bottom: 2rem;
+}
+
+.mail-actions-form-holder {
+	font-size: 0.75rem;
+
+	.form-control {
+		padding-right: 0.75rem;
+		padding-left: 0.75rem;
+		border-radius: 2px;
+		font-size: 0.75rem;
+
+		@include media(">sm") {
+			&-sm {
+				height: 2rem;
+			}
+		}
 	}
 }
