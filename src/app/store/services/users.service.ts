@@ -60,7 +60,7 @@ export class UsersService {
   }
 
   signIn(body): Observable<any> {
-    const url = `${apiUrl}users/auth/signin/`;
+    const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, body)
     .pipe(tap(data => {
       sessionStorage.setItem('token', data.token);
@@ -76,15 +76,16 @@ export class UsersService {
   }
 
   signUp(user): Observable<any> {
-    const url = `${apiUrl}users/auth/signup/`;
+    const url = `${apiUrl}auth/sign-up/`;
     const body = {
       fingerprint: this.openPgpService.getFingerprint(),
       private_key: this.openPgpService.getPrivateKey(),
       public_key: this.openPgpService.getPubKey(),
       username: user.username,
       password: user.password,
-      is_spammer: false
+      recaptcha: 'a',
     };
+    console.log(body);
     return this.http.post<any>(url, body);
   }
 
@@ -99,21 +100,13 @@ export class UsersService {
   }
 
   getNecessaryTokenUrl(url) {
-    if (url.indexOf('blog/posts') > -1) {
-      return true;
-    }
+    // if (url.indexOf('blog/posts') > -1) {
+    //   return true;
+    // }
 
-    if (url.indexOf('auth/signup') > -1) {
-      return true;
-    }
-
-    if (url.indexOf('auth/signin') > -1) {
-      return true;
-    }
-
-    if (url.indexOf('blog/categories') > -1) {
-      return true;
-    }
+    // if (url.indexOf('blog/categories') > -1) {
+    //   return true;
+    // }
     return false;
   }
 

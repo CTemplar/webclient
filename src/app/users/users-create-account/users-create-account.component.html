@@ -10,7 +10,7 @@
         </div>
       </div>
     </header>
-    <div class="l-block-body px-md">
+    <div class="l-block-body px-md" *ngIf="!isFormCompleted">
       <div class="form-card-holder mx-auto">
         <div class="info-card bg-faded text-sm-center">
           <p class="text-medium">Take back your privacy!
@@ -134,7 +134,6 @@
                   </span>
                 </div>
               </div>
-
               <div class="text-holder text-center">
                 <a routerLink="/signin">
                   <u>Already have an Account?</u>
@@ -144,6 +143,11 @@
           </form>
         </div>
       </div>
+    </div>
+    <div class="l-block-body px-md" *ngIf="!isFormCompleted">
+     <div class="form-recaptcha-holder mx-auto">
+        <re-captcha (resolved)="resolved($event)"></re-captcha>
+     </div>
     </div>
   </div>
   <!-- /.Site container ends -->

@@ -48,6 +48,7 @@ export class OnScreenKeyboardDirective implements OnInit, OnDestroy {
               break;
             default:
               this.selectionStart = this.el.selectionStart + 1;
+              // tslint:disable-next-line:max-line-length
               this.el.value = this.el.value.slice(0, this.el.selectionStart) + state.keyPressed.key + this.el.value.slice(this.el.selectionEnd);
           }
         }

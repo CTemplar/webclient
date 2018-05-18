@@ -19,6 +19,11 @@ import { UsersBillingInfoComponent } from './users-billing-info/users-billing-in
 import { PagesModule } from '../pages/pages.module';
 // Service
 import { UsersService } from '../store/services';
+import {
+  RecaptchaModule,
+  RECAPTCHA_SETTINGS,
+  RecaptchaSettings
+} from 'ng-recaptcha';
 
 @NgModule({
   imports: [
@@ -28,7 +33,8 @@ import { UsersService } from '../store/services';
     NgbModule,
     UsersRoutingModule,
     PagesModule,
-    SharedModule
+    SharedModule,
+    RecaptchaModule.forRoot()
   ],
   declarations: [
     UsersSignInComponent,
@@ -36,6 +42,12 @@ import { UsersService } from '../store/services';
     UsersCreateAccountComponent,
     UsersBillingInfoComponent
   ],
-  providers: [UsersService]
+  providers: [UsersService,
+  {
+    provide: RECAPTCHA_SETTINGS,
+    useValue: {
+      siteKey: '6LdGCFoUAAAAAFz-kzOkmvdBKtC6lyoanpnCTpzp' } as RecaptchaSettings,
+
+  }]
 })
 export class UsersModule {}

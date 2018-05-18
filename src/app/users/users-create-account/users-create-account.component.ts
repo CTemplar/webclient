@@ -45,6 +45,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   isRecoveryEmail: boolean = false;
   isConfirmedPrivacy: boolean = false;
   isLoading: boolean = false;
+  isFormCompleted: boolean = false;
   errorMessage: string = '';
   getState: Observable<any>;
 
@@ -78,7 +79,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
-    this.store.dispatch(new FinalLoading({loadingState: false}));
+    setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -99,7 +100,11 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
     const bool = this.isTextToggled;
     this.isTextToggled = bool === false ? true : false;
   }
-
+  formCompleted() {
+    if (this.signupForm.valid && this.isConfirmedPrivacy) {
+      this.isFormCompleted = true;
+    }
+  }
   signup() {
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isLoading = true;

@@ -43,9 +43,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe(params => window.scrollTo(0, 0));
-    this.getLoadingState$.subscribe((loadingState: LoadingState) => {
-      this.isLoading = loadingState.Loading;
-    });
+    this.updateLoadingStatus();
 
     this.quote = quotes[Math.floor(Math.random() * 5)];
 

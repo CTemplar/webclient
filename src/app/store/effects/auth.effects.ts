@@ -83,7 +83,8 @@ export class AuthEffects {
     tap((user) => {
       sessionStorage.setItem('token', user.payload.token);
       this.authService.setTokenExpiration();
-      // this.router.navigateByUrl('/');
+      this.authService.signedIn();
+      this.router.navigateByUrl('/');
     })
   );
 
