@@ -100,30 +100,6 @@
 	}
 }
 
-.userame-field-group {
-	.form-control {
-		@include media(">sm") {
-			width: calc(50% - 25px);
-		}
-
-		@include media("<=sm") {
-			&.is-readonly {
-				width: calc(100% - 50px);
-			}
-		}
-	}
-
-	.domain-separator {
-		width: 3.125rem;
-		font-size: 1.5rem;
-	}
-
-	.is-readonly {
-		background: $brand-white;
-		font-style: italic;
-	}
-}
-
 // == Billing page
 .form-card-holder-top-border {
 	padding-top: 0.938rem;

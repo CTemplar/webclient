@@ -33,7 +33,7 @@
                     <label for="username" class="d-block text-muted text-left hidden-sm-up">Choose userame</label>
                     <input class="form-control text-dark mb-3 mb-sm-0" id="username" placeholder="Choose username" type="text" name="username" formControlName="username"/>
                     <span class="domain-separator text-center text-dark">@</span>
-                    <input class="form-control text-dark is-readonly email-input" value="ctemplar.com" type="text" readonly />
+                    <input class="form-control text-dark is-readonly border-0 px-0 email-input" value="ctemplar.com" type="text" readonly />
                   </div>
                   <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine" id="email-valid" class="validate-message">
                     <span>The username is required.</span>

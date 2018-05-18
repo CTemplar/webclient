@@ -235,5 +235,9 @@ $spacers: (
   7: (
     x: ($spacer-x * 5),
     y: ($spacer-y * 5)
+  ),
+  8: (
+    x: ($spacer-x * 5.75),
+    y: ($spacer-y * 5.75)
   )
 );

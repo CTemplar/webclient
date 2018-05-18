@@ -23,7 +23,7 @@ $error-red: #e94e4c;
 
 .login-form {
     position: relative;
-    padding-top: 35px;
+    padding-top: 13px;
 
     &__failed {
         position: absolute;
@@ -34,7 +34,8 @@ $error-red: #e94e4c;
         color: $error-red;
     }
     .form-group {
-        // position: relative;
+        position: relative;
+        margin-bottom: 1rem;
     }
 
     .validate-message {
