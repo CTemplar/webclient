@@ -144,9 +144,9 @@
         </div>
       </div>
     </div>
-    <div class="l-block-body px-md" *ngIf="!isFormCompleted">
+    <div class="l-block-body px-md" *ngIf="isFormCompleted">
      <div class="form-recaptcha-holder mx-auto">
-        <re-captcha (resolved)="resolved($event)"></re-captcha>
+        <re-captcha (resolved)="recaptchaResolved($event)"></re-captcha>
      </div>
     </div>
   </div>

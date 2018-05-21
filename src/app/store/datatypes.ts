@@ -25,6 +25,11 @@ export interface AuthState {
   errorMessage: string | null;
 }
 
+export interface UserState {
+  username: string | null;
+  id: number | null;
+}
+
 export interface BlogState {
   posts: Post[];
   comments: Comment[];
@@ -62,4 +67,5 @@ export interface AppState {
   mail: MailState;
   loading: LoadingState;
   keyboard: KeyboardState;
+  user: UserState;
 }

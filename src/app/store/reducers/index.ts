@@ -8,12 +8,14 @@ import * as blog from './blog.reducers';
 import * as mail from './mail.reducers';
 import * as loading from './loading.reducers';
 import * as keyboard from './keyboard.reducers';
+import * as user from './users.reducers';
 export const reducers: ActionReducerMap<AppState> = {
   routerReducer: fromRouter.routerReducer,
   auth: auth.reducer,
   blog: blog.reducer,
   mail: mail.reducer,
   loading: loading.reducer,
-  keyboard: keyboard.reducer
+  keyboard: keyboard.reducer,
+  user: user.reducer,
 };
 

@@ -83,7 +83,7 @@ export class UsersService {
       public_key: this.openPgpService.getPubKey(),
       username: user.username,
       password: user.password,
-      recaptcha: 'a',
+      recaptcha: user.captchaResponse,
     };
     console.log(body);
     return this.http.post<any>(url, body);
@@ -104,10 +104,16 @@ export class UsersService {
     //   return true;
     // }
 
-    // if (url.indexOf('blog/categories') > -1) {
-    //   return true;
-    // }
+    if (url.indexOf('users/accounts') > -1) {
+      return true;
+    }
     return false;
+  }
+
+  accounts(id) {
+    const url = `${apiUrl}users/accounts/${id}/`;
+    const body = {};
+    return this.http.get<any>(url, body);
   }
 
   private handleError<T> (operation = 'operation', result?: T) {

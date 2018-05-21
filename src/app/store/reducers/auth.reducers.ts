@@ -13,6 +13,7 @@ export const initialState: AuthState = {
 export function reducer(state = initialState, action: AuthActionAll): AuthState {
   switch (action.type) {
     case AuthActionTypes.LOGIN_SUCCESS: {
+      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuthenticated: true,

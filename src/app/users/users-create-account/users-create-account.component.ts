@@ -107,15 +107,19 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   }
   signup() {
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
-      this.isLoading = true;
-      this.openPgpService.generateKey(this.signupForm.value).then(() => {
-        this.store.dispatch(new SignUp(this.signupForm.value));
-      });
+      this.isFormCompleted = true;
     }
   }
 
   private navigateToBillingPage() {
     this.router.navigateByUrl('/billing-info');
+  }
+
+  recaptchaResolved(captchaResponse: string) {
+    this.openPgpService.generateKey(this.signupForm.value).then(() => {
+      this.signupForm.value.captchaResponse = captchaResponse;
+      this.store.dispatch(new SignUp(this.signupForm.value));
+    });
   }
 
   ngOnDestroy() {
