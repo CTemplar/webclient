@@ -47,8 +47,14 @@
 }
 
 .mail-contact .mail-list-row {
-	font-size: 0.875rem;
 	border-color: #f5f5f5;
+	font-size: 0.875rem;
+
+	@include media("<laptop", ">=ipad") {
+		.is-splitted & {
+			font-size: 0.75rem;
+		}
+	}
 
 	@include media("<=sm") {
 		padding: 1.125rem 0.938rem;
@@ -107,30 +113,44 @@
 		.mail-contact-col-sm {
 			flex: 0 0 42%;
 			max-width: 42%;
+
+			@include media("<laptop", ">=ipad") {
+				flex: 0 0 54%;
+				max-width: 54%;
+			}
 		}
 
 		.mail-contact-col-lg {
 			flex: 0 0 58%;
 			max-width: 58%;
+
+			@include media("<laptop", ">=ipad") {
+				flex: 0 0 46%;
+				max-width: 46%;
+			}
 		}
 	}	
 }
 
 // == Mail actions form
-.mail-actions-form-holder {
-	padding-left: 0.625rem;
-}
-
 .mail-actions-form-title {
-	margin-bottom: 2rem;
+	margin-bottom: 1.25rem;
 }
 
 .mail-actions-form-holder {
 	font-size: 0.75rem;
 
+	@include media(">=ipad") {
+		padding-right: 1.25rem;
+	}
+
+	@include media(">=laptop") {
+		padding-left: 0.625rem;
+		padding-right: 4.375rem;
+	}
+
 	.form-control {
-		padding-right: 0.75rem;
-		padding-left: 0.75rem;
+		padding: 0.406777rem 0.75rem;
 		border-radius: 2px;
 		font-size: 0.75rem;
 
@@ -140,4 +160,28 @@
 			}
 		}
 	}
+}
+
+.is-repeatable {
+	position: relative !important;
+
+	.btn-clone {
+		position: absolute;
+		top: 0.5rem;
+		right: -1.563rem;
+		padding: 0 0;
+		background: transparent;
+		border: 1px solid #d4d4d4;
+		border-radius: 50%;
+		color: #d8d8d8;
+		font-size: 0.5rem;
+		height: 1.063rem;
+		width: 1.063rem;
+		line-height: 1.063rem;
+		text-align: center;
+	}
+}
+
+.error-msg.is-sm {
+	font-size: 0.625rem;
 }
