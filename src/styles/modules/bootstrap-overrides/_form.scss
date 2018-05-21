@@ -39,7 +39,8 @@ input:-webkit-autofill {
     }
 
     &:focus {
-        box-shadow: 0 0 4px 0 rgba(51, 72, 93, 0.3) !important;
+        //box-shadow: 0 0 4px 0 rgba(51, 72, 93, 0.3) !important;
+        border-color: $brand-secondary !important;
     }
 }
 

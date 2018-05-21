@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MailContactComponent implements OnInit {
 
-  constructor() { }
+	isLayoutSplitted: boolean = false;
 
-  ngOnInit() {
-  }
+	constructor() { }
+
+	ngOnInit() {
+	}
+
+	initSplitContactLayout():any {
+    	this.isLayoutSplitted = true;
+	}
+
+	destroySplitContactLayout():any {
+    	this.isLayoutSplitted = false;
+	}
 
 }

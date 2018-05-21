@@ -927,6 +927,12 @@
 	&.is-checked {
 		background: rgba(241, 196, 15, 0.12);
 	}
+
+	&.is-selected,
+	&.is-active {
+		background: $brand-secondary !important;
+		color: $brand-white !important;
+	}
 }
 
 .mail-list-inner-row {
