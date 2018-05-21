@@ -163,16 +163,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-error is-repeatable">
+                            <span class="d-block text-right error-msg is-sm">Check is e-mail information right</span>
                             <div class="row align-items-center">
                                 <div class="col-sm-2">
                                     <label class="form-label mb-sm-0" for="contactEmail">Email</label>
                                 </div>
                                 <div class="col-sm-10">
-                                    <input class="form-control form-control-sm" id="contactEmail" placeholder="Curtis_Scottgmail.com" type="text" />
+                                    <input class="form-control form-control-sm error" id="contactEmail" placeholder="Curtis_Scottgmail.com" type="text" />
                                 </div>
                             </div>
+                            <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
                         </div>
+                        <div class="mb-2">&nbsp;</div>
                         <div class="form-group">
                             <div class="row align-items-center">
                                 <div class="col-sm-2">
@@ -183,7 +186,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group is-repeatable">
                             <div class="row align-items-center">
                                 <div class="col-sm-2">
                                     <label class="form-label mb-sm-0" for="contactPhone2">Phone2</label>
@@ -192,8 +195,9 @@
                                     <input class="form-control form-control-sm" id="contactPhone2" placeholder="+734920" type="text" />
                                 </div>
                             </div>
+                            <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group is-repeatable">
                             <div class="row">
                                 <div class="col-sm-2">
                                     <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress">Address</label>
@@ -202,14 +206,16 @@
                                     <textarea class="form-control" id="contactAddress" placeholder="Address" rows="7"></textarea>
                                 </div>
                             </div>
+                            <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
                         </div>
+                        <div class="mb-2">&nbsp;</div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-2">
                                     <label class="form-label pt-sm-2 mb-sm-0" for="contactNote">Note</label>
                                 </div>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="contactNote" placeholder="Note" rows="3"></textarea>
+                                    <textarea class="form-control" id="contactNote" placeholder="Note" rows="4"></textarea>
                                 </div>
                             </div>
                         </div>

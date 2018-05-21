@@ -275,7 +275,7 @@
 // == Has form error
 .has-error {
     position: relative !important;
-    color: $brand-danger;
+    // color: $brand-danger;
 
     .form-control {
         border-color: $brand-danger;
