@@ -23,7 +23,7 @@ export class MailComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new FinalLoading({ loadingState: false }));
+    setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
     this.sharedService.hideEntireFooter.emit(true);

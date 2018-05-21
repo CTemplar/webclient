@@ -18,7 +18,7 @@
                                 <ul class="info-list list-styled text-dark">
                                     <li class="info-list-item">
                                         <div class="info-list-text info-list-label">Username</div>
-                                        <div class="info-list-text info-list-val">{{username}}</div>
+                                        <div class="info-list-text info-list-val">{{userState.username}}</div>
                                     </li>
                                     <li class="info-list-item">
                                         <div class="info-list-text info-list-label">Domains</div>
@@ -601,38 +601,14 @@
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">                               
                 <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full">
+                    <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList">
                         <div class="row row-xs align-items-center">
                             <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">kitty.gonzales83@example.com</div>
+                                <div class="form-label text-dark mb-0">{{item.email}}</div>
                             </div>
                             <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">henry.stewart76@example.com</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">joy.kennedy25@example.com</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                    <li><a (click)="deleteWhiteList(item.id)" role="button"><i class="icon icon-garbage"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -653,41 +629,21 @@
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">                               
                 <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">kitty.gonzales83@example.com</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
+                    <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList">
+                      <div class="row row-xs align-items-center">
+                        <div class="col-10 col-sm-8">
+                          <div class="form-label text-dark mb-0">{{item.email}}</div>
                         </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">henry.stewart76@example.com</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
+                        <div class="col-2 col-sm-4">
+                          <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                            <li>
+                              <a (click)="deleteBlackList(item.id)" role="button">
+                                <i class="icon icon-garbage"></i>
+                              </a>
+                            </li>
+                          </ul>
                         </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">joy.kennedy25@example.com</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
+                      </div>
                     </li>
                 </ul>
                 <div class="info-card">
@@ -1034,6 +990,7 @@
 
 <!-- Add whitelist Modal -->
 <ng-template #whitelistContent let-c="close" let-d="dismiss">
+  <form class="whitelist-form" [formGroup]="whiteListForm" #form="ngForm" (ngSubmit)="addWhitelist(whiteListForm.value)">
     <div class="modal-header">
         <h3 class="modal-title w-100 text-dark" id="whitelistModalLabel"><strong>Add to whitelist</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
@@ -1049,10 +1006,13 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="whitelistName" type="text" />
+                            <input class="form-control form-control-sm" id="whitelistName" type="text" formControlName="name" />
                         </div>
                     </div>
                 </div>
+                <span *ngIf="whiteListForm.controls['name'].errors && showFormErrors" id="name-valid" class="validate-message">
+                  <span *ngIf="whiteListForm.controls['name'].errors.required">The username is required.</span>
+                </span>
             </div>
 
             <div class="form-group mb-0">
@@ -1062,21 +1022,26 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="whitelistEmail" type="text" />
+                            <input class="form-control form-control-sm" id="whitelistEmail" type="text" formControlName="email"/>
                         </div>
                     </div>
                 </div>
+                <span *ngIf="whiteListForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
+                  <span *ngIf="whiteListForm.hasError('email','email') ">The email is required.</span>
+                </span>
             </div>
 
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a href="" class="btn btn-secondary btn-sm">Add</a>
+        <button class="btn btn-secondary btn-sm" type="submit">Add</button>
     </div>
+   </form>
 </ng-template><!-- /.Add whitelist Modal ends -->
 
 <!-- Add blacklist Modal -->
 <ng-template #blacklistContent let-c="close" let-d="dismiss">
+   <form class="blacklist-form" [formGroup]="blackListForm" #form="ngForm" (ngSubmit)="addBlacklist(blackListForm.value)">
     <div class="modal-header">
         <h3 class="modal-title w-100 text-dark" id="blacklistModalLabel"><strong>Add to blacklist</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
@@ -1092,9 +1057,12 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="blacklistName" type="text" />
+                            <input class="form-control form-control-sm" id="blacklistName" type="text" formControlName="name" />
                         </div>
                     </div>
+                <span *ngIf="blackListForm.controls['name'].errors && showFormErrors" id="name-valid" class="validate-message">
+                  <span *ngIf="blackListForm.controls['name'].errors.required">The username is required.</span>
+                </span>
                 </div>
             </div>
 
@@ -1105,17 +1073,21 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="blacklistEmail" type="text" />
+                            <input class="form-control form-control-sm" id="blacklistEmail" type="text" formControlName="email"/>
                         </div>
                     </div>
                 </div>
+                <span *ngIf="blackListForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
+                  <span *ngIf="blackListForm.hasError('email','email') ">The email is required.</span>
+                </span>
             </div>
 
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a href="" class="btn btn-secondary btn-sm">Add</a>
+        <button class="btn btn-secondary btn-sm" type="submit">Add</button>
     </div>
+  </form>
 </ng-template><!-- /.Add blacklist Modal ends -->
 
 <!-- Billing Information Modal -->

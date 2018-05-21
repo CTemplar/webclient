@@ -36,22 +36,24 @@ export class UsersService {
   ) {}
 
   setTokenExpiration() {
-    const expiration = (new Date()).getTime() + 7 * (1000 * 60 * 60 * 24);
+    const expiration = new Date().getTime() + 7 * (1000 * 60 * 60 * 24);
     sessionStorage.setItem('token_expiration', expiration.toString());
   }
 
   refreshToken(): Observable<any> {
-    const body = {'token': sessionStorage.getItem('token')};
+    const body = { token: sessionStorage.getItem('token') };
     const url = `${apiUrl}auth/refresh/`;
-    return this.http.post<any>(url, body)
-      .pipe(tap(data => {
+    return this.http.post<any>(url, body).pipe(
+      tap(data => {
         sessionStorage.setItem('token', data.token);
         this.setTokenExpiration();
-      }));
+      })
+    );
   }
 
   signedIn() {
-    const token_active = +sessionStorage.getItem('token_expiration') > (new Date()).getTime();
+    const token_active =
+      +sessionStorage.getItem('token_expiration') > new Date().getTime();
     if (!!sessionStorage.getItem('token') && token_active) {
       return true;
     } else {
@@ -61,11 +63,12 @@ export class UsersService {
 
   signIn(body): Observable<any> {
     const url = `${apiUrl}auth/sign-in/`;
-    return this.http.post<any>(url, body)
-    .pipe(tap(data => {
-      sessionStorage.setItem('token', data.token);
-      this.setTokenExpiration();
-    }));
+    return this.http.post<any>(url, body).pipe(
+      tap(data => {
+        sessionStorage.setItem('token', data.token);
+        this.setTokenExpiration();
+      })
+    );
   }
 
   signOut() {
@@ -83,14 +86,14 @@ export class UsersService {
       public_key: this.openPgpService.getPubKey(),
       username: user.username,
       password: user.password,
-      recaptcha: user.captchaResponse,
+      recaptcha: user.captchaResponse
     };
     console.log(body);
     return this.http.post<any>(url, body);
   }
 
   verifyToken(): Observable<any> {
-    const body = {'token': sessionStorage.getItem('token')};
+    const body = { token: sessionStorage.getItem('token') };
     const url = `${apiUrl}auth/verify/`;
     return this.http.post<any>(url, body);
   }
@@ -107,18 +110,86 @@ export class UsersService {
     if (url.indexOf('users/accounts') > -1) {
       return true;
     }
+
+    if (url.indexOf('users/whitelist') > -1) {
+      return true;
+    }
+
+    if (url.indexOf('users/contact') > -1) {
+      return true;
+    }
     return false;
   }
 
-  accounts(id) {
+  getAccounts(id) {
     const url = `${apiUrl}users/accounts/${id}/`;
     const body = {};
     return this.http.get<any>(url, body);
   }
 
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  getWhiteList(limit = 0, offset = 0) {
+    const url = `${apiUrl}users/whitelist/?limit=${limit}&offset=${offset}`;
+    const body = {};
+    return this.http.get<any>(url, body);
+  }
 
+  addWhiteList(email, name) {
+    const url = `${apiUrl}users/whitelist/`;
+    const body = { email: email, name: name };
+    return this.http.post<any>(url, body);
+  }
+
+  deleteWhiteList(id) {
+    const url = `${apiUrl}users/whitelist/${id}/`;
+    const body = {};
+    return this.http.delete<any>(url, body);
+  }
+
+  getBlackList(limit = 0, offset = 0) {
+    const url = `${apiUrl}users/whitelist/?limit=${limit}&offset=${offset}`;
+    const body = {};
+    return this.http.get<any>(url, body);
+  }
+
+  addBlackList(email, name) {
+    const url = `${apiUrl}users/whitelist/`;
+    const body = { email: email, name: name };
+    return this.http.post<any>(url, body);
+  }
+
+  deleteBlackList(id) {
+    const url = `${apiUrl}users/whitelist/${id}/`;
+    const body = {};
+    return this.http.delete<any>(url, body);
+  }
+
+  getContact(limit = 0, offset = 0) {
+    const url = `${apiUrl}users/contacts/?limit=${limit}&offset=${offset}`;
+    const body = {};
+    return this.http.get<any>(url, body);
+  }
+
+  addContact(payload) {
+    const url = `${apiUrl}users/contacts/`;
+    const body = {
+      id: payload.id,
+      address: payload.address,
+      email: payload.email,
+      name: payload.name,
+      note: payload.note,
+      phone: payload.phone,
+      phone2: payload.phone2 };
+    return this.http.post<any>(url, body);
+  }
+
+  deleteContact(id) {
+    const url = `${apiUrl}users/contacts/${id}/`;
+    const body = {};
+    return this.http.delete<any>(url, body);
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 

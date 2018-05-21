@@ -22,6 +22,7 @@ export const selectLoadingState = createFeatureSelector<AppState>('loading');
 export const selectKeyboardState = createFeatureSelector<AppState>('keyboard');
 export const selectKeyboardState_detail = (state: AppState) => state.keyboard;
 export const selectUsersState = createFeatureSelector<AppState>('user');
+export const selectWhiteListState = createFeatureSelector<AppState>('whiteList');
 
 export const getKeyPressed = createSelector(
   selectKeyboardState_detail,

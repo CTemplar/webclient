@@ -16,6 +16,7 @@ import { MailSidebarComponent } from './mail-sidebar/mail-sidebar.component';
 import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailListComponent } from './mail-list/mail-list.component';
 import { MailContactComponent } from './mail-contact/mail-contact.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Custom Pipe
 import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
@@ -24,7 +25,9 @@ import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
   imports: [
     CommonModule,
     NgbModule,
-    MailRoutingModule
+    MailRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     MailComponent,
@@ -35,7 +38,7 @@ import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
     MailDetailComponent,
     MailListComponent,
     MailContactComponent,
-    DecryptPipe    
+    DecryptPipe
   ],
   exports: [MailFooterComponent]
 })

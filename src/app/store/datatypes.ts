@@ -28,6 +28,9 @@ export interface AuthState {
 export interface UserState {
   username: string | null;
   id: number | null;
+  whiteList: WhiteList[];
+  blackList: BlackList[];
+  contact: Contact[];
 }
 
 export interface BlogState {
@@ -60,6 +63,28 @@ export interface KeyboardState {
   focusedInput: string;
 }
 
+export interface WhiteList {
+  id: number;
+  email: string;
+  name: string;
+}
+
+export interface BlackList {
+  id: number;
+  email: string;
+  name: string;
+}
+
+export interface Contact {
+  id: number;
+  address: string;
+  email: string;
+  name: string;
+  note: string;
+  phone: string;
+  phone2: string;
+}
+
 export interface AppState {
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   auth: AuthState;
@@ -69,3 +94,4 @@ export interface AppState {
   keyboard: KeyboardState;
   user: UserState;
 }
+

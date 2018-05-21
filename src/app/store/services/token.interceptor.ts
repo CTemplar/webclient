@@ -18,7 +18,6 @@ export class TokenInterceptor implements HttpInterceptor {
     const token: string = this.authService.getToken();
     const is_necessary_token = this.authService.getNecessaryTokenUrl(request.url);
     if ( is_necessary_token ) {
-      console.log(token);
       request = request.clone({
         setHeaders: {
           'Authorization': `JWT ${token}`,

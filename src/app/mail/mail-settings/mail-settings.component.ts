@@ -3,11 +3,21 @@ import {NgbModal, ModalDismissReasons, NgbDropdownConfig} from '@ng-bootstrap/ng
 
 // Store
 import { Store } from '@ngrx/store';
-import { Accounts } from '../../store/actions';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import {
+  Accounts,
+  WhiteList,
+  WhiteListAdd,
+  WhiteListDelete,
+  BlackListAdd,
+  BlackListDelete,
+  BlackList
+} from '../../store/actions';
 import { UserState } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
-import { selectUsersState } from '../../store/selectors';
-
+import { selectUsersState, selectWhiteListState } from '../../store/selectors';
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
@@ -17,21 +27,36 @@ export class MailSettingsComponent implements OnInit {
   // == Defining public property as boolean
   public selectedIndex = -1; // Assuming no element are selected initially
   public getUsersState$: Observable<any>;
-  public username: string;
+  public userState: UserState;
+  private whiteListForm: FormGroup;
+  private blackListForm: FormGroup;
+  private showFormErrors: boolean = false;
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
-    private store: Store<UserState>
+    private store: Store<UserState>,
+    private formBuilder: FormBuilder
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
     this.getUsersState$ = this.store.select(selectUsersState);
-
   }
 
   ngOnInit() {
     this.store.dispatch(new Accounts({}));
+    setTimeout(() => this.store.dispatch(new WhiteList({})));
+    setTimeout(() => this.store.dispatch(new BlackList({})));
+
     this.updateUsersStatus();
+
+    this.whiteListForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.email]]
+    });
+    this.blackListForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.email]]
+    });
   }
 
   // == Toggle active state of the slide in price page
@@ -103,7 +128,31 @@ export class MailSettingsComponent implements OnInit {
 
   private updateUsersStatus(): void {
     this.getUsersState$.subscribe((state: UserState) => {
-      this.username = state.username;
+      this.userState = state;
     });
+  }
+
+  private addWhitelist(whiteList) {
+    this.showFormErrors = true;
+    if (this.whiteListForm.valid) {
+      this.store.dispatch(new WhiteListAdd(whiteList));
+    }
+  }
+
+  private deleteWhiteList(id) {
+    this.store.dispatch(new WhiteListDelete(id));
+    this.updateUsersStatus();
+  }
+
+  private addBlacklist(blackList) {
+    this.showFormErrors = true;
+    if (this.blackListForm.valid) {
+      this.store.dispatch(new BlackListAdd(blackList));
+    }
+  }
+
+  private deleteBlackList(id) {
+    this.store.dispatch(new BlackListDelete(id));
+    this.updateUsersStatus();
   }
 }
