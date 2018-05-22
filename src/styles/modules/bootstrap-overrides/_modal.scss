@@ -49,10 +49,13 @@
 }
 
 .modal-title {
+    font-size: 1rem;
     line-height: 1;
 
     .modal-sm & {
-        font-size: 0.875rem;
+        @include media(">=ipad") {
+            font-size: 0.875rem;
+        }
     }
 }
 

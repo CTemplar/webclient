@@ -29,10 +29,6 @@ input:-webkit-autofill {
 .form-control {
     font-family: inherit;
 
-    .is-validate & {
-        border-color: $brand-danger;
-    }
-
     @include media("<=sm") {
         padding: 0.782rem 0.75rem;
         font-size: 0.875rem;
@@ -41,6 +37,10 @@ input:-webkit-autofill {
     &:focus {
         //box-shadow: 0 0 4px 0 rgba(51, 72, 93, 0.3) !important;
         border-color: $brand-secondary !important;
+    }
+
+    .is-validate & {
+        border-color: $brand-danger !important;
     }
 }
 
@@ -67,4 +67,8 @@ select, select.form-control {
 
     -webkit-appearance: none;
     appearance: none;
+}
+
+textarea.resize-off {
+    resize: none;
 }

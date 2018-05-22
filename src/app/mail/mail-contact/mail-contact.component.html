@@ -50,7 +50,7 @@
 
 <!-- Add user button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
-    <button class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon" role="button"  placement="top" ngbTooltip="Add User"><i class="icon icon-add-user text-white"></i></button>
+    <button class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon" role="button"  placement="top" ngbTooltip="Add User" (click)="initSplitContactLayout();"><i class="icon icon-add-user text-white"></i></button>
 </div>
 
 <div class="mailbox-actionbar border-bottom-0">
@@ -85,6 +85,9 @@
                 </li>
                 <li class="hidden-sm-down">
                     <a class="no-icon" role="button" (click)="initSplitContactLayout();">New Contact</a>
+                </li>
+                <li class="hidden-md-up hidden-xs-down">
+                    <a class="no-icon" role="button" (click)="addUserContactModalOpen(addUserContent)">New Contact</a>
                 </li>
             </ul>
         </div>
@@ -665,7 +668,7 @@
             </div>
             <div class="col-12 mail-contact-layout-col mail-contact-entry-col">
                 <div class="mail-actions-form-holder">
-                    <h5 class="mail-actions-form-title text-dark"><strong>Contact Details</strong></h5>
+                    <h5 class="mail-actions-form-title text-dark"><button class="actions-btn hidden-sm-up" role="button" (click)="destroySplitContactLayout();"><i class="icon icon-arrow-left"></i></button><strong>Contact Details</strong></h5>
                     <form class="mail-actions-form">
                         <div class="form-group">
                             <div class="row align-items-center">
@@ -689,7 +692,7 @@
                             </div>
                             <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
                         </div>
-                        <div class="mb-2">&nbsp;</div>
+                        <div class="mb-2 hidden-xs-down">&nbsp;</div>
                         <div class="form-group">
                             <div class="row align-items-center">
                                 <div class="col-sm-2">
@@ -717,22 +720,23 @@
                                     <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress">Address</label>
                                 </div>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="contactAddress" placeholder="Address" rows="7"></textarea>
+                                    <textarea class="form-control resize-off" id="contactAddress" placeholder="Address" rows="7"></textarea>
                                 </div>
                             </div>
                             <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
                         </div>
-                        <div class="mb-2">&nbsp;</div>
+                        <div class="mb-2 hidden-xs-down">&nbsp;</div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-2">
                                     <label class="form-label pt-sm-2 mb-sm-0" for="contactNote">Note</label>
                                 </div>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="contactNote" placeholder="Note" rows="4"></textarea>
+                                    <textarea class="form-control resize-off" id="contactNote" placeholder="Note" rows="4"></textarea>
                                 </div>
                             </div>
                         </div>
+                        <div class="hidden-sm-up">&nbsp;</div>
                         <div class="form-group text-center mb-0">
                             <a href="javascript:void(0);" class="btn btn-secondary btn-sm" role="button" (click)="destroySplitContactLayout();">Save</a>
                         </div>
@@ -763,3 +767,87 @@
         </div>
     </div>
 </div>
+
+<!-- Add users contact modal -->
+<ng-template #addUserContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong>Contact Details</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <form class="mail-actions-form">
+                <div class="form-group">
+                    <div class="row align-items-center">
+                        <div class="col-sm-2">
+                            <label class="form-label mb-sm-0" for="contactName">Name</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input class="form-control form-control-sm" id="contactName" value="Curtis Scott" placeholder="Curtis Scott" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group has-error is-repeatable">
+                    <span class="d-block text-right error-msg is-sm">Check is e-mail information right</span>
+                    <div class="row align-items-center">
+                        <div class="col-sm-2">
+                            <label class="form-label mb-sm-0" for="contactEmail">Email</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input class="form-control form-control-sm error" id="contactEmail" placeholder="Curtis_Scottgmail.com" type="text" />
+                        </div>
+                    </div>
+                    <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
+                </div>
+                <div class="form-group">
+                    <div class="row align-items-center">
+                        <div class="col-sm-2">
+                            <label class="form-label mb-sm-0" for="contactPhone1">Phone</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input class="form-control form-control-sm" id="contactPhone1" placeholder="+73409853498" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group is-repeatable">
+                    <div class="row align-items-center">
+                        <div class="col-sm-2">
+                            <label class="form-label mb-sm-0" for="contactPhone2">Phone2</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input class="form-control form-control-sm" id="contactPhone2" placeholder="+734920" type="text" />
+                        </div>
+                    </div>
+                    <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
+                </div>
+                <div class="form-group is-repeatable">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress">Address</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <textarea class="form-control resize-off" id="contactAddress" placeholder="Address" rows="7"></textarea>
+                        </div>
+                    </div>
+                    <button class="btn-clone" role="button"><i class="icon icon-plus"></i></button>
+                </div>
+                <div class="mb-1 pb-1">&nbsp;</div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="form-label pt-sm-2 mb-sm-0" for="contactNote">Note</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <textarea class="form-control resize-off" id="contactNote" placeholder="Note" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center mb-2 pb-2">
+                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm" role="button" (click)="destroySplitContactLayout();">Save</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template><!-- /.Add users contact modal ends -->

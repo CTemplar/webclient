@@ -5,6 +5,12 @@
 
 // == Settigs page styles
 
+.desc-card-holder {
+	@include media("<=sm") {
+		margin: .75rem -.938rem 0;
+	}
+}
+
 // == Info list
 .info-list {
 	// == Large list
@@ -196,7 +202,7 @@
 
 .form-label {
 	@include media("<=sm") {
-		margin-bottom: 0.75rem;
+		margin-bottom: 0.75rem !important;
 		font-size: 0.875rem;
 		line-height: 1;
 	}
