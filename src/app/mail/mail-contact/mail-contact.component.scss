@@ -50,6 +50,10 @@
 	border-color: #f5f5f5;
 	font-size: 0.875rem;
 
+	@include media("<ipad", ">sm") {
+		padding: 1.0321rem 0.938rem;
+	}
+
 	@include media("<laptop", ">=ipad") {
 		.is-splitted & {
 			font-size: 0.75rem;
@@ -57,7 +61,7 @@
 	}
 
 	@include media("<=sm") {
-		padding: 1.125rem 0.938rem;
+		padding: .969rem 0.938rem;
 	}
 }
 
@@ -84,7 +88,7 @@
 	}
 
 	.mail-list-row .mail-desc {
-		padding-left: 3.6rem;
+		padding-left: 3.75rem;
 	}
 
 	.mail-list-col-row > .mail-list-col-item.mail-status {
@@ -111,8 +115,10 @@
 .is-splitted {
 	.mail-list-inner-row {
 		.mail-contact-col-sm {
-			flex: 0 0 42%;
-			max-width: 42%;
+			@include media(">ipad") {
+				flex: 0 0 42%;
+				max-width: 42%;
+			}
 
 			@include media("<laptop", ">=ipad") {
 				flex: 0 0 54%;
@@ -121,8 +127,10 @@
 		}
 
 		.mail-contact-col-lg {
-			flex: 0 0 58%;
-			max-width: 58%;
+			@include media(">ipad") {
+				flex: 0 0 58%;
+				max-width: 58%;
+			}
 
 			@include media("<laptop", ">=ipad") {
 				flex: 0 0 46%;
@@ -138,8 +146,7 @@
 }
 
 .mail-actions-form-holder {
-	font-size: 0.75rem;
-
+	font-size: 0.875rem;
 	@include media(">=ipad") {
 		padding-right: 1.25rem;
 	}
@@ -149,12 +156,18 @@
 		padding-right: 4.375rem;
 	}
 
-	.form-control {
-		padding: 0.406777rem 0.75rem;
-		border-radius: 2px;
+	@include media(">sm") {
 		font-size: 0.75rem;
+	}
+
+	.form-control {
+		height: 2.75rem;
 
 		@include media(">sm") {
+			padding: 0.406777rem 0.75rem;
+			border-radius: 2px;
+			font-size: 0.75rem;
+
 			&-sm {
 				height: 2rem;
 			}
@@ -162,6 +175,7 @@
 	}
 }
 
+// == Is cloneable
 .is-repeatable {
 	position: relative !important;
 
@@ -182,6 +196,67 @@
 	}
 }
 
+// == Form error messages
 .error-msg.is-sm {
-	font-size: 0.625rem;
+	font-size: 0.75rem;
+
+	@include media(">sm") {
+		font-size: 0.625rem;
+	}
+}
+
+.modal-mail-actions-form-holder {
+	margin: 0 auto;
+	padding-right: 1.25rem;
+	max-width: 405px;
+
+	.form-control-sm {
+		@include media("<ipad") {
+			height: 2.75rem;
+		}
+	}
+}
+
+// == Mobile layout for add  users contact
+@include media("<=sm") {
+	.is-splitted {
+		.mail-contact-entry-col {
+			position: fixed;
+			top: 52px;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: $zindex-default + 999;
+			overflow-x: hidden;
+			overflow-y: auto;
+			padding-bottom: 4.375rem;
+			background: $brand-white;
+		}
+	}
+
+	.mail-actions-form-title {
+		display: flex;
+		align-items: center;
+		margin: 0 -.938rem .5rem;
+		padding: 0.625rem .938rem;
+		border-bottom: 1px solid #f5f5f5;
+
+		.actions-btn {
+			margin-right: 0.625rem;
+			width: 2.75rem;
+		}
+
+		.icon {
+			font-size: 0.75rem;
+		}
+	}
+
+	.has-error .error-msg {
+		top: 5px;
+	}
+
+	.is-repeatable .btn-clone {
+		top: 2.75rem;
+		right: 0.875rem;
+	}
 }

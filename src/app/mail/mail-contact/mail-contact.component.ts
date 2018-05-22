@@ -5,6 +5,7 @@ import { selectUsersState } from '../../store/selectors';
 import { Contact } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
+import {NgbModal, ModalDismissReasons, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-mail-contact',
@@ -17,21 +18,15 @@ export class MailContactComponent implements OnInit {
   public getUsersState$: Observable<any>;
   public userState: UserState;
 
-  constructor(private store: Store<UserState>) {}
-
+  constructor(private store: Store<UserState>, private modalService: NgbModal, config: NgbDropdownConfig) {
+    // customize default values of dropdowns used by this component tree
+    config.autoClose = "outside";
+  }
+  
   ngOnInit() {
     this.getUsersState$ = this.store.select(selectUsersState);
-
     this.store.dispatch(new Contact({}));
     this.updateUsersStatus();
-  }
-
-  initSplitContactLayout(): any {
-    this.isLayoutSplitted = true;
-  }
-
-  destroySplitContactLayout(): any {
-    this.isLayoutSplitted = false;
   }
 
   private updateUsersStatus(): void {
@@ -39,4 +34,25 @@ export class MailContactComponent implements OnInit {
       this.userState = state;
     });
   }
+
+	initSplitContactLayout():any {
+    	this.isLayoutSplitted = true;
+
+    	if (this.isLayoutSplitted === true) {
+    		window.document.documentElement.classList.add('no-scroll');
+    	}
+	}
+
+	destroySplitContactLayout():any {
+    	this.isLayoutSplitted = false;
+
+    	if (this.isLayoutSplitted === false) {
+    		window.document.documentElement.classList.remove('no-scroll');
+    	}
+	}
+
+	// == Open change password NgbModal
+	addUserContactModalOpen(addUserContent) {
+		this.modalService.open(addUserContent, {centered: true, windowClass: 'modal-sm users-action-modal'});
+	}
 }
