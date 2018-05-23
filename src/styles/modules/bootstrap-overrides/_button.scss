@@ -40,6 +40,10 @@
     }
 }
 
+.btn-disabled {
+    @include button-variant($brand-light-gray, #f5f5f5, #e0e0e0);
+}
+
 // == gradients buttons
 // $btn_class_list: primary, secondary, success, info, warning, danger, dark;
 // $btn_color_val: $brand-primary, $brand-secondary, $brand-success, $brand-info, $brand-warning, $brand-danger, $brand-black;

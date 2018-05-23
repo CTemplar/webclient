@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   public resizeTimeout: number = null;
   public getLoadingState$: Observable<any>;
   public isLoading: boolean = true;
+  public isMail: boolean = false;
 
   quote: object;
 
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
   ) {
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
     this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
+    this.sharedService.isMail.subscribe(data => (this.isMail = data));
     this.getLoadingState$ = this.store.select(selectLoadingState);
   }
 

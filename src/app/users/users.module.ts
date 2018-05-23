@@ -16,7 +16,11 @@ import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
 import { UsersBillingInfoComponent } from './users-billing-info/users-billing-info.component';
+import { SecureMessageComponent } from './secure-message/secure-message.component';
+
+// Module
 import { PagesModule } from '../pages/pages.module';
+
 // Service
 import { UsersService } from '../store/services';
 import {
@@ -40,7 +44,8 @@ import {
     UsersSignInComponent,
     UsersSignUpComponent,
     UsersCreateAccountComponent,
-    UsersBillingInfoComponent
+    UsersBillingInfoComponent,
+    SecureMessageComponent
   ],
   providers: [UsersService,
   {
