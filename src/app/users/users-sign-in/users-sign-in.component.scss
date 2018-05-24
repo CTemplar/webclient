@@ -28,7 +28,7 @@ $error-red: #e94e4c;
     &__failed {
         position: absolute;
         left: 0px;
-        top: 0px;
+        top: -20px;
         width: 100%;
         text-align: center;
         color: $error-red;

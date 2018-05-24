@@ -20,10 +20,11 @@
             <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
               <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
               <div class="input-group">
-                <span appOnScreenKeyboard class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(password)">
+                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="toggleFocus($event,'username', usernameVC)">
                   <i class="fa fa-keyboard"></i>
                 </span>
-                <input appOnScreenKeyboard class="form-control form-control-lg" id="loginUsername" placeholder="Username" type="text" name="username" formControlName="username" required/>
+                <input #usernameVC [ngx-virtual-keyboard]="true" [ngx-virtual-keyboard-layout]="layout" [ngx-virtual-keyboard-disabled]="false" class="form-control form-control-lg" id="username_noSpan" placeholder="Username" 
+                type="text" name="username" formControlName="username" required/>
               </div>
                 <span *ngIf="loginForm.controls['username'].errors && showFormErrors" id="email-valid" class="validate-message">
                 <span *ngIf="loginForm.controls['username'].errors.required">The username is required.</span>
@@ -32,14 +33,14 @@
             <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.password.invalid && showFormErrors}">
               <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up">Password</label>
               <div class="input-group">
-                <span appOnScreenKeyboard class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(password)">
+                <span  class="input-group-addon password-toggle bg-white text-muted" id="keyboardToggle" (click)="toggleFocus($event, 'password', passwordVC)">
                   <i class="fa fa-keyboard"></i>
                 </span>
-                <input appOnScreenKeyboard formControlName="password" class="form-control form-control-lg border-right-0" id="loginPassword" placeholder="Password"
-                  type="password" aria-describedby="passwordToggle" name="password" [(ngModel)]="password"
-                  formControlName="password" required/>
-                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(password)">
+                <input #passwordVC  [attr.type]="password"  formControlName="password" class="form-control form-control-lg border-right-0" id="password_noSpan" placeholder="Password"
+                  aria-describedby="passwordToggle" name="password" [ngx-virtual-keyboard]="true" [ngx-virtual-keyboard-layout]="layout" [ngx-virtual-keyboard-disabled]="false" required/>
+                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(loginForm.controls['password'])">
                   <i class="fa fa-eye"></i>
+                  
                 </span>
               </div>
               <span *ngIf="loginForm.controls['password'].errors && showFormErrors" class="validate-message">
@@ -71,7 +72,6 @@
     </div>
   </div>
   <!-- /.Site container ends -->
-    <!-- <app-onscreen-keyboard  (keyPressed)='getKeyPressed($event)' [hidden]="focusedInput.length == 0"></app-onscreen-keyboard> -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
 

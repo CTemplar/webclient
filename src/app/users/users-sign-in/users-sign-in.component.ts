@@ -3,7 +3,8 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
@@ -39,9 +40,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   getState: Observable<any>;
   focusedInput: string = '';
   username: string = '';
-  password: string = '';
-  @ViewChild('usernameVC') userNameVC: any;
-  @ViewChild('passwordVC') passwordVC;
+  password: string = 'password';
+  layout: any = 'alphanumeric';
+  @ViewChild('usernameVC') usernameVC: ElementRef;
+  @ViewChild('passwordVC') passwordVC: ElementRef;
 
   constructor(
     private modalService: NgbModal,
@@ -52,7 +54,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   ) {
     this.getState = this.store.select(selectAuthState);
   }
-
   ngOnInit() {
     setTimeout(() => {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
@@ -74,7 +75,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
-
   }
 
   // == Open NgbModal
@@ -90,7 +90,32 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (!input.value) {
       return;
     }
-    input.type = input.type === 'password' ? 'text' : 'password';
+    this.password = this.password === 'password' ? 'text' : 'password';
+  }
+
+  toggleFocus(event, input: string, el): any {
+    event.stopPropagation();
+    if (input.includes('username')) {
+      if (
+        this.usernameVC.nativeElement.attributes.id.nodeValue.includes('noSpan')
+      ) {
+        this.usernameVC.nativeElement.attributes.id.nodeValue = this.usernameVC.nativeElement.attributes.id.nodeValue.replace(
+          'noSpan',
+          ''
+        );
+      } else {
+        this.usernameVC.nativeElement.attributes.id.nodeValue += 'noSpan';
+      }
+    } else {
+      if (
+        this.passwordVC.nativeElement.attributes.id.nodeValue.includes('noSpan')
+      ) {
+        this.passwordVC.nativeElement.attributes.id.nodeValue = this.passwordVC.nativeElement.attributes.id.nodeValue.replace('noSpan', '');
+      } else {
+        this.passwordVC.nativeElement.attributes.id.nodeValue += 'noSpan';
+      }
+    }
+    setTimeout(() => el.focus());
   }
 
   login(user) {

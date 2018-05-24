@@ -13,11 +13,10 @@ import { PrimePlanComponent } from './price-plan/prime-plan/prime-plan.component
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
 import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
-import { OnscreenKeyboardComponent } from './onscreen-keyboard/onscreen-keyboard.component';
-import { OnScreenKeyboardDirective } from './onscreen-keyboard/on-screen-keyboard.directive';
+import { NgxVirtualKeyboardModule } from './lib';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, NgxVirtualKeyboardModule],
   declarations: [
     SpinnerComponent,
     PricePlanComponent,
@@ -28,8 +27,6 @@ import { OnScreenKeyboardDirective } from './onscreen-keyboard/on-screen-keyboar
     PrimePlanComponent,
     SpinnerImageComponent,
     LoadingComponent,
-    OnscreenKeyboardComponent,
-    OnScreenKeyboardDirective
   ],
   exports: [
     SpinnerComponent,
@@ -37,8 +34,7 @@ import { OnScreenKeyboardDirective } from './onscreen-keyboard/on-screen-keyboar
     LoadingComponent,
     SpinnerImageComponent,
     ngxZendeskWebwidgetModule,
-    OnscreenKeyboardComponent,
-    OnScreenKeyboardDirective
+    NgxVirtualKeyboardModule
   ],
   providers: [SpinnerService]
 })
