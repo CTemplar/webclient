@@ -1108,7 +1108,7 @@
 
 		@include media("<=sm") {
 			flex-wrap: wrap;
-			margin-top: 0.5rem;
+			margin-top: 0.25rem;//~0.5rem;
 			padding-left: 1.875rem;
 			padding-right: 0.938rem;
 			line-height: 1.29;

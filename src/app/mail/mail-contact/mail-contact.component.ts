@@ -5,10 +5,8 @@ import { selectUsersState } from '../../store/selectors';
 import { Contact } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {NgbModal, ModalDismissReasons, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 
-// Action
-import {ContactAdd} from '../../store/actions';
 @Component({
   selector: 'app-mail-contact',
   templateUrl: './mail-contact.component.html',
@@ -19,29 +17,16 @@ export class MailContactComponent implements OnInit {
   isLayoutSplitted: boolean = false;
   public getUsersState$: Observable<any>;
   public userState: UserState;
-  public addContactForm: FormGroup;
-  constructor(private store: Store<UserState>, private formBuilder: FormBuilder) {}
 
+  constructor(private store: Store<UserState>, private modalService: NgbModal, config: NgbDropdownConfig) {
+    // customize default values of dropdowns used by this component tree
+    config.autoClose = "outside";
+  }
+  
   ngOnInit() {
     this.getUsersState$ = this.store.select(selectUsersState);
-    this.addContactForm = this.formBuilder.group({
-      contactName: ['', [Validators.required]],
-      contactEmail: ['', [Validators.email]],
-      contactPhone1: [''],
-      contactPhone2: [''],
-      contactAddress: [''],
-      contactNote: ['']
-    });
     this.store.dispatch(new Contact({}));
     this.updateUsersStatus();
-  }
-
-  initSplitContactLayout(): any {
-    this.isLayoutSplitted = true;
-  }
-
-  destroySplitContactLayout(): any {
-    this.isLayoutSplitted = false;
   }
 
   private updateUsersStatus(): void {
@@ -50,8 +35,24 @@ export class MailContactComponent implements OnInit {
     });
   }
 
-  addContact(contact) {
-    console.log(contact);
-    this.store.dispatch(new ContactAdd({contact}));
-  }
+	initSplitContactLayout():any {
+    	this.isLayoutSplitted = true;
+
+    	if (this.isLayoutSplitted === true) {
+    		window.document.documentElement.classList.add('no-scroll');
+    	}
+	}
+
+	destroySplitContactLayout():any {
+    	this.isLayoutSplitted = false;
+
+    	if (this.isLayoutSplitted === false) {
+    		window.document.documentElement.classList.remove('no-scroll');
+    	}
+	}
+
+	// == Open change password NgbModal
+	addUserContactModalOpen(addUserContent) {
+		this.modalService.open(addUserContent, {centered: true, windowClass: 'modal-sm users-action-modal'});
+	}
 }

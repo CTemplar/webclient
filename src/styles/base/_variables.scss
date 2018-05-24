@@ -90,6 +90,8 @@ $font-size-h5:            1.125rem;
 $font-size-h6:            1rem;
 $font-size-lg:            1rem;
 
+$font-size-sm:            0.75rem;
+
 $headings-line-height:    1.21;
 $line-height-base:        1.625;
 
@@ -195,6 +197,7 @@ $modal-dialog-margin:       0.938rem;
 $modal-lg:                    inherit;
 $modal-md:                    inherit;
 $modal-sm:                    inherit;
+$modal-content-border-width:  0;
 
 // == Close
 $close-font-size:           2rem;

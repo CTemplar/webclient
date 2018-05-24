@@ -27,11 +27,13 @@ export class MailComponent implements OnDestroy, OnInit {
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
     this.sharedService.hideEntireFooter.emit(true);
+    this.sharedService.isMail.emit(true);
   }
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
     this.sharedService.hideHeader.emit(false);
     this.sharedService.hideEntireFooter.emit(false);
+    this.sharedService.isMail.emit(false);
   }
 }

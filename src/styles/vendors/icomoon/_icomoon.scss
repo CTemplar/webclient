@@ -28,6 +28,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-reply:before {
+  content: "\e932";
+}
 .icon-add-user:before {
   content: "\e930";
 }
@@ -173,7 +176,6 @@
   content: "\e924";
 }
 .icon-unorder-list:before {
-  content: "\e925";
 }
 .icon-warning:before {
   content: "\e926";

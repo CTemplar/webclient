@@ -1,0 +1,57 @@
+@import '../../../styles/base/variables';
+@import '../../../styles/vendors/include-media/include-media';
+@import '../../../styles/config/include-media-config';
+@import '../../../styles/vendors/ceaser/ceaser-easing';
+
+// == Secure message styles
+.ui-card {
+	background: $brand-white;
+	border-radius: 2px;
+	box-shadow: 0 0 15px 0 rgba(0, 19, 37, 0.65);
+}
+
+.ui-card-header {
+	padding: 1.094rem 1.5rem;
+	border-radius: 2px 2px 0 0;
+}
+
+.ui-card-body {
+	padding-right: 1.5rem;
+	padding-left: 1.5rem;
+}
+
+// == Message reply card
+.msg-reply-card-header {
+	// margin-right: -1.5rem;
+	// margni-left: -1.5rem;
+	padding: 1.25rem 0;
+}
+
+.btn-reply {
+	letter-spacing: 0.6px;
+}
+
+// == Address bars
+.msg-reply-address-row {
+	margin-right: -1.5rem;
+	margin-left: -1.5rem;
+	padding: 0.875rem 1.25rem;
+	background: $brand-faded;
+	border-top: 1px solid #f5f5f5;
+	border-bottom: 1px solid #f5f5f5;
+	color: $brand-black;
+	font-size: 0.875rem;
+
+	.msg-reply-address {
+		&:not(:last-child) {
+			margin-bottom: 0.375rem;
+		}
+	}
+}
+
+.msg-reply-card-body {
+	padding: 1.125rem 0 1.75rem;
+	color: $brand-black;
+	font-size: 0.875rem;
+	line-height: 1.71;
+}
