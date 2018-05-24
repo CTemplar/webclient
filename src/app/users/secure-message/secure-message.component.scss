@@ -11,13 +11,40 @@
 }
 
 .ui-card-header {
-	padding: 1.094rem 1.5rem;
+	position: relative;
+	padding: 1.094rem 0.75rem;
 	border-radius: 2px 2px 0 0;
+
+	@include media(">=ipad") {
+		padding: 1.094rem 1.5rem;
+	}
+}
+
+.ui-card-dismiss {
+	position: absolute;
+	top: 1.094rem;
+	right: 0.75rem;
+	opacity: 1;
+	font-size: 0.75rem;
+	text-shadow: none;
+
+	@include media(">sm") {
+		top: 50%;
+		right: 1.25rem;
+		transform: translateY(-50%);
+	}
+
+	@include media(">=ipad") {
+		right: 1.5rem;
+		font-size: 0.875rem;
+	}
 }
 
 .ui-card-body {
-	padding-right: 1.5rem;
-	padding-left: 1.5rem;
+	padding: 0 0.75rem;
+	@include media(">sm") {
+		padding: 0 1.5rem;
+	}
 }
 
 // == Message reply card
@@ -33,16 +60,24 @@
 
 // == Address bars
 .msg-reply-address-row {
-	margin-right: -1.5rem;
-	margin-left: -1.5rem;
-	padding: 0.875rem 1.25rem;
+	margin: 0 -.75rem;
+	padding: 0.875rem 0.75rem;
 	background: $brand-faded;
 	border-top: 1px solid #f5f5f5;
 	border-bottom: 1px solid #f5f5f5;
 	color: $brand-black;
 	font-size: 0.875rem;
 
+	@include media(">sm") {
+		margin-right: -1.5rem;
+		margin-left: -1.5rem;
+		padding: 0.875rem 1.5rem;
+	}
+
 	.msg-reply-address {
+		@include media("<=sm") {
+			font-size: 0.813rem;
+		}
 		&:not(:last-child) {
 			margin-bottom: 0.375rem;
 		}
@@ -50,8 +85,33 @@
 }
 
 .msg-reply-card-body {
-	padding: 1.125rem 0 1.75rem;
+	padding: 1.125rem 0 0.75rem;
 	color: $brand-black;
 	font-size: 0.875rem;
 	line-height: 1.71;
+
+	@include media(">sm") {
+		padding: 1.125rem 0 1.75rem;
+	}
+}
+
+// == Editor
+.msg-reply-card-innerbody {
+	overflow: hidden;
+	overflow-y: auto;
+	margin-right: -0.25rem;
+	max-height: 12.188rem;
+
+	@include media(">sm") {
+		max-height: 20.313rem;
+	}
+
+	@include media(">=ipad") {
+		max-height: 31.250rem
+	}
+}
+
+.secure-message-editor {
+	padding-right: 0.25rem;
+	outline: 0 !important;
 }

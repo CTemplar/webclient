@@ -1347,32 +1347,6 @@ $mail_composer_padding_x: 0.75rem;
 	}
 }
 
-// == Scrollbar styling
-.mail-compose-box::-webkit-scrollbar {
-	background: $brand-white;
-	width: 10px;
-	height: 10px;
-}
-
-.mail-compose-box::-webkit-scrollbar-button {
-	width: 0;
-	height: 0;
-	display: none;
-}
-
-.mail-compose-box::-webkit-scrollbar-corner {
-	background-color: transparent;
-}
-
-.mail-compose-box::-webkit-scrollbar-track {
-	background-color: #e8e8e8;
-}
-
-.mail-compose-box::-webkit-scrollbar-thumb {
-	background-color: #d8d8d8;
-	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.10), inset 0 -1px 0 rgba(0,0,0,0.07);
-}
-
 .mail-compose-box-inner {
 	padding: 1.25rem $mail_composer_padding_x;
 	background: $brand-white;

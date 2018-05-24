@@ -16,9 +16,6 @@ html {
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	-webkit-font-smoothing: antialiased;
 	width: 100%;
-	// @include media(">=ipad") {
-	// 	font-size: 16px;
-	// }
 }
 
 body {
@@ -38,10 +35,10 @@ body {
 		padding-top: 3.625rem;
 
 		@include media(">sm") {
-			padding-top: 4.5rem;
+			padding-top: 4.375rem;
 		}
 
-		@include media(">=laptop") {
+		@include media(">=ipad") {
 			padding-top: 5rem;
 		}
 	}
