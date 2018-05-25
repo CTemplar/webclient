@@ -30,6 +30,12 @@
 	}
 }
 
+.border-top-sm-0 {
+	@include media(">sm") {
+		border-top: 0 !important;
+	}
+}
+
 // == Gaps
 .pb-xs-0 {
 	@include media("<=sm") {
@@ -124,4 +130,40 @@
 // == Disable page scrolling
 .no-scroll {
 	overflow: hidden;
+}
+
+// == Custom background colors
+.bg-transparent {
+	background: transparent !important;
+}
+
+// == Scrollbar styling
+.has-custom-scroll::-webkit-scrollbar {
+	background: $brand-white;
+	width: 4px;
+	height: 10px;
+
+	@include media(">sm") {
+		width: 10px;
+		height: 10px;
+	}
+}
+
+.has-custom-scroll::-webkit-scrollbar-button {
+	width: 0;
+	height: 0;
+	display: none;
+}
+
+.has-custom-scroll::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
+.has-custom-scroll::-webkit-scrollbar-track {
+	background-color: #e8e8e8;
+}
+
+.has-custom-scroll::-webkit-scrollbar-thumb {
+	background-color: #d8d8d8;
+	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.10), inset 0 -1px 0 rgba(0,0,0,0.07);
 }

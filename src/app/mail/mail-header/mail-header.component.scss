@@ -44,7 +44,7 @@
 			top: 15px;
 		}
 
-		.mailbox-actions-menu .lang-dropdown .dropdown-toggle {
+		.mailbox-actions-menu .dropdown-toggle {
 			display: block;
 			margin-top: -.05rem;
 			padding: 0 1rem 0 0;
@@ -129,9 +129,10 @@
 		}
 	}
 
-	.lang-dropdown .dropdown-toggle {
+	.dropdown-toggle {
 		padding-top: 0.938rem;
 		padding-bottom: 0.938rem;
+		background: $brand-faded;
 		color: $brand-light-gray;
 		font-size: 0.875rem;
 		height: 3rem;

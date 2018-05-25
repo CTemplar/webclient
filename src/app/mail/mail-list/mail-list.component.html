@@ -4,13 +4,13 @@
             <ul class="mailbox-actionbar-menu">
                 <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
                     <div ngbDropdown>
-                        <button ngbDropdownToggle class="dropdown-toggle" role="button" id="langDropdownMenuButton">
+                        <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton">
                             <span class="fancy-field-group">
                                 <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions" name="[]" type="checkbox" />
                                 <label for="mailboxBulkActions" class="fancy-field-empty"></label>
                             </span>
                         </button>
-                        <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
+                        <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
                             <a class="dropdown-item" href="">All</a>
                             <a class="dropdown-item" href="">Read</a>
                             <a class="dropdown-item" href="">Unread</a>
@@ -28,18 +28,18 @@
                 <li class="px-0">
                     <a href="" class="disabled border-radius-left-0"><i class="icon icon-garbage"></i></a>
                 </li>
-                <li class="btn-dropdown more-xs-options px-0 hidden-sm-up">
+                <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
                     <div ngbDropdown>
-                        <a ngbDropdownToggle role="button" id="dropdownConfig"><i class="icon icon-more"></i></a>
-                        <div ngbDropdownMenu class="mobiledOptionsDropdown"  aria-labelledby="dropdownConfig">
+                        <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button"><i class="icon icon-more"></i></button>
+                        <div ngbDropdownMenu class="mobiledOptionsDropdown" aria-labelledby="dropdownMoreOptions">
                             <ul class="more-xs-options-list">
                                 <li>
                                     <a href="" class="disabled"><i class="icon icon-warning"></i></a>
                                 </li>
                                 <li class="btn-dropdown mailbox-dropdown folders-dropdown">
                                     <div ngbDropdown>
-                                        <button ngbDropdownToggle class="disabledx" role="button"><i class="icon icon-folder"></i></button>
-                                        <div ngbDropdownMenu  aria-labelledby="langDropdownMenuButton">
+                                        <button ngbDropdownToggle class="disabledx" id="extraOptionsDropdownMenuButton" role="button"><i class="icon icon-folder"></i></button>
+                                        <div ngbDropdownMenu  aria-labelledby="extraOptionsDropdownMenuButton">
                                             <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder 1</a>
                                             <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another Folder 21</a>
                                             <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
@@ -55,10 +55,10 @@
                         </div>
                     </div>
                 </li>
-                <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down pl-0">
+                <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
                     <div ngbDropdown>
-                        <button ngbDropdownToggle class="dropdown-toggle disabledx" role="button"><i class="icon icon-folder"></i></button>
-                        <div ngbDropdownMenu  aria-labelledby="langDropdownMenuButton">
+                        <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button"><i class="icon icon-folder"></i></button>
+                        <div ngbDropdownMenu  aria-labelledby="folderDropdownMenuButton">
                             <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder 1</a>
                             <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another Folder 21</a>
                             <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
@@ -72,8 +72,8 @@
                 </li>
                 <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown pl-0">
                     <div ngbDropdown class="dropdown">
-                        <button ngbDropdownToggle class="dropdown-toggle disabledx" role="button" id="langDropdownMenuButton" >More</button>
-                        <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
+                        <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton" >More</button>
+                        <div ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
                             <a class="dropdown-item" href="">Add star</a>
                             <a class="dropdown-item" href="">Mark as read</a>
                             <a class="dropdown-item" href="">Mark as unread</a>
@@ -198,7 +198,7 @@
                         </div>
                     </form>
                     <div class="mail-compose-editable-body">
-                        <div class="mail-compose-box">
+                        <div class="mail-compose-box has-custom-scroll">
                             <div class="mail-compose-box-inner">
                                 <div class="mail-compose-editable-box" contenteditable="true">
                                     <div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails.
