@@ -1,24 +1,21 @@
-# NodeJS
-node_modules
-
-# System Files
-.DS_Store
-Thumbs.db
-.editorconfig
-
 # IDE
 .vs/
 .vscode
 .settings
 .idea/
+.editorconfig
+
+# NodeJS
+/node_modules/
+
+# Others
+.DS_Store
+Thumbs.db
+TODO.md
 
 # compiled output
-/dist
-/tmp
-
-# misc
-npm-debug.log
-testem.log
+/dist/
+/tmp/
 
 # e2e
 /e2e/*.js
