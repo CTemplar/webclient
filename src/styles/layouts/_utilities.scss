@@ -149,6 +149,11 @@
 	}
 }
 
+.has-custom-scroll-sm::-webkit-scrollbar {
+	width: 4px;
+	height: 10px;
+}
+
 .has-custom-scroll::-webkit-scrollbar-button {
 	width: 0;
 	height: 0;
@@ -166,4 +171,22 @@
 .has-custom-scroll::-webkit-scrollbar-thumb {
 	background-color: #d8d8d8;
 	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.10), inset 0 -1px 0 rgba(0,0,0,0.07);
+}
+
+// == Mail answer module styles
+.is-floated {
+	position: absolute;
+
+	&.y-center {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	&.right {
+		right: 0.938rem;
+
+		@include media(">=ipad") {
+			right: 1.563rem;
+		}
+	}
 }

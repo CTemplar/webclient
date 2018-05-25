@@ -3,8 +3,21 @@
 @import '../../../styles/config/include-media-config';
 @import '../../../styles/vendors/ceaser/ceaser-easing';
 
+// == Go back to previous page
+.go-back-holder {
+	position: absolute;
+	top: 1.375rem;
+	left: 0.938rem;
+	line-height: 1;
+
+	@include media(">=laptop") {
+		left: 1.875rem;
+	}
+}
+
 // == Secure message styles
 .ui-card {
+	position: relative;
 	background: $brand-white;
 	border-radius: 2px;
 	box-shadow: 0 0 15px 0 rgba(0, 19, 37, 0.65);
@@ -30,28 +43,22 @@
 
 	@include media(">sm") {
 		top: 50%;
-		right: 1.25rem;
+		right: 1.5rem;
 		transform: translateY(-50%);
 	}
 
 	@include media(">=ipad") {
-		right: 1.5rem;
 		font-size: 0.875rem;
-	}
-}
-
-.ui-card-body {
-	padding: 0 0.75rem;
-	@include media(">sm") {
-		padding: 0 1.5rem;
 	}
 }
 
 // == Message reply card
 .msg-reply-card-header {
-	// margin-right: -1.5rem;
-	// margni-left: -1.5rem;
-	padding: 1.25rem 0;
+	padding: 1.25rem 0.75rem;
+	min-height: 4.375rem;
+	@include media(">sm") {
+		padding: 1.25rem 1.5rem;
+	}
 }
 
 .btn-reply {
@@ -60,7 +67,6 @@
 
 // == Address bars
 .msg-reply-address-row {
-	margin: 0 -.75rem;
 	padding: 0.875rem 0.75rem;
 	background: $brand-faded;
 	border-top: 1px solid #f5f5f5;
@@ -69,8 +75,6 @@
 	font-size: 0.875rem;
 
 	@include media(">sm") {
-		margin-right: -1.5rem;
-		margin-left: -1.5rem;
 		padding: 0.875rem 1.5rem;
 	}
 
@@ -85,13 +89,13 @@
 }
 
 .msg-reply-card-body {
-	padding: 1.125rem 0 0.75rem;
+	padding: 1.125rem 0.75rem 0.75rem;
 	color: $brand-black;
 	font-size: 0.875rem;
 	line-height: 1.71;
 
 	@include media(">sm") {
-		padding: 1.125rem 0 1.75rem;
+		padding: 1.125rem 1.5rem 1.75rem;
 	}
 }
 
@@ -107,11 +111,48 @@
 	}
 
 	@include media(">=ipad") {
-		max-height: 31.250rem
+		max-height: 15.375rem
 	}
 }
 
 .secure-message-editor {
 	padding-right: 0.25rem;
 	outline: 0 !important;
+}
+
+// == Secure message reply styles
+#secure-message-reply-card {
+	display: none;
+
+	.msg-reply-card-body {
+		padding-bottom: 3.125rem;
+	}
+
+	.mail-composer-footer {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border-radius: 0 0 3px 3px;
+
+		@include media(">sm") {
+			padding-right: 1.5rem;
+			padding-left: 1.5rem;
+		}
+	}
+}
+
+.actions-btn.actions-btn-inline {
+	font-size: 0.75rem;
+	min-width: 4.125rem;
+	width: inherit;
+	text-transform: uppercase;
+}
+
+.secure-message-quoted-content {
+	padding-left: 0.75rem;
+	border-left: 2px solid $brand-secondary;
+	color: rgba(0, 0, 0, 0.54);
+	font-size: 0.875rem;
+	line-height: 1.71;
 }

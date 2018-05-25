@@ -63,6 +63,11 @@
 */
 @import "styles/pages/user-actions/form-pages";
 
+/**
+* IMPORTING MAIL COMPOSER MODULES
+*/
+@import "styles/modules/mail-composer/mail-composer";
+
 .loading-icon {
   position: absolute;
   top: 28vh;

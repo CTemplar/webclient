@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Bootstrap
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -23,6 +23,8 @@ import { SharedService } from '../../store/services';
   styleUrls: ['./secure-message.component.scss']
 })
 export class SecureMessageComponent implements OnInit {
+  
+  public replyInProcess: boolean = false;
 
   errorMessage: string = '';
   isLoading: boolean = false;
@@ -31,8 +33,11 @@ export class SecureMessageComponent implements OnInit {
   constructor(
   	private router: Router,
   	private store: Store<AuthState>,
-  	private sharedService: SharedService
+  	private sharedService: SharedService,
+    config: NgbDropdownConfig
   ) {
+    // customize default values of dropdowns used by this component tree
+    config.autoClose = "outside";
   	this.getState = this.store.select(selectAuthState);
   }
 
@@ -47,6 +52,11 @@ export class SecureMessageComponent implements OnInit {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
+  }
+
+  toggleReplyWindow():any {
+    const bool = this.replyInProcess;
+    this.replyInProcess = bool === false ? true : false;
   }
 
 }
