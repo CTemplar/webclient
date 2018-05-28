@@ -39,7 +39,7 @@
 				<div class="ui-card-body">
 					<div class="msg-reply-card">
 						<div class="msg-reply-card-header position-relative d-sm-flex justify-content-sm-start align-items-sm-center">
-							<h5 class="text-dark mb-3 mb-sm-0"><strong>Test Email for UX/UI assignment</strong></h5>
+							<h5 class="text-dark mb-0"><strong>Test Email for UX/UI assignment</strong></h5>
 							<button role="button" class="close ui-card-dismiss ml-sm-auto hidden-md-up"><i class="icon icon-cross text-dark"></i></button>
 						</div>
 						<div class="msg-reply-address-row">
@@ -59,7 +59,6 @@
 											<p>You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted. <br/><br/> CTemplar is an open-source community-driven project and basic accounts are always free. However, the costs to run CTemplar are quite high, and we depend on support from the community to keep the service running. If you would like to support the project, you can <a routerLink="/signup"><u>upgrade to a paid account</u></a>. Your support is essential to ensuring that CTemplar is financially stable and can continue to offer the service to the public.</p>
 											<p>You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted. <br/><br/> CTemplar is an open-source community-driven project and basic accounts are always free. However, the costs to run CTemplar are quite high, and we depend on support from the community to keep the service running. If you would like to support the project, you can <a routerLink="/signup"><u>upgrade to a paid account</u></a>. Your support is essential to ensuring that CTemplar is financially stable and can continue to offer the service to the public.</p>
 											<p>&nbsp;</p>
-											<p>&nbsp;</p>
 										</div>
 									</blockquote>
 								</div>
@@ -69,15 +68,15 @@
 				</div>
 				<div class="ui-card-footer mail-composer-footer">
 		            <div class="mail-composer-actions-row d-flex align-items-center">
-		                <div class="mail-composer-actions-col mail-composer-actions-col-lg">
+		                <div class="mail-composer-actions-col mail-composer-actions-col-lg position-relative">
 		                    <ul class="mail-composer-actions d-flex align-items-center">
-		                        <li class="cancel-message-item"><button class="actions-btn actions-btn-inline" role="button" placement="top" ngbTooltip="Cancel Reply">Cancel</button></li>
+		                        <li class="cancel-message-item"><button class="actions-btn actions-btn-inline" role="button" placement="top" ngbTooltip="Cancel Reply"><strong>Cancel</strong></button></li>
 		                        <li>
 		                        	<div ngbDropdown placement="top" class="dropdown">
 		                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" ngbTooltip="Typography"><i class="icon icon-text-color"></i></button>
-		                                <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
+		                                <div ngbDropdownMenu class="typo-actions-dropdown-menu left" aria-labelledby="typoDropdownMenu">
 		                                    <div class="mail-comopser-typo-actions-holder">
-		                                    	<ul class="mail-composer-actions d-flex align-items-center justify-content-end">
+		                                    	<ul class="mail-composer-actions d-flex align-items-center">
 					                                <li class="pr-0">
 					                                	<div ngbDropdown placement="top" class="dropup">
 						                                	<button ngbDropdownToggle role="button" class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0" id="typoFamilyDropdownMenu" role="button"><i class="icon icon-text-size"></i></button>
@@ -114,10 +113,10 @@
 
 					                                <li class="pr-0"><button role="button" class="actions-btn mail-bold-btn border-right-0 border-radius-r-0"><i class="icon icon-bold"></i></button></li>
 					                                <li class="px-0"><button role="button" class="actions-btn mail-italic-btn border-right-0 border-radius-0"><i class="icon icon-italic"></i></button></li>
-					                                <li class="px-0"><button role="button" class="actions-btn mail-underline-btn border-right-0 border-radius-0"><i class="icon icon-underline"></i></button></li>
-					                                <li class="pl-0">
+					                                <li class="px-0"><button role="button" class="actions-btn mail-underline-btn border-right-sm-0 border-radius-sm-0"><i class="icon icon-underline"></i></button></li>
+					                                <li class="pl-sm-0">
 					                                	<div ngbDropdown placement="top" class="dropdown">
-						                                	<button ngbDropdownToggle class="actions-btn mail-font-color-btn border-radius-l-0" id="typoColorDropdownMenu" role="button"><i class="icon icon-text-color"></i></button>
+						                                	<button ngbDropdownToggle class="actions-btn mail-font-color-btn border-radius-l-sm-0" id="typoColorDropdownMenu" role="button"><i class="icon icon-text-color"></i></button>
 						                                	<div ngbDropdownMenu class="left-0" aria-labelledby="typoColorDropdownMenu">
 						                                		<div class="color-picker-holder">
 						                                			<div class="row">
@@ -196,7 +195,7 @@
 						                                					</div>
 						                                				</div>
 
-						                                				<div class="col-sm-6 mb-3 mb-sm-0">
+						                                				<div class="col-sm-6">
 						                                					<div class="color-picker">
 						                                						<div class="color-picker-title"><strong>Text Color</strong></div>
 						                                						<ul class="color-picker-list d-flex flex-wrap">
@@ -281,8 +280,8 @@
 					                                <li class="pl-0"><button role="button" class="actions-btn mail-align-left-btn border-radius-l-0"><i class="icon icon-text-align-left"></i></button></li>
 
 					                                <li class="pr-0"><button role="button" class="actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"><i class="icon icon-unorder-list"></i></button></li>
-					                                <li class="px-0"><button role="button" class="actions-btn mail-order-list-btn border-right-0 border-radius-0"><i class="icon icon-ordered-list"></i></button></li>
-					                                <li class="px-0"><button role="button" class="actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"><i class="icon icon-indent-decrease"></i></button></li>
+					                                <li class="px-0"><button role="button" class="actions-btn mail-order-list-btn border-right-sm-0 border-radius-l-0 border-radius-r-sm-0"><i class="icon icon-ordered-list"></i></button></li>
+					                                <li class="pl-sm-0 pr-0"><button role="button" class="actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"><i class="icon icon-indent-decrease"></i></button></li>
 					                                <li class="px-0"><button role="button" class="actions-btn mail-indent-increase-btn border-right-0 border-radius-0"><i class="icon icon-indent-increase"></i></button></li>
 					                                <li class="pl-0"><button role="button" class="actions-btn mail-quote-right-btn border-radius-l-0"><i class="icon icon-quote-right"></i></button></li>
 
@@ -297,7 +296,7 @@
 		                <div class="mail-composer-actions-col mail-composer-actions-col-sm">
 		                    <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
 		                        <li><button role="button" class="actions-btn mail-attach-btn" placement="top" ngbTooltip="Upload attachment"><i class="icon icon-attachment"></i></button></li>
-		                        <li class="send-reply-item"><button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" role="button" placement="top" ngbTooltip="Send Mail"><i class="hidden-sm-up icon icon-paper-plane"></i><span class="hidden-xs-down">Send</span></button></li>
+		                        <li class="send-reply-item"><button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" role="button" placement="top" ngbTooltip="Send Mail">Send</button></li>
 		                    </ul>
 		                </div>
 		            </div>

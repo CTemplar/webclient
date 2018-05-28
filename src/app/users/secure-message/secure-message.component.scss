@@ -54,10 +54,17 @@
 
 // == Message reply card
 .msg-reply-card-header {
-	padding: 1.25rem 0.75rem;
-	min-height: 4.375rem;
+	padding: 1.25rem 0.75rem;	
 	@include media(">sm") {
 		padding: 1.25rem 1.5rem;
+		min-height: 4.375rem;
+	}
+
+	@include media("<=sm") {
+		h5 {
+			padding-right: 0.938rem;
+			font-size: 1.125rem;
+		}
 	}
 }
 
@@ -130,6 +137,7 @@
 
 	.mail-composer-footer {
 		position: absolute;
+		top: auto;
 		right: 0;
 		bottom: 0;
 		left: 0;
@@ -143,7 +151,8 @@
 }
 
 .actions-btn.actions-btn-inline {
-	font-size: 0.75rem;
+	color: $brand-light-gray;
+	font-size: 0.625rem;
 	min-width: 4.125rem;
 	width: inherit;
 	text-transform: uppercase;
@@ -155,4 +164,59 @@
 	color: rgba(0, 0, 0, 0.54);
 	font-size: 0.875rem;
 	line-height: 1.71;
+}
+
+// == Typo dropdown
+.typo-actions-dropdown-menu.left {
+	left: -5.25rem !important;
+	@include media(">sm") {
+		left: -4.9rem !important;
+	}
+}
+
+@include media("<ipad", ">sm") {
+	.mail-composer-actions-col-lg .mail-composer-actions {
+		flex-wrap: wrap;
+		width: 408px;
+
+		>li {
+			margin-bottom: 0.75rem;
+
+			&:nth-last-of-type(1),
+			&:nth-last-of-type(2),
+			&:nth-last-of-type(3),
+			&:nth-last-of-type(4),
+			&:nth-last-of-type(5),
+			&:nth-last-of-type(6) {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+@include media("<=sm") {
+	.mail-composer-actions-col-lg .mail-composer-actions {
+		flex-wrap: wrap;
+		width: 276px;
+
+		>li {
+			margin-bottom: 0.75rem;
+
+			&:nth-last-of-type(1),
+			&:nth-last-of-type(2),
+			&:nth-last-of-type(3),
+			&:nth-last-of-type(4) {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.mail-underline-btn {
+		border-top-right-radius: 2px;
+		border-bottom-right-radius: 2px;
+	}
+
+	.dropdown-menu .color-picker-holder {
+		width: 266px;
+	}
 }

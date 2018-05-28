@@ -57,6 +57,50 @@
 	border-bottom-right-radius: 0 !important
 }
 
+.border-radius-0 {
+	border-radius: 0 !important;
+}
+
+.border-radius-r-0 {
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+
+.border-radius-l-0 {
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+}
+
+@include media(">sm") {
+	.border-right-sm-0 {
+		border-right: 0 !important;
+	}
+
+	.border-radius-left-sm-0 {
+		border-top-left-radius: 0 !important;
+		border-bottom-left-radius: 0 !important
+	}
+
+	.border-radius-right-sm-0 {
+		border-top-right-radius: 0 !important;
+		border-bottom-right-radius: 0 !important
+	}
+
+	.border-radius-sm-0 {
+		border-radius: 0 !important;
+	}
+
+	.border-radius-r-sm-0 {
+		border-top-right-radius: 0 !important;
+		border-bottom-right-radius: 0 !important;
+	}
+
+	.border-radius-l-sm-0 {
+		border-top-left-radius: 0 !important;
+		border-bottom-left-radius: 0 !important;
+	}
+}
+
 // == Full absolute position element
 %position-abs-full {
 	position: absolute;

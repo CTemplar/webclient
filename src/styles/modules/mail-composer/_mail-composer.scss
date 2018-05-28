@@ -310,20 +310,6 @@ $mail_composer_padding_x: 0.75rem;
 	}
 }
 
-.border-radius-0 {
-	border-radius: 0 !important;
-}
-
-.border-radius-r-0 {
-	border-top-right-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
-}
-
-.border-radius-l-0 {
-	border-top-left-radius: 0 !important;
-	border-bottom-left-radius: 0 !important;
-}
-
 // == Attachment uploader
 .disabled {
 	pointer-events: none !important;
@@ -401,13 +387,13 @@ $mail_composer_padding_x: 0.75rem;
 	left: 0 !important;
 }
 
-.dropdown-menu.typo-actions-dropdown-menu {
+.is-centered.typo-actions-dropdown-menu {
 	left: 50% !important;
 	margin-left: 30px;
 	transform: translateX(-50%) translateY(10px) !important;
 }
 
-.show>.dropdown-menu.typo-actions-dropdown-menu {
+.show>.is-centered.typo-actions-dropdown-menu {
 	transform: translateX(-50%) translateY(0%) !important;
 }
 
