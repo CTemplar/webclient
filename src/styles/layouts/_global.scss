@@ -32,7 +32,7 @@ body {
 	// == inner page app outer
 	.inner-template &,
 	&.app-outer-secondary {
-		padding-top: 3.625rem;
+		padding-top: 3.75rem;
 
 		@include media(">sm") {
 			padding-top: 4.375rem;

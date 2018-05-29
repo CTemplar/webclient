@@ -14,17 +14,17 @@
 
     @include media(">sm") {
         padding: 1.188rem 0.938rem; //1.25rem 0;//~0.938rem; //~0.875rem 1.875rem;
+    }
+
+    @include media(">=ipad") {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem; //~1.875rem; //~0.875rem 1.875rem;
 
         // == is stuck on page scroll
         &.header-is-stuck {
             padding-top: 1rem;
             padding-bottom: 1rem;
         }
-    }
-
-    @include media(">=ipad") {
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem; //~1.875rem; //~0.875rem 1.875rem;
     }
 
     @include media(">=laptop") {
