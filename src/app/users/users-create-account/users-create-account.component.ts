@@ -6,6 +6,9 @@ import {FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 
+// Bootstrap
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 // Store
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/datatypes';
@@ -49,7 +52,8 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   errorMessage: string = '';
   getState: Observable<any>;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private modalService: NgbModal,
+              private formBuilder: FormBuilder,
               private router: Router,
               private store: Store<AuthState>,
               private openPgpService: OpenPgpService,
@@ -80,6 +84,14 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
       this.errorMessage = state.errorMessage;
     });
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
+  }
+
+  // == Open NgbModal
+  openGenerateKeyModal(generateKeyContent) {
+    this.modalService.open(generateKeyContent, {
+      centered: true,
+      windowClass: 'modal-md'
+    });
   }
 
   passwordMatchValidator(g: FormGroup) {

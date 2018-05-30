@@ -24,7 +24,8 @@ $error-red: #e94e4c;
 }
 
 .form-control {
-    &:focus {
+    &:focus,
+    &:focus + .input-group-addon {
         border-color: $dropdown-border-color !important;
     }
 }

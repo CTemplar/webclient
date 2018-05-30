@@ -75,3 +75,15 @@ $error-red: #e94e4c;
       }
     }
 }
+
+// == Key generator modal
+.progress-label {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.progress-sm {
+    .progress-bar {
+        height: 0.875rem;
+    }
+}

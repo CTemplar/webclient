@@ -138,6 +138,12 @@
                 <a routerLink="/signin">
                   <u>Already have an Account?</u>
                 </a>
+
+                <!-- Please remove the html structure below -->
+                <div class="mb-3"></div>
+                <div class="btn btn-gradient-primary btn-lg" role="button" (click)="openGenerateKeyModal(generateKeyContent)">Generate Key</div>
+                <!-- Please remove the html structure above -->
+
               </div>
             </div>
           </form>
@@ -155,3 +161,27 @@
 <!-- /.PAGE SECTION ENDS -->
 
 <img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg" />
+
+<!-- Generating key modal -->
+<ng-template #generateKeyContent let-c="close" let-d="dismiss">
+  <div class="modal-header text-center justify-content-center">
+    <h3 class="modal-title-lg mb-0 w-100 text-dark" id="resetPasswordModalLabel">
+      <strong>Generating Key…</strong>
+    </h3>
+    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <p>Your GPG 4096-bit key is being created. It can take from several seconds to several minutes.</p>
+
+      <div class="progress-holder mb-3">
+        <div class="progress-label">STATUS: Generating</div>
+        <div class="progress progress-sm border-radius-0">
+          <div class="progress-bar" role="progressbar" style="width:60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

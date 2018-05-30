@@ -48,6 +48,10 @@ input:-webkit-autofill {
     .form-control {
         &:focus {
             box-shadow: none !important;
+
+            + .input-group-addon {
+                border-color: $brand-secondary;
+            }
         }
     }
 }
@@ -57,6 +61,14 @@ input:-webkit-autofill {
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
     }
+}
+
+.input-group-addon {
+    transition: all ceaser($easeInOutQuint) 0.35s;
+}
+
+.validate-message {
+    color: $brand-danger;
 }
 
 select, select.form-control {

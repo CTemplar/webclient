@@ -41,7 +41,7 @@ $brand-secondary:       #091f35; //~#34495e;
 $brand-success:         #3498db;
 $brand-info:          #f1c40f;
 $brand-warning:         #f39c12;
-$brand-danger:          #FB0F01;
+$brand-danger:          #c0392b;//~#FB0F01;
 $brand-white:         #ffffff;
 $brand-black:         #212121;
 $brand-gray:          rgba(0, 0, 0, 0.54);
@@ -202,6 +202,9 @@ $modal-content-border-width:  0;
 // == Close
 $close-font-size:           2rem;
 $close-font-weight:         400;
+
+// == Progressbar
+$progress-bar-bg:           $brand-danger;
 
 $spacer:   1rem;
 $spacer-x: $spacer;
