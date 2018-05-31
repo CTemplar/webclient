@@ -22,9 +22,9 @@
 <!-- /.FOOTER SECURE EMAIL BLOCK ENDS -->
 
 <!-- REUSABLE COMPONENT :: FOOTER -->
-<footer id="colphon" class="site-footer bg-inverse" role="contetinfo" [hidden]="hideEntireFooterCallToAction">
+<footer id="colphon" class="site-footer bg-inverse" role="contetinfo" [hidden]="hideEntireFooterCallToAction" [ngClass]="{ 'is-external-page-site-footer': externalPageCallToAction }">
   <div class="container">
-    <div class="row footer-widgets">
+    <div class="row footer-widgets" [hidden]="externalPageCallToAction">
       <div class="col-6 footer-col footer-col-5">
         <div class="footer-widget">
           <h4 class="footer-widget-title">CTemplar</h4>

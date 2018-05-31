@@ -14,6 +14,7 @@ export class SharedService {
   hideEntireFooter: EventEmitter<boolean> = new EventEmitter();
   keyPressed: EventEmitter<any> = new EventEmitter();
   isMail: EventEmitter<boolean> = new EventEmitter();
+  isExternalPage: EventEmitter<boolean> = new EventEmitter();
 
   //
   constructor(

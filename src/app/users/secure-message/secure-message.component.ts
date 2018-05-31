@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Bootstrap
@@ -24,7 +24,8 @@ import { SharedService } from '../../store/services';
 })
 export class SecureMessageComponent implements OnInit {
   
-  public replyInProcess: boolean = false;
+  // == Public property to check if reply secure message window opened
+  public isReplyWindowOpen: boolean = false;
 
   errorMessage: string = '';
   isLoading: boolean = false;
@@ -35,10 +36,11 @@ export class SecureMessageComponent implements OnInit {
   	private store: Store<AuthState>,
   	private sharedService: SharedService,
     config: NgbDropdownConfig
-  ) {
-    // customize default values of dropdowns used by this component tree
-    config.autoClose = "outside";
+  ) {    
   	this.getState = this.store.select(selectAuthState);
+
+    // == customize default values of dropdowns used by this component tree
+    config.autoClose = "outside";
   }
 
   ngOnInit() {
@@ -48,15 +50,26 @@ export class SecureMessageComponent implements OnInit {
 
     this.sharedService.hideFooter.emit(true);
 
+    this.sharedService.isExternalPage.emit(true);
+
     this.getState.subscribe(state => {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
   }
 
-  toggleReplyWindow():any {
-    const bool = this.replyInProcess;
-    this.replyInProcess = bool === false ? true : false;
+  openReplyWindow():any {
+    const bool = this.isReplyWindowOpen;
+    this.isReplyWindowOpen = true;
+  }
+
+  closeReplyWindow():any {
+    const bool = this.isReplyWindowOpen;
+    this.isReplyWindowOpen = false;
+  }
+
+  ngOnDestroy() {
+    this.sharedService.isExternalPage.emit(false);
   }
 
 }

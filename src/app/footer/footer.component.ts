@@ -14,9 +14,11 @@ export class FooterComponent {
   // Switch the footer call to action for this view.
   hideFooterCallToAction: boolean = false;
   hideEntireFooterCallToAction: boolean = false;
+  externalPageCallToAction: boolean = false;
+
   constructor(private sharedService: SharedService) {
-    this.sharedService.hideFooter
-      .subscribe(data => this.hideFooterCallToAction = data);
+    this.sharedService.hideFooter.subscribe(data => this.hideFooterCallToAction = data);
     this.sharedService.hideEntireFooter.subscribe(data => (this.hideEntireFooterCallToAction = data));
+    this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }
 }

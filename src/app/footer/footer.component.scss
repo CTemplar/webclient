@@ -13,7 +13,7 @@
     font-size: 0.875rem;
 
     @include media(">sm") {
-        padding: 3.125rem calc(2rem - 0.938rem) 2rem;
+        padding: 3.125rem calc(2rem - 0.938rem) 2.188rem;
     }
 
     address {
@@ -21,6 +21,18 @@
             br {
                 display: none;
             }
+        }
+    }
+
+    &.is-external-page-site-footer {
+        @include media(">sm") {
+            padding: 2.188rem calc(2rem - 0.938rem) 2rem;
+        }
+
+        .footer-bottom-row {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: 0;
         }
     }
 }
@@ -65,21 +77,11 @@
     position: relative;
     margin-top: 1.875rem;
     padding-top: 1.875rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 
     @include media(">sm") {
         margin-top: 2.188rem;
         padding-top: 2.188rem;
-    }
-
-    &::before {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        content: "";
-        background: rgba(255, 255, 255, 0.12);
-        height: 1px;
-        width: 100%;
     }
 }
 

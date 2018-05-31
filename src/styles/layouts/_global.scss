@@ -46,6 +46,19 @@ body {
 	&.app-outer-mailbox {
 		padding-top: 0 !important;
 	}
+
+	&.app-outer-secondary {
+		&::before {
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			z-index: $zindex-zero;
+			content: "";
+			background: $brand-secondary;
+			height: 80px;
+		}
+	}
 }
 
 // == custom container

@@ -3,6 +3,9 @@ import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
+// Service
+import { SharedService } from '../store/services';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,13 +17,20 @@ export class HeaderComponent implements OnInit {
   public navIsFixed: boolean = false;
   public menuIsOpened: boolean = false;
 
+  // Switch the footer call to action for this view.
+  externalPageCallToAction: boolean = false;
+
   constructor(
     @Inject(DOCUMENT) private document: any,
     private route: ActivatedRoute,
-    public router: Router
-  ) { }
+    public router: Router,
+    private sharedService: SharedService
+  ) {
+    this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data)); 
+  }
 
   ngOnInit() {
+
   }
 
   // == Setup click event to toggle mobile menu

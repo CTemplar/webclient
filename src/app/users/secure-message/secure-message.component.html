@@ -1,11 +1,11 @@
 <!-- PAGE SECTION -->
 <section class="l-block l-block-text bg-white gap-p-eq position-relative has-cover" style="background-image: url(assets/images/user-actions/login-bg.jpg);">
 	<div class="container position-static">
-		<div class="go-back-holder hidden-md-down"><a href="" class="text-white" role="button"><i class="icon icon-arrow-left icon-sm mr-2"></i> Got to ctemplar.com</a></div>
+		<div class="go-back-holder"><a href="https://ctemplar.com/" class="text-white" role="button"><i class="icon icon-arrow-left icon-sm mr-2"></i>Go to ctemplar.com</a></div>
 		<div class="l-block-body px-xs">
 
 			<!-- Secure reply component -->
-			<div id="secure-message-card" class="ui-card" [ngClass]="{'d-none': replyInProcess}">
+			<div id="secure-message-card" class="ui-card" [ngClass]="{'d-none': isReplyWindowOpen}">
 				<div class="ui-card-header bg-primary text-sm-center">
 					<h6 class="ui-card-title mb-0 fw-light text-white pr-4 px-sm-0">Expiring in <strong>2 Days 6 Hours 43 Minutes 46 Seconds</strong>.</h6>
 					<button role="button" class="close ui-card-dismiss hidden-md-up"><i class="icon icon-cross text-white"></i></button>
@@ -14,7 +14,7 @@
 					<div class="msg-reply-card">
 						<div class="msg-reply-card-header d-sm-flex justify-content-sm-start align-items-sm-center">
 							<h5 class="text-dark mb-3 mb-sm-0"><strong>Test Email for UX/UI assignment</strong></h5>
-							<button class="btn btn-disabled btn-sm btn-reply ml-sm-auto" role="button" (click)="toggleReplyWindow();"><i class="icon icon-reply mr-2"></i><strong>Reply Securely</strong></button>
+							<button class="btn btn-disabled btn-sm btn-reply ml-sm-auto" role="button" (click)="openReplyWindow();"><i class="icon icon-reply mr-2"></i><strong>Reply Securely</strong></button>
 						</div>
 						<div class="msg-reply-address-row">
 							<div class="msg-reply-address"><span class="text-muted">From: </span>ProtonMail <span class="text-muted">&lt;contact@protonmail.ch&gt;</span></div>
@@ -35,12 +35,12 @@
 			</div><!-- /.Secure reply component ends -->
 
 			<!-- Secure reply component -->
-			<div id="secure-message-reply-card" class="ui-card" [ngClass]="{'d-block': replyInProcess}">
+			<div id="secure-message-reply-card" class="ui-card" [ngClass]="{'d-block': isReplyWindowOpen}">
 				<div class="ui-card-body">
 					<div class="msg-reply-card">
 						<div class="msg-reply-card-header position-relative d-sm-flex justify-content-sm-start align-items-sm-center">
 							<h5 class="text-dark mb-0"><strong>Test Email for UX/UI assignment</strong></h5>
-							<button role="button" class="close ui-card-dismiss ml-sm-auto hidden-md-up"><i class="icon icon-cross text-dark"></i></button>
+							<button role="button" class="close ui-card-dismiss ml-sm-auto hidden-md-up" (click)="closeReplyWindow();"><i class="icon icon-cross text-dark"></i></button>
 						</div>
 						<div class="msg-reply-address-row">
 							<div class="msg-reply-address"><span class="text-muted">From: </span>ProtonMail <span class="text-muted">&lt;contact@protonmail.ch&gt;</span></div>
@@ -70,7 +70,7 @@
 		            <div class="mail-composer-actions-row d-flex align-items-center">
 		                <div class="mail-composer-actions-col mail-composer-actions-col-lg position-relative">
 		                    <ul class="mail-composer-actions d-flex align-items-center">
-		                        <li class="cancel-message-item"><button class="actions-btn actions-btn-inline" role="button" placement="top" ngbTooltip="Cancel Reply"><strong>Cancel</strong></button></li>
+		                        <li class="cancel-message-item"><button class="actions-btn actions-btn-inline" role="button" placement="top" ngbTooltip="Cancel Reply" (click)="closeReplyWindow();"><strong>Cancel</strong></button></li>
 		                        <li>
 		                        	<div ngbDropdown placement="top" class="dropdown">
 		                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" ngbTooltip="Typography"><i class="icon icon-text-color"></i></button>
