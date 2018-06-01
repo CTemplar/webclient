@@ -1,7 +1,7 @@
 <!-- PAGE SECTION -->
 <section class="l-block l-block-text bg-white text-center text-white gap-p-eq has-cover" style="background-image: url(assets/images/user-actions/login-bg.jpg);">
   <div class="container container-xs">
-    <header class="l-block-header position-relative">
+    <header class="l-block-header position-relative mb-md-2">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
           <h1 class="l-block-title text-white text-uppercase">
@@ -11,9 +11,9 @@
       </div>
     </header>
     <div class="l-block-body px-xs">
-      <div class="l-content-holder login-content-holder mx-auto mt-md-0">
+      <div class="l-content-holder l-form-content-holder mx-auto mt-md-0">
         <div class="form">          
-          <form class="login-form" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
+          <form class="login-form position-relative" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
             <div *ngIf="errorMessage" class="login-form__failed">{{ errorMessage }}</div>
             <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
               <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
@@ -21,7 +21,7 @@
                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="toggleFocus($event,'username', usernameVC)">
                   <i class="fa fa-keyboard"></i>
                 </span>
-                <input #usernameVC [ngx-virtual-keyboard]="true" [ngx-virtual-keyboard-layout]="layout" [ngx-virtual-keyboard-disabled]="false" class="form-control form-control-lg" id="username_noSpan" placeholder="Username" 
+                <input #usernameVC [ngx-virtual-keyboard]="true" [ngx-virtual-keyboard-layout]="layout" [ngx-virtual-keyboard-disabled]="false" class="form-control form-control-lg border-right-0" id="username_noSpan" placeholder="Username" 
                 type="text" name="username" formControlName="username" required/>
               </div>
                 <span *ngIf="loginForm.controls['username'].errors && showFormErrors" id="email-valid" class="validate-message">

@@ -1,8 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-
-// Bootstrap
-import {NgbModal, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -18,29 +15,23 @@ import { FinalLoading } from '../../store/actions';
 import { SharedService } from '../../store/services';
 
 @Component({
-  selector: 'app-secure-message',
-  templateUrl: './secure-message.component.html',
-  styleUrls: ['./secure-message.component.scss']
+  selector: 'app-decrypt',
+  templateUrl: './decrypt.component.html',
+  styleUrls: ['./decrypt.component.scss']
 })
-export class SecureMessageComponent implements OnInit {
-  
-  // == Public property to check if reply secure message window opened
-  public isReplyWindowOpen: boolean = false;
+export class DecryptComponent implements OnInit {
 
   errorMessage: string = '';
   isLoading: boolean = false;
-  getState: Observable<any>;	
+  getState: Observable<any>;
+  @ViewChild('messagePasswordInput') messagePasswordInput: ElementRef;
 
   constructor(
   	private router: Router,
   	private store: Store<AuthState>,
   	private sharedService: SharedService,
-    config: NgbDropdownConfig
-  ) {    
-  	this.getState = this.store.select(selectAuthState);
-
-    // == customize default values of dropdowns used by this component tree
-    config.autoClose = "outside";
+  ) {
+    this.getState = this.store.select(selectAuthState);
   }
 
   ngOnInit() {
@@ -58,14 +49,12 @@ export class SecureMessageComponent implements OnInit {
     });
   }
 
-  openReplyWindow() {
-    const bool = this.isReplyWindowOpen;
-    this.isReplyWindowOpen = true;
-  }
-
-  closeReplyWindow() {
-    const bool = this.isReplyWindowOpen;
-    this.isReplyWindowOpen = false;
+  // == Toggle password visibility
+  togglePassword(messagePasswordInput: any): any {
+    if (!messagePasswordInput.value) {
+      return;
+    }
+    messagePasswordInput.type = messagePasswordInput.type === 'password' ? 'text' : 'password';
   }
 
   ngOnDestroy() {

@@ -17,6 +17,7 @@ import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
 import { UsersBillingInfoComponent } from './users-billing-info/users-billing-info.component';
 import { SecureMessageComponent } from './secure-message/secure-message.component';
+import { DecryptComponent } from './decrypt/decrypt.component';
 
 // Module
 import { PagesModule } from '../pages/pages.module';
@@ -45,7 +46,8 @@ import {
     UsersSignUpComponent,
     UsersCreateAccountComponent,
     UsersBillingInfoComponent,
-    SecureMessageComponent
+    SecureMessageComponent,
+    DecryptComponent
   ],
   providers: [UsersService,
   {

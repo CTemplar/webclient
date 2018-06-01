@@ -53,7 +53,7 @@ body {
 			top: 0;
 			right: 0;
 			left: 0;
-			z-index: $zindex-zero;
+			z-index: $zindex-neg;
 			content: "";
 			background: $brand-secondary;
 			height: 80px;

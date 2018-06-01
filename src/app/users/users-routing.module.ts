@@ -9,6 +9,7 @@ import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
 import { UsersBillingInfoComponent } from './users-billing-info/users-billing-info.component';
 import { SecureMessageComponent } from './secure-message/secure-message.component';
+import { DecryptComponent } from './decrypt/decrypt.component';
 
 const routes: Routes = [
   { path: 'signin', component: UsersSignInComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'create-account', component: UsersCreateAccountComponent },
   { path: 'billing-info', component: UsersBillingInfoComponent },
   { path: 'secure-message', component: SecureMessageComponent },
+  { path: 'decrypt', component: DecryptComponent },
 ];
 
 @NgModule({
