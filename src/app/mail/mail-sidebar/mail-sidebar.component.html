@@ -215,13 +215,13 @@
             <div class="mail-composer-actions-row d-flex align-items-center">
                 <div class="mail-composer-actions-col mail-composer-actions-col-lg">
                     <ul class="mail-composer-actions d-flex align-items-center">
-                        <li><button role="button" class="actions-btn mail-attach-btn" placement="top" ngbTooltip="Upload attachment"><i class="icon icon-attachment"></i></button></li>
-                        <li class="pr-0"><button role="button" class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0" placement="top" ngbTooltip="Mail"><i class="icon icon-mail"></i></button></li>
-                        <li class="px-0"><button role="button" class="actions-btn mail-clock-btn border-right-0 border-radius-0" placement="top" ngbTooltip="Clock"><i class="icon icon-clock"></i></button></li>
+                        <li><button role="button" class="actions-btn mail-attach-btn" placement="top" ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button></li>
+                        <li class="pr-0"><button role="button" class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0" placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button></li>
+                        <li class="px-0"><button role="button" class="actions-btn mail-clock-btn border-right-0 border-radius-0" placement="top" ngbTooltip="Self-destructing timer"><i class="icon icon-clock"></i></button></li>
                         <li class="px-0"><button role="button" class="actions-btn mail-sign-btn border-right-0 border-radius-0" placement="top" ngbTooltip="Signature"><i class="icon icon-sign"></i></button></li>
                         <li class="pl-0">
 							<div ngbDropdown placement="top" class="dropdown">
-								<button ngbDropdownToggle class="hide-arrow actions-btn mail-self-timer-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Self Timer"><i class="icon icon-self-timer"></i></button>
+								<button ngbDropdownToggle class="hide-arrow actions-btn mail-self-timer-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i></button>
 								<div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded" aria-labelledby="delayedTimerDropdownMenu">
 									<button role="button" class="close"><i class="icon icon-cross"></i></button>
 									<div class="timer-dropdown-content">
@@ -275,7 +275,7 @@
 						</li>
                         <li>
 							<div ngbDropdown placement="top" class="dropdown">
-								<button ngbDropdownToggle class="hide-arrow actions-btn mail-dead-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Dead Man"><i class="icon icon-dead"></i></button>
+								<button ngbDropdownToggle class="hide-arrow actions-btn mail-dead-btn border-radius-l-0" id="delayedTimerDropdownMenu" role="button" placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i></button>
 								<div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded" aria-labelledby="delayedTimerDropdownMenu">
 									<button role="button" class="close"><i class="icon icon-cross"></i></button>
 									<div class="timer-dropdown-content">
@@ -327,10 +327,10 @@
 								</div>
 							</div>
 						</li>
-                        <li><button role="button" class="actions-btn mail-keyboard-btn" placement="top" ngbTooltip="Keyboard Show"><i class="icon icon-keyboard-show"></i></button></li>
+                        <li><button role="button" class="actions-btn mail-keyboard-btn" placement="top" ngbTooltip="On-screen keyboard"><i class="icon icon-keyboard-show"></i></button></li>
                         <li>
                         	<div ngbDropdown placement="top" class="dropdown">
-                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" ngbTooltip="Typography"><i class="icon icon-text-color"></i></button>
+                                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" ngbTooltip="Text formatting"><i class="icon icon-text-color"></i></button>
                                 <div ngbDropdownMenu class="typo-actions-dropdown-menu is-centered" aria-labelledby="typoDropdownMenu">
                                     <div class="mail-comopser-typo-actions-holder">
                                     	<ul class="mail-composer-actions d-flex align-items-center justify-content-end">
@@ -552,8 +552,8 @@
                 </div>
                 <div class="mail-composer-actions-col mail-composer-actions-col-sm">
                     <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
-                        <li class="pr-0"><button role="button" class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0" placement="top" ngbTooltip="Save Disk"><i class="icon icon-save-disk"></i></button></li>
-                        <li class="pl-0"><button role="button" class="actions-btn mail-garbage-btn border-radius-l-0" placement="top" ngbTooltip="Discard Mail"><i class="icon icon-garbage"></i></button></li>
+                        <li class="pr-0"><button role="button" class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0" placement="top" ngbTooltip="Save to drafts"><i class="icon icon-save-disk"></i></button></li>
+                        <li class="pl-0"><button role="button" class="actions-btn mail-garbage-btn border-radius-l-0" placement="top" ngbTooltip="Delete draft"><i class="icon icon-garbage"></i></button></li>
                         <li class="send-mail-item"><button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" role="button" placement="top" ngbTooltip="Send Mail"><i class="hidden-sm-up icon icon-paper-plane"></i><span class="hidden-xs-down">Send</span></button></li>
                     </ul>
                 </div>

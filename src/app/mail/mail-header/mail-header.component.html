@@ -18,12 +18,12 @@
         </div>
         <div class="col-sm-6 mailbox-navbar-col">
             <ul class="mailbox-actions-menu d-flex justify-content-end">
-                <li class=""><a href=""><i class="icon icon-login"></i></a></li>
-                <li class="mailbox-settings pr-sm-0"><a href="" class="border-right-0"><i class="icon icon-gear"></i></a></li>
-                <li class="mailbox-signout pl-sm-0"><a href=""><i class="icon icon-logout"></i></a></li>
+                <li class=""><a href="" placement="bottom" ngbTooltip="Contacts"><i class="icon icon-login"></i></a></li>
+                <li class="mailbox-settings pr-sm-0"><a href="" class="border-right-0" placement="bottom" ngbTooltip="Settings"><i class="icon icon-gear"></i></a></li>
+                <li class="mailbox-signout pl-sm-0"><a href="" placement="bottom" ngbTooltip="Log out"><i class="icon icon-logout"></i></a></li>
                 <li class="mailbox-lang mailbox-dropdown btn-dropdown">
                     <div ngbDropdown class="lang-dropdown">
-                        <button type="button" id="langDropdownMenuButton" ngbDropdownToggle><i class="icon icon-earth-globe hidden-xs-down"></i>En</button>
+                        <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom" ngbTooltip="Language"><i class="icon icon-earth-globe hidden-xs-down"></i>En</button>
                         <div ngbDropdownMenu class="dropdown-menu-right text-center" aria-labelledby="langDropdownMenuButton">
                             <a class="dropdown-item" href="">Ru</a>
                             <a class="dropdown-item" href="">Es</a>

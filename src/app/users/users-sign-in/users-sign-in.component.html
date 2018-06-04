@@ -12,7 +12,7 @@
     </header>
     <div class="l-block-body px-xs">
       <div class="l-content-holder l-form-content-holder mx-auto mt-md-0">
-        <div class="form">          
+        <div class="form">         
           <form class="login-form position-relative" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
             <div *ngIf="errorMessage" class="login-form__failed">{{ errorMessage }}</div>
             <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">

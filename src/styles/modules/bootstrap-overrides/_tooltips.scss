@@ -4,7 +4,7 @@
 
 // == Tooltips
 .tooltip {
-    font-size: 0.75rem;
+    font-size: 0.625rem;
     white-space: nowrap;
     
     &-inner {
@@ -31,7 +31,7 @@
 }
 
 .bs-tooltip-top {
-	padding: 0.4rem 0;
+	padding: 0.25rem 0;
 	left: calc(50% - 0.4rem);
 
 	.arrow {
@@ -43,4 +43,21 @@
 			border-top-color: #000;
 		}
 	}
+}
+
+.bs-tooltip-auto[x-placement^=bottom],
+.bs-tooltip-bottom {
+	padding: 0.25rem 0;
+}
+
+.bs-tooltip-auto[x-placement^=bottom] .arrow,
+.bs-tooltip-bottom .arrow {
+	top: 0;
+}
+
+.bs-tooltip-auto[x-placement^=bottom] .arrow:before,
+.bs-tooltip-bottom .arrow:before {
+	bottom: 0;
+	border-width: 0 .4rem .4rem;
+	border-bottom-color: #000000;
 }
