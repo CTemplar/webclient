@@ -1,5 +1,6 @@
 // Angular
 import { HttpHeaders } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -12,4 +13,4 @@ export function apiHeaders() {
   };
 }
 
-export const apiUrl = "http://localhost:8000";
+export const apiUrl = environment.production ? "https://api.ctemplar.com" : "http://localhost:8000";
