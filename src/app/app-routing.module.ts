@@ -1,17 +1,14 @@
 // Angular
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes, Router } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
-const routes: Routes = [
-  {
-    path: '',
-    loadChildren: 'app/home/home.module#HomeModule'
-  },
-  {
-    path: 'blog',
-    loadChildren: 'app/blog/blog.module#BlogModule'
-  }
-];
+const routes: Routes = [];
 
-export const AppRoutingModule: ModuleWithProviders = RouterModule.forRoot(routes);
+@NgModule({
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}

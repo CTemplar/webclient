@@ -1,43 +1,12 @@
 // Angular
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-// Service
-import { SharedService } from '../../store/services';
-import {
-  FinalLoading
-} from '../../store/actions';
+import { Component } from "@angular/core";
 
-// Store
-import { Store } from '@ngrx/store';
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 @Component({
-  selector: 'app-pages-pricing',
-  templateUrl: './pages-pricing.component.html',
-  styleUrls: ['./pages-pricing.component.scss']
+  selector: "app-pages-pricing",
+  templateUrl: "./pages-pricing.component.html",
+  styleUrls: ["./pages-pricing.component.scss"]
 })
-export class PagesPricingComponent implements OnDestroy, OnInit {
-  // == Defining public property as boolean
-  public selectedIndex: number = -1; // Assuming no element are selected initially
-  @Input('hideHeader') hideHeader: boolean;
-  @Input('blockGapsZero') blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
-
-  constructor(
-    private sharedService: SharedService,
-    private store: Store<any>
-  ) {}
-  ngOnInit() {
-    this.sharedService.hideFooter.emit(true);
-    this.store.dispatch(new FinalLoading({ loadingState: false }));
-  }
-  // == Toggle active state of the slide in price page
-  toggleSlides(index) {
-    this.selectedIndex = index;
-    document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document
-      .querySelector('.package-prime-col')
-      .classList.remove('active-slide');
-  }
-  ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
-  }
-}
+export class PagesPricingComponent {}

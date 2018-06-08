@@ -1,0 +1,26 @@
+<div class="l-block-body mb-4">
+  <div class="row" [class.justify-content-center]="columns==2">
+    <article class="col-md-4 col-sm-6 mb-4 mb-sm-5" *ngFor="let post of posts">
+      <a routerLink="/blog/{{ post.slug }}" class="d-block news-card-holder">
+        <div class="news-card position-relative">
+          <span class="badge badge-sm badge-info text-uppercase">
+            <strong>{{ post.category }}</strong>
+          </span>
+          <div class="news-card-body">
+            <figure class="news-pic-holder">
+              <img-spinner [class]="'img news-img'" [src]="post.image_card"></img-spinner>
+            </figure>
+            <h4 class="news-card-title">{{ post.name }}</h4>
+            <p>{{ post.text }}</p>
+          </div>
+          <footer class="news-card-footer">
+            <ul class="news-meta-list">
+              <li>{{ post.date }}</li>
+              <li><u>{{ post.comments_count }} comments</u></li>
+            </ul>
+          </footer>
+        </div>
+      </a>
+    </article>
+  </div>
+</div>

@@ -1,30 +1,61 @@
 // Angular
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
 // Components
-import { PagesAboutComponent } from './pages-about/pages-about.component';
-import { PagesDonateComponent } from './pages-donate/pages-donate.component';
-import { PagesMediaKitComponent } from './pages-media-kit/pages-media-kit.component';
-import { PagesPricingComponent } from './pages-pricing/pages-pricing.component';
-import { PagesPrivacyComponent } from './pages-privacy/pages-privacy.component';
-import { PagesSecurityComponent } from './pages-security/pages-security.component';
-import { PagesTermsComponent } from './pages-terms/pages-terms.component';
-import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
+import { PagesComponent } from "./pages.component";
+import { PagesAboutComponent } from "./pages-about/pages-about.component";
+import { PagesDonateComponent } from "./pages-donate/pages-donate.component";
+import { PagesHomeComponent } from "./pages-home/pages-home.component";
+import { PagesMediaKitComponent } from "./pages-media-kit/pages-media-kit.component";
+import { PagesPostComponent } from "./pages-post/pages-post.component";
+import { PagesPostsComponent } from "./pages-posts/pages-posts.component";
+import { PagesPricingComponent } from "./pages-pricing/pages-pricing.component";
+import { PagesPrivacyComponent } from "./pages-privacy/pages-privacy.component";
+import { PagesSecurityComponent } from "./pages-security/pages-security.component";
+import { PagesSignInComponent } from "./pages-sign-in/pages-sign-in.component";
+import { PagesSignUpComponent } from "./pages-sign-up/pages-sign-up.component";
+import { PagesTermsComponent } from "./pages-terms/pages-terms.component";
+import { PagesTorOnionComponent } from "./pages-tor-onion/pages-tor-onion.component";
+
+// Guards
+import { NotAuthGuard } from "../app-store/guards";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 const routes: Routes = [
-  { path: 'about', component: PagesAboutComponent },
-  { path: 'donate', component: PagesDonateComponent },
-  { path: 'pricing', component: PagesPricingComponent },
-  { path: 'security', component: PagesSecurityComponent },
-  { path: 'media-kit', component: PagesMediaKitComponent },
-  { path: 'tor-onion', component: PagesTorOnionComponent },
-  { path: 'privacy', component: PagesPrivacyComponent },
-  { path: 'terms', component: PagesTermsComponent },
+  {
+    path: "",
+    component: PagesComponent,
+    children: [
+      { path: "", component: PagesHomeComponent },
+      { path: "about", component: PagesAboutComponent },
+      { path: "blog", component: PagesPostsComponent },
+      { path: "blog/:slug", component: PagesPostComponent },
+      { path: "donate", component: PagesDonateComponent },
+      { path: "media-kit", component: PagesMediaKitComponent },
+      { path: "pricing", component: PagesPricingComponent },
+      { path: "privacy", component: PagesPrivacyComponent },
+      { path: "security", component: PagesSecurityComponent },
+      {
+        path: "sign-in",
+        canActivate: [NotAuthGuard],
+        component: PagesSignInComponent
+      },
+      {
+        path: "sign-up",
+        canActivate: [NotAuthGuard],
+        component: PagesSignUpComponent
+      },
+      { path: "terms", component: PagesTermsComponent },
+      { path: "tor-onion", component: PagesTorOnionComponent }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

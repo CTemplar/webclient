@@ -1,78 +1,46 @@
 // Angular
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
 
 // Bootstrap
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 // Components
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
 
 // Modules
-import { AppRoutingModule } from './app-routing.module';
-import { BlogModule } from './blog/blog.module';
-import { FooterModule } from './footer/footer.module';
-import { HeaderModule } from './header/header.module';
-import { HomeModule } from './home/home.module';
-import { MailModule } from './mail/mail.module';
-import { PagesModule } from './pages/pages.module';
-import { UsersModule } from './users/users.module';
-import { SharedModule } from './shared/shared.module';
-import { AppStoreModule } from './store/store.module';
-import {
-  ngxZendeskWebwidgetModule,
-  ngxZendeskWebwidgetConfig
-} from 'ngx-zendesk-webwidget';
+import { AppRoutingModule } from "./app-routing.module";
+import { MailboxModule } from "./mailbox/mailbox.module";
+import { PagesModule } from "./pages/pages.module";
+import { SharedModule } from "./shared/shared.module";
 
+// Ngxs
+import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
+import { NgxsModule } from "@ngxs/store";
+import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
 
-export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
-  accountUrl = 'ctemplar.zendesk.com';
-  beforePageLoad(zE) {
-    zE.setLocale('en');
-    zE.hide();
-  }
-}
-// Services
-import { BlogService } from './store/services';
-import { MailService } from './store/services';
-import { SharedService } from './store/services';
-import { OpenPgpService } from './store/services';
+// States
+import { AuthState, BlogState, LayoutState } from "./app-store/states";
 
-import { TokenInterceptor, ErrorInterceptor } from './store/services';
-
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    SharedModule,
+    AppRoutingModule,
     BrowserModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    MailboxModule,
     NgbModule.forRoot(),
-    AppStoreModule,
-    AppRoutingModule,
-    BlogModule,
-    FooterModule,
-    HeaderModule,
-    HomeModule,
-    MailModule,
+    NgxsModule.forRoot([AuthState, BlogState, LayoutState]),
+    NgxsStoragePluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot(), // always the last plugin!
     PagesModule,
-    UsersModule,
-    ngxZendeskWebwidgetModule.forRoot(ZendeskConfig)
+    SharedModule
   ],
-  providers: [
-    BlogService,
-    SharedService,
-    OpenPgpService,
-    MailService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

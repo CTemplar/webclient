@@ -1,0 +1,87 @@
+<section class="l-block l-block-text bg-white text-center text-white gap-p-eq has-cover">
+  <div class="container container-xs">
+
+    <header class="l-block-header position-relative mb-md-2">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
+          <h1 class="l-block-title text-white text-uppercase">
+            <strong>User Login</strong>
+          </h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="l-block-body px-xs">
+      <div class="l-content-holder l-form-content-holder mx-auto mt-md-0">
+        <ngb-alert [dismissible]="false" *ngIf="errorMessage">
+          <strong>Error!</strong> {{ errorMessage }}
+        </ngb-alert>
+        <div class="form">
+          <form class="login-form position-relative">
+            <div class="form-group">
+              <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
+              <input id="loginUsername" class="form-control form-control-lg border-right-0" placeholder="Username" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up">Password</label>
+              <div id="loginPassword" class="input-group">
+                <input class="form-control form-control-lg border-right-0" [type]="inputType" placeholder="Password" name="password" required>
+                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword()">
+                  <i class="fa fa-eye"></i>
+                </span>
+              </div>
+            </div>
+            <div class="form-group form-user-actions mt-4 pt-sm-2">
+              <button class="btn btn-gradient-primary btn-lg login-btn">Login</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="form-alternative-content">
+          <div class="reset-password mb-0 mb-sm-1">
+            <a class="text-faded" (click)="openModal(recovery)"><small><u>Reset Password</u></small></a>
+          </div>
+          <div class="create-account">
+            <a routerLink="/sign-up" class="text-white"><strong><u>Create Account</u></strong></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<ng-template #recovery let-c="close" let-d="dismiss">
+
+  <div class="modal-header text-center justify-content-center">
+    <h3 class="modal-title w-100 text-dark"><strong>Reset Password</strong></h3>
+    <button type="button" class="close" (click)="d()"><span>&times;</span></button>
+  </div>
+
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <p>We will send a reset code to your <a href="">recovery email</a> to reset your password.</p> <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails if you reset your password.</p> <p>If you did not set a recovery email then your account is not recoverable.</p>
+      <div class="login-content-holder mx-auto mt-4 pt-sm-2">
+        <div class="form">
+          <form>
+            <div class="form-group">
+              <label for="rUsername" class="d-block text-muted text-left hidden-sm-up">Username to Reset</label>
+              <input class="form-control form-control-lg" id="rUsername" placeholder="Username to reset" required>
+            </div>
+            <div class="form-group">
+              <label for="rEmail" class="d-block text-muted text-left hidden-sm-up">Recovery Email</label>
+              <input class="form-control form-control-lg" id="rEmail" placeholder="Recovery email" required>
+            </div>
+            <div class="form-group form-user-actions text-center mb-0">
+              <button class="btn btn-gradient-primary btn-sm reset-btn">Reset Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ng-template>

@@ -1,9 +1,16 @@
+# Angular
+/dist/
+/e2e/*.js
+/e2e/*.map
+
+# Assets
+/src/assets/fonts/icomoon/libs/icomoon.zip
+
 # IDE
-.vs/
-.vscode
-.settings
-.idea/
-.editorconfig
+/.vs/
+/.vscode
+/.settings
+/.idea/
 
 # NodeJS
 /node_modules/
@@ -12,14 +19,3 @@
 .DS_Store
 Thumbs.db
 TODO.md
-
-# compiled output
-/dist/
-/tmp/
-
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-# icomoon
-src/assets/fonts/icomoon/libs/icomoon.zip
