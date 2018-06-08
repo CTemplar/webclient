@@ -32,6 +32,7 @@ export class PagesPostsComponent implements OnInit {
       this.posts = data.slice(1);
       this.postsMax = data.length;
       this.pagePosts = data.slice(this.pageStart, this.pageEnd);
+      if (this.pageEnd >= this.postsMax) this.pageMax = true;
     });
   }
 

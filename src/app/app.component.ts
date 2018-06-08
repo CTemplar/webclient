@@ -49,8 +49,8 @@ export class AppComponent implements OnInit {
   }
 
   // REVIEW: WTF? {
+  windowIsResized: boolean = false;
   private resizeTimeout: number = null;
-  private windowIsResized: boolean = false;
   onResize() {
     this.windowIsResized = true;
     if (this.resizeTimeout && this.windowIsResized) {
