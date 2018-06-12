@@ -14,12 +14,15 @@ import { PagesPricingComponent } from "./pages-pricing/pages-pricing.component";
 import { PagesPrivacyComponent } from "./pages-privacy/pages-privacy.component";
 import { PagesSecurityComponent } from "./pages-security/pages-security.component";
 import { PagesSignInComponent } from "./pages-sign-in/pages-sign-in.component";
+import { PagesSignOutComponent } from "./pages-sign-out/pages-sign-out.component";
+import { PagesSignUpLastComponent } from "./pages-sign-up/pages-sign-up-last.component";
 import { PagesSignUpComponent } from "./pages-sign-up/pages-sign-up.component";
+import { PagesSignUpNextComponent } from "./pages-sign-up/pages-sign-up-next.component";
 import { PagesTermsComponent } from "./pages-terms/pages-terms.component";
 import { PagesTorOnionComponent } from "./pages-tor-onion/pages-tor-onion.component";
 
 // Guards
-import { NotAuthGuard } from "../app-store/guards";
+import { AuthGuard, NotAuthGuard } from "../app-store/guards";
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -44,9 +47,24 @@ const routes: Routes = [
         component: PagesSignInComponent
       },
       {
+        path: "sign-out",
+        canActivate: [AuthGuard],
+        component: PagesSignOutComponent
+      },
+      {
+        path: "sign-up/last",
+        canActivate: [NotAuthGuard],
+        component: PagesSignUpLastComponent
+      },
+      {
         path: "sign-up",
         canActivate: [NotAuthGuard],
         component: PagesSignUpComponent
+      },
+      {
+        path: "sign-up/next",
+        canActivate: [NotAuthGuard],
+        component: PagesSignUpNextComponent
       },
       { path: "terms", component: PagesTermsComponent },
       { path: "tor-onion", component: PagesTorOnionComponent }

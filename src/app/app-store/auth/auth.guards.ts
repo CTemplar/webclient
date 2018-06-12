@@ -13,7 +13,7 @@ import { AuthState } from "../states";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
-  constructor(private store: Store, private router: Router) {}
+  constructor(private router: Router, private store: Store) {}
   canActivate() {
     const token = this.store.selectSnapshot(AuthState.token);
     if (token) return true;
@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
 
 @Injectable({ providedIn: "root" })
 export class NotAuthGuard implements CanActivate {
-  constructor(private store: Store, private router: Router) {}
+  constructor(private router: Router, private store: Store) {}
   canActivate() {
     const token = this.store.selectSnapshot(AuthState.token);
     if (token) this.router.navigate(["/mailbox"]);

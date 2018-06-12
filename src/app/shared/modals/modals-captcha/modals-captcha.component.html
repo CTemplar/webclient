@@ -1,0 +1,14 @@
+<div class="modal-header text-center justify-content-center">
+  <h3 class="modal-title-lg mb-0 w-100 text-dark">
+    <strong>Hold on while we prepare your account...</strong>
+  </h3>
+</div>
+<div class="modal-body bg-faded">
+  <div class="text-holder text-dark text-medium">
+    <p>Your GPG 4096-bit key and Argon 2 password have been generated. As you're creating a free account, we need to verify you're a human.</p>
+    <p>The captcha is from Google, but we've make sure it cannot take any useful data in case you're a target, because all your data is strongly encrypted at this point.</p>
+    <p>
+      <re-captcha (resolved)="result($event)" siteKey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></re-captcha>
+    </p>
+  </div>
+</div>

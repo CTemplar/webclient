@@ -1,17 +1,19 @@
 // Actions
-import { PostSignIn, PostSignOut, PostSignUp } from "../actions";
-
-// Angular
-import { Router } from "@angular/router";
+import {
+  PostRecover,
+  PostRefresh,
+  PostReset,
+  PostSignIn,
+  PostSignOut,
+  PostSignUp,
+  PostVerify
+} from "../actions";
 
 // Models
-// import { SignUp } from "../models";
+import { SignUp } from "../models";
 
 // Ngrx
 import { Action, NgxsOnInit, Selector, State, StateContext } from "@ngxs/store";
-
-// Rxjs
-import { tap } from "rxjs/operators";
 
 // Services
 import { AuthService } from "../services";
@@ -20,14 +22,14 @@ import { AuthService } from "../services";
 ///////////////////////////////////////////////////////////////////////////////
 
 export interface AuthStateModel {
-  // signUp: SignUp;
+  signUp: SignUp;
   token: string;
 }
 
 @State<AuthStateModel>({
   name: "auth",
   defaults: {
-    // signUp: null,
+    signUp: null,
     token: null
   }
 })
@@ -37,7 +39,7 @@ export class AuthState implements NgxsOnInit {
     return state.token;
   }
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
     // TODO: Check if it is valid token, or PostSignOut on first time. Later activate periodical refresh on navigation. So if cannot verify, we don't refresh on first load neither.
@@ -45,18 +47,71 @@ export class AuthState implements NgxsOnInit {
     // else console.log('was filled');
   }
 
-  @Action(PostSignIn)
-  postSignIn(ctx: StateContext<AuthStateModel>, { payload }: PostSignIn) {
-    return this.authService.postSignIn(payload).pipe(
-      tap(data => {
+  @Action(PostRecover)
+  async postRecover(
+    ctx: StateContext<AuthStateModel>,
+    { payload }: PostRecover
+  ) {
+    return this.authService.postRecover(payload);
+  }
+
+  @Action(PostRefresh)
+  async postRefresh(ctx: StateContext<AuthStateModel>) {
+    const payload = ctx.getState().token;
+    return this.authService.postRefresh(payload).then(data => {
+      ctx.patchState({ token: data });
+    });
+  }
+
+  @Action(PostReset)
+  async postReset(
+    ctx: StateContext<AuthStateModel>,
+    { commit, payload }: PostReset
+  ) {
+    if (commit) {
+      let model = await this.authService.genPgpKey(payload);
+      model = await this.authService.genPwdHash(model);
+      return this.authService.postReset(model).then(data => {
         ctx.patchState({ token: data });
-      })
-    );
+      });
+    } else {
+    }
+  }
+
+  @Action(PostSignIn)
+  async postSignIn(ctx: StateContext<AuthStateModel>, { payload }: PostSignIn) {
+    payload = await this.authService.genPwdHash(payload);
+    return this.authService.postSignIn(payload).then(data => {
+      ctx.patchState({ token: data });
+    });
   }
 
   @Action(PostSignOut)
   postSignOut(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ token: undefined });
-    this.router.navigate(["/sign-in"]);
+  }
+
+  @Action(PostSignUp)
+  async postSignUp(
+    ctx: StateContext<AuthStateModel>,
+    { commit, payload }: PostSignUp
+  ) {
+    if (commit)
+      return this.authService.postSignUp(payload).then(data => {
+        ctx.patchState({ token: data });
+      });
+    else {
+      let model = await this.authService.genPgpKey(payload);
+      model = await this.authService.genPwdHash(model);
+      ctx.patchState({ signUp: model });
+    }
+  }
+
+  @Action(PostVerify)
+  async postVerify(ctx: StateContext<AuthStateModel>) {
+    const payload = ctx.getState().token;
+    return this.authService.postVerify(payload).then(data => {
+      ctx.patchState({ token: data });
+    });
   }
 }

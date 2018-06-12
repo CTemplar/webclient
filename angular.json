@@ -25,7 +25,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/argon2-browser/lib/argon2.js",
+              "node_modules/openpgp/dist/openpgp.min.js"
+            ]
           },
           "configurations": {
             "production": {

@@ -32,7 +32,11 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) this.isLoading = true;
       else if (event instanceof NavigationEnd) {
-        if (["/sign-in", "/sign-up", "/pricing"].includes(this.router.url))
+        if (
+          ["/sign-in", "/sign-up", "/sign-up/next", "/pricing"].includes(
+            this.router.url
+          )
+        )
           this.store.dispatch(new ShowCallToAction(false));
         else this.store.dispatch(new ShowCallToAction(true));
         this.loadingHandler();

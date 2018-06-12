@@ -7,9 +7,6 @@ import { Comment, Post } from "../models";
 // Ngrx
 import { Action, NgxsOnInit, State, StateContext } from "@ngxs/store";
 
-// Rxjs
-import { tap } from "rxjs/operators";
-
 // Services
 import { BlogService } from "../services";
 
@@ -39,19 +36,17 @@ export class BlogState implements NgxsOnInit {
 
   @Action(GetPost)
   getPost(ctx: StateContext<BlogStateModel>, { slug }: GetPost) {
-    return this.blogService.getPost(slug).pipe(
-      tap(data => {
-        ctx.patchState({ post: data });
-        ctx.dispatch(new GetRelatedPosts(data.category));
-      })
-    );
+    return this.blogService.getPost(slug).then(data => {
+      ctx.patchState({ post: data });
+      ctx.dispatch(new GetRelatedPosts(data.category));
+    });
   }
 
   @Action(GetPosts)
   getPosts(ctx: StateContext<BlogStateModel>) {
     return this.blogService
       .getPosts()
-      .pipe(tap(data => ctx.patchState({ posts: data })));
+      .then(data => ctx.patchState({ posts: data }));
   }
 
   @Action(GetRelatedPosts)

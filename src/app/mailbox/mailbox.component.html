@@ -1,5 +1,17 @@
+<app-mailbox-header></app-mailbox-header>
 <main id="main">
   <div class="content">
     <router-outlet></router-outlet>
   </div>
 </main>
+<app-mailbox-footer></app-mailbox-footer>
+
+<div class="mailbox-content-outer">
+	<app-mailbox-sidebar></app-mailbox-sidebar>
+
+	<div class="mailbox-main-content">
+		<app-mailbox-header></app-mailbox-header>
+		<router-outlet></router-outlet>
+		<app-mailbox-footer></app-mailbox-footer>
+	</div>
+</div>

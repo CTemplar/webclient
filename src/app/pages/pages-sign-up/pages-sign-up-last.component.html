@@ -1,0 +1,237 @@
+<!-- PAGE SECTION -->
+<section class="l-block l-block-text bg-white gap-p-eq">
+  <div class="container container-sm">
+    <header class="l-block-header position-relative text-center">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
+          <h1 class="l-block-title text-uppercase text-secondary">
+            <strong>Billing Information</strong>
+          </h1>
+        </div>
+      </div>
+    </header>
+    <div class="l-block-body px-md">
+      <div class="form-card-holder mx-auto">
+        <div class="form">
+          <form>
+            <!-- <re-captcha [(ngModel)]="model.captcha"
+      name="captcha"
+      required siteKey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></re-captcha> -->
+            <div class="form-card-holder billing-form-card-holder form-card-holder-top-border mt-md-3">
+              <div class="form-step-card">
+                <h3 class="form-step-card-title text-dark mb-3">
+                  <strong>Overview</strong>
+                </h3>
+                <div class="billing-overview">
+                  <div class="billing-overview-row">
+                    <label class="billing-overview-label mb-0">Plan</label>
+                    <div class="billing-overview-val text-secondary">
+                      <strong>Ctemplar PRIME</strong>
+                    </div>
+                  </div>
+                  <div class="billing-overview-row">
+                    <label class="billing-overview-label mb-0">Billing</label>
+                    <div class="billing-overview-val text-secondary">
+                      <strong>Annually</strong>
+                    </div>
+                  </div>
+                  <div class="billing-overview-row">
+                    <label class="billing-overview-label mb-0">Price</label>
+                    <div class="billing-overview-val text-secondary">
+                      <strong>48.00 € </strong>(4.00€/month)</div>
+                  </div>
+                  <div class="billing-overview-row payment-method-row">
+                    <label class="billing-overview-label">Payment Method: </label>
+                    <div class="billing-overview-val text-secondary">
+                      <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                        <div ngbDropdown class="payment-select-dropdown">
+                          <button ngbDropdownToggle id="paymentDropdownMenuButton">Stripe</button>
+                          <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Stripe</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Credit/Debit card</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Bitcoin</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Monero</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Ethereum</em>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-step-card">
+                <h3 class="form-step-card-title text-dark mb-3">
+                  <strong>Payment Information</strong>
+                </h3>
+                <div class="form-group">
+                  <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on Card</label>
+                  <input class="form-control" id="personName" placeholder="Name on Card" value="John" type="text">
+                </div>
+                <div class="form-group has-error">
+                  <span class="d-block text-right error-msg">Required field</span>
+                  <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card Number</label>
+                  <input class="form-control error" id="cardName" placeholder="Card Number" type="text">
+                </div>
+                <div class="form-group form-group-3-col">
+                  <div class="form-group-row">
+                    <div class="form-group-col">
+                      <label class="d-block text-muted text-left hidden-sm-up">Date</label>
+                      <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                        <div ngbDropdown class=" date-select-dropdown">
+                          <button id="dateDropdownMenuButton" ngbDropdownToggle>Date</button>
+                          <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Date</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>01</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>02</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>03</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>04</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>05</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>06</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>07</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>08</em>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group-col">
+                      <label class="d-block text-muted text-left hidden-sm-up">Year</label>
+                      <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                        <div ngbDropdown class="year-select-dropdown">
+                          <button id="yearDropdownMenuButton" ngbDropdownToggle>Year</button>
+                          <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Year</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>2018</em>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group-col">
+                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up">Security Code</label>
+                      <input class="form-control" id="securityCode" placeholder="Security Code" type="text">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group form-group-2-col">
+                  <div class="form-group-row">
+                    <div class="form-group-col">
+                      <label for="zipCode" class="d-block text-muted text-left hidden-sm-up">ZIP / Postal Code</label>
+                      <input class="form-control" id="zipCode" placeholder="ZIP / Postal Code" value="ZIP / Postal Code" type="text">
+                    </div>
+                    <div class="form-group-col">
+                      <label class="d-block text-muted text-left hidden-sm-up">Country</label>
+                      <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                        <div ngbDropdown class="country-select-dropdown">
+                          <button id="countryDropdownMenuButton" ngbDropdownToggle>Country</button>
+                          <div ngbDropdownMenu aria-labelledby="countryDropdownMenuButton">
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Country</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Afghanistan</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Belgium</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Canada</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Denmark</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Egypt</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>France</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Germany</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>Ireland</em>
+                            </a>
+                            <a class="dropdown-item text-muted" href="">
+                              <em>USA</em>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-step-card mt-4 mt-sm-5">
+                <h3 class="form-step-card-title text-dark mb-3">
+                  <strong>Promo Code</strong>
+                </h3>
+                <div class="form-group position-relative type-code-holder">
+                  <label for="promoCode" class="d-block text-muted text-left hidden-sm-up">Promo Code</label>
+                  <input class="form-control" id="promoCode" placeholder="Type Your Code" type="text">
+                  <button class="btn code-apply-btn" disabled>Apply</button>
+                </div>
+              </div>
+              <div class="form-group text-center mt-3 mt-sm-4 mb-0">
+                <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.Site container ends -->
+</section>
+<!-- /.PAGE SECTION ENDS -->
