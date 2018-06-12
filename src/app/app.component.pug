@@ -1,0 +1,8 @@
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+app-alerts
+app-loading(*ngIf='isLoading && production')
+//------------------------------------------------------------------------
+//- .app-outer([class.resize-active]='windowIsResized' [ngClass]="{'app-outer-secondary': this.router.url !== '/'}" [style.position]="{isLoading && production ? 'fixed' : null}")
+.app-outer([class.resize-active]='windowIsResized' [ngClass]="{'app-outer-secondary': this.router.url !== '/'}")
+  router-outlet

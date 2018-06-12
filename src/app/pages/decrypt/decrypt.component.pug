@@ -1,0 +1,24 @@
+// PAGE SECTION 
+section.l-block.l-block-text.l-block-h-600.gap-p-eq.position-relative.has-cover(style='background-image: url(assets/images/user-actions/login-bg.jpg);')
+  .container.position-static
+    .go-back-holder
+      a.text-white(href='', role='button')
+        i.icon.icon-arrow-left.icon-sm.mr-2
+        | Go to ctemplar.com
+    header.l-block-header.text-center.position-relative.mb-md-2
+      .row.justify-content-center
+        .col-sm-12.col-md-10.px-sm-5.px-md-0
+          h1.l-block-title.text-white.text-uppercase
+            strong Decrypt Message
+    .l-block-body.px-xs
+      .l-content-holder.text-center.l-form-content-holder.mx-auto.mt-md-0
+        .form
+          form.decrypt-form.position-relative
+            .form-group
+              label.d-block.text-faded.text-left.hidden-sm-up(for='msgPasswordField') Message password
+              .input-group
+                input.form-control.form-control-lg.border-right-0#msgPasswordField(#messagepasswordinput='', placeholder='Message password', type='password', name='msgPassword', required='')
+                span.input-group-addon.password-toggle.bg-white.text-muted#msgPasswordToggle((click)='togglePassword(messagePasswordInput)')
+                  i.fa.fa-eye
+            .form-group.form-user-actions.mt-4.pt-sm-2
+              button.btn.btn-gradient-primary.btn-lg.login-btn(role='button', type='submit') Decrypt

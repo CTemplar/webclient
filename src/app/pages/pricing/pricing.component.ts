@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-pages-pricing",
+  templateUrl: "./pricing.component.html",
+  styleUrls: ["./pricing.component.scss"]
+})
+export class PagesPricingComponent {}

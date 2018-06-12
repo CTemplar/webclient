@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-pages-about-us",
+  templateUrl: "./about-us.component.pug",
+  styleUrls: ["./about-us.component.scss"]
+})
+export class AboutUsComponent {}

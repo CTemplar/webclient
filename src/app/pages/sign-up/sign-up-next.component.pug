@@ -1,0 +1,67 @@
+section.l-block.l-block-text.bg-white.gap-p-eq
+  .container.container-sm
+    header.l-block-header.position-relative.text-center
+      .row.justify-content-center
+        .col-sm-12.col-md-10.position-sm-static.px-sm-5.px-md-0
+          h1.l-block-title.text-uppercase.text-secondary.mb-3.pb-2
+            strong Create your account
+    .l-block-body.px-md
+      .form-card-holder.mx-auto
+        .info-card.bg-faded.text-sm-center
+          p.text-medium
+            | Take back your privacy!
+            br
+            | Creating your secure email account takes less than 2 minutes
+        .form
+          form((ngsubmit)='onSignUp()', #signup='ngForm')
+            .form-step-card-holder.mt-3.mt-sm-4
+              .form-step-card
+                h3.form-step-card-title.text-dark.mb-0
+                  strong Username
+                .form-step-card-subtitle
+                  small This will be your main CTemplar email address.
+                .form-group
+                  .form-inline.userame-field-group
+                    label.d-block.text-muted.text-left.hidden-sm-up(for='username') Choose userame
+                    input#username.form-control.text-dark.mb-3.mb-sm-0(placeholder='Choose username', name='username', minlength='3', required='', [(ngmodel)]='model.username')
+                    span.domain-separator.text-center.text-dark @
+                    input.form-control.text-dark.is-readonly.border-0.px-0.email-input(value='ctemplar.com', readonly='')
+              .form-step-card
+                h3.form-step-card-title.text-dark.mb-0
+                  strong Password
+                .form-step-card-subtitle
+                  small Your password should be strong to avoid brute-force attacks.
+                .form-group
+                  label.d-block.text-muted.text-left.hidden-sm-up(for='password') Choose password
+                  .input-group
+                    input.form-control.border-right-0#password(placeholder='Choose password', [type]='inputType', name='password', minlength='6', required='', [(ngmodel)]='model.password')
+                    span.input-group-addon.password-toggle.bg-white.text-muted((click)='togglePassword()')
+                      i.fa.fa-eye
+                .form-group
+                  label.d-block.text-muted.text-left.hidden-sm-up(for='password2') Confirm password
+                  input.form-control#password2(placeholder='Confirm password', [type]='inputType', name='password2', minlength='6', required='', [(ngmodel)]='model.password2')
+              .form-step-card
+                h3.form-step-card-title.text-dark.mb-0
+                  strong Recovery email (recommended)
+                .form-step-card-subtitle
+                  small This email is used to recover your account if you forget your password. If you don't enter one, your account won't be recoverable at all. You can add it later in your settings panel.
+                .form-group
+                  label.d-block.text-muted.text-left.hidden-sm-up(for='recovery_email') Recovery email
+                  input.form-control.text-dark#recovery_email(placeholder='Recovery email', type='email', name='recovery_email', [(ngmodel)]='model.recovery_email')
+                .form-group
+                  .info-card.d-flex.align-items-center.bg-faded
+                    span.fancy-field-group.mr-3
+                      input.d-none.fancy-field-control.fancy-field-control-lg#agree(type='checkbox', required='')
+                      label.fancy-field-empty(for='agree')
+                    .checkbox-text.lh-sm
+                      span.info-text
+                        small
+                          | Please check this box if you agree to abide by our
+                          a(routerLink='/terms')
+                            u Terms and Conditions
+                          | .
+              .form-group.text-center
+                button.btn.btn-lg.btn-secondary(type='submit', [disabled]='!signUp.form.valid') Create Account
+              .text-holder.text-center
+                a(routerLink='/sign-in')
+                  u Already have an account?

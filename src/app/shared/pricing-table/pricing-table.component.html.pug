@@ -1,0 +1,136 @@
+.l-block-body.px-xs
+  .package-card-holder.mt-3.mt-sm-0.mt-md-5
+    ul.package-xs-tab.list-style-none.hidden-sm-up
+      li.active([class.is-active]='1 === selectedIndex')
+        a(role='button', (click)='toggleSlides(1);') Prime
+      li([class.is-active]='2 === selectedIndex')
+        a(role='button', (click)='toggleSlides(2);') Free
+    .row.flex-nowrap.row-lg
+      .col-sm-6.flex-sm-last.package-prime-col.active-slide([class.is-active-slide]='1 === selectedIndex')
+        .package-card.package-card-prime.is-shadowed.bg-white.text-dark
+          header.package-card-header.text-center
+            h2.text-white.m-0
+              strong Prime
+          .package-card-body
+            ul.package-list.mb-0.list-style-none.pl-0
+              li.package-list-item.has-border
+                i.fa.fa-check.text-green
+                | 1 User
+              li.package-list-item.is-sm.has-border.has-icon-center
+                i.fa.fa-check.text-green
+                .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                  .storage-select-dropdown(ngbdropdown='')
+                    button.dropdown-toggle#storageDropdownMenuButton(type='button', ngbdropdowntoggle='') 5 Gb Storage
+                    .dropdown-menu-right(ngbdropdownmenu='')
+                      a.dropdown-item 10 Gb Storage + $4/MO
+                      a.dropdown-item 15 Gb Storage + $8/MO
+                      a.dropdown-item 20 Gb Storage + $12/MO
+                      a.dropdown-item 25 Gb Storage + $16/MO
+              li.package-list-item.has-border
+                i.fa.fa-check.text-green
+                | 1 E-mail Address
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | 100 Messages per Day
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | 200 Folders
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | Normal Support
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | Dead Mans Timer
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | Delayed Delivery Timer
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | Self Destruct Timer
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | Encryption for non-CTemplar Users
+            .package-coming-soon.mt-3
+              h6.text-muted.mb-3.mb-sm-4
+                a
+                  u Features to be added to this package soon
+              //                 <ul class="package-list mb-0 list-style-none pl-0">
+                                <li class="package-list-item">
+                                  <i class="fa fa-check text-green"></i>1 Custom Domain</li>
+                                <li class="package-list-item">
+                                  <i class="fa fa-check text-green"></i>+4 Email Address�s (5 Total)</li>
+                                <li class="package-list-item">
+                                  <i class="fa fa-check text-green"></i>Custom Filters</li>
+                                <li class="package-list-item">
+                                  <i class="fa fa-check text-green"></i>Autoresponder</li>
+                                <li class="package-list-item">
+                                  <i class="fa fa-check text-green"></i>Notifications</li>
+                              </ul> 
+          footer.package-card-footer
+            .package-divider.package-divider-sm
+              ul.pay-type-list.list-style-none.mb-0.pl-0
+                li
+                  .row.row-xs
+                    .col-8
+                      .fancy-field-group
+                        input.d-none.fancy-field-control#pay-monthly(name='[]', type='radio', checked='')
+                        label(for='pay-monthly') Pay Monthly
+                    .col-4.text-right
+                      .pay-price
+                        strong $8
+                        span.text-muted /mo
+                li
+                  .row.row-xs
+                    .col-8
+                      .fancy-field-group
+                        input.d-none.fancy-field-control#pay-annullay(name='[]', type='radio')
+                        label(for='pay-annullay') Pay Annually
+                        span.badge -20%
+                    .col-4.text-right
+                      .pay-price
+                        strong $6.4
+                        span.text-muted /mo
+                      .small.text-muted Billed as $65/yr
+            .package-actions.text-center
+              a.btn.btn-lg.btn-gradient-primary.disabled(routerLink='/sign-up/next') COMING SOON
+      .col-sm-6.package-basic-col([class.is-active-slide]='2 === selectedIndex')
+        .package-card.package-card-basic.is-shadowedx.bg-faded.text-dark
+          header.package-card-header.text-center
+            h2.text-white.m-0
+              strong Free
+          .package-card-body
+            ul.package-list.mb-0.list-style-none.pl-0
+              li.package-list-item.has-border
+                i.fa.fa-check.text-green
+                | 1 User
+              li.package-list-item.has-border
+                i.fa.fa-check.text-green
+                | 250 Mb Storage
+              li.package-list-item.has-border
+                i.fa.fa-check.text-green
+                | 1 E-mail Address
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | 100 Messages per Day
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | 3 Folders
+              li.package-list-item
+                i.fa.fa-check.text-green
+                | Limited Support
+              li.package-list-item
+                i.fa.fa-times.text-danger
+                del Dead Mans Timer
+              li.package-list-item
+                i.fa.fa-times.text-danger
+                del Delayed Delivery Timer
+              li.package-list-item
+                i.fa.fa-times.text-danger
+                del Self Destruct Timer
+              li.package-list-item
+                i.fa.fa-times.text-danger
+                del Encryption for non-CTemplar Users
+          footer.package-card-footer.text-center
+            .package-divider.border-bottom-0.pb-0.mb-0
+            .package-actions
+              a.btn.btn-lg.btn-gradient-info(routerLink='/sign-up/next') Select Free

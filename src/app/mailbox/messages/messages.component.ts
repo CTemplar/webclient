@@ -1,22 +1,22 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 // Models
 // import { Mail } from '../../store/models';
 
 // Rxjs
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
 
 // Store
-import { Store } from '@ngxs/store';
+import { Store } from "@ngxs/store";
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 @Component({
-  selector: 'app-mailbox-messages',
-  templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss']
+  selector: "app-mailbox-messages",
+  templateUrl: "./messages.component.html",
+  styleUrls: ["./messages.component.scss"]
 })
 export class MessagesComponent implements OnInit {
   // mails: Mail[];
@@ -24,8 +24,7 @@ export class MessagesComponent implements OnInit {
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
 
-  constructor( private store: Store ) {
-  }
+  constructor(private store: Store) {}
 
   ngOnInit() {
     // this.getMailsState$.subscribe((mails) => {
@@ -41,9 +40,9 @@ export class MessagesComponent implements OnInit {
 
   // == Show mail compose modal
   // == Setup click event to toggle mobile menu
-  hideMailComposeModal() { // click handler
+  hideMailComposeModal() {
+    // click handler
     const bool = this.isComposeVisible;
     this.isComposeVisible = false;
   }
-
 }

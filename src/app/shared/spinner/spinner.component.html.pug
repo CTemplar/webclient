@@ -1,0 +1,3 @@
+.loader-area([hidden]='isLoaded')
+  img(src='/assets/icons/spinner.svg')
+img([class]='class', (load)='isLoaded = true', [hidden]='!isLoaded', [src]='src')

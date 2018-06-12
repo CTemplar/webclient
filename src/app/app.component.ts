@@ -14,7 +14,7 @@ import { Store } from "@ngxs/store";
 
 @Component({
   selector: "app-root",
-  templateUrl: "./app.component.html",
+  templateUrl: "./app.component.pug",
   styleUrls: ["./app.component.scss"],
   host: {
     "(window:onload)": "loadingHandler()",

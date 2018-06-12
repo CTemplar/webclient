@@ -1,0 +1,41 @@
+// PAGE INTRO SECTION 
+section.l-block.l-block-text.bg-white.gap-p-eq.pb-0.text-center
+  .container
+    header.l-block-header.text-center
+      .row.justify-content-center
+        .col-sm-12.col-md-8.px-sm-5.px-md-0
+          h1.page-title.text-uppercase.text-secondary
+            strong Blog
+  // /.Site container ends 
+// /.PAGE INTRO SECTION ENDS 
+// BLOG GRID 
+section.l-block.news-block.gap-p-eq.pt-0.bg-white
+  .container
+    .l-block-body
+      .row
+        // BLOG FIRST POST WITH FULL WIDTH 
+        article.col-12.mb-4.mb-sm-5.first-post(*ngIf='bigPost as post')
+          a.d-block.news-card-holder(routerLink='/blog/{{ post.slug }}/')
+            .news-card.news-card-full.px-lg.position-relative
+              .row
+                .col-md-6
+                  figure.news-pic-holder.mb-md-0.position-relative
+                    img-spinner([class]=''img news-img'', [src]='post.image_featured')
+                    span.badge.badge-sm.badge-info.text-uppercase
+                      strong {{ post.category }}
+                .col-md-6
+                  .news-card-body
+                    h4.news-card-title {{ post.name }}
+                    div {{ post.text }}
+                  footer.news-card-footer
+                    ul.news-meta-list
+                      li {{ post.date }}
+                      li
+                        u {{ post.comments_count }} comments
+        // BLOG FIRST POST WITH FULL WIDTH ENDS 
+        app-pages-posts-grid([posts]='pagePosts')
+    footer.l-block-footer.text-center
+      button.btn.btn-lg.btn-secondary((click)='getMorePosts()', [disabled]='pageMax')
+        span Show more posts
+  // /.Site container ends 
+// /.BLOG GRID ENDS 

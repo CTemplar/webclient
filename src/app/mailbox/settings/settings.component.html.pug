@@ -1,0 +1,1141 @@
+.mailbox-sub-content
+  section.mailbox-section
+    header.ui-header.ui-header-bordered.border-top-0
+      h3.ui-header-title.text-dark.mb-0
+        strong Dashboard
+  section.mailbox-section
+    .mailbox-section-body.pt-0
+      .desc-card-holder.mt-sm-3.mt-md-0
+        .row
+          .col-md-6.mb-4.mb-md-0
+            .desc-card
+              .desc-card-header.ui-header.ui-header-bordered.border-all-corner.border-top-md-0.border-bottom-0
+                h5.ui-header-subtitle.text-dark.mb-0
+                  strong Overview
+              .desc-card-body
+                ul.info-list.list-styled.text-dark
+                  li.info-list-item
+                    .info-list-text.info-list-label Username
+                    .info-list-text.info-list-val {{userState.username}}
+                  li.info-list-item
+                    .info-list-text.info-list-label Domains
+                    .info-list-text.info-list-val Feature coming soon!
+                  li.info-list-item.align-items-start
+                    .info-list-text.info-list-label Addresses
+                    .info-list-text.info-list-val
+                      .info-list-val-text 1. More available soon!
+                      .info-list-val-text 737.61 Mb of 5.00 Gb
+                  li.info-list-item
+                    .info-list-text.info-list-label Storage
+                    .info-list-text.info-list-val
+                      .progress.progress-secondary.progress-lg
+                        .progress-bar(role='progressbar', style='width:30%;', aria-valuenow='30', aria-valuemin='0', aria-valuemax='100')
+          .col-md-6
+            .desc-card
+              .desc-card-header.ui-header.ui-header-bordered.border-all-corner.border-top-sm-0.border-bottom-0
+                h5.ui-header-subtitle.text-dark.mb-0
+                  strong My Subscription
+              .desc-card-body
+                ul.info-list.info-list-lg.list-styled.text-dark
+                  li.info-list-item
+                    .info-list-item-row
+                      .info-list-text.info-list-label
+                        span.info-list-label-text Plans
+                        span.info-list-label-text Prime Plan
+                      .info-list-text.info-list-val
+                        strong $8
+                        span.text-muted /mo
+                    .info-list-item-row
+                      .info-list-text.info-list-label
+                        span.info-list-label-text(style='visibility: hidden') Plans
+                        span.fw-light +10 addresses
+                      .info-list-text.info-list-val
+                        strong $2
+                        span.text-muted /mo
+                  li.info-list-item
+                    .info-list-text.info-list-label Total Price
+                    .info-list-text.info-list-val $66/annually
+                  li.info-list-item
+                    .info-list-text.info-list-label Billing Cycle End
+                    .info-list-text.info-list-val Apr 20, 2018
+                  li.info-list-item
+                    .info-list-text.info-list-label Payment
+                    .info-list-text.info-list-val Credit Card
+  section.mailbox-section
+    .ui-header.ui-header-bordered.position-relative
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Account Type
+      .l-alert.l-alert-danger.l-alert-is-floated.d-inline-block.text-center.hidden-md-up
+        .l-alert-inner
+          div
+            | Free plan available only for 250 Mb Storage.    
+            a(href='')
+              u Clear Storage
+    .mailbox-section-body
+      .container.container-sm
+        .package-card-holder.settings-package-card-holder
+          ul.package-xs-tab.list-style-none.mt-0.hidden-sm-up
+            li.active([class.is-active]='1 === selectedIndex')
+              a(role='button', (click)='toggleSlides(1);') Prime
+            li([class.is-active]='2 === selectedIndex')
+              a(role='button', (click)='toggleSlides(2);') Free
+          .row.flex-nowrap.row-lg
+            .col-sm-6.flex-sm-last.package-prime-col.active-slide([class.is-active-slide]='1 === selectedIndex')
+              .package-card.package-card-prime.is-shadowed.bg-white.text-dark
+                header.package-card-header.text-center
+                  h2.text-white.m-0
+                    strong Prime
+                .package-card-body
+                  ul.package-list.mb-0.list-style-none.pl-0
+                    li.package-list-item.has-border
+                      i.fa.fa-check.text-green
+                      | 1 User
+                    li.package-list-item.has-border.has-icon-center
+                      i.fa.fa-check.text-green
+                      //                         <select class="form-control package-storage-select">
+                                                                        <option selected>50 Mb Storage</option>
+                                                                        <option>100 Mb Storage</option>
+                                                                        <option>100 Mb Storage</option>
+                                                                        <option>200 Mb Storage</option>
+                                                                        <option>300 Mb Storage</option>
+                                                                        <option>400 Mb Storage</option>
+                                                                        <option>500 Mb Storage</option>
+                                                                    </select> 
+                      .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                        .storage-select-dropdown(ngbdropdown='')
+                          button#storageDropdownMenuButton(ngbdropdowntoggle='', role='button') 5 Gb Storage
+                          div(ngbdropdownmenu='', aria-labelledby='storageDropdownMenuButton')
+                            a.dropdown-item(href='') 10 Gb Storage + $4/MO
+                            a.dropdown-item(href='') 15 Gb Storage + $8/MO
+                            a.dropdown-item(href='') 20 Gb Storage + $12/MO
+                            a.dropdown-item(href='') 25 Gb Storage + $16/MO
+                    li.package-list-item.has-border
+                      i.fa.fa-check.text-green
+                      | 1 E-mail Address
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | 100 Messages per Day
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | 200 Folders
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | Normal Support
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | Dead Mans Timer
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | Delayed Delivery Timer
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | Self Destruct Timer
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | Encryption for non-CTemplar Users
+                  .package-coming-soon.mt-3
+                    h6.text-muted.mb-3.mb-sm-4
+                      a(href='')
+                        u Features to be added to this package soon
+                    //                       <ul class="package-list mb-0 list-style-none pl-0">
+                                                                  <li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
+                                                                  <li class="package-list-item"><i class="fa fa-check text-green"></i>+4 Email Address’s (5 Total)</li>
+                                                                  <li class="package-list-item"><i class="fa fa-check text-green"></i>Custom Filters</li>
+                                                                  <li class="package-list-item"><i class="fa fa-check text-green"></i>Autoresponder</li>
+                                                                  <li class="package-list-item"><i class="fa fa-check text-green"></i>Notifications</li>
+                                                              </ul> 
+                footer.package-card-footer
+                  .package-divider.package-divider-sm
+                    ul.pay-type-list.list-style-none.mb-0.pl-0
+                      li
+                        .row.row-xs
+                          .col-8
+                            .fancy-field-group
+                              input.d-none.fancy-field-control#pay-monthly(name='[]', type='radio', checked='')
+                              label(for='pay-monthly') Pay Monthly
+                          .col-4.text-right
+                            .pay-price
+                              strong $8
+                              span.text-muted /mo
+                      li
+                        .row.row-xs
+                          .col-8
+                            .fancy-field-group
+                              input.d-none.fancy-field-control#pay-annullay(name='[]', type='radio')
+                              label(for='pay-annullay') Pay Annually
+                              span.badge -20%
+                          .col-4.text-right
+                            .pay-price
+                              strong $6.4
+                              span.text-muted /mo
+                            .small.text-muted Billed as $65/yr
+                  .package-actions.text-center
+                    .pb-2.mb-3
+                      a.btn-link.text-uppercase.text-primary(href='')
+                        strong Current Plan
+                    a.btn.btn-lg.btn-gradient-primary(href='')
+                      | Select Prime $8/
+                      span.text-normal mo
+            .col-sm-6.package-basic-col([class.is-active-slide]='2 === selectedIndex')
+              .package-card.package-card-basic.bg-faded.text-dark
+                header.package-card-header.text-center
+                  h2.text-white.m-0
+                    strong Free
+                .package-card-body
+                  ul.package-list.mb-0.list-style-none.pl-0
+                    li.package-list-item.has-border
+                      i.fa.fa-check.text-green
+                      | 1 User
+                    li.package-list-item.has-border
+                      i.fa.fa-check.text-green
+                      | 250 Mb Storage
+                    li.package-list-item.has-border
+                      i.fa.fa-check.text-green
+                      | 1 E-mail Address
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | 100 Messages per Day
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | 3 Folders
+                    li.package-list-item
+                      i.fa.fa-check.text-green
+                      | Limited Support
+                    li.package-list-item
+                      i.fa.fa-times.text-danger
+                      del Dead Mans Timer
+                    li.package-list-item
+                      i.fa.fa-times.text-danger
+                      del Delayed Delivery Timer
+                    li.package-list-item
+                      i.fa.fa-times.text-danger
+                      del Self Destruct Timer
+                    li.package-list-item
+                      i.fa.fa-times.text-danger
+                      del Encryption for non-CTemplar Users
+                footer.package-card-footer.text-center
+                  .package-divider.border-bottom-0.pb-0.mb-0
+                  .package-actions
+                    a.btn-link.text-uppercase.text-info(href='')
+                      strong Current Plan
+                    a.btn.btn-lg.btn-gradient-info.d-none(href='') Select Free
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong General settings
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-0 Language
+            .col-sm-7
+              .btn-dropdown.btn-dropdown-select
+                .dropdown-sm(ngbdropdown='')
+                  button#langDropdownMenuButton(ngbdropdowntoggle='', role='button') English(USA)
+                  div(ngbdropdownmenu='', aria-labelledby='langDropdownMenuButton')
+                    a.dropdown-item(href='') English(USA)
+                    a.dropdown-item(href='') Russian
+                    a.dropdown-item(href='') English(UK)
+                    a.dropdown-item(href='') Spanish
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-0 Current time zone
+            .col-sm-7
+              .btn-dropdown.btn-dropdown-select
+                .dropdown-sm(ngbdropdown='')
+                  button.dropdown-toggle#timeZoneDropdownMenuButton(ngbdropdowntoggle='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') UTC+1 (Italy, Germany)
+                  div(ngbdropdownmenu='', aria-labelledby='timeZoneDropdownMenuButton')
+                    a.dropdown-item(href='') UTC+1 (Italy, Germany)
+                    a.dropdown-item(href='') UTC+1 (Italy, Germany)
+                    a.dropdown-item(href='') UTC+1 (Italy, Germany)
+                    a.dropdown-item(href='') UTC+1 (Italy, Germany)
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-0 Automatically save contacts
+            .col-sm-7
+              .row.row-sm
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#autoSaveField1(name='[1]', type='radio', checked='')
+                    label(for='autoSaveField1') Enabled
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#autoSaveField2(name='[1]', type='radio', disabled='')
+                    label(for='autoSaveField2') Disabled
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-0 Vacation responder
+            .col-sm-7
+              .row.row-sm
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#responderField1(name='[2]', type='radio', checked='')
+                    label(for='responderField1') Enabled
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#responderField2(name='[2]', type='radio', disabled='')
+                    label(for='responderField2') Disabled
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Security settings
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0(for='securityPassword') Password
+            .col-sm-7
+              input.form-control.form-control-sm#securityPassword(type='password', placeholder='********')
+              span.form-label-text.mt-1
+                | Last time changed 3 month ago.
+                a.text-uppercase.btn-link(href='javascript:void(0);', role='button', (click)='changePasswordModalOpen(passwordContent)')
+                  strong
+                    u Change now
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0 Two-factor authentication
+            .col-sm-7
+              .row.row-sm
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#authenticationField1(name='[3]', type='radio', checked='')
+                    label(for='authenticationField1') Enabled
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#authenticationField2(name='[3]', type='radio', disabled='')
+                    label(for='authenticationField2') Disabled
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0(for='recoveryMail') Recovery email
+            .col-sm-7
+              input.form-control.form-control-sm#recoveryMail(type='text', placeholder='johnsimpson@gmail.com')
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0 Security alerts
+            .col-sm-7
+              .row.row-sm
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#securityField1(name='[4]', type='radio', checked='')
+                    label(for='securityField1') Enabled
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#securityField2(name='[4]', type='radio', disabled='')
+                    label(for='securityField2') Disabled
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Appearance
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0(for='displayName') Display name
+            .col-sm-7
+              input.form-control.form-control-sm#displayName(type='text', placeholder='John Simpson')
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0(for='signature') Signature
+            .col-sm-7
+              .form-control.form-control-sm.form-control-contenteditable#signature(contenteditable='true')
+                div(style='margin-bottom: 3px;') ---------
+                div(style='margin-bottom: 3px;') Best regards,
+                div(style='margin-bottom: 3px;') John
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0 Emails per page
+            .col-sm-7
+              .row.row-sm
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#emailCoutField1(name='[5]', type='radio', checked='')
+                    label(for='emailCoutField1') 20
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#emailCoutField2(name='[5]', type='radio', disabled='')
+                    label(for='emailCoutField2') 50
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#emailCoutField3(name='[5]', type='radio', disabled='')
+                    label(for='emailCoutField3') 100
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#emailCoutField4(name='[5]', type='radio', disabled='')
+                    label(for='emailCoutField4') 200
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0 Load embedded content
+            .col-sm-7
+              .row.row-sm
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#embeddedContentField1(name='[6]', type='radio', checked='')
+                    label(for='embeddedContentField1') Yes
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#embeddedContentField2(name='[6]', type='radio', disabled='')
+                    label(for='embeddedContentField2') No
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#embeddedContentField3(name='[6]', type='radio', disabled='')
+                    label(for='embeddedContentField3') Only images
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0 Show snippets
+            .col-sm-7
+              .row.row-sm
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#showSnippetsField1(name='[7]', type='radio', checked='')
+                    label(for='showSnippetsField1') Yes
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#showSnippetsField2(name='[7]', type='radio', disabled='')
+                    label(for='showSnippetsField2') No
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Filters
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        ul.ui-list.ui-list-styled.list-styled
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .toggle-switcher
+                  input.d-none.toggle-switcher-control#switcherField1(name='', type='checkbox', checked='')
+                  label(for='switcherField1')
+                  span.toggle-switcher-text My spam filter
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-edit
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-garbage
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .toggle-switcher
+                  input.d-none.toggle-switcher-control#switcherField3(name='', type='checkbox', checked='')
+                  label(for='switcherField3')
+                  span.toggle-switcher-text Important messages filter
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-edit
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-garbage
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .toggle-switcher
+                  input.d-none.toggle-switcher-control#switcherField2(name='', type='checkbox')
+                  label(for='switcherField2')
+                  span.toggle-switcher-text Auto-labeling test
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-edit
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-garbage
+        .info-card
+          p Add a filter to perform actions such as automatically labeling or archiving.
+          a.text-uppercase.btn-link(href='javascript:void(0);', role='button', (click)='addCustomFilterModalOpen(customFilterContent)')
+            strong
+              u Add custom filter
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Whitelist
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        ul.ui-list.ui-list-styled.list-styled
+          // <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList"> 
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .form-label.text-dark.mb-0 {{item.email}}
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a((click)='deleteWhiteList(item.id)', role='button')
+                      i.icon.icon-garbage
+        .info-card
+          p
+            | Messages from contacts in the whitelist always go to
+            strong Inbox folder
+            | . Marking a message as not spam adds the address to the Whitelist.
+          a.text-uppercase.btn-link(href='javascript:void(0);', role='button', (click)='whitelistModalOpen(whitelistContent)')
+            strong
+              u Add whitelist contact
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Blacklist
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        ul.ui-list.ui-list-styled.list-styled
+          // <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList"> 
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .form-label.text-dark.mb-0 {{item.email}}
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a((click)='deleteBlackList(item.id)', role='button')
+                      i.icon.icon-garbage
+        .info-card
+          p
+            | Messages from contacts in the blacklist always go to
+            strong Spam folder
+            | . Marking a message as spam adds the address to the Blacklist.
+          a.text-uppercase.btn-link(href='javascript:void(0);', role='button', (click)='blacklistModalOpen(blacklistContent)')
+            strong
+              u Add blacklist contact
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Multi-users
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        .info-card
+          p Create and administer sub-accounts and assign them email addresses on your custom domain. To enable this feature, upgrade your account.
+          a.text-uppercase.btn-link(href='javascript:void(0);', role='button', (click)='billingInfoModalOpen(billingInfoContent)')
+            strong
+              u Upgrade account
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Domains
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        ul.ui-list.ui-list-styled.list-styled
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .form-label.text-dark.mb-0 @demo.com
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-edit
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-garbage
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .form-label.text-dark.mb-0 @example.com
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-edit
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-garbage
+        .info-card
+          p Use your own domain with CTemplar and use your own email address, e.g. name@domain.com.
+          // <a href="" class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a> 
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Payments
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        ul.ui-list.ui-list-styled.list-styled
+          li.ui-list-item.ui-list-item-xs-full
+            .row.row-xs.align-items-center
+              .col-10.col-sm-8
+                .form-label.text-dark.mb-0 xxxx xxxx xxxx 8634
+              .col-2.col-sm-4
+                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-edit
+                  li
+                    a(href='', role='button')
+                      i.icon.icon-garbage
+        .info-card
+          a.text-uppercase.btn-link(href='javascript:void(0);', role='button', (click)='newPaymentMethodModalOpen(newPaymentMethodContent)')
+            strong
+              u Add new method
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Keys
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        .info-card
+          p Download your PGP Keys for use with other PGP compatible services. Only incoming messages in inline OpenPGP format are currently supported.
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0 Email address
+            .col-sm-7
+              .btn-dropdown.btn-dropdown-select
+                .dropdown-sm(ngbdropdown='')
+                  button.dropdown-toggle#emailAddressDropdownMenuButton(ngbdropdowntoggle='', role='button') johnsimpson@ctemplar.com
+                  div(ngbdropdownmenu='', aria-labelledby='emailAddressDropdownMenuButton')
+                    a.dropdown-item(href='') johnsimpson@ctemplar.com
+                    a.dropdown-item(href='') johnsimpson@ctemplar.com
+                    a.dropdown-item(href='') johnsimpson@ctemplar.com
+                    a.dropdown-item(href='') johnsimpson@ctemplar.com
+        .form-content-row
+          .row.align-items-center
+            .col-sm-5
+              label.form-label.mb-sm-0(for='fingerPrint') Fingerprint
+            .col-sm-7
+              input.form-control.form-control-sm#fingerPrint(type='text', value='o8bg359348b24p08gn34408g4p389gbpq938g', readonly='')
+              span.form-label-text.mt-1
+                a(href='')
+                  strong
+                    u Download public key (2048 Bit)
+  section.mailbox-section
+    header.ui-header.ui-header-bordered
+      h5.ui-header-subtitle.text-dark.mb-0
+        strong Donate
+    .mailbox-section-body.mailbox-section-body-sm
+      .form-content-holder
+        .info-card
+          p Your donation helps us support more users and continue to develop CTemplar as free and open source software.
+          a.text-uppercase.btn-link(href='javascript:void(0);', role='button', (click)='makeDonationModalOpen(makeDonationContent)')
+            strong
+              u Make a donation
+// Modal groups 
+// Change password Modal 
+ng-template(#passwordcontent='', let-c='close', let-d='dismiss')
+  .modal-header.justify-content-sm-center.align-items-center.text-sm-center
+    h3.modal-title.w-100.text-dark#changePasswordModalLabel
+      strong Change Password
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .text-holder.text-dark.text-medium
+      p
+        | We will send a reset code to your
+        a(href='') recovery email
+        | to reset your password.
+      p Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails if you reset your password.
+      p If you did not set a recovery email then your account is not recoverable.
+      .login-content-holder.mx-auto.mt-2.pt-sm-2
+        .form
+          form
+            .form-group.form-group-sm
+              label.d-block.text-muted.text-left.hidden-sm-up(for='oldPassword') Old Password
+              input.form-control.form-control-lg#oldPassword(placeholder='Old Password', type='text')
+            .form-group.form-group-sm
+              label.d-block.text-muted.text-left.hidden-sm-up(for='newPassword') New Password
+              input.form-control.form-control-lg#newPassword(placeholder='New Password', type='text')
+            .form-group.form-group-sm
+              label.d-block.text-muted.text-left.hidden-sm-up(for='repeatNewPassword') Repeat New Password
+              input.form-control.form-control-lg#repeatNewPassword(placeholder='Repeat New Password', type='text')
+            .form-group.form-user-actions.text-center.mb-0
+              button.btn.btn-gradient-primary.btn-sm.reset-btn(role='button', type='submit') Apply
+// /.Change password Modal ends 
+// Add custom filter Modal 
+ng-template(#customfiltercontent='', let-c='close', let-d='dismiss')
+  .modal-header
+    h3.modal-title.w-100.text-dark#customFilterModalLabel
+      strong Add custom filter
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .form-content-holder
+      .form-group
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='filterName') Filter name:
+          .col-sm-9
+            .form-content-row.mb-0
+              input.form-control.form-control-sm#filterName(type='text')
+      .form-group
+        .row
+          .col-sm-3
+            label.form-label.mb-sm-0 Condition:
+          .col-sm-9
+            .form-content-row.form-content-row-sm
+              .btn-dropdown.btn-dropdown-select
+                .dropdown-sm(ngbdropdown='')
+                  button#subjectDropdownMenuButton(ngbdropdowntoggle='', role='button') If the subject
+                  div(ngbdropdownmenu='', aria-labelledby='subjectDropdownMenuButton')
+                    a.dropdown-item(href='') If the subject
+                    a.dropdown-item(href='') If the subject
+                    a.dropdown-item(href='') If the subject
+                    a.dropdown-item(href='') If the subject
+            .form-content-row.form-content-row-sm
+              .btn-dropdown.btn-dropdown-select
+                .dropdown-sm(ngbdropdown='')
+                  button#containsDropdownMenuButton(ngbdropdowntoggle='', role='button') contains
+                  .dropdown-menu.dropdown-menu-right(ngbdropdownmenu='', aria-labelledby='containsDropdownMenuButton')
+                    a.dropdown-item(href='') contains
+                    a.dropdown-item(href='') contains
+                    a.dropdown-item(href='') contains
+                    a.dropdown-item(href='') contains
+                    a.dropdown-item(href='') contains
+            .form-content-row.mb-0
+              input.form-control.form-control-sm#patternField(type='text', placeholder='text or pattern')
+      .form-group.mb-0
+        .row
+          .col-sm-3
+            label.form-label.mb-sm-0 Actions:
+          .col-sm-9
+            .form-content-row.form-content-row-sm
+              .row.row-sm.align-items-center
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#moveToField1(name='[1]', type='checkbox', checked='')
+                    label(for='moveToField1') move to
+                .col-8.add-filter-moveto-col
+                  .btn-dropdown.btn-dropdown-select
+                    .dropdown-sm(ngbdropdown='')
+                      button.has-icon#moveToDropdownMenuButton(ngbdropdowntoggle='', role='button')
+                        i.icon.icon-inbox
+                        | Inbox
+                      div(ngbdropdownmenu='', aria-labelledby='moveToDropdownMenuButton')
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-inbox
+                          | Inbox
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-draft
+                          | Draft
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-archive
+                          | Archivex
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-paper-plane
+                          | Sent
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-garbage
+                          | Trash
+            .form-content-row.form-content-row-sm
+              .row.row-sm.align-items-center
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#applyLabelField1(name='[1]', type='checkbox', disabled='')
+                    label(for='applyLabelField1') apply label
+                .col-8.add-filter-applylabel-col
+                  .btn-dropdown.btn-dropdown-select
+                    .dropdown-sm(ngbdropdown='')
+                      button.has-icon#applyDropdownMenuButton(ngbdropdowntoggle='', role='button', disabled='')
+                      div(ngbdropdownmenu='', aria-labelledby='applyDropdownMenuButton')
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-inbox
+                          | Inbox
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-draft
+                          | Draft
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-archive
+                          | Archivex
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-paper-plane
+                          | Sent
+                        a.dropdown-item.has-icon(href='')
+                          i.icon.icon-garbage
+                          | Trash
+            .form-content-row
+              .row.row-sm.align-items-center
+                .col-6.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#markReadField1(name='[1]', type='checkbox')
+                    label(for='markReadField1') mark as read
+                .col-8.flex-auto-col
+                  .fancy-field-group
+                    input.d-none.fancy-field-control.fancy-field-control-sm#markStarredField1(name='[1]', type='checkbox')
+                    label(for='markStarredField1') mark as starred
+  .modal-footer.justify-content-center.justify-content-sm-end
+    a.btn.btn-secondary.btn-sm(href='') Add filter
+// /.Add custom filter ends 
+// Add whitelist Modal 
+ng-template(#whitelistcontent='', let-c='close', let-d='dismiss')
+  form.whitelist-form
+    // <form class="whitelist-form" [formGroup]="whiteListForm" #form="ngForm" (ngSubmit)="addWhitelist(whiteListForm.value)"> 
+    .modal-header
+      h3.modal-title.w-100.text-dark#whitelistModalLabel
+        strong Add to whitelist
+      button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+        span(aria-hidden='true') ×
+    .modal-body.bg-faded
+      .form-content-holder
+        .form-group
+          .row.align-items-center
+            .col-sm-3
+              label.form-label.mb-sm-0(for='whitelistName') Name:
+            .col-sm-9
+              .form-content-row.mb-0
+                input.form-control.form-control-sm#whitelistName(type='text')
+          span#name-valid.validate-message(*ngIf='whiteListForm.controls['name'].errors && showFormErrors')
+            span(*ngIf='whiteListForm.controls['name'].errors.required') The username is required.
+        .form-group.mb-0
+          .row.align-items-center
+            .col-sm-3
+              label.form-label.mb-sm-0(for='whitelistEmail') E-mail:
+            .col-sm-9
+              .form-content-row.mb-0
+                input.form-control.form-control-sm#whitelistEmail(type='text')
+          span#email-valid.validate-message(*ngIf='whiteListForm.controls['email'].errors && showFormErrors')
+            span(*ngIf='whiteListForm.hasError('email','email') ') The email is required.
+    .modal-footer.justify-content-center.justify-content-sm-end
+      button.btn.btn-secondary.btn-sm(type='submit') Add
+// /.Add whitelist Modal ends 
+// Add blacklist Modal 
+ng-template(#blacklistcontent='', let-c='close', let-d='dismiss')
+  form.blacklist-form
+    // <form class="blacklist-form" [formGroup]="blackListForm" #form="ngForm" (ngSubmit)="addBlacklist(blackListForm.value)"> 
+    .modal-header
+      h3.modal-title.w-100.text-dark#blacklistModalLabel
+        strong Add to blacklist
+      button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+        span(aria-hidden='true') ×
+    .modal-body.bg-faded
+      .form-content-holder
+        .form-group
+          .row.align-items-center
+            .col-sm-3
+              label.form-label.mb-sm-0(for='blacklistName') Name:
+            .col-sm-9
+              .form-content-row.mb-0
+                input.form-control.form-control-sm#blacklistName(type='text')
+            span#name-valid.validate-message(*ngIf='blackListForm.controls['name'].errors && showFormErrors')
+              span(*ngIf='blackListForm.controls['name'].errors.required') The username is required.
+        .form-group.mb-0
+          .row.align-items-center
+            .col-sm-3
+              label.form-label.mb-sm-0(for='blacklistEmail') E-mail:
+            .col-sm-9
+              .form-content-row.mb-0
+                input.form-control.form-control-sm#blacklistEmail(type='text')
+          span#email-valid.validate-message(*ngIf='blackListForm.controls['email'].errors && showFormErrors')
+            span(*ngIf='blackListForm.hasError('email','email') ') The email is required.
+    .modal-footer.justify-content-center.justify-content-sm-end
+      button.btn.btn-secondary.btn-sm(type='submit') Add
+// /.Add blacklist Modal ends 
+// Billing Information Modal 
+ng-template(#billinginfocontent='', let-c='close', let-d='dismiss')
+  .modal-header.text-sm-center.justify-content-sm-center
+    h3.modal-title.w-100.text-dark#billingInformationModalLabel
+      strong Billing Information
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .form-card-holder.mx-auto
+      .form
+        form
+          .form-card-holder.billing-form-card-holder
+            .form-step-card
+              h3.form-step-card-title.text-dark.mb-3
+                strong Overview
+              .billing-overview
+                .billing-overview-row
+                  label.billing-overview-label.mb-0 Plan
+                  .billing-overview-val.text-secondary
+                    strong Ctemplar PRIME
+                .billing-overview-row
+                  label.billing-overview-label.mb-0 Billing
+                  .billing-overview-val.text-secondary
+                    strong Annually
+                .billing-overview-row
+                  label.billing-overview-label.mb-0 Price
+                  .billing-overview-val.text-secondary
+                    strong 48.00 €
+                    | (4.00€/month)
+                .billing-overview-row.payment-method-row
+                  label.billing-overview-label Payment Method:
+                  .billing-overview-val.text-secondary
+                    .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                      .payment-select-dropdown(ngbdropdown='')
+                        button#paymentDropdownMenuButton(ngbdropdowntoggle='', role='button') Stripe
+                        div(ngbdropdownmenu='', aria-labelledby='paymentDropdownMenuButton')
+                          a.dropdown-item.text-muted(href='')
+                            em Stripe
+                          a.dropdown-item.text-muted(href='')
+                            em Credit/Debit card
+                          a.dropdown-item.text-muted(href='')
+                            em Bitcoin
+                          a.dropdown-item.text-muted(href='')
+                            em Monero
+                          a.dropdown-item.text-muted(href='')
+                            em Ethereum
+            .form-step-card
+              h3.form-step-card-title.text-dark.mb-3
+                strong Payment Information
+              .form-group
+                label.d-block.text-muted.text-left.hidden-sm-up(for='personName') Name on Card
+                input.form-control#personName(placeholder='Name on Card', value='John', type='text')
+              .form-group.has-error
+                span.d-block.text-right.error-msg Required field
+                label.d-block.text-muted.text-left.hidden-sm-up(for='cardName') Card Number
+                input.form-control.error#cardName(placeholder='Card Number', type='text')
+              .form-group.form-group-3-col
+                .form-group-row
+                  .form-group-col
+                    label.d-block.text-muted.text-left.hidden-sm-up Date
+                    .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                      .date-select-dropdown(ngbdropdown='')
+                        button#dateDropdownMenuButton(ngbdropdowntoggle='', role='button') Date
+                        div(ngbdropdownmenu='', aria-labelledby='dateDropdownMenuButton')
+                          a.dropdown-item.text-muted(href='')
+                            em Date
+                          a.dropdown-item.text-muted(href='')
+                            em 01
+                          a.dropdown-item.text-muted(href='')
+                            em 02
+                          a.dropdown-item.text-muted(href='')
+                            em 03
+                          a.dropdown-item.text-muted(href='')
+                            em 04
+                          a.dropdown-item.text-muted(href='')
+                            em 05
+                          a.dropdown-item.text-muted(href='')
+                            em 06
+                          a.dropdown-item.text-muted(href='')
+                            em 07
+                          a.dropdown-item.text-muted(href='')
+                            em 08
+                  .form-group-col
+                    label.d-block.text-muted.text-left.hidden-sm-up Year
+                    .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                      .year-select-dropdown(ngbdropdown='')
+                        button#yearDropdownMenuButton(ngbdropdowntoggle='', role='button') Year
+                        div(ngbdropdownmenu='', aria-labelledby='yearDropdownMenuButton')
+                          a.dropdown-item.text-muted(href='')
+                            em Year
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                          a.dropdown-item.text-muted(href='')
+                            em 2018
+                  .form-group-col
+                    label.d-block.text-muted.text-left.hidden-sm-up(for='securityCode') Security Code
+                    input.form-control#securityCode(placeholder='Security Code', type='text')
+              .form-group.form-group-2-col
+                .form-group-row
+                  .form-group-col
+                    label.d-block.text-muted.text-left.hidden-sm-up(for='zipCode') ZIP / Postal Code
+                    input.form-control#zipCode(placeholder='ZIP / Postal Code', value='ZIP / Postal Code', type='text')
+                  .form-group-col
+                    label.d-block.text-muted.text-left.hidden-sm-up Country
+                    .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                      .country-select-dropdown(ngbdropdown='')
+                        button#countryDropdownMenuButton(ngbdropdowntoggle='', role='button') Country
+                        div(ngbdropdownmenu='', aria-labelledby='countryDropdownMenuButton')
+                          a.dropdown-item.text-muted(href='')
+                            em Country
+                          a.dropdown-item.text-muted(href='')
+                            em Afghanistan
+                          a.dropdown-item.text-muted(href='')
+                            em Belgium
+                          a.dropdown-item.text-muted(href='')
+                            em Canada
+                          a.dropdown-item.text-muted(href='')
+                            em Denmark
+                          a.dropdown-item.text-muted(href='')
+                            em Egypt
+                          a.dropdown-item.text-muted(href='')
+                            em France
+                          a.dropdown-item.text-muted(href='')
+                            em Germany
+                          a.dropdown-item.text-muted(href='')
+                            em Ireland
+                          a.dropdown-item.text-muted(href='')
+                            em USA
+            .form-step-card.mt-4.mt-sm-5
+              h3.form-step-card-title.text-dark.mb-3
+                strong Promo Code
+              .form-group.position-relative.type-code-holder
+                label.d-block.text-muted.text-left.hidden-sm-up(for='promoCode') Promo Code
+                input.form-control#promoCode(placeholder='Type Your Code', type='text')
+                button.btn.code-apply-btn(role='button', disabled='') Apply
+            .form-group.text-center.mt-3.mt-sm-4.mb-0
+              button.btn.btn-lg.btn-secondary.billing-submit-btn(type='submit', role='button') Submit
+            .text-holder.mt-2.text-center
+              a(href='') Cancel
+// /.Billing Information Modal ends 
+// Add new payment method Modal 
+ng-template(#newpaymentmethodcontent='', let-c='close', let-d='dismiss')
+  .modal-header
+    h3.modal-title.w-100.text-dark#addPaymentMethodModalLabel
+      strong Add payment method
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .form-content-holder
+      .form-group
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0 Type:
+          .col-sm-9
+            .btn-dropdown.btn-dropdown-select
+              .dropdown-sm(ngbdropdown='')
+                button#paymentTypeDropdownMenuButton(ngbdropdowntoggle='', role='button') credit card
+                div(ngbdropdownmenu='', aria-labelledby='paymentTypeDropdownMenuButton')
+                  a.dropdown-item(href='') credit card
+                  a.dropdown-item(href='') debit card
+                  a.dropdown-item(href='') credit card
+                  a.dropdown-item(href='') debit card
+                  a.dropdown-item(href='') credit card
+                  a.dropdown-item(href='') debit card
+      .form-group.form-group-sm
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='nameoncardField') Name on card:
+          .col-sm-9
+            .form-content-row.mb-0
+              input.form-control.form-control-sm#nameoncardField(type='text')
+      .form-group.form-group-sm
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='cardNumberField') Card number:
+          .col-sm-9
+            .form-content-row.mb-0
+              input.form-control.form-control-sm#cardNumberField(placeholder='0000-0000-0000-0000', type='text')
+      .form-group.form-group-sm
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='blacklistName') Expirty date:
+          .col-sm-9
+            .row.row-xs-sm.align-items-center
+              .col-sm-6.mb-3.mb-sm-0
+                .btn-dropdown.btn-dropdown-select
+                  .dropdown-sm(ngbdropdown='')
+                    button#expiryMonthDropdownMenuButton(ngbdropdowntoggle='', role='button') 01
+                    .dropdown-menu.dropdown-menu-right(ngbdropdownmenu='', aria-labelledby='expiryMonthDropdownMenuButton')
+                      a.dropdown-item(href='') 01
+                      a.dropdown-item(href='') 02
+                      a.dropdown-item(href='') 03
+                      a.dropdown-item(href='') 04
+                      a.dropdown-item(href='') 05
+              .col-sm-6
+                .btn-dropdown.btn-dropdown-select
+                  .dropdown-sm(ngbdropdown='')
+                    button#expiryYearDropdownMenuButton(ngbdropdowntoggle='', role='button') 2018
+                    div(ngbdropdownmenu='', aria-labelledby='expiryYearDropdownMenuButton')
+                      a.dropdown-item(href='') 2018
+                      a.dropdown-item(href='') 2017
+                      a.dropdown-item(href='') 2016
+                      a.dropdown-item(href='') 2015
+                      a.dropdown-item(href='') 2014
+      .form-group.mb-0
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='securityCardField') Security code:
+          .col-sm-9
+            .form-content-row.mb-0
+              .row.row-xs-sm.align-items-center
+                .col-sm-6
+                  .form-field-has-icon.position-relative
+                    input.form-control.form-control-sm#securityCardField(placeholder='', type='text')
+                    i.icon.icon-warning
+  .modal-footer.justify-content-center.justify-content-sm-end
+    a.btn.btn-secondary.btn-sm(href='') Add
+// /.Add new payment method Modal ends 
+// Make a donation Modal 
+ng-template(#makedonationcontent='', let-c='close', let-d='dismiss')
+  .modal-header
+    h3.modal-title.w-100.text-dark#makeDonationModalLabel
+      strong Make a donation
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .form-content-holder
+      .form-group
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0 Select amount:
+          .col-sm-9
+            .btn-dropdown.btn-dropdown-select
+              .dropdown-sm(ngbdropdown='')
+                button#paymentTypeDropdownMenuButton(ngbdropdowntoggle='', role='button') 10$
+                div(ngbdropdownmenu='', aria-labelledby='paymentTypeDropdownMenuButton')
+                  a.dropdown-item(href='') 10$
+                  a.dropdown-item(href='') 10$
+                  a.dropdown-item(href='') 10$
+                  a.dropdown-item(href='') 10$
+                  a.dropdown-item(href='') 10$
+                  a.dropdown-item(href='') 10$
+      .form-group.form-group-sm
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='nameoncardField') Name on card:
+          .col-sm-9
+            .form-content-row.mb-0
+              input.form-control.form-control-sm#nameoncardField(type='text')
+      .form-group.form-group-sm
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='cardNumberField') Card number:
+          .col-sm-9
+            .form-content-row.mb-0
+              input.form-control.form-control-sm#cardNumberField(placeholder='0000-0000-0000-0000', type='text')
+      .form-group.form-group-sm
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='blacklistName') Expirty date:
+          .col-sm-9
+            .row.row-xs-sm.align-items-center
+              .col-sm-6.mb-3.mb-sm-0
+                .btn-dropdown.btn-dropdown-select
+                  .dropdown-sm(ngbdropdown='')
+                    button#expiryMonthDropdownMenuButton(ngbdropdowntoggle='', role='button') 01
+                    .dropdown-menu.dropdown-menu-right(ngbdropdownmenu='', aria-labelledby='expiryMonthDropdownMenuButton')
+                      a.dropdown-item(href='') 01
+                      a.dropdown-item(href='') 02
+                      a.dropdown-item(href='') 03
+                      a.dropdown-item(href='') 04
+                      a.dropdown-item(href='') 05
+              .col-sm-6
+                .btn-dropdown.btn-dropdown-select
+                  .dropdown-sm(ngbdropdown='')
+                    button#expiryYearDropdownMenuButton(ngbdropdowntoggle='', role='button') 2018
+                    div(ngbdropdownmenu='', aria-labelledby='expiryYearDropdownMenuButton')
+                      a.dropdown-item(href='') 2018
+                      a.dropdown-item(href='') 2017
+                      a.dropdown-item(href='') 2016
+                      a.dropdown-item(href='') 2015
+                      a.dropdown-item(href='') 2014
+      .form-group.mb-0
+        .row.align-items-center
+          .col-sm-3
+            label.form-label.mb-sm-0(for='securityCardField') Security code:
+          .col-sm-9
+            .form-content-row.mb-0
+              .row.row-xs-sm.align-items-center
+                .col-sm-6
+                  .form-field-has-icon.position-relative
+                    input.form-control.form-control-sm#securityCardField(placeholder='', type='text')
+                    i.icon.icon-warning
+  .modal-footer.justify-content-center.justify-content-sm-end
+    a.btn.btn-secondary.btn-sm(href='') Add
+// /.Make a donation Modal ends 
