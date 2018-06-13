@@ -21,12 +21,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: MailboxComponent,
     children: [
-      // { path: "", redirectTo: "inbox/page/1", pathMatch: "full" },
-      { path: ":folder", redirectTo: ":folder/page/1", pathMatch: "full" },
-      { path: ":folder/page/:page", component: MessagesComponent },
-      { path: "contact", component: ContactsComponent },
-      { path: "message/:id", component: MessageComponent },
-      { path: "settings", component: SettingsComponent }
+      { path: "", redirectTo: "inbox", pathMatch: "full" },
+      { path: "settings", component: SettingsComponent },
+      { path: "contacts", component: ContactsComponent },
+      { path: "inbox", component: MessagesComponent },
+      { path: "message", component: MessageComponent },
     ]
   }
 ];

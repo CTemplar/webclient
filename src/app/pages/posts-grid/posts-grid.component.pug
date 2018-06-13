@@ -7,7 +7,7 @@
             strong {{ post.category }}
           .news-card-body
             figure.news-pic-holder
-              img-spinner([class]=''img news-img'', [src]='post.image_card')
+              img-spinner([class]="'img news-img'", [src]='post.image_card')
             h4.news-card-title {{ post.name }}
             p {{ post.text }}
           footer.news-card-footer

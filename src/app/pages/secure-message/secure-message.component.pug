@@ -7,7 +7,7 @@ section.l-block.l-block-text.bg-white.gap-p-eq.position-relative.has-cover(style
         | Go to ctemplar.com
     .l-block-body.px-xs
       // Secure reply component 
-      #secure-message-card.ui-card([ngClass]='{'d-none': isReplyWindowOpen}')
+      #secure-message-card.ui-card([ngClass]="{'d-none': isReplyWindowOpen}")
         .ui-card-header.bg-primary.text-sm-center
           h6.ui-card-title.mb-0.fw-light.text-white.pr-4.px-sm-0
             | Expiring in
@@ -27,11 +27,11 @@ section.l-block.l-block-text.bg-white.gap-p-eq.position-relative.has-cover(style
               .msg-reply-address
                 span.text-muted From:
                 | ProtonMail
-                span.text-muted <contact@protonmail.ch>
+                //- span.text-muted <contact@protonmail.ch>
               .msg-reply-address
                 span.text-muted To:
                 | John Doe
-                span.text-muted <johndoe.ch>
+                //- span.text-muted <johndoe.ch>
             .msg-reply-card-body
               .msg-reply-card-innerbody.has-custom-scroll.has-custom-scroll-sm
                 .secure-message-editor(contenteditable='true', spellcheck='true')
@@ -48,7 +48,7 @@ section.l-block.l-block-text.bg-white.gap-p-eq.position-relative.has-cover(style
                       | . Your support is essential to ensuring that CTemplar is financially stable and can continue to offer the service to the public.
       // /.Secure reply component ends 
       // Secure reply component 
-      #secure-message-reply-card.ui-card([ngClass]='{'d-block': isReplyWindowOpen}')
+      #secure-message-reply-card.ui-card([ngClass]="{'d-block': isReplyWindowOpen}")
         .ui-card-body
           .msg-reply-card
             .msg-reply-card-header.position-relative.d-sm-flex.justify-content-sm-start.align-items-sm-center
@@ -60,11 +60,11 @@ section.l-block.l-block-text.bg-white.gap-p-eq.position-relative.has-cover(style
               .msg-reply-address
                 span.text-muted From:
                 | ProtonMail
-                span.text-muted <contact@protonmail.ch>
+                //- span.text-muted <contact@protonmail.ch>
               .msg-reply-address
                 span.text-muted To:
                 | John Doe
-                span.text-muted <johndoe.ch>
+                //- span.text-muted <johndoe.ch>
             .msg-reply-card-body
               .msg-reply-card-innerbody.has-custom-scroll.has-custom-scroll-sm
                 .secure-message-editor(contenteditable='true', spellcheck='true')
@@ -107,17 +107,17 @@ section.l-block.l-block-text.bg-white.gap-p-eq.position-relative.has-cover(style
                   button.actions-btn.actions-btn-inline(role='button', placement='top', ngbtooltip='Cancel Reply', (click)='closeReplyWindow();')
                     strong Cancel
                 li
-                  .dropdown(ngbdropdown='', placement='top')
-                    button.actions-btn.mail-typo-btn.hide-arrow#typoDropdownMenu(ngbdropdowntoggle='', role='button', placement='top', ngbtooltip='Typography')
+                  .dropdown(ngbDropdown='', placement='top')
+                    button.actions-btn.mail-typo-btn.hide-arrow#typoDropdownMenu(ngbDropdownToggle='', role='button', placement='top', ngbtooltip='Typography')
                       i.icon.icon-text-color
-                    .typo-actions-dropdown-menu.left(ngbdropdownmenu='', aria-labelledby='typoDropdownMenu')
+                    .typo-actions-dropdown-menu.left(ngbDropdownMenu='', aria-labelledby='typoDropdownMenu')
                       .mail-comopser-typo-actions-holder
                         ul.mail-composer-actions.d-flex.align-items-center
                           li.pr-0
-                            .dropup(ngbdropdown='', placement='top')
-                              button.actions-btn.mail-font-family-btn.border-right-0.border-radius-r-0#typoFamilyDropdownMenu(ngbdropdowntoggle='', role='button')
+                            .dropup(ngbDropdown='', placement='top')
+                              button.actions-btn.mail-font-family-btn.border-right-0.border-radius-r-0#typoFamilyDropdownMenu(ngbDropdownToggle='', role='button')
                                 i.icon.icon-text-size
-                              .typo-family-dropdown-menu(ngbdropdownmenu='', aria-labelledby='typoFamilyDropdownMenu')
+                              .typo-family-dropdown-menu(ngbDropdownMenu='', aria-labelledby='typoFamilyDropdownMenu')
                                 .typo-holder
                                   ul.typo-list.list-styled
                                     li
@@ -135,10 +135,10 @@ section.l-block.l-block-text.bg-white.gap-p-eq.position-relative.has-cover(style
                                     li
                                       a.typo-select-link(href='') Times New Roman
                           li.pl-0
-                            .dropup(ngbdropdown='', placement='top')
-                              button.actions-btn.mail-font-family-btn#typoFamilyDropdownMenu(ngbdropdowntoggle='', role='button')
+                            .dropup(ngbDropdown='', placement='top')
+                              button.actions-btn.mail-font-family-btn#typoFamilyDropdownMenu(ngbDropdownToggle='', role='button')
                                 i.icon.icon-text-size-alt
-                              .typo-size-dropdown-menu(ngbdropdownmenu='', aria-labelledby='typoFamilyDropdownMenu')
+                              .typo-size-dropdown-menu(ngbDropdownMenu='', aria-labelledby='typoFamilyDropdownMenu')
                                 .typo-holder
                                   ul.typo-list.list-styled
                                     li
@@ -159,10 +159,10 @@ section.l-block.l-block-text.bg-white.gap-p-eq.position-relative.has-cover(style
                             button.actions-btn.mail-underline-btn.border-right-sm-0.border-radius-sm-0(role='button')
                               i.icon.icon-underline
                           li.pl-sm-0
-                            .dropdown(ngbdropdown='', placement='top')
-                              button.actions-btn.mail-font-color-btn.border-radius-l-sm-0#typoColorDropdownMenu(ngbdropdowntoggle='', role='button')
+                            .dropdown(ngbDropdown='', placement='top')
+                              button.actions-btn.mail-font-color-btn.border-radius-l-sm-0#typoColorDropdownMenu(ngbDropdownToggle='', role='button')
                                 i.icon.icon-text-color
-                              .left-0(ngbdropdownmenu='', aria-labelledby='typoColorDropdownMenu')
+                              .left-0(ngbDropdownMenu='', aria-labelledby='typoColorDropdownMenu')
                                 .color-picker-holder
                                   .row
                                     .col-sm-6.mb-3.mb-sm-0

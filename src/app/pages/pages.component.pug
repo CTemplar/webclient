@@ -1,5 +1,6 @@
-app-pages-header
-main#main
-  .content
-    router-outlet
-app-pages-footer
+.app-outer([class.resize-active]='windowIsResized')
+  app-pages-header
+  main#main
+    .content
+      router-outlet
+  app-pages-footer

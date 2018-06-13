@@ -15,7 +15,7 @@ import { Store } from "@ngxs/store";
   selector: "app-pages-sign-out",
   template: ""
 })
-export class PagesSignOutComponent implements OnInit {
+export class SignOutComponent implements OnInit {
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit() {

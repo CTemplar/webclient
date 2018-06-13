@@ -6,7 +6,7 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "app-pages-security",
-  templateUrl: "./security.component.html",
+  templateUrl: "./security.component.pug",
   styleUrls: ["./security.component.scss"]
 })
-export class PagesSecurityComponent {}
+export class SecurityComponent {}

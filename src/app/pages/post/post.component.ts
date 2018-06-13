@@ -16,10 +16,10 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-pages-post",
-  templateUrl: "./post.component.html",
+  templateUrl: "./post.component.pug",
   styleUrls: ["./post.component.scss"]
 })
-export class PagesPostComponent implements OnInit {
+export class PostComponent implements OnInit {
   @Select(state => state.blog.post)
   post$: Observable<any>;
 

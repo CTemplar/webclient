@@ -1,6 +1,6 @@
 // Angular
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
@@ -31,6 +31,7 @@ import { RecaptchaModule } from "ng-recaptcha";
     CommonModule,
     FormsModule,
     NgbModule,
+    ReactiveFormsModule,
     RecaptchaModule,
     RouterModule
   ],
@@ -53,6 +54,7 @@ import { RecaptchaModule } from "ng-recaptcha";
     CaptchaModal,
     DialogModal,
     ProgressModal,
+    ReactiveFormsModule,
     RecoverModal,
     ResetModal,
     NgbModule,

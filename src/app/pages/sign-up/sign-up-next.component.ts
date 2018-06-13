@@ -22,10 +22,10 @@ import { Store } from "@ngxs/store";
 
 @Component({
   selector: "app-pages-sign-up-next",
-  templateUrl: "./sign-up-next.component.html",
+  templateUrl: "./sign-up-next.component.pug",
   styleUrls: ["./sign-up-next.component.scss"]
 })
-export class PagesSignUpNextComponent {
+export class SignUpNextComponent {
   activeModal: NgbModalRef;
   inputType = "password";
   model = new SignUp();

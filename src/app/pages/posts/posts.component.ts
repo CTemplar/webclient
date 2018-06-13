@@ -13,9 +13,9 @@ import { Observable } from "rxjs";
 @Component({
   selector: "app-pages-posts",
   styleUrls: ["./posts.component.scss"],
-  templateUrl: "./posts.component.html"
+  templateUrl: "./posts.component.pug"
 })
-export class PagesPostsComponent implements OnInit {
+export class PostsComponent implements OnInit {
   @Select(state => state.blog.posts)
   posts$: Observable<any>;
   bigPost: any;

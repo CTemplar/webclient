@@ -6,7 +6,7 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "app-pages-tor-onion",
-  templateUrl: "./tor-onion.component.html",
+  templateUrl: "./tor-onion.component.pug",
   styleUrls: ["./tor-onion.component.scss"]
 })
-export class PagesTorOnionComponent {}
+export class TorOnionComponent {}

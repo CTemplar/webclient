@@ -19,7 +19,7 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-secure-message",
-  templateUrl: "./secure-message.component.html",
+  templateUrl: "./secure-message.component.pug",
   styleUrls: ["./secure-message.component.scss"]
 })
 export class SecureMessageComponent implements OnInit {

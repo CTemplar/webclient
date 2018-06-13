@@ -7,7 +7,7 @@ import { DOCUMENT } from "@angular/common";
 
 @Component({
   selector: "app-pages-header",
-  templateUrl: "./header.component.html",
+  templateUrl: "./header.component.pug",
   styleUrls: ["./header.component.scss"]
 })
 export class PagesHeaderComponent {

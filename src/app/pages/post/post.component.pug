@@ -12,7 +12,7 @@ section.l-block.single-news-block.gap-p-eq.pt-0.bg-white(*ngIf='post$ | async as
         .col-12.mb-4.mb-sm-5
           article.news-card.single-post-card
             figure.single-post-pic-holder.position-relative.mb-0
-              img-spinner([class]=''img news-img'', [src]='post.image')
+              img-spinner([class]="'img news-img'", [src]='post.image')
               span.badge.badge-sm.badge-info.text-uppercase
                 strong {{ post.category }}
             .news-meta
@@ -36,7 +36,7 @@ section.l-block.single-news-block.gap-p-eq.pt-0.bg-white(*ngIf='post$ | async as
             .single-post-card-body.text-medium
               h2.text-dark
                 strong {{ post.name }}
-              span([innerhtml]='post.text', style='white-space: pre-line')
+              span([innerHtml]='post.text', style='white-space: pre-line')
 section.l-block.mt-0.pb-0.bg-faded.is-clipped.is-clipped-lg.top.top-left.bottom.bottom-right(*ngIf='post$ | async as post')
   .container.container-xs
     .l-block-body.px-xs
@@ -95,7 +95,7 @@ section.l-block.mt-0.pb-0.bg-faded.is-clipped.is-clipped-lg.top.top-left.bottom.
                           </div>
                           <div class="col-12">
                             <div class="form-group text-center mb-0">
-                              <button class="btn btn-secondary btn-lg comment-login-btn" type="submit" role="button">Submit</button>
+                              <button class="btn btn-secondary btn-lg comment-login-btn" type="submit" >Submit</button>
                             </div>
                           </div>
                         </div>
@@ -117,6 +117,6 @@ ng-template.modal-type-default(#content='', let-c='close', let-d='dismiss')
                   </span>
                 </div>
                 <div class="form-group form-user-actions text-center mb-0">
-                  <button class="btn btn-secondary btn-sm reply-btn" role="button" type="submit">Reply</button>
+                  <button class="btn btn-secondary btn-sm reply-btn"  type="submit">Reply</button>
                 </div>
               </form> 

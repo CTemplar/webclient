@@ -31,7 +31,7 @@
 	flex-wrap: wrap;
 	padding: 1.188rem 0.938rem;
 	background: $brand-faded;
-	border: 1px solid darken($brand-faded, 3%);		
+	border: 1px solid darken($brand-faded, 3%);
 	font-size: 0.875rem;
 	line-height: 1.14;
 
@@ -39,7 +39,7 @@
 		border-bottom: 0;
 	}
 
-	@include media(">=ipad") {		
+	@include media(">=ipad") {
 		padding: 1.188rem 1.563rem;
 	}
 }
@@ -135,7 +135,7 @@
 .form-content-row-sm {
 	&:not(:last-child) {
 		margin-bottom: .875rem;
-	}	
+	}
 }
 
 .ui-list,
@@ -272,7 +272,7 @@
 
 	@include media(">sm") {
 		flex: 0 0 72.83%;//~72.83%;
-		max-width: 72.83%;		
+		max-width: 72.83%;
 	}
 }
 

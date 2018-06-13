@@ -12,10 +12,10 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-pages-posts-grid",
-  templateUrl: "./posts-grid.component.html",
+  templateUrl: "./posts-grid.component.pug",
   styleUrls: ["./posts-grid.component.scss"]
 })
-export class PagesPostsGridComponent implements OnInit {
+export class PostsGridComponent implements OnInit {
   @Input("posts") posts = null;
   @Input("columns") columns = 3;
 

@@ -85,7 +85,7 @@
                   <span class="comment-datetime">{{ comment.datetime }}</span>
                 </div>
                 <div class="comment-reply" *ngIf="isActive">
-                  <a role="button" (click)="openReplyModal(content, comment.id)">
+                  <a  (click)="openReplyModal(content, comment.id)">
                     <i class="fas fa-reply"></i>
                     <u>reply</u>
                   </a>
@@ -106,7 +106,7 @@
                     <span class="comment-datetime">{{ reply.datetime }}</span>
                   </div>
                   <div class="comment-reply" *ngIf="isActive">
-                    <a role="button" (click)="openReplyModal(content, reply.id)">
+                    <a  (click)="openReplyModal(content, reply.id)">
                       <i class="fas fa-reply"></i>
                       <u>reply</u>
                     </a>

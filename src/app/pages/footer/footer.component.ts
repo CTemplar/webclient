@@ -13,7 +13,7 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-pages-footer",
-  templateUrl: "./footer.component.html",
+  templateUrl: "./footer.component.pug",
   styleUrls: ["./footer.component.scss"]
 })
 export class PagesFooterComponent {

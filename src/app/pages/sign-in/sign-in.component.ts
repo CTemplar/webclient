@@ -22,10 +22,10 @@ import { Store } from "@ngxs/store";
 
 @Component({
   selector: "app-pages-sign-in",
-  templateUrl: "./sign-in.component.html",
+  templateUrl: "./sign-in.component.pug",
   styleUrls: ["./sign-in.component.scss"]
 })
-export class PagesSignInComponent {
+export class SignInComponent {
   activeModal: NgbModalRef;
   inputType = "password";
   model = new SignIn();

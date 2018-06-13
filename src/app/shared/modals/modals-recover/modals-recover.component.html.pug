@@ -13,12 +13,12 @@
     p If you did not set a recovery email then your account is not recoverable.
     .login-content-holder.mx-auto.mt-4.pt-sm-2
       .form
-        form((ngsubmit)='onRecover()', #recover='ngForm')
+        form((ngSubmit)='onRecover()', #recover='ngForm')
           .form-group
             label.d-block.text-muted.text-left.hidden-sm-up(for='username') Username to Reset
-            input.form-control.form-control-lg#username(placeholder='Username to reset', name='username', required='', [(ngmodel)]='model.username')
+            input.form-control.form-control-lg#username(placeholder='Username to reset', name='username', required='', [(ngModel)]='model.username')
           .form-group
             label.d-block.text-muted.text-left.hidden-sm-up(for='email') Recovery Email
-            input.form-control.form-control-lg#email(placeholder='Recovery email', type='email', name='recovery_email', required='', [(ngmodel)]='model.recovery_email')
+            input.form-control.form-control-lg#email(placeholder='Recovery email', type='email', name='recovery_email', required='', [(ngModel)]='model.recovery_email')
           .form-group.form-user-actions.text-center.mb-0
             button.btn.btn-gradient-primary.btn-sm.reset-btn(type='submit', [disabled]='!recover.form.valid') Continue

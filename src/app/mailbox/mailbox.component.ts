@@ -6,7 +6,7 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "app-mailbox",
-  templateUrl: "./mailbox.component.html",
+  templateUrl: "./mailbox.component.pug",
   styleUrls: ["./mailbox.component.scss"]
 })
 export class MailboxComponent {}

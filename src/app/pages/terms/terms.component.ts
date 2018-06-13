@@ -6,7 +6,7 @@ import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: "app-pages-terms",
-  templateUrl: "./terms.component.html",
+  templateUrl: "./terms.component.pug",
   styleUrls: ["./terms.component.scss"]
 })
-export class PagesTermsComponent {}
+export class TermsComponent {}

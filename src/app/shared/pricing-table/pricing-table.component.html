@@ -1,8 +1,8 @@
 <div class="l-block-body px-xs">
   <div class="package-card-holder mt-3 mt-sm-0 mt-md-5">
     <ul class="package-xs-tab list-style-none hidden-sm-up">
-      <li class="active" [class.is-active]="1 === selectedIndex"><a role="button" (click)="toggleSlides(1);">Prime</a></li>
-      <li [class.is-active]="2 === selectedIndex"><a role="button" (click)="toggleSlides(2);">Free</a></li>
+      <li class="active" [class.is-active]="1 === selectedIndex"><a  (click)="toggleSlides(1);">Prime</a></li>
+      <li [class.is-active]="2 === selectedIndex"><a  (click)="toggleSlides(2);">Free</a></li>
     </ul>
     <div class="row flex-nowrap row-lg">
       <div class="col-sm-6 flex-sm-last package-prime-col active-slide" [class.is-active-slide]="1 === selectedIndex">

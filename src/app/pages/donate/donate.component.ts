@@ -6,7 +6,7 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "app-pages-donate",
-  templateUrl: "./donate.component.html",
+  templateUrl: "./donate.component.pug",
   styleUrls: ["./donate.component.scss"]
 })
-export class PagesDonateComponent {}
+export class DonateComponent {}

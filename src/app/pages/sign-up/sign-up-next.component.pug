@@ -13,7 +13,7 @@ section.l-block.l-block-text.bg-white.gap-p-eq
             br
             | Creating your secure email account takes less than 2 minutes
         .form
-          form((ngsubmit)='onSignUp()', #signup='ngForm')
+          form((ngSubmit)='onSignUp()', #signUp='ngForm')
             .form-step-card-holder.mt-3.mt-sm-4
               .form-step-card
                 h3.form-step-card-title.text-dark.mb-0
@@ -23,7 +23,7 @@ section.l-block.l-block-text.bg-white.gap-p-eq
                 .form-group
                   .form-inline.userame-field-group
                     label.d-block.text-muted.text-left.hidden-sm-up(for='username') Choose userame
-                    input#username.form-control.text-dark.mb-3.mb-sm-0(placeholder='Choose username', name='username', minlength='3', required='', [(ngmodel)]='model.username')
+                    input#username.form-control.text-dark.mb-3.mb-sm-0(placeholder='Choose username', name='username', minlength='3', required='', [(ngModel)]='model.username')
                     span.domain-separator.text-center.text-dark @
                     input.form-control.text-dark.is-readonly.border-0.px-0.email-input(value='ctemplar.com', readonly='')
               .form-step-card
@@ -34,12 +34,12 @@ section.l-block.l-block-text.bg-white.gap-p-eq
                 .form-group
                   label.d-block.text-muted.text-left.hidden-sm-up(for='password') Choose password
                   .input-group
-                    input.form-control.border-right-0#password(placeholder='Choose password', [type]='inputType', name='password', minlength='6', required='', [(ngmodel)]='model.password')
+                    input.form-control.border-right-0#password(placeholder='Choose password', [type]='inputType', name='password', minlength='6', required='', [(ngModel)]='model.password')
                     span.input-group-addon.password-toggle.bg-white.text-muted((click)='togglePassword()')
                       i.fa.fa-eye
                 .form-group
                   label.d-block.text-muted.text-left.hidden-sm-up(for='password2') Confirm password
-                  input.form-control#password2(placeholder='Confirm password', [type]='inputType', name='password2', minlength='6', required='', [(ngmodel)]='model.password2')
+                  input.form-control#password2(placeholder='Confirm password', [type]='inputType', name='password2', minlength='6', required='', [(ngModel)]='model.password2')
               .form-step-card
                 h3.form-step-card-title.text-dark.mb-0
                   strong Recovery email (recommended)
@@ -47,7 +47,7 @@ section.l-block.l-block-text.bg-white.gap-p-eq
                   small This email is used to recover your account if you forget your password. If you don't enter one, your account won't be recoverable at all. You can add it later in your settings panel.
                 .form-group
                   label.d-block.text-muted.text-left.hidden-sm-up(for='recovery_email') Recovery email
-                  input.form-control.text-dark#recovery_email(placeholder='Recovery email', type='email', name='recovery_email', [(ngmodel)]='model.recovery_email')
+                  input.form-control.text-dark#recovery_email(placeholder='Recovery email', type='email', name='recovery_email', [(ngModel)]='model.recovery_email')
                 .form-group
                   .info-card.d-flex.align-items-center.bg-faded
                     span.fancy-field-group.mr-3

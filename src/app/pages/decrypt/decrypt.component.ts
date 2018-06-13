@@ -22,7 +22,7 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-decrypt",
-  templateUrl: "./decrypt.component.html",
+  templateUrl: "./decrypt.component.pug",
   styleUrls: ["./decrypt.component.scss"]
 })
 export class DecryptComponent implements OnInit {

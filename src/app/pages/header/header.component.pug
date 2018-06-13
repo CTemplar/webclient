@@ -1,5 +1,5 @@
 // REUSABLE COMPONENT :: HEADER 
-header#mastHead.topnavbar.fixed-top([class.header-is-stuck]='navIsFixed', [ngClass]='{ 'has-menu-shown': menuIsOpened, 'topnavbar-primary': this.router.url === '/', 'topnavbar-secondary': this.router.url !== '/' }', role='banner')
+header#mastHead.topnavbar.fixed-top([class.header-is-stuck]='navIsFixed', [ngClass]="{ 'has-menu-shown': menuIsOpened, 'topnavbar-primary': this.router.url === '/', 'topnavbar-secondary': this.router.url !== '/' }")
   .topnavbar__row
     nav.navbar.navbar-expand-lg(role='navigation')
       .row.align-items-center
@@ -9,43 +9,43 @@ header#mastHead.topnavbar.fixed-top([class.header-is-stuck]='navIsFixed', [ngCla
               img.navbar-brand-logo(alt='Ctemplar Logo', src='/assets/images/logo.svg')
               strong ctemplar
         .col.navbar-col.navbar-menu-col
-          button.navbar-toggler((click)='toggleState()', [ngClass]='{ 'opened': menuIsOpened, 'hidden-md-up': !externalPageCallToAction, 'd-none': externalPageCallToAction }', role='button', data-target='navbar-collapsable-content', aria-controls='ctemplarMenuContent', aria-label='Toggle navigation')
+          button.navbar-toggler((click)='toggleState()', [ngClass]="{ 'opened': menuIsOpened, 'hidden-md-up': !externalPageCallToAction, 'd-none': externalPageCallToAction }", role='button', data-target='navbar-collapsable-content', aria-controls='ctemplarMenuContent', aria-label='Toggle navigation')
             span.navbar-toggler-icon
             span.navbar-toggler-icon
             span.navbar-toggler-icon
             span.navbar-toggler-icon
             | Menu
-          .navbar-collapsable-content([ngClass]='{ 'shown': menuIsOpened }', [hidden]='externalPageCallToAction')
+          .navbar-collapsable-content([ngClass]="{ 'shown': menuIsOpened }", [hidden]='externalPageCallToAction')
             ul.navbar-nav.my-0.px-0.list-style-none
-              li.nav-item(routerLinkactive='active', [routerLinkactiveoptions]='{exact: true}')
+              li.nav-item(routerLinkActive='active', [routerLinkActiveOptions]='{exact: true}')
                 a.nav-link(routerLink='/', (click)='closeMenu()')
                   | Home
                   span.sr-only (current)
-              li.nav-item(routerLinkactive='active')
+              li.nav-item(routerLinkActive='active')
                 a.nav-link(routerLink='/about-us', (click)='closeMenu()') About
-              li.nav-item(routerLinkactive='active')
+              li.nav-item(routerLinkActive='active')
                 a.nav-link(routerLink='/security', (click)='closeMenu()') Security
-              li.nav-item(routerLinkactive='active')
+              li.nav-item(routerLinkActive='active')
                 a.nav-link(routerLink='/pricing', (click)='closeMenu()') Pricing
-              li.nav-item(routerLinkactive='active')
+              li.nav-item(routerLinkActive='active')
                 a.nav-link(routerLink='/blog', (click)='closeMenu()') Blog
               li.nav-item
                 a.nav-link(href='https://ctemplar.zendesk.com', target='_blank', (click)='closeMenu()') Support
               li.nav-item.hidden-sm-up
                 a.nav-link.nav-action-link(routerLink='/sign-in', (click)='closeMenu()') Login
-              li.nav-item.hidden-sm-up(routerLinkactive='active')
+              li.nav-item.hidden-sm-up(routerLinkActive='active')
                 a.nav-link.nav-action-link.btn.btn-sm.btn-gradient-primary.signup-btn(routerLink='/sign-up', (click)='closeMenu()') Sign up
-          ul.user-actions-list.my-0.px-0.list-style-none([ngClass]='{ 'external-page-user-actions-list': externalPageCallToAction }')
-            li.user-actions-item(routerLinkactive='active', [ngClass]='{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }')
+          ul.user-actions-list.my-0.px-0.list-style-none([ngClass]="{ 'external-page-user-actions-list': externalPageCallToAction }")
+            li.user-actions-item(routerLinkActive='active', [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }")
               a.user-actions-link(routerLink='/sign-in') Login
-            li.user-actions-item([ngClass]='{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }')
+            li.user-actions-item([ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }")
               a.user-actions-link.btn.btn-sm.btn-gradient-primary.signup-btn(routerLink='/sign-up') Sign Up
             li.user-actions-item.btn-dropdown([hidden]='externalPageCallToAction')
-              .lang-selector-dropdown(ngbdropdown='', placement='bottom-right')
-                button.bg-transparent#langDropdownMenuButton(type='button', ngbdropdowntoggle='')
+              .lang-selector-dropdown(ngbDropdown, placement='bottom-right')
+                button.bg-transparent#langDropdownMenuButton(type='button', ngbDropdownToggle)
                   i.fa.fa-globe.hidden-xs-down
                   | En
-                .text-center(ngbdropdownmenu='', aria-labelledby='langDropdownMenuButton')
+                .text-center(ngbDropdownMenu, aria-labelledby='langDropdownMenuButton')
                   a.dropdown-item(href='') Ru
                   a.dropdown-item(href='') Es
 // /.REUSABLE COMPONENT :: HEADER ENDS 
