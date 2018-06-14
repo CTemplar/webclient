@@ -6,7 +6,7 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "app-pricing-table",
-  templateUrl: "./pricing-table.component.html",
+  templateUrl: "./pricing-table.component.pug",
   styleUrls: ["./pricing-table.component.scss"]
 })
 export class PricingTableComponent {

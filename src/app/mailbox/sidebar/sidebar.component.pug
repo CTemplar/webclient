@@ -1,0 +1,628 @@
+aside#mailbox-sidebar.mailbox-sidebar.is-sidebar-expandedx(role='complementary')
+  .mailbox-sidebar-inner
+    .mailbox-brand
+      button.navbar-toggler.hidden-md-up
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggle-text Menu
+      figure.navbar-brand-holder.hidden-sm-down
+        a.navbar-brand.ff-roboto.text-uppercase(routerlink='')
+          img.navbar-brand-logo(alt='Ctemplar Logo', src='/assets/images/logo.svg')
+          strong ctemplar
+      .prime-account-content
+        i.icon.icon-secure-shield
+        span.prime-account-text Prime
+    .mail-compose-section.hidden-xs-down
+      button.btn.btn-lg.btn-primary.mailbox-btn.mailbox-compose-btn.btn-xs-squared.has-icon((click)='showMailComposeModal();')
+        i.icon.icon-plus.text-white.hidden-md-up
+        span.mailbox-btn-text.hidden-sm-down Compose
+    nav.mailbox-sidebar-navbar
+      ul.mailbox-sidebar-nav
+        li.mailbox-sidebar-nav-item.active
+          a.mailbox-sidebar-nav-link(href='')
+            i.icon.icon-inbox
+            span.mailbox-sidebar-nav-label Inbox
+            span.badge.badge-square.hidden-sm-down 4
+            span.badge.badge-sm.badge-square.hidden-md-up 1234
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(href='')
+            i.icon.icon-draft
+            span.mailbox-sidebar-nav-label Draft
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(href='')
+            i.icon.icon-paper-plane
+            span.mailbox-sidebar-nav-label Sent
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(href='')
+            i.icon.icon-star
+            span.mailbox-sidebar-nav-label Starred
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(href='')
+            i.icon.icon-archive
+            span.mailbox-sidebar-nav-label Archive
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(href='')
+            i.icon.icon-warning
+            span.mailbox-sidebar-nav-label Spam
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(href='')
+            i.icon.icon-garbage
+            span.mailbox-sidebar-nav-label Trash
+        li.divider-item
+        li.mailbox-sidebar-nav-item.add-folder.text-uppercase
+          a.mailbox-sidebar-nav-link(href='javascript:void(0);', (click)='open(content)')
+            i.icon.icon-folder
+            span.mailbox-sidebar-nav-label Add folder
+          ul.folders-list
+            li
+              a(href='')
+                span.folder-color-box.is-success
+                span.folders-list-text Folder 1
+            li
+              a(href='')
+                span.folder-color-box.is-info
+                span.folders-list-text Another Folder 2
+            li
+              a(href='')
+                span.folder-color-box.is-warning
+                span.folders-list-text Folder 33
+    .mailbox-sidebar-footer.text-center
+      .mailbox-sidebar-footer-text.mb-0.mb-md-1.visible-in-sm
+        | Used
+        .text-white.mt-1 43 MB
+      .mailbox-sidebar-footer-text.mb-1.hidden-in-sm Used storage: 43 MB of 100 MB
+      a.btn-link.text-white.hidden-in-sm(href='')
+        small
+          u Upgrade account
+// Compose button to be used in small screens 
+.btn-xs-holder.is-sticky.hidden-sm-up
+  button.btn.btn-primary.mailbox-btn.mailbox-compose-btn.btn-xs-rounded.has-icon(placement='top', ngbtooltip='Compose', (click)='showMailComposeModal();')
+    i.icon.icon-plus.text-white
+// Mail compose dialog 
+.mail-composer.is-sticky.is-fullscreenx.is-minimizedx.is-maximizedx([class.is-active]='isComposeVisible')
+  .mail-composer-dialog
+    .mail-composer-header
+      .mail-composer-title New message
+      .mail-composer-header-actions
+        .mail-actions-list
+          .mail-actions-item
+            button(placement='top', ngbtooltip='Minimize')
+              i.icon.icon-minimize
+          .mail-actions-item
+            button(placement='top', ngbtooltip='Close', (click)='hideMailComposeModal();')
+              i.icon.icon-cross
+    .mail-composer-body
+      form
+        .mail-compose-field-group
+          .mail-compose-field
+            span.mail-label.label-to To:
+            textarea.mail-compose-control#recepietTo(rows='1') johndoe@gmail.com
+            .extra-mail-label
+              span.mail-label.mail-floated-label Cc
+              span.mail-label.mail-floated-label.mr-0 Bcc
+          .mail-compose-field.border-bottom-0.d-none
+            span.mail-label.label-cc Cc:
+            textarea.mail-compose-control#recepietCc(rows='1') johndoe@gmail.com
+          .mail-compose-field.d-none
+            span.mail-label.label-bcc Bcc:
+            textarea.mail-compose-control#recepietBcc(rows='1') johndoe@gmail.com
+          .mail-compose-field
+            span.mail-label.label-subject Subject:
+            textarea.mail-compose-control#subject(rows='1') Re: Welcome to CTemplar!
+      .mail-compose-editable-body
+        .mail-compose-box.has-custom-scroll
+          .mail-compose-box-inner
+            .mail-compose-editable-box(contenteditable='true')
+              div(style='color: rgba(0, 0, 0, 0.87);line-height: 1.7;') You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted.
+              div(style='line-height: 1.7;')
+                br
+              div(style='color: rgba(0, 0, 0, 0.87);line-height: 1.7;') CTemplar is an open-source community-driven project and basic accounts are always free. However, the costs to run CTemplar are quite high, and we depend on support from the community to keep the service running. If you would like to support the project, you can upgrade to a paid account. Your support is essential to ensuring that CTemplar is financially stable and can continue to offer the service to the public.
+              br
+            .attach-uploader-holder
+              .attach-uploader
+                .attach-name
+                  | filename.doc
+                  span.attach-size (340 K)
+                button.attach-uploader-close(placement='top', ngbtooltip='Remove')
+                  i.icon.icon-cross
+              .attach-uploader
+                .attach-name
+                  | other_filename.doc
+                  span.attach-size (1,556 K)
+                .progress
+                  .progress-bar(role='progressbar', style='width:45%;', aria-valuenow='45', aria-valuemin='0', aria-valuemax='100')
+                button.attach-uploader-close(placement='top', ngbtooltip='Remove')
+                  i.icon.icon-cross
+    .mail-composer-footer
+      .mail-composer-actions-row.d-flex.align-items-center
+        .mail-composer-actions-col.mail-composer-actions-col-lg
+          ul.mail-composer-actions.d-flex.align-items-center
+            li
+              button.actions-btn.mail-attach-btn(placement='top', ngbtooltip='Upload attachment')
+                i.icon.icon-attachment
+            li.pr-0
+              button.actions-btn.mail-envelop-btn.border-right-0.border-radius-r-0(placement='top', ngbtooltip='Mail')
+                i.icon.icon-mail
+            li.px-0
+              button.actions-btn.mail-clock-btn.border-right-0.border-radius-0(placement='top', ngbtooltip='Clock')
+                i.icon.icon-clock
+            li.px-0
+              button.actions-btn.mail-sign-btn.border-right-0.border-radius-0(placement='top', ngbtooltip='Signature')
+                i.icon.icon-sign
+            li.pl-0
+              .dropdown(ngbdDropDown, placement='top')
+                button.hide-arrow.actions-btn.mail-self-timer-btn.border-radius-l-0#delayedTimerDropdownMenu(ngbdDropDownToggle, placement='top', ngbtooltip='Self Timer')
+                  i.icon.icon-self-timer
+                .dropdown-menu.timer-dropdown-menu.bg-faded(ngbdDropDownMenu, aria-labelledby='delayedTimerDropdownMenu')
+                  button.close
+                    i.icon.icon-cross
+                  .timer-dropdown-content
+                    .dropdown-header
+                      .dropdown-menu-title.text-dark.text-center
+                        strong Delayed Delivery
+                    .dropdown-body
+                      .timer-set-content
+                        .timer-set-title Email will be sent after set time
+                        .timer-set-row.d-flex.align-items-center
+                          .timer-set-col
+                            span.timer-set-label.ml-0 after
+                            span.dropdown(ngbdDropDown, placement='top')
+                              button.actions-btn.bg-white#daysTimerDropdownMenu(ngbdDropDownToggle) 1
+                              .left-0(ngbdDropDownMenu, aria-labelledby='daysTimerDropdownMenu')
+                                a.dropdown-link(href='') 1
+                                a.dropdown-link(href='') 2
+                                a.dropdown-link(href='') 3
+                                a.dropdown-link(href='') 4
+                                a.dropdown-link(href='') 5
+                                a.dropdown-link(href='') 6
+                                a.dropdown-link(href='') 7
+                            span.timer-set-label.mr-0 Days
+                          .timer-set-col
+                            span.dropdown(ngbdDropDown, placement='top')
+                              button.actions-btn.bg-white#hoursTimerDropdownMenu(ngbdDropDownToggle) 1
+                              .left-0(ngbdDropDownMenu, aria-labelledby='hoursTimerDropdownMenu')
+                                a.dropdown-link(href='') 1
+                                a.dropdown-link(href='') 2
+                                a.dropdown-link(href='') 3
+                                a.dropdown-link(href='') 4
+                                a.dropdown-link(href='') 5
+                                a.dropdown-link(href='') 6
+                                a.dropdown-link(href='') 7
+                            span.timer-set-label.mr-0 Hours
+                    .dropdown-footer.text-center
+                      a.btn.btn-sm.btn-secondary(href='') Schedule
+            li
+              .dropdown(ngbdDropDown, placement='top')
+                button.hide-arrow.actions-btn.mail-dead-btn.border-radius-l-0#delayedTimerDropdownMenu(ngbdDropDownToggle, placement='top', ngbtooltip='Dead Man')
+                  i.icon.icon-dead
+                .dropdown-menu.timer-dropdown-menu.bg-faded(ngbdDropDownMenu, aria-labelledby='delayedTimerDropdownMenu')
+                  button.close
+                    i.icon.icon-cross
+                  .timer-dropdown-content
+                    .dropdown-header
+                      .dropdown-menu-title.text-dark.text-center
+                        strong Dead Man's Timer
+                    .dropdown-body
+                      .timer-set-content
+                        .timer-set-title If you do not log into your account after this set time, the email will be sent
+                        .timer-set-row.d-flex.align-items-center
+                          .timer-set-col
+                            span.timer-set-label.ml-0 in
+                            span.dropdown(ngbdDropDown, placement='top')
+                              button.actions-btn.bg-white#daysTimerDropdownMenu(ngbdDropDownToggle) 1
+                              .left-0(ngbdDropDownMenu, aria-labelledby='daysTimerDropdownMenu')
+                                a.dropdown-link(href='') 1
+                                a.dropdown-link(href='') 2
+                                a.dropdown-link(href='') 3
+                                a.dropdown-link(href='') 4
+                                a.dropdown-link(href='') 5
+                                a.dropdown-link(href='') 6
+                                a.dropdown-link(href='') 7
+                            span.timer-set-label.mr-0 Days
+                          .timer-set-col
+                            span.dropdown(ngbdDropDown, placement='top')
+                              button.actions-btn.bg-white#hoursTimerDropdownMenu(ngbdDropDownToggle) 1
+                              .left-0(ngbdDropDownMenu, aria-labelledby='hoursTimerDropdownMenu')
+                                a.dropdown-link(href='') 1
+                                a.dropdown-link(href='') 2
+                                a.dropdown-link(href='') 3
+                                a.dropdown-link(href='') 4
+                                a.dropdown-link(href='') 5
+                                a.dropdown-link(href='') 6
+                                a.dropdown-link(href='') 7
+                            span.timer-set-label.mr-0 Hours
+                    .dropdown-footer.text-center
+                      a.btn.btn-sm.btn-secondary(href='') Schedule
+            li
+              button.actions-btn.mail-keyboard-btn(placement='top', ngbtooltip='Keyboard Show')
+                i.icon.icon-keyboard-show
+            li
+              .dropdown(ngbdDropDown, placement='top')
+                button.actions-btn.mail-typo-btn.hide-arrow#typoDropdownMenu(ngbdDropDownToggle, placement='top', ngbtooltip='Typography')
+                  i.icon.icon-text-color
+                .typo-actions-dropdown-menu.is-centered(ngbdDropDownMenu, aria-labelledby='typoDropdownMenu')
+                  .mail-comopser-typo-actions-holder
+                    ul.mail-composer-actions.d-flex.align-items-center.justify-content-end
+                      li.pr-0
+                        .dropup(ngbdDropDown, placement='top')
+                          button.actions-btn.mail-font-family-btn.border-right-0.border-radius-r-0#typoFamilyDropdownMenu(ngbdDropDownToggle)
+                            i.icon.icon-text-size
+                          .typo-family-dropdown-menu(ngbdDropDownMenu, aria-labelledby='typoFamilyDropdownMenu')
+                            .typo-holder
+                              ul.typo-list.list-styled
+                                li
+                                  a.typo-select-link(href='') Hiragino Sans
+                                li
+                                  a.typo-select-link.is-active(href='') Lato
+                                li
+                                  a.typo-select-link(href='') Roboto
+                                li
+                                  a.typo-select-link(href='') Abril Fatface
+                                li
+                                  a.typo-select-link(href='') Andale Mono
+                                li
+                                  a.typo-select-link(href='') Arial
+                                li
+                                  a.typo-select-link(href='') Times New Roman
+                      li.pl-0
+                        .dropup(ngbdDropDown, placement='top')
+                          button.actions-btn.mail-font-family-btn#typoFamilyDropdownMenu(ngbdDropDownToggle)
+                            i.icon.icon-text-size-alt
+                          .typo-size-dropdown-menu(ngbdDropDownMenu, aria-labelledby='typoFamilyDropdownMenu')
+                            .typo-holder
+                              ul.typo-list.list-styled
+                                li
+                                  a.typo-select-link.is-small(href='') Small
+                                li
+                                  a.typo-select-link.is-active.is-normal(href='') Normal
+                                li
+                                  a.typo-select-link.is-large(href='') Large
+                                li
+                                  a.typo-select-link.is-huge(href='') Huge
+                      li.pr-0
+                        button.actions-btn.mail-bold-btn.border-right-0.border-radius-r-0
+                          i.icon.icon-bold
+                      li.px-0
+                        button.actions-btn.mail-italic-btn.border-right-0.border-radius-0
+                          i.icon.icon-italic
+                      li.px-0
+                        button.actions-btn.mail-underline-btn.border-right-0.border-radius-0
+                          i.icon.icon-underline
+                      li.pl-0
+                        .dropdown(ngbdDropDown, placement='top')
+                          button.actions-btn.mail-font-color-btn.border-radius-l-0#typoColorDropdownMenu(ngbdDropDownToggle)
+                            i.icon.icon-text-color
+                          .left-0(ngbdDropDownMenu, aria-labelledby='typoColorDropdownMenu')
+                            .color-picker-holder
+                              .row
+                                .col-sm-6.mb-3.mb-sm-0
+                                  .color-picker
+                                    .color-picker-title
+                                      strong Background Color
+                                    ul.color-picker-list.d-flex.flex-wrap
+                                      li
+                                        .color-shape(style='background: #000000;')
+                                      li
+                                        .color-shape(style='background: #616161;')
+                                      li
+                                        .color-shape(style='background: #828282;')
+                                      li
+                                        .color-shape(style='background: #adadad;')
+                                      li
+                                        .color-shape(style='background: #d2d2d2;')
+                                      li
+                                        .color-shape(style='background: #e9e9e9;')
+                                      li
+                                        .color-shape(style='background: #ffffff;border:1px solid #e5e5e5;')
+                                      li
+                                        .color-shape(style='background: #730000;')
+                                      li
+                                        .color-shape(style='background: #ae0000;')
+                                      li
+                                        .color-shape(style='background: #e60000;')
+                                      li
+                                        .color-shape(style='background: #ff2121;')
+                                      li
+                                        .color-shape(style='background: #ff7676;')
+                                      li
+                                        .color-shape(style='background: #ffc9c9;')
+                                      li
+                                        .color-shape(style='background: #ffefef;')
+                                      li
+                                        .color-shape(style='background: #734600;')
+                                      li
+                                        .color-shape(style='background: #ae6200;')
+                                      li
+                                        .color-shape(style='background: #e66300;')
+                                      li
+                                        .color-shape(style='background: #ff8c21;')
+                                      li
+                                        .color-shape(style='background: #ffc576;')
+                                      li
+                                        .color-shape(style='background: #ffe9c9;')
+                                      li
+                                        .color-shape(style='background: #ffe9c9;')
+                                      li
+                                        .color-shape(style='background: #737200;')
+                                      li
+                                        .color-shape(style='background: #a0ae00;')
+                                      li
+                                        .color-shape(style='background: #e6e300;')
+                                      li
+                                        .color-shape(style='background: #fff621;')
+                                      li
+                                        .color-shape(style='background: #fdff76;')
+                                      li
+                                        .color-shape(style='background: #fffdc9;')
+                                      li
+                                        .color-shape(style='background: #ffffef;')
+                                      li
+                                        .color-shape(style='background: #0f7300;')
+                                      li
+                                        .color-shape(style='background: #0eae00;')
+                                      li
+                                        .color-shape(style='background: #1ee600;')
+                                      li
+                                        .color-shape(style='background: #21ff38;')
+                                      li
+                                        .color-shape(style='background: #76ff76;')
+                                      li
+                                        .color-shape(style='background: #c9ffd0;')
+                                      li
+                                        .color-shape(style='background: #effff1;')
+                                      li
+                                        .color-shape(style='background: #006e73;')
+                                      li
+                                        .color-shape(style='background: #00aeac;')
+                                      li
+                                        .color-shape(style='background: #00dce6;')
+                                      li
+                                        .color-shape(style='background: #21f4ff;')
+                                      li
+                                        .color-shape(style='background: #76fff4;')
+                                      li
+                                        .color-shape(style='background: #c9fffc;')
+                                      li
+                                        .color-shape(style='background: #effeff;')
+                                      li
+                                        .color-shape(style='background: #000173;')
+                                      li
+                                        .color-shape(style='background: #0016ae;')
+                                      li
+                                        .color-shape(style='background: #0100e6;')
+                                      li
+                                        .color-shape(style='background: #5555ff;')
+                                      li
+                                        .color-shape(style='background: #7681ff;')
+                                      li
+                                        .color-shape(style='background: #cdc9ff;')
+                                      li
+                                        .color-shape(style='background: #f1efff;')
+                                      li
+                                        .color-shape(style='background: #530073;')
+                                      li
+                                        .color-shape(style='background: #7500ae;')
+                                      li
+                                        .color-shape(style='background: #ba00e6;')
+                                      li
+                                        .color-shape(style='background: #e955ff;')
+                                      li
+                                        .color-shape(style='background: #de76ff;')
+                                      li
+                                        .color-shape(style='background: #f2c9ff;')
+                                      li
+                                        .color-shape(style='background: #fcefff;')
+                                .col-sm-6.mb-3.mb-sm-0
+                                  .color-picker
+                                    .color-picker-title
+                                      strong Text Color
+                                    ul.color-picker-list.d-flex.flex-wrap
+                                      li
+                                        .color-shape(style='background: #000000;')
+                                      li
+                                        .color-shape(style='background: #616161;')
+                                      li
+                                        .color-shape(style='background: #828282;')
+                                      li
+                                        .color-shape(style='background: #adadad;')
+                                      li
+                                        .color-shape(style='background: #d2d2d2;')
+                                      li
+                                        .color-shape(style='background: #e9e9e9;')
+                                      li
+                                        .color-shape.is-selected(style='background: #ffffff;border:1px solid #e5e5e5;')
+                                      li
+                                        .color-shape(style='background: #730000;')
+                                      li
+                                        .color-shape(style='background: #ae0000;')
+                                      li
+                                        .color-shape(style='background: #e60000;')
+                                      li
+                                        .color-shape(style='background: #ff2121;')
+                                      li
+                                        .color-shape(style='background: #ff7676;')
+                                      li
+                                        .color-shape(style='background: #ffc9c9;')
+                                      li
+                                        .color-shape(style='background: #ffefef;')
+                                      li
+                                        .color-shape(style='background: #734600;')
+                                      li
+                                        .color-shape(style='background: #ae6200;')
+                                      li
+                                        .color-shape(style='background: #e66300;')
+                                      li
+                                        .color-shape(style='background: #ff8c21;')
+                                      li
+                                        .color-shape(style='background: #ffc576;')
+                                      li
+                                        .color-shape(style='background: #ffe9c9;')
+                                      li
+                                        .color-shape(style='background: #ffe9c9;')
+                                      li
+                                        .color-shape(style='background: #737200;')
+                                      li
+                                        .color-shape(style='background: #a0ae00;')
+                                      li
+                                        .color-shape(style='background: #e6e300;')
+                                      li
+                                        .color-shape(style='background: #fff621;')
+                                      li
+                                        .color-shape(style='background: #fdff76;')
+                                      li
+                                        .color-shape(style='background: #fffdc9;')
+                                      li
+                                        .color-shape(style='background: #ffffef;')
+                                      li
+                                        .color-shape(style='background: #0f7300;')
+                                      li
+                                        .color-shape(style='background: #0eae00;')
+                                      li
+                                        .color-shape(style='background: #1ee600;')
+                                      li
+                                        .color-shape(style='background: #21ff38;')
+                                      li
+                                        .color-shape(style='background: #76ff76;')
+                                      li
+                                        .color-shape(style='background: #c9ffd0;')
+                                      li
+                                        .color-shape(style='background: #effff1;')
+                                      li
+                                        .color-shape(style='background: #006e73;')
+                                      li
+                                        .color-shape(style='background: #00aeac;')
+                                      li
+                                        .color-shape(style='background: #00dce6;')
+                                      li
+                                        .color-shape(style='background: #21f4ff;')
+                                      li
+                                        .color-shape(style='background: #76fff4;')
+                                      li
+                                        .color-shape(style='background: #c9fffc;')
+                                      li
+                                        .color-shape(style='background: #effeff;')
+                                      li
+                                        .color-shape(style='background: #000173;')
+                                      li
+                                        .color-shape(style='background: #0016ae;')
+                                      li
+                                        .color-shape(style='background: #0100e6;')
+                                      li
+                                        .color-shape(style='background: #5555ff;')
+                                      li
+                                        .color-shape(style='background: #7681ff;')
+                                      li
+                                        .color-shape(style='background: #cdc9ff;')
+                                      li
+                                        .color-shape(style='background: #f1efff;')
+                                      li
+                                        .color-shape(style='background: #530073;')
+                                      li
+                                        .color-shape(style='background: #7500ae;')
+                                      li
+                                        .color-shape(style='background: #ba00e6;')
+                                      li
+                                        .color-shape(style='background: #e955ff;')
+                                      li
+                                        .color-shape(style='background: #de76ff;')
+                                      li
+                                        .color-shape(style='background: #f2c9ff;')
+                                      li
+                                        .color-shape(style='background: #fcefff;')
+                      li.pr-0
+                        button.actions-btn.mail-align-right-btn.border-right-0.border-radius-r-0
+                          i.icon.icon-text-align-right
+                      li.px-0
+                        button.actions-btn.mail-align-center-btn.border-right-0.border-radius-0
+                          i.icon.icon-text-align-center
+                      li.pl-0
+                        button.actions-btn.mail-align-left-btn.border-radius-l-0
+                          i.icon.icon-text-align-left
+                      li.pr-0
+                        button.actions-btn.mail-unorder-list-btn.border-right-0.border-radius-r-0
+                          i.icon.icon-unorder-list
+                      li.px-0
+                        button.actions-btn.mail-order-list-btn.border-right-0.border-radius-0
+                          i.icon.icon-ordered-list
+                      li.px-0
+                        button.actions-btn.mail-indent-decrease-btn.border-right-0.border-radius-0
+                          i.icon.icon-indent-decrease
+                      li.px-0
+                        button.actions-btn.mail-indent-increase-btn.border-right-0.border-radius-0
+                          i.icon.icon-indent-increase
+                      li.pl-0
+                        button.actions-btn.mail-quote-right-btn.border-radius-l-0
+                          i.icon.icon-quote-right
+                      li
+                        button.actions-btn.mail-format-clear-btn
+                          i.icon.icon-format-clear
+        .mail-composer-actions-col.mail-composer-actions-col-sm
+          ul.mail-composer-actions.d-flex.align-items-center.justify-content-end
+            li.pr-0
+              button.actions-btn.mail-save-disk-btn.border-right-0.border-radius-r-0(placement='top', ngbtooltip='Save Disk')
+                i.icon.icon-save-disk
+            li.pl-0
+              button.actions-btn.mail-garbage-btn.border-radius-l-0(placement='top', ngbtooltip='Discard Mail')
+                i.icon.icon-garbage
+            li.send-mail-item
+              button.btn.btn-sm.btn-secondary.btn-mail-send.btn-xs-rounded(placement='top', ngbtooltip='Send Mail')
+                i.hidden-sm-up.icon.icon-paper-plane
+                span.hidden-xs-down Send
+// Create folders Modal 
+ng-template(#content='', let-c='close', let-d='dismiss', ng-modal-class='mailbox-modal')
+  .modal-header
+    h3.modal-title.w-100.text-dark#createFoldersModalLabel
+      strong Create new folder
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .form
+      form
+        .form-group
+          .row.align-items-center
+            .col-sm-3
+              label.modal-form-label.mb-2.mb-sm-0(for='folderName')
+                small Folder name:
+            .col-sm-9
+              input.form-control.form-control-sm#folderName(type='text')
+        .form-group.mb-0
+          .row
+            .col-sm-3
+              label.modal-form-label.mb-2.mb-sm-0.pt-sm-2(for='colorSelection')
+                small Select color:
+            .col-sm-9
+              .color-boxes-holder
+                ul.color-boxes-group
+                  li
+                    .color-shape.is-active(style='background: #1abc9c;')
+                  li
+                    .color-shape(style='background: #2ecc71;')
+                  li
+                    .color-shape(style='background: #3498db;')
+                  li
+                    .color-shape(style='background: #9b59b6;')
+                  li
+                    .color-shape(style='background: #f1c40f;')
+                  li
+                    .color-shape(style='background: #e67e22;')
+                  li
+                    .color-shape(style='background: #e74c3c;')
+                  li
+                    .color-shape(style='background: #16a085;')
+                  li
+                    .color-shape(style='background: #27ae60;')
+                  li
+                    .color-shape(style='background: #2980b9;')
+                  li
+                    .color-shape(style='background: #8e44ad;')
+                  li
+                    .color-shape(style='background: #f39c12;')
+                  li
+                    .color-shape(style='background: #d35400;')
+                  li
+                    .color-shape(style='background: #c0392b;')
+  .modal-footer.justify-content-center.justify-content-sm-end
+    a.btn.btn-secondary.btn-sm(href='') Create
+// /.Create folders Modal ends 

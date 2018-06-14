@@ -9,7 +9,7 @@ import { quotes } from "./loading-quotes";
 
 @Component({
   selector: "app-loading",
-  templateUrl: "./loading.component.html",
+  templateUrl: "./loading.component.pug",
   styleUrls: ["./loading.component.scss"]
 })
 export class LoadingComponent implements OnInit {

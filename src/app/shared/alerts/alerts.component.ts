@@ -19,7 +19,7 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-alerts",
-  templateUrl: "./alerts.component.html",
+  templateUrl: "./alerts.component.pug",
   styleUrls: ["./alerts.component.scss"],
   animations: [
     trigger("animation", [

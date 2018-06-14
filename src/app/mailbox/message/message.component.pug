@@ -1,0 +1,155 @@
+.mailbox-actionbar
+  .row
+    .col-12.col-sm-8.mailbox-actionbar-col
+      ul.mailbox-actionbar-menu
+        li.btn-dropdown.mailbox-dropdown.checkbox-dropdown
+          div(ngbdDropDown)
+            button.dropdown-toggle#actionsDropdownMenuButton(ngbdDropDownToggle)
+              span.fancy-field-group
+                input.d-none.fancy-field-control.checked-type-minus#mailboxBulkActions(name='[]', type='checkbox')
+                label.fancy-field-empty(for='mailboxBulkActions')
+            div(ngbdDropDownMenu, aria-labelledby='actionsDropdownMenuButton')
+              a.dropdown-item(href='') All
+              a.dropdown-item(href='') Read
+              a.dropdown-item(href='') Unread
+              a.dropdown-item(href='') Starred
+              a.dropdown-item(href='') Unstarred
+        li.px-0
+          a.disabled.border-right-0.border-radius-right-0(href='')
+            i.icon.icon-archive
+        li.pr-0.pl-0.hidden-xs-down
+          a.disabled.border-right-0.border-radius-0(href='')
+            i.icon.icon-warning
+        li.px-0
+          a.disabled.border-radius-left-0(href='')
+            i.icon.icon-garbage
+        li.btn-dropdown.more-xs-options.pl-0.hidden-sm-up
+          div(ngbdDropDown)
+            button.border-left-0.border-radius-left-0#dropdownMoreOptions(ngbdDropDownToggle)
+              i.icon.icon-more
+            .mobiledOptionsDropdown(ngbdDropDownMenu, aria-labelledby='dropdownMoreOptions')
+              ul.more-xs-options-list
+                li
+                  a.disabled(href='')
+                    i.icon.icon-warning
+                li.btn-dropdown.mailbox-dropdown.folders-dropdown
+                  div(ngbdDropDown)
+                    button.disabledx#extraOptionsDropdownMenuButton(ngbdDropDownToggle)
+                      i.icon.icon-folder
+                    div(ngbdDropDownMenu, aria-labelledby='extraOptionsDropdownMenuButton')
+                      a.dropdown-item(href='')
+                        span.folder-color-box.is-success
+                        | Folder 1
+                      a.dropdown-item(href='')
+                        span.folder-color-box.is-info
+                        | Another Folder 21
+                      a.dropdown-item(href='')
+                        span.folder-color-box.is-warning
+                        | Folder 33
+                      a.dropdown-item(href='')
+                        i.icon.icon-inbox
+                        | Inbox
+                      a.dropdown-item(href='')
+                        i.icon.icon-inbox
+                        | Draft
+                      a.dropdown-item(href='')
+                        i.icon.icon-archive
+                        | Archive
+                      span.divider-item.d-block
+                      a.dropdown-item(href='', data-toggle='modal', data-target='#createFoldersModal')
+                        i.icon.icon-folder
+                        | Create folder
+        li.btn-dropdown.mailbox-dropdown.folders-dropdown.hidden-xs-down
+          div(ngbdDropDown)
+            button.disabledx#folderDropdownMenuButton(ngbdDropDownToggle)
+              i.icon.icon-folder
+            div(ngbdDropDownMenu, aria-labelledby='folderDropdownMenuButton')
+              a.dropdown-item(href='')
+                span.folder-color-box.is-success
+                | Folder 1
+              a.dropdown-item(href='')
+                span.folder-color-box.is-info
+                | Another Folder 21
+              a.dropdown-item(href='')
+                span.folder-color-box.is-warning
+                | Folder 33
+              a.dropdown-item(href='')
+                i.icon.icon-inbox
+                | Inbox
+              a.dropdown-item(href='')
+                i.icon.icon-inbox
+                | Draft
+              a.dropdown-item(href='')
+                i.icon.icon-archive
+                | Archive
+              span.divider-item.d-block
+              a.dropdown-item(href='', data-toggle='modal', data-target='#createFoldersModal')
+                i.icon.icon-folder
+                | Create folder
+        li.btn-dropdown.mailbox-dropdown.mailbox-dropdown-lg.more-options-dropdown.pl-0
+          .dropdown(ngbdDropDown)
+            button.disabledx#moreOptionsDropdownMenuButton(ngbdDropDownToggle) More
+            div(ngbdDropDownMenu, aria-labelledby='moreOptionsDropdownMenuButton')
+              a.dropdown-item(href='') Add star
+              a.dropdown-item(href='') Mark as read
+              a.dropdown-item(href='') Mark as unread
+    .col-sm-4.mailbox-actionbar-col.hidden-xs-down
+      .mail-controls.d-flex.align-items-center.justify-content-end
+        .mail-result-text.text-muted
+          small 1-50 of 2346
+        .mail-nav-control
+          button.mail-nav-control-prev
+            i.icon.icon-chevron-left
+          button.mail-nav-control-next
+            i.icon.icon-chevron-right
+section.mailbox-section
+  .ui-header.ui-header-bordered.border-top-0.position-relative
+    h5.ui-header-subtitle.text-dark.mb-0
+      strong Welcome to Ctemplar!
+      i.icon.icon-secured.icon-md.text-muted.ml-2
+    .icon-holder.is-floated.right.y-center
+      i.icon.icon-star-filled.icon-md.text-info
+  .ui-body.is-xs.is-bordered-bottom.bg-faded
+    .row
+      .col-8
+        .mailbox-sender-content
+          ul.sender-content-list.list-styled
+            li
+              | From:
+              span.text-secondary ProtonMail
+              a.text-muted(href='') <contact@protonmail.ch>
+            li
+              | To:
+              span.text-secondary John Doe
+              a.text-muted(href='') <johndoe@gmail.com>
+            li
+              | Cc:
+              span.text-secondary Sam Smith
+              a.text-muted(href='') <samsmith@hotmail.com>
+      .col-4
+        .msg-reply-type-holder
+          .d-flex.align-items-center.justify-content-end
+            label.msg-received-time.mb-0 June 29(1 day ago)
+            .mailbox-dropdown.msg-reply-dropdown.dropdown-xs(ngbdDropDown, placement='bottom-right')
+              button.actions-btn.actions-btn-sm.msg-reply-btn#messageReplyDropdownMenuButton(ngbdDropDownToggle)
+              div(ngbdDropDownMenu, aria-labelledby='messageReplyDropdownMenuButton')
+                a.dropdown-item(href='') Forward
+                a.dropdown-item(href='') Reply
+                a.dropdown-item(href='') Reply All
+                a.dropdown-item(href='') Print
+                a.dropdown-item(href='') Add to Contact List
+                a.dropdown-item(href='') Delete this Message
+                a.dropdown-item(href='') Mark as Spam
+                a.dropdown-item(href='') Add «Show Header»
+section.mailbox-section
+  .ui-body.is-bordered-bottom
+    .msg-reply-content.text-dark
+      p
+        strong Welcome to the future of email!
+      p
+        small You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar, all your communications with them will be automatically end-to-end encrypted.
+      p
+        small
+          | CTemplar is an open-source community-driven project and basic accounts are always free. However, the costs to run CTemplar are quite high, and we depend on support from the community to keep the service running. If you would like to support the project, you can
+          a(href='') upgrade to a paid account
+          | . Your support is essential to ensuring that CTemplar is financially stable and can continue to offer the service to the public.

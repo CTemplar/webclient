@@ -1,13 +1,10 @@
 // Angular
 import { NgModule } from "@angular/core";
 
-// Modules
-import { PagesRoutingModule } from "./pages-routing.module";
-import { SharedModule } from "../shared/shared.module";
-
 // Components
 import { PagesComponent } from "./pages.component";
 import { AboutUsComponent } from "./about-us/about-us.component";
+import { BillingComponent } from "./billing/billing.component";
 import { DecryptComponent } from "./decrypt/decrypt.component";
 import { DonateComponent } from "./donate/donate.component";
 import { HomeComponent } from "./home/home.component";
@@ -24,7 +21,6 @@ import { SecurityComponent } from "./security/security.component";
 import { SignInComponent } from "./sign-in/sign-in.component";
 import { SignOutComponent } from "./sign-out/sign-out.component";
 import { SignUpComponent } from "./sign-up/sign-up.component";
-import { SignUpLastComponent } from "./sign-up/sign-up-last.component";
 import { SignUpNextComponent } from "./sign-up/sign-up-next.component";
 import { TermsComponent } from "./terms/terms.component";
 import { TorOnionComponent } from "./tor-onion/tor-onion.component";
@@ -37,6 +33,10 @@ import {
   RecoverModal,
   ResetModal
 } from "../shared/modals";
+
+// Modules
+import { PagesRoutingModule } from "./pages-routing.module";
+import { SharedModule } from "../shared/shared.module";
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ import {
     SignInComponent,
     SignOutComponent,
     SignUpComponent,
-    SignUpLastComponent,
+    BillingComponent,
     SignUpNextComponent,
     TermsComponent,
     TorOnionComponent

@@ -5,8 +5,8 @@ import { Component } from "@angular/core";
 ///////////////////////////////////////////////////////////////////////////////
 
 @Component({
-  selector: "app-mailbox-footer",
-  templateUrl: "./footer.component.pug",
-  styleUrls: ["./footer.component.scss"]
+  selector: "app-modals-progress",
+  templateUrl: "./progress.modal.pug",
+  styleUrls: ["./progress.modal.scss"]
 })
-export class FooterComponent {}
+export class ProgressModal {}

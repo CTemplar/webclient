@@ -9,7 +9,7 @@ import { NgbModal, NgbDropdownConfig } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-mailbox-sidebar",
-  templateUrl: "./sidebar.component.html",
+  templateUrl: "./sidebar.component.pug",
   styleUrls: ["./sidebar.component.scss"]
 })
 export class SidebarComponent {

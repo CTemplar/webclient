@@ -19,7 +19,7 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-mailbox-contacts",
-  templateUrl: "./contacts.component.html",
+  templateUrl: "./contacts.component.pug",
   styleUrls: ["./contacts.component.scss"]
 })
 export class ContactsComponent implements OnInit {

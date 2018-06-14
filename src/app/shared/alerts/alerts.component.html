@@ -1,3 +1,0 @@
-<div *ngIf="alerts$ | async as alerts" class="alerts">
-    <div *ngFor="let alert of alerts" class="alert alert-danger" [ngClass]="alert.type" [@animation]="'in'" >{{ alert.text }}</div>
-</div>

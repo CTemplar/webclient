@@ -1,5 +1,5 @@
-export * from "./modals-captcha/modals-captcha.component";
-export * from "./modals-dialog/modals-dialog.component";
-export * from "./modals-progress-bar/modals-progress-bar.component";
-export * from "./modals-recover/modals-recover.component";
-export * from "./modals-reset/modals-reset.component";
+export { CaptchaModal } from "./captcha/captcha.modal";
+export { DialogModal } from "./dialog/dialog.modal";
+export { ProgressModal } from "./progress/progress.modal";
+export { RecoverModal } from "./recover/recover.modal";
+export { ResetModal } from "./reset/reset.modal";

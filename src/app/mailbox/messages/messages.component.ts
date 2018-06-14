@@ -15,7 +15,7 @@ import { Store } from "@ngxs/store";
 
 @Component({
   selector: "app-mailbox-messages",
-  templateUrl: "./messages.component.html",
+  templateUrl: "./messages.component.pug",
   styleUrls: ["./messages.component.scss"]
 })
 export class MessagesComponent implements OnInit {

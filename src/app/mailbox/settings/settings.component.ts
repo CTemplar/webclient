@@ -30,7 +30,7 @@ import { Observable } from "rxjs";
 
 @Component({
   selector: "app-mailbox-settings",
-  templateUrl: "./settings.component.html",
+  templateUrl: "./settings.component.pug",
   styleUrls: ["./settings.component.scss"]
 })
 export class SettingsComponent implements OnInit {

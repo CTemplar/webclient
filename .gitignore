@@ -2,6 +2,7 @@
 /dist/
 /e2e/*.js
 /e2e/*.map
+/ng-add-pug-loader.js
 
 # Assets
 /src/assets/fonts/icomoon/libs/icomoon.zip

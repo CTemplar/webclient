@@ -5,6 +5,7 @@ import { RouterModule, Routes } from "@angular/router";
 // Components
 import { PagesComponent } from "./pages.component";
 import { AboutUsComponent } from "./about-us/about-us.component";
+import { BillingComponent } from "./billing/billing.component";
 import { DonateComponent } from "./donate/donate.component";
 import { HomeComponent } from "./home/home.component";
 import { MediaKitComponent } from "./media-kit/media-kit.component";
@@ -15,7 +16,6 @@ import { PrivacyComponent } from "./privacy/privacy.component";
 import { SecurityComponent } from "./security/security.component";
 import { SignInComponent } from "./sign-in/sign-in.component";
 import { SignOutComponent } from "./sign-out/sign-out.component";
-import { SignUpLastComponent } from "./sign-up/sign-up-last.component";
 import { SignUpComponent } from "./sign-up/sign-up.component";
 import { SignUpNextComponent } from "./sign-up/sign-up-next.component";
 import { TermsComponent } from "./terms/terms.component";
@@ -52,14 +52,14 @@ const routes: Routes = [
         component: SignOutComponent
       },
       {
-        path: "sign-up/last",
-        canActivate: [NotAuthGuard],
-        component: SignUpLastComponent
-      },
-      {
         path: "sign-up",
         canActivate: [NotAuthGuard],
         component: SignUpComponent
+      },
+      {
+        path: "sign-up/billing",
+        canActivate: [NotAuthGuard],
+        component: BillingComponent
       },
       {
         path: "sign-up/next",

@@ -1,0 +1,17 @@
+.modal-body.bg-faded
+  .text-holder.text-dark.text-medium
+    p Insert the code we've just emailed you and the new password you want. Remember that after inserting the correct code all your old encrypted data like contacts and emails, including attachments, will be unrecoverable.
+    .login-content-holder.mx-auto.mt-4.pt-sm-2
+      .form
+        form((ngSubmit)='onReset()', #reset='ngForm')
+          .form-group
+            label.d-block.text-muted.text-left.hidden-sm-up(for='code') Code
+            input.form-control.form-control-lg#code(placeholder='Code', name='code', required, [(ngModel)]='model.code')
+          .form-group
+            label.d-block.text-muted.text-left.hidden-sm-up(for='password') Choose password
+            input.form-control.form-control-lg#password(placeholder='Choose password', type='password', name='password', required, [(ngModel)]='model.password')
+          .form-group
+            label.d-block.text-muted.text-left.hidden-sm-up(for='password2') Choose password
+            input.form-control.form-control-lg#password2(placeholder='Confirm password', type='password', name='password2', required, [(ngModel)]='model.password2')
+          .form-group.form-user-actions.text-center.mb-0
+            button.btn.btn-gradient-primary.btn-sm.reset-btn(type='submit', [disabled]='!reset.form.valid') Reset Password

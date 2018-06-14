@@ -1,0 +1,230 @@
+aside#mailbox-sidebar.mailbox-sidebar.is-sidebar-expandedx(role='complementary')
+  .mailbox-sidebar-inner
+    .mailbox-brand
+      button.navbar-toggler.hidden-md-up(role='button')
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggle-text Menu
+      figure.navbar-brand-holder.hidden-sm-down
+        a.navbar-brand.ff-roboto.text-uppercase(routerlink='')
+          img.navbar-brand-logo(alt='Ctemplar Logo', src='/assets/images/logo.svg')
+          strong ctemplar
+      .prime-account-content
+        i.icon.icon-secure-shield
+        span.prime-account-text Prime
+    .mail-compose-section.hidden-xs-down
+      a.btn.btn-lg.btn-outline-white.mailbox-btn.mailbox-back-btn.btn-xs-squared.has-icon(href='')
+        i.icon.icon-arrow-left.icon-sm.mr-md-2
+        span.mailbox-btn-text.hidden-sm-down Back to mail
+    nav.mailbox-sidebar-navbar
+      ul.mailbox-sidebar-nav
+        li.mailbox-sidebar-nav-item.active
+          a.mailbox-sidebar-nav-link.no-icon(href='')
+            span.mailbox-sidebar-nav-label All Contacts
+            span.badge.badge-square 78
+    .mailbox-sidebar-footer.text-center
+      .mailbox-sidebar-footer-text.mb-0.mb-md-1.visible-in-sm
+        | Used
+        .text-white.mt-1 43 MB
+      .mailbox-sidebar-footer-text.mb-1.hidden-in-sm Used storage: 43 MB of 100 MB
+      a.btn-link.text-white.hidden-in-sm(href='')
+        small
+          u Upgrade account
+// Add user button to be used in small screens 
+.btn-xs-holder.is-sticky.hidden-sm-up
+  button.btn.btn-success.mailbox-btn.mailbox-add-user-btn.btn-xs-rounded.has-icon(role='button', placement='top', ngbtooltip='Add User', (click)='initSplitContactLayout();')
+    i.icon.icon-add-user.text-white
+.mailbox-actionbar.border-bottom-0
+  .row
+    .col-12.col-sm-8.mailbox-actionbar-col
+      ul.mailbox-actionbar-menu
+        li.btn-dropdown.mailbox-dropdown.checkbox-dropdown
+          div(ngbdDropDown)
+            button.dropdown-toggle#langDropdownMenuButton(ngbdDropDownToggle, role='button')
+              span.fancy-field-group
+                input.d-none.fancy-field-control.checked-type-minus#mailboxBulkActions(name='[]', type='checkbox')
+                label.fancy-field-empty(for='mailboxBulkActions')
+            div(ngbdDropDownMenu, aria-labelledby='langDropdownMenuButton')
+              a.dropdown-item(href='') All
+              a.dropdown-item(href='') Read
+              a.dropdown-item(href='') Unread
+              a.dropdown-item(href='') Starred
+              a.dropdown-item(href='') Unstarred
+        li.px-0
+          a.border-radius-r-0.border-right-0.no-icon(href='') Edit
+        li.pr-0.pl-0
+          a.border-radius-l-0(href='')
+            i.icon.icon-garbage
+        li.pr-0
+          a.no-icon(href='') Compose
+        li.hidden-sm-down
+          a.no-icon(role='button', (click)='initSplitContactLayout();') New Contact
+        li.hidden-md-up.hidden-xs-down
+          a.no-icon(role='button', (click)='addUserContactModalOpen(addUserContent)') New Contact
+    .col-sm-4.mailbox-actionbar-col.hidden-xs-down
+      .mail-controls.d-flex.align-items-center.justify-content-end
+        .mail-result-text.text-muted
+          small 1-50 of 2346
+        .mail-nav-control
+          button.mail-nav-control-prev(role='button')
+            i.icon.icon-chevron-left
+          button.mail-nav-control-next(role='button')
+            i.icon.icon-chevron-right
+.mailbox-section
+  .mailbox-section-body.py-0
+    .row.mail-contact-layout-row([class.is-splitted]='isLayoutSplitted')
+      .col-12.mail-contact-layout-col.mail-contact-listing-col
+        .mail-contact
+          .mail-contact-header.mail-list-row.border-bottom-0.hidden-xs-down
+            .mail-list-inner-row.align-items-center
+              .col-sm-4.col-lg-3.mail-contact-col-sm
+                .mail-contact-title.text-uppercase
+                  strong Name
+              .col-sm-8.col-lg-9.mail-contact-col-lg
+                .mail-contact-title.text-uppercase
+                  strong Email
+          .mail-contact-body.is-bordered
+            .mail-listing
+              .mail-list-row.is-unread
+                // <div class="mail-list-row is-unread" *ngFor="let contact of userState.contact"> 
+                .mail-list-inner-row.align-items-center
+                  .col-sm-4.col-lg-3.mail-contact-col-sm
+                    .mail-list-col-row
+                      .mail-list-col-item.mail-checkbox
+                        .fancy-field-group
+                          input.d-none.fancy-field-control#mailItemCheckbox1(name='[]', type='checkbox')
+                          label.fancy-field-empty(for='mailItemCheckbox1')
+                      .mail-list-col-item.mail-status
+                        .mail-status-type
+                          i.icon.icon-star
+                      .mail-list-col-item.mail-from-name
+                        span {{contact.name}}
+                  .col-sm-8.col-lg-9.mail-contact-col-lg
+                    .mail-desc
+                      p
+                        strong {{contact.email}}
+      .col-12.mail-contact-layout-col.mail-contact-entry-col
+        .mail-actions-form-holder
+          h5.mail-actions-form-title.text-dark
+            button.actions-btn.hidden-sm-up(role='button', (click)='destroySplitContactLayout();')
+              i.icon.icon-arrow-left
+            strong Contact Details
+          form.mail-actions-form
+            .form-group
+              .row.align-items-center
+                .col-sm-2
+                  label.form-label.mb-sm-0(for='contactName') Name
+                .col-sm-10
+                  input.form-control.form-control-sm#contactName(value='Curtis Scott', placeholder='Curtis Scott', type='text')
+            .form-group.has-error.is-repeatable
+              span.d-block.text-right.error-msg.is-sm Check is e-mail information right
+              .row.align-items-center
+                .col-sm-2
+                  label.form-label.mb-sm-0(for='contactEmail') Email
+                .col-sm-10
+                  input.form-control.form-control-sm.error#contactEmail(placeholder='Curtis_Scottgmail.com', type='text')
+              button.btn-clone(role='button')
+                i.icon.icon-plus
+            .mb-2.hidden-xs-down  
+            .form-group
+              .row.align-items-center
+                .col-sm-2
+                  label.form-label.mb-sm-0(for='contactPhone1') Phone
+                .col-sm-10
+                  input.form-control.form-control-sm#contactPhone1(placeholder='+73409853498', type='text')
+            .form-group.is-repeatable
+              .row.align-items-center
+                .col-sm-2
+                  label.form-label.mb-sm-0(for='contactPhone2') Phone2
+                .col-sm-10
+                  input.form-control.form-control-sm#contactPhone2(placeholder='+734920', type='text')
+              button.btn-clone(role='button')
+                i.icon.icon-plus
+            .form-group.is-repeatable
+              .row
+                .col-sm-2
+                  label.form-label.pt-sm-2.mb-sm-0(for='contactAddress') Address
+                .col-sm-10
+                  textarea.form-control.resize-off#contactAddress(placeholder='Address', rows='7')
+              button.btn-clone(role='button')
+                i.icon.icon-plus
+            .mb-2.hidden-xs-down  
+            .form-group
+              .row
+                .col-sm-2
+                  label.form-label.pt-sm-2.mb-sm-0(for='contactNote') Note
+                .col-sm-10
+                  textarea.form-control.resize-off#contactNote(placeholder='Note', rows='4')
+            .hidden-sm-up  
+            .form-group.text-center.mb-0
+              a.btn.btn-secondary.btn-sm(href='javascript:void(0);', role='button', (click)='destroySplitContactLayout();') Save
+.mailbox-footer-actionbar.hidden-sm-up
+  .row.justify-content-end
+    .col-12.mailbox-actionbar-col
+      .mail-controls.d-flex.align-items-center.justify-content-end
+        .mail-result-text.text-muted
+          small 1-50 of 2346
+        .mail-nav-control
+          button.mail-nav-control-prev(role='button')
+            i.icon.icon-chevron-left
+          button.mail-nav-control-next(role='button')
+            i.icon.icon-chevron-right
+// Add users contact modal 
+ng-template(#addusercontent='', let-c='close', let-d='dismiss')
+  .modal-header
+    h3.modal-title.w-100.text-dark#makeDonationModalLabel
+      strong Contact Details
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .mail-actions-form-holder.modal-mail-actions-form-holder
+      form.mail-actions-form
+        .form-group
+          .row.align-items-center
+            .col-sm-2
+              label.form-label.mb-sm-0(for='contactName') Name
+            .col-sm-10
+              input.form-control.form-control-sm#contactName(value='Curtis Scott', placeholder='Curtis Scott', type='text')
+        .form-group.has-error.is-repeatable
+          span.d-block.text-right.error-msg.is-sm Check is e-mail information right
+          .row.align-items-center
+            .col-sm-2
+              label.form-label.mb-sm-0(for='contactEmail') Email
+            .col-sm-10
+              input.form-control.form-control-sm.error#contactEmail(placeholder='Curtis_Scottgmail.com', type='text')
+          button.btn-clone(role='button')
+            i.icon.icon-plus
+        .form-group
+          .row.align-items-center
+            .col-sm-2
+              label.form-label.mb-sm-0(for='contactPhone1') Phone
+            .col-sm-10
+              input.form-control.form-control-sm#contactPhone1(placeholder='+73409853498', type='text')
+        .form-group.is-repeatable
+          .row.align-items-center
+            .col-sm-2
+              label.form-label.mb-sm-0(for='contactPhone2') Phone2
+            .col-sm-10
+              input.form-control.form-control-sm#contactPhone2(placeholder='+734920', type='text')
+          button.btn-clone(role='button')
+            i.icon.icon-plus
+        .form-group.is-repeatable
+          .row
+            .col-sm-2
+              label.form-label.pt-sm-2.mb-sm-0(for='contactAddress') Address
+            .col-sm-10
+              textarea.form-control.resize-off#contactAddress(placeholder='Address', rows='7')
+          button.btn-clone(role='button')
+            i.icon.icon-plus
+        .mb-1.pb-1  
+        .form-group
+          .row
+            .col-sm-2
+              label.form-label.pt-sm-2.mb-sm-0(for='contactNote') Note
+            .col-sm-10
+              textarea.form-control.resize-off#contactNote(placeholder='Note', rows='4')
+        .form-group.text-center.mb-2.pb-2
+          a.btn.btn-secondary.btn-sm(href='javascript:void(0);', role='button', (click)='destroySplitContactLayout();') Save
+// /.Add users contact modal ends 

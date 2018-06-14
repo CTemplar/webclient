@@ -11,11 +11,11 @@ section.l-block.l-block-text.bg-white.text-center.text-white.gap-p-eq.has-cover
           form.position-relative((ngSubmit)='onSignIn()', #form='ngForm')
             .form-group
               label.d-block.text-faded.text-left.hidden-sm-up(for='username') Username
-              input#username.form-control.form-control-lg.border-right-0(placeholder='Username', name='username', required='', [(ngModel)]='model.username')
+              input#username.form-control.form-control-lg.border-right-0(placeholder='Username', name='username', required, [(ngModel)]='model.username')
             .form-group
               label.d-block.text-faded.text-left.hidden-sm-up(for='loginPassword') Password
               #loginPassword.input-group
-                input.form-control.form-control-lg.border-right-0([type]='inputType', placeholder='Password', name='password', required='', [(ngModel)]='model.password')
+                input.form-control.form-control-lg.border-right-0([type]='inputType', placeholder='Password', name='password', required, [(ngModel)]='model.password')
                 span.input-group-addon.password-toggle.bg-white.text-muted((click)='togglePassword()')
                   i.fa.fa-eye
             .form-group.form-user-actions.mt-4.pt-sm-2
