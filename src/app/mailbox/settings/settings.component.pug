@@ -3,6 +3,7 @@
     header.ui-header.ui-header-bordered.border-top-0
       h3.ui-header-title.text-dark.mb-0
         strong Dashboard
+  //- OVERVIEW
   section.mailbox-section
     .mailbox-section-body.pt-0
       .desc-card-holder.mt-sm-3.mt-md-0
@@ -16,7 +17,7 @@
                 ul.info-list.list-styled.text-dark
                   li.info-list-item
                     .info-list-text.info-list-label Username
-                    .info-list-text.info-list-val {{userState.username}}
+                    .info-list-text.info-list-val Nobody
                   li.info-list-item
                     .info-list-text.info-list-label Domains
                     .info-list-text.info-list-val Feature coming soon!
@@ -61,6 +62,7 @@
                   li.info-list-item
                     .info-list-text.info-list-label Payment
                     .info-list-text.info-list-val Credit Card
+  //- PRICING TABLES
   section.mailbox-section
     .ui-header.ui-header-bordered.position-relative
       h5.ui-header-subtitle.text-dark.mb-0
@@ -73,136 +75,8 @@
               u Clear Storage
     .mailbox-section-body
       .container.container-sm
-        .package-card-holder.settings-package-card-holder
-          ul.package-xs-tab.list-style-none.mt-0.hidden-sm-up
-            li.active([class.is-active]='1 === selectedIndex')
-              a((click)='toggleSlides(1);') Prime
-            li([class.is-active]='2 === selectedIndex')
-              a((click)='toggleSlides(2);') Free
-          .row.flex-nowrap.row-lg
-            .col-sm-6.flex-sm-last.package-prime-col.active-slide([class.is-active-slide]='1 === selectedIndex')
-              .package-card.package-card-prime.is-shadowed.bg-white.text-dark
-                header.package-card-header.text-center
-                  h2.text-white.m-0
-                    strong Prime
-                .package-card-body
-                  ul.package-list.mb-0.list-style-none.pl-0
-                    li.package-list-item.has-border
-                      i.fa.fa-check.text-green
-                      | 1 User
-                    li.package-list-item.has-border.has-icon-center
-                      i.fa.fa-check.text-green
-                      .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
-                        .storage-select-dropdown(ngbdDropDown)
-                          button#storageDropdownMenuButton(ngbdDropDownToggle) 5 Gb Storage
-                          div(ngbdDropDownMenu, aria-labelledby='storageDropdownMenuButton')
-                            a.dropdown-item(href='') 10 Gb Storage + $4/MO
-                            a.dropdown-item(href='') 15 Gb Storage + $8/MO
-                            a.dropdown-item(href='') 20 Gb Storage + $12/MO
-                            a.dropdown-item(href='') 25 Gb Storage + $16/MO
-                    li.package-list-item.has-border
-                      i.fa.fa-check.text-green
-                      | 1 E-mail Address
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | 100 Messages per Day
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | 200 Folders
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | Normal Support
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | Dead Mans Timer
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | Delayed Delivery Timer
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | Self Destruct Timer
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | Encryption for non-CTemplar Users
-                  .package-coming-soon.mt-3
-                    h6.text-muted.mb-3.mb-sm-4
-                      a(href='')
-                        u Features to be added to this package soon
-                footer.package-card-footer
-                  .package-divider.package-divider-sm
-                    ul.pay-type-list.list-style-none.mb-0.pl-0
-                      li
-                        .row.row-xs
-                          .col-8
-                            .fancy-field-group
-                              input.d-none.fancy-field-control#pay-monthly(name='[]', type='radio', checked='')
-                              label(for='pay-monthly') Pay Monthly
-                          .col-4.text-right
-                            .pay-price
-                              strong $8
-                              span.text-muted /mo
-                      li
-                        .row.row-xs
-                          .col-8
-                            .fancy-field-group
-                              input.d-none.fancy-field-control#pay-annullay(name='[]', type='radio')
-                              label(for='pay-annullay') Pay Annually
-                              span.badge -20%
-                          .col-4.text-right
-                            .pay-price
-                              strong $6.4
-                              span.text-muted /mo
-                            .small.text-muted Billed as $65/yr
-                  .package-actions.text-center
-                    .pb-2.mb-3
-                      a.btn-link.text-uppercase.text-primary(href='')
-                        strong Current Plan
-                    a.btn.btn-lg.btn-gradient-primary(href='')
-                      | Select Prime $8/
-                      span.text-normal mo
-            .col-sm-6.package-basic-col([class.is-active-slide]='2 === selectedIndex')
-              .package-card.package-card-basic.bg-faded.text-dark
-                header.package-card-header.text-center
-                  h2.text-white.m-0
-                    strong Free
-                .package-card-body
-                  ul.package-list.mb-0.list-style-none.pl-0
-                    li.package-list-item.has-border
-                      i.fa.fa-check.text-green
-                      | 1 User
-                    li.package-list-item.has-border
-                      i.fa.fa-check.text-green
-                      | 250 Mb Storage
-                    li.package-list-item.has-border
-                      i.fa.fa-check.text-green
-                      | 1 E-mail Address
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | 100 Messages per Day
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | 3 Folders
-                    li.package-list-item
-                      i.fa.fa-check.text-green
-                      | Limited Support
-                    li.package-list-item
-                      i.fa.fa-times.text-danger
-                      del Dead Mans Timer
-                    li.package-list-item
-                      i.fa.fa-times.text-danger
-                      del Delayed Delivery Timer
-                    li.package-list-item
-                      i.fa.fa-times.text-danger
-                      del Self Destruct Timer
-                    li.package-list-item
-                      i.fa.fa-times.text-danger
-                      del Encryption for non-CTemplar Users
-                footer.package-card-footer.text-center
-                  .package-divider.border-bottom-0.pb-0.mb-0
-                  .package-actions
-                    a.btn-link.text-uppercase.text-info(href='')
-                      strong Current Plan
-                    a.btn.btn-lg.btn-gradient-info.d-none(href='') Select Free
+        app-pricing-table
+  //- GENERAL SETTINGS
   section.mailbox-section
     header.ui-header.ui-header-bordered
       h5.ui-header-subtitle.text-dark.mb-0
@@ -215,9 +89,9 @@
               label.form-label.mb-0 Language
             .col-sm-7
               .btn-dropdown.btn-dropdown-select
-                .dropdown-sm(ngbdDropDown)
-                  button#langDropdownMenuButton(ngbdDropDownToggle) English(USA)
-                  div(ngbdDropDownMenu, aria-labelledby='langDropdownMenuButton')
+                .dropdown-sm(ngbDropdown)
+                  button#langDropdownMenuButton(ngbDropdownToggle) English(USA)
+                  div(ngbDropdownMenu, aria-labelledby='langDropdownMenuButton')
                     a.dropdown-item(href='') English(USA)
                     a.dropdown-item(href='') Russian
                     a.dropdown-item(href='') English(UK)
@@ -228,9 +102,9 @@
               label.form-label.mb-0 Current time zone
             .col-sm-7
               .btn-dropdown.btn-dropdown-select
-                .dropdown-sm(ngbdDropDown)
-                  button.dropdown-toggle#timeZoneDropdownMenuButton(ngbdDropDownToggle, data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') UTC+1 (Italy, Germany)
-                  div(ngbdDropDownMenu, aria-labelledby='timeZoneDropdownMenuButton')
+                .dropdown-sm(ngbDropdown)
+                  button.dropdown-toggle#timeZoneDropdownMenuButton(ngbDropdownToggle, data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') UTC+1 (Italy, Germany)
+                  div(ngbDropdownMenu, aria-labelledby='timeZoneDropdownMenuButton')
                     a.dropdown-item(href='') UTC+1 (Italy, Germany)
                     a.dropdown-item(href='') UTC+1 (Italy, Germany)
                     a.dropdown-item(href='') UTC+1 (Italy, Germany)
@@ -453,10 +327,12 @@
     .mailbox-section-body.mailbox-section-body-sm
       .form-content-holder
         ul.ui-list.ui-list-styled.list-styled
-          li.ui-list-item.ui-list-item-xs-full(*ngfor='let item of userState.whiteList')
+          li.ui-list-item.ui-list-item-xs-full
+          // li.ui-list-item.ui-list-item-xs-full(*ngFor='let item of userState.whiteList')
+          li.ui-list-item.ui-list-item-xs-full
             .row.row-xs.align-items-center
               .col-10.col-sm-8
-                .form-label.text-dark.mb-0 {{item.email}}
+                .form-label.text-dark.mb-0 nobody@gmail.com
               .col-2.col-sm-4
                 ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
                   li
@@ -477,10 +353,11 @@
     .mailbox-section-body.mailbox-section-body-sm
       .form-content-holder
         ul.ui-list.ui-list-styled.list-styled
-          li.ui-list-item.ui-list-item-xs-full(*ngfor='let item of userState.blackList')
+          //- li.ui-list-item.ui-list-item-xs-full(*ngFor='let item of userState.blackList')
+          li.ui-list-item.ui-list-item-xs-full
             .row.row-xs.align-items-center
               .col-10.col-sm-8
-                .form-label.text-dark.mb-0 {{item.email}}
+                .form-label.text-dark.mb-0 nobody@email.com
               .col-2.col-sm-4
                 ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
                   li
@@ -576,9 +453,9 @@
               label.form-label.mb-sm-0 Email address
             .col-sm-7
               .btn-dropdown.btn-dropdown-select
-                .dropdown-sm(ngbdDropDown)
-                  button.dropdown-toggle#emailAddressDropdownMenuButton(ngbdDropDownToggle) johnsimpson@ctemplar.com
-                  div(ngbdDropDownMenu, aria-labelledby='emailAddressDropdownMenuButton')
+                .dropdown-sm(ngbDropdown)
+                  button.dropdown-toggle#emailAddressDropdownMenuButton(ngbDropdownToggle) johnsimpson@ctemplar.com
+                  div(ngbDropdownMenu, aria-labelledby='emailAddressDropdownMenuButton')
                     a.dropdown-item(href='') johnsimpson@ctemplar.com
                     a.dropdown-item(href='') johnsimpson@ctemplar.com
                     a.dropdown-item(href='') johnsimpson@ctemplar.com
@@ -658,18 +535,18 @@ ng-template(#customfiltercontent='', let-c='close', let-d='dismiss')
           .col-sm-9
             .form-content-row.form-content-row-sm
               .btn-dropdown.btn-dropdown-select
-                .dropdown-sm(ngbdDropDown)
-                  button#subjectDropdownMenuButton(ngbdDropDownToggle) If the subject
-                  div(ngbdDropDownMenu, aria-labelledby='subjectDropdownMenuButton')
+                .dropdown-sm(ngbDropdown)
+                  button#subjectDropdownMenuButton(ngbDropdownToggle) If the subject
+                  div(ngbDropdownMenu, aria-labelledby='subjectDropdownMenuButton')
                     a.dropdown-item(href='') If the subject
                     a.dropdown-item(href='') If the subject
                     a.dropdown-item(href='') If the subject
                     a.dropdown-item(href='') If the subject
             .form-content-row.form-content-row-sm
               .btn-dropdown.btn-dropdown-select
-                .dropdown-sm(ngbdDropDown)
-                  button#containsDropdownMenuButton(ngbdDropDownToggle) contains
-                  .dropdown-menu.dropdown-menu-right(ngbdDropDownMenu, aria-labelledby='containsDropdownMenuButton')
+                .dropdown-sm(ngbDropdown)
+                  button#containsDropdownMenuButton(ngbDropdownToggle) contains
+                  .dropdown-menu.dropdown-menu-right(ngbDropdownMenu, aria-labelledby='containsDropdownMenuButton')
                     a.dropdown-item(href='') contains
                     a.dropdown-item(href='') contains
                     a.dropdown-item(href='') contains
@@ -690,11 +567,11 @@ ng-template(#customfiltercontent='', let-c='close', let-d='dismiss')
                     label(for='moveToField1') move to
                 .col-8.add-filter-moveto-col
                   .btn-dropdown.btn-dropdown-select
-                    .dropdown-sm(ngbdDropDown)
-                      button.has-icon#moveToDropdownMenuButton(ngbdDropDownToggle)
+                    .dropdown-sm(ngbDropdown)
+                      button.has-icon#moveToDropdownMenuButton(ngbDropdownToggle)
                         i.icon.icon-inbox
                         | Inbox
-                      div(ngbdDropDownMenu, aria-labelledby='moveToDropdownMenuButton')
+                      div(ngbDropdownMenu, aria-labelledby='moveToDropdownMenuButton')
                         a.dropdown-item.has-icon(href='')
                           i.icon.icon-inbox
                           | Inbox
@@ -718,9 +595,9 @@ ng-template(#customfiltercontent='', let-c='close', let-d='dismiss')
                     label(for='applyLabelField1') apply label
                 .col-8.add-filter-applylabel-col
                   .btn-dropdown.btn-dropdown-select
-                    .dropdown-sm(ngbdDropDown)
-                      button.has-icon#applyDropdownMenuButton(ngbdDropDownToggle, disabled)
-                      div(ngbdDropDownMenu, aria-labelledby='applyDropdownMenuButton')
+                    .dropdown-sm(ngbDropdown)
+                      button.has-icon#applyDropdownMenuButton(ngbDropdownToggle, disabled)
+                      div(ngbDropdownMenu, aria-labelledby='applyDropdownMenuButton')
                         a.dropdown-item.has-icon(href='')
                           i.icon.icon-inbox
                           | Inbox
@@ -751,7 +628,7 @@ ng-template(#customfiltercontent='', let-c='close', let-d='dismiss')
 // /.Add custom filter ends 
 // Add whitelist Modal 
 ng-template(#whitelistcontent='', let-c='close', let-d='dismiss')
-  form.whitelist-form([formgroup]='whiteListForm', #form='ngForm', (ngsubmit)='addWhitelist(whiteListForm.value)')
+  form.whitelist-form([formGroup]='whiteListForm', #form='ngForm', (ngSubmit)='addWhitelist(whiteListForm.value)')
     .modal-header
       h3.modal-title.w-100.text-dark#whitelistModalLabel
         strong Add to whitelist
@@ -782,7 +659,7 @@ ng-template(#whitelistcontent='', let-c='close', let-d='dismiss')
 // /.Add whitelist Modal ends 
 // Add blacklist Modal 
 ng-template(#blacklistcontent='', let-c='close', let-d='dismiss')
-  form.blacklist-form([formgroup]='blackListForm', #form='ngForm', (ngsubmit)='addBlacklist(blackListForm.value)')
+  form.blacklist-form([formGroup]='blackListForm', #form='ngForm', (ngSubmit)='addBlacklist(blackListForm.value)')
     .modal-header
       h3.modal-title.w-100.text-dark#blacklistModalLabel
         strong Add to blacklist
@@ -844,9 +721,9 @@ ng-template(#billinginfocontent='', let-c='close', let-d='dismiss')
                   label.billing-overview-label Payment Method:
                   .billing-overview-val.text-secondary
                     .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
-                      .payment-select-dropdown(ngbdDropDown)
-                        button#paymentDropdownMenuButton(ngbdDropDownToggle) Stripe
-                        div(ngbdDropDownMenu, aria-labelledby='paymentDropdownMenuButton')
+                      .payment-select-dropdown(ngbDropdown)
+                        button#paymentDropdownMenuButton(ngbDropdownToggle) Stripe
+                        div(ngbDropdownMenu, aria-labelledby='paymentDropdownMenuButton')
                           a.dropdown-item.text-muted(href='')
                             em Stripe
                           a.dropdown-item.text-muted(href='')
@@ -872,9 +749,9 @@ ng-template(#billinginfocontent='', let-c='close', let-d='dismiss')
                   .form-group-col
                     label.d-block.text-muted.text-left.hidden-sm-up Date
                     .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
-                      .date-select-dropdown(ngbdDropDown)
-                        button#dateDropdownMenuButton(ngbdDropDownToggle) Date
-                        div(ngbdDropDownMenu, aria-labelledby='dateDropdownMenuButton')
+                      .date-select-dropdown(ngbDropdown)
+                        button#dateDropdownMenuButton(ngbDropdownToggle) Date
+                        div(ngbDropdownMenu, aria-labelledby='dateDropdownMenuButton')
                           a.dropdown-item.text-muted(href='')
                             em Date
                           a.dropdown-item.text-muted(href='')
@@ -896,9 +773,9 @@ ng-template(#billinginfocontent='', let-c='close', let-d='dismiss')
                   .form-group-col
                     label.d-block.text-muted.text-left.hidden-sm-up Year
                     .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
-                      .year-select-dropdown(ngbdDropDown)
-                        button#yearDropdownMenuButton(ngbdDropDownToggle) Year
-                        div(ngbdDropDownMenu, aria-labelledby='yearDropdownMenuButton')
+                      .year-select-dropdown(ngbDropdown)
+                        button#yearDropdownMenuButton(ngbDropdownToggle) Year
+                        div(ngbDropdownMenu, aria-labelledby='yearDropdownMenuButton')
                           a.dropdown-item.text-muted(href='')
                             em Year
                           a.dropdown-item.text-muted(href='')
@@ -928,9 +805,9 @@ ng-template(#billinginfocontent='', let-c='close', let-d='dismiss')
                   .form-group-col
                     label.d-block.text-muted.text-left.hidden-sm-up Country
                     .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
-                      .country-select-dropdown(ngbdDropDown)
-                        button#countryDropdownMenuButton(ngbdDropDownToggle) Country
-                        div(ngbdDropDownMenu, aria-labelledby='countryDropdownMenuButton')
+                      .country-select-dropdown(ngbDropdown)
+                        button#countryDropdownMenuButton(ngbDropdownToggle) Country
+                        div(ngbDropdownMenu, aria-labelledby='countryDropdownMenuButton')
                           a.dropdown-item.text-muted(href='')
                             em Country
                           a.dropdown-item.text-muted(href='')
@@ -978,9 +855,9 @@ ng-template(#newpaymentmethodcontent='', let-c='close', let-d='dismiss')
             label.form-label.mb-sm-0 Type:
           .col-sm-9
             .btn-dropdown.btn-dropdown-select
-              .dropdown-sm(ngbdDropDown)
-                button#paymentTypeDropdownMenuButton(ngbdDropDownToggle) credit card
-                div(ngbdDropDownMenu, aria-labelledby='paymentTypeDropdownMenuButton')
+              .dropdown-sm(ngbDropdown)
+                button#paymentTypeDropdownMenuButton(ngbDropdownToggle) credit card
+                div(ngbDropdownMenu, aria-labelledby='paymentTypeDropdownMenuButton')
                   a.dropdown-item(href='') credit card
                   a.dropdown-item(href='') debit card
                   a.dropdown-item(href='') credit card
@@ -1009,9 +886,9 @@ ng-template(#newpaymentmethodcontent='', let-c='close', let-d='dismiss')
             .row.row-xs-sm.align-items-center
               .col-sm-6.mb-3.mb-sm-0
                 .btn-dropdown.btn-dropdown-select
-                  .dropdown-sm(ngbdDropDown)
-                    button#expiryMonthDropdownMenuButton(ngbdDropDownToggle) 01
-                    .dropdown-menu.dropdown-menu-right(ngbdDropDownMenu, aria-labelledby='expiryMonthDropdownMenuButton')
+                  .dropdown-sm(ngbDropdown)
+                    button#expiryMonthDropdownMenuButton(ngbDropdownToggle) 01
+                    .dropdown-menu.dropdown-menu-right(ngbDropdownMenu, aria-labelledby='expiryMonthDropdownMenuButton')
                       a.dropdown-item(href='') 01
                       a.dropdown-item(href='') 02
                       a.dropdown-item(href='') 03
@@ -1019,9 +896,9 @@ ng-template(#newpaymentmethodcontent='', let-c='close', let-d='dismiss')
                       a.dropdown-item(href='') 05
               .col-sm-6
                 .btn-dropdown.btn-dropdown-select
-                  .dropdown-sm(ngbdDropDown)
-                    button#expiryYearDropdownMenuButton(ngbdDropDownToggle) 2018
-                    div(ngbdDropDownMenu, aria-labelledby='expiryYearDropdownMenuButton')
+                  .dropdown-sm(ngbDropdown)
+                    button#expiryYearDropdownMenuButton(ngbDropdownToggle) 2018
+                    div(ngbDropdownMenu, aria-labelledby='expiryYearDropdownMenuButton')
                       a.dropdown-item(href='') 2018
                       a.dropdown-item(href='') 2017
                       a.dropdown-item(href='') 2016
@@ -1056,9 +933,9 @@ ng-template(#makedonationcontent='', let-c='close', let-d='dismiss')
             label.form-label.mb-sm-0 Select amount:
           .col-sm-9
             .btn-dropdown.btn-dropdown-select
-              .dropdown-sm(ngbdDropDown)
-                button#paymentTypeDropdownMenuButton(ngbdDropDownToggle) 10$
-                div(ngbdDropDownMenu, aria-labelledby='paymentTypeDropdownMenuButton')
+              .dropdown-sm(ngbDropdown)
+                button#paymentTypeDropdownMenuButton(ngbDropdownToggle) 10$
+                div(ngbDropdownMenu, aria-labelledby='paymentTypeDropdownMenuButton')
                   a.dropdown-item(href='') 10$
                   a.dropdown-item(href='') 10$
                   a.dropdown-item(href='') 10$
@@ -1087,9 +964,9 @@ ng-template(#makedonationcontent='', let-c='close', let-d='dismiss')
             .row.row-xs-sm.align-items-center
               .col-sm-6.mb-3.mb-sm-0
                 .btn-dropdown.btn-dropdown-select
-                  .dropdown-sm(ngbdDropDown)
-                    button#expiryMonthDropdownMenuButton(ngbdDropDownToggle) 01
-                    .dropdown-menu.dropdown-menu-right(ngbdDropDownMenu, aria-labelledby='expiryMonthDropdownMenuButton')
+                  .dropdown-sm(ngbDropdown)
+                    button#expiryMonthDropdownMenuButton(ngbDropdownToggle) 01
+                    .dropdown-menu.dropdown-menu-right(ngbDropdownMenu, aria-labelledby='expiryMonthDropdownMenuButton')
                       a.dropdown-item(href='') 01
                       a.dropdown-item(href='') 02
                       a.dropdown-item(href='') 03
@@ -1097,9 +974,9 @@ ng-template(#makedonationcontent='', let-c='close', let-d='dismiss')
                       a.dropdown-item(href='') 05
               .col-sm-6
                 .btn-dropdown.btn-dropdown-select
-                  .dropdown-sm(ngbdDropDown)
-                    button#expiryYearDropdownMenuButton(ngbdDropDownToggle) 2018
-                    div(ngbdDropDownMenu, aria-labelledby='expiryYearDropdownMenuButton')
+                  .dropdown-sm(ngbDropdown)
+                    button#expiryYearDropdownMenuButton(ngbDropdownToggle) 2018
+                    div(ngbDropdownMenu, aria-labelledby='expiryYearDropdownMenuButton')
                       a.dropdown-item(href='') 2018
                       a.dropdown-item(href='') 2017
                       a.dropdown-item(href='') 2016

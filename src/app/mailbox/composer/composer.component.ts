@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-mailbox-composer",
+  templateUrl: "./composer.component.pug",
+  styleUrls: ["./composer.component.scss"]
+})
+export class ComposerComponent {}

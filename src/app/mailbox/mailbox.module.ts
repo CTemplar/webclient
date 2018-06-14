@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 
 // Component
 import { MailboxComponent } from "./mailbox.component";
+import { ComposerComponent } from "./composer/composer.component";
 import { ContactsComponent } from "./contacts/contacts.component";
 import { FooterComponent } from "./footer/footer.component";
 import { HeaderComponent } from "./header/header.component";
@@ -22,6 +23,7 @@ import { SharedModule } from "../shared/shared.module";
   imports: [MailboxRoutingModule, SharedModule],
   declarations: [
     MailboxComponent,
+    ComposerComponent,
     ContactsComponent,
     FooterComponent,
     HeaderComponent,

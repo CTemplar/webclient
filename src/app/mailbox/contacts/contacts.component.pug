@@ -8,7 +8,7 @@ aside#mailbox-sidebar.mailbox-sidebar.is-sidebar-expandedx(role='complementary')
         span.navbar-toggler-icon
         span.navbar-toggle-text Menu
       figure.navbar-brand-holder.hidden-sm-down
-        a.navbar-brand.ff-roboto.text-uppercase(routerlink='')
+        a.navbar-brand.ff-roboto.text-uppercase(routerLink='')
           img.navbar-brand-logo(alt='Ctemplar Logo', src='/assets/images/logo.svg')
           strong ctemplar
       .prime-account-content
@@ -41,12 +41,12 @@ aside#mailbox-sidebar.mailbox-sidebar.is-sidebar-expandedx(role='complementary')
     .col-12.col-sm-8.mailbox-actionbar-col
       ul.mailbox-actionbar-menu
         li.btn-dropdown.mailbox-dropdown.checkbox-dropdown
-          div(ngbdDropDown)
-            button.dropdown-toggle#langDropdownMenuButton(ngbdDropDownToggle, role='button')
+          div(ngbDropdown)
+            button.dropdown-toggle#langDropdownMenuButton(ngbDropdownToggle, role='button')
               span.fancy-field-group
                 input.d-none.fancy-field-control.checked-type-minus#mailboxBulkActions(name='[]', type='checkbox')
                 label.fancy-field-empty(for='mailboxBulkActions')
-            div(ngbdDropDownMenu, aria-labelledby='langDropdownMenuButton')
+            div(ngbDropdownMenu, aria-labelledby='langDropdownMenuButton')
               a.dropdown-item(href='') All
               a.dropdown-item(href='') Read
               a.dropdown-item(href='') Unread
@@ -100,11 +100,11 @@ aside#mailbox-sidebar.mailbox-sidebar.is-sidebar-expandedx(role='complementary')
                         .mail-status-type
                           i.icon.icon-star
                       .mail-list-col-item.mail-from-name
-                        span {{contact.name}}
+                        span Alfon
                   .col-sm-8.col-lg-9.mail-contact-col-lg
                     .mail-desc
                       p
-                        strong {{contact.email}}
+                        strong nobody@gmail.com
       .col-12.mail-contact-layout-col.mail-contact-entry-col
         .mail-actions-form-holder
           h5.mail-actions-form-title.text-dark

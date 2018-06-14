@@ -61,10 +61,10 @@ section.mailbox-section
                   button.actions-btn.mail-sign-btn.border-right-0.border-radius-0(placement='top', ngbtooltip='Signature')
                     i.icon.icon-sign
                 li.pl-0
-                  .dropdown(ngbdDropDown, placement='top')
-                    button.hide-arrow.actions-btn.mail-self-timer-btn.border-radius-l-0#delayedTimerDropdownMenu(ngbdDropDownToggle, placement='top', ngbtooltip='Self Timer')
+                  .dropdown(ngbDropdown, placement='top')
+                    button.hide-arrow.actions-btn.mail-self-timer-btn.border-radius-l-0#delayedTimerDropdownMenu(ngbDropdownToggle, placement='top', ngbtooltip='Self Timer')
                       i.icon.icon-self-timer
-                    .dropdown-menu.timer-dropdown-menu.bg-faded(ngbdDropDownMenu, aria-labelledby='delayedTimerDropdownMenu')
+                    .dropdown-menu.timer-dropdown-menu.bg-faded(ngbDropdownMenu, aria-labelledby='delayedTimerDropdownMenu')
                       button.close
                         i.icon.icon-cross
                       .timer-dropdown-content
@@ -77,9 +77,9 @@ section.mailbox-section
                             .timer-set-row.d-flex.align-items-center
                               .timer-set-col
                                 span.timer-set-label.ml-0 after
-                                span.dropdown(ngbdDropDown, placement='top')
-                                  button.actions-btn.bg-white#daysTimerDropdownMenu(ngbdDropDownToggle) 1
-                                  .left-0(ngbdDropDownMenu, aria-labelledby='daysTimerDropdownMenu')
+                                span.dropdown(ngbDropdown, placement='top')
+                                  button.actions-btn.bg-white#daysTimerDropdownMenu(ngbDropdownToggle) 1
+                                  .left-0(ngbDropdownMenu, aria-labelledby='daysTimerDropdownMenu')
                                     a.dropdown-link(href='') 1
                                     a.dropdown-link(href='') 2
                                     a.dropdown-link(href='') 3
@@ -89,9 +89,9 @@ section.mailbox-section
                                     a.dropdown-link(href='') 7
                                 span.timer-set-label.mr-0 Days
                               .timer-set-col
-                                span.dropdown(ngbdDropDown, placement='top')
-                                  button.actions-btn.bg-white#hoursTimerDropdownMenu(ngbdDropDownToggle) 1
-                                  .left-0(ngbdDropDownMenu, aria-labelledby='hoursTimerDropdownMenu')
+                                span.dropdown(ngbDropdown, placement='top')
+                                  button.actions-btn.bg-white#hoursTimerDropdownMenu(ngbDropdownToggle) 1
+                                  .left-0(ngbDropdownMenu, aria-labelledby='hoursTimerDropdownMenu')
                                     a.dropdown-link(href='') 1
                                     a.dropdown-link(href='') 2
                                     a.dropdown-link(href='') 3
@@ -103,10 +103,10 @@ section.mailbox-section
                         .dropdown-footer.text-center
                           a.btn.btn-sm.btn-secondary(href='') Schedule
                 li
-                  .dropdown(ngbdDropDown, placement='top')
-                    button.hide-arrow.actions-btn.mail-dead-btn.border-radius-l-0#delayedTimerDropdownMenu(ngbdDropDownToggle, placement='top', ngbtooltip='Dead Man')
+                  .dropdown(ngbDropdown, placement='top')
+                    button.hide-arrow.actions-btn.mail-dead-btn.border-radius-l-0#delayedTimerDropdownMenu(ngbDropdownToggle, placement='top', ngbtooltip='Dead Man')
                       i.icon.icon-dead
-                    .dropdown-menu.timer-dropdown-menu.bg-faded(ngbdDropDownMenu, aria-labelledby='delayedTimerDropdownMenu')
+                    .dropdown-menu.timer-dropdown-menu.bg-faded(ngbDropdownMenu, aria-labelledby='delayedTimerDropdownMenu')
                       button.close
                         i.icon.icon-cross
                       .timer-dropdown-content
@@ -119,9 +119,9 @@ section.mailbox-section
                             .timer-set-row.d-flex.align-items-center
                               .timer-set-col
                                 span.timer-set-label.ml-0 in
-                                span.dropdown(ngbdDropDown, placement='top')
-                                  button.actions-btn.bg-white#daysTimerDropdownMenu(ngbdDropDownToggle) 1
-                                  .left-0(ngbdDropDownMenu, aria-labelledby='daysTimerDropdownMenu')
+                                span.dropdown(ngbDropdown, placement='top')
+                                  button.actions-btn.bg-white#daysTimerDropdownMenu(ngbDropdownToggle) 1
+                                  .left-0(ngbDropdownMenu, aria-labelledby='daysTimerDropdownMenu')
                                     a.dropdown-link(href='') 1
                                     a.dropdown-link(href='') 2
                                     a.dropdown-link(href='') 3
@@ -131,9 +131,9 @@ section.mailbox-section
                                     a.dropdown-link(href='') 7
                                 span.timer-set-label.mr-0 Days
                               .timer-set-col
-                                span.dropdown(ngbdDropDown, placement='top')
-                                  button.actions-btn.bg-white#hoursTimerDropdownMenu(ngbdDropDownToggle) 1
-                                  .left-0(ngbdDropDownMenu, aria-labelledby='hoursTimerDropdownMenu')
+                                span.dropdown(ngbDropdown, placement='top')
+                                  button.actions-btn.bg-white#hoursTimerDropdownMenu(ngbDropdownToggle) 1
+                                  .left-0(ngbDropdownMenu, aria-labelledby='hoursTimerDropdownMenu')
                                     a.dropdown-link(href='') 1
                                     a.dropdown-link(href='') 2
                                     a.dropdown-link(href='') 3
@@ -148,17 +148,17 @@ section.mailbox-section
                   button.actions-btn.mail-keyboard-btn(placement='top', ngbtooltip='Keyboard Show')
                     i.icon.icon-keyboard-show
                 li
-                  .dropdown(ngbdDropDown, placement='top')
-                    button.actions-btn.mail-typo-btn.hide-arrow#typoDropdownMenu(ngbdDropDownToggle, placement='top', ngbtooltip='Typography')
+                  .dropdown(ngbDropdown, placement='top')
+                    button.actions-btn.mail-typo-btn.hide-arrow#typoDropdownMenu(ngbDropdownToggle, placement='top', ngbtooltip='Typography')
                       i.icon.icon-text-color
-                    .typo-actions-dropdown-menu.is-centered(ngbdDropDownMenu, aria-labelledby='typoDropdownMenu')
+                    .typo-actions-dropdown-menu.is-centered(ngbDropdownMenu, aria-labelledby='typoDropdownMenu')
                       .mail-comopser-typo-actions-holder
                         ul.mail-composer-actions.d-flex.align-items-center.justify-content-end
                           li.pr-0
-                            .dropup(ngbdDropDown, placement='top')
-                              button.actions-btn.mail-font-family-btn.border-right-0.border-radius-r-0#typoFamilyDropdownMenu(ngbdDropDownToggle)
+                            .dropup(ngbDropdown, placement='top')
+                              button.actions-btn.mail-font-family-btn.border-right-0.border-radius-r-0#typoFamilyDropdownMenu(ngbDropdownToggle)
                                 i.icon.icon-text-size
-                              .typo-family-dropdown-menu(ngbdDropDownMenu, aria-labelledby='typoFamilyDropdownMenu')
+                              .typo-family-dropdown-menu(ngbDropdownMenu, aria-labelledby='typoFamilyDropdownMenu')
                                 .typo-holder
                                   ul.typo-list.list-styled
                                     li
@@ -176,10 +176,10 @@ section.mailbox-section
                                     li
                                       a.typo-select-link(href='') Times New Roman
                           li.pl-0
-                            .dropup(ngbdDropDown, placement='top')
-                              button.actions-btn.mail-font-family-btn#typoFamilyDropdownMenu(ngbdDropDownToggle)
+                            .dropup(ngbDropdown, placement='top')
+                              button.actions-btn.mail-font-family-btn#typoFamilyDropdownMenu(ngbDropdownToggle)
                                 i.icon.icon-text-size-alt
-                              .typo-size-dropdown-menu(ngbdDropDownMenu, aria-labelledby='typoFamilyDropdownMenu')
+                              .typo-size-dropdown-menu(ngbDropdownMenu, aria-labelledby='typoFamilyDropdownMenu')
                                 .typo-holder
                                   ul.typo-list.list-styled
                                     li
@@ -200,10 +200,10 @@ section.mailbox-section
                             button.actions-btn.mail-underline-btn.border-right-0.border-radius-0
                               i.icon.icon-underline
                           li.pl-0
-                            .dropdown(ngbdDropDown, placement='top')
-                              button.actions-btn.mail-font-color-btn.border-radius-l-0#typoColorDropdownMenu(ngbdDropDownToggle)
+                            .dropdown(ngbDropdown, placement='top')
+                              button.actions-btn.mail-font-color-btn.border-radius-l-0#typoColorDropdownMenu(ngbDropdownToggle)
                                 i.icon.icon-text-color
-                              .left-0(ngbdDropDownMenu, aria-labelledby='typoColorDropdownMenu')
+                              .left-0(ngbDropdownMenu, aria-labelledby='typoColorDropdownMenu')
                                 .color-picker-holder
                                   .row
                                     .col-sm-6.mb-3.mb-sm-0
