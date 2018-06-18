@@ -1,5 +1,5 @@
 // Actions
-import { ShowCallToAction } from "./app-store/actions";
+import { PostRefresh, ShowCallToAction } from "./app-store/actions";
 
 // Angular
 import { Component, OnInit } from "@angular/core";
@@ -30,8 +30,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) this.isLoading = true;
-      else if (event instanceof NavigationEnd) {
+      if (event instanceof NavigationStart) {
+        this.isLoading = true;
+        this.store.dispatch(new PostRefresh());
+      } else if (event instanceof NavigationEnd) {
         if (
           ["/sign-in", "/sign-up", "/sign-up/next", "/pricing"].includes(
             this.router.url

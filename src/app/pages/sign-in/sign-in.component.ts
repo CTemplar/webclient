@@ -44,9 +44,14 @@ export class SignInComponent {
     this.activeModal = this.modalService.open(RecoverModal, modalOptions);
     this.activeModal.result.then(model => {
       this.activeModal = this.modalService.open(ResetModal, modalOptions);
-      this.activeModal.componentInstance.inherit(model);
+      this.activeModal.componentInstance.model = model;
       this.activeModal.result.then(model => {
-        this.activeModal = this.modalService.open(ProgressModal, modalOptions);
+        this.activeModal = this.modalService.open(ProgressModal, {
+          backdrop: "static",
+          centered: true,
+          keyboard: false,
+          windowClass: "modal-md"
+        });
         this.store.dispatch(new PostReset(true, model)).subscribe(() => {
           this.activeModal.close();
           this.router.navigate(["/mailbox"]);
@@ -56,7 +61,6 @@ export class SignInComponent {
   }
 
   onSignIn() {
-    // this.store.dispatch(new PostSignIn(this.model));
     this.store.dispatch(new PostSignIn(this.model)).subscribe(() => {
       this.router.navigate(["/mailbox"]);
     });

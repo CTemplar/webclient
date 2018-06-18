@@ -102,10 +102,12 @@
             i.icon.icon-chevron-left
           button.mail-nav-control-next
             i.icon.icon-chevron-right
+
+
 section.mailbox-section
   .ui-header.ui-header-bordered.border-top-0.position-relative
     h5.ui-header-subtitle.text-dark.mb-0
-      strong Welcome to Ctemplar!
+      strong {{ message.json.headers.Subject }}
       i.icon.icon-secured.icon-md.text-muted.ml-2
     .icon-holder.is-floated.right.y-center
       i.icon.icon-star-filled.icon-md.text-info

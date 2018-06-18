@@ -1,5 +1,8 @@
 // Actions
 import {
+  DeleteMyself,
+  GetMailbox,
+  GetMyself,
   PostRecover,
   PostRefresh,
   PostReset,
@@ -8,6 +11,9 @@ import {
   PostSignUp,
   PostVerify
 } from "../actions";
+
+// Helpers
+import { genPgpKey, genPwdHash } from "../helpers";
 
 // Models
 import { SignUp } from "../models";
@@ -42,76 +48,88 @@ export class AuthState implements NgxsOnInit {
   constructor(private authService: AuthService) {}
 
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
-    // TODO: Check if it is valid token, or PostSignOut on first time. Later activate periodical refresh on navigation. So if cannot verify, we don't refresh on first load neither.
-    // if (ctx.getState().token != null) ctx.dispatch(new PostVerify());;
-    // else console.log('was filled');
+    ctx.dispatch(new PostVerify());
   }
 
   @Action(PostRecover)
   async postRecover(
     ctx: StateContext<AuthStateModel>,
-    { payload }: PostRecover
+    { model }: PostRecover
   ) {
-    return this.authService.postRecover(payload);
+    return this.authService.postRecover(model);
   }
 
   @Action(PostRefresh)
   async postRefresh(ctx: StateContext<AuthStateModel>) {
-    const payload = ctx.getState().token;
-    return this.authService.postRefresh(payload).then(data => {
-      ctx.patchState({ token: data });
-    });
+    const token = ctx.getState().token;
+    if (token != null) {
+      return this.authService
+        .postRefresh(token)
+        .then(
+          data => ctx.patchState({ token: data }),
+          error => ctx.dispatch(new PostSignOut())
+        );
+    }
   }
 
   @Action(PostReset)
   async postReset(
     ctx: StateContext<AuthStateModel>,
-    { commit, payload }: PostReset
+    { commit, model }: PostReset
   ) {
     if (commit) {
-      let model = await this.authService.genPgpKey(payload);
-      model = await this.authService.genPwdHash(model);
+      await genPgpKey(model);
+      await genPwdHash(model);
       return this.authService.postReset(model).then(data => {
         ctx.patchState({ token: data });
+        ctx.dispatch(new GetMyself());
       });
-    } else {
     }
   }
 
   @Action(PostSignIn)
-  async postSignIn(ctx: StateContext<AuthStateModel>, { payload }: PostSignIn) {
-    payload = await this.authService.genPwdHash(payload);
-    return this.authService.postSignIn(payload).then(data => {
+  async postSignIn(ctx: StateContext<AuthStateModel>, { model }: PostSignIn) {
+    const password = model.password;
+    await genPwdHash(model);
+    return this.authService.postSignIn(model).then(data => {
       ctx.patchState({ token: data });
+      ctx.dispatch([new GetMailbox(password), new GetMyself()]);
     });
   }
 
   @Action(PostSignOut)
   postSignOut(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ token: undefined });
+    ctx.dispatch(new DeleteMyself());
   }
 
   @Action(PostSignUp)
   async postSignUp(
     ctx: StateContext<AuthStateModel>,
-    { commit, payload }: PostSignUp
+    { commit, model }: PostSignUp
   ) {
     if (commit)
-      return this.authService.postSignUp(payload).then(data => {
+      return this.authService.postSignUp(model).then(data => {
         ctx.patchState({ token: data });
+        ctx.dispatch(new GetMyself());
       });
     else {
-      let model = await this.authService.genPgpKey(payload);
-      model = await this.authService.genPwdHash(model);
+      await genPgpKey(model);
+      await genPwdHash(model);
       ctx.patchState({ signUp: model });
     }
   }
 
   @Action(PostVerify)
   async postVerify(ctx: StateContext<AuthStateModel>) {
-    const payload = ctx.getState().token;
-    return this.authService.postVerify(payload).then(data => {
-      ctx.patchState({ token: data });
-    });
+    const token = ctx.getState().token;
+    if (token != null) {
+      return this.authService
+        .postVerify(token)
+        .then(
+          data => ctx.dispatch(new GetMyself()),
+          error => ctx.dispatch(new PostSignOut())
+        );
+    }
   }
 }

@@ -25,7 +25,13 @@ import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
 import { RecaptchaModule } from "ng-recaptcha";
 
 // States
-import { AuthState, BlogState, LayoutState } from "./app-store/states";
+import {
+  AuthState,
+  EmailsState,
+  BlogState,
+  LayoutState,
+  UsersState
+} from "./app-store/states";
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -39,7 +45,13 @@ import { AuthState, BlogState, LayoutState } from "./app-store/states";
     HttpClientModule,
     MailboxModule,
     NgbModule.forRoot(),
-    NgxsModule.forRoot([AuthState, BlogState, LayoutState]),
+    NgxsModule.forRoot([
+      AuthState,
+      BlogState,
+      EmailsState,
+      LayoutState,
+      UsersState
+    ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(), // always the last plugin!
     PagesModule,

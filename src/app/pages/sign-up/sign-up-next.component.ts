@@ -36,24 +36,31 @@ export class SignUpNextComponent {
     private store: Store
   ) {}
 
-  onSignUp() {
-    const modalOptions = {
-      centered: true,
-      keyboard: false,
-      windowClass: "modal-md"
-    };
-    this.activeModal = this.modalService.open(ProgressModal, modalOptions);
-    this.store.dispatch(new PostSignUp(false, this.model)).subscribe(() => {
-      this.activeModal.close();
-      this.activeModal = this.modalService.open(CaptchaModal, modalOptions);
-      this.activeModal.result.then(result => {
-        this.model.recaptcha = result;
-        this.store.dispatch(new PostSignUp(true, this.model)).subscribe(() => {
-          this.router.navigate(["/mailbox"]);
-        });
-      });
-    });
-  }
+  onSignUp() {}
+  
+  // onSignUp() {
+  //   this.activeModal = this.modalService.open(ProgressModal, {
+  //     backdrop: "static",
+  //     centered: true,
+  //     keyboard: false,
+  //     windowClass: "modal-md"
+  //   });
+  //   this.store.dispatch(new PostSignUp(false, this.model)).subscribe(() => {
+  //     this.activeModal.close();
+  //     this.activeModal = this.modalService.open(CaptchaModal, {
+  //       backdrop: "static",
+  //       centered: true,
+  //       keyboard: false,
+  //       windowClass: "modal-md"
+  //     });
+  //     this.activeModal.result.then(result => {
+  //       this.model.recaptcha = result;
+  //       this.store.dispatch(new PostSignUp(true, this.model)).subscribe(() => {
+  //         this.router.navigate(["/mailbox"]);
+  //       });
+  //     });
+  //   });
+  // }
 
   togglePassword() {
     this.inputType = this.inputType == "password" ? "text" : "password";

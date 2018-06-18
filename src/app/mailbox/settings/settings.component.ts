@@ -13,7 +13,7 @@ import {
 import { Store } from "@ngxs/store";
 
 // import {
-//   Accounts,
+//   Myselfs,
 //   WhiteList,
 //   WhiteListAdd,
 //   WhiteListDelete,
@@ -52,7 +52,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store.dispatch(new Accounts({}));
+    // this.store.dispatch(new Myselfs({}));
     // setTimeout(() => this.store.dispatch(new WhiteList({})));
     // setTimeout(() => this.store.dispatch(new BlackList({})));
 

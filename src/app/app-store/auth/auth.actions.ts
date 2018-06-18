@@ -6,7 +6,7 @@ import { Recover, Reset, SignIn, SignUp } from "../models";
 
 export class PostRecover {
   static readonly type = "[Auth] PostRecover";
-  constructor(public payload: Recover) {}
+  constructor(public model: Recover) {}
 }
 
 export class PostRefresh {
@@ -15,12 +15,12 @@ export class PostRefresh {
 
 export class PostReset {
   static readonly type = "[Auth] PostReset";
-  constructor(public commit: boolean, public payload: Reset) {}
+  constructor(public commit: boolean, public model: Reset) {}
 }
 
 export class PostSignIn {
   static readonly type = "[Auth] PostSignIn";
-  constructor(public payload: SignIn) {}
+  constructor(public model: SignIn) {}
 }
 
 export class PostSignOut {
@@ -29,7 +29,7 @@ export class PostSignOut {
 
 export class PostSignUp {
   static readonly type = "[Auth] PostSignUp";
-  constructor(public commit: boolean, public payload: SignUp) {}
+  constructor(public commit: boolean, public model: SignUp) {}
 }
 
 export class PostVerify {

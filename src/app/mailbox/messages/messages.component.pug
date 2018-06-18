@@ -8,7 +8,7 @@
               span.fancy-field-group
                 input.d-none.fancy-field-control.checked-type-minus#mailboxBulkActions(name='[]', type='checkbox')
                 label.fancy-field-empty(for='mailboxBulkActions')
-            div(ngbDropdownMenu='ngbDropdownMenu', aria-labelledby='actionsDropdownMenuButton')
+            div(ngbDropdownMenu, aria-labelledby='actionsDropdownMenuButton')
               a.dropdown-item(href='') All
               a.dropdown-item(href='') Read
               a.dropdown-item(href='') Unread
@@ -27,7 +27,7 @@
           div(ngbDropdown)
             button.border-left-0.border-radius-left-0#dropdownMoreOptions(ngbDropdownToggle)
               i.icon.icon-more
-            .mobiledOptionsDropdown(ngbDropdownMenu='ngbDropdownMenu', aria-labelledby='dropdownMoreOptions')
+            .mobiledOptionsDropdown(ngbDropdownMenu, aria-labelledby='dropdownMoreOptions')
               ul.more-xs-options-list
                 li
                   a.disabled(href='')
@@ -36,7 +36,7 @@
                   div(ngbDropdown)
                     button.disabledx#extraOptionsDropdownMenuButton(ngbDropdownToggle)
                       i.icon.icon-folder
-                    div(ngbDropdownMenu='ngbDropdownMenu', aria-labelledby='extraOptionsDropdownMenuButton')
+                    div(ngbDropdownMenu, aria-labelledby='extraOptionsDropdownMenuButton')
                       a.dropdown-item(href='')
                         span.folder-color-box.is-success
                         | Folder 1
@@ -63,7 +63,7 @@
           div(ngbDropdown)
             button.disabledx#folderDropdownMenuButton(ngbDropdownToggle)
               i.icon.icon-folder
-            div(ngbDropdownMenu='ngbDropdownMenu', aria-labelledby='folderDropdownMenuButton')
+            div(ngbDropdownMenu, aria-labelledby='folderDropdownMenuButton')
               a.dropdown-item(href='')
                 span.folder-color-box.is-success
                 | Folder 1
@@ -89,7 +89,7 @@
         li.btn-dropdown.mailbox-dropdown.mailbox-dropdown-lg.more-options-dropdown.pl-0
           .dropdown(ngbDropdown)
             button.disabledx#moreOptionsDropdownMenuButton(ngbDropdownToggle) More
-            div(ngbDropdownMenu='ngbDropdownMenu', aria-labelledby='moreOptionsDropdownMenuButton')
+            div(ngbDropdownMenu, aria-labelledby='moreOptionsDropdownMenuButton')
               a.dropdown-item(href='') Add star
               a.dropdown-item(href='') Mark as read
               a.dropdown-item(href='') Mark as unread
@@ -104,7 +104,7 @@
             i.icon.icon-chevron-right
 
 .mail-listing
-  .mail-list-row.is-unread
+  .mail-list-row([ngClass]="{'is-unread': !message.read, 'is-read': message.read}", *ngFor="let message of messages$ | async", routerLink="/mailbox/message/{{ message.id }}")
     .mail-list-inner-row
       .mail-list-col
         .mail-list-col-row
@@ -113,45 +113,23 @@
               input.d-none.fancy-field-control#mailItemCheckbox1(name='[]', type='checkbox')
               label.fancy-field-empty(for='mailItemCheckbox1')
           .mail-list-col-item.mail-status
-            .mail-status-type
-              i.icon.icon-star
-          .mail-list-col-item.mail-from-name
-            span John Simmons
-      .mail-list-col.mail-list-col-lg
-        .mail-desc(routerLink='/mailbox/message')
-          p
-            small
-              strong Welcome to CTemplar!
-              | You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your emails.
-      .mail-list-col.mail-list-col-xs
-        .mail-list-col-xs-row
-          .mail-list-col-xs-item.mail-file-size 2.6kB
-          .mail-list-col-xs-item.mail-sent-date Jun 29
-          .mail-list-col-xs-item.mail-security-status
-            i.icon.icon-secured
-  .mail-list-row.is-read([ngClass]="{'is-unread': !mail.read}", *ngFor='let mail of mails')
-    .mail-list-inner-row
-      .mail-list-col
-        .mail-list-col-row
-          .mail-list-col-item.mail-checkbox
-            .fancy-field-group
-              input.d-none.fancy-field-control#mailItemCheckbox1(name='[]', type='checkbox')
-              label.fancy-field-empty(for='mailItemCheckbox1')
-          .mail-list-col-item.mail-status
-            .mail-status-type([ngClass]="{'is-fav': mail.starred}")
+            .mail-status-type([ngClass]="{'is-fav': message.starred}")
               i.icon.icon-star-filled
           .mail-list-col-item.mail-from-name
-            span Thomas Mitchell
+            span {{ message.json.headers.From }}
       .mail-list-col.mail-list-col-lg
         .mail-desc
-          .mail-delete-badge
+          .mail-delete-badge(*ngIf="selfdestruction")
             span.badge.badge-warning Delete in 5.25
-          p([innerHtml]='mail.content')
+          p
+            small
+              strong {{ message.json.headers.Subject }}
+              | {{ message.json.body }}
       .mail-list-col.mail-list-col-xs
         .mail-list-col-xs-row
           .mail-list-col-xs-item.mail-file-size 2.6kB
-          .mail-list-col-xs-item.mail-sent-date Jun 29
-          .mail-list-col-xs-item.mail-security-status.is-disabled
+          .mail-list-col-xs-item.mail-sent-date {{ message.datetime }}
+          .mail-list-col-xs-item.mail-security-status([ngClass]="{'is-disabled': message.starred}")
             i.icon.icon-secured
 .mailbox-footer-actionbar.hidden-sm-up
   .row.justify-content-end

@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: "settings", component: SettingsComponent },
       { path: "contacts", component: ContactsComponent },
       { path: "inbox", component: MessagesComponent },
-      { path: "message", component: MessageComponent },
+      { path: "message/:id", component: MessageComponent },
     ]
   }
 ];

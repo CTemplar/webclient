@@ -22,14 +22,9 @@ import { Store } from "@ngxs/store";
   styleUrls: ["./reset.modal.scss"]
 })
 export class ResetModal {
-  model = new Reset();
+  @Input() model: Reset;
 
   constructor(public activeModal: NgbActiveModal, private store: Store) {}
-
-  @Input()
-  inherit(model: Recover) {
-    this.model.username = model.username;
-  }
 
   onReset() {
     this.store.dispatch(new PostReset(false, this.model)).subscribe(() => {

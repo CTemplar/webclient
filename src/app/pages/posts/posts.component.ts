@@ -16,8 +16,7 @@ import { Observable } from "rxjs";
   templateUrl: "./posts.component.pug"
 })
 export class PostsComponent implements OnInit {
-  @Select(state => state.blog.posts)
-  posts$: Observable<any>;
+  @Select(state => state.blog.posts) posts$: Observable<any>;
   bigPost: any;
   pageEnd = 6;
   pageMax = false;
