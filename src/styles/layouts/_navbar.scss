@@ -1,0 +1,78 @@
+/**
+_navbar.scss
+ */
+
+// Mobile menu
+.navbar-toggler {
+  position: relative;
+  padding: 0 .857rem 0 1.75rem;
+  background-color: transparent;
+  border: 0;
+  color: $brand-white;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  outline: 0;
+
+  &.opened .navbar-toggler-icon {
+    &:nth-child(1),
+    &:nth-child(4) {
+      opacity: 0;
+      top: 10px;
+      width: 0%;
+    }
+
+    &:nth-child(2) {
+      transform: rotate(45deg);
+    }
+
+    &:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.navbar-toggler-icon {
+  position: absolute;
+  top: 3px;//~8px;
+  left: 0;
+  height: 2px;
+  width: 1.125rem;
+  background: #fff;
+  border-radius: 1px;
+  opacity: 1;
+  transform: rotate(0deg);
+  transition: all ceaser($easeInOutQuint) 0.35s;
+
+  &:nth-child(2),
+  &:nth-child(3) {
+    top: 8px;//~14px;
+  }
+
+  &:nth-child(4) {
+    top: 13px; //~20px;
+  }
+}
+
+// == header logo
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: $brand-white !important;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  line-height: 1;
+
+  @include media(">sm") {
+    font-size: 1.25rem;
+  }
+}
+
+.navbar-brand-logo {
+  margin-right: 5px;
+  max-width: 20px;
+
+  @include media(">sm") {
+    margin-right: 10px;
+    max-width: 32px;
+  }
+}

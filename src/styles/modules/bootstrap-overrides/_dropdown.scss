@@ -31,6 +31,7 @@
 }
 
 .dropdown-toggle {
+    cursor: pointer;
     &::after,
     &.hide-arrow::before {
         display: none !important;
