@@ -1,8 +1,6 @@
 // Angular
+import { ActivatedRoute } from "@angular/router";
 import { Component } from "@angular/core";
-
-// Models
-// import { Mail } from '../../store/models';
 
 // Ngxs
 import { Select, Store } from "@ngxs/store";
@@ -23,9 +21,13 @@ export class MessageComponent {
   messages$: Observable<any>;
   message: any;
 
+  constructor(private route: ActivatedRoute, private store: Store) {}
+
   ngOnInit() {
-    this.message = this.messages$.find(function(obj) {
-      return obj.id === 2;
+    this.route.params.subscribe(params => {
+      this.messages$.subscribe(messages => {
+        this.message = messages.find(message => message.id == params["id"]);
+      });
     });
   }
 }

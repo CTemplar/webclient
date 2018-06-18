@@ -76,47 +76,18 @@ section.l-block.mt-0.pb-0.bg-faded.is-clipped.is-clipped-lg.top.top-left.bottom.
       .comment-form-holder.mt-5.mt-sm-6.mt-md-7
         h3.text-dark
           strong Add Comment
-        .comment-login(*ngIf='!isActive')
-          p To add a comment you should log in
-        .row(*ngIf='!isActive')
-          .col-12
-            .form-group.mb-0
-              button.btn.btn-secondary.btn-lg.comment-submit-btn(routerLink='/sign-in', role='button') Log IN
+        .comment-form.form(*ngIf='!isActive')
+          p To add a comment you must be identified.
+          button.btn.btn-secondary.btn-lg.comment-submit-btn(routerLink='/sign-in', role='button') Sign In
         .comment-form.form(*ngIf='isActive')
-          //             <form [formGroup]="commentForm" #form="ngForm" (ngSubmit)="addComment(commentForm.value)">
-                        <div class="row">
-                          <div class="col-12">
-                            <div class="form-group" [ngClass]="{'is-validate': commentForm.controls.comment.invalid && !commentForm.controls.comment.pristine}">
-                              <textarea class="form-control" placeholder="Your message" rows="4" name="comment" formControlName="comment"></textarea>
-                              <span *ngIf="commentForm.controls['comment'].errors && !commentForm.controls.comment.pristine" class="validate-message">
-                                <span>The Comment is required.</span>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group text-center mb-0">
-                              <button class="btn btn-secondary btn-lg comment-login-btn" type="submit" >Submit</button>
-                            </div>
-                          </div>
-                        </div>
-                      </form> 
+          //- form([formgroup]="commentForm", #form="ngForm", (ngsubmit)="addComment(commentForm.value)")
+          form
+            .row
+              .col-12
+                .form-group([ngClass]="{'is-validate': commentForm.controls.comment.invalid && !commentForm.controls.comment.pristine}")
+                  textarea.form-control(placeholder="Your message", rows="4", name="comment")
+              .col-12
+                .form-group.text-center.mb-0
+                  button.btn.btn-secondary.btn-lg.comment-login-btn(type="submit") Submit
+
 app-pages-posts-grid([columns]='2')
-ng-template.modal-type-default(#content='', let-c='close', let-d='dismiss')
-  .modal-header.text-center.justify-content-center
-    h3.modal-title.w-100.text-dark#resetPasswordModalLabel
-      strong Add Comment
-    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
-      span(aria-hidden='true') ×
-  .modal-body.bg-faded
-    .form.reply-form
-      //         <form [formGroup]="replyForm" #form="ngForm" (ngSubmit)="replyComment(replyForm.value)">
-                <div class="form-group" [ngClass]="{'is-validate': replyForm.controls.comment.invalid && !replyForm.controls.comment.pristine}">
-                  <textarea class="form-control" placeholder="Your message" rows="4" name="comment" formControlName="comment"></textarea>
-                  <span *ngIf="replyForm.controls['comment'].errors && !replyForm.controls.comment.pristine" class="validate-message">
-                    <span>The Comment is required.</span>
-                  </span>
-                </div>
-                <div class="form-group form-user-actions text-center mb-0">
-                  <button class="btn btn-secondary btn-sm reply-btn"  type="submit">Reply</button>
-                </div>
-              </form> 

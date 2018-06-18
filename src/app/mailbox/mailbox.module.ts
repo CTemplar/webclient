@@ -9,6 +9,7 @@ import { FooterComponent } from "./footer/footer.component";
 import { HeaderComponent } from "./header/header.component";
 import { MessageComponent } from "./message/message.component";
 import { MessagesComponent } from "./messages/messages.component";
+import { MessagesBarComponent } from "./messages-bar/messages-bar.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
@@ -29,6 +30,7 @@ import { SharedModule } from "../shared/shared.module";
     HeaderComponent,
     MessageComponent,
     MessagesComponent,
+    MessagesBarComponent,
     SettingsComponent,
     SidebarComponent
   ]

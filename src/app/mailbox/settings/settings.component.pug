@@ -263,63 +263,63 @@
                   .fancy-field-group
                     input.d-none.fancy-field-control.fancy-field-control-sm#showSnippetsField2(name='[7]', type='radio', disabled)
                     label(for='showSnippetsField2') No
-  section.mailbox-section
-    header.ui-header.ui-header-bordered
-      h5.ui-header-subtitle.text-dark.mb-0
-        strong Filters
-    .mailbox-section-body.mailbox-section-body-sm
-      .form-content-holder
-        ul.ui-list.ui-list-styled.list-styled
-          li.ui-list-item.ui-list-item-xs-full
-            .row.row-xs.align-items-center
-              .col-10.col-sm-8
-                .toggle-switcher
-                  input.d-none.toggle-switcher-control#switcherField1(name='', type='checkbox', checked='')
-                  label(for='switcherField1')
-                  span.toggle-switcher-text My spam filter
-              .col-2.col-sm-4
-                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
-                  li
-                    a(href='')
-                      i.icon.icon-edit
-                  li
-                    a(href='')
-                      i.icon.icon-garbage
-          li.ui-list-item.ui-list-item-xs-full
-            .row.row-xs.align-items-center
-              .col-10.col-sm-8
-                .toggle-switcher
-                  input.d-none.toggle-switcher-control#switcherField3(name='', type='checkbox', checked='')
-                  label(for='switcherField3')
-                  span.toggle-switcher-text Important messages filter
-              .col-2.col-sm-4
-                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
-                  li
-                    a(href='')
-                      i.icon.icon-edit
-                  li
-                    a(href='')
-                      i.icon.icon-garbage
-          li.ui-list-item.ui-list-item-xs-full
-            .row.row-xs.align-items-center
-              .col-10.col-sm-8
-                .toggle-switcher
-                  input.d-none.toggle-switcher-control#switcherField2(name='', type='checkbox')
-                  label(for='switcherField2')
-                  span.toggle-switcher-text Auto-labeling test
-              .col-2.col-sm-4
-                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
-                  li
-                    a(href='')
-                      i.icon.icon-edit
-                  li
-                    a(href='')
-                      i.icon.icon-garbage
-        .info-card
-          p Add a filter to perform actions such as automatically labeling or archiving.
-          a.text-uppercase.btn-link(href='javascript:void(0);', (click)='addCustomFilterModalOpen(customFilterContent)')
-            strong
-              u Add custom filter
+  //- section.mailbox-section
+  //-   header.ui-header.ui-header-bordered
+  //-     h5.ui-header-subtitle.text-dark.mb-0
+  //-       strong Filters
+  //-   .mailbox-section-body.mailbox-section-body-sm
+  //-     .form-content-holder
+  //-       ul.ui-list.ui-list-styled.list-styled
+  //-         li.ui-list-item.ui-list-item-xs-full
+  //-           .row.row-xs.align-items-center
+  //-             .col-10.col-sm-8
+  //-               .toggle-switcher
+  //-                 input.d-none.toggle-switcher-control#switcherField1(name='', type='checkbox', checked='')
+  //-                 label(for='switcherField1')
+  //-                 span.toggle-switcher-text My spam filter
+  //-             .col-2.col-sm-4
+  //-               ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-edit
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-garbage
+  //-         li.ui-list-item.ui-list-item-xs-full
+  //-           .row.row-xs.align-items-center
+  //-             .col-10.col-sm-8
+  //-               .toggle-switcher
+  //-                 input.d-none.toggle-switcher-control#switcherField3(name='', type='checkbox', checked='')
+  //-                 label(for='switcherField3')
+  //-                 span.toggle-switcher-text Important messages filter
+  //-             .col-2.col-sm-4
+  //-               ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-edit
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-garbage
+  //-         li.ui-list-item.ui-list-item-xs-full
+  //-           .row.row-xs.align-items-center
+  //-             .col-10.col-sm-8
+  //-               .toggle-switcher
+  //-                 input.d-none.toggle-switcher-control#switcherField2(name='', type='checkbox')
+  //-                 label(for='switcherField2')
+  //-                 span.toggle-switcher-text Auto-labeling test
+  //-             .col-2.col-sm-4
+  //-               ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-edit
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-garbage
+  //-       .info-card
+  //-         p Add a filter to perform actions such as automatically labeling or archiving.
+  //-         a.text-uppercase.btn-link(href='javascript:void(0);', (click)='addCustomFilterModalOpen(customFilterContent)')
+  //-           strong
+  //-             u Add custom filter
   section.mailbox-section
     header.ui-header.ui-header-bordered
       h5.ui-header-subtitle.text-dark.mb-0
@@ -327,7 +327,6 @@
     .mailbox-section-body.mailbox-section-body-sm
       .form-content-holder
         ul.ui-list.ui-list-styled.list-styled
-          li.ui-list-item.ui-list-item-xs-full
           // li.ui-list-item.ui-list-item-xs-full(*ngFor='let item of userState.whiteList')
           li.ui-list-item.ui-list-item-xs-full
             .row.row-xs.align-items-center
@@ -371,51 +370,51 @@
           a.text-uppercase.btn-link(href='javascript:void(0);', (click)='blacklistModalOpen(blacklistContent)')
             strong
               u Add blacklist contact
-  section.mailbox-section
-    header.ui-header.ui-header-bordered
-      h5.ui-header-subtitle.text-dark.mb-0
-        strong Multi-users
-    .mailbox-section-body.mailbox-section-body-sm
-      .form-content-holder
-        .info-card
-          p Create and administer sub-accounts and assign them email addresses on your custom domain. To enable this feature, upgrade your account.
-          a.text-uppercase.btn-link(href='javascript:void(0);', (click)='billingInfoModalOpen(billingInfoContent)')
-            strong
-              u Upgrade account
-  section.mailbox-section
-    header.ui-header.ui-header-bordered
-      h5.ui-header-subtitle.text-dark.mb-0
-        strong Domains
-    .mailbox-section-body.mailbox-section-body-sm
-      .form-content-holder
-        ul.ui-list.ui-list-styled.list-styled
-          li.ui-list-item.ui-list-item-xs-full
-            .row.row-xs.align-items-center
-              .col-10.col-sm-8
-                .form-label.text-dark.mb-0 @demo.com
-              .col-2.col-sm-4
-                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
-                  li
-                    a(href='')
-                      i.icon.icon-edit
-                  li
-                    a(href='')
-                      i.icon.icon-garbage
-          li.ui-list-item.ui-list-item-xs-full
-            .row.row-xs.align-items-center
-              .col-10.col-sm-8
-                .form-label.text-dark.mb-0 @example.com
-              .col-2.col-sm-4
-                ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
-                  li
-                    a(href='')
-                      i.icon.icon-edit
-                  li
-                    a(href='')
-                      i.icon.icon-garbage
-        .info-card
-          p Use your own domain with CTemplar and use your own email address, e.g. name@domain.com.
-          // <a href="" class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a> 
+  //- section.mailbox-section
+  //-   header.ui-header.ui-header-bordered
+  //-     h5.ui-header-subtitle.text-dark.mb-0
+  //-       strong Multi-users
+  //-   .mailbox-section-body.mailbox-section-body-sm
+  //-     .form-content-holder
+  //-       .info-card
+  //-         p Create and administer sub-accounts and assign them email addresses on your custom domain. To enable this feature, upgrade your account.
+  //-         a.text-uppercase.btn-link(href='javascript:void(0);', (click)='billingInfoModalOpen(billingInfoContent)')
+  //-           strong
+  //-             u Upgrade account
+  //- section.mailbox-section
+  //-   header.ui-header.ui-header-bordered
+  //-     h5.ui-header-subtitle.text-dark.mb-0
+  //-       strong Domains
+  //-   .mailbox-section-body.mailbox-section-body-sm
+  //-     .form-content-holder
+  //-       ul.ui-list.ui-list-styled.list-styled
+  //-         li.ui-list-item.ui-list-item-xs-full
+  //-           .row.row-xs.align-items-center
+  //-             .col-10.col-sm-8
+  //-               .form-label.text-dark.mb-0 @demo.com
+  //-             .col-2.col-sm-4
+  //-               ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-edit
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-garbage
+  //-         li.ui-list-item.ui-list-item-xs-full
+  //-           .row.row-xs.align-items-center
+  //-             .col-10.col-sm-8
+  //-               .form-label.text-dark.mb-0 @example.com
+  //-             .col-2.col-sm-4
+  //-               ul.setting-actions-list.d-flex.align-items-center.justify-content-end.list-styled.text-right
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-edit
+  //-                 li
+  //-                   a(href='')
+  //-                     i.icon.icon-garbage
+  //-       .info-card
+  //-         p Use your own domain with CTemplar and use your own email address, e.g. name@domain.com.
+  //-         // <a href="" class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a> 
   section.mailbox-section
     header.ui-header.ui-header-bordered
       h5.ui-header-subtitle.text-dark.mb-0

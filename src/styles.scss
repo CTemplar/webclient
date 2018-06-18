@@ -38,14 +38,14 @@
 */
 @import "styles/layouts/global";
 @import "styles/layouts/utilities";
-@import "styles/layouts/header";
-@import "styles/layouts/footer";
+// @import "styles/layouts/header";
+// @import "styles/layouts/footer";
 
 /**
 * IMPORTING PARTIALS FROM MODULES DIRECTORY
 */
 @import "styles/modules/preloader";
-@import "styles/modules/menu";
+// @import "styles/modules/menu";
 @import "styles/modules/utilities/utilities";
 @import "styles/modules/hero";
 @import "styles/modules/blocks";

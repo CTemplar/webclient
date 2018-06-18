@@ -26,7 +26,7 @@ export interface EmailsStateModel {
     mailbox: null
   }
 })
-export class EmailsState {
+export class EmailsState {  
   constructor(private emailsService: EmailsService) {}
 
   @Action(GetMailbox)
