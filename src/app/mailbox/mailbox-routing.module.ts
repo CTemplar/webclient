@@ -18,7 +18,7 @@ import { AuthGuard } from "../app-store/guards";
 const routes: Routes = [
   {
     path: "mailbox",
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     component: MailboxComponent,
     children: [
       { path: "", redirectTo: "inbox", pathMatch: "full" },

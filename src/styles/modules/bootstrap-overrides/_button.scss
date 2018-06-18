@@ -4,7 +4,8 @@
 
 .btn {
     min-width: 100px;
-    text-transform: uppercase;    
+    text-transform: uppercase;
+    cursor: pointer;
 
     &:focus {
         outline: none !important;

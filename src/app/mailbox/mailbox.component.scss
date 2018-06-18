@@ -138,7 +138,7 @@
 		display: none;
 
 		.is-sidebar-expanded & {
-			display: block;
+			display: flex;
 		}
 	}
 
@@ -761,6 +761,7 @@
 	}
 }
 
+// == Sidebar:: Folder color boxes
 .folder-color-box {
 	display: inline-block;
 	margin-right: 1.125rem;

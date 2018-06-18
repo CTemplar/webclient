@@ -1,5 +1,5 @@
 // Angular
-import { Component } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -7,7 +7,7 @@ import { Component } from "@angular/core";
 @Component({
   selector: "app-mailbox-header",
   templateUrl: "./header.component.pug",
-  styleUrls: ["./header.component.scss"]
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent {
   // Public property of boolean type set false by default
