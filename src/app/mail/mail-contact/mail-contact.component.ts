@@ -1,26 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Contact, UserState } from '../../store/datatypes';
+import { UserState } from '../../store/datatypes';
 import { selectUsersState } from '../../store/selectors';
-import { ContactAdd, ContactGet } from '../../store';
-
+import { ContactGet } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgForm } from '@angular/forms';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import 'rxjs/add/operator/takeUntil';
 
+@TakeUntilDestroy()
 @Component({
     selector: 'app-mail-contact',
     templateUrl: './mail-contact.component.html',
     styleUrls: ['./mail-contact.component.scss']
 })
-export class MailContactComponent implements OnInit {
+export class MailContactComponent implements OnInit, OnDestroy {
 
     isLayoutSplitted: boolean = false;
     public getUsersState$: Observable<any>;
     public userState: UserState;
     public isNewContact: boolean;
-
+    readonly destroyed$: Observable<boolean>;
 
     constructor(private store: Store<UserState>,
                 private modalService: NgbModal,
@@ -35,8 +36,11 @@ export class MailContactComponent implements OnInit {
         this.updateUsersStatus();
     }
 
+    ngOnDestroy(): void {
+    }
+
     private updateUsersStatus(): void {
-        this.getUsersState$.subscribe((state: UserState) => {
+        this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
             this.userState = state;
         });
     }

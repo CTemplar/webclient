@@ -4,18 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Contact, UserState } from '../../../store/datatypes';
-import { stat } from 'fs';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
+@TakeUntilDestroy()
 @Component({
     selector: 'app-save-contact',
     templateUrl: './save-contact.component.html',
     styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss']
 })
-export class SaveContactComponent implements OnInit {
+export class SaveContactComponent implements OnInit, OnDestroy {
     @Output() userSaved = new EventEmitter<boolean>();
 
     public getUsersState$: Observable<any>;
-    public userState: UserState;
     @ViewChild('newContactForm') newContactForm: NgForm;
     newContactModel: Contact = {
         name: '',
@@ -25,6 +25,8 @@ export class SaveContactComponent implements OnInit {
         phone: ''
     };
     private inProgress: boolean;
+
+    readonly destroyed$: Observable<boolean>;
 
 
     constructor(private store: Store<UserState>) {
@@ -36,8 +38,11 @@ export class SaveContactComponent implements OnInit {
         this.handleUserState();
     }
 
+    ngOnDestroy(): void {
+    }
+
     private handleUserState(): void {
-        this.getUsersState$.subscribe((state: UserState) => {
+        this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
             // TODO : display a loader or spinner when this.userState.inProgress is true
             // TODO : hide spinner when this.userState.inProgress is false
             // TODO : display an error message when this.userState.isError is true
