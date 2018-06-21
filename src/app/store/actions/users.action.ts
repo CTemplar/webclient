@@ -20,6 +20,7 @@ export enum UsersActionTypes {
   CONTACT_GET_SUCCESS = '[Users] Contact_GET_Success',
   CONTACT_ADD = '[Users] Contact_Add',
   CONTACT_ADD_SUCCESS = '[Users] Contact_Add_Success',
+  CONTACT_ADD_ERROR = '[Users] Contact_Add_Error',
   CONTACT_DELETE = '[Users] Contact_Delete',
   CONTACT_DELETE_SUCCESS = '[Users] Contact_Delete_Success'
 }
@@ -113,6 +114,11 @@ export class ContactAddSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ContactAddError implements Action {
+  readonly type = UsersActionTypes.CONTACT_ADD_ERROR;
+  constructor(public payload?: any) {}
+}
+
 export class ContactDelete implements Action {
   readonly type = UsersActionTypes.CONTACT_DELETE;
   constructor(public payload: any) {}
@@ -138,6 +144,8 @@ export type UsersActionAll =
  | BlackListDeleteSuccess
  | ContactGet
  | ContactGetSuccess
+ | ContactAdd
  | ContactAddSuccess
+ | ContactAddError
  | ContactDelete
  | ContactDeleteSuccess;

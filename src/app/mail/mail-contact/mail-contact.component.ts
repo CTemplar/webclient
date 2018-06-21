@@ -34,7 +34,6 @@ export class MailContactComponent implements OnInit {
                 config: NgbDropdownConfig) {
         // customize default values of dropdowns used by this component tree
         config.autoClose = 'outside';
-        // this.newContactModel
     }
 
     ngOnInit() {
@@ -46,6 +45,9 @@ export class MailContactComponent implements OnInit {
     private updateUsersStatus(): void {
         this.getUsersState$.subscribe((state: UserState) => {
             this.userState = state;
+            // TODO : display a loader or spinner when this.userState.inProgress is true
+            // TODO : hide spinner when this.userState.inProgress is false
+            // TODO : display an error message when this.userState.isError is true
         });
     }
 

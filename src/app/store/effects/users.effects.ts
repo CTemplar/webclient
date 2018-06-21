@@ -12,7 +12,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 // Service
 import { UsersService } from '../../store/services';
@@ -38,6 +38,7 @@ import {
   ContactGet,
   ContactAdd,
   ContactAddSuccess,
+  ContactAddError,
   ContactDeleteSuccess,
   ContactGetSuccess
 } from '../actions';
@@ -130,15 +131,19 @@ export class UsersEffects {
       });
     });
 
-  @Effect()
-  ContactAdd: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CONTACT_ADD)
-    .map((action: ContactAdd) => action.payload)
-    .switchMap(payload => {
-      return this.userService.addContact(payload).map(contact => {
-        return new ContactAddSuccess(contact);
-      });
-    });
+
+    @Effect()
+    ContactAdd: Observable<any> = this.actions.ofType(UsersActionTypes.CONTACT_ADD)
+        .pipe(
+            switchMap((action: Accounts) =>
+                this.userService.addContact(action.payload)
+                    .pipe(
+                        switchMap(contact => [
+                            new ContactAddSuccess(contact),
+                        ]),
+                        catchError(err => [new ContactAddError()]),
+                    ))
+        );
 
   @Effect()
   ContactDelete: Observable<any> = this.actions

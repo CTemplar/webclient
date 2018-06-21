@@ -31,6 +31,8 @@ export interface UserState {
   whiteList: WhiteList[];
   blackList: BlackList[];
   contact: Contact[];
+  inProgress?: boolean;
+  isError?: boolean;
 }
 
 export interface BlogState {
