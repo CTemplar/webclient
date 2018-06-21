@@ -35,11 +35,11 @@ import {
   WhiteListDelete,
   BlackListAdd,
   BlackListDelete,
-  Contact,
+  ContactGet,
   ContactAdd,
   ContactAddSuccess,
   ContactDeleteSuccess,
-  ContactReadSuccess
+  ContactGetSuccess
 } from '../actions';
 
 
@@ -122,11 +122,11 @@ export class UsersEffects {
       });
   @Effect()
   Contact: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CONTACT)
-    .map((action: Contact) => action.payload)
+    .ofType(UsersActionTypes.CONTACT_GET)
+    .map((action: ContactGet) => action.payload)
     .switchMap(payload => {
       return this.userService.getContact().map(contact => {
-        return new ContactReadSuccess(contact.results);
+        return new ContactGetSuccess(contact.results);
       });
     });
 

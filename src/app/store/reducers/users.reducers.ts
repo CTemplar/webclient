@@ -29,7 +29,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
           [{ id: action.payload.id, name: action.payload.name, email: action.payload.email }])
       };
     }
-    case UsersActionTypes.CONTACT_READ_SUCCESS: {
+    case UsersActionTypes.CONTACT_GET_SUCCESS: {
       return {...state, contact: action.payload};
     }
     case UsersActionTypes.CONTACT_ADD_SUCCESS: {

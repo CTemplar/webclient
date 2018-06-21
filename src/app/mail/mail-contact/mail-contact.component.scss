@@ -147,6 +147,13 @@
 
 .mail-actions-form-holder {
 	font-size: 0.875rem;
+
+	strong {
+		vertical-align: middle;
+		vertical-align: -webkit-baseline-middle;
+		padding-left: 2rem;
+	}
+
 	@include media(">=ipad") {
 		padding-right: 1.25rem;
 	}

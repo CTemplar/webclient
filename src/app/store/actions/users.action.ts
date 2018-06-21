@@ -16,8 +16,8 @@ export enum UsersActionTypes {
   BLACKLIST_ADD_SUCCESS = '[Users] BlackList_Add_Success',
   BLACKLIST_DELETE = '[Users] BlackList_Delete',
   BLACKLIST_DELETE_SUCCESS = '[Users] BlackList_Delete_Success',
-  CONTACT = '[Users] Contact',
-  CONTACT_READ_SUCCESS = '[Users] Contact_Read_Success',
+  CONTACT_GET = '[Users] ContactGet GET',
+  CONTACT_GET_SUCCESS = '[Users] Contact_GET_Success',
   CONTACT_ADD = '[Users] Contact_Add',
   CONTACT_ADD_SUCCESS = '[Users] Contact_Add_Success',
   CONTACT_DELETE = '[Users] Contact_Delete',
@@ -93,13 +93,13 @@ export class BlackListDeleteSuccess implements Action {
   constructor(public payload: any) { }
 }
 
-export class Contact implements Action {
-  readonly type = UsersActionTypes.CONTACT;
+export class ContactGet implements Action {
+  readonly type = UsersActionTypes.CONTACT_GET;
   constructor(public payload: any) {}
 }
 
-export class ContactReadSuccess implements Action {
-  readonly type = UsersActionTypes.CONTACT_READ_SUCCESS;
+export class ContactGetSuccess implements Action {
+  readonly type = UsersActionTypes.CONTACT_GET_SUCCESS;
   constructor(public payload: any) {}
 }
 
@@ -136,8 +136,8 @@ export type UsersActionAll =
  | BlackListAddSuccess
  | BlackListDelete
  | BlackListDeleteSuccess
- | Contact
- | ContactReadSuccess
+ | ContactGet
+ | ContactGetSuccess
  | ContactAddSuccess
  | ContactDelete
  | ContactDeleteSuccess;

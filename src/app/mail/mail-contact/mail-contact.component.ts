@@ -1,58 +1,81 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UserState } from '../../store/datatypes';
+import { Contact, UserState } from '../../store/datatypes';
 import { selectUsersState } from '../../store/selectors';
-import { Contact } from '../../store';
+import { ContactAdd, ContactGet } from '../../store';
+
 // Store
 import { Store } from '@ngrx/store';
-import {NgbModal, ModalDismissReasons, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-mail-contact',
-  templateUrl: './mail-contact.component.html',
-  styleUrls: ['./mail-contact.component.scss']
+    selector: 'app-mail-contact',
+    templateUrl: './mail-contact.component.html',
+    styleUrls: ['./mail-contact.component.scss']
 })
 export class MailContactComponent implements OnInit {
-  // tslint:disable-next-line:indent
-  isLayoutSplitted: boolean = false;
-  public getUsersState$: Observable<any>;
-  public userState: UserState;
 
-  constructor(private store: Store<UserState>, private modalService: NgbModal, config: NgbDropdownConfig) {
-    // customize default values of dropdowns used by this component tree
-    config.autoClose = "outside";
-  }
-  
-  ngOnInit() {
-    this.getUsersState$ = this.store.select(selectUsersState);
-    this.store.dispatch(new Contact({}));
-    this.updateUsersStatus();
-  }
+    isLayoutSplitted: boolean = false;
+    public getUsersState$: Observable<any>;
+    public userState: UserState;
+    @ViewChild('newContactForm') newContactForm: NgForm;
+    newContactModel: Contact = {
+        name: '',
+        email: '',
+        address: '',
+        note: '',
+        phone: ''
+    };
 
-  private updateUsersStatus(): void {
-    this.getUsersState$.subscribe((state: UserState) => {
-      this.userState = state;
-    });
-  }
 
-	initSplitContactLayout():any {
-    	this.isLayoutSplitted = true;
+    constructor(private store: Store<UserState>,
+                private modalService: NgbModal,
+                config: NgbDropdownConfig) {
+        // customize default values of dropdowns used by this component tree
+        config.autoClose = 'outside';
+        // this.newContactModel
+    }
 
-    	if (this.isLayoutSplitted === true) {
-    		window.document.documentElement.classList.add('no-scroll');
-    	}
-	}
+    ngOnInit() {
+        this.getUsersState$ = this.store.select(selectUsersState);
+        this.store.dispatch(new ContactGet({}));
+        this.updateUsersStatus();
+    }
 
-	destroySplitContactLayout():any {
-    	this.isLayoutSplitted = false;
+    private updateUsersStatus(): void {
+        this.getUsersState$.subscribe((state: UserState) => {
+            this.userState = state;
+        });
+    }
 
-    	if (this.isLayoutSplitted === false) {
-    		window.document.documentElement.classList.remove('no-scroll');
-    	}
-	}
+    createNewContact() {
+        if (this.newContactForm.invalid) {
+            return false;
+        }
+        this.store.dispatch(new ContactAdd(this.newContactModel));
+        this.destroySplitContactLayout();
+    }
 
-	// == Open change password NgbModal
-	addUserContactModalOpen(addUserContent) {
-		this.modalService.open(addUserContent, {centered: true, windowClass: 'modal-sm users-action-modal'});
-	}
+    initSplitContactLayout(): any {
+        this.isLayoutSplitted = true;
+
+        if (this.isLayoutSplitted === true) {
+            window.document.documentElement.classList.add('no-scroll');
+        }
+    }
+
+    destroySplitContactLayout(): any {
+        this.isLayoutSplitted = false;
+
+        if (this.isLayoutSplitted === false) {
+            window.document.documentElement.classList.remove('no-scroll');
+        }
+        this.newContactForm.resetForm({});
+    }
+
+    // == Open change password NgbModal
+    addUserContactModalOpen(addUserContent) {
+        this.modalService.open(addUserContent, {centered: true, windowClass: 'modal-sm users-action-modal'});
+    }
 }

@@ -76,13 +76,13 @@ export interface BlackList {
 }
 
 export interface Contact {
-  id: number;
+  id?: number;
   address: string;
   email: string;
   name: string;
   note: string;
   phone: string;
-  phone2: string;
+  phone2?: string;
 }
 
 export interface AppState {
