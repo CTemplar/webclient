@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Custom Pipe
 import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
 import { SaveContactComponent } from './mail-contact/save-contact/save-contact.component';
+import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { SaveContactComponent } from './mail-contact/save-contact/save-contact.c
     MailListComponent,
     MailContactComponent,
     DecryptPipe,
-    SaveContactComponent
+    SaveContactComponent,
+    ComposeMailComponent
   ],
   exports: [MailFooterComponent]
 })

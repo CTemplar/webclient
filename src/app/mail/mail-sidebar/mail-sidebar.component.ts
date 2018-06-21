@@ -27,15 +27,7 @@ export class MailSidebarComponent implements OnInit {
   // == Show mail compose modal
   // == Setup click event to toggle mobile menu
   showMailComposeModal() { // click handler
-    const bool = this.isComposeVisible;
     this.isComposeVisible = true;
-  }
-
-  // == Show mail compose modal
-  // == Setup click event to toggle mobile menu
-  hideMailComposeModal() { // click handler
-    const bool = this.isComposeVisible;
-    this.isComposeVisible = false;
   }
 
 }
