@@ -29,19 +29,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
           [{ id: action.payload.id, name: action.payload.name, email: action.payload.email }])
       };
     }
-    case UsersActionTypes.CONTACT_READ_SUCCESS: {
+    case UsersActionTypes.CONTACT_GET_SUCCESS: {
       return {...state, contact: action.payload};
     }
+    case UsersActionTypes.CONTACT_ADD: {
+      return {...state, inProgress: true, isError: false};
+    }
     case UsersActionTypes.CONTACT_ADD_SUCCESS: {
-      return { ...state, contact: state.contact.concat([{
-        id: action.payload.id,
-        address: action.payload.address,
-        email: action.payload.email,
-        name: action.payload.name,
-        note: action.payload.note,
-        phone: action.payload.phone,
-        phone2: action.payload.phone2
-       }])};
+      return { ...state, contact: state.contact.concat([action.payload]), inProgress: false, isError: false};
+    }
+    case UsersActionTypes.CONTACT_ADD_ERROR: {
+      return {...state, inProgress: false, isError: true};
     }
     default: {
       return state;

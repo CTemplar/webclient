@@ -147,6 +147,13 @@
 
 .mail-actions-form-holder {
 	font-size: 0.875rem;
+
+	strong {
+		vertical-align: middle;
+		vertical-align: -webkit-baseline-middle;
+		padding-left: 2rem;
+	}
+
 	@include media(">=ipad") {
 		padding-right: 1.25rem;
 	}
@@ -258,5 +265,11 @@
 	.is-repeatable .btn-clone {
 		top: 2.75rem;
 		right: 0.875rem;
+	}
+}
+
+.mail-actions-form {
+	sup {
+		font-size: 12px;
 	}
 }
