@@ -134,9 +134,10 @@
                                         <div class="mail-list-col-row">
                                             <div class="mail-list-col-item mail-checkbox">
                                                 <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control" id="mailItemCheckbox1"
-                                                           name="[]" type="checkbox"/>
-                                                    <label for="mailItemCheckbox1" class="fancy-field-empty"></label>
+                                                    <input class="d-none fancy-field-control"
+                                                           [id]="contact.id"
+                                                           [name]="contact.id" type="checkbox"/>
+                                                    <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                                                 </div>
                                             </div>
                                             <div class="mail-list-col-item mail-status">
