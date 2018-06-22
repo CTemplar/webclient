@@ -41,6 +41,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CONTACT_ADD_ERROR: {
       return {...state, inProgress: false, isError: true};
     }
+    case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
+        if (action.payload.results && action.payload.results[0]) {
+            return {
+                ...state,
+                contact: action.payload.results[0].contacts,
+                blackList: action.payload.results[0].blacklist,
+                whiteList: action.payload.results[0].whiteList,
+                username: action.payload.results[0].username,
+            };
+        }
+        return state;
+    }
     default: {
       return state;
     }

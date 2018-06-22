@@ -103,11 +103,11 @@ export class UsersService {
   }
 
   getNecessaryTokenUrl(url) {
-    // if (url.indexOf('blog/posts') > -1) {
-    //   return true;
-    // }
+    if (url.indexOf('users/myself') > -1) {
+      return true;
+    }
 
-    if (url.indexOf('users/accounts') > -1) {
+    if (url.indexOf('users/users') > -1) {
       return true;
     }
 
@@ -122,9 +122,11 @@ export class UsersService {
   }
 
   getAccounts(id) {
-    const url = `${apiUrl}users/accounts/${id}/`;
-    const body = {};
-    return this.http.get<any>(url, body);
+    return this.http.get<any>( `${apiUrl}users/users/${id}/`);
+  }
+
+  getAccountDetails() {
+      return this.http.get<any>(`${apiUrl}users/myself/`);
   }
 
   getWhiteList(limit = 0, offset = 0) {

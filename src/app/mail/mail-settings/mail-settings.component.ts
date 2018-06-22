@@ -1,23 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbModal, ModalDismissReasons, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {
-  Accounts,
-  WhiteList,
-  WhiteListAdd,
-  WhiteListDelete,
-  BlackListAdd,
-  BlackListDelete,
-  BlackList
-} from '../../store/actions';
+import { BlackListAdd, BlackListDelete, WhiteListAdd, WhiteListDelete } from '../../store/actions';
 import { UserState } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
-import { selectUsersState, selectWhiteListState } from '../../store/selectors';
+import { selectUsersState } from '../../store/selectors';
+
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
@@ -43,10 +35,6 @@ export class MailSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new Accounts({}));
-    setTimeout(() => this.store.dispatch(new WhiteList({})));
-    setTimeout(() => this.store.dispatch(new BlackList({})));
-
     this.updateUsersStatus();
 
     this.whiteListForm = this.formBuilder.group({

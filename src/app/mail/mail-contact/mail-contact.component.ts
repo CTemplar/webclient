@@ -32,7 +32,6 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getUsersState$ = this.store.select(selectUsersState);
-        this.store.dispatch(new ContactGet({}));
         this.updateUsersStatus();
     }
 

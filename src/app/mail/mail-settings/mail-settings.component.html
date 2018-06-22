@@ -27,7 +27,8 @@
                                     <li class="info-list-item align-items-start">
                                         <div class="info-list-text info-list-label">Addresses</div>
                                         <div class="info-list-text info-list-val">
-                                            <div class="info-list-val-text">1. More available soon!</div>
+                                            <div class="info-list-val-text"
+                                                 ngbTooltip="Prime accounts will be credited with 4 additional addresses at no cost as soon as this function is available">One - More available soon.</div>
                                             <div class="info-list-val-text">737.61 Mb of 5.00 Gb</div>
                                         </div>
                                     </li>
@@ -418,7 +419,7 @@
                             <label for="displayName" class="form-label mb-sm-0">Display name</label>
                         </div>
                         <div class="col-sm-7">
-                            <input class="form-control form-control-sm" id="displayName" type="text" placeholder="John Simpson" />                                          
+                            <input class="form-control form-control-sm" id="displayName" type="text" placeholder="John Simpson" />
                         </div>
                     </div>
                 </div>
@@ -432,7 +433,7 @@
                                 <div style="margin-bottom: 3px;">---------</div>
                                 <div style="margin-bottom: 3px;">Best regards,</div>
                                 <div style="margin-bottom: 3px;">John</div>
-                            </div>                                      
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -532,7 +533,7 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">                               
+            <div class="form-content-holder">
                 <ul class="ui-list ui-list-styled list-styled">
                     <li class="ui-list-item ui-list-item-xs-full">
                         <div class="row row-xs align-items-center">
@@ -599,7 +600,7 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Whitelist</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">                               
+            <div class="form-content-holder">
                 <ul class="ui-list ui-list-styled list-styled">
                     <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList">
                         <div class="row row-xs align-items-center">
@@ -627,7 +628,7 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Blacklist</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">                               
+            <div class="form-content-holder">
                 <ul class="ui-list ui-list-styled list-styled">
                     <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList">
                       <div class="row row-xs align-items-center">
@@ -673,7 +674,7 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Domains</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">                               
+            <div class="form-content-holder">
                 <ul class="ui-list ui-list-styled list-styled">
                     <li class="ui-list-item ui-list-item-xs-full">
                         <div class="row row-xs align-items-center">
@@ -715,7 +716,7 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Payments</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">                               
+            <div class="form-content-holder">
                 <ul class="ui-list ui-list-styled list-styled">
                     <li class="ui-list-item ui-list-item-xs-full">
                         <div class="row row-xs align-items-center">
@@ -815,7 +816,7 @@
             <p>We will send a reset code to your <a href="">recovery email</a> to reset your password. </p>
             <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails if you reset your password.</p>
             <p>If you did not set a recovery email then your account is not recoverable.</p>
-            
+
             <div class="login-content-holder mx-auto mt-2 pt-sm-2">
                 <div class="form">
                     <form>
@@ -1157,7 +1158,7 @@
                                                 <button ngbDropdownToggle id="dateDropdownMenuButton" role="button">Date</button>
                                                 <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
                                                     <a class="dropdown-item text-muted" href=""><em>Date</em></a>
-                                                    <a class="dropdown-item text-muted" 
+                                                    <a class="dropdown-item text-muted"
                                                     href=""><em>01</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>02</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>03</em></a>
@@ -1177,7 +1178,7 @@
                                                 <button ngbDropdownToggle id="yearDropdownMenuButton" role="button">Year</button>
                                                 <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                                                     <a class="dropdown-item text-muted" href=""><em>Year</em></a>
-                                                    <a class="dropdown-item text-muted" 
+                                                    <a class="dropdown-item text-muted"
                                                     href=""><em>2018</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>2018</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>2018</em></a>
@@ -1209,7 +1210,7 @@
                                                 <button ngbDropdownToggle id="countryDropdownMenuButton" role="button">Country</button>
                                                 <div ngbDropdownMenu aria-labelledby="countryDropdownMenuButton">
                                                     <a class="dropdown-item text-muted" href=""><em>Country</em></a>
-                                                    <a class="dropdown-item text-muted" 
+                                                    <a class="dropdown-item text-muted"
                                                     href=""><em>Afghanistan</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>Belgium</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>Canada</em></a>
@@ -1217,7 +1218,7 @@
                                                     <a class="dropdown-item text-muted" href=""><em>Egypt</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>France</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>Germany</em></a>
-                                                    <a class="dropdown-item text-muted" 
+                                                    <a class="dropdown-item text-muted"
                                                     href=""><em>Ireland</em></a>
                                                     <a class="dropdown-item text-muted" href=""><em>USA</em></a>
                                                 </div>

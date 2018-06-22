@@ -19,28 +19,28 @@ import { UsersService } from '../../store/services';
 
 // Custom Actions
 import {
-  Accounts,
-  UsersActionTypes,
-  AccountsReadSuccess,
-  WhiteList,
-  WhiteListsReadSuccess,
-  WhiteListAdd,
-  WhiteListAddSuccess,
-  WhiteListDeleteSuccess,
-  BlackList,
-  BlackListAddSuccess,
-  BlackListDeleteSuccess,
-  BlackListsReadSuccess,
-  ContactDelete,
-  WhiteListDelete,
-  BlackListAdd,
-  BlackListDelete,
-  ContactGet,
-  ContactAdd,
-  ContactAddSuccess,
-  ContactAddError,
-  ContactDeleteSuccess,
-  ContactGetSuccess
+    Accounts,
+    UsersActionTypes,
+    AccountsReadSuccess,
+    WhiteList,
+    WhiteListsReadSuccess,
+    WhiteListAdd,
+    WhiteListAddSuccess,
+    WhiteListDeleteSuccess,
+    BlackList,
+    BlackListAddSuccess,
+    BlackListDeleteSuccess,
+    BlackListsReadSuccess,
+    ContactDelete,
+    WhiteListDelete,
+    BlackListAdd,
+    BlackListDelete,
+    ContactGet,
+    ContactAdd,
+    ContactAddSuccess,
+    ContactAddError,
+    ContactDeleteSuccess,
+    ContactGetSuccess, AccountDetailsGetSuccess
 } from '../actions';
 
 
@@ -61,6 +61,16 @@ export class UsersEffects {
         return new AccountsReadSuccess(user);
       });
     });
+
+    @Effect()
+    AccountDetails: Observable<any> = this.actions
+        .ofType(UsersActionTypes.ACCOUNT_DETAILS_GET)
+        .map((action: Accounts) => action.payload)
+        .switchMap(payload => {
+            return this.userService.getAccountDetails().map(user => {
+                return new AccountDetailsGetSuccess(user);
+            });
+        });
 
   @Effect()
   WhiteLists: Observable<any> = this.actions

@@ -22,7 +22,9 @@ export enum UsersActionTypes {
   CONTACT_ADD_SUCCESS = '[Users] Contact_Add_Success',
   CONTACT_ADD_ERROR = '[Users] Contact_Add_Error',
   CONTACT_DELETE = '[Users] Contact_Delete',
-  CONTACT_DELETE_SUCCESS = '[Users] Contact_Delete_Success'
+  CONTACT_DELETE_SUCCESS = '[Users] Contact_Delete_Success',
+  ACCOUNT_DETAILS_GET = '[Users] ACCOUNT_DETAILS_GET',
+  ACCOUNT_DETAILS_GET_SUCCESS = '[Users] ACCOUNT_DETAILS_GET_SUCCESS'
 }
 
 export class Accounts implements Action {
@@ -129,6 +131,16 @@ export class ContactDeleteSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class AccountDetailsGet implements Action {
+  readonly type = UsersActionTypes.ACCOUNT_DETAILS_GET;
+  constructor(public payload?: any) {}
+}
+
+export class AccountDetailsGetSuccess implements Action {
+  readonly type = UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS;
+  constructor(public payload?: any) {}
+}
+
 export type UsersActionAll =
  Accounts
  | AccountsReadSuccess
@@ -148,4 +160,6 @@ export type UsersActionAll =
  | ContactAddSuccess
  | ContactAddError
  | ContactDelete
- | ContactDeleteSuccess;
+ | ContactDeleteSuccess
+ | AccountDetailsGet
+ | AccountDetailsGetSuccess;
