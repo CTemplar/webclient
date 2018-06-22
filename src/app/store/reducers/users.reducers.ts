@@ -36,7 +36,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {...state, inProgress: true, isError: false};
     }
     case UsersActionTypes.CONTACT_ADD_SUCCESS: {
-      return { ...state, contact: state.contact.concat([action.payload]), inProgress: false, isError: false};
+        if (action.payload.isUpdating) {
+            const contact = state.contact.filter(item => item.id === action.payload.id)[0];
+            contact.note = action.payload.note;
+            contact.address = action.payload.address;
+            contact.phone = action.payload.phone;
+            contact.phone2 = action.payload.phone2;
+            contact.email = action.payload.email;
+            contact.name = action.payload.name;
+            return {...state, inProgress: false, isError: false};
+        }
+        return {...state, contact: state.contact.concat([action.payload]), inProgress: false, isError: false};
     }
     case UsersActionTypes.CONTACT_ADD_ERROR: {
       return {...state, inProgress: false, isError: true};

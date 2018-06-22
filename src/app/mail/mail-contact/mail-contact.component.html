@@ -53,7 +53,7 @@
 <!-- Add user button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
     <button class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon" role="button"
-            placement="top" ngbTooltip="Add User" (click)="initSplitContactLayout();"><i
+            placement="top" ngbTooltip="Add User" (click)="selectedContact=null;initSplitContactLayout();"><i
             class="icon icon-add-user text-white"></i></button>
 </div>
 
@@ -89,10 +89,10 @@
                     <a href="" class="no-icon">Compose</a>
                 </li>
                 <li class="hidden-sm-down">
-                    <a class="no-icon" role="button" (click)="initSplitContactLayout();">New Contact</a>
+                    <a class="no-icon" role="button" (click)="selectedContact=null;initSplitContactLayout();">New Contact</a>
                 </li>
                 <li class="hidden-md-up hidden-xs-down">
-                    <a class="no-icon" role="button" (click)="addUserContactModalOpen(addUserContent)">New Contact</a>
+                    <a class="no-icon" role="button" (click)="selectedContact=null;addUserContactModalOpen(addUserContent)">New Contact</a>
                 </li>
             </ul>
         </div>
@@ -145,12 +145,24 @@
                                                     <i class="icon icon-star"></i>
                                                 </div>
                                             </div>
-                                            <div class="mail-list-col-item mail-from-name">
+                                            <div class="mail-list-col-item mail-from-name cursor-pointer hidden-sm-down"
+                                                 (click)="selectedContact=contact;initSplitContactLayout()">
+                                                <span>{{contact.name}}</span>
+                                            </div>
+                                            <div class="mail-list-col-item mail-from-name cursor-pointer hidden-md-up hidden-xs-down"
+                                                 (click)="selectedContact=contact; addUserContactModalOpen(addUserContent)">
                                                 <span>{{contact.name}}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-lg-9 mail-contact-col-lg">
+                                    <div class="col-sm-8 col-lg-9 mail-contact-col-lg cursor-pointer hidden-sm-down"
+                                         (click)="selectedContact=contact;initSplitContactLayout()">
+                                        <div class="mail-desc">
+                                            <p><strong>{{contact.email}}</strong></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 col-lg-9 mail-contact-col-lg cursor-pointer hidden-md-up hidden-xs-down"
+                                         (click)="selectedContact=contact; addUserContactModalOpen(addUserContent)">
                                         <div class="mail-desc">
                                             <p><strong>{{contact.email}}</strong></p>
                                         </div>
@@ -168,6 +180,7 @@
                                 (click)="destroySplitContactLayout();"><i class="icon icon-arrow-left"></i></button>
                         <strong>Contact Details</strong></h5>
                     <app-save-contact *ngIf="isNewContact"
+                                      [selectedContact]="selectedContact"
                                       (userSaved)="destroySplitContactLayout()"></app-save-contact>
                 </div>
             </div>
@@ -206,7 +219,9 @@
     </div>
     <div class="modal-body bg-faded">
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <app-save-contact *ngIf="isNewContact" (userSaved)="d()"></app-save-contact>
+            <app-save-contact *ngIf="isNewContact"
+                              [selectedContact]="selectedContact"
+                              (userSaved)="d()"></app-save-contact>
         </div>
     </div>
 </ng-template><!-- /.Add users contact modal ends -->

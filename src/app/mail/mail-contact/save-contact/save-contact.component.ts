@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ContactAdd, ContactGet, selectUsersState } from '../../../store';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
@@ -12,7 +12,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
     templateUrl: './save-contact.component.html',
     styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss']
 })
-export class SaveContactComponent implements OnInit, OnDestroy {
+export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
+    @Input() selectedContact: Contact;
     @Output() userSaved = new EventEmitter<boolean>();
 
     public getUsersState$: Observable<any>;
@@ -36,6 +37,12 @@ export class SaveContactComponent implements OnInit, OnDestroy {
         this.getUsersState$ = this.store.select(selectUsersState);
         this.store.dispatch(new ContactGet({}));
         this.handleUserState();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['selectedContact'] && changes['selectedContact'].currentValue) {
+            this.newContactModel = {...this.selectedContact};
+        }
     }
 
     ngOnDestroy(): void {

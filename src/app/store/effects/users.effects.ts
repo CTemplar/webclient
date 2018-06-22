@@ -148,9 +148,10 @@ export class UsersEffects {
             switchMap((action: Accounts) =>
                 this.userService.addContact(action.payload)
                     .pipe(
-                        switchMap(contact => [
-                            new ContactAddSuccess(contact),
-                        ]),
+                        switchMap(contact => {
+                            contact.isUpdating = action.payload.id;
+                            return [new ContactAddSuccess(contact)];
+                        }),
                         catchError(err => [new ContactAddError()]),
                     ))
         );

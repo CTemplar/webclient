@@ -172,16 +172,11 @@ export class UsersService {
   }
 
   addContact(payload) {
-    const url = `${apiUrl}users/contacts/`;
-    const body = {
-      id: payload.id,
-      address: payload.address,
-      email: payload.email,
-      name: payload.name,
-      note: payload.note,
-      phone: payload.phone,
-      phone2: payload.phone2 };
-    return this.http.post<any>(url, body);
+      const url = `${apiUrl}users/contacts/`;
+      if (payload.id) {
+          return this.http.patch<any>(`${url}${payload.id}/`, payload);
+      }
+      return this.http.post<any>(url, payload);
   }
 
   deleteContact(id) {

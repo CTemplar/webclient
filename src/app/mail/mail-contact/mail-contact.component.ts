@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UserState } from '../../store/datatypes';
+import { Contact, UserState } from '../../store/datatypes';
 import { selectUsersState } from '../../store/selectors';
 import { ContactGet } from '../../store';
 // Store
@@ -22,6 +22,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
     public userState: UserState;
     public isNewContact: boolean;
     readonly destroyed$: Observable<boolean>;
+    public selectedContact: Contact;
 
     constructor(private store: Store<UserState>,
                 private modalService: NgbModal,
@@ -60,9 +61,9 @@ export class MailContactComponent implements OnInit, OnDestroy {
             window.document.documentElement.classList.remove('no-scroll');
         }
         this.isNewContact = false;
+        this.selectedContact = null;
     }
 
-    // == Open change password NgbModal
     addUserContactModalOpen(addUserContent) {
         this.isNewContact = true;
         this.modalService.open(
@@ -72,6 +73,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
                 windowClass: 'modal-sm users-action-modal',
                 beforeDismiss: () => {
                     this.isNewContact = false;
+                    this.selectedContact = null;
                     return true;
                 },
             });
