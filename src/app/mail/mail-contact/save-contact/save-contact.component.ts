@@ -60,6 +60,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
                 if (!state.isError) {
                     this.notificationService.showSuccess(`Contact ${this.newContactModel.id ? 'updated' : 'saved'} successfully.`);
                     this.userSaved.emit(true);
+                } else {
+                    this.notificationService.showError(`Failed to ${this.newContactModel.id ? 'update' : 'save'} contact.`);
                 }
 
             }
