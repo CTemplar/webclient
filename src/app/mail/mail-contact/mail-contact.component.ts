@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import 'rxjs/add/operator/takeUntil';
+import { BreakpointsService } from '../../store/services/breakpoint.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -26,6 +27,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
     constructor(private store: Store<UserState>,
                 private modalService: NgbModal,
+                private breakpointsService: BreakpointsService,
                 config: NgbDropdownConfig) {
         // customize default values of dropdowns used by this component tree
         config.autoClose = 'outside';
@@ -77,5 +79,14 @@ export class MailContactComponent implements OnInit, OnDestroy {
                     return true;
                 },
             });
+    }
+
+    editContact(contact: Contact, addUserContent) {
+        this.selectedContact = contact;
+        if (this.breakpointsService.isSM()) {
+            this.addUserContactModalOpen(addUserContent);
+        } else {
+            this.initSplitContactLayout();
+        }
     }
 }

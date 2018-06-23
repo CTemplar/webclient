@@ -43,6 +43,7 @@ import { OpenPgpService } from './store/services';
 import { TokenInterceptor } from './store/services';
 import { ToastrModule } from 'ngx-toastr';
 import { NotificationService } from './store/services/notification.service';
+import { BreakpointsService } from './store/services/breakpoint.service';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { NotificationService } from './store/services/notification.service';
     SharedService,
     OpenPgpService,
     NotificationService,
+    BreakpointsService,
     MailService,
     {
       provide: HTTP_INTERCEPTORS,
