@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Contact, UserState } from '../../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { NotificationService } from '../../../store/services/notification.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -30,7 +31,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
     readonly destroyed$: Observable<boolean>;
 
 
-    constructor(private store: Store<UserState>) {
+    constructor(private store: Store<UserState>,
+                private notificationService: NotificationService) {
     }
 
     ngOnInit() {
@@ -56,8 +58,10 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
             if (this.inProgress && !state.inProgress) {
                 this.inProgress = false;
                 if (!state.isError) {
+                    this.notificationService.showSuccess(`Contact ${this.newContactModel.id ? 'updated' : 'saved'} successfully.`);
                     this.userSaved.emit(true);
                 }
+
             }
         });
     }

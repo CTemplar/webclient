@@ -40,7 +40,9 @@ import { MailService } from './store/services';
 import { SharedService } from './store/services';
 import { OpenPgpService } from './store/services';
 
-import { TokenInterceptor, ErrorInterceptor } from './store/services';
+import { TokenInterceptor } from './store/services';
+import { ToastrModule } from 'ngx-toastr';
+import { NotificationService } from './store/services/notification.service';
 
 
 @NgModule({
@@ -60,12 +62,14 @@ import { TokenInterceptor, ErrorInterceptor } from './store/services';
     MailModule,
     PagesModule,
     UsersModule,
-    ngxZendeskWebwidgetModule.forRoot(ZendeskConfig)
+    ngxZendeskWebwidgetModule.forRoot(ZendeskConfig),
+    ToastrModule.forRoot(),
   ],
   providers: [
     BlogService,
     SharedService,
     OpenPgpService,
+    NotificationService,
     MailService,
     {
       provide: HTTP_INTERCEPTORS,
