@@ -83,13 +83,17 @@
                     <a href="" class="border-radius-r-0 border-right-0 no-icon">Edit</a>
                 </li>
                 <li class="pr-0 pl-0">
-                    <a class="border-radius-l-0"><i class="icon icon-garbage"></i></a>
+                    <a (click)="openConfirmDeleteModal(confirmDeleteModal)" class="cursor-pointer border-radius-l-0"><i
+                            class="icon icon-garbage"></i></a>
                 </li>
                 <li class="pr-0">
                     <a href="" class="no-icon">Compose</a>
                 </li>
                 <li class="hidden-xs-down">
                     <a class="no-icon" role="button" (click)="editContact(null, addUserContent);">New Contact</a>
+                </li>
+                <li *ngIf="inProgress">
+                    <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
                 </li>
             </ul>
         </div>
@@ -132,6 +136,7 @@
                                             <div class="mail-list-col-item mail-checkbox">
                                                 <div class="fancy-field-group">
                                                     <input class="d-none fancy-field-control"
+                                                           [(ngModel)]="contact.markForDelete"
                                                            [id]="contact.id"
                                                            [name]="contact.id" type="checkbox"/>
                                                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
@@ -212,3 +217,27 @@
         </div>
     </div>
 </ng-template><!-- /.Add users contact modal ends -->
+
+
+<!-- Confirm contact delete modal -->
+<ng-template #confirmDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Are you sure, you want to delete {{contactsToDelete.length}} {{contactsToDelete.length>1?'contacts':
+                'contact'}}?
+            </div>
+            <div class="form-group text-right mb-0">
+                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+                <button (click)="deleteContacts()" class="btn btn-danger btn-sm" role="button">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template><!-- /.Confirm contact delete modal ends -->
