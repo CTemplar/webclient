@@ -22,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
 import { SaveContactComponent } from './mail-contact/save-contact/save-contact.component';
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.c
     NgbModule,
     MailRoutingModule,
     FormsModule,
+    SharedModule,
     ReactiveFormsModule
   ],
   declarations: [

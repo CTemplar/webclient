@@ -14,6 +14,7 @@ import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
 import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
 import { NgxVirtualKeyboardModule } from './lib';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   imports: [CommonModule, NgxVirtualKeyboardModule],
@@ -27,6 +28,7 @@ import { NgxVirtualKeyboardModule } from './lib';
     PrimePlanComponent,
     SpinnerImageComponent,
     LoadingComponent,
+    LoadingSpinnerComponent,
   ],
   exports: [
     SpinnerComponent,
@@ -34,7 +36,8 @@ import { NgxVirtualKeyboardModule } from './lib';
     LoadingComponent,
     SpinnerImageComponent,
     ngxZendeskWebwidgetModule,
-    NgxVirtualKeyboardModule
+    NgxVirtualKeyboardModule,
+    LoadingSpinnerComponent
   ],
   providers: [SpinnerService]
 })

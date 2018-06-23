@@ -26,7 +26,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
         note: '',
         phone: ''
     };
-    private inProgress: boolean;
+    public inProgress: boolean;
 
     readonly destroyed$: Observable<boolean>;
 
@@ -52,9 +52,6 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
 
     private handleUserState(): void {
         this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
-            // TODO : display a loader or spinner when this.userState.inProgress is true
-            // TODO : hide spinner when this.userState.inProgress is false
-            // TODO : display an error message when this.userState.isError is true
             if (this.inProgress && !state.inProgress) {
                 this.inProgress = false;
                 if (!state.isError) {
