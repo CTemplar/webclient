@@ -20,10 +20,12 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/quill/dist/quill.snow.css"
       ],
       "scripts": [
-        "../node_modules/openpgp/dist/openpgp.js"
+        "../node_modules/openpgp/dist/openpgp.js",
+        "../node_modules/quill/dist/quill.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
