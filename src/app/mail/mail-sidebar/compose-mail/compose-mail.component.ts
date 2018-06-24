@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import * as QuillNamespace from 'quill';
+
+const Quill: any = QuillNamespace;
 
 @Component({
     selector: 'app-compose-mail',
@@ -10,10 +13,24 @@ export class ComposeMailComponent implements OnInit {
 
     @Output() public onHide = new EventEmitter<boolean>();
 
+    @ViewChild('editor') editor;
+    @ViewChild('toolbar') toolbar;
+
+    private quill: any;
+
     constructor() {
     }
 
     ngOnInit() {
+        this.initializeQuillEditor();
+    }
+
+    initializeQuillEditor() {
+      this.quill = new Quill(this.editor.nativeElement, {
+        modules: {
+          toolbar: this.toolbar.nativeElement
+        }
+      });
     }
 
     hideMailComposeModal() {

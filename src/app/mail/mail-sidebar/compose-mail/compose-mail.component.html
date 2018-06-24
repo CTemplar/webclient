@@ -45,27 +45,7 @@
             <div class="mail-compose-editable-body">
                 <div class="mail-compose-box has-custom-scroll">
                     <div class="mail-compose-box-inner">
-                        <div class="mail-compose-editable-box" contenteditable="true">
-                            <div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is
-                                protected by strong encryption. Even we do not have the ability to read your emails.
-                                CTemplar can send and receive emails from other email providers such as Gmail. It is
-                                even possible to end-to-end
-                                encrypt the messages you send to external recipients. If your friends also use CTemplar,
-                                all your communications
-                                with them will be automatically end-to-end encrypted.
-                            </div>
-                            <div style="line-height: 1.7;">
-                                <br/>
-                            </div>
-                            <div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">CTemplar is an open-source
-                                community-driven project and basic accounts are always free. However, the costs to run
-                                CTemplar are quite high, and we depend on support from the community to keep the service
-                                running. If you would like
-                                to support the project, you can upgrade to a paid account. Your support is essential to
-                                ensuring that CTemplar is
-                                financially stable and can continue to offer the service to the public.
-                            </div>
-                            <br/>
+                        <div #editor class="mail-compose-editable-box" contenteditable="true">
                         </div>
                         <div class="attach-uploader-holder">
                             <div class="attach-uploader">
@@ -252,7 +232,7 @@
                                         ngbTooltip="Text formatting"><i class="icon icon-text-color"></i></button>
                                 <div ngbDropdownMenu class="typo-actions-dropdown-menu is-centered"
                                      aria-labelledby="typoDropdownMenu">
-                                    <div class="mail-comopser-typo-actions-holder">
+                                    <div #toolbar class="mail-comopser-typo-actions-holder">
                                         <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
                                             <li class="pr-0">
                                                 <div ngbDropdown placement="top" class="dropup">
@@ -308,17 +288,17 @@
 
                                             <li class="pr-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-bold-btn border-right-0 border-radius-r-0">
+                                                        class="ql-bold actions-btn mail-bold-btn border-right-0 border-radius-r-0">
                                                     <i class="icon icon-bold"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-italic-btn border-right-0 border-radius-0">
+                                                        class="ql-italic actions-btn mail-italic-btn border-right-0 border-radius-0">
                                                     <i class="icon icon-italic"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-underline-btn border-right-0 border-radius-0">
+                                                        class="ql-underline actions-btn mail-underline-btn border-right-0 border-radius-0">
                                                     <i class="icon icon-underline"></i></button>
                                             </li>
                                             <li class="pl-0">
@@ -818,48 +798,54 @@
 
                                             <li class="pr-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-align-right-btn border-right-0 border-radius-r-0">
+                                                        class="ql-align actions-btn mail-align-right-btn border-right-0 border-radius-r-0"
+                                                        value="right">
                                                     <i class="icon icon-text-align-right"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-align-center-btn border-right-0 border-radius-0">
+                                                        class="ql-align actions-btn mail-align-center-btn border-right-0 border-radius-0"
+                                                        value="center">
                                                     <i class="icon icon-text-align-center"></i></button>
                                             </li>
                                             <li class="pl-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-align-left-btn border-radius-l-0"><i
-                                                        class="icon icon-text-align-left"></i></button>
+                                                        class="ql-align actions-btn mail-align-left-btn border-radius-l-0">
+                                                    <i class="icon icon-text-align-left"></i></button>
                                             </li>
 
                                             <li class="pr-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0">
+                                                        class="ql-list actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"
+                                                        value="bullet">
                                                     <i class="icon icon-unorder-list"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-order-list-btn border-right-0 border-radius-0">
+                                                        class="ql-list actions-btn mail-order-list-btn border-right-0 border-radius-0"
+                                                        value="ordered">
                                                     <i class="icon icon-ordered-list"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-indent-decrease-btn border-right-0 border-radius-0">
+                                                        class="ql-indent actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"
+                                                        value="-1">
                                                     <i class="icon icon-indent-decrease"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-indent-increase-btn border-right-0 border-radius-0">
+                                                        class="ql-indent actions-btn mail-indent-increase-btn border-right-0 border-radius-0"
+                                                        value="+1">
                                                     <i class="icon icon-indent-increase"></i></button>
                                             </li>
                                             <li class="pl-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-quote-right-btn border-radius-l-0"><i
+                                                        class="ql-blockquote actions-btn mail-quote-right-btn border-radius-l-0"><i
                                                         class="icon icon-quote-right"></i></button>
                                             </li>
 
                                             <li>
-                                                <button role="button" class="actions-btn mail-format-clear-btn"><i
+                                                <button role="button" class="ql-clean actions-btn mail-format-clear-btn"><i
                                                         class="icon icon-format-clear"></i></button>
                                             </li>
                                         </ul>
