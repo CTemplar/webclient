@@ -3,6 +3,12 @@ import * as QuillNamespace from 'quill';
 
 const Quill: any = QuillNamespace;
 
+const FontAttributor = Quill.import('attributors/class/font');
+FontAttributor.whitelist = [
+  'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
+];
+Quill.register(FontAttributor, true);
+
 @Component({
     selector: 'app-compose-mail',
     templateUrl: './compose-mail.component.html',
