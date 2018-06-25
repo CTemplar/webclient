@@ -181,8 +181,7 @@ export class UsersService {
 
   deleteContact(id) {
     const url = `${apiUrl}users/contacts/${id}/`;
-    const body = {};
-    return this.http.delete<any>(url, body);
+    return this.http.delete<any>(url);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
