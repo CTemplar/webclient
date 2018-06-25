@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Contact, UserState } from '../../store/datatypes';
 import { selectUsersState } from '../../store/selectors';
-import { ContactGet } from '../../store';
+import { ContactDelete } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
-import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import 'rxjs/add/operator/takeUntil';
+import { BreakpointsService } from '../../store/services/breakpoint.service';
+import { NotificationService } from '../../store/services/notification.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -23,9 +25,16 @@ export class MailContactComponent implements OnInit, OnDestroy {
     public isNewContact: boolean;
     readonly destroyed$: Observable<boolean>;
     public selectedContact: Contact;
+    public inProgress: boolean;
+
+    private contactsCount: number;
+    public contactsToDelete: Contact[] = [];
+    private confirmModalRef: NgbModalRef;
 
     constructor(private store: Store<UserState>,
                 private modalService: NgbModal,
+                private breakpointsService: BreakpointsService,
+                private notificationService: NotificationService,
                 config: NgbDropdownConfig) {
         // customize default values of dropdowns used by this component tree
         config.autoClose = 'outside';
@@ -42,6 +51,12 @@ export class MailContactComponent implements OnInit, OnDestroy {
     private updateUsersStatus(): void {
         this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
             this.userState = state;
+            if (this.contactsCount === this.userState.contact.length + this.contactsToDelete.length) {
+                this.inProgress = false;
+                this.notificationService.showSuccess('Contacts deleted successfully.');
+                this.contactsToDelete = [];
+                this.contactsCount = null;
+            }
         });
     }
 
@@ -77,5 +92,38 @@ export class MailContactComponent implements OnInit, OnDestroy {
                     return true;
                 },
             });
+    }
+
+    editContact(contact: Contact, addUserContent) {
+        this.selectedContact = contact;
+        if (this.breakpointsService.isSM()) {
+            this.addUserContactModalOpen(addUserContent);
+        } else {
+            this.initSplitContactLayout();
+        }
+    }
+
+    openConfirmDeleteModal(modalRef) {
+        this.contactsToDelete = this.userState.contact.filter(item => item.markForDelete);
+        if (this.contactsToDelete.length === 0) {
+            return;
+        }
+        this.confirmModalRef = this.modalService.open(modalRef, {
+            centered: true,
+            windowClass: 'modal-sm users-action-modal'
+        });
+    }
+
+    cancelDelete() {
+        this.confirmModalRef.close();
+    }
+
+    deleteContacts() {
+        this.confirmModalRef.close();
+        this.inProgress = true;
+        this.contactsCount = this.userState.contact.length;
+        this.contactsToDelete.forEach((contact) => {
+            this.store.dispatch(new ContactDelete(contact.id));
+        });
     }
 }

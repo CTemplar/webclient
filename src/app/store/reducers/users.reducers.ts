@@ -32,6 +32,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CONTACT_GET_SUCCESS: {
       return {...state, contact: action.payload};
     }
+    case UsersActionTypes.CONTACT_DELETE:
     case UsersActionTypes.CONTACT_ADD: {
       return {...state, inProgress: true, isError: false};
     }
@@ -51,6 +52,11 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CONTACT_ADD_ERROR: {
       return {...state, inProgress: false, isError: true};
     }
+      case UsersActionTypes.CONTACT_DELETE_SUCCESS: {
+          const contact = state.contact.filter(item => item.id === action.payload)[0];
+          state.contact.splice(state.contact.indexOf(contact), 1);
+          return {...state, inProgress: false, isError: false};
+      }
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
         if (action.payload.results && action.payload.results[0]) {
             return {

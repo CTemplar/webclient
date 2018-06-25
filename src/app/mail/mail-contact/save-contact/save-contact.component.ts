@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Contact, UserState } from '../../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { NotificationService } from '../../../store/services/notification.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -25,12 +26,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
         note: '',
         phone: ''
     };
-    private inProgress: boolean;
+    public inProgress: boolean;
 
     readonly destroyed$: Observable<boolean>;
 
 
-    constructor(private store: Store<UserState>) {
+    constructor(private store: Store<UserState>,
+                private notificationService: NotificationService) {
     }
 
     ngOnInit() {
@@ -50,14 +52,15 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
 
     private handleUserState(): void {
         this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
-            // TODO : display a loader or spinner when this.userState.inProgress is true
-            // TODO : hide spinner when this.userState.inProgress is false
-            // TODO : display an error message when this.userState.isError is true
             if (this.inProgress && !state.inProgress) {
                 this.inProgress = false;
                 if (!state.isError) {
+                    this.notificationService.showSuccess(`Contact ${this.newContactModel.id ? 'updated' : 'saved'} successfully.`);
                     this.userSaved.emit(true);
+                } else {
+                    this.notificationService.showError(`Failed to ${this.newContactModel.id ? 'update' : 'save'} contact.`);
                 }
+
             }
         });
     }

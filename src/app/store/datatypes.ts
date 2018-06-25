@@ -85,6 +85,7 @@ export interface Contact {
   note: string;
   phone: string;
   phone2?: string;
+  markForDelete?: boolean; // To handle delete multiple contacts using checkboxes
 }
 
 export interface AppState {

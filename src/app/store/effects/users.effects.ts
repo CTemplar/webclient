@@ -162,7 +162,7 @@ export class UsersEffects {
     .map((action: Accounts) => action.payload)
     .switchMap(payload => {
       return this.userService.deleteContact(payload).map(contact => {
-        return new ContactDeleteSuccess(contact);
+        return new ContactDeleteSuccess(payload);
       });
     });
   }
