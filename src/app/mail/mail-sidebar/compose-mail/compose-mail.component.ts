@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as QuillNamespace from 'quill';
 import { Subscription } from 'rxjs';
 import { timer } from 'rxjs/observable/timer';
@@ -28,8 +29,9 @@ export class ComposeMailComponent implements OnInit, OnChanges {
     private emailId: number;
     private autoSaveSubscription: Subscription;
     private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
+    private confirmModalRef: NgbModalRef;
 
-    constructor() {
+    constructor(private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -62,15 +64,32 @@ export class ComposeMailComponent implements OnInit, OnChanges {
         });
     }
 
-    hideMailComposeModal() {
-        this.onHide.emit(true);
-        this.emailId = null;
-        this.unSubscribeAutoSave();
+    onClose(modalRef: any) {
+        // TODO: Add check to see if user entered any content
+        this.confirmModalRef = this.modalService.open(modalRef, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal'
+        });
+    }
+
+    cancelDiscard() {
+        this.confirmModalRef.close();
+    }
+
+    saveInDrafts() {
+        this.confirmModalRef.close();
+        this.hideMailComposeModal();
+    }
+
+    discardEmail() {
+        this.confirmModalRef.close();
+        // TODO: Add API call to delete email
+        this.hideMailComposeModal();
     }
 
     private updateEmail() {
         if (this.emailId) {
-          // Add API call for updating email
+          // TODO: Add API call for updating email
         }
         else {
           this.createEmail();
@@ -78,8 +97,14 @@ export class ComposeMailComponent implements OnInit, OnChanges {
     }
 
     private createEmail() {
-        // Add API call for creating email. Store returned id to this.emailId
+        // TODO: Add API call for creating email. Store returned id to this.emailId
       this.emailId = 10;
+    }
+
+    private hideMailComposeModal() {
+        this.onHide.emit(true);
+        this.emailId = null;
+        this.unSubscribeAutoSave();
     }
 
     private unSubscribeAutoSave() {
