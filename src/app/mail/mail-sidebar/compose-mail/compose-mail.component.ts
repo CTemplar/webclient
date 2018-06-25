@@ -26,11 +26,11 @@ export class ComposeMailComponent implements OnInit {
     }
 
     initializeQuillEditor() {
-      this.quill = new Quill(this.editor.nativeElement, {
-        modules: {
-          toolbar: this.toolbar.nativeElement
-        }
-      });
+        this.quill = new Quill(this.editor.nativeElement, {
+            modules: {
+                toolbar: this.toolbar.nativeElement
+            }
+        });
     }
 
     hideMailComposeModal() {
