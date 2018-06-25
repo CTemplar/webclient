@@ -609,3 +609,14 @@ $mail_composer_padding_x: 0.75rem;
 	padding: 1rem 1.5rem;
 	background: #f5f5f5;
 }
+
+
+/* Toolbar selected button css.*/
+.ql-active {
+	background: white !important;
+	font-weight: bold !important;
+
+	i {
+		font-weight: bold !important;
+	}
+}
