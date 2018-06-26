@@ -40,7 +40,7 @@ import {
     ContactAddSuccess,
     ContactAddError,
     ContactDeleteSuccess,
-    ContactGetSuccess, AccountDetailsGetSuccess
+    ContactGetSuccess, AccountDetailsGetSuccess, WhiteListAddError, BlackListAddError
 } from '../actions';
 
 
@@ -87,9 +87,14 @@ export class UsersEffects {
     .ofType(UsersActionTypes.WHITELIST_ADD)
     .map((action: WhiteListAdd) => action.payload)
     .switchMap(payload => {
-      return this.userService.addWhiteList(payload.email, payload.name).map(whiteList => {
-        return new WhiteListAddSuccess(whiteList);
-      });
+      return this.userService.addWhiteList(payload.email, payload.name)
+          .pipe(
+              switchMap(contact => {
+                  contact.isUpdating = payload.id;
+                  return [new WhiteListAddSuccess(contact)];
+              }),
+              catchError(err => [new WhiteListAddError(err)]),
+          );
     });
 
   @Effect()
@@ -117,9 +122,14 @@ export class UsersEffects {
       .ofType(UsersActionTypes.BLACKLIST_ADD)
       .map((action: BlackListAdd) => action.payload)
       .switchMap(payload => {
-        return this.userService.addBlackList(payload.email, payload.name).map(blackList => {
-          return new BlackListAddSuccess(blackList);
-        });
+        return this.userService.addBlackList(payload.email, payload.name)
+            .pipe(
+                switchMap(contact => {
+                    contact.isUpdating = payload.id;
+                    return [new BlackListAddSuccess(contact)];
+                }),
+                catchError(err => [new BlackListAddError(err)]),
+            );
       });
 
     @Effect()

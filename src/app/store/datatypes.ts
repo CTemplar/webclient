@@ -33,6 +33,7 @@ export interface UserState {
   contact: Contact[];
   inProgress?: boolean;
   isError?: boolean;
+  error?: string;
 }
 
 export interface BlogState {
@@ -66,13 +67,13 @@ export interface KeyboardState {
 }
 
 export interface WhiteList {
-  id: number;
+  id?: number;
   email: string;
   name: string;
 }
 
 export interface BlackList {
-  id: number;
+  id?: number;
   email: string;
   name: string;
 }

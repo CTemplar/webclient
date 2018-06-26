@@ -616,8 +616,10 @@
                     </li>
                 </ul>
                 <div class="info-card">
-                    <p>Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message as not spam adds the address to the Whitelist.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="whitelistModalOpen(whitelistContent)"><strong><u>Add whitelist contact</u></strong></a>
+                    <p>Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a
+                        message as not spam adds the address to the Whitelist.</p>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                       (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u>Add whitelist contact</u></strong></a>
                 </div>
             </div>
         </div>
@@ -649,7 +651,8 @@
                 </ul>
                 <div class="info-card">
                     <p>Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message as spam adds the address to the Blacklist.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="blacklistModalOpen(blacklistContent)"><strong><u>Add blacklist contact</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                       (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u>Add blacklist contact</u></strong></a>
                 </div>
             </div>
         </div>
@@ -989,107 +992,10 @@
     </div>
 </ng-template><!-- /.Add custom filter ends -->
 
-<!-- Add whitelist Modal -->
-<ng-template #whitelistContent let-c="close" let-d="dismiss">
-  <form class="whitelist-form" [formGroup]="whiteListForm" #form="ngForm" (ngSubmit)="addWhitelist(whiteListForm.value)">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="whitelistModalLabel"><strong>Add to whitelist</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="form-content-holder">
-            <div class="form-group">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="whitelistName">Name:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="whitelistName" type="text" formControlName="name" />
-                        </div>
-                    </div>
-                </div>
-                <span *ngIf="whiteListForm.controls['name'].errors && showFormErrors" id="name-valid" class="validate-message">
-                  <span *ngIf="whiteListForm.controls['name'].errors.required">The username is required.</span>
-                </span>
-            </div>
+<app-save-list-contact *ngIf="newListContact.show"
+                       [contactType]="newListContact.type"
+                       (closed)="newListContact.show=false;"></app-save-list-contact>
 
-            <div class="form-group mb-0">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="whitelistEmail">E-mail:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="whitelistEmail" type="text" formControlName="email"/>
-                        </div>
-                    </div>
-                </div>
-                <span *ngIf="whiteListForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
-                  <span *ngIf="whiteListForm.hasError('email','email') ">The email is required.</span>
-                </span>
-            </div>
-
-        </div>
-    </div>
-    <div class="modal-footer justify-content-center justify-content-sm-end">
-        <button class="btn btn-secondary btn-sm" type="submit">Add</button>
-    </div>
-   </form>
-</ng-template><!-- /.Add whitelist Modal ends -->
-
-<!-- Add blacklist Modal -->
-<ng-template #blacklistContent let-c="close" let-d="dismiss">
-   <form class="blacklist-form" [formGroup]="blackListForm" #form="ngForm" (ngSubmit)="addBlacklist(blackListForm.value)">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="blacklistModalLabel"><strong>Add to blacklist</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="form-content-holder">
-            <div class="form-group">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistName">Name:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="blacklistName" type="text" formControlName="name" />
-                        </div>
-                    </div>
-                <span *ngIf="blackListForm.controls['name'].errors && showFormErrors" id="name-valid" class="validate-message">
-                  <span *ngIf="blackListForm.controls['name'].errors.required">The username is required.</span>
-                </span>
-                </div>
-            </div>
-
-            <div class="form-group mb-0">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistEmail">E-mail:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="blacklistEmail" type="text" formControlName="email"/>
-                        </div>
-                    </div>
-                </div>
-                <span *ngIf="blackListForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
-                  <span *ngIf="blackListForm.hasError('email','email') ">The email is required.</span>
-                </span>
-            </div>
-
-        </div>
-    </div>
-    <div class="modal-footer justify-content-center justify-content-sm-end">
-        <button class="btn btn-secondary btn-sm" type="submit">Add</button>
-    </div>
-  </form>
-</ng-template><!-- /.Add blacklist Modal ends -->
 
 <!-- Billing Information Modal -->
 <ng-template #billingInfoContent let-c="close" let-d="dismiss">

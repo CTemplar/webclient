@@ -103,21 +103,17 @@ export class UsersService {
   }
 
   getNecessaryTokenUrl(url) {
-    if (url.indexOf('users/myself') > -1) {
-      return true;
-    }
-
-    if (url.indexOf('users/users') > -1) {
-      return true;
-    }
-
-    if (url.indexOf('users/whitelist') > -1) {
-      return true;
-    }
-
-    if (url.indexOf('users/contact') > -1) {
-      return true;
-    }
+    url = url.replace(apiUrl, '');
+      const authenticatedUrls: string[] = [
+          'users/myself/',
+          'users/users/',
+          'users/whitelist/',
+          'users/blacklist/',
+          'users/contact/'
+      ];
+      if (authenticatedUrls.indexOf(url) > -1) {
+        return true;
+      }
     return false;
   }
 
@@ -148,19 +144,19 @@ export class UsersService {
   }
 
   getBlackList(limit = 0, offset = 0) {
-    const url = `${apiUrl}users/whitelist/?limit=${limit}&offset=${offset}`;
+    const url = `${apiUrl}users/blacklist/?limit=${limit}&offset=${offset}`;
     const body = {};
     return this.http.get<any>(url, body);
   }
 
   addBlackList(email, name) {
-    const url = `${apiUrl}users/whitelist/`;
+    const url = `${apiUrl}users/blacklist/`;
     const body = { email: email, name: name };
     return this.http.post<any>(url, body);
   }
 
   deleteBlackList(id) {
-    const url = `${apiUrl}users/whitelist/${id}/`;
+    const url = `${apiUrl}users/blacklist/${id}/`;
     const body = {};
     return this.http.delete<any>(url, body);
   }

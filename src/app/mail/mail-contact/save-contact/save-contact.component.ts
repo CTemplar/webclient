@@ -37,7 +37,6 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnInit() {
         this.getUsersState$ = this.store.select(selectUsersState);
-        this.store.dispatch(new ContactGet({}));
         this.handleUserState();
     }
 
