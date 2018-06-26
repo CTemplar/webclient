@@ -23,6 +23,7 @@ import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
 import { SaveContactComponent } from './mail-contact/save-contact/save-contact.component';
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { SharedModule } from '../shared/shared.module';
+import { SaveListContactComponent } from './mail-settings/save-list-contact/save-list-contact.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { SharedModule } from '../shared/shared.module';
     MailContactComponent,
     DecryptPipe,
     SaveContactComponent,
-    ComposeMailComponent
+    ComposeMailComponent,
+    SaveListContactComponent
   ],
   exports: [MailFooterComponent]
 })

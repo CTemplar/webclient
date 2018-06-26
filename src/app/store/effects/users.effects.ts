@@ -1,66 +1,68 @@
 // Angular
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-
 // Ngrx
 import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
+import { Actions, Effect } from '@ngrx/effects';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { catchError, switchMap, tap } from 'rxjs/operators';
-
+import { catchError, map, switchMap } from 'rxjs/operators';
 // Service
 import { UsersService } from '../../store/services';
-
 // Custom Actions
 import {
+    AccountDetailsGetSuccess,
     Accounts,
-    UsersActionTypes,
     AccountsReadSuccess,
-    WhiteList,
-    WhiteListsReadSuccess,
-    WhiteListAdd,
-    WhiteListAddSuccess,
-    WhiteListDeleteSuccess,
     BlackList,
+    BlackListAdd,
+    BlackListAddError,
     BlackListAddSuccess,
+    BlackListDelete,
     BlackListDeleteSuccess,
     BlackListsReadSuccess,
-    ContactDelete,
-    WhiteListDelete,
-    BlackListAdd,
-    BlackListDelete,
-    ContactGet,
-    ContactAdd,
-    ContactAddSuccess,
     ContactAddError,
+    ContactAddSuccess,
     ContactDeleteSuccess,
-    ContactGetSuccess, AccountDetailsGetSuccess
+    ContactGet,
+    ContactGetSuccess,
+    SnackErrorPush,
+    SnackErrorPushSuccess,
+    SnackPush,
+    SnackPushSuccess,
+    UsersActionTypes,
+    WhiteList,
+    WhiteListAdd,
+    WhiteListAddError,
+    WhiteListAddSuccess,
+    WhiteListDelete,
+    WhiteListDeleteSuccess,
+    WhiteListsReadSuccess
 } from '../actions';
+import { NotificationService } from '../services/notification.service';
 
 
 @Injectable()
 export class UsersEffects {
-  constructor(
-    private actions: Actions,
-    private userService: UsersService,
-    private router: Router
-  ) {}
+    constructor(
+        private actions: Actions,
+        private userService: UsersService,
+        private notificationService: NotificationService
+    ) {
+    }
 
-  @Effect()
-  Accounts: Observable<any> = this.actions
-    .ofType(UsersActionTypes.ACCOUNTS)
-    .map((action: Accounts) => action.payload)
-    .switchMap(payload => {
-      return this.userService.getAccounts('34324').map(user => {
-        return new AccountsReadSuccess(user);
-      });
-    });
+    @Effect()
+    Accounts: Observable<any> = this.actions
+        .ofType(UsersActionTypes.ACCOUNTS)
+        .map((action: Accounts) => action.payload)
+        .switchMap(payload => {
+            return this.userService.getAccounts('34324').map(user => {
+                return new AccountsReadSuccess(user);
+            });
+        });
 
     @Effect()
     AccountDetails: Observable<any> = this.actions
@@ -72,74 +74,99 @@ export class UsersEffects {
             });
         });
 
-  @Effect()
-  WhiteLists: Observable<any> = this.actions
-    .ofType(UsersActionTypes.WHITELIST)
-    .map((action: WhiteList) => action.payload)
-    .switchMap(payload => {
-      return this.userService.getWhiteList().map(whiteList => {
-        return new WhiteListsReadSuccess(whiteList.results);
-      });
-    });
-
-  @Effect()
-  WhiteListAdd: Observable<any> = this.actions
-    .ofType(UsersActionTypes.WHITELIST_ADD)
-    .map((action: WhiteListAdd) => action.payload)
-    .switchMap(payload => {
-      return this.userService.addWhiteList(payload.email, payload.name).map(whiteList => {
-        return new WhiteListAddSuccess(whiteList);
-      });
-    });
-
-  @Effect()
-  WhiteListDelete: Observable<any> = this.actions
-    .ofType(UsersActionTypes.WHITELIST_DELETE)
-    .map((action: WhiteListDelete) => action.payload)
-    .switchMap(payload => {
-      return this.userService.deleteWhiteList(payload).map(whiteList => {
-        return new WhiteListDeleteSuccess(whiteList);
-      });
-    });
+    @Effect()
+    WhiteLists: Observable<any> = this.actions
+        .ofType(UsersActionTypes.WHITELIST)
+        .map((action: WhiteList) => action.payload)
+        .switchMap(payload => {
+            return this.userService.getWhiteList().map(whiteList => {
+                return new WhiteListsReadSuccess(whiteList.results);
+            });
+        });
 
     @Effect()
-    BlackLists: Observable < any > = this.actions
-      .ofType(UsersActionTypes.BLACKLIST)
-      .map((action: BlackList) => action.payload)
-      .switchMap(payload => {
-        return this.userService.getBlackList().map(blackList => {
-          return new BlackListsReadSuccess(blackList.results);
+    WhiteListAdd: Observable<any> = this.actions
+        .ofType(UsersActionTypes.WHITELIST_ADD)
+        .map((action: WhiteListAdd) => action.payload)
+        .switchMap(payload => {
+            return this.userService.addWhiteList(payload.email, payload.name)
+                .pipe(
+                    switchMap(contact => {
+                        contact.isUpdating = payload.id;
+                        return [new WhiteListAddSuccess(contact)];
+                    }),
+                    catchError(err => [new WhiteListAddError(err)]),
+                );
         });
-      });
 
     @Effect()
-    BlackListAdd: Observable < any > = this.actions
-      .ofType(UsersActionTypes.BLACKLIST_ADD)
-      .map((action: BlackListAdd) => action.payload)
-      .switchMap(payload => {
-        return this.userService.addBlackList(payload.email, payload.name).map(blackList => {
-          return new BlackListAddSuccess(blackList);
+    WhiteListDelete: Observable<any> = this.actions
+        .ofType(UsersActionTypes.WHITELIST_DELETE)
+        .map((action: WhiteListDelete) => action.payload)
+        .switchMap(payload => {
+            return this.userService.deleteWhiteList(payload)
+                .pipe(
+                    switchMap(res => {
+                        return [
+                            new WhiteListDeleteSuccess(payload),
+                            new SnackPush({message: 'Whitelist contact deleted successfully.'})
+                        ];
+                    }),
+                    catchError(err => [new SnackErrorPush({message: 'Failed to delete whitelist contact'})]),
+                );
         });
-      });
 
     @Effect()
-    BlackListDelete: Observable < any > = this.actions
-      .ofType(UsersActionTypes.BLACKLIST_DELETE)
-      .map((action: BlackListDelete) => action.payload)
-      .switchMap(payload => {
-        return this.userService.deleteBlackList(payload).map(blackList => {
-          return new BlackListDeleteSuccess(blackList);
+    BlackLists: Observable<any> = this.actions
+        .ofType(UsersActionTypes.BLACKLIST)
+        .map((action: BlackList) => action.payload)
+        .switchMap(payload => {
+            return this.userService.getBlackList().map(blackList => {
+                return new BlackListsReadSuccess(blackList.results);
+            });
         });
-      });
-  @Effect()
-  Contact: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CONTACT_GET)
-    .map((action: ContactGet) => action.payload)
-    .switchMap(payload => {
-      return this.userService.getContact().map(contact => {
-        return new ContactGetSuccess(contact.results);
-      });
-    });
+
+    @Effect()
+    BlackListAdd: Observable<any> = this.actions
+        .ofType(UsersActionTypes.BLACKLIST_ADD)
+        .map((action: BlackListAdd) => action.payload)
+        .switchMap(payload => {
+            return this.userService.addBlackList(payload.email, payload.name)
+                .pipe(
+                    switchMap(contact => {
+                        contact.isUpdating = payload.id;
+                        return [new BlackListAddSuccess(contact)];
+                    }),
+                    catchError(err => [new BlackListAddError(err)]),
+                );
+        });
+
+    @Effect()
+    BlackListDelete: Observable<any> = this.actions
+        .ofType(UsersActionTypes.BLACKLIST_DELETE)
+        .map((action: BlackListDelete) => action.payload)
+        .switchMap(payload => {
+            return this.userService.deleteBlackList(payload)
+                .pipe(
+                    switchMap(res => {
+                        return [
+                            new BlackListDeleteSuccess(payload),
+                            new SnackPush({message: 'Blacklist contact deleted successfully.'})
+                        ];
+                    }),
+                    catchError(err => [new SnackErrorPush({message: 'Failed to delete blacklist contact'})]),
+                );
+        });
+
+    @Effect()
+    Contact: Observable<any> = this.actions
+        .ofType(UsersActionTypes.CONTACT_GET)
+        .map((action: ContactGet) => action.payload)
+        .switchMap(payload => {
+            return this.userService.getContact().map(contact => {
+                return new ContactGetSuccess(contact.results);
+            });
+        });
 
 
     @Effect()
@@ -156,13 +183,50 @@ export class UsersEffects {
                     ))
         );
 
-  @Effect()
-  ContactDelete: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CONTACT_DELETE)
-    .map((action: Accounts) => action.payload)
-    .switchMap(payload => {
-      return this.userService.deleteContact(payload).map(contact => {
-        return new ContactDeleteSuccess(payload);
-      });
-    });
-  }
+    @Effect()
+    ContactDelete: Observable<any> = this.actions
+        .ofType(UsersActionTypes.CONTACT_DELETE)
+        .map((action: Accounts) => action.payload)
+        .switchMap(payload => {
+            return this.userService.deleteContact(payload).map(contact => {
+                return new ContactDeleteSuccess(payload);
+            });
+        });
+
+    @Effect()
+    requestSnacks$: Observable<Action> = this.actions
+        .ofType(UsersActionTypes.SNACK_PUSH)
+        .pipe(
+            map((snackPushAction: SnackPush) => {
+                if (snackPushAction.payload && snackPushAction.payload.message) {
+                    this.notificationService.showSuccess(snackPushAction.payload.message);
+                } else {
+                    let message = 'An error has occured';
+                    if (snackPushAction.payload && snackPushAction.payload.type) {
+                        message = snackPushAction.payload.type + ' ' + message;
+                    }
+                    this.notificationService.showError(message);
+                }
+                return new SnackPushSuccess();
+            }),
+        );
+
+    @Effect()
+    requestErrorSnacks$: Observable<Action> = this.actions
+        .ofType(UsersActionTypes.SNACK_ERROR_PUSH)
+        .pipe(
+            map((snackPushAction: SnackErrorPush) => {
+                if (snackPushAction.payload && snackPushAction.payload.message) {
+                    this.notificationService.showError(snackPushAction.payload.message);
+                } else {
+                    let message = 'An error has occured';
+                    if (snackPushAction.payload && snackPushAction.payload.type) {
+                        message = snackPushAction.payload.type + ' ' + message;
+                    }
+                    this.notificationService.showError(message);
+                }
+                return new SnackErrorPushSuccess();
+            }),
+        );
+
+}
