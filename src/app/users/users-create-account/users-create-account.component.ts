@@ -139,6 +139,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   }
 
   checkUsernameTaken(event: any) {
+    // TODO: Check if username is duplicated
     if (event.target.value.length > 0) {
       this.userNameTaken = false;
     } else {
