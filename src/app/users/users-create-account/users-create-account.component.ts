@@ -46,11 +46,12 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   public isTextToggled: boolean = false;
   signupForm: FormGroup;
   isRecoveryEmail: boolean = false;
-  isConfirmedPrivacy: boolean = false;
+  isConfirmedPrivacy: boolean = null;
   isLoading: boolean = false;
   isFormCompleted: boolean = false;
   errorMessage: string = '';
   getState: Observable<any>;
+  userNameTaken: boolean = null;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -68,10 +69,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
 
     this.signupForm = this.formBuilder.group({
       'username': ['', [ Validators.required ]],
-      'password': ['', [
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9]{10,50}$')]
-      ],
+      'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
       'recoveryEmail': ['', [Validators.pattern('[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)' +
               '*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')]]
@@ -118,8 +116,13 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
     }
   }
   signup() {
+    if (this.isConfirmedPrivacy == null) {
+    this.isConfirmedPrivacy = false;
+    }
+    console.log(this.userNameTaken);
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isFormCompleted = true;
+      this.navigateToBillingPage();
     }
   }
 
@@ -132,6 +135,14 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
       this.signupForm.value.captchaResponse = captchaResponse;
       this.store.dispatch(new SignUp(this.signupForm.value));
     });
+  }
+
+  checkUsernameTaken(event: any) {
+    if (event.target.value.length > 0) {
+      this.userNameTaken = false;
+    } else {
+    this.userNameTaken = true;
+    }
   }
 
   ngOnDestroy() {

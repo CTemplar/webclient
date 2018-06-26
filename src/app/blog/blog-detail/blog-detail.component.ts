@@ -44,7 +44,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   relatedPosts: Post[] = [];
   posts: Post[] = [];
   isLoaded: boolean = false;
-  isActive: boolean = false;
+  isActive: boolean = true;
   replyForm: FormGroup;
   commentForm: FormGroup;
   replyModalRef: any;

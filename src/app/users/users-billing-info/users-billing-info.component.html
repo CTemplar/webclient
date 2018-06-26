@@ -13,7 +13,7 @@
     <div class="l-block-body px-md">
       <div class="form-card-holder mx-auto">
         <div class="form">
-          <form>
+          <form [formGroup]="billingForm" #form="ngForm">
             <div class="form-card-holder billing-form-card-holder form-card-holder-top-border mt-md-3">
               <div class="form-step-card">
                 <h3 class="form-step-card-title text-dark mb-3">
@@ -76,43 +76,22 @@
                 </div>
                 <div class="form-group has-error">
                   <span class="d-block text-right error-msg">Required field</span>
-                  <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card Number</label>
-                  <input class="form-control error" id="cardName" placeholder="Card Number" type="text">
+                  <label for="cardName" class="d-block text-muted text-left hidden-sm-up" >Card Number</label>
+                  <input class="form-control error" id="cardName" name="cardName" placeholder="Card Number" type="text" formControlName="cardNumber" [(ngModel)]="cardNumber"  />
                 </div>
                 <div class="form-group form-group-3-col">
                   <div class="form-group-row">
                     <div class="form-group-col">
-                      <label class="d-block text-muted text-left hidden-sm-up">Date</label>
+                      <label class="d-block text-muted text-left hidden-sm-up">Month</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class=" date-select-dropdown">
-                          <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle>Date</button>
+                          <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle>{{expiryMonth}}</button>
                           <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
-                            <a class="dropdown-item text-muted" href="">
+                            <a class="dropdown-item text-muted">
                               <em>Date</em>
                             </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>01</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>02</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>03</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>04</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>05</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>06</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>07</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>08</em>
+                            <a class="dropdown-item text-muted" *ngFor="let month of months" (click)="selectMonth(month)">
+                              <em>{{month}}</em>
                             </a>
                           </div>
                         </div>
@@ -122,34 +101,13 @@
                       <label class="d-block text-muted text-left hidden-sm-up">Year</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="year-select-dropdown">
-                          <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle>Year</button>
+                          <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle>{{expiryYear}}</button>
                           <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                             <a class="dropdown-item text-muted" href="">
                               <em>Year</em>
                             </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
-                            </a>
-                            <a class="dropdown-item text-muted" href="">
-                              <em>2018</em>
+                            <a class="dropdown-item text-muted" *ngFor="let year of years" (click)="selectYear(year)">
+                              <em>{{year}}</em>
                             </a>
                           </div>
                         </div>
@@ -157,7 +115,7 @@
                     </div>
                     <div class="form-group-col">
                       <label for="securityCode" class="d-block text-muted text-left hidden-sm-up">Security Code</label>
-                      <input class="form-control" id="securityCode" placeholder="Security Code" type="text">
+                      <input class="form-control" id="securityCode" placeholder="Security Code" type="text" [(ngModel)]="cvc" name="securityCode" [ngModelOptions]="{standalone: true}">
                     </div>
                   </div>
                 </div>
@@ -221,7 +179,7 @@
                 </div>
               </div>
               <div class="form-group text-center mt-3 mt-sm-4 mb-0">
-                <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button">Submit</button>
+                <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" (click)="getToken()">Submit</button>
               </div>
 
               <div class="text-holder mt-2 text-center">
