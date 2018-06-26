@@ -3,7 +3,6 @@
 @import '../../../styles/config/include-media-config';
 @import '../../../styles/vendors/ceaser/ceaser-easing';
 
-
 // // == Sidebar
 // .mailbox-sidebar {
 // 	position: fixed;
@@ -37,7 +36,7 @@
 // 	@include media(">=ipad") {
 // 		width: 290px;
 // 	}
-	
+
 // 	.navbar-toggler {
 // 		top: 1px;
 // 		padding: 0 0;
@@ -388,7 +387,7 @@
 // 		&::after {
 // 			display: none;
 // 		}
-		
+
 // 		.hidden-sm-down {
 // 			display: block !important;
 // 		}
@@ -414,120 +413,120 @@
 
 // == Folder list
 .folders-list {
-	margin: 0 0;
-	padding-right: 1.563rem;
-	padding-left: 3.25rem;
-	list-style: none;
+  margin: 0 0;
+  padding-right: 1.563rem;
+  padding-left: 3.25rem;
+  list-style: none;
 
-	@include media("<ipad") {
-		display: none;
-		.is-sidebar-expanded & {
-			display: block;
-			padding-left: 2.75rem;
-		}
-	}
+  @include media("<ipad") {
+    display: none;
+    .is-sidebar-expanded & {
+      display: block;
+      padding-left: 2.75rem;
+    }
+  }
 
-	>li:first-child {
-		padding-top: 0.938rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.12);
-	}
+  > li:first-child {
+    padding-top: 0.938rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
 
-	>li:not(:last-of-type) {
-		margin-bottom: 0.625rem;
-	}
+  > li:not(:last-of-type) {
+    margin-bottom: 0.625rem;
+  }
 
-	>li>a{
-		position: relative;
-		display: flex;
-		padding-left: 0.875rem;
-		color: $menu-link;
+  > li > a {
+    position: relative;
+    display: flex;
+    padding-left: 0.875rem;
+    color: $menu-link;
 
-		.folder-color-box {
-			position: absolute;
-			top: 50%;
-			left: 0;
-			transform: translateY(-50%);
-		}
+    .folder-color-box {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
 
-		@include media("<=sm") {			
-			font-size: 0.625rem;
-		}
-	}
+    @include media("<=sm") {
+      font-size: 0.625rem;
+    }
+  }
 }
 
 // == Folder color boxes
 .folder-color-box {
-	display: inline-block;
-	margin-right: 1.125rem;
-	border-radius: 2px;
-	height: 0.5rem;
-	width: 0.5rem;
-	vertical-align: middle;
-	border: solid 1px rgba(0, 0, 0, 0.12);
+  display: inline-block;
+  margin-right: 1.125rem;
+  border-radius: 2px;
+  height: 0.5rem;
+  width: 0.5rem;
+  vertical-align: middle;
+  border: solid 1px rgba(0, 0, 0, 0.12);
 
-	&.is-success {
-		background: #2ecc71;
+  &.is-success {
+    background: #2ecc71;
 
-	}
+  }
 
-	&.is-info {
-		background: #9b59b6;
-	}
+  &.is-info {
+    background: #9b59b6;
+  }
 
-	&.is-warning {
-		background: #f1c40f;
-	}
+  &.is-warning {
+    background: #f1c40f;
+  }
 }
 
 // color-boxes-group
 .color-boxes-group {
-	display: flex;
-	flex-wrap: wrap;
-	margin: 0 -.469rem;
-	padding: 0 0;
-	list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -.469rem;
+  padding: 0 0;
+  list-style: none;
 
-	>li {
-		margin-bottom: 1rem;
-		padding: 0 .469rem;
-		line-height: 1;
+  > li {
+    margin-bottom: 1rem;
+    padding: 0 .469rem;
+    line-height: 1;
 
-		.color-shape {
-			position: relative;
-			border: 1px solid rgba(0, 0, 0, 0.12);
-			border-radius: 2px;
-			height: 2rem;
-			width: 2rem;
-			cursor: pointer;
+    .color-shape {
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
+      height: 2rem;
+      width: 2rem;
+      cursor: pointer;
 
-			&::before {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				content: "";
-				margin-top: -0.125rem;
-				width: 7px;
-				height: 17px;
-				border-color: transparent;
-				border-style: solid;
-				border-width: 0 1px 1px 0;
-				transform: translateX(-50%) translateY(-50%) rotate(40deg);
-				transition: all ceaser($easeInOutQuint) 0.35s;		
-			}
+      &::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        content: "";
+        margin-top: -0.125rem;
+        width: 7px;
+        height: 17px;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        transform: translateX(-50%) translateY(-50%) rotate(40deg);
+        transition: all ceaser($easeInOutQuint) 0.35s;
+      }
 
-			&.is-active {
-				&::before {
-					border-color: $brand-white;
-				}
-			}
-		}
-	}
+      &.is-active {
+        &::before {
+          border-color: $brand-white;
+        }
+      }
+    }
+  }
 }
 
 // == Modal cotents
 .modal-form-label {
-	@include media("<=sm") {
-		margin-bottom: 0.5rem;
-		font-size: 0.875rem;
-	}
+  @include media("<=sm") {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
 }

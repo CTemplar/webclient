@@ -6,13 +6,14 @@ import { SpinnerComponent } from '../components/spinner.component';
 export class SpinnerService {
   private spinnerCache = new Set<SpinnerComponent>();
 
-  constructor() { }
+  constructor() {
+  }
 
   register(spinner: SpinnerComponent): void {
     this.spinnerCache.add(spinner);
   }
 
-  show(spinnerName : string): void {
+  show(spinnerName: string): void {
     this.spinnerCache.forEach(spinner => {
       if (spinner.name === spinnerName) {
         spinner.show = true;

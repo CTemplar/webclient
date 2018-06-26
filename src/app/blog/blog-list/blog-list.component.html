@@ -1,99 +1,102 @@
 <!-- PAGE INTRO SECTION -->
 <section class="l-block l-block-text bg-white gap-p-eq pb-0 text-center">
-  <div class="container">
-    <header class="l-block-header text-center">
-      <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-8 px-sm-5 px-md-0">
-          <h1 class="page-title text-uppercase text-secondary">
-            <strong>Blog</strong>
-          </h1>
-        </div>
-      </div>
-    </header>
-  </div>
-  <!-- /.Site container ends -->
+    <div class="container">
+        <header class="l-block-header text-center">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-8 px-sm-5 px-md-0">
+                    <h1 class="page-title text-uppercase text-secondary">
+                        <strong>Blog</strong>
+                    </h1>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE INTRO SECTION ENDS -->
 
 <!-- BLOG GRID -->
 <section class="l-block news-block gap-p-eq pt-0 bg-white">
-  <div class="container">
-    <div class="l-block-body" *ngIf="firstPost">
-      <div class="row">
-        <!-- BLOG FIRST POST WITH FULL WIDTH -->
-        <article class="col-12 mb-4 mb-sm-5 first-post">
-          <a routerLink="/blog/{{ firstPost.slug }}/" class="d-block news-card-holder">
-            <div class="news-card news-card-full px-lg position-relative">
-              <div class="row">
-                <div class="col-md-6">
-                  <figure class="news-pic-holder mb-md-0 position-relative">
-                    <div class="loader-area" [hidden]="firstPost.isLoaded">
-                      <img src="assets/icons/spinner.svg" />
-                    </div>
-                    <img alt="News thumbnail" class="img news-img" (load)="firstPost.isLoaded = true" [hidden]="!firstPost.isLoaded" src="{{ firstPost.image_card }}"/>
-                    <span class="badge badge-sm badge-info text-uppercase">
+    <div class="container">
+        <div class="l-block-body" *ngIf="firstPost">
+            <div class="row">
+                <!-- BLOG FIRST POST WITH FULL WIDTH -->
+                <article class="col-12 mb-4 mb-sm-5 first-post">
+                    <a routerLink="/blog/{{ firstPost.slug }}/" class="d-block news-card-holder">
+                        <div class="news-card news-card-full px-lg position-relative">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <figure class="news-pic-holder mb-md-0 position-relative">
+                                        <div class="loader-area" [hidden]="firstPost.isLoaded">
+                                            <img src="assets/icons/spinner.svg"/>
+                                        </div>
+                                        <img alt="News thumbnail" class="img news-img"
+                                             (load)="firstPost.isLoaded = true" [hidden]="!firstPost.isLoaded"
+                                             src="{{ firstPost.image_card }}"/>
+                                        <span class="badge badge-sm badge-info text-uppercase">
                       <strong>{{ categories[firstPost.category].name }}</strong>
                     </span>
-                  </figure>
-                </div>
-                <div class="col-md-6">
-                  <div class="news-card-body">
-                    <h4 class="news-card-title">{{ firstPost.name }}</h4>
-                    <div>{{ firstPost.excerpt }}</div>
-                  </div>
-                  <footer class="news-card-footer">
-                    <ul class="news-meta-list">
-                      <li>{{ firstPost.date }}</li>
-                      <li>
-                        <u>{{ firstPost.comments_count }} comments</u>
-                      </li>
-                    </ul>
-                  </footer>
-                </div>
-              </div>
+                                    </figure>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="news-card-body">
+                                        <h4 class="news-card-title">{{ firstPost.name }}</h4>
+                                        <div>{{ firstPost.excerpt }}</div>
+                                    </div>
+                                    <footer class="news-card-footer">
+                                        <ul class="news-meta-list">
+                                            <li>{{ firstPost.date }}</li>
+                                            <li>
+                                                <u>{{ firstPost.comments_count }} comments</u>
+                                            </li>
+                                        </ul>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- BLOG FIRST POST WITH FULL WIDTH ENDS -->
+                <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
+                <!--
+                        <article class="col-md-4 col-sm-6 mb-4 mb-sm-5 normal-post" *ngFor= "let post of posts">
+                          <a routerLink="/blog/{{ post.slug }}/" class="d-block news-card-holder">
+                            <div class="news-card position-relative">
+                              <span class="badge badge-sm badge-info text-uppercase">
+                                <strong>{{ categories[post.category].name }}</strong>
+                              </span>
+                              <div class="news-card-body">
+                                <figure class="news-pic-holder">
+                                  <div class="loader-area" [hidden]="post.isLoaded">
+                                    <img src="assets/icons/spinner.svg" />
+                                  </div>
+                                  <img alt="News thumbnail" class="img news-img" (load)="post.isLoaded = true" [hidden]="!post.isLoaded" src="{{ post.image_card }}"/>
+                                </figure>
+                                <h4 class="news-card-title">{{ post.name }}</h4>
+                                <div>{{ post.excerpt }}</div>
+                              </div>
+                              <footer class="news-card-footer">
+                                <ul class="news-meta-list">
+                                  <li>{{ post.date }}</li>
+                                  <li>
+                                    <u>{{ post.comments_count }} comments</u>
+                                  </li>
+                                </ul>
+                              </footer>
+                            </div>
+                          </a>
+                        </article>
+                     -->
             </div>
-          </a>
-        </article>
-        <!-- BLOG FIRST POST WITH FULL WIDTH ENDS -->
-       <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
-<!-- 
-        <article class="col-md-4 col-sm-6 mb-4 mb-sm-5 normal-post" *ngFor= "let post of posts">
-          <a routerLink="/blog/{{ post.slug }}/" class="d-block news-card-holder">
-            <div class="news-card position-relative">
-              <span class="badge badge-sm badge-info text-uppercase">
-                <strong>{{ categories[post.category].name }}</strong>
-              </span>
-              <div class="news-card-body">
-                <figure class="news-pic-holder">
-                  <div class="loader-area" [hidden]="post.isLoaded">
-                    <img src="assets/icons/spinner.svg" />
-                  </div>
-                  <img alt="News thumbnail" class="img news-img" (load)="post.isLoaded = true" [hidden]="!post.isLoaded" src="{{ post.image_card }}"/>
-                </figure>
-                <h4 class="news-card-title">{{ post.name }}</h4>
-                <div>{{ post.excerpt }}</div>
-              </div>
-              <footer class="news-card-footer">
-                <ul class="news-meta-list">
-                  <li>{{ post.date }}</li>
-                  <li>
-                    <u>{{ post.comments_count }} comments</u>
-                  </li>
-                </ul>
-              </footer>
-            </div>
-          </a>
-        </article>
-     -->
-      </div>
+        </div>
+        <footer class="l-block-footer text-center">
+            <button class="btn btn-lg btn-secondary" (click)="getPosts()" role="button"
+                    [disabled]="this.isPostsLoading">
+                <img [hidden]="!this.isPostsLoading" src="assets/icons/spinner.svg" style="height: 16px;"/>
+                <span [hidden]="this.isPostsLoading">Load more posts</span>
+            </button>
+        </footer>
     </div>
-    <footer class="l-block-footer text-center">
-      <button class="btn btn-lg btn-secondary" (click) = "getPosts()" role="button" [disabled]="this.isPostsLoading">
-        <img [hidden]="!this.isPostsLoading" src="assets/icons/spinner.svg" style="height: 16px;"/>
-        <span [hidden]="this.isPostsLoading">Load more posts</span>
-      </button>
-    </footer>
-  </div>
-  <!-- /.Site container ends -->
+    <!-- /.Site container ends -->
 </section>
 <!-- /.BLOG GRID ENDS -->

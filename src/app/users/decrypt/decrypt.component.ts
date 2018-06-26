@@ -27,15 +27,15 @@ export class DecryptComponent implements OnInit {
   @ViewChild('messagePasswordInput') messagePasswordInput: ElementRef;
 
   constructor(
-  	private router: Router,
-  	private store: Store<AuthState>,
-  	private sharedService: SharedService,
+    private router: Router,
+    private store: Store<AuthState>,
+    private sharedService: SharedService,
   ) {
     this.getState = this.store.select(selectAuthState);
   }
 
   ngOnInit() {
-  	setTimeout(() => {
+    setTimeout(() => {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
     });
 

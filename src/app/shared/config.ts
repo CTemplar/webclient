@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 
 export function apiHeaders() {
   return {
-    headers: new HttpHeaders({'Authorization': `JWT ${sessionStorage.getItem('token')}`})
+    headers: new HttpHeaders({ 'Authorization': `JWT ${sessionStorage.getItem('token')}` })
   };
 }
 

@@ -1,4 +1,3 @@
-
 import {
   HostListener,
   ApplicationRef,
@@ -42,7 +41,8 @@ export class NgxVirtualKeyboardDirective {
     private _injector: Injector,
     private _vk: NgxVirtualKeyboardService,
     private componentFactoryResolver: ComponentFactoryResolver
-  ) { }
+  ) {
+  }
 
   ngAfterContentInit() {
     this.location = this.getRootViewContainerNode();
@@ -65,7 +65,7 @@ export class NgxVirtualKeyboardDirective {
     } else {
       this.isMouseEvent = false;
       if (this._elRef.nativeElement.id.includes('noSpan') && this.componentRef && this.componentRef.instance) {
-      this.componentRef.instance.close();
+        this.componentRef.instance.close();
       }
     }
   }
@@ -82,16 +82,16 @@ export class NgxVirtualKeyboardDirective {
   }
 
   private loadComponent() {
-      const layout = this.getLayout();
-      const componentFactory = this._compiler.resolveComponentFactory(NgxVirtualKeyboardComponent);
-      this.componentRef = componentFactory.create(this._injector);
-      this.componentRef.instance.layout = layout;
-      this.componentRef.instance.temp = layout;
-      this.componentRef.instance.inputElement = this._elRef;
-      this.componentRef.instance.location = this.location;
-      this.componentRef.instance.type = this.type;
-      this.componentRef.changeDetectorRef.detectChanges();
-      this.componentRootNode = this.getComponentRootNode(this.componentRef);
+    const layout = this.getLayout();
+    const componentFactory = this._compiler.resolveComponentFactory(NgxVirtualKeyboardComponent);
+    this.componentRef = componentFactory.create(this._injector);
+    this.componentRef.instance.layout = layout;
+    this.componentRef.instance.temp = layout;
+    this.componentRef.instance.inputElement = this._elRef;
+    this.componentRef.instance.location = this.location;
+    this.componentRef.instance.type = this.type;
+    this.componentRef.changeDetectorRef.detectChanges();
+    this.componentRootNode = this.getComponentRootNode(this.componentRef);
   }
 
   private getRootViewContainer(): ComponentRef<any> {

@@ -11,91 +11,91 @@ import { NotificationService } from '../../../store/services/notification.servic
 
 @TakeUntilDestroy()
 @Component({
-    selector: 'app-save-list-contact',
-    templateUrl: './save-list-contact.component.html',
-    styleUrls: ['./save-list-contact.component.scss']
+  selector: 'app-save-list-contact',
+  templateUrl: './save-list-contact.component.html',
+  styleUrls: ['./save-list-contact.component.scss']
 })
 export class SaveListContactComponent implements OnInit, OnDestroy {
 
-    @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
+  @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
 
-    @Input() public contact: WhiteList | BlackList = {email: '', name: ''};
+  @Input() public contact: WhiteList | BlackList = { email: '', name: '' };
 
-    @Output() public closed = new EventEmitter();
+  @Output() public closed = new EventEmitter();
 
-    @ViewChild('modalContent') modalContent: any;
+  @ViewChild('modalContent') modalContent: any;
 
-    public contactForm: FormGroup;
-    public showFormErrors: boolean;
-    private modalRef: NgbModalRef;
+  public contactForm: FormGroup;
+  public showFormErrors: boolean;
+  private modalRef: NgbModalRef;
 
-    readonly destroyed$: Observable<boolean>;
-    public getUsersState$: Observable<any>;
-    public inProgress: boolean;
+  readonly destroyed$: Observable<boolean>;
+  public getUsersState$: Observable<any>;
+  public inProgress: boolean;
 
-    constructor(private modalService: NgbModal,
-                private store: Store<UserState>,
-                private notificationService: NotificationService,
-                private formBuilder: FormBuilder) {
-    }
+  constructor(private modalService: NgbModal,
+              private store: Store<UserState>,
+              private notificationService: NotificationService,
+              private formBuilder: FormBuilder) {
+  }
 
-    ngOnInit() {
-        this.contactForm = this.formBuilder.group({
-            name: ['', [Validators.required]],
-            email: ['', [Validators.email]]
-        });
-        setTimeout(() => {
-            this.openModal();
-        }, 50);
+  ngOnInit() {
+    this.contactForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.email]]
+    });
+    setTimeout(() => {
+      this.openModal();
+    }, 50);
 
-        this.getUsersState$ = this.store.select(selectUsersState);
-        this.handleUserState();
-    }
+    this.getUsersState$ = this.store.select(selectUsersState);
+    this.handleUserState();
+  }
 
-    private handleUserState(): void {
-        this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
-            if (this.inProgress && !state.inProgress) {
-                this.inProgress = false;
-                if (!state.isError) {
-                    this.notificationService
-                        .showSuccess(`${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`);
-                    this.closed.emit();
-                    this.modalRef.close();
-                } else {
-                    this.notificationService
-                        .showError(`Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.
+  private handleUserState(): void {
+    this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
+      if (this.inProgress && !state.inProgress) {
+        this.inProgress = false;
+        if (!state.isError) {
+          this.notificationService
+            .showSuccess(`${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`);
+          this.closed.emit();
+          this.modalRef.close();
+        } else {
+          this.notificationService
+            .showError(`Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.
                           ${state.error}`);
-                }
-
-            }
-        });
-    }
-
-    openModal() {
-        this.modalRef = this.modalService.open(this.modalContent, {
-            centered: true,
-            windowClass: 'modal-sm'
-        });
-        this.modalRef.result.then((result) => {
-            this.closed.emit();
-        }, (reason) => {
-            this.closed.emit();
-        });
-    }
-
-    public addContact() {
-        this.showFormErrors = true;
-        if (this.contactForm.valid) {
-            this.inProgress = true;
-            if (this.contactType === 'Whitelist') {
-                this.store.dispatch(new WhiteListAdd(this.contactForm.value));
-            } else {
-                this.store.dispatch(new BlackListAdd(this.contactForm.value));
-            }
         }
-    }
 
-    ngOnDestroy(): void {
+      }
+    });
+  }
+
+  openModal() {
+    this.modalRef = this.modalService.open(this.modalContent, {
+      centered: true,
+      windowClass: 'modal-sm'
+    });
+    this.modalRef.result.then((result) => {
+      this.closed.emit();
+    }, (reason) => {
+      this.closed.emit();
+    });
+  }
+
+  public addContact() {
+    this.showFormErrors = true;
+    if (this.contactForm.valid) {
+      this.inProgress = true;
+      if (this.contactType === 'Whitelist') {
+        this.store.dispatch(new WhiteListAdd(this.contactForm.value));
+      } else {
+        this.store.dispatch(new BlackListAdd(this.contactForm.value));
+      }
     }
+  }
+
+  ngOnDestroy(): void {
+  }
 
 }
