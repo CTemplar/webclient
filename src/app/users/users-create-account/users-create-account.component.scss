@@ -8,7 +8,7 @@ $error-red: #e94e4c;
 .userame-field-group {
     .form-control {
         @include media(">sm") {
-            width: calc(78% - 24px);
+            width: calc(78% - 50px);
 
             &.is-readonly {
                 width: calc(22% - 24px);
@@ -20,6 +20,11 @@ $error-red: #e94e4c;
                 width: calc(100% - 48px);
             }
         }
+    }
+
+    i {
+        color: green;
+        margin-left: 10px;
     }
 
     .domain-separator {
@@ -46,7 +51,11 @@ $error-red: #e94e4c;
           border: 0;
         }
     }
+    label::before {
+        border-color: $error-red;
+    }    
 }
+
 
 .signup-form {
     position: relative;
@@ -86,4 +95,16 @@ $error-red: #e94e4c;
     .progress-bar {
         height: 0.875rem;
     }
+}
+
+.password-confirm {
+    position: absolute;
+    top: 120px;
+    right: -30px;
+    color: green;
+}
+
+.password-toggle, .confirmpasswordToggle {
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+
 }

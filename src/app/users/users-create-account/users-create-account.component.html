@@ -31,9 +31,10 @@
                 <div class="form-group">
                   <div class="form-inline userame-field-group" [ngClass]="{'is-validate': signupForm.controls.username.invalid && !signupForm.controls.username.pristine}">
                     <label for="username" class="d-block text-muted text-left hidden-sm-up">Choose userame</label>
-                    <input class="form-control text-dark mb-3 mb-sm-0" id="username" placeholder="Choose username" type="text" name="username" formControlName="username"/>
+                    <input class="form-control text-dark mb-3 mb-sm-0" id="username" placeholder="Choose username" type="text" name="username" formControlName="username" (keyup)="checkUsernameTaken($event)"/>
                     <span class="domain-separator text-center text-dark">@</span>
                     <input class="form-control text-dark is-readonly border-0 px-0 email-input" value="ctemplar.com" type="text" readonly />
+                    <i class="fas fa-check green" *ngIf="userNameTaken == false"></i>
                   </div>
                   <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine" id="email-valid" class="validate-message">
                     <span>The username is required.</span>
@@ -44,21 +45,14 @@
                 <h3 class="form-step-card-title text-dark mb-0">
                   <strong>Password</strong>
                 </h3>
-                <div class="form-step-card-subtitle">
-                  <small>Your password must be at least 10 characters. Password can contain only latin letters and cannot contain symbols such «-+!@. etc.</small>
-                </div>
                 <div class="form-group">
                   <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose Password</label>
-                  <div class="input-group" [ngClass]="{'is-validate': signupForm.controls.password.invalid && !signupForm.controls.password.pristine}">
+                  <div class="input-group">
                     <input #input class="form-control border-right-0" id="choosePassword" placeholder="Choose Password" type="password" aria-describedby="passwordToggle" name="password" formControlName="password">
                     <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(input)">
                       <i class="fa fa-eye"></i>
                     </span>
                   </div>
-                  <span *ngIf="signupForm.controls['password'].errors && !signupForm.controls.password.pristine" class="validate-message">
-                    <span *ngIf="signupForm.controls['password'].errors.required">The password is required.</span>
-                    <span *ngIf="signupForm.controls['password'].errors.pattern">The password style is wrong.</span>
-                  </span>
                 </div>
                 <div class="form-group">
                   <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm Password</label>
@@ -68,6 +62,7 @@
                       <i class="fa fa-eye"></i>
                     </span>
                   </div>
+                  <i class="fas fa-check green password-confirm" *ngIf="!signupForm.controls['confirmPwd'].errors"></i>
                   <span *ngIf="signupForm.controls['confirmPwd'].errors && !signupForm.controls.confirmPwd.pristine" class="validate-message">
                     <span>Passwords do not match.</span>
                   </span>
@@ -119,9 +114,10 @@
                 <button class="btn btn-lg btn-secondary" type="submit" role="button">Create Account</button>
               </div>
 
-              <div class="info-card d-flex align-items-center bg-faded mb-3">
+              <div class="info-card d-flex align-items-center bg-faded mb-3" [ngClass]="{'is-validate': isConfirmedPrivacy == false}">
                 <span class="fancy-field-group mr-3">
-                  <input class="d-none fancy-field-control fancy-field-control-lg" id="termsConditionCheckbox" name="[]" type="checkbox" [(ngModel)]="isConfirmedPrivacy" [ngModelOptions]="{standalone: true}"/>
+                  <input class="d-none fancy-field-control fancy-field-control-lg" id="termsConditionCheckbox" name="[]" type="checkbox" 
+                  [(ngModel)]="isConfirmedPrivacy" [ngModelOptions]="{standalone: true}"/>
                   <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
                 </span>
                 <div class="checkbox-text lh-sm">

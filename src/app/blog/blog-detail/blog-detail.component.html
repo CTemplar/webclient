@@ -24,7 +24,7 @@
               </div>
               <img alt="News thumbnail" class="img news-img" (load)="isLoaded = true" [hidden]="!isLoaded" src="{{ blog.image }}"/>
               <span class="badge badge-sm badge-info text-uppercase">
-                <strong>{{ categories[blog.category].name }}</strong>
+                <strong *ngIf="categories[blog.category]">{{ categories[blog.category].name }}</strong>
               </span>
             </figure>
             <div class="news-meta">
