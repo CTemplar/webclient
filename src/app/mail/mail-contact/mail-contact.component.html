@@ -53,7 +53,7 @@
 <!-- Add user button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
     <button class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon" role="button"
-            placement="top" ngbTooltip="Add User" (click)="initSplitContactLayout();"><i
+            placement="top" ngbTooltip="Add User" (click)="selectedContact=null;initSplitContactLayout();"><i
             class="icon icon-add-user text-white"></i></button>
 </div>
 
@@ -83,16 +83,17 @@
                     <a href="" class="border-radius-r-0 border-right-0 no-icon">Edit</a>
                 </li>
                 <li class="pr-0 pl-0">
-                    <a href="" class="border-radius-l-0"><i class="icon icon-garbage"></i></a>
+                    <a (click)="openConfirmDeleteModal(confirmDeleteModal)" class="cursor-pointer border-radius-l-0"><i
+                            class="icon icon-garbage"></i></a>
                 </li>
                 <li class="pr-0">
                     <a href="" class="no-icon">Compose</a>
                 </li>
-                <li class="hidden-sm-down">
-                    <a class="no-icon" role="button" (click)="initSplitContactLayout();">New Contact</a>
+                <li class="hidden-xs-down">
+                    <a class="no-icon" role="button" (click)="editContact(null, addUserContent);">New Contact</a>
                 </li>
-                <li class="hidden-md-up hidden-xs-down">
-                    <a class="no-icon" role="button" (click)="addUserContactModalOpen(addUserContent)">New Contact</a>
+                <li *ngIf="inProgress">
+                    <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
                 </li>
             </ul>
         </div>
@@ -134,9 +135,11 @@
                                         <div class="mail-list-col-row">
                                             <div class="mail-list-col-item mail-checkbox">
                                                 <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control" id="mailItemCheckbox1"
-                                                           name="[]" type="checkbox"/>
-                                                    <label for="mailItemCheckbox1" class="fancy-field-empty"></label>
+                                                    <input class="d-none fancy-field-control"
+                                                           [(ngModel)]="contact.markForDelete"
+                                                           [id]="contact.id"
+                                                           [name]="contact.id" type="checkbox"/>
+                                                    <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                                                 </div>
                                             </div>
                                             <div class="mail-list-col-item mail-status">
@@ -144,12 +147,14 @@
                                                     <i class="icon icon-star"></i>
                                                 </div>
                                             </div>
-                                            <div class="mail-list-col-item mail-from-name">
+                                            <div class="mail-list-col-item mail-from-name cursor-pointer"
+                                                 (click)="editContact(contact, addUserContent)">
                                                 <span>{{contact.name}}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8 col-lg-9 mail-contact-col-lg">
+                                    <div class="col-sm-8 col-lg-9 mail-contact-col-lg cursor-pointer"
+                                         (click)="editContact(contact, addUserContent)">
                                         <div class="mail-desc">
                                             <p><strong>{{contact.email}}</strong></p>
                                         </div>
@@ -167,6 +172,7 @@
                                 (click)="destroySplitContactLayout();"><i class="icon icon-arrow-left"></i></button>
                         <strong>Contact Details</strong></h5>
                     <app-save-contact *ngIf="isNewContact"
+                                      [selectedContact]="selectedContact"
                                       (userSaved)="destroySplitContactLayout()"></app-save-contact>
                 </div>
             </div>
@@ -205,7 +211,33 @@
     </div>
     <div class="modal-body bg-faded">
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <app-save-contact *ngIf="isNewContact" (userSaved)="d()"></app-save-contact>
+            <app-save-contact *ngIf="isNewContact"
+                              [selectedContact]="selectedContact"
+                              (userSaved)="d()"></app-save-contact>
         </div>
     </div>
 </ng-template><!-- /.Add users contact modal ends -->
+
+
+<!-- Confirm contact delete modal -->
+<ng-template #confirmDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Are you sure, you want to delete {{contactsToDelete.length}} {{contactsToDelete.length>1?'contacts':
+                'contact'}}?
+            </div>
+            <div class="form-group text-right mb-0">
+                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+                <button (click)="deleteContacts()" class="btn btn-danger btn-sm" role="button">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template><!-- /.Confirm contact delete modal ends -->

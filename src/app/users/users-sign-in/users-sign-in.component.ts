@@ -6,11 +6,11 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // Bootstrap
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -54,6 +54,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   ) {
     this.getState = this.store.select(selectAuthState);
   }
+
   ngOnInit() {
     setTimeout(() => {
       this.store.dispatch(new FinalLoading({ loadingState: false }));

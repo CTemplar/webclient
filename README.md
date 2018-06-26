@@ -15,4 +15,4 @@ Useful links of the third-party dependencies and tools we're using for the devel
 
 
 ### License
-Our lawyer will help us to complete this part soon :P
+Apache License 2.0

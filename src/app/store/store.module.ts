@@ -20,28 +20,29 @@ import { AppState } from './datatypes';
 //     : [];
 
 export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
-    return function(state: AppState, action: any): AppState {
-      console.log('action', action);
-      console.log('state', state);
-      return reducer(state, action);
-    };
+  return function (state: AppState, action: any): AppState {
+    console.log('action', action);
+    console.log('state', state);
+    return reducer(state, action);
+  };
 }
 
 export const metaReducers: MetaReducer<AppState>[] = [logger];
 
 @NgModule({
-    imports  : [
-        StoreModule.forRoot(reducers, {metaReducers}),
-        EffectsModule.forRoot(effects),
-        !environment.production ? StoreDevtoolsModule.instrument() : [],
-        StoreRouterConnectingModule
-    ],
-    providers: [
-        {
-            provide : RouterStateSerializer,
-            useClass: CustomSerializer
-        }
-    ]
+  imports: [
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot(effects),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule
+  ],
+  providers: [
+    {
+      provide: RouterStateSerializer,
+      useClass: CustomSerializer
+    }
+  ]
 })
 
-export class AppStoreModule { }
+export class AppStoreModule {
+}

@@ -26,18 +26,19 @@ export class MailService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) {
+  }
 
   getMessages(limit: number = 1000, offset: number = 0): Observable<Mail[]> {
     const url = `${apiUrl}users/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
     return this.http.get<Mail[]>(url)
       .pipe(
         map(data => data['results'])
-    );
+      );
   }
 
 
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

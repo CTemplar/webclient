@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {NgbModal, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-mail-header',

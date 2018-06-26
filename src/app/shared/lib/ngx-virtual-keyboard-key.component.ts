@@ -1,18 +1,26 @@
-
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { KeyPressInterface } from './key-press.interface';
-import { KeyboardLayout, isSpaceBar, isGrey, isSpacer, isSpecial, notDisabledSpecialKeys, specialKeyIcons, specialKeyTexts } from './layouts';
+import {
+  KeyboardLayout,
+  isSpaceBar,
+  isGrey,
+  isSpacer,
+  isSpecial,
+  notDisabledSpecialKeys,
+  specialKeyIcons,
+  specialKeyTexts
+} from './layouts';
 import { NgxVirtualKeyboardService } from './ngx-virtual-keyboard.service';
 
 @Component({
   selector: 'virtual-keyboard-key',
   template: `
-  <button class="btn btn-primary btn-block ngx-virtual-keyboard-button"
-  [ngClass]="{'isSpacer': isSpacer, 'isGrey': isGrey, 'isSpaceBar': isSpaceBar, 'isShift': shift && keyValue === 'Shift'}"
-  [disabled]="checkDisabled()" (click)="onKeyPress()">
-    <span *ngIf="!special">{{ keyValue }}</span>
-    <span *ngIf="special"><span [innerHTML]="icon"></span>{{ text }}</span>
-  </button>`
+      <button class="btn btn-primary btn-block ngx-virtual-keyboard-button"
+              [ngClass]="{'isSpacer': isSpacer, 'isGrey': isGrey, 'isSpaceBar': isSpaceBar, 'isShift': shift && keyValue === 'Shift'}"
+              [disabled]="checkDisabled()" (click)="onKeyPress()">
+          <span *ngIf="!special">{{ keyValue }}</span>
+          <span *ngIf="special"><span [innerHTML]="icon"></span>{{ text }}</span>
+      </button>`
 })
 
 export class NgxVirtualKeyboardKeyComponent {
@@ -31,7 +39,8 @@ export class NgxVirtualKeyboardKeyComponent {
 
   constructor(
     private _vk: NgxVirtualKeyboardService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this._vk.shift$.subscribe((shift: boolean) => {

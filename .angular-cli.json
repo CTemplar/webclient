@@ -20,7 +20,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/ngx-toastr/toastr.css"
       ],
       "scripts": [
         "../node_modules/openpgp/dist/openpgp.js"

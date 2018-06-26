@@ -9,18 +9,21 @@ import { MailListComponent } from './mail-list/mail-list.component';
 import { MailContactComponent } from './mail-contact/mail-contact.component';
 
 const routes: Routes = [
-  { path: 'mail', component: MailComponent, children: [
-    { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
-    { path: 'settings', component: MailSettingsComponent },
-    { path: 'contact', component: MailContactComponent },
-    { path: ':folder', redirectTo: ':folder/page/1', pathMatch: 'full' },
-    { path: ':folder/page/:page', component: MailListComponent },
-    { path: 'message/:id', component: MailDetailComponent },
-  ]}
+  {
+    path: 'mail', component: MailComponent, children: [
+      { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
+      { path: 'settings', component: MailSettingsComponent },
+      { path: 'contact', component: MailContactComponent },
+      { path: ':folder', redirectTo: ':folder/page/1', pathMatch: 'full' },
+      { path: ':folder/page/:page', component: MailListComponent },
+      { path: 'message/:id', component: MailDetailComponent },
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MailRoutingModule { }
+export class MailRoutingModule {
+}

@@ -10,35 +10,44 @@
             <div class="form search-form">
                 <form>
                     <div class="form-group mb-0 position-relative">
-                        <input class="form-control form-control-sm" type="text" placeholder="Search" />
-                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="icon icon-search"></i></button>
+                        <input class="form-control form-control-sm" type="text" placeholder="Search"/>
+                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i
+                                class="icon icon-search"></i></button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="col-sm-6 mailbox-navbar-col">
             <ul class="mailbox-actions-menu d-flex justify-content-end">
-                <li class=""><a href="" placement="bottom" ngbTooltip="Contacts"><i class="icon icon-login"></i></a></li>
-                <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings" class="border-right-0" placement="bottom" ngbTooltip="Settings"><i class="icon icon-gear"></i></a></li>
-                <li class="mailbox-signout pl-sm-0"><a href="" placement="bottom" ngbTooltip="Log out"><i class="icon icon-logout"></i></a></li>
+                <li class=""><a routerLink="/mail/contact" placement="bottom" ngbTooltip="Contacts"><i
+                        class="icon icon-login"></i></a></li>
+                <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings" class="border-right-0"
+                                                        placement="bottom" ngbTooltip="Settings"><i
+                        class="icon icon-gear"></i></a></li>
+                <li class="mailbox-signout pl-sm-0"><a href="" placement="bottom" ngbTooltip="Log out"><i
+                        class="icon icon-logout"></i></a></li>
                 <li class="mailbox-lang mailbox-dropdown btn-dropdown">
                     <div ngbDropdown class="lang-dropdown">
-                        <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom" ngbTooltip="Language"><i class="icon icon-earth-globe hidden-xs-down"></i>En</button>
-                        <div ngbDropdownMenu class="dropdown-menu-right text-center" aria-labelledby="langDropdownMenuButton">
+                        <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom"
+                                ngbTooltip="Language"><i class="icon icon-earth-globe hidden-xs-down"></i>En
+                        </button>
+                        <div ngbDropdownMenu class="dropdown-menu-right text-center"
+                             aria-labelledby="langDropdownMenuButton">
                             <a class="dropdown-item" href="">Ru</a>
                             <a class="dropdown-item" href="">Es</a>
                         </div>
                     </div>
                 </li>
-                <li class="mailbox-xs-search-item hidden-sm-up">                    
+                <li class="mailbox-xs-search-item hidden-sm-up">
                     <div ngbDropdown>
                         <a ngbDropdownToggle role="button"><i class="icon icon-search"></i></a>
                         <div ngbDropdownMenu>
                             <div class="form search-form">
                                 <form>
                                     <div class="form-group mb-0 position-relative">
-                                        <input class="form-control form-control-sm" type="text" placeholder="Search" />
-                                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i class="icon icon-search"></i></button>
+                                        <input class="form-control form-control-sm" type="text" placeholder="Search"/>
+                                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i
+                                                class="icon icon-search"></i></button>
                                     </div>
                                 </form>
                             </div>
@@ -50,17 +59,22 @@
     </div>
 </nav>
 <div class="header-fixed-spacer hidden-sm-up"></div>
-<div class="l-alert l-alert-danger l-alert-is-floated d-sm-inline-block text-center d-none" style="display: none !important;">
+<div class="l-alert l-alert-danger l-alert-is-floated d-sm-inline-block text-center d-none"
+     style="display: none !important;">
     <div class="l-alert-inner">
-        <div>Your message hasn't been sent because of Internet connection. &nbsp;&nbsp;&nbsp;<a href=""><u>Try to connect</u></a></div>
+        <div>Your message hasn't been sent because of Internet connection. &nbsp;&nbsp;&nbsp;<a href=""><u>Try to
+            connect</u></a></div>
     </div>
 </div>
-<div class="l-alert l-alert-warning l-alert-is-floated d-sm-inline-block text-center d-none" style="display: none !important;">
+<div class="l-alert l-alert-warning l-alert-is-floated d-sm-inline-block text-center d-none"
+     style="display: none !important;">
     <div class="l-alert-inner">
-        <div>The conversation has been moved to the Trash. &nbsp;&nbsp;&nbsp;<a href=""><u>Learn more</u></a> &nbsp;&nbsp;&nbsp;<a href=""><u>Undo</u></a></div>
+        <div>The conversation has been moved to the Trash. &nbsp;&nbsp;&nbsp;<a href=""><u>Learn more</u></a> &nbsp;&nbsp;&nbsp;<a
+                href=""><u>Undo</u></a></div>
     </div>
 </div>
-<div class="l-alert l-alert-success l-alert-is-floated d-sm-inline-block text-center d-none" style="display: none !important;">
+<div class="l-alert l-alert-success l-alert-is-floated d-sm-inline-block text-center d-none"
+     style="display: none !important;">
     <div class="l-alert-inner">
         <div>Your message has been sent. &nbsp;&nbsp;&nbsp;<a href=""><u>View Message</u></a></div>
     </div>

@@ -37,7 +37,8 @@ export class BlogEffects {
     private actions: Actions,
     private blogService: BlogService,
     private router: Router,
-  ) {}
+  ) {
+  }
 
   @Effect()
   GetPosts: Observable<any> = this.actions
@@ -45,7 +46,7 @@ export class BlogEffects {
     .map((action: GetPosts) => action.payload)
     .switchMap(payload => {
       return this.blogService.getPosts(payload.limit, payload.offset)
-        .map(posts =>  new PutPosts(posts))
+        .map(posts => new PutPosts(posts))
         .catch(() => of(new PutPosts('')));
     });
 
@@ -72,23 +73,23 @@ export class BlogEffects {
           return Observable.of(new PostCommentFailure({ error: error }));
         });
     });
-    @Effect()
-    GetRelatedPosts: Observable<any> = this.actions
-      .ofType(BlogActionTypes.GET_RELATED_POSTS)
-      .map((action: GetRelatedPosts) => action.payload)
-      .switchMap(payload => {
-        return this.blogService.getRelatedPosts(payload)
-          .map((posts) => {
-            return new PutRelatedPosts(posts);
-          });
-      });
+  @Effect()
+  GetRelatedPosts: Observable<any> = this.actions
+    .ofType(BlogActionTypes.GET_RELATED_POSTS)
+    .map((action: GetRelatedPosts) => action.payload)
+    .switchMap(payload => {
+      return this.blogService.getRelatedPosts(payload)
+        .map((posts) => {
+          return new PutRelatedPosts(posts);
+        });
+    });
 
-    @Effect()
-    GetCategories: Observable<any> = this.actions
+  @Effect()
+  GetCategories: Observable<any> = this.actions
     .ofType(BlogActionTypes.GET_CATEGORIES)
     .map((action: GetCategories) => action.payload)
     .switchMap(payload => {
       return this.blogService.getCategories()
-      .map((post) => new PutCategories(post));
+        .map((post) => new PutCategories(post));
     });
 }

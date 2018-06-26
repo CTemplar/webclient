@@ -14,7 +14,7 @@ import { getRelatedBlogs } from '../../../store/selectors';
 import { GetRelatedPosts } from '../../../store/actions';
 import { getNewBlogs } from '../../../store/selectors';
 import { GetPosts } from '../../../store/actions';
-import {  RelatedBlogLoading, RecentBlogLoading } from '../../../store/actions';
+import { RelatedBlogLoading, RecentBlogLoading } from '../../../store/actions';
 import { Category } from '../../../store/models';
 import { selectBlogState } from '../../../store/selectors';
 import { GetPostDetail, GetCategories } from '../../../store/actions';

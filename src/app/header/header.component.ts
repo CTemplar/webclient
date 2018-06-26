@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
     public router: Router,
     private sharedService: SharedService
   ) {
-    this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data)); 
+    this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }
 
   ngOnInit() {

@@ -6,7 +6,7 @@ import { FinalLoading } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/datatypes';
 
-import {FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-users-billing-info',
@@ -15,7 +15,10 @@ import {FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } 
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
-  constructor(private sharedService: SharedService, private store: Store<AuthState>, private formBuilder: FormBuilder) { }
+  constructor(private sharedService: SharedService,
+              private store: Store<AuthState>,
+              private formBuilder: FormBuilder) { }
+
   cardNumber;
   billingForm: FormGroup;
   expiryMonth = 'Month';
@@ -23,6 +26,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   cvc;
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
@@ -51,9 +55,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   selectMonth(month) {
     this.expiryMonth = month;
   }
+
   selectYear(year) {
     this.expiryYear = year;
   }
+
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
   }

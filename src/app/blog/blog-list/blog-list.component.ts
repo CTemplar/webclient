@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // Models
-import { Post, Category, Mode} from '../../store/models';
+import { Post, Category, Mode } from '../../store/models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';

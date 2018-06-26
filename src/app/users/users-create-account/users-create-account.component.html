@@ -1,126 +1,157 @@
 <!-- PAGE SECTION -->
 <section class="l-block l-block-text bg-white gap-p-eq">
-  <div class="container container-sm">
-    <header class="l-block-header position-relative text-center">
-      <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
-          <h1 class="l-block-title text-uppercase text-secondary mb-3 pb-2">
-            <strong>Create your account</strong>
-          </h1>
-        </div>
-      </div>
-    </header>
-    <div class="l-block-body px-md" *ngIf="!isFormCompleted">
-      <div class="form-card-holder mx-auto">
-        <div class="info-card bg-faded text-sm-center">
-          <p class="text-medium">Take back your privacy!
-            <br/> Crearting your secure email account takes less than 2 minutes</p>
-        </div>
-
-        <div class="form">
-          <form class="signup-form" [formGroup]="signupForm" #form="ngForm" (ngSubmit)="signup()">
-            <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
-            <div class="form-step-card-holder mt-3 mt-sm-4">
-              <div class="form-step-card">
-                <h3 class="form-step-card-title text-dark mb-0">
-                  <strong>Username and domain</strong>
-                </h3>
-                <div class="form-step-card-subtitle">
-                  <small>This will be your new Ctemplar email address.</small>
+    <div class="container container-sm">
+        <header class="l-block-header position-relative text-center">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
+                    <h1 class="l-block-title text-uppercase text-secondary mb-3 pb-2">
+                        <strong>Create your account</strong>
+                    </h1>
                 </div>
-                <div class="form-group">
-                  <div class="form-inline userame-field-group" [ngClass]="{'is-validate': signupForm.controls.username.invalid && !signupForm.controls.username.pristine}">
-                    <label for="username" class="d-block text-muted text-left hidden-sm-up">Choose userame</label>
-                    <input class="form-control text-dark mb-3 mb-sm-0" id="username" placeholder="Choose username" type="text" name="username" formControlName="username" (keyup)="checkUsernameTaken($event)"/>
-                    <span class="domain-separator text-center text-dark">@</span>
-                    <input class="form-control text-dark is-readonly border-0 px-0 email-input" value="ctemplar.com" type="text" readonly />
-                    <i class="fas fa-check green" *ngIf="userNameTaken == false"></i>
-                  </div>
-                  <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine" id="email-valid" class="validate-message">
+            </div>
+        </header>
+        <div class="l-block-body px-md" *ngIf="!isFormCompleted">
+            <div class="form-card-holder mx-auto">
+                <div class="info-card bg-faded text-sm-center">
+                    <p class="text-medium">Take back your privacy!
+                        <br/> Crearting your secure email account takes less than 2 minutes</p>
+                </div>
+
+                <div class="form">
+                    <form class="signup-form" [formGroup]="signupForm" #form="ngForm" (ngSubmit)="signup()">
+                        <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
+                        <div class="form-step-card-holder mt-3 mt-sm-4">
+                            <div class="form-step-card">
+                                <h3 class="form-step-card-title text-dark mb-0">
+                                    <strong>Username and domain</strong>
+                                </h3>
+                                <div class="form-step-card-subtitle">
+                                    <small>This will be your new Ctemplar email address.</small>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-inline userame-field-group"
+                                         [ngClass]="{'is-validate': signupForm.controls.username.invalid && !signupForm.controls.username.pristine}">
+                                        <label for="username" class="d-block text-muted text-left hidden-sm-up">Choose
+                                            userame</label>
+                                        <input class="form-control text-dark mb-3 mb-sm-0" id="username"
+                                               placeholder="Choose username" type="text" name="username"
+                                               formControlName="username" (keyup)="checkUsernameTaken($event)"/>
+                                        <span class="domain-separator text-center text-dark">@</span>
+                                        <input class="form-control text-dark is-readonly border-0 px-0 email-input"
+                                               value="ctemplar.com" type="text" readonly/>
+                                        <i class="fas fa-check green" *ngIf="userNameTaken == false"></i>
+                                    </div>
+                                    <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine"
+                                          id="email-valid" class="validate-message">
                     <span>The username is required.</span>
                   </span>
-                </div>
-              </div>
-              <div class="form-step-card">
-                <h3 class="form-step-card-title text-dark mb-0">
-                  <strong>Password</strong>
-                </h3>
-                <div class="form-group">
-                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose Password</label>
-                  <div class="input-group">
-                    <input #input class="form-control border-right-0" id="choosePassword" placeholder="Choose Password" type="password" aria-describedby="passwordToggle" name="password" formControlName="password">
-                    <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(input)">
+                                </div>
+                            </div>
+                            <div class="form-step-card">
+                                <h3 class="form-step-card-title text-dark mb-0">
+                                    <strong>Password</strong>
+                                </h3>
+                                <div class="form-group">
+                                    <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose
+                                        Password</label>
+                                    <div class="input-group">
+                                        <input #input class="form-control border-right-0" id="choosePassword"
+                                               placeholder="Choose Password" type="password"
+                                               aria-describedby="passwordToggle" name="password"
+                                               formControlName="password">
+                                        <span class="input-group-addon password-toggle bg-white text-muted"
+                                              id="passwordToggle" (click)="togglePassword(input)">
                       <i class="fa fa-eye"></i>
                     </span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm Password</label>
-                  <div class="input-group" [ngClass]="{'is-validate': signupForm.controls.confirmPwd.invalid && !signupForm.controls.confirmPwd.pristine}">
-                    <input #input2 class="form-control border-right-0" id="confirmPassword" placeholder="Confirm Password" type="password" aria-describedby="cofirmpasswordToggle" name="confirmPwd" formControlName="confirmPwd">
-                    <span class="input-group-addon password-toggle bg-white text-muted" id="cofirmpasswordToggle" (click)="togglePassword(input2)">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
+                                        Password</label>
+                                    <div class="input-group"
+                                         [ngClass]="{'is-validate': signupForm.controls.confirmPwd.invalid && !signupForm.controls.confirmPwd.pristine}">
+                                        <input #input2 class="form-control border-right-0" id="confirmPassword"
+                                               placeholder="Confirm Password" type="password"
+                                               aria-describedby="cofirmpasswordToggle" name="confirmPwd"
+                                               formControlName="confirmPwd">
+                                        <span class="input-group-addon password-toggle bg-white text-muted"
+                                              id="cofirmpasswordToggle" (click)="togglePassword(input2)">
                       <i class="fa fa-eye"></i>
                     </span>
-                  </div>
-                  <i class="fas fa-check green password-confirm" *ngIf="!signupForm.controls['confirmPwd'].errors"></i>
-                  <span *ngIf="signupForm.controls['confirmPwd'].errors && !signupForm.controls.confirmPwd.pristine" class="validate-message">
+                                    </div>
+                                    <i class="fas fa-check green password-confirm"
+                                       *ngIf="!signupForm.controls['confirmPwd'].errors"></i>
+                                    <span *ngIf="signupForm.controls['confirmPwd'].errors && !signupForm.controls.confirmPwd.pristine"
+                                          class="validate-message">
                     <span>Passwords do not match.</span>
                   </span>
-                </div>
-                <div class="form-group">
-                  <div class="info-card d-flex bg-faded">
+                                </div>
+                                <div class="form-group">
+                                    <div class="info-card d-flex bg-faded">
                     <span class="fancy-field-group mr-3">
-                      <input class="d-none fancy-field-control fancy-field-control-lg" id="moreInfoCheckbox" name="[]" type="checkbox" [(ngModel)] = "isRecoveryEmail" [ngModelOptions]="{standalone: true}"/>
+                      <input class="d-none fancy-field-control fancy-field-control-lg" id="moreInfoCheckbox" name="[]"
+                             type="checkbox" [(ngModel)]="isRecoveryEmail" [ngModelOptions]="{standalone: true}"/>
                       <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
                     </span>
-                    <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': isTextToggled }">
+                                        <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': isTextToggled }">
                       <span class="info-text">
                         <small>By checking this box you understand that If you lose your password and do not set a recovery email
                           your account will not be recoverable.</small>
                       </span>
-                      <a href="javascript:void(0);" (click)="toggleText()">
-                          <u><small>More info</small>
-                        </u>
-                      </a>
-                    </div>
-                    <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': !isTextToggled }">
+                                            <a href="javascript:void(0);" (click)="toggleText()">
+                                                <u>
+                                                    <small>More info</small>
+                                                </u>
+                                            </a>
+                                        </div>
+                                        <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': !isTextToggled }">
                       <span class="info-text">
                         <small>By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable. <br/> Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.</small>
                       </span>
-                      <a href="javascript:void(0);" (click)="toggleText()">
-                          <u><small>Less</small>
-                        </u>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-step-card" [ngClass]="{'is-validate': signupForm.controls.recoveryEmail.invalid}" *ngIf="!isRecoveryEmail">
-                <h3 class="form-step-card-title text-dark mb-0">
-                  <strong>Recovery email(optional)</strong>
-                </h3>
-                <div class="form-step-card-subtitle">
-                  <small>This is used to recover your account if you forget your password</small>
-                </div>
-                <div class="form-group">
-                  <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up">Recovery email</label>
-                  <input class="form-control text-dark" id="recoveryEmail" placeholder="Recovery email" type="text" name="recoveryEmail" formControlName="recoveryEmail"/>
-                  <span *ngIf="signupForm.controls['recoveryEmail'].errors" id="email-valid" class="validate-message">
+                                            <a href="javascript:void(0);" (click)="toggleText()">
+                                                <u>
+                                                    <small>Less</small>
+                                                </u>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-step-card"
+                                 [ngClass]="{'is-validate': signupForm.controls.recoveryEmail.invalid}"
+                                 *ngIf="!isRecoveryEmail">
+                                <h3 class="form-step-card-title text-dark mb-0">
+                                    <strong>Recovery email(optional)</strong>
+                                </h3>
+                                <div class="form-step-card-subtitle">
+                                    <small>This is used to recover your account if you forget your password</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up">Recovery
+                                        email</label>
+                                    <input class="form-control text-dark" id="recoveryEmail"
+                                           placeholder="Recovery email" type="text" name="recoveryEmail"
+                                           formControlName="recoveryEmail"/>
+                                    <span *ngIf="signupForm.controls['recoveryEmail'].errors" id="email-valid"
+                                          class="validate-message">
                     <span>The email is invalid.</span>
                   </span>
-                </div>
-              </div>
-              <div class="form-group text-center">
-                <button class="btn btn-lg btn-secondary" type="submit" role="button">Create Account</button>
-              </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button class="btn btn-lg btn-secondary" type="submit" role="button">Create Account
+                                </button>
+                            </div>
 
-              <div class="info-card d-flex align-items-center bg-faded mb-3" [ngClass]="{'is-validate': isConfirmedPrivacy == false}">
+                            <div class="info-card d-flex align-items-center bg-faded mb-3"
+                                 [ngClass]="{'is-validate': isConfirmedPrivacy == false}">
                 <span class="fancy-field-group mr-3">
-                  <input class="d-none fancy-field-control fancy-field-control-lg" id="termsConditionCheckbox" name="[]" type="checkbox" 
-                  [(ngModel)]="isConfirmedPrivacy" [ngModelOptions]="{standalone: true}"/>
+                  <input class="d-none fancy-field-control fancy-field-control-lg" id="termsConditionCheckbox" name="[]"
+                         type="checkbox"
+                         [(ngModel)]="isConfirmedPrivacy" [ngModelOptions]="{standalone: true}"/>
                   <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
                 </span>
-                <div class="checkbox-text lh-sm">
+                                <div class="checkbox-text lh-sm">
                   <span class="info-text">
                     <small>Please check this box if you agree to abide by our
                       <a routerLink="/terms">
@@ -128,56 +159,59 @@
                       </a>
                     </small>
                   </span>
+                                </div>
+                            </div>
+                            <div class="text-holder text-center">
+                                <a routerLink="/signin">
+                                    <u>Already have an Account?</u>
+                                </a>
+
+                                <!-- Please remove the html structure below -->
+                                <div class="mb-3"></div>
+                                <div class="btn btn-gradient-primary btn-lg" role="button"
+                                     (click)="openGenerateKeyModal(generateKeyContent)">Generate Key
+                                </div>
+                                <!-- Please remove the html structure above -->
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
-              </div>
-              <div class="text-holder text-center">
-                <a routerLink="/signin">
-                  <u>Already have an Account?</u>
-                </a>
-
-                <!-- Please remove the html structure below -->
-                <div class="mb-3"></div>
-                <div class="btn btn-gradient-primary btn-lg" role="button" (click)="openGenerateKeyModal(generateKeyContent)">Generate Key</div>
-                <!-- Please remove the html structure above -->
-
-              </div>
             </div>
-          </form>
         </div>
-      </div>
+        <div class="l-block-body px-md" *ngIf="isFormCompleted">
+            <div class="form-recaptcha-holder mx-auto">
+                <re-captcha (resolved)="recaptchaResolved($event)"></re-captcha>
+            </div>
+        </div>
     </div>
-    <div class="l-block-body px-md" *ngIf="isFormCompleted">
-     <div class="form-recaptcha-holder mx-auto">
-        <re-captcha (resolved)="recaptchaResolved($event)"></re-captcha>
-     </div>
-    </div>
-  </div>
-  <!-- /.Site container ends -->
+    <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
 
-<img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg" />
+<img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg"/>
 
 <!-- Generating key modal -->
 <ng-template #generateKeyContent let-c="close" let-d="dismiss">
-  <div class="modal-header text-center justify-content-center">
-    <h3 class="modal-title-lg mb-0 w-100 text-dark" id="resetPasswordModalLabel">
-      <strong>Generating Key…</strong>
-    </h3>
-    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button> -->
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="text-holder text-dark text-medium">
-      <p>Your GPG 4096-bit key is being created. It can take from several seconds to several minutes.</p>
-
-      <div class="progress-holder mb-3">
-        <div class="progress-label">STATUS: Generating</div>
-        <div class="progress progress-sm border-radius-0">
-          <div class="progress-bar" role="progressbar" style="width:60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-      </div>
+    <div class="modal-header text-center justify-content-center">
+        <h3 class="modal-title-lg mb-0 w-100 text-dark" id="resetPasswordModalLabel">
+            <strong>Generating Key…</strong>
+        </h3>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
     </div>
-  </div>
+    <div class="modal-body bg-faded">
+        <div class="text-holder text-dark text-medium">
+            <p>Your GPG 4096-bit key is being created. It can take from several seconds to several minutes.</p>
+
+            <div class="progress-holder mb-3">
+                <div class="progress-label">STATUS: Generating</div>
+                <div class="progress progress-sm border-radius-0">
+                    <div class="progress-bar" role="progressbar" style="width:60%;" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </ng-template>
