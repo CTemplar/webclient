@@ -7,19 +7,23 @@ import { BlackListDelete, WhiteListDelete } from '../../store/actions';
 import { UserState } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { selectUsersState } from '../../store/selectors';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
+@TakeUntilDestroy()
 @Component({
     selector: 'app-mail-settings',
     templateUrl: './mail-settings.component.html',
     styleUrls: ['./mail-settings.component.scss']
 })
-export class MailSettingsComponent implements OnInit {
+export class MailSettingsComponent implements OnInit, OnDestroy {
     // == Defining public property as boolean
     public selectedIndex = -1; // Assuming no element are selected initially
     public getUsersState$: Observable<any>;
     public userState: UserState;
 
     public newListContact = {show: false, type: 'Whitelist'};
+
+    readonly destroyed$: Observable<boolean>;
 
     constructor(
         private modalService: NgbModal,
@@ -28,11 +32,13 @@ export class MailSettingsComponent implements OnInit {
     ) {
         // customize default values of dropdowns used by this component tree
         config.autoClose = 'outside';
-        this.getUsersState$ = this.store.select(selectUsersState);
     }
 
     ngOnInit() {
-        this.updateUsersStatus();
+        this.getUsersState$ = this.store.select(selectUsersState);
+        this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
+            this.userState = state;
+        });
     }
 
     // == Toggle active state of the slide in price page
@@ -86,19 +92,14 @@ export class MailSettingsComponent implements OnInit {
         });
     }
 
-    public updateUsersStatus(): void {
-        this.getUsersState$.subscribe((state: UserState) => {
-            this.userState = state;
-        });
-    }
-
     public deleteWhiteList(id) {
         this.store.dispatch(new WhiteListDelete(id));
-        this.updateUsersStatus();
     }
 
     public deleteBlackList(id) {
         this.store.dispatch(new BlackListDelete(id));
-        this.updateUsersStatus();
+    }
+
+    ngOnDestroy(): void {
     }
 }

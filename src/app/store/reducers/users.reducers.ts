@@ -16,8 +16,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         }
 
         case UsersActionTypes.WHITELIST_ADD:
-        case UsersActionTypes.BLACKLIST_ADD: {
-            return {...state, inProgress: true, isError: false,  error: ''};
+        case UsersActionTypes.BLACKLIST_ADD:
+        case UsersActionTypes.WHITELIST_DELETE:
+        case UsersActionTypes.BLACKLIST_DELETE: {
+            return {...state, inProgress: true, isError: false, error: ''};
         }
 
         case UsersActionTypes.WHITELIST_ADD_SUCCESS: {
@@ -27,6 +29,42 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
             return {
                 ...state,
                 whiteList: state.whiteList.concat(action.payload),
+                inProgress: false,
+                isError: false,
+                error: '',
+            };
+        }
+
+        case UsersActionTypes.BLACKLIST_ADD_SUCCESS: {
+            if (!state.blackList) {
+                state.blackList = [];
+            }
+            return {
+                ...state,
+                blackList: state.blackList.concat(action.payload),
+                inProgress: false,
+                isError: false,
+            };
+        }
+
+        case UsersActionTypes.WHITELIST_DELETE_SUCCESS: {
+            state.whiteList.splice(
+                state.whiteList.indexOf(state.whiteList.filter(item => item.id === action.payload)[0]),
+                1);
+            return {
+                ...state,
+                inProgress: false,
+                isError: false,
+                error: '',
+            };
+        }
+
+        case UsersActionTypes.BLACKLIST_DELETE_SUCCESS: {
+            state.blackList.splice(
+                state.blackList.indexOf(state.blackList.filter(item => item.id === action.payload)[0]),
+                1);
+            return {
+                ...state,
                 inProgress: false,
                 isError: false,
                 error: '',
@@ -46,17 +84,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         case UsersActionTypes.BLACKLIST_READ_SUCCESS: {
             return {...state, blackList: action.payload};
         }
-        case UsersActionTypes.BLACKLIST_ADD_SUCCESS: {
-            if (!state.blackList) {
-                state.blackList = [];
-            }
-            return {
-                ...state,
-                blackList: state.blackList.concat(action.payload),
-                inProgress: false,
-                isError: false,
-            };
-        }
+
         case UsersActionTypes.CONTACT_GET_SUCCESS: {
             return {...state, contact: action.payload};
         }

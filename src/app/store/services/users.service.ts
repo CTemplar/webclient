@@ -103,7 +103,7 @@ export class UsersService {
   }
 
   getNecessaryTokenUrl(url) {
-    url = url.replace(apiUrl, '');
+      url = url.replace(apiUrl, '');
       const authenticatedUrls: string[] = [
           'users/myself/',
           'users/users/',
@@ -112,9 +112,16 @@ export class UsersService {
           'users/contact/'
       ];
       if (authenticatedUrls.indexOf(url) > -1) {
-        return true;
+          return true;
+      } else {
+          let authenticated = false;
+          authenticatedUrls.forEach(item => {
+              if (url.indexOf(item) > -1) {
+                  authenticated = true;
+              }
+          });
+          return authenticated;
       }
-    return false;
   }
 
   getAccounts(id) {
