@@ -16,13 +16,13 @@ import {FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } 
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   constructor(private sharedService: SharedService, private store: Store<AuthState>, private formBuilder: FormBuilder) { }
-  private cardNumber;
+  cardNumber;
   billingForm: FormGroup;
-  private expiryMonth = 'Month';
-  private expiryYear = 'Year';
-  private cvc;
-  private months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-  private years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+  expiryMonth = 'Month';
+  expiryYear = 'Year';
+  cvc;
+  months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+  years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
@@ -33,7 +33,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   getToken() {
-    console.log(this.cardNumber, this.expiryMonth, this.expiryYear, this.cvc);
     (<any>window).Stripe.card.createToken({
       number: this.cardNumber,
       exp_month: this.expiryMonth,
@@ -41,9 +40,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       cvc: this.cvc
     }, (status: number, response: any) => {
       if (status === 200) {
-        console.log(`Success! Card token ${response.card.id}.`);
+        // TODO: add next step of subscription
+        // console.log(`Success! Card token ${response.card.id}.`);
       } else {
-        console.log(response.error.message);
+        // console.log(response.error.message);
       }
     });
   }
