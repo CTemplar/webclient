@@ -2,7 +2,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 // Model
-import { Payment, Storage} from '../../../store/models';
+import { Payment, Storage } from '../../../store/models';
 
 @Component({
   selector: 'app-prime-plan',
@@ -20,7 +20,8 @@ export class PrimePlanComponent implements OnInit {
   // == Defining public property as boolean
   public selectedIndex = -1; // Assuming no element are selected initially
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

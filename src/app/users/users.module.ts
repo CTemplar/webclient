@@ -50,11 +50,13 @@ import {
     DecryptComponent
   ],
   providers: [UsersService,
-  {
-    provide: RECAPTCHA_SETTINGS,
-    useValue: {
-      siteKey: '6LdGCFoUAAAAAFz-kzOkmvdBKtC6lyoanpnCTpzp' } as RecaptchaSettings,
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: '6LdGCFoUAAAAAFz-kzOkmvdBKtC6lyoanpnCTpzp'
+      } as RecaptchaSettings,
 
-  }]
+    }]
 })
-export class UsersModule {}
+export class UsersModule {
+}

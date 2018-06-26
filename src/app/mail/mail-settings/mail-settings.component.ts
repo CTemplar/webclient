@@ -11,95 +11,95 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 @TakeUntilDestroy()
 @Component({
-    selector: 'app-mail-settings',
-    templateUrl: './mail-settings.component.html',
-    styleUrls: ['./mail-settings.component.scss']
+  selector: 'app-mail-settings',
+  templateUrl: './mail-settings.component.html',
+  styleUrls: ['./mail-settings.component.scss']
 })
 export class MailSettingsComponent implements OnInit, OnDestroy {
-    // == Defining public property as boolean
-    public selectedIndex = -1; // Assuming no element are selected initially
-    public getUsersState$: Observable<any>;
-    public userState: UserState;
+  // == Defining public property as boolean
+  public selectedIndex = -1; // Assuming no element are selected initially
+  public getUsersState$: Observable<any>;
+  public userState: UserState;
 
-    public newListContact = {show: false, type: 'Whitelist'};
+  public newListContact = { show: false, type: 'Whitelist' };
 
-    readonly destroyed$: Observable<boolean>;
+  readonly destroyed$: Observable<boolean>;
 
-    constructor(
-        private modalService: NgbModal,
-        config: NgbDropdownConfig,
-        private store: Store<UserState>,
-    ) {
-        // customize default values of dropdowns used by this component tree
-        config.autoClose = 'outside';
-    }
+  constructor(
+    private modalService: NgbModal,
+    config: NgbDropdownConfig,
+    private store: Store<UserState>,
+  ) {
+    // customize default values of dropdowns used by this component tree
+    config.autoClose = 'outside';
+  }
 
-    ngOnInit() {
-        this.getUsersState$ = this.store.select(selectUsersState);
-        this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
-            this.userState = state;
-        });
-    }
+  ngOnInit() {
+    this.getUsersState$ = this.store.select(selectUsersState);
+    this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
+      this.userState = state;
+    });
+  }
 
-    // == Toggle active state of the slide in price page
-    toggleSlides(index) {
-        this.selectedIndex = index;
-        document.querySelector('.package-xs-tab > li').classList.remove('active');
-        document
-            .querySelector('.package-prime-col')
-            .classList.remove('active-slide');
-    }
+  // == Toggle active state of the slide in price page
+  toggleSlides(index) {
+    this.selectedIndex = index;
+    document.querySelector('.package-xs-tab > li').classList.remove('active');
+    document
+      .querySelector('.package-prime-col')
+      .classList.remove('active-slide');
+  }
 
-    // == Methods related to ngbModal
+  // == Methods related to ngbModal
 
-    // == Open change password NgbModal
-    changePasswordModalOpen(passwordContent) {
-        this.modalService.open(passwordContent, {
-            centered: true,
-            windowClass: 'modal-md'
-        });
-    }
+  // == Open change password NgbModal
+  changePasswordModalOpen(passwordContent) {
+    this.modalService.open(passwordContent, {
+      centered: true,
+      windowClass: 'modal-md'
+    });
+  }
 
-    // == Open add custom filter NgbModal
-    addCustomFilterModalOpen(customFilterContent) {
-        this.modalService.open(customFilterContent, {
-            centered: true,
-            windowClass: 'modal-sm'
-        });
-    }
+  // == Open add custom filter NgbModal
+  addCustomFilterModalOpen(customFilterContent) {
+    this.modalService.open(customFilterContent, {
+      centered: true,
+      windowClass: 'modal-sm'
+    });
+  }
 
-    // == Open billing information NgbModal
-    billingInfoModalOpen(billingInfoContent) {
-        this.modalService.open(billingInfoContent, {
-            centered: true,
-            windowClass: 'modal-lg'
-        });
-    }
+  // == Open billing information NgbModal
+  billingInfoModalOpen(billingInfoContent) {
+    this.modalService.open(billingInfoContent, {
+      centered: true,
+      windowClass: 'modal-lg'
+    });
+  }
 
-    // == Open add new payment NgbModal
-    newPaymentMethodModalOpen(newPaymentMethodContent) {
-        this.modalService.open(newPaymentMethodContent, {
-            centered: true,
-            windowClass: 'modal-sm'
-        });
-    }
+  // == Open add new payment NgbModal
+  newPaymentMethodModalOpen(newPaymentMethodContent) {
+    this.modalService.open(newPaymentMethodContent, {
+      centered: true,
+      windowClass: 'modal-sm'
+    });
+  }
 
-    // == Open make a donation NgbModal
-    makeDonationModalOpen(makeDonationContent) {
-        this.modalService.open(makeDonationContent, {
-            centered: true,
-            windowClass: 'modal-sm'
-        });
-    }
+  // == Open make a donation NgbModal
+  makeDonationModalOpen(makeDonationContent) {
+    this.modalService.open(makeDonationContent, {
+      centered: true,
+      windowClass: 'modal-sm'
+    });
+  }
 
-    public deleteWhiteList(id) {
-        this.store.dispatch(new WhiteListDelete(id));
-    }
+  public deleteWhiteList(id) {
+    this.store.dispatch(new WhiteListDelete(id));
+  }
 
-    public deleteBlackList(id) {
-        this.store.dispatch(new BlackListDelete(id));
-    }
+  public deleteBlackList(id) {
+    this.store.dispatch(new BlackListDelete(id));
+  }
 
-    ngOnDestroy(): void {
-    }
+  ngOnDestroy(): void {
+  }
 }

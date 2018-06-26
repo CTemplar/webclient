@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NumberOfColumns, Mode } from '../../store/models';
 import {
-   FinalLoading
+  FinalLoading
 } from '../../store/actions';
 
 // Store
@@ -16,12 +16,14 @@ import { Store } from '@ngrx/store';
 export class PagesAboutComponent implements OnInit, OnDestroy {
   numberOfColumns: NumberOfColumns;
   mode: Mode;
-  constructor(private store: Store<any>) { }
+
+  constructor(private store: Store<any>) {
+  }
 
   ngOnInit() {
     this.numberOfColumns = NumberOfColumns.Three;
     this.mode = Mode.Recent;
-    this.store.dispatch(new FinalLoading({ loadingState: false}));
+    this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
   ngOnDestroy(): void {

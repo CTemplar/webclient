@@ -19,7 +19,7 @@ export function reducer(state = initialState, action: LoadingActionAll): Loading
       return { ...state, RelatedBlogLoading: action.payload.loadingState };
     }
     case LoadingActionTypes.FINAL_LOADING: {
-      return { ...state, Loading: action.payload.loadingState};
+      return { ...state, Loading: action.payload.loadingState };
     }
     default: {
       return state;

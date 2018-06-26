@@ -1,71 +1,71 @@
 <div class="col-sm-6 flex-sm-last package-prime-col active-slide" [class.is-active-slide]="selectedIndex === 1">
-  <div class="package-card package-card-prime is-shadowed bg-white text-dark">
-    <header class="package-card-header text-center">
-      <h2 class="text-white m-0">
-        <strong>Prime</strong>
-      </h2>
-    </header>
-    <div class="package-card-body">
-      <ul class="package-list mb-0 list-style-none pl-0">
-        <li class="package-list-item has-border">
-          <i class="fa fa-check text-green"></i>1 User
-        </li>
-        <li class="package-list-item has-border has-icon-center">
-          <i class="fa fa-check text-green"></i>
-          <!-- Storage DropDown -->
-          <app-storage-dropdown [storageList] ="storageList"
-                                [selectedStorage] ="selectedStorage"
-                                (storageSelected) = "selectedStorageHandler($event)"></app-storage-dropdown>
-        </li>
-        <li class="package-list-item has-border">
-          <i class="fa fa-check text-green"></i>1 E-mail Address
-        </li>
-        <li class="package-list-item">
-          <i class="fa fa-check text-green"></i>100 Messages per Day
-        </li>
-        <li class="package-list-item">
-          <i class="fa fa-check text-green"></i>200 Folders
-        </li>
-        <li class="package-list-item">
-          <i class="fa fa-check text-green"></i>Normal Support
-        </li>
-        <li class="package-list-item">
-          <i class="fa fa-check text-green"></i>Dead Mans Timer
-        </li>
-        <li class="package-list-item">
-          <i class="fa fa-check text-green"></i>Delayed Delivery Timer
-        </li>
-        <li class="package-list-item">
-          <i class="fa fa-check text-green"></i>Self Destruct Timer
-        </li>
-        <li class="package-list-item">
-          <i class="fa fa-check text-green"></i>Encryption for non-CTemplar Users
-        </li>
-      </ul>
-      <div class="package-coming-soon mt-3 mt-sm-4">
-        <h6 class="text-muted mb-3 mb-sm-4">
-          <a href="">
-            <u>Features to be added to this package soon:</u>
-          </a>
-        </h6>
-      </div>
-    </div>
-    <footer class="package-card-footer">
-      <!-- Payment Selector -->
-      <app-payment-selector [paymentPlans] ="paymentPlans"
-                            [selectedPayment] ="selectedPayment" 
-                            (paymentPlanSelected) = "selectedPaymentPlanHandler($event)"></app-payment-selector>
+    <div class="package-card package-card-prime is-shadowed bg-white text-dark">
+        <header class="package-card-header text-center">
+            <h2 class="text-white m-0">
+                <strong>Prime</strong>
+            </h2>
+        </header>
+        <div class="package-card-body">
+            <ul class="package-list mb-0 list-style-none pl-0">
+                <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 User
+                </li>
+                <li class="package-list-item has-border has-icon-center">
+                    <i class="fa fa-check text-green"></i>
+                    <!-- Storage DropDown -->
+                    <app-storage-dropdown [storageList]="storageList"
+                                          [selectedStorage]="selectedStorage"
+                                          (storageSelected)="selectedStorageHandler($event)"></app-storage-dropdown>
+                </li>
+                <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 E-mail Address
+                </li>
+                <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>100 Messages per Day
+                </li>
+                <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>200 Folders
+                </li>
+                <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Normal Support
+                </li>
+                <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Dead Mans Timer
+                </li>
+                <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Delayed Delivery Timer
+                </li>
+                <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Self Destruct Timer
+                </li>
+                <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Encryption for non-CTemplar Users
+                </li>
+            </ul>
+            <div class="package-coming-soon mt-3 mt-sm-4">
+                <h6 class="text-muted mb-3 mb-sm-4">
+                    <a href="">
+                        <u>Features to be added to this package soon:</u>
+                    </a>
+                </h6>
+            </div>
+        </div>
+        <footer class="package-card-footer">
+            <!-- Payment Selector -->
+            <app-payment-selector [paymentPlans]="paymentPlans"
+                                  [selectedPayment]="selectedPayment"
+                                  (paymentPlanSelected)="selectedPaymentPlanHandler($event)"></app-payment-selector>
 
-      <div class="package-actions text-center">
-        <a routerLink="/create-account" class="btn btn-lg btn-gradient-primary" *ngIf="selectedPayment.id ===1">
-          Select Prime ${{ getMonthlyPlan().monthlyFee }}/
-          <span class="text-normal">mo</span>
-        </a>
-        <a routerLink="/create-account" class="btn btn-lg btn-gradient-primary" *ngIf="selectedPayment.id ===2">
-          Select Prime ${{ getAnnualPlan().totalAnnualFee }}/
-          <span class="text-normal">yr</span>
-        </a>
-      </div>
-    </footer>
-  </div>
+            <div class="package-actions text-center">
+                <a routerLink="/create-account" class="btn btn-lg btn-gradient-primary" *ngIf="selectedPayment.id ===1">
+                    Select Prime ${{ getMonthlyPlan().monthlyFee }}/
+                    <span class="text-normal">mo</span>
+                </a>
+                <a routerLink="/create-account" class="btn btn-lg btn-gradient-primary" *ngIf="selectedPayment.id ===2">
+                    Select Prime ${{ getAnnualPlan().totalAnnualFee }}/
+                    <span class="text-normal">yr</span>
+                </a>
+            </div>
+        </footer>
+    </div>
 </div>

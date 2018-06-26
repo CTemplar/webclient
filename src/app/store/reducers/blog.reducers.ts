@@ -7,7 +7,7 @@ import { BlogState } from '../datatypes';
 export const initialState: BlogState = {
   posts: [],
   comments: [],
-  categories: [{id: 0, name: null, color: null}],
+  categories: [{ id: 0, name: null, color: null }],
   newPosts: [],
   errorMessage: null,
   relatedPosts: []

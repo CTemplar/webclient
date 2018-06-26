@@ -1,5 +1,5 @@
 // Angular
-import {  Params } from '@angular/router';
+import { Params } from '@angular/router';
 
 // Ngrx
 import * as fromRouter from '@ngrx/router-store';

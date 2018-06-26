@@ -1,4 +1,3 @@
-
 export type KeyboardLayout = Array<Array<string>>;
 
 export const alphanumericKeyboard: KeyboardLayout = [

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Bootstrap
-import {NgbModal, NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -23,28 +23,28 @@ import { SharedService } from '../../store/services';
   styleUrls: ['./secure-message.component.scss']
 })
 export class SecureMessageComponent implements OnInit {
-  
+
   // == Public property to check if reply secure message window opened
   public isReplyWindowOpen: boolean = false;
 
   errorMessage: string = '';
   isLoading: boolean = false;
-  getState: Observable<any>;	
+  getState: Observable<any>;
 
   constructor(
-  	private router: Router,
-  	private store: Store<AuthState>,
-  	private sharedService: SharedService,
+    private router: Router,
+    private store: Store<AuthState>,
+    private sharedService: SharedService,
     config: NgbDropdownConfig
-  ) {    
-  	this.getState = this.store.select(selectAuthState);
+  ) {
+    this.getState = this.store.select(selectAuthState);
 
     // == customize default values of dropdowns used by this component tree
-    config.autoClose = "outside";
+    config.autoClose = 'outside';
   }
 
   ngOnInit() {
-  	setTimeout(() => {
+    setTimeout(() => {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
     });
 
