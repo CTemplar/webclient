@@ -98,7 +98,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   toggleFocus( input: string): any {
     event.stopPropagation();
-    console.log('togglefocus');
     if (input === 'password') {
       this.password_osk = !this.password_osk;
       setTimeout(() => this.passwordElement.nativeElement.focus());
@@ -121,7 +120,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   }
 
   disableOsk(e) {
-    console.log('fd');
     this.useranme_osk = this.password_osk = false;
   }
 
