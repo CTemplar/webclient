@@ -13,7 +13,7 @@ import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
 import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import { MatKeyboardModule } from './src/keyboard.module';
+import { MatKeyboardModule } from './virtual-keyboard/keyboard.module';
 
 @NgModule({
   imports: [CommonModule, MatKeyboardModule],
