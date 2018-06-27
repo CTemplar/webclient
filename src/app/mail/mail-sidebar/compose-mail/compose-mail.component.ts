@@ -4,6 +4,12 @@ import * as QuillNamespace from 'quill';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { colors } from '../../../shared/config';
+import { CreateMail } from '../../../store/actions';
+import { Store } from '@ngrx/store';
+import { AppState, MailState } from '../../../store/datatypes';
+import { selectMailState } from '../../../store/selectors';
+import { Observable } from 'rxjs/Observable';
+import { Mail } from '../../../store/models';
 
 const Quill: any = QuillNamespace;
 
@@ -33,8 +39,16 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   private autoSaveSubscription: Subscription;
   private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
   private confirmModalRef: NgbModalRef;
+  private draftMail: Mail;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal,
+              private store: Store<MailState>) {
+
+    const mailRef: Observable<any> = this.store.select((state: MailState) => state);
+    mailRef.subscribe((response: MailState) => {
+      console.log(response);
+      this.draftMail = response.draft;
+    });
   }
 
   ngAfterViewInit() {
@@ -91,17 +105,17 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   }
 
   private updateEmail() {
-    if (this.emailId) {
-      // TODO: Add API call for updating email
-    }
-    else {
-      this.createEmail();
-    }
+    this.createEmail({
+      id: this.draftMail ? this.draftMail.id : null,
+      content: this.editor.nativeElement.innerHTML,
+      folder: 'draft',
+    });
   }
 
-  private createEmail() {
+  private createEmail(data) {
     // TODO: Add API call for creating email. Store returned id to this.emailId
     this.emailId = 10;
+    this.store.dispatch(new CreateMail(data));
   }
 
   private hideMailComposeModal() {
