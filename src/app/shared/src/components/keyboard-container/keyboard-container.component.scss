@@ -1,0 +1,20 @@
+@import '~@angular/material/theming';
+
+$mat-keyboard-min-width: 568px !default;
+$mat-keyboard-max-width: 960px !default;
+
+:host {
+  @include mat-elevation(6);
+  border-radius: 2px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 auto;
+  max-width: $mat-keyboard-max-width;
+  min-width: $mat-keyboard-min-width;
+  // Initial transformation is applied to start keyboard out of view.
+  transform: translateY(100%);
+
+  @include cdk-high-contrast {
+    border: solid 1px;
+  }
+}
