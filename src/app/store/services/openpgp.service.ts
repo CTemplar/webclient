@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 declare var openpgp;
+
 @Injectable()
 export class OpenPgpService {
   options: any;
@@ -25,7 +26,7 @@ export class OpenPgpService {
   generateKey(user) {
     this.passphrase = user.password;
     const options = {
-      userIds: [{name: user.username, email: `${user.username}@ctemplar.com` }],
+      userIds: [{ name: user.username, email: `${user.username}@ctemplar.com` }],
       numbits: 4096,
       passphrase: this.passphrase
     };

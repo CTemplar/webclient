@@ -2,7 +2,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 // Model
-import { Storage} from '../../../../store/models';
+import { Storage } from '../../../../store/models';
 
 @Component({
   selector: 'app-storage-dropdown',
@@ -14,12 +14,13 @@ export class StorageDropdownComponent implements OnInit {
   @Input('selectedStorage') selectedStorage: Storage;
   @Output('storageSelected') storageSelected = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
   onItemSelect(item: any) {
-  this.storageSelected.next(item);
+    this.storageSelected.next(item);
   }
 }

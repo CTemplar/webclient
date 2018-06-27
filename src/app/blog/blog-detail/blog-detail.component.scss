@@ -16,12 +16,13 @@ $error-red: #e94e4c;
   margin-bottom: 20px;
   font-size: 14px;
 }
+
 .validate-message {
   display: block;
   margin-bottom: 0.375rem;
   color: $error-red !important;
-  font-size: 0.875rem; 
-  text-align: left;       
+  font-size: 0.875rem;
+  text-align: left;
 }
 
 .reply-form {

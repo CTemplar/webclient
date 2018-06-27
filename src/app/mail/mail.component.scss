@@ -5,1217 +5,1219 @@
 
 // == Mailbox content
 .app-outer-mailbox {
-	small {
-		font-size: 0.75rem;
-	}
+  small {
+    font-size: 0.75rem;
+  }
 }
 
 // == Mailbox content
 .mailbox-main-content {
-	position: relative;
-	// margin-left: 60px;
-	padding-bottom: 3.75rem;
-	min-height: 100vh;
+  position: relative;
+  // margin-left: 60px;
+  padding-bottom: 3.75rem;
+  min-height: 100vh;
 
-	@include media("<ipad", ">sm") {
-		margin-left: 68px;
-	}
+  @include media("<ipad", ">sm") {
+    margin-left: 68px;
+  }
 
-	@include media(">=ipad") {
-		margin-left: 290px;
-	}
+  @include media(">=ipad") {
+    margin-left: 290px;
+  }
 }
-
 
 // == Sidebar
 .mailbox-sidebar {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	background-color: #34495e;
-	width: 220px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #34495e;
+  width: 220px;
 
-	@include media("<ipad") {
-		z-index: $zindex-default + 10;
-	}
+  @include media("<ipad") {
+    z-index: $zindex-default + 10;
+  }
 
-	@include media("<=sm") {
-		transform: translateX(-100%);
-		transition: all ease 0.35s;
+  @include media("<=sm") {
+    transform: translateX(-100%);
+    transition: all ease 0.35s;
 
-		&.is-sidebar-expanded {
-			transform: translateX(0%);
-		}
-	}
+    &.is-sidebar-expanded {
+      transform: translateX(0%);
+    }
+  }
 
-	@include media("<ipad", ">sm") {
-		width: 68px;
+  @include media("<ipad", ">sm") {
+    width: 68px;
 
-		&.is-sidebar-expanded {
-			width: 220px;
-		}
-	}
+    &.is-sidebar-expanded {
+      width: 220px;
+    }
+  }
 
-	@include media(">=ipad") {
-		width: 290px;
-	}
-	
-	.navbar-toggler {
-		top: 1px;
-		padding: 0 0;
-		height: 1.25rem;
-		width: 1.25rem;
+  @include media(">=ipad") {
+    width: 290px;
+  }
 
-		.navbar-toggler-icon {
-			width: 1.25rem;
-		}
-	}
+  .navbar-toggler {
+    top: 1px;
+    padding: 0 0;
+    height: 1.25rem;
+    width: 1.25rem;
 
-	.navbar-toggler-icon:nth-child(2), .navbar-toggler-icon:nth-child(3) {
-		top: 9px;
-	}
+    .navbar-toggler-icon {
+      width: 1.25rem;
+    }
+  }
 
-	.navbar-toggler-icon:nth-child(4) {
-		top: 15px;
-	}
+  .navbar-toggler-icon:nth-child(2), .navbar-toggler-icon:nth-child(3) {
+    top: 9px;
+  }
+
+  .navbar-toggler-icon:nth-child(4) {
+    top: 15px;
+  }
 }
 
 .mailbox-sidebar-inner {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	overflow-x: hidden;
-	overflow-y: auto;
-	padding-bottom: 1.25rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 1.25rem;
 
-	@include media("<=sm") {
-		padding-bottom: 8rem;
-	}
+  @include media("<=sm") {
+    padding-bottom: 8rem;
+  }
 }
 
 .mailbox-brand,
 .mail-compose-section {
-	padding: 1.34444rem 0.938rem;
+  padding: 1.34444rem 0.938rem;
 
-	@include media("<=sm") {
-		padding: 0.969rem 0.938rem;
-	}
+  @include media("<=sm") {
+    padding: 0.969rem 0.938rem;
+  }
 
-	@include media(">sm") {
-		text-align: center;
+  @include media(">sm") {
+    text-align: center;
 
-		.is-sidebar-expanded & {
-			text-align: left;
-		}
-	}
+    .is-sidebar-expanded & {
+      text-align: left;
+    }
+  }
 
-	@include media(">=ipad") {
-		padding: 1.031rem 1.563rem;
-		text-align: left;
-	}
+  @include media(">=ipad") {
+    padding: 1.031rem 1.563rem;
+    text-align: left;
+  }
 }
 
 .mailbox-brand {
-	position: relative;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-	line-height: 1;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  line-height: 1;
 }
 
 .prime-account-content {
-	position: absolute;
-	top: 50%;
-	right: 0.938rem;
-	display: flex;
-	align-items: center;
-	color: $brand-white;
-	font-size: 1rem;
-	transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 0.938rem;
+  display: flex;
+  align-items: center;
+  color: $brand-white;
+  font-size: 1rem;
+  transform: translateY(-50%);
 
-	@include media("<ipad", ">sm") {
-		display: none;
+  @include media("<ipad", ">sm") {
+    display: none;
 
-		.is-sidebar-expanded & {
-			display: block;
-		}
-	}
+    .is-sidebar-expanded & {
+      display: block;
+    }
+  }
 
-	@include media(">=ipad") {
-		right: 1.563rem;
-	}
+  @include media(">=ipad") {
+    right: 1.563rem;
+  }
 
-	.prime-account-text {
-		margin-left: 0.3rem;
-		font-size: 0.75rem;
-	}
+  .prime-account-text {
+    margin-left: 0.3rem;
+    font-size: 0.75rem;
+  }
 }
 
 // == Mailbox sidebar menu
 .navbar-toggle-text {
-	display: none;
+  display: none;
 
-	@include media("<ipad") {
-		.is-sidebar-expanded & {
-			display: block;
-			padding-left: 2rem;
-		}
-	}
+  @include media("<ipad") {
+    .is-sidebar-expanded & {
+      display: block;
+      padding-left: 2rem;
+    }
+  }
 
-	// @include media("<=sm") {
-	// 	display: block;
-	// 	padding-left: 2rem;
-	// }
+  // @include media("<=sm") {
+  // 	display: block;
+  // 	padding-left: 2rem;
+  // }
 }
 
 .mailbox-sidebar-nav {
-	list-style: none;
-	margin: 0 0;
-	padding: 0;
-	line-height: 1;
+  list-style: none;
+  margin: 0 0;
+  padding: 0;
+  line-height: 1;
 
-	.divider-item {
-		margin: 0.625rem 0;
-		border-top-color: rgba(255, 255, 255, 0.12);
+  .divider-item {
+    margin: 0.625rem 0;
+    border-top-color: rgba(255, 255, 255, 0.12);
 
-		@include media(">sm") {
-			margin: 0.938rem 0;
-		}
+    @include media(">sm") {
+      margin: 0.938rem 0;
+    }
 
-		@include media(">=ipad") {
-			margin: 0.938rem 1.563rem;
-		}
-	}
+    @include media(">=ipad") {
+      margin: 0.938rem 1.563rem;
+    }
+  }
 }
 
 .mailbox-sidebar-nav-item {
-	font-size: 0.875rem;
-	line-height: 1;
+  font-size: 0.875rem;
+  line-height: 1;
 
-	&.add-folder {
-		font-size: 0.75rem;
-		letter-spacing: 0.6px;	
-	}
+  &.add-folder {
+    font-size: 0.75rem;
+    letter-spacing: 0.6px;
+  }
 }
 
 .mailbox-sidebar-nav-link {
-	position: relative;
-	display: flex;
-	align-items: center;
-	padding: 0.813rem 0.938rem 0.813rem 3rem;
-	color: $menu-link;
-	min-height: 2.5rem;
-	line-height: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.813rem 0.938rem 0.813rem 3rem;
+  color: $menu-link;
+  min-height: 2.5rem;
+  line-height: 1;
 
-	.is-sidebar-expanded & {
-		// padding-left: 0.938rem;
-	}
+  .is-sidebar-expanded & {
+    // padding-left: 0.938rem;
+  }
 
-	@include media(">=ipad") {
-		padding: 0.813rem 1.563rem 0.813rem 3.375rem;
-	}
+  @include media(">=ipad") {
+    padding: 0.813rem 1.563rem 0.813rem 3.375rem;
+  }
 
-	// 5-11-
-	&.no-icon {
-		@include media(">=ipad") {
-			padding: 0.813rem 1.563rem;
-		}
+  // 5-11-
+  &.no-icon {
+    @include media(">=ipad") {
+      padding: 0.813rem 1.563rem;
+    }
 
-		.is-sidebar-expanded & {
-			padding-left: .938rem;
-			transition: none;
-		}
-	}
+    .is-sidebar-expanded & {
+      padding-left: .938rem;
+      transition: none;
+    }
+  }
 
-	.active & {
-		background: rgba(255, 255, 255, 0.12) !important;
-		color: $brand-white;
-	}
+  .active & {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: $brand-white;
+  }
 
-	&:hover,
-	&:focus {		
-		background: darken(rgba(255, 255, 255, 0.12), 25%);
-		color: $brand-white;
-	}
+  &:hover,
+  &:focus {
+    background: darken(rgba(255, 255, 255, 0.12), 25%);
+    color: $brand-white;
+  }
 
-	>.icon,
-	>.badge {
-		position: absolute;
-		top: 50%;
-		left: 0.938rem;
-		transform: translateY(-50%);
+  > .icon,
+  > .badge {
+    position: absolute;
+    top: 50%;
+    left: 0.938rem;
+    transform: translateY(-50%);
 
-		@include media("<ipad", ">sm") {
-			.is-sidebar-expanded & {
-				left: 0.938rem;
-			}
-		}
+    @include media("<ipad", ">sm") {
+      .is-sidebar-expanded & {
+        left: 0.938rem;
+      }
+    }
 
-		@include media(">sm") {
-			left: 1.563rem;
-		}
+    @include media(">sm") {
+      left: 1.563rem;
+    }
 
-		@include media(">=ipad") {
-			// left: 1.563rem;
-		}
-	}
+    @include media(">=ipad") {
+      // left: 1.563rem;
+    }
+  }
 
-	>.icon {
-		font-size: 0.938rem;
-	}
+  > .icon {
+    font-size: 0.938rem;
+  }
 
-	>.badge {
-		right: 1.563rem;
-		left: auto;
-		padding: 0 0;
-		background-color: $brand-light-gray;
-		border: 2px;
-		font-size: 0.625rem;
-		height: 1.25rem;
-		width: 1.563rem;
-		line-height: 1.25rem;
-		text-align: center;
+  > .badge {
+    right: 1.563rem;
+    left: auto;
+    padding: 0 0;
+    background-color: $brand-light-gray;
+    border: 2px;
+    font-size: 0.625rem;
+    height: 1.25rem;
+    width: 1.563rem;
+    line-height: 1.25rem;
+    text-align: center;
 
-		@include media("<ipad") {
-			right: 1.313rem;
+    @include media("<ipad") {
+      right: 1.313rem;
 
-			&.badge-sm {
-				top: 0.75rem;
-				right: 0.5rem;
-				padding: 0.125rem;
-				background: $brand-primary;
-				border-radius: 2px;
-				font-size: 0.5rem;
-				height: auto;
-				width: auto;
-				line-height: 1;
-			}
+      &.badge-sm {
+        top: 0.75rem;
+        right: 0.5rem;
+        padding: 0.125rem;
+        background: $brand-primary;
+        border-radius: 2px;
+        font-size: 0.5rem;
+        height: auto;
+        width: auto;
+        line-height: 1;
+      }
 
-			.is-sidebar-expanded & {
-				left: auto;
-				right: .938rem;
-			}
-		}
+      .is-sidebar-expanded & {
+        left: auto;
+        right: .938rem;
+      }
+    }
 
-		@include media("<=sm") {
-			&.badge-sm {
-				right: 0.938rem;
-			}
-		}
-	}
+    @include media("<=sm") {
+      &.badge-sm {
+        right: 0.938rem;
+      }
+    }
+  }
 
-	.mailbox-sidebar-nav-label {
-		@include media("<ipad", ">sm") {
-			display: none;
+  .mailbox-sidebar-nav-label {
+    @include media("<ipad", ">sm") {
+      display: none;
 
-			.is-sidebar-expanded & {
-				display: block;
-			}
-		}
-	}
+      .is-sidebar-expanded & {
+        display: block;
+      }
+    }
+  }
 }
 
 .divider-item {
-	margin: 0.375rem 0.938rem;
-	border-top: 1px solid $divider-color;
+  margin: 0.375rem 0.938rem;
+  border-top: 1px solid $divider-color;
 }
 
 .mailbox-sidebar-footer {
-	position: absolute;
-	right: 0.938rem;
-	bottom: .938rem;
-	left: 0.938rem;
-	line-height: 1;
+  position: absolute;
+  right: 0.938rem;
+  bottom: .938rem;
+  left: 0.938rem;
+  line-height: 1;
 
-	@include media("<=sm") {
-		bottom: -8rem;
-		padding-bottom: 0.938rem;
-	}
+  @include media("<=sm") {
+    bottom: -8rem;
+    padding-bottom: 0.938rem;
+  }
 
-	@include media(">sm") {
-		bottom: 3.125rem;
-	}
+  @include media(">sm") {
+    bottom: 3.125rem;
+  }
 
-	@include media(">=ipad") {
-		right: 1.563rem;
-		bottom: 1.25rem;
-		left: 1.563rem;
-	}
+  @include media(">=ipad") {
+    right: 1.563rem;
+    bottom: 1.25rem;
+    left: 1.563rem;
+  }
 }
 
-.mailbox-sidebar-footer-text {	
-	color: rgba(255, 255, 255, 0.5);
-	font-size: 0.688rem;
+.mailbox-sidebar-footer-text {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.688rem;
 }
 
 .visible-in-sm {
-	display: none !important;
-	@include media("<ipad", ">sm") {
-		display: block !important;
+  display: none !important;
+  @include media("<ipad", ">sm") {
+    display: block !important;
 
-		.is-sidebar-expanded & {
-			display: none !important;
-		}
-	}
+    .is-sidebar-expanded & {
+      display: none !important;
+    }
+  }
 }
 
 .hidden-in-sm {
-	display: block !important;
-	@include media("<ipad", ">sm") {
-		display: none !important;
+  display: block !important;
+  @include media("<ipad", ">sm") {
+    display: none !important;
 
-		.is-sidebar-expanded & {
-			display: block !important;
-		}
-	}
+    .is-sidebar-expanded & {
+      display: block !important;
+    }
+  }
 }
 
 // == Buttons
 .btn-lg.mailbox-btn {
-	padding: .5rem 3.43066rem;//~.5633rem 3.43066rem;
-	font-size: 0.875rem;
-	letter-spacing: 0.7px;
-	min-width: 240px;
+  padding: .5rem 3.43066rem; //~.5633rem 3.43066rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.7px;
+  min-width: 240px;
 }
 
 .btn-primary.mailbox-btn {
-	&:hover,
-	&:focus {
-		background-color: #ff4d3b;
-	}
+  &:hover,
+  &:focus {
+    background-color: #ff4d3b;
+  }
 }
 
 .mailbox-btn.has-icon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-outline-white.mailbox-btn {
-	border: 1px solid $brand-white !important;
-	border-radius: 2px;
-	color: $brand-white;
+  border: 1px solid $brand-white !important;
+  border-radius: 2px;
+  color: $brand-white;
 
-	&:hover,
-	&:focus {
-	}
+  &:hover,
+  &:focus {
+  }
 }
 
 @include media("<ipad") {
-	.btn.btn-xs-squared {
-		position: relative;
-		justify-content: center;
-		padding: 0 0;
-		border: solid 1px #c0392b;
-		font-size: 1.125rem;
-		height: 2.25rem;
-		width: 2.25rem;
-		min-width: inherit;
-		text-align: center;
-		transition: none;
+  .btn.btn-xs-squared {
+    position: relative;
+    justify-content: center;
+    padding: 0 0;
+    border: solid 1px #c0392b;
+    font-size: 1.125rem;
+    height: 2.25rem;
+    width: 2.25rem;
+    min-width: inherit;
+    text-align: center;
+    transition: none;
 
-		// &::before,
-		// &::after {
-		// 	position: absolute;
-		// 	top: 50%;
-		// 	left: 50%;
-		// 	content: "";
-		// 	background: $brand-white;
-		// 	height: 1rem;
-		// 	width: 2px;
-		// 	transform: translateX(-50%) translateY(-50%);
-		// }
+    // &::before,
+    // &::after {
+    // 	position: absolute;
+    // 	top: 50%;
+    // 	left: 50%;
+    // 	content: "";
+    // 	background: $brand-white;
+    // 	height: 1rem;
+    // 	width: 2px;
+    // 	transform: translateX(-50%) translateY(-50%);
+    // }
 
-		// &::after {
-		// 	height: 2px;
-		// 	width: 1rem;
-		// }
-	}
+    // &::after {
+    // 	height: 2px;
+    // 	width: 1rem;
+    // }
+  }
 
-	.is-sidebar-expanded {
-		padding: .5633rem 3.43066rem;
-		height: auto;
-		width: 100%;
+  .is-sidebar-expanded {
+    padding: .5633rem 3.43066rem;
+    height: auto;
+    width: 100%;
 
-		// &::before,
-		// &::after {
-		// 	display: none;
-		// }
+    // &::before,
+    // &::after {
+    // 	display: none;
+    // }
 
-		.btn.btn-xs-squared {
-			font-size: 0.875rem;
-			min-width: 190px;
-		}
+    .btn.btn-xs-squared {
+      font-size: 0.875rem;
+      min-width: 190px;
+    }
 
-		.mailbox-compose-btn {
-			.icon {
-				display: none !important;
-			}
-		}
+    .mailbox-compose-btn {
+      .icon {
+        display: none !important;
+      }
+    }
 
-		.mailbox-back-btn {
-			.icon {
-				margin-right: 0.5rem !important;
-			}
-		}
-		
-		.mailbox-btn-text {
-			display: block !important;
-		}
-	}
+    .mailbox-back-btn {
+      .icon {
+        margin-right: 0.5rem !important;
+      }
+    }
+
+    .mailbox-btn-text {
+      display: block !important;
+    }
+  }
 }
 
 // == Mail compose button on mobile
 @include media("<=sm") {
-	.btn-xs-holder.is-sticky {
-		position: fixed;
-		top: 50%;
-		right: 0.938rem;
-		z-index: $zindex-default;
-		transform: translateY(-50%);
-	}
+  .btn-xs-holder.is-sticky {
+    position: fixed;
+    top: 50%;
+    right: 0.938rem;
+    z-index: $zindex-default;
+    transform: translateY(-50%);
+  }
 
-	.btn.btn-xs-rounded {
-		justify-content: center;
-		padding: 0 0;
-		border-radius: 50%;
-		font-size: 1.125rem !important;
-		height: 3.125rem;
-		width: 3.125rem;
-		line-height: 3.125rem;
-		min-width: inherit !important;
+  .btn.btn-xs-rounded {
+    justify-content: center;
+    padding: 0 0;
+    border-radius: 50%;
+    font-size: 1.125rem !important;
+    height: 3.125rem;
+    width: 3.125rem;
+    line-height: 3.125rem;
+    min-width: inherit !important;
 
-		&.btn-primary,
-		&.btn-mail-send {
-			background: $brand-primary;
-			border: solid 1px #c0392b;
-			box-shadow: 0 2px 4px 0 rgba(1, 9, 15, 0.3);
-		}
+    &.btn-primary,
+    &.btn-mail-send {
+      background: $brand-primary;
+      border: solid 1px #c0392b;
+      box-shadow: 0 2px 4px 0 rgba(1, 9, 15, 0.3);
+    }
 
-		&.btn-success {
-			border: solid 1px #2980ba;
-		}
-	}
-}/* Sidebar ends */
+    &.btn-success {
+      border: solid 1px #2980ba;
+    }
+  }
+}
 
+/* Sidebar ends */
 
 // == Actions bar
 .mailbox-actionbar {
-	padding: 1rem 0.938rem;
-	border-bottom: 1px solid $input-border-color;
+  padding: 1rem 0.938rem;
+  border-bottom: 1px solid $input-border-color;
 
-	@include media(">=ipad") {
-		padding-right: 1.563rem;
-		padding-left: 1.563rem;
-	}
+  @include media(">=ipad") {
+    padding-right: 1.563rem;
+    padding-left: 1.563rem;
+  }
 
-	.mailbox-actionbar-col {
-		@include media("<ipad", ">sm") {
-			&:first-of-type {
-				flex: 0 0 70%;
-				max-width: 70%;
-			}
+  .mailbox-actionbar-col {
+    @include media("<ipad", ">sm") {
+      &:first-of-type {
+        flex: 0 0 70%;
+        max-width: 70%;
+      }
 
-			&:last-of-type {
-				flex: 0 0 30%;
-				max-width: 30%;
-			}
-		}
-	}
+      &:last-of-type {
+        flex: 0 0 30%;
+        max-width: 30%;
+      }
+    }
+  }
 }
 
 .mailbox-actionbar-menu,
 .more-xs-options-list {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	margin: 0 -0.375rem;
-	padding: 0 0;
-	list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 -0.375rem;
+  padding: 0 0;
+  list-style: none;
 
-	@include media(">sm") {
-		margin: 0 -0.75rem;
-	}
+  @include media(">sm") {
+    margin: 0 -0.75rem;
+  }
 
-	>li {
-		padding: 0 0.375rem;
+  > li {
+    padding: 0 0.375rem;
 
-		&.checkbox-dropdown {
-			.fancy-field-group {
-				margin-top: -3px;
-			}
-		}
+    &.checkbox-dropdown {
+      .fancy-field-group {
+        margin-top: -3px;
+      }
+    }
 
-		@include media("<=sm") {
-			&.more-xs-options {
-				>.dropdown>.dropdown-toggle {
-					justify-content: center;
-					// border-left: 0;
-					// border-radius: 0 2px 2px 0;
+    @include media("<=sm") {
+      &.more-xs-options {
+        > .dropdown > .dropdown-toggle {
+          justify-content: center;
+          // border-left: 0;
+          // border-radius: 0 2px 2px 0;
 
-					&::before {
-						display: none;
-					}
-				}
-			}
+          &::before {
+            display: none;
+          }
+        }
+      }
 
-			&.checkbox-dropdown {				
-				.dropdown-toggle  {
-					width: 3.5rem;
-				}
-			}
-		}
+      &.checkbox-dropdown {
+        .dropdown-toggle {
+          width: 3.5rem;
+        }
+      }
+    }
 
-		@include media(">sm") {
-			padding: 0 0.75rem;
-		}
+    @include media(">sm") {
+      padding: 0 0.75rem;
+    }
 
-		>a,
-		.dropdown-toggle {
-			display: flex;
-			align-items: center;
-			padding: 0.219rem 0.688rem;
-			background: #f5f5f5;
-			border: 1px solid $input-border-color;
-			border-radius: 2px;
-			color: rgba(0,0,0,0.38);
-			font-weight: bold;			
-			height: 2rem;
-			width: 2.52rem;
-			text-transform: uppercase;
+    > a,
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      padding: 0.219rem 0.688rem;
+      background: #f5f5f5;
+      border: 1px solid $input-border-color;
+      border-radius: 2px;
+      color: rgba(0, 0, 0, 0.38);
+      font-weight: bold;
+      height: 2rem;
+      width: 2.52rem;
+      text-transform: uppercase;
 
-			@include media(">sm") {
-				height: 2rem;
-				width: 3.5rem;
-			}
+      @include media(">sm") {
+        height: 2rem;
+        width: 3.5rem;
+      }
 
-			// 5-11-
+      // 5-11-
 
-			&.no-icon {
-				font-size: 0.625rem;
-				letter-spacing: 0.5px;
-				min-width: 2.52rem;
-				width: auto;
+      &.no-icon {
+        font-size: 0.625rem;
+        letter-spacing: 0.5px;
+        min-width: 2.52rem;
+        width: auto;
 
-				@include media(">sm") {
-					min-width: 3.5rem;
-				}
-			}
+        @include media(">sm") {
+          min-width: 3.5rem;
+        }
+      }
 
-			&.disabled {
-				pointer-events: none;
-				color: darken($input-border-color, 5%) !important;
+      &.disabled {
+        pointer-events: none;
+        color: darken($input-border-color, 5%) !important;
 
-				&::before {
-					border-color: darken($input-border-color, 5%) !important;
-				}
-			}
-		}
+        &::before {
+          border-color: darken($input-border-color, 5%) !important;
+        }
+      }
+    }
 
-		>a {
-			justify-content: center;
-		}
+    > a {
+      justify-content: center;
+    }
 
-		.dropdown-toggle::before {
-			border-color: $gray-9e9e9e;
-		}
+    .dropdown-toggle::before {
+      border-color: $gray-9e9e9e;
+    }
 
-		&:nth-of-type(2),
-		&:nth-of-type(3) {
-			>a {
-				// border-right: 0;
-				// border-radius: 0;
-			}
-		}
+    &:nth-of-type(2),
+    &:nth-of-type(3) {
+      > a {
+        // border-right: 0;
+        // border-radius: 0;
+      }
+    }
 
-		&:nth-of-type(4) {
-			>a {
-				// border-top-left-radius: 0;
-				// border-bottom-left-radius: 0;
-			}
-		}
+    &:nth-of-type(4) {
+      > a {
+        // border-top-left-radius: 0;
+        // border-bottom-left-radius: 0;
+      }
+    }
 
-		&.mailbox-dropdown-lg {
-			>a,
-			.dropdown-toggle {
-				font-size: 0.625rem;
-				width: 4.500rem;
-				letter-spacing: 0.5px;
-				text-transform: uppercase;
-			}
-		}
-	}
+    &.mailbox-dropdown-lg {
+      > a,
+      .dropdown-toggle {
+        font-size: 0.625rem;
+        width: 4.500rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+    }
+  }
 
-	.iconncy-field-group {
-		display: block;
-		margin-top: -0.1rem;
-		line-height: 1;
-	}
+  .iconncy-field-group {
+    display: block;
+    margin-top: -0.1rem;
+    line-height: 1;
+  }
 
-	@include media("<=sm") {
-		.show>.dropdown-toggle {
-			color: $brand-secondary;
-			&::before {
-				border-color: $brand-secondary;
-			}
-		}
-	}
+  @include media("<=sm") {
+    .show > .dropdown-toggle {
+      color: $brand-secondary;
+      &::before {
+        border-color: $brand-secondary;
+      }
+    }
+  }
 }
 
 // == Divider
 .divider-item {
-	margin: 0.375rem 0.938rem;
-	border-top: 1px solid $divider-color;
+  margin: 0.375rem 0.938rem;
+  border-top: 1px solid $divider-color;
 }
 
 // == Mailbox small screen options
 .more-xs-options {
-	.mobiledOptionsDropdown {
-		padding: 0.75rem 0.938rem;
-		background: $brand-faded;
-		&.dropdown-menu {
-			margin-top: 1px;
-			right: 0;
-			left: auto !important;
-		}
+  .mobiledOptionsDropdown {
+    padding: 0.75rem 0.938rem;
+    background: $brand-faded;
+    &.dropdown-menu {
+      margin-top: 1px;
+      right: 0;
+      left: auto !important;
+    }
 
-		.dropdown-toggle {
-			width: 3.5rem;
-		}
+    .dropdown-toggle {
+      width: 3.5rem;
+    }
 
-		.dropdown-menu {
-			top: 42px !important;
-			left: -67px !important;
-		}
-	}
+    .dropdown-menu {
+      top: 42px !important;
+      left: -67px !important;
+    }
+  }
 
-	.more-xs-options-list {
-		flex-wrap: nowrap;
-	}
+  .more-xs-options-list {
+    flex-wrap: nowrap;
+  }
 }
 
 .mail-result-text {
-	margin-right: 0.75rem;
+  margin-right: 0.75rem;
 }
 
 .mail-nav-control {
-	display: flex;
-	align-items: center;
-	justify-content: ceter;
+  display: flex;
+  align-items: center;
+  justify-content: ceter;
 
-	[class*="mail-nav-control-"] {
-		background: #f5f5f5;
-		border: 1px solid $dropdown-border-color;
-		border-radius: 2px;
-		color: $gray-9e9e9e;
-		font-size: 0.75rem;
-		height: 2rem;
-		width: 2rem;
-		line-height: 2rem;
+  [class*="mail-nav-control-"] {
+    background: #f5f5f5;
+    border: 1px solid $dropdown-border-color;
+    border-radius: 2px;
+    color: $gray-9e9e9e;
+    font-size: 0.75rem;
+    height: 2rem;
+    width: 2rem;
+    line-height: 2rem;
 
-		&:first-of-type {
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
-		}
+    &:first-of-type {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
 
-		&:last-of-type {
-			border-left: 0;
-			border-top-left-radius: 0;
-			border-bottom-left-radius: 0;
-		}
+    &:last-of-type {
+      border-left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-		.icon {
-			display: block;
-			line-height: 1;
-		}
-	}
+    .icon {
+      display: block;
+      line-height: 1;
+    }
+  }
 }
 
 .checkbox-dropdown .dropdown {
-	.dropdown-menu {
-		width: 112px;
-	}
+  .dropdown-menu {
+    width: 112px;
+  }
 }
 
 .folders-dropdown {
-	.dropdown-menu {
-		width: 206px;
-	}
+  .dropdown-menu {
+    width: 206px;
+  }
 }
 
 .dropdown-item {
-	.icon {
-		margin-right: 0.625rem;
-	}
+  .icon {
+    margin-right: 0.625rem;
+  }
 }
 
 .more-options-dropdown {
-	.dropdown-menu {
-		width: 160px;
+  .dropdown-menu {
+    width: 160px;
 
-		@include media("<=sm") {
-			right: 0;
-			left: auto !important;
-		}
-	}
+    @include media("<=sm") {
+      right: 0;
+      left: auto !important;
+    }
+  }
 }
 
 .folder-color-box {
-	display: inline-block;
-	margin-right: 1.125rem;
-	border-radius: 2px;
-	height: 0.5rem;
-	width: 0.5rem;
-	vertical-align: middle;
-	border: solid 1px rgba(0, 0, 0, 0.12);
+  display: inline-block;
+  margin-right: 1.125rem;
+  border-radius: 2px;
+  height: 0.5rem;
+  width: 0.5rem;
+  vertical-align: middle;
+  border: solid 1px rgba(0, 0, 0, 0.12);
 
-	&.is-success {
-		background: #2ecc71;
+  &.is-success {
+    background: #2ecc71;
 
-	}
+  }
 
-	&.is-info {
-		background: #9b59b6;
-	}
+  &.is-info {
+    background: #9b59b6;
+  }
 
-	&.is-warning {
-		background: #f1c40f;
-	}
+  &.is-warning {
+    background: #f1c40f;
+  }
 }
 
 // == Mailbox actions control in small screen
 .mailbox-footer-actionbar {
-	margin: 1.5rem 0 0.938rem;
-	padding: 0 0.938rem;
+  margin: 1.5rem 0 0.938rem;
+  padding: 0 0.938rem;
 }
-
 
 // == Mail action bar common styles
 .mail-result-text {
-	margin-right: 0.75rem;
+  margin-right: 0.75rem;
 }
 
 .mail-nav-control {
-	display: flex;
-	align-items: center;
-	justify-content: ceter;
+  display: flex;
+  align-items: center;
+  justify-content: ceter;
 
-	[class*="mail-nav-control-"] {
-		background: #f5f5f5;
-		border: 1px solid $dropdown-border-color;
-		border-radius: 2px;
-		color: $gray-9e9e9e;
-		font-size: 0.75rem;
-		height: 2rem;
-		width: 2rem;
-		line-height: 2rem;
+  [class*="mail-nav-control-"] {
+    background: #f5f5f5;
+    border: 1px solid $dropdown-border-color;
+    border-radius: 2px;
+    color: $gray-9e9e9e;
+    font-size: 0.75rem;
+    height: 2rem;
+    width: 2rem;
+    line-height: 2rem;
 
-		&:first-of-type {
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
-		}
+    &:first-of-type {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
 
-		&:last-of-type {
-			border-left: 0;
-			border-top-left-radius: 0;
-			border-bottom-left-radius: 0;
-		}
+    &:last-of-type {
+      border-left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-		.icon {
-			display: block;
-			line-height: 1;
-		}
-	}
-} /* Mail action bar ends */
+    .icon {
+      display: block;
+      line-height: 1;
+    }
+  }
+}
+
+/* Mail action bar ends */
 
 // Mailbox reusable components
 
 .ui-header {
-	padding: 1.25rem 0.938rem;
+  padding: 1.25rem 0.938rem;
 
-	@include media(">=ipad") {
-		padding: 1.25rem 1.563rem;
-	}
+  @include media(">=ipad") {
+    padding: 1.25rem 1.563rem;
+  }
 
-	&.ui-header-bordered {
-		border: 1px solid darken($brand-faded, 3%); //$dropdown-border-color;
-		border-right: 0;
-		border-left: 0;
-	}
+  &.ui-header-bordered {
+    border: 1px solid darken($brand-faded, 3%); //$dropdown-border-color;
+    border-right: 0;
+    border-left: 0;
+  }
 
-	&.border-all-corner {
-		border: 1px solid darken($brand-faded, 3%);
-	}
+  &.border-all-corner {
+    border: 1px solid darken($brand-faded, 3%);
+  }
 }
 
 .ui-header-title,
 .ui-header-subtitle {
-	line-height: 1;
-}
-
-.mailbox-section-body  {
-	padding: 2.15rem .938rem;
-
-	@include media(">=ipad") {
-		padding: 2.5rem 1.563rem;
-	}
-
-	// == Small
-	&-sm {
-		padding: 1.563rem .938rem;
-
-		@include media(">=ipad") {
-			padding: 2.25rem 1.563rem;
-		}
-	}
+  line-height: 1;
 }
 
 .mailbox-section-body {
-	.container-sm {
-		@include media("<laptop") {
-			padding-right: 0;
-			padding-left: 0;
-		}
-	}
+  padding: 2.15rem .938rem;
+
+  @include media(">=ipad") {
+    padding: 2.5rem 1.563rem;
+  }
+
+  // == Small
+  &-sm {
+    padding: 1.563rem .938rem;
+
+    @include media(">=ipad") {
+      padding: 2.25rem 1.563rem;
+    }
+  }
+}
+
+.mailbox-section-body {
+  .container-sm {
+    @include media("<laptop") {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
 }
 
 // == Mailbox dropdown
 
 .mailbox-dropdown .dropdown-menu {
-	padding: .5rem 0;
-	margin-top: 2px;
-	// padding: 0.625rem 0;
-	// background-color: $brand-faded;
+  padding: .5rem 0;
+  margin-top: 2px;
+  // padding: 0.625rem 0;
+  // background-color: $brand-faded;
 }
 
 .mailbox-dropdown {
-	.dropdown-item {
-		position: relative;
-		padding: 0.375rem 0.938rem;//~0.625rem 0.938rem;
-		border-bottom: 0;
-		font-size: 0.875rem;
-		line-height: 1.2;
+  .dropdown-item {
+    position: relative;
+    padding: 0.375rem 0.938rem; //~0.625rem 0.938rem;
+    border-bottom: 0;
+    font-size: 0.875rem;
+    line-height: 1.2;
 
-		// &:not(:last-of-type) {
-		// 	margin-bottom: 0.5rem;
-		// }
-	}
+    // &:not(:last-of-type) {
+    // 	margin-bottom: 0.5rem;
+    // }
+  }
 }
 
 // == Listings
 .mail-list-row {
-	position: relative;
-	padding: 0.75rem 0.938rem;
-	border-bottom: 1px solid $input-border-color;
-	font-size: 0.75rem;
-	line-height: 1;
+  position: relative;
+  padding: 0.75rem 0.938rem;
+  border-bottom: 1px solid $input-border-color;
+  font-size: 0.75rem;
+  line-height: 1;
 
-	@include media(">=ipad") {
-		padding: 1.032rem 1.563rem;
-	}
+  @include media(">=ipad") {
+    padding: 1.032rem 1.563rem;
+  }
 
-	&.is-unread {
-		color: $brand-black !important;
-	}
+  &.is-unread {
+    color: $brand-black !important;
+  }
 
-	&.is-read {
-		background: #f5f5f5;
-		color: $brand-gray;
-	}
+  &.is-read {
+    background: #f5f5f5;
+    color: $brand-gray;
+  }
 
-	&.is-checked {
-		background: rgba(241, 196, 15, 0.12);
-	}
+  &.is-checked {
+    background: rgba(241, 196, 15, 0.12);
+  }
 
-	&.is-selected,
-	&.is-active {
-		background: $brand-secondary !important;
-		color: $brand-white !important;
-	}
+  &.is-selected,
+  &.is-active {
+    background: $brand-secondary !important;
+    color: $brand-white !important;
+  }
 }
 
 .mail-list-inner-row {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	margin: 0 -0.625rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 -0.625rem;
 }
 
 .mail-list-inner-row > .mail-list-col {
-	flex: 0 0 100%;
-	max-width: 100%;
-	padding: 0 0.625rem;
-	
-	@include media(">sm") {
-		flex: 0 0 27%;
-		max-width: 27%;
-	}
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 0.625rem;
 
-	@include media(">=ipad") {
-		flex: 0 0 25%;
-		max-width: 25%;
-	}
+  @include media(">sm") {
+    flex: 0 0 27%;
+    max-width: 27%;
+  }
 
-	@include media(">=laptop") {
-		flex: 0 0 20%;
-		max-width: 20%;
-	}
+  @include media(">=ipad") {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
 
-	@include media(">=desktop") {
-		flex: 0 0 17%;
-		max-width: 17%;
-	}
+  @include media(">=laptop") {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
+  @include media(">=desktop") {
+    flex: 0 0 17%;
+    max-width: 17%;
+  }
 }
 
 .mail-list-inner-row > .mail-list-col-lg {
-	@include media(">sm") {
-		flex: 0 0 55%;
-		max-width: 55%;
-	}
+  @include media(">sm") {
+    flex: 0 0 55%;
+    max-width: 55%;
+  }
 
-	@include media(">=ipad") {
-		flex: 0 0 57%;
-		max-width: 57%;
-	}
+  @include media(">=ipad") {
+    flex: 0 0 57%;
+    max-width: 57%;
+  }
 
-	@include media(">=laptop") {
-		flex: 0 0 65%;
-		max-width: 65%;
-	}
+  @include media(">=laptop") {
+    flex: 0 0 65%;
+    max-width: 65%;
+  }
 
-	@include media(">=desktop") {
-		flex: 0 0 70%;
-		max-width: 70%;
-	}
+  @include media(">=desktop") {
+    flex: 0 0 70%;
+    max-width: 70%;
+  }
 }
 
 .mail-list-inner-row > .mail-list-col-xs {
-	@include media("<=sm") {
-		&.mail-list-col-xs {
-			position: absolute;
-			top: 0.938rem;
-			right: 0;//~0.375rem;
-		}
-	}
+  @include media("<=sm") {
+    &.mail-list-col-xs {
+      position: absolute;
+      top: 0.938rem;
+      right: 0; //~0.375rem;
+    }
+  }
 
-	@include media(">sm") {
-		flex: 0 0 18%;
-		max-width: 18%;
-	}
+  @include media(">sm") {
+    flex: 0 0 18%;
+    max-width: 18%;
+  }
 
-	@include media(">=ipad") {
-		flex: 0 0 18%;
-		max-width: 18%;
-	}
+  @include media(">=ipad") {
+    flex: 0 0 18%;
+    max-width: 18%;
+  }
 
-	@include media(">=laptop") {
-		flex: 0 0 15%;
-		max-width: 15%;
-	}
+  @include media(">=laptop") {
+    flex: 0 0 15%;
+    max-width: 15%;
+  }
 
-	@include media(">=desktop") {
-		flex: 0 0 13%;
-		max-width: 13%;
-	}
+  @include media(">=desktop") {
+    flex: 0 0 13%;
+    max-width: 13%;
+  }
 }
 
 .mail-list-col-row {
-	display: flex;
-	align-items: center;
-	margin: 0 -0.375rem;
+  display: flex;
+  align-items: center;
+  margin: 0 -0.375rem;
 }
 
 .mail-list-col-row > .mail-list-col-item {
-	padding: 0 0.375rem;
+  padding: 0 0.375rem;
 
-	@include media("<=sm") {
-		&.mail-status {
-			position: absolute;
-			top: 2.75rem;
-			right: 0.375rem;
-		}
-	}
+  @include media("<=sm") {
+    &.mail-status {
+      position: absolute;
+      top: 2.75rem;
+      right: 0.375rem;
+    }
+  }
 }
 
 .mail-list-col-xs-row {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	margin: 0 -0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 -0.5rem;
 
-	@include media(">=laptop") {
-		margin: 0 -0.75rem;
-	}
+  @include media(">=laptop") {
+    margin: 0 -0.75rem;
+  }
 }
 
 .mail-list-col-xs-row > .mail-list-col-xs-item {
-	padding: 0 0.5rem;
+  padding: 0 0.5rem;
 
-	@include media(">=laptop") {
-		padding: 0 0.75rem;
-	}
+  @include media(">=laptop") {
+    padding: 0 0.75rem;
+  }
 }
 
 .mail-list-row {
-	.icon-star {
-		font-size: 0.938rem;
-		color: $input-border-color;
-	}
+  .icon-star {
+    font-size: 0.938rem;
+    color: $input-border-color;
+  }
 
-	&.is-unread .mail-from-name {
-		font-weight: bold;
-	}
+  &.is-unread .mail-from-name {
+    font-weight: bold;
+  }
 
-	.mail-file-size, 
-	.mail-sent-date {
-		font-size: 0.625rem;
+  .mail-file-size,
+  .mail-sent-date {
+    font-size: 0.625rem;
 
-		@include media("<=sm") {
-			font-size: 0.75rem;
-		}
-	}
+    @include media("<=sm") {
+      font-size: 0.75rem;
+    }
+  }
 
-	.mail-security-status.is-disabled {
-		color: $input-border-color;
-	}
+  .mail-security-status.is-disabled {
+    color: $input-border-color;
+  }
 
-	.mail-security-status {
-		color: #34495e;
-	}
+  .mail-security-status {
+    color: #34495e;
+  }
 
-	.mail-status-type .icon-star  {
-		color: $dropdown-border-color;
-	}
-	
-	.mail-status-type.is-fav .icon-star-filled {
-		color: $brand-warning;
-	}
+  .mail-status-type .icon-star {
+    color: $dropdown-border-color;
+  }
 
-	.icon {
-		font-size: 0.938rem;
-	}
+  .mail-status-type.is-fav .icon-star-filled {
+    color: $brand-warning;
+  }
 
-	.mail-from-name {
-		@include media("<=sm") {
-			font-size: 1rem;
-		}
-	}
+  .icon {
+    font-size: 0.938rem;
+  }
 
-	.mail-desc {
-		display: flex;
-		align-items: center;
+  .mail-from-name {
+    @include media("<=sm") {
+      font-size: 1rem;
+    }
+  }
 
-		@include media("<=sm") {
-			flex-wrap: wrap;
-			margin-top: 0.25rem;//~0.5rem;
-			padding-left: 1.875rem;
-			padding-right: 0.938rem;
-			line-height: 1.29;
+  .mail-desc {
+    display: flex;
+    align-items: center;
 
-			small {
-				font-size: 0.875rem;
-			}
-		}
+    @include media("<=sm") {
+      flex-wrap: wrap;
+      margin-top: 0.25rem; //~0.5rem;
+      padding-left: 1.875rem;
+      padding-right: 0.938rem;
+      line-height: 1.29;
 
-		@include media(">sm") {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-	}
+      small {
+        font-size: 0.875rem;
+      }
+    }
+
+    @include media(">sm") {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 .mail-delete-badge {
-	margin-right: 0.938rem;
+  margin-right: 0.938rem;
 
-	@include media("<=sm") {
-		margin: 0 0 0.5rem 0;
-		display: block;
-		width: 100%;
-	}
+  @include media("<=sm") {
+    margin: 0 0 0.5rem 0;
+    display: block;
+    width: 100%;
+  }
 
-	.badge {
-		padding: 0.21rem 0.5rem 0.23rem 0.5rem;
-		line-height: 1;
-	}
-} /* Mail list ends */
+  .badge {
+    padding: 0.21rem 0.5rem 0.23rem 0.5rem;
+    line-height: 1;
+  }
+}
+
+/* Mail list ends */
 
 // == Mail composer
-
 
 // == Mail composer ends
 
 // == UI styles
 .ui-body {
-	padding: 1.25rem 0.938rem;
+  padding: 1.25rem 0.938rem;
 
-	@include media(">=ipad") {
-		padding: 1.25rem 1.563rem;
-	}
+  @include media(">=ipad") {
+    padding: 1.25rem 1.563rem;
+  }
 
-	&.is-xs {
-		padding: 0.875rem 0.938rem;
+  &.is-xs {
+    padding: 0.875rem 0.938rem;
 
-		@include media(">=ipad") {
-			padding: 0.875rem 1.563rem;
-		}
-	}
+    @include media(">=ipad") {
+      padding: 0.875rem 1.563rem;
+    }
+  }
 
-	&.is-bordered-bottom {
-		border-bottom: 1px solid #f2f2f2;
-	}
+  &.is-bordered-bottom {
+    border-bottom: 1px solid #f2f2f2;
+  }
 }
 
 // == Sender content
 .sender-content-list {
-	>li {
-		font-size: 0.75rem;
+  > li {
+    font-size: 0.75rem;
 
-		&:not(:last-of-type) {
-			margin-bottom: 0.313rem;
-		}
-	}
+    &:not(:last-of-type) {
+      margin-bottom: 0.313rem;
+    }
+  }
 }
 
 .actions-btn.msg-reply-btn {
-	&::before {
-		right: auto;
-		left: 50%;
-		height: 0.55rem;
-		width: 0.55rem;
-		transform: translateX(-50%) translateY(-50%) rotate(135deg)
-	}
+  &::before {
+    right: auto;
+    left: 50%;
+    height: 0.55rem;
+    width: 0.55rem;
+    transform: translateX(-50%) translateY(-50%) rotate(135deg)
+  }
 
-	.show & {
-		&::before {
-			transform: translateX(-50%) translateY(-50%) rotate(-45deg)		
-		}
-	}
+  .show & {
+    &::before {
+      transform: translateX(-50%) translateY(-50%) rotate(-45deg)
+    }
+  }
 }
 
 .msg-reply-type-holder {
-	line-height: 1;
+  line-height: 1;
 }
 
 .msg-received-time {
-	margin-right: 0.938rem;
-	font-size: 0.75rem;
+  margin-right: 0.938rem;
+  font-size: 0.75rem;
 }
 
 // == Message reply dropdown
 .dropdown-xs.msg-reply-dropdown {
-	.dropdown-item {
-		padding: .375rem .938rem;
-		font-size: .75rem;
-	}
+  .dropdown-item {
+    padding: .375rem .938rem;
+    font-size: .75rem;
+  }
 }
 
 .msg-reply-dropdown .dropdown-menu {
-	min-width: 155px;
+  min-width: 155px;
 }
 
 // == Msg reply content
 .msg-reply-content {
-	line-height: 1.43;
+  line-height: 1.43;
 }

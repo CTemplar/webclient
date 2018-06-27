@@ -1,13 +1,13 @@
 // Angular
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 
 // Bootstrap
-import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Models
 import { Post, Mode, NumberOfColumns, Category } from '../../store/models';
@@ -44,7 +44,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   relatedPosts: Post[] = [];
   posts: Post[] = [];
   isLoaded: boolean = false;
-  isActive: boolean = false;
+  isActive: boolean = true;
   replyForm: FormGroup;
   commentForm: FormGroup;
   replyModalRef: any;

@@ -1,13 +1,13 @@
 // Angular
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, PatternValidator, AbstractControl } from '@angular/forms';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 
 // Bootstrap
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -23,17 +23,16 @@ declare var openpgp;
 
 export class PasswordValidation {
 
-    static MatchPassword(AC: AbstractControl) {
-       const password = AC.get('password').value; // to get value in input tag
-       const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
-        if (password !== confirmPassword) {
-            AC.get('confirmPwd').setErrors( {MatchPassword: true} );
-        } else {
-            return null;
-        }
+  static MatchPassword(AC: AbstractControl) {
+    const password = AC.get('password').value; // to get value in input tag
+    const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
+    if (password !== confirmPassword) {
+      AC.get('confirmPwd').setErrors({ MatchPassword: true });
+    } else {
+      return null;
     }
+  }
 }
-
 
 
 @Component({
@@ -46,11 +45,12 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   public isTextToggled: boolean = false;
   signupForm: FormGroup;
   isRecoveryEmail: boolean = false;
-  isConfirmedPrivacy: boolean = false;
+  isConfirmedPrivacy: boolean = null;
   isLoading: boolean = false;
   isFormCompleted: boolean = false;
   errorMessage: string = '';
   getState: Observable<any>;
+  userNameTaken: boolean = null;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -58,7 +58,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
               private store: Store<AuthState>,
               private openPgpService: OpenPgpService,
               private sharedService: SharedService
-                 ) {
+  ) {
     this.getState = this.store.select(selectAuthState);
   }
 
@@ -67,14 +67,11 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
     this.sharedService.hideFooter.emit(true);
 
     this.signupForm = this.formBuilder.group({
-      'username': ['', [ Validators.required ]],
-      'password': ['', [
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9]{10,50}$')]
-      ],
+      'username': ['', [Validators.required]],
+      'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
       'recoveryEmail': ['', [Validators.pattern('[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)' +
-              '*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')]]
+        '*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')]]
     }, {
       validator: PasswordValidation.MatchPassword
     });
@@ -96,7 +93,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
 
   passwordMatchValidator(g: FormGroup) {
     return g.get('password').value === g.get('confirmPwd').value
-       ? null : {'mismatch': true};
+      ? null : { 'mismatch': true };
   }
 
   // == Toggle password visibility
@@ -104,7 +101,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
     if (!input.value) {
       return;
     }
-    input.type = input.type === 'password' ?  'text' : 'password';
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   // == Is text toggled
@@ -112,14 +109,21 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
     const bool = this.isTextToggled;
     this.isTextToggled = bool === false ? true : false;
   }
+
   formCompleted() {
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isFormCompleted = true;
     }
   }
+
   signup() {
+    if (this.isConfirmedPrivacy == null) {
+      this.isConfirmedPrivacy = false;
+    }
+    console.log(this.userNameTaken);
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isFormCompleted = true;
+      this.navigateToBillingPage();
     }
   }
 
@@ -132,6 +136,15 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
       this.signupForm.value.captchaResponse = captchaResponse;
       this.store.dispatch(new SignUp(this.signupForm.value));
     });
+  }
+
+  checkUsernameTaken(event: any) {
+    // TODO: Check if username is duplicated
+    if (event.target.value.length > 0) {
+      this.userNameTaken = false;
+    } else {
+      this.userNameTaken = true;
+    }
   }
 
   ngOnDestroy() {

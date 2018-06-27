@@ -6,84 +6,104 @@
 $error-red: #e94e4c;
 
 .userame-field-group {
-    .form-control {
-        @include media(">sm") {
-            width: calc(78% - 24px);
+  .form-control {
+    @include media(">sm") {
+      width: calc(78% - 50px);
 
-            &.is-readonly {
-                width: calc(22% - 24px);
-            }
-        }
-
-        @include media("<=sm") {
-            &.is-readonly {
-                width: calc(100% - 48px);
-            }
-        }
+      &.is-readonly {
+        width: calc(22% - 24px);
+      }
     }
 
-    .domain-separator {
-        margin-left: 0.75rem;
-        width: 2.25rem;
-        font-size: 1.5rem;
+    @include media("<=sm") {
+      &.is-readonly {
+        width: calc(100% - 48px);
+      }
     }
+  }
 
-    .is-readonly {
-        background: $brand-white;
-        font-style: italic;
-    }
+  i {
+    color: green;
+    margin-left: 10px;
+  }
+
+  .domain-separator {
+    margin-left: 0.75rem;
+    width: 2.25rem;
+    font-size: 1.5rem;
+  }
+
+  .is-readonly {
+    background: $brand-white;
+    font-style: italic;
+  }
 }
 
 .is-validate {
-    &.input-group {
-        border: 1px solid  $error-red;
-        border-radius: 4px;
+  &.input-group {
+    border: 1px solid $error-red;
+    border-radius: 4px;
 
-        .form-control {
-            border: 0;
-        }
-        .input-group-addon {
-          border: 0;
-        }
+    .form-control {
+      border: 0;
     }
+    .input-group-addon {
+      border: 0;
+    }
+  }
+  label::before {
+    border-color: $error-red;
+  }
 }
 
 .signup-form {
-    position: relative;
-    padding-top: 5px;
-    .validate-message {
-        display: block;
-        margin-bottom: 0.375rem;
-        color: $error-red !important;
-        font-size: 0.875rem; 
-        text-align: left;       
-    }
+  position: relative;
+  padding-top: 5px;
+  .validate-message {
+    display: block;
+    margin-bottom: 0.375rem;
+    color: $error-red !important;
+    font-size: 0.875rem;
+    text-align: left;
+  }
 
-    &__failed {
-        position: absolute;
-        left: 0px;
-        top: 0;
-        width: 100%;
-        text-align: center;
-        color: $error-red;
+  &__failed {
+    position: absolute;
+    left: 0px;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    color: $error-red;
+  }
+  .email-input {
+    border: none !important;
+    &:focus {
+      box-shadow: none;
+      outline: none;
     }
-    .email-input {
-      border: none !important;
-      &:focus {
-        box-shadow: none;
-        outline: none;
-      }
-    }
+  }
 }
 
 // == Key generator modal
 .progress-label {
-    margin-bottom: 0.5rem;
-    font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
 }
 
 .progress-sm {
-    .progress-bar {
-        height: 0.875rem;
-    }
+  .progress-bar {
+    height: 0.875rem;
+  }
+}
+
+.password-confirm {
+  position: absolute;
+  top: 120px;
+  right: -30px;
+  color: green;
+}
+
+.password-toggle, .confirmpasswordToggle {
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+
 }

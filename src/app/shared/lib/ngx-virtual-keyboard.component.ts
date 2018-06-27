@@ -1,4 +1,3 @@
-
 import { Input, ViewEncapsulation, ChangeDetectorRef, Component, ElementRef } from '@angular/core';
 import { specialKeyboard, keyboardCapsLockLayout, KeyboardLayout, isSpecial } from './layouts';
 import { NgxVirtualKeyboardService } from './ngx-virtual-keyboard.service';
@@ -7,85 +6,86 @@ import { KeyPressInterface } from './key-press.interface';
 @Component({
   selector: 'virtual-keyboard',
   template: `
-  <div class="ngx-virtual-keyboard" [ngClass]="{'ngx-virtual-keyboard-special': special}">
-    <div class="ngx-virtual-keyboard-container">
-      <div class="container">
-        <div class="row">
-          <div class="col d-flex justify-content-end" [ngClass]="getColSize()">
-            <button class="btn btn-primary btn-link ml-auto" (click)="close();">&#9587;</button>
+      <div class="ngx-virtual-keyboard" [ngClass]="{'ngx-virtual-keyboard-special': special}">
+          <div class="ngx-virtual-keyboard-container">
+              <div class="container">
+                  <div class="row">
+                      <div class="col d-flex justify-content-end" [ngClass]="getColSize()">
+                          <button class="btn btn-primary btn-link ml-auto" (click)="close();">&#9587;</button>
+                      </div>
+                  </div>
+
+                  <div class="row text-center" *ngFor="let row of layout; let i = index" [attr.data-index]="i" [ngClass]="getColSize()">
+                      <virtual-keyboard-key class="ngx-virtual-keyboard-key col" *ngFor="let key of row; let j = index" [key]="key"
+                                            [disabled]="disabled" [attr.data-index]="j" (keyPress)="keyPress($event)">
+                      </virtual-keyboard-key>
+                  </div>
+              </div>
           </div>
-        </div>
-
-        <div class="row text-center" *ngFor="let row of layout; let i = index" [attr.data-index]="i" [ngClass]="getColSize()">
-          <virtual-keyboard-key class="ngx-virtual-keyboard-key col" *ngFor="let key of row; let j = index" [key]="key" [disabled]="disabled" [attr.data-index]="j" (keyPress)="keyPress($event)">
-          </virtual-keyboard-key>
-        </div>
       </div>
-    </div>
-  </div>
-`,
+  `,
   styles: [`
-    .ngx-virtual-keyboard {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      min-height: 30vh;
-      padding: 1rem;
-      background: #1A1A1A;
-      z-index: 3;
-    }
+      .ngx-virtual-keyboard {
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          min-height: 30vh;
+          padding: 1rem;
+          background: #1A1A1A;
+          z-index: 3;
+      }
 
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-key {
-      padding: .45rem;
-    }
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-key {
+          padding: .45rem;
+      }
 
-    .ngx-virtual-keyboard .btn-link {
-      cursor: pointer;
-      color: white;
-      text-decoration: none;
-      box-shadow: none;
-      border: none;
-    }
+      .ngx-virtual-keyboard .btn-link {
+          cursor: pointer;
+          color: white;
+          text-decoration: none;
+          box-shadow: none;
+          border: none;
+      }
 
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-button {
-      cursor: pointer;
-      min-width: 25%;
-      min-height: 25%;
-      padding: 0;
-      margin: 0;
-      font-size: 1.4rem;
-      line-height: 3rem;
-      background: #5f5f5f;
-      border: 0;
-      border-radius: 0.3rem;
-      box-shadow: none;
-      font-transform: initial;
-    }
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-button {
+          cursor: pointer;
+          min-width: 25%;
+          min-height: 25%;
+          padding: 0;
+          margin: 0;
+          font-size: 1.4rem;
+          line-height: 3rem;
+          background: #5f5f5f;
+          border: 0;
+          border-radius: 0.3rem;
+          box-shadow: none;
+          font-transform: initial;
+      }
 
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-button:focus,
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isGrey:focus {
-      background: #0082c4;
-    }
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-button:focus,
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isGrey:focus {
+          background: #0082c4;
+      }
 
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isSpacer {
-      background: transparent;
-    }
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isSpacer {
+          background: transparent;
+      }
 
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isGrey {
-      background: #3A3A3A;
-    }
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isGrey {
+          background: #3A3A3A;
+      }
 
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isSpaceBar {
-      min-width: 600px;
-    }
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isSpaceBar {
+          min-width: 600px;
+      }
 
-    .ngx-virtual-keyboard.ngx-virtual-keyboard-special .ngx-virtual-keyboard-button.isSpaceBar {
-      min-width: 450px;
-    }
+      .ngx-virtual-keyboard.ngx-virtual-keyboard-special .ngx-virtual-keyboard-button.isSpaceBar {
+          min-width: 450px;
+      }
 
-    .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isShift {
-      background: #0082c4;
-    }
+      .ngx-virtual-keyboard .ngx-virtual-keyboard-button.isShift {
+          background: #0082c4;
+      }
   `],
   host: {
     '(document:click)': 'onClick($event)',
@@ -117,7 +117,8 @@ export class NgxVirtualKeyboardComponent {
   constructor(
     private _vk: NgxVirtualKeyboardService,
     private _ref: ChangeDetectorRef
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.scrollPosition = window.pageYOffset;
@@ -166,7 +167,7 @@ export class NgxVirtualKeyboardComponent {
       this.inputElement.nativeElement.id += 'noSpan';
     }
     if (this.location.querySelector('virtual-keyboard')) {
-    this.location.querySelector('virtual-keyboard').remove();
+      this.location.querySelector('virtual-keyboard').remove();
     }
     const body = document.getElementsByTagName('body')[0];
     body.style.paddingBottom = '0px';
@@ -314,6 +315,7 @@ export class NgxVirtualKeyboardComponent {
     this.inputElement.nativeElement.selectionStart = this.caretPosition;
     this.inputElement.nativeElement.selectionEnd = this.caretPosition;
   }
+
   private updateLayout() {
     if (this.special && (this.type === 'extended' || typeof this.type === 'object')) {
       this._vk.setLayout(specialKeyboard);

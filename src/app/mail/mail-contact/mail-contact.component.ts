@@ -13,117 +13,117 @@ import { NotificationService } from '../../store/services/notification.service';
 
 @TakeUntilDestroy()
 @Component({
-    selector: 'app-mail-contact',
-    templateUrl: './mail-contact.component.html',
-    styleUrls: ['./mail-contact.component.scss']
+  selector: 'app-mail-contact',
+  templateUrl: './mail-contact.component.html',
+  styleUrls: ['./mail-contact.component.scss']
 })
 export class MailContactComponent implements OnInit, OnDestroy {
 
-    isLayoutSplitted: boolean = false;
-    public getUsersState$: Observable<any>;
-    public userState: UserState;
-    public isNewContact: boolean;
-    readonly destroyed$: Observable<boolean>;
-    public selectedContact: Contact;
-    public inProgress: boolean;
+  isLayoutSplitted: boolean = false;
+  public getUsersState$: Observable<any>;
+  public userState: UserState;
+  public isNewContact: boolean;
+  readonly destroyed$: Observable<boolean>;
+  public selectedContact: Contact;
+  public inProgress: boolean;
 
-    private contactsCount: number;
-    public contactsToDelete: Contact[] = [];
-    private confirmModalRef: NgbModalRef;
+  private contactsCount: number;
+  public contactsToDelete: Contact[] = [];
+  private confirmModalRef: NgbModalRef;
 
-    constructor(private store: Store<UserState>,
-                private modalService: NgbModal,
-                private breakpointsService: BreakpointsService,
-                private notificationService: NotificationService,
-                config: NgbDropdownConfig) {
-        // customize default values of dropdowns used by this component tree
-        config.autoClose = 'outside';
+  constructor(private store: Store<UserState>,
+              private modalService: NgbModal,
+              private breakpointsService: BreakpointsService,
+              private notificationService: NotificationService,
+              config: NgbDropdownConfig) {
+    // customize default values of dropdowns used by this component tree
+    config.autoClose = 'outside';
+  }
+
+  ngOnInit() {
+    this.getUsersState$ = this.store.select(selectUsersState);
+    this.updateUsersStatus();
+  }
+
+  ngOnDestroy(): void {
+  }
+
+  private updateUsersStatus(): void {
+    this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
+      this.userState = state;
+      if (this.contactsCount === this.userState.contact.length + this.contactsToDelete.length) {
+        this.inProgress = false;
+        this.notificationService.showSuccess('Contacts deleted successfully.');
+        this.contactsToDelete = [];
+        this.contactsCount = null;
+      }
+    });
+  }
+
+  initSplitContactLayout(): any {
+    this.isLayoutSplitted = true;
+
+    if (this.isLayoutSplitted === true) {
+      window.document.documentElement.classList.add('no-scroll');
     }
+    this.isNewContact = true;
+  }
 
-    ngOnInit() {
-        this.getUsersState$ = this.store.select(selectUsersState);
-        this.updateUsersStatus();
+  destroySplitContactLayout(): any {
+    this.isLayoutSplitted = false;
+
+    if (this.isLayoutSplitted === false) {
+      window.document.documentElement.classList.remove('no-scroll');
     }
+    this.isNewContact = false;
+    this.selectedContact = null;
+  }
 
-    ngOnDestroy(): void {
+  addUserContactModalOpen(addUserContent) {
+    this.isNewContact = true;
+    this.modalService.open(
+      addUserContent,
+      {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+        beforeDismiss: () => {
+          this.isNewContact = false;
+          this.selectedContact = null;
+          return true;
+        },
+      });
+  }
+
+  editContact(contact: Contact, addUserContent) {
+    this.selectedContact = contact;
+    if (this.breakpointsService.isSM()) {
+      this.addUserContactModalOpen(addUserContent);
+    } else {
+      this.initSplitContactLayout();
     }
+  }
 
-    private updateUsersStatus(): void {
-        this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
-            this.userState = state;
-            if (this.contactsCount === this.userState.contact.length + this.contactsToDelete.length) {
-                this.inProgress = false;
-                this.notificationService.showSuccess('Contacts deleted successfully.');
-                this.contactsToDelete = [];
-                this.contactsCount = null;
-            }
-        });
+  openConfirmDeleteModal(modalRef) {
+    this.contactsToDelete = this.userState.contact.filter(item => item.markForDelete);
+    if (this.contactsToDelete.length === 0) {
+      return;
     }
+    this.confirmModalRef = this.modalService.open(modalRef, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
 
-    initSplitContactLayout(): any {
-        this.isLayoutSplitted = true;
+  cancelDelete() {
+    this.confirmModalRef.close();
+  }
 
-        if (this.isLayoutSplitted === true) {
-            window.document.documentElement.classList.add('no-scroll');
-        }
-        this.isNewContact = true;
-    }
-
-    destroySplitContactLayout(): any {
-        this.isLayoutSplitted = false;
-
-        if (this.isLayoutSplitted === false) {
-            window.document.documentElement.classList.remove('no-scroll');
-        }
-        this.isNewContact = false;
-        this.selectedContact = null;
-    }
-
-    addUserContactModalOpen(addUserContent) {
-        this.isNewContact = true;
-        this.modalService.open(
-            addUserContent,
-            {
-                centered: true,
-                windowClass: 'modal-sm users-action-modal',
-                beforeDismiss: () => {
-                    this.isNewContact = false;
-                    this.selectedContact = null;
-                    return true;
-                },
-            });
-    }
-
-    editContact(contact: Contact, addUserContent) {
-        this.selectedContact = contact;
-        if (this.breakpointsService.isSM()) {
-            this.addUserContactModalOpen(addUserContent);
-        } else {
-            this.initSplitContactLayout();
-        }
-    }
-
-    openConfirmDeleteModal(modalRef) {
-        this.contactsToDelete = this.userState.contact.filter(item => item.markForDelete);
-        if (this.contactsToDelete.length === 0) {
-            return;
-        }
-        this.confirmModalRef = this.modalService.open(modalRef, {
-            centered: true,
-            windowClass: 'modal-sm users-action-modal'
-        });
-    }
-
-    cancelDelete() {
-        this.confirmModalRef.close();
-    }
-
-    deleteContacts() {
-        this.confirmModalRef.close();
-        this.inProgress = true;
-        this.contactsCount = this.userState.contact.length;
-        this.contactsToDelete.forEach((contact) => {
-            this.store.dispatch(new ContactDelete(contact.id));
-        });
-    }
+  deleteContacts() {
+    this.confirmModalRef.close();
+    this.inProgress = true;
+    this.contactsCount = this.userState.contact.length;
+    this.contactsToDelete.forEach((contact) => {
+      this.store.dispatch(new ContactDelete(contact.id));
+    });
+  }
 }

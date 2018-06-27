@@ -2,24 +2,24 @@
 <app-home-features></app-home-features>
 <!-- OUR BLOG POSTS -->
 <section class="l-block news-block gap-p-eq bg-white">
-  <div class="container">
-    <header class="l-block-header text-center">
-      <h2 class="l-block-title" *ngIf="mode === modeObj.Recent">Latest From
-        <strong>Our Blog</strong>
-      </h2>
-      <h2 class="l-block-title" *ngIf="mode === modeObj.Related">Related
-        <strong>Post</strong>
-      </h2>
-    </header>
-    <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
-    <footer class="l-block-footer text-center" *ngIf="mode===modeObj.Recent">
-      <a routerLink="/blog" class="text-success">
-        <em>
-          <u>Read more from our blog</u>
-        </em>
-      </a>
-    </footer>
-  </div>
-  <!-- /.Site container ends -->
+    <div class="container">
+        <header class="l-block-header text-center">
+            <h2 class="l-block-title" *ngIf="mode === modeObj.Recent">Latest From
+                <strong>Our Blog</strong>
+            </h2>
+            <h2 class="l-block-title" *ngIf="mode === modeObj.Related">Related
+                <strong>Post</strong>
+            </h2>
+        </header>
+        <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
+        <footer class="l-block-footer text-center" *ngIf="mode===modeObj.Recent">
+            <a routerLink="/blog" class="text-success">
+                <em>
+                    <u>Read more from our blog</u>
+                </em>
+            </a>
+        </footer>
+    </div>
+    <!-- /.Site container ends -->
 </section>
 <!-- /.OUR BLOG POSTS ENDS -->

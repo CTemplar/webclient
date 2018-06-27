@@ -13,7 +13,7 @@ import { DecryptComponent } from './decrypt/decrypt.component';
 
 const routes: Routes = [
   { path: 'signin', component: UsersSignInComponent },
-  { path: 'signup', component: UsersSignUpComponent },  
+  { path: 'signup', component: UsersSignUpComponent },
   { path: 'create-account', component: UsersCreateAccountComponent },
   { path: 'billing-info', component: UsersBillingInfoComponent },
   { path: 'secure-message', component: SecureMessageComponent },

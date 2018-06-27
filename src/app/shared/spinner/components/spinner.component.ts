@@ -24,10 +24,11 @@ export class SpinnerComponent implements OnInit, OnDestroy {
     this.showChange.emit(this.isShowing);
   }
 
-  constructor(private spinnerService: SpinnerService) { }
+  constructor(private spinnerService: SpinnerService) {
+  }
 
   ngOnInit() {
-    if (!this.name) throw new Error("Name attribute must be supplied for this spinner");
+    if (!this.name) throw new Error('Name attribute must be supplied for this spinner');
 
     this.spinnerService.register(this);
   }

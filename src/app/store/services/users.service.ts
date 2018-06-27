@@ -18,6 +18,7 @@ import { OpenPgpService } from './openpgp.service';
 
 
 declare var openpgp;
+
 @Injectable()
 export class UsersService {
   options: any;
@@ -33,7 +34,8 @@ export class UsersService {
     // private sharedService: SharedService,
     private router: Router,
     private openPgpService: OpenPgpService
-  ) {}
+  ) {
+  }
 
   setTokenExpiration() {
     const expiration = new Date().getTime() + 7 * (1000 * 60 * 60 * 24);
@@ -103,30 +105,33 @@ export class UsersService {
   }
 
   getNecessaryTokenUrl(url) {
-    if (url.indexOf('users/myself') > -1) {
+    url = url.replace(apiUrl, '');
+    const authenticatedUrls: string[] = [
+      'users/myself/',
+      'users/users/',
+      'users/whitelist/',
+      'users/blacklist/',
+      'users/contact/'
+    ];
+    if (authenticatedUrls.indexOf(url) > -1) {
       return true;
+    } else {
+      let authenticated = false;
+      authenticatedUrls.forEach(item => {
+        if (url.indexOf(item) > -1) {
+          authenticated = true;
+        }
+      });
+      return authenticated;
     }
-
-    if (url.indexOf('users/users') > -1) {
-      return true;
-    }
-
-    if (url.indexOf('users/whitelist') > -1) {
-      return true;
-    }
-
-    if (url.indexOf('users/contact') > -1) {
-      return true;
-    }
-    return false;
   }
 
   getAccounts(id) {
-    return this.http.get<any>( `${apiUrl}users/users/${id}/`);
+    return this.http.get<any>(`${apiUrl}users/users/${id}/`);
   }
 
   getAccountDetails() {
-      return this.http.get<any>(`${apiUrl}users/myself/`);
+    return this.http.get<any>(`${apiUrl}users/myself/`);
   }
 
   getWhiteList(limit = 0, offset = 0) {
@@ -148,19 +153,19 @@ export class UsersService {
   }
 
   getBlackList(limit = 0, offset = 0) {
-    const url = `${apiUrl}users/whitelist/?limit=${limit}&offset=${offset}`;
+    const url = `${apiUrl}users/blacklist/?limit=${limit}&offset=${offset}`;
     const body = {};
     return this.http.get<any>(url, body);
   }
 
   addBlackList(email, name) {
-    const url = `${apiUrl}users/whitelist/`;
+    const url = `${apiUrl}users/blacklist/`;
     const body = { email: email, name: name };
     return this.http.post<any>(url, body);
   }
 
   deleteBlackList(id) {
-    const url = `${apiUrl}users/whitelist/${id}/`;
+    const url = `${apiUrl}users/blacklist/${id}/`;
     const body = {};
     return this.http.delete<any>(url, body);
   }
@@ -172,11 +177,11 @@ export class UsersService {
   }
 
   addContact(payload) {
-      const url = `${apiUrl}users/contacts/`;
-      if (payload.id) {
-          return this.http.patch<any>(`${url}${payload.id}/`, payload);
-      }
-      return this.http.post<any>(url, payload);
+    const url = `${apiUrl}users/contacts/`;
+    if (payload.id) {
+      return this.http.patch<any>(`${url}${payload.id}/`, payload);
+    }
+    return this.http.post<any>(url, payload);
   }
 
   deleteContact(id) {

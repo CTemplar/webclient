@@ -1,22 +1,25 @@
- <div class="package-text-holder package-text-holder-sm">
-  <ul class="pay-type-list list-style-none mb-0 pl-0">
-    <li *ngFor="let payment of paymentPlans; let i = index;">
-      <div class="row row-xs">
-        <div class="col-8">
-          <div class="fancy-field-group">
-            <input class="d-none fancy-field-control" id="{{ payment.classId }}" name="[]" type="radio" [checked]='payment.checked' value="{{i}}}" (change)="onItemSelect(i)" />
-            <label for="{{ payment.classId }}">{{ payment.title }}</label>
-            <span class="badge" *ngIf="payment.id === 'pay-annullay'">-20%</span>
-          </div>
-        </div>
-        <div class="col-4 text-right">
-          <div class="pay-price">
-            <strong>${{ payment.monthlyFee }}</strong>
-            <span class="text-muted">/mo</span>
-          </div>
-          <div class="small text-muted" *ngIf="payment.id === 'pay-annullay'">Billed as ${{ payment.totalAnualFee }}/yr</div>
-        </div>
-      </div>
-    </li>
-  </ul>
+<div class="package-text-holder package-text-holder-sm">
+    <ul class="pay-type-list list-style-none mb-0 pl-0">
+        <li *ngFor="let payment of paymentPlans; let i = index;">
+            <div class="row row-xs">
+                <div class="col-8">
+                    <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control" id="{{ payment.classId }}" name="[]" type="radio"
+                               [checked]='payment.checked' value="{{i}}}" (change)="onItemSelect(i)"/>
+                        <label for="{{ payment.classId }}">{{ payment.title }}</label>
+                        <span class="badge" *ngIf="payment.id === 'pay-annullay'">-20%</span>
+                    </div>
+                </div>
+                <div class="col-4 text-right">
+                    <div class="pay-price">
+                        <strong>${{ payment.monthlyFee }}</strong>
+                        <span class="text-muted">/mo</span>
+                    </div>
+                    <div class="small text-muted" *ngIf="payment.id === 'pay-annullay'">Billed as ${{
+                        payment.totalAnualFee }}/yr
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

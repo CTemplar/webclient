@@ -8,102 +8,102 @@
 */
 
 .site-footer {
-    padding: 1.875rem calc(2rem - 0.938rem);
-    color: $menu-link;
-    font-size: 0.875rem;
+  padding: 1.875rem calc(2rem - 0.938rem);
+  color: $menu-link;
+  font-size: 0.875rem;
 
+  @include media(">sm") {
+    padding: 3.125rem calc(2rem - 0.938rem) 2.188rem;
+  }
+
+  address {
+    @include media("<=sm") {
+      br {
+        display: none;
+      }
+    }
+  }
+
+  &.is-external-page-site-footer {
     @include media(">sm") {
-        padding: 3.125rem calc(2rem - 0.938rem) 2.188rem;
+      padding: 2.188rem calc(2rem - 0.938rem) 2rem;
     }
 
-    address {
-        @include media("<=sm") {
-            br {
-                display: none;
-            }
-        }
+    .footer-bottom-row {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
     }
-
-    &.is-external-page-site-footer {
-        @include media(">sm") {
-            padding: 2.188rem calc(2rem - 0.938rem) 2rem;
-        }
-
-        .footer-bottom-row {
-            margin-top: 0;
-            padding-top: 0;
-            border-top: 0;
-        }
-    }
+  }
 }
 
 .footer-col:not(:last-of-type) {
-    margin-bottom: 1.875rem;
+  margin-bottom: 1.875rem;
 
-    @include media(">sm") {
-        margin-bottom: 0;
-    }
+  @include media(">sm") {
+    margin-bottom: 0;
+  }
 }
 
 .footer-col.footer-col-5 {
-    @include media(">sm") {
-        flex-basis: auto;
-        flex-grow: 1;
-        flex-shrink: 0;
-        width: auto;
-        max-width: inherit;
-    }
+  @include media(">sm") {
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: auto;
+    max-width: inherit;
+  }
 
-    @include media(">=ipad") {        
-        flex: 0 0 20%;
-        max-width: 20%
-    }
+  @include media(">=ipad") {
+    flex: 0 0 20%;
+    max-width: 20%
+  }
 }
 
 .footer-widget {
-    &-title {
-        margin-bottom: 0.75rem;
-        color: $brand-white;
-        font-size: 1.125rem;
-        font-weight: bold;
+  &-title {
+    margin-bottom: 0.75rem;
+    color: $brand-white;
+    font-size: 1.125rem;
+    font-weight: bold;
 
-        @include media(">sm") {
-            margin-bottom: 1.5rem;
-        }
+    @include media(">sm") {
+      margin-bottom: 1.5rem;
     }
+  }
 }
 
 .footer-bottom-row {
-    position: relative;
-    margin-top: 1.875rem;
-    padding-top: 1.875rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  margin-top: 1.875rem;
+  padding-top: 1.875rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 
-    @include media(">sm") {
-        margin-top: 2.188rem;
-        padding-top: 2.188rem;
-    }
+  @include media(">sm") {
+    margin-top: 2.188rem;
+    padding-top: 2.188rem;
+  }
 }
 
 .footer-lang-list {
-    margin-bottom: 0.875rem;
+  margin-bottom: 0.875rem;
 
-    @include media(">sm") {
-        margin-bottom: 0.375rem;
+  @include media(">sm") {
+    margin-bottom: 0.375rem;
+  }
+
+  .lists-link {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: underline;
+
+    &:hover {
+      color: $brand-white;
     }
-
-    .lists-link {
-        color: rgba(255, 255, 255, 0.5);
-        text-decoration: underline;
-
-        &:hover {
-            color: $brand-white;
-        }
-    }
+  }
 }
 
 .site-footer {
-    .app-credit {
-        color: rgba(255, 255, 255, 0.5);
-    }
+  .app-credit {
+    color: rgba(255, 255, 255, 0.5);
+  }
 }
