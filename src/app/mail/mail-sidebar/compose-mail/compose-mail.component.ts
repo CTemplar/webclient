@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as QuillNamespace from 'quill';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
+import { colors } from '../../../shared/config';
 
 const Quill: any = QuillNamespace;
 
@@ -24,6 +25,8 @@ export class ComposeMailComponent implements OnInit, OnChanges {
 
   @ViewChild('editor') editor;
   @ViewChild('toolbar') toolbar;
+
+  colors = colors;
 
   private quill: any;
   private emailId: number;
