@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as QuillNamespace from 'quill';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { colors } from '../../../shared/config';
 
@@ -18,7 +18,7 @@ Quill.register(FontAttributor, true);
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailComponent implements OnInit, OnChanges {
+export class ComposeMailComponent implements OnChanges, AfterViewInit {
   @Input() public isComposeVisible: boolean;
 
   @Output() public onHide = new EventEmitter<boolean>();
@@ -37,7 +37,7 @@ export class ComposeMailComponent implements OnInit, OnChanges {
   constructor(private modalService: NgbModal) {
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.initializeQuillEditor();
   }
 
@@ -111,6 +111,8 @@ export class ComposeMailComponent implements OnInit, OnChanges {
   }
 
   private unSubscribeAutoSave() {
-    this.autoSaveSubscription.unsubscribe();
+    if (this.autoSaveSubscription) {
+      this.autoSaveSubscription.unsubscribe();
+    }
   }
 }
