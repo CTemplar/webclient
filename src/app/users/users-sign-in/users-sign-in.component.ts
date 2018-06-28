@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
+import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import { Observable } from 'rxjs/Observable';
 
 // Store
@@ -45,12 +46,16 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
 
+  private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
+  private defaultLocale: string = 'US International';
+
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private router: Router,
     private store: Store<AuthState>,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private _keyboardService: MatKeyboardService
   ) {
     this.getState = this.store.select(selectAuthState);
   }
@@ -76,6 +81,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
+  }
+
+  ngOnDestroy() {
+    this.sharedService.hideFooter.emit(false);
+    this.closeKeyboard();
   }
 
   // == Open NgbModal
@@ -131,7 +141,27 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.resetModalRef.close();
   }
 
-  ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
+  openUsernameOSK() {
+    if (!this._keyboardService.isOpened) {
+      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
+    }
+    this._keyboardRef.instance.setInputInstance(this.usernameVC);
+    this._keyboardRef.instance.attachControl(this.loginForm.controls['username']);
+    this.usernameVC.nativeElement.focus();
+  }
+
+  openPasswordOSK() {
+    if (!this._keyboardService.isOpened) {
+      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
+    }
+    this._keyboardRef.instance.setInputInstance(this.passwordVC);
+    this._keyboardRef.instance.attachControl(this.loginForm.controls['password']);
+    this.passwordVC.nativeElement.focus();
+  }
+
+  closeKeyboard() {
+    if (this._keyboardRef) {
+      this._keyboardRef.dismiss();
+    }
   }
 }
