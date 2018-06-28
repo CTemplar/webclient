@@ -1,0 +1,35 @@
+app-mailbox-messages-bar
+
+section.mailbox-section
+  .ui-header.ui-header-bordered.border-top-0.position-relative
+    h5.ui-header-subtitle.text-dark.mb-0
+      strong {{ message.json.headers.Subject }}
+      i.icon.icon-secured.icon-md.text-muted.ml-2
+    .icon-holder.is-floated.right.y-center
+      i.icon.icon-star-filled.icon-md.text-info
+  .ui-body.is-xs.is-bordered-bottom.bg-faded
+    .row
+      .col-8
+        .mailbox-sender-content
+          ul.sender-content-list.list-styled
+            li From: {{ message.json.headers.From }}
+            li To: {{ message.json.headers.To }}
+            li(*ngIf="message.json.headers.Cc") Cc: {{ message.json.headers.Cc }}
+      .col-4
+        .msg-reply-type-holder
+          .d-flex.align-items-center.justify-content-end
+            label.msg-received-time.mb-0 {{ message.datetime }}
+            .mailbox-dropdown.msg-reply-dropdown.dropdown-xs(ngbDropdown, placement='bottom-right')
+              button.actions-btn.actions-btn-sm.msg-reply-btn#messageReplyDropdownMenuButton(ngbDropdownToggle)
+              div(ngbDropdownMenu, aria-labelledby='messageReplyDropdownMenuButton')
+                a.dropdown-item(href='') Forward
+                a.dropdown-item(href='') Reply
+                a.dropdown-item(href='') Reply All
+                a.dropdown-item(href='') Print
+                a.dropdown-item(href='') Add to Contact List
+                a.dropdown-item(href='') Delete this Message
+                a.dropdown-item(href='') Mark as Spam
+                a.dropdown-item(href='') Add «Show Header»
+section.mailbox-section
+  .ui-body.is-bordered-bottom
+    .msg-reply-content.text-dark([innerHtml]='message.json.body', style='white-space: pre-line')

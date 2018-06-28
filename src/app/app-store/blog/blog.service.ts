@@ -10,7 +10,6 @@ import { apiHeaders, apiUrl } from "../config";
 import { Comment, Post } from "../models";
 
 // Rxjs
-import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,19 +19,21 @@ import { map } from "rxjs/operators";
 export class BlogService {
   constructor(private http: HttpClient) {}
 
-  getPost(slug) {
+  getPost(slug): Promise<Post>  {
     const endpoint = `${apiUrl}/blog/posts/${slug}/`;
-    return this.http.get<Post>(endpoint);
+    return this.http.get<Post>(endpoint)
+    .toPromise();
   }
 
-  getPosts(limit = 64, offset = 0): Observable<Post[]> {
+  getPosts(limit = 64, offset = 0): Promise<Post[]> {
     const endpoint = `${apiUrl}/blog/posts/`;
-    const params = new HttpParams();
-    params.append("limit", limit.toString());
-    params.append("offset", offset.toString());
+    let params = new HttpParams();
+    // params.append("limit", limit.toString());
+    // params.append("offset", offset.toString());
     return this.http
       .get<Post[]>(endpoint, { params })
-      .pipe(map(data => data["results"]));
+      .pipe(map(data => data["results"]))
+      .toPromise();
   }
 
   // postComment(body): Observable<Comment> {

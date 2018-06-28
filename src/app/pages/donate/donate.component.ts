@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-pages-donate",
+  templateUrl: "./donate.component.pug",
+  styleUrls: ["./donate.component.scss"]
+})
+export class DonateComponent {}

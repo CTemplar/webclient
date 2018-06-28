@@ -4,6 +4,10 @@ import { RouterModule, Routes } from "@angular/router";
 
 // Components
 import { MailboxComponent } from "./mailbox.component";
+import { ContactsComponent } from "./contacts/contacts.component";
+import { MessageComponent } from "./message/message.component";
+import { MessagesComponent } from "./messages/messages.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 // Guards
 import { AuthGuard } from "../app-store/guards";
@@ -16,7 +20,13 @@ const routes: Routes = [
     path: "mailbox",
     canActivate: [AuthGuard],
     component: MailboxComponent,
-    children: []
+    children: [
+      { path: "", redirectTo: "inbox", pathMatch: "full" },
+      { path: "settings", component: SettingsComponent },
+      { path: "contacts", component: ContactsComponent },
+      { path: "inbox", component: MessagesComponent },
+      { path: "message/:id", component: MessageComponent },
+    ]
   }
 ];
 

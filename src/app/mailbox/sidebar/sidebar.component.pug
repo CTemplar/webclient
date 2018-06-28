@@ -1,0 +1,138 @@
+aside#mailbox-sidebar.mailbox-sidebar.is-sidebar-expandedx(role='complementary')
+  .mailbox-sidebar-inner
+    .mailbox-brand
+      button.navbar-toggler.hidden-md-up
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggler-icon
+        span.navbar-toggle-text Menu
+      figure.navbar-brand-holder.hidden-sm-down
+        a.navbar-brand.ff-roboto.text-uppercase(routerLink='/')
+          img.navbar-brand-logo(src='/assets/images/logo.svg')
+          strong ctemplar
+      .prime-account-content
+        i.icon.icon-secure-shield
+        span.prime-account-text Prime
+    .mail-compose-section.hidden-xs-down
+      button.btn.btn-lg.btn-primary.mailbox-btn.mailbox-compose-btn.btn-xs-squared.has-icon((click)='showMailComposeModal();')
+        i.icon.icon-plus.text-white.hidden-md-up
+        span.mailbox-btn-text.hidden-sm-down Compose
+    nav.mailbox-sidebar-navbar
+      ul.mailbox-sidebar-nav
+        li.mailbox-sidebar-nav-item.active
+          a.mailbox-sidebar-nav-link(routerLink='/mailbox/inbox')
+            i.icon.icon-inbox
+            span.mailbox-sidebar-nav-label Inbox
+            span.badge.badge-square.hidden-sm-down 4
+            span.badge.badge-sm.badge-square.hidden-md-up 1234
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(routerLink='/mailbox/inbox')
+            i.icon.icon-draft
+            span.mailbox-sidebar-nav-label Draft
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(routerLink='/mailbox/inbox')
+            i.icon.icon-paper-plane
+            span.mailbox-sidebar-nav-label Sent
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(routerLink='/mailbox/inbox')
+            i.icon.icon-star
+            span.mailbox-sidebar-nav-label Starred
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(routerLink='/mailbox/inbox')
+            i.icon.icon-archive
+            span.mailbox-sidebar-nav-label Archive
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(routerLink='/mailbox/inbox')
+            i.icon.icon-warning
+            span.mailbox-sidebar-nav-label Spam
+        li.mailbox-sidebar-nav-item
+          a.mailbox-sidebar-nav-link(routerLink='/mailbox/inbox')
+            i.icon.icon-garbage
+            span.mailbox-sidebar-nav-label Trash
+        li.divider-item
+        li.mailbox-sidebar-nav-item.add-folder.text-uppercase
+          a.mailbox-sidebar-nav-link(href='javascript:void(0);', (click)='open(content)')
+            i.icon.icon-folder
+            span.mailbox-sidebar-nav-label Add folder
+          ul.folders-list
+            li
+              a(href='')
+                span.folder-color-box.is-success
+                span.folders-list-text Folder 1
+            li
+              a(href='')
+                span.folder-color-box.is-info
+                span.folders-list-text Another Folder 2
+            li
+              a(href='')
+                span.folder-color-box.is-warning
+                span.folders-list-text Folder 33
+    .mailbox-sidebar-footer.text-center
+      .mailbox-sidebar-footer-text.mb-0.mb-md-1.visible-in-sm
+        | Used
+        .text-white.mt-1 43 MB
+      .mailbox-sidebar-footer-text.mb-1.hidden-in-sm Used storage: 43 MB of 100 MB
+      a.btn-link.text-white.hidden-in-sm(href='')
+        small
+          u Upgrade account
+// Compose button to be used in small screens 
+.btn-xs-holder.is-sticky.hidden-sm-up
+  button.btn.btn-primary.mailbox-btn.mailbox-compose-btn.btn-xs-rounded.has-icon(placement='top', ngbtooltip='Compose', (click)='showMailComposeModal();')
+    i.icon.icon-plus.text-white
+// Create folders Modal 
+ng-template(#content='', let-c='close', let-d='dismiss', ng-modal-class='mailbox-modal')
+  .modal-header
+    h3.modal-title.w-100.text-dark#createFoldersModalLabel
+      strong Create new folder
+    button.close(type='button', data-dismiss='modal', aria-label='Close', (click)='d()')
+      span(aria-hidden='true') ×
+  .modal-body.bg-faded
+    .form
+      form
+        .form-group
+          .row.align-items-center
+            .col-sm-3
+              label.modal-form-label.mb-2.mb-sm-0(for='folderName')
+                small Folder name:
+            .col-sm-9
+              input.form-control.form-control-sm#folderName(type='text')
+        .form-group.mb-0
+          .row
+            .col-sm-3
+              label.modal-form-label.mb-2.mb-sm-0.pt-sm-2(for='colorSelection')
+                small Select color:
+            .col-sm-9
+              .color-boxes-holder
+                ul.color-boxes-group
+                  li
+                    .color-shape.is-active(style='background: #1abc9c;')
+                  li
+                    .color-shape(style='background: #2ecc71;')
+                  li
+                    .color-shape(style='background: #3498db;')
+                  li
+                    .color-shape(style='background: #9b59b6;')
+                  li
+                    .color-shape(style='background: #f1c40f;')
+                  li
+                    .color-shape(style='background: #e67e22;')
+                  li
+                    .color-shape(style='background: #e74c3c;')
+                  li
+                    .color-shape(style='background: #16a085;')
+                  li
+                    .color-shape(style='background: #27ae60;')
+                  li
+                    .color-shape(style='background: #2980b9;')
+                  li
+                    .color-shape(style='background: #8e44ad;')
+                  li
+                    .color-shape(style='background: #f39c12;')
+                  li
+                    .color-shape(style='background: #d35400;')
+                  li
+                    .color-shape(style='background: #c0392b;')
+  .modal-footer.justify-content-center.justify-content-sm-end
+    a.btn.btn-secondary.btn-sm(href='') Create
+// /.Create folders Modal ends 

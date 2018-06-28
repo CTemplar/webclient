@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'img-spinner',
-  templateUrl: './spinner.component.html',
+  templateUrl: './spinner.component.pug',
   styleUrls: ['./spinner.component.scss']
 })
 export class SpinnerComponent implements OnInit {

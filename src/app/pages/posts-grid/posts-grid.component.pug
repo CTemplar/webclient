@@ -1,0 +1,17 @@
+.l-block-body.mb-4
+  .row([class.justify-content-center]='columns==2')
+    article.col-md-4.col-sm-6.mb-4.mb-sm-5(*ngFor='let post of posts')
+      a.d-block.news-card-holder(routerLink='/blog/{{ post.slug }}')
+        .news-card.position-relative
+          span.badge.badge-sm.badge-info.text-uppercase
+            strong {{ post.category }}
+          .news-card-body
+            figure.news-pic-holder
+              img-spinner([class]="'img news-img'", [src]='post.image_card')
+            h4.news-card-title {{ post.name }}
+            p {{ post.text }}
+          footer.news-card-footer
+            ul.news-meta-list
+              li {{ post.date }}
+              li
+                u {{ post.comments_count }} comments

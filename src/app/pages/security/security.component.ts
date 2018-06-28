@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-pages-security",
+  templateUrl: "./security.component.pug",
+  styleUrls: ["./security.component.scss"]
+})
+export class SecurityComponent {}

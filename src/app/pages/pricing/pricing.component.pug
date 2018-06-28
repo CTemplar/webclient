@@ -1,0 +1,17 @@
+section.l-block.l-block-text.bg-white.gap-p-eq
+  .container.container-sm
+    header.l-block-header.position-relative.text-center.mb-4.mb-sm-5.mb-md-8
+      .row.justify-content-center
+        .col-sm-12.col-md-10.position-sm-static.px-sm-5.px-md-0
+          h1.l-block-title.fw-light.text-uppercase.text-secondary
+            strong Pricing
+            | Plans
+          h4.l-block-subtitle.mb-0.text-dark.fw-light We do not show ads or make money by abusing your privacy. Instead, we depend on your support to keep the service running. Revenue from paid accounts is used to further develop CTemplar and support free users such as democracy activists and dissidents who need privacy but can't necessarily afford it.
+          .btn-dropdown.btn-dropdown-sm.btn-dropdown-select.mt-4.mt-sm-0
+            .currency-select-dropdown(ngbDropdown='')
+              button.dropdown-toggle(type='button', ngbDropdownToggle='')
+                strong USD
+              .ext-center(ngbDropdownMenu='')
+                a.dropdown-item EUR
+                a.dropdown-item CHF
+    app-pricing-table

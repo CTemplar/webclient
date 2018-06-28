@@ -1,27 +1,18 @@
-# CTemplar
+#### Welcome to the first pre-alpha version for CTemplar's frontend. This page will be updated often with new information. Your contributions are welcomed!
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
+---
 
-## Development server
+### Development
+1. Modify the `apiUrl` in `src/app/app-store/config.ts` and point it to `https://api.ctemplar.com` to make it work if you're not running the backend locally.
+2. To enable PUG compilation with the development server, you need to run `ng add ng-cli-pug-loader` every time you clone the project.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Handbooks (homemade)
+Useful documentation related to this project. We're waiting for the typewriting machines to be ready!
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Handbooks (third-parties)
+Useful links of the third-party dependencies and tools we're using for the development of this project.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### License
+Probably Apache 2.0, but our lawyer will help us to complete this part soon :P

@@ -6,9 +6,10 @@ import { environment } from "../../environments/environment";
 //////////////////////////////////////////////////////////////////////////////
 
 export function apiHeaders() {
+  const token = JSON.parse(localStorage.getItem('@@STATE')).auth.token.token;
   return {
     headers: new HttpHeaders({
-      Authorization: `JWT ${localStorage.getItem("token")}`
+      Authorization: `JWT ${token}`
     })
   };
 }

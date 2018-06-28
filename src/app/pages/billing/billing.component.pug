@@ -1,0 +1,155 @@
+// PAGE SECTION 
+section.l-block.l-block-text.bg-white.gap-p-eq
+  .container.container-sm
+    header.l-block-header.position-relative.text-center
+      .row.justify-content-center
+        .col-sm-12.col-md-10.position-sm-static.px-sm-5.px-md-0
+          h1.l-block-title.text-uppercase.text-secondary
+            strong Billing Information
+    .l-block-body.px-md
+      .form-card-holder.mx-auto
+        .form
+          form
+            //               <re-captcha [(ngModel)]="model.captcha"
+                    name="captcha"
+                    required siteKey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></re-captcha> 
+            .form-card-holder.billing-form-card-holder.form-card-holder-top-border.mt-md-3
+              .form-step-card
+                h3.form-step-card-title.text-dark.mb-3
+                  strong Overview
+                .billing-overview
+                  .billing-overview-row
+                    label.billing-overview-label.mb-0 Plan
+                    .billing-overview-val.text-secondary
+                      strong Ctemplar PRIME
+                  .billing-overview-row
+                    label.billing-overview-label.mb-0 Billing
+                    .billing-overview-val.text-secondary
+                      strong Annually
+                  .billing-overview-row
+                    label.billing-overview-label.mb-0 Price
+                    .billing-overview-val.text-secondary
+                      strong 48.00 €
+                      | (4.00€/month)
+                  .billing-overview-row.payment-method-row
+                    label.billing-overview-label Payment Method:
+                    .billing-overview-val.text-secondary
+                      .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                        .payment-select-dropdown(ngbDropdown='')
+                          button#paymentDropdownMenuButton(ngbDropdownToggle='') Stripe
+                          div(ngbDropdownMenu='', aria-labelledby='paymentDropdownMenuButton')
+                            a.dropdown-item.text-muted(href='')
+                              em Stripe
+                            a.dropdown-item.text-muted(href='')
+                              em Credit/Debit card
+                            a.dropdown-item.text-muted(href='')
+                              em Bitcoin
+                            a.dropdown-item.text-muted(href='')
+                              em Monero
+                            a.dropdown-item.text-muted(href='')
+                              em Ethereum
+              .form-step-card
+                h3.form-step-card-title.text-dark.mb-3
+                  strong Payment Information
+                .form-group
+                  label.d-block.text-muted.text-left.hidden-sm-up(for='personName') Name on Card
+                  input.form-control#personName(placeholder='Name on Card', value='John', type='text')
+                .form-group.has-error
+                  span.d-block.text-right.error-msg Required field
+                  label.d-block.text-muted.text-left.hidden-sm-up(for='cardName') Card Number
+                  input.form-control.error#cardName(placeholder='Card Number', type='text')
+                .form-group.form-group-3-col
+                  .form-group-row
+                    .form-group-col
+                      label.d-block.text-muted.text-left.hidden-sm-up Date
+                      .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                        .date-select-dropdown(ngbDropdown='')
+                          button#dateDropdownMenuButton(ngbDropdownToggle='') Date
+                          div(ngbDropdownMenu='', aria-labelledby='dateDropdownMenuButton')
+                            a.dropdown-item.text-muted(href='')
+                              em Date
+                            a.dropdown-item.text-muted(href='')
+                              em 01
+                            a.dropdown-item.text-muted(href='')
+                              em 02
+                            a.dropdown-item.text-muted(href='')
+                              em 03
+                            a.dropdown-item.text-muted(href='')
+                              em 04
+                            a.dropdown-item.text-muted(href='')
+                              em 05
+                            a.dropdown-item.text-muted(href='')
+                              em 06
+                            a.dropdown-item.text-muted(href='')
+                              em 07
+                            a.dropdown-item.text-muted(href='')
+                              em 08
+                    .form-group-col
+                      label.d-block.text-muted.text-left.hidden-sm-up Year
+                      .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                        .year-select-dropdown(ngbDropdown='')
+                          button#yearDropdownMenuButton(ngbDropdownToggle='') Year
+                          div(ngbDropdownMenu='', aria-labelledby='yearDropdownMenuButton')
+                            a.dropdown-item.text-muted(href='')
+                              em Year
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                            a.dropdown-item.text-muted(href='')
+                              em 2018
+                    .form-group-col
+                      label.d-block.text-muted.text-left.hidden-sm-up(for='securityCode') Security Code
+                      input.form-control#securityCode(placeholder='Security Code', type='text')
+                .form-group.form-group-2-col
+                  .form-group-row
+                    .form-group-col
+                      label.d-block.text-muted.text-left.hidden-sm-up(for='zipCode') ZIP / Postal Code
+                      input.form-control#zipCode(placeholder='ZIP / Postal Code', value='ZIP / Postal Code', type='text')
+                    .form-group-col
+                      label.d-block.text-muted.text-left.hidden-sm-up Country
+                      .btn-dropdown.btn-dropdown-lg.btn-dropdown-select
+                        .country-select-dropdown(ngbDropdown='')
+                          button#countryDropdownMenuButton(ngbDropdownToggle='') Country
+                          div(ngbDropdownMenu='', aria-labelledby='countryDropdownMenuButton')
+                            a.dropdown-item.text-muted(href='')
+                              em Country
+                            a.dropdown-item.text-muted(href='')
+                              em Afghanistan
+                            a.dropdown-item.text-muted(href='')
+                              em Belgium
+                            a.dropdown-item.text-muted(href='')
+                              em Canada
+                            a.dropdown-item.text-muted(href='')
+                              em Denmark
+                            a.dropdown-item.text-muted(href='')
+                              em Egypt
+                            a.dropdown-item.text-muted(href='')
+                              em France
+                            a.dropdown-item.text-muted(href='')
+                              em Germany
+                            a.dropdown-item.text-muted(href='')
+                              em Ireland
+                            a.dropdown-item.text-muted(href='')
+                              em USA
+              .form-step-card.mt-4.mt-sm-5
+                h3.form-step-card-title.text-dark.mb-3
+                  strong Promo Code
+                .form-group.position-relative.type-code-holder
+                  label.d-block.text-muted.text-left.hidden-sm-up(for='promoCode') Promo Code
+                  input.form-control#promoCode(placeholder='Type Your Code', type='text')
+                  button.btn.code-apply-btn(disabled) Apply
+              .form-group.text-center.mt-3.mt-sm-4.mb-0
+                button.btn.btn-lg.btn-secondary.billing-submit-btn(type='submit') Submit
+  // /.Site container ends 
+// /.PAGE SECTION ENDS 

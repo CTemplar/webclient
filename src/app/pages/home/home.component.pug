@@ -1,0 +1,50 @@
+section.hero.hero-home.has-cover.text-center(style="background-image: url('/assets/images/home/index-banner.png')")
+  .hero-content.text-white
+    h1.hero-title.fw-light
+      strong Take Back Your Liberty
+      | with Encrypted Communication
+    h3.hero-subtitle.fw-light Send unbreakable emails and protect your key professional and personal details trough next-gen encryption
+    a.btn.btn-lg.btn-gradient-primary(routerLink='/sign-up') Sign up for free
+section.l-block.feature-block.gap-p-eq.pb-0.bg-white.text-center
+  .container
+    .l-block-body.mb-4.mb-sm-5.px-md
+      .row
+        .col-md-3.col-sm-6.mb-4.mb-sm-5.mb-md-0
+          .feature-card
+            .feature-card-body
+              figure.feature-icon-holder
+                img.img.feature-icon(src='/assets/images/features-icon/lock.svg')
+              p End-to-end PKI encryption keeps your private information safe from governments, corporations and hackers-for-hire.
+        .col-md-3.col-sm-6.mb-4.mb-sm-5.mb-md-0
+          .feature-card
+            .feature-card-body
+              figure.feature-icon-holder
+                img.img.feature-icon(src='/assets/images/features-icon/documents.svg')
+              p Safely send your financial records, contracts, lab results, journalism and more, even to non-CTemplar email accounts.
+        .col-md-3.col-sm-6.mb-4.mb-sm-0
+          .feature-card
+            .feature-card-body
+              figure.feature-icon-holder
+                img.img.feature-icon(src='/assets/images/features-icon/shield.svg')
+              p Iceland-based servers have the world’s strict privacy laws, so your data cannot be shared, even with the highest authorities.
+        .col-md-3.col-sm-6.mb-0
+          .feature-card
+            .feature-card-body
+              figure.feature-icon-holder
+                img.img.feature-icon(src='/assets/images/features-icon/mobile.svg')
+              p Easy-to-use responsive interface makes sending secure emails quick and easy from any device.
+    footer.l-block-footer
+      a.text-success(routerLink='/security')
+        em
+          u Learn more about CTemplar security
+section.l-block.news-block.gap-p-eq.bg-white
+  .container
+    header.l-block-header.text-center
+      h2.l-block-title
+        | Latest From
+        strong Our Blog
+    app-pages-posts-grid
+    footer.l-block-footer.text-center
+      a.text-success(routerLink='/blog')
+        em
+          u Read more from our blog

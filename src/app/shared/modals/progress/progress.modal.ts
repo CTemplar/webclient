@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-modals-progress",
+  templateUrl: "./progress.modal.pug",
+  styleUrls: ["./progress.modal.scss"]
+})
+export class ProgressModal {}

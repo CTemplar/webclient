@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-pages-privacy",
+  templateUrl: "./privacy.component.pug",
+  styleUrls: ["./privacy.component.scss"]
+})
+export class PrivacyComponent {}

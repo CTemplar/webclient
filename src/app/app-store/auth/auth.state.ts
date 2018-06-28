@@ -1,17 +1,25 @@
 // Actions
-import { PostSignIn, PostSignOut, PostSignUp } from "../actions";
+import {
+  DeleteMyself,
+  GetMailbox,
+  GetMyself,
+  PostRecover,
+  PostRefresh,
+  PostReset,
+  PostSignIn,
+  PostSignOut,
+  PostSignUp,
+  PostVerify
+} from "../actions";
 
-// Angular
-import { Router } from "@angular/router";
+// Helpers
+import { genPgpKey, genPwdHash } from "../helpers";
 
 // Models
-// import { SignUp } from "../models";
+import { SignUp } from "../models";
 
 // Ngrx
 import { Action, NgxsOnInit, Selector, State, StateContext } from "@ngxs/store";
-
-// Rxjs
-import { tap } from "rxjs/operators";
 
 // Services
 import { AuthService } from "../services";
@@ -20,14 +28,14 @@ import { AuthService } from "../services";
 ///////////////////////////////////////////////////////////////////////////////
 
 export interface AuthStateModel {
-  // signUp: SignUp;
+  signUp: SignUp;
   token: string;
 }
 
 @State<AuthStateModel>({
   name: "auth",
   defaults: {
-    // signUp: null,
+    signUp: null,
     token: null
   }
 })
@@ -37,26 +45,91 @@ export class AuthState implements NgxsOnInit {
     return state.token;
   }
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   ngxsOnInit(ctx: StateContext<AuthStateModel>) {
-    // TODO: Check if it is valid token, or PostSignOut on first time. Later activate periodical refresh on navigation. So if cannot verify, we don't refresh on first load neither.
-    // if (ctx.getState().token != null) ctx.dispatch(new PostVerify());;
-    // else console.log('was filled');
+    ctx.dispatch(new PostVerify());
+  }
+
+  @Action(PostRecover)
+  async postRecover(
+    ctx: StateContext<AuthStateModel>,
+    { model }: PostRecover
+  ) {
+    return this.authService.postRecover(model);
+  }
+
+  @Action(PostRefresh)
+  async postRefresh(ctx: StateContext<AuthStateModel>) {
+    const token = ctx.getState().token;
+    if (token != null) {
+      return this.authService
+        .postRefresh(token)
+        .then(
+          data => ctx.patchState({ token: data }),
+          error => ctx.dispatch(new PostSignOut())
+        );
+    }
+  }
+
+  @Action(PostReset)
+  async postReset(
+    ctx: StateContext<AuthStateModel>,
+    { commit, model }: PostReset
+  ) {
+    if (commit) {
+      await genPgpKey(model);
+      await genPwdHash(model);
+      return this.authService.postReset(model).then(data => {
+        ctx.patchState({ token: data });
+        ctx.dispatch(new GetMyself());
+      });
+    }
   }
 
   @Action(PostSignIn)
-  postSignIn(ctx: StateContext<AuthStateModel>, { payload }: PostSignIn) {
-    return this.authService.postSignIn(payload).pipe(
-      tap(data => {
-        ctx.patchState({ token: data });
-      })
-    );
+  async postSignIn(ctx: StateContext<AuthStateModel>, { model }: PostSignIn) {
+    const password = model.password;
+    await genPwdHash(model);
+    return this.authService.postSignIn(model).then(data => {
+      ctx.patchState({ token: data });
+      ctx.dispatch([new GetMailbox(password), new GetMyself()]);
+    });
   }
 
   @Action(PostSignOut)
   postSignOut(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ token: undefined });
-    this.router.navigate(["/sign-in"]);
+    ctx.dispatch(new DeleteMyself());
+  }
+
+  @Action(PostSignUp)
+  async postSignUp(
+    ctx: StateContext<AuthStateModel>,
+    { commit, model }: PostSignUp
+  ) {
+    if (commit)
+      return this.authService.postSignUp(model).then(data => {
+        ctx.patchState({ token: data });
+        ctx.dispatch(new GetMyself());
+      });
+    else {
+      await genPgpKey(model);
+      await genPwdHash(model);
+      ctx.patchState({ signUp: model });
+    }
+  }
+
+  @Action(PostVerify)
+  async postVerify(ctx: StateContext<AuthStateModel>) {
+    const token = ctx.getState().token;
+    if (token != null) {
+      return this.authService
+        .postVerify(token)
+        .then(
+          data => ctx.dispatch(new GetMyself()),
+          error => ctx.dispatch(new PostSignOut())
+        );
+    }
   }
 }

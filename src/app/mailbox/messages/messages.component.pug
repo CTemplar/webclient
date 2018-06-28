@@ -1,0 +1,41 @@
+app-mailbox-messages-bar
+
+.mail-listing
+  .mail-list-row([ngClass]="{'is-unread': !message.read, 'is-read': message.read}", *ngFor="let message of messages$ | async", routerLink="/mailbox/message/{{ message.id }}")
+    .mail-list-inner-row
+      .mail-list-col
+        .mail-list-col-row
+          .mail-list-col-item.mail-checkbox
+            .fancy-field-group
+              input.d-none.fancy-field-control#mailItemCheckbox1(name='[]', type='checkbox')
+              label.fancy-field-empty(for='mailItemCheckbox1')
+          .mail-list-col-item.mail-status
+            .mail-status-type([ngClass]="{'is-fav': message.starred}")
+              i.icon.icon-star-filled
+          .mail-list-col-item.mail-from-name
+            span {{ message.json.headers.From }}
+      .mail-list-col.mail-list-col-lg
+        .mail-desc
+          .mail-delete-badge(*ngIf="selfdestruction")
+            span.badge.badge-warning Delete in 5.25
+          p
+            small
+              strong {{ message.json.headers.Subject }}
+              | {{ message.json.body }}
+      .mail-list-col.mail-list-col-xs
+        .mail-list-col-xs-row
+          .mail-list-col-xs-item.mail-file-size 2.6kB
+          .mail-list-col-xs-item.mail-sent-date {{ message.datetime }}
+          .mail-list-col-xs-item.mail-security-status([ngClass]="{'is-disabled': message.starred}")
+            i.icon.icon-secured
+.mailbox-footer-actionbar.hidden-sm-up
+  .row.justify-content-end
+    .col-12.mailbox-actionbar-col
+      .mail-controls.d-flex.align-items-center.justify-content-end
+        .mail-result-text.text-muted
+          small 1-50 of 2346
+        .mail-nav-control
+          button.mail-nav-control-prev
+            i.icon.icon-chevron-left
+          button.mail-nav-control-next
+            i.icon.icon-chevron-right

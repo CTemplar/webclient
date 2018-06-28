@@ -1,0 +1,31 @@
+section.l-block.l-block-text.bg-white.text-center.text-white.gap-p-eq.has-cover(style="background-image:url('/assets/images/user-actions/login-bg.jpg')")
+  .container.container-xs
+    header.l-block-header.position-relative.mb-md-2
+      .row.justify-content-center
+        .col-sm-12.col-md-10.px-sm-5.px-md-0
+          h1.l-block-title.text-white.text-uppercase
+            strong User Login
+    .l-block-body.px-xs
+      .l-content-holder.l-form-content-holder.mx-auto.mt-md-0
+        .form
+          form.position-relative((ngSubmit)='onSignIn()', #form='ngForm')
+            .form-group
+              label.d-block.text-faded.text-left.hidden-sm-up(for='username') Username
+              input#username.form-control.form-control-lg.border-right-0(placeholder='Username', name='username', required, [(ngModel)]='model.username')
+            .form-group
+              label.d-block.text-faded.text-left.hidden-sm-up(for='loginPassword') Password
+              #loginPassword.input-group
+                input.form-control.form-control-lg.border-right-0([type]='inputType', placeholder='Password', name='password', required, [(ngModel)]='model.password')
+                span.input-group-addon.password-toggle.bg-white.text-muted((click)='togglePassword()')
+                  i.fa.fa-eye
+            .form-group.form-user-actions.mt-4.pt-sm-2
+              button.btn.btn-gradient-primary.btn-lg.login-btn(type='submit', [disabled]='!form.form.valid') Login
+        .form-alternative-content
+          .reset-password.mb-0.mb-sm-1
+            a.text-faded((click)='onRecover()')
+              small
+                u Reset Password
+          .create-account
+            a.text-white(routerLink='/sign-up')
+              strong
+                u Create Account

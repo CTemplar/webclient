@@ -1,9 +1,12 @@
+// Models
+import { Recover, Reset, SignIn, SignUp } from "../models";
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 export class PostRecover {
   static readonly type = "[Auth] PostRecover";
-  constructor(public payload: { recovery_email: string; username: string }) {}
+  constructor(public model: Recover) {}
 }
 
 export class PostRefresh {
@@ -12,41 +15,21 @@ export class PostRefresh {
 
 export class PostReset {
   static readonly type = "[Auth] PostReset";
-  constructor(
-    public payload: {
-      code: string;
-      fingerprint: string;
-      password: string;
-      private_key: string;
-      public_key: string;
-      username: string;
-    }
-  ) {}
+  constructor(public commit: boolean, public model: Reset) {}
 }
 
 export class PostSignIn {
   static readonly type = "[Auth] PostSignIn";
-  constructor(public payload: { password: string; username: string }) {}
+  constructor(public model: SignIn) {}
 }
 
 export class PostSignOut {
   static readonly type = "[Auth] PostSignOut";
 }
 
-
 export class PostSignUp {
   static readonly type = "[Auth] PostSignUp";
-  constructor(
-    public payload: {
-      fingerprint: string;
-      password: string;
-      private_key: string;
-      public_key: string;
-      recaptcha: string;
-      recovery_email?: string;
-      username: string;
-    }
-  ) {}
+  constructor(public commit: boolean, public model: SignUp) {}
 }
 
 export class PostVerify {

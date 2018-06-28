@@ -1,0 +1,93 @@
+section.l-block.l-block-text.bg-white.gap-p-eq.pb-0.text-center
+  .container
+    header.l-block-header.text-center
+      .row.justify-content-center
+        .col-sm-12.col-md-8.px-sm-5.px-md-0
+          h1.page-title.text-uppercase.text-secondary
+            strong Blog
+section.l-block.single-news-block.gap-p-eq.pt-0.bg-white(*ngIf='post$ | async as post')
+  .container.container-xs
+    .l-block-body.px-xs
+      .row
+        .col-12.mb-4.mb-sm-5
+          article.news-card.single-post-card
+            figure.single-post-pic-holder.position-relative.mb-0
+              img-spinner([class]="'img news-img'", [src]='post.image')
+              span.badge.badge-sm.badge-info.text-uppercase
+                strong {{ post.category }}
+            .news-meta
+              .row.align-items-center
+                .col-sm-7.pb-1.pb-sm-0.mb-2.mb-sm-0
+                  ul.news-meta-list.list-style-none
+                    li Posted on {{ post.date }}
+                    li
+                      u {{ post.comments_count }} comments
+                .col-sm-5
+                  .social-share.d-flex.justify-content-sm-end.flex-wrap
+                    .social-share-text
+                      em Share this post:
+                    ul.social-share-list.list-style-none
+                      li
+                        a(href='')
+                          i.fab.fa-facebook-square(aria-hidden='true')
+                      li
+                        a(href='')
+                          i.fab.fa-twitter-square(aria-hidden='true')
+            .single-post-card-body.text-medium
+              h2.text-dark
+                strong {{ post.name }}
+              span([innerHtml]='post.text', style='white-space: pre-line')
+section.l-block.mt-0.pb-0.bg-faded.is-clipped.is-clipped-lg.top.top-left.bottom.bottom-right(*ngIf='post$ | async as post')
+  .container.container-xs
+    .l-block-body.px-xs
+      .comment-holder
+        h3.text-dark
+          strong {{ post.comments_count }} Comments
+        .comment-card(*ngFor='let comment of post.comments')
+          .comment-row
+            .comment-avatar
+            .comment-detail
+              .comment-meta
+                .comment-meta-list
+                  span.comment-author.text-dark {{ comment.author }}
+                  |  | 
+                  span.comment-datetime {{ comment.datetime }}
+                .comment-reply(*ngIf='isActive')
+                  a(role='button', (click)='openReplyModal(content, comment.id)')
+                    i.fas.fa-reply
+                    u reply
+              .comment-body
+                p {{ comment.text }}
+          .comment-replies
+            .comment-row(*ngFor='let reply of comment.replies')
+              .comment-avatar
+              .comment-detail
+                .comment-meta
+                  .comment-meta-list
+                    span.comment-author.text-dark {{ reply.author }}
+                    |  | 
+                    span.comment-datetime {{ reply.datetime }}
+                  .comment-reply(*ngIf='isActive')
+                    a(role='button', (click)='openReplyModal(content, reply.id)')
+                      i.fas.fa-reply
+                      u reply
+                .comment-body
+                  p {{ reply.text }}
+      .comment-form-holder.mt-5.mt-sm-6.mt-md-7
+        h3.text-dark
+          strong Add Comment
+        .comment-form.form(*ngIf='!isActive')
+          p To add a comment you must be identified.
+          button.btn.btn-secondary.btn-lg.comment-submit-btn(routerLink='/sign-in', role='button') Sign In
+        .comment-form.form(*ngIf='isActive')
+          //- form([formgroup]="commentForm", #form="ngForm", (ngsubmit)="addComment(commentForm.value)")
+          form
+            .row
+              .col-12
+                .form-group([ngClass]="{'is-validate': commentForm.controls.comment.invalid && !commentForm.controls.comment.pristine}")
+                  textarea.form-control(placeholder="Your message", rows="4", name="comment")
+              .col-12
+                .form-group.text-center.mb-0
+                  button.btn.btn-secondary.btn-lg.comment-login-btn(type="submit") Submit
+
+app-pages-posts-grid([columns]='2')

@@ -1,0 +1,93 @@
+section.l-block.secure-email-block.is-clipped.top.top-left.gap-p-sm.bg-faded.text-dark.text-center(*ngIf='showCallToAction$ | async')
+  .container
+    header.l-block-header
+      figure.secure-logo-holder
+        img.img.logo-lg(src='/assets/images/logo.svg')
+      .row.justify-content-center
+        .col-sm-10.col-md-7
+          .text-card
+            h2.l-block-title.mb-3.pb-1
+              | Register
+              strong World’s Most Secure Email
+              | Now!
+            h4.l-block-subtitile.fw-light.mb-3.pb-2 Send unbreakable emails and protect your key professional and personal details trough next-gen encryption.
+            a.btn.btn-lg.btn-gradient-primary(routerLink='/sign-up') Upgrade to prime
+footer.site-footer.bg-inverse
+  .container
+    .row.footer-widgets
+      .col-6.footer-col.footer-col-5
+        .footer-widget
+          h4.footer-widget-title Company
+          .footer-widget-body
+            ul.lists.lists-arrow
+              li
+                a(routerLink='/about-us') About
+              li
+                a(routerLink='/donate') Donate
+              li
+                a(routerLink='/security') Security
+              li
+                a(href='https://ctemplar.zendesk.com') Support
+      .col-6.footer-col.footer-col-5
+        .footer-widget
+          h4.footer-widget-title CTemplar
+          .footer-widget-body
+            ul.lists.lists-arrow
+              li
+                a(routerLink='/blog') Blog
+              li
+                a(routerLink='/media-kit') Media Kit
+              li
+                a(routerLink='/pricing') Pricing
+              li
+                a(routerLink='/tor-onion') Tor Onion
+      .col-6.footer-col.footer-col-5
+        .footer-widget
+          h4.footer-widget-title Legalities
+          .footer-widget-body
+            ul.lists.lists-arrow
+              li
+                a(routerLink='/privacy') Privacy Policy
+              li
+                a(routerLink='/terms') Terms & Conditions
+      .col-6.footer-col.footer-col-5
+        .footer-widget
+          h4.footer-widget-title Media Profiles
+          .footer-widget-body
+            ul.lists.lists-arrow
+              li
+                a(href='https://facebook.com/CTemplarMail') Facebook
+              li
+                a(href='https://plus.google.com/101005948959617266833') Google+
+              li
+                a(href='https://linkedin.com/company/CTemplarMail/') LinkedIn
+              li
+                a(href='https://reddit.com/r/CTemplar/') Reddit
+              li
+                a(href='https://twitter.com/CTemplarMail') Twitter
+              li
+                a(href='https://youtube.com/channel/UCF7sipFDBGUBuCYCbKcb0MQ') YouTube
+      .col-12.footer-col.footer-col-5
+        .footer-widget
+          h4.footer-widget-title Office Contact
+          .footer-widget-body
+            address
+              | Orange Project ehf
+              br
+              | Armula 4 & 6
+              br
+              | Reykjavík, 108
+              br
+              | Iceland
+              br
+              br
+              | 1-800-319-5820
+    .footer-bottom-row.text-center
+      ul.lists.lists-inline.lists-dashed.footer-lang-list.justify-content-center
+        li.lists-item.active
+          a.lists-link(href='javascript:void();') English
+        li.lists-item
+          a.lists-link(href='javascript:void();') Russian
+        li.lists-item
+          a.lists-link(href='javascript:void();') Spanish
+      p.app-credit.small ©2018 CTemplar. All Rights Reserved.

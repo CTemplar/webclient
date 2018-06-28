@@ -1,53 +1,78 @@
 // Angular
-import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+
+// Components
+import { PagesComponent } from "./pages.component";
+import { AboutUsComponent } from "./about-us/about-us.component";
+import { BillingComponent } from "./billing/billing.component";
+import { DecryptComponent } from "./decrypt/decrypt.component";
+import { DonateComponent } from "./donate/donate.component";
+import { HomeComponent } from "./home/home.component";
+import { MediaKitComponent } from "./media-kit/media-kit.component";
+import { PagesFooterComponent } from "./footer/footer.component";
+import { PagesHeaderComponent } from "./header/header.component";
+import { PostComponent } from "./post/post.component";
+import { PostsComponent } from "./posts/posts.component";
+import { PostsGridComponent } from "./posts-grid/posts-grid.component";
+import { PricingComponent } from "./pricing/pricing.component";
+import { PrivacyComponent } from "./privacy/privacy.component";
+import { SecureMessageComponent } from "./secure-message/secure-message.component";
+import { SecurityComponent } from "./security/security.component";
+import { SignInComponent } from "./sign-in/sign-in.component";
+import { SignOutComponent } from "./sign-out/sign-out.component";
+import { SignUpComponent } from "./sign-up/sign-up.component";
+import { SignUpNextComponent } from "./sign-up/sign-up-next.component";
+import { TermsComponent } from "./terms/terms.component";
+import { TorOnionComponent } from "./tor-onion/tor-onion.component";
+
+// Modals
+import {
+  CaptchaModal,
+  DialogModal,
+  ProgressModal,
+  RecoverModal,
+  ResetModal
+} from "../shared/modals";
 
 // Modules
 import { PagesRoutingModule } from "./pages-routing.module";
 import { SharedModule } from "../shared/shared.module";
 
-// Components
-import { PagesComponent } from "./pages.component";
-import { PagesAboutComponent } from "./pages-about/pages-about.component";
-import { PagesDonateComponent } from "./pages-donate/pages-donate.component";
-import { PagesFooterComponent } from "./pages-footer/pages-footer.component";
-import { PagesHeaderComponent } from "./pages-header/pages-header.component";
-import { PagesHomeComponent } from "./pages-home/pages-home.component";
-import { PagesMediaKitComponent } from "./pages-media-kit/pages-media-kit.component";
-import { PagesPostComponent } from "./pages-post/pages-post.component";
-import { PagesPostsComponent } from "./pages-posts/pages-posts.component";
-import { PagesPostsGridComponent } from "./shared/pages-posts-grid/pages-posts-grid.component";
-import { PagesPricingComponent } from "./pages-pricing/pages-pricing.component";
-import { PagesPrivacyComponent } from "./pages-privacy/pages-privacy.component";
-import { PagesSecurityComponent } from "./pages-security/pages-security.component";
-import { PagesSignInComponent } from "./pages-sign-in/pages-sign-in.component";
-import { PagesSignUpComponent } from "./pages-sign-up/pages-sign-up.component";
-import { PagesTermsComponent } from "./pages-terms/pages-terms.component";
-import { PagesTorOnionComponent } from "./pages-tor-onion/pages-tor-onion.component";
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 @NgModule({
-  imports: [CommonModule, PagesRoutingModule, SharedModule],
+  imports: [PagesRoutingModule, SharedModule],
   declarations: [
     PagesComponent,
-    PagesAboutComponent,
-    PagesDonateComponent,
+    AboutUsComponent,
+    DecryptComponent,
+    DonateComponent,
+    HomeComponent,
+    MediaKitComponent,
     PagesFooterComponent,
     PagesHeaderComponent,
-    PagesHomeComponent,
-    PagesMediaKitComponent,
-    PagesPostComponent,
-    PagesPostsComponent,
-    PagesPostsGridComponent,
-    PagesPricingComponent,
-    PagesPrivacyComponent,
-    PagesSecurityComponent,
-    PagesSignInComponent,
-    PagesSignUpComponent,
-    PagesTermsComponent,
-    PagesTorOnionComponent
+    PostComponent,
+    PostsComponent,
+    PostsGridComponent,
+    PricingComponent,
+    PrivacyComponent,
+    SecureMessageComponent,
+    SecurityComponent,
+    SignInComponent,
+    SignOutComponent,
+    SignUpComponent,
+    BillingComponent,
+    SignUpNextComponent,
+    TermsComponent,
+    TorOnionComponent
+  ],
+  entryComponents: [
+    CaptchaModal,
+    DialogModal,
+    ProgressModal,
+    RecoverModal,
+    ResetModal
   ]
 })
 export class PagesModule {}

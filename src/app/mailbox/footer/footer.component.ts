@@ -1,0 +1,12 @@
+// Angular
+import { Component } from "@angular/core";
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+@Component({
+  selector: "app-mailbox-footer",
+  templateUrl: "./footer.component.pug",
+  styleUrls: ["./footer.component.scss"]
+})
+export class FooterComponent {}

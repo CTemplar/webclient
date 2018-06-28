@@ -2,26 +2,43 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-// Helpers
-import { apiHeaders, apiUrl } from '../config';
-
-// Models
-import { SignIn, SignUp } from "../models";
-
-// Rxjs
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+// Config.
+import { apiUrl } from "../config";
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-
   constructor(private http: HttpClient) {}
 
-  postSignIn(body): Observable<string> {
+  postRecover(body): Promise<any> {
+    const url = `${apiUrl}/auth/recover/`;
+    return this.http.post(url, body).toPromise();
+  }
+
+  postRefresh(body): Promise<any> {
+    const url = `${apiUrl}/auth/refresh/`;
+    return this.http.post(url, body).toPromise();
+  }
+
+  postReset(body): Promise<any> {
+    const url = `${apiUrl}/auth/reset/`;
+    return this.http.post(url, body).toPromise();
+  }
+
+  postSignIn(body): Promise<any> {
     const url = `${apiUrl}/auth/sign-in/`;
-    return this.http.post<string>(url, body, apiHeaders());
+    return this.http.post(url, body).toPromise();
+  }
+
+  postSignUp(body): Promise<any> {
+    const url = `${apiUrl}/auth/sign-up/`;
+    return this.http.post(url, body).toPromise();
+  }
+
+  postVerify(body): Promise<any> {
+    const url = `${apiUrl}/auth/verify/`;
+    return this.http.post(url, body).toPromise();
   }
 }
