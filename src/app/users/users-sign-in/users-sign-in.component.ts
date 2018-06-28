@@ -43,6 +43,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   username: string = '';
   password: string = 'password';
   layout: any = 'alphanumeric';
+  isKeyboardOpened: boolean;
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
 
@@ -142,21 +143,33 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   }
 
   openUsernameOSK() {
+    if (this.isKeyboardOpened) {
+      this.isKeyboardOpened = false;
+      this.closeKeyboard();
+      return;
+    }
     if (!this._keyboardService.isOpened) {
       this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
     }
     this._keyboardRef.instance.setInputInstance(this.usernameVC);
     this._keyboardRef.instance.attachControl(this.loginForm.controls['username']);
     this.usernameVC.nativeElement.focus();
+    this.isKeyboardOpened = true;
   }
 
   openPasswordOSK() {
+    if (this.isKeyboardOpened) {
+      this.isKeyboardOpened = false;
+      this.closeKeyboard();
+      return;
+    }
     if (!this._keyboardService.isOpened) {
       this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
     }
     this._keyboardRef.instance.setInputInstance(this.passwordVC);
     this._keyboardRef.instance.attachControl(this.loginForm.controls['password']);
     this.passwordVC.nativeElement.focus();
+    this.isKeyboardOpened = true;
   }
 
   closeKeyboard() {
