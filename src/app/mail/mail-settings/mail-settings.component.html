@@ -350,14 +350,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField1" name="[1]" type="radio" checked/>
+                                               id="autoSaveField1" name="[1]" type="radio"
+                                               [checked]="userState.settings.save_contacts"/>
                                         <label for="autoSaveField1">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField2" name="[1]" type="radio"/>
+                                               id="autoSaveField2" name="[1]" type="radio"
+                                               [checked]="!userState.settings.save_contacts"/>
                                         <label for="autoSaveField2">Disabled</label>
                                     </div>
                                 </div>
@@ -375,14 +377,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField1" name="[2]" type="radio" checked/>
+                                               id="responderField1" name="[2]" type="radio"
+                                               [checked]="userState.settings.autoresponder"/>
                                         <label for="responderField1">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField2" name="[2]" type="radio"/>
+                                               id="responderField2" name="[2]" type="radio"
+                                               [checked]="!userState.settings.autoresponder"/>
                                         <label for="responderField2">Disabled</label>
                                     </div>
                                 </div>
@@ -417,35 +421,11 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-sm-0">Two-factor authentication</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="authenticationField1" name="[3]" type="radio" checked/>
-                                        <label for="authenticationField1">Enabled</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="authenticationField2" name="[3]" type="radio"/>
-                                        <label for="authenticationField2">Disabled</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
                             <label for="recoveryMail" class="form-label mb-sm-0">Recovery email</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="recoveryMail" type="text"
+                                   [(ngModel)]="userState.settings.recovery_email"
                                    placeholder="johnsimpson@gmail.com"/>
                         </div>
                     </div>
@@ -460,14 +440,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="securityField1" name="[4]" type="radio" checked/>
+                                               id="securityField1" name="[4]" type="radio"
+                                               [checked]="userState.settings.newsletter"/>
                                         <label for="securityField1">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="securityField2" name="[4]" type="radio"/>
+                                               id="securityField2" name="[4]" type="radio"
+                                               [checked]="!userState.settings.newsletter"/>
                                         <label for="securityField2">Disabled</label>
                                     </div>
                                 </div>
@@ -521,28 +503,32 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField1" name="[5]" type="radio" checked/>
+                                               id="emailCoutField1" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page===20"/>
                                         <label for="emailCoutField1">20</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField2" name="[5]" type="radio"/>
+                                               id="emailCoutField2" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page===50"/>
                                         <label for="emailCoutField2">50</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField3" name="[5]" type="radio"/>
+                                               id="emailCoutField3" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page==100"/>
                                         <label for="emailCoutField3">100</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField4" name="[5]" type="radio"/>
+                                               id="emailCoutField4" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page===200"/>
                                         <label for="emailCoutField4">200</label>
                                     </div>
                                 </div>
@@ -560,21 +546,23 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField1" name="[6]" type="radio" checked/>
+                                               id="embeddedContentField1" name="[6]" type="radio"
+                                               [checked]="userState.settings?.embed_content"/>
                                         <label for="embeddedContentField1">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField2" name="[6]" type="radio"/>
+                                               id="embeddedContentField2" name="[6]" type="radio"
+                                               [checked]="!userState.settings?.embed_content"/>
                                         <label for="embeddedContentField2">No</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField3" name="[6]" type="radio"/>
+                                               id="embeddedContentField3" name="[6]" type="radio" disabled/>
                                         <label for="embeddedContentField3">Only images</label>
                                     </div>
                                 </div>
@@ -592,14 +580,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField1" name="[7]" type="radio" checked/>
+                                               id="showSnippetsField1" name="[7]" type="radio"
+                                               [checked]="userState.settings?.show_snippets"/>
                                         <label for="showSnippetsField1">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField2" name="[7]" type="radio"/>
+                                               id="showSnippetsField2" name="[7]" type="radio"
+                                               [checked]="!userState.settings?.show_snippets"/>
                                         <label for="showSnippetsField2">No</label>
                                     </div>
                                 </div>
