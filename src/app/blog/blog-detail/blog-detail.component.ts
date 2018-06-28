@@ -54,6 +54,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   currentUrl: String = '';
   numberOfColumns: NumberOfColumns;
   mode: Mode;
+  isReplyFormShown: boolean = false;
 
   getCategories$: Observable<any>;
   getBlogState$: Observable<any>;
@@ -178,6 +179,10 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         windowClass: 'modal-md'
       });
     }
+  }
+
+  toggleReplyForm() {
+      this.isReplyFormShown = true;
   }
 
   replyComment(body) {
