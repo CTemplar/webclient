@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { MatButtonModule } from '@angular/material/button';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -39,6 +40,8 @@ import {
     UsersRoutingModule,
     PagesModule,
     SharedModule,
+    // Material modules
+    MatButtonModule,
     RecaptchaModule.forRoot()
   ],
   declarations: [

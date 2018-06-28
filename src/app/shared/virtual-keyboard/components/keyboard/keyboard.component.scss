@@ -1,0 +1,91 @@
+@import '~@angular/material/theming';
+
+$mat-typography-config: mat-typography-config();
+$mat-keyboard-button-distance: 8px !default;
+$mat-keyboard-padding: 14px 24px !default;
+
+.mat-keyboard {
+  &-wrapper {
+    background-color: mat-color($mat-grey, 100);
+    border-radius: 2px;
+    display: flex;
+    font: {
+      family: mat-font-family($mat-typography-config);
+      size: mat-font-size($mat-typography-config, button);
+    }
+    justify-content: space-between;
+    //color: white;
+    line-height: 20px;
+    padding: $mat-keyboard-padding;
+
+    &.dark-theme {
+      background-color: mat-color($mat-grey, 800);
+    }
+  }
+
+  &-action {
+    background: none;
+    color: inherit;
+    flex-shrink: 0;
+    font: {
+      family: inherit;
+      size: inherit;
+      weight: 600;
+    }
+    line-height: 1;
+    margin-left: $mat-keyboard-button-distance;
+    text-transform: uppercase;
+  }
+
+  :host(.dark-theme) &-action {
+    color: mat-color($mat-grey, 100);
+  }
+
+  &-layout {
+    width: 100%;
+  }
+
+  &-row {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  &-col {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    padding: $mat-keyboard-button-distance / 2;
+  }
+
+  &-key {
+    min-width: 0;
+    width: 100%;
+  }
+
+  :host(.dark-theme) &-key {
+    background-color: mat-color($mat-grey, 700);
+    color: mat-color($mat-grey, 100);
+  }
+
+  // sass-lint:disable no-color-keywords no-color-literals
+  :host(.debug) &-key {
+    &-deadkey {
+      background-color: cadetblue;
+    }
+
+    &-modifier {
+      background-color: aquamarine;
+    }
+  }
+
+  :host(.debug.dark-theme) &-key {
+    &-deadkey {
+      background-color: rebeccapurple;
+    }
+
+    &-modifier {
+      background-color: mediumpurple;
+    }
+  }
+}

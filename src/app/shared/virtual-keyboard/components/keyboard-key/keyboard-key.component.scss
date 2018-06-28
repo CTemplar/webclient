@@ -1,0 +1,123 @@
+@import '~@angular/material/theming';
+
+$mat-typography-config: mat-typography-config();
+$mat-keyboard-button-distance: 8px !default;
+$mat-keyboard-capslock-animation-duration: $backdrop-animation-duration !default;
+$mat-keyboard-capslock-animation-timing-function: $backdrop-animation-timing-function !default;
+$mat-keyboard-capslock-led: #0f0 !default;
+$mat-keyboard-capslock-shine: #adff2f !default;
+
+:host {
+  display: flex;
+  font: {
+    family: mat-font-family($mat-typography-config);
+    size: mat-font-size($mat-typography-config, button);
+  }
+  justify-content: space-between;
+  line-height: 20px;
+}
+
+.mat-keyboard {
+  &-key {
+    min-width: 0;
+    width: 100%;
+
+    &-active {
+      background-color: mat-color($mat-grey, 300);
+    }
+
+    &-pressed {
+      background-color: mat-color($mat-grey, 400);
+    }
+
+    // special treatment for caps lock
+    &-capslock {
+      background-color: mat-color($mat-grey, 'A100');
+
+      &:before {
+        background-color: mat-color($mat-grey, 400);
+        border-radius: 100%;
+        content: '';
+        display: inline-block;
+        height: 3px;
+        left: 5px;
+        position: absolute;
+        top: 5px;
+        transition: $mat-keyboard-capslock-animation-duration $mat-keyboard-capslock-animation-timing-function;
+        transition-property: background-color, box-shadow;
+        width: 3px;
+      }
+
+      &.mat-keyboard-key-active:before {
+        background-color: $mat-keyboard-capslock-led;
+        box-shadow: 0 0 §px $mat-keyboard-capslock-shine;
+      }
+    }
+  }
+
+  :host-context(.dark-theme) &-key {
+    background-color: mat-color($mat-grey, 700);
+    color: mat-color($mat-grey, 100);
+
+    &-active {
+      background-color: mat-color($mat-grey, 500);
+    }
+
+    &-pressed {
+      background-color: mat-color($mat-grey, 600);
+    }
+  }
+
+  // sass-lint:disable no-color-keywords no-color-literals
+  :host-context(.debug) &-key {
+    &-deadkey {
+      background-color: cadetblue;
+    }
+
+    &-deadkey.mat-keyboard-key-active {
+      background-color: lighten(cadetblue, 5%);
+    }
+
+    &-deadkey.mat-keyboard-key-pressed {
+      background-color: lighten(cadetblue, 10%);
+    }
+
+    &-modifier {
+      background-color: aquamarine;
+    }
+
+    &-modifier.mat-keyboard-key-active {
+      background-color: lighten(aquamarine, 5%);
+    }
+
+    &-modifier.mat-keyboard-key-pressed {
+      background-color: lighten(aquamarine, 10%);
+    }
+  }
+
+  :host-context(.dark-theme.debug) &-key {
+    &-deadkey {
+      background-color: rebeccapurple;
+    }
+
+    &-deadkey.mat-keyboard-key-active {
+      background-color: lighten(rebeccapurple, 5%);
+    }
+
+    &-deadkey.mat-keyboard-key-pressed {
+      background-color: lighten(rebeccapurple, 10%);
+    }
+
+    &-modifier {
+      background-color: mediumpurple;
+    }
+
+    &-modifier.mat-keyboard-key-active {
+      background-color: lighten(mediumpurple, 5%);
+    }
+
+    &-modifier.mat-keyboard-key-pressed {
+      background-color: lighten(mediumpurple, 10%);
+    }
+  }
+}

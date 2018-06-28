@@ -38,12 +38,14 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
   getState: Observable<any>;
-  focusedInput: string = '';
+  useranme_osk: boolean = false;
+  password_osk: boolean = false;
   username: string = '';
   password: string = 'password';
   layout: any = 'alphanumeric';
-  @ViewChild('usernameVC') usernameVC: ElementRef;
-  @ViewChild('passwordVC') passwordVC: ElementRef;
+
+  @ViewChild('passwordVC') passwordElement: ElementRef;
+  @ViewChild('usernameVC') usernameElement: ElementRef;
 
   constructor(
     private modalService: NgbModal,
@@ -94,29 +96,15 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.password = this.password === 'password' ? 'text' : 'password';
   }
 
-  toggleFocus(event, input: string, el): any {
+  toggleFocus( input: string): any {
     event.stopPropagation();
-    if (input.includes('username')) {
-      if (
-        this.usernameVC.nativeElement.attributes.id.nodeValue.includes('noSpan')
-      ) {
-        this.usernameVC.nativeElement.attributes.id.nodeValue = this.usernameVC.nativeElement.attributes.id.nodeValue.replace(
-          'noSpan',
-          ''
-        );
-      } else {
-        this.usernameVC.nativeElement.attributes.id.nodeValue += 'noSpan';
-      }
-    } else {
-      if (
-        this.passwordVC.nativeElement.attributes.id.nodeValue.includes('noSpan')
-      ) {
-        this.passwordVC.nativeElement.attributes.id.nodeValue = this.passwordVC.nativeElement.attributes.id.nodeValue.replace('noSpan', '');
-      } else {
-        this.passwordVC.nativeElement.attributes.id.nodeValue += 'noSpan';
-      }
-    }
-    setTimeout(() => el.focus());
+    if (input === 'password') {
+      this.password_osk = !this.password_osk;
+      setTimeout(() => this.passwordElement.nativeElement.focus());
+    } else if (input === 'username') {
+    this.useranme_osk = !this.useranme_osk;
+    setTimeout(() => this.usernameElement.nativeElement.focus());
+  }
   }
 
   login(user) {
@@ -129,6 +117,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   resetPassword(data) {
     this.resetModalRef.close();
+  }
+
+  disableOsk(e) {
+    this.useranme_osk = this.password_osk = false;
   }
 
   ngOnDestroy() {
