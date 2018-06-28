@@ -70,7 +70,7 @@ export class UsersEffects {
     .map((action: Accounts) => action.payload)
     .switchMap(payload => {
       return this.userService.getAccountDetails().map(user => {
-        return new AccountDetailsGetSuccess(user);
+        return new AccountDetailsGetSuccess(user.results[0]);
       });
     });
 

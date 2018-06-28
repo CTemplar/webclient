@@ -31,6 +31,7 @@ export interface UserState {
   whiteList: WhiteList[];
   blackList: BlackList[];
   contact: Contact[];
+  isPrime?: boolean;
   inProgress?: boolean;
   isError?: boolean;
   error?: string;

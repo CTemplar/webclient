@@ -114,16 +114,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false, isError: false };
     }
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
-      if (action.payload.results && action.payload.results[0]) {
-        return {
-          ...state,
-          contact: action.payload.results[0].contacts,
-          blackList: action.payload.results[0].blacklist,
-          whiteList: action.payload.results[0].whitelist,
-          username: action.payload.results[0].username,
-        };
-      }
-      return state;
+      return {
+        ...state,
+        contact: action.payload.contacts,
+        blackList: action.payload.blacklist,
+        whiteList: action.payload.whitelist,
+        username: action.payload.username,
+        isPrime: action.payload.is_prime,
+      };
     }
     default: {
       return state;
