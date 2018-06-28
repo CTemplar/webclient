@@ -23,14 +23,12 @@
                                    class="d-block text-faded text-left hidden-sm-up">Username</label>
                             <div class="input-group">
                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle"
-                      (click)="toggleFocus($event,'username', usernameVC)">
+                      (click)="openUsernameOSK()">
                   <i class="fa fa-keyboard"></i>
                 </span>
-                                <input #usernameVC [ngx-virtual-keyboard]="true" [ngx-virtual-keyboard-layout]="layout"
-                                       [ngx-virtual-keyboard-disabled]="false"
-                                       class="form-control form-control-lg border-right-0" id="username_noSpan"
-                                       placeholder="Username"
-                                       type="text" name="username" formControlName="username" required/>
+                                <input #usernameVC class="form-control form-control-lg border-right-0"
+                                       id="username_noSpan"placeholder="Username" type="text"
+                                       name="username" formControlName="username" required/>
                             </div>
                             <span *ngIf="loginForm.controls['username'].errors && showFormErrors" id="email-valid"
                                   class="validate-message">
@@ -43,14 +41,12 @@
                                    class="d-block text-faded text-left hidden-sm-up">Password</label>
                             <div class="input-group">
                 <span class="input-group-addon password-toggle bg-white text-muted" id="keyboardToggle"
-                      (click)="toggleFocus($event, 'password', passwordVC)">
+                      (click)="openPasswordOSK()">
                   <i class="fa fa-keyboard"></i>
                 </span>
                                 <input #passwordVC [attr.type]="password" formControlName="password"
                                        class="form-control form-control-lg border-right-0" id="password_noSpan"
-                                       placeholder="Password"
-                                       aria-describedby="passwordToggle" name="password" [ngx-virtual-keyboard]="true"
-                                       [ngx-virtual-keyboard-layout]="layout" [ngx-virtual-keyboard-disabled]="false"
+                                       placeholder="Password" aria-describedby="passwordToggle" name="password"
                                        required/>
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle"
                                       (click)="togglePassword(loginForm.controls['password'])">
