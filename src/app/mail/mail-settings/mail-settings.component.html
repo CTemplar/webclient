@@ -58,12 +58,13 @@
                                         <div class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text">Plans</span>
-                                                <span class="info-list-label-text">Prime Plan</span>
+                                                <span class="info-list-label-text">{{userState.isPrime ? 'Prime Plan' : 'Free Plan'}}</span>
                                             </div>
-                                            <div class="info-list-text info-list-val"><strong>$8</strong><span
-                                                    class="text-muted">/mo</span></div>
+                                            <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
+                                                <strong>$8</strong><span class="text-muted">/mo</span>
+                                            </div>
                                         </div>
-                                        <div class="info-list-item-row">
+                                        <div *ngIf="userState.isPrime" class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text"
                                                       style="visibility: hidden">Plans</span>
@@ -73,15 +74,15 @@
                                                     class="text-muted">/mo</span></div>
                                         </div>
                                     </li>
-                                    <li class="info-list-item">
+                                    <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label">Total Price</div>
                                         <div class="info-list-text info-list-val">$66/annually</div>
                                     </li>
-                                    <li class="info-list-item">
+                                    <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label">Billing Cycle End</div>
                                         <div class="info-list-text info-list-val">Apr 20, 2018</div>
                                     </li>
-                                    <li class="info-list-item">
+                                    <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label">Payment</div>
                                         <div class="info-list-text info-list-val">Credit Card</div>
                                     </li>
@@ -99,7 +100,7 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong>Account Type</strong></h5>
             <div class="l-alert l-alert-danger l-alert-is-floated d-inline-block text-center hidden-md-up">
                 <div class="l-alert-inner">
-                    <div>Free plan available only for 250 Mb Storage. &nbsp;&nbsp;&nbsp;<a href=""><u>Clear Storage</u></a>
+                    <div>Free plan available only for 250 Mb Storage. &nbsp;&nbsp;&nbsp;<a><u>Clear Storage</u></a>
                     </div>
                 </div>
             </div>
@@ -143,10 +144,10 @@
                                                             id="storageDropdownMenuButton">5 Gb Storage
                                                     </button>
                                                     <div ngbDropdownMenu aria-labelledby="storageDropdownMenuButton">
-                                                        <a class="dropdown-item" href="">10 Gb Storage + $4/MO </a>
-                                                        <a class="dropdown-item" href="">15 Gb Storage + $8/MO</a>
-                                                        <a class="dropdown-item" href="">20 Gb Storage + $12/MO</a>
-                                                        <a class="dropdown-item" href="">25 Gb Storage + $16/MO</a>
+                                                        <a class="dropdown-item">10 Gb Storage + $4/MO </a>
+                                                        <a class="dropdown-item">15 Gb Storage + $8/MO</a>
+                                                        <a class="dropdown-item">20 Gb Storage + $12/MO</a>
+                                                        <a class="dropdown-item">25 Gb Storage + $16/MO</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -176,7 +177,7 @@
                                         </li>
                                     </ul>
                                     <div class="package-coming-soon mt-3">
-                                        <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u>Features to be added to this
+                                        <h6 class="text-muted mb-3 mb-sm-4"><a><u>Features to be added to this
                                             package soon</u></a></h6>
                                         <!-- <ul class="package-list mb-0 list-style-none pl-0">
                                             <li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
@@ -225,12 +226,13 @@
                                         </ul>
                                     </div>
                                     <div class="package-actions text-center">
-                                        <div class="pb-2 mb-3">
-                                            <a href="" class="btn-link text-uppercase text-primary"><strong>Current
+                                        <div class="pb-2 mb-3" *ngIf="userState.isPrime">
+                                            <a class="btn-link text-uppercase text-primary"><strong>Current
                                                 Plan</strong></a>
                                         </div>
-                                        <a href="" class="btn btn-lg btn-gradient-primary">Select Prime $8/<span
-                                                class="text-normal">mo</span></a>
+                                        <a *ngIf="!userState.isPrime"
+                                           class="btn btn-lg btn-gradient-primary cursor-pointer">Select Prime $8/
+                                            <span class="text-normal">mo</span></a>
                                     </div>
                                 </footer>
                             </div>
@@ -274,10 +276,10 @@
                                 </div>
                                 <footer class="package-card-footer text-center">
                                     <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
-                                    <div class="package-actions">
-                                        <a href="" class="btn-link text-uppercase text-info"><strong>Current
+                                    <div class="package-actions" *ngIf="!userState.isPrime">
+                                        <a class="btn-link text-uppercase text-info cursor-pointer"><strong>Current
                                             Plan</strong></a>
-                                        <a href="" class="btn btn-lg btn-gradient-info d-none">Select Free</a>
+                                        <a class="btn btn-lg btn-gradient-info d-none">Select Free</a>
                                     </div>
                                 </footer>
                             </div>
@@ -305,10 +307,10 @@
                                     <button ngbDropdownToggle role="button" id="langDropdownMenuButton">English(USA)
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                                        <a class="dropdown-item" href="">English(USA)</a>
-                                        <a class="dropdown-item" href="">Russian</a>
-                                        <a class="dropdown-item" href="">English(UK)</a>
-                                        <a class="dropdown-item" href="">Spanish</a>
+                                        <a class="dropdown-item">English(USA)</a>
+                                        <a class="dropdown-item">Russian</a>
+                                        <a class="dropdown-item">English(UK)</a>
+                                        <a class="dropdown-item">Spanish</a>
                                     </div>
                                 </div>
                             </div>
@@ -328,10 +330,10 @@
                                         (Italy, Germany)
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton">
-                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
-                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
-                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
-                                        <a class="dropdown-item" href="">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
                                     </div>
                                 </div>
                             </div>
@@ -348,14 +350,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField1" name="[1]" type="radio" checked/>
+                                               id="autoSaveField1" name="[1]" type="radio"
+                                               [checked]="userState.settings.save_contacts"/>
                                         <label for="autoSaveField1">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField2" name="[1]" type="radio" disabled/>
+                                               id="autoSaveField2" name="[1]" type="radio"
+                                               [checked]="!userState.settings.save_contacts"/>
                                         <label for="autoSaveField2">Disabled</label>
                                     </div>
                                 </div>
@@ -373,14 +377,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField1" name="[2]" type="radio" checked/>
+                                               id="responderField1" name="[2]" type="radio"
+                                               [checked]="userState.settings.autoresponder"/>
                                         <label for="responderField1">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField2" name="[2]" type="radio" disabled/>
+                                               id="responderField2" name="[2]" type="radio"
+                                               [checked]="!userState.settings.autoresponder"/>
                                         <label for="responderField2">Disabled</label>
                                     </div>
                                 </div>
@@ -415,35 +421,11 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-sm-0">Two-factor authentication</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="authenticationField1" name="[3]" type="radio" checked/>
-                                        <label for="authenticationField1">Enabled</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="authenticationField2" name="[3]" type="radio" disabled/>
-                                        <label for="authenticationField2">Disabled</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
                             <label for="recoveryMail" class="form-label mb-sm-0">Recovery email</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="recoveryMail" type="text"
+                                   [(ngModel)]="userState.settings.recovery_email"
                                    placeholder="johnsimpson@gmail.com"/>
                         </div>
                     </div>
@@ -458,14 +440,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="securityField1" name="[4]" type="radio" checked/>
+                                               id="securityField1" name="[4]" type="radio"
+                                               [checked]="userState.settings.newsletter"/>
                                         <label for="securityField1">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="securityField2" name="[4]" type="radio" disabled/>
+                                               id="securityField2" name="[4]" type="radio"
+                                               [checked]="!userState.settings.newsletter"/>
                                         <label for="securityField2">Disabled</label>
                                     </div>
                                 </div>
@@ -519,28 +503,32 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField1" name="[5]" type="radio" checked/>
+                                               id="emailCoutField1" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page===20"/>
                                         <label for="emailCoutField1">20</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField2" name="[5]" type="radio" disabled/>
+                                               id="emailCoutField2" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page===50"/>
                                         <label for="emailCoutField2">50</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField3" name="[5]" type="radio" disabled/>
+                                               id="emailCoutField3" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page==100"/>
                                         <label for="emailCoutField3">100</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField4" name="[5]" type="radio" disabled/>
+                                               id="emailCoutField4" name="[5]" type="radio"
+                                               [checked]="userState.settings?.emails_per_page===200"/>
                                         <label for="emailCoutField4">200</label>
                                     </div>
                                 </div>
@@ -558,14 +546,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField1" name="[6]" type="radio" checked/>
+                                               id="embeddedContentField1" name="[6]" type="radio"
+                                               [checked]="userState.settings?.embed_content"/>
                                         <label for="embeddedContentField1">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField2" name="[6]" type="radio" disabled/>
+                                               id="embeddedContentField2" name="[6]" type="radio"
+                                               [checked]="!userState.settings?.embed_content"/>
                                         <label for="embeddedContentField2">No</label>
                                     </div>
                                 </div>
@@ -590,14 +580,16 @@
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField1" name="[7]" type="radio" checked/>
+                                               id="showSnippetsField1" name="[7]" type="radio"
+                                               [checked]="userState.settings?.show_snippets"/>
                                         <label for="showSnippetsField1">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField2" name="[7]" type="radio" disabled/>
+                                               id="showSnippetsField2" name="[7]" type="radio"
+                                               [checked]="!userState.settings?.show_snippets"/>
                                         <label for="showSnippetsField2">No</label>
                                     </div>
                                 </div>
@@ -628,8 +620,8 @@
                             </div>
                             <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -646,8 +638,8 @@
                             </div>
                             <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -664,8 +656,8 @@
                             </div>
                             <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -777,8 +769,8 @@
                             </div>
                             <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -790,8 +782,8 @@
                             </div>
                             <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -799,7 +791,7 @@
                 </ul>
                 <div class="info-card">
                     <p>Use your own domain with CTemplar and use your own email address, e.g. name@domain.com.</p>
-                    <!-- <a href="" class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a> -->
+                    <!-- <a  class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a> -->
                 </div>
             </div>
         </div>
@@ -819,8 +811,8 @@
                             </div>
                             <div class="col-2 col-sm-4">
                                 <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a href="" role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -858,10 +850,10 @@
                                             id="emailAddressDropdownMenuButton" role="button">johnsimpson@ctemplar.com
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
-                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item" href="">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
                                     </div>
                                 </div>
                             </div>
@@ -877,7 +869,7 @@
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                                    value="o8bg359348b24p08gn34408g4p389gbpq938g" readonly=""/>
-                            <span class="form-label-text mt-1"><a href=""><strong><u>Download public key (2048 Bit)</u></strong></a></span>
+                            <span class="form-label-text mt-1"><a><strong><u>Download public key (2048 Bit)</u></strong></a></span>
                         </div>
                     </div>
                 </div>
@@ -915,7 +907,7 @@
     </div>
     <div class="modal-body bg-faded">
         <div class="text-holder text-dark text-medium">
-            <p>We will send a reset code to your <a href="">recovery email</a> to reset your password. </p>
+            <p>We will send a reset code to your <a>recovery email</a> to reset your password. </p>
             <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old
                 emails if you reset your password.</p>
             <p>If you did not set a recovery email then your account is not recoverable.</p>
@@ -989,10 +981,10 @@
                                         subject
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="subjectDropdownMenuButton">
-                                        <a class="dropdown-item" href="">If the subject</a>
-                                        <a class="dropdown-item" href="">If the subject</a>
-                                        <a class="dropdown-item" href="">If the subject</a>
-                                        <a class="dropdown-item" href="">If the subject</a>
+                                        <a class="dropdown-item">If the subject</a>
+                                        <a class="dropdown-item">If the subject</a>
+                                        <a class="dropdown-item">If the subject</a>
+                                        <a class="dropdown-item">If the subject</a>
                                     </div>
                                 </div>
                             </div>
@@ -1004,11 +996,11 @@
                                     </button>
                                     <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
                                          aria-labelledby="containsDropdownMenuButton">
-                                        <a class="dropdown-item" href="">contains</a>
-                                        <a class="dropdown-item" href="">contains</a>
-                                        <a class="dropdown-item" href="">contains</a>
-                                        <a class="dropdown-item" href="">contains</a>
-                                        <a class="dropdown-item" href="">contains</a>
+                                        <a class="dropdown-item">contains</a>
+                                        <a class="dropdown-item">contains</a>
+                                        <a class="dropdown-item">contains</a>
+                                        <a class="dropdown-item">contains</a>
+                                        <a class="dropdown-item">contains</a>
                                     </div>
                                 </div>
                             </div>
@@ -1043,15 +1035,15 @@
                                                     role="button"><i class="icon icon-inbox"></i>Inbox
                                             </button>
                                             <div ngbDropdownMenu aria-labelledby="moveToDropdownMenuButton">
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-inbox"></i>Inbox</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-draft"></i>Draft</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-archive"></i>Archivex</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-paper-plane"></i>Sent</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-garbage"></i>Trash</a>
                                             </div>
                                         </div>
@@ -1075,15 +1067,15 @@
                                             <button ngbDropdownToggle class="has-icon" id="applyDropdownMenuButton"
                                                     role="button" disabled></button>
                                             <div ngbDropdownMenu aria-labelledby="applyDropdownMenuButton">
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-inbox"></i>Inbox</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-draft"></i>Draft</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-archive"></i>Archivex</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-paper-plane"></i>Sent</a>
-                                                <a class="dropdown-item has-icon" href=""><i
+                                                <a class="dropdown-item has-icon"><i
                                                         class="icon icon-garbage"></i>Trash</a>
                                             </div>
                                         </div>
@@ -1118,7 +1110,7 @@
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a href="" class="btn btn-secondary btn-sm">Add filter</a>
+        <a class="btn btn-secondary btn-sm">Add filter</a>
     </div>
 </ng-template><!-- /.Add custom filter ends -->
 
@@ -1167,12 +1159,12 @@
                                                     Stripe
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted" href=""><em>Stripe</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Credit/Debit
+                                                    <a class="dropdown-item text-muted"><em>Stripe</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Credit/Debit
                                                         card</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Bitcoin</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Monero</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Ethereum</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Bitcoin</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Monero</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Ethereum</em></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -1204,16 +1196,16 @@
                                                     Date
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted" href=""><em>Date</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Date</em></a>
                                                     <a class="dropdown-item text-muted"
-                                                       href=""><em>01</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>02</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>03</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>04</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>05</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>06</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>07</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>08</em></a>
+                                                    ><em>01</em></a>
+                                                    <a class="dropdown-item text-muted"><em>02</em></a>
+                                                    <a class="dropdown-item text-muted"><em>03</em></a>
+                                                    <a class="dropdown-item text-muted"><em>04</em></a>
+                                                    <a class="dropdown-item text-muted"><em>05</em></a>
+                                                    <a class="dropdown-item text-muted"><em>06</em></a>
+                                                    <a class="dropdown-item text-muted"><em>07</em></a>
+                                                    <a class="dropdown-item text-muted"><em>08</em></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -1226,16 +1218,16 @@
                                                     Year
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted" href=""><em>Year</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Year</em></a>
                                                     <a class="dropdown-item text-muted"
-                                                       href=""><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>2018</em></a>
+                                                    ><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -1264,18 +1256,18 @@
                                                     Country
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="countryDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted" href=""><em>Country</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Country</em></a>
                                                     <a class="dropdown-item text-muted"
-                                                       href=""><em>Afghanistan</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Belgium</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Canada</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Denmark</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Egypt</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>France</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>Germany</em></a>
+                                                    ><em>Afghanistan</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Belgium</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Canada</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Denmark</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Egypt</em></a>
+                                                    <a class="dropdown-item text-muted"><em>France</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Germany</em></a>
                                                     <a class="dropdown-item text-muted"
-                                                       href=""><em>Ireland</em></a>
-                                                    <a class="dropdown-item text-muted" href=""><em>USA</em></a>
+                                                    ><em>Ireland</em></a>
+                                                    <a class="dropdown-item text-muted"><em>USA</em></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -1298,7 +1290,7 @@
                             </button>
                         </div>
 
-                        <div class="text-holder mt-2 text-center"><a href="">Cancel</a></div>
+                        <div class="text-holder mt-2 text-center"><a>Cancel</a></div>
                     </div>
                 </form>
             </div>
@@ -1327,12 +1319,12 @@
                                 <button ngbDropdownToggle id="paymentTypeDropdownMenuButton" role="button">credit card
                                 </button>
                                 <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
-                                    <a class="dropdown-item" href="">credit card</a>
-                                    <a class="dropdown-item" href="">debit card</a>
-                                    <a class="dropdown-item" href="">credit card</a>
-                                    <a class="dropdown-item" href="">debit card</a>
-                                    <a class="dropdown-item" href="">credit card</a>
-                                    <a class="dropdown-item" href="">debit card</a>
+                                    <a class="dropdown-item">credit card</a>
+                                    <a class="dropdown-item">debit card</a>
+                                    <a class="dropdown-item">credit card</a>
+                                    <a class="dropdown-item">debit card</a>
+                                    <a class="dropdown-item">credit card</a>
+                                    <a class="dropdown-item">debit card</a>
                                 </div>
                             </div>
                         </div>
@@ -1381,11 +1373,11 @@
                                         </button>
                                         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
                                              aria-labelledby="expiryMonthDropdownMenuButton">
-                                            <a class="dropdown-item" href="">01</a>
-                                            <a class="dropdown-item" href="">02</a>
-                                            <a class="dropdown-item" href="">03</a>
-                                            <a class="dropdown-item" href="">04</a>
-                                            <a class="dropdown-item" href="">05</a>
+                                            <a class="dropdown-item">01</a>
+                                            <a class="dropdown-item">02</a>
+                                            <a class="dropdown-item">03</a>
+                                            <a class="dropdown-item">04</a>
+                                            <a class="dropdown-item">05</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1396,11 +1388,11 @@
                                         <button ngbDropdownToggle id="expiryYearDropdownMenuButton" role="button">2018
                                         </button>
                                         <div ngbDropdownMenu aria-labelledby="expiryYearDropdownMenuButton">
-                                            <a class="dropdown-item" href="">2018</a>
-                                            <a class="dropdown-item" href="">2017</a>
-                                            <a class="dropdown-item" href="">2016</a>
-                                            <a class="dropdown-item" href="">2015</a>
-                                            <a class="dropdown-item" href="">2014</a>
+                                            <a class="dropdown-item">2018</a>
+                                            <a class="dropdown-item">2017</a>
+                                            <a class="dropdown-item">2016</a>
+                                            <a class="dropdown-item">2015</a>
+                                            <a class="dropdown-item">2014</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1434,7 +1426,7 @@
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a href="" class="btn btn-secondary btn-sm">Add</a>
+        <a class="btn btn-secondary btn-sm">Add</a>
     </div>
 </ng-template><!-- /.Add new payment method Modal ends -->
 
@@ -1458,12 +1450,12 @@
                             <div ngbDropdown class="dropdown-sm">
                                 <button ngbDropdownToggle id="paymentTypeDropdownMenuButton" role="button">10$</button>
                                 <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
-                                    <a class="dropdown-item" href="">10$</a>
-                                    <a class="dropdown-item" href="">10$</a>
-                                    <a class="dropdown-item" href="">10$</a>
-                                    <a class="dropdown-item" href="">10$</a>
-                                    <a class="dropdown-item" href="">10$</a>
-                                    <a class="dropdown-item" href="">10$</a>
+                                    <a class="dropdown-item">10$</a>
+                                    <a class="dropdown-item">10$</a>
+                                    <a class="dropdown-item">10$</a>
+                                    <a class="dropdown-item">10$</a>
+                                    <a class="dropdown-item">10$</a>
+                                    <a class="dropdown-item">10$</a>
                                 </div>
                             </div>
                         </div>
@@ -1512,11 +1504,11 @@
                                         </button>
                                         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
                                              aria-labelledby="expiryMonthDropdownMenuButton">
-                                            <a class="dropdown-item" href="">01</a>
-                                            <a class="dropdown-item" href="">02</a>
-                                            <a class="dropdown-item" href="">03</a>
-                                            <a class="dropdown-item" href="">04</a>
-                                            <a class="dropdown-item" href="">05</a>
+                                            <a class="dropdown-item">01</a>
+                                            <a class="dropdown-item">02</a>
+                                            <a class="dropdown-item">03</a>
+                                            <a class="dropdown-item">04</a>
+                                            <a class="dropdown-item">05</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1527,11 +1519,11 @@
                                         <button ngbDropdownToggle id="expiryYearDropdownMenuButton" role="button">2018
                                         </button>
                                         <div ngbDropdownMenu aria-labelledby="expiryYearDropdownMenuButton">
-                                            <a class="dropdown-item" href="">2018</a>
-                                            <a class="dropdown-item" href="">2017</a>
-                                            <a class="dropdown-item" href="">2016</a>
-                                            <a class="dropdown-item" href="">2015</a>
-                                            <a class="dropdown-item" href="">2014</a>
+                                            <a class="dropdown-item">2018</a>
+                                            <a class="dropdown-item">2017</a>
+                                            <a class="dropdown-item">2016</a>
+                                            <a class="dropdown-item">2015</a>
+                                            <a class="dropdown-item">2014</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1565,6 +1557,6 @@
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a href="" class="btn btn-secondary btn-sm">Add</a>
+        <a class="btn btn-secondary btn-sm">Add</a>
     </div>
 </ng-template><!-- /.Make a donation Modal ends -->

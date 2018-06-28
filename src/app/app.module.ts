@@ -1,3 +1,5 @@
+import { MatButtonModule } from '@angular/material';
+
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -6,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatKeyboardModule } from '@ngx-material-keyboard/core';
 
 // Components
 import { AppComponent } from './app.component';
@@ -65,6 +68,9 @@ import { BreakpointsService } from './store/services/breakpoint.service';
     UsersModule,
     ngxZendeskWebwidgetModule.forRoot(ZendeskConfig),
     ToastrModule.forRoot(),
+    // Material modules
+    MatButtonModule,
+    MatKeyboardModule,
   ],
   providers: [
     BlogService,

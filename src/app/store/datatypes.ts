@@ -31,9 +31,22 @@ export interface UserState {
   whiteList: WhiteList[];
   blackList: BlackList[];
   contact: Contact[];
+  settings: Settings;
+  isPrime?: boolean;
   inProgress?: boolean;
   isError?: boolean;
   error?: string;
+}
+
+export interface Settings {
+  id?: number;
+  autoresponder?: boolean;
+  emails_per_page?: number;
+  embed_content?: boolean;
+  newsletter?: boolean;
+  recovery_email?: string;
+  save_contacts?: boolean;
+  show_snippets?: boolean;
 }
 
 export interface BlogState {
