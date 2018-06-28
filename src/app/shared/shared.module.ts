@@ -12,11 +12,10 @@ import { PrimePlanComponent } from './price-plan/prime-plan/prime-plan.component
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
 import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
-import { NgxVirtualKeyboardModule } from './lib';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
-  imports: [CommonModule, NgxVirtualKeyboardModule],
+  imports: [CommonModule],
   declarations: [
     SpinnerComponent,
     PricePlanComponent,
@@ -35,7 +34,6 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     LoadingComponent,
     SpinnerImageComponent,
     ngxZendeskWebwidgetModule,
-    NgxVirtualKeyboardModule,
     LoadingSpinnerComponent,
   ],
   providers: [SpinnerService]
