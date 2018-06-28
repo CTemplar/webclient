@@ -105,31 +105,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.password = this.password === 'password' ? 'text' : 'password';
   }
 
-  toggleFocus(event, input: string, el): any {
-    event.stopPropagation();
-    if (input.includes('username')) {
-      if (
-        this.usernameVC.nativeElement.attributes.id.nodeValue.includes('noSpan')
-      ) {
-        this.usernameVC.nativeElement.attributes.id.nodeValue = this.usernameVC.nativeElement.attributes.id.nodeValue.replace(
-          'noSpan',
-          ''
-        );
-      } else {
-        this.usernameVC.nativeElement.attributes.id.nodeValue += 'noSpan';
-      }
-    } else {
-      if (
-        this.passwordVC.nativeElement.attributes.id.nodeValue.includes('noSpan')
-      ) {
-        this.passwordVC.nativeElement.attributes.id.nodeValue = this.passwordVC.nativeElement.attributes.id.nodeValue.replace('noSpan', '');
-      } else {
-        this.passwordVC.nativeElement.attributes.id.nodeValue += 'noSpan';
-      }
-    }
-    setTimeout(() => el.focus());
-  }
-
   login(user) {
     this.showFormErrors = true;
     if (this.loginForm.valid) {
