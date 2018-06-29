@@ -3,12 +3,22 @@ import { AuthActionTypes, AuthActionAll } from '../actions';
 
 // Model
 import { AuthState } from '../datatypes';
+import {ActionReducer} from '@ngrx/store';
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   errorMessage: null
 };
+
+export function logoutReducer(reducerAction: any) {
+    return function (state, action) {
+      console.log(state, action);
+        return reducerAction(action.type === AuthActionTypes.LOGOUT ? undefined : state, action);
+    };
+}
+
+
 
 export function reducer(state = initialState, action: AuthActionAll): AuthState {
   switch (action.type) {
@@ -42,7 +52,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
     case AuthActionTypes.LOGOUT: {
-      return initialState;
+        return initialState;
     }
     default: {
       return state;
