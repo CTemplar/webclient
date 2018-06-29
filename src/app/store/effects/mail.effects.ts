@@ -13,20 +13,20 @@ import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 // Custom Actions
-import { CreateMail, CreateMailSuccess, GetMails, GetMailsSuccess, MailActionTypes, SnackErrorPush, SnackPush } from '../actions';
+import {
+  CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
+  GetMailsSuccess, MailActionTypes, SnackErrorPush
+} from '../actions';
 
 
 @Injectable()
 export class MailEffects {
 
-  constructor(
-    private actions: Actions,
-    private mailService: MailService,
-    private router: Router,
-  ) {}
+  constructor(private actions: Actions,
+              private mailService: MailService) {}
 
   @Effect()
-  GetMails: Observable<any> = this.actions
+  getMailsEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.GET_MAILS)
     .map((action: GetMails) => action.payload)
     .switchMap(payload => {
@@ -37,7 +37,7 @@ export class MailEffects {
     });
 
   @Effect()
-  CreateMailAction: Observable<any> = this.actions
+  createMailEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.CREATE_MAIL)
     .map((action: CreateMail) => action.payload)
     .switchMap(payload => {
@@ -48,16 +48,24 @@ export class MailEffects {
               new CreateMailSuccess(res),
             ];
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to auto save mail.' })]),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to save mail.' })]),
         );
     });
 
-  // @Effect({ dispatch: false })
-  // LogInSuccess: Observable<any> = this.actions.pipe(
-  //   ofType(AuthActionTypes.LOGIN_SUCCESS),
-  //   tap((user) => {
-  //     localStorage.setItem('token', user.payload.token);
-  //     // this.router.navigateByUrl('/');
-  //   })
-  // );
+  @Effect()
+  deleteMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.DELETE_MAIL)
+    .map((action: CreateMail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.deleteMail(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new DeleteMailSuccess(null),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to discard mail.' })]),
+        );
+    });
+
 }

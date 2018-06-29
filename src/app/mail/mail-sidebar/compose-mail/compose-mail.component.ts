@@ -4,7 +4,7 @@ import * as QuillNamespace from 'quill';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { colors } from '../../../shared/config';
-import { CreateMail } from '../../../store/actions';
+import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../store/datatypes';
 import { Mail } from '../../../store/models';
@@ -80,11 +80,14 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   }
 
   onClose(modalRef: any) {
-    // TODO: Add check to see if user entered any content
-    this.confirmModalRef = this.modalService.open(modalRef, {
-      centered: true,
-      windowClass: 'modal-sm users-action-modal'
-    });
+    if (this.hasContent()) {
+      this.confirmModalRef = this.modalService.open(modalRef, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal'
+      });
+    } else {
+      this.hideMailComposeModal();
+    }
   }
 
   cancelDiscard() {
@@ -93,21 +96,25 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
 
   saveInDrafts() {
     this.updateEmail();
-    this.confirmModalRef.close();
     this.hideMailComposeModal();
   }
 
   discardEmail() {
-    this.confirmModalRef.close();
-    // TODO: Add API call to delete email
+    if (this.draftMail && this.draftMail.id) {
+      this.store.dispatch(new DeleteMail(this.draftMail.id));
+    }
     this.hideMailComposeModal();
+  }
+
+  hasContent() {
+    return this.editor.nativeElement.innerText.trim() ? true : false;
   }
 
   private updateEmail() {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: 1, folder: 'draft' };
     }
-    if (this.draftMail.content === this.editor.nativeElement.innerHTML) {
+    if (!this.hasContent() || this.draftMail.content === this.editor.nativeElement.innerHTML) {
       return;
     }
     this.draftMail.content = this.editor.nativeElement.innerHTML;
@@ -116,12 +123,16 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
 
   private hideMailComposeModal() {
     this.onHide.emit(true);
+    this.draftMail = null;
     this.unSubscribeAutoSave();
   }
 
   private unSubscribeAutoSave() {
     if (this.autoSaveSubscription) {
       this.autoSaveSubscription.unsubscribe();
+    }
+    if (this.confirmModalRef) {
+      this.confirmModalRef.close();
     }
   }
 }

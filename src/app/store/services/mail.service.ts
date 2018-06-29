@@ -46,6 +46,10 @@ export class MailService {
     return this.http.post<any>(url, data);
   }
 
+  deleteMail(id: number): Observable<any[]> {
+    return this.http.delete<any>(`${apiUrl}/emails/messages/${id}/`);
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
