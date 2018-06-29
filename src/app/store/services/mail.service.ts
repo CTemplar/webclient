@@ -31,10 +31,7 @@ export class MailService {
 
   getMessages(limit: number = 1000, offset: number = 0): Observable<Mail[]> {
     const url = `${apiUrl}users/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
-    return this.http.get<Mail[]>(url)
-      .pipe(
-        map(data => data['results'])
-      );
+    return this.http.get<Mail[]>(url).map(data => data['results']);
   }
 
   createMail(data: any): Observable<any[]> {

@@ -24,7 +24,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return { ...state, inProgress: true };
     }
 
-    case MailActionTypes.CREATE_MAIL_SUCCESS:
+    case MailActionTypes.DELETE_MAIL_SUCCESS:
     case MailActionTypes.CREATE_MAIL_SUCCESS: {
       return { ...state, inProgress: false, draft: action.payload };
     }

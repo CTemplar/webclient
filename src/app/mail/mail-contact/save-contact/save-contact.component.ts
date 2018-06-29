@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { ContactAdd, ContactGet, selectUsersState } from '../../../store';
+import { ContactAdd } from '../../../store';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Contact, UserState } from '../../../store/datatypes';
+import { AppState, Contact, UserState } from '../../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../../store/services/notification.service';
 
@@ -17,7 +17,6 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedContact: Contact;
   @Output() userSaved = new EventEmitter<boolean>();
 
-  public getUsersState$: Observable<any>;
   @ViewChild('newContactForm') newContactForm: NgForm;
   newContactModel: Contact = {
     name: '',
@@ -31,12 +30,11 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
   readonly destroyed$: Observable<boolean>;
 
 
-  constructor(private store: Store<UserState>,
+  constructor(private store: Store<AppState>,
               private notificationService: NotificationService) {
   }
 
   ngOnInit() {
-    this.getUsersState$ = this.store.select(selectUsersState);
     this.handleUserState();
   }
 
@@ -50,7 +48,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private handleUserState(): void {
-    this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
+    this.store.select(state => state.user)
+      .takeUntil(this.destroyed$).subscribe((state: UserState) => {
       if (this.inProgress && !state.inProgress) {
         this.inProgress = false;
         if (!state.isError) {
