@@ -39,6 +39,7 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
   private draftMail: Mail;
+  private attachments: Array<any> = [];
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>) {
@@ -91,7 +92,7 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
     });
   }
 
-  onFilesSelected(files: FileList) {
+  onImagesSelected(files: FileList) {
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
       if (/^image\//.test(file.type)) {
@@ -104,6 +105,16 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
       else {
         // TODO: add error notification here
       }
+    }
+  }
+
+  onFilesSelected(files: FileList) {
+    for (let i = 0; i < files.length; i++) {
+      const file: any = files.item(i);
+      // TODO: replace this id with value returned from backend
+      file.id = performance.now();
+      this.attachments.push(file);
+      // TODO: add API call for uploading the file
     }
   }
 
@@ -139,8 +150,33 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
     this.hideMailComposeModal();
   }
 
+  removeAttachment(file: any) {
+    const index = this.attachments.findIndex(attachment => attachment.id === file.id);
+    if (index > -1) {
+      // TODO: add API call for removing this file
+      this.attachments.splice(index, 1);
+    }
+  }
+
+
   hasContent() {
     return this.editor.nativeElement.innerText.trim() ? true : false;
+  }
+
+  getFileSize(file: File): string {
+    let size = file.size;
+    if (size < 1000) {
+      return `${size} B`;
+    }
+    else {
+      size = +(size / 1000).toFixed(2);
+      if (size < 1000) {
+        return `${size} KB`;
+      }
+      else {
+        return `${+(size / 1000).toFixed(2)} MB`;
+      }
+    }
   }
 
   private embedImageInQuill(value: string) {
