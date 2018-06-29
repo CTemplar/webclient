@@ -76,8 +76,8 @@ export class UsersService {
   signOut() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('token_expiration');
+    localStorage.removeItem('token');
     this.router.navigate(['/']);
-    // this.mailService.clear();
   }
 
   signUp(user): Observable<any> {
