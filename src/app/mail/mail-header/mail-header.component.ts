@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { AppState } from '../../store/datatypes';
+import { Store } from '@ngrx/store';
+import { LogOut } from '../../store/actions';
 
 @Component({
   selector: 'app-mail-header',
@@ -12,7 +15,7 @@ export class MailHeaderComponent implements OnInit {
   // Public property of boolean type set false by default
   public menuIsOpened: boolean = false;
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -24,4 +27,7 @@ export class MailHeaderComponent implements OnInit {
     this.menuIsOpened = bool === false ? true : false;
   }
 
+  logout() {
+    this.store.dispatch(new LogOut());
+  }
 }

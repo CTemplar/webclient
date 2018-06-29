@@ -22,15 +22,18 @@
         </div>
 
         <div class="mail-compose-section hidden-xs-down">
-            <a href="" class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"><i
-                    class="icon icon-arrow-left icon-sm mr-md-2"></i><span class="mailbox-btn-text hidden-sm-down">Back to mail</span></a>
+            <a routerLink="/mail"
+               class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"><i
+                    class="icon icon-arrow-left icon-sm mr-md-2"></i>
+                <span class="mailbox-btn-text hidden-sm-down">Back to mail</span>
+            </a>
         </div>
 
         <nav class="mailbox-sidebar-navbar">
             <ul class="mailbox-sidebar-nav">
                 <li class="mailbox-sidebar-nav-item active">
                     <a href="" class="mailbox-sidebar-nav-link no-icon"><span class="mailbox-sidebar-nav-label">All Contacts</span>
-                        <span class="badge badge-square">78</span></a>
+                        <span class="badge badge-square">{{userState?.contact?.length}}</span></a>
                 </li>
             </ul>
         </nav>
@@ -80,7 +83,8 @@
                     </div>
                 </li>
                 <li class="px-0">
-                    <a href="" class="border-radius-r-0 border-right-0 no-icon">Edit</a>
+                    <a ngbTooltip="Click on Name or Email to edit an item."
+                       class="border-radius-r-0 border-right-0 no-icon cursor-pointer">Edit</a>
                 </li>
                 <li class="pr-0 pl-0">
                     <a (click)="openConfirmDeleteModal(confirmDeleteModal)" class="cursor-pointer border-radius-l-0"><i

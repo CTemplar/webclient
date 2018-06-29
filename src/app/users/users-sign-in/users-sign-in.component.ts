@@ -53,7 +53,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private router: Router,
+    ter: Router,
     private store: Store<AuthState>,
     private sharedService: SharedService,
     private _keyboardService: MatKeyboardService

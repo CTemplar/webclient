@@ -101,11 +101,4 @@ export class AuthEffects {
     })
   );
 
-  // @Effect({ dispatch: false })
-  // GetStatus: Observable<any> = this.actions
-  //   .ofType(AuthActionTypes.GET_STATUS)
-  //   .switchMap(payload => {
-  //     return this.authService.getStatus();
-  //   });
-
 }
