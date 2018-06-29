@@ -82,10 +82,11 @@ export class UsersService {
 
   signUp(user): Observable<any> {
     const url = `${apiUrl}auth/sign-up/`;
+    console.log(user);
     const body = {
-      fingerprint: this.openPgpService.getFingerprint(),
-      private_key: this.openPgpService.getPrivateKey(),
-      public_key: this.openPgpService.getPubKey(),
+      fingerprint: user.fingerprint,
+      private_key: user.privkey,
+      public_key: user.pubkey,
       username: user.username,
       password: user.password,
       recaptcha: user.captchaResponse

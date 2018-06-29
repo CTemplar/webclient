@@ -37,8 +37,11 @@ export class OpenPgpService {
       localStorage.setItem('privkey', this.privkey);
       this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
       this.fingerprint = openpgp.key.readArmored(this.pubkey).keys[0].primaryKey.getFingerprint();
-      this.decryptPrivateKey();
-      return true;
+      return {
+        fingerprint: this.fingerprint,
+        privkey: this.privkey,
+        pubkey: this.pubkey
+      };
     });
   }
 

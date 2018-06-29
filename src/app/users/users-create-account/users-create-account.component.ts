@@ -12,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/datatypes';
-import { selectAuthState } from '../../store/selectors';
+import { selectAuthState, selectUsersState } from '../../store/selectors';
 import { SignUp, FinalLoading } from '../../store/actions';
 
 // Service
@@ -50,8 +50,15 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   isFormCompleted: boolean = false;
   errorMessage: string = '';
   getState: Observable<any>;
+  getUserState: Observable<any>;
   userNameTaken: boolean = null;
-
+  selectedPlan: any;
+  pgpProgress: number = 0;
+  fingerprint: any;
+  privkey: any;
+  pubkey: any;
+  processInstance: any;
+  keyGenerateStatus: string = 'Generating';
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private router: Router,
@@ -60,6 +67,7 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
               private sharedService: SharedService
   ) {
     this.getState = this.store.select(selectAuthState);
+    this.getUserState = this.store.select(selectUsersState);
   }
 
   ngOnInit() {
@@ -80,16 +88,35 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
       this.isLoading = false;
       this.errorMessage = state.errorMessage;
     });
+
+    this.getUserState.subscribe((state) => {
+      this.selectedPlan = state.membership.id;
+    });
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
   }
 
   // == Open NgbModal
   openGenerateKeyModal(generateKeyContent) {
+    this.pgpProgress = 0;
+    this.keyGenerateStatus = 'Generating';
     this.modalService.open(generateKeyContent, {
       centered: true,
       windowClass: 'modal-md'
     });
-  }
+    this.processInstance = setInterval(() => {
+      this.pgpProgress = this.pgpProgress + 1;
+      if (this.pgpProgress >= 100) {
+      this.keyGenerateStatus = 'Completed';
+      clearInterval(this.processInstance);
+      }
+    }, 10);
+    this.openPgpService.generateKey(this.signupForm.value).then((key) => {
+      // this.store.dispatch(new SignUp(this.signupForm.value));
+      this.fingerprint = key.fingerprint;
+      this.privkey = key.privkey;
+      this.pubkey = key.pubkey;
+    });
+   }
 
   passwordMatchValidator(g: FormGroup) {
     return g.get('password').value === g.get('confirmPwd').value
@@ -120,10 +147,11 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
     if (this.isConfirmedPrivacy == null) {
       this.isConfirmedPrivacy = false;
     }
-    console.log(this.userNameTaken);
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isFormCompleted = true;
-      this.navigateToBillingPage();
+      if (this.selectedPlan === 1) {
+        this.navigateToBillingPage();
+      }
     }
   }
 
@@ -132,10 +160,10 @@ export class UsersCreateAccountComponent implements OnDestroy, OnInit {
   }
 
   recaptchaResolved(captchaResponse: string) {
-    this.openPgpService.generateKey(this.signupForm.value).then(() => {
       this.signupForm.value.captchaResponse = captchaResponse;
-      this.store.dispatch(new SignUp(this.signupForm.value));
-    });
+      this.signupForm.value.fingerprint = this.fingerprint;
+      this.signupForm.value.privkey = this.privkey;
+      this.signupForm.value.pubkey = this.pubkey;
   }
 
   checkUsernameTaken(event: any) {

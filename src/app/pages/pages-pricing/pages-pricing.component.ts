@@ -3,8 +3,10 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
 import {
-  FinalLoading
+  FinalLoading,
+  MembershipUpdate
 } from '../../store/actions';
+import { Router } from '@angular/router';
 
 // Store
 import { Store } from '@ngrx/store';
@@ -22,7 +24,8 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
 
   constructor(
     private sharedService: SharedService,
-    private store: Store<any>
+    private store: Store<any>,
+    private router: Router
   ) {}
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -35,6 +38,11 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
     document
       .querySelector('.package-prime-col')
       .classList.remove('active-slide');
+  }
+
+  selectPlan(id) {
+    this.store.dispatch(new MembershipUpdate({ id }));
+    this.router.navigateByUrl('/create-account');
   }
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
