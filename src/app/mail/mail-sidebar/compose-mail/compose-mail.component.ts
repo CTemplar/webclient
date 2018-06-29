@@ -29,6 +29,7 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
 
   @ViewChild('editor') editor;
   @ViewChild('toolbar') toolbar;
+  @ViewChild('attachImagesModal') attachImagesModal;
 
   colors = colors;
 
@@ -36,6 +37,7 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   private autoSaveSubscription: Subscription;
   private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
   private confirmModalRef: NgbModalRef;
+  private attachImagesModalRef: NgbModalRef;
   private draftMail: Mail;
 
   constructor(private modalService: NgbModal,
@@ -70,6 +72,9 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
         toolbar: this.toolbar.nativeElement
       }
     });
+    this.quill.getModule('toolbar').addHandler('image', () => {
+      this.quillImageHandler();
+    });
   }
 
   initializeAutoSave() {
@@ -77,6 +82,34 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
       .subscribe(t => {
         this.updateEmail();
       });
+  }
+
+  quillImageHandler() {
+    this.attachImagesModalRef = this.modalService.open(this.attachImagesModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  onFilesSelected(files: FileList) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files.item(i);
+      if (/^image\//.test(file.type)) {
+        const fileReader = new FileReader();
+        fileReader.onload = (event: any) => {
+          this.embedImageInQuill(event.target.result);
+        };
+        fileReader.readAsDataURL(file);
+      }
+      else {
+        // TODO: add error notification here
+      }
+    }
+  }
+
+  onAttachImageURL(url: string) {
+    this.embedImageInQuill(url);
+    this.attachImagesModalRef.dismiss();
   }
 
   onClose(modalRef: any) {
@@ -108,6 +141,15 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
 
   hasContent() {
     return this.editor.nativeElement.innerText.trim() ? true : false;
+  }
+
+  private embedImageInQuill(value: string) {
+    if (value) {
+      const selection = this.quill.getSelection();
+      const index = selection ? selection.index : this.quill.getLength();
+      this.quill.insertEmbed(index, 'image', value);
+      this.quill.setSelection(index + 1);
+    }
   }
 
   private updateEmail() {

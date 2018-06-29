@@ -438,6 +438,12 @@
                                             </li>
 
                                             <li>
+                                                <button role="button" type="button"
+                                                        class="ql-image actions-btn mail-attach-image-btn"><i
+                                                        class="icon fa fa-image"></i></button>
+                                            </li>
+
+                                            <li>
                                                 <button role="button"
                                                         class="ql-clean actions-btn mail-format-clear-btn"><i
                                                         class="icon icon-format-clear"></i></button>
@@ -477,6 +483,14 @@
     </div>
 </div>
 
+<!-- TODO: move this input to some proper location -->
+<input type="file"
+       #imageInput
+       accept="image/*"
+       multiple
+       (change)="onFilesSelected($event.target.files)"
+       style="display:none">
+
 <!-- Confirm discard email modal -->
 <ng-template #confirmDiscardModal let-c="close" let-d="dismiss">
     <div class="modal-header">
@@ -494,6 +508,31 @@
                 <button (click)="cancelDiscard()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
                 <button (click)="saveInDrafts()" class="btn btn-success btn-sm" role="button">Save in Drafts</button>
                 <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button">Discard</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.Confirm discard email modal ends -->
+
+<!-- attach images modal -->
+<ng-template #attachImagesModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Attach Images</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Select files from your computer or enter a URL
+            </div>
+            <div class="form-group">
+                <label for="imageURL">Image URL</label>
+                <input type="text" #imageURL id="imageURL" class="form-control" placeholder="Enter image URL">
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="imageInput.value = ''; imageInput.click(); d();" class="btn btn-success btn-sm" role="button">Attach Files</button>
+                <button type="button" (click)="onAttachImageURL(imageURL.value)" class="btn btn-success btn-sm" role="button">Attach URL</button>
             </div>
         </div>
     </div>
