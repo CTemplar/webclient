@@ -3,6 +3,7 @@ import { AuthActionTypes, AuthActionAll } from '../actions';
 
 // Model
 import { AuthState } from '../datatypes';
+import {ActionReducer} from '@ngrx/store';
 
 export const initialState: AuthState = {
   isAuthenticated: false,
@@ -10,10 +11,18 @@ export const initialState: AuthState = {
   errorMessage: null
 };
 
+export function logoutReducer(reducerAction: any) {
+    return function (state, action) {
+        return reducerAction(action.type === AuthActionTypes.LOGOUT ? undefined : state, action);
+    };
+}
+
+
+
 export function reducer(state = initialState, action: AuthActionAll): AuthState {
   switch (action.type) {
     case AuthActionTypes.LOGIN_SUCCESS: {
-      localStorage.setItem('token', action.payload.token);
+      sessionStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuthenticated: true,
@@ -42,7 +51,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
     case AuthActionTypes.LOGOUT: {
-      return initialState;
+        return initialState;
     }
     default: {
       return state;
