@@ -112,7 +112,8 @@ export class UsersService {
       'users/users/',
       'users/whitelist/',
       'users/blacklist/',
-      'users/contact/'
+      'users/contact',
+      'emails/messages/',
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -132,7 +133,7 @@ export class UsersService {
   }
 
   getAccountDetails() {
-    return this.http.get<any>(`${apiUrl}users/myself/`);
+    return this.http.get<any>(`${apiUrl}users/myself/`).map(data => data['results']);
   }
 
   getWhiteList(limit = 0, offset = 0) {
