@@ -5,9 +5,7 @@ import { Params } from '@angular/router';
 import * as fromRouter from '@ngrx/router-store';
 
 // Models
-import { User } from '../store/models';
-import { Post, Category, Comment } from '../store/models';
-import { Mail } from '../store/models';
+import { User, Post, Category, Comment, Mail, Membership } from '../store/models';
 
 export interface RouterStateUrl {
   url: string;
@@ -36,6 +34,7 @@ export interface UserState {
   inProgress?: boolean;
   isError?: boolean;
   error?: string;
+  membership: Membership;
 }
 
 export interface Settings {
