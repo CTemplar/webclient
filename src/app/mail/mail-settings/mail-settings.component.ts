@@ -4,9 +4,8 @@ import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
 import { BlackListDelete, WhiteListDelete } from '../../store/actions';
-import { UserState } from '../../store/datatypes';
+import { AppState, UserState } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
-import { selectUsersState } from '../../store/selectors';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 @TakeUntilDestroy()
@@ -18,7 +17,6 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 export class MailSettingsComponent implements OnInit, OnDestroy {
   // == Defining public property as boolean
   public selectedIndex = -1; // Assuming no element are selected initially
-  public getUsersState$: Observable<any>;
   public userState: UserState;
 
   public newListContact = { show: false, type: 'Whitelist' };
@@ -28,17 +26,18 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
-    private store: Store<UserState>,
+    private store: Store<AppState>,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
   }
 
   ngOnInit() {
-    this.getUsersState$ = this.store.select(selectUsersState);
-    this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
-      this.userState = state;
-    });
+    this.store.select((state) => state.user)
+      .takeUntil(this.destroyed$)
+      .subscribe((state: UserState) => {
+        this.userState = state;
+      });
   }
 
   // == Toggle active state of the slide in price page

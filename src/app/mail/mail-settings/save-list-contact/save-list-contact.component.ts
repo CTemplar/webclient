@@ -1,12 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, BlackList, UserState, WhiteList } from '../../../store/datatypes';
 import { BlackListAdd, WhiteListAdd } from '../../../store/actions';
-import { selectUsersState } from '../../../store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { NotificationService } from '../../../store/services/notification.service';
 
 @TakeUntilDestroy()
@@ -30,11 +29,10 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
   private modalRef: NgbModalRef;
 
   readonly destroyed$: Observable<boolean>;
-  public getUsersState$: Observable<any>;
   public inProgress: boolean;
 
   constructor(private modalService: NgbModal,
-              private store: Store<UserState>,
+              private store: Store<AppState>,
               private notificationService: NotificationService,
               private formBuilder: FormBuilder) {
   }
@@ -48,12 +46,12 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
       this.openModal();
     }, 50);
 
-    this.getUsersState$ = this.store.select(selectUsersState);
     this.handleUserState();
   }
 
   private handleUserState(): void {
-    this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
+    this.store.select((state) => state.user)
+      .takeUntil(this.destroyed$).subscribe((state: UserState) => {
       if (this.inProgress && !state.inProgress) {
         this.inProgress = false;
         if (!state.isError) {
