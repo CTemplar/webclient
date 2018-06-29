@@ -1,27 +1,19 @@
 // Angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 // Ngrx
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
+import { Actions, Effect } from '@ngrx/effects';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { tap } from 'rxjs/operators';
-
+import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
-
 // Custom Actions
-import {
-  MailActionTypes,
-  GetMails, GetMailsSuccess, CreateMail, CreateMailSuccess
-} from '../actions';
+import { CreateMail, CreateMailSuccess, GetMails, GetMailsSuccess, MailActionTypes, SnackErrorPush, SnackPush } from '../actions';
 
 
 @Injectable()
@@ -45,14 +37,19 @@ export class MailEffects {
     });
 
   @Effect()
-  CreateMail: Observable<any> = this.actions
+  CreateMailAction: Observable<any> = this.actions
     .ofType(MailActionTypes.CREATE_MAIL)
     .map((action: CreateMail) => action.payload)
     .switchMap(payload => {
       return this.mailService.createMail(payload)
-        .map((res) => {
-          return new CreateMailSuccess(res);
-        });
+        .pipe(
+          switchMap(res => {
+            return [
+              new CreateMailSuccess(res),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to auto save mail.' })]),
+        );
     });
 
   // @Effect({ dispatch: false })

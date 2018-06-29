@@ -7,8 +7,6 @@ import { colors } from '../../../shared/config';
 import { CreateMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../store/datatypes';
-import { selectMailState } from '../../../store/selectors';
-import { Observable } from 'rxjs/Observable';
 import { Mail } from '../../../store/models';
 
 const Quill: any = QuillNamespace;
@@ -35,20 +33,20 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   colors = colors;
 
   private quill: any;
-  private emailId: number;
   private autoSaveSubscription: Subscription;
   private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
   private confirmModalRef: NgbModalRef;
   private draftMail: Mail;
 
   constructor(private modalService: NgbModal,
-              private store: Store<MailState>) {
+              private store: Store<AppState>) {
 
-    const mailRef: Observable<any> = this.store.select((state: MailState) => state);
-    mailRef.subscribe((response: MailState) => {
-      console.log(response);
-      this.draftMail = response.draft;
-    });
+    this.store.select((state: AppState) => state.mail)
+      .subscribe((response: MailState) => {
+        if (response.draft) {
+          this.draftMail = response.draft;
+        }
+      });
   }
 
   ngAfterViewInit() {
@@ -94,6 +92,7 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   }
 
   saveInDrafts() {
+    this.updateEmail();
     this.confirmModalRef.close();
     this.hideMailComposeModal();
   }
@@ -105,22 +104,18 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   }
 
   private updateEmail() {
-    this.createEmail({
-      id: this.draftMail ? this.draftMail.id : null,
-      content: this.editor.nativeElement.innerHTML,
-      folder: 'draft',
-    });
-  }
-
-  private createEmail(data) {
-    // TODO: Add API call for creating email. Store returned id to this.emailId
-    this.emailId = 10;
-    this.store.dispatch(new CreateMail(data));
+    if (!this.draftMail) {
+      this.draftMail = { content: null, mailbox: 1, folder: 'draft' };
+    }
+    if (this.draftMail.content === this.editor.nativeElement.innerHTML) {
+      return;
+    }
+    this.draftMail.content = this.editor.nativeElement.innerHTML;
+    this.store.dispatch(new CreateMail({ ...this.draftMail }));
   }
 
   private hideMailComposeModal() {
     this.onHide.emit(true);
-    this.emailId = null;
     this.unSubscribeAutoSave();
   }
 
