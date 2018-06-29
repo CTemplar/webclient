@@ -1,35 +1,30 @@
 // Angular
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-
+import { Component, Input, OnInit } from '@angular/core';
 // Models
-import { Post, NumberOfColumns, Mode } from '../../../store/models';
-
+import { Category, Mode, NumberOfColumns, Post } from '../../../store/models';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-
 // Store
 import { Store } from '@ngrx/store';
-import { BlogState } from '../../../store/datatypes';
-import { getRelatedBlogs } from '../../../store/selectors';
-import { GetRelatedPosts } from '../../../store/actions';
-import { getNewBlogs } from '../../../store/selectors';
-import { GetPosts } from '../../../store/actions';
-import { RelatedBlogLoading, RecentBlogLoading } from '../../../store/actions';
-import { Category } from '../../../store/models';
-import { selectBlogState } from '../../../store/selectors';
-import { GetPostDetail, GetCategories } from '../../../store/actions';
+import { AppState, BlogState } from '../../../store/datatypes';
+import { getNewBlogs, getRelatedBlogs } from '../../../store/selectors';
+import { GetPosts, GetRelatedPosts, RecentBlogLoading, RelatedBlogLoading } from '../../../store/actions';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 interface ModeInterface {
   Recent: number;
   Related: number;
 }
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-blog-sample',
   templateUrl: './blog-sample.component.html',
   styleUrls: ['./blog-sample.component.scss']
 })
 export class BlogSampleComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
+
   @Input('category') category?: number;
   @Input('blogId') blogId?: number;
   @Input('numberOfColumns') numberOfColumns: NumberOfColumns;
@@ -43,16 +38,15 @@ export class BlogSampleComponent implements OnInit, OnDestroy {
     Recent: 0,
     Related: 1
   };
-  getCategories$: Observable<any>;
   categories: Category[];
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<AppState>) {
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
     this.getNewBlogState$ = this.store.select(getNewBlogs);
-    this.getCategories$ = this.store.select(selectBlogState);
-    this.getCategories$.subscribe(state => {
-      this.categories = state.categories;
-    });
+    this.store.select(state => state.blog).takeUntil(this.destroyed$)
+      .subscribe((state: BlogState) => {
+        this.categories = state.categories;
+      });
   }
 
   ngOnInit() {

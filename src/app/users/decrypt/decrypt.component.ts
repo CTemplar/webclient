@@ -1,38 +1,31 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-
 // Store
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-
 // Store
-import { AuthState } from '../../store/datatypes';
-import { selectAuthState } from '../../store/selectors';
-import { LogIn } from '../../store/actions';
+import { AppState } from '../../store/datatypes';
 import { FinalLoading } from '../../store/actions';
-
 // Service
 import { SharedService } from '../../store/services';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-decrypt',
   templateUrl: './decrypt.component.html',
   styleUrls: ['./decrypt.component.scss']
 })
-export class DecryptComponent implements OnInit {
+export class DecryptComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
 
   errorMessage: string = '';
   isLoading: boolean = false;
-  getState: Observable<any>;
   @ViewChild('messagePasswordInput') messagePasswordInput: ElementRef;
 
-  constructor(
-    private router: Router,
-    private store: Store<AuthState>,
-    private sharedService: SharedService,
-  ) {
-    this.getState = this.store.select(selectAuthState);
-  }
+  constructor(private router: Router,
+              private store: Store<AppState>,
+              private sharedService: SharedService) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -43,10 +36,11 @@ export class DecryptComponent implements OnInit {
 
     this.sharedService.isExternalPage.emit(true);
 
-    this.getState.subscribe(state => {
-      this.isLoading = false;
-      this.errorMessage = state.errorMessage;
-    });
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe(state => {
+        this.isLoading = false;
+        this.errorMessage = state.errorMessage;
+      });
   }
 
   // == Toggle password visibility
