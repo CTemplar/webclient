@@ -82,7 +82,6 @@ export class UsersService {
 
   signUp(user): Observable<any> {
     const url = `${apiUrl}auth/sign-up/`;
-    console.log(user);
     const body = {
       fingerprint: user.fingerprint,
       private_key: user.privkey,
@@ -91,7 +90,6 @@ export class UsersService {
       password: user.password,
       recaptcha: user.captchaResponse
     };
-    console.log(body);
     return this.http.post<any>(url, body);
   }
 
