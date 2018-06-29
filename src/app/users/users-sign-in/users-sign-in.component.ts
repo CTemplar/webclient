@@ -152,4 +152,15 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       this._keyboardRef.dismiss();
     }
   }
+
+  onInputFocusChange(input) {
+    if (this.isKeyboardOpened) {
+      this.isKeyboardOpened = false;
+      if (input === 'username') {
+        this.openUsernameOSK();
+      } else if (input === 'password') {
+        this.openPasswordOSK();
+      }
+    }
+  }
 }

@@ -1,6 +1,6 @@
 // Angular
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 
 // Services
@@ -12,6 +12,8 @@ import { selectLoadingState } from './store/selectors';
 import { Store } from '@ngrx/store';
 import { LoadingState } from './store/datatypes';
 import { quotes } from './store/quotes';
+
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +28,7 @@ export class AppComponent implements OnInit {
   public getLoadingState$: Observable<any>;
   public isLoading: boolean = true;
   public isMail: boolean = false;
-
+  public isHomepage: boolean;
   quote: object;
 
   constructor(
@@ -44,7 +46,12 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    this.router.events.subscribe(params => window.scrollTo(0, 0));
+    this.router.events
+      .filter((event) => event instanceof NavigationEnd)
+      .subscribe((routeEvent: NavigationEnd) => {
+        this.isHomepage = routeEvent.url === '/';
+        window.scrollTo(0, 0);
+      });
     this.updateLoadingStatus();
 
     this.quote = quotes[Math.floor(Math.random() * 5)];
