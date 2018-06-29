@@ -13,7 +13,6 @@ export const initialState: AuthState = {
 
 export function logoutReducer(reducerAction: any) {
     return function (state, action) {
-      console.log(state, action);
         return reducerAction(action.type === AuthActionTypes.LOGOUT ? undefined : state, action);
     };
 }
@@ -23,7 +22,7 @@ export function logoutReducer(reducerAction: any) {
 export function reducer(state = initialState, action: AuthActionAll): AuthState {
   switch (action.type) {
     case AuthActionTypes.LOGIN_SUCCESS: {
-      localStorage.setItem('token', action.payload.token);
+      sessionStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuthenticated: true,
