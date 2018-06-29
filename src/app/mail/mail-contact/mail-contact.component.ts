@@ -24,6 +24,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   public selectedContact: Contact;
   public inProgress: boolean;
+  public selectAll: boolean;
 
   private contactsCount: number;
   public contactsToDelete: Contact[] = [];
@@ -123,5 +124,9 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.contactsToDelete.forEach((contact) => {
       this.store.dispatch(new ContactDelete(contact.id));
     });
+  }
+
+  toggleSelectAll() {
+    this.userState.contact.forEach(item => item.markForDelete = this.selectAll);
   }
 }

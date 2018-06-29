@@ -32,7 +32,8 @@
         <nav class="mailbox-sidebar-navbar">
             <ul class="mailbox-sidebar-nav">
                 <li class="mailbox-sidebar-nav-item active">
-                    <a href="" class="mailbox-sidebar-nav-link no-icon"><span class="mailbox-sidebar-nav-label">All Contacts</span>
+                    <a class="mailbox-sidebar-nav-link no-icon"><span
+                            class="mailbox-sidebar-nav-label">All Contacts</span>
                         <span class="badge badge-square">{{userState?.contact?.length}}</span></a>
                 </li>
             </ul>
@@ -43,7 +44,7 @@
                 <div class="text-white mt-1">43 MB</div>
             </div>
             <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">Used storage: 43 MB of 100 MB</div>
-            <a href="" class="btn-link text-white hidden-in-sm">
+            <a class="btn-link text-white hidden-in-sm">
                 <small>
                     <u>Upgrade account</u>
                 </small>
@@ -65,21 +66,17 @@
         <div class="col-12 col-sm-8 mailbox-actionbar-col">
             <ul class="mailbox-actionbar-menu">
                 <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
-                    <div ngbDropdown>
-                        <button ngbDropdownToggle class="dropdown-toggle" role="button" id="langDropdownMenuButton">
+                    <div>
+                        <button class="dropdown-toggle" role="button">
                             <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
-                                       name="[]" type="checkbox"/>
-                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
+                                <input class="d-none fancy-field-control"
+                                       id="selectAll"
+                                       [(ngModel)]="selectAll"
+                                       (change)="toggleSelectAll()"
+                                       name="selectAll" type="checkbox"/>
+                                <label for="selectAll" class="fancy-field-empty"></label>
                             </span>
                         </button>
-                        <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" href="">All</a>
-                            <a class="dropdown-item" href="">Read</a>
-                            <a class="dropdown-item" href="">Unread</a>
-                            <a class="dropdown-item" href="">Starred</a>
-                            <a class="dropdown-item" href="">Unstarred</a>
-                        </div>
                     </div>
                 </li>
                 <li class="px-0">
@@ -91,7 +88,7 @@
                             class="icon icon-garbage"></i></a>
                 </li>
                 <li class="pr-0">
-                    <a href="" class="no-icon">Compose</a>
+                    <a class="no-icon">Compose</a>
                 </li>
                 <li class="hidden-xs-down">
                     <a class="no-icon" role="button" (click)="editContact(null, addUserContent);">New Contact</a>
@@ -102,7 +99,8 @@
             </ul>
         </div>
 
-        <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down">
+        <!--TODO pagination to be done later.-->
+        <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down" *ngIf="false">
             <div class="mail-controls d-flex align-items-center justify-content-end">
                 <div class="mail-result-text text-muted">
                     <small>1-50 of 2346</small>
@@ -142,6 +140,7 @@
                                                     <input class="d-none fancy-field-control"
                                                            [(ngModel)]="contact.markForDelete"
                                                            [id]="contact.id"
+                                                           (change)="selectAll=false;"
                                                            [name]="contact.id" type="checkbox"/>
                                                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                                                 </div>
