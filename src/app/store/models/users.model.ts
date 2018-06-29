@@ -1,14 +1,14 @@
 export class Membership {
-  id: number;
-  name: string;
-  price: number;
-  users: number;
-  storage: number;
-  aliases: number;
-  sending_limit: number;
-  filters: boolean;
-  autoresponders: boolean;
-  catch_all: boolean;
+  id?: number;
+  name?: string;
+  price?: number;
+  users?: number;
+  storage?: number;
+  aliases?: number;
+  sending_limit?: number;
+  filters?: boolean;
+  autoresponders?: boolean;
+  catch_all?: boolean;
 }
 
 export class User {

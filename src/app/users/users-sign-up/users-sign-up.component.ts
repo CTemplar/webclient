@@ -23,6 +23,7 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
     private sharedService: SharedService,
     private store: Store<any>
   ) {}
+
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
     this.storageList = StorageData;
@@ -46,6 +47,7 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
     this.makePayments();
     this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
+
   // == Toggle active state of the slide in price page
   toggleSlides(index) {
     this.selectedIndex = index;
@@ -54,10 +56,12 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
       .querySelector('.package-prime-col')
       .classList.remove('active-slide');
   }
+
   onChangeType(item) {
     this.selectedStorage = item;
     this.makePayments();
   }
+
   makePayments() {
     this.mainPayments[0].moMoney = this.selectedStorage.price;
     this.mainPayments[1].moMoney = (this.selectedStorage.price * 0.8).toFixed(
@@ -67,9 +71,11 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
       this.selectedStorage.price * 9.6
     ).toFixed(1);
   }
+
   onChangePayment(index) {
     this.selectedPayment = index;
   }
+
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
     this.store.dispatch(new FinalLoading({ loadingState: true }));

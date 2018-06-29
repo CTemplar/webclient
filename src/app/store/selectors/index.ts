@@ -1,33 +1,17 @@
 // Angular
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Params
-} from '@angular/router';
-
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 // Ngrx
-import { createFeatureSelector, ActionReducerMap, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-
 // Model
-import { RouterStateUrl, AppState, BlogState, MailState, KeyboardState } from '../datatypes';
+import { AppState, BlogState, MailState, RouterStateUrl } from '../datatypes';
 
 
 export const getRouterState = createFeatureSelector<AppState>('routerReducer');
 
-export const selectAuthState = createFeatureSelector<AppState>('auth');
-export const selectBlogState = createFeatureSelector<AppState>('blog');
 export const selectBlogState1 = (state: AppState) => state.blog;
-export const selectLoadingState = createFeatureSelector<AppState>('loading');
-export const selectKeyboardState = createFeatureSelector<AppState>('keyboard');
-export const selectKeyboardState_detail = (state: AppState) => state.keyboard;
-export const selectUsersState = createFeatureSelector<AppState>('user');
-export const selectWhiteListState = createFeatureSelector<AppState>('whiteList');
 
-export const getKeyPressed = createSelector(
-  selectKeyboardState_detail,
-  (state: KeyboardState) => state.keyPressed
-);
+
 export const getBlogDetail = createSelector(
   selectBlogState1,
   (state: BlogState) => state.selectedPost
