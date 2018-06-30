@@ -32,6 +32,7 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   @ViewChild('attachImagesModal') attachImagesModal;
 
   colors = colors;
+  options: any = {};
 
   private quill: any;
   private autoSaveSubscription: Subscription;
