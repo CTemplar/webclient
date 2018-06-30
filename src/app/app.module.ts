@@ -38,7 +38,7 @@ export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
   }
 }
 // Services
-import { BlogService } from './store/services';
+import {AuthGuard, BlogService} from './store/services';
 import { MailService } from './store/services';
 import { SharedService } from './store/services';
 import { OpenPgpService } from './store/services';
@@ -73,6 +73,7 @@ import { BreakpointsService } from './store/services/breakpoint.service';
     MatKeyboardModule,
   ],
   providers: [
+      AuthGuard,
     BlogService,
     SharedService,
     OpenPgpService,
