@@ -5,7 +5,7 @@ import { StoreModule, ActionReducerMap, ActionReducer, MetaReducer } from '@ngrx
 import { NgModule } from '@angular/core';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
-
+import { logoutReducer} from './reducers/auth.reducers';
 // Environment
 import { environment } from '../../environments/environment';
 
@@ -31,7 +31,7 @@ export const metaReducers: MetaReducer<AppState>[] = [logger];
 
 @NgModule({
   imports: [
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
     EffectsModule.forRoot(effects),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule
