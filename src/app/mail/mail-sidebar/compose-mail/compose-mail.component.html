@@ -25,15 +25,17 @@
                         <span class="mail-label label-to">To:</span>
                         <textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
                         <div class="extra-mail-label">
-                            <span class="mail-label mail-floated-label">Cc</span>
-                            <span class="mail-label mail-floated-label mr-0">Bcc</span>
+                            <span class="mail-label mail-floated-label"
+                                  (click)="options.isCcVisible = !options.isCcVisible">Cc</span>
+                            <span class="mail-label mail-floated-label mr-0"
+                                  (click)="options.isBccVisible = !options.isBccVisible">Bcc</span>
                         </div>
                     </div>
-                    <div class="mail-compose-field border-bottom-0 d-none">
+                    <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
                         <span class="mail-label label-cc">Cc:</span>
                         <textarea class="mail-compose-control" id="recepietCc" rows="1">johndoe@gmail.com</textarea>
                     </div>
-                    <div class="mail-compose-field d-none">
+                    <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
                         <span class="mail-label label-bcc">Bcc:</span>
                         <textarea class="mail-compose-control" id="recepietBcc" rows="1">johndoe@gmail.com</textarea>
                     </div>
@@ -48,24 +50,28 @@
                     <div class="mail-compose-box-inner">
                         <div #editor class="mail-compose-editable-box" contenteditable="true">
                         </div>
+                        <input type="file"
+                               #imageInput
+                               accept="image/*"
+                               multiple
+                               (change)="onImagesSelected($event.target.files)"
+                               style="display:none">
+                        <input type="file"
+                               #fileInput
+                               multiple
+                               (change)="onFilesSelected($event.target.files)"
+                               style="display:none">
                         <div class="attach-uploader-holder">
-                            <div class="attach-uploader">
-                                <div class="attach-name">filename.doc
-                                    <span class="attach-size">(340 K) </span>
-                                </div>
-                                <button role="button" class="attach-uploader-close" placement="top" ngbTooltip="Remove">
-                                    <i class="icon icon-cross"></i>
-                                </button>
-                            </div>
-                            <div class="attach-uploader">
-                                <div class="attach-name">other_filename.doc
-                                    <span class="attach-size">(1,556 K) </span>
+                            <div class="attach-uploader" *ngFor="let file of attachments">
+                                <div class="attach-name">{{file.name}}
+                                    <span class="attach-size">({{getFileSize(file)}}) </span>
                                 </div>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                  <div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45"
+                                       aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <button role="button" class="attach-uploader-close" placement="top" ngbTooltip="Remove">
+                                <button type="button" role="button" (click)="removeAttachment(file)"
+                                        class="attach-uploader-close" placement="top" ngbTooltip="Remove">
                                     <i class="icon icon-cross"></i>
                                 </button>
                             </div>
@@ -79,7 +85,8 @@
                 <div class="mail-composer-actions-col mail-composer-actions-col-lg">
                     <ul class="mail-composer-actions d-flex align-items-center">
                         <li>
-                            <button role="button" class="actions-btn mail-attach-btn" placement="top"
+                            <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
+                                    class="actions-btn mail-attach-btn" placement="top"
                                     ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
                         </li>
                         <li class="pr-0">
@@ -438,6 +445,12 @@
                                             </li>
 
                                             <li>
+                                                <button role="button" type="button"
+                                                        class="ql-image actions-btn mail-attach-image-btn"><i
+                                                        class="icon fa fa-image"></i></button>
+                                            </li>
+
+                                            <li>
                                                 <button role="button"
                                                         class="ql-clean actions-btn mail-format-clear-btn"><i
                                                         class="icon icon-format-clear"></i></button>
@@ -494,6 +507,31 @@
                 <button (click)="cancelDiscard()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
                 <button (click)="saveInDrafts()" class="btn btn-success btn-sm" role="button">Save in Drafts</button>
                 <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button">Discard</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.Confirm discard email modal ends -->
+
+<!-- attach images modal -->
+<ng-template #attachImagesModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Attach Images</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Select files from your computer or enter a URL
+            </div>
+            <div class="form-group">
+                <label for="imageURL">Image URL</label>
+                <input type="text" #imageURL id="imageURL" class="form-control" placeholder="Enter image URL">
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="imageInput.value = ''; imageInput.click(); d();" class="btn btn-success btn-sm" role="button">Attach Files</button>
+                <button type="button" (click)="onAttachImageURL(imageURL.value)" class="btn btn-success btn-sm" role="button">Attach URL</button>
             </div>
         </div>
     </div>
