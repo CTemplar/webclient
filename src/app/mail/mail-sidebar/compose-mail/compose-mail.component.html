@@ -90,7 +90,8 @@
                                     ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
                         </li>
                         <li class="pr-0">
-                            <button role="button" class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"
+                            <button role="button" type="button" (click)="openEncryptionModal()"
+                                    class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"
                                     placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
                         </li>
                         <li class="px-0">
@@ -569,3 +570,42 @@
         </div>
     </div>
 </ng-template><!-- /.self destruct datetime picker modal ends -->
+
+<!-- encryption modal -->
+<ng-template #encryptionModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Encrypt Email</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <h3>Encrypt for non-Ctemplar mail users</h3>
+      <form (submit)="d()">
+        <div class="form-group">
+          <label for="message-password">Message Password</label>
+          <input type="password" id="message-password" class="form-control"
+                 placeholder="Message pasworrd">
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" class="form-control"
+                 placeholder="Confirm passworrd">
+        </div>
+        <div class="form-group">
+          <label for="password-hint">Password Hint</label>
+          <input type="text" id="password-hint" class="form-control"
+                 placeholder="Hint">
+        </div>
+        <div class="form-group text-small">
+          Encrypted messages to non-Ctemplar recipients will expire in 28-days unless a shorter expiration time is set.
+        </div>
+        <div class="form-group text-right mb-0">
+          <button type="submit" class="btn btn-success btn-sm" role="button">Confirm</button>
+          <button type="reset" (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template><!-- /.attach images modal ends -->

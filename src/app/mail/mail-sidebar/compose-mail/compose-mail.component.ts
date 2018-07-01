@@ -31,6 +31,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChild('toolbar') toolbar;
   @ViewChild('attachImagesModal') attachImagesModal;
   @ViewChild('selfDestructModal') selfDestructModal;
+  @ViewChild('encryptionModal') encryptionModal;
 
   colors = colors;
   options: any = {};
@@ -42,6 +43,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
+  private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
   private attachments: Array<any> = [];
   private signature: string;
@@ -182,6 +184,13 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     this.selfDestructModalRef = this.modalService.open(this.selfDestructModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  openEncryptionModal() {
+    this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
+      centered: true,
+      windowClass: 'modal-md users-action-modal'
     });
   }
 
