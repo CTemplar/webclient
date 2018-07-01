@@ -44,6 +44,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private selfDestructModalRef: NgbModalRef;
   private draftMail: Mail;
   private attachments: Array<any> = [];
+  private signature: string;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>) {
@@ -78,6 +79,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
       month: now.getMonth() + 1,
       day: now.getDay() + 1
     };
+    this.signature = 'Sent from CTempler'; // TODO: add API call to retrieve signature from backend
   }
 
   initializeQuillEditor() {
@@ -169,6 +171,11 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
       // TODO: add API call for removing this file
       this.attachments.splice(index, 1);
     }
+  }
+
+  addSignature() {
+    const index = this.quill.getLength();
+    this.quill.clipboard.dangerouslyPasteHTML(index, this.signature);
   }
 
   openSelfDestructModal() {
