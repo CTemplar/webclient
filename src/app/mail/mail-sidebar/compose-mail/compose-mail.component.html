@@ -94,7 +94,8 @@
                                     placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
                         </li>
                         <li class="px-0">
-                            <button role="button" class="actions-btn mail-clock-btn border-right-0 border-radius-0"
+                            <button role="button" type="button" (click)="openSelfDestructModal()"
+                                    class="actions-btn mail-clock-btn border-right-0 border-radius-0"
                                     placement="top" ngbTooltip="Self-destructing timer"><i class="icon icon-clock"></i>
                             </button>
                         </li>
@@ -535,4 +536,35 @@
             </div>
         </div>
     </div>
-</ng-template><!-- /.Confirm discard email modal ends -->
+</ng-template><!-- /.attach images modal ends -->
+
+<!-- self destruct datetime picker modal -->
+<ng-template #selfDestructModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Self Destruct Email</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Email will be deleted on selected datetime
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Date</label>
+                <ngb-datepicker class="bg-white"
+                                [(ngModel)]="selfDestructDateTime.date"
+                                [minDate]="selfDestructDateTime.minDate"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Time</label>
+                <ngb-timepicker [(ngModel)]="selfDestructDateTime.time"></ngb-timepicker>
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="d()" class="btn btn-success btn-sm" role="button">Confirm</button>
+                <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.self destruct datetime picker modal ends -->
