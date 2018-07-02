@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material';
 
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -32,11 +32,13 @@ import {
 
 export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
   accountUrl = 'ctemplar.zendesk.com';
+
   beforePageLoad(zE) {
     zE.setLocale('en');
     zE.hide();
   }
 }
+
 // Services
 import {AuthGuard, BlogService} from './store/services';
 import { MailService } from './store/services';
@@ -47,7 +49,13 @@ import { TokenInterceptor } from './store/services';
 import { ToastrModule } from 'ngx-toastr';
 import { NotificationService } from './store/services/notification.service';
 import { BreakpointsService } from './store/services/breakpoint.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -68,6 +76,13 @@ import { BreakpointsService } from './store/services/breakpoint.service';
     UsersModule,
     ngxZendeskWebwidgetModule.forRoot(ZendeskConfig),
     ToastrModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     // Material modules
     MatButtonModule,
     MatKeyboardModule,
@@ -88,4 +103,5 @@ import { BreakpointsService } from './store/services/breakpoint.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

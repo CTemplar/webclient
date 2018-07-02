@@ -4,7 +4,9 @@
     <div class="form-group">
         <div class="row align-items-center">
             <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactName">Name<sup>*</sup></label>
+                <label class="form-label mb-sm-0" for="contactName">
+                    <span translate="common.name">Name</span>
+                    <sup>*</sup></label>
             </div>
             <div class="col-sm-10">
                 <input class="form-control form-control-sm" id="contactName"
@@ -18,7 +20,8 @@
         <span class="d-block text-right error-msg is-sm">Check is e-mail information right</span>
         <div class="row align-items-center">
             <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactEmail">Email<sup>*</sup></label>
+                <label class="form-label mb-sm-0" for="contactEmail">
+                    <span translate="common.email">Email</span><sup>*</sup></label>
             </div>
             <div class="col-sm-10">
                 <input class="form-control form-control-sm error" id="contactEmail"
@@ -33,7 +36,7 @@
     <div class="form-group">
         <div class="row align-items-center">
             <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactPhone1">Phone</label>
+                <label class="form-label mb-sm-0" for="contactPhone1" translate="common.phone">Phone</label>
             </div>
             <div class="col-sm-10">
                 <input class="form-control form-control-sm" id="contactPhone1"
@@ -46,7 +49,7 @@
     <div class="form-group is-repeatable">
         <div class="row align-items-center">
             <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactPhone2">Phone2</label>
+                <label class="form-label mb-sm-0" for="contactPhone2" translate="contacts.phone2">Phone2</label>
             </div>
             <div class="col-sm-10">
                 <input class="form-control form-control-sm" id="contactPhone2" placeholder="+734920"
@@ -60,7 +63,7 @@
     <div class="form-group is-repeatable">
         <div class="row">
             <div class="col-sm-2">
-                <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress">Address</label>
+                <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress" translate="contacts.address">Address</label>
             </div>
             <div class="col-sm-10">
                                     <textarea class="form-control resize-off" id="contactAddress" placeholder="Address"
@@ -75,7 +78,7 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-2">
-                <label class="form-label pt-sm-2 mb-sm-0" for="contactNote">Note</label>
+                <label class="form-label pt-sm-2 mb-sm-0" for="contactNote" translate="contacts.note">Note</label>
             </div>
             <div class="col-sm-10">
                                     <textarea class="form-control resize-off" id="contactNote" placeholder="Note"
@@ -86,14 +89,14 @@
         </div>
     </div>
     <div class="hidden-sm-up">&nbsp;</div>
-    <div class="error-msg" *ngIf="newContactForm.submitted && newContactForm.invalid">
+    <div class="error-msg" *ngIf="newContactForm.submitted && newContactForm.invalid" translate="contacts.save.error">
         Please fill in required fields.
     </div>
     <div class="form-group text-center mb-0">
         <input type="submit"
                [disabled]="inProgress"
                class="btn btn-secondary btn-sm" role="button"
-               value="Save">
+               [value]="'common.save' | translate">
         <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
     </div>
 </form>
