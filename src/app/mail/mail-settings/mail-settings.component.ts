@@ -31,7 +31,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     private store: Store<UserState>,
   ) {
     // customize default values of dropdowns used by this component tree
-    config.autoClose = 'outside';
+    config.autoClose = true; //~'outside';
   }
 
   ngOnInit() {
