@@ -7,10 +7,12 @@ import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailListComponent } from './mail-list/mail-list.component';
 import { MailContactComponent } from './mail-contact/mail-contact.component';
+import {AuthGuard} from '../store/services';
 
 const routes: Routes = [
   {
-    path: 'mail', component: MailComponent, children: [
+    path: 'mail', component: MailComponent, canActivate : [AuthGuard],
+      children: [
       { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
       { path: 'settings', component: MailSettingsComponent },
       { path: 'contact', component: MailContactComponent },
