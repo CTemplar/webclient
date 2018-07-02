@@ -14,10 +14,13 @@ import { TranslateService } from '@ngx-translate/core';
 export class MailHeaderComponent implements OnInit {
 
   // Public property of boolean type set false by default
-  public menuIsOpened: boolean = false;
+  menuIsOpened: boolean = false;
+  selectedLanguage: string = 'EN';
 
   constructor(private store: Store<AppState>,
+              config: NgbDropdownConfig,
               private translate: TranslateService) {
+    config.autoClose = true;
   }
 
   ngOnInit() {
@@ -33,8 +36,9 @@ export class MailHeaderComponent implements OnInit {
     this.store.dispatch(new LogOut());
   }
 
-  changeLanguage(lang) {
+  changeLanguage(lang: string) {
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     this.translate.use(lang);
+    this.selectedLanguage = lang.toUpperCase();
   }
 }

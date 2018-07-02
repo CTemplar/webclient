@@ -32,12 +32,13 @@
                 <li class="mailbox-lang mailbox-dropdown btn-dropdown">
                     <div ngbDropdown class="lang-dropdown">
                         <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom"
-                                ngbTooltip="Language"><i class="icon icon-earth-globe hidden-xs-down"></i>En
+                                ngbTooltip="Language"><i class="icon icon-earth-globe hidden-xs-down"></i>
+                            {{selectedLanguage}}
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right text-center"
                              aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" (click)="changeLanguage('en')">English (en)</a>
-                            <a class="dropdown-item" (click)="changeLanguage('ru')">Russian (ru)</a>
+                            <a class="dropdown-item" (click)="changeLanguage('en')">English (EN)</a>
+                            <a class="dropdown-item" (click)="changeLanguage('ru')">Russian (RU)</a>
                         </div>
                     </div>
                 </li>

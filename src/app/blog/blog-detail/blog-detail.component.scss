@@ -29,8 +29,20 @@ $error-red: #e94e4c;
   width: 500px;
 }
 
+.comment-reply-control {
+  height: 6rem;
+}
+
+.comment-reply-content {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .reply-form {
     width: 300px !important;
+  }
+
+  .add-comment-control {
+    height: 12.5rem;
   }
 }

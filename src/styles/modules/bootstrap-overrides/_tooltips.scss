@@ -9,6 +9,7 @@
     
     &-inner {
         border-radius: 2px;
+		max-width: none;
     }
 
     @include media("<=sm") {
