@@ -62,7 +62,7 @@ $mail_composer_padding_x: 0.75rem;
 		width: calc(100% - 340px);
 
 		.mail-compose-box-inner {
-			min-height: 627px;			
+			min-height: 100vh;
 		}
 	}
 }
@@ -209,9 +209,8 @@ $mail_composer_padding_x: 0.75rem;
 }
 
 .mail-compose-box-inner {
-	padding: 1.25rem $mail_composer_padding_x;
 	background: $brand-white;
-	min-height: 165px;
+	min-height: 250px;
 }
 
 .mail-compose-editable-box {

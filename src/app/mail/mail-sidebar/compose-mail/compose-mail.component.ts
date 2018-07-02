@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as QuillNamespace from 'quill';
 import { Subscription } from 'rxjs/Subscription';
@@ -22,7 +22,7 @@ Quill.register(FontAttributor, true);
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailComponent implements OnChanges, AfterViewInit {
+export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;
 
   @Output() public onHide = new EventEmitter<boolean>();
@@ -30,17 +30,23 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
   @ViewChild('editor') editor;
   @ViewChild('toolbar') toolbar;
   @ViewChild('attachImagesModal') attachImagesModal;
+  @ViewChild('selfDestructModal') selfDestructModal;
+  @ViewChild('encryptionModal') encryptionModal;
 
   colors = colors;
   options: any = {};
+  selfDestructDateTime: any = {};
 
   private quill: any;
   private autoSaveSubscription: Subscription;
   private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
   private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
+  private selfDestructModalRef: NgbModalRef;
+  private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
   private attachments: Array<any> = [];
+  private signature: string;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>) {
@@ -66,6 +72,16 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
         this.unSubscribeAutoSave();
       }
     }
+  }
+
+  ngOnInit() {
+    const now = new Date();
+    this.selfDestructDateTime.minDate = {
+      year: now.getFullYear(),
+      month: now.getMonth() + 1,
+      day: now.getDay() + 1
+    };
+    this.signature = 'Sent from CTempler'; // TODO: add API call to retrieve signature from backend
   }
 
   initializeQuillEditor() {
@@ -159,6 +175,24 @@ export class ComposeMailComponent implements OnChanges, AfterViewInit {
     }
   }
 
+  addSignature() {
+    const index = this.quill.getLength();
+    this.quill.clipboard.dangerouslyPasteHTML(index, this.signature);
+  }
+
+  openSelfDestructModal() {
+    this.selfDestructModalRef = this.modalService.open(this.selfDestructModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  openEncryptionModal() {
+    this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
+      centered: true,
+      windowClass: 'modal-md users-action-modal'
+    });
+  }
 
   hasContent() {
     return this.editor.nativeElement.innerText.trim() ? true : false;
