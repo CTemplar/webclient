@@ -8,6 +8,8 @@ import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../store/datatypes';
 import { Mail } from '../../../store/models';
+import { OpenPgpService } from '../../../store/services/openpgp.service';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const Quill: any = QuillNamespace;
 
@@ -16,7 +18,18 @@ FontAttributor.whitelist = [
   'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
 ];
 Quill.register(FontAttributor, true);
+export class PasswordValidation {
 
+  static MatchPassword(AC: AbstractControl) {
+    const password = AC.get('password').value; // to get value in input tag
+    const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
+    if (password !== confirmPassword) {
+      AC.get('confirmPwd').setErrors({ MatchPassword: true });
+    } else {
+      return null;
+    }
+  }
+}
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
@@ -47,9 +60,12 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private draftMail: Mail;
   private attachments: Array<any> = [];
   private signature: string;
+  encryptForm: FormGroup;
 
   constructor(private modalService: NgbModal,
-              private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private formBuilder: FormBuilder,
+              private openPgpService: OpenPgpService) {
 
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
@@ -67,8 +83,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     if (changes.isComposeVisible) {
       if (changes.isComposeVisible.currentValue === true) {
         this.initializeAutoSave();
-      }
-      else {
+      } else {
         this.unSubscribeAutoSave();
       }
     }
@@ -82,6 +97,13 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
       day: now.getDay() + 1
     };
     this.signature = 'Sent from CTempler'; // TODO: add API call to retrieve signature from backend
+
+    this.encryptForm = this.formBuilder.group({
+      'password': ['', [Validators.required]],
+      'confirmPwd': ['', [Validators.required]],
+    }, {
+      validator: PasswordValidation.MatchPassword
+    });
   }
 
   initializeQuillEditor() {
@@ -118,8 +140,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
           this.embedImageInQuill(event.target.result);
         };
         fileReader.readAsDataURL(file);
-      }
-      else {
+      } else {
         // TODO: add error notification here
       }
     }
@@ -202,13 +223,11 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     let size = file.size;
     if (size < 1000) {
       return `${size} B`;
-    }
-    else {
+    } else {
       size = +(size / 1000).toFixed(2);
       if (size < 1000) {
         return `${size} KB`;
-      }
-      else {
+      } else {
         return `${+(size / 1000).toFixed(2)} MB`;
       }
     }
@@ -247,5 +266,17 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     if (this.confirmModalRef) {
       this.confirmModalRef.close();
     }
+  }
+
+  private messageEncrypt() {
+    if (this.encryptForm.valid) {
+      this.openPgpService.generateKey(this.encryptForm.value.password);
+      this.openPgpService.makeEncrypt(JSON.stringify(this.quill.getContents().ops)).then(() => {
+        // TODO: api call for message encryption
+        // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
+      } );
+    }
+    // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
+
   }
 }

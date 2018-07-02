@@ -62,13 +62,13 @@ export class OpenPgpService {
     await this.privKeyObj.decrypt(this.passphrase);
   }
 
-  makeEncrypt() {
+  async makeEncrypt(obj) {
     this.options = {
-      data: 'hello world',
+      data: obj,
       publicKeys: openpgp.key.readArmored(this.pubkey).keys,
       privateKeys: [this.privKeyObj]
     };
-    openpgp.encrypt(this.options).then((ciphertext) => {
+    await openpgp.encrypt(this.options).then((ciphertext) => {
       this.encrypted = ciphertext.data;
       // this.makeDecrypt();
     });
@@ -82,6 +82,7 @@ export class OpenPgpService {
     };
 
     return openpgp.decrypt(this.options).then((plaintext) => {
+      console.log(plaintext.data);
       return plaintext.data;
     });
 
