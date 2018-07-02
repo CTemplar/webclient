@@ -36,7 +36,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               config: NgbDropdownConfig) {
     // customize default values of dropdowns used by this component tree
-    config.autoClose = 'outside';
+    config.autoClose = true;
   }
 
   ngOnInit() {
