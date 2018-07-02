@@ -44,7 +44,8 @@
                 <div class="text-white mt-1">43 MB</div>
             </div>
             <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
-                <span translate="common.used_storage">Used storage</span>: 43 MB of 100 MB</div>
+                <span translate="common.used_storage">Used storage</span>: 43 MB of 100 MB
+            </div>
             <a class="btn-link text-white hidden-in-sm">
                 <small>
                     <u translate="common.upgrade_account">Upgrade account</u>
@@ -234,7 +235,7 @@
 <!-- Confirm contact delete modal -->
 <ng-template #confirmDeleteModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -242,12 +243,18 @@
     <div class="modal-body bg-faded">
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
             <div class="form-group">
-                Are you sure, you want to delete {{contactsToDelete.length}} {{contactsToDelete.length>1?'contacts':
-                'contact'}}?
+                <span translate="contacts.delete.message">Are you sure, you want to delete</span>
+                {{contactsToDelete.length}} <span translate="common.contact">contact</span>?
             </div>
             <div class="form-group text-right mb-0">
-                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
-                <button (click)="deleteContacts()" class="btn btn-danger btn-sm" role="button">Delete</button>
+                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm"
+                        translate="common.cancel"
+                        role="button">Cancel
+                </button>
+                <button (click)="deleteContacts()" class="btn btn-danger btn-sm"
+                        translate="common.delete"
+                        role="button">Delete
+                </button>
             </div>
 
         </div>

@@ -5,17 +5,32 @@
     "back_to_mail": "BACK TO MAIL",
     "edit_tooltip": "Click on Name or Email to edit an item.",
     "delete_tooltip": "Delete selected contacts.",
-    "details": "Contact Details"
+    "details": "Contact Details",
+    "phone2": "Phone2",
+    "address": "Address",
+    "note": "Note",
+    "save": {
+      "error": "Please fill in required fields."
+    },
+    "delete": {
+      "title": "Confirm Delete",
+      "message": "Are you sure, you want to delete "
+    }
   },
   "common": {
     "name": "name",
     "compose": "COMPOSE",
     "email": "Email",
+    "phone": "Phone",
     "edit": "EDIT",
     "search": "Search",
     "upgrade_account": "Upgrade account",
     "terms_and_privacy": "Terms and Privacy",
     "report_bug": "Report a bug",
-    "used_storage": "Used storage"
+    "used_storage": "Used storage",
+    "contact": "contact",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel"
   }
 }
