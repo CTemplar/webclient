@@ -1,0 +1,21 @@
+{
+  "contacts": {
+    "new_contact": "NEW CONTACT",
+    "all_contacts": "ALL CONTACTS",
+    "back_to_mail": "BACK TO MAIL",
+    "edit_tooltip": "Click on Name or Email to edit an item.",
+    "delete_tooltip": "Delete selected contacts.",
+    "details": "Contact Details"
+  },
+  "common": {
+    "name": "name",
+    "compose": "COMPOSE",
+    "email": "Email",
+    "edit": "EDIT",
+    "search": "Search",
+    "upgrade_account": "Upgrade account",
+    "terms_and_privacy": "Terms and Privacy",
+    "report_bug": "Report a bug",
+    "used_storage": "Used storage"
+  }
+}

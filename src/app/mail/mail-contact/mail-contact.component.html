@@ -25,7 +25,7 @@
             <a routerLink="/mail"
                class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"><i
                     class="icon icon-arrow-left icon-sm mr-md-2"></i>
-                <span class="mailbox-btn-text hidden-sm-down">Back to mail</span>
+                <span class="mailbox-btn-text hidden-sm-down" [translate]="'contacts.back_to_mail'">Back to mail</span>
             </a>
         </div>
 
@@ -33,7 +33,7 @@
             <ul class="mailbox-sidebar-nav">
                 <li class="mailbox-sidebar-nav-item active">
                     <a class="mailbox-sidebar-nav-link no-icon"><span
-                            class="mailbox-sidebar-nav-label">All Contacts</span>
+                            class="mailbox-sidebar-nav-label" [translate]="'contacts.all_contacts'">All Contacts</span>
                         <span class="badge badge-square">{{userState?.contact?.length}}</span></a>
                 </li>
             </ul>
@@ -43,10 +43,11 @@
             <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">Used
                 <div class="text-white mt-1">43 MB</div>
             </div>
-            <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">Used storage: 43 MB of 100 MB</div>
+            <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
+                <span translate="common.used_storage">Used storage</span>: 43 MB of 100 MB</div>
             <a class="btn-link text-white hidden-in-sm">
                 <small>
-                    <u>Upgrade account</u>
+                    <u translate="common.upgrade_account">Upgrade account</u>
                 </small>
             </a>
         </div>
@@ -80,20 +81,23 @@
                     </div>
                 </li>
                 <li class="px-0">
-                    <a ngbTooltip="Click on Name or Email to edit an item."
+                    <a [ngbTooltip]="'contacts.edit_tooltip' | translate"
+                       [translate]="'common.edit'"
                        class="border-radius-r-0 border-right-0 no-icon cursor-pointer">Edit</a>
                 </li>
                 <li class="pr-0 pl-0">
                     <a (click)="openConfirmDeleteModal(confirmDeleteModal)"
-                       ngbTooltip="Delete selected contacts."
+                       [ngbTooltip]="'contacts.delete_tooltip' | translate"
                        class="cursor-pointer border-radius-l-0"><i
                             class="icon icon-garbage"></i></a>
                 </li>
                 <li class="pr-0">
-                    <a class="no-icon">Compose</a>
+                    <a class="no-icon" [translate]="'common.compose'">Compose</a>
                 </li>
                 <li class="hidden-xs-down">
-                    <a class="no-icon" role="button" (click)="editContact(null, addUserContent);">New Contact</a>
+                    <a class="no-icon" role="button"
+                       [translate]="'contacts.new_contact'"
+                       (click)="editContact(null, addUserContent);">New Contact</a>
                 </li>
                 <li *ngIf="inProgress">
                     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
@@ -124,10 +128,12 @@
                     <div class="mail-contact-header mail-list-row border-bottom-0 hidden-xs-down">
                         <div class="mail-list-inner-row align-items-center">
                             <div class="col-sm-4 col-lg-3 mail-contact-col-sm">
-                                <div class="mail-contact-title text-uppercase"><strong>Name</strong></div>
+                                <div class="mail-contact-title text-uppercase">
+                                    <strong translate="common.name">Name</strong></div>
                             </div>
                             <div class="col-sm-8 col-lg-9 mail-contact-col-lg">
-                                <div class="mail-contact-title text-uppercase"><strong>Email</strong></div>
+                                <div class="mail-contact-title text-uppercase">
+                                    <strong translate="common.email">Email</strong></div>
                             </div>
                         </div>
                     </div>
@@ -175,7 +181,7 @@
                     <h5 class="mail-actions-form-title text-dark">
                         <button class="actions-btn" role="button"
                                 (click)="destroySplitContactLayout();"><i class="icon icon-arrow-left"></i></button>
-                        <strong>Contact Details</strong></h5>
+                        <strong translate="contacts.details">Contact Details</strong></h5>
                     <app-save-contact *ngIf="isNewContact"
                                       [selectedContact]="selectedContact"
                                       (userSaved)="destroySplitContactLayout()"></app-save-contact>
@@ -209,7 +215,8 @@
 <!-- Add users contact modal -->
 <ng-template #addUserContent let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong>Contact Details</strong></h3>
+        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong translate="contacts.details">Contact
+            Details</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
