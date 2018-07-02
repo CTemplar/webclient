@@ -582,16 +582,16 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <h3>Encrypt for non-Ctemplar mail users</h3>
-      <form (submit)="d()">
+      <form [formGroup]="encryptForm" #form="ngForm" (ngSubmit)="messageEncrypt()">
         <div class="form-group">
           <label for="message-password">Message Password</label>
           <input type="password" id="message-password" class="form-control"
-                 placeholder="Message pasworrd">
+                 placeholder="Message pasword" formControlName="password">
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
           <input type="password" id="confirm-password" class="form-control"
-                 placeholder="Confirm passworrd">
+                 placeholder="Confirm password" formControlName="confirmPwd">
         </div>
         <div class="form-group">
           <label for="password-hint">Password Hint</label>
