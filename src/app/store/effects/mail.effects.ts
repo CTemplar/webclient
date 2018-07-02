@@ -1,40 +1,32 @@
 // Angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 // Ngrx
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
+import { Actions, Effect } from '@ngrx/effects';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { tap } from 'rxjs/operators';
-
+import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
-
 // Custom Actions
 import {
-  MailActionTypes,
-  GetMails, GetMailsSuccess
+  CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
+  GetMailsSuccess, MailActionTypes, SnackErrorPush
 } from '../actions';
 
 
 @Injectable()
 export class MailEffects {
 
-  constructor(
-    private actions: Actions,
-    private mailService: MailService,
-    private router: Router,
-  ) {}
+  constructor(private actions: Actions,
+              private mailService: MailService) {}
 
   @Effect()
-  GetMails: Observable<any> = this.actions
+  getMailsEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.GET_MAILS)
     .map((action: GetMails) => action.payload)
     .switchMap(payload => {
@@ -44,12 +36,36 @@ export class MailEffects {
         });
     });
 
-  // @Effect({ dispatch: false })
-  // LogInSuccess: Observable<any> = this.actions.pipe(
-  //   ofType(AuthActionTypes.LOGIN_SUCCESS),
-  //   tap((user) => {
-  //     localStorage.setItem('token', user.payload.token);
-  //     // this.router.navigateByUrl('/');
-  //   })
-  // );
+  @Effect()
+  createMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.CREATE_MAIL)
+    .map((action: CreateMail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.createMail(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new CreateMailSuccess(res),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to save mail.' })]),
+        );
+    });
+
+  @Effect()
+  deleteMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.DELETE_MAIL)
+    .map((action: CreateMail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.deleteMail(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new DeleteMailSuccess(null),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to discard mail.' })]),
+        );
+    });
+
 }

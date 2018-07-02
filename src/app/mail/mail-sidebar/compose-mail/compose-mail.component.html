@@ -10,7 +10,8 @@
                         </button>
                     </div>
                     <div class="mail-actions-item">
-                        <button role="button" placement="top" ngbTooltip="Close" (click)="hideMailComposeModal();">
+                        <button role="button" placement="top" ngbTooltip="Close"
+                                (click)="onClose(confirmDiscardModal);">
                             <i class="icon icon-cross"></i>
                         </button>
                     </div>
@@ -24,15 +25,17 @@
                         <span class="mail-label label-to">To:</span>
                         <textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
                         <div class="extra-mail-label">
-                            <span class="mail-label mail-floated-label">Cc</span>
-                            <span class="mail-label mail-floated-label mr-0">Bcc</span>
+                            <span class="mail-label mail-floated-label"
+                                  (click)="options.isCcVisible = !options.isCcVisible">Cc</span>
+                            <span class="mail-label mail-floated-label mr-0"
+                                  (click)="options.isBccVisible = !options.isBccVisible">Bcc</span>
                         </div>
                     </div>
-                    <div class="mail-compose-field border-bottom-0 d-none">
+                    <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
                         <span class="mail-label label-cc">Cc:</span>
                         <textarea class="mail-compose-control" id="recepietCc" rows="1">johndoe@gmail.com</textarea>
                     </div>
-                    <div class="mail-compose-field d-none">
+                    <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
                         <span class="mail-label label-bcc">Bcc:</span>
                         <textarea class="mail-compose-control" id="recepietBcc" rows="1">johndoe@gmail.com</textarea>
                     </div>
@@ -45,46 +48,30 @@
             <div class="mail-compose-editable-body">
                 <div class="mail-compose-box has-custom-scroll">
                     <div class="mail-compose-box-inner">
-                        <div class="mail-compose-editable-box" contenteditable="true">
-                            <div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">You now have an inbox that is
-                                protected by strong encryption. Even we do not have the ability to read your emails.
-                                CTemplar can send and receive emails from other email providers such as Gmail. It is
-                                even possible to end-to-end
-                                encrypt the messages you send to external recipients. If your friends also use CTemplar,
-                                all your communications
-                                with them will be automatically end-to-end encrypted.
-                            </div>
-                            <div style="line-height: 1.7;">
-                                <br/>
-                            </div>
-                            <div style="color: rgba(0, 0, 0, 0.87);line-height: 1.7;">CTemplar is an open-source
-                                community-driven project and basic accounts are always free. However, the costs to run
-                                CTemplar are quite high, and we depend on support from the community to keep the service
-                                running. If you would like
-                                to support the project, you can upgrade to a paid account. Your support is essential to
-                                ensuring that CTemplar is
-                                financially stable and can continue to offer the service to the public.
-                            </div>
-                            <br/>
+                        <div #editor class="mail-compose-editable-box" contenteditable="true">
                         </div>
+                        <input type="file"
+                               #imageInput
+                               accept="image/*"
+                               multiple
+                               (change)="onImagesSelected($event.target.files)"
+                               style="display:none">
+                        <input type="file"
+                               #fileInput
+                               multiple
+                               (change)="onFilesSelected($event.target.files)"
+                               style="display:none">
                         <div class="attach-uploader-holder">
-                            <div class="attach-uploader">
-                                <div class="attach-name">filename.doc
-                                    <span class="attach-size">(340 K) </span>
-                                </div>
-                                <button role="button" class="attach-uploader-close" placement="top" ngbTooltip="Remove">
-                                    <i class="icon icon-cross"></i>
-                                </button>
-                            </div>
-                            <div class="attach-uploader">
-                                <div class="attach-name">other_filename.doc
-                                    <span class="attach-size">(1,556 K) </span>
+                            <div class="attach-uploader" *ngFor="let file of attachments">
+                                <div class="attach-name">{{file.name}}
+                                    <span class="attach-size">({{getFileSize(file)}}) </span>
                                 </div>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                  <div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45"
+                                       aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <button role="button" class="attach-uploader-close" placement="top" ngbTooltip="Remove">
+                                <button type="button" role="button" (click)="removeAttachment(file)"
+                                        class="attach-uploader-close" placement="top" ngbTooltip="Remove">
                                     <i class="icon icon-cross"></i>
                                 </button>
                             </div>
@@ -98,20 +85,24 @@
                 <div class="mail-composer-actions-col mail-composer-actions-col-lg">
                     <ul class="mail-composer-actions d-flex align-items-center">
                         <li>
-                            <button role="button" class="actions-btn mail-attach-btn" placement="top"
+                            <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
+                                    class="actions-btn mail-attach-btn" placement="top"
                                     ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
                         </li>
                         <li class="pr-0">
-                            <button role="button" class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"
+                            <button role="button" type="button" (click)="openEncryptionModal()"
+                                    class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"
                                     placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
                         </li>
                         <li class="px-0">
-                            <button role="button" class="actions-btn mail-clock-btn border-right-0 border-radius-0"
+                            <button role="button" type="button" (click)="openSelfDestructModal()"
+                                    class="actions-btn mail-clock-btn border-right-0 border-radius-0"
                                     placement="top" ngbTooltip="Self-destructing timer"><i class="icon icon-clock"></i>
                             </button>
                         </li>
                         <li class="px-0">
-                            <button role="button" class="actions-btn mail-sign-btn border-right-0 border-radius-0"
+                            <button role="button" type="button" (click)="addSignature()"
+                                    class="actions-btn mail-sign-btn border-right-0 border-radius-0"
                                     placement="top" ngbTooltip="Signature"><i class="icon icon-sign"></i></button>
                         </li>
                         <li class="pl-0">
@@ -252,7 +243,7 @@
                                         ngbTooltip="Text formatting"><i class="icon icon-text-color"></i></button>
                                 <div ngbDropdownMenu class="typo-actions-dropdown-menu is-centered"
                                      aria-labelledby="typoDropdownMenu">
-                                    <div class="mail-comopser-typo-actions-holder">
+                                    <div #toolbar class="mail-comopser-typo-actions-holder">
                                         <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
                                             <li class="pr-0">
                                                 <div ngbDropdown placement="top" class="dropup">
@@ -264,18 +255,44 @@
                                                          aria-labelledby="typoFamilyDropdownMenu">
                                                         <div class="typo-holder">
                                                             <ul class="typo-list list-styled">
-                                                                <li><a href="" class="typo-select-link">Hiragino
-                                                                    Sans</a></li>
-                                                                <li><a href=""
-                                                                       class="typo-select-link is-active">Lato</a></li>
-                                                                <li><a href="" class="typo-select-link">Roboto</a></li>
-                                                                <li><a href="" class="typo-select-link">Abril
-                                                                    Fatface</a></li>
-                                                                <li><a href="" class="typo-select-link">Andale Mono</a>
+                                                                <li>
+                                                                    <button value="hiragino-sans"
+                                                                            class="ql-font typo-select-link">Hiragino
+                                                                        Sans
+                                                                    </button>
                                                                 </li>
-                                                                <li><a href="" class="typo-select-link">Arial</a></li>
-                                                                <li><a href="" class="typo-select-link">Times New
-                                                                    Roman</a></li>
+                                                                <li>
+                                                                    <button value="lato"
+                                                                            class="ql-font typo-select-link">Lato
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button value="roboto"
+                                                                            class="ql-font typo-select-link">Roboto
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button value="abril-fatface"
+                                                                            class="ql-font typo-select-link">Abril
+                                                                        Fatface
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button value="andale-mono"
+                                                                            class="ql-font typo-select-link">Andale Mono
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button value="arial"
+                                                                            class="ql-font typo-select-link">Arial
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button value="times-new-roman"
+                                                                            class="ql-font typo-select-link">Times New
+                                                                        Roman
+                                                                    </button>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -291,14 +308,29 @@
                                                          aria-labelledby="typoFamilyDropdownMenu">
                                                         <div class="typo-holder">
                                                             <ul class="typo-list list-styled">
-                                                                <li><a href=""
-                                                                       class="typo-select-link is-small">Small</a></li>
-                                                                <li><a href=""
-                                                                       class="typo-select-link is-active is-normal">Normal</a>
+                                                                <li>
+                                                                    <button value="small"
+                                                                            class="ql-size typo-select-link is-small">
+                                                                        Small
+                                                                    </button>
                                                                 </li>
-                                                                <li><a href=""
-                                                                       class="typo-select-link is-large">Large</a></li>
-                                                                <li><a href="" class="typo-select-link is-huge">Huge</a>
+                                                                <li>
+                                                                    <button value=""
+                                                                            class="ql-size typo-select-link is-normal">
+                                                                        Normal
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button value="large"
+                                                                            class="ql-size typo-select-link is-large">
+                                                                        Large
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button value="huge"
+                                                                            class="ql-size typo-select-link is-huge">
+                                                                        Huge
+                                                                    </button>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -308,17 +340,17 @@
 
                                             <li class="pr-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-bold-btn border-right-0 border-radius-r-0">
+                                                        class="ql-bold actions-btn mail-bold-btn border-right-0 border-radius-r-0">
                                                     <i class="icon icon-bold"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-italic-btn border-right-0 border-radius-0">
+                                                        class="ql-italic actions-btn mail-italic-btn border-right-0 border-radius-0">
                                                     <i class="icon icon-italic"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-underline-btn border-right-0 border-radius-0">
+                                                        class="ql-underline actions-btn mail-underline-btn border-right-0 border-radius-0">
                                                     <i class="icon icon-underline"></i></button>
                                             </li>
                                             <li class="pl-0">
@@ -336,236 +368,11 @@
                                                                         <div class="color-picker-title"><strong>Background
                                                                             Color</strong></div>
                                                                         <ul class="color-picker-list d-flex flex-wrap">
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #000000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #616161;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #828282;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #adadad;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #d2d2d2;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e9e9e9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffffff;border:1px solid #e5e5e5;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #730000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #ae0000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e60000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ff2121;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ff7676;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffc9c9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffefef;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #734600;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #ae6200;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e66300;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ff8c21;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffc576;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffe9c9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffe9c9;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #737200;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #a0ae00;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e6e300;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fff621;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fdff76;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fffdc9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffffef;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0f7300;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0eae00;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #1ee600;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #21ff38;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #76ff76;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #c9ffd0;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #effff1;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #006e73;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #00aeac;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #00dce6;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #21f4ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #76fff4;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #c9fffc;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #effeff;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #000173;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0016ae;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0100e6;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #5555ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #7681ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #cdc9ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #f1efff;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #530073;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #7500ae;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ba00e6;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e955ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #de76ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #f2c9ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fcefff;"></div>
+                                                                            <li *ngFor="let color of colors">
+                                                                                <button class="ql-background color-shape"
+                                                                                        [class.border-lightgrey]="color==='#ffffff'"
+                                                                                        [value]="color"
+                                                                                        [style.background]="color"></button>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -576,236 +383,11 @@
                                                                         <div class="color-picker-title"><strong>Text
                                                                             Color</strong></div>
                                                                         <ul class="color-picker-list d-flex flex-wrap">
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #000000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #616161;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #828282;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #adadad;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #d2d2d2;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e9e9e9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape is-selected"
-                                                                                     style="background: #ffffff;border:1px solid #e5e5e5;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #730000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #ae0000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e60000;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ff2121;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ff7676;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffc9c9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffefef;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #734600;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #ae6200;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e66300;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ff8c21;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffc576;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffe9c9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffe9c9;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #737200;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape" style="
-				                                							background: #a0ae00;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e6e300;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fff621;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fdff76;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fffdc9;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ffffef;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0f7300;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0eae00;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #1ee600;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #21ff38;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #76ff76;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #c9ffd0;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #effff1;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #006e73;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #00aeac;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #00dce6;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #21f4ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #76fff4;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #c9fffc;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #effeff;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #000173;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0016ae;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #0100e6;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #5555ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #7681ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #cdc9ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #f1efff;"></div>
-                                                                            </li>
-
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #530073;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #7500ae;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #ba00e6;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #e955ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #de76ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #f2c9ff;"></div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="color-shape"
-                                                                                     style="background: #fcefff;"></div>
+                                                                            <li *ngFor="let color of colors">
+                                                                                <button class="ql-color color-shape"
+                                                                                        [class.border-lightgrey]="color==='#ffffff'"
+                                                                                        [value]="color"
+                                                                                        [style.background]="color"></button>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -818,48 +400,62 @@
 
                                             <li class="pr-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-align-right-btn border-right-0 border-radius-r-0">
+                                                        class="ql-align actions-btn mail-align-right-btn border-right-0 border-radius-r-0"
+                                                        value="right">
                                                     <i class="icon icon-text-align-right"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-align-center-btn border-right-0 border-radius-0">
+                                                        class="ql-align actions-btn mail-align-center-btn border-right-0 border-radius-0"
+                                                        value="center">
                                                     <i class="icon icon-text-align-center"></i></button>
                                             </li>
                                             <li class="pl-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-align-left-btn border-radius-l-0"><i
-                                                        class="icon icon-text-align-left"></i></button>
+                                                        class="ql-align actions-btn mail-align-left-btn border-radius-l-0">
+                                                    <i class="icon icon-text-align-left"></i></button>
                                             </li>
 
                                             <li class="pr-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0">
+                                                        class="ql-list actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"
+                                                        value="bullet">
                                                     <i class="icon icon-unorder-list"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-order-list-btn border-right-0 border-radius-0">
+                                                        class="ql-list actions-btn mail-order-list-btn border-right-0 border-radius-0"
+                                                        value="ordered">
                                                     <i class="icon icon-ordered-list"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-indent-decrease-btn border-right-0 border-radius-0">
+                                                        class="ql-indent actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"
+                                                        value="-1">
                                                     <i class="icon icon-indent-decrease"></i></button>
                                             </li>
                                             <li class="px-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-indent-increase-btn border-right-0 border-radius-0">
+                                                        class="ql-indent actions-btn mail-indent-increase-btn border-right-0 border-radius-0"
+                                                        value="+1">
                                                     <i class="icon icon-indent-increase"></i></button>
                                             </li>
                                             <li class="pl-0">
                                                 <button role="button"
-                                                        class="actions-btn mail-quote-right-btn border-radius-l-0"><i
-                                                        class="icon icon-quote-right"></i></button>
+                                                        class="ql-blockquote actions-btn mail-quote-right-btn border-radius-l-0">
+                                                    <i
+                                                            class="icon icon-quote-right"></i></button>
                                             </li>
 
                                             <li>
-                                                <button role="button" class="actions-btn mail-format-clear-btn"><i
+                                                <button role="button" type="button"
+                                                        class="ql-image actions-btn mail-attach-image-btn"><i
+                                                        class="icon fa fa-image"></i></button>
+                                            </li>
+
+                                            <li>
+                                                <button role="button"
+                                                        class="ql-clean actions-btn mail-format-clear-btn"><i
                                                         class="icon icon-format-clear"></i></button>
                                             </li>
                                         </ul>
@@ -873,12 +469,15 @@
                     <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
                         <li class="pr-0">
                             <button role="button"
+                                    (click)="saveInDrafts()"
                                     class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
                                     placement="top" ngbTooltip="Save to drafts"><i class="icon icon-save-disk"></i>
                             </button>
                         </li>
                         <li class="pl-0">
-                            <button role="button" class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
+                            <button role="button"
+                                    (click)="discardEmail()"
+                                    class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                                     ngbTooltip="Delete draft"><i class="icon icon-garbage"></i></button>
                         </li>
                         <li class="send-mail-item">
@@ -893,3 +492,120 @@
         </div>
     </div>
 </div>
+
+<!-- Confirm discard email modal -->
+<ng-template #confirmDiscardModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Confirm Discard</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Are you sure, you want to discard this email?
+            </div>
+            <div class="form-group text-right mb-0">
+                <button (click)="cancelDiscard()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+                <button (click)="saveInDrafts()" class="btn btn-success btn-sm" role="button">Save in Drafts</button>
+                <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button">Discard</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.Confirm discard email modal ends -->
+
+<!-- attach images modal -->
+<ng-template #attachImagesModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Attach Images</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Select files from your computer or enter a URL
+            </div>
+            <div class="form-group">
+                <label for="imageURL">Image URL</label>
+                <input type="text" #imageURL id="imageURL" class="form-control" placeholder="Enter image URL">
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="imageInput.value = ''; imageInput.click(); d();" class="btn btn-success btn-sm" role="button">Attach Files</button>
+                <button type="button" (click)="onAttachImageURL(imageURL.value)" class="btn btn-success btn-sm" role="button">Attach URL</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.attach images modal ends -->
+
+<!-- self destruct datetime picker modal -->
+<ng-template #selfDestructModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Self Destruct Email</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Email will be deleted on selected datetime
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Date</label>
+                <ngb-datepicker class="bg-white"
+                                [(ngModel)]="selfDestructDateTime.date"
+                                [minDate]="selfDestructDateTime.minDate"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Time</label>
+                <ngb-timepicker [(ngModel)]="selfDestructDateTime.time"></ngb-timepicker>
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="d()" class="btn btn-success btn-sm" role="button">Confirm</button>
+                <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.self destruct datetime picker modal ends -->
+
+<!-- encryption modal -->
+<ng-template #encryptionModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Encrypt Email</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <h3>Encrypt for non-Ctemplar mail users</h3>
+      <form [formGroup]="encryptForm" #form="ngForm" (ngSubmit)="messageEncrypt()">
+        <div class="form-group">
+          <label for="message-password">Message Password</label>
+          <input type="password" id="message-password" class="form-control"
+                 placeholder="Message pasword" formControlName="password">
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" class="form-control"
+                 placeholder="Confirm password" formControlName="confirmPwd">
+        </div>
+        <div class="form-group">
+          <label for="password-hint">Password Hint</label>
+          <input type="text" id="password-hint" class="form-control"
+                 placeholder="Hint">
+        </div>
+        <div class="form-group text-small">
+          Encrypted messages to non-Ctemplar recipients will expire in 28-days unless a shorter expiration time is set.
+        </div>
+        <div class="form-group text-right mb-0">
+          <button type="submit" class="btn btn-success btn-sm" role="button">Confirm</button>
+          <button type="reset" (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template><!-- /.attach images modal ends -->

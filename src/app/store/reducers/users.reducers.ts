@@ -4,7 +4,7 @@ import { UsersActionTypes, UsersActionAll } from '../actions';
 // Model
 import { UserState } from '../datatypes';
 
-export const initialState: UserState = { username: null, id: null, whiteList: [], blackList: [], contact: [], settings: {}};
+export const initialState: UserState = { username: null, id: null, whiteList: [], blackList: [], contact: [], settings: {}, membership: {}};
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
   switch (action.type) {
@@ -123,6 +123,9 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isPrime: action.payload.is_prime,
         settings: action.payload.settings,
       };
+    }
+    case UsersActionTypes.MEMBERSHIP_UPDATE: {
+      return { ...state, membership: action.payload };
     }
     default: {
       return state;

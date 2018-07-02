@@ -1,13 +1,11 @@
 // Angular
 import {
   Component,
-  OnDestroy,
   OnInit,
   ViewChild,
   ElementRef
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 // Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,20 +15,23 @@ import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-m
 import { Observable } from 'rxjs/Observable';
 
 // Store
-import { AuthState } from '../../store/datatypes';
-import { selectAuthState } from '../../store/selectors';
+import { AppState } from '../../store/datatypes';
 import { LogIn } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 // Service
 import { SharedService } from '../../store/services';
+import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-users-sign-in',
   templateUrl: './users-sign-in.component.html',
   styleUrls: ['./users-sign-in.component.scss']
 })
 export class UsersSignInComponent implements OnDestroy, OnInit {
+  readonly destroyed$: Observable<boolean>;
+
   loginForm: FormGroup;
   resetForm: FormGroup;
   showFormErrors = false;
@@ -38,7 +39,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   isLoading: boolean = false;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
-  getState: Observable<any>;
   focusedInput: string = '';
   username: string = '';
   password: string = 'password';
@@ -50,16 +50,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
 
-  constructor(
-    private modalService: NgbModal,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private store: Store<AuthState>,
-    private sharedService: SharedService,
-    private _keyboardService: MatKeyboardService
-  ) {
-    this.getState = this.store.select(selectAuthState);
-  }
+  constructor(private modalService: NgbModal,
+              private formBuilder: FormBuilder,
+              private store: Store<AppState>,
+              private sharedService: SharedService,
+              private _keyboardService: MatKeyboardService) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -78,10 +73,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       email: ['', [Validators.required]]
     });
 
-    this.getState.subscribe(state => {
-      this.isLoading = false;
-      this.errorMessage = state.errorMessage;
-    });
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe(state => {
+        this.isLoading = false;
+        this.errorMessage = state.errorMessage;
+      });
   }
 
   ngOnDestroy() {

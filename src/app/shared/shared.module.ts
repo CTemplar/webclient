@@ -13,9 +13,10 @@ import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
 import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   declarations: [
     SpinnerComponent,
     PricePlanComponent,
@@ -29,6 +30,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     LoadingSpinnerComponent,
   ],
   exports: [
+    TranslateModule,
     SpinnerComponent,
     PricePlanComponent,
     LoadingComponent,

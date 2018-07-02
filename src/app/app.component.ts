@@ -2,46 +2,48 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
-
 // Services
-import { BlogService } from './store/services';
-import { SharedService } from './store/services';
+import { BlogService, SharedService } from './store/services';
 // import { UsersService } from './users/shared/users.service';
 import { Observable } from 'rxjs/Observable';
-import { selectLoadingState } from './store/selectors';
 import { Store } from '@ngrx/store';
-import { LoadingState } from './store/datatypes';
+import { AppState, LoadingState } from './store/datatypes';
 import { quotes } from './store/quotes';
 
 import 'rxjs/add/operator/filter';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
+
   public hideFooter: boolean = false;
   public hideHeader: boolean = false;
   public windowIsResized: boolean = false;
   public resizeTimeout: number = null;
-  public getLoadingState$: Observable<any>;
   public isLoading: boolean = true;
   public isMail: boolean = false;
   public isHomepage: boolean;
   quote: object;
 
-  constructor(
-    @Inject(DOCUMENT) private document: any,
-    public router: Router,
-    private blogService: BlogService,
-    private sharedService: SharedService,
-    private store: Store<any>
-  ) {
+  constructor(@Inject(DOCUMENT) private document: any,
+              public router: Router,
+              private blogService: BlogService,
+              private sharedService: SharedService,
+              private store: Store<AppState>,
+              private translate: TranslateService) {
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
     this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
     this.sharedService.isMail.subscribe(data => (this.isMail = data));
-    this.getLoadingState$ = this.store.select(selectLoadingState);
+
+    // this language will be used as a fallback when a translation isn't found in the current language
+    this.translate.setDefaultLang('en');
   }
 
 
@@ -75,8 +77,12 @@ export class AppComponent implements OnInit {
   }
 
   private updateLoadingStatus(): void {
-    this.getLoadingState$.subscribe((loadingState: LoadingState) => {
-      this.isLoading = loadingState.Loading;
-    });
+    this.store.select(state => state.loading).takeUntil(this.destroyed$)
+      .subscribe((loadingState: LoadingState) => {
+        this.isLoading = loadingState.Loading;
+      });
+  }
+
+  ngOnDestroy(): void {
   }
 }

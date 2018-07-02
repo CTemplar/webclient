@@ -9,8 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        "**"
+        "favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -21,10 +20,12 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "../node_modules/ngx-toastr/toastr.css"
+        "../node_modules/ngx-toastr/toastr.css",
+        "../node_modules/quill/dist/quill.snow.css"
       ],
       "scripts": [
-        "../node_modules/openpgp/dist/openpgp.js"
+        "../node_modules/openpgp/dist/openpgp.js",
+        "../node_modules/quill/dist/quill.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -31,6 +31,7 @@ export enum UsersActionTypes {
   SNACK_PUSH_SUCCESS = '[Snacks] Push success',
   SNACK_ERROR_PUSH = '[Snacks] Error Push',
   SNACK_ERROR_PUSH_SUCCESS = '[Snacks] Error Push success',
+  MEMBERSHIP_UPDATE = '[Membership] Update'
 }
 
 export class Accounts implements Action {
@@ -235,7 +236,12 @@ export class SnackErrorPushSuccess implements Action {
   constructor(public payload?: any) {
   }
 }
+export class MembershipUpdate implements Action {
+  readonly type = UsersActionTypes.MEMBERSHIP_UPDATE;
 
+  constructor(public payload?: any) {
+  }
+}
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -265,4 +271,5 @@ export type UsersActionAll =
   | SnackPush
   | SnackPushSuccess
   | SnackErrorPush
-  | SnackErrorPushSuccess;
+  | SnackErrorPushSuccess
+  | MembershipUpdate;

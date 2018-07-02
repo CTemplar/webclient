@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Contact, UserState } from '../../store/datatypes';
-import { selectUsersState } from '../../store/selectors';
+import { AppState, Contact, UserState } from '../../store/datatypes';
 import { ContactDelete } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
@@ -20,18 +19,18 @@ import { NotificationService } from '../../store/services/notification.service';
 export class MailContactComponent implements OnInit, OnDestroy {
 
   isLayoutSplitted: boolean = false;
-  public getUsersState$: Observable<any>;
   public userState: UserState;
   public isNewContact: boolean;
   readonly destroyed$: Observable<boolean>;
   public selectedContact: Contact;
   public inProgress: boolean;
+  public selectAll: boolean;
 
   private contactsCount: number;
   public contactsToDelete: Contact[] = [];
   private confirmModalRef: NgbModalRef;
 
-  constructor(private store: Store<UserState>,
+  constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               private breakpointsService: BreakpointsService,
               private notificationService: NotificationService,
@@ -41,7 +40,6 @@ export class MailContactComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getUsersState$ = this.store.select(selectUsersState);
     this.updateUsersStatus();
   }
 
@@ -49,7 +47,8 @@ export class MailContactComponent implements OnInit, OnDestroy {
   }
 
   private updateUsersStatus(): void {
-    this.getUsersState$.takeUntil(this.destroyed$).subscribe((state: UserState) => {
+    this.store.select(state => state.user)
+      .takeUntil(this.destroyed$).subscribe((state: UserState) => {
       this.userState = state;
       if (this.contactsCount === this.userState.contact.length + this.contactsToDelete.length) {
         this.inProgress = false;
@@ -125,5 +124,9 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.contactsToDelete.forEach((contact) => {
       this.store.dispatch(new ContactDelete(contact.id));
     });
+  }
+
+  toggleSelectAll() {
+    this.userState.contact.forEach(item => item.markForDelete = this.selectAll);
   }
 }

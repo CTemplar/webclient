@@ -62,7 +62,7 @@ $mail_composer_padding_x: 0.75rem;
 		width: calc(100% - 340px);
 
 		.mail-compose-box-inner {
-			min-height: 627px;			
+			min-height: 100vh;
 		}
 	}
 }
@@ -209,14 +209,13 @@ $mail_composer_padding_x: 0.75rem;
 }
 
 .mail-compose-box-inner {
-	padding: 1.25rem $mail_composer_padding_x;
 	background: $brand-white;
-	min-height: 165px;
+	min-height: 250px;
 }
 
 .mail-compose-editable-box {
 	background: $brand-white;
-	// min-height: 165px;
+	min-height: 165px;
 
 	&[contenteditable]:focus {
 		outline: 0;
@@ -479,6 +478,11 @@ $mail_composer_padding_x: 0.75rem;
 		&:not(:last-of-type) {
 			margin-bottom: 0.938rem;
 		}
+
+      button{
+        border: 0;
+        cursor: pointer;
+      }
 	}
 }
 
@@ -489,7 +493,7 @@ $mail_composer_padding_x: 0.75rem;
 		color: darken(rgba(0, 0, 0, 0.87), 5%);
 	}
 
-	&.is-active {
+	&.is-active, &.ql-active {
 		font-weight: 600;
 
 		&::before {
@@ -603,4 +607,15 @@ $mail_composer_padding_x: 0.75rem;
 .dropdown-footer {
 	padding: 1rem 1.5rem;
 	background: #f5f5f5;
+}
+
+
+/* Toolbar selected button css.*/
+.ql-active {
+	background: white !important;
+	font-weight: bold !important;
+
+	i {
+		font-weight: bold !important;
+	}
 }

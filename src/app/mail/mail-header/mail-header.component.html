@@ -10,7 +10,8 @@
             <div class="form search-form">
                 <form>
                     <div class="form-group mb-0 position-relative">
-                        <input class="form-control form-control-sm" type="text" placeholder="Search"/>
+                        <input class="form-control form-control-sm" type="text"
+                               [placeholder]="'common.search' | translate"/>
                         <button class="btn btn-sm btn-secondary search-btn" role="button"><i
                                 class="icon icon-search"></i></button>
                     </div>
@@ -24,8 +25,10 @@
                 <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings" class="border-right-0"
                                                         placement="bottom" ngbTooltip="Settings"><i
                         class="icon icon-gear"></i></a></li>
-                <li class="mailbox-signout pl-sm-0"><a href="" placement="bottom" ngbTooltip="Log out"><i
-                        class="icon icon-logout"></i></a></li>
+                <li class="mailbox-signout pl-sm-0">
+                    <a (click)="logout()"
+                        placement="bottom" ngbTooltip="Log out"><i
+                        class="icon icon-logout cursor-pointer"></i></a></li>
                 <li class="mailbox-lang mailbox-dropdown btn-dropdown">
                     <div ngbDropdown class="lang-dropdown">
                         <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom"
@@ -33,8 +36,8 @@
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right text-center"
                              aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" href="">Ru</a>
-                            <a class="dropdown-item" href="">Es</a>
+                            <a class="dropdown-item" (click)="changeLanguage('en')">English (en)</a>
+                            <a class="dropdown-item" (click)="changeLanguage('ru')">Russian (ru)</a>
                         </div>
                     </div>
                 </li>

@@ -37,8 +37,11 @@ export class OpenPgpService {
       localStorage.setItem('privkey', this.privkey);
       this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
       this.fingerprint = openpgp.key.readArmored(this.pubkey).keys[0].primaryKey.getFingerprint();
-      this.decryptPrivateKey();
-      return true;
+      return {
+        fingerprint: this.fingerprint,
+        privkey: this.privkey,
+        pubkey: this.pubkey
+      };
     });
   }
 
@@ -59,13 +62,13 @@ export class OpenPgpService {
     await this.privKeyObj.decrypt(this.passphrase);
   }
 
-  makeEncrypt() {
+  async makeEncrypt(obj) {
     this.options = {
-      data: 'hello world',
+      data: obj,
       publicKeys: openpgp.key.readArmored(this.pubkey).keys,
       privateKeys: [this.privKeyObj]
     };
-    openpgp.encrypt(this.options).then((ciphertext) => {
+    await openpgp.encrypt(this.options).then((ciphertext) => {
       this.encrypted = ciphertext.data;
       // this.makeDecrypt();
     });
@@ -79,6 +82,7 @@ export class OpenPgpService {
     };
 
     return openpgp.decrypt(this.options).then((plaintext) => {
+      console.log(plaintext.data);
       return plaintext.data;
     });
 

@@ -1,44 +1,31 @@
 // Angular
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-
 // Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 // Models
-import { Post, Mode, NumberOfColumns, Category } from '../../store/models';
-
+import { Category, Mode, NumberOfColumns, Post } from '../../store/models';
 // Services
 import { UsersService } from '../../store/services';
-import { RelatedBlogLoading, FinalLoading } from '../../store/actions';
-
+import { FinalLoading, GetCategories, GetPostDetail, GetRelatedPosts, PostComment, RelatedBlogLoading } from '../../store/actions';
 // Store
 import { Store } from '@ngrx/store';
-import { BlogState, AuthState, LoadingState, RouterStateUrl } from '../../store/datatypes';
-import {
-  selectBlogState,
-  getCategories,
-  getRelatedBlogs, selectLoadingState
-} from '../../store/selectors';
-import {
-  GetPostDetail,
-  GetCategories,
-  GetRelatedPosts
-} from '../../store/actions';
-import { selectAuthState, getRouterState } from '../../store/selectors';
-import { PostComment } from '../../store/actions';
+import { AppState, AuthState, BlogState, LoadingState, RouterStateUrl } from '../../store/datatypes';
+import { getCategories, getRelatedBlogs, getRouterState } from '../../store/selectors';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
-
+@TakeUntilDestroy()
 @Component({
   selector: 'app-blog-detail',
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.scss']
 })
 export class BlogDetailComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
+
   slug: string;
   blog: Post;
   relatedPosts: Post[] = [];
@@ -57,27 +44,21 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   isReplyFormShown: boolean = false;
 
   getCategories$: Observable<any>;
-  getBlogState$: Observable<any>;
-  getAuthState$: Observable<any>;
   getRelatedBlogsState$: Observable<any>;
-  getBlogsLoadingState$: Observable<any>;
   getRouterState$: Observable<any>;
 
   constructor(
     private userService: UsersService,
     private route: ActivatedRoute,
-    private store: Store<any>,
+    private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private modalService: NgbModal
   ) {
-    this.getBlogState$ = this.store.select(selectBlogState);
-    this.getAuthState$ = this.store.select(selectAuthState);
     this.getCategories$ = this.store.select(getCategories);
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
-    this.getBlogsLoadingState$ = this.store.select(selectLoadingState);
     this.getRouterState$ = this.store.select(getRouterState);
 
-    this.getCategories$.subscribe(categories => {
+    this.getCategories$.takeUntil(this.destroyed$).subscribe(categories => {
       this.categories = categories;
     });
   }
@@ -89,39 +70,40 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     // this.isActive = this.userService.signedIn();
     this.updateUserAuthStatus();
     this.slug = this.route.snapshot.paramMap.get('slug');
-    this.getBlogState$.subscribe((blogState: BlogState) => {
-      if (blogState.selectedPost && this.blog !== blogState.selectedPost) {
-        this.blog = blogState.selectedPost;
-        if (this.categories.length - 1 < this.blog.category) {
-          this.getCategories();
+    this.store.select(state => state.blog).takeUntil(this.destroyed$)
+      .subscribe((blogState: BlogState) => {
+        if (blogState.selectedPost && this.blog !== blogState.selectedPost) {
+          this.blog = blogState.selectedPost;
+          if (this.categories.length - 1 < this.blog.category) {
+            this.getCategories();
+          }
+          this.updateRelatedState();
         }
-        this.updateRelatedState();
-      }
-      if (blogState.relatedPosts) {
-        this.relatedPosts = blogState.relatedPosts;
-      }
-      if (blogState.errorMessage === 'success' && this.isPostedComment) {
-        this.replyForm.reset();
-        this.commentForm.reset();
-        this.isPostedComment = false;
-        this.replyId = null;
-        this.getPost();
-      }
-    });
+        if (blogState.relatedPosts) {
+          this.relatedPosts = blogState.relatedPosts;
+        }
+        if (blogState.errorMessage === 'success' && this.isPostedComment) {
+          this.replyForm.reset();
+          this.commentForm.reset();
+          this.isPostedComment = false;
+          this.replyId = null;
+          this.getPost();
+        }
+      });
 
-    this.getBlogsLoadingState$.subscribe((loadingState: LoadingState) => {
-      if (
-        loadingState.RelatedBlogLoading === false &&
-        loadingState.Loading === true
-      ) {
-        this.store.dispatch(new FinalLoading({ loadingState: false }));
-      }
-    });
+    this.store.select(state => state.loading).takeUntil(this.destroyed$)
+      .subscribe((loadingState: LoadingState) => {
+        if (
+          loadingState.RelatedBlogLoading === false &&
+          loadingState.Loading === true
+        ) {
+          this.store.dispatch(new FinalLoading({ loadingState: false }));
+        }
+      });
 
-    this.getRouterState$.subscribe((routerStateUrl: RouterStateUrl) => {
+    this.getRouterState$.takeUntil(this.destroyed$).subscribe((routerStateUrl: RouterStateUrl) => {
       // console.log(routerStateUrl.state)
       if (this.currentUrl !== '' && this.currentUrl !== routerStateUrl.state.url && routerStateUrl.state.url.includes('/blog/')) {
-        console.log('fdsf');
         this.store.dispatch(new RelatedBlogLoading({ loadingState: true }));
         // window.location.reload();
       }
@@ -141,7 +123,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   }
 
   updateRelatedState() {
-    this.getRelatedBlogsState$.subscribe(blogs => {
+    this.getRelatedBlogsState$.takeUntil(this.destroyed$).subscribe(blogs => {
       if (blogs.length && blogs[0].category === this.blog.category) {
         this.posts = blogs
           .filter((post: Post) => {
@@ -212,11 +194,12 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   }
 
   private updateUserAuthStatus(): void {
-    this.getAuthState$.subscribe((authState: AuthState) => {
-      if (authState.user && authState.user.membership) {
-        this.isActive = authState.isAuthenticated;
-      }
-    });
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        if (authState.user && authState.user.membership) {
+          this.isActive = authState.isAuthenticated;
+        }
+      });
   }
 
   getCategories() {

@@ -31,10 +31,20 @@ export class MailService {
 
   getMessages(limit: number = 1000, offset: number = 0): Observable<Mail[]> {
     const url = `${apiUrl}users/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
-    return this.http.get<Mail[]>(url)
-      .pipe(
-        map(data => data['results'])
-      );
+    return this.http.get<Mail[]>(url).map(data => data['results']);
+  }
+
+  createMail(data: any): Observable<any[]> {
+    let url = `${apiUrl}/emails/messages/`;
+    if (data.id) {
+      url = data.id ? url + data.id + '/' : url;
+      return this.http.patch<any>(url, data);
+    }
+    return this.http.post<any>(url, data);
+  }
+
+  deleteMail(id: number): Observable<any[]> {
+    return this.http.delete<any>(`${apiUrl}/emails/messages/${id}/`);
   }
 
 

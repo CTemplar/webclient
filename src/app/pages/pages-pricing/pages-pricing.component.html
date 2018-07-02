@@ -162,7 +162,7 @@
                                     </ul>
                                 </div>
                                 <div class="package-actions text-center">
-                                    <a href="/create-account" class="btn btn-lg btn-gradient-primary">
+                                    <a (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer">
                                         Select Prime $8/
                                         <span class="text-normal">mo</span>
                                     </a>
@@ -218,7 +218,7 @@
                             <footer class="package-card-footer text-center">
                                 <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
                                 <div class="package-actions">
-                                    <a routerLink="/create-account" class="btn btn-lg btn-gradient-info">Select Free</a>
+                                    <a (click)="selectPlan(0)" class="btn btn-lg btn-gradient-info cursor-pointer">Select Free</a>
                                 </div>
                             </footer>
                         </div>
