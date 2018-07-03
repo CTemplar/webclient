@@ -431,16 +431,16 @@
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="securityPassword" type="password"
                                    placeholder="********"/>
-                            <span class="form-label-text mt-1">Last time changed 3 month ago. <a
+                            <span class="form-label-text mt-1"> <span translate="settings.last_time_changed">Last time changed</span> 3 month ago. <a
                                     href="javascript:void(0);" role="button" class="text-uppercase btn-link"
-                                    (click)="changePasswordModalOpen(passwordContent)"><strong><u>Change now</u></strong></a></span>
+                                    (click)="changePasswordModalOpen(passwordContent)"><strong><u translate="settings.change_now">Change now</u></strong></a></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="recoveryMail" class="form-label mb-sm-0">Recovery email</label>
+                            <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery email</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="recoveryMail" type="text"
@@ -452,7 +452,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-sm-0">Security alerts</label>
+                            <label class="form-label mb-sm-0" translate="settings.security_alerts">Security alerts</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -461,7 +461,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="securityField1" name="[4]" type="radio"
                                                [checked]="userState.settings.newsletter"/>
-                                        <label for="securityField1">Enabled</label>
+                                        <label for="securityField1" translate="common.enabled">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
@@ -469,7 +469,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="securityField2" name="[4]" type="radio"
                                                [checked]="!userState.settings.newsletter"/>
-                                        <label for="securityField2">Disabled</label>
+                                        <label for="securityField2" translate="common.disabled">Disabled</label>
                                     </div>
                                 </div>
                             </div>
@@ -482,14 +482,14 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Appearance</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="displayName" class="form-label mb-sm-0">Display name</label>
+                            <label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display name</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="displayName" type="text"
@@ -500,7 +500,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="signature" class="form-label mb-sm-0">Signature</label>
+                            <label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="form-control form-control-sm form-control-contenteditable" id="signature"
@@ -515,7 +515,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-sm-0">Emails per page</label>
+                            <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails per page</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -558,7 +558,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-sm-0">Load embedded content</label>
+                            <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load embedded content</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -567,7 +567,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="embeddedContentField1" name="[6]" type="radio"
                                                [checked]="userState.settings?.embed_content"/>
-                                        <label for="embeddedContentField1">Yes</label>
+                                        <label for="embeddedContentField1" translate="common.yes">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
@@ -575,14 +575,14 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="embeddedContentField2" name="[6]" type="radio"
                                                [checked]="!userState.settings?.embed_content"/>
-                                        <label for="embeddedContentField2">No</label>
+                                        <label for="embeddedContentField2" translate="common.no">No</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="embeddedContentField3" name="[6]" type="radio" disabled/>
-                                        <label for="embeddedContentField3">Only images</label>
+                                        <label for="embeddedContentField3" translate="settings.only_images">Only images</label>
                                     </div>
                                 </div>
                             </div>
@@ -592,7 +592,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-sm-0">Show snippets</label>
+                            <label class="form-label mb-sm-0" translate="settings.show_snippets">Show snippets</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -601,7 +601,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="showSnippetsField1" name="[7]" type="radio"
                                                [checked]="userState.settings?.show_snippets"/>
-                                        <label for="showSnippetsField1">Yes</label>
+                                        <label for="showSnippetsField1" translate="common.yes">Yes</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
@@ -609,7 +609,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="showSnippetsField2" name="[7]" type="radio"
                                                [checked]="!userState.settings?.show_snippets"/>
-                                        <label for="showSnippetsField2">No</label>
+                                        <label for="showSnippetsField2" translate="common.no">No</label>
                                     </div>
                                 </div>
                             </div>
@@ -694,7 +694,7 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Whitelist</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.whitelist.name">Whitelist</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
@@ -714,10 +714,10 @@
                     </li>
                 </ul>
                 <div class="info-card">
-                    <p>Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a
+                    <p [innerHTML]="'settings.whitelist.info' | translate" >Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a
                         message as not spam adds the address to the Whitelist.</p>
                     <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u>Add whitelist
+                       (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u translate="settings.whitelist.add_whitelist_contact">Add whitelist
                         contact</u></strong></a>
                 </div>
             </div>
@@ -726,7 +726,7 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Blacklist</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.blacklist.name">Blacklist</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
@@ -749,10 +749,10 @@
                     </li>
                 </ul>
                 <div class="info-card">
-                    <p>Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a
+                    <p [innerHTML]="'settings.blacklist.info' | translate">Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a
                         message as spam adds the address to the Blacklist.</p>
                     <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u>Add blacklist
+                       (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u translate="settings.blacklist.add_blacklist_contact">Add blacklist
                         contact</u></strong></a>
                 </div>
             </div>
@@ -821,7 +821,7 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Payments</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.payment">Payments</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
@@ -842,7 +842,7 @@
                 </ul>
                 <div class="info-card">
                     <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u>Add new
+                       (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u translate="settings.add_new_method">Add new
                         method</u></strong></a>
                 </div>
             </div>
@@ -851,19 +851,19 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Keys</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.keys.name">Keys</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
                 <div class="info-card">
-                    <p>Download your PGP Keys for use with other PGP compatible services. Only incoming messages in
+                    <p translate="settings.keys.info">Download your PGP Keys for use with other PGP compatible services. Only incoming messages in
                         inline OpenPGP format are currently supported.</p>
                 </div>
 
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-sm-0">Email address</label>
+                            <label class="form-label mb-sm-0" translate="settings.keys.email_address">Email address</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="btn-dropdown btn-dropdown-select">
@@ -886,12 +886,12 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="fingerPrint" class="form-label mb-sm-0">Fingerprint</label>
+                            <label for="fingerPrint" class="form-label mb-sm-0" translate="settings.keys.fingerprint">Fingerprint</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                                    value="o8bg359348b24p08gn34408g4p389gbpq938g" readonly=""/>
-                            <span class="form-label-text mt-1"><a><strong><u>Download public key (2048 Bit)</u></strong></a></span>
+                            <span class="form-label-text mt-1"><a><strong><u><span translate="settings.download_public_kay">Download public key </span>(2048 Bit)</u></strong></a></span>
                         </div>
                     </div>
                 </div>
@@ -902,15 +902,15 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Donate</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.donate.name">Donate</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
                 <div class="info-card">
-                    <p>Your donation helps us support more users and continue to develop CTemplar as free and open
+                    <p translate="settings.donate.info">Your donation helps us support more users and continue to develop CTemplar as free and open
                         source software.</p>
                     <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="makeDonationModalOpen(makeDonationContent)"><strong><u>Make a donation</u></strong></a>
+                       (click)="makeDonationModalOpen(makeDonationContent)"><strong><u translate="settings.donate.make_a_donation">Make a donation</u></strong></a>
                 </div>
             </div>
         </div>
