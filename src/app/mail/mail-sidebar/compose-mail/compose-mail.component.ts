@@ -216,7 +216,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   hasContent() {
-    return this.editor.nativeElement.innerText.trim() ? true : false;
+    return this.quill.getLength() > 1; // using >1 because there is always a blank line represented by ‘\n’
   }
 
   getFileSize(file: File): string {
