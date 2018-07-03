@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import * as QuillNamespace from 'quill';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
@@ -49,6 +50,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   colors = colors;
   options: any = {};
   selfDestructDateTime: any = {};
+  isKeyboardOpened: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -60,12 +62,15 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private draftMail: Mail;
   private attachments: Array<any> = [];
   private signature: string;
+  private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
+  private defaultLocale: string = 'US International';
   encryptForm: FormGroup;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
-              private openPgpService: OpenPgpService) {
+              private openPgpService: OpenPgpService,
+              private _keyboardService: MatKeyboardService) {
 
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
@@ -213,6 +218,23 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
       centered: true,
       windowClass: 'modal-md users-action-modal'
     });
+  }
+
+  toggleOSK() {
+    if (this._keyboardService.isOpened) {
+      this.closeOSK();
+    }
+    else {
+      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
+      this.isKeyboardOpened = true;
+    }
+  }
+
+  closeOSK() {
+    if (this._keyboardRef) {
+      this._keyboardRef.dismiss();
+      this.isKeyboardOpened = false;
+    }
   }
 
   hasContent() {

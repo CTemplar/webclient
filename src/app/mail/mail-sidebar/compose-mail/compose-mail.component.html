@@ -233,7 +233,8 @@
                             </div>
                         </li>
                         <li>
-                            <button role="button" class="actions-btn mail-keyboard-btn" placement="top"
+                            <button role="button" type="button" (click)="toggleOSK()"
+                                    class="actions-btn mail-keyboard-btn" placement="top"
                                     ngbTooltip="On-screen keyboard"><i class="icon icon-keyboard-show"></i></button>
                         </li>
                         <li>
@@ -249,7 +250,7 @@
                                                 <div ngbDropdown placement="top" class="dropup">
                                                     <button ngbDropdownToggle role="button"
                                                             class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0"
-                                                            id="typoFamilyDropdownMenu" role="button"><i
+                                                            id="typoFamilyDropdownMenu"><i
                                                             class="icon icon-text-size"></i></button>
                                                     <div ngbDropdownMenu class="typo-family-dropdown-menu"
                                                          aria-labelledby="typoFamilyDropdownMenu">
