@@ -76,8 +76,7 @@ export class UsersService {
   signOut() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('token_expiration');
-    localStorage.removeItem('token');
-    this.router.navigate(['/']);
+    this.router.navigateByUrl('/signin');
   }
 
   signUp(user): Observable<any> {

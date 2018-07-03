@@ -5,6 +5,10 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 // Service
 import { SharedService } from '../store/services';
+import { UsersService } from '../store/services/users.service';
+import { AppState } from '../store/datatypes';
+import { Store } from '@ngrx/store';
+import { LogOut } from '../store/actions';
 
 @Component({
   selector: 'app-header',
@@ -19,18 +23,21 @@ export class HeaderComponent implements OnInit {
 
   // Switch the footer call to action for this view.
   externalPageCallToAction: boolean = false;
+  isLoggedIn: boolean;
 
   constructor(
     @Inject(DOCUMENT) private document: any,
     private route: ActivatedRoute,
     public router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    public usersService: UsersService,
+    private store: Store<AppState>
   ) {
     this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }
 
   ngOnInit() {
-
+    this.isLoggedIn = this.usersService.getToken() ? true : false;
   }
 
   // == Setup click event to toggle mobile menu
@@ -52,5 +59,10 @@ export class HeaderComponent implements OnInit {
 
   closeMenu() {
     this.menuIsOpened = false;
+  }
+
+  logout() {
+    this.store.dispatch(new LogOut());
+    this.isLoggedIn = false;
   }
 }
