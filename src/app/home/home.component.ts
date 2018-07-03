@@ -78,7 +78,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
     this.getRouterState$.takeUntil(this.destroyed$).subscribe((routerStateUrl: RouterStateUrl) => {
-      this.currentUrl = routerStateUrl.state.url;
+      if (routerStateUrl && routerStateUrl.state) {
+        this.currentUrl = routerStateUrl.state.url;
+      }
     });
     this.updateRecentState();
   }

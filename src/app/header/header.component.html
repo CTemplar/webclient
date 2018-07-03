@@ -51,12 +51,25 @@
                                    (click)="closeMenu()">Support</a>
                             </li>
                             <li class="nav-item hidden-sm-up">
-                                <a routerLink="/signin" class="nav-link nav-action-link" (click)="closeMenu()">Login</a>
+                                <a routerLink="/signin"
+                                   *ngIf="!isLoggedIn; else mobileDashboardLink"
+                                   class="nav-link nav-action-link" (click)="closeMenu()">Login</a>
+
+                                <ng-template #mobileDashboardLink>
+                                    <a routerLink="/mail"
+                                       class="nav-link nav-action-link" (click)="closeMenu()">Dashboard</a>
+                                </ng-template>
+
                             </li>
                             <li class="nav-item hidden-sm-up" routerLinkActive="active">
                                 <a routerLink="/signup"
+                                   *ngIf="!isLoggedIn; else mobileLogoutLink"
                                    class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn"
                                    (click)="closeMenu()">Sign up</a>
+                                <ng-template #mobileLogoutLink>
+                                    <a class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn"
+                                       (click)="closeMenu(); logout()">Logout</a>
+                                </ng-template>
                             </li>
                         </ul>
                     </div>
@@ -65,12 +78,21 @@
                         [ngClass]="{ 'external-page-user-actions-list': externalPageCallToAction }">
                         <li class="user-actions-item" routerLinkActive="active"
                             [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }">
-                            <a routerLink="/signin" class="user-actions-link">Login</a>
+                            <a *ngIf="!isLoggedIn; else dashboardLink" routerLink="/signin" class="user-actions-link">Login</a>
+                            <ng-template #dashboardLink>
+                                <a routerLink="/mail" class="user-actions-link">Dashboard</a>
+                            </ng-template>
                         </li>
                         <li class="user-actions-item"
                             [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }">
-                            <a routerLink="/signup"
+                            <a *ngIf="!isLoggedIn; else logoutLink" routerLink="/signup"
                                class="user-actions-link btn btn-sm btn-gradient-primary signup-btn">Sign Up</a>
+                            <ng-template #logoutLink>
+                                <a routerLink="/signin"
+                                   (click)="logout()"
+                                   class="user-actions-link btn btn-sm btn-gradient-primary signup-btn">
+                                    Logout</a>
+                            </ng-template>
                         </li>
                         <li class="user-actions-item btn-dropdown" [hidden]="externalPageCallToAction">
                             <div ngbDropdown placement="bottom-right" class="lang-selector-dropdown">
