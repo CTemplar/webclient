@@ -246,10 +246,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: 1, folder: 'draft' };
     }
-    if (!this.hasContent() || this.draftMail.content === this.editor.nativeElement.innerHTML) {
+    if (!this.hasContent() || this.draftMail.content === this.editor.nativeElement.firstChild.innerHTML) {
       return;
     }
-    this.draftMail.content = this.editor.nativeElement.innerHTML;
+    this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.store.dispatch(new CreateMail({ ...this.draftMail }));
   }
 
@@ -271,7 +271,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private messageEncrypt() {
     if (this.encryptForm.valid) {
       this.openPgpService.generateKey(this.encryptForm.value.password);
-      this.openPgpService.makeEncrypt(JSON.stringify(this.quill.getContents().ops)).then(() => {
+      this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML).then(() => {
         // TODO: api call for message encryption
         // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
       } );
