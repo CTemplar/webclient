@@ -31,7 +31,9 @@
     "contact": "контакт",
     "save": "Сохранить",
     "delete": "Удалить",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "enabled": "Включено",
+    "disabled": "Отключено"
   },
   "settings": {
     "dashboard": "Панель приборов",
@@ -46,8 +48,6 @@
     "plans": "планы",
     "prime_plan": "Премьер-план",
     "free_plan": "Бесплатный план",
-    "+10_addresses": "+10 адресов",
-    "mo": "/мес",
     "total_price": "Итоговая цена",
     "billing_cycle_end": "Окончание платежного цикла",
     "payment": "Оплата",
@@ -60,9 +60,10 @@
     "pay_annually": "Ежегодно оплачивать",
     "current_plan": "Текущий план",
     "select_free": "Выбрать бесплатно",
-    "general_settings": "Общие настройки"
-
-
-
+    "general_settings": "Общие настройки",
+    "select_prime": "Выберите премьер",
+    "language": "язык",
+    "current_time_zone": "Текущий часовой пояс",
+    "automatically_save_contact": "Автоматически сохранять контакты"
   }
 }

@@ -31,7 +31,9 @@
     "contact": "contact",
     "save": "Save",
     "delete": "Delete",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -46,13 +48,11 @@
     "plans": "Plans",
     "prime_plan": "Prime Plan",
     "free_plan": "Free Plan",
-    "+10_addresses": "+10 addresses",
-    "mo": "/mo",
     "total_price": "Total Price",
     "billing_cycle_end": "Billing Cycle End",
     "payment": "Payment",
     "account_type": "Account Type",
-    "free_plan_tip": "Free plan available only for 250 Mb Storage.",
+    "free_plan_tip": "Free plan available only for 250 MB Storage.",
     "clear_storage": "Clear Storage",
     "prime": "Prime",
     "free": "Free",
@@ -60,7 +60,13 @@
     "pay_annually": "Pay Annually",
     "current_plan": "Current Plan",
     "select_free": "Select Free",
-    "general_settings": "General settings"
-
+    "general_settings": "General settings",
+    "select_prime": "Select Prime",
+    "language": "Language",
+    "current_time_zone": "Current time zone",
+    "automatically_save_contact": "Automatically save contacts",
+    "vacation_responder": "Vacation responder",
+    "security_settings": "Security settings",
+    "password": "Password"
   }
 }

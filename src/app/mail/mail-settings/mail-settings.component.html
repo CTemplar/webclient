@@ -79,17 +79,17 @@
                                                 </span>
                                             </div>
                                             <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                                <strong>$8</strong><span class="text-muted" translate="settings.mo">/mo</span>
+                                                <strong>$8</strong><span class="text-muted">/mo</span>
                                             </div>
                                         </div>
                                         <div *ngIf="userState.isPrime" class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text"
                                                       style="visibility: hidden" translate="settings.plans">Plans</span>
-                                                <span class="fw-light" translate="settings.+10_addresses">+10 addresses</span>
+                                                <span class="fw-light">+10 addresses</span>
                                             </div>
                                             <div class="info-list-text info-list-val"><strong>$2</strong><span
-                                                    class="text-muted" translate="settings.mo">/mo</span></div>
+                                                    class="text-muted">/mo</span></div>
                                         </div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
@@ -118,7 +118,7 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account Type</strong></h5>
             <div class="l-alert l-alert-danger l-alert-is-floated d-inline-block text-center hidden-md-up">
                 <div class="l-alert-inner">
-                    <div> <span translate="settings.free_plan_tip">Free plan available only for 250 Mb Storage. </span>&nbsp;&nbsp;&nbsp;<a><u translate="settings.clear_storage">Clear Storage</u></a>
+                    <div> <span translate="settings.free_plan_tip">Free plan available only for 250 MB Storage. </span>&nbsp;&nbsp;&nbsp;<a><u translate="settings.clear_storage">Clear Storage</u></a>
                     </div>
                 </div>
             </div>
@@ -249,7 +249,8 @@
                                                 Plan</strong></a>
                                         </div>
                                         <a *ngIf="!userState.isPrime"
-                                           class="btn btn-lg btn-gradient-primary cursor-pointer">Select Prime $8/
+                                           class="btn btn-lg btn-gradient-primary cursor-pointer">
+                                            <span translate="settings.select_prime">Select Prime</span> $8/
                                             <span class="text-normal">mo</span></a>
                                     </div>
                                 </footer>
@@ -317,7 +318,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Language</label>
+                            <label class="form-label mb-0" translate="settings.language">Language</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="btn-dropdown btn-dropdown-select">
@@ -338,7 +339,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Current time zone</label>
+                            <label class="form-label mb-0" translate="settings.current_time_zone">Current time zone</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="btn-dropdown btn-dropdown-select">
@@ -361,7 +362,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Automatically save contacts</label>
+                            <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically save contacts</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -370,7 +371,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="autoSaveField1" name="[1]" type="radio"
                                                [checked]="userState.settings.save_contacts"/>
-                                        <label for="autoSaveField1">Enabled</label>
+                                        <label for="autoSaveField1" translate="common.enabled">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
@@ -378,7 +379,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="autoSaveField2" name="[1]" type="radio"
                                                [checked]="!userState.settings.save_contacts"/>
-                                        <label for="autoSaveField2">Disabled</label>
+                                        <label for="autoSaveField2" translate="common.disabled">Disabled</label>
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +389,7 @@
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label class="form-label mb-0">Vacation responder</label>
+                            <label class="form-label mb-0" translate="settings.vacation_responder">Vacation responder</label>
                         </div>
                         <div class="col-sm-7">
                             <div class="row row-sm">
@@ -397,7 +398,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="responderField1" name="[2]" type="radio"
                                                [checked]="userState.settings.autoresponder"/>
-                                        <label for="responderField1">Enabled</label>
+                                        <label for="responderField1" translate="common.enabled">Enabled</label>
                                     </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
@@ -405,7 +406,7 @@
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="responderField2" name="[2]" type="radio"
                                                [checked]="!userState.settings.autoresponder"/>
-                                        <label for="responderField2">Disabled</label>
+                                        <label for="responderField2" translate="common.disabled">Disabled</label>
                                     </div>
                                 </div>
                             </div>
@@ -418,14 +419,14 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Security settings</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.security_settings">Security settings</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
-                            <label for="securityPassword" class="form-label mb-sm-0">Password</label>
+                            <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="securityPassword" type="password"
