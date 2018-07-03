@@ -32,5 +32,37 @@
     "save": "Сохранить",
     "delete": "Удалить",
     "cancel": "Отмена"
+  },
+  "settings": {
+    "dashboard": "Панель приборов",
+    "overview": "обзор",
+    "username": "имя пользователя",
+    "domains": "Домены",
+    "feature_coming_soon": "Функция скоро появится!",
+    "addresses": "Адреса",
+    "storage": "Место хранения",
+    "address_tooltip": "Один - более скоро!",
+    "my_subscription": "Моя подписка",
+    "plans": "планы",
+    "prime_plan": "Премьер-план",
+    "free_plan": "Бесплатный план",
+    "+10_addresses": "+10 адресов",
+    "mo": "/мес",
+    "total_price": "Итоговая цена",
+    "billing_cycle_end": "Окончание платежного цикла",
+    "payment": "Оплата",
+    "account_type": "тип аккаунта",
+    "free_plan_tip": "Бесплатный план доступен только для хранения 250 МБ.",
+    "clear_storage": "Очистить хранилище",
+    "prime": "простое число",
+    "free": "Свободно",
+    "pay_monthly": "Платить ежемесячно",
+    "pay_annually": "Ежегодно оплачивать",
+    "current_plan": "Текущий план",
+    "select_free": "Выбрать бесплатно",
+    "general_settings": "Общие настройки"
+
+
+
   }
 }

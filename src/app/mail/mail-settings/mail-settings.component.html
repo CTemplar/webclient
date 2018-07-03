@@ -1,7 +1,7 @@
 <div class="mailbox-sub-content">
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered border-top-0">
-            <h3 class="ui-header-title text-dark mb-0"><strong>Dashboard</strong></h3>
+            <h3 class="ui-header-title text-dark mb-0"><strong translate="settings.dashboard">Dashboard</strong></h3>
         </header>
     </section>
 
@@ -12,29 +12,43 @@
                     <div class="col-md-6 mb-4 mb-md-0">
                         <div class="desc-card">
                             <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-top-md-0 border-bottom-0">
-                                <h5 class="ui-header-subtitle text-dark mb-0"><strong>Overview</strong></h5>
+                                <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.overview">Overview</strong>
+                                </h5>
                             </div>
                             <div class="desc-card-body">
                                 <ul class="info-list list-styled text-dark">
                                     <li class="info-list-item">
-                                        <div class="info-list-text info-list-label">Username</div>
+                                        <div class="info-list-text info-list-label" translate="settings.username">
+                                            Username
+                                        </div>
                                         <div class="info-list-text info-list-val">{{userState.username}}</div>
                                     </li>
                                     <li class="info-list-item">
-                                        <div class="info-list-text info-list-label">Domains</div>
-                                        <div class="info-list-text info-list-val">Feature coming soon!</div>
+                                        <div class="info-list-text info-list-label" translate="settings.domains">
+                                            Domains
+                                        </div>
+                                        <div class="info-list-text info-list-val"
+                                             translate="settings.feature_coming_soon">Feature coming soon!
+                                        </div>
                                     </li>
                                     <li class="info-list-item align-items-start">
-                                        <div class="info-list-text info-list-label">Addresses</div>
+                                        <div class="info-list-text info-list-label" translate="settings.addresses">
+                                            Addresses
+                                        </div>
                                         <div class="info-list-text info-list-val">
-                                            <div class="ng-tooltips-holder d-inline-block" placement="top" ngbTooltip="Prime accounts will be credited with 4 additional addresses at no cost as soon as this function is available">
-                                                <div class="info-list-val-text">One - More available soon!</div>
+                                            <div class="ng-tooltips-holder d-inline-block" placement="top"
+                                                 ngbTooltip="Prime accounts will be credited with 4 additional addresses at no cost as soon as this function is available">
+                                                <div class="info-list-val-text" translate="settings.address_tooltip">One
+                                                    - More available soon!
+                                                </div>
                                                 <div class="info-list-val-text">737.61 Mb of 5.00 Gb</div>
                                             </div>
                                         </div>
                                     </li>
                                     <li class="info-list-item">
-                                        <div class="info-list-text info-list-label">Storage</div>
+                                        <div class="info-list-text info-list-label" translate="settings.storage">
+                                            Storage
+                                        </div>
                                         <div class="info-list-text info-list-val">
                                             <div class="progress progress-secondary progress-lg">
                                                 <div class="progress-bar" role="progressbar" style="width:30%;"
@@ -49,40 +63,45 @@
                     <div class="col-md-6">
                         <div class="desc-card">
                             <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-top-sm-0 border-bottom-0">
-                                <h5 class="ui-header-subtitle text-dark mb-0"><strong>My Subscription</strong></h5>
+                                <h5 class="ui-header-subtitle text-dark mb-0"><strong
+                                        translate="settings.my_subscription">My Subscription</strong></h5>
                             </div>
                             <div class="desc-card-body">
                                 <ul class="info-list info-list-lg list-styled text-dark">
                                     <li class="info-list-item">
                                         <div class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
-                                                <span class="info-list-label-text">Plans</span>
-                                                <span class="info-list-label-text">{{userState.isPrime ? 'Prime Plan' : 'Free Plan'}}</span>
+                                                <span class="info-list-label-text"
+                                                      translate="settings.plans">Plans</span>
+                                                <span class="info-list-label-text">
+                                                    <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
+                                                    <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
+                                                </span>
                                             </div>
                                             <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                                <strong>$8</strong><span class="text-muted">/mo</span>
+                                                <strong>$8</strong><span class="text-muted" translate="settings.mo">/mo</span>
                                             </div>
                                         </div>
                                         <div *ngIf="userState.isPrime" class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text"
-                                                      style="visibility: hidden">Plans</span>
-                                                <span class="fw-light">+10 addresses</span>
+                                                      style="visibility: hidden" translate="settings.plans">Plans</span>
+                                                <span class="fw-light" translate="settings.+10_addresses">+10 addresses</span>
                                             </div>
                                             <div class="info-list-text info-list-val"><strong>$2</strong><span
-                                                    class="text-muted">/mo</span></div>
+                                                    class="text-muted" translate="settings.mo">/mo</span></div>
                                         </div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
-                                        <div class="info-list-text info-list-label">Total Price</div>
+                                        <div class="info-list-text info-list-label" translate="settings.total_price">Total Price</div>
                                         <div class="info-list-text info-list-val">$66/annually</div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
-                                        <div class="info-list-text info-list-label">Billing Cycle End</div>
+                                        <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing Cycle End</div>
                                         <div class="info-list-text info-list-val">Apr 20, 2018</div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
-                                        <div class="info-list-text info-list-label">Payment</div>
+                                        <div class="info-list-text info-list-label" translate="settings.payment">Payment</div>
                                         <div class="info-list-text info-list-val">Credit Card</div>
                                     </li>
                                 </ul>
@@ -96,10 +115,10 @@
 
     <section class="mailbox-section">
         <div class="ui-header ui-header-bordered position-relative">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Account Type</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account Type</strong></h5>
             <div class="l-alert l-alert-danger l-alert-is-floated d-inline-block text-center hidden-md-up">
                 <div class="l-alert-inner">
-                    <div>Free plan available only for 250 Mb Storage. &nbsp;&nbsp;&nbsp;<a><u>Clear Storage</u></a>
+                    <div> <span translate="settings.free_plan_tip">Free plan available only for 250 Mb Storage. </span>&nbsp;&nbsp;&nbsp;<a><u translate="settings.clear_storage">Clear Storage</u></a>
                     </div>
                 </div>
             </div>
@@ -108,11 +127,11 @@
             <div class="container container-sm">
                 <div class="package-card-holder settings-package-card-holder">
                     <ul class="package-xs-tab list-style-none mt-0 hidden-sm-up">
-                        <li class="active" [class.is-active]="1 === selectedIndex">
-                            <a role="button" (click)="toggleSlides(1);">Prime</a>
+                        <li class="active" [class.is-active]="1 === selectedIndex" >
+                            <a role="button" (click)="toggleSlides(1);" ><span translate="settings.prime">Prime</span></a>
                         </li>
                         <li [class.is-active]="2 === selectedIndex">
-                            <a role="button" (click)="toggleSlides(2);">Free</a>
+                            <a role="button" (click)="toggleSlides(2);" translate="settings.free">Free</a>
                         </li>
                     </ul>
                     <div class="row flex-nowrap row-lg">
@@ -120,7 +139,7 @@
                              [class.is-active-slide]="1 === selectedIndex">
                             <div class="package-card package-card-prime is-shadowed bg-white text-dark">
                                 <header class="package-card-header text-center"><h2 class="text-white m-0">
-                                    <strong>Prime</strong></h2></header>
+                                    <strong translate="settings.prime">Prime</strong></h2></header>
                                 <div class="package-card-body">
                                     <ul class="package-list mb-0 list-style-none pl-0">
                                         <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
@@ -196,7 +215,7 @@
                                                         <div class="fancy-field-group">
                                                             <input class="d-none fancy-field-control" id="pay-monthly"
                                                                    name="[]" type="radio" checked/>
-                                                            <label for="pay-monthly">Pay Monthly</label>
+                                                            <label for="pay-monthly" translate="settings.pay_monthly"></label>
                                                         </div>
                                                     </div>
                                                     <div class="col-4 text-right">
@@ -211,7 +230,7 @@
                                                         <div class="fancy-field-group">
                                                             <input class="d-none fancy-field-control" id="pay-annullay"
                                                                    name="[]" type="radio"/>
-                                                            <label for="pay-annullay">Pay Annually</label>
+                                                            <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
                                                             <span class="badge">-20%</span>
                                                         </div>
                                                     </div>
@@ -239,7 +258,7 @@
                         <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
                             <div class="package-card package-card-basic bg-faded text-dark">
                                 <header class="package-card-header text-center"><h2 class="text-white m-0">
-                                    <strong>Free</strong></h2></header>
+                                    <strong translate="settings.free">Free</strong></h2></header>
                                 <div class="package-card-body">
                                     <ul class="package-list mb-0 list-style-none pl-0">
                                         <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
@@ -276,9 +295,9 @@
                                 <footer class="package-card-footer text-center">
                                     <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
                                     <div class="package-actions" *ngIf="!userState.isPrime">
-                                        <a class="btn-link text-uppercase text-info cursor-pointer"><strong>Current
+                                        <a class="btn-link text-uppercase text-info cursor-pointer"><strong translate="settings.current_plan">Current
                                             Plan</strong></a>
-                                        <a class="btn btn-lg btn-gradient-info d-none">Select Free</a>
+                                        <a class="btn btn-lg btn-gradient-info d-none" translate="settings.select_free">Select Free</a>
                                     </div>
                                 </footer>
                             </div>
@@ -291,7 +310,7 @@
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>General settings</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General settings</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">

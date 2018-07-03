@@ -32,5 +32,35 @@
     "save": "Save",
     "delete": "Delete",
     "cancel": "Cancel"
+  },
+  "settings": {
+    "dashboard": "Dashboard",
+    "overview": "Overview",
+    "username": "Username",
+    "domains": "Domains",
+    "feature_coming_soon": "Feature coming soon!",
+    "addresses": "Addresses",
+    "storage": "Storage",
+    "address_tooltip": "One - More available soon!",
+    "my_subscription": "My Subscription",
+    "plans": "Plans",
+    "prime_plan": "Prime Plan",
+    "free_plan": "Free Plan",
+    "+10_addresses": "+10 addresses",
+    "mo": "/mo",
+    "total_price": "Total Price",
+    "billing_cycle_end": "Billing Cycle End",
+    "payment": "Payment",
+    "account_type": "Account Type",
+    "free_plan_tip": "Free plan available only for 250 Mb Storage.",
+    "clear_storage": "Clear Storage",
+    "prime": "Prime",
+    "free": "Free",
+    "pay_monthly": "Pay Monthly",
+    "pay_annually": "Pay Annually",
+    "current_plan": "Current Plan",
+    "select_free": "Select Free",
+    "general_settings": "General settings"
+
   }
 }
