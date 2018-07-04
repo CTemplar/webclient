@@ -1,6 +1,4 @@
-
-import { createFeatureSelector, ActionReducerMap } from '@ngrx/store';
-import * as fromRouter from '@ngrx/router-store';
+import { ActionReducerMap } from '@ngrx/store';
 
 import { AppState } from '../datatypes';
 import * as auth from './auth.reducers';
@@ -9,8 +7,8 @@ import * as mail from './mail.reducers';
 import * as loading from './loading.reducers';
 import * as keyboard from './keyboard.reducers';
 import * as user from './users.reducers';
+
 export const reducers: ActionReducerMap<AppState> = {
-  routerReducer: fromRouter.routerReducer,
   auth: auth.reducer,
   blog: blog.reducer,
   mail: mail.reducer,

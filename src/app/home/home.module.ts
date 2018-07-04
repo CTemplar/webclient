@@ -11,7 +11,7 @@ import { MailModule } from '../mail/mail.module';
 import { HomeComponent } from './home.component';
 import { HomeWelcomeComponent } from './home-welcome/home-welcome.component';
 import { HomeFeaturesComponent } from './home-features/home-features.component';
-import {SharedModule} from '../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import {SharedModule} from '../shared/shared.module';
     HomeRoutingModule,
     BlogModule,
     MailModule,
-      SharedModule
+    TranslateModule
   ],
   declarations: [HomeComponent, HomeFeaturesComponent, HomeWelcomeComponent]
 })

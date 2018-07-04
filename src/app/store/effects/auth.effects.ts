@@ -22,7 +22,7 @@ import {
   AuthActionTypes,
   LogIn, LogInSuccess, LogInFailure,
   SignUp, SignUpSuccess, SignUpFailure,
-  LogOut,
+  Logout,
 } from '../actions';
 
 

@@ -6,9 +6,6 @@ import * as fromRouter from '@ngrx/router-store';
 // Model
 import { AppState, BlogState, MailState, RouterStateUrl } from '../datatypes';
 
-
-export const getRouterState = createFeatureSelector<AppState>('routerReducer');
-
 export const selectBlogState1 = (state: AppState) => state.blog;
 
 
