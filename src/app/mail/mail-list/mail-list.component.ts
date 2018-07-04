@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
 import { getMails } from '../../store/selectors';
-import { GetMails } from '../../store/actions';
+import { GetMails, FinalLoading } from '../../store/actions';
 
 @Component({
   selector: 'app-mail-list',
@@ -31,6 +31,8 @@ export class MailListComponent implements OnInit {
   ngOnInit() {
     this.getMailsState$.subscribe((mails) => {
       this.mails = mails;
+      this.store.dispatch(new FinalLoading({ loadingState: false }));
+
     });
 
     this.getMails();
