@@ -1197,8 +1197,8 @@
                         <div class="form-step-card">
                             <h3 class="form-step-card-title text-dark mb-3"><strong>Payment Information</strong></h3>
                             <div class="form-group">
-                                <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on
-                                    Card</label>
+                                <label for="personName" class="d-block text-muted text-left hidden-sm-up"
+                                       translate="settings.donate.name_on_card">Name on Card</label>
                                 <input class="form-control" id="personName" placeholder="Name on Card" value="John"
                                        type="text">
                             </div>
@@ -1323,7 +1323,7 @@
 <!-- Add new payment method Modal -->
 <ng-template #newPaymentMethodContent let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="addPaymentMethodModalLabel"><strong>Add payment method</strong></h3>
+        <h3 class="modal-title w-100 text-dark" id="addPaymentMethodModalLabel"><strong translate="settings.add_new_method">Add payment method</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -1333,7 +1333,7 @@
             <div class="form-group">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0">Type:</label>
+                        <label class="form-label mb-sm-0" translate="settings.type">Type:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="btn-dropdown btn-dropdown-select">
@@ -1357,7 +1357,7 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="nameoncardField">Name on card:</label>
+                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name on card:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
@@ -1370,7 +1370,7 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="cardNumberField">Card number:</label>
+                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card number:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
@@ -1384,7 +1384,7 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistName">Expirty date:</label>
+                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry date:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="row row-xs-sm align-items-center">
@@ -1427,7 +1427,7 @@
             <div class="form-group mb-0">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="securityCardField">Security code:</label>
+                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security code:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
@@ -1448,14 +1448,14 @@
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a class="btn btn-secondary btn-sm" role="button">Add</a>
+        <a class="btn btn-secondary btn-sm" role="button" translate="settings.add">Add</a>
     </div>
 </ng-template><!-- /.Add new payment method Modal ends -->
 
 <!-- Make a donation Modal -->
 <ng-template #makeDonationContent let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong>Make a donation</strong></h3>
+        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong translate="settings.donate.make_a_donation">Make a donation</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -1465,7 +1465,7 @@
             <div class="form-group">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0">Select amount:</label>
+                        <label class="form-label mb-sm-0" translate="settings.donate.select_amount">Select amount:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="btn-dropdown btn-dropdown-select">
@@ -1488,7 +1488,7 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="nameoncardField">Name on card:</label>
+                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name on card:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
@@ -1501,7 +1501,7 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="cardNumberField">Card number:</label>
+                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card number:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
@@ -1515,14 +1515,14 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistName">Expirty date:</label>
+                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry date:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="row row-xs-sm align-items-center">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <div class="btn-dropdown btn-dropdown-select">
                                     <div ngbDropdown class="dropdown-sm">
-                                        <button ngbDropdownToggle id="expiryMonthDropdownMenuButton" role="button">01
+                                        <button ngbDropdownToggle id="expiryMonthDropdownMenuButton2" role="button">01
                                         </button>
                                         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
                                              aria-labelledby="expiryMonthDropdownMenuButton">
@@ -1558,7 +1558,7 @@
             <div class="form-group mb-0">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="securityCardField">Security code:</label>
+                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security code:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
@@ -1579,6 +1579,6 @@
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a class="btn btn-secondary btn-sm" role="button">Add</a>
+        <a class="btn btn-secondary btn-sm" role="button" translate="settings.add">Add</a>
     </div>
 </ng-template><!-- /.Make a donation Modal ends -->

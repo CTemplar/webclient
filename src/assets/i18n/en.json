@@ -35,7 +35,8 @@
     "enabled": "Enabled",
     "disabled": "Disabled",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "logout": "Log out"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -94,7 +95,7 @@
     "add_to": "Add to",
     "username_required": "The username is required.",
     "email_required": "The email is required.",
-    "payment": "Payments",
+    "payments": "Payments",
     "add_new_method": "Add new method",
     "keys": {
       "name": "Keys",
@@ -106,8 +107,15 @@
     "donate": {
       "name": "Donate",
       "info": "Your donation helps us support more users and continue to develop CTemplar as free and open source software.",
-      "make_a_donation": "Make a donation"
-    }
+      "make_a_donation": "Make a donation",
+      "select_amount": "Select amount:",
+      "name_on_card": "Name on card:",
+      "card_number": "Card number:",
+      "expiry_date:": "Expiry date:",
+      "security_code": "Security code:"
+    },
+    "add": "Add",
+    "type": "Type:"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -119,5 +127,9 @@
     "trash": "Trash",
     "add_folder": "Add folder",
     "used": "Used"
+  },
+  "mail_header": {
+    "contacts": "Contacts",
+    "settings": "Settings"
   }
 }
