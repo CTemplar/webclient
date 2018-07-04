@@ -131,5 +131,22 @@
   "mail_header": {
     "contacts": "Contacts",
     "settings": "Settings"
+  },
+  "mail_list": {
+    "select_messages": "Select messages",
+    "all": "All",
+    "read": "Read",
+    "unread": "Unread",
+    "stared": "Starred",
+    "unstarred": "Unstarred",
+    "move_to_archive": "Move to archive",
+    "move_to_spam": "Move to spam",
+    "move_to_trash": "Move to trash",
+    "create_folder": "Create folder",
+    "more_to": "More to ...",
+    "more": "More",
+    "add_star": "Add star",
+    "mark_as_read": "Mark as read",
+    "mark_as_unread": "Mark as unread"
   }
 }

@@ -132,5 +132,22 @@
   "mail_header": {
     "contacts": "контакты",
     "settings": "настройки"
+  },
+  "mail_list": {
+    "select_messages": "Выберите сообщения",
+    "all": "Все",
+    "read": "Читать",
+    "unread": "Не прочитано",
+    "stared": "Помеченные",
+    "unstarred": "Без пометок",
+    "move_to_archive": "Переместить в архив",
+    "move_to_spam": "Перейти к спаму",
+    "move_to_trash": "Переместить в корзину",
+    "create_folder": "Создать папку",
+    "more_to": "Больше ...",
+    "more": "Больше",
+    "add_star": "Добавить звезду",
+    "mark_as_read": "пометить, как прочитанное",
+    "mark_as_unread": "Отметить как непрочитанное"
   }
 }
