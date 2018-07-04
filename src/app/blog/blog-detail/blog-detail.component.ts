@@ -1,6 +1,6 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -13,8 +13,8 @@ import { UsersService } from '../../store/services';
 import { FinalLoading, GetCategories, GetPostDetail, GetRelatedPosts, PostComment, RelatedBlogLoading } from '../../store/actions';
 // Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, BlogState, LoadingState, RouterStateUrl } from '../../store/datatypes';
-import { getCategories, getRelatedBlogs, getRouterState } from '../../store/selectors';
+import { AppState, AuthState, BlogState, LoadingState } from '../../store/datatypes';
+import { getCategories, getRelatedBlogs } from '../../store/selectors';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 @TakeUntilDestroy()
@@ -38,25 +38,23 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   replyId: number;
   isPostedComment: boolean = false;
   categories: Category[];
-  currentUrl: String = '';
   numberOfColumns: NumberOfColumns;
   mode: Mode;
   isReplyFormShown: boolean = false;
 
   getCategories$: Observable<any>;
   getRelatedBlogsState$: Observable<any>;
-  getRouterState$: Observable<any>;
 
   constructor(
     private userService: UsersService,
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private modalService: NgbModal
   ) {
     this.getCategories$ = this.store.select(getCategories);
     this.getRelatedBlogsState$ = this.store.select(getRelatedBlogs);
-    this.getRouterState$ = this.store.select(getRouterState);
 
     this.getCategories$.takeUntil(this.destroyed$).subscribe(categories => {
       this.categories = categories;
@@ -101,14 +99,9 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.getRouterState$.takeUntil(this.destroyed$).subscribe((routerStateUrl: RouterStateUrl) => {
-      // console.log(routerStateUrl.state)
-      if (this.currentUrl !== '' && this.currentUrl !== routerStateUrl.state.url && routerStateUrl.state.url.includes('/blog/')) {
-        this.store.dispatch(new RelatedBlogLoading({ loadingState: true }));
-        // window.location.reload();
-      }
-      this.currentUrl = routerStateUrl.state.url;
-    });
+    if (this.router.url.includes('/blog/')) {
+      this.store.dispatch(new RelatedBlogLoading({ loadingState: true }));
+    }
     this.replyForm = this.formBuilder.group({
       comment: ['', [Validators.required]]
     });

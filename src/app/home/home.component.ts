@@ -2,7 +2,7 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { Category, Mode, NumberOfColumns, Post } from '../store/models';
 
-import { getCategories, getNewBlogs, getRouterState } from '../store/selectors';
+import { getCategories, getNewBlogs } from '../store/selectors';
 // Store
 import { Store } from '@ngrx/store';
 // Rxjs
@@ -13,6 +13,7 @@ import { FinalLoading, GetCategories, GetPosts, GetRelatedPosts, RecentBlogLoadi
 // Services
 import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface ModeInterface {
   Recent: number;
@@ -33,8 +34,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   posts: Post[] = [];
   blogId?: number;
   category?: number;
-  getRouterState$: Observable<any>;
-  currentUrl: String;
   viewChecked: boolean = false;
   modeObj: ModeInterface = {
     Recent: 0,
@@ -47,10 +46,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   constructor(
     private store: Store<AppState>,
+    private router: Router,
     private _ngxZendeskWebwidgetService: ngxZendeskWebwidgetService
   ) {
     this.getNewBlogState$ = this.store.select(getNewBlogs);
-    this.getRouterState$ = this.store.select(getRouterState);
     this.getCategories$ = this.store.select(getCategories);
     _ngxZendeskWebwidgetService.identify({
       name: '',
@@ -69,17 +68,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.store.select(state => state.loading).takeUntil(this.destroyed$).subscribe((loadingState: LoadingState) => {
       if (loadingState.RecentBlogLoading === false) {
         if (
-          this.currentUrl === '/' &&
+          this.router.url === '/' &&
           loadingState.Loading === true &&
           this.viewChecked
         ) {
           this.store.dispatch(new FinalLoading({ loadingState: false }));
         }
-      }
-    });
-    this.getRouterState$.takeUntil(this.destroyed$).subscribe((routerStateUrl: RouterStateUrl) => {
-      if (routerStateUrl && routerStateUrl.state) {
-        this.currentUrl = routerStateUrl.state.url;
       }
     });
     this.updateRecentState();
