@@ -27,11 +27,10 @@ export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState
   };
 }
 
-export const metaReducers: MetaReducer<AppState>[] = [logger];
 
 @NgModule({
   imports: [
-    StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
+    StoreModule.forRoot(reducers, { metaReducers: [logoutReducer, logger] }),
     EffectsModule.forRoot(effects),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule
