@@ -137,7 +137,7 @@
     "all": "All",
     "read": "Read",
     "unread": "Unread",
-    "stared": "Starred",
+    "starred": "Starred",
     "unstarred": "Unstarred",
     "move_to_archive": "Move to archive",
     "move_to_spam": "Move to spam",
