@@ -16,7 +16,7 @@ import { CustomSerializer, effects, reducers } from './index';
     StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({
-      maxAge: 10,
+      maxAge: 50,
       logOnly: environment.debug
     }),
     StoreRouterConnectingModule
