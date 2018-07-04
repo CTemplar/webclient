@@ -209,6 +209,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   openEncryptionModal() {
+
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
       centered: true,
       windowClass: 'modal-md users-action-modal'
@@ -271,7 +272,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private messageEncrypt() {
     if (this.encryptForm.valid) {
       this.openPgpService.generateKey(this.encryptForm.value.password);
-      this.openPgpService.makeEncrypt(JSON.stringify(this.quill.getContents().ops)).then(() => {
+      this.openPgpService.makeEncrypt(this.editor.nativeElement.innerHTML).then(() => {
         // TODO: api call for message encryption
         // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
       } );
