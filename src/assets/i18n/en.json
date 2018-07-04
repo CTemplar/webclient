@@ -148,5 +148,15 @@
     "add_star": "Add star",
     "mark_as_read": "Mark as read",
     "mark_as_unread": "Mark as unread"
+  },
+  "home_header": {
+    "home": "Home",
+    "about": "About",
+    "security": "Security",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "support": "Support",
+    "login": "Login",
+    "signup": "Sign up"
   }
 }
