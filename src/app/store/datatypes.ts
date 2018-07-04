@@ -1,11 +1,8 @@
 // Angular
 import { Params } from '@angular/router';
-
 // Ngrx
-import * as fromRouter from '@ngrx/router-store';
-
 // Models
-import { User, Post, Category, Comment, Mail, Membership } from '../store/models';
+import { Category, Comment, Mail, Membership, Post, User } from '../store/models';
 
 export interface RouterStateUrl {
   url: string;
@@ -104,7 +101,6 @@ export interface Contact {
 }
 
 export interface AppState {
-  routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   auth: AuthState;
   blog: BlogState;
   mail: MailState;
