@@ -11,6 +11,7 @@ import { MailModule } from '../mail/mail.module';
 import { HomeComponent } from './home.component';
 import { HomeWelcomeComponent } from './home-welcome/home-welcome.component';
 import { HomeFeaturesComponent } from './home-features/home-features.component';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { HomeFeaturesComponent } from './home-features/home-features.component';
     HomeRoutingModule,
     BlogModule,
     MailModule,
+      SharedModule
   ],
   declarations: [HomeComponent, HomeFeaturesComponent, HomeWelcomeComponent]
 })

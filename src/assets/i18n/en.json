@@ -158,5 +158,9 @@
     "support": "Support",
     "login": "Login",
     "signup": "Sign up"
+  },
+  "home_page": {
+  "take_back_liberty": "<strong>Take Back Your Liberty</strong> with Encrypted Communication",
+    "send_unbreakable_email": "Send unbreakable emails and protect your key professional and personal details trough next-gen encryption"
   }
 }
