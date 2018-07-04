@@ -20,25 +20,25 @@
         </div>
         <div class="col-sm-6 mailbox-navbar-col">
             <ul class="mailbox-actions-menu d-flex justify-content-end">
-                <li class=""><a routerLink="/mail/contact" placement="bottom" ngbTooltip="Contacts"><i
+                <li class=""><a routerLink="/mail/contact" placement="bottom" [ngbTooltip]="'mail_header.contacts' | translate"><i
                         class="icon icon-login"></i></a></li>
                 <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings" class="border-right-0"
-                                                        placement="bottom" ngbTooltip="Settings"><i
+                                                        placement="bottom" [ngbTooltip]="'mail_header.settings'| translate"><i
                         class="icon icon-gear"></i></a></li>
                 <li class="mailbox-signout pl-sm-0">
                     <a (click)="logout()"
-                        placement="bottom" ngbTooltip="Log out"><i
+                        placement="bottom" [ngbTooltip]="'common.logout' | translate"><i
                         class="icon icon-logout cursor-pointer"></i></a></li>
                 <li class="mailbox-lang mailbox-dropdown btn-dropdown">
                     <div ngbDropdown class="lang-dropdown">
                         <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom"
-                                ngbTooltip="Language"><i class="icon icon-earth-globe hidden-xs-down"></i>
+                                [ngbTooltip]="'settings.language' |translate"><i class="icon icon-earth-globe hidden-xs-down"></i>
                             {{selectedLanguage}}
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right text-center"
                              aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" (click)="changeLanguage('en')">English (EN)</a>
                             <a class="dropdown-item" (click)="changeLanguage('ru')">Russian (RU)</a>
+                            <a class="dropdown-item" (click)="changeLanguage('en')">English (EN)</a>
                         </div>
                     </div>
                 </li>

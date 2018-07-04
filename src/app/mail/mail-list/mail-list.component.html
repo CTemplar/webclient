@@ -5,7 +5,7 @@
                 <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
                     <div ngbDropdown>
                         <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
-                                placement="top" ngbTooltip="Select messages">
+                                placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
                             <span class="fancy-field-group">
                                 <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
                                        name="[]" type="checkbox"/>
@@ -13,24 +13,24 @@
                             </span>
                         </button>
                         <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
-                            <a class="dropdown-item" href="">All</a>
-                            <a class="dropdown-item" href="">Read</a>
-                            <a class="dropdown-item" href="">Unread</a>
-                            <a class="dropdown-item" href="">Starred</a>
-                            <a class="dropdown-item" href="">Unstarred</a>
+                            <a class="dropdown-item" href="" translate="mail_list.all">All</a>
+                            <a class="dropdown-item" href="" translate="mail_list.read">Read</a>
+                            <a class="dropdown-item" href="" translate="mail_list.unread">Unread</a>
+                            <a class="dropdown-item" href="" translate="mail_list.starred">Starred</a>
+                            <a class="dropdown-item" href="" translate="mail_list.unstarred">Unstarred</a>
                         </div>
                     </div>
                 </li>
                 <li class="px-0">
                     <a href="" class="border-right-0 border-radius-right-0" placement="top"
-                       ngbTooltip="Move to archive"><i class="icon icon-archive"></i></a>
+                       [ngbTooltip]="'mail_list.move_to_archive' | translate"><i class="icon icon-archive"></i></a>
                 </li>
                 <li class="pr-0 pl-0 hidden-xs-down">
-                    <a href="" class="border-right-0 border-radius-0" placement="top" ngbTooltip="Move to spam"><i
+                    <a href="" class="border-right-0 border-radius-0" placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate"><i
                             class="icon icon-warning"></i></a>
                 </li>
                 <li class="px-0">
-                    <a href="" class="border-radius-left-0" placement="top" ngbTooltip="Move to trash"><i
+                    <a href="" class="border-radius-left-0" placement="top" [ngbTooltip]="'mail_list.move_to_trash' | translate"><i
                             class="icon icon-garbage"></i></a>
                 </li>
                 <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
@@ -53,9 +53,11 @@
                                                     class="folder-color-box is-info"></span>Another Folder 21</a>
                                             <a class="dropdown-item" href=""><span
                                                     class="folder-color-box is-warning"></span>Folder 33</a>
-                                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Inbox</a>
-                                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Draft</a>
-                                            <a class="dropdown-item" href=""><i
+                                            <a class="dropdown-item" href="" ><i class="icon icon-inbox"></i>
+                                                <span translate="mail_sidebar.inbox">Inbox</span></a>
+                                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>
+                                                <span translate="mail_sidebar.draft">Draft</span></a>
+                                            <a class="dropdown-item" href="" translate="mail_siderbar.archive"><i
                                                     class="icon icon-archive"></i>Archive</a>
                                             <span class="divider-item d-block"></span>
                                             <a class="dropdown-item" href="" data-toggle="modal"
@@ -71,31 +73,31 @@
                 <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
                     <div ngbDropdown>
                         <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button"
-                                placement="top" ngbTooltip="More to ..."><i class="icon icon-folder"></i></button>
+                                placement="top" [ngbTooltip]="'mail_list.more_to' | translate"><i class="icon icon-folder"></i></button>
                         <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton">
                             <a class="dropdown-item" href=""><span class="folder-color-box is-success"></span>Folder
                                 1</a>
                             <a class="dropdown-item" href=""><span class="folder-color-box is-info"></span>Another
                                 Folder 21</a>
                             <a class="dropdown-item" href=""><span class="folder-color-box is-warning"></span>Folder 33</a>
-                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Inbox</a>
-                            <a class="dropdown-item" href=""><i class="icon icon-inbox"></i>Draft</a>
-                            <a class="dropdown-item" href=""><i class="icon icon-archive"></i>Archive</a>
+                            <a class="dropdown-item" href="" translate="mail_sidebar.inbox"><i class="icon icon-inbox"></i>Inbox</a>
+                            <a class="dropdown-item" href="" translate="mail_sidebar.draft"><i class="icon icon-inbox"></i>Draft</a>
+                            <a class="dropdown-item" href="" translate="mail_sidebar.archive"><i class="icon icon-archive"></i>Archive</a>
                             <span class="divider-item d-block"></span>
-                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal"><i
+                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal" translate="mail_list.create_folder"><i
                                     class="icon icon-folder"></i>Create folder</a>
                         </div>
                     </div>
                 </li>
                 <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown pl-0">
                     <div ngbDropdown class="dropdown">
-                        <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton">
+                        <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton" translate="mail_list.more">
                             More
                         </button>
                         <div ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
-                            <a class="dropdown-item" href="">Add star</a>
-                            <a class="dropdown-item" href="">Mark as read</a>
-                            <a class="dropdown-item" href="">Mark as unread</a>
+                            <a class="dropdown-item" href="" translate="mail_list.add_star">Add star</a>
+                            <a class="dropdown-item" href="" translate="mail_list.mark_as_read">Mark as read</a>
+                            <a class="dropdown-item" href="" translate="mail_list.mark_as_unread">Mark as unread</a>
                         </div>
                     </div>
                 </li>
