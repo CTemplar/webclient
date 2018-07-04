@@ -25,7 +25,7 @@
             <button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon" role="button"
                     (click)="showMailComposeModal();">
                 <i class="icon icon-plus text-white hidden-md-up"></i>
-                <span class="mailbox-btn-text hidden-sm-down">Compose</span>
+                <span class="mailbox-btn-text hidden-sm-down" translate="common.compose">Compose</span>
             </button>
         </div>
 
@@ -34,7 +34,7 @@
                 <li class="mailbox-sidebar-nav-item active">
                     <a href="" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-inbox"></i>
-                        <span class="mailbox-sidebar-nav-label">Inbox</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
                         <span class="badge badge-square hidden-sm-down">4</span>
                         <span class="badge badge-sm badge-square hidden-md-up">1234</span>
                     </a>
@@ -42,37 +42,37 @@
                 <li class="mailbox-sidebar-nav-item">
                     <a href="" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-draft"></i>
-                        <span class="mailbox-sidebar-nav-label">Draft</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item">
                     <a href="" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-paper-plane"></i>
-                        <span class="mailbox-sidebar-nav-label">Sent</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.sent">Sent</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item">
                     <a href="" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-star"></i>
-                        <span class="mailbox-sidebar-nav-label">Starred</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.starred">Starred</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item">
                     <a href="" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-archive"></i>
-                        <span class="mailbox-sidebar-nav-label">Archive</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.archive">Archive</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item">
                     <a href="" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-warning"></i>
-                        <span class="mailbox-sidebar-nav-label">Spam</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.spam">Spam</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item">
                     <a href="" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-garbage"></i>
-                        <span class="mailbox-sidebar-nav-label">Trash</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.trash">Trash</span>
                     </a>
                 </li>
                 <li class="divider-item"></li>
@@ -80,7 +80,7 @@
                     <a href="javascript:void(0);" class="mailbox-sidebar-nav-link" (click)="open(content)"
                        role="button">
                         <i class="icon icon-folder"></i>
-                        <span class="mailbox-sidebar-nav-label">Add folder</span>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
                     <ul class="folders-list">
                         <li>
@@ -107,13 +107,13 @@
         </nav>
 
         <div class="mailbox-sidebar-footer text-center">
-            <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">Used
+                <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm" translate="mail_sidebar.used">Used
                 <div class="text-white mt-1">43 MB</div>
             </div>
             <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">Used storage: 43 MB of 100 MB</div>
             <a href="" class="btn-link text-white hidden-in-sm">
                 <small>
-                    <u>Upgrade account</u>
+                    <u translate="common.upgrade_account">Upgrade account</u>
                 </small>
             </a>
         </div>
@@ -124,7 +124,7 @@
 <!-- Compose button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
     <button class="btn btn-primary mailbox-btn mailbox-compose-btn btn-xs-rounded has-icon" role="button"
-            placement="top" ngbTooltip="Compose" (click)="showMailComposeModal();"><i
+            placement="top" [ngbTooltip]="'common.compose' | translate" (click)="showMailComposeModal();"><i
             class="icon icon-plus text-white"></i></button>
 </div>
 

@@ -108,5 +108,16 @@
       "info": "Your donation helps us support more users and continue to develop CTemplar as free and open source software.",
       "make_a_donation": "Make a donation"
     }
+  },
+  "mail_sidebar": {
+    "inbox": "Inbox",
+    "draft": "Draft",
+    "sent": "Sent",
+    "starred": "Starred",
+    "archive": "Archive",
+    "spam": "Spam",
+    "trash": "Trash",
+    "add_folder": "Add folder",
+    "used": "Used"
   }
 }
