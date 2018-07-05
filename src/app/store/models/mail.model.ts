@@ -6,6 +6,7 @@ export interface Mail {
   starred?: boolean;
   send?: boolean;
   mailbox: number;
+  from?: string;
 }
 export interface Mailbox {
   id?: number;

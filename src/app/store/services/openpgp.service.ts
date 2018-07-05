@@ -53,7 +53,6 @@ export class OpenPgpService {
   }
 
   async decryptPrivateKey() {
-    this.passphrase = 'aaaaaaaaaa';
     await this.privKeyObj.decrypt(this.passphrase);
   }
 
@@ -65,19 +64,22 @@ export class OpenPgpService {
     };
     await openpgp.encrypt(this.options).then((ciphertext) => {
       this.encrypted = ciphertext.data;
-      // this.makeDecrypt();
     });
   }
 
-  makeDecrypt(str, pubkey, privkey) {
-    this.options = {
-      message: openpgp.message.readArmored(str),
-      publicKeys: openpgp.key.readArmored(pubkey).keys,
-      privateKeys: [openpgp.key.readArmored(privkey).keys[0]]
-    };
-    return openpgp.decrypt(this.options).then((plaintext) => {
-      return plaintext.data;
+  async makeDecrypt(str, privkey, pubkey, passphrase) {
+    // console.log('start');
+    this.privKeyObj = openpgp.key.readArmored(privkey).keys[0];
+    this.passphrase = passphrase;
+    return this.decryptPrivateKey().then(() => {
+      this.options = {
+        message: openpgp.message.readArmored(str),
+        publicKeys: openpgp.key.readArmored(pubkey).keys,
+        privateKeys: [this.privKeyObj]
+      };
+      return openpgp.decrypt(this.options).then((plaintext) => {
+        return plaintext.data;
+      });
     });
-
   }
 }
