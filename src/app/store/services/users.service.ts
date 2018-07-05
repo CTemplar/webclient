@@ -111,6 +111,7 @@ export class UsersService {
       'users/blacklist/',
       'users/contact',
       'emails/messages/',
+      'emails/mailboxes'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

@@ -1,8 +1,9 @@
+import { MailBoxesState } from './datatypes';
 // Angular
 import { Params } from '@angular/router';
 // Ngrx
 // Models
-import { Category, Comment, Mail, Membership, Post, User } from '../store/models';
+import { Category, Comment, Mail, Membership, Post, User, Mailboxes } from '../store/models';
 
 export interface RouterStateUrl {
   url: string;
@@ -59,8 +60,12 @@ export interface BlogState {
 export interface MailState {
   mails: Mail[];
   folders: any[];
-  draft: Mail,
+  draft: Mail;
   inProgress?: boolean;
+}
+
+export interface MailBoxesState {
+  mailboxes: Mailboxes[];
 }
 
 export interface LoadingState {
@@ -104,6 +109,7 @@ export interface AppState {
   auth: AuthState;
   blog: BlogState;
   mail: MailState;
+  mailboxes: MailBoxesState;
   loading: LoadingState;
   keyboard: KeyboardState;
   user: UserState;
