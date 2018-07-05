@@ -33,12 +33,13 @@
                     <div ngbDropdown class="lang-dropdown">
                         <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom"
                                 [ngbTooltip]="'settings.language' |translate"><i class="icon icon-earth-globe hidden-xs-down"></i>
-                            {{selectedLanguage}}
+                            {{selectedLanguage?.locale?.toUpperCase()}}
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right text-center"
                              aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" (click)="changeLanguage('ru')">Russian (RU)</a>
-                            <a class="dropdown-item" (click)="changeLanguage('en')">English (EN)</a>
+                            <a class="dropdown-item text-left"
+                               *ngFor="let language of languages"
+                               (click)="changeLanguage(language)">{{language.name}} ({{language.locale}})</a>
                         </div>
                     </div>
                 </li>

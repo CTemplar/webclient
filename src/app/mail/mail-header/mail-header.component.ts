@@ -1,21 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
-import { AppState } from '../../store/datatypes';
+import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { Logout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
+import { Language, LANGUAGES } from '../../shared/config';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs/Observable';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-header',
   templateUrl: './mail-header.component.html',
   styleUrls: ['./mail-header.component.scss']
 })
-export class MailHeaderComponent implements OnInit {
+export class MailHeaderComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
   menuIsOpened: boolean = false;
-  selectedLanguage: string = 'EN';
+  selectedLanguage: Language = { name: 'English', locale: 'en' };
+  languages = LANGUAGES;
 
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
@@ -24,6 +30,12 @@ export class MailHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.select(state => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        if (user.settings.language) {
+          this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
+        }
+      });
   }
 
   // == Setup click event to toggle mobile menu
@@ -36,9 +48,12 @@ export class MailHeaderComponent implements OnInit {
     this.store.dispatch(new Logout());
   }
 
-  changeLanguage(lang: string) {
+  changeLanguage(lang: Language) {
     // the lang to use, if the lang isn't available, it will use the current loader to get them
-    this.translate.use(lang);
-    this.selectedLanguage = lang.toUpperCase();
+    this.translate.use(lang.locale);
+    this.selectedLanguage = lang;
+  }
+
+  ngOnDestroy(): void {
   }
 }

@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as QuillNamespace from 'quill';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
-import { colors } from '../../../shared/config';
+import { COLORS } from '../../../shared/config';
 import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../store/datatypes';
@@ -46,7 +46,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChild('selfDestructModal') selfDestructModal;
   @ViewChild('encryptionModal') encryptionModal;
 
-  colors = colors;
+  colors = COLORS;
   options: any = {};
   selfDestructDateTime: any = {};
   attachments: Array<any> = [];
