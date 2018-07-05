@@ -33,7 +33,11 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         if (user.settings.language) {
-          this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
+          const language = this.languages.filter(item => item.name === user.settings.language)[0];
+          if (this.selectedLanguage.name !== language.name) {
+            this.changeLanguage(language);
+          }
+          this.selectedLanguage = language;
         }
       });
   }
