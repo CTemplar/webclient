@@ -5,6 +5,8 @@ import { Action } from '@ngrx/store';
 export enum MailActionTypes {
   GET_MAILS = '[Mail] GET_MAILS',
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
+  GET_MAILBOXES = '[Mail] GET_MAILBOXES',
+  GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
   CREATE_MAIL = '[Mail] CREATE',
   CREATE_MAIL_SUCCESS = '[Mail] CREATE SUCCESS',
   DELETE_MAIL = '[Mail] DELETE',
@@ -21,6 +23,18 @@ export class GetMails implements Action {
 
 export class GetMailsSuccess implements Action {
   readonly type = MailActionTypes.GET_MAILS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetMailboxes implements Action {
+  readonly type = MailActionTypes.GET_MAILBOXES;
+
+  constructor(public payload: any) {}
+}
+
+export class GetMailboxesSuccess implements Action {
+  readonly type = MailActionTypes.GET_MAILBOXES_SUCCESS;
 
   constructor(public payload: any) {}
 }
@@ -65,6 +79,8 @@ export class SendMailSuccess implements Action {
 export type MailActions =
   | GetMails
   | GetMailsSuccess
+  | GetMailboxes
+  | GetMailboxesSuccess
   | CreateMail
   | CreateMailSuccess
   | DeleteMail

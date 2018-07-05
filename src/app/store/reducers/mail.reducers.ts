@@ -19,6 +19,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       };
     }
 
+
     case MailActionTypes.DELETE_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       return { ...state, inProgress: true };

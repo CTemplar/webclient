@@ -19,7 +19,6 @@ import { MailContactComponent } from './mail-contact/mail-contact.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Custom Pipe
-import { DecryptPipe } from '../shared/pipes/decrypt.pipe';
 import { SaveContactComponent } from './mail-contact/save-contact/save-contact.component';
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { SharedModule } from '../shared/shared.module';
@@ -43,7 +42,6 @@ import { SaveListContactComponent } from './mail-settings/save-list-contact/save
     MailDetailComponent,
     MailListComponent,
     MailContactComponent,
-    DecryptPipe,
     SaveContactComponent,
     ComposeMailComponent,
     SaveListContactComponent

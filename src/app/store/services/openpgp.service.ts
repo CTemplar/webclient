@@ -13,14 +13,9 @@ export class OpenPgpService {
   private fingerprint: string;
 
   constructor() {
-    const localPubKey = localStorage.getItem('pubkey');
-    const localPrivKey = localStorage.getItem('privkey');
-    if (localPrivKey) {
-      this.pubkey = localPubKey;
-      this.privkey = localPrivKey;
+
       this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
-      this.decryptPrivateKey();
-    }
+      // this.decryptPrivateKey();
   }
 
   generateKey(user) {
@@ -74,15 +69,13 @@ export class OpenPgpService {
     });
   }
 
-  makeDecrypt(str) {
+  makeDecrypt(str, pubkey, privkey) {
     this.options = {
       message: openpgp.message.readArmored(str),
-      publicKeys: openpgp.key.readArmored(this.pubkey).keys,
-      privateKeys: [this.privKeyObj]
+      publicKeys: openpgp.key.readArmored(pubkey).keys,
+      privateKeys: [openpgp.key.readArmored(privkey).keys[0]]
     };
-
     return openpgp.decrypt(this.options).then((plaintext) => {
-      console.log(plaintext.data);
       return plaintext.data;
     });
 

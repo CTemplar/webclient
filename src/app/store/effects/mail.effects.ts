@@ -15,7 +15,8 @@ import { MailService } from '../../store/services';
 // Custom Actions
 import {
   CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
-  GetMailsSuccess, MailActionTypes, SnackErrorPush
+  GetMailsSuccess, MailActionTypes, SnackErrorPush,
+  GetMailboxes, GetMailboxesSuccess
 } from '../actions';
 
 
@@ -35,6 +36,18 @@ export class MailEffects {
           return new GetMailsSuccess(mails);
         });
     });
+
+    @Effect()
+    getMailboxesEffect: Observable<any> = this.actions
+      .ofType(MailActionTypes.GET_MAILBOXES)
+      .map((action: GetMailboxes) => action.payload)
+      .switchMap(payload => {
+        return this.mailService.getMailboxes(payload.limit, payload.offset)
+          .map((mails) => {
+            return new GetMailboxesSuccess(mails);
+          });
+      });
+
 
   @Effect()
   createMailEffect: Observable<any> = this.actions

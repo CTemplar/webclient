@@ -4,7 +4,8 @@ import { UsersActionTypes, UsersActionAll } from '../actions';
 // Model
 import { UserState } from '../datatypes';
 
-export const initialState: UserState = { username: null, id: null, whiteList: [], blackList: [], contact: [], settings: {}, membership: {}};
+export const initialState: UserState = { username: null, id: null, whiteList: [], blackList: [],
+  contact: [], settings: {}, membership: {}, mailboxes: []};
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
   switch (action.type) {
