@@ -164,7 +164,8 @@
     "send_unbreakable_email": "Send unbreakable emails and protect your key professional and personal details trough next-gen encryption",
     "signup_for_free": "Sign up for free",
     "latest_from_our_blog": "Latest From <strong>Our Blog</strong>",
-    "related_post": "Related <strong>Post</strong>"
+    "related_post": "Related <strong>Post</strong>",
+    "read_more_from_our_blog": "Read more from our blog"
   },
   "home_feature": {
     "end_to_end_PKI_encryption": "End-to-end PKI encryption keeps your private information safe from governments, corporations and hackers-for-hire.",
@@ -172,5 +173,24 @@
     "iceland_based_server": "Iceland-based servers have the world’s strict privacy laws, so your data cannot be shared, even with the highest authorities.",
     "easy_to_use_responsive": "Easy-to-use responsive interface makes sending secure emails quick and easy from any device.",
     "learn_more_about_ctempler": "Learn more about CTemplar security"
-  }
+  },
+   "footer": {
+     "register_to_world_most": "Register <strong>World’s Most Secure Email</strong> Now!",
+     "send_unbreakable_emails": "Send unbreakable emails and protect your key professional and personal details trough next-gen encryption.",
+     "upgrade_to_prime": "upgrade to prime",
+     "media_kit": "Media Kit",
+     "onion_site": "Onion site",
+     "support": "Support",
+     "company": "Company",
+     "social": "Social",
+     "facebook": "Facebook",
+     "twitter": "Twitter",
+     "google+": "Google+",
+     "linkedin": "LinkedIn",
+     "legal": "Legal",
+     "privacy_policy": "Privacy Policy",
+     "terms_and_conditions" : "Terms &amp; Conditions",
+     "our_address": "Our Address",
+     "all_rights_reserved": "All Rights Reserved"
+   }
 }
