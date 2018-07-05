@@ -7,7 +7,7 @@ export interface Mail {
   send?: boolean;
   mailbox: number;
 }
-export interface Mailboxes {
+export interface Mailbox {
   id?: number;
   folders: string;
   messages: string[];

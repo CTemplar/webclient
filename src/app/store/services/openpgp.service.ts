@@ -70,14 +70,12 @@ export class OpenPgpService {
   }
 
   makeDecrypt(str, pubkey, privkey) {
-    console.log(privkey);
     this.options = {
       message: openpgp.message.readArmored(str),
       publicKeys: openpgp.key.readArmored(pubkey).keys,
       privateKeys: [openpgp.key.readArmored(privkey).keys[0]]
     };
     return openpgp.decrypt(this.options).then((plaintext) => {
-      console.log(plaintext.data);
       return plaintext.data;
     });
 

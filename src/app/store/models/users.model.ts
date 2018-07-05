@@ -40,7 +40,7 @@ export interface Payment {
   classId?: string;
 }
 
-export interface UserMailboxes {
+export interface UserMailbox {
   id: number;
   email: string;
   passphrase: string;
