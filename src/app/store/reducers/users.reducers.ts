@@ -123,6 +123,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         username: action.payload.username,
         isPrime: action.payload.is_prime,
         settings: action.payload.settings,
+        mailboxes: action.payload.mailboxes
       };
     }
     case UsersActionTypes.MEMBERSHIP_UPDATE: {
