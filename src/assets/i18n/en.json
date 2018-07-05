@@ -208,5 +208,19 @@
     "legal_stance": "Legal Stance",
     "ctempler_legal_team_views": "CTemplar’s legal team views internet privacy as a dynamic issue. It is an evolving landscape. Accordingly, static solutions will not afford your data the level of protection demanded by those who value security.<br/><br/>Our legal department continues to research internet security and privacy laws throughout the world so that we may constantly provide users with the maximum level of internet privacy.<br/><br/> We have researched all aspects of internet privacy in various jurisdictions in order to assure that our servers are domiciled in the most secure location av Our servers are located in Iceland, recognized as the premier location for internet privacy. The Icelandic government has demonstrated itself to be at the forefront of internet privacy and vigorously enforces the right to be free of government intrusion.",
     "explore_our_security": "Explore our security features"
-  }
+  },
+  "page_security": {
+    "features": "Features",
+    "end_to_end_encryption": "End-to-end Encryption with Open Source Cryptography",
+    "whether_you_are_sending": "Whether you’re sending classified information to your accountant, business partners, clients, news networks or simply your friends, your emails are automatically encrypted using strong <a >public key cryptography</a> on our Icelandic servers, so even we can’t read them. Only you and your recipient can decode your emails.",
+    "benefit_from_world": "Benefit from the World’s Strictest Data Protection Laws",
+    "most_encrypted_email": "Most encrypted email service providers boats about their Swiss data centers. What they don’t tell you is the Swiss government has an <a >information sharing agreement with USA</a>, so your data isn’t 100% secure. Iceland has zero sharing agreements and maintains the strictest data privacy laws in the world, so your data stays encrypted on our servers and nowhere else!",
+    "guaranted_anonymity": "Guaranteed Anonymity and Zero Access to Your Data",
+    "we_dont_require_any": "We don’t require any personal information to create your encrypted email account. Simply chose a username and password to access your email interface. For additional security, we don’t store your IP logs which can be traced to your anonymous email account. With CTemplar, your privacy is guaranteed.",
+    "simple_to_use": "Simple-to-use Interface Just Like a Regular Email Account",
+    "unlike_the_old_days": "Unlike the old days where encrypted emailing meant complex manual encryption and private server setup, CTemplar does it all for you. Simply send and receive your emails just like a regular email account and rest assured knowing your privacy is 100% maintained.",
+    "encrypted_email_to_non": "Encrypted email to non-CTemaplar acounts, self-destructing messages & much more….",
+    "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. Though we do recommend everyone to use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected,  unlike regular accounts."
+   }
+
 }
