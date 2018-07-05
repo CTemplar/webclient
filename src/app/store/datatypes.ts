@@ -3,7 +3,7 @@ import { MailBoxesState } from './datatypes';
 import { Params } from '@angular/router';
 // Ngrx
 // Models
-import { Category, Comment, Mail, Membership, Post, User, Mailboxes } from '../store/models';
+import { Category, Comment, Mail, Membership, Post, User, Mailboxes, UserMailboxes } from '../store/models';
 
 export interface RouterStateUrl {
   url: string;
@@ -33,6 +33,7 @@ export interface UserState {
   isError?: boolean;
   error?: string;
   membership: Membership;
+  mailboxes: UserMailboxes[];
 }
 
 export interface Settings {

@@ -40,6 +40,12 @@ export interface Payment {
   classId?: string;
 }
 
+export interface UserMailboxes {
+  id: number;
+  email: string;
+  passphrase: string;
+}
+
 export const StorageData: Storage[] = [
   { id: 1, type: '5 Gb Storage', price: 2 },
   { id: 2, type: '10 Gb Storage', price: 4 },
