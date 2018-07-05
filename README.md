@@ -1,18 +1,29 @@
-#### Welcome to the first pre-alpha version for CTemplar's frontend. This page will be updated often with new information. Your contributions are welcomed!
+# CTemplar
 
----
+Official Angular cross-platform client for the CTemplar secure email service.
 
-### Handbooks (homemade)
-Useful documentation related to this project. We're waiting for the typewriting machines to be ready!
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
+## Development server
 
-### Handbooks (third-parties)
-Useful links of the third-party dependencies and tools we're using for the development of this project.
-- Angular: https://angular.io/guide/quickstart
-- Basic Git commands: https://rogerdudler.github.io/git-guide/
-- ng-bootstrap: https://ng-bootstrap.github.io/#/getting-started
-- OpenPGP.js: https://github.com/openpgpjs/openpgpjs#getting-started
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## Code scaffolding
 
-### License
-Apache License 2.0
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
