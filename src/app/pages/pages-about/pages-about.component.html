@@ -5,8 +5,9 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-8 px-sm-5 px-md-0">
                     <h1 class="page-title fw-light text-uppercase text-secondary mb-3 pb-1">
-                        <strong>About</strong> CTEMPLAR</h1>
-                    <h3 class="l-block-subtitle mb-0 text-dark fw-light">As the government continues to function
+                        <strong translate="home_header.about">About</strong> CTEMPLAR</h1>
+                    <h3 class="l-block-subtitle mb-0 text-dark fw-light" translate="page_about.as_the_govt_continues">As
+                        the government continues to function
                         completely outside the realm of accountability, all of us—reporter, missionary,
                         student, businessperson, citizen—become one person, in need of privacy and protection.</h3>
                 </div>
@@ -24,7 +25,8 @@
             <div class="row align-items-center">
                 <div class="col-md-7 flex-md-last mb-3 mb-sm-4 mb-md-0 pb-2 pb-sm-0">
                     <div class="tile-card px-lg text-center text-md-left pl-md-4">
-                        <h2 class="l-block-title fw-light text-secondary mb-3 mb-sm-4 pb-1 hidden-md-up">Why I started
+                        <h2 class="l-block-title fw-light text-secondary mb-3 mb-sm-4 pb-1 hidden-md-up"
+                            [innerHTML]="'page_about.why_i_started' | translate">Why I started
                             <strong> CTemplar</strong>
                         </h2>
                         <figure>
@@ -35,14 +37,15 @@
                 </div>
                 <div class="col-md-5">
                     <div class="tile-card">
-                        <h2 class="l-block-title fw-light text-secondary mb-3 pb-1 hidden-md-down">Why I started
+                        <h2 class="l-block-title fw-light text-secondary mb-3 pb-1 hidden-md-down"
+                            [innerHTML]="'page_about.why_i_started' | translate">Why I started
                             <strong> CTemplar</strong>
                         </h2>
-                        <p>The idea to create this service first began when I heard about the atrocities happening in
-                            the Middle East, to
-                            the innocents and to humanity. Looking around, it would seem the larger world was too busy
-                            to pay much attention,
-                            distracted by their own affairs or helpless to offer assistance.
+                        <p [innerHTML]="'page_about.idea_to_create_service' | translate">The idea to create this service
+                            first began when I
+                            heard about the atrocities happening in the Middle East, to the innocents and to humanity.
+                            Looking around, it would seem the larger world was too busy
+                            to pay much attention, distracted by their own affairs or helpless to offer assistance.
                             <br/> As just one man with limited capabilities, what could I do? Months went by as I
                             pondered this question, finally
                             realizing I must use my own strengths to wage a larger fight against the oppression I see in
@@ -71,8 +74,9 @@
             <div class="row align-items-center">
                 <div class="col-md-6 mb-3 mb-sm-4 mb-md-0 pb-2 pb-sm-0">
                     <div class="tile-card px-lg text-center text-md-left">
-                        <h2 class="l-block-title fw-light text-secondary hidden-md-up mb-3 mb-sm-4 pb-1">Why<strong>
-                            CTemplar?</strong></h2>
+                        <h2 class="l-block-title fw-light text-secondary hidden-md-up mb-3 mb-sm-4 pb-1"
+                            [innerHTML]="'page_about.why_ctempler' | translate">
+                            Why <strong>CTemplar?</strong></h2>
                         <figure>
                             <app-spinner-image [class]="'img'"
                                                [src]="'assets/images/about/about-img-2.jpg'"></app-spinner-image>
@@ -82,16 +86,19 @@
 
                 <div class="col-md-6">
                     <div class="tile-card pl-md-4">
-                        <h2 class="l-block-title fw-light text-secondary hidden-md-down mb-3 pb-1">Why
+                        <h2 class="l-block-title fw-light text-secondary hidden-md-down mb-3 pb-1"
+                            [innerHTML]="'page_about.why_ctempler' | translate">Why
                             <strong> CTemplar?</strong>
                         </h2>
                         <h4 class="title-horz-line text-secondary-faded">
-                            <strong>Nearly a thousand years ago there was a group of men known as the Knights Templar.
+                            <strong translate="page_about.nearly_a_thousand_year">Nearly a thousand years ago there was
+                                a group of men known as the Knights Templar.
                                 They protected the wandering
                                 pilgrims who wanted nothing more than to visit the Holy Land and find a way to achieve
                                 spirituality.</strong>
                         </h4>
-                        <p>The Templar safeguarded travelers’ paths by monitoring the roadways and helping them find a
+                        <p [innerHTML]="'page_about.the_templer_safeguard' | translate">The Templar safeguarded
+                            travelers’ paths by monitoring the roadways and helping them find a
                             successful journey.
                             The Templar stood for righteousness, willing to lay down their lives for the poor and the
                             weak, even if it
@@ -126,8 +133,9 @@
             <div class="row align-items-center">
                 <div class="col-md-7 flex-md-last mb-3 mb-sm-4 mb-sm-0 pb-2 pb-sm-0">
                     <div class="tile-card px-lg text-center text-md-left pl-md-4">
-                        <h2 class="l-block-title fw-light text-secondary hidden-md-up mb-3 mb-sm-4 pb-1">Who Does
-                            <strong>CTemplar</strong> Protect?</h2>
+                        <h2 class="l-block-title fw-light text-secondary hidden-md-up mb-3 mb-sm-4 pb-1"><span
+                                translate="page_about.who_does">Who Does</span>
+                            <strong>CTemplar</strong> <span translate="page_about.protect">Protect?</span></h2>
                         <figure>
                             <app-spinner-image [class]="'img'"
                                                [src]="'assets/images/about/about-img-3.png'"></app-spinner-image>
@@ -136,12 +144,15 @@
                 </div>
                 <div class="col-md-5">
                     <div class="tile-card">
-                        <h2 class="l-block-title fw-light text-secondary hidden-md-down mb-3 pb-1">Who Does <strong>CTemplar</strong>
-                            Protect?</h2>
-                        <p>CTemplar is a powerful tool for everyone from the oppressed to journalists and businesses.
+                        <h2 class="l-block-title fw-light text-secondary hidden-md-down mb-3 pb-1"><span
+                                translate="page_about.who_does">Who Does </span> <strong>CTemplar</strong>
+                            <span translate="page_about.protect">Protect?</span></h2>
+                        <p translate="page_about.ctempler_is_a_powerful_tool">CTemplar is a powerful tool for everyone
+                            from the oppressed to journalists and businesses.
                             Here’s a list of a
                             few of the types of people who can benefit from CTemplar’s privacy:</p>
-                        <ul class="lists lists-editor lists-circle-arrow">
+                        <ul class="lists lists-editor lists-circle-arrow"
+                            [innerHTML]="'page_about.educators_and_missionaries' | translate ">
                             <li>Educators and missionaries under threat of persecution and death</li>
                             <li>Refugees fleeing from oppressive regimes in their home country</li>
                             <li>Reporters in war-torn and/or dictator-led countries</li>
@@ -151,14 +162,13 @@
                             <li>Consumers who want to protect their financial information</li>
                             <li>A relatively safe and comfortable individual who worries about privacy</li>
                         </ul>
-                        <p>Regardless of who you are and what you seek, this encrypted service is here to help you find
-                            your way. If you
-                            need
+                        <p [innerHTML]="'page_about.regardless_who_you_are' | translate">Regardless of who you are and what you seek, this
+                            encrypted service is here to help you find your way. If you need
                             <span class="text-dark">
-                <strong>assurance that your message</strong>
-              </span>, your vision, and your words will be protected from the eyes of those who would hamper them—this
-                            service is
-                            for you.</p>
+                                <strong>assurance that your message</strong>
+                             </span>, your vision, and your words will be protected from the eyes of those who would
+                            hamper them—this service is for you.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -186,9 +196,9 @@
 
                 <div class="col-md-6">
                     <div class="tile-card pl-md-4">
-                        <h2 class="l-block-title fw-light text-secondary hidden-md-down mb-3 pb-1">CTemplar’s <strong>Legal
-                            Stance</strong></h2>
-                        <p>CTemplar’s legal team views internet privacy as a dynamic issue. It is an evolving landscape.
+                        <h2 class="l-block-title fw-light text-secondary hidden-md-down mb-3 pb-1">CTemplar’s
+                            <strong translate="page_about.legal_stance">Legal Stance</strong></h2>
+                        <p [innerHTML]="'page_about.ctempler_legal_team_views' | translate">CTemplar’s legal team views internet privacy as a dynamic issue. It is an evolving landscape.
                             Accordingly, static solutions will not afford your data the level of protection demanded by
                             those who value security.<br/><br/>Our legal department continues to research internet
                             security and privacy laws throughout the world so that we may constantly provide users with
@@ -199,7 +209,7 @@
                             forefront of internet privacy and vigorously enforces the right to be free of government
                             intrusion.</p>
                         <p class="text-center text-md-left">
-                            <a href="" class="btn btn-secondary btn-lg mt-2">Explore our security features</a>
+                            <a href="" class="btn btn-secondary btn-lg mt-2" translate="page_about.explore_our_security">Explore our security features</a>
                         </p>
                     </div>
                 </div>
