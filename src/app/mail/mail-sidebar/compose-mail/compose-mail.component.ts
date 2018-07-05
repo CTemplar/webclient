@@ -49,6 +49,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   colors = colors;
   options: any = {};
   selfDestructDateTime: any = {};
+  attachments: Array<any> = [];
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -58,7 +59,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private selfDestructModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
-  private attachments: Array<any> = [];
   private signature: string;
   encryptForm: FormGroup;
 

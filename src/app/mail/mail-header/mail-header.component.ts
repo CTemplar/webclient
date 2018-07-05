@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AppState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { LogOut } from '../../store/actions';
+import { Logout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -33,7 +33,7 @@ export class MailHeaderComponent implements OnInit {
   }
 
   logout() {
-    this.store.dispatch(new LogOut());
+    this.store.dispatch(new Logout());
   }
 
   changeLanguage(lang: string) {
