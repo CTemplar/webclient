@@ -4,10 +4,10 @@
 <section class="l-block news-block gap-p-eq bg-white">
     <div class="container">
         <header class="l-block-header text-center">
-            <h2 class="l-block-title" *ngIf="mode === modeObj.Recent">Latest From
+            <h2 class="l-block-title" *ngIf="mode === modeObj.Recent" [innerHTML]="'home_page.latest_from_our_blog' | translate">Latest From
                 <strong>Our Blog</strong>
             </h2>
-            <h2 class="l-block-title" *ngIf="mode === modeObj.Related">Related
+            <h2 class="l-block-title" *ngIf="mode === modeObj.Related" [innerHTML]="'home_page.related_post' | translate">Related
                 <strong>Post</strong>
             </h2>
         </header>
