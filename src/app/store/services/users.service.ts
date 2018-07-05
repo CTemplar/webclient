@@ -15,6 +15,9 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { OpenPgpService } from './openpgp.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../datatypes';
+import { LogInSuccess } from '../actions';
 
 
 declare var openpgp;
@@ -33,8 +36,12 @@ export class UsersService {
     // private mailService: MailService,
     // private sharedService: SharedService,
     private router: Router,
-    private openPgpService: OpenPgpService
+    private openPgpService: OpenPgpService,
+    private store: Store<AppState>,
   ) {
+    if (this.getToken()) {
+      this.store.dispatch(new LogInSuccess({ token: this.getToken() }));
+    }
   }
 
   setTokenExpiration() {
