@@ -16,7 +16,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { OpenPgpService } from './openpgp.service';
 import { Store } from '@ngrx/store';
-import { AppState } from '../datatypes';
+import { AppState, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
 
 
@@ -118,7 +118,8 @@ export class UsersService {
       'users/blacklist/',
       'users/contact',
       'emails/messages/',
-      'emails/mailboxes'
+      'emails/mailboxes',
+      'users/settings'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -151,6 +152,10 @@ export class UsersService {
     const url = `${apiUrl}users/whitelist/`;
     const body = { email: email, name: name };
     return this.http.post<any>(url, body);
+  }
+
+  updateSettings(data: Settings) {
+    return this.http.patch<any>(`${apiUrl}users/settings/${data.id}/`, data);
   }
 
   deleteWhiteList(id) {
