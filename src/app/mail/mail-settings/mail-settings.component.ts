@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
 import { BlackListDelete, SettingsUpdate, WhiteListDelete } from '../../store/actions';
-import { AppState, Settings, UserState } from '../../store/datatypes';
+import { AppState, Settings, Timezone, TimezonesState, UserState } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Language, LANGUAGES } from '../../shared/config';
@@ -26,6 +26,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
+  timezones: Timezone[];
 
   constructor(
     private modalService: NgbModal,
@@ -44,6 +45,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
+      });
+    this.store.select(state => state.timezone).takeUntil(this.destroyed$)
+      .subscribe((timezonesState: TimezonesState) => {
+        this.timezones = timezonesState.timezones;
       });
   }
 

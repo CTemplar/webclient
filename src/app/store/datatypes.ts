@@ -119,5 +119,14 @@ export interface AppState {
   loading: LoadingState;
   keyboard: KeyboardState;
   user: UserState;
+  timezone: TimezonesState;
 }
 
+export interface TimezonesState {
+  timezones: Timezone[];
+}
+
+export interface Timezone {
+  value: string;
+  key: string;
+}

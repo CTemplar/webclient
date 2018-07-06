@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../store/services';
-
 // Actions
-import { AccountDetailsGet, FinalLoading } from '../store/actions';
-
+import { AccountDetailsGet } from '../store/actions';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/datatypes';
-import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
+import { TimezoneGet } from '../store/actions/timezone.action';
 
 @TakeUntilDestroy()
 @Component({
@@ -28,14 +27,11 @@ export class MailComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.store.dispatch(new AccountDetailsGet());
+    this.store.dispatch(new TimezoneGet());
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
     this.sharedService.hideEntireFooter.emit(true);
     this.sharedService.isMail.emit(true);
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
-      .subscribe(user => {
-        this.store.dispatch(new FinalLoading({ loadingState: false }));
-      });
   }
 
   ngOnDestroy() {
