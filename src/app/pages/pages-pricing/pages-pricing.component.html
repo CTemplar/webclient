@@ -5,9 +5,9 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
                     <h1 class="l-block-title fw-light text-uppercase text-secondary">
-                        <strong>Pricing</strong> Plans
+                        <strong translate="home_header.pricing">Pricing</strong> <span translate="settings.plans">Plans</span>
                     </h1>
-                    <h4 class="l-block-subtitle mb-0 text-dark fw-light">
+                    <h4 class="l-block-subtitle mb-0 text-dark fw-light" translate="page_pricing.do_not_show_ads">
                         We do not show ads or make money by abusing your privacy. Instead, we depend on your support to
                         keep the service
                         running. Revenue from paid accounts is used to further develop CTemplar and support free users
@@ -33,9 +33,9 @@
             <div class="package-card-holder mt-3 mt-sm-0 mt-md-5">
                 <ul class="package-xs-tab list-style-none hidden-sm-up">
                     <li class="active" [class.is-active]="1 === selectedIndex"><a role="button"
-                                                                                  (click)="toggleSlides(1);">Prime</a>
+                                                                                  (click)="toggleSlides(1);" translate="settings.prime">Prime</a>
                     </li>
-                    <li [class.is-active]="2 === selectedIndex"><a role="button" (click)="toggleSlides(2);">Free</a>
+                    <li [class.is-active]="2 === selectedIndex"><a role="button" (click)="toggleSlides(2);" translate="settings.free">Free</a>
                     </li>
                 </ul>
                 <div class="row flex-nowrap row-lg">
@@ -44,7 +44,7 @@
                         <div class="package-card package-card-prime is-shadowed bg-white text-dark">
                             <header class="package-card-header text-center">
                                 <h2 class="text-white m-0">
-                                    <strong>Prime</strong>
+                                    <strong translate="settings.prime">Prime</strong>
                                 </h2>
                             </header>
                             <div class="package-card-body">
@@ -104,7 +104,7 @@
                                     </li>
                                 </ul>
                                 <div class="package-coming-soon mt-3">
-                                    <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u>Features to be added to this
+                                    <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u translate="settings.features_added_soon">Features to be added to this
                                         package soon</u></a></h6>
                                     <!-- <ul class="package-list mb-0 list-style-none pl-0">
                                       <li class="package-list-item">
@@ -129,7 +129,7 @@
                                                     <div class="fancy-field-group">
                                                         <input class="d-none fancy-field-control" id="pay-monthly"
                                                                name="[]" type="radio" checked/>
-                                                        <label for="pay-monthly">Pay Monthly</label>
+                                                        <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-4 text-right">
@@ -146,7 +146,7 @@
                                                     <div class="fancy-field-group">
                                                         <input class="d-none fancy-field-control" id="pay-annullay"
                                                                name="[]" type="radio"/>
-                                                        <label for="pay-annullay">Pay Annually</label>
+                                                        <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
                                                         <span class="badge">-20%</span>
                                                     </div>
                                                 </div>
@@ -155,7 +155,7 @@
                                                         <strong>$6.4</strong>
                                                         <span class="text-muted">/mo</span>
                                                     </div>
-                                                    <div class="small text-muted">Billed as $65/yr</div>
+                                                    <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>$65/yr</div>
                                                 </div>
                                             </div>
                                         </li>
@@ -163,7 +163,7 @@
                                 </div>
                                 <div class="package-actions text-center">
                                     <a (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer">
-                                        Select Prime $8/
+                                       <span translate="settings.select_prime">Select Prime </span>  $8/
                                         <span class="text-normal">mo</span>
                                     </a>
                                 </div>
@@ -174,7 +174,7 @@
                         <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
                             <header class="package-card-header text-center">
                                 <h2 class="text-white m-0">
-                                    <strong>Free</strong>
+                                    <strong translate="settings.free">Free</strong>
                                 </h2>
                             </header>
                             <div class="package-card-body">
@@ -218,7 +218,7 @@
                             <footer class="package-card-footer text-center">
                                 <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
                                 <div class="package-actions">
-                                    <a (click)="selectPlan(0)" class="btn btn-lg btn-gradient-info cursor-pointer">Select Free</a>
+                                    <a (click)="selectPlan(0)" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
                                 </div>
                             </footer>
                         </div>

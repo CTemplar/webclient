@@ -45,6 +45,11 @@ export interface Settings {
   recovery_email?: string;
   save_contacts?: boolean;
   show_snippets?: boolean;
+  timezone?: string;
+  language?: string;
+  signature?: string;
+  allocated_storage?: number;
+  used_storage?: number;
 }
 
 export interface BlogState {

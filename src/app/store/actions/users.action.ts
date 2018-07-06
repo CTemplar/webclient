@@ -1,5 +1,6 @@
 // Ngrx
 import { Action } from '@ngrx/store';
+import { Settings } from '../datatypes';
 
 export enum UsersActionTypes {
   ACCOUNTS = '[Users] Accounts',
@@ -31,7 +32,9 @@ export enum UsersActionTypes {
   SNACK_PUSH_SUCCESS = '[Snacks] Push success',
   SNACK_ERROR_PUSH = '[Snacks] Error Push',
   SNACK_ERROR_PUSH_SUCCESS = '[Snacks] Error Push success',
-  MEMBERSHIP_UPDATE = '[Membership] Update'
+  MEMBERSHIP_UPDATE = '[Membership] Update',
+  SETTINGS_UPDATE = '[SETTINGS] UPDATE',
+  SETTINGS_UPDATE_SUCCESS = '[SETTINGS] UPDATE SUCCESS'
 }
 
 export class Accounts implements Action {
@@ -236,12 +239,26 @@ export class SnackErrorPushSuccess implements Action {
   constructor(public payload?: any) {
   }
 }
+
 export class MembershipUpdate implements Action {
   readonly type = UsersActionTypes.MEMBERSHIP_UPDATE;
 
   constructor(public payload?: any) {
   }
 }
+
+export class SettingsUpdate implements Action {
+  readonly type = UsersActionTypes.SETTINGS_UPDATE;
+
+  constructor(public payload: Settings) {}
+}
+
+export class SettingsUpdateSuccess implements Action {
+  readonly type = UsersActionTypes.SETTINGS_UPDATE_SUCCESS;
+
+  constructor(public payload: Settings) {}
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -272,4 +289,6 @@ export type UsersActionAll =
   | SnackPushSuccess
   | SnackErrorPush
   | SnackErrorPushSuccess
-  | MembershipUpdate;
+  | MembershipUpdate
+  | SettingsUpdate
+  | SettingsUpdateSuccess;

@@ -12,12 +12,15 @@ import { UsersService } from './users.service';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   private authService: UsersService;
-  constructor(private injector: Injector) {}
+
+  constructor(private injector: Injector,
+              private router: Router) {}
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(UsersService);
     const token: string = this.authService.getToken();
     const is_necessary_token = this.authService.getNecessaryTokenUrl(request.url);
-    if ( is_necessary_token ) {
+    if (is_necessary_token) {
       request = request.clone({
         setHeaders: {
           'Authorization': `JWT ${token}`,
@@ -25,22 +28,13 @@ export class TokenInterceptor implements HttpInterceptor {
         }
       });
     }
-    return next.handle(request);
-  }
-}
-
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     return next.handle(request)
       .catch((response: any) => {
         if (response instanceof HttpErrorResponse && response.status === 401) {
           sessionStorage.removeItem('token');
           this.router.navigateByUrl('/signin');
         }
-        return Observable.throw(response);
+        return Observable.of(response);
       });
   }
 }

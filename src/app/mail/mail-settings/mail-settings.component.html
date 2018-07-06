@@ -195,7 +195,7 @@
                                         </li>
                                     </ul>
                                     <div class="package-coming-soon mt-3">
-                                        <h6 class="text-muted mb-3 mb-sm-4"><a><u>Features to be added to this
+                                        <h6 class="text-muted mb-3 mb-sm-4"><a><u translate="settings.features_added_soon">Features to be added to this
                                             package soon</u></a></h6>
                                         <!-- <ul class="package-list mb-0 list-style-none pl-0">
                                             <li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
@@ -323,13 +323,15 @@
                         <div class="col-sm-7">
                             <div class="btn-dropdown btn-dropdown-select">
                                 <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle role="button" id="langDropdownMenuButton">English(USA)
+                                    <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
+                                        {{selectedLanguage?.name}} ({{selectedLanguage?.locale}})
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                                        <a class="dropdown-item">English(USA)</a>
-                                        <a class="dropdown-item">Russian</a>
-                                        <a class="dropdown-item">English(UK)</a>
-                                        <a class="dropdown-item">Spanish</a>
+                                        <a class="dropdown-item"
+                                           *ngFor="let language of languages"
+                                           (click)="updateLanguage(language)">
+                                            {{language.name}} ({{language.locale}})
+                                        </a>
                                     </div>
                                 </div>
                             </div>

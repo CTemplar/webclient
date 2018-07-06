@@ -28,7 +28,7 @@ import {
   ContactAddSuccess,
   ContactDeleteSuccess,
   ContactGet,
-  ContactGetSuccess,
+  ContactGetSuccess, SettingsUpdate, SettingsUpdateSuccess,
   SnackErrorPush,
   SnackErrorPushSuccess,
   SnackPush,
@@ -43,6 +43,7 @@ import {
   WhiteListsReadSuccess
 } from '../actions';
 import { NotificationService } from '../services/notification.service';
+import { Settings } from '../datatypes';
 
 
 @Injectable()
@@ -155,6 +156,20 @@ export class UsersEffects {
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to delete blacklist contact' })]),
+        );
+    });
+
+  @Effect()
+  settingsUpdate: Observable<any> = this.actions
+    .ofType(UsersActionTypes.SETTINGS_UPDATE)
+    .map((action: SettingsUpdate) => action.payload)
+    .switchMap((payload: Settings) => {
+      return this.userService.updateSettings(payload)
+        .pipe(
+          switchMap(res => {
+            return [new SettingsUpdateSuccess(payload)];
+          }),
+          catchError(err => [new SnackErrorPush(err)]),
         );
     });
 
