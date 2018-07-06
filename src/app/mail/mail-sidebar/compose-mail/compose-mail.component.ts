@@ -19,6 +19,12 @@ FontAttributor.whitelist = [
   'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
 ];
 Quill.register(FontAttributor, true);
+Quill.register(Quill.import('attributors/style/align'), true);
+Quill.register(Quill.import('attributors/style/background'), true);
+Quill.register(Quill.import('attributors/style/color'), true);
+Quill.register(Quill.import('attributors/style/font'), true);
+Quill.register(Quill.import('attributors/style/size'), true);
+
 export class PasswordValidation {
 
   static MatchPassword(AC: AbstractControl) {
