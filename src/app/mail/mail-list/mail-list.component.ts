@@ -64,7 +64,7 @@ export class MailListComponent implements OnInit {
       }
     });
     this.getMailboxes();
-    setTimeout(() => this.getMails());
+    this.getMails();
 
   }
 
@@ -83,4 +83,7 @@ export class MailListComponent implements OnInit {
     this.isComposeVisible = false;
   }
 
+  OnDestroy() {
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
+  }
 }
