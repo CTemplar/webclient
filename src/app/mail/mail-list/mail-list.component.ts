@@ -57,6 +57,7 @@ export class MailListComponent implements OnInit, OnDestroy {
         this.mails.map( (mail, index) => {
           this.openPgpService.makeDecrypt(mail.content, this.private_key, this.public_key, this.passphrase).then(res => {
               this.mails[index].content = JSON.parse(res).body;
+              this.mails[index].checked = false;
               this.mails[index].from = (JSON.parse(res).headers.From);
             });
         });
@@ -81,6 +82,10 @@ export class MailListComponent implements OnInit, OnDestroy {
   hideMailComposeModal() { // click handler
     const bool = this.isComposeVisible;
     this.isComposeVisible = false;
+  }
+
+  moveToTrash() {
+    console.log(this.mails);
   }
 
   ngOnDestroy() {

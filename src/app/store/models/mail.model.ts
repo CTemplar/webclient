@@ -7,6 +7,7 @@ export interface Mail {
   send?: boolean;
   mailbox: number;
   from?: string;
+  checked?: boolean;
 }
 export interface Mailbox {
   id?: number;
