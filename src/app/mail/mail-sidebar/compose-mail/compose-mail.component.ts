@@ -50,8 +50,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   colors = colors;
   options: any = {};
   selfDestructDateTime: any = {};
-  isKeyboardOpened: boolean;
+  attachments: Array<any> = [];
 
+  isKeyboardOpened: boolean;
   private quill: any;
   private autoSaveSubscription: Subscription;
   private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
@@ -60,7 +61,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private selfDestructModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
-  private attachments: Array<any> = [];
   private signature: string;
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
