@@ -5,7 +5,7 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
                     <h1 class="l-block-title text-white text-uppercase">
-                        <strong>User Login</strong>
+                        <strong translate="login.user_login">User Login</strong>
                     </h1>
                 </div>
             </div>
@@ -16,28 +16,28 @@
                     <form class="login-form position-relative" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
                         <div *ngIf="errorMessage" class="login-form__failed">{{ errorMessage }}</div>
                         <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
-                            <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up">Username</label>
+                            <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up" translate="settings.username">Username</label>
                             <div class="input-group">
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="openUsernameOSK()">
                                     <i class="fa fa-keyboard"></i>
                                 </span>
-                                <input #usernameVC class="form-control form-control-lg border-right-0" id="username_noSpan" placeholder="Username" type="text"
+                                <input #usernameVC class="form-control form-control-lg border-right-0" id="username_noSpan" [placeholder]="'settings.username' | translate" type="text"
                                        (click)="onInputFocusChange('username')"
                                     name="username" formControlName="username" required/>
                             </div>
                             <span *ngIf="loginForm.controls['username'].errors && showFormErrors" id="email-valid" class="validate-message">
-                                <span *ngIf="loginForm.controls['username'].errors.required">The username is required.</span>
+                                <span *ngIf="loginForm.controls['username'].errors.required" translate="settings.username_required">The username is required.</span>
                             </span>
                         </div>
                         <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.password.invalid && showFormErrors}">
-                            <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up">Password</label>
+                            <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up" translate="settings.password">Password</label>
                             <div class="input-group">
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="keyboardToggle" (click)="openPasswordOSK()">
                                     <i class="fa fa-keyboard"></i>
                                 </span>
                                 <input #passwordVC [attr.type]="password" formControlName="password" class="form-control form-control-lg border-right-0"
                                        (click)="onInputFocusChange('password')"
-                                    id="password_noSpan" placeholder="Password" aria-describedby="passwordToggle" name="password"
+                                    id="password_noSpan" [placeholder]="'settings.password' | translate" aria-describedby="passwordToggle" name="password"
                                     required/>
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(loginForm.controls['password'])">
                                     <i class="fa fa-eye"></i>
@@ -45,12 +45,12 @@
                                 </span>
                             </div>
                             <span *ngIf="loginForm.controls['password'].errors && showFormErrors" class="validate-message">
-                                <span *ngIf="loginForm.controls['password'].errors.required">The password is required.</span>
+                                <span *ngIf="loginForm.controls['password'].errors.required" translate="login.password_required">The password is required.</span>
                             </span>
                         </div>
                         <div class="form-group form-user-actions mt-4 pt-sm-2">
                             <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">
-                                Login
+                              <span translate="login.name">Login</span>
                             </button>
                         </div>
                     </form>
@@ -59,14 +59,14 @@
                     <div class="reset-password mb-0 mb-sm-1">
                         <a class="text-faded" (click)="open(content)" role="button">
                             <small>
-                                <u>Reset Password</u>
+                                <u translate="login.reset_password">Reset Password</u>
                             </small>
                         </a>
                     </div>
                     <div class="create-account">
                         <a routerLink="/signup" class="text-white">
                             <strong>
-                                <u>Create Account</u>
+                                <u translate="login.create_account">Create Account</u>
                             </strong>
                         </a>
                     </div>

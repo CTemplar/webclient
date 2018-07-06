@@ -115,7 +115,8 @@
       "security_code": "Security code:"
     },
     "add": "Add",
-    "type": "Type:"
+    "type": "Type:",
+    "features_added_soon": "Features to be added to this package soon"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -217,6 +218,17 @@
     "unlike_the_old_days": "Unlike the old days where encrypted emailing meant complex manual encryption and private server setup, CTemplar does it all for you. Simply send and receive your emails just like a regular email account and rest assured knowing your privacy is 100% maintained.",
     "encrypted_email_to_non": "Encrypted email to non-CTemaplar acounts, self-destructing messages & much more….",
     "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. Though we do recommend everyone to use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected,  unlike regular accounts."
-   }
+   },
+  "page_pricing": {
+    "do_not_show_ads": "We do not show ads or make money by abusing your privacy. Instead, we depend on your support to keep the service running. Revenue from paid accounts is used to further develop CTemplar and support free users such as democracy activists and dissidents who need privacy but can't necessarily afford it.",
+    "billed_as": "Billed as"
+  },
+  "login": {
+    "name": "login",
+    "user_login": "User Login",
+    "password_required": "The password is required.",
+    "reset_password": "Reset Password",
+    "create_account": "Create Account"
+  }
 
 }
