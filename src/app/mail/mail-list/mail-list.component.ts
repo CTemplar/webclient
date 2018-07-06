@@ -21,7 +21,7 @@ declare var openpgp;
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.scss']
 })
-export class MailListComponent implements OnInit {
+export class MailListComponent implements OnInit, OnDestroy {
   mails: Mail[];
   private_key: string;
   public_key: string;
@@ -83,7 +83,7 @@ export class MailListComponent implements OnInit {
     this.isComposeVisible = false;
   }
 
-  OnDestroy() {
+  ngOnDestroy() {
     this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }
