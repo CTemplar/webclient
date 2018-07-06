@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState, MailBoxesState } from '../datatypes';
 
 declare var openpgp;
 
@@ -8,14 +10,38 @@ export class OpenPgpService {
   encrypted: any;
   private pubkey: any;
   private privkey: any;
+  private decryptedPrivKeyObj: any;
   private passphrase: any;
-  private privKeyObj: any;
   private fingerprint: string;
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
 
-      this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
-      // this.decryptPrivateKey();
+    this.store.select(state => state.mailboxes)
+      .subscribe((response: MailBoxesState) => {
+        // TODO: replace mailboxes[0] with the mailbox selected by user
+        if (response.mailboxes[0]) {
+          this.pubkey = response.mailboxes[0].public_key;
+          this.privkey = response.mailboxes[0].private_key;
+        }
+        this.decryptPrivateKey();
+      });
+
+    this.store.select(state => state.user)
+      .subscribe((user) => {
+        if (user.mailboxes[0]) {
+          this.passphrase = user.mailboxes[0].passphrase;
+        }
+        this.decryptPrivateKey();
+      });
+  }
+
+  decryptPrivateKey() {
+    if (this.privkey && this.passphrase && !this.decryptedPrivKeyObj) {
+      setTimeout(() => {
+        this.decryptedPrivKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
+        this.decryptedPrivKeyObj.decrypt(this.passphrase);
+      }, 10);
+    }
   }
 
   generateKey(user) {
@@ -30,7 +56,6 @@ export class OpenPgpService {
       this.privkey = key.privateKeyArmored;
       localStorage.setItem('pubkey', this.pubkey);
       localStorage.setItem('privkey', this.privkey);
-      this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
       this.fingerprint = openpgp.key.readArmored(this.pubkey).keys[0].primaryKey.getFingerprint();
       return {
         fingerprint: this.fingerprint,
@@ -52,39 +77,35 @@ export class OpenPgpService {
     return this.privkey;
   }
 
-  async decryptPrivateKey() {
-    await this.privKeyObj.decrypt(this.passphrase);
-  }
-
-  async makeEncrypt(obj) {
+  async makeEncrypt(data: any): Promise<string> {
     this.options = {
-      data: obj,
+      data: data,
       publicKeys: openpgp.key.readArmored(this.pubkey).keys,
-      privateKeys: [this.privKeyObj]
+      privateKeys: [this.decryptedPrivKeyObj]
     };
-    await openpgp.encrypt(this.options).then((ciphertext) => {
-      this.encrypted = ciphertext.data;
+    return openpgp.encrypt(this.options).then((ciphertext) => {
+      return ciphertext.data;
     });
   }
 
   async makeDecrypt(str, privkey, pubkey, passphrase) {
-    this.privKeyObj = openpgp.key.readArmored(privkey).keys[0];
-    if (!this.privKeyObj) {
-    return 'privkey Error';
-    }
-    if (!openpgp.message.readArmored(str)) {
-      return 'message type Error';
-    }
-    this.passphrase = passphrase;
-    return this.decryptPrivateKey().then(() => {
+    if (str) {
+      const privKeyObj = openpgp.key.readArmored(privkey).keys[0];
+      if (!privKeyObj) {
+        return 'privkey Error';
+      }
+      if (!openpgp.message.readArmored(str)) {
+        return 'message type Error';
+      }
+      await privKeyObj.decrypt(passphrase);
       this.options = {
         message: openpgp.message.readArmored(str),
         publicKeys: openpgp.key.readArmored(pubkey).keys,
-        privateKeys: [this.privKeyObj]
+        privateKeys: [privKeyObj]
       };
       return openpgp.decrypt(this.options).then((plaintext) => {
         return plaintext.data;
       });
-    });
+    }
   }
 }
