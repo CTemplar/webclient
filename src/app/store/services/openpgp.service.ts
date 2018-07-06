@@ -13,14 +13,9 @@ export class OpenPgpService {
   private fingerprint: string;
 
   constructor() {
-    const localPubKey = localStorage.getItem('pubkey');
-    const localPrivKey = localStorage.getItem('privkey');
-    if (localPrivKey) {
-      this.pubkey = localPubKey;
-      this.privkey = localPrivKey;
+
       this.privKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
-      this.decryptPrivateKey();
-    }
+      // this.decryptPrivateKey();
   }
 
   generateKey(user) {
@@ -58,7 +53,6 @@ export class OpenPgpService {
   }
 
   async decryptPrivateKey() {
-    this.passphrase = 'aaaaaaaaaa';
     await this.privKeyObj.decrypt(this.passphrase);
   }
 
@@ -70,21 +64,27 @@ export class OpenPgpService {
     };
     await openpgp.encrypt(this.options).then((ciphertext) => {
       this.encrypted = ciphertext.data;
-      // this.makeDecrypt();
     });
   }
 
-  makeDecrypt(str) {
-    this.options = {
-      message: openpgp.message.readArmored(str),
-      publicKeys: openpgp.key.readArmored(this.pubkey).keys,
-      privateKeys: [this.privKeyObj]
-    };
-
-    return openpgp.decrypt(this.options).then((plaintext) => {
-      console.log(plaintext.data);
-      return plaintext.data;
+  async makeDecrypt(str, privkey, pubkey, passphrase) {
+    this.privKeyObj = openpgp.key.readArmored(privkey).keys[0];
+    if (!this.privKeyObj) {
+    return 'privkey Error';
+    }
+    if (!openpgp.message.readArmored(str)) {
+      return 'message type Error';
+    }
+    this.passphrase = passphrase;
+    return this.decryptPrivateKey().then(() => {
+      this.options = {
+        message: openpgp.message.readArmored(str),
+        publicKeys: openpgp.key.readArmored(pubkey).keys,
+        privateKeys: [this.privKeyObj]
+      };
+      return openpgp.decrypt(this.options).then((plaintext) => {
+        return plaintext.data;
+      });
     });
-
   }
 }

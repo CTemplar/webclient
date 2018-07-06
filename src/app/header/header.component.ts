@@ -6,16 +6,21 @@ import { DOCUMENT } from '@angular/platform-browser';
 // Service
 import { SharedService } from '../store/services';
 import { UsersService } from '../store/services/users.service';
-import { AppState } from '../store/datatypes';
+import { AppState, AuthState } from '../store/datatypes';
 import { Store } from '@ngrx/store';
-import { LogOut } from '../store/actions';
+import { Logout } from '../store/actions';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
   public navIsFixed: boolean = false;
@@ -24,6 +29,7 @@ export class HeaderComponent implements OnInit {
   // Switch the footer call to action for this view.
   externalPageCallToAction: boolean = false;
   isLoggedIn: boolean;
+  selectedLanguage: string = 'EN';
 
   constructor(
     @Inject(DOCUMENT) private document: any,
@@ -31,13 +37,22 @@ export class HeaderComponent implements OnInit {
     public router: Router,
     private sharedService: SharedService,
     public usersService: UsersService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private translate: TranslateService
   ) {
     this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }
 
   ngOnInit() {
     this.isLoggedIn = this.usersService.getToken() ? true : false;
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((data: AuthState) => this.isLoggedIn = data.isAuthenticated);
+  }
+
+  changeLanguage(lang: string) {
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    this.translate.use(lang);
+    this.selectedLanguage = lang.toUpperCase();
   }
 
   // == Setup click event to toggle mobile menu
@@ -62,7 +77,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.store.dispatch(new LogOut());
-    this.isLoggedIn = false;
+    this.store.dispatch(new Logout());
+  }
+
+  ngOnDestroy(): void {
   }
 }

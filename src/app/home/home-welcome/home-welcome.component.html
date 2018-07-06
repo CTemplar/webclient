@@ -2,11 +2,10 @@
 <section class="hero hero-home has-cover text-center"
          style="background-image: url(assets/images/home/index-banner.png);">
     <div class="hero-content text-white">
-        <h1 class="hero-title fw-light">
-            <strong>Take Back Your Liberty</strong> with Encrypted Communication</h1>
-        <h3 class="hero-subtitle fw-light">Send unbreakable emails and protect your key professional and personal
-            details trough next-gen encryption</h3>
-        <a routerLink="/signup" class="btn btn-lg btn-gradient-primary">Sign up for free</a>
+        <h1 class="hero-title fw-light" [innerHTML]="'home_page.take_back_liberty' | translate" ><strong>Take Back Your Liberty</strong> with Encrypted Communication</h1>
+        <h3 class="hero-subtitle fw-light" translate="home_page.send_unbreakable_email">
+            Send unbreakable emails and protect your key professional and personal details trough next-gen encryption</h3>
+        <a routerLink="/signup" class="btn btn-lg btn-gradient-primary" translate="home_page.signup_for_free">Sign up for free</a>
     </div>
 </section>
 <!-- /.HERO BANNER ENDS -->

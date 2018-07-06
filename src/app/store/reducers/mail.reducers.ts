@@ -19,6 +19,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       };
     }
 
+
     case MailActionTypes.DELETE_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       return { ...state, inProgress: true };
@@ -26,7 +27,12 @@ export function reducer(state = initialState, action: MailActions): MailState {
 
     case MailActionTypes.DELETE_MAIL_SUCCESS:
     case MailActionTypes.CREATE_MAIL_SUCCESS: {
-      return { ...state, inProgress: false, draft: action.payload };
+      state.mails.map((mail, index) => {
+        if (mail.id === action.payload.id) {
+          state.mails[index] = action.payload;
+        }
+      });
+      return { ...state, inProgress: false };
     }
 
     default: {

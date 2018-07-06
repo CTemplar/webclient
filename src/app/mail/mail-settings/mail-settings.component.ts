@@ -3,10 +3,11 @@ import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 
-import { BlackListDelete, WhiteListDelete } from '../../store/actions';
-import { AppState, UserState } from '../../store/datatypes';
+import { BlackListDelete, SettingsUpdate, WhiteListDelete } from '../../store/actions';
+import { AppState, Settings, UserState } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Language, LANGUAGES } from '../../shared/config';
 
 @TakeUntilDestroy()
 @Component({
@@ -18,10 +19,13 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   // == Defining public property as boolean
   public selectedIndex = -1; // Assuming no element are selected initially
   public userState: UserState;
+  public settings: Settings;
 
   public newListContact = { show: false, type: 'Whitelist' };
 
   readonly destroyed$: Observable<boolean>;
+  selectedLanguage: Language;
+  languages: Language[] = LANGUAGES;
 
   constructor(
     private modalService: NgbModal,
@@ -29,14 +33,17 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
   ) {
     // customize default values of dropdowns used by this component tree
-    config.autoClose = true; //~'outside';
+    config.autoClose = true; // ~'outside';
   }
 
   ngOnInit() {
-    this.store.select((state) => state.user)
-      .takeUntil(this.destroyed$)
-      .subscribe((state: UserState) => {
-        this.userState = state;
+    this.store.select(state => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        this.userState = user;
+        this.settings = user.settings;
+        if (user.settings.language) {
+          this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
+        }
       });
   }
 
@@ -97,6 +104,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   public deleteBlackList(id) {
     this.store.dispatch(new BlackListDelete(id));
+  }
+
+  updateLanguage(language: Language) {
+    this.settings.language = language.name;
+    this.updateSettings();
+  }
+
+  updateSettings() {
+    this.store.dispatch(new SettingsUpdate(this.settings));
   }
 
   ngOnDestroy(): void {

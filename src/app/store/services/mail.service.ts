@@ -30,8 +30,13 @@ export class MailService {
   }
 
   getMessages(limit: number = 1000, offset: number = 0): Observable<Mail[]> {
-    const url = `${apiUrl}users/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
+    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
     return this.http.get<Mail[]>(url).map(data => data['results']);
+  }
+
+  getMailboxes(limit: number = 1000, offset: number = 0): Observable<any> {
+    const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
+    return this.http.get<any>(url).map(data => data['results']);
   }
 
   createMail(data: any): Observable<any[]> {
@@ -44,7 +49,7 @@ export class MailService {
   }
 
   deleteMail(id: number): Observable<any[]> {
-    return this.http.delete<any>(`${apiUrl}/emails/messages/${id}/`);
+    return this.http.patch<any>(`${apiUrl}/emails/messages/${id}/`, {folder: 'trash'});
   }
 
 

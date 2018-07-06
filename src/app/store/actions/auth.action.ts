@@ -42,7 +42,7 @@ export class SignUpFailure implements Action {
   constructor(public payload: any) {}
 }
 
-export class LogOut implements Action {
+export class Logout implements Action {
   readonly type = AuthActionTypes.LOGOUT;
 }
 
@@ -57,5 +57,5 @@ export type AuthActionAll =
   | SignUp
   | SignUpSuccess
   | SignUpFailure
-  | LogOut
+  | Logout
   | GetStatus;

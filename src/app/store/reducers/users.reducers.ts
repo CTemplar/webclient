@@ -4,7 +4,10 @@ import { UsersActionTypes, UsersActionAll } from '../actions';
 // Model
 import { UserState } from '../datatypes';
 
-export const initialState: UserState = { username: null, id: null, whiteList: [], blackList: [], contact: [], settings: {}, membership: {}};
+export const initialState: UserState = {
+  username: null, id: null, whiteList: [], blackList: [],
+  contact: [], settings: {}, membership: {}, mailboxes: []
+};
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
   switch (action.type) {
@@ -122,8 +125,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         username: action.payload.username,
         isPrime: action.payload.is_prime,
         settings: action.payload.settings,
+        mailboxes: action.payload.mailboxes
       };
     }
+
+    case UsersActionTypes.SETTINGS_UPDATE_SUCCESS: {
+      return {
+        ...state,
+        settings: action.payload,
+      };
+    }
+
     case UsersActionTypes.MEMBERSHIP_UPDATE: {
       return { ...state, membership: action.payload };
     }

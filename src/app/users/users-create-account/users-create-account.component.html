@@ -5,7 +5,7 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
                     <h1 class="l-block-title text-uppercase text-secondary mb-3 pb-2">
-                        <strong>Create your account</strong>
+                        <strong translate="create_account.name">Create your account</strong>
                     </h1>
                 </div>
             </div>
@@ -13,8 +13,8 @@
         <div class="l-block-body px-md" *ngIf="!isFormCompleted">
             <div class="form-card-holder mx-auto">
                 <div class="info-card bg-faded text-sm-center">
-                    <p class="text-medium">Take back your privacy!
-                        <br/> Crearting your secure email account takes less than 2 minutes</p>
+                    <p class="text-medium" translate="create_account.take_back_privacy">Take back your privacy!
+                        <br/> <span translate="create_account.creating_secure_email">Creating your secure email account takes less than 2 minutes</span></p>
                 </div>
 
                 <div class="form">
@@ -23,18 +23,18 @@
                         <div class="form-step-card-holder mt-3 mt-sm-4">
                             <div class="form-step-card">
                                 <h3 class="form-step-card-title text-dark mb-0">
-                                    <strong>Username and domain</strong>
+                                    <strong translate="create_account.username_and_domain">Username and domain</strong>
                                 </h3>
                                 <div class="form-step-card-subtitle">
-                                    <small>This will be your new Ctemplar email address.</small>
+                                    <small translate="create_account.new_email_address">This will be your new Ctemplar email address.</small>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-inline userame-field-group"
                                          [ngClass]="{'is-validate': signupForm.controls.username.invalid && !signupForm.controls.username.pristine}">
-                                        <label for="username" class="d-block text-muted text-left hidden-sm-up">Choose
+                                        <label for="username" class="d-block text-muted text-left hidden-sm-up" translate="create_account.choose_username">Choose
                                             userame</label>
                                         <input class="form-control text-dark mb-3 mb-sm-0" id="username"
-                                               placeholder="Choose username" type="text" name="username"
+                                               [placeholder]="'create_account.choose_username' | translate" type="text" name="username"
                                                formControlName="username" (keyup)="checkUsernameTaken($event)"/>
                                         <span class="domain-separator text-center text-dark">@</span>
                                         <input class="form-control text-dark is-readonly border-0 px-0 email-input"
@@ -49,14 +49,14 @@
                             </div>
                             <div class="form-step-card">
                                 <h3 class="form-step-card-title text-dark mb-0">
-                                    <strong>Password</strong>
+                                    <strong translate="settings.password">Password</strong>
                                 </h3>
                                 <div class="form-group">
                                     <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose
                                         Password</label>
                                     <div class="input-group">
                                         <input #input class="form-control border-right-0" id="choosePassword"
-                                               placeholder="Choose Password" type="password"
+                                               [placeholder]="'create_account.choose_password' | translate" type="password"
                                                aria-describedby="passwordToggle" name="password"
                                                formControlName="password">
                                         <span class="input-group-addon password-toggle bg-white text-muted"
@@ -71,7 +71,7 @@
                                     <div class="input-group"
                                          [ngClass]="{'is-validate': signupForm.controls.confirmPwd.invalid && !signupForm.controls.confirmPwd.pristine}">
                                         <input #input2 class="form-control border-right-0" id="confirmPassword"
-                                               placeholder="Confirm Password" type="password"
+                                               [placeholder]="'create_account.confirm_password' | translate " type="password"
                                                aria-describedby="cofirmpasswordToggle" name="confirmPwd"
                                                formControlName="confirmPwd">
                                         <span class="input-group-addon password-toggle bg-white text-muted"
@@ -83,7 +83,7 @@
                                        *ngIf="!signupForm.controls['confirmPwd'].errors"></i>
                                     <span *ngIf="signupForm.controls['confirmPwd'].errors && !signupForm.controls.confirmPwd.pristine"
                                           class="validate-message">
-                    <span>Passwords do not match.</span>
+                    <span translate="create_account.passwords_not_match">Passwords do not match.</span>
                   </span>
                                 </div>
                                 <div class="form-group">
@@ -95,22 +95,22 @@
                     </span>
                                         <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': isTextToggled }">
                       <span class="info-text">
-                        <small>By checking this box you understand that If you lose your password and do not set a recovery email
+                        <small translate="create_account.checking_box">By checking this box you understand that If you lose your password and do not set a recovery email
                           your account will not be recoverable.</small>
                       </span>
                                             <a href="javascript:void(0);" (click)="toggleText()">
                                                 <u>
-                                                    <small>More info</small>
+                                                    <small translate="create_account.more_info">More info</small>
                                                 </u>
                                             </a>
                                         </div>
                                         <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': !isTextToggled }">
                       <span class="info-text">
-                        <small>By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable. <br/> Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.</small>
+                        <small> <span translate="create_account.checking_box">By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable.</span><br/><span translate="create_account.password_connected">Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.</span></small>
                       </span>
                                             <a href="javascript:void(0);" (click)="toggleText()">
                                                 <u>
-                                                    <small>Less</small>
+                                                    <small translate="create_account.less">Less</small>
                                                 </u>
                                             </a>
                                         </div>
@@ -121,16 +121,16 @@
                                  [ngClass]="{'is-validate': signupForm.controls.recoveryEmail.invalid}"
                                  *ngIf="!isRecoveryEmail">
                                 <h3 class="form-step-card-title text-dark mb-0">
-                                    <strong>Recovery email(optional)</strong>
+                                    <strong translate="create_account.recovery_email_optional">Recovery email(optional)</strong>
                                 </h3>
                                 <div class="form-step-card-subtitle">
-                                    <small>This is used to recover your account if you forget your password</small>
+                                    <small translate="create_account.recover_account">This is used to recover your account if you forget your password</small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up">Recovery
+                                    <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up" translate="create_account.recovery_email">Recovery
                                         email</label>
                                     <input class="form-control text-dark" id="recoveryEmail"
-                                           placeholder="Recovery email" type="text" name="recoveryEmail"
+                                           [placeholder]="'create_account.recovery_email' | translate " type="text" name="recoveryEmail"
                                            formControlName="recoveryEmail"/>
                                     <span *ngIf="signupForm.controls['recoveryEmail'].errors" id="email-valid"
                                           class="validate-message">
@@ -139,7 +139,8 @@
                                 </div>
                             </div>
                             <div class="form-group text-center">
-                                <button class="btn btn-lg btn-secondary" type="submit" role="button">Create Account
+                                <button class="btn btn-lg btn-secondary" type="submit" role="button">
+                                    <span translate="login.create_account">Create Account</span>
                                 </button>
                             </div>
 
@@ -153,9 +154,9 @@
                 </span>
                                 <div class="checkbox-text lh-sm">
                   <span class="info-text">
-                    <small>Please check this box if you agree to abide by our
+                    <small> <span translate="create_account.check_box">Please check this box if you agree to abide by our </span>
                       <a routerLink="/terms">
-                        <u>Terms and Conditions</u>
+                        <u translate="create_account.terms_and_conditions">Terms and Conditions</u>
                       </a>
                     </small>
                   </span>
@@ -163,13 +164,13 @@
                             </div>
                             <div class="text-holder text-center">
                                 <a routerLink="/signin">
-                                    <u>Already have an Account?</u>
+                                    <u translate="create_account.already_have_account">Already have an Account?</u>
                                 </a>
 
                                 <!-- Please remove the html structure below -->
                                 <div class="mb-3"></div>
                                 <div class="btn btn-gradient-primary btn-lg" role="button"
-                                     (click)="openGenerateKeyModal(generateKeyContent)">Generate Key
+                                     (click)="openGenerateKeyModal(generateKeyContent)" translate="create_account.generate_key">Generate Key
                                 </div>
                                 <!-- Please remove the html structure above -->
 

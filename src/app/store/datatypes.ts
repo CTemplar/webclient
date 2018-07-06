@@ -1,11 +1,9 @@
+import { MailBoxesState } from './datatypes';
 // Angular
 import { Params } from '@angular/router';
-
 // Ngrx
-import * as fromRouter from '@ngrx/router-store';
-
 // Models
-import { User, Post, Category, Comment, Mail, Membership } from '../store/models';
+import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox } from '../store/models';
 
 export interface RouterStateUrl {
   url: string;
@@ -35,6 +33,7 @@ export interface UserState {
   isError?: boolean;
   error?: string;
   membership: Membership;
+  mailboxes: UserMailbox[];
 }
 
 export interface Settings {
@@ -46,6 +45,11 @@ export interface Settings {
   recovery_email?: string;
   save_contacts?: boolean;
   show_snippets?: boolean;
+  timezone?: string;
+  language?: string;
+  signature?: string;
+  allocated_storage?: number;
+  used_storage?: number;
 }
 
 export interface BlogState {
@@ -62,8 +66,12 @@ export interface BlogState {
 export interface MailState {
   mails: Mail[];
   folders: any[];
-  draft: Mail,
+  draft: Mail;
   inProgress?: boolean;
+}
+
+export interface MailBoxesState {
+  mailboxes: Mailbox[];
 }
 
 export interface LoadingState {
@@ -104,10 +112,10 @@ export interface Contact {
 }
 
 export interface AppState {
-  routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   auth: AuthState;
   blog: BlogState;
   mail: MailState;
+  mailboxes: MailBoxesState;
   loading: LoadingState;
   keyboard: KeyboardState;
   user: UserState;

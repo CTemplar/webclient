@@ -10,34 +10,83 @@ import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
 import { getMails } from '../../store/selectors';
-import { GetMails } from '../../store/actions';
+import { GetMails, GetMailboxes, FinalLoading, DeleteMail } from '../../store/actions';
+import { OpenPgpService } from '../../store/services/openpgp.service';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
+declare var openpgp;
+
+@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-list',
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.scss']
 })
-export class MailListComponent implements OnInit {
+export class MailListComponent implements OnInit, OnDestroy {
   mails: Mail[];
+  private_key: string;
+  public_key: string;
+  passphrase: string;
   getMailsState$: Observable<any>;
+  getMailboxesState$: Observable<any>;
+  readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<any>, private openPgpService: OpenPgpService) {
     this.getMailsState$ = this.store.select(getMails);
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailboxes) => {
+        if (mailboxes.mailboxes[0]) {
+          this.private_key = mailboxes.mailboxes[0].private_key;
+          this.public_key = mailboxes.mailboxes[0].public_key;
+        }
+      });
+    this.store.select(state => state.user).takeUntil(this.destroyed$)
+      .subscribe((user) => {
+        if (user.mailboxes[0]) {
+          this.passphrase = user.mailboxes[0].passphrase;
+        }
+      });
   }
 
   ngOnInit() {
     this.getMailsState$.subscribe((mails) => {
       this.mails = mails;
-    });
+      if (this.mails.length > 0 && this.private_key && this.public_key && this.passphrase) {
+        this.mails.map((mail, index) => {
+          setTimeout(() => {
+            this.openPgpService.makeDecrypt(mail.subject, this.private_key, this.public_key, this.passphrase)
+              .then((res: any) => {
+                this.mails[index].subject = res;
+              }).catch((error) => {
+              console.error('error while decrypting message: ', error);
+            });
+          }, 1);
 
+          setTimeout(() => {
+            this.openPgpService.makeDecrypt(mail.sender, this.private_key, this.public_key, this.passphrase)
+              .then((res: any) => {
+                this.mails[index].sender = res;
+              }).catch((error) => {
+              console.error('error while decrypting message: ', error);
+            });
+          }, 1);
+        });
+      }
+    });
+    this.getMailboxes();
     this.getMails();
+
   }
 
   getMails() {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0 }));
+  }
+
+  getMailboxes() {
+    this.store.dispatch(new GetMailboxes({ limit: 1000, offset: 0 }));
   }
 
   // == Show mail compose modal
@@ -47,4 +96,15 @@ export class MailListComponent implements OnInit {
     this.isComposeVisible = false;
   }
 
+  moveToTrash() {
+    this.mails.map(mail => {
+      if (mail.checked) {
+        this.store.dispatch(new DeleteMail(mail.id));
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
+  }
 }
