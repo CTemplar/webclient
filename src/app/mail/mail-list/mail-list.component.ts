@@ -62,7 +62,7 @@ export class MailListComponent implements OnInit, OnDestroy {
                 this.mails[index].content = JSON.parse(res).body;
                 this.mails[index].from = (JSON.parse(res).headers.From);
               }).catch((error) => {
-              console.log('error while decrypting message: ', error);
+              console.error('error while decrypting message: ', error);
             });
           }, 1);
 
