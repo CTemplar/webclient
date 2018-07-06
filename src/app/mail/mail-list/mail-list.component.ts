@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
 import { getMails } from '../../store/selectors';
-import { GetMails, GetMailboxes, FinalLoading } from '../../store/actions';
+import { GetMails, GetMailboxes, FinalLoading, DeleteMail } from '../../store/actions';
 import { OpenPgpService } from '../../store/services/openpgp.service';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
@@ -59,7 +59,9 @@ export class MailListComponent implements OnInit, OnDestroy {
               this.mails[index].content = JSON.parse(res).body;
               this.mails[index].checked = false;
               this.mails[index].from = (JSON.parse(res).headers.From);
-            });
+            }).catch((error) => {
+              console.log('error while decrypting message: ', error);
+             });
         });
         this.store.dispatch(new FinalLoading({ loadingState: false }));
       }
