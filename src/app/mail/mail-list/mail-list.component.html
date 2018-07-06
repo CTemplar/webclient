@@ -30,7 +30,7 @@
                             class="icon icon-warning"></i></a>
                 </li>
                 <li class="px-0">
-                    <a href="" class="border-radius-left-0" placement="top" [ngbTooltip]="'mail_list.move_to_trash' | translate"><i
+                    <a (click)="moveToTrash()" class="border-radius-left-0" placement="top" [ngbTooltip]="'mail_list.move_to_trash' | translate"><i
                             class="icon icon-garbage"></i></a>
                 </li>
                 <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
@@ -1104,56 +1104,14 @@
 </section>
 
 <div class="mail-listing">
-    <div class="mail-list-row is-unread">
-        <div class="mail-list-inner-row">
+    <div class="mail-list-row" *ngFor="let mail of mails">
+        <div class="mail-list-inner-row" [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read}" *ngIf="mail.folder == 'inbox'">
             <div class="mail-list-col">
                 <div class="mail-list-col-row">
                     <div class="mail-list-col-item mail-checkbox">
                         <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="mailItemCheckbox1" name="[]" type="checkbox"/>
-                            <label for="mailItemCheckbox1" class="fancy-field-empty"></label>
-                        </div>
-                    </div>
-                    <div class="mail-list-col-item mail-status">
-                        <div class="mail-status-type">
-                            <i class="icon icon-star"></i>
-                        </div>
-                    </div>
-                    <div class="mail-list-col-item mail-from-name">
-                        <span>John Simmons</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mail-list-col mail-list-col-lg">
-                <div class="mail-desc">
-                    <p>
-                        <small>
-                            <strong>Welcome to CTemplar!</strong> You now have an inbox that is protected by strong
-                            encryption. Even
-                            we do not have the ability to read your emails.
-                        </small>
-                    </p>
-                </div>
-            </div>
-            <div class="mail-list-col mail-list-col-xs">
-                <div class="mail-list-col-xs-row">
-                    <div class="mail-list-col-xs-item mail-file-size">2.6kB</div>
-                    <div class="mail-list-col-xs-item mail-sent-date">Jun 29</div>
-                    <div class="mail-list-col-xs-item mail-security-status">
-                        <i class="icon icon-secured"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="mail-list-row is-read" [ngClass]="{'is-unread': !mail.read}" *ngFor="let mail of mails">
-        <div class="mail-list-inner-row">
-            <div class="mail-list-col">
-                <div class="mail-list-col-row">
-                    <div class="mail-list-col-item mail-checkbox">
-                        <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="mailItemCheckbox1" name="[]" type="checkbox"/>
-                            <label for="mailItemCheckbox1" class="fancy-field-empty"></label>
+                            <input class="d-none fancy-field-control" id={{mail.id}} name="[]" type="checkbox" [(ngModel)]="mail.checked"/>
+                            <label for={{mail.id}} class="fancy-field-empty"></label>
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-status">
@@ -1162,7 +1120,7 @@
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
-                        <span>{{mail.from}}</span>
+                        <span>{{mail.sender}}</span>
                     </div>
                 </div>
             </div>
@@ -1171,7 +1129,7 @@
                     <!-- <div class="mail-delete-badge">
                         <span class="badge badge-warning">Delete in 5.25</span>
                     </div> -->
-                    <p [innerHTML]="mail.content">
+                    <p [innerHTML]="mail.subject">
                         <!-- <small>
                             <strong>Unpleasant nor diminution.</strong> Draw part them he an to he roof only. Music leave say doors
                             him. Tore bred form if sigh</small> -->

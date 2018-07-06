@@ -12,7 +12,7 @@ export enum MailActionTypes {
   DELETE_MAIL = '[Mail] DELETE',
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
   SEND_MAIL = '[Mail] SEND_MAIL',
-  SEND_MAIL_SUCCESS = '[Mail] SEND_MAIL SUCCESS'
+  SEND_MAIL_SUCCESS = '[Mail] SEND_MAIL SUCCESS',
 }
 
 export class GetMails implements Action {

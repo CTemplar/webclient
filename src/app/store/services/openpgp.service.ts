@@ -68,8 +68,13 @@ export class OpenPgpService {
   }
 
   async makeDecrypt(str, privkey, pubkey, passphrase) {
-    // console.log('start');
     this.privKeyObj = openpgp.key.readArmored(privkey).keys[0];
+    if (!this.privKeyObj) {
+    return 'privkey Error';
+    }
+    if (!openpgp.message.readArmored(str)) {
+      return 'message type Error';
+    }
     this.passphrase = passphrase;
     return this.decryptPrivateKey().then(() => {
       this.options = {

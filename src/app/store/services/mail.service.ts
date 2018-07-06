@@ -49,7 +49,7 @@ export class MailService {
   }
 
   deleteMail(id: number): Observable<any[]> {
-    return this.http.delete<any>(`${apiUrl}/emails/messages/${id}/`);
+    return this.http.patch<any>(`${apiUrl}/emails/messages/${id}/`, {folder: 'trash'});
   }
 
 
