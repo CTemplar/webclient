@@ -8,6 +8,8 @@ export interface Mail {
   mailbox: number;
   from?: string;
   checked?: boolean;
+  sender?: string;
+  subject?: string;
 }
 export interface Mailbox {
   id?: number;

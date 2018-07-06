@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
 import { getMails } from '../../store/selectors';
-import { GetMails, GetMailboxes, FinalLoading } from '../../store/actions';
+import { GetMails, GetMailboxes, FinalLoading, DeleteMail } from '../../store/actions';
 import { OpenPgpService } from '../../store/services/openpgp.service';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
@@ -57,17 +57,23 @@ export class MailListComponent implements OnInit, OnDestroy {
       if (this.mails.length > 0 && this.private_key && this.public_key && this.passphrase) {
         this.mails.map((mail, index) => {
           setTimeout(() => {
-            this.openPgpService.makeDecrypt(mail.content, this.private_key, this.public_key, this.passphrase)
+            this.openPgpService.makeDecrypt(mail.subject, this.private_key, this.public_key, this.passphrase)
               .then((res: any) => {
-                this.mails[index].content = JSON.parse(res).body;
-                this.mails[index].from = (JSON.parse(res).headers.From);
+                this.mails[index].subject = res;
               }).catch((error) => {
               console.error('error while decrypting message: ', error);
             });
           }, 1);
 
+          setTimeout(() => {
+            this.openPgpService.makeDecrypt(mail.sender, this.private_key, this.public_key, this.passphrase)
+              .then((res: any) => {
+                this.mails[index].sender = res;
+              }).catch((error) => {
+              console.error('error while decrypting message: ', error);
+            });
+          }, 1);
         });
-        this.store.dispatch(new FinalLoading({ loadingState: false }));
       }
     });
     this.getMailboxes();
@@ -88,6 +94,14 @@ export class MailListComponent implements OnInit, OnDestroy {
   hideMailComposeModal() { // click handler
     const bool = this.isComposeVisible;
     this.isComposeVisible = false;
+  }
+
+  moveToTrash() {
+    this.mails.map(mail => {
+      if (mail.checked) {
+        this.store.dispatch(new DeleteMail(mail.id));
+      }
+    });
   }
 
   ngOnDestroy() {

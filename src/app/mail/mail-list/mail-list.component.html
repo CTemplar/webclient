@@ -1104,8 +1104,8 @@
 </section>
 
 <div class="mail-listing">
-    <div class="mail-list-row is-read" [ngClass]="{'is-unread': !mail.read}" *ngFor="let mail of mails">
-        <div class="mail-list-inner-row">
+    <div class="mail-list-row" *ngFor="let mail of mails">
+        <div class="mail-list-inner-row" [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read}" *ngIf="mail.folder == 'inbox'">
             <div class="mail-list-col">
                 <div class="mail-list-col-row">
                     <div class="mail-list-col-item mail-checkbox">
@@ -1120,7 +1120,7 @@
                         </div>
                     </div>
                     <div class="mail-list-col-item mail-from-name">
-                        <span>{{mail.from}}</span>
+                        <span>{{mail.sender}}</span>
                     </div>
                 </div>
             </div>
@@ -1129,7 +1129,7 @@
                     <!-- <div class="mail-delete-badge">
                         <span class="badge badge-warning">Delete in 5.25</span>
                     </div> -->
-                    <p [innerHTML]="mail.content">
+                    <p [innerHTML]="mail.subject">
                         <!-- <small>
                             <strong>Unpleasant nor diminution.</strong> Draw part them he an to he roof only. Music leave say doors
                             him. Tore bred form if sigh</small> -->

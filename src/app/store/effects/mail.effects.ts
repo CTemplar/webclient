@@ -74,7 +74,7 @@ export class MailEffects {
         .pipe(
           switchMap(res => {
             return [
-              new DeleteMailSuccess(null),
+              new DeleteMailSuccess(res),
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to discard mail.' })]),
