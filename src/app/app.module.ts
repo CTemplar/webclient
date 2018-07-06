@@ -51,6 +51,7 @@ import { NotificationService } from './store/services/notification.service';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TimezoneService } from './store/services/timezone.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -94,6 +95,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OpenPgpService,
     NotificationService,
     BreakpointsService,
+    TimezoneService,
     MailService,
     {
       provide: HTTP_INTERCEPTORS,

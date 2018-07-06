@@ -13,6 +13,7 @@ import { quotes } from './store/quotes';
 import 'rxjs/add/operator/filter';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { TranslateService } from '@ngx-translate/core';
+import { FinalLoading } from './store/actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -44,6 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');
+    this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
 

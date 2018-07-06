@@ -347,14 +347,13 @@
                             <div class="btn-dropdown btn-dropdown-select">
                                 <div ngbDropdown class="dropdown-sm">
                                     <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">UTC+1
-                                        (Italy, Germany)
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{settings.timezone}}
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton">
-                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
-                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
-                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
-                                        <a class="dropdown-item">UTC+1 (Italy, Germany)</a>
+                                        <a class="dropdown-item"
+                                           *ngFor="let timezone of timezones"
+                                           (click)="settings.timezone=timezone.value; updateSettings()">{{timezone.value}}</a>
                                     </div>
                                 </div>
                             </div>
