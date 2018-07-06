@@ -221,7 +221,8 @@
    },
   "page_pricing": {
     "do_not_show_ads": "We do not show ads or make money by abusing your privacy. Instead, we depend on your support to keep the service running. Revenue from paid accounts is used to further develop CTemplar and support free users such as democracy activists and dissidents who need privacy but can't necessarily afford it.",
-    "billed_as": "Billed as"
+    "billed_as": "Billed as",
+    "select_account_type": "Select account type"
   },
   "login": {
     "name": "login",
@@ -229,6 +230,28 @@
     "password_required": "The password is required.",
     "reset_password": "Reset Password",
     "create_account": "Create Account"
+  },
+  "create_account": {
+    "name": "Create your account",
+    "take_back_privacy": "Take back your privacy!",
+    "creating_secure_email": "Creating your secure email account takes less than 2 minutes",
+    "username_and_domain": "Username and domain",
+    "new_email_address": "This will be your new Ctemplar email address.",
+    "choose_username": "Choose username",
+    "choose_password": "Choose Password",
+    "confirm_password": "Confirm Password",
+    "passwords_not_match": "Passwords do not match.",
+    "checking_box": "By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable.",
+    "password_connected": "Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.",
+    "more_info": "More info",
+    "less": "Less",
+    "recovery_email_optional": "Recovery email(optional)",
+    "recover_account": "This is used to recover your account if you forget your password",
+    "recovery_email": "Recovery email",
+    "check_box": "Please check this box if you agree to abide by our ",
+    "terms_and_conditions": "Terms and Conditions",
+    "already_have_account": "Already have an Account?",
+    "generate_key": "Generate Key"
   }
 
 }
