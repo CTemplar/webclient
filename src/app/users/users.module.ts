@@ -29,6 +29,7 @@ import {
   RECAPTCHA_SETTINGS,
   RecaptchaSettings
 } from 'ng-recaptcha';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {
     UsersRoutingModule,
     PagesModule,
     SharedModule,
-    RecaptchaModule.forRoot()
+    RecaptchaModule.forRoot(),
+    TranslateModule
   ],
   declarations: [
     UsersSignInComponent,
