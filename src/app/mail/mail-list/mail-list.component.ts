@@ -15,6 +15,7 @@ import { OpenPgpService } from '../../store/services/openpgp.service';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 declare var openpgp;
+
 @TakeUntilDestroy()
 @Component({
   selector: 'app-mail-list',
@@ -36,29 +37,35 @@ export class MailListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<any>, private openPgpService: OpenPgpService) {
     this.getMailsState$ = this.store.select(getMails);
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-    .subscribe((mailboxes) => {
-      if (mailboxes.mailboxes[0]) {
-        this.private_key = mailboxes.mailboxes[0].private_key;
-        this.public_key = mailboxes.mailboxes[0].public_key;
-       }
-    });
+      .subscribe((mailboxes) => {
+        if (mailboxes.mailboxes[0]) {
+          this.private_key = mailboxes.mailboxes[0].private_key;
+          this.public_key = mailboxes.mailboxes[0].public_key;
+        }
+      });
     this.store.select(state => state.user).takeUntil(this.destroyed$)
-    .subscribe((user) => {
-      if (user.mailboxes[0]) {
-        this.passphrase = user.mailboxes[0].passphrase;
-       }
-    });
+      .subscribe((user) => {
+        if (user.mailboxes[0]) {
+          this.passphrase = user.mailboxes[0].passphrase;
+        }
+      });
   }
 
   ngOnInit() {
     this.getMailsState$.subscribe((mails) => {
       this.mails = mails;
       if (this.mails.length > 0 && this.private_key && this.public_key && this.passphrase) {
-        this.mails.map( (mail, index) => {
-          this.openPgpService.makeDecrypt(mail.content, this.private_key, this.public_key, this.passphrase).then(res => {
-              this.mails[index].content = JSON.parse(res).body;
-              this.mails[index].from = (JSON.parse(res).headers.From);
+        this.mails.map((mail, index) => {
+          setTimeout(() => {
+            this.openPgpService.makeDecrypt(mail.content, this.private_key, this.public_key, this.passphrase)
+              .then((res: any) => {
+                this.mails[index].content = JSON.parse(res).body;
+                this.mails[index].from = (JSON.parse(res).headers.From);
+              }).catch((error) => {
+              console.error('error while decrypting message: ', error);
             });
+          }, 1);
+
         });
         this.store.dispatch(new FinalLoading({ loadingState: false }));
       }
