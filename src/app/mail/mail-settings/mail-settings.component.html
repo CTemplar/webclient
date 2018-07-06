@@ -353,7 +353,7 @@
                                     <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton">
                                         <a class="dropdown-item"
                                            *ngFor="let timezone of timezones"
-                                           (click)="settings.timezone=timezone.value; updateSettings()">{{timezone.value}}</a>
+                                           (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
                                     </div>
                                 </div>
                             </div>

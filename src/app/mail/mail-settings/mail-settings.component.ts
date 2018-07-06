@@ -116,7 +116,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.updateSettings();
   }
 
-  updateSettings() {
+  updateSettings(key?: string, value?: string) {
+    if (key && value) {
+      this.settings[key] = value;
+    }
     this.store.dispatch(new SettingsUpdate(this.settings));
   }
 
