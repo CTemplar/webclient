@@ -50,6 +50,7 @@ export interface Settings {
   signature?: string;
   allocated_storage?: number;
   used_storage?: number;
+  display_name?: string;
 }
 
 export interface BlogState {

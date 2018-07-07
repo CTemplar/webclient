@@ -41,7 +41,7 @@
                                                 <div class="info-list-val-text" translate="settings.address_tooltip">One
                                                     - More available soon!
                                                 </div>
-                                                <div class="info-list-val-text">737.61 Mb of 5.00 Gb</div>
+                                                <div class="info-list-val-text">{{settings.used_storage}} MB of {{settings.allocated_storage}}MB</div>
                                             </div>
                                         </div>
                                     </li>
@@ -51,8 +51,10 @@
                                         </div>
                                         <div class="info-list-text info-list-val">
                                             <div class="progress progress-secondary progress-lg">
-                                                <div class="progress-bar" role="progressbar" style="width:30%;"
-                                                     aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar" role="progressbar"
+                                                     [style.width.%]="(settings.used_storage/settings.allocated_storage)*100"
+                                                     [attr.aria-valuenow]="settings.used_storage" aria-valuemin="0"
+                                                     [attr.aria-valuemax]="settings.allocated_storage"></div>
                                             </div>
                                         </div>
                                     </li>
@@ -350,10 +352,10 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{settings.timezone}}
                                     </button>
-                                    <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton">
+                                    <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
                                         <a class="dropdown-item"
                                            *ngFor="let timezone of timezones"
-                                           (click)="settings.timezone=timezone.value; updateSettings()">{{timezone.value}}</a>
+                                           (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -371,7 +373,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="autoSaveField1" name="[1]" type="radio"
-                                               [checked]="userState.settings.save_contacts"/>
+                                               (click)="updateSettings('save_contacts', true)"
+                                               [checked]="settings.save_contacts"/>
                                         <label for="autoSaveField1" translate="common.enabled">Enabled</label>
                                     </div>
                                 </div>
@@ -379,7 +382,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="autoSaveField2" name="[1]" type="radio"
-                                               [checked]="!userState.settings.save_contacts"/>
+                                               (click)="updateSettings('save_contacts', false)"
+                                               [checked]="!settings.save_contacts"/>
                                         <label for="autoSaveField2" translate="common.disabled">Disabled</label>
                                     </div>
                                 </div>
@@ -398,7 +402,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="responderField1" name="[2]" type="radio"
-                                               [checked]="userState.settings.autoresponder"/>
+                                               (click)="updateSettings('autoresponder', true)"
+                                               [checked]="settings.autoresponder"/>
                                         <label for="responderField1" translate="common.enabled">Enabled</label>
                                     </div>
                                 </div>
@@ -406,7 +411,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="responderField2" name="[2]" type="radio"
-                                               [checked]="!userState.settings.autoresponder"/>
+                                               (click)="updateSettings('autoresponder', false)"
+                                               [checked]="!settings.autoresponder"/>
                                         <label for="responderField2" translate="common.disabled">Disabled</label>
                                     </div>
                                 </div>
@@ -445,7 +451,9 @@
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="recoveryMail" type="text"
-                                   [(ngModel)]="userState.settings.recovery_email"
+                                   [(ngModel)]="settings.recovery_email"
+                                   [ngModelOptions]="{ updateOn: 'blur'}"
+                                   (change)="updateSettings('recovery_email', $event.target.value)"
                                    placeholder="johnsimpson@gmail.com"/>
                         </div>
                     </div>
@@ -461,7 +469,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="securityField1" name="[4]" type="radio"
-                                               [checked]="userState.settings.newsletter"/>
+                                               (click)="updateSettings('newsletter', true)"
+                                               [checked]="settings.newsletter"/>
                                         <label for="securityField1" translate="common.enabled">Enabled</label>
                                     </div>
                                 </div>
@@ -469,7 +478,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="securityField2" name="[4]" type="radio"
-                                               [checked]="!userState.settings.newsletter"/>
+                                               (click)="updateSettings('newsletter', false)"
+                                               [checked]="!settings.newsletter"/>
                                         <label for="securityField2" translate="common.disabled">Disabled</label>
                                     </div>
                                 </div>
@@ -494,6 +504,9 @@
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="displayName" type="text"
+                                   [(ngModel)]="settings.display_name"
+                                   [ngModelOptions]="{ updateOn: 'blur'}"
+                                   (change)="updateSettings('display_name', $event.target.value)"
                                    placeholder="John Simpson"/>
                         </div>
                     </div>
@@ -504,12 +517,12 @@
                             <label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>
                         </div>
                         <div class="col-sm-7">
-                            <div class="form-control form-control-sm form-control-contenteditable" id="signature"
+                            <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
+                                      [(ngModel)]="settings.signature"
+                                      [ngModelOptions]="{ updateOn: 'blur'}"
+                                      (change)="updateSettings('signature', $event.target.value)"
                                  contenteditable="true">
-                                <div style="margin-bottom: 3px;">---------</div>
-                                <div style="margin-bottom: 3px;">Best regards,</div>
-                                <div style="margin-bottom: 3px;">John</div>
-                            </div>
+                            </textarea>
                         </div>
                     </div>
                 </div>
@@ -524,7 +537,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="emailCoutField1" name="[5]" type="radio"
-                                               [checked]="userState.settings?.emails_per_page===20"/>
+                                               (click)="updateSettings('emails_per_page', 20)"
+                                               [checked]="settings?.emails_per_page===20"/>
                                         <label for="emailCoutField1">20</label>
                                     </div>
                                 </div>
@@ -532,7 +546,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="emailCoutField2" name="[5]" type="radio"
-                                               [checked]="userState.settings?.emails_per_page===50"/>
+                                               (click)="updateSettings('emails_per_page', 50)"
+                                               [checked]="settings?.emails_per_page===50"/>
                                         <label for="emailCoutField2">50</label>
                                     </div>
                                 </div>
@@ -540,7 +555,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="emailCoutField3" name="[5]" type="radio"
-                                               [checked]="userState.settings?.emails_per_page==100"/>
+                                               (click)="updateSettings('emails_per_page', 100)"
+                                               [checked]="settings?.emails_per_page===100"/>
                                         <label for="emailCoutField3">100</label>
                                     </div>
                                 </div>
@@ -548,7 +564,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="emailCoutField4" name="[5]" type="radio"
-                                               [checked]="userState.settings?.emails_per_page===200"/>
+                                               (click)="updateSettings('emails_per_page', 200)"
+                                               [checked]="settings?.emails_per_page===200"/>
                                         <label for="emailCoutField4">200</label>
                                     </div>
                                 </div>
@@ -567,7 +584,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="embeddedContentField1" name="[6]" type="radio"
-                                               [checked]="userState.settings?.embed_content"/>
+                                               (click)="updateSettings('embed_content', true)"
+                                               [checked]="settings?.embed_content"/>
                                         <label for="embeddedContentField1" translate="common.yes">Yes</label>
                                     </div>
                                 </div>
@@ -575,7 +593,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="embeddedContentField2" name="[6]" type="radio"
-                                               [checked]="!userState.settings?.embed_content"/>
+                                               (click)="updateSettings('embed_content', false)"
+                                               [checked]="!settings?.embed_content"/>
                                         <label for="embeddedContentField2" translate="common.no">No</label>
                                     </div>
                                 </div>
@@ -601,7 +620,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="showSnippetsField1" name="[7]" type="radio"
-                                               [checked]="userState.settings?.show_snippets"/>
+                                               (click)="updateSettings('show_snippets', true)"
+                                               [checked]="settings?.show_snippets"/>
                                         <label for="showSnippetsField1" translate="common.yes">Yes</label>
                                     </div>
                                 </div>
@@ -609,7 +629,8 @@
                                     <div class="fancy-field-group">
                                         <input class="d-none fancy-field-control fancy-field-control-sm"
                                                id="showSnippetsField2" name="[7]" type="radio"
-                                               [checked]="!userState.settings?.show_snippets"/>
+                                               (click)="updateSettings('show_snippets', false)"
+                                               [checked]="!settings?.show_snippets"/>
                                         <label for="showSnippetsField2" translate="common.no">No</label>
                                     </div>
                                 </div>
@@ -870,13 +891,13 @@
                             <div class="btn-dropdown btn-dropdown-select">
                                 <div ngbDropdown class="dropdown-sm">
                                     <button ngbDropdownToggle class="dropdown-toggle"
-                                            id="emailAddressDropdownMenuButton" role="button">johnsimpson@ctemplar.com
+                                            id="emailAddressDropdownMenuButton" role="button">
+                                        {{selectedMailboxForKey?.email}}
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item"
+                                           *ngFor="let mailbox of userState.mailboxes"
+                                           (click)="selectedMailboxForKey=mailbox;">{{mailbox.email}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -892,7 +913,12 @@
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                                    value="o8bg359348b24p08gn34408g4p389gbpq938g" readonly=""/>
-                            <span class="form-label-text mt-1"><a><strong><u><span translate="settings.download_public_kay">Download public key </span>(2048 Bit)</u></strong></a></span>
+                            <span class="form-label-text mt-1">
+                                <a [href]="publicKey | safeUrl"><strong><u>
+                                <span translate="settings.download_public_kay">Download public key </span>
+                                (2048 Bit)</u></strong>
+                                </a>
+                            </span>
                         </div>
                     </div>
                 </div>

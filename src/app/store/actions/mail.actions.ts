@@ -30,7 +30,7 @@ export class GetMailsSuccess implements Action {
 export class GetMailboxes implements Action {
   readonly type = MailActionTypes.GET_MAILBOXES;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any = {}) {}
 }
 
 export class GetMailboxesSuccess implements Action {
