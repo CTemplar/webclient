@@ -1,16 +1,13 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
-
 // Models
 import { Mail } from '../../store/models';
-
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-
 // Store
 import { Store } from '@ngrx/store';
 import { getMails } from '../../store/selectors';
-import { GetMails, GetMailboxes, FinalLoading, DeleteMail } from '../../store/actions';
+import { DeleteMail, GetMails } from '../../store/actions';
 import { OpenPgpService } from '../../store/services/openpgp.service';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
@@ -28,7 +25,6 @@ export class MailListComponent implements OnInit, OnDestroy {
   public_key: string;
   passphrase: string;
   getMailsState$: Observable<any>;
-  getMailboxesState$: Observable<any>;
   readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
@@ -55,17 +51,12 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.getMailsState$.subscribe((mails) => {
       this.mails = mails;
     });
-    this.getMailboxes();
     this.getMails();
 
   }
 
   getMails() {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0 }));
-  }
-
-  getMailboxes() {
-    this.store.dispatch(new GetMailboxes({ limit: 1000, offset: 0 }));
   }
 
   // == Show mail compose modal
@@ -83,7 +74,5 @@ export class MailListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
-  }
+  ngOnDestroy() {}
 }

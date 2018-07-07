@@ -4,10 +4,12 @@ import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
 import { BlackListDelete, SettingsUpdate, WhiteListDelete } from '../../store/actions';
-import { AppState, Settings, UserState } from '../../store/datatypes';
+import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Language, LANGUAGES } from '../../shared/config';
+import { Mailbox, UserMailbox } from '../../store/models';
+
 
 @TakeUntilDestroy()
 @Component({
@@ -17,20 +19,24 @@ import { Language, LANGUAGES } from '../../shared/config';
 })
 export class MailSettingsComponent implements OnInit, OnDestroy {
   // == Defining public property as boolean
-  public selectedIndex = -1; // Assuming no element are selected initially
-  public userState: UserState;
-  public settings: Settings;
+  selectedIndex = -1; // Assuming no element are selected initially
+  userState: UserState;
+  settings: Settings;
+  selectedMailboxForKey: UserMailbox;
+  publicKey: any;
 
-  public newListContact = { show: false, type: 'Whitelist' };
+  newListContact = { show: false, type: 'Whitelist' };
 
   readonly destroyed$: Observable<boolean>;
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
+  timezones: Timezone[];
+  private mailboxes: Mailbox[];
 
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
-    private store: Store<AppState>,
+    private store: Store<AppState>
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -43,6 +49,20 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.settings = user.settings;
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
+        }
+        if (this.userState.mailboxes.length > 0) {
+          this.selectedMailboxForKey = this.userState.mailboxes[0];
+        }
+      });
+    this.store.select(state => state.timezone).takeUntil(this.destroyed$)
+      .subscribe((timezonesState: TimezonesState) => {
+        this.timezones = timezonesState.timezones;
+      });
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailboxesState: MailBoxesState) => {
+        this.mailboxes = mailboxesState.mailboxes;
+        if (this.mailboxes.length > 0) {
+          this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
       });
   }
@@ -111,8 +131,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.updateSettings();
   }
 
-  updateSettings() {
-    this.store.dispatch(new SettingsUpdate(this.settings));
+  updateSettings(key?: string, value?: any) {
+    if (key) {
+      if (this.settings[key] !== value) {
+        this.settings[key] = value;
+        this.store.dispatch(new SettingsUpdate(this.settings));
+      }
+    } else {
+      this.store.dispatch(new SettingsUpdate(this.settings));
+    }
   }
 
   ngOnDestroy(): void {

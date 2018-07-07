@@ -149,3 +149,8 @@
 .ql-font-times-new-roman {
   font-family: Times New Roman, serif;
 }
+
+.generic-dropdown-list {
+  max-height: 300px;
+  overflow-y: scroll;
+}

@@ -26,6 +26,6 @@ export interface Mailbox {
   email: string;
   is_active?: boolean;
   private_key: string;
-  public_key: boolean;
+  public_key: string;
   signature?: string;
 }

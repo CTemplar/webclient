@@ -50,6 +50,7 @@ export interface Settings {
   signature?: string;
   allocated_storage?: number;
   used_storage?: number;
+  display_name?: string;
 }
 
 export interface BlogState {
@@ -119,5 +120,14 @@ export interface AppState {
   loading: LoadingState;
   keyboard: KeyboardState;
   user: UserState;
+  timezone: TimezonesState;
 }
 
+export interface TimezonesState {
+  timezones: Timezone[];
+}
+
+export interface Timezone {
+  value: string;
+  key: string;
+}
