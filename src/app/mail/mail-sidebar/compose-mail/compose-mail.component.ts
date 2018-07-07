@@ -58,6 +58,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   @ViewChild('encryptionModal') encryptionModal;
 
   colors = COLORS;
+  mailData: any = {};
   options: any = {};
   selfDestructDateTime: any = {};
   attachments: Array<any> = [];
@@ -193,7 +194,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   onClose(modalRef: any) {
-    if (this.hasContent()) {
+    if (this.hasData()) {
       this.confirmModalRef = this.modalService.open(modalRef, {
         centered: true,
         windowClass: 'modal-sm users-action-modal'
@@ -264,8 +265,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     }
   }
 
-  hasContent() {
-    return this.quill.getLength() > 1; // using >1 because there is always a blank line represented by ‘\n’
+  hasData() {
+    // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
+    return this.quill.getLength() > 1 ||
+      this.mailData.receiver || this.mailData.cc || this.mailData.bcc || this.mailData.subject;
   }
 
   getFileSize(file: File): string {
@@ -295,21 +298,24 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
-    if (this.hasContent()) {
-      const subject = 'Test Subject';
-      this.draftMail.receiver = ['johndoe@gmail.com'];
-      this.draftMail.cc = ['johndoe@gmail.com'];
-      this.draftMail.bcc = ['johndoe@gmail.com'];
-      this.draftMail.subject = subject;
+    if (this.hasData()) {
+      // TODO: using comma separator until these inputs are replaced with tag-input plugin
+      this.draftMail.receiver = this.mailData.receiver ? this.mailData.receiver.split(',') : [];
+      this.draftMail.cc = this.mailData.cc ? this.mailData.cc.split(',') : [];
+      this.draftMail.bcc = this.mailData.bcc ? this.mailData.bcc.split(',') : [];
+      this.draftMail.subject = this.mailData.subject;
       this.draftMail.content = await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
       this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
   }
 
   private hideMailComposeModal() {
-    this.onHide.emit(true);
+    this.mailData = {};
+    this.options = {};
+    this.quill.setText('');
     this.draftMail = null;
     this.unSubscribeAutoSave();
+    this.onHide.emit(true);
   }
 
   private unSubscribeAutoSave() {

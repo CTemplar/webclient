@@ -23,7 +23,8 @@
                 <div class="mail-compose-field-group">
                     <div class="mail-compose-field">
                         <span class="mail-label label-to">To:</span>
-                        <textarea class="mail-compose-control" id="recepietTo" rows="1">johndoe@gmail.com</textarea>
+                        <textarea class="mail-compose-control" name="receiver" [(ngModel)]="mailData.receiver"
+                                  id="recepietTo" rows="1"></textarea>
                         <div class="extra-mail-label">
                             <span class="mail-label mail-floated-label"
                                   (click)="options.isCcVisible = !options.isCcVisible">Cc</span>
@@ -33,15 +34,18 @@
                     </div>
                     <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
                         <span class="mail-label label-cc">Cc:</span>
-                        <textarea class="mail-compose-control" id="recepietCc" rows="1">johndoe@gmail.com</textarea>
+                        <textarea class="mail-compose-control" name="cc" [(ngModel)]="mailData.cc"
+                                  id="recepietCc" rows="1"></textarea>
                     </div>
                     <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
                         <span class="mail-label label-bcc">Bcc:</span>
-                        <textarea class="mail-compose-control" id="recepietBcc" rows="1">johndoe@gmail.com</textarea>
+                        <textarea class="mail-compose-control" name="bcc" [(ngModel)]="mailData.bcc"
+                                  id="recepietBcc" rows="1"></textarea>
                     </div>
                     <div class="mail-compose-field">
                         <span class="mail-label label-subject">Subject:</span>
-                        <textarea class="mail-compose-control" id="subject" rows="1">Re: Welcome to CTemplar!</textarea>
+                        <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
+                                  id="subject" rows="1"></textarea>
                     </div>
                 </div>
             </form>
