@@ -2,15 +2,17 @@ import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Outpu
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import * as QuillNamespace from 'quill';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { COLORS } from '../../../shared/config';
 import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../store/datatypes';
-import { Mail } from '../../../store/models';
+import { Mail, Mailbox } from '../../../store/models';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 const Quill: any = QuillNamespace;
 
@@ -37,12 +39,14 @@ export class PasswordValidation {
     }
   }
 }
+
+@TakeUntilDestroy()
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
+export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() public isComposeVisible: boolean;
 
   @Output() public onHide = new EventEmitter<boolean>();
@@ -57,8 +61,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   options: any = {};
   selfDestructDateTime: any = {};
   attachments: Array<any> = [];
-
   isKeyboardOpened: boolean;
+  mailbox: Mailbox;
+  encryptForm: FormGroup;
+
   private quill: any;
   private autoSaveSubscription: Subscription;
   private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
@@ -70,7 +76,8 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private signature: string;
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
-  encryptForm: FormGroup;
+
+  readonly destroyed$: Observable<boolean>;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -101,6 +108,13 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailboxes) => {
+        if (mailboxes.mailboxes[0]) {
+          this.mailbox = mailboxes.mailboxes[0];
+        }
+      });
+
     const now = new Date();
     this.selfDestructDateTime.minDate = {
       year: now.getFullYear(),
@@ -115,6 +129,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     }, {
       validator: PasswordValidation.MatchPassword
     });
+  }
+
+  ngOnDestroy(): void {
   }
 
   initializeQuillEditor() {
@@ -271,15 +288,19 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     }
   }
 
-  private updateEmail() {
+  private async updateEmail() {
     if (!this.draftMail) {
-      this.draftMail = { content: null, mailbox: 1, folder: 'draft' };
+      this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
-    if (!this.hasContent() || this.draftMail.content === this.editor.nativeElement.firstChild.innerHTML) {
-      return;
+    if (this.hasContent()) {
+      const subject = 'Test Subject';
+      this.draftMail.receiver = ['johndoe@gmail.com'];
+      this.draftMail.cc = ['johndoe@gmail.com'];
+      this.draftMail.bcc = ['johndoe@gmail.com'];
+      this.draftMail.subject = subject;
+      this.draftMail.content = await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
+      this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
-    this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    this.store.dispatch(new CreateMail({ ...this.draftMail }));
   }
 
   private hideMailComposeModal() {
