@@ -102,7 +102,7 @@
                                 <a routerLink="/privacy" translate="footer.privacy_policy">Privacy Policy</a>
                             </li>
                             <li>
-                                <a routerLink="/terms" translate="footer.terms_and_conditions">Terms &amp; Conditions</a>
+                                <a routerLink="/terms" [innerHTML]="'footer.terms_and_conditions' | translate">Terms &amp; Conditions</a>
                             </li>
                         </ul>
                     </div>
