@@ -7,13 +7,13 @@ import { getCategories, getNewBlogs } from '../store/selectors';
 import { Store } from '@ngrx/store';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-import { AppState, LoadingState, RouterStateUrl } from '../store/datatypes';
+import { AppState, LoadingState } from '../store/datatypes';
 // Actions
 import { FinalLoading, GetCategories, GetPosts, GetRelatedPosts, RecentBlogLoading } from '../store/actions';
 // Services
 import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 interface ModeInterface {
   Recent: number;
@@ -117,9 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.store.dispatch(new GetCategories({}));
   }
 
-  ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
-  }
+  ngOnDestroy() {}
 
   ngAfterViewChecked() {
     this.viewChecked = true;

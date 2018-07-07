@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../store/services';
 // Actions
-import { AccountDetailsGet } from '../store/actions';
+import { AccountDetailsGet, GetMailboxes } from '../store/actions';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/datatypes';
@@ -27,6 +27,7 @@ export class MailComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.store.dispatch(new AccountDetailsGet());
+    this.store.dispatch(new GetMailboxes());
     this.store.dispatch(new TimezoneGet());
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);

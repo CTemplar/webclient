@@ -14,6 +14,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 @NgModule({
   imports: [CommonModule, TranslateModule],
@@ -28,6 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
     SpinnerImageComponent,
     LoadingComponent,
     LoadingSpinnerComponent,
+    SafeUrlPipe,
   ],
   exports: [
     TranslateModule,
@@ -37,7 +39,9 @@ import { TranslateModule } from '@ngx-translate/core';
     SpinnerImageComponent,
     ngxZendeskWebwidgetModule,
     LoadingSpinnerComponent,
+    SafeUrlPipe,
   ],
   providers: [SpinnerService]
 })
-export class SharedModule {}
+export class SharedModule {
+}

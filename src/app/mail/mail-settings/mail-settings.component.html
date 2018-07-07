@@ -891,13 +891,13 @@
                             <div class="btn-dropdown btn-dropdown-select">
                                 <div ngbDropdown class="dropdown-sm">
                                     <button ngbDropdownToggle class="dropdown-toggle"
-                                            id="emailAddressDropdownMenuButton" role="button">johnsimpson@ctemplar.com
+                                            id="emailAddressDropdownMenuButton" role="button">
+                                        {{selectedMailboxForKey?.email}}
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
-                                        <a class="dropdown-item">johnsimpson@ctemplar.com</a>
+                                        <a class="dropdown-item"
+                                           *ngFor="let mailbox of userState.mailboxes"
+                                           (click)="selectedMailboxForKey=mailbox;">{{mailbox.email}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -913,7 +913,12 @@
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                                    value="o8bg359348b24p08gn34408g4p389gbpq938g" readonly=""/>
-                            <span class="form-label-text mt-1"><a><strong><u><span translate="settings.download_public_kay">Download public key </span>(2048 Bit)</u></strong></a></span>
+                            <span class="form-label-text mt-1">
+                                <a [href]="publicKey | safeUrl"><strong><u>
+                                <span translate="settings.download_public_kay">Download public key </span>
+                                (2048 Bit)</u></strong>
+                                </a>
+                            </span>
                         </div>
                     </div>
                 </div>
