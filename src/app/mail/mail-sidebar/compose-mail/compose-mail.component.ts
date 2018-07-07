@@ -8,7 +8,7 @@ import { timer } from 'rxjs/observable/timer';
 import { COLORS } from '../../../shared/config';
 import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, MailState } from '../../../store/datatypes';
+import { AppState, MailState, UserState } from '../../../store/datatypes';
 import { Mail, Mailbox } from '../../../store/models';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -114,6 +114,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
           this.mailbox = mailboxes.mailboxes[0];
         }
       });
+    this.store.select(state => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        this.signature = user.settings.signature;
+      });
 
     const now = new Date();
     this.selfDestructDateTime.minDate = {
@@ -121,7 +125,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       month: now.getMonth() + 1,
       day: now.getDay() + 1
     };
-    this.signature = 'Sent from CTempler'; // TODO: add API call to retrieve signature from backend
 
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
@@ -226,7 +229,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
 
   addSignature() {
     const index = this.quill.getLength();
-    this.quill.clipboard.dangerouslyPasteHTML(index, this.signature);
+    this.quill.insertText(index, this.signature);
   }
 
   openSelfDestructModal() {
