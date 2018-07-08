@@ -88,7 +88,7 @@
       "add_whitelist_contact": "Add whitelist contact"
     },
     "blacklist": {
-      "name": "Whitelist",
+      "name": "Blacklist",
       "info": "Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message as spam adds the address to the Blacklist.",
       "add_blacklist_contact": "Add blacklist contact"
     },
