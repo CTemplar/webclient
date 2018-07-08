@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs/Observable';
@@ -56,17 +56,20 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   @ViewChild('toolbar') toolbar;
   @ViewChild('attachImagesModal') attachImagesModal;
   @ViewChild('selfDestructModal') selfDestructModal;
+  @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
   @ViewChild('encryptionModal') encryptionModal;
 
   colors = COLORS;
   mailData: any = {};
   options: any = {};
   selfDestruct: any = {};
+  delayedDelivery: any = {};
   attachments: Array<any> = [];
   isKeyboardOpened: boolean;
   mailbox: Mailbox;
   encryptForm: FormGroup;
   contacts: Contact[];
+  datePickerMinDate: NgbDateStruct;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -74,6 +77,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
+  private delayedDeliveryModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
   private signature: string;
@@ -128,16 +132,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       });
 
     const now = new Date();
-    this.selfDestruct.minDate = {
+    this.datePickerMinDate = {
       year: now.getFullYear(),
       month: now.getMonth() + 1,
       day: now.getDate()
-    };
-
-    this.selfDestruct.time = {
-      hour: 0,
-      minute: 0,
-      second: 0
     };
 
     this.resetMailData();
@@ -263,8 +261,21 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     });
   }
 
-  openEncryptionModal() {
+  openDelayedDeliveryModal() {
+    if (this.delayedDelivery.value) {
+      // reset to previous confirmed value
+      this.delayedDelivery = {...this.delayedDelivery, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value)};
+    }
+    else {
+      this.resetDelayedDeliveryValues();
+    }
+    this.delayedDeliveryModalRef = this.modalService.open(this.delayedDeliveryModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
 
+  openEncryptionModal() {
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
       centered: true,
       windowClass: 'modal-md users-action-modal'
@@ -298,6 +309,18 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   clearSelfDestructValue() {
     this.resetSelfDestructValues();
     this.closeSelfDestructModal();
+  }
+
+  setDelayedDeliveryValue() {
+    if (this.delayedDelivery.date && this.delayedDelivery.time) {
+      this.delayedDelivery.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date, this.delayedDelivery.time);
+      this.closeDelayedDeliveryModal();
+    }
+  }
+
+  clearDelayedDeliveryValue() {
+    this.resetDelayedDeliveryValues();
+    this.closeDelayedDeliveryModal();
   }
 
   hasData() {
@@ -338,7 +361,8 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
       this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
       this.draftMail.subject = this.mailData.subject;
-      this.draftMail.destruct_date = this.selfDestruct.value;
+      this.draftMail.destruct_date = this.selfDestruct.value || null;
+      this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
       this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML; // await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
       this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
@@ -357,6 +381,12 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private closeSelfDestructModal() {
     if (this.selfDestructModalRef) {
       this.selfDestructModalRef.dismiss();
+    }
+  }
+
+  private closeDelayedDeliveryModal() {
+    if (this.delayedDeliveryModalRef) {
+      this.delayedDeliveryModalRef.dismiss();
     }
   }
 
@@ -394,6 +424,16 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.selfDestruct.value = null;
     this.selfDestruct.date = null;
     this.selfDestruct.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
+  }
+
+  private resetDelayedDeliveryValues() {
+    this.delayedDelivery.value = null;
+    this.delayedDelivery.date = null;
+    this.delayedDelivery.time = {
       hour: 0,
       minute: 0,
       second: 0
