@@ -50,13 +50,45 @@
                     </div>
                     <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
                         <span class="mail-label label-cc">Cc:</span>
-                        <textarea class="mail-compose-control" name="cc" [(ngModel)]="mailData.cc"
-                                  id="recepietCc" rows="1"></textarea>
+                        <tag-input [(ngModel)]="mailData.cc"
+                                   name="to"
+                                   [placeholder]="'+'"
+                                   [secondaryPlaceholder]="'Enter Cc email'"
+                                   [onTextChangeDebounce]="100"
+                                   [onlyFromAutocomplete]="false"
+                                   [addOnBlur]="true">
+                            <tag-input-dropdown [showDropdownIfEmpty]="false"
+                                                [dynamicUpdate]="false"
+                                                [focusFirstElement]="true"
+                                                [displayBy]="'email'"
+                                                [identifyBy]="'id'"
+                                                [autocompleteItems]="contacts">
+                                <ng-template let-item="item" let-index="index">
+                                    {{ item.email }}
+                                </ng-template>
+                            </tag-input-dropdown>
+                        </tag-input>
                     </div>
                     <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
                         <span class="mail-label label-bcc">Bcc:</span>
-                        <textarea class="mail-compose-control" name="bcc" [(ngModel)]="mailData.bcc"
-                                  id="recepietBcc" rows="1"></textarea>
+                        <tag-input [(ngModel)]="mailData.bcc"
+                                   name="to"
+                                   [placeholder]="'+'"
+                                   [secondaryPlaceholder]="'Enter Bcc email'"
+                                   [onTextChangeDebounce]="100"
+                                   [onlyFromAutocomplete]="false"
+                                   [addOnBlur]="true">
+                            <tag-input-dropdown [showDropdownIfEmpty]="false"
+                                                [dynamicUpdate]="false"
+                                                [focusFirstElement]="true"
+                                                [displayBy]="'email'"
+                                                [identifyBy]="'id'"
+                                                [autocompleteItems]="contacts">
+                                <ng-template let-item="item" let-index="index">
+                                    {{ item.email }}
+                                </ng-template>
+                            </tag-input-dropdown>
+                        </tag-input>
                     </div>
                     <div class="mail-compose-field">
                         <span class="mail-label label-subject">Subject:</span>

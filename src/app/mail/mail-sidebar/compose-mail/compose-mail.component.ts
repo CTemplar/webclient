@@ -333,9 +333,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
     if (this.hasData()) {
-      this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.email);
-      this.draftMail.cc = this.mailData.cc.map(cc => cc.email);
-      this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.email);
+      this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
+      this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
+      this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
       this.draftMail.subject = this.mailData.subject;
       this.draftMail.destruct_date = this.selfDestruct.value;
       this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML; // await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
