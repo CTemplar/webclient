@@ -35,6 +35,7 @@
     "core-js": "^2.4.1",
     "ng-recaptcha": "^3.0.5",
     "ngrx-store-freeze": "^0.2.2",
+    "ngx-chips": "^1.8.2",
     "ngx-take-until-destroy": "^3.0.0",
     "ngx-toastr": "^8.8.0",
     "ngx-virtual-keyboard": "^1.0.56",

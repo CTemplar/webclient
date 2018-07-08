@@ -23,6 +23,23 @@
                 <div class="mail-compose-field-group">
                     <div class="mail-compose-field">
                         <span class="mail-label label-to">To:</span>
+                        <tag-input [ngModel]="[]"
+                                   name="to"
+                                   [placeholder]="'+'"
+                                   [secondaryPlaceholder]="'Enter recipient email'"
+                                   [onTextChangeDebounce]="100"
+                                   [onlyFromAutocomplete]="false">
+                            <tag-input-dropdown [showDropdownIfEmpty]="false"
+                                                [dynamicUpdate]="false"
+                                                [focusFirstElement]="true"
+                                                [displayBy]="'email'"
+                                                [identifyBy]="'id'"
+                                                [autocompleteItems]="contacts">
+                                <ng-template let-item="item" let-index="index">
+                                    {{ item.email }}
+                                </ng-template>
+                            </tag-input-dropdown>
+                        </tag-input>
                         <textarea class="mail-compose-control" name="receiver" [(ngModel)]="mailData.receiver"
                                   id="recepietTo" rows="1"></textarea>
                         <div class="extra-mail-label">

@@ -8,7 +8,7 @@ import { timer } from 'rxjs/observable/timer';
 import { COLORS } from '../../../shared/config';
 import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, MailState, UserState } from '../../../store/datatypes';
+import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
 import { Mail, Mailbox } from '../../../store/models';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -65,6 +65,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   isKeyboardOpened: boolean;
   mailbox: Mailbox;
   encryptForm: FormGroup;
+  contacts: Contact[];
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -92,6 +93,12 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
           this.draftMail = response.draft;
         }
       });
+
+    this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        this.contacts = user.contact;
+      });
+
   }
 
   ngAfterViewInit() {
@@ -333,7 +340,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML).then(() => {
         // TODO: api call for message encryption
         // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
-      } );
+      });
     }
     // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
 
