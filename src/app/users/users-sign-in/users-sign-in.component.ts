@@ -22,6 +22,7 @@ import { FinalLoading } from '../../store/actions';
 // Service
 import { SharedService } from '../../store/services';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
+import { ESCAPE_KEYCODE } from '../../shared/config';
 
 @TakeUntilDestroy()
 @Component({
@@ -31,7 +32,6 @@ import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 })
 export class UsersSignInComponent implements OnDestroy, OnInit {
   readonly destroyed$: Observable<boolean>;
-  ESCAPE_KEYCODE = 27;
 
   loginForm: FormGroup;
   resetForm: FormGroup;
@@ -163,7 +163,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
-    if (event.keyCode === this.ESCAPE_KEYCODE) {
+    if (event.keyCode === ESCAPE_KEYCODE) {
       this.closeKeyboard();
     }
   }

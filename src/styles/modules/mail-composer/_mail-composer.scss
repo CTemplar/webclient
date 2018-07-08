@@ -5,6 +5,10 @@
 // == Mail composer
 $mail_composer_padding_x: 0.75rem;
 
+.keyboard-open {
+	bottom: 255px !important;
+}
+
 .mail-composer.is-sticky {
 	position: fixed;
 	top: 0;

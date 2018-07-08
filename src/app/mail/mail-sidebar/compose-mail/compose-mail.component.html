@@ -1,4 +1,6 @@
-<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx" [class.is-active]="isComposeVisible">
+<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
+     [class.keyboard-open]="isKeyboardOpened"
+     [class.is-active]="isComposeVisible">
     <div class="mail-composer-dialog">
         <div class="mail-composer-header">
             <div class="mail-composer-title">New message</div>

@@ -45,3 +45,4 @@ export interface Language {
   locale: string;
 }
 
+export const ESCAPE_KEYCODE = 27;

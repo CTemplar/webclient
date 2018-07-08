@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
-import { COLORS } from '../../../shared/config';
+import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
 import { CloseMailbox, CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
@@ -485,5 +485,12 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       minute: 0,
       second: 0
     };
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === ESCAPE_KEYCODE) {
+      this.closeOSK();
+    }
   }
 }
