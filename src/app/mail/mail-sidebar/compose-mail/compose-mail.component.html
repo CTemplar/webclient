@@ -164,68 +164,10 @@
                             </button>
                         </li>
                         <li>
-                            <div ngbDropdown placement="top" class="dropdown">
-                                <button ngbDropdownToggle class="hide-arrow actions-btn mail-dead-btn border-radius-l-0"
-                                        id="delayedTimerDropdownMenu" role="button" placement="top"
-                                        ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i></button>
-                                <div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded"
-                                     aria-labelledby="delayedTimerDropdownMenu">
-                                    <button role="button" class="close"><i class="icon icon-cross"></i></button>
-                                    <div class="timer-dropdown-content">
-                                        <div class="dropdown-header">
-                                            <div class="dropdown-menu-title text-dark text-center"><strong>Dead Man's
-                                                Timer</strong></div>
-                                        </div>
-                                        <div class="dropdown-body">
-                                            <div class="timer-set-content">
-                                                <div class="timer-set-title">If you do not log into your account after
-                                                    this set time, the email will be sent
-                                                </div>
-                                                <div class="timer-set-row d-flex align-items-center">
-                                                    <div class="timer-set-col">
-                                                        <span class="timer-set-label ml-0">in</span>
-                                                        <span ngbDropdown placement="top" class="dropdown">
-															<button ngbDropdownToggle class="actions-btn bg-white"
-                                                                    id="daysTimerDropdownMenu" role="button">1</button>
-															<div ngbDropdownMenu class="left-0"
-                                                                 aria-labelledby="daysTimerDropdownMenu">
-																<a href="" class="dropdown-link">1</a>
-																<a href="" class="dropdown-link">2</a>
-																<a href="" class="dropdown-link">3</a>
-																<a href="" class="dropdown-link">4</a>
-																<a href="" class="dropdown-link">5</a>
-																<a href="" class="dropdown-link">6</a>
-																<a href="" class="dropdown-link">7</a>
-															</div>
-														</span>
-                                                        <span class="timer-set-label mr-0">Days</span>
-                                                    </div>
-                                                    <div class="timer-set-col">
-														<span ngbDropdown placement="top" class="dropdown">
-															<button ngbDropdownToggle class="actions-btn bg-white"
-                                                                    id="hoursTimerDropdownMenu" role="button">1</button>
-															<div ngbDropdownMenu class="left-0"
-                                                                 aria-labelledby="hoursTimerDropdownMenu">
-																<a href="" class="dropdown-link">1</a>
-																<a href="" class="dropdown-link">2</a>
-																<a href="" class="dropdown-link">3</a>
-																<a href="" class="dropdown-link">4</a>
-																<a href="" class="dropdown-link">5</a>
-																<a href="" class="dropdown-link">6</a>
-																<a href="" class="dropdown-link">7</a>
-															</div>
-														</span>
-                                                        <span class="timer-set-label mr-0">Hours</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-footer text-center">
-                                            <a href="" class="btn btn-sm btn-secondary">Schedule</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          <button type="button" role="button" (click)="openDeadManTimerModal()"
+                                  class="actions-btn mail-dead-btn border-radius-l-0"
+                                  placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i>
+                          </button>
                         </li>
                         <li>
                             <button role="button" type="button" (click)="toggleOSK()"
@@ -599,6 +541,38 @@
         </div>
     </div>
 </ng-template><!-- /.delayed delivery datetime picker modal ends -->
+
+<!-- dead man datetime picker modal -->
+<ng-template #deadManTimerModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Dead Man&apos;s Timer</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+              If you do not log into your account after this set datetime, the email will be sent
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Date</label>
+                <ngb-datepicker class="bg-white"
+                                [(ngModel)]="deadManTimer.date"
+                                [minDate]="datePickerMinDate"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Time</label>
+                <ngb-timepicker [(ngModel)]="deadManTimer.time"></ngb-timepicker>
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="setDeadManTimerValue()" class="btn btn-success btn-sm" role="button">Confirm</button>
+                <button type="button" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm" role="button">Clear</button>
+                <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.dead man datetime picker modal ends -->
 
 <!-- encryption modal -->
 <ng-template #encryptionModal let-c="close" let-d="dismiss">

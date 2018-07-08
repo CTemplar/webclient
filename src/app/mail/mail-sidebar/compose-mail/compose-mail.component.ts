@@ -57,6 +57,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   @ViewChild('attachImagesModal') attachImagesModal;
   @ViewChild('selfDestructModal') selfDestructModal;
   @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
+  @ViewChild('deadManTimerModal') deadManTimerModal;
   @ViewChild('encryptionModal') encryptionModal;
 
   colors = COLORS;
@@ -64,6 +65,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   options: any = {};
   selfDestruct: any = {};
   delayedDelivery: any = {};
+  deadManTimer: any = {};
   attachments: Array<any> = [];
   isKeyboardOpened: boolean;
   mailbox: Mailbox;
@@ -78,6 +80,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
   private delayedDeliveryModalRef: NgbModalRef;
+  private deadManTimerModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
   private signature: string;
@@ -275,6 +278,20 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     });
   }
 
+  openDeadManTimerModal() {
+    if (this.deadManTimer.value) {
+      // reset to previous confirmed value
+      this.deadManTimer = {...this.deadManTimer, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value)};
+    }
+    else {
+      this.resetDeadManTimerValues();
+    }
+    this.deadManTimerModalRef = this.modalService.open(this.deadManTimerModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
   openEncryptionModal() {
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
       centered: true,
@@ -323,6 +340,18 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.closeDelayedDeliveryModal();
   }
 
+  setDeadManTimerValue() {
+    if (this.deadManTimer.date && this.deadManTimer.time) {
+      this.deadManTimer.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.deadManTimer.date, this.deadManTimer.time);
+      this.closeDeadManTimerModal();
+    }
+  }
+
+  clearDeadManTimerValue() {
+    this.resetDeadManTimerValues();
+    this.closeDeadManTimerModal();
+  }
+
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1 ||
@@ -363,6 +392,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail.subject = this.mailData.subject;
       this.draftMail.destruct_date = this.selfDestruct.value || null;
       this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
+      this.draftMail.dead_man_timer = this.deadManTimer.value || null;
       this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML; // await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
       this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
@@ -375,6 +405,8 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.resetMailData();
     this.unSubscribeAutoSave();
     this.clearSelfDestructValue();
+    this.clearDelayedDeliveryValue();
+    this.clearDeadManTimerValue();
     this.onHide.emit(true);
   }
 
@@ -387,6 +419,12 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private closeDelayedDeliveryModal() {
     if (this.delayedDeliveryModalRef) {
       this.delayedDeliveryModalRef.dismiss();
+    }
+  }
+
+  private closeDeadManTimerModal() {
+    if (this.deadManTimerModalRef) {
+      this.deadManTimerModalRef.dismiss();
     }
   }
 
@@ -434,6 +472,16 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.delayedDelivery.value = null;
     this.delayedDelivery.date = null;
     this.delayedDelivery.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
+  }
+
+  private resetDeadManTimerValues() {
+    this.deadManTimer.value = null;
+    this.deadManTimer.date = null;
+    this.deadManTimer.time = {
       hour: 0,
       minute: 0,
       second: 0
