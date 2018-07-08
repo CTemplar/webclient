@@ -116,8 +116,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     if (changes.isComposeVisible) {
       if (changes.isComposeVisible.currentValue === true) {
         this.initializeAutoSave();
-      } else {
-        this.unSubscribeAutoSave();
       }
     }
   }
@@ -400,6 +398,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
 
   private hideMailComposeModal() {
     this.options = {};
+    this.attachments = [];
     this.quill.setText('');
     this.store.dispatch(new CloseMailbox());
     this.resetMailData();

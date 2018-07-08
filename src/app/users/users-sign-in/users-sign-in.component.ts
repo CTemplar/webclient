@@ -3,7 +3,7 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ElementRef
+  ElementRef, HostListener
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -31,6 +31,7 @@ import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 })
 export class UsersSignInComponent implements OnDestroy, OnInit {
   readonly destroyed$: Observable<boolean>;
+  ESCAPE_KEYCODE = 27;
 
   loginForm: FormGroup;
   resetForm: FormGroup;
@@ -157,6 +158,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       } else if (input === 'password') {
         this.openPasswordOSK();
       }
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === this.ESCAPE_KEYCODE) {
+      this.closeKeyboard();
     }
   }
 }
