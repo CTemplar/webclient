@@ -250,6 +250,13 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   openSelfDestructModal() {
+    if (this.selfDestruct.value) {
+      // reset to previous confirmed value
+      this.selfDestruct = {...this.selfDestruct, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value)};
+    }
+    else {
+      this.resetSelfDestructValues();
+    }
     this.selfDestructModalRef = this.modalService.open(this.selfDestructModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal'
@@ -289,13 +296,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   clearSelfDestructValue() {
-    this.selfDestruct.value = null;
-    this.selfDestruct.date = null;
-    this.selfDestruct.time = {
-      hour: 0,
-      minute: 0,
-      second: 0
-    };
+    this.resetSelfDestructValues();
     this.closeSelfDestructModal();
   }
 
@@ -386,6 +387,16 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       cc: [],
       bcc: [],
       subject: ''
+    };
+  }
+
+  private resetSelfDestructValues() {
+    this.selfDestruct.value = null;
+    this.selfDestruct.date = null;
+    this.selfDestruct.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
     };
   }
 }
