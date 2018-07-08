@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { COLORS } from '../../../shared/config';
-import { CreateMail, DeleteMail } from '../../../store/actions';
+import { CloseMailbox, CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
 import { Mail, Mailbox } from '../../../store/models';
@@ -91,9 +91,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
 
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
-        if (response.draft) {
-          this.draftMail = response.draft;
-        }
+        this.draftMail = response.draft;
       });
 
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
@@ -151,6 +149,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new CloseMailbox());
   }
 
   initializeQuillEditor() {
@@ -338,7 +337,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail.bcc = this.mailData.bcc ? this.mailData.bcc.split(',') : [];
       this.draftMail.subject = this.mailData.subject;
       this.draftMail.destruct_date = this.selfDestruct.value;
-      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;//await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
+      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML; // await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
       this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
   }
@@ -347,7 +346,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.mailData = {};
     this.options = {};
     this.quill.setText('');
-    this.draftMail = null;
+    this.store.dispatch(new CloseMailbox());
     this.unSubscribeAutoSave();
     this.clearSelfDestructValue();
     this.onHide.emit(true);
