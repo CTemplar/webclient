@@ -10,6 +10,7 @@ import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, MailState, UserState } from '../../../store/datatypes';
 import { Mail, Mailbox } from '../../../store/models';
+import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -60,7 +61,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   colors = COLORS;
   mailData: any = {};
   options: any = {};
-  selfDestructDateTime: any = {};
+  selfDestruct: any = {};
   attachments: Array<any> = [];
   isKeyboardOpened: boolean;
   mailbox: Mailbox;
@@ -84,7 +85,8 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
-              private _keyboardService: MatKeyboardService) {
+              private _keyboardService: MatKeyboardService,
+              private dateTimeUtilService: DateTimeUtilService) {
 
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
@@ -121,10 +123,16 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       });
 
     const now = new Date();
-    this.selfDestructDateTime.minDate = {
+    this.selfDestruct.minDate = {
       year: now.getFullYear(),
       month: now.getMonth() + 1,
-      day: now.getDay() + 1
+      day: now.getDate()
+    };
+
+    this.selfDestruct.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
     };
 
     this.encryptForm = this.formBuilder.group({
@@ -265,6 +273,24 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     }
   }
 
+  setSelfDestructValue() {
+    if (this.selfDestruct.date && this.selfDestruct.time) {
+      this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date, this.selfDestruct.time);
+      console.log(this.selfDestruct.value);
+    }
+  }
+
+  clearSelfDestructValue() {
+    this.selfDestruct.value = null;
+    this.selfDestruct.date = null;
+    this.selfDestruct.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
+    this.selfDestructModalRef.dismiss();
+  }
+
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1 ||
@@ -304,7 +330,8 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail.cc = this.mailData.cc ? this.mailData.cc.split(',') : [];
       this.draftMail.bcc = this.mailData.bcc ? this.mailData.bcc.split(',') : [];
       this.draftMail.subject = this.mailData.subject;
-      this.draftMail.content = await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
+      this.draftMail.destruct_date = this.selfDestruct.value;
+      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;//await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
       this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
   }
@@ -315,6 +342,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.quill.setText('');
     this.draftMail = null;
     this.unSubscribeAutoSave();
+    this.clearSelfDestructValue();
     this.onHide.emit(true);
   }
 
