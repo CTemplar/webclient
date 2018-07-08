@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState, MailBoxesState } from '../datatypes';
 
 declare var openpgp;
+openpgp.initWorker({ path: 'openpgp.worker.min.js' });
 
 @Injectable()
 export class OpenPgpService {
@@ -37,10 +38,8 @@ export class OpenPgpService {
 
   decryptPrivateKey() {
     if (this.privkey && this.passphrase && !this.decryptedPrivKeyObj) {
-      setTimeout(() => {
-        this.decryptedPrivKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
-        this.decryptedPrivKeyObj.decrypt(this.passphrase);
-      }, 10);
+      this.decryptedPrivKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
+      this.decryptedPrivKeyObj.decrypt(this.passphrase);
     }
   }
 
