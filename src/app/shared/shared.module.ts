@@ -15,9 +15,10 @@ import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
+import { TagInputModule } from 'ngx-chips';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, TagInputModule],
   declarations: [
     SpinnerComponent,
     PricePlanComponent,
@@ -40,6 +41,7 @@ import { SafeUrlPipe } from './pipes/safe-url.pipe';
     ngxZendeskWebwidgetModule,
     LoadingSpinnerComponent,
     SafeUrlPipe,
+    TagInputModule,
   ],
   providers: [SpinnerService]
 })

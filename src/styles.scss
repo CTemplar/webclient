@@ -154,3 +154,31 @@
   max-height: 300px;
   overflow-y: scroll;
 }
+
+//START tag input css
+
+tag-input {
+
+  .ng2-tag-input{
+    border-bottom: 0 !important;
+
+    // TODO @kriti please fix this width for multiple devices.
+    width: 650px;
+  }
+
+  .ng2-tag-input__text-input{
+    height: 20px !important;
+  }
+
+  tag {
+    height: 20px !important;
+    border-radius: 1px !important;
+    border: 1px solid lightgrey !important;
+
+    .tag-wrapper {
+      margin-top: -10px !important;
+    }
+  }
+}
+
+//END tag input css
