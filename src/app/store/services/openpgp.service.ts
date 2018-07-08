@@ -24,7 +24,7 @@ export class OpenPgpService {
           this.pubkey = response.mailboxes[0].public_key;
           this.privkey = response.mailboxes[0].private_key;
         }
-        this.decryptPrivateKey();
+      //  this.decryptPrivateKey();
       });
 
     this.store.select(state => state.user)
@@ -32,7 +32,7 @@ export class OpenPgpService {
         if (user.mailboxes[0]) {
           this.passphrase = user.mailboxes[0].passphrase;
         }
-        this.decryptPrivateKey();
+       // this.decryptPrivateKey();
       });
   }
 
