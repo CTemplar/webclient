@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
-import { COLORS } from '../../../shared/config';
-import { CreateMail, DeleteMail } from '../../../store/actions';
+import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
+import { CloseMailbox, CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
 import { Mail, Mailbox } from '../../../store/models';
@@ -56,17 +56,22 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   @ViewChild('toolbar') toolbar;
   @ViewChild('attachImagesModal') attachImagesModal;
   @ViewChild('selfDestructModal') selfDestructModal;
+  @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
+  @ViewChild('deadManTimerModal') deadManTimerModal;
   @ViewChild('encryptionModal') encryptionModal;
 
   colors = COLORS;
   mailData: any = {};
   options: any = {};
   selfDestruct: any = {};
+  delayedDelivery: any = {};
+  deadManTimer: any = {};
   attachments: Array<any> = [];
   isKeyboardOpened: boolean;
   mailbox: Mailbox;
   encryptForm: FormGroup;
   contacts: Contact[];
+  datePickerMinDate: NgbDateStruct;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -74,6 +79,8 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
+  private delayedDeliveryModalRef: NgbModalRef;
+  private deadManTimerModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
   private signature: string;
@@ -91,9 +98,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
 
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
-        if (response.draft) {
-          this.draftMail = response.draft;
-        }
+        this.draftMail = response.draft;
       });
 
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
@@ -111,8 +116,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     if (changes.isComposeVisible) {
       if (changes.isComposeVisible.currentValue === true) {
         this.initializeAutoSave();
-      } else {
-        this.unSubscribeAutoSave();
       }
     }
   }
@@ -130,17 +133,13 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       });
 
     const now = new Date();
-    this.selfDestruct.minDate = {
+    this.datePickerMinDate = {
       year: now.getFullYear(),
       month: now.getMonth() + 1,
       day: now.getDate()
     };
 
-    this.selfDestruct.time = {
-      hour: 0,
-      minute: 0,
-      second: 0
-    };
+    this.resetMailData();
 
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
@@ -151,6 +150,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new CloseMailbox());
   }
 
   initializeQuillEditor() {
@@ -249,14 +249,48 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   openSelfDestructModal() {
+    if (this.selfDestruct.value) {
+      // reset to previous confirmed value
+      this.selfDestruct = {...this.selfDestruct, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value)};
+    }
+    else {
+      this.resetSelfDestructValues();
+    }
     this.selfDestructModalRef = this.modalService.open(this.selfDestructModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal'
     });
   }
 
-  openEncryptionModal() {
+  openDelayedDeliveryModal() {
+    if (this.delayedDelivery.value) {
+      // reset to previous confirmed value
+      this.delayedDelivery = {...this.delayedDelivery, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value)};
+    }
+    else {
+      this.resetDelayedDeliveryValues();
+    }
+    this.delayedDeliveryModalRef = this.modalService.open(this.delayedDeliveryModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
 
+  openDeadManTimerModal() {
+    if (this.deadManTimer.value) {
+      // reset to previous confirmed value
+      this.deadManTimer = {...this.deadManTimer, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value)};
+    }
+    else {
+      this.resetDeadManTimerValues();
+    }
+    this.deadManTimerModalRef = this.modalService.open(this.deadManTimerModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  openEncryptionModal() {
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
       centered: true,
       windowClass: 'modal-md users-action-modal'
@@ -283,25 +317,43 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   setSelfDestructValue() {
     if (this.selfDestruct.date && this.selfDestruct.time) {
       this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date, this.selfDestruct.time);
-      console.log(this.selfDestruct.value);
+      this.closeSelfDestructModal();
     }
   }
 
   clearSelfDestructValue() {
-    this.selfDestruct.value = null;
-    this.selfDestruct.date = null;
-    this.selfDestruct.time = {
-      hour: 0,
-      minute: 0,
-      second: 0
-    };
-    this.selfDestructModalRef.dismiss();
+    this.resetSelfDestructValues();
+    this.closeSelfDestructModal();
+  }
+
+  setDelayedDeliveryValue() {
+    if (this.delayedDelivery.date && this.delayedDelivery.time) {
+      this.delayedDelivery.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date, this.delayedDelivery.time);
+      this.closeDelayedDeliveryModal();
+    }
+  }
+
+  clearDelayedDeliveryValue() {
+    this.resetDelayedDeliveryValues();
+    this.closeDelayedDeliveryModal();
+  }
+
+  setDeadManTimerValue() {
+    if (this.deadManTimer.date && this.deadManTimer.time) {
+      this.deadManTimer.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.deadManTimer.date, this.deadManTimer.time);
+      this.closeDeadManTimerModal();
+    }
+  }
+
+  clearDeadManTimerValue() {
+    this.resetDeadManTimerValues();
+    this.closeDeadManTimerModal();
   }
 
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1 ||
-      this.mailData.receiver || this.mailData.cc || this.mailData.bcc || this.mailData.subject;
+      this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
   getFileSize(file: File): string {
@@ -332,25 +384,47 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
     if (this.hasData()) {
-      // TODO: using comma separator until these inputs are replaced with tag-input plugin
-      this.draftMail.receiver = this.mailData.receiver ? this.mailData.receiver.split(',') : [];
-      this.draftMail.cc = this.mailData.cc ? this.mailData.cc.split(',') : [];
-      this.draftMail.bcc = this.mailData.bcc ? this.mailData.bcc.split(',') : [];
+      this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
+      this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
+      this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
       this.draftMail.subject = this.mailData.subject;
-      this.draftMail.destruct_date = this.selfDestruct.value;
-      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;//await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
+      this.draftMail.destruct_date = this.selfDestruct.value || null;
+      this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
+      this.draftMail.dead_man_timer = this.deadManTimer.value || null;
+      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML; // await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
       this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
   }
 
   private hideMailComposeModal() {
-    this.mailData = {};
     this.options = {};
+    this.attachments = [];
     this.quill.setText('');
-    this.draftMail = null;
+    this.store.dispatch(new CloseMailbox());
+    this.resetMailData();
     this.unSubscribeAutoSave();
     this.clearSelfDestructValue();
+    this.clearDelayedDeliveryValue();
+    this.clearDeadManTimerValue();
     this.onHide.emit(true);
+  }
+
+  private closeSelfDestructModal() {
+    if (this.selfDestructModalRef) {
+      this.selfDestructModalRef.dismiss();
+    }
+  }
+
+  private closeDelayedDeliveryModal() {
+    if (this.delayedDeliveryModalRef) {
+      this.delayedDeliveryModalRef.dismiss();
+    }
+  }
+
+  private closeDeadManTimerModal() {
+    if (this.deadManTimerModalRef) {
+      this.deadManTimerModalRef.dismiss();
+    }
   }
 
   private unSubscribeAutoSave() {
@@ -372,5 +446,51 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     }
     // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
 
+  }
+
+  private resetMailData() {
+    this.mailData = {
+      receiver: [],
+      cc: [],
+      bcc: [],
+      subject: ''
+    };
+  }
+
+  private resetSelfDestructValues() {
+    this.selfDestruct.value = null;
+    this.selfDestruct.date = null;
+    this.selfDestruct.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
+  }
+
+  private resetDelayedDeliveryValues() {
+    this.delayedDelivery.value = null;
+    this.delayedDelivery.date = null;
+    this.delayedDelivery.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
+  }
+
+  private resetDeadManTimerValues() {
+    this.deadManTimer.value = null;
+    this.deadManTimer.date = null;
+    this.deadManTimer.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === ESCAPE_KEYCODE) {
+      this.closeOSK();
+    }
   }
 }

@@ -1,4 +1,6 @@
-<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx" [class.is-active]="isComposeVisible">
+<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
+     [class.keyboard-open]="isKeyboardOpened"
+     [class.is-active]="isComposeVisible">
     <div class="mail-composer-dialog">
         <div class="mail-composer-header">
             <div class="mail-composer-title">New message</div>
@@ -23,12 +25,13 @@
                 <div class="mail-compose-field-group">
                     <div class="mail-compose-field">
                         <span class="mail-label label-to">To:</span>
-                        <tag-input [ngModel]="[]"
+                        <tag-input [(ngModel)]="mailData.receiver"
                                    name="to"
                                    [placeholder]="'+'"
                                    [secondaryPlaceholder]="'Enter recipient email'"
                                    [onTextChangeDebounce]="100"
-                                   [onlyFromAutocomplete]="false">
+                                   [onlyFromAutocomplete]="false"
+                                   [addOnBlur]="true">
                             <tag-input-dropdown [showDropdownIfEmpty]="false"
                                                 [dynamicUpdate]="false"
                                                 [focusFirstElement]="true"
@@ -40,8 +43,6 @@
                                 </ng-template>
                             </tag-input-dropdown>
                         </tag-input>
-                        <textarea class="mail-compose-control" name="receiver" [(ngModel)]="mailData.receiver"
-                                  id="recepietTo" rows="1"></textarea>
                         <div class="extra-mail-label">
                             <span class="mail-label mail-floated-label"
                                   (click)="options.isCcVisible = !options.isCcVisible">Cc</span>
@@ -51,13 +52,45 @@
                     </div>
                     <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
                         <span class="mail-label label-cc">Cc:</span>
-                        <textarea class="mail-compose-control" name="cc" [(ngModel)]="mailData.cc"
-                                  id="recepietCc" rows="1"></textarea>
+                        <tag-input [(ngModel)]="mailData.cc"
+                                   name="to"
+                                   [placeholder]="'+'"
+                                   [secondaryPlaceholder]="'Enter Cc email'"
+                                   [onTextChangeDebounce]="100"
+                                   [onlyFromAutocomplete]="false"
+                                   [addOnBlur]="true">
+                            <tag-input-dropdown [showDropdownIfEmpty]="false"
+                                                [dynamicUpdate]="false"
+                                                [focusFirstElement]="true"
+                                                [displayBy]="'email'"
+                                                [identifyBy]="'id'"
+                                                [autocompleteItems]="contacts">
+                                <ng-template let-item="item" let-index="index">
+                                    {{ item.email }}
+                                </ng-template>
+                            </tag-input-dropdown>
+                        </tag-input>
                     </div>
                     <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
                         <span class="mail-label label-bcc">Bcc:</span>
-                        <textarea class="mail-compose-control" name="bcc" [(ngModel)]="mailData.bcc"
-                                  id="recepietBcc" rows="1"></textarea>
+                        <tag-input [(ngModel)]="mailData.bcc"
+                                   name="to"
+                                   [placeholder]="'+'"
+                                   [secondaryPlaceholder]="'Enter Bcc email'"
+                                   [onTextChangeDebounce]="100"
+                                   [onlyFromAutocomplete]="false"
+                                   [addOnBlur]="true">
+                            <tag-input-dropdown [showDropdownIfEmpty]="false"
+                                                [dynamicUpdate]="false"
+                                                [focusFirstElement]="true"
+                                                [displayBy]="'email'"
+                                                [identifyBy]="'id'"
+                                                [autocompleteItems]="contacts">
+                                <ng-template let-item="item" let-index="index">
+                                    {{ item.email }}
+                                </ng-template>
+                            </tag-input-dropdown>
+                        </tag-input>
                     </div>
                     <div class="mail-compose-field">
                         <span class="mail-label label-subject">Subject:</span>
@@ -82,7 +115,7 @@
                                multiple
                                (change)="onFilesSelected($event.target.files)"
                                style="display:none">
-                        <div class="attach-uploader-holder">
+                        <div class="attach-uploader-holder" *ngIf="attachments?.length>0">
                             <div class="attach-uploader" *ngFor="let file of attachments">
                                 <div class="attach-name">{{file.name}}
                                     <span class="attach-size">({{getFileSize(file)}}) </span>
@@ -127,131 +160,16 @@
                                     placement="top" ngbTooltip="Signature"><i class="icon icon-sign"></i></button>
                         </li>
                         <li class="pl-0">
-                            <div ngbDropdown placement="top" class="dropdown">
-                                <button ngbDropdownToggle
-                                        class="hide-arrow actions-btn mail-self-timer-btn border-radius-l-0"
-                                        id="delayedTimerDropdownMenu" role="button" placement="top"
-                                        ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i></button>
-                                <div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded"
-                                     aria-labelledby="delayedTimerDropdownMenu">
-                                    <button role="button" class="close"><i class="icon icon-cross"></i></button>
-                                    <div class="timer-dropdown-content">
-                                        <div class="dropdown-header">
-                                            <div class="dropdown-menu-title text-dark text-center"><strong>Delayed
-                                                Delivery</strong></div>
-                                        </div>
-                                        <div class="dropdown-body">
-                                            <div class="timer-set-content">
-                                                <div class="timer-set-title">Email will be sent after set time</div>
-                                                <div class="timer-set-row d-flex align-items-center">
-                                                    <div class="timer-set-col">
-                                                        <span class="timer-set-label ml-0">after</span>
-                                                        <span ngbDropdown placement="top" class="dropdown">
-															<button ngbDropdownToggle class="actions-btn bg-white"
-                                                                    id="daysTimerDropdownMenu" role="button">1</button>
-															<div ngbDropdownMenu class="left-0"
-                                                                 aria-labelledby="daysTimerDropdownMenu">
-																<a href="" class="dropdown-link">1</a>
-																<a href="" class="dropdown-link">2</a>
-																<a href="" class="dropdown-link">3</a>
-																<a href="" class="dropdown-link">4</a>
-																<a href="" class="dropdown-link">5</a>
-																<a href="" class="dropdown-link">6</a>
-																<a href="" class="dropdown-link">7</a>
-															</div>
-														</span>
-                                                        <span class="timer-set-label mr-0">Days</span>
-                                                    </div>
-                                                    <div class="timer-set-col">
-														<span ngbDropdown placement="top" class="dropdown">
-															<button ngbDropdownToggle class="actions-btn bg-white"
-                                                                    id="hoursTimerDropdownMenu" role="button">1</button>
-															<div ngbDropdownMenu class="left-0"
-                                                                 aria-labelledby="hoursTimerDropdownMenu">
-																<a href="" class="dropdown-link">1</a>
-																<a href="" class="dropdown-link">2</a>
-																<a href="" class="dropdown-link">3</a>
-																<a href="" class="dropdown-link">4</a>
-																<a href="" class="dropdown-link">5</a>
-																<a href="" class="dropdown-link">6</a>
-																<a href="" class="dropdown-link">7</a>
-															</div>
-														</span>
-                                                        <span class="timer-set-label mr-0">Hours</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-footer text-center">
-                                            <a href="" class="btn btn-sm btn-secondary">Schedule</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <button type="button" role="button" (click)="openDelayedDeliveryModal()"
+                                    class="actions-btn mail-self-timer-btn border-radius-l-0"
+                                    placement="top" ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i>
+                            </button>
                         </li>
                         <li>
-                            <div ngbDropdown placement="top" class="dropdown">
-                                <button ngbDropdownToggle class="hide-arrow actions-btn mail-dead-btn border-radius-l-0"
-                                        id="delayedTimerDropdownMenu" role="button" placement="top"
-                                        ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i></button>
-                                <div ngbDropdownMenu class="dropdown-menu timer-dropdown-menu  bg-faded"
-                                     aria-labelledby="delayedTimerDropdownMenu">
-                                    <button role="button" class="close"><i class="icon icon-cross"></i></button>
-                                    <div class="timer-dropdown-content">
-                                        <div class="dropdown-header">
-                                            <div class="dropdown-menu-title text-dark text-center"><strong>Dead Man's
-                                                Timer</strong></div>
-                                        </div>
-                                        <div class="dropdown-body">
-                                            <div class="timer-set-content">
-                                                <div class="timer-set-title">If you do not log into your account after
-                                                    this set time, the email will be sent
-                                                </div>
-                                                <div class="timer-set-row d-flex align-items-center">
-                                                    <div class="timer-set-col">
-                                                        <span class="timer-set-label ml-0">in</span>
-                                                        <span ngbDropdown placement="top" class="dropdown">
-															<button ngbDropdownToggle class="actions-btn bg-white"
-                                                                    id="daysTimerDropdownMenu" role="button">1</button>
-															<div ngbDropdownMenu class="left-0"
-                                                                 aria-labelledby="daysTimerDropdownMenu">
-																<a href="" class="dropdown-link">1</a>
-																<a href="" class="dropdown-link">2</a>
-																<a href="" class="dropdown-link">3</a>
-																<a href="" class="dropdown-link">4</a>
-																<a href="" class="dropdown-link">5</a>
-																<a href="" class="dropdown-link">6</a>
-																<a href="" class="dropdown-link">7</a>
-															</div>
-														</span>
-                                                        <span class="timer-set-label mr-0">Days</span>
-                                                    </div>
-                                                    <div class="timer-set-col">
-														<span ngbDropdown placement="top" class="dropdown">
-															<button ngbDropdownToggle class="actions-btn bg-white"
-                                                                    id="hoursTimerDropdownMenu" role="button">1</button>
-															<div ngbDropdownMenu class="left-0"
-                                                                 aria-labelledby="hoursTimerDropdownMenu">
-																<a href="" class="dropdown-link">1</a>
-																<a href="" class="dropdown-link">2</a>
-																<a href="" class="dropdown-link">3</a>
-																<a href="" class="dropdown-link">4</a>
-																<a href="" class="dropdown-link">5</a>
-																<a href="" class="dropdown-link">6</a>
-																<a href="" class="dropdown-link">7</a>
-															</div>
-														</span>
-                                                        <span class="timer-set-label mr-0">Hours</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-footer text-center">
-                                            <a href="" class="btn btn-sm btn-secondary">Schedule</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          <button type="button" role="button" (click)="openDeadManTimerModal()"
+                                  class="actions-btn mail-dead-btn border-radius-l-0"
+                                  placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i>
+                          </button>
                         </li>
                         <li>
                             <button role="button" type="button" (click)="toggleOSK()"
@@ -579,7 +497,7 @@
                 <label class="form-inline">Select Date</label>
                 <ngb-datepicker class="bg-white"
                                 [(ngModel)]="selfDestruct.date"
-                                [minDate]="selfDestruct.minDate"></ngb-datepicker>
+                                [minDate]="datePickerMinDate"></ngb-datepicker>
             </div>
             <div class="form-group">
                 <label class="form-inline">Select Time</label>
@@ -593,6 +511,70 @@
         </div>
     </div>
 </ng-template><!-- /.self destruct datetime picker modal ends -->
+
+<!-- delayed delivery datetime picker modal -->
+<ng-template #delayedDeliveryModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Delayed Delivery</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Email will be sent on selected datetime
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Date</label>
+                <ngb-datepicker class="bg-white"
+                                [(ngModel)]="delayedDelivery.date"
+                                [minDate]="datePickerMinDate"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Time</label>
+                <ngb-timepicker [(ngModel)]="delayedDelivery.time"></ngb-timepicker>
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm" role="button">Confirm</button>
+                <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm" role="button">Clear</button>
+                <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.delayed delivery datetime picker modal ends -->
+
+<!-- dead man datetime picker modal -->
+<ng-template #deadManTimerModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Dead Man&apos;s Timer</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+              If you do not log into your account after this set datetime, the email will be sent
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Date</label>
+                <ngb-datepicker class="bg-white"
+                                [(ngModel)]="deadManTimer.date"
+                                [minDate]="datePickerMinDate"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Select Time</label>
+                <ngb-timepicker [(ngModel)]="deadManTimer.time"></ngb-timepicker>
+            </div>
+            <div class="form-group text-right mb-0">
+                <button type="button" (click)="setDeadManTimerValue()" class="btn btn-success btn-sm" role="button">Confirm</button>
+                <button type="button" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm" role="button">Clear</button>
+                <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.dead man datetime picker modal ends -->
 
 <!-- encryption modal -->
 <ng-template #encryptionModal let-c="close" let-d="dismiss">
@@ -631,4 +613,4 @@
       </form>
     </div>
   </div>
-</ng-template><!-- /.attach images modal ends -->
+</ng-template><!-- /.encryption modal ends -->

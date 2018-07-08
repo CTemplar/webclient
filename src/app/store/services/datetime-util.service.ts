@@ -17,4 +17,25 @@ export class DateTimeUtilService {
     return moment([date.year, date.month, date.day, time.hour, time.minute, time.second]).utc();
   }
 
+  getNgbDateTimeStructsFromDateTimeStr(dateTimeStr: string): {date: NgbDateStruct, time: NgbTimeStruct} {
+    const datetime = moment(dateTimeStr);
+    if (datetime) {
+      return {
+        date: {
+          year: datetime.year(),
+          month: datetime.month(),
+          day: datetime.date()
+        },
+        time: {
+          hour: datetime.hour(),
+          minute: datetime.minute(),
+          second: datetime.second()
+        }
+      };
+    }
+    else {
+      return {date: null, time: null};
+    }
+  }
+
 }

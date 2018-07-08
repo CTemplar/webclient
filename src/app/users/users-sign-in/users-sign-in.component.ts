@@ -3,7 +3,7 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ElementRef
+  ElementRef, HostListener
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -22,6 +22,7 @@ import { FinalLoading } from '../../store/actions';
 // Service
 import { SharedService } from '../../store/services';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
+import { ESCAPE_KEYCODE } from '../../shared/config';
 
 @TakeUntilDestroy()
 @Component({
@@ -157,6 +158,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       } else if (input === 'password') {
         this.openPasswordOSK();
       }
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === ESCAPE_KEYCODE) {
+      this.closeKeyboard();
     }
   }
 }

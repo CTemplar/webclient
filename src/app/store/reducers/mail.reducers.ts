@@ -25,14 +25,27 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return { ...state, inProgress: true };
     }
 
-    case MailActionTypes.DELETE_MAIL_SUCCESS:
+    case MailActionTypes.DELETE_MAIL_SUCCESS: {
+      state.mails.splice(state.mails.indexOf(state.mails.filter(item => item.id === action.payload.id)[0]), 1);
+      return { ...state, inProgress: false };
+    }
+
     case MailActionTypes.CREATE_MAIL_SUCCESS: {
+      let newEntry: boolean = true;
       state.mails.map((mail, index) => {
         if (mail.id === action.payload.id) {
           state.mails[index] = action.payload;
+          newEntry = false;
         }
       });
-      return { ...state, inProgress: false };
+      if (newEntry) {
+        state.mails.push(action.payload);
+      }
+      return { ...state, inProgress: false, draft: action.payload };
+    }
+
+    case MailActionTypes.CLOSE_MAILBOX: {
+      return { ...state, inProgress: false, draft: null };
     }
 
     default: {

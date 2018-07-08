@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { AppState, MailBoxesState } from '../datatypes';
 
 declare var openpgp;
-openpgp.initWorker({ path: 'openpgp.worker.min.js' });
 
 @Injectable()
 export class OpenPgpService {

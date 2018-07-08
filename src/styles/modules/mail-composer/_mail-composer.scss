@@ -5,6 +5,10 @@
 // == Mail composer
 $mail_composer_padding_x: 0.75rem;
 
+.keyboard-open {
+	bottom: 255px !important;
+}
+
 .mail-composer.is-sticky {
 	position: fixed;
 	top: 0;
@@ -216,6 +220,8 @@ $mail_composer_padding_x: 0.75rem;
 .mail-compose-editable-box {
 	background: $brand-white;
 	min-height: 165px;
+	max-height: 250px;
+	overflow-y: auto;
 
 	&[contenteditable]:focus {
 		outline: 0;
@@ -314,6 +320,10 @@ $mail_composer_padding_x: 0.75rem;
 	pointer-events: none !important;
 }
 
+.attach-uploader-holder {
+	margin: 1rem;
+}
+
 .attach-uploader {
 	position: relative;
 	margin-bottom: 0.5rem;
@@ -366,6 +376,10 @@ $mail_composer_padding_x: 0.75rem;
 
 .attach-name {
 	color: #34495e;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 60%;
 }
 
 .attach-size {
