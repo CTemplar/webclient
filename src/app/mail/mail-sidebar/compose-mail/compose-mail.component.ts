@@ -282,7 +282,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   setSelfDestructValue() {
     if (this.selfDestruct.date && this.selfDestruct.time) {
       this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date, this.selfDestruct.time);
-      console.log(this.selfDestruct.value);
+      this.closeSelfDestructModal();
     }
   }
 
@@ -294,7 +294,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       minute: 0,
       second: 0
     };
-    this.selfDestructModalRef.dismiss();
+    this.closeSelfDestructModal();
   }
 
   hasData() {
@@ -350,6 +350,12 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.unSubscribeAutoSave();
     this.clearSelfDestructValue();
     this.onHide.emit(true);
+  }
+
+  private closeSelfDestructModal() {
+    if (this.selfDestructModalRef) {
+      this.selfDestructModalRef.dismiss();
+    }
   }
 
   private unSubscribeAutoSave() {
