@@ -23,12 +23,13 @@
                 <div class="mail-compose-field-group">
                     <div class="mail-compose-field">
                         <span class="mail-label label-to">To:</span>
-                        <tag-input [ngModel]="[]"
+                        <tag-input [(ngModel)]="mailData.receiver"
                                    name="to"
                                    [placeholder]="'+'"
                                    [secondaryPlaceholder]="'Enter recipient email'"
                                    [onTextChangeDebounce]="100"
-                                   [onlyFromAutocomplete]="false">
+                                   [onlyFromAutocomplete]="false"
+                                   [addOnBlur]="true">
                             <tag-input-dropdown [showDropdownIfEmpty]="false"
                                                 [dynamicUpdate]="false"
                                                 [focusFirstElement]="true"
@@ -40,8 +41,6 @@
                                 </ng-template>
                             </tag-input-dropdown>
                         </tag-input>
-                        <textarea class="mail-compose-control" name="receiver" [(ngModel)]="mailData.receiver"
-                                  id="recepietTo" rows="1"></textarea>
                         <div class="extra-mail-label">
                             <span class="mail-label mail-floated-label"
                                   (click)="options.isCcVisible = !options.isCcVisible">Cc</span>

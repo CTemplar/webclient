@@ -140,6 +140,8 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       second: 0
     };
 
+    this.resetMailData();
+
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
@@ -300,7 +302,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1 ||
-      this.mailData.receiver || this.mailData.cc || this.mailData.bcc || this.mailData.subject;
+      this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
   getFileSize(file: File): string {
@@ -331,10 +333,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
     if (this.hasData()) {
-      // TODO: using comma separator until these inputs are replaced with tag-input plugin
-      this.draftMail.receiver = this.mailData.receiver ? this.mailData.receiver.split(',') : [];
-      this.draftMail.cc = this.mailData.cc ? this.mailData.cc.split(',') : [];
-      this.draftMail.bcc = this.mailData.bcc ? this.mailData.bcc.split(',') : [];
+      this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.email);
+      this.draftMail.cc = this.mailData.cc.map(cc => cc.email);
+      this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.email);
       this.draftMail.subject = this.mailData.subject;
       this.draftMail.destruct_date = this.selfDestruct.value;
       this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML; // await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
@@ -343,10 +344,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   private hideMailComposeModal() {
-    this.mailData = {};
     this.options = {};
     this.quill.setText('');
     this.store.dispatch(new CloseMailbox());
+    this.resetMailData();
     this.unSubscribeAutoSave();
     this.clearSelfDestructValue();
     this.onHide.emit(true);
@@ -377,5 +378,14 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     }
     // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
 
+  }
+
+  private resetMailData() {
+    this.mailData = {
+      receiver: [],
+      cc: [],
+      bcc: [],
+      subject: ''
+    };
   }
 }
