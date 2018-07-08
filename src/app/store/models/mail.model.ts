@@ -10,6 +10,14 @@ export interface Mail {
   checked?: boolean;
   sender?: string;
   subject?: string;
+  encryption?: Array<any>;
+  attachments?: Array<any>;
+  receiver?: Array<string>;
+  cc?: Array<string>;
+  bcc?: Array<string>;
+  destruct_date?: string;
+  delayed_delivery?: string;
+  dead_man_timer?: string;
 }
 export interface Mailbox {
   id?: number;

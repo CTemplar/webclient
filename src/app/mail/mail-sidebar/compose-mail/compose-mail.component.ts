@@ -1,15 +1,19 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import * as QuillNamespace from 'quill';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { COLORS } from '../../../shared/config';
 import { CreateMail, DeleteMail } from '../../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, MailState } from '../../../store/datatypes';
-import { Mail } from '../../../store/models';
+import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
+import { Mail, Mailbox } from '../../../store/models';
+import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 const Quill: any = QuillNamespace;
 
@@ -18,6 +22,12 @@ FontAttributor.whitelist = [
   'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
 ];
 Quill.register(FontAttributor, true);
+Quill.register(Quill.import('attributors/style/align'), true);
+Quill.register(Quill.import('attributors/style/background'), true);
+Quill.register(Quill.import('attributors/style/color'), true);
+Quill.register(Quill.import('attributors/style/font'), true);
+Quill.register(Quill.import('attributors/style/size'), true);
+
 export class PasswordValidation {
 
   static MatchPassword(AC: AbstractControl) {
@@ -30,12 +40,14 @@ export class PasswordValidation {
     }
   }
 }
+
+@TakeUntilDestroy()
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
+export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() public isComposeVisible: boolean;
 
   @Output() public onHide = new EventEmitter<boolean>();
@@ -47,9 +59,14 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChild('encryptionModal') encryptionModal;
 
   colors = COLORS;
+  mailData: any = {};
   options: any = {};
-  selfDestructDateTime: any = {};
+  selfDestruct: any = {};
   attachments: Array<any> = [];
+  isKeyboardOpened: boolean;
+  mailbox: Mailbox;
+  encryptForm: FormGroup;
+  contacts: Contact[];
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -60,12 +77,17 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private encryptionModalRef: NgbModalRef;
   private draftMail: Mail;
   private signature: string;
-  encryptForm: FormGroup;
+  private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
+  private defaultLocale: string = 'US International';
+
+  readonly destroyed$: Observable<boolean>;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
-              private openPgpService: OpenPgpService) {
+              private openPgpService: OpenPgpService,
+              private _keyboardService: MatKeyboardService,
+              private dateTimeUtilService: DateTimeUtilService) {
 
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
@@ -73,6 +95,12 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
           this.draftMail = response.draft;
         }
       });
+
+    this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        this.contacts = user.contact;
+      });
+
   }
 
   ngAfterViewInit() {
@@ -90,13 +118,29 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailboxes) => {
+        if (mailboxes.mailboxes[0]) {
+          this.mailbox = mailboxes.mailboxes[0];
+        }
+      });
+    this.store.select(state => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        this.signature = user.settings.signature;
+      });
+
     const now = new Date();
-    this.selfDestructDateTime.minDate = {
+    this.selfDestruct.minDate = {
       year: now.getFullYear(),
       month: now.getMonth() + 1,
-      day: now.getDay() + 1
+      day: now.getDate()
     };
-    this.signature = 'Sent from CTempler'; // TODO: add API call to retrieve signature from backend
+
+    this.selfDestruct.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
 
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
@@ -104,6 +148,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     }, {
       validator: PasswordValidation.MatchPassword
     });
+  }
+
+  ngOnDestroy(): void {
   }
 
   initializeQuillEditor() {
@@ -162,7 +209,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   onClose(modalRef: any) {
-    if (this.hasContent()) {
+    if (this.hasData()) {
       this.confirmModalRef = this.modalService.open(modalRef, {
         centered: true,
         windowClass: 'modal-sm users-action-modal'
@@ -198,7 +245,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
 
   addSignature() {
     const index = this.quill.getLength();
-    this.quill.clipboard.dangerouslyPasteHTML(index, this.signature);
+    this.quill.insertText(index, this.signature);
   }
 
   openSelfDestructModal() {
@@ -216,8 +263,45 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     });
   }
 
-  hasContent() {
-    return this.editor.nativeElement.innerText.trim() ? true : false;
+  toggleOSK() {
+    if (this._keyboardService.isOpened) {
+      this.closeOSK();
+    }
+    else {
+      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
+      this.isKeyboardOpened = true;
+    }
+  }
+
+  closeOSK() {
+    if (this._keyboardRef) {
+      this._keyboardRef.dismiss();
+      this.isKeyboardOpened = false;
+    }
+  }
+
+  setSelfDestructValue() {
+    if (this.selfDestruct.date && this.selfDestruct.time) {
+      this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date, this.selfDestruct.time);
+      console.log(this.selfDestruct.value);
+    }
+  }
+
+  clearSelfDestructValue() {
+    this.selfDestruct.value = null;
+    this.selfDestruct.date = null;
+    this.selfDestruct.time = {
+      hour: 0,
+      minute: 0,
+      second: 0
+    };
+    this.selfDestructModalRef.dismiss();
+  }
+
+  hasData() {
+    // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
+    return this.quill.getLength() > 1 ||
+      this.mailData.receiver || this.mailData.cc || this.mailData.bcc || this.mailData.subject;
   }
 
   getFileSize(file: File): string {
@@ -243,21 +327,30 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
     }
   }
 
-  private updateEmail() {
+  private async updateEmail() {
     if (!this.draftMail) {
-      this.draftMail = { content: null, mailbox: 1, folder: 'draft' };
+      this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
-    if (!this.hasContent() || this.draftMail.content === this.editor.nativeElement.innerHTML) {
-      return;
+    if (this.hasData()) {
+      // TODO: using comma separator until these inputs are replaced with tag-input plugin
+      this.draftMail.receiver = this.mailData.receiver ? this.mailData.receiver.split(',') : [];
+      this.draftMail.cc = this.mailData.cc ? this.mailData.cc.split(',') : [];
+      this.draftMail.bcc = this.mailData.bcc ? this.mailData.bcc.split(',') : [];
+      this.draftMail.subject = this.mailData.subject;
+      this.draftMail.destruct_date = this.selfDestruct.value;
+      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;//await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
+      this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
-    this.draftMail.content = this.editor.nativeElement.innerHTML;
-    this.store.dispatch(new CreateMail({ ...this.draftMail }));
   }
 
   private hideMailComposeModal() {
-    this.onHide.emit(true);
+    this.mailData = {};
+    this.options = {};
+    this.quill.setText('');
     this.draftMail = null;
     this.unSubscribeAutoSave();
+    this.clearSelfDestructValue();
+    this.onHide.emit(true);
   }
 
   private unSubscribeAutoSave() {
@@ -272,10 +365,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit {
   private messageEncrypt() {
     if (this.encryptForm.valid) {
       this.openPgpService.generateKey(this.encryptForm.value.password);
-      this.openPgpService.makeEncrypt(this.editor.nativeElement.innerHTML).then(() => {
+      this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML).then(() => {
         // TODO: api call for message encryption
         // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
-      } );
+      });
     }
     // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
 

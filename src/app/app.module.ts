@@ -21,6 +21,7 @@ import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
 import { MailModule } from './mail/mail.module';
 import { PagesModule } from './pages/pages.module';
+import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { UsersModule } from './users/users.module';
 import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
@@ -97,6 +98,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BreakpointsService,
     TimezoneService,
     MailService,
+    DateTimeUtilService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

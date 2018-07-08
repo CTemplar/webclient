@@ -50,27 +50,6 @@ export class MailListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getMailsState$.subscribe((mails) => {
       this.mails = mails;
-      if (this.mails.length > 0 && this.private_key && this.public_key && this.passphrase) {
-        this.mails.map((mail, index) => {
-          setTimeout(() => {
-            this.openPgpService.makeDecrypt(mail.subject, this.private_key, this.public_key, this.passphrase)
-              .then((res: any) => {
-                this.mails[index].subject = res;
-              }).catch((error) => {
-              console.error('error while decrypting message: ', error);
-            });
-          }, 1);
-
-          setTimeout(() => {
-            this.openPgpService.makeDecrypt(mail.sender, this.private_key, this.public_key, this.passphrase)
-              .then((res: any) => {
-                this.mails[index].sender = res;
-              }).catch((error) => {
-              console.error('error while decrypting message: ', error);
-            });
-          }, 1);
-        });
-      }
     });
     this.getMails();
 
