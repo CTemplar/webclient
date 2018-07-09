@@ -121,9 +121,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.confirmModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.userState.contact.length;
-    this.contactsToDelete.forEach((contact) => {
-      this.store.dispatch(new ContactDelete(contact.id));
-    });
+    this.store.dispatch(new ContactDelete(this.contactsToDelete.map(item => item.id).join(',')));
   }
 
   toggleSelectAll() {
