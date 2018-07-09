@@ -23,6 +23,7 @@ import { SaveContactComponent } from './mail-contact/save-contact/save-contact.c
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { SharedModule } from '../shared/shared.module';
 import { SaveListContactComponent } from './mail-settings/save-list-contact/save-list-contact.component';
+import { MailTrashListComponent } from './mail-trash-list/mail-trash-list.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { SaveListContactComponent } from './mail-settings/save-list-contact/save
     MailContactComponent,
     SaveContactComponent,
     ComposeMailComponent,
-    SaveListContactComponent
+    SaveListContactComponent,
+    MailTrashListComponent
   ],
   exports: [MailFooterComponent]
 })
