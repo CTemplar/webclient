@@ -111,11 +111,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CONTACT_ADD_ERROR: {
       return { ...state, inProgress: false, isError: true };
     }
+
     case UsersActionTypes.CONTACT_DELETE_SUCCESS: {
-      const contact = state.contact.filter(item => item.id === action.payload)[0];
-      state.contact.splice(state.contact.indexOf(contact), 1);
+      const ids = action.payload.split(',');
+      const contacts = state.contact.filter(item => ids.indexOf(`${item.id}`) > -1);
+      contacts.forEach(contact => {
+        state.contact.splice(state.contact.indexOf(contact), 1);
+      });
+
       return { ...state, inProgress: false, isError: false };
     }
+
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
       return {
         ...state,

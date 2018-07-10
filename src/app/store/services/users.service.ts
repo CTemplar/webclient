@@ -196,8 +196,8 @@ export class UsersService {
     return this.http.post<any>(url, payload);
   }
 
-  deleteContact(id) {
-    const url = `${apiUrl}users/contacts/${id}/`;
+  deleteContact(ids) {
+    const url = `${apiUrl}users/contacts/?id__in=${ids}`;
     return this.http.delete<any>(url);
   }
 
