@@ -916,6 +916,7 @@
   border-bottom: 1px solid $input-border-color;
   font-size: 0.75rem;
   line-height: 1;
+  background-color: #fafaf9;
 
   @include media(">=ipad") {
     padding: 1.032rem 1.563rem;
@@ -923,6 +924,7 @@
 
   &.is-unread {
     color: $brand-black !important;
+    background-color: #fff;
   }
 
   &.is-read {
