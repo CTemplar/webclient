@@ -214,7 +214,11 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
         centered: true,
         windowClass: 'modal-sm users-action-modal'
       });
-    } else {
+    }
+    else if (this.draftMail && this.draftMail.id) {
+      this.discardEmail();
+    }
+    else {
       this.hideMailComposeModal();
     }
   }
