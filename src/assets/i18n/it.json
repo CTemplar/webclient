@@ -25,7 +25,7 @@
     "edit": "MODIFICARE",
     "search": "Ricerca",
     "upgrade_account": "Aggiorna l'account",
-    "terms_and_privacy": "Termini e privacy",
+    "terms_and_privacy": "Termini &amp; privacy",
     "report_bug": "Segnalare un bug",
     "used_storage": "Spazio usato",
     "contact": "contatto",
@@ -186,7 +186,6 @@
      "social": "Sociale",
      "legal": "legale",
      "privacy_policy": "politica sulla riservatezza",
-     "terms_and_conditions" : "Termini &amp; Condizioni",
      "our_address": "Il nostro indirizzo",
      "all_rights_reserved": "Tutti i diritti riservati"
    },
