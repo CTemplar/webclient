@@ -917,7 +917,8 @@
   font-size: 0.75rem;
   line-height: 1;
   background-color: #fafaf9;
-
+  cursor: pointer;
+  
   @include media(">=ipad") {
     padding: 1.032rem 1.563rem;
   }
