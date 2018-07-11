@@ -14,6 +14,9 @@ export enum MailActionTypes {
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
   SEND_MAIL = '[Mail] SEND_MAIL',
   SEND_MAIL_SUCCESS = '[Mail] SEND_MAIL SUCCESS',
+  SET_DECRYPT_INPROGRESS = '[DECRYPT] SET INPROGRESS STATUS',
+  SET_DECRYPTED_KEY = '[DECRYPTED] SET KEY',
+  SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
 }
 
 export class GetMails implements Action {
@@ -82,6 +85,24 @@ export class SendMailSuccess implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SetDecryptInProgress implements Action {
+  readonly type = MailActionTypes.SET_DECRYPT_INPROGRESS;
+
+  constructor(public payload?: any) {}
+}
+
+export class SetDecryptedKey implements Action {
+  readonly type = MailActionTypes.SET_DECRYPTED_KEY;
+
+  constructor(public payload?: any) {}
+}
+
+export class SetCurrentMailbox implements Action {
+  readonly type = MailActionTypes.SET_CURRENT_MAILBOX;
+
+  constructor(public payload?: any) {}
+}
+
 
 export type MailActions =
   | GetMails
@@ -94,4 +115,7 @@ export type MailActions =
   | DeleteMail
   | DeleteMailSuccess
   | SendMail
-  | SendMailSuccess;
+  | SendMailSuccess
+  | SetDecryptInProgress
+  | SetDecryptedKey
+  | SetCurrentMailbox;
