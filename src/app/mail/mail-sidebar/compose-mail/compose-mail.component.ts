@@ -395,7 +395,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail.destruct_date = this.selfDestruct.value || null;
       this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
       this.draftMail.dead_man_timer = this.deadManTimer.value || null;
-      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML; // await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
+      this.draftMail.content = await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
       this.store.dispatch(new CreateMail({ ...this.draftMail }));
     }
   }
