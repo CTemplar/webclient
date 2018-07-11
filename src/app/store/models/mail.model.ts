@@ -18,6 +18,7 @@ export interface Mail {
   destruct_date?: string;
   delayed_delivery?: string;
   dead_man_timer?: string;
+  datetime?: string;
 }
 export interface Mailbox {
   id?: number;

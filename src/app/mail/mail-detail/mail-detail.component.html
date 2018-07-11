@@ -1,9 +1,8 @@
-
-<!--Will be used later-->
-<section class="mailbox-section">
+<!--Mail Info-->
+<section class="mailbox-section" *ngIf="mail">
     <div class="ui-header ui-header-bordered border-top-0 position-relative">
         <h5 class="ui-header-subtitle text-dark mb-0">
-            <strong>Welcome to Ctemplar!</strong>
+            <strong>{{mail.subject}}</strong>
             <i class="icon icon-secured icon-md text-muted ml-2"></i>
         </h5>
 
@@ -35,7 +34,7 @@
             <div class="col-4">
                 <div class="msg-reply-type-holder">
                     <div class="d-flex align-items-center justify-content-end">
-                        <label class="msg-received-time mb-0">June 29(1 day ago)</label>
+                        <label class="msg-received-time mb-0">{{mail.datetime}} (1 day ago) </label>
                         <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
                             <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="messageReplyDropdownMenuButton"></button>
                             <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
@@ -56,29 +55,11 @@
     </div>
 </section>
 
-<!--Will be used later-->
-<section class="mailbox-section">
+<!--Mail Content-->
+<section class="mailbox-section" *ngIf="mail">
     <div class="ui-body is-bordered-bottom">
-        <div class="msg-reply-content text-dark">
-            <p>
-                <strong>Welcome to the future of email!</strong>
-            </p>
-            <p>
-                <small>You now have an inbox that is protected by strong encryption. Even we do not have the ability to read your
-                    emails. CTemplar can send and receive emails from other email providers such as Gmail. It is even possible
-                    to end-to-end encrypt the messages you send to external recipients. If your friends also use CTemplar,
-                    all your communications with them will be automatically end-to-end encrypted.
-                </small>
-            </p>
-            <p>
-                <small>CTemplar is an open-source community-driven project and basic accounts are always free. However, the costs
-                    to run CTemplar are quite high, and we depend on support from the community to keep the service running.
-                    If you would like to support the project, you can
-                    <a href="">upgrade to a paid account
-                    </a>. Your support is essential to ensuring that CTemplar is financially stable and can continue to offer
-                    the service to the public.
-                </small>
-            </p>
+        <div class="msg-reply-content text-dark" [innerHTML]="mail.content">
+           
         </div>
     </div>
 </section>

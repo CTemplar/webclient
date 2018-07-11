@@ -34,6 +34,11 @@ export class MailService {
     return this.http.get<Mail[]>(url).map(data => data['results']);
   }
 
+  getMessage(messageId: number): Observable<Mail> {
+    const url = `${apiUrl}emails/messages/?id__in=${messageId}`;
+    return this.http.get<Mail>(url).map(data => data['results']);
+  }
+
   getMailboxes(limit: number = 1000, offset: number = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url).map(data => data['results']);
