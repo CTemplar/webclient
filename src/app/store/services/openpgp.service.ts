@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, MailBoxesState } from '../datatypes';
+import { Logout, SetDecryptedKey, SetDecryptInProgress } from '../actions';
 
 declare var openpgp;
 
@@ -13,32 +14,42 @@ export class OpenPgpService {
   private decryptedPrivKeyObj: any;
   private passphrase: any;
   private fingerprint: string;
+  private decryptInProgress: boolean;
 
   constructor(private store: Store<AppState>) {
 
     this.store.select(state => state.mailboxes)
       .subscribe((response: MailBoxesState) => {
         // TODO: replace mailboxes[0] with the mailbox selected by user
-        if (response.mailboxes[0]) {
-          this.pubkey = response.mailboxes[0].public_key;
-          this.privkey = response.mailboxes[0].private_key;
+        if (response.currentMailbox) {
+          this.pubkey = response.currentMailbox.public_key;
+          this.privkey = response.currentMailbox.private_key;
         }
-      //  this.decryptPrivateKey();
-      });
-
-    this.store.select(state => state.user)
-      .subscribe((user) => {
-        if (user.mailboxes[0]) {
-          this.passphrase = user.mailboxes[0].passphrase;
-        }
-       // this.decryptPrivateKey();
+        this.decryptInProgress = response.decryptKeyInProgress;
+        this.decryptPrivateKey();
       });
   }
 
   decryptPrivateKey() {
-    if (this.privkey && this.passphrase && !this.decryptedPrivKeyObj) {
-      this.decryptedPrivKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
-      this.decryptedPrivKeyObj.decrypt(this.passphrase);
+    if (this.privkey && !this.decryptedPrivKeyObj && !this.decryptInProgress) {
+      const userKey = sessionStorage.getItem('user_key');
+      if (!userKey) {
+        this.store.dispatch(new Logout());
+        return;
+      }
+
+      this.store.dispatch(new SetDecryptInProgress(true));
+
+      const pgpWorker = new Worker('/assets/static/pgp-worker.js');
+      pgpWorker.postMessage({
+        privkey: this.privkey,
+        user_key: atob(userKey),
+      });
+      pgpWorker.onmessage = ((event: MessageEvent) => {
+        this.decryptedPrivKeyObj = event.data.key;
+        this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
+        pgpWorker.terminate();
+      });
     }
   }
 

@@ -73,6 +73,9 @@ export interface MailState {
 
 export interface MailBoxesState {
   mailboxes: Mailbox[];
+  currentMailbox: Mailbox;
+  decryptKeyInProgress: boolean;
+  decryptedKey?: any;
 }
 
 export interface LoadingState {
