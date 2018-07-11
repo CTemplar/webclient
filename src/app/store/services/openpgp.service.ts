@@ -97,20 +97,12 @@ export class OpenPgpService {
     });
   }
 
-  async makeDecrypt(str, privkey, pubkey, passphrase) {
-    if (str) {
-      const privKeyObj = openpgp.key.readArmored(privkey).keys[0];
-      if (!privKeyObj) {
-        return 'privkey Error';
-      }
-      if (!openpgp.message.readArmored(str)) {
-        return 'message type Error';
-      }
-      await privKeyObj.decrypt(passphrase);
+  async makeDecrypt(data: string): Promise<string> {
+    if (data) {
       this.options = {
-        message: openpgp.message.readArmored(str),
-        publicKeys: openpgp.key.readArmored(pubkey).keys,
-        privateKeys: [privKeyObj]
+        message: openpgp.message.readArmored(data),
+        publicKeys: openpgp.key.readArmored(this.pubkey).keys,
+        privateKeys: [this.decryptedPrivKeyObj]
       };
       return openpgp.decrypt(this.options).then((plaintext) => {
         return plaintext.data;
