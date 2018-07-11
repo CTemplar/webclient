@@ -1,0 +1,13 @@
+@import '../../../styles/base/variables';
+@import '../../../styles/vendors/include-media/include-media';
+@import '../../../styles/config/include-media-config';
+@import '../../../styles/vendors/ceaser/ceaser-easing';
+
+// == More list options
+#moreOptionsDropdownMenuButton {
+  width: 5.5rem;
+}
+
+#moreOptionsDropdownMenu {
+  width: 220px;
+}

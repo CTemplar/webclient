@@ -29,8 +29,8 @@ export class MailService {
   ) {
   }
 
-  getMessages(limit: number = 1000, offset: number = 0): Observable<Mail[]> {
-    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
+  getMessages(limit: number = 1000, offset: number = 0, folder: string = 'inbox'): Observable<Mail[]> {
+    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=${folder}`;
     return this.http.get<Mail[]>(url).map(data => data['results']);
   }
 
