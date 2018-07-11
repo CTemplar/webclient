@@ -18,10 +18,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 })
 export class MailTrashListComponent implements OnInit, OnDestroy {
   mails: Mail[];
-
   getMailsState$: Observable<any>;
-  readonly destroyed$: Observable<boolean>;
-
   // Public property of boolean type set false by default
   constructor(private store: Store<any>, private openPgpService: OpenPgpService) {
     this.getMailsState$ = this.store.select(getMails);
