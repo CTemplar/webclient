@@ -1,6 +1,6 @@
 self.window = {}; // to make UMD bundles work
 
-importScripts('openpgp.js');
+importScripts('/openpgp.min.js');
 var openpgp = window.openpgp;
 
 onmessage = function (event) {

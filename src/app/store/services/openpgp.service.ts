@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, MailBoxesState } from '../datatypes';
+import { Logout, SetDecryptedKey, SetDecryptInProgress } from '../actions';
 
 declare var openpgp;
 
@@ -20,30 +21,34 @@ export class OpenPgpService {
     this.store.select(state => state.mailboxes)
       .subscribe((response: MailBoxesState) => {
         // TODO: replace mailboxes[0] with the mailbox selected by user
-        if (response.mailboxes[0]) {
-          this.pubkey = response.mailboxes[0].public_key;
-          this.privkey = response.mailboxes[0].private_key;
+        if (response.currentMailbox) {
+          this.pubkey = response.currentMailbox.public_key;
+          this.privkey = response.currentMailbox.private_key;
         }
+        this.decryptInProgress = response.decryptKeyInProgress;
         this.decryptPrivateKey();
       });
   }
 
   decryptPrivateKey() {
     if (this.privkey && !this.decryptedPrivKeyObj && !this.decryptInProgress) {
-      this.decryptInProgress = true;
-      openpgp.initWorker({
-        path: '/assets/static/openpgp.worker.js',
-      });
+      const userKey = sessionStorage.getItem('user_key');
+      if (!userKey) {
+        this.store.dispatch(new Logout());
+        return;
+      }
+
+      this.store.dispatch(new SetDecryptInProgress(true));
 
       const pgpWorker = new Worker('/assets/static/pgp-worker.js');
       pgpWorker.postMessage({
         privkey: this.privkey,
-        user_key: atob(sessionStorage.getItem('user_key')),
+        user_key: atob(userKey),
       });
       pgpWorker.onmessage = ((event: MessageEvent) => {
         console.log('user key decrypted successfully');
         this.decryptedPrivKeyObj = event.data.key;
-        this.decryptInProgress = false;
+        this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
         pgpWorker.terminate();
       });
     }
