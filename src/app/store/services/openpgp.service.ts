@@ -13,6 +13,7 @@ export class OpenPgpService {
   private decryptedPrivKeyObj: any;
   private passphrase: any;
   private fingerprint: string;
+  private decryptInProgress: boolean;
 
   constructor(private store: Store<AppState>) {
 
@@ -23,22 +24,28 @@ export class OpenPgpService {
           this.pubkey = response.mailboxes[0].public_key;
           this.privkey = response.mailboxes[0].private_key;
         }
-      //  this.decryptPrivateKey();
-      });
-
-    this.store.select(state => state.user)
-      .subscribe((user) => {
-        if (user.mailboxes[0]) {
-          this.passphrase = user.mailboxes[0].passphrase;
-        }
-       // this.decryptPrivateKey();
+        this.decryptPrivateKey();
       });
   }
 
   decryptPrivateKey() {
-    if (this.privkey && this.passphrase && !this.decryptedPrivKeyObj) {
-      this.decryptedPrivKeyObj = openpgp.key.readArmored(this.privkey).keys[0];
-      this.decryptedPrivKeyObj.decrypt(this.passphrase);
+    if (this.privkey && !this.decryptedPrivKeyObj && !this.decryptInProgress) {
+      this.decryptInProgress = true;
+      openpgp.initWorker({
+        path: '/assets/static/openpgp.worker.js',
+      });
+
+      const pgpWorker = new Worker('/assets/static/pgp-worker.js');
+      pgpWorker.postMessage({
+        privkey: this.privkey,
+        user_key: atob(sessionStorage.getItem('user_key')),
+      });
+      pgpWorker.onmessage = ((event: MessageEvent) => {
+        console.log('user key decrypted successfully');
+        this.decryptedPrivKeyObj = event.data.key;
+        this.decryptInProgress = false;
+        pgpWorker.terminate();
+      });
     }
   }
 
