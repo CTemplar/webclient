@@ -23,8 +23,6 @@ export class MailTrashListComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
-  public isComposeVisible: boolean = false;
-
   constructor(private store: Store<any>, private openPgpService: OpenPgpService) {
     this.getMailsState$ = this.store.select(getMails);
 
@@ -42,12 +40,6 @@ export class MailTrashListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: 'trash' }));
   }
 
-  // == Show mail compose modal
-  // == Setup click event to toggle mobile menu
-  hideMailComposeModal() { // click handler
-    const bool = this.isComposeVisible;
-    this.isComposeVisible = false;
-  }
 
   ngOnDestroy() {}
 }
