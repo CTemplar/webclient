@@ -23,7 +23,7 @@
         <div class="mail-composer-body">
             <form>
                 <div class="mail-compose-field-group">
-                    <div class="mail-compose-field">
+                    <div class="mail-compose-field mail-compose-field-to">
                         <span class="mail-label label-to">To:</span>
                         <tag-input [(ngModel)]="mailData.receiver"
                                    name="to"
@@ -495,7 +495,7 @@
             </div>
             <div class="form-group">
                 <label class="form-inline">Select Date</label>
-                <ngb-datepicker class="bg-white"
+                <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
                                 [(ngModel)]="selfDestruct.date"
                                 [minDate]="datePickerMinDate"></ngb-datepicker>
             </div>
@@ -503,7 +503,7 @@
                 <label class="form-inline">Select Time</label>
                 <ngb-timepicker [(ngModel)]="selfDestruct.time"></ngb-timepicker>
             </div>
-            <div class="form-group text-right mb-0">
+            <div class="form-group text-center btns-xs-3 mb-0">
                 <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm" role="button">Confirm</button>
                 <button type="button" (click)="clearSelfDestructValue()" class="btn btn-primary btn-sm" role="button">Clear</button>
                 <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
@@ -527,7 +527,7 @@
             </div>
             <div class="form-group">
                 <label class="form-inline">Select Date</label>
-                <ngb-datepicker class="bg-white"
+                <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
                                 [(ngModel)]="delayedDelivery.date"
                                 [minDate]="datePickerMinDate"></ngb-datepicker>
             </div>
@@ -535,7 +535,7 @@
                 <label class="form-inline">Select Time</label>
                 <ngb-timepicker [(ngModel)]="delayedDelivery.time"></ngb-timepicker>
             </div>
-            <div class="form-group text-right mb-0">
+            <div class="form-group text-center btns-xs-3 mb-0">
                 <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm" role="button">Confirm</button>
                 <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm" role="button">Clear</button>
                 <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
@@ -559,7 +559,7 @@
             </div>
             <div class="form-group">
                 <label class="form-inline">Select Date</label>
-                <ngb-datepicker class="bg-white"
+                <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
                                 [(ngModel)]="deadManTimer.date"
                                 [minDate]="datePickerMinDate"></ngb-datepicker>
             </div>
@@ -567,7 +567,7 @@
                 <label class="form-inline">Select Time</label>
                 <ngb-timepicker [(ngModel)]="deadManTimer.time"></ngb-timepicker>
             </div>
-            <div class="form-group text-right mb-0">
+            <div class="form-group text-center btns-xs-3 mb-0">
                 <button type="button" (click)="setDeadManTimerValue()" class="btn btn-success btn-sm" role="button">Confirm</button>
                 <button type="button" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm" role="button">Clear</button>
                 <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
@@ -606,7 +606,7 @@
         <div class="form-group text-small">
           Encrypted messages to non-Ctemplar recipients will expire in 28-days unless a shorter expiration time is set.
         </div>
-        <div class="form-group text-right mb-0">
+        <div class="form-group text-center mb-0">
           <button type="submit" class="btn btn-success btn-sm" role="button">Confirm</button>
           <button type="reset" (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
         </div>

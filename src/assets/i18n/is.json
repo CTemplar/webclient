@@ -25,7 +25,7 @@
     "edit": "EDIT",
     "search": "Leita",
     "upgrade_account": "Uppfærsla reikningur",
-    "terms_and_privacy": "Uppfærsla reikningur",
+    "terms_and_privacy": "skilmálar &amp; næði",
     "report_bug": "Tilkynna villu",
     "used_storage": "Notað geymsla",
     "contact": "hafðu samband",
@@ -186,7 +186,6 @@
      "social": "Félagsleg",
      "legal": "Löglegt",
      "privacy_policy": "Friðhelgisstefna",
-     "terms_and_conditions" : "Skilmálar og skilyrði",
      "our_address": "Heimilisfang okkar",
      "all_rights_reserved": "Allur réttur áskilinn"
    },
@@ -248,7 +247,7 @@
     "recovery_email_optional": "Bati tölvupóstur (valfrjálst)",
     "recover_account": "Þetta er notað til að endurheimta reikninginn þinn ef þú gleymir lykilorðinu þínu",
     "check_box": "Vinsamlegast athugaðu þennan reit ef þú samþykkir að fylgja okkar ",
-    "terms_and_conditions": "Skilmálar og skilyrði",
+    "terms_and_conditions": "Skilmálar &amp; skilyrði",
     "already_have_account": "Ertu þegar með reikning?",
     "generate_key": "Búðu til lykil"
   }
