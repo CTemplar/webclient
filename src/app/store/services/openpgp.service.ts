@@ -46,7 +46,6 @@ export class OpenPgpService {
         user_key: atob(userKey),
       });
       pgpWorker.onmessage = ((event: MessageEvent) => {
-        console.log('user key decrypted successfully');
         this.decryptedPrivKeyObj = event.data.key;
         this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
         pgpWorker.terminate();
