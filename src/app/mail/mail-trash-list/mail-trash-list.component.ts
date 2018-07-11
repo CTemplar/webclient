@@ -33,7 +33,6 @@ export class MailTrashListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getMailsState$.subscribe((mails) => {
       this.mails = mails;
-      console.log(this.mails);
     });
     this.getMails();
 
