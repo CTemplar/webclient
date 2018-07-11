@@ -88,16 +88,20 @@
 }
 
 // == Progressbar
-.progress-lg {
+.progress-bar-label {
+  margin-bottom: 0.75rem;
+}
+
+.progress-h-7 {
   .progress-bar {
     border-radius: 0 4px 4px 0;
   }
 
   @include media(">sm") {
-    line-height: 1.25rem;
+    line-height: 0.438rem;
 
     .progress-bar {
-      height: 1.25rem;
+      height: 0.438rem;
       border-radius: 0 4px 4px 0;
     }
   }
@@ -321,4 +325,18 @@
     right: .75rem;
     transform: translateY(-50%);
   }
+}
+
+
+/* =========================== Setting page new design ============================ */
+.print-receipt-holder {
+  position: absolute;
+  right: 1.563rem;
+  bottom: 1.25rem;
+}
+
+.print-receipt-btn {
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
 }

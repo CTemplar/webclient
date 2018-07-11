@@ -1,263 +1,179 @@
 <!-- Settings page tab actions bar -->
-<ngb-tabset>
-    <ngb-tab title="Dashboard and plans">
-        <ng-template ngbTabContent>
-            <section class="mailbox-section">
-                <div class="ui-header ui-header-bordered position-relative">
-                    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account Type</strong></h5>
-                    <div class="l-alert l-alert-danger l-alert-is-floated d-inline-block text-center hidden-md-up">
-                        <div class="l-alert-inner">
-                            <div> <span translate="settings.free_plan_tip">Free plan available only for 250 MB Storage. </span>&nbsp;&nbsp;&nbsp;<a><u translate="settings.clear_storage">Clear Storage</u></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mailbox-section-body">
-                    <div class="container container-sm">
-                        <div class="package-card-holder settings-package-card-holder">
-                            <ul class="package-xs-tab list-style-none mt-0 hidden-sm-up">
-                                <li class="active" [class.is-active]="1 === selectedIndex" >
-                                    <a role="button" (click)="toggleSlides(1);" ><span translate="settings.prime">Prime</span></a>
-                                </li>
-                                <li [class.is-active]="2 === selectedIndex">
-                                    <a role="button" (click)="toggleSlides(2);" translate="settings.free">Free</a>
-                                </li>
-                            </ul>
-                            <div class="row flex-nowrap row-lg">
-                                <div class="col-sm-6 flex-sm-last package-prime-col active-slide"
-                                     [class.is-active-slide]="1 === selectedIndex">
-                                    <div class="package-card package-card-prime is-shadowed bg-white text-dark">
-                                        <header class="package-card-header text-center"><h2 class="text-white m-0">
-                                            <strong translate="settings.prime">Prime</strong></h2></header>
-                                        <div class="package-card-body">
-                                            <ul class="package-list mb-0 list-style-none pl-0">
-                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
-                                                    User
+<div class="ui-tab settings-tab-component">
+    <ngb-tabset type="pills">
+        <ngb-tab title="Dashboard and plans">
+            <ng-template ngbTabContent>
+                <section class="mailbox-section">
+                    <div class="mailbox-section-body pt-0">
+                        <div class="desc-card-holder mt-sm-3 mt-md-0">
+                            <div class="row">
+                                <div class="col-md-6 d-flex mb-4 mb-md-0">
+                                    <div class="desc-card bg-faded w-100">
+                                        <div class="desc-card-header ui-header ui-header-bordered bg-white border-all-corner border-bottom-0">
+                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.overview">Overview</strong>
+                                            </h5>
+                                        </div>
+                                        <div class="desc-card-body">
+                                            <ul class="info-list list-styled text-dark">
+                                                <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.username">
+                                                        Username
+                                                    </div>
+                                                    <div class="info-list-text info-list-val">{{userState.username}}</div>
                                                 </li>
-                                                <li class="package-list-item has-border has-icon-center">
-                                                    <i class="fa fa-check text-green"></i>
-                                                    <!-- <select class="form-control package-storage-select">
-                                                        <option selected>50 Mb Storage</option>
-                                                        <option>100 Mb Storage</option>
-                                                        <option>100 Mb Storage</option>
-                                                        <option>200 Mb Storage</option>
-                                                        <option>300 Mb Storage</option>
-                                                        <option>400 Mb Storage</option>
-                                                        <option>500 Mb Storage</option>
-                                                    </select> -->
-                                                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                                                        <div ngbDropdown class="storage-select-dropdown">
-                                                            <button ngbDropdownToggle role="button"
-                                                                    id="storageDropdownMenuButton">5 Gb Storage
-                                                            </button>
-                                                            <div ngbDropdownMenu aria-labelledby="storageDropdownMenuButton">
-                                                                <a class="dropdown-item">10 Gb Storage + $4/MO </a>
-                                                                <a class="dropdown-item">15 Gb Storage + $8/MO</a>
-                                                                <a class="dropdown-item">20 Gb Storage + $12/MO</a>
-                                                                <a class="dropdown-item">25 Gb Storage + $16/MO</a>
+                                                <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.domains">
+                                                        Domains
+                                                    </div>
+                                                    <div class="info-list-text info-list-val"
+                                                         translate="settings.feature_coming_soon">Feature coming soon!
+                                                    </div>
+                                                </li>
+                                                <li class="info-list-item align-items-start">
+                                                    <div class="info-list-text info-list-label" translate="settings.addresses">
+                                                        Addresses
+                                                    </div>
+                                                    <div class="info-list-text info-list-val">
+                                                        <div class="ng-tooltips-holder d-inline-block" placement="top"
+                                                             ngbTooltip="Prime accounts will be credited with 4 additional addresses at no cost as soon as this function is available">
+                                                            <div class="info-list-val-text" translate="settings.address_tooltip">One
+                                                                - More available soon!
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
-                                                    E-mail Address
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>100 Messages
-                                                    per Day
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>200 Folders
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Normal
-                                                    Support
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Dead Mans
-                                                    Timer
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Delayed
-                                                    Delivery Timer
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Self
-                                                    Destruct Timer
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Encryption
-                                                    for non-CTemplar Users
+                                                <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.storage">
+                                                        Storage
+                                                    </div>
+                                                    <div class="info-list-text info-list-val">
+                                                        <div class="progress-bar-label">{{settings.used_storage}} MB of {{settings.allocated_storage}}MB</div>
+                                                        <div class="progress progress-secondary progress-h-7">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                 [style.width.%]="(settings.used_storage/settings.allocated_storage)*100"
+                                                                 [attr.aria-valuenow]="settings.used_storage" aria-valuemin="0"
+                                                                 [attr.aria-valuemax]="settings.allocated_storage"></div>
+                                                        </div>
+                                                    </div>
                                                 </li>
                                             </ul>
-                                            <div class="package-coming-soon mt-3">
-                                                <h6 class="text-muted mb-3 mb-sm-4"><a><u translate="settings.features_added_soon">Features to be added to this
-                                                    package soon</u></a></h6>
-                                                <!-- <ul class="package-list mb-0 list-style-none pl-0">
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>+4 Email Address’s (5 Total)</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Custom Filters</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Autoresponder</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Notifications</li>
-                                                </ul> -->
-                                            </div>
                                         </div>
-                                        <footer class="package-card-footer">
-                                            <div class="package-divider package-divider-sm">
-                                                <ul class="pay-type-list list-style-none mb-0 pl-0">
-                                                    <li>
-                                                        <div class="row row-xs">
-                                                            <div class="col-8">
-                                                                <div class="fancy-field-group">
-                                                                    <input class="d-none fancy-field-control" id="pay-monthly"
-                                                                           name="[]" type="radio" checked/>
-                                                                    <label for="pay-monthly" translate="settings.pay_monthly"></label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 text-right">
-                                                                <div class="pay-price"><strong>$8</strong><span
-                                                                        class="text-muted">/mo</span></div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="row row-xs">
-                                                            <div class="col-8">
-                                                                <div class="fancy-field-group">
-                                                                    <input class="d-none fancy-field-control" id="pay-annullay"
-                                                                           name="[]" type="radio"/>
-                                                                    <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
-                                                                    <span class="badge">-20%</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 text-right">
-                                                                <div class="pay-price"><strong>$6.4</strong><span
-                                                                        class="text-muted">/mo</span></div>
-                                                                <div class="small text-muted">Billed as $65/yr</div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="package-actions text-center">
-                                                <div class="pb-2 mb-3" *ngIf="userState.isPrime">
-                                                    <a class="btn-link text-uppercase text-primary"><strong>Current
-                                                        Plan</strong></a>
-                                                </div>
-                                                <a *ngIf="!userState.isPrime"
-                                                   class="btn btn-lg btn-gradient-primary cursor-pointer">
-                                                    <span translate="settings.select_prime">Select Prime</span> $8/
-                                                    <span class="text-normal">mo</span></a>
-                                            </div>
-                                        </footer>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
-                                    <div class="package-card package-card-basic bg-faded text-dark">
-                                        <header class="package-card-header text-center"><h2 class="text-white m-0">
-                                            <strong translate="settings.free">Free</strong></h2></header>
-                                        <div class="package-card-body">
-                                            <ul class="package-list mb-0 list-style-none pl-0">
-                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
-                                                    User
+                                <div class="col-md-6 d-flex">
+                                    <div class="desc-card position-relative bg-faded w-100">
+                                        <div class="desc-card-header ui-header ui-header-bordered bg-white border-all-corner border-bottom-0">
+                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong
+                                                    translate="settings.my_subscription">My Subscription</strong></h5>
+                                        </div>
+                                        <div class="desc-card-body">
+                                            <ul class="info-list info-list-lg list-styled text-dark">
+                                                <li class="info-list-item">
+                                                    <div class="info-list-item-row">
+                                                        <div class="info-list-text info-list-label">
+                                                <span class="info-list-label-text"
+                                                      translate="settings.plans">Plans</span>
+                                                            <span class="info-list-label-text">
+                                                    <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
+                                                    <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
+                                                </span>
+                                                        </div>
+                                                        <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
+                                                            <strong>$8</strong><span class="text-muted">/mo</span>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="userState.isPrime" class="info-list-item-row">
+                                                        <div class="info-list-text info-list-label">
+                                                <span class="info-list-label-text"
+                                                      style="visibility: hidden" translate="settings.plans">Plans</span>
+                                                            <span class="fw-light">+10 addresses</span>
+                                                        </div>
+                                                        <div class="info-list-text info-list-val"><strong>$2</strong><span
+                                                                class="text-muted">/mo</span></div>
+                                                    </div>
                                                 </li>
-                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>250
-                                                    Mb Storage
+                                                <li *ngIf="userState.isPrime" class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.total_price">Total Price</div>
+                                                    <div class="info-list-text info-list-val">$66/annually</div>
                                                 </li>
-                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
-                                                    E-mail Address
+                                                <li *ngIf="userState.isPrime" class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing Cycle End</div>
+                                                    <div class="info-list-text info-list-val">Apr 20, 2018</div>
                                                 </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>100 Messages
-                                                    per Day
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>3 Folders
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Limited
-                                                    Support
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-times text-danger"></i>
-                                                    <del>Dead Mans Timer</del>
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-times text-danger"></i>
-                                                    <del>Delayed Delivery Timer</del>
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-times text-danger"></i>
-                                                    <del>Self Destruct Timer</del>
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-times text-danger"></i>
-                                                    <del>Encryption for non-CTemplar Users</del>
+                                                <!--<li *ngIf="userState.isPrime" class="info-list-item">-->
+                                                <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.payment">Payment</div>
+                                                    <div class="info-list-text info-list-val">Credit Card</div>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <footer class="package-card-footer text-center">
-                                            <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
-                                            <div class="package-actions" *ngIf="!userState.isPrime">
-                                                <a class="btn-link text-uppercase text-info cursor-pointer"><strong translate="settings.current_plan">Current
-                                                    Plan</strong></a>
-                                                <a class="btn btn-lg btn-gradient-info d-none" translate="settings.select_free">Select Free</a>
-                                            </div>
-                                        </footer>
+                                        <div class="print-receipt-holder"><button class="btn-link print-receipt-btn text-uppercase p-0"><u>Print Receipt</u></button></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="General">
-        <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Filters and blocked addresses">
-        <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Addresses and signature">
-        <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Security">
-        <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Domains">
-        <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Organization">
-        <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Forwarding and autoresponder">
-        <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-        </ng-template>
-    </ngb-tab>
-</ngb-tabset>
-
-
+                </section>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="General">
+            <ng-template ngbTabContent>
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Filters and blocked addresses">
+            <ng-template ngbTabContent>
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Addresses and signature">
+            <ng-template ngbTabContent>
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Security">
+            <ng-template ngbTabContent>
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Domains">
+            <ng-template ngbTabContent>
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Organization">
+            <ng-template ngbTabContent>
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Forwarding and autoresponder">
+            <ng-template ngbTabContent>
+                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>
 
 <div class="mailbox-sub-content">
     <section class="mailbox-section">

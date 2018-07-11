@@ -3,14 +3,16 @@
 // Kickstart any navigation component with a set of style resets. Works with
 // `<nav>`s or `<ul>`s.
 
-.nav.nav-tabs {
+.nav.nav-tabs,
+.nav.nav-pills {
   display: flex;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
 }
 
-.nav-tabs .nav-link {
+.nav-tabs .nav-link,
+.nav.nav-pills .nav-link {
   display: block;
   padding: $nav-link-padding;
 
@@ -69,24 +71,6 @@
 
 
 //
-// Pills
-//
-
-.nav-pills {
-  .nav-link {
-    @include border-radius($nav-pills-border-radius);
-  }
-
-  .nav-link.active,
-  .nav-item.show .nav-link {
-    color: $nav-pills-active-link-color;
-    cursor: default;
-    background-color: $nav-pills-active-link-bg;
-  }
-}
-
-
-//
 // Justified variants
 //
 
@@ -115,5 +99,33 @@
   }
   > .active {
     display: block;
+  }
+}
+
+
+//
+// Pills
+//
+
+.nav.nav-pills {
+  .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 1.063rem 0.75rem;
+    color: $nav-pills-link-color;
+    border-right: 1px solid $nav-pills-link-border-color;
+    @include border-radius($nav-pills-border-radius);
+    font-size: $nav-tab-pills-link-font-size;
+    font-weight: bold;
+    line-height: 1.38;
+  }
+
+  .nav-link.active,
+  .nav-item.show .nav-link {
+    color: $nav-pills-active-link-color;
+    cursor: default;
+    background-color: $nav-pills-active-link-bg;
   }
 }
