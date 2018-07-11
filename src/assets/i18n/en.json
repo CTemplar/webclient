@@ -25,7 +25,7 @@
     "edit": "EDIT",
     "search": "Search",
     "upgrade_account": "Upgrade account",
-    "terms_and_privacy": "Terms and Privacy",
+    "terms_and_privacy": "Terms &amp; Privacy",
     "report_bug": "Report a bug",
     "used_storage": "Used storage",
     "contact": "contact",
@@ -186,7 +186,6 @@
      "social": "Social",
      "legal": "Legal",
      "privacy_policy": "Privacy Policy",
-     "terms_and_conditions" : "Terms &amp; Conditions",
      "our_address": "Our Address",
      "all_rights_reserved": "All Rights Reserved"
    },
@@ -248,7 +247,7 @@
     "recovery_email_optional": "Recovery email(optional)",
     "recover_account": "This is used to recover your account if you forget your password",
     "check_box": "Please check this box if you agree to abide by our ",
-    "terms_and_conditions": "Terms and Conditions",
+    "terms_and_conditions": "Terms &amp; Conditions",
     "already_have_account": "Already have an Account?",
     "generate_key": "Generate Key"
   }
