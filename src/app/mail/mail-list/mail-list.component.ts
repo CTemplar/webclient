@@ -62,13 +62,6 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0 }));
   }
 
-  // == Show mail compose modal
-  // == Setup click event to toggle mobile menu
-  hideMailComposeModal() { // click handler
-    const bool = this.isComposeVisible;
-    this.isComposeVisible = false;
-  }
-
   rowSelectionChanged(event: any, mail: Mail) {
     if (this.checkedMailIds.indexOf(mail.id) < 0) {
       this.checkedMailIds = [...this.checkedMailIds, mail.id];
@@ -81,8 +74,8 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.moveToFolder(MailFolderType.TRASH);
   }
 
-  moveToFolder(folder: MailFolderType){
-    this.store.dispatch(new MoveMail({ ids: this.checkedMailIds.join(','), folder: folder }));
+  moveToFolder(folder: string) {
+    this.store.dispatch(new MoveMail({ ids: this.checkedMailIds.join(','), folder: <MailFolderType>folder }));
   }
 
   ngOnDestroy() {}

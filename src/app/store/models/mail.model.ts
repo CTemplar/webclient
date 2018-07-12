@@ -20,6 +20,7 @@ export interface Mail {
   dead_man_timer?: string;
   datetime?: string;
 }
+
 export interface Mailbox {
   id?: number;
   folders: string;
@@ -32,7 +33,7 @@ export interface Mailbox {
 }
 
 
-export enum MailFolderType{
+export enum MailFolderType {
   INBOX = 'inbox',
   SENT = 'sent',
   DRAFT = 'draft',
