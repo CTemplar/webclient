@@ -75,6 +75,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   datePickerMinDate: NgbDateStruct;
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
+  draftMail: Mail;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -85,7 +86,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private delayedDeliveryModalRef: NgbModalRef;
   private deadManTimerModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
-  private draftMail: Mail;
   private signature: string;
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
