@@ -78,7 +78,11 @@ export class MailListComponent implements OnInit, OnDestroy {
   }
 
   moveToTrash() {
-    this.store.dispatch(new MoveMail({ ids: this.checkedMailIds.join(','), folder: MailFolderType.TRASH }));
+    this.moveToFolder(MailFolderType.TRASH);
+  }
+
+  moveToFolder(folder: MailFolderType){
+    this.store.dispatch(new MoveMail({ ids: this.checkedMailIds.join(','), folder: folder }));
   }
 
   ngOnDestroy() {}
