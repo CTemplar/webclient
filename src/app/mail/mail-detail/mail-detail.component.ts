@@ -4,29 +4,27 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { GetMailDetail } from '../../store/actions/mail.actions';
 import { Observable } from 'rxjs/Observable';
-import { getMailDetail } from '../../store/selectors';
+import { AppState, MailState } from '../../store/datatypes';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-detail',
   templateUrl: './mail-detail.component.html',
   styleUrls: ['./mail-detail.component.scss']
 })
-export class MailDetailComponent implements OnInit {
-  mail: Mail;
-  getMailDetailState$: Observable<any>;
+export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
+  mail: Mail;
 
-  constructor(private route: ActivatedRoute, private store: Store<any>) {
-    this.getMailDetailState$ = this.store.select(getMailDetail);
-  }
+  constructor(private route: ActivatedRoute,
+              private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.getMailDetailState$.subscribe((mailDetail) => {
-      if (mailDetail) {
-        this.mail = mailDetail[0];
-        console.log(this.mail);
-      }
-    });
+    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+      .subscribe((mailState: MailState) => {
+        this.mail = mailState.mailDetail;
+      });
 
     this.route.params.subscribe(params => {
       const id = +params['id'];
@@ -36,5 +34,8 @@ export class MailDetailComponent implements OnInit {
 
   getMailDetail(messageId: number) {
     this.store.dispatch(new GetMailDetail(messageId));
+  }
+
+  ngOnDestroy(): void {
   }
 }

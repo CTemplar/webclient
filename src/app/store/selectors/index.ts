@@ -41,11 +41,6 @@ export const getMails = createSelector(
   (state: MailState) => state.mails
 );
 
-export const getMailDetail = createSelector(
-  selectMailState,
-  (state: MailState) => state.mailDetail
-);
-
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
