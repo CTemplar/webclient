@@ -74,6 +74,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   contacts: Contact[];
   datePickerMinDate: NgbDateStruct;
   valueChanged$: Subject<any> = new Subject<any>();
+  inProgress: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -92,7 +93,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   readonly destroyed$: Observable<boolean>;
   private shouldSave: boolean;
   private mailState: MailState;
-  private shouldSaveAndClose: boolean;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -104,17 +104,15 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
         this.draftMail = response.draft;
-        if (this.shouldSave &&
-          this.mailState &&
-          this.mailState.isPGPInProgress &&
-          !response.isPGPInProgress &&
-          response.draft) {
+        if (this.inProgress && !response.inProgress && !this.isComposeVisible) {
+          this.store.dispatch(new CloseMailbox());
+        }
+        this.inProgress = response.inProgress;
+        if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress && response.draft) {
           response.draft.content = response.encryptedContent;
           this.shouldSave = false;
           this.store.dispatch(new CreateMail({ ...response.draft }));
-          if (this.shouldSaveAndClose) {
-            this.store.dispatch(new CloseMailbox());
-          }
+          this.inProgress = true;
         }
         this.mailState = response;
       });
@@ -251,7 +249,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   saveInDrafts() {
-    this.updateEmail(true);
+    this.updateEmail();
     this.hideMailComposeModal();
   }
 
@@ -412,7 +410,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     }
   }
 
-  private updateEmail(saveAndClose: boolean = false) {
+  private updateEmail() {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
@@ -424,10 +422,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_timer = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    this.store.dispatch(new UpdateLocalDraft({...this.draftMail}));
+    this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
     this.openPgpService.encrypt(this.draftMail.content);
     this.shouldSave = true;
-    this.shouldSaveAndClose = saveAndClose;
   }
 
   private hideMailComposeModal() {
