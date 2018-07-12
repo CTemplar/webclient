@@ -34,7 +34,7 @@
                                              (load)="firstPost.isLoaded = true" [hidden]="!firstPost.isLoaded"
                                              src="{{ firstPost.image_card }}"/>
                                         <span class="badge badge-sm badge-info text-uppercase">
-                      <strong>{{ categories[firstPost.category].name }}</strong>
+                      <strong>{{ categories[firstPost?.category]?.name }}</strong>
                     </span>
                                     </figure>
                                 </div>

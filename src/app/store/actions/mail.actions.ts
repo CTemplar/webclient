@@ -11,6 +11,7 @@ export enum MailActionTypes {
   GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
   CREATE_MAIL = '[Mail] CREATE',
   CREATE_MAIL_SUCCESS = '[Mail] CREATE SUCCESS',
+  UPDATE_LOCAL_DRAFT = '[Mail] UPDATE LOCAL DRAFT',
   CLOSE_MAILBOX = '[Mailbox] CLOSE',
   MOVE_MAIL = '[Mail] MOVE',
   MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
@@ -18,6 +19,10 @@ export enum MailActionTypes {
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
   SEND_MAIL = '[Mail] SEND_MAIL',
   SEND_MAIL_SUCCESS = '[Mail] SEND_MAIL SUCCESS',
+  SET_DECRYPT_INPROGRESS = '[DECRYPT] SET INPROGRESS STATUS',
+  SET_DECRYPTED_KEY = '[DECRYPTED] SET KEY',
+  SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
+  UPDATE_PGP_CONTENT = '[PGP] UPDATE ENCRYPTED, DECRYPTED CONTENT',
 }
 
 export class GetMails implements Action {
@@ -69,6 +74,12 @@ export class CreateMailSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class UpdateLocalDraft implements Action {
+  readonly type = MailActionTypes.UPDATE_LOCAL_DRAFT;
+
+  constructor(public payload: any) {}
+}
+
 export class CloseMailbox implements Action {
   readonly type = MailActionTypes.CLOSE_MAILBOX;
 
@@ -112,6 +123,30 @@ export class SendMailSuccess implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SetDecryptInProgress implements Action {
+  readonly type = MailActionTypes.SET_DECRYPT_INPROGRESS;
+
+  constructor(public payload?: any) {}
+}
+
+export class SetDecryptedKey implements Action {
+  readonly type = MailActionTypes.SET_DECRYPTED_KEY;
+
+  constructor(public payload?: any) {}
+}
+
+export class SetCurrentMailbox implements Action {
+  readonly type = MailActionTypes.SET_CURRENT_MAILBOX;
+
+  constructor(public payload?: any) {}
+}
+
+export class UpdatePGPContent implements Action {
+  readonly type = MailActionTypes.UPDATE_PGP_CONTENT;
+
+  constructor(public payload?: any) {}
+}
+
 
 export type MailActions =
   | GetMails
@@ -122,10 +157,15 @@ export type MailActions =
   | GetMailDetailSuccess
   | CreateMail
   | CreateMailSuccess
+  | UpdateLocalDraft
   | CloseMailbox
   | MoveMail
   | MoveMailSuccess
   | DeleteMail
   | DeleteMailSuccess
   | SendMail
-  | SendMailSuccess;
+  | SendMailSuccess
+  | SetDecryptInProgress
+  | SetDecryptedKey
+  | SetCurrentMailbox
+  | UpdatePGPContent;

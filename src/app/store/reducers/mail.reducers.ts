@@ -9,6 +9,9 @@ export const initialState: MailState = {
   folders: [],
   inProgress: false,
   draft: null,
+  encryptedContent: null,
+  decryptedContent: null,
+  isPGPInProgress: false,
 };
 
 export function reducer(state = initialState, action: MailActions): MailState {
@@ -51,6 +54,19 @@ export function reducer(state = initialState, action: MailActions): MailState {
         state.mails.push(action.payload);
       }
       return { ...state, inProgress: false, draft: action.payload };
+    }
+
+    case MailActionTypes.UPDATE_LOCAL_DRAFT: {
+      return { ...state, draft: action.payload, isPGPInProgress: true };
+    }
+
+    case MailActionTypes.UPDATE_PGP_CONTENT: {
+      return {
+        ...state,
+        isPGPInProgress: action.payload.isPGPInProgress,
+        encryptedContent: action.payload.encryptedContent,
+        decryptedContent: action.payload.decryptedContent,
+      };
     }
 
     case MailActionTypes.CLOSE_MAILBOX: {

@@ -75,6 +75,7 @@ export class UsersService {
     return this.http.post<any>(url, body).pipe(
       tap(data => {
         sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('user_key', btoa(body.password));
         this.setTokenExpiration();
       })
     );
@@ -83,6 +84,7 @@ export class UsersService {
   signOut() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('token_expiration');
+    sessionStorage.removeItem('user_key');
     this.router.navigateByUrl('/signin');
   }
 

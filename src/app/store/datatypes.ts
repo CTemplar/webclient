@@ -70,10 +70,16 @@ export interface MailState {
   folders: any[];
   draft: Mail;
   inProgress?: boolean;
+  encryptedContent?: string;
+  decryptedContent?: string;
+  isPGPInProgress?: boolean;
 }
 
 export interface MailBoxesState {
   mailboxes: Mailbox[];
+  currentMailbox: Mailbox;
+  decryptKeyInProgress: boolean;
+  decryptedKey?: any;
 }
 
 export interface LoadingState {

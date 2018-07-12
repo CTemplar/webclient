@@ -4,7 +4,9 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailBoxesState } from '../datatypes';
 
 export const initialState: MailBoxesState = {
-  mailboxes: []
+  mailboxes: [],
+  currentMailbox: null,
+  decryptKeyInProgress: false,
 };
 
 export function reducer(state = initialState, action: MailActions): MailBoxesState {
@@ -13,7 +15,30 @@ export function reducer(state = initialState, action: MailActions): MailBoxesSta
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
       return {
         ...state,
-        mailboxes: action.payload
+        mailboxes: action.payload,
+        currentMailbox: action.payload[0],
+      };
+    }
+
+    case MailActionTypes.SET_DECRYPT_INPROGRESS: {
+      return {
+        ...state,
+        decryptKeyInProgress: action.payload,
+      };
+    }
+
+    case MailActionTypes.SET_DECRYPTED_KEY: {
+      return {
+        ...state,
+        decryptKeyInProgress: false,
+        decryptedKey: action.payload.decryptedKey,
+      };
+    }
+
+    case MailActionTypes.SET_CURRENT_MAILBOX: {
+      return {
+        ...state,
+        currentMailbox: action.payload,
       };
     }
 
