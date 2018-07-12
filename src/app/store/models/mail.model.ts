@@ -18,6 +18,7 @@ export interface Mail {
   destruct_date?: string;
   delayed_delivery?: string;
   dead_man_timer?: string;
+  datetime?: string;
 }
 export interface Mailbox {
   id?: number;
@@ -28,4 +29,15 @@ export interface Mailbox {
   private_key: string;
   public_key: string;
   signature?: string;
+}
+
+
+export enum MailFolderType{
+  INBOX = 'inbox',
+  SENT = 'sent',
+  DRAFT = 'draft',
+  STARRED = 'starred',
+  ARCHIVE = 'archive',
+  SPAM = 'spam',
+  TRASH = 'trash'
 }

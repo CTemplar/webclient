@@ -5,6 +5,7 @@ import { MailState } from '../datatypes';
 
 export const initialState: MailState = {
   mails: [],
+  mailDetail: null,
   folders: [],
   inProgress: false,
   draft: null,
@@ -26,6 +27,14 @@ export function reducer(state = initialState, action: MailActions): MailState {
     case MailActionTypes.DELETE_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       return { ...state, inProgress: true };
+    }
+
+    case MailActionTypes.MOVE_MAIL_SUCCESS: {
+      // TODO: use immutable version of remove items from array, with modifying the state directly
+
+      // Uncomment after payload has been fixed
+      // state.mails = state.mails.filter(item=> item.id !== action.payload.id);
+      return {...state, inProgress: false};
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
@@ -62,6 +71,13 @@ export function reducer(state = initialState, action: MailActions): MailState {
 
     case MailActionTypes.CLOSE_MAILBOX: {
       return { ...state, inProgress: false, draft: null };
+    }
+
+    case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
+      return {
+        ...state,
+        mailDetail: action.payload
+      };
     }
 
     default: {

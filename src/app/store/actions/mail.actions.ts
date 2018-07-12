@@ -7,10 +7,14 @@ export enum MailActionTypes {
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
   GET_MAILBOXES = '[Mail] GET_MAILBOXES',
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
+  GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
+  GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
   CREATE_MAIL = '[Mail] CREATE',
   CREATE_MAIL_SUCCESS = '[Mail] CREATE SUCCESS',
   UPDATE_LOCAL_DRAFT = '[Mail] UPDATE LOCAL DRAFT',
   CLOSE_MAILBOX = '[Mailbox] CLOSE',
+  MOVE_MAIL = '[Mail] MOVE',
+  MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
   DELETE_MAIL = '[Mail] DELETE',
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
   SEND_MAIL = '[Mail] SEND_MAIL',
@@ -45,6 +49,19 @@ export class GetMailboxesSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetMailDetail implements Action{
+  readonly type = MailActionTypes.GET_MAIL_DETAIL;
+
+  constructor(public payload:any) {}
+}
+
+
+export class GetMailDetailSuccess implements Action{
+  readonly type = MailActionTypes.GET_MAIL_DETAIL_SUCCESS;
+
+  constructor(public payload:any) {}
+}
+
 export class CreateMail implements Action {
   readonly type = MailActionTypes.CREATE_MAIL;
 
@@ -67,6 +84,19 @@ export class CloseMailbox implements Action {
   readonly type = MailActionTypes.CLOSE_MAILBOX;
 
   constructor(public payload?: any) {}
+}
+
+
+export class MoveMail implements Action{
+  readonly type = MailActionTypes.MOVE_MAIL;
+
+  constructor(public payload: any){}
+}
+
+export class MoveMailSuccess implements Action{
+  readonly type = MailActionTypes.MOVE_MAIL_SUCCESS;
+
+  constructor(public payload: any){}
 }
 
 export class DeleteMail implements Action {
@@ -123,10 +153,14 @@ export type MailActions =
   | GetMailsSuccess
   | GetMailboxes
   | GetMailboxesSuccess
+  | GetMailDetail
+  | GetMailDetailSuccess
   | CreateMail
   | CreateMailSuccess
   | UpdateLocalDraft
   | CloseMailbox
+  | MoveMail
+  | MoveMailSuccess
   | DeleteMail
   | DeleteMailSuccess
   | SendMail

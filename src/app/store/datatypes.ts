@@ -66,6 +66,7 @@ export interface BlogState {
 
 export interface MailState {
   mails: Mail[];
+  mailDetail: Mail;
   folders: any[];
   draft: Mail;
   inProgress?: boolean;
