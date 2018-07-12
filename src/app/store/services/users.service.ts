@@ -94,7 +94,7 @@ export class UsersService {
       recovery_email: user.recovery_email,
       username: user.username,
       password: user.password,
-      recaptcha: user.captchaResponse
+      recaptcha: user.recaptcha
     };
     return this.http.post<any>(url, body);
   }

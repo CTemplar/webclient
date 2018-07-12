@@ -84,7 +84,7 @@ export class AuthEffects {
       sessionStorage.setItem('token', user.payload.token);
       this.authService.setTokenExpiration();
       this.authService.signedIn();
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/mail');
     })
   );
 

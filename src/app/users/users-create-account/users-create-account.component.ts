@@ -152,9 +152,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   recaptchaResolved(captchaResponse: string) {
     this.signupForm.value.captchaResponse = captchaResponse;
-    this.signupForm.value.fingerprint = this.fingerprint;
-    this.signupForm.value.privkey = this.privkey;
-    this.signupForm.value.pubkey = this.pubkey;
     this.data = {
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
