@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, UserState } from '../../store/datatypes';
-import { FinalLoading } from '../../store/actions';
+import { FinalLoading, SignUp } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -54,6 +54,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   pubkey: any;
   processInstance: any;
   keyGenerateStatus: string = 'Generating';
+  data: any = null;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -151,9 +152,13 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   recaptchaResolved(captchaResponse: string) {
     this.signupForm.value.captchaResponse = captchaResponse;
-    this.signupForm.value.fingerprint = this.fingerprint;
-    this.signupForm.value.privkey = this.privkey;
-    this.signupForm.value.pubkey = this.pubkey;
+    this.data = {
+      recovery_email: this.signupForm.get('recoveryEmail').value,
+      username: this.signupForm.get('username').value,
+      password: this.signupForm.get('password').value,
+      recaptcha: captchaResponse
+    };
+    this.store.dispatch(new SignUp(this.data));
   }
 
   checkUsernameTaken(event: any) {
