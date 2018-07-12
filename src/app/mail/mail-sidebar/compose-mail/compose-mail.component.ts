@@ -78,7 +78,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
 
   private quill: any;
   private autoSaveSubscription: Subscription;
-  private DEBOUNCE_DURATION: number = 3000; // duration in milliseconds
+  private DEBOUNCE_DURATION: number = 5000; // duration in milliseconds
   private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
