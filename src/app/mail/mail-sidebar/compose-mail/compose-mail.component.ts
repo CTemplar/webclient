@@ -1,19 +1,20 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs/Observable';
+import { debounceTime } from 'rxjs/operators/debounceTime';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { timer } from 'rxjs/observable/timer';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
 import { CloseMailbox, CreateMail, DeleteMail, UpdateLocalDraft } from '../../../store/actions';
-import { Store } from '@ngrx/store';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
 import { Mail, Mailbox } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 const Quill: any = QuillNamespace;
 
@@ -72,10 +73,11 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   encryptForm: FormGroup;
   contacts: Contact[];
   datePickerMinDate: NgbDateStruct;
+  valueChanged$: Subject<any> = new Subject<any>();
 
   private quill: any;
   private autoSaveSubscription: Subscription;
-  private AUTO_SAVE_DURATION: number = 10000; // duration in milliseconds
+  private DEBOUNCE_DURATION: number = 3000; // duration in milliseconds
   private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
@@ -178,11 +180,18 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });
+
+    this.quill.on('text-change', (delta, oldDelta, source) => {
+      this.valueChanged$.next();
+    });
   }
 
   initializeAutoSave() {
-    this.autoSaveSubscription = timer(this.AUTO_SAVE_DURATION, this.AUTO_SAVE_DURATION)
-      .subscribe(t => {
+    this.autoSaveSubscription = this.valueChanged$
+      .pipe(
+        debounceTime(this.DEBOUNCE_DURATION)
+      )
+      .subscribe(data => {
         this.updateEmail();
       });
   }
@@ -336,36 +345,42 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     if (this.selfDestruct.date && this.selfDestruct.time) {
       this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date, this.selfDestruct.time);
       this.closeSelfDestructModal();
+      this.valueChanged$.next(this.selfDestruct.value);
     }
   }
 
   clearSelfDestructValue() {
     this.resetSelfDestructValues();
     this.closeSelfDestructModal();
+    this.valueChanged$.next(this.selfDestruct.value);
   }
 
   setDelayedDeliveryValue() {
     if (this.delayedDelivery.date && this.delayedDelivery.time) {
       this.delayedDelivery.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date, this.delayedDelivery.time);
       this.closeDelayedDeliveryModal();
+      this.valueChanged$.next(this.delayedDelivery.value);
     }
   }
 
   clearDelayedDeliveryValue() {
     this.resetDelayedDeliveryValues();
     this.closeDelayedDeliveryModal();
+    this.valueChanged$.next(this.delayedDelivery.value);
   }
 
   setDeadManTimerValue() {
     if (this.deadManTimer.date && this.deadManTimer.time) {
       this.deadManTimer.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.deadManTimer.date, this.deadManTimer.time);
       this.closeDeadManTimerModal();
+      this.valueChanged$.next(this.deadManTimer.value);
     }
   }
 
   clearDeadManTimerValue() {
     this.resetDeadManTimerValues();
     this.closeDeadManTimerModal();
+    this.valueChanged$.next(this.deadManTimer.value);
   }
 
   hasData() {
@@ -397,32 +412,30 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     }
   }
 
-  private async updateEmail(saveAndClose: boolean = false) {
+  private updateEmail(saveAndClose: boolean = false) {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
-    if (this.hasData()) {
-      this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
-      this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
-      this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
-      this.draftMail.subject = this.mailData.subject;
-      this.draftMail.destruct_date = this.selfDestruct.value || null;
-      this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
-      this.draftMail.dead_man_timer = this.deadManTimer.value || null;
-      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-      this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
-      this.openPgpService.encrypt(this.draftMail.content);
-      this.shouldSave = true;
-      this.shouldSaveAndClose = saveAndClose;
-    }
+    this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
+    this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
+    this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
+    this.draftMail.subject = this.mailData.subject;
+    this.draftMail.destruct_date = this.selfDestruct.value || null;
+    this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
+    this.draftMail.dead_man_timer = this.deadManTimer.value || null;
+    this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+    this.store.dispatch(new UpdateLocalDraft({...this.draftMail}));
+    this.openPgpService.encrypt(this.draftMail.content);
+    this.shouldSave = true;
+    this.shouldSaveAndClose = saveAndClose;
   }
 
   private hideMailComposeModal() {
+    this.unSubscribeAutoSave();
     this.options = {};
     this.attachments = [];
     this.quill.setText('');
     this.resetMailData();
-    this.unSubscribeAutoSave();
     this.clearSelfDestructValue();
     this.clearDelayedDeliveryValue();
     this.clearDeadManTimerValue();

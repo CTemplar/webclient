@@ -31,7 +31,9 @@
                                    [secondaryPlaceholder]="'Enter recipient email'"
                                    [onTextChangeDebounce]="100"
                                    [onlyFromAutocomplete]="false"
-                                   [addOnBlur]="true">
+                                   [addOnBlur]="true"
+                                   (onAdd)="valueChanged$.next(mailData.receiver)"
+                                   (onRemove)="valueChanged$.next(mailData.receiver)">
                             <tag-input-dropdown [showDropdownIfEmpty]="false"
                                                 [dynamicUpdate]="false"
                                                 [focusFirstElement]="true"
@@ -58,7 +60,9 @@
                                    [secondaryPlaceholder]="'Enter Cc email'"
                                    [onTextChangeDebounce]="100"
                                    [onlyFromAutocomplete]="false"
-                                   [addOnBlur]="true">
+                                   [addOnBlur]="true"
+                                   (onAdd)="valueChanged$.next(mailData.cc)"
+                                   (onRemove)="valueChanged$.next(mailData.cc)">
                             <tag-input-dropdown [showDropdownIfEmpty]="false"
                                                 [dynamicUpdate]="false"
                                                 [focusFirstElement]="true"
@@ -79,7 +83,9 @@
                                    [secondaryPlaceholder]="'Enter Bcc email'"
                                    [onTextChangeDebounce]="100"
                                    [onlyFromAutocomplete]="false"
-                                   [addOnBlur]="true">
+                                   [addOnBlur]="true"
+                                   (onAdd)="valueChanged$.next(mailData.bcc)"
+                                   (onRemove)="valueChanged$.next(mailData.bcc)">
                             <tag-input-dropdown [showDropdownIfEmpty]="false"
                                                 [dynamicUpdate]="false"
                                                 [focusFirstElement]="true"
@@ -95,6 +101,7 @@
                     <div class="mail-compose-field">
                         <span class="mail-label label-subject">Subject:</span>
                         <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
+                                  (change)="valueChanged$.next(mailData.subject)"
                                   id="subject" rows="1"></textarea>
                     </div>
                 </div>
