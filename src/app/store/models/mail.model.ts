@@ -30,3 +30,14 @@ export interface Mailbox {
   public_key: string;
   signature?: string;
 }
+
+
+export enum MailFolderType{
+  INBOX = 'inbox',
+  SENT = 'sent',
+  DRAFT = 'draft',
+  STARRED = 'starred',
+  ARCHIVE = 'archive',
+  SPAM = 'spam',
+  TRASH = 'trash'
+}
