@@ -9,6 +9,7 @@ export enum MailActionTypes {
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
   CREATE_MAIL = '[Mail] CREATE',
   CREATE_MAIL_SUCCESS = '[Mail] CREATE SUCCESS',
+  UPDATE_LOCAL_DRAFT = '[Mail] UPDATE LOCAL DRAFT',
   CLOSE_MAILBOX = '[Mailbox] CLOSE',
   DELETE_MAIL = '[Mail] DELETE',
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
@@ -17,6 +18,7 @@ export enum MailActionTypes {
   SET_DECRYPT_INPROGRESS = '[DECRYPT] SET INPROGRESS STATUS',
   SET_DECRYPTED_KEY = '[DECRYPTED] SET KEY',
   SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
+  UPDATE_PGP_CONTENT = '[PGP] UPDATE ENCRYPTED, DECRYPTED CONTENT',
 }
 
 export class GetMails implements Action {
@@ -51,6 +53,12 @@ export class CreateMail implements Action {
 
 export class CreateMailSuccess implements Action {
   readonly type = MailActionTypes.CREATE_MAIL_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateLocalDraft implements Action {
+  readonly type = MailActionTypes.UPDATE_LOCAL_DRAFT;
 
   constructor(public payload: any) {}
 }
@@ -103,6 +111,12 @@ export class SetCurrentMailbox implements Action {
   constructor(public payload?: any) {}
 }
 
+export class UpdatePGPContent implements Action {
+  readonly type = MailActionTypes.UPDATE_PGP_CONTENT;
+
+  constructor(public payload?: any) {}
+}
+
 
 export type MailActions =
   | GetMails
@@ -111,6 +125,7 @@ export type MailActions =
   | GetMailboxesSuccess
   | CreateMail
   | CreateMailSuccess
+  | UpdateLocalDraft
   | CloseMailbox
   | DeleteMail
   | DeleteMailSuccess
@@ -118,4 +133,5 @@ export type MailActions =
   | SendMailSuccess
   | SetDecryptInProgress
   | SetDecryptedKey
-  | SetCurrentMailbox;
+  | SetCurrentMailbox
+  | UpdatePGPContent;

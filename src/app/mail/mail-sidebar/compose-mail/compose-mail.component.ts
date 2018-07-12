@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
-import { CloseMailbox, CreateMail, DeleteMail } from '../../../store/actions';
+import { CloseMailbox, CreateMail, DeleteMail, UpdateLocalDraft } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
 import { Mail, Mailbox } from '../../../store/models';
@@ -214,11 +214,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
         centered: true,
         windowClass: 'modal-sm users-action-modal'
       });
-    }
-    else if (this.draftMail && this.draftMail.id) {
+    } else if (this.draftMail && this.draftMail.id) {
       this.discardEmail();
-    }
-    else {
+    } else {
       this.hideMailComposeModal();
     }
   }
@@ -255,7 +253,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   openSelfDestructModal() {
     if (this.selfDestruct.value) {
       // reset to previous confirmed value
-      this.selfDestruct = {...this.selfDestruct, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value)};
+      this.selfDestruct = { ...this.selfDestruct, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value) };
     }
     else {
       this.resetSelfDestructValues();
@@ -269,7 +267,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   openDelayedDeliveryModal() {
     if (this.delayedDelivery.value) {
       // reset to previous confirmed value
-      this.delayedDelivery = {...this.delayedDelivery, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value)};
+      this.delayedDelivery = { ...this.delayedDelivery, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value) };
     }
     else {
       this.resetDelayedDeliveryValues();
@@ -283,7 +281,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   openDeadManTimerModal() {
     if (this.deadManTimer.value) {
       // reset to previous confirmed value
-      this.deadManTimer = {...this.deadManTimer, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value)};
+      this.deadManTimer = { ...this.deadManTimer, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value) };
     }
     else {
       this.resetDeadManTimerValues();
@@ -395,8 +393,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail.destruct_date = this.selfDestruct.value || null;
       this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
       this.draftMail.dead_man_timer = this.deadManTimer.value || null;
-      this.draftMail.content = await this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML);
-      this.store.dispatch(new CreateMail({ ...this.draftMail }));
+      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+     this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
+     this.openPgpService.encryptAndSave(this.draftMail.content);
     }
   }
 
@@ -438,18 +437,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     if (this.confirmModalRef) {
       this.confirmModalRef.close();
     }
-  }
-
-  private messageEncrypt() {
-    if (this.encryptForm.valid) {
-      this.openPgpService.generateKey(this.encryptForm.value.password);
-      this.openPgpService.makeEncrypt(this.editor.nativeElement.firstChild.innerHTML).then(() => {
-        // TODO: api call for message encryption
-        // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
-      });
-    }
-    // this.openPgpService.makeDecrypt(this.openPgpService.encrypted);
-
   }
 
   private resetMailData() {
