@@ -26,6 +26,14 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return { ...state, inProgress: true };
     }
 
+    case MailActionTypes.MOVE_MAIL_SUCCESS: {
+      // TODO: use immutable version of remove items from array, with modifying the state directly
+
+      // Uncomment after payload has been fixed
+      // state.mails = state.mails.filter(item=> item.id !== action.payload.id);
+      return {...state, inProgress: false};
+    }
+
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
       state.mails.splice(state.mails.indexOf(state.mails.filter(item => item.id === action.payload.id)[0]), 1);
       return { ...state, inProgress: false };

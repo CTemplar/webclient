@@ -20,7 +20,7 @@
                     </div>
                 </li>
                 <li class="px-0">
-                    <a href="" class="border-right-0 border-radius-right-0" placement="top" [ngbTooltip]="'mail_list.move_to_archive' | translate">
+                    <a href class="border-right-0 border-radius-right-0" placement="top" [ngbTooltip]="'mail_list.move_to_archive' | translate">
                         <i class="icon icon-archive"></i>
                     </a>
                 </li>
@@ -147,7 +147,7 @@
                         <!-- Check box -->
                         <td class="mail-checkbox pl-4">
                             <div class="fancy-field-group">
-                                <input class="d-none fancy-field-control" id={{mail.id}} name="[]" type="checkbox" [(ngModel)]="mail.checked" />
+                                <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" (change)="rowSelectionChanged($event, mail)" />
                                 <label for={{mail.id}} class="fancy-field-empty"></label>
                             </div>
                         </td>

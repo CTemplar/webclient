@@ -12,7 +12,7 @@ import 'rxjs/add/operator/catch';
 import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
-import { GetMailDetail, GetMailDetailSuccess } from '../actions/mail.actions';
+import { GetMailDetail, GetMailDetailSuccess, MoveMail, MoveMailSuccess } from '../actions/mail.actions';
 // Custom Actions
 import {
   CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
@@ -64,6 +64,22 @@ export class MailEffects {
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to save mail.' })]),
         );
+    });
+
+    @Effect()
+    moveMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.MOVE_MAIL)
+    .map((action: MoveMail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.moveMail(payload.ids, payload.folder)
+      .pipe(
+        switchMap( res => {
+          return [
+            new MoveMailSuccess(res),
+          ]
+        }),
+        catchError(err => [new SnackErrorPush({ message: 'Failed to move mail.' })]),
+      );
     });
 
   @Effect()

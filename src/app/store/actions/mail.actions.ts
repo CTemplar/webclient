@@ -12,6 +12,8 @@ export enum MailActionTypes {
   CREATE_MAIL = '[Mail] CREATE',
   CREATE_MAIL_SUCCESS = '[Mail] CREATE SUCCESS',
   CLOSE_MAILBOX = '[Mailbox] CLOSE',
+  MOVE_MAIL = '[Mail] MOVE',
+  MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
   DELETE_MAIL = '[Mail] DELETE',
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
   SEND_MAIL = '[Mail] SEND_MAIL',
@@ -73,6 +75,19 @@ export class CloseMailbox implements Action {
   constructor(public payload?: any) {}
 }
 
+
+export class MoveMail implements Action{
+  readonly type = MailActionTypes.MOVE_MAIL;
+
+  constructor(public payload: any){}
+}
+
+export class MoveMailSuccess implements Action{
+  readonly type = MailActionTypes.MOVE_MAIL_SUCCESS;
+
+  constructor(public payload: any){}
+}
+
 export class DeleteMail implements Action {
   readonly type = MailActionTypes.DELETE_MAIL;
 
@@ -108,6 +123,8 @@ export type MailActions =
   | CreateMail
   | CreateMailSuccess
   | CloseMailbox
+  | MoveMail
+  | MoveMailSuccess
   | DeleteMail
   | DeleteMailSuccess
   | SendMail
