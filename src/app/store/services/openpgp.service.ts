@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState, MailBoxesState, MailState } from '../datatypes';
-import { CreateMail, Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPContent } from '../actions';
-
-declare var openpgp;
+import { AppState, MailBoxesState } from '../datatypes';
+import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPContent } from '../actions';
 
 @Injectable()
 export class OpenPgpService {
@@ -14,8 +12,6 @@ export class OpenPgpService {
   private decryptedPrivKeyObj: any;
   private decryptInProgress: boolean;
   private pgpWorker: Worker;
-  private mailState: MailState;
-  private shouldSave: boolean;
 
   constructor(private store: Store<AppState>) {
 
@@ -28,19 +24,6 @@ export class OpenPgpService {
         }
         this.decryptInProgress = response.decryptKeyInProgress;
         this.initializeWorker();
-      });
-    this.store.select(state => state.mail)
-      .subscribe((response: MailState) => {
-        if (this.shouldSave &&
-          this.mailState &&
-          this.mailState.isPGPInProgress &&
-          !response.isPGPInProgress &&
-          response.draft) {
-          response.draft.content = response.encryptedContent;
-          this.shouldSave = false;
-          this.store.dispatch(new CreateMail({ ...response.draft }));
-        }
-        this.mailState = response;
       });
   }
 
@@ -72,9 +55,8 @@ export class OpenPgpService {
     }
   }
 
-  encryptAndSave(content, publicKeys: any = this.pubkey) {
+  encrypt(content, publicKeys: any = this.pubkey) {
     this.pgpWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys });
-    this.shouldSave = true;
   }
 
   decrypt(content) {

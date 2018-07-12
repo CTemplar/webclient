@@ -88,6 +88,9 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private defaultLocale: string = 'US International';
 
   readonly destroyed$: Observable<boolean>;
+  private shouldSave: boolean;
+  private mailState: MailState;
+  private shouldSaveAndClose: boolean;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -99,6 +102,19 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.store.select((state: AppState) => state.mail)
       .subscribe((response: MailState) => {
         this.draftMail = response.draft;
+        if (this.shouldSave &&
+          this.mailState &&
+          this.mailState.isPGPInProgress &&
+          !response.isPGPInProgress &&
+          response.draft) {
+          response.draft.content = response.encryptedContent;
+          this.shouldSave = false;
+          this.store.dispatch(new CreateMail({ ...response.draft }));
+          if (this.shouldSaveAndClose) {
+            this.store.dispatch(new CloseMailbox());
+          }
+        }
+        this.mailState = response;
       });
 
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
@@ -226,7 +242,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   }
 
   saveInDrafts() {
-    this.updateEmail();
+    this.updateEmail(true);
     this.hideMailComposeModal();
   }
 
@@ -381,7 +397,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     }
   }
 
-  private async updateEmail() {
+  private async updateEmail(saveAndClose: boolean = false) {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
@@ -394,8 +410,10 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
       this.draftMail.dead_man_timer = this.deadManTimer.value || null;
       this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-     this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
-     this.openPgpService.encryptAndSave(this.draftMail.content);
+      this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
+      this.openPgpService.encrypt(this.draftMail.content);
+      this.shouldSave = true;
+      this.shouldSaveAndClose = saveAndClose;
     }
   }
 
@@ -403,7 +421,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.options = {};
     this.attachments = [];
     this.quill.setText('');
-    this.store.dispatch(new CloseMailbox());
     this.resetMailData();
     this.unSubscribeAutoSave();
     this.clearSelfDestructValue();
