@@ -69,6 +69,9 @@ export interface MailState {
   folders: any[];
   draft: Mail;
   inProgress?: boolean;
+  encryptedContent?: string;
+  decryptedContent?: string;
+  isPGPInProgress?: boolean;
 }
 
 export interface MailBoxesState {

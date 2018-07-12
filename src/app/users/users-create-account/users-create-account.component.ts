@@ -106,12 +106,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         clearInterval(this.processInstance);
       }
     }, 10);
-    this.openPgpService.generateKey(this.signupForm.value).then((key) => {
-      // this.store.dispatch(new SignUp(this.signupForm.value));
-      this.fingerprint = key.fingerprint;
-      this.privkey = key.privkey;
-      this.pubkey = key.pubkey;
-    });
   }
 
   passwordMatchValidator(g: FormGroup) {
