@@ -5,6 +5,7 @@ import { MailState } from '../datatypes';
 
 export const initialState: MailState = {
   mails: [],
+  mailDetail: null,
   folders: [],
   inProgress: false,
   draft: null,
@@ -46,6 +47,13 @@ export function reducer(state = initialState, action: MailActions): MailState {
 
     case MailActionTypes.CLOSE_MAILBOX: {
       return { ...state, inProgress: false, draft: null };
+    }
+
+    case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
+      return {
+        ...state,
+        mailDetail: action.payload
+      };
     }
 
     default: {

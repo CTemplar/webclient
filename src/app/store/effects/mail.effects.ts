@@ -12,6 +12,7 @@ import 'rxjs/add/operator/catch';
 import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
+import { GetMailDetail, GetMailDetailSuccess } from '../actions/mail.actions';
 // Custom Actions
 import {
   CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
@@ -80,5 +81,18 @@ export class MailEffects {
           catchError(err => [new SnackErrorPush({ message: 'Failed to discard mail.' })]),
         );
     });
+
+  @Effect()
+  getMailDetailEffect: Observable<any>  = this.actions
+  .ofType(MailActionTypes.GET_MAIL_DETAIL)
+  .map((action: GetMailDetail) => action.payload)
+  .switchMap(payload => {
+    return this.mailService.getMessage(payload)
+    .pipe(
+      switchMap(res => {
+        return [new GetMailDetailSuccess(res)];
+      })
+    );
+  });
 
 }
