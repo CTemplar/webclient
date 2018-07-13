@@ -2,6 +2,11 @@
 * Utilities scss file which includes utilities style rules
 */
 
+// == Line height
+.lh-1 {
+	line-height: 1 !important;
+}
+
 // == Element Positioning
 .position {
 	&-absolute {

@@ -343,3 +343,53 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+// == Package cards
+.package-col-sm {
+  .package-card-body {
+    padding: 0 0.938rem;
+  }
+
+  .package-list-item {
+    padding: 0.75rem 0rem 0.75rem 1.75rem;
+    &.has-border {
+      @include media('>=ipad') {
+        padding: 1.157rem 0rem 1.157rem 1.75rem;
+      }
+
+      &:not(.has-icon-center) {
+        .fa {
+          top: 1.188rem
+        }
+      }
+    }
+
+    &.is-sm {
+      padding: 0.407rem 0rem 0.407rem 1.75rem;
+    }
+
+    .fa {
+      left: 0;
+    }
+
+    &:not(.has-icon-center) {
+      .fa {
+        top: 1.188rem
+      }
+    }
+
+    &:not(.has-icon-center) .fa {
+      top: .875rem;
+    }
+  }
+
+  .package-list-item.has-border + .package-list-item:not(.has-border) {
+    margin-top: 0.375rem;
+  }
+
+  .package-divider:not(.package-divider-sm) {
+    @include media(">sm") {
+      padding: 2.657rem 0.75rem;
+    }
+  }
+}

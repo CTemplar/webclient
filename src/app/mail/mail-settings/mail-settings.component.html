@@ -138,7 +138,7 @@
                                 </li>
                             </ul>
                             <div class="row flex-nowrap row-md">
-                                <div class="col-sm-4 flex-sm-last package-prime-col active-slide" [class.is-active-slide]="1 === selectedIndex">
+                                <div class="col-sm-4 flex-sm-last package-col-sm package-prime-col active-slide" [class.is-active-slide]="1 === selectedIndex">
                                     <div class="package-card package-card-prime is-shadowed bg-white text-dark">
                                         <header class="package-card-header text-center"><h2 class="text-white m-0">
                                             <strong translate="settings.prime">Prime</strong></h2></header>
@@ -147,17 +147,8 @@
                                                 <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
                                                     User
                                                 </li>
-                                                <li class="package-list-item has-border has-icon-center">
+                                                <li class="package-list-item has-border is-sm has-icon-center">
                                                     <i class="fa fa-check text-green"></i>
-                                                    <!-- <select class="form-control package-storage-select">
-                                                        <option selected>50 Mb Storage</option>
-                                                        <option>100 Mb Storage</option>
-                                                        <option>100 Mb Storage</option>
-                                                        <option>200 Mb Storage</option>
-                                                        <option>300 Mb Storage</option>
-                                                        <option>400 Mb Storage</option>
-                                                        <option>500 Mb Storage</option>
-                                                    </select> -->
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
                                                             <button ngbDropdownToggle role="button"
@@ -172,16 +163,41 @@
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
-                                                    E-mail Address
+                                                <li class="package-list-item has-border is-sm has-icon-center">
+                                                    <i class="fa fa-check text-green"></i>
+                                                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                                        <div ngbDropdown class="storage-select-dropdown">
+                                                            <button ngbDropdownToggle role="button" id="emailsDropdownMenuButton">5 E-mail Address</button>
+                                                            <div ngbDropdownMenu aria-labelledby="emailsDropdownMenuButton">
+                                                                <a class="dropdown-item">10 Gb Storage + $4/MO </a>
+                                                                <a class="dropdown-item">15 Gb Storage + $8/MO</a>
+                                                                <a class="dropdown-item">20 Gb Storage + $12/MO</a>
+                                                                <a class="dropdown-item">25 Gb Storage + $16/MO</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>100 Messages
+                                                <li class="package-list-item has-border is-sm has-icon-center">
+                                                    <i class="fa fa-check text-green"></i>
+                                                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                                        <div ngbDropdown class="storage-select-dropdown">
+                                                            <button ngbDropdownToggle role="button" id="customDomainsDropdownMenuButton">1 Custom Domain</button>
+                                                            <div ngbDropdownMenu aria-labelledby="customDomainsDropdownMenuButton">
+                                                                <a class="dropdown-item">10 Gb Storage + $4/MO </a>
+                                                                <a class="dropdown-item">15 Gb Storage + $8/MO</a>
+                                                                <a class="dropdown-item">20 Gb Storage + $12/MO</a>
+                                                                <a class="dropdown-item">25 Gb Storage + $16/MO</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="package-list-item has-border"><i class="fa fa-times text-danger"></i>
+                                                    <del>Organization</del>
+                                                </li>
+                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>1000 Messages
                                                     per Day
                                                 </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>200 Folders
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Normal
-                                                    Support
+                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>200 Folders 200 Labels
                                                 </li>
                                                 <li class="package-list-item"><i class="fa fa-check text-green"></i>Dead Mans
                                                     Timer
@@ -195,18 +211,10 @@
                                                 <li class="package-list-item"><i class="fa fa-check text-green"></i>Encryption
                                                     for non-CTemplar Users
                                                 </li>
+                                                <li class="package-list-item"><i class="fa fa-times text-danger"></i>
+                                                    <del>Custom Filters</del>
+                                                </li>
                                             </ul>
-                                            <div class="package-coming-soon mt-3">
-                                                <h6 class="text-muted mb-3 mb-sm-4"><a><u translate="settings.features_added_soon">Features to be added to this
-                                                    package soon</u></a></h6>
-                                                <!-- <ul class="package-list mb-0 list-style-none pl-0">
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>+4 Email Address’s (5 Total)</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Custom Filters</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Autoresponder</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Notifications</li>
-                                                </ul> -->
-                                            </div>
                                         </div>
                                         <footer class="package-card-footer">
                                             <div class="package-divider package-divider-sm">
@@ -252,13 +260,14 @@
                                                 </div>
                                                 <a *ngIf="!userState.isPrime"
                                                    class="btn btn-lg btn-gradient-primary" role="button">
-                                                    <span translate="settings.select_prime">Update Prime</span>
+                                                    <span>Update Prime</span>
                                                 </a>
                                             </div>
                                         </footer>
                                     </div>
                                 </div>
-                                <div class="col-sm-4 flex-sm-last package-elite-col active-slide" [class.is-active-slide]="2 === selectedIndex">
+
+                                <div class="col-sm-4 flex-sm-last package-col-sm package-elite-col active-slide" [class.is-active-slide]="2 === selectedIndex">
                                     <div class="package-card package-card-elite is-shadowed bg-white text-dark">
                                         <header class="package-card-header text-center">
                                             <h2 class="text-white m-0"><strong>Elite</strong></h2>
@@ -268,23 +277,14 @@
                                                 <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
                                                     User
                                                 </li>
-                                                <li class="package-list-item has-border has-icon-center">
+                                                <li class="package-list-item has-border is-sm has-icon-center">
                                                     <i class="fa fa-check text-green"></i>
-                                                    <!-- <select class="form-control package-storage-select">
-                                                        <option selected>50 Mb Storage</option>
-                                                        <option>100 Mb Storage</option>
-                                                        <option>100 Mb Storage</option>
-                                                        <option>200 Mb Storage</option>
-                                                        <option>300 Mb Storage</option>
-                                                        <option>400 Mb Storage</option>
-                                                        <option>500 Mb Storage</option>
-                                                    </select> -->
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
                                                             <button ngbDropdownToggle role="button"
-                                                                    id="storageDropdownMenuButton2">5 Gb Storage
+                                                                    id="elitestorageDropdownMenuButton">5 Gb Storage
                                                             </button>
-                                                            <div ngbDropdownMenu aria-labelledby="storageDropdownMenuButton2">
+                                                            <div ngbDropdownMenu aria-labelledby="elitestorageDropdownMenuButton">
                                                                 <a class="dropdown-item">10 Gb Storage + $4/MO </a>
                                                                 <a class="dropdown-item">15 Gb Storage + $8/MO</a>
                                                                 <a class="dropdown-item">20 Gb Storage + $12/MO</a>
@@ -293,16 +293,41 @@
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
-                                                    E-mail Address
+                                                <li class="package-list-item has-border is-sm has-icon-center">
+                                                    <i class="fa fa-check text-green"></i>
+                                                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                                        <div ngbDropdown class="storage-select-dropdown">
+                                                            <button ngbDropdownToggle role="button" id="eliteemailsDropdownMenuButton">5 E-mail Address</button>
+                                                            <div ngbDropdownMenu aria-labelledby="eliteemailsDropdownMenuButton">
+                                                                <a class="dropdown-item">10 Gb Storage + $4/MO </a>
+                                                                <a class="dropdown-item">15 Gb Storage + $8/MO</a>
+                                                                <a class="dropdown-item">20 Gb Storage + $12/MO</a>
+                                                                <a class="dropdown-item">25 Gb Storage + $16/MO</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>100 Messages
+                                                <li class="package-list-item has-border is-sm has-icon-center">
+                                                    <i class="fa fa-check text-green"></i>
+                                                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                                                        <div ngbDropdown class="storage-select-dropdown">
+                                                            <button ngbDropdownToggle role="button" id="elitecustomDomainsDropdownMenuButton">1 Custom Domain</button>
+                                                            <div ngbDropdownMenu aria-labelledby="elitecustomDomainsDropdownMenuButton">
+                                                                <a class="dropdown-item">10 Gb Storage + $4/MO </a>
+                                                                <a class="dropdown-item">15 Gb Storage + $8/MO</a>
+                                                                <a class="dropdown-item">20 Gb Storage + $12/MO</a>
+                                                                <a class="dropdown-item">25 Gb Storage + $16/MO</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>
+                                                    1 Organization
+                                                </li>
+                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>1000 Messages
                                                     per Day
                                                 </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>200 Folders
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Normal
-                                                    Support
+                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>200 Folders 200 Labels
                                                 </li>
                                                 <li class="package-list-item"><i class="fa fa-check text-green"></i>Dead Mans
                                                     Timer
@@ -316,18 +341,9 @@
                                                 <li class="package-list-item"><i class="fa fa-check text-green"></i>Encryption
                                                     for non-CTemplar Users
                                                 </li>
+                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Custom Filters
+                                                </li>
                                             </ul>
-                                            <div class="package-coming-soon mt-3">
-                                                <h6 class="text-muted mb-3 mb-sm-4"><a><u translate="settings.features_added_soon">Features to be added to this
-                                                    package soon</u></a></h6>
-                                                <!-- <ul class="package-list mb-0 list-style-none pl-0">
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>1 Custom Domain</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>+4 Email Address’s (5 Total)</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Custom Filters</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Autoresponder</li>
-                                                    <li class="package-list-item"><i class="fa fa-check text-green"></i>Notifications</li>
-                                                </ul> -->
-                                            </div>
                                         </div>
                                         <footer class="package-card-footer">
                                             <div class="package-divider package-divider-sm">
@@ -337,7 +353,7 @@
                                                             <div class="col-8">
                                                                 <div class="fancy-field-group">
                                                                     <input class="d-none fancy-field-control" id="pay-monthly2"
-                                                                           name="[2]" type="radio" checked/>
+                                                                           name="[2]" type="radio" checked />
                                                                     <label for="pay-monthly2" translate="settings.pay_monthly"></label>
                                                                 </div>
                                                             </div>
@@ -373,13 +389,14 @@
                                                 </div>
                                                 <a *ngIf="!userState.isPrime"
                                                    class="btn btn-lg btn-gradient-success" role="button">
-                                                    <span translate="settings.select_prime">Update Elite</span>
+                                                    <span>Update Elite</span>
                                                 </a>
                                             </div>
                                         </footer>
                                     </div>
                                 </div>
-                                <div class="col-sm-4 package-basic-col" [class.is-active-slide]="3 === selectedIndex">
+
+                                <div class="col-sm-4 package-col-sm package-basic-col" [class.is-active-slide]="3 === selectedIndex">
                                     <div class="package-card package-card-basic bg-faded text-dark">
                                         <header class="package-card-header text-center"><h2 class="text-white m-0">
                                             <strong translate="settings.free">Free</strong></h2></header>
@@ -394,13 +411,16 @@
                                                 <li class="package-list-item has-border"><i class="fa fa-check text-green"></i>1
                                                     E-mail Address
                                                 </li>
+                                                <li class="package-list-item has-border"><i class="fa fa-times text-danger"></i>
+                                                    <del>Custom Domains</del>
+                                                </li>
+                                                <li class="package-list-item has-border"><i class="fa fa-times text-danger"></i>
+                                                    <del>Organization</del>
+                                                </li>
                                                 <li class="package-list-item"><i class="fa fa-check text-green"></i>100 Messages
                                                     per Day
                                                 </li>
                                                 <li class="package-list-item"><i class="fa fa-check text-green"></i>3 Folders
-                                                </li>
-                                                <li class="package-list-item"><i class="fa fa-check text-green"></i>Limited
-                                                    Support
                                                 </li>
                                                 <li class="package-list-item"><i class="fa fa-times text-danger"></i>
                                                     <del>Dead Mans Timer</del>
@@ -414,11 +434,14 @@
                                                 <li class="package-list-item"><i class="fa fa-times text-danger"></i>
                                                     <del>Encryption for non-CTemplar Users</del>
                                                 </li>
+                                                <li class="package-list-item"><i class="fa fa-times text-danger"></i>
+                                                    <del>Custom Filters</del>
+                                                </li>
                                             </ul>
                                         </div>
                                         <footer class="package-card-footer text-center">
                                             <div class="package-divider">
-                                                <div class="h2 mb-0 text-normal text-muted fw-light">free</div>
+                                                <div class="h2 mb-0 text-normal text-muted fw-light lh-1">free</div>
                                             </div>
                                             <div class="package-actions" *ngIf="!userState.isPrime">
                                                 <a class="btn btn-lg btn-gradient-info" role="button" translate="settings.select_free">Select Free</a>

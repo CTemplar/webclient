@@ -4,7 +4,7 @@
 
 // == package card
 .package-card {
-    margin-top: 0.938rem;
+    margin-top: 1.375rem;//~0.938rem;
     padding-bottom: 1.875rem;
     border-radius: 4px;
 
@@ -56,7 +56,7 @@
         background: linear-gradient(259deg, #e74c3c, #c0392b) !important;
         
         @include media(">sm") {
-            padding: 2.2188rem 1.25rem;
+            padding: 2.5rem 1.25rem;//~2.2188rem 1.25rem;
         }
     }
 }
@@ -64,10 +64,6 @@
 .package-card-elite {
     .package-card-header {
         background: linear-gradient(254deg, #2b46c0, #3c82e7) !important;
-
-        @include media(">sm") {
-            padding: 2.2188rem 1.25rem;
-        }
     }
 }
 
