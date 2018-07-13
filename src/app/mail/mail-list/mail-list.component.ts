@@ -10,6 +10,7 @@ import { GetMails, MoveMail } from '../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { AppState, MailState } from '../../store/datatypes';
 import { ReadMail } from '../../store/actions/mail.actions';
+import { ActivatedRoute } from '@angular/router';
 
 declare var openpgp;
 
@@ -29,7 +30,9 @@ export class MailListComponent implements OnInit, OnDestroy {
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private route: ActivatedRoute) {
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes) => {
         if (mailboxes.mailboxes[0]) {
@@ -40,16 +43,19 @@ export class MailListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      const mailFolderType: MailFolderType = params['folder'] as MailFolderType;
+      this.getMails( mailFolderType);
+    });
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
         this.mails = mailState.mails;
       });
-    this.getMails();
 
   }
 
-  getMails() {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0 }));
+  getMails(mailFolderType: MailFolderType) {
+    this.store.dispatch(new GetMails({ limit: 1000, offset: 0 , folder: mailFolderType }));
   }
 
   rowSelectionChanged(mail: Mail) {
