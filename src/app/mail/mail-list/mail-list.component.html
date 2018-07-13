@@ -92,11 +92,11 @@
                                 <span class="folder-color-box is-info"></span>Another Folder 21</a>
                             <a class="dropdown-item" href="">
                                 <span class="folder-color-box is-warning"></span>Folder 33</a>
-                            <a class="dropdown-item" (click)="moveToFolder('inbox')" translate="mail_sidebar.inbox">
+                            <a class="dropdown-item" (click)="moveToFolder(mailFolderType.INBOX)" translate="mail_sidebar.inbox">
                                 <i class="icon icon-inbox"></i>Inbox</a>
-                            <a class="dropdown-item" (click)="moveToFolder('draft')" translate="mail_sidebar.draft">
+                            <a class="dropdown-item" (click)="moveToFolder(mailFolderType.DRAFT)" translate="mail_sidebar.draft">
                                 <i class="icon icon-inbox"></i>Draft</a>
-                            <a class="dropdown-item" (click)="moveToFolder('archive')" translate="mail_sidebar.archive">
+                            <a class="dropdown-item" (click)="moveToFolder(mailFolderType.ARCHIVE)" translate="mail_sidebar.archive">
                                 <i class="icon icon-archive"></i>Archive</a>
                             <span class="divider-item d-block"></span>
                             <a class="dropdown-item" href="" data-toggle="modal" data-target="#createFoldersModal" translate="mail_list.create_folder">

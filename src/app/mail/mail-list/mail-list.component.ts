@@ -7,11 +7,10 @@ import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
 import { getMails } from '../../store/selectors';
-import { GetMails } from '../../store/actions';
+import { GetMails, MoveMail } from '../../store/actions';
 import { OpenPgpService } from '../../store/services/openpgp.service';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { MailService } from '../../store/services/mail.service';
-import { MoveMail } from '../../store/actions/mail.actions';
 
 declare var openpgp;
 
@@ -83,6 +82,10 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   moveToFolder(folder: MailFolderType){
     this.store.dispatch(new MoveMail({ ids: this.checkedMailIds.join(','), folder: folder }));
+  }
+
+  get mailFolderType(){
+    return MailFolderType;
   }
 
   ngOnDestroy() {}
