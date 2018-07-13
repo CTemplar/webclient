@@ -21,7 +21,6 @@ declare var openpgp;
 })
 export class MailListComponent implements OnInit, OnDestroy {
   mails: Mail[];
-  checkedMailIds: number[] = [];
   checkedMails: Mail[] = [];
   private_key: string;
   public_key: string;
@@ -53,12 +52,10 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0 }));
   }
 
-  rowSelectionChanged(event: any, mail: Mail) {
-    if (this.checkedMailIds.indexOf(mail.id) < 0) {
-      this.checkedMailIds = [...this.checkedMailIds, mail.id];
+  rowSelectionChanged(mail: Mail) {
+    if (!this.checkedMails.includes(mail)) {
       this.checkedMails = this.checkedMails.concat(mail);
     } else {
-      this.checkedMailIds = this.checkedMailIds.filter(checkedMailId => checkedMailId !== mail.id);
       this.checkedMails = this.checkedMails.filter(checkedMail => checkedMail.id !== mail.id);
     }
   }
@@ -88,6 +85,10 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
     // Empty list of selected mails
     this.checkedMails = [];
+  }
+
+  isMailChecked(mail: Mail) {
+    return this.checkedMails.includes(mail);
   }
 
   get mailFolderType() {

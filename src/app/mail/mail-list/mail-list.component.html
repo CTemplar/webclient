@@ -147,7 +147,7 @@
                         <!-- Check box -->
                         <td class="mail-checkbox pl-4">
                             <div class="fancy-field-group">
-                                <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" (change)="rowSelectionChanged($event, mail)" />
+                                <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" (change)="rowSelectionChanged(mail)" [checked]="isMailChecked(mail)" />
                                 <label for={{mail.id}} class="fancy-field-empty"></label>
                             </div>
                         </td>
