@@ -13,6 +13,7 @@ import { Mail } from '../models';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
+import { MailFolderType } from '../models/mail.model';
 
 @Injectable()
 export class MailService {
@@ -29,8 +30,8 @@ export class MailService {
   ) {
   }
 
-  getMessages(limit: number = 1000, offset: number = 0): Observable<Mail[]> {
-    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
+  getMessages(limit: number = 1000, offset: number = 0, mailFolderType: MailFolderType = MailFolderType.INBOX): Observable<Mail[]> {
+    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=${mailFolderType}`;
     return this.http.get<Mail[]>(url).map(data => data['results']);
   }
 
