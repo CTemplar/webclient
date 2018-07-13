@@ -53,6 +53,11 @@ export class MailService {
     return this.http.post<any>(url, data);
   }
 
+  markAsRead(ids: string, data:any): Observable<any[]> {
+    const url = `${apiUrl}/emails/messages/?id__in=${ids}`;
+    return this.http.patch<any>(url, data);
+  }
+
   moveMail(ids: string, folder: string): Observable<any[]> {
     return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {folder: folder});
   }

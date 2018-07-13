@@ -111,7 +111,7 @@
                         </button>
                         <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
                             <a class="dropdown-item" href="" translate="mail_list.add_star">Add star</a>
-                            <a class="dropdown-item" href="" translate="mail_list.mark_as_read">Mark as read</a>
+                            <a class="dropdown-item" (click)="markAsRead()" translate="mail_list.mark_as_read">Mark as read</a>
                             <a class="dropdown-item" href="" translate="mail_list.mark_as_unread">Mark as unread</a>
                         </div>
                     </div>
@@ -171,14 +171,14 @@
 
                         <!-- Subject -->
                         <td class="table-inbox-message d-none d-md-block">
-                            <a [routerLink]="['/mail/message/', mail.id]" class="btn-link text-dark"  [ngClass]="{'font-weight-bold': !mail.read}">
+                            <a [routerLink]="['/mail/message/', mail.id]" class="btn-link text-dark"  >
                                 <span class="mail-subject">                               
                                 
                                     <span class="badge badge-success mr-2 p-1" *ngIf="i==0">Dalay delivery in 1d 5:25:00</span>
                                     <span class="badge badge-warning mr-2 p-1" *ngIf="i==1">Delete in 1d 5:25:00</span>
                                     <span class="badge badge-danger mr-2 p-1"  *ngIf="i==2">Dead mans timer 1d 5:25:00</span>
 
-                                    <span class="font-weight-bold" [innerHTML]="mail.subject">
+                                    <span [ngClass]="{'font-weight-bold': !mail.read}" [innerHTML]="mail.subject">
                                         <!-- Subject Goes Here -->
                                     </span>
                                 

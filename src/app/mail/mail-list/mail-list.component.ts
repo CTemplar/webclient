@@ -11,6 +11,7 @@ import { GetMails, MoveMail } from '../../store/actions';
 import { OpenPgpService } from '../../store/services/openpgp.service';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { MailService } from '../../store/services/mail.service';
+import { ReadMail } from '../../store/actions/mail.actions';
 
 declare var openpgp;
 
@@ -23,6 +24,7 @@ declare var openpgp;
 export class MailListComponent implements OnInit, OnDestroy {
   mails: Mail[];
   checkedMailIds: number[] = [];
+  checkedMails: Mail[] = [];
   private_key: string;
   public_key: string;
   passphrase: string;
@@ -71,21 +73,47 @@ export class MailListComponent implements OnInit, OnDestroy {
   rowSelectionChanged(event: any, mail: Mail) {
     if (this.checkedMailIds.indexOf(mail.id) < 0) {
       this.checkedMailIds = [...this.checkedMailIds, mail.id];
+      this.checkedMails = this.checkedMails.concat(mail);
     } else {
       this.checkedMailIds = this.checkedMailIds.filter(checkedMailId => checkedMailId !== mail.id);
+      this.checkedMails = this.checkedMails.filter(checkedMail => checkedMail.id !== mail.id);
     }
+  }
+
+  markAsRead() {
+    // Get comma separated list of mail IDs
+    const ids = this.getMailIDs();
+    // Modify mail to be mark as read
+    const readMailList = this.checkedMails.map(mail => {
+      mail.read = true;
+      return mail;
+    });
+    // Dispatch mark as read event to store
+    this.store.dispatch(new ReadMail({ ids: ids, data: readMailList}));
+    // Empty list of selected mails
+    this.checkedMails = [];
   }
 
   moveToTrash() {
     this.moveToFolder(MailFolderType.TRASH);
   }
 
-  moveToFolder(folder: MailFolderType){
-    this.store.dispatch(new MoveMail({ ids: this.checkedMailIds.join(','), folder: folder }));
+  moveToFolder(folder: MailFolderType) {
+    // Get comma separated list of mail IDs
+    const ids = this.getMailIDs();
+    // Dispatch mark as read event to store
+    this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
+    // Empty list of selected mails
+    this.checkedMails = [];
   }
 
   get mailFolderType(){
     return MailFolderType;
+  }
+
+  private getMailIDs() {
+    // Get list of concatinated IDs from mail object list
+    return this.checkedMails.reduce((mailIDList: any, mail: Mail) => [...mailIDList, mail.id], []).join(',');
   }
 
   ngOnDestroy() {}
