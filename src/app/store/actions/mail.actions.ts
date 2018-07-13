@@ -51,14 +51,14 @@ export class GetMailboxesSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-export class GetMailDetail implements Action{
+export class GetMailDetail implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL;
 
   constructor(public payload: any) {}
 }
 
 
-export class GetMailDetailSuccess implements Action{
+export class GetMailDetailSuccess implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL_SUCCESS;
 
   constructor(public payload: any) {}
@@ -89,16 +89,16 @@ export class CloseMailbox implements Action {
 }
 
 
-export class MoveMail implements Action{
+export class MoveMail implements Action {
   readonly type = MailActionTypes.MOVE_MAIL;
 
-  constructor(public payload: any){}
+  constructor(public payload: any) {}
 }
 
-export class MoveMailSuccess implements Action{
+export class MoveMailSuccess implements Action {
   readonly type = MailActionTypes.MOVE_MAIL_SUCCESS;
 
-  constructor(public payload: any){}
+  constructor(public payload: any) {}
 }
 
 export class DeleteMail implements Action {
