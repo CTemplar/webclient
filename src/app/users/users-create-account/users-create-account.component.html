@@ -13,8 +13,8 @@
         <div class="l-block-body px-md" *ngIf="!isFormCompleted">
             <div class="form-card-holder mx-auto">
                 <div class="info-card bg-faded text-sm-center">
-                    <p class="text-medium" translate="create_account.take_back_privacy">Take back your privacy!
-                        <br/> <span translate="create_account.creating_secure_email">Creating your secure email account takes less than 2 minutes</span></p>
+                    <p class="text-medium"> <span translate="create_account.take_back_liberty">Take Back Your Liberty! </span> <br/>
+               <span [innerHTML]="'create_account.class_encrypted_email' | translate">Best in class encrypted email <br/> Account creation in only minutes</span></p>
                 </div>
 
                 <div class="form">
@@ -121,7 +121,7 @@
                                  [ngClass]="{'is-validate': signupForm.controls.recoveryEmail.invalid}"
                                  *ngIf="!isRecoveryEmail">
                                 <h3 class="form-step-card-title text-dark mb-0">
-                                    <strong translate="create_account.recovery_email_optional">Recovery email(optional)</strong>
+                                    <strong translate="create_account.recovery_email_optional">Recovery email (optional)</strong>
                                 </h3>
                                 <div class="form-step-card-subtitle">
                                     <small translate="create_account.recover_account">This is used to recover your account if you forget your password</small>
