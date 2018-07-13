@@ -4,8 +4,8 @@
 
 // == Navigation bar
 
-.nav-link,
-.user-actions-link {
+.topnavbar .nav-link,
+.topnavbar .user-actions-link {
     position: relative;
     display: inline-block;
     color: $menu-link;
@@ -62,11 +62,11 @@
         }
     }
 
-    .nav-item {
+    .topnavbar .nav-item {
         padding: 0 11px;
     }
 
-    .nav-link {
+    .topnavbar .nav-link {
         letter-spacing: 0.6px;
     }
 }
@@ -166,7 +166,7 @@
         }
     }
 
-    .nav-item {
+    .navbar-nav .nav-item {
         opacity: 0;
         text-align: center;
         transform: translateY(-100px);
@@ -178,7 +178,7 @@
         }        
     }
 
-    .nav-link {
+    .navbar-nav .nav-link {
         // padding-bottom: 0.15rem;        
     }
 
@@ -196,13 +196,13 @@
 }
 
 @include media("<ipad", ">sm") {
-    .nav-item {
+    .navbar-nav .nav-item {
         &:not(:last-of-type) {
             margin-bottom: 1.75rem;
         }
     }
 
-    .nav-link {
+    .navbar-nav .nav-link {
         font-size: 1.25rem;
         letter-spacing: 1.7px;
 

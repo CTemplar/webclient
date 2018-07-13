@@ -95,6 +95,18 @@ body:not(.sidebar-expanded) {
 			}
 		}
 	}
+
+	.row-md {
+		@include media(">=ipad") {
+			margin-right: -1.688rem;
+			margin-left: -1.688rem;
+
+			>[class*="col-"] {
+				padding-right: 1.688rem;
+				padding-left: 1.688rem;
+			}
+		}
+	}
 }
 
 .row-xs {

@@ -833,10 +833,12 @@
 // Mailbox reusable components
 
 .ui-header {
+  margin-bottom: 2.15rem;
   padding: 1.25rem 0.938rem;
 
   @include media(">=ipad") {
-    padding: 1.25rem 1.563rem;
+    margin-bottom: 2.5rem;
+    padding: 1.53222rem 1.563rem;
   }
 
   &.ui-header-bordered {
@@ -855,19 +857,30 @@
   line-height: 1;
 }
 
-.mailbox-section-body {
-  padding: 2.15rem .938rem;
+// == Mailbox sections
+.mailbox-section {
+  margin: 2.15rem 0.938rem;
 
   @include media(">=ipad") {
-    padding: 2.5rem 1.563rem;
+    margin: 3rem 1.563rem 3rem;
+  }
+}
+
+.mailbox-section-body {
+  //padding: 2.15rem .938rem;
+
+  @include media(">=ipad") {
+    //padding: 2.5rem 1.563rem 3rem; //~2.5rem 1.563rem;
   }
 
   // == Small
   &-sm {
-    padding: 1.563rem .938rem;
+    margin: 1.563rem .938rem;
+    //padding: 1.563rem .938rem;
 
     @include media(">=ipad") {
-      padding: 2.25rem 1.563rem;
+      margin: 2.5rem 1.563rem;
+      //padding: 2.25rem 1.563rem;
     }
   }
 }
@@ -1414,6 +1427,44 @@
         height: 0.75em;
         width: 0.75em;
       }
+    }
+  }
+}
+
+// = NG bootstrap tab
+
+.settings-tab-component {
+  .nav-pills {
+    margin-bottom: 1.875rem;
+    background-color: $brand-white;
+    box-shadow: 0 4px 10px 0 rgba(1, 70, 109, 0.1);
+    text-align: center;
+  }
+
+  .nav-item {
+    display: flex;
+    &:first-child {
+      flex: 0 0 7.188rem;
+      max-width: 7.188rem;
+    }
+
+    &:nth-child(2),
+    &:nth-child(5),
+    &:nth-child(6) {
+      flex: 0 0 5.625rem;
+      max-width: 5.625rem;
+    }
+
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(8) {
+      flex: 0 0 8.625rem;
+      max-width: 8.625rem;
+    }
+
+    &:nth-child(7) {
+      flex: 0 0 7.375rem;
+      max-width: 7.375rem;
     }
   }
 }

@@ -122,6 +122,12 @@
         border: 1px solid $dropdown-border-color;
         color: $brand-light-gray;
         font-size: 1.25rem;
+
+        &.active {
+          background: #8b9095;
+          border-color: #8b9095;
+          color: #fafafa;
+        }
       }
     }
 
@@ -169,7 +175,8 @@
 // == Search form
 .search-form {
   .form-control {
-    padding-right: 3.438rem + 0.938rem;
+    padding: 0.563rem 4.376rem 0.563rem 1rem;
+    //padding-right: 3.438rem + 0.938rem;
 
     @include media("<ipad", ">sm") {
       margin-top: -1px;

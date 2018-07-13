@@ -32,11 +32,21 @@
 
 .btn-gradient-info {
     background: linear-gradient(259deg, #f1c20f, #f49315) !important;
-    border-color: transparent;
+    border: 1px solid #f1c20f;
     color: $brand-white !important;
 
     &:hover {
         background: linear-gradient(259deg, darken(#f1c20f, 5%), darken(#f49315, 5%)) !important;
+    }
+}
+
+.btn-gradient-success {
+    background: linear-gradient(260deg, #2c47c1, #3c82e7) !important;
+    border: 1px solid #1f67bd;
+    color: $brand-white !important;
+
+    &:hover {
+        background: linear-gradient(259deg, darken(#2c47c1, 5%), darken(#3c82e7, 5%)) !important;
     }
 }
 
