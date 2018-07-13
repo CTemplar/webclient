@@ -232,8 +232,8 @@
   },
   "create_account": {
     "name": "Crea tu cuenta",
-    "take_back_privacy": "¡Recupere su privacidad!",
-    "creating_secure_email": "Crear su cuenta de correo segura requiere menos de 2 minutos",
+    "take_back_liberty": "¡Recupere su libertad!",
+    "class_encrypted_email": "Correo electrónico encriptado de la mejor clase <br/> Creación de cuentas en solo minutos",
     "username_and_domain": "Nombre de usuario y dominio",
     "new_email_address": "Esta será su nueva dirección de correo electrónico de Ctemplar.",
     "choose_username": "Escoge nombre de usuario",
