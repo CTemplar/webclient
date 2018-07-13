@@ -103,6 +103,13 @@ $error-red: #e94e4c;
   color: green;
 }
 
+.password-taken {
+  position: absolute;
+  top: 13px;
+  right: -30px;
+  color: green;
+}
+
 .password-toggle, .confirmpasswordToggle {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 

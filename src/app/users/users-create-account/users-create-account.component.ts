@@ -47,6 +47,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isFormCompleted: boolean = false;
   errorMessage: string = '';
   userNameTaken: boolean = null;
+  passwordTaken: boolean = null;
   selectedPlan: any;
   pgpProgress: number = 0;
   fingerprint: any;
@@ -55,7 +56,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   processInstance: any;
   keyGenerateStatus: string = 'Generating';
   data: any = null;
-
+  checkPrivacybox: boolean = null;
+  checkEmailRecovery = null;
+  isCaptchaCompleted: boolean = false;
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private router: Router,
@@ -138,6 +141,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.isConfirmedPrivacy == null) {
       this.isConfirmedPrivacy = false;
     }
+    if (! this.isConfirmedPrivacy) {
+      this.checkPrivacybox = true;
+    }
+    if (this.isRecoveryEmail === false) {
+      this.checkEmailRecovery = true;
+    }
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isFormCompleted = true;
       if (this.selectedPlan === 1) {
@@ -152,11 +161,14 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   recaptchaResolved(captchaResponse: string) {
     this.signupForm.value.captchaResponse = captchaResponse;
+    this.isCaptchaCompleted = true;
+  }
+  signupFormCompleted () {
     this.data = {
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
-      recaptcha: captchaResponse
+      recaptcha: this.signupForm.value.captchaResponse
     };
     this.store.dispatch(new SignUp(this.data));
   }
@@ -167,6 +179,13 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.userNameTaken = false;
     } else {
       this.userNameTaken = true;
+    }
+  }
+  checkPasswordTaken (event: any) {
+    if (event.target.value.length > 0) {
+      this.passwordTaken = false;
+    } else {
+      this.passwordTaken = true;
     }
   }
 
