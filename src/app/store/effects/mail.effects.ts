@@ -134,7 +134,7 @@ export class MailEffects {
                             new StarMailSuccess(res),
                         ]
                     }),
-                    catchError(err => [new SnackErrorPush({ message: 'Failed to mark as read mail.' })]),
+                    catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })]),
                 );
         });
 
