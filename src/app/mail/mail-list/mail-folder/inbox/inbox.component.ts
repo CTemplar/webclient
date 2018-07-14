@@ -21,6 +21,10 @@ export class InboxComponent extends MailListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMails(MailFolderType.INBOX);
+    // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+    // TODO: find appropriate solution to fix this issue
+    setTimeout(() => {
+      this.getMails(MailFolderType.INBOX);
+    });
   }
 }

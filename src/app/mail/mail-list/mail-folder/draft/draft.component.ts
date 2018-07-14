@@ -20,6 +20,10 @@ export class DraftComponent extends MailListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMails(MailFolderType.DRAFT);
+    // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+    // TODO: find appropriate solution to fix this issue
+    setTimeout(() => {
+      this.getMails(MailFolderType.DRAFT);
+    });
   }
 }

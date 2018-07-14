@@ -21,6 +21,10 @@ export class TrashComponent extends MailListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMails(MailFolderType.TRASH);
+    // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+    // TODO: find appropriate solution to fix this issue
+    setTimeout(() => {
+      this.getMails(MailFolderType.TRASH);
+    });
   }
 }
