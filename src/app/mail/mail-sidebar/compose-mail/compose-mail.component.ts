@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { E } from '@angular/core/src/render3';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -48,10 +49,9 @@ export class PasswordValidation {
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
-  @Input() public isComposeVisible: boolean;
+export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Output() public onHide = new EventEmitter<boolean>();
+  @Output() discard: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('editor') editor;
   @ViewChild('toolbar') toolbar;
@@ -80,7 +80,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private quill: any;
   private autoSaveSubscription: Subscription;
   private DEBOUNCE_DURATION: number = 5000; // duration in milliseconds
-  private confirmModalRef: NgbModalRef;
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
   private delayedDeliveryModalRef: NgbModalRef;
@@ -101,17 +100,20 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService) {
 
-    this.store.select((state: AppState) => state.mail)
+  }
+
+  ngOnInit() {
+    this.initializeAutoSave();
+    this.resetMailData();
+
+    this.store.select((state: AppState) => state.mail).takeUntil(this.destroyed$)
       .subscribe((response: MailState) => {
         this.draftMail = response.draft;
-        if (this.inProgress && !response.inProgress && !this.isComposeVisible) {
-          this.store.dispatch(new CloseMailbox());
-        }
         this.inProgress = response.inProgress;
         if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress && response.draft) {
           response.draft.content = response.encryptedContent;
           this.shouldSave = false;
-          this.store.dispatch(new CreateMail({ ...response.draft }));
+          this.store.dispatch(new CreateMail({...response.draft}));
           this.inProgress = true;
         }
         this.mailState = response;
@@ -122,21 +124,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
         this.contacts = user.contact;
       });
 
-  }
-
-  ngAfterViewInit() {
-    this.initializeQuillEditor();
-  }
-
-  ngOnChanges(changes: any) {
-    if (changes.isComposeVisible) {
-      if (changes.isComposeVisible.currentValue === true) {
-        this.initializeAutoSave();
-      }
-    }
-  }
-
-  ngOnInit() {
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes) => {
         if (mailboxes.mailboxes[0]) {
@@ -155,14 +142,16 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
       day: now.getDate()
     };
 
-    this.resetMailData();
-
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
     }, {
       validator: PasswordValidation.MatchPassword
     });
+  }
+
+  ngAfterViewInit() {
+    this.initializeQuillEditor();
   }
 
   ngOnDestroy(): void {
@@ -231,33 +220,16 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.attachImagesModalRef.dismiss();
   }
 
-  onClose(modalRef: any) {
-    if (this.hasData()) {
-      this.confirmModalRef = this.modalService.open(modalRef, {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal'
-      });
-    } else if (this.draftMail && this.draftMail.id) {
-      this.discardEmail();
-    } else {
-      this.hideMailComposeModal();
-    }
-  }
-
-  cancelDiscard() {
-    this.confirmModalRef.close();
-  }
-
   saveInDrafts() {
     this.updateEmail();
-    this.hideMailComposeModal();
   }
 
   discardEmail() {
     if (this.draftMail && this.draftMail.id) {
       this.store.dispatch(new DeleteMail(this.draftMail.id));
     }
-    this.hideMailComposeModal();
+    this.discard.emit();
+    this.resetValues();
   }
 
   removeAttachment(file: any) {
@@ -427,7 +399,7 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.shouldSave = true;
   }
 
-  private hideMailComposeModal() {
+  private resetValues() {
     this.unSubscribeAutoSave();
     this.options = {};
     this.attachments = [];
@@ -436,7 +408,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
     this.clearSelfDestructValue();
     this.clearDelayedDeliveryValue();
     this.clearDeadManTimerValue();
-    this.onHide.emit(true);
   }
 
   private closeSelfDestructModal() {
@@ -460,9 +431,6 @@ export class ComposeMailComponent implements OnChanges, OnInit, AfterViewInit, O
   private unSubscribeAutoSave() {
     if (this.autoSaveSubscription) {
       this.autoSaveSubscription.unsubscribe();
-    }
-    if (this.confirmModalRef) {
-      this.confirmModalRef.close();
     }
   }
 
