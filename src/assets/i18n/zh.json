@@ -232,8 +232,8 @@
   },
   "create_account": {
     "name": "创建您的帐户",
-    "take_back_privacy": "收回你的隐私！",
-    "creating_secure_email": "创建安全电子邮件帐户只需不到2分钟",
+    "take_back_liberty": "收回你的自由！",
+    "class_encrypted_email": "一流的加密电子邮件<br/>只需几分钟即可创建帐户",
     "username_and_domain": "用户名和域名",
     "new_email_address": "这将是您新的Ctemplar电子邮件地址。",
     "choose_username": "选择用户名",

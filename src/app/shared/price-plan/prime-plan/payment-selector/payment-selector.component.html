@@ -15,8 +15,8 @@
                         <strong>${{ payment.monthlyFee }}</strong>
                         <span class="text-muted">/mo</span>
                     </div>
-                    <div class="small text-muted" *ngIf="payment.id === 'pay-annullay'">Billed as ${{
-                        payment.totalAnualFee }}/yr
+                    <div class="small text-muted" *ngIf="payment.id === 'pay-annullay'">
+                       <span translate="page_pricing.billed_as">Billed as </span>  ${{payment.totalAnualFee }}/yr
                     </div>
                 </div>
             </div>
