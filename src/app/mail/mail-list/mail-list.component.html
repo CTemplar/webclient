@@ -141,7 +141,7 @@
     <div class="table-responsive table-hover table-fixed">
         <table class="table table-inbox">
             <tbody>
-                <tr class="mail-list-row" *ngFor="let mail of mails; let i=index" [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read}" >
+                <tr class="mail-list-row" *ngFor="let mail of mails; let i=index" [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read, 'is-selected':markedMailsMap.has(mail.id)}" >
                   
                        
                         <!-- Check box -->
