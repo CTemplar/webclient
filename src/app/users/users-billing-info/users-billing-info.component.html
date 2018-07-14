@@ -71,11 +71,11 @@
                                 <div class="card">
                                     <div class="card-header text-center">
                                         <h6>SEND <strong>EXACTLY</strong></h6>
-                                        <h5><strong *ngIf="bitcoinState?.loaded">{{8/bitcoinState.currentUSDValue | number:'1.1-5'}}</strong></h5>
+                                        <h5><strong *ngIf="bitcoinState?.loaded">{{bitcoinValueToDecimal}}</strong></h5>
                                     </div>
                                     <div class="card-body text-center">
-                                        <p class="justify-content-center">1H8CMiRts9AatSFhRVmCKtS1SqnrsznQ3S</p>
-                                        <img src="../../../assets/images/qrcode.png" alt="">
+                                        <p class="justify-content-center" *ngIf="bitcoinState?.loaded">{{bitcoinState.newWalletAddress}}</p>
+                                        <img *ngIf="bitcoinState?.loaded" src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl=bitcoin:{{bitcoinState.newWalletAddress}}?amount={{bitcoinValueToDecimal}}" alt="">
                                     </div>
 
                                 </div>

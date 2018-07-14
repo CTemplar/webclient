@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // Service
 import { SharedService } from '../../store/services';
-import { CreateNewWallet, FinalLoading, GetBitcoinValue } from '../../store/actions';
+import { ConfirmTransaction, CreateNewWallet, FinalLoading, GetBitcoinValue } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, BitcoinState } from '../../store/datatypes';
 
@@ -30,6 +30,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   paymentMethod: string = null;
   count: number = 30;
   bitcoinState: BitcoinState;
+  bitcoinValueToDecimal: any = null;
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -72,6 +73,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.paymentMethod = 'bitcoin';
     this.store.select(state => state.bitcoin).subscribe((bitcoinState: BitcoinState) => {
       this.bitcoinState = bitcoinState;
+      this.bitcoinValueToDecimal = this.bitcoinState.currentUSDValue;
+      this.bitcoinValueToDecimal = 8 / this.bitcoinValueToDecimal;
+      this.bitcoinValueToDecimal = parseFloat(Math.round(this.bitcoinValueToDecimal * 100000) / 100000).toFixed(5);
     });
     this.createNewWallet();
   }
@@ -81,6 +85,17 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.bitcoin).subscribe((bitcoinState: BitcoinState) => {
       this.bitcoinState.newWalletAddress = bitcoinState.newWalletAddress;
     });
+  }
+  confirmTransaction() {
+    const data = {
+      'fromWIF': this.bitcoinState.Wif,
+      'fromAddress': this.bitcoinState.newWalletAddress,
+      'toAddress': '',
+      'value': this.bitcoinValueToDecimal,
+      'opt_timeout': 0,
+      'opt_interval': 1000
+    };
+   this.store.dispatch(new ConfirmTransaction(data));
   }
 
   selectMonth(month) {
