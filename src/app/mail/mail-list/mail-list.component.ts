@@ -21,8 +21,8 @@ declare var openpgp;
   styleUrls: ['./mail-list.component.scss']
 })
 export class MailListComponent implements OnInit, OnDestroy {
+
   mails: Mail[];
-  checkedMails: Mail[] = [];
   private_key: string;
   public_key: string;
   readonly destroyed$: Observable<boolean>;
@@ -58,26 +58,22 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0 , folder: mailFolderType }));
   }
 
-  rowSelectionChanged(mail: Mail) {
-    if (!this.checkedMails.includes(mail)) {
-      this.checkedMails = this.checkedMails.concat(mail);
-    } else {
-      this.checkedMails = this.checkedMails.filter(checkedMail => checkedMail.id !== mail.id);
-    }
-  }
-
   markAsRead() {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     // Modify mail to be mark as read
-    const readMailList = this.checkedMails.map(mail => {
-      mail.read = true;
+    const readMailList = this.mails.map(mail => {
+      if(mail.checked){
+        mail.read = true;
+      }
       return mail;
     });
     // Dispatch mark as read event to store
     this.store.dispatch(new ReadMail({ ids: ids, data: readMailList }));
     // Empty list of selected mails
-    this.checkedMails = [];
+    this.mails.forEach(mail => {
+      mail.checked = false;
+    });
   }
 
   moveToTrash() {
@@ -90,11 +86,9 @@ export class MailListComponent implements OnInit, OnDestroy {
     // Dispatch mark as read event to store
     this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
     // Empty list of selected mails
-    this.checkedMails = [];
-  }
-
-  isMailChecked(mail: Mail) {
-    return this.checkedMails.includes(mail);
+    this.mails.forEach(mail => {
+      mail.checked = false;
+    });
   }
 
   get mailFolderType() {
@@ -103,7 +97,7 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   private getMailIDs() {
     // Get list of concatinated IDs from mail object list
-    return this.checkedMails.reduce((mailIDList: any, mail: Mail) => [...mailIDList, mail.id], []).join(',');
+    return this.mails.filter(mail=> mail.checked==true).reduce((mailIDList: any, mail: Mail) => [...mailIDList, mail.id], []).join(',');
   }
 
   ngOnDestroy() {}
