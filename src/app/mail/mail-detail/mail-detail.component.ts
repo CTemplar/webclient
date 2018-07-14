@@ -6,6 +6,7 @@ import { GetMailDetail } from '../../store/actions/mail.actions';
 import { Observable } from 'rxjs/Observable';
 import { AppState, MailState } from '../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { OpenPgpService } from '../../store/services';
 
 @TakeUntilDestroy()
 @Component({
@@ -16,14 +17,26 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mail: Mail;
+  decryptedContent: string;
 
   constructor(private route: ActivatedRoute,
-              private store: Store<AppState>) {}
+              private store: Store<AppState>,
+              private pgpService: OpenPgpService) {}
 
   ngOnInit() {
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
-        this.mail = mailState.mailDetail;
+        if (mailState.mailDetail) {
+          this.mail = mailState.mailDetail;
+          this.pgpService.decrypt(this.mail.content);
+        }
+      });
+
+    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+      .subscribe((mailState: MailState) => {
+        if (!mailState.isPGPInProgress && mailState.decryptedContent && this.mail) {
+          this.decryptedContent = mailState.decryptedContent;
+        }
       });
 
     this.route.params.subscribe(params => {
