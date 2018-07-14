@@ -6,7 +6,7 @@ import { Mail, MailFolderType } from '../../store/models';
 import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
-import { GetMails, MoveMail } from '../../store/actions';
+import {GetMails, MoveMail, StarMail} from '../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { AppState, MailState } from '../../store/datatypes';
 import { ReadMail } from '../../store/actions/mail.actions';
@@ -86,7 +86,17 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.markedMailsMap = new Map();
   }
 
-  moveToTrash() {
+  markAsStarred() {
+      // Get comma separated list of mail IDs
+      const ids = this.getMailIDs();
+      // Dispatch mark as read event to store
+      this.store.dispatch(new StarMail({ ids: ids, starred: true }));
+      // Empty list of selected mails
+      this.markedMailsMap = new Map();
+  }
+
+
+    moveToTrash() {
     this.moveToFolder(MailFolderType.TRASH);
   }
 

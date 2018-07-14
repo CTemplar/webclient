@@ -60,6 +60,10 @@ export class MailService {
     return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {read: isMailRead});
   }
 
+  markAsStarred(ids: string, isMailStarred: boolean): Observable<any[]> {
+    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {starred: isMailStarred});
+  }
+
   moveMail(ids: string, folder: string): Observable<any[]> {
     return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {folder: folder});
   }
