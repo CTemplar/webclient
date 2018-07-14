@@ -127,6 +127,7 @@ export interface AppState {
   keyboard: KeyboardState;
   user: UserState;
   timezone: TimezonesState;
+  bitcoin: BitcoinState;
 }
 
 export interface TimezonesState {
@@ -136,4 +137,9 @@ export interface TimezonesState {
 export interface Timezone {
   value: string;
   key: string;
+}
+
+export interface BitcoinState {
+  currentUsdValue: number;
+  newWalletAddress: string;
 }
