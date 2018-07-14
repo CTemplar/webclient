@@ -86,6 +86,14 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.markedMailsMap.clear();
   }
 
+  toggleStarred(mail: Mail){
+    if (mail.starred) {
+      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: false }));
+    } else {
+      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: true }));
+    }
+  }
+
   markAsStarred() {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();

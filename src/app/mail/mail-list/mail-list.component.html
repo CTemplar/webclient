@@ -154,9 +154,9 @@
 
                         <!-- Starred Message -->
                         <td class="mail-status">
-                            <div class="mail-status-type" [ngClass]="{'is-fav': mail.starred}">
+                            <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
                                 <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
-                            </div>
+                            </a>
                         </td>
 
                         <!-- Sender Name -->
