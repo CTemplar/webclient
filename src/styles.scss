@@ -182,4 +182,34 @@ tag-input {
   }
 }
 
+// Gmail styled button
+.btn-gmail {
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 11px;
+  text-align: center;
+  margin-right: 10px;
+  line-height: 2rem;
+  min-width: 54px;
+  outline: 0;
+  padding: 0 8px;
+  background-color: #f1f1f1;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #444;
+
+  &:hover,
+  &:focus{
+    border: 1px solid #c6c6c6;
+    color: #333;
+  }
+  
+  &:active {
+      background: #dedede;
+  }
+}
+
+.position-left {
+  margin-right: 7px;
+}
+
 //END tag input css

@@ -16,6 +16,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mail: Mail;
+  showReplyBox: boolean;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>) {}
