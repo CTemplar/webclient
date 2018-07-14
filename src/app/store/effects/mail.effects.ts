@@ -83,7 +83,7 @@ export class MailEffects {
       .pipe(
         switchMap( res => {
           return [
-            new MoveMailSuccess(res),
+            new MoveMailSuccess(payload),
           ]
         }),
         catchError(err => [new SnackErrorPush({ message: 'Failed to move mail.' })]),
@@ -115,7 +115,7 @@ export class MailEffects {
       .pipe(
         switchMap( res => {
           return [
-            new ReadMailSuccess(res),
+            new ReadMailSuccess(payload),
           ]
         }),
         catchError(err => [new SnackErrorPush({ message: 'Failed to mark as read mail.' })]),
@@ -131,7 +131,7 @@ export class MailEffects {
                 .pipe(
                     switchMap( res => {
                         return [
-                            new StarMailSuccess(res),
+                            new StarMailSuccess(payload),
                         ]
                     }),
                     catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })]),
