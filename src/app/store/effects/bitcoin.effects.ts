@@ -1,7 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Actions, Effect} from '@ngrx/effects';
-import {BitcoinActionTypes, ConfirmTransaction, CreateNewWallet, GetBitcoinValueSuccess} from '../actions/bitcoin.action';
+import {
+  BitcoinActionTypes,
+  ConfirmTransaction,
+  CreateNewWallet,
+  CreateNewWalletSuccess,
+  GetBitcoinValueSuccess
+} from '../actions/bitcoin.action';
 import { GetBitcoinValue } from '../actions/bitcoin.action';
 import {BitcoinService} from '../services/bitcoin.service';
 import 'rxjs/add/operator/switchMap';
@@ -30,8 +36,8 @@ export class BitcoinEffects {
   map ((action: CreateNewWallet) => action.payload).
   switchMap (payload => {
     return this.bitcoinService.getNewWalletAddress().
-    map((usdValue) => {
-      return new GetBitcoinValue(usdValue);
+    map((address) => {
+      return new CreateNewWalletSuccess(address);
     });
   });
 
@@ -41,8 +47,8 @@ export class BitcoinEffects {
   map ((action: ConfirmTransaction) => action.payload).
   switchMap (payload => {
     return this.bitcoinService.confirmTransaction(payload).
-    map((usdValue) => {
-      return new GetBitcoinValue(usdValue);
+    map((USDValue) => {
+      return new CreateNewWalletSuccess(USDValue);
     });
   });
 }

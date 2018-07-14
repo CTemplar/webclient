@@ -47,10 +47,12 @@
                                                             id="paymentDropdownMenuButton">Stripe
                                                     </button>
                                                     <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                                                        <a class="dropdown-item text-muted" href="">
-                                                            <em>Stripe (Credit/Debit card)</em>
+                                                        <a class="dropdown-item text-muted"
+                                                           (click)="paymentMethod = 'stripe'">
+                                                            <em>Stripe (Credit/Debit Card)</em>
                                                         </a>
-                                                        <a class="dropdown-item text-muted" href="">
+                                                        <a class="dropdown-item text-muted"
+                                                           (click)="selectBitcoinMethod()">
                                                             <em>Bitcoin</em>
                                                         </a>
                                                     </div>
@@ -60,7 +62,26 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-step-card">
+                            <div class="form-step-card" *ngIf="paymentMethod== 'bitcoin'">
+                                <h3 class="form-step-card-title text-dark mb-3">
+                                    <strong>Payment Information</strong>
+                                </h3>
+                                <p><strong>{{count}}</strong> BTC sent after timer will be lost!</p>
+
+                                <div class="card">
+                                    <div class="card-header text-center">
+                                        <h6>SEND <strong>EXACTLY</strong></h6>
+                                        <h5><strong *ngIf="bitcoinState?.loaded">{{8/bitcoinState.currentUSDValue | number:'1.1-5'}}</strong></h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <p class="justify-content-center">1H8CMiRts9AatSFhRVmCKtS1SqnrsznQ3S</p>
+                                        <img src="../../../assets/images/qrcode.png" alt="">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-step-card" *ngIf="paymentMethod == 'stripe'">
                                 <h3 class="form-step-card-title text-dark mb-3">
                                     <strong>Payment Information</strong>
                                 </h3>

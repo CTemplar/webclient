@@ -140,6 +140,8 @@ export interface Timezone {
 }
 
 export interface BitcoinState {
-  currentUsdValue: number;
+  currentUSDValue: number;
   newWalletAddress: string;
+  loaded: boolean;
+  Wif: string;
 }
