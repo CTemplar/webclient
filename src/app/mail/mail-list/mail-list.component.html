@@ -6,7 +6,7 @@
                     <div ngbDropdown>
                         <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton" placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
                             <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions" name="[]" type="checkbox" />
+                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions" type="checkbox" [checked]="markedMailsMap.size===mails.length && markedMailsMap.size!==0" (change)="markAllMails($event.target.checked)"/>
                                 <label for="mailboxBulkActions" class="fancy-field-empty"></label>
                             </span>
                         </button>
@@ -147,7 +147,7 @@
                         <!-- Check box -->
                         <td class="mail-checkbox pl-4">
                             <div class="fancy-field-group">
-                                <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" [(ngModel)]="mail.checked"/>
+                                <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" [checked]="markedMailsMap.has(mail.id)" (change)="markSelectedMail(mail)"/>
                                 <label for={{mail.id}} class="fancy-field-empty"></label>
                             </div>
                         </td>

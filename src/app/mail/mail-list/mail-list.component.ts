@@ -23,6 +23,7 @@ declare var openpgp;
 export class MailListComponent implements OnInit, OnDestroy {
 
   mails: Mail[];
+  markedMailsMap: Map<number, Mail> = new Map();
   private_key: string;
   public_key: string;
   readonly destroyed$: Observable<boolean>;
@@ -58,22 +59,33 @@ export class MailListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0 , folder: mailFolderType }));
   }
 
+  markSelectedMail(mail){
+    if (this.markedMailsMap.has(mail.id)) {
+      this.markedMailsMap.delete(mail.id);
+    } else {
+      this.markedMailsMap.set(mail.id, mail);
+    }
+  }
+
+  markAllMails(checkAll){
+    if (checkAll){
+      this.mails.forEach(mail => {
+        this.markedMailsMap.set(mail.id, mail);
+      })
+    } else {
+      this.markedMailsMap = new Map();
+    }
+  }
+
   markAsRead() {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     // Modify mail to be mark as read
-    const readMailList = this.mails.map(mail => {
-      if(mail.checked){
-        mail.read = true;
-      }
-      return mail;
-    });
+    const readMailList = Array.from(this.markedMailsMap.values());
     // Dispatch mark as read event to store
     this.store.dispatch(new ReadMail({ ids: ids, data: readMailList }));
     // Empty list of selected mails
-    this.mails.forEach(mail => {
-      mail.checked = false;
-    });
+    this.markedMailsMap = new Map();
   }
 
   moveToTrash() {
@@ -86,9 +98,7 @@ export class MailListComponent implements OnInit, OnDestroy {
     // Dispatch mark as read event to store
     this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
     // Empty list of selected mails
-    this.mails.forEach(mail => {
-      mail.checked = false;
-    });
+    this.markedMailsMap = new Map();
   }
 
   get mailFolderType() {
@@ -97,7 +107,7 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   private getMailIDs() {
     // Get list of concatinated IDs from mail object list
-    return this.mails.filter(mail=> mail.checked==true).reduce((mailIDList: any, mail: Mail) => [...mailIDList, mail.id], []).join(',');
+    return Array.from(this.markedMailsMap.keys()).join(',');
   }
 
   ngOnDestroy() {}
