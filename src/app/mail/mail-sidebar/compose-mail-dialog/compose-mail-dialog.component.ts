@@ -30,6 +30,9 @@ export class ComposeMailDialogComponent {
     else if (this.composeMail.draftMail && this.composeMail.draftMail.id) {
       this.discardEmail();
     }
+    else {
+      this.hideMailComposeDialog();
+    }
   }
 
   saveInDrafts() {
@@ -39,6 +42,10 @@ export class ComposeMailDialogComponent {
 
   discardEmail() {
     this.composeMail.discardEmail();
+    this.hideMailComposeDialog();
+  }
+
+  onDiscard() {
     this.hideMailComposeDialog();
   }
 

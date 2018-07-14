@@ -1,5 +1,5 @@
 <div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
-     [class.keyboard-open]="composeMail.isKeyboardOpened"
+     [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false"
      [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">
     <div class="mail-composer-header">
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <app-compose-mail #composeMail></app-compose-mail>
+    <app-compose-mail *ngIf="isComposeVisible" #composeMail (discard)="onDiscard()"></app-compose-mail>
 
   </div>
 </div>
