@@ -28,7 +28,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail) {
           this.mail = mailState.mailDetail;
-          if (!mailState.isPGPInProgress && !mailState.decryptedContent) {
+          if (!mailState.isPGPInProgress && !mailState.decryptedContent && this.mail.content) {
             this.pgpService.decrypt(this.mail.content);
           }
         }

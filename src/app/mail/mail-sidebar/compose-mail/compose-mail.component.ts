@@ -51,7 +51,7 @@ export class PasswordValidation {
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Output() discard: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('editor') editor;
   @ViewChild('toolbar') toolbar;
@@ -222,13 +222,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   saveInDrafts() {
     this.updateEmail();
+    this.hide.emit();
+    this.resetValues();
   }
 
   discardEmail() {
     if (this.draftMail && this.draftMail.id) {
       this.store.dispatch(new DeleteMail(this.draftMail.id));
     }
-    this.discard.emit();
+    this.hide.emit();
     this.resetValues();
   }
 
