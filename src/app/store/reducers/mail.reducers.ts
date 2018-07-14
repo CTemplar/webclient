@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       const listOfIDs = action.payload.ids.split(',');
       state.mails = state.mails.map(mail => {
         if (listOfIDs.includes(mail.id.toString())) {
-          mail.read = true;
+          mail.read = action.payload.read;
         }
         return mail;
       });
@@ -56,7 +56,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
         const listOfIDs = action.payload.ids.split(',');
         state.mails = state.mails.map(mail => {
           if (listOfIDs.includes(mail.id.toString())) {
-            mail.starred = true;
+            mail.starred = action.payload.starred;
           }
           return mail;
         });

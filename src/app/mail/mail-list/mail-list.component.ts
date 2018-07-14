@@ -77,11 +77,11 @@ export class MailListComponent implements OnInit, OnDestroy {
     }
   }
 
-  markAsRead() {
+  markAsRead(isRead: boolean = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     // Dispatch mark as read event to store
-    this.store.dispatch(new ReadMail({ ids: ids, read: true }));
+    this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
     // Empty list of selected mails
     this.markedMailsMap.clear();
   }
