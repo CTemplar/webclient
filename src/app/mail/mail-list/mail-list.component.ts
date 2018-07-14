@@ -6,7 +6,7 @@ import { Mail, MailFolderType } from '../../store/models';
 import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
-import {GetMails, MoveMail, StarMail} from '../../store/actions';
+import { GetMails, MoveMail, StarMail } from '../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { AppState, MailState } from '../../store/datatypes';
 import { ReadMail } from '../../store/actions/mail.actions';
@@ -46,7 +46,7 @@ export class MailListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const mailFolderType: MailFolderType = params['folder'] as MailFolderType;
-      this.getMails( mailFolderType);
+      this.getMails(mailFolderType);
     });
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
@@ -56,10 +56,10 @@ export class MailListComponent implements OnInit, OnDestroy {
   }
 
   getMails(mailFolderType: MailFolderType) {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0 , folder: mailFolderType }));
+    this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: mailFolderType }));
   }
 
-  markSelectedMail(mail){
+  markSelectedMail(mail) {
     if (this.markedMailsMap.has(mail.id)) {
       this.markedMailsMap.delete(mail.id);
     } else {
@@ -67,13 +67,13 @@ export class MailListComponent implements OnInit, OnDestroy {
     }
   }
 
-  markAllMails(checkAll){
-    if (checkAll){
+  markAllMails(checkAll) {
+    if (checkAll) {
       this.mails.forEach(mail => {
         this.markedMailsMap.set(mail.id, mail);
-      })
+      });
     } else {
-      this.markedMailsMap = new Map();
+      this.markedMailsMap.clear();
     }
   }
 
@@ -83,20 +83,20 @@ export class MailListComponent implements OnInit, OnDestroy {
     // Dispatch mark as read event to store
     this.store.dispatch(new ReadMail({ ids: ids, read: true }));
     // Empty list of selected mails
-    this.markedMailsMap = new Map();
+    this.markedMailsMap.clear();
   }
 
   markAsStarred() {
-      // Get comma separated list of mail IDs
-      const ids = this.getMailIDs();
-      // Dispatch mark as read event to store
-      this.store.dispatch(new StarMail({ ids: ids, starred: true }));
-      // Empty list of selected mails
-      this.markedMailsMap = new Map();
+    // Get comma separated list of mail IDs
+    const ids = this.getMailIDs();
+    // Dispatch mark as read event to store
+    this.store.dispatch(new StarMail({ ids: ids, starred: true }));
+    // Empty list of selected mails
+    this.markedMailsMap.clear();
   }
 
 
-    moveToTrash() {
+  moveToTrash() {
     this.moveToFolder(MailFolderType.TRASH);
   }
 
@@ -106,7 +106,7 @@ export class MailListComponent implements OnInit, OnDestroy {
     // Dispatch mark as read event to store
     this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
     // Empty list of selected mails
-    this.markedMailsMap = new Map();
+    this.markedMailsMap.clear();
   }
 
   get mailFolderType() {
