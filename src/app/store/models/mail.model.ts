@@ -19,6 +19,7 @@ export interface Mail {
   delayed_delivery?: string;
   dead_man_timer?: string;
   datetime?: string;
+  marked?: boolean;
 }
 
 export interface Mailbox {

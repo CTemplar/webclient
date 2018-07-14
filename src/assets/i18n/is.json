@@ -232,8 +232,8 @@
   },
   "create_account": {
     "name": "Búðu til reikninginn þinn",
-    "take_back_privacy": "Taka aftur persónuvernd þína!",
-    "creating_secure_email": "Að búa til örugga netfangið þitt tekur minna en 2 mínútur",
+    "take_back_liberty": "Taka aftur frelsið þitt!",
+    "class_encrypted_email": "Best í dulkóðuðum tölvupósti <br/> Stofnun reiknings á aðeins nokkrum mínútum",
     "username_and_domain": "Notendanafn og lén",
     "new_email_address": "Þetta verður nýtt Ctemplar netfangið þitt.",
     "choose_username": "Veldu notendanafn",

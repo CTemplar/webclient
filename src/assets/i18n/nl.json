@@ -232,8 +232,8 @@
   },
   "create_account": {
     "name": "Maak een account aan",
-    "take_back_privacy": "Neem je privacy terug!",
-    "creating_secure_email": "Het maken van uw beveiligde e-mailaccount duurt minder dan 2 minuten",
+    "take_back_liberty": "Neem je vrijheid terug!",
+    "class_encrypted_email": "Beste versleutelde e-mail in zijn soort <br/> Het maken van accounts in slechts enkele minuten",
     "username_and_domain": "Gebruikersnaam en domein",
     "new_email_address": "Dit wordt je nieuwe Ctemplar-e-mailadres.",
     "choose_username": "Kies gebruikersnaam",

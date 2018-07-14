@@ -233,8 +233,8 @@
   },
   "create_account": {
     "name": "أنشئ حسابك",
-    "take_back_privacy": "استرجاع خصوصيتك!",
-    "creating_secure_email": "يتطلب إنشاء حساب البريد الإلكتروني الآمن الخاص بك أقل من دقيقتين",
+    "take_back_liberty": "خذ حريتك!",
+    "class_encrypted_email": "أفضل بريد إلكتروني مشفر في الصف <br/> إنشاء الحساب في دقائق معدودة فقط",
     "username_and_domain": "اسم المستخدم والمجال",
     "new_email_address": "سيكون هذا عنوان البريد الإلكتروني الجديد لـ Ctemplar.",
     "choose_username": "اختر اسم المستخدم",

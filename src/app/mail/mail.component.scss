@@ -938,6 +938,10 @@
   }
 
   &.is-selected,
+  &.is-selected:hover {
+    background: #ffc;
+  }
+
   &.is-active {
     background: $brand-secondary !important;
     color: $brand-white !important;

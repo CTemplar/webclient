@@ -49,13 +49,10 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   userNameTaken: boolean = null;
   selectedPlan: any;
   pgpProgress: number = 0;
-  fingerprint: any;
-  privkey: any;
-  pubkey: any;
-  processInstance: any;
-  keyGenerateStatus: string = 'Generating';
   data: any = null;
-
+  checkPrivacybox: boolean = null;
+  checkEmailRecovery = null;
+  isCaptchaCompleted: boolean = false;
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private router: Router,
@@ -92,28 +89,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
   }
 
-  // == Open NgbModal
-  openGenerateKeyModal(generateKeyContent) {
-    this.pgpProgress = 0;
-    this.keyGenerateStatus = 'Generating';
-    this.modalService.open(generateKeyContent, {
-      centered: true,
-      windowClass: 'modal-md'
-    });
-    this.processInstance = setInterval(() => {
-      this.pgpProgress = this.pgpProgress + 1;
-      if (this.pgpProgress >= 100) {
-        this.keyGenerateStatus = 'Completed';
-        clearInterval(this.processInstance);
-      }
-    }, 10);
-  }
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password').value === g.get('confirmPwd').value
-      ? null : { 'mismatch': true };
-  }
-
   // == Toggle password visibility
   togglePassword(input: any): any {
     if (!input.value) {
@@ -128,15 +103,15 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.isTextToggled = bool === false ? true : false;
   }
 
-  formCompleted() {
-    if (this.signupForm.valid && this.isConfirmedPrivacy) {
-      this.isFormCompleted = true;
-    }
-  }
-
   signup() {
     if (this.isConfirmedPrivacy == null) {
       this.isConfirmedPrivacy = false;
+    }
+    if (! this.isConfirmedPrivacy) {
+      this.checkPrivacybox = true;
+    }
+    if (this.isRecoveryEmail === false) {
+      this.checkEmailRecovery = true;
     }
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isFormCompleted = true;
@@ -152,11 +127,14 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   recaptchaResolved(captchaResponse: string) {
     this.signupForm.value.captchaResponse = captchaResponse;
+    this.isCaptchaCompleted = true;
+  }
+  signupFormCompleted () {
     this.data = {
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
-      recaptcha: captchaResponse
+      recaptcha: this.signupForm.value.captchaResponse
     };
     this.store.dispatch(new SignUp(this.data));
   }

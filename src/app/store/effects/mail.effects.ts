@@ -12,7 +12,15 @@ import 'rxjs/add/operator/catch';
 import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
-import { GetMailDetail, GetMailDetailSuccess, MoveMail, MoveMailSuccess, ReadMail, ReadMailSuccess } from '../actions/mail.actions';
+import {
+    GetMailDetail,
+    GetMailDetailSuccess,
+    MoveMail,
+    MoveMailSuccess,
+    ReadMail,
+    ReadMailSuccess,
+    StarMailSuccess
+} from '../actions/mail.actions';
 // Custom Actions
 import {
   CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
@@ -75,7 +83,7 @@ export class MailEffects {
       .pipe(
         switchMap( res => {
           return [
-            new MoveMailSuccess(res),
+            new MoveMailSuccess(payload),
           ]
         }),
         catchError(err => [new SnackErrorPush({ message: 'Failed to move mail.' })]),
@@ -103,18 +111,34 @@ export class MailEffects {
     .ofType(MailActionTypes.READ_MAIL)
     .map((action: ReadMail) => action.payload)
     .switchMap(payload => {
-      return this.mailService.markAsRead(payload.ids, payload.data)
+      return this.mailService.markAsRead(payload.ids, payload.read)
       .pipe(
         switchMap( res => {
           return [
-            new ReadMailSuccess(res),
+            new ReadMailSuccess(payload),
           ]
         }),
         catchError(err => [new SnackErrorPush({ message: 'Failed to mark as read mail.' })]),
       );
     });
 
-  @Effect()
+    @Effect()
+    starMailEffect: Observable<any> = this.actions
+        .ofType(MailActionTypes.STAR_MAIL)
+        .map((action: ReadMail) => action.payload)
+        .switchMap(payload => {
+            return this.mailService.markAsStarred(payload.ids, payload.starred)
+                .pipe(
+                    switchMap( res => {
+                        return [
+                            new StarMailSuccess(payload),
+                        ]
+                    }),
+                    catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })]),
+                );
+        });
+
+    @Effect()
   getMailDetailEffect: Observable<any>  = this.actions
   .ofType(MailActionTypes.GET_MAIL_DETAIL)
   .map((action: GetMailDetail) => action.payload)

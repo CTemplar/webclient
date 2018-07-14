@@ -21,6 +21,8 @@ export enum MailActionTypes {
   SEND_MAIL_SUCCESS = '[Mail] SEND_MAIL SUCCESS',
   READ_MAIL = '[Mail] READ_MAIL',
   READ_MAIL_SUCCESS = '[Mail] READ_MAIL SUCCESS',
+  STAR_MAIL = '[Mail] STAR_MAIL',
+  STAR_MAIL_SUCCESS = '[Mail] STAR_MAIL SUCCESS',
   SET_DECRYPT_INPROGRESS = '[DECRYPT] SET INPROGRESS STATUS',
   SET_DECRYPTED_KEY = '[DECRYPTED] SET KEY',
   SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
@@ -107,18 +109,29 @@ export class DeleteMail implements Action {
   constructor(public payload: any) {}
 }
 
-export class ReadMail implements Action{
+export class ReadMail implements Action {
   readonly type = MailActionTypes.READ_MAIL;
 
   constructor(public payload: any) {}
 }
 
-export class ReadMailSuccess implements Action{
+export class ReadMailSuccess implements Action {
   readonly type = MailActionTypes.READ_MAIL_SUCCESS;
 
   constructor(public payload: any) {}
 }
 
+export class StarMail implements Action {
+    readonly type = MailActionTypes.STAR_MAIL;
+
+    constructor(public payload: any) {}
+}
+
+export class StarMailSuccess implements Action {
+    readonly type = MailActionTypes.STAR_MAIL_SUCCESS;
+
+    constructor(public payload: any) {}
+}
 export class DeleteMailSuccess implements Action {
   readonly type = MailActionTypes.DELETE_MAIL_SUCCESS;
 
@@ -181,6 +194,8 @@ export type MailActions =
   | SendMailSuccess
   | ReadMail
   | ReadMailSuccess
+  | StarMail
+  | StarMailSuccess
   | SetDecryptInProgress
   | SetDecryptedKey
   | SetCurrentMailbox
