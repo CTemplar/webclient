@@ -38,7 +38,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
           return true;
         }
       });
-      return {...state, inProgress: false};
+      return { ...state, inProgress: false };
     }
 
     case MailActionTypes.READ_MAIL_SUCCESS: {
@@ -49,18 +49,18 @@ export function reducer(state = initialState, action: MailActions): MailState {
         }
         return mail;
       });
-      return {...state, inProgress: false};
+      return { ...state, inProgress: false };
     }
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
-        const listOfIDs = action.payload.ids.split(',');
-        state.mails = state.mails.map(mail => {
-          if (listOfIDs.includes(mail.id.toString())) {
-            mail.starred = true;
-          }
-          return mail;
-        });
-        return {...state, inProgress: false};
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.map(mail => {
+        if (listOfIDs.includes(mail.id.toString())) {
+          mail.starred = true;
+        }
+        return mail;
+      });
+      return { ...state, inProgress: false };
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
@@ -103,6 +103,23 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return {
         ...state,
         mailDetail: action.payload
+      };
+    }
+
+    case MailActionTypes.GET_MAIL_DETAIL: {
+      return {
+        ...state,
+        mailDetail: null
+      };
+    }
+
+    case MailActionTypes.CLEAR_MAIL_DETAIL: {
+      return {
+        ...state,
+        mailDetail: null,
+        isPGPInProgress: false,
+        encryptedContent: null,
+        decryptedContent: null,
       };
     }
 
