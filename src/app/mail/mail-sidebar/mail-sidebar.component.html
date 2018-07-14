@@ -130,7 +130,7 @@
 </div>
 
 <!-- Mail compose dialog -->
-<app-compose-mail [isComposeVisible]="isComposeVisible" (onHide)="isComposeVisible=false;"></app-compose-mail>
+<app-compose-mail-dialog [isComposeVisible]="isComposeVisible" (onHide)="isComposeVisible=false;"></app-compose-mail-dialog>
 
 <!-- Create folders Modal -->
 <ng-template #content let-c="close" let-d="dismiss" ng-modal-class="mailbox-modal">
