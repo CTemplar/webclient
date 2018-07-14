@@ -1,5 +1,5 @@
 <div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
-     [class.keyboard-open]="isKeyboardOpened"
+     [class.keyboard-open]="composeMail.isKeyboardOpened"
      [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">
     <div class="mail-composer-header">
@@ -13,7 +13,7 @@
           </div>
           <div class="mail-actions-item">
             <button role="button" placement="top" ngbTooltip="Close"
-                    (click)="onClose(confirmDiscardModal);">
+                    (click)="onClose()">
               <i class="icon icon-cross"></i>
             </button>
           </div>
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <app-compose-mail></app-compose-mail>
+    <app-compose-mail #composeMail></app-compose-mail>
 
   </div>
 </div>
@@ -40,7 +40,7 @@
         Are you sure, you want to discard this email?
       </div>
       <div class="form-group text-right mb-0">
-        <button (click)="cancelDiscard()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
         <button (click)="saveInDrafts()" class="btn btn-success btn-sm" role="button">Save in Drafts</button>
         <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button">Discard</button>
       </div>
