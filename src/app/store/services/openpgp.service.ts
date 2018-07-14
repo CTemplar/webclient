@@ -60,6 +60,7 @@ export class OpenPgpService {
   }
 
   decrypt(content) {
+    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, decryptedContent: null }));
     this.pgpWorker.postMessage({ content: content, decrypt: true });
   }
 

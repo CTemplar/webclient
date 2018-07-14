@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Mail } from '../../store/models/mail.model';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { GetMailDetail } from '../../store/actions/mail.actions';
+import { ClearMailDetail, GetMailDetail } from '../../store/actions/mail.actions';
 import { Observable } from 'rxjs/Observable';
 import { AppState, MailState } from '../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -28,16 +28,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail) {
           this.mail = mailState.mailDetail;
-          this.pgpService.decrypt(this.mail.content);
+          if (!mailState.isPGPInProgress && !mailState.decryptedContent) {
+            this.pgpService.decrypt(this.mail.content);
+          }
         }
-      });
-
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
-      .subscribe((mailState: MailState) => {
         if (!mailState.isPGPInProgress && mailState.decryptedContent && this.mail) {
           this.decryptedContent = mailState.decryptedContent;
         }
       });
+
 
     this.route.params.subscribe(params => {
       const id = +params['id'];
@@ -50,5 +49,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new ClearMailDetail());
   }
 }
