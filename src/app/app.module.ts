@@ -41,7 +41,7 @@ export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
 }
 
 // Services
-import {AuthGuard, BlogService} from './store/services';
+import {AuthGuard, BitcoinService, BlogService} from './store/services';
 import { MailService } from './store/services';
 import { SharedService } from './store/services';
 import { OpenPgpService } from './store/services';
@@ -94,6 +94,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BlogService,
     SharedService,
     OpenPgpService,
+    BitcoinService,
     NotificationService,
     BreakpointsService,
     TimezoneService,
