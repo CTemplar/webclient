@@ -58,13 +58,14 @@
                                         <input #input class="form-control border-right-0" id="choosePassword"
                                                [placeholder]="'create_account.choose_password' | translate" type="password"
                                                aria-describedby="passwordToggle" name="password"
-                                               formControlName="password" (keyup)="checkPasswordTaken($event)">
+                                               formControlName="password">
                                         <span class="input-group-addon password-toggle bg-white text-muted"
                                               id="passwordToggle" (click)="togglePassword(input)">
                       <i class="fa fa-eye"></i>
                     </span>
-                                        <i class="fas fa-check green password-taken" *ngIf="passwordTaken == false"></i>
                                     </div>
+                                    <i class="fas fa-check green password-ok"
+                                       *ngIf="signupForm.controls['password']?.value?.length>0"></i>
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
@@ -80,7 +81,7 @@
                       <i class="fa fa-eye"></i>
                     </span>
                                     </div>
-                                    <i class="fas fa-check green password-confirm"
+                                    <i class="fas fa-check green password-ok"
                                        *ngIf="!signupForm.controls['confirmPwd'].errors"></i>
                                     <span *ngIf="signupForm.controls['confirmPwd'].errors && !signupForm.controls.confirmPwd.pristine"
                                           class="validate-message">

@@ -96,18 +96,11 @@ $error-red: #e94e4c;
   }
 }
 
-.password-confirm {
-  position: absolute;
-  top: 120px;
-  right: -30px;
+.password-ok {
   color: green;
-}
-
-.password-taken {
-  position: absolute;
-  top: 13px;
-  right: -30px;
-  color: green;
+  float: right;
+  margin-right: -28px;
+  margin-top: -30px;
 }
 
 .password-toggle, .confirmpasswordToggle {

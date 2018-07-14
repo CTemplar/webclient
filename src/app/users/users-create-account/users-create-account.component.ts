@@ -47,14 +47,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isFormCompleted: boolean = false;
   errorMessage: string = '';
   userNameTaken: boolean = null;
-  passwordTaken: boolean = null;
   selectedPlan: any;
   pgpProgress: number = 0;
-  fingerprint: any;
-  privkey: any;
-  pubkey: any;
-  processInstance: any;
-  keyGenerateStatus: string = 'Generating';
   data: any = null;
   checkPrivacybox: boolean = null;
   checkEmailRecovery = null;
@@ -95,28 +89,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
   }
 
-  // == Open NgbModal
-  openGenerateKeyModal(generateKeyContent) {
-    this.pgpProgress = 0;
-    this.keyGenerateStatus = 'Generating';
-    this.modalService.open(generateKeyContent, {
-      centered: true,
-      windowClass: 'modal-md'
-    });
-    this.processInstance = setInterval(() => {
-      this.pgpProgress = this.pgpProgress + 1;
-      if (this.pgpProgress >= 100) {
-        this.keyGenerateStatus = 'Completed';
-        clearInterval(this.processInstance);
-      }
-    }, 10);
-  }
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password').value === g.get('confirmPwd').value
-      ? null : { 'mismatch': true };
-  }
-
   // == Toggle password visibility
   togglePassword(input: any): any {
     if (!input.value) {
@@ -129,12 +101,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   toggleText(): void {
     const bool = this.isTextToggled;
     this.isTextToggled = bool === false ? true : false;
-  }
-
-  formCompleted() {
-    if (this.signupForm.valid && this.isConfirmedPrivacy) {
-      this.isFormCompleted = true;
-    }
   }
 
   signup() {
@@ -179,13 +145,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.userNameTaken = false;
     } else {
       this.userNameTaken = true;
-    }
-  }
-  checkPasswordTaken (event: any) {
-    if (event.target.value.length > 0) {
-      this.passwordTaken = false;
-    } else {
-      this.passwordTaken = true;
     }
   }
 
