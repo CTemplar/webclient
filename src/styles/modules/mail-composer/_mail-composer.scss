@@ -33,9 +33,13 @@ $mail_composer_padding_x: 0.75rem;
 		bottom: 4.375rem;
 		left: auto;
 		overflow: inherit;
-		box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.25);
+		box-shadow: $shadow;
 		width: 45.313rem;
 	}
+}
+
+.shadow {
+	box-shadow: $shadow;
 }
 
 // == Mail compose is-bordered

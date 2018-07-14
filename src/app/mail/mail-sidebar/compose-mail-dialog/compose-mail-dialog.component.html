@@ -1,0 +1,49 @@
+<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
+     [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false"
+     [class.is-active]="isComposeVisible">
+  <div class="mail-composer-dialog">
+    <div class="mail-composer-header">
+      <div class="mail-composer-title">New message</div>
+      <div class="mail-composer-header-actions">
+        <div class="mail-actions-list">
+          <div class="mail-actions-item">
+            <button role="button" placement="top" ngbTooltip="Minimize">
+              <i class="icon icon-minimize"></i>
+            </button>
+          </div>
+          <div class="mail-actions-item">
+            <button role="button" placement="top" ngbTooltip="Close"
+                    (click)="onClose()">
+              <i class="icon icon-cross"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-compose-mail *ngIf="isComposeVisible" #composeMail (discard)="onDiscard()"></app-compose-mail>
+
+  </div>
+</div>
+
+<!-- Confirm discard email modal -->
+<ng-template #confirmDiscardModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Confirm Discard</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        Are you sure, you want to discard this email?
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+        <button (click)="saveInDrafts()" class="btn btn-success btn-sm" role="button">Save in Drafts</button>
+        <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button">Discard</button>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm discard email modal ends -->
