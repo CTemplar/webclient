@@ -56,9 +56,8 @@ export class MailService {
     return this.http.post<any>(url, data);
   }
 
-  markAsRead(ids: string, data:any): Observable<any[]> {
-    const url = `${apiUrl}/emails/messages/?id__in=${ids}`;
-    return this.http.patch<any>(url, data);
+  markAsRead(ids: string, isMailRead: boolean): Observable<any[]> {
+    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {read: isMailRead});
   }
 
   moveMail(ids: string, folder: string): Observable<any[]> {

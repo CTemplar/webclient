@@ -103,7 +103,7 @@ export class MailEffects {
     .ofType(MailActionTypes.READ_MAIL)
     .map((action: ReadMail) => action.payload)
     .switchMap(payload => {
-      return this.mailService.markAsRead(payload.ids, payload.data)
+      return this.mailService.markAsRead(payload.ids, payload.read)
       .pipe(
         switchMap( res => {
           return [
