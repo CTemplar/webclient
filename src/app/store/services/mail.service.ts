@@ -13,6 +13,7 @@ import { Mail } from '../models';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
+import { MailFolderType } from '../models/mail.model';
 
 @Injectable()
 export class MailService {
@@ -29,14 +30,16 @@ export class MailService {
   ) {
   }
 
-  getMessages(limit: number = 1000, offset: number = 0): Observable<Mail[]> {
-    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=inbox`;
+  getMessages(limit: number = 1000, offset: number = 0, mailFolderType: MailFolderType = MailFolderType.INBOX): Observable<Mail[]> {
+    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=${mailFolderType}`;
     return this.http.get<Mail[]>(url).map(data => data['results']);
   }
 
   getMessage(messageId: number): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${messageId}`;
-    return this.http.get<Mail>(url).map(data => data['results']);
+    return this.http.get<Mail>(url).map(data => {
+      return data['results'] ? data['results'][0] : null;
+    });
   }
 
   getMailboxes(limit: number = 1000, offset: number = 0): Observable<any> {
@@ -51,6 +54,14 @@ export class MailService {
       return this.http.patch<any>(url, data);
     }
     return this.http.post<any>(url, data);
+  }
+
+  markAsRead(ids: string, isMailRead: boolean): Observable<any[]> {
+    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {read: isMailRead});
+  }
+
+  markAsStarred(ids: string, isMailStarred: boolean): Observable<any[]> {
+    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {starred: isMailStarred});
   }
 
   moveMail(ids: string, folder: string): Observable<any[]> {

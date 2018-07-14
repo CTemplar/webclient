@@ -30,11 +30,37 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
-      // TODO: use immutable version of remove items from array, with modifying the state directly
-
-      // Uncomment after payload has been fixed
-      // state.mails = state.mails.filter(item=> item.id !== action.payload.id);
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.filter(mail => {
+        if (listOfIDs.includes(mail.id.toString())) {
+          return false;
+        } else {
+          return true;
+        }
+      });
       return {...state, inProgress: false};
+    }
+
+    case MailActionTypes.READ_MAIL_SUCCESS: {
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.map(mail => {
+        if (listOfIDs.includes(mail.id.toString())) {
+          mail.read = true;
+        }
+        return mail;
+      });
+      return {...state, inProgress: false};
+    }
+
+    case MailActionTypes.STAR_MAIL_SUCCESS: {
+        const listOfIDs = action.payload.ids.split(',');
+        state.mails = state.mails.map(mail => {
+          if (listOfIDs.includes(mail.id.toString())) {
+            mail.starred = true;
+          }
+          return mail;
+        });
+        return {...state, inProgress: false};
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
