@@ -24,6 +24,7 @@ import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/c
 import { InboxComponent } from './mail-list/mail-folder/inbox/inbox.component';
 import { DraftComponent } from './mail-list/mail-folder/draft/draft.component';
 import { TrashComponent } from './mail-list/mail-folder/trash/trash.component';
+import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { TrashComponent } from './mail-list/mail-folder/trash/trash.component';
     ComposeMailComponent,
     InboxComponent,
     DraftComponent,
-    TrashComponent
+    TrashComponent,
+    GenericFolderComponent
   ],
   exports: [MailFooterComponent]
 })
