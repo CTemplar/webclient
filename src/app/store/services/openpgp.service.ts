@@ -56,10 +56,12 @@ export class OpenPgpService {
   }
 
   encrypt(content, publicKeys: any = this.pubkey) {
+    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null }));
     this.pgpWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys });
   }
 
   decrypt(content) {
+    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, decryptedContent: null }));
     this.pgpWorker.postMessage({ content: content, decrypt: true });
   }
 

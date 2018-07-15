@@ -10,7 +10,7 @@ import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
 export class ComposeMailDialogComponent {
   @Input() public isComposeVisible: boolean;
 
-  @Output() public onHide = new EventEmitter<boolean>();
+  @Output() public hide = new EventEmitter<boolean>();
 
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
   @ViewChild('confirmDiscardModal') confirmDiscardModal;
@@ -45,7 +45,7 @@ export class ComposeMailDialogComponent {
     this.hideMailComposeDialog();
   }
 
-  onDiscard() {
+  onHide() {
     this.hideMailComposeDialog();
   }
 
@@ -53,7 +53,7 @@ export class ComposeMailDialogComponent {
     if (this.confirmModalRef) {
       this.confirmModalRef.dismiss();
     }
-    this.onHide.emit(true);
+    this.hide.emit(true);
   }
 
 }

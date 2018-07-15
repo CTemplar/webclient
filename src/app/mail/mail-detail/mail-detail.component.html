@@ -56,10 +56,10 @@
     </div>
   </section>
 
-  <!--Mail Content-->
-  <section class="mailbox-section">
-    <div class="ui-body is-bordered-bottom">
-      <div class="msg-reply-content text-dark" [innerHTML]="mail.content">
+<!--Mail Content-->
+<section class="mailbox-section" *ngIf="decryptedContent">
+  <div class="ui-body is-bordered-bottom">
+    <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'">
 
       </div>
     </div>

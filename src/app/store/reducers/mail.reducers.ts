@@ -59,7 +59,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(",");
+      const listOfIDs = action.payload.ids.split(',');
       state.mails = state.mails.map(mail => {
         if (listOfIDs.includes(mail.id.toString())) {
           mail.starred = action.payload.starred;
@@ -114,6 +114,23 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return {
         ...state,
         mailDetail: action.payload
+      };
+    }
+
+    case MailActionTypes.GET_MAIL_DETAIL: {
+      return {
+        ...state,
+        mailDetail: null
+      };
+    }
+
+    case MailActionTypes.CLEAR_MAIL_DETAIL: {
+      return {
+        ...state,
+        mailDetail: null,
+        isPGPInProgress: false,
+        encryptedContent: null,
+        decryptedContent: null,
       };
     }
 
