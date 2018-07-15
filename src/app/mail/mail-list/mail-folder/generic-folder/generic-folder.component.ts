@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/datatypes';
-import { Mail, MailFolderType, mailFolderTypes } from '../../../../store/models';
+import { Mail, MailFolderType } from '../../../../store/models';
 import { Observable } from 'rxjs/Observable';
-import { DeleteMail, GetMails, MoveMail, ReadMail, StarMail } from '../../../../store/actions';
+import { DeleteMail, MoveMail, ReadMail, StarMail } from '../../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 @TakeUntilDestroy()
@@ -16,7 +16,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: string;
 
-  mailFolderTypes = mailFolderTypes;
+  mailFolderTypes = MailFolderType;
 
   readonly destroyed$: Observable<boolean>;
 
