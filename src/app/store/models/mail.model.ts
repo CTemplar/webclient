@@ -43,3 +43,17 @@ export enum MailFolderType {
   SPAM = 'spam',
   TRASH = 'trash'
 }
+
+/**
+ * mailFolderTypes to avoid dirty checking of view
+ * @type {{INBOX: MailFolderType; SENT: MailFolderType; DRAFT: MailFolderType; STARRED: MailFolderType; ARCHIVE: MailFolderType; SPAM: MailFolderType; TRASH: MailFolderType}}
+ */
+export const mailFolderTypes: any = {
+  INBOX: MailFolderType.INBOX,
+  SENT: MailFolderType.SENT,
+  DRAFT: MailFolderType.DRAFT,
+  STARRED: MailFolderType.STARRED,
+  ARCHIVE: MailFolderType.ARCHIVE,
+  SPAM: MailFolderType.SPAM,
+  TRASH: MailFolderType.TRASH,
+};

@@ -1,7 +1,7 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 // Models
-import { Mail, MailFolderType } from '../../store/models';
+import { Mail, MailFolderType, mailFolderTypes } from '../../store/models';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 // Store
@@ -24,6 +24,7 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   mails: Mail[];
   mailFolder: MailFolderType = MailFolderType.INBOX;
+  mailFolderTypes = mailFolderTypes;
   private_key: string;
   public_key: string;
   readonly destroyed$: Observable<boolean>;
@@ -114,10 +115,6 @@ export class MailListComponent implements OnInit, OnDestroy {
     const ids = this.getMailIDs();
     // Dispatch mark as read event to store
     this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
-  }
-
-  get mailFolderType() {
-    return MailFolderType;
   }
 
   private getMailIDs() {
