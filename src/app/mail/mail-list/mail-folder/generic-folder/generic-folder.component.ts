@@ -63,7 +63,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     if (ids) {
-      // Dispatch mark as read event to store
+      // Dispatch mark as starred event to store
       this.store.dispatch(new StarMail({ ids, starred: true }));
     }
   }
@@ -88,7 +88,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   moveToFolder(folder: MailFolderType) {
     const ids = this.getMailIDs();
     if (ids) {
-      // Dispatch mark as read event to store
+      // Dispatch move to selected folder event
       this.store.dispatch(new MoveMail({ ids, folder: folder }));
     }
   }
