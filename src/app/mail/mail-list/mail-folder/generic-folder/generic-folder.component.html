@@ -56,25 +56,27 @@
                       <i class="icon icon-folder"></i>
                     </button>
                     <div ngbDropdownMenu aria-labelledby="extraOptionsDropdownMenuButton">
-                      <a class="dropdown-item">
-                        <span class="folder-color-box is-success"></span>Folder 1</a>
-                      <a class="dropdown-item">
-                        <span class="folder-color-box is-info"></span>Another Folder 21</a>
-                      <a class="dropdown-item">
-                        <span class="folder-color-box is-warning"></span>Folder 33</a>
-                      <a class="dropdown-item">
-                        <i class="icon icon-inbox"></i>
-                        <span translate="mail_sidebar.inbox">Inbox</span>
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
+                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
                       </a>
-                      <a class="dropdown-item">
-                        <i class="icon icon-inbox"></i>
-                        <span translate="mail_sidebar.draft">Draft</span>
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)">
+                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
                       </a>
-                      <a class="dropdown-item" translate="mail_siderbar.archive">
-                        <i class="icon icon-archive"></i>Archive</a>
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.ARCHIVE)">
+                        <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
+                      </a>
                       <span class="divider-item d-block"></span>
                       <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
-                        <i class="icon icon-folder"></i>Create folder
+                        <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
+                      </a>
+                      <a class="dropdown-item">
+                        <span class="folder-color-box is-success"></span>Folder 1
+                      </a>
+                      <a class="dropdown-item">
+                        <span class="folder-color-box is-info"></span>Another Folder 21
+                      </a>
+                      <a class="dropdown-item">
+                        <span class="folder-color-box is-warning"></span>Folder 33
                       </a>
                     </div>
                   </div>
@@ -90,23 +92,27 @@
               <i class="icon icon-folder"></i>
             </button>
             <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton">
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
+                <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
+              </a>
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)">
+                <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
+              </a>
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.ARCHIVE)">
+                <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
+              </a>
               <a class="dropdown-item">
                 <span class="folder-color-box is-success"></span>Folder 1
               </a>
               <a class="dropdown-item">
-                <span class="folder-color-box is-info"></span>Another Folder 21</a>
+                <span class="folder-color-box is-info"></span>Another Folder 21
+              </a>
               <a class="dropdown-item">
-                <span class="folder-color-box is-warning"></span>Folder 33</a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" translate="mail_sidebar.inbox">
-                <i class="icon icon-inbox"></i>Inbox</a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" translate="mail_sidebar.draft">
-                <i class="icon icon-inbox"></i>Draft</a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.ARCHIVE)" translate="mail_sidebar.archive">
-                <i class="icon icon-archive"></i>Archive</a>
+                <span class="folder-color-box is-warning"></span>Folder 33
+              </a>
               <span class="divider-item d-block"></span>
-              <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal"
-                 translate="mail_list.create_folder">
-                <i class="icon icon-folder"></i>Create folder</a>
+              <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
+                <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span></a>
             </div>
           </div>
         </li>
