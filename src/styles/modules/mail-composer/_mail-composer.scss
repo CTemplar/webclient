@@ -5,6 +5,10 @@
 // == Mail composer
 $mail_composer_padding_x: 0.75rem;
 
+a {
+	cursor: pointer;
+}
+
 .keyboard-open {
 	bottom: 255px !important;
 }
