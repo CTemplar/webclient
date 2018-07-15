@@ -23,7 +23,7 @@ declare var openpgp;
 export class MailListComponent implements OnInit, OnDestroy {
 
   mails: Mail[];
-  markedMailsMap: Map<number, Mail> = new Map();
+  mailFolder: MailFolderType = MailFolderType.INBOX;
   private_key: string;
   public_key: string;
   readonly destroyed$: Observable<boolean>;
@@ -31,11 +31,11 @@ export class MailListComponent implements OnInit, OnDestroy {
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
 
-  constructor(
-    private store: Store<AppState>,
-    private route: ActivatedRoute) {
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-      .subscribe((mailboxes) => {
+  constructor(public store: Store<AppState>, public route: ActivatedRoute) {
+    this.store
+      .select(state => state.mailboxes)
+      .takeUntil(this.destroyed$)
+      .subscribe(mailboxes => {
         if (mailboxes.mailboxes[0]) {
           this.private_key = mailboxes.mailboxes[0].private_key;
           this.public_key = mailboxes.mailboxes[0].public_key;
@@ -45,45 +45,57 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const mailFolderType: MailFolderType = params['folder'] as MailFolderType;
-      this.getMails(mailFolderType);
+      this.mailFolder = params['folder'] as MailFolderType;
     });
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    this.store
+      .select(state => state.mail)
+      .takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
         this.mails = mailState.mails;
       });
-
   }
 
   getMails(mailFolderType: MailFolderType) {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: mailFolderType }));
+    this.store.dispatch(
+      new GetMails({ limit: 1000, offset: 0, folder: mailFolderType })
+    );
   }
 
   markSelectedMail(mail) {
-    if (this.markedMailsMap.has(mail.id)) {
-      this.markedMailsMap.delete(mail.id);
-    } else {
-      this.markedMailsMap.set(mail.id, mail);
-    }
+    mail.marked = !mail.marked;
   }
 
   markAllMails(checkAll) {
     if (checkAll) {
-      this.mails.forEach(mail => {
-        this.markedMailsMap.set(mail.id, mail);
+      this.mails.map(mail => {
+        mail.marked = true;
+        return mail;
       });
     } else {
-      this.markedMailsMap.clear();
+      this.mails.map(mail => {
+        mail.marked = false;
+        return mail;
+      });
     }
   }
 
-  markAsRead() {
+  markAsRead(isRead: boolean = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     // Dispatch mark as read event to store
-    this.store.dispatch(new ReadMail({ ids: ids, read: true }));
-    // Empty list of selected mails
-    this.markedMailsMap.clear();
+    this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+  }
+
+  toggleStarred(mail: Mail) {
+    if (mail.starred) {
+      this.store.dispatch(
+        new StarMail({ ids: mail.id.toString(), starred: false })
+      );
+    } else {
+      this.store.dispatch(
+        new StarMail({ ids: mail.id.toString(), starred: true })
+      );
+    }
   }
 
   markAsStarred() {
@@ -91,10 +103,7 @@ export class MailListComponent implements OnInit, OnDestroy {
     const ids = this.getMailIDs();
     // Dispatch mark as read event to store
     this.store.dispatch(new StarMail({ ids: ids, starred: true }));
-    // Empty list of selected mails
-    this.markedMailsMap.clear();
   }
-
 
   moveToTrash() {
     this.moveToFolder(MailFolderType.TRASH);
@@ -105,8 +114,6 @@ export class MailListComponent implements OnInit, OnDestroy {
     const ids = this.getMailIDs();
     // Dispatch mark as read event to store
     this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
-    // Empty list of selected mails
-    this.markedMailsMap.clear();
   }
 
   get mailFolderType() {
@@ -115,7 +122,7 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   private getMailIDs() {
     // Get list of concatinated IDs from mail object list
-    return Array.from(this.markedMailsMap.keys()).join(',');
+    return this.mails.filter(mail => mail.marked).map(mail => mail.id).join(',');
   }
 
   ngOnDestroy() {}

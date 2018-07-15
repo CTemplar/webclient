@@ -1,7 +1,7 @@
 // Custom Action
-import { MailActions, MailActionTypes } from '../actions';
+import { MailActions, MailActionTypes } from "../actions";
 // Model
-import { MailState } from '../datatypes';
+import { MailState } from "../datatypes";
 
 export const initialState: MailState = {
   mails: [],
@@ -11,11 +11,18 @@ export const initialState: MailState = {
   draft: null,
   encryptedContent: null,
   decryptedContent: null,
-  isPGPInProgress: false,
+  isPGPInProgress: false
 };
 
 export function reducer(state = initialState, action: MailActions): MailState {
   switch (action.type) {
+    case MailActionTypes.GET_MAILS: {
+      return {
+        ...state,
+        mails: []
+      };
+    }
+
     case MailActionTypes.GET_MAILS_SUCCESS: {
       return {
         ...state,
@@ -23,14 +30,13 @@ export function reducer(state = initialState, action: MailActions): MailState {
       };
     }
 
-
     case MailActionTypes.DELETE_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       return { ...state, inProgress: true };
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(',');
+      const listOfIDs = action.payload.ids.split(",");
       state.mails = state.mails.filter(mail => {
         if (listOfIDs.includes(mail.id.toString())) {
           return false;
@@ -38,33 +44,38 @@ export function reducer(state = initialState, action: MailActions): MailState {
           return true;
         }
       });
-      return {...state, inProgress: false};
+      return { ...state, inProgress: false };
     }
 
     case MailActionTypes.READ_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(',');
+      const listOfIDs = action.payload.ids.split(",");
       state.mails = state.mails.map(mail => {
         if (listOfIDs.includes(mail.id.toString())) {
-          mail.read = true;
+          mail.read = action.payload.read;
         }
         return mail;
       });
-      return {...state, inProgress: false};
+      return { ...state, inProgress: false };
     }
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
-        const listOfIDs = action.payload.ids.split(',');
-        state.mails = state.mails.map(mail => {
-          if (listOfIDs.includes(mail.id.toString())) {
-            mail.starred = true;
-          }
-          return mail;
-        });
-        return {...state, inProgress: false};
+      const listOfIDs = action.payload.ids.split(",");
+      state.mails = state.mails.map(mail => {
+        if (listOfIDs.includes(mail.id.toString())) {
+          mail.starred = action.payload.starred;
+        }
+        return mail;
+      });
+      return { ...state, inProgress: false };
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
-      state.mails.splice(state.mails.indexOf(state.mails.filter(item => item.id === action.payload.id)[0]), 1);
+      state.mails.splice(
+        state.mails.indexOf(
+          state.mails.filter(item => item.id === action.payload.id)[0]
+        ),
+        1
+      );
       return { ...state, inProgress: false };
     }
 
@@ -91,7 +102,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
         ...state,
         isPGPInProgress: action.payload.isPGPInProgress,
         encryptedContent: action.payload.encryptedContent,
-        decryptedContent: action.payload.decryptedContent,
+        decryptedContent: action.payload.decryptedContent
       };
     }
 

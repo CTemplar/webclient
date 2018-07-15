@@ -21,6 +21,9 @@ import { SharedModule } from '../shared/shared.module';
 import { SaveListContactComponent } from './mail-settings/save-list-contact/save-list-contact.component';
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
+import { InboxComponent } from './mail-list/mail-folder/inbox/inbox.component';
+import { DraftComponent } from './mail-list/mail-folder/draft/draft.component';
+import { TrashComponent } from './mail-list/mail-folder/trash/trash.component';
 
 @NgModule({
   imports: [
@@ -43,7 +46,10 @@ import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/c
     SaveContactComponent,
     ComposeMailDialogComponent,
     SaveListContactComponent,
-    ComposeMailComponent
+    ComposeMailComponent,
+    InboxComponent,
+    DraftComponent,
+    TrashComponent
   ],
   exports: [MailFooterComponent]
 })

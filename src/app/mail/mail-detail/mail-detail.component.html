@@ -1,75 +1,91 @@
 <!--Mail Info-->
-<section class="mailbox-section" *ngIf="mail">
-  <div class="ui-header ui-header-bordered border-top-0 position-relative">
-    <h5 class="ui-header-subtitle text-dark mb-0">
-      <strong>{{mail.subject}}</strong>
-      <i class="icon icon-secured icon-md text-muted ml-2"></i>
-    </h5>
+<ng-container *ngIf="mail">
+  <section class="mailbox-section">
+    <div class="ui-header ui-header-bordered border-top-0 position-relative">
+      <h5 class="ui-header-subtitle text-dark mb-0">
+        <strong>{{mail.subject}}</strong>
+        <i class="icon icon-secured icon-md text-muted ml-2"></i>
+      </h5>
 
-    <div class="icon-holder is-floated right y-center">
-      <i class="icon icon-star-filled icon-md text-info"></i>
-    </div>
-  </div>
-
-  <div class="ui-body is-xs is-bordered-bottom bg-faded">
-    <div class="row">
-      <div class="col-8">
-        <div class="mailbox-sender-content">
-          <ul class="sender-content-list list-styled">
-            <li>From:
-              <span class="text-secondary">ProtonMail </span>
-              <a href="" class="text-muted">&lt;contact@protonmail.ch&gt;</a>
-            </li>
-            <li>To:
-              <span class="text-secondary">John Doe </span>
-              <a href="" class="text-muted">&lt;johndoe@gmail.com&gt;</a>
-            </li>
-            <li>Cc:
-              <span class="text-secondary">Sam Smith </span>
-              <a href="" class="text-muted">&lt;samsmith@hotmail.com&gt;</a>
-            </li>
-          </ul>
-        </div>
+      <div class="icon-holder is-floated right y-center">
+        <i class="icon icon-md icon-star-filled" [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
-      <div class="col-4">
-        <div class="msg-reply-type-holder">
-          <div class="d-flex align-items-center justify-content-end">
-            <label class="msg-received-time mb-0">{{mail.datetime}} (1 day ago) </label>
-            <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
-              <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
-                      id="messageReplyDropdownMenuButton"></button>
-              <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
-                <a class="dropdown-item" href="">Forward</a>
-                <a class="dropdown-item" href="">Reply</a>
-                <a class="dropdown-item" href="">Reply All</a>
-                <a class="dropdown-item" href="">Print</a>
-                <a class="dropdown-item" href="">Add to Contact List</a>
-                <a class="dropdown-item" href="">Delete this Message</a>
-                <a class="dropdown-item" href="">Mark as Spam</a>
-                <a class="dropdown-item" href="">Add «Show Header»</a>
+    </div>
+
+    <div class="ui-body is-xs is-bordered-bottom bg-faded">
+      <div class="row">
+        <div class="col-8">
+          <div class="mailbox-sender-content">
+            <ul class="sender-content-list list-styled">
+              <li>From:
+                <span class="text-secondary">ProtonMail </span>
+                <a href="" class="text-muted">&lt;contact@protonmail.ch&gt;</a>
+              </li>
+              <li>To:
+                <span class="text-secondary">John Doe </span>
+                <a href="" class="text-muted">&lt;johndoe@gmail.com&gt;</a>
+              </li>
+              <li>Cc:
+                <span class="text-secondary">Sam Smith </span>
+                <a href="" class="text-muted">&lt;samsmith@hotmail.com&gt;</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="msg-reply-type-holder">
+            <div class="d-flex align-items-center justify-content-end">
+              <label class="msg-received-time mb-0">{{mail.datetime}} (1 day ago) </label>
+              <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
+                <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="messageReplyDropdownMenuButton"></button>
+                <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
+                  <a class="dropdown-item" href="">Forward</a>
+                  <a class="dropdown-item" href="">Reply</a>
+                  <a class="dropdown-item" href="">Reply All</a>
+                  <a class="dropdown-item" href="">Print</a>
+                  <a class="dropdown-item" href="">Add to Contact List</a>
+                  <a class="dropdown-item" href="">Delete this Message</a>
+                  <a class="dropdown-item" href="">Mark as Spam</a>
+                  <a class="dropdown-item" href="">Add «Show Header»</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!--Mail Content-->
-<section class="mailbox-section" *ngIf="mail">
-  <div class="ui-body is-bordered-bottom">
-    <div class="msg-reply-content text-dark" [innerHTML]="mail.content">
+  <!--Mail Content-->
+  <section class="mailbox-section">
+    <div class="ui-body is-bordered-bottom">
+      <div class="msg-reply-content text-dark" [innerHTML]="mail.content">
 
+      </div>
+    </div>
+  </section>
+
+  <!--Reply to mail.-->
+  <div class="ui-body">
+
+    <div class="row">
+      <div class="col-12">
+
+        <button class="btn btn-gmail" (click)="showReplyBox=true">
+          <i class="icon icon-reply position-left"></i> Reply
+        </button>
+
+        <button class="btn btn-gmail" (click)="showReplyBox=true">
+          <i class="icon icon-reply position-left"></i> Reply All
+        </button>
+
+          <button class="btn btn-gmail" (click)="showReplyBox=true">
+            <i class="icon icon-mail position-left"></i> Forward
+          </button>
+      </div>
+    </div>
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="showReplyBox">
+      <app-compose-mail></app-compose-mail>
     </div>
   </div>
-</section>
-
-<!--Reply to mail.-->
-<div class="ui-body">
-  <div class="mail-composer is-borderd border-bottom-0">
-
-    <app-compose-mail></app-compose-mail>
-    
-  </div>
-</div>
+</ng-container>
