@@ -1,7 +1,7 @@
 // Custom Action
-import { MailActions, MailActionTypes } from "../actions";
+import { MailActions, MailActionTypes } from '../actions';
 // Model
-import { MailState } from "../datatypes";
+import { MailState } from '../datatypes';
 
 export const initialState: MailState = {
   mails: [],
@@ -36,19 +36,13 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(",");
-      state.mails = state.mails.filter(mail => {
-        if (listOfIDs.includes(mail.id.toString())) {
-          return false;
-        } else {
-          return true;
-        }
-      });
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
       return { ...state, inProgress: false };
     }
 
     case MailActionTypes.READ_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(",");
+      const listOfIDs = action.payload.ids.split(',');
       state.mails = state.mails.map(mail => {
         if (listOfIDs.includes(mail.id.toString())) {
           mail.read = action.payload.read;
@@ -70,12 +64,8 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
-      state.mails.splice(
-        state.mails.indexOf(
-          state.mails.filter(item => item.id === action.payload.id)[0]
-        ),
-        1
-      );
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
       return { ...state, inProgress: false };
     }
 

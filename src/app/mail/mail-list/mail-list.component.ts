@@ -6,7 +6,7 @@ import { Mail, MailFolderType, mailFolderTypes } from '../../store/models';
 import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
-import { GetMails, MoveMail, StarMail } from '../../store/actions';
+import { DeleteMail, GetMails, MoveMail, StarMail } from '../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { AppState, MailState } from '../../store/datatypes';
 import { ReadMail } from '../../store/actions/mail.actions';
@@ -107,18 +107,30 @@ export class MailListComponent implements OnInit, OnDestroy {
   }
 
   moveToTrash() {
-    this.moveToFolder(MailFolderType.TRASH);
+    if (this.mailFolder === MailFolderType.TRASH) {
+      // Dispatch permanent delete mails event.
+      this.store.dispatch(new DeleteMail({ ids: this.getMailIDs() }));
+    } else {
+      this.moveToFolder(MailFolderType.TRASH);
+    }
   }
 
+  /**
+   * @name moveToFolder
+   * @description Move mails to selected folder type
+   * @param {MailFolderType} folder
+   */
   moveToFolder(folder: MailFolderType) {
-    // Get comma separated list of mail IDs
-    const ids = this.getMailIDs();
     // Dispatch mark as read event to store
-    this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
+    this.store.dispatch(new MoveMail({ ids: this.getMailIDs(), folder: folder }));
   }
 
+  /**
+   * @name getMailIDs
+   * @description Get list of comma separated IDs from mail object list
+   * @returns {string} Comma separated IDs
+   */
   private getMailIDs() {
-    // Get list of concatinated IDs from mail object list
     return this.mails.filter(mail => mail.marked).map(mail => mail.id).join(',');
   }
 
