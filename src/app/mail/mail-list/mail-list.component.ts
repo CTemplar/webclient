@@ -83,8 +83,10 @@ export class MailListComponent implements OnInit, OnDestroy {
   markAsRead(isRead: boolean = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
-    // Dispatch mark as read event to store
-    this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+    if (ids) {
+      // Dispatch mark as read event to store
+      this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+    }
   }
 
   toggleStarred(mail: Mail) {
@@ -102,14 +104,19 @@ export class MailListComponent implements OnInit, OnDestroy {
   markAsStarred() {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
-    // Dispatch mark as read event to store
-    this.store.dispatch(new StarMail({ ids: ids, starred: true }));
+    if (ids) {
+      // Dispatch mark as read event to store
+      this.store.dispatch(new StarMail({ ids, starred: true }));
+    }
   }
 
   moveToTrash() {
     if (this.mailFolder === MailFolderType.TRASH) {
+      const ids = this.getMailIDs();
       // Dispatch permanent delete mails event.
-      this.store.dispatch(new DeleteMail({ ids: this.getMailIDs() }));
+      if (ids) {
+        this.store.dispatch(new DeleteMail({ ids }));
+      }
     } else {
       this.moveToFolder(MailFolderType.TRASH);
     }
@@ -121,8 +128,11 @@ export class MailListComponent implements OnInit, OnDestroy {
    * @param {MailFolderType} folder
    */
   moveToFolder(folder: MailFolderType) {
-    // Dispatch mark as read event to store
-    this.store.dispatch(new MoveMail({ ids: this.getMailIDs(), folder: folder }));
+    const ids = this.getMailIDs();
+    if (ids) {
+      // Dispatch mark as read event to store
+      this.store.dispatch(new MoveMail({ ids, folder: folder }));
+    }
   }
 
   /**
