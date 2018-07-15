@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Mail } from '../../store/models/mail.model';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ClearMailDetail, GetMailDetail } from '../../store/actions/mail.actions';
+import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { Observable } from 'rxjs/Observable';
 import { AppState, MailState } from '../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -17,6 +17,7 @@ import { OpenPgpService } from '../../store/services';
 export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mail: Mail;
+  showReplyBox: boolean;
   decryptedContent: string;
 
   constructor(private route: ActivatedRoute,
@@ -41,11 +42,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       const id = +params['id'];
       this.getMailDetail(id);
+      this.markAsRead(id);
     });
   }
 
   getMailDetail(messageId: number) {
     this.store.dispatch(new GetMailDetail(messageId));
+  }
+
+  private markAsRead(mailID: number){
+    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read: true }));
   }
 
   ngOnDestroy(): void {

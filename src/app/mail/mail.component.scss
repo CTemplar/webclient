@@ -1092,6 +1092,19 @@
     width: 1.5rem;
   }
 
+  .mail-inbox-message,
+  .mail-from-name{
+    padding: 0;
+    a {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding: 1rem;
+    }
+  }
+
+
+
   .mail-file-size,
   .mail-sent-date {
     font-size: 0.625rem;
