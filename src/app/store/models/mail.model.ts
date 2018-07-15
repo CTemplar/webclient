@@ -61,7 +61,10 @@ export const mailFolderTypes: any = {
 export interface Attachment {
   id?: number;
   document: any;
+  name: string;
+  size: string;
   hash: string;
-  message: string;
+  message: number;
   progress?: number;
+  attachmentId?: number;
 }

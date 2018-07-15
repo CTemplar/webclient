@@ -10,9 +10,9 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
-import { CloseMailbox, CreateMail, MoveMail, UpdateLocalDraft } from '../../../store/actions';
+import { CloseMailbox, CreateMail, MoveMail, UpdateLocalDraft, UploadAttachment } from '../../../store/actions';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
-import { Mail, Mailbox, MailFolderType } from '../../../store/models';
+import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
@@ -66,7 +66,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   selfDestruct: any = {};
   delayedDelivery: any = {};
   deadManTimer: any = {};
-  attachments: Array<any> = [];
+  attachments: Attachment[] = [];
   isKeyboardOpened: boolean;
   mailbox: Mailbox;
   encryptForm: FormGroup;
@@ -115,6 +115,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.store.dispatch(new CreateMail({ ...response.draft }));
           this.inProgress = true;
         }
+        this.handleAttachment(response);
+
         this.mailState = response;
       });
 
@@ -206,12 +208,24 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onFilesSelected(files: FileList) {
     for (let i = 0; i < files.length; i++) {
-      const file: any = files.item(i);
+      const file: File = files.item(i);
       // TODO: replace this id with value returned from backend
-      file.id = performance.now();
-      this.attachments.push(file);
-      // TODO: add API call for uploading the file
+      const data: Attachment = {
+        document: file,
+        name: file.name,
+        size: this.getFileSize(file),
+        attachmentId: performance.now(),
+        message: this.draftMail.id,
+        hash: performance.now().toString(),
+      };
+      this.attachments.push(data);
+
+      this.store.dispatch(new UploadAttachment(data));
     }
+  }
+
+  handleAttachment(mailState: MailState) {
+    this.attachments = mailState.attachments;
   }
 
   onAttachImageURL(url: string) {

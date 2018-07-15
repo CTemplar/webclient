@@ -29,6 +29,7 @@ import {
   GetMailsSuccess, MailActionTypes, SnackErrorPush,
   GetMailboxes, GetMailboxesSuccess
 } from '../actions';
+import { map } from 'rxjs/operators/map';
 
 
 @Injectable()
@@ -159,14 +160,17 @@ export class MailEffects {
     .map((action: UploadAttachment) => action.payload)
     .switchMap(payload => {
       return this.mailService.uploadFile(payload)
-        .switchMap((event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            const progress = Math.round(100 * event.loaded / event.total);
-            return [new UploadAttachmentProgress({id: payload.id, progress: progress})];
-          } else if (event instanceof HttpResponse) {
-            return [new UploadAttachmentSuccess(event)];
-          }
-        });
+        .pipe(
+          map((event: any) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              const progress = Math.round(100 * event.loaded / event.total);
+              return [new UploadAttachmentProgress({ ...payload, progress })];
+            } else if (event instanceof HttpResponse) {
+              return [new UploadAttachmentSuccess(event)];
+            }
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })]),
+        );
     });
 
 }

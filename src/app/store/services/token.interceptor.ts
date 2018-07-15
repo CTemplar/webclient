@@ -21,10 +21,11 @@ export class TokenInterceptor implements HttpInterceptor {
     const token: string = this.authService.getToken();
     const is_necessary_token = this.authService.getNecessaryTokenUrl(request.url);
     if (is_necessary_token) {
+      const contentType = request.headers.get('Content-Type');
       request = request.clone({
         setHeaders: {
           'Authorization': `JWT ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': contentType || 'application/json'
         }
       });
     }
