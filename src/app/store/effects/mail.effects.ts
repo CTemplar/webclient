@@ -42,7 +42,7 @@ export class MailEffects {
     .switchMap(payload => {
       return this.mailService.getMessages(payload.limit, payload.offset, payload.folder)
         .map((mails) => {
-          return new GetMailsSuccess(mails);
+          return new GetMailsSuccess({ ...payload, mails });
         });
     });
 

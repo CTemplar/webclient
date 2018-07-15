@@ -1,30 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MailListComponent } from '../../mail-list.component';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../../store/datatypes';
-import { ActivatedRoute } from '@angular/router';
-import {Mail, MailFolderType} from '../../../../store/models';
+import { AppState, MailState } from '../../../../store/datatypes';
+import { Mail, MailFolderType, mailFolderTypes } from '../../../../store/models';
+import { GetMails } from '../../../../store/actions';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs/Observable';
 
-
+@TakeUntilDestroy()
 @Component({
   selector: 'app-inbox',
   templateUrl: './inbox.component.html',
   styleUrls: ['./inbox.component.scss']
 })
-export class InboxComponent extends MailListComponent implements OnInit {
+export class InboxComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
+  mailFolderTypes = mailFolderTypes;
 
-  @Input() mails: Mail[];
+  mails: Mail[];
 
-  constructor( public store: Store<AppState>,
-    public route: ActivatedRoute) {
-    super(store, route);
+  constructor(public store: Store<AppState>) {
   }
 
   ngOnInit() {
-    // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
-    // TODO: find appropriate solution to fix this issue
-    setTimeout(() => {
-      this.getMails(MailFolderType.INBOX);
-    });
+    this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.INBOX }));
+
+    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+      .subscribe((mailState: MailState) => {
+        this.mails = mailState.mails;
+      });
+  }
+
+
+  ngOnDestroy(): void {
   }
 }
