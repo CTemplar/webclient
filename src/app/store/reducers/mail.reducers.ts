@@ -6,7 +6,7 @@ import { MailState } from '../datatypes';
 export const initialState: MailState = {
   mails: [],
   mailDetail: null,
-  folders: [],
+  folders: new Map(),
   inProgress: false,
   draft: null,
   encryptedContent: null,
@@ -17,16 +17,18 @@ export const initialState: MailState = {
 export function reducer(state = initialState, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
+      const mails = state.folders.get(action.payload.folder);
       return {
         ...state,
-        mails: []
+        mails: mails ? mails : [],
       };
     }
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
+      state.folders.set(action.payload.folder, action.payload.mails);
       return {
         ...state,
-        mails: action.payload
+        mails: action.payload.mails,
       };
     }
 

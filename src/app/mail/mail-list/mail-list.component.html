@@ -1,14 +1,14 @@
 <div [ngSwitch]="mailFolder">
-    <ng-container *ngSwitchCase="mailFolderTypes.INBOX">
-        <app-inbox [mails]="mails"></app-inbox>
-    </ng-container>
-    <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
-        <app-draft [mails]="mails"></app-draft>
-    </ng-container>
-    <ng-container *ngSwitchCase="mailFolderTypes.TRASH">
-        <app-trash [mails]="mails"></app-trash>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-        No folder found with this name!
-    </ng-container>
+  <ng-container *ngSwitchCase="mailFolderTypes.INBOX">
+    <app-inbox></app-inbox>
+  </ng-container>
+  <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
+    <app-draft></app-draft>
+  </ng-container>
+  <ng-container *ngSwitchCase="mailFolderTypes.TRASH">
+    <app-trash></app-trash>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    No folder found with this name!
+  </ng-container>
 </div>
