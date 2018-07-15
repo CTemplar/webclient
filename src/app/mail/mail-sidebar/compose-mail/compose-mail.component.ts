@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
-import { E } from '@angular/core/src/render3';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -11,9 +10,9 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
-import { CloseMailbox, CreateMail, DeleteMail, UpdateLocalDraft } from '../../../store/actions';
+import { CloseMailbox, CreateMail, MoveMail, UpdateLocalDraft } from '../../../store/actions';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
-import { Mail, Mailbox } from '../../../store/models';
+import { Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
@@ -113,7 +112,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress && response.draft) {
           response.draft.content = response.encryptedContent;
           this.shouldSave = false;
-          this.store.dispatch(new CreateMail({...response.draft}));
+          this.store.dispatch(new CreateMail({ ...response.draft }));
           this.inProgress = true;
         }
         this.mailState = response;
@@ -228,7 +227,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   discardEmail() {
     if (this.draftMail && this.draftMail.id) {
-      this.store.dispatch(new DeleteMail(this.draftMail.id));
+      this.store.dispatch(new MoveMail({ ids: this.draftMail.id, folder: MailFolderType.TRASH }));
     }
     this.hide.emit();
     this.resetValues();
@@ -250,9 +249,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   openSelfDestructModal() {
     if (this.selfDestruct.value) {
       // reset to previous confirmed value
-      this.selfDestruct = { ...this.selfDestruct, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value) };
-    }
-    else {
+      this.selfDestruct = {
+        ...this.selfDestruct,
+        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value)
+      };
+    } else {
       this.resetSelfDestructValues();
     }
     this.selfDestructModalRef = this.modalService.open(this.selfDestructModal, {
@@ -264,9 +265,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   openDelayedDeliveryModal() {
     if (this.delayedDelivery.value) {
       // reset to previous confirmed value
-      this.delayedDelivery = { ...this.delayedDelivery, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value) };
-    }
-    else {
+      this.delayedDelivery = {
+        ...this.delayedDelivery,
+        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value)
+      };
+    } else {
       this.resetDelayedDeliveryValues();
     }
     this.delayedDeliveryModalRef = this.modalService.open(this.delayedDeliveryModal, {
@@ -278,9 +281,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   openDeadManTimerModal() {
     if (this.deadManTimer.value) {
       // reset to previous confirmed value
-      this.deadManTimer = { ...this.deadManTimer, ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value) };
-    }
-    else {
+      this.deadManTimer = {
+        ...this.deadManTimer,
+        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value)
+      };
+    } else {
       this.resetDeadManTimerValues();
     }
     this.deadManTimerModalRef = this.modalService.open(this.deadManTimerModal, {
@@ -299,8 +304,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleOSK() {
     if (this._keyboardService.isOpened) {
       this.closeOSK();
-    }
-    else {
+    } else {
       this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
       this.isKeyboardOpened = true;
     }
@@ -315,7 +319,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setSelfDestructValue() {
     if (this.selfDestruct.date && this.selfDestruct.time) {
-      this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date, this.selfDestruct.time);
+      this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date,
+        this.selfDestruct.time);
       this.closeSelfDestructModal();
       this.valueChanged$.next(this.selfDestruct.value);
     }
@@ -329,7 +334,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setDelayedDeliveryValue() {
     if (this.delayedDelivery.date && this.delayedDelivery.time) {
-      this.delayedDelivery.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date, this.delayedDelivery.time);
+      this.delayedDelivery.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date,
+        this.delayedDelivery.time);
       this.closeDelayedDeliveryModal();
       this.valueChanged$.next(this.delayedDelivery.value);
     }
@@ -343,7 +349,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setDeadManTimerValue() {
     if (this.deadManTimer.date && this.deadManTimer.time) {
-      this.deadManTimer.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.deadManTimer.date, this.deadManTimer.time);
+      this.deadManTimer.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.deadManTimer.date,
+        this.deadManTimer.time);
       this.closeDeadManTimerModal();
       this.valueChanged$.next(this.deadManTimer.value);
     }

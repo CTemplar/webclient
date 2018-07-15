@@ -13,13 +13,13 @@ import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 import {
-    GetMailDetail,
-    GetMailDetailSuccess,
-    MoveMail,
-    MoveMailSuccess,
-    ReadMail,
-    ReadMailSuccess,
-    StarMailSuccess
+  GetMailDetail,
+  GetMailDetailSuccess,
+  MoveMail,
+  MoveMailSuccess,
+  ReadMail,
+  ReadMailSuccess,
+  StarMailSuccess
 } from '../actions/mail.actions';
 // Custom Actions
 import {
@@ -46,16 +46,16 @@ export class MailEffects {
         });
     });
 
-    @Effect()
-    getMailboxesEffect: Observable<any> = this.actions
-      .ofType(MailActionTypes.GET_MAILBOXES)
-      .map((action: GetMailboxes) => action.payload)
-      .switchMap(payload => {
-        return this.mailService.getMailboxes(payload.limit, payload.offset)
-          .map((mails) => {
-            return new GetMailboxesSuccess(mails);
-          });
-      });
+  @Effect()
+  getMailboxesEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.GET_MAILBOXES)
+    .map((action: GetMailboxes) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.getMailboxes(payload.limit, payload.offset)
+        .map((mails) => {
+          return new GetMailboxesSuccess(mails);
+        });
+    });
 
 
   @Effect()
@@ -74,20 +74,20 @@ export class MailEffects {
         );
     });
 
-    @Effect()
-    moveMailEffect: Observable<any> = this.actions
+  @Effect()
+  moveMailEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.MOVE_MAIL)
     .map((action: MoveMail) => action.payload)
     .switchMap(payload => {
       return this.mailService.moveMail(payload.ids, payload.folder)
-      .pipe(
-        switchMap( res => {
-          return [
-            new MoveMailSuccess(payload),
-          ]
-        }),
-        catchError(err => [new SnackErrorPush({ message: 'Failed to move mail.' })]),
-      );
+        .pipe(
+          switchMap(res => {
+            return [
+              new MoveMailSuccess(payload),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
+        );
     });
 
   @Effect()
@@ -95,60 +95,60 @@ export class MailEffects {
     .ofType(MailActionTypes.DELETE_MAIL)
     .map((action: CreateMail) => action.payload)
     .switchMap(payload => {
-      return this.mailService.deleteMail(payload)
+      return this.mailService.deleteMails(payload.ids)
         .pipe(
           switchMap(res => {
             return [
-              new DeleteMailSuccess(res),
+              new DeleteMailSuccess(payload),
             ];
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to discard mail.' })]),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to delete mail.' })]),
         );
     });
 
-    @Effect()
-    readMailEffect: Observable<any> = this.actions
+  @Effect()
+  readMailEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.READ_MAIL)
     .map((action: ReadMail) => action.payload)
     .switchMap(payload => {
       return this.mailService.markAsRead(payload.ids, payload.read)
-      .pipe(
-        switchMap( res => {
-          return [
-            new ReadMailSuccess(payload),
-          ]
-        }),
-        catchError(err => [new SnackErrorPush({ message: 'Failed to mark as read mail.' })]),
-      );
+        .pipe(
+          switchMap(res => {
+            return [
+              new ReadMailSuccess(payload),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to mark mail as read.' })]),
+        );
     });
 
-    @Effect()
-    starMailEffect: Observable<any> = this.actions
-        .ofType(MailActionTypes.STAR_MAIL)
-        .map((action: ReadMail) => action.payload)
-        .switchMap(payload => {
-            return this.mailService.markAsStarred(payload.ids, payload.starred)
-                .pipe(
-                    switchMap( res => {
-                        return [
-                            new StarMailSuccess(payload),
-                        ]
-                    }),
-                    catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })]),
-                );
-        });
+  @Effect()
+  starMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.STAR_MAIL)
+    .map((action: ReadMail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.markAsStarred(payload.ids, payload.starred)
+        .pipe(
+          switchMap(res => {
+            return [
+              new StarMailSuccess(payload),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })]),
+        );
+    });
 
-    @Effect()
-  getMailDetailEffect: Observable<any>  = this.actions
-  .ofType(MailActionTypes.GET_MAIL_DETAIL)
-  .map((action: GetMailDetail) => action.payload)
-  .switchMap(payload => {
-    return this.mailService.getMessage(payload)
-    .pipe(
-      switchMap(res => {
-        return [new GetMailDetailSuccess(res)];
-      })
-    );
-  });
+  @Effect()
+  getMailDetailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.GET_MAIL_DETAIL)
+    .map((action: GetMailDetail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.getMessage(payload)
+        .pipe(
+          switchMap(res => {
+            return [new GetMailDetailSuccess(res)];
+          })
+        );
+    });
 
 }

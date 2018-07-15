@@ -1,11 +1,11 @@
 <div [ngSwitch]="mailFolder">
-    <ng-container *ngSwitchCase="mailFolderType.INBOX">
+    <ng-container *ngSwitchCase="mailFolderTypes.INBOX">
         <app-inbox [mails]="mails"></app-inbox>
     </ng-container>
-    <ng-container *ngSwitchCase="mailFolderType.DRAFT">
+    <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
         <app-draft [mails]="mails"></app-draft>
     </ng-container>
-    <ng-container *ngSwitchCase="mailFolderType.TRASH">
+    <ng-container *ngSwitchCase="mailFolderTypes.TRASH">
         <app-trash [mails]="mails"></app-trash>
     </ng-container>
     <ng-container *ngSwitchDefault>

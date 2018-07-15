@@ -1,12 +1,12 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 // Models
-import { Mail, MailFolderType } from '../../store/models';
+import { Mail, MailFolderType, mailFolderTypes } from '../../store/models';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 // Store
 import { Store } from '@ngrx/store';
-import { GetMails, MoveMail, StarMail } from '../../store/actions';
+import { DeleteMail, GetMails, MoveMail, StarMail } from '../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { AppState, MailState } from '../../store/datatypes';
 import { ReadMail } from '../../store/actions/mail.actions';
@@ -24,6 +24,7 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   mails: Mail[];
   mailFolder: MailFolderType = MailFolderType.INBOX;
+  mailFolderTypes = mailFolderTypes;
   private_key: string;
   public_key: string;
   readonly destroyed$: Observable<boolean>;
@@ -82,8 +83,10 @@ export class MailListComponent implements OnInit, OnDestroy {
   markAsRead(isRead: boolean = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
-    // Dispatch mark as read event to store
-    this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+    if (ids) {
+      // Dispatch mark as read event to store
+      this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+    }
   }
 
   toggleStarred(mail: Mail) {
@@ -101,27 +104,43 @@ export class MailListComponent implements OnInit, OnDestroy {
   markAsStarred() {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
-    // Dispatch mark as read event to store
-    this.store.dispatch(new StarMail({ ids: ids, starred: true }));
+    if (ids) {
+      // Dispatch mark as read event to store
+      this.store.dispatch(new StarMail({ ids, starred: true }));
+    }
   }
 
   moveToTrash() {
-    this.moveToFolder(MailFolderType.TRASH);
+    if (this.mailFolder === MailFolderType.TRASH) {
+      const ids = this.getMailIDs();
+      // Dispatch permanent delete mails event.
+      if (ids) {
+        this.store.dispatch(new DeleteMail({ ids }));
+      }
+    } else {
+      this.moveToFolder(MailFolderType.TRASH);
+    }
   }
 
+  /**
+   * @name moveToFolder
+   * @description Move mails to selected folder type
+   * @param {MailFolderType} folder
+   */
   moveToFolder(folder: MailFolderType) {
-    // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
-    // Dispatch mark as read event to store
-    this.store.dispatch(new MoveMail({ ids: ids, folder: folder }));
+    if (ids) {
+      // Dispatch mark as read event to store
+      this.store.dispatch(new MoveMail({ ids, folder: folder }));
+    }
   }
 
-  get mailFolderType() {
-    return MailFolderType;
-  }
-
+  /**
+   * @name getMailIDs
+   * @description Get list of comma separated IDs from mail object list
+   * @returns {string} Comma separated IDs
+   */
   private getMailIDs() {
-    // Get list of concatinated IDs from mail object list
     return this.mails.filter(mail => mail.marked).map(mail => mail.id).join(',');
   }
 
