@@ -57,3 +57,11 @@ export const mailFolderTypes: any = {
   SPAM: MailFolderType.SPAM,
   TRASH: MailFolderType.TRASH,
 };
+
+export interface Attachment {
+  id?: number;
+  document: any;
+  hash: string;
+  message: string;
+  progress?: number;
+}

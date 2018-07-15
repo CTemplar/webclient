@@ -3,7 +3,7 @@ import { MailBoxesState } from './datatypes';
 import { Params } from '@angular/router';
 // Ngrx
 // Models
-import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox } from '../store/models';
+import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox, Attachment } from '../store/models';
 
 export interface RouterStateUrl {
   url: string;
@@ -73,6 +73,7 @@ export interface MailState {
   encryptedContent?: string;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
+  attachments: Attachment[];
 }
 
 export interface MailBoxesState {

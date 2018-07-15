@@ -72,6 +72,15 @@ export class MailService {
     return this.http.delete<any>(`${apiUrl}/emails/messages/?id__in=${ids}`);
   }
 
+  uploadFile(data: any): Observable<any[]> {
+    const formData = new FormData();
+    formData.append('document', data.file, data.file.name);
+
+    return this.http.post<any>(`${apiUrl}/emails/attachments/create/`, formData, {
+      reportProgress: true
+    });
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

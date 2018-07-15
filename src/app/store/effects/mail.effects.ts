@@ -1,3 +1,5 @@
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+
 // Angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,7 +21,7 @@ import {
   MoveMailSuccess,
   ReadMail,
   ReadMailSuccess,
-  StarMailSuccess
+  StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess
 } from '../actions/mail.actions';
 // Custom Actions
 import {
@@ -149,6 +151,22 @@ export class MailEffects {
             return [new GetMailDetailSuccess(res)];
           })
         );
+    });
+
+  @Effect()
+  uploadAttachmentEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.UPLOAD_ATTACHMENT)
+    .map((action: UploadAttachment) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.uploadFile(payload)
+        .switchMap((event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            const progress = Math.round(100 * event.loaded / event.total);
+            return [new UploadAttachmentProgress({id: payload.id, progress: progress})];
+          } else if (event instanceof HttpResponse) {
+            return [new UploadAttachmentSuccess(event)];
+          }
+        });
     });
 
 }
