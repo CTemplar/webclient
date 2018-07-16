@@ -74,11 +74,15 @@ export class UsersService {
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, body).pipe(
       tap(data => {
-        sessionStorage.setItem('token', data.token);
-        sessionStorage.setItem('user_key', btoa(body.password));
-        this.setTokenExpiration();
+        this.setLoginData(data);
       })
     );
+  }
+
+  private setLoginData(data: any) {
+    sessionStorage.setItem('token', data.token);
+    sessionStorage.setItem('user_key', btoa(body.password));
+    this.setTokenExpiration();
   }
 
   signOut() {
@@ -96,7 +100,11 @@ export class UsersService {
       password: user.password,
       recaptcha: user.recaptcha
     };
-    return this.http.post<any>(url, body);
+    return this.http.post<any>(url, body).pipe(
+      tap(data => {
+        this.setLoginData(data);
+      })
+    );
   }
 
   verifyToken(): Observable<any> {

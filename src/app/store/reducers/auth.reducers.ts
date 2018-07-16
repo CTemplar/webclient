@@ -1,5 +1,5 @@
 // Custom Action
-import { AuthActionTypes, AuthActionAll } from '../actions';
+import { AuthActionTypes, AuthActionAll, LogInSuccess } from '../actions';
 
 // Model
 import { AuthState } from '../datatypes';
@@ -8,7 +8,8 @@ import {ActionReducer} from '@ngrx/store';
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
-  errorMessage: null
+  errorMessage: null,
+  inProgress: false
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -41,13 +42,20 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        errorMessage: null
+        errorMessage: null,
+        inProgress: false,
       };
     }
     case AuthActionTypes.SIGNUP_FAILURE: {
       return {
         ...state,
-        errorMessage: 'That username is already in use.'
+        errorMessage: 'That username is already in use.',
+        inProgress: false
+      };
+    }
+    case AuthActionTypes.SIGNUP: {
+      return {
+        ...state, inProgress: true
       };
     }
     case AuthActionTypes.LOGOUT: {

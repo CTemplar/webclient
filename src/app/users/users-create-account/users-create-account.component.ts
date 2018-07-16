@@ -13,6 +13,7 @@ import { FinalLoading, SignUp } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { NotificationService } from '../../store/services/notification.service';
 
 declare var openpgp;
 
@@ -53,12 +54,14 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   checkPrivacybox: boolean = null;
   checkEmailRecovery = null;
   isCaptchaCompleted: boolean = false;
+  signupInProgress: boolean = false;
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private router: Router,
               private store: Store<AppState>,
               private openPgpService: OpenPgpService,
-              private sharedService: SharedService) {}
+              private sharedService: SharedService,
+              private notificationService: NotificationService) {}
 
   ngOnInit() {
 
@@ -137,6 +140,23 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       recaptcha: this.signupForm.value.captchaResponse
     };
     this.store.dispatch(new SignUp(this.data));
+    this.handleUserState();
+  }
+
+  private handleUserState(): void {
+    this.store.select(state => state.auth).
+    takeUntil(this.destroyed$).subscribe((state: AuthState) => {
+      this.signupInProgress = state.inProgress;
+      if (!this.signupInProgress) {
+        this.signupInProgress = false;
+        if (!state.inProgress && state.errorMessage) {
+          this.notificationService.showError(`Failed to create account.`);
+        } else {
+          this.notificationService.showSuccess(`Account created successfully.`);
+        }
+
+      }
+    });
   }
 
   checkUsernameTaken(event: any) {

@@ -74,8 +74,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.bitcoin).subscribe((bitcoinState: BitcoinState) => {
       this.bitcoinState = bitcoinState;
       this.bitcoinValueToDecimal = this.bitcoinState.currentUSDValue;
-      this.bitcoinValueToDecimal = 8 / this.bitcoinValueToDecimal;
-      this.bitcoinValueToDecimal = parseFloat(Math.round(this.bitcoinValueToDecimal * 100000) / 100000).toFixed(5);
+      this.bitcoinValueToDecimal = (8 / this.bitcoinValueToDecimal).toFixed(5);
     });
     this.createNewWallet();
   }
@@ -86,6 +85,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.bitcoinState.newWalletAddress = bitcoinState.newWalletAddress;
     });
   }
+
   confirmTransaction() {
     const data = {
       'fromWIF': this.bitcoinState.Wif,

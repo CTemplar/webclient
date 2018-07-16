@@ -8,7 +8,7 @@ export function apiHeaders() {
 }
 
 export const apiUrl = 'https://api.ctemplar.com/';
-export const bitcoinUrl = 'http://localhost:8080/';
+ export const bitcoinUrl = 'http://82.221.139.154/';
 
 export const COLORS: string[] = [
   '#000000', '#616161', '#828282', '#adadad',

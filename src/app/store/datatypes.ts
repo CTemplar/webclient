@@ -19,6 +19,7 @@ export interface AuthState {
   user: User | null;
   // error message
   errorMessage: string | null;
+  inProgress: boolean;
 }
 
 export interface UserState {

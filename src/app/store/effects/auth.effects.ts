@@ -78,15 +78,12 @@ export class AuthEffects {
     });
 
   @Effect({ dispatch: false })
-  SignUpSuccess: Observable<any> = this.actions.pipe(
-    ofType(AuthActionTypes.SIGNUP_SUCCESS),
-    tap((user) => {
-      sessionStorage.setItem('token', user.payload.token);
-      this.authService.setTokenExpiration();
-      this.authService.signedIn();
-      this.router.navigateByUrl('/mail');
-    })
-  );
+  SignUpSuccess: Observable<any> = this.actions
+    .ofType(AuthActionTypes.SIGNUP_SUCCESS)
+    .map((action: SignUpSuccess) => action.payload)
+    .map(payload => {
+      return new LogInSuccess(payload);
+    });
 
   @Effect({ dispatch: false })
   SignUpFailure: Observable<any> = this.actions.pipe(
