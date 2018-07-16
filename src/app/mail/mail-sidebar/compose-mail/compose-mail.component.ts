@@ -225,7 +225,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleAttachment(mailState: MailState) {
-    this.attachments = mailState.attachments;
+    // usage Object.assign to create new copy and avoid storing reference of mailState.attachments
+    this.attachments = Object.assign([], mailState.attachments);
   }
 
   onAttachImageURL(url: string) {
