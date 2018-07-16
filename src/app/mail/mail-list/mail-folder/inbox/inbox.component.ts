@@ -17,8 +17,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mailFolderTypes = mailFolderTypes;
 
-  mails: Mail[];
-  loaded: boolean;
+  mailState: MailState;
 
   constructor(public store: Store<AppState>) {
   }
@@ -27,8 +26,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.INBOX }));
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
-        this.mails = mailState.mails;
-        this.loaded = mailState.loaded;
+        this.mailState = mailState;
       });
   }
 
