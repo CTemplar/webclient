@@ -73,7 +73,10 @@ export class MailService {
   }
 
   uploadFile(data: Attachment): Observable<any[]> {
-    const formData = { message: data.message, document: data.document, hash: data.hash };
+    const formData = new FormData();
+    formData.append('document', data.document);
+    formData.append('message', data.message.toString());
+    formData.append('hash', data.hash);
 
     return this.http.post<any>(`${apiUrl}/emails/attachments/create/`, formData, {
       reportProgress: true,
