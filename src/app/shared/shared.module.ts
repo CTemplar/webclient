@@ -17,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SafePipe } from './pipes/safe.pipe';
 import { TagInputModule } from 'ngx-chips';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { DynamicScriptLoaderService } from './services/dynamic-script-loader.service';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, TagInputModule],
@@ -46,7 +47,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     TagInputModule,
     ProgressBarComponent,
   ],
-  providers: [SpinnerService]
+  providers: [SpinnerService, DynamicScriptLoaderService]
 })
 export class SharedModule {
 }
