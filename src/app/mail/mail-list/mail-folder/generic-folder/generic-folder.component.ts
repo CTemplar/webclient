@@ -15,7 +15,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 export class GenericFolderComponent implements OnInit, OnDestroy {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: string;
-  @Input() progressBarActive: boolean;
+  @Input() showProgress: boolean;
 
   mailFolderTypes = mailFolderTypes;
 

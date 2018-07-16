@@ -17,6 +17,7 @@ export class DraftComponent implements OnInit, OnDestroy {
   mailFolderTypes = mailFolderTypes;
 
   mails: Mail[];
+  loaded: boolean;
 
   constructor(public store: Store<AppState>) {
   }
@@ -27,6 +28,7 @@ export class DraftComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
         this.mails = mailState.mails;
+        this.loaded = mailState.loaded;
       });
   }
 

@@ -70,6 +70,7 @@ export interface MailState {
   folders: Map<string, Mail[]>;
   draft: Mail;
   inProgress?: boolean;
+  loaded?: boolean;
   encryptedContent?: string;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
