@@ -107,8 +107,8 @@
               <span class="attach-size">({{file.size}}) </span>
             </div>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45"
-                   aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar" role="progressbar" [style.width]="file.progress || 0 + '%'"
+                   [attr.aria-valuenow]="file.progress" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <button type="button" role="button" (click)="removeAttachment(file)"
                     class="attach-uploader-close" placement="top" ngbTooltip="Remove">
