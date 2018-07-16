@@ -10,6 +10,8 @@ export const ScriptStore: Scripts[] = [
   { name: 'stripe-key', src: '../../../assets/js/stripe-key.js' }
 ];
 
+declare var document: any;
+
 @Injectable()
 export class DynamicScriptLoaderService {
 
