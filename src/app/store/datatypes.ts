@@ -66,7 +66,8 @@ export interface BlogState {
 
 export interface MailState {
   mails: Mail[];
-  folders: any[];
+  mailDetail: Mail;
+  folders: Map<string, Mail[]>;
   draft: Mail;
   inProgress?: boolean;
   encryptedContent?: string;

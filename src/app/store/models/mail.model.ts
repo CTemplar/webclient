@@ -18,7 +18,10 @@ export interface Mail {
   destruct_date?: string;
   delayed_delivery?: string;
   dead_man_timer?: string;
+  datetime?: string;
+  marked?: boolean;
 }
+
 export interface Mailbox {
   id?: number;
   folders: string;
@@ -29,3 +32,28 @@ export interface Mailbox {
   public_key: string;
   signature?: string;
 }
+
+
+export enum MailFolderType {
+  INBOX = 'inbox',
+  SENT = 'sent',
+  DRAFT = 'draft',
+  STARRED = 'starred',
+  ARCHIVE = 'archive',
+  SPAM = 'spam',
+  TRASH = 'trash'
+}
+
+/**
+ * mailFolderTypes to avoid dirty checking of view
+ * @type {{INBOX: MailFolderType; SENT: MailFolderType; DRAFT: MailFolderType; STARRED: MailFolderType; ARCHIVE: MailFolderType; SPAM: MailFolderType; TRASH: MailFolderType}}
+ */
+export const mailFolderTypes: any = {
+  INBOX: MailFolderType.INBOX,
+  SENT: MailFolderType.SENT,
+  DRAFT: MailFolderType.DRAFT,
+  STARRED: MailFolderType.STARRED,
+  ARCHIVE: MailFolderType.ARCHIVE,
+  SPAM: MailFolderType.SPAM,
+  TRASH: MailFolderType.TRASH,
+};

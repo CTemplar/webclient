@@ -5,31 +5,69 @@ import { MailState } from '../datatypes';
 
 export const initialState: MailState = {
   mails: [],
-  folders: [],
+  mailDetail: null,
+  folders: new Map(),
   inProgress: false,
   draft: null,
   encryptedContent: null,
   decryptedContent: null,
-  isPGPInProgress: false,
+  isPGPInProgress: false
 };
 
 export function reducer(state = initialState, action: MailActions): MailState {
   switch (action.type) {
-    case MailActionTypes.GET_MAILS_SUCCESS: {
+    case MailActionTypes.GET_MAILS: {
+      const mails = state.folders.get(action.payload.folder);
       return {
         ...state,
-        mails: action.payload
+        mails: mails ? mails : [],
       };
     }
 
+    case MailActionTypes.GET_MAILS_SUCCESS: {
+      state.folders.set(action.payload.folder, action.payload.mails);
+      return {
+        ...state,
+        mails: action.payload.mails,
+      };
+    }
 
     case MailActionTypes.DELETE_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       return { ...state, inProgress: true };
     }
 
+    case MailActionTypes.MOVE_MAIL_SUCCESS: {
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
+      return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.READ_MAIL_SUCCESS: {
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.map(mail => {
+        if (listOfIDs.includes(mail.id.toString())) {
+          mail.read = action.payload.read;
+        }
+        return mail;
+      });
+      return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.STAR_MAIL_SUCCESS: {
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.map(mail => {
+        if (listOfIDs.includes(mail.id.toString())) {
+          mail.starred = action.payload.starred;
+        }
+        return mail;
+      });
+      return { ...state, inProgress: false };
+    }
+
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
-      state.mails.splice(state.mails.indexOf(state.mails.filter(item => item.id === action.payload.id)[0]), 1);
+      const listOfIDs = action.payload.ids.split(',');
+      state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
       return { ...state, inProgress: false };
     }
 
@@ -56,12 +94,36 @@ export function reducer(state = initialState, action: MailActions): MailState {
         ...state,
         isPGPInProgress: action.payload.isPGPInProgress,
         encryptedContent: action.payload.encryptedContent,
-        decryptedContent: action.payload.decryptedContent,
+        decryptedContent: action.payload.decryptedContent
       };
     }
 
     case MailActionTypes.CLOSE_MAILBOX: {
       return { ...state, inProgress: false, draft: null };
+    }
+
+    case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
+      return {
+        ...state,
+        mailDetail: action.payload
+      };
+    }
+
+    case MailActionTypes.GET_MAIL_DETAIL: {
+      return {
+        ...state,
+        mailDetail: null
+      };
+    }
+
+    case MailActionTypes.CLEAR_MAIL_DETAIL: {
+      return {
+        ...state,
+        mailDetail: null,
+        isPGPInProgress: false,
+        encryptedContent: null,
+        decryptedContent: null,
+      };
     }
 
     default: {

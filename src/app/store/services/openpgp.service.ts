@@ -46,9 +46,9 @@ export class OpenPgpService {
         if (event.data.key) {
           this.decryptedPrivKeyObj = event.data.key;
           this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
-        } else if (event.data.encryptedContent) {
+        } else if (event.data.encrypted) {
           this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: false, encryptedContent: event.data.encryptedContent }));
-        } else if (event.data.decryptedContent) {
+        } else if (event.data.decrypted) {
           this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: false, decryptedContent: event.data.decryptedContent }));
         }
       });
@@ -56,10 +56,12 @@ export class OpenPgpService {
   }
 
   encrypt(content, publicKeys: any = this.pubkey) {
+    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null }));
     this.pgpWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys });
   }
 
   decrypt(content) {
+    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, decryptedContent: null }));
     this.pgpWorker.postMessage({ content: content, decrypt: true });
   }
 

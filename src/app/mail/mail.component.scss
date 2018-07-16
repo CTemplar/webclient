@@ -905,19 +905,27 @@
 }
 
 // == Listings
+
+.table-fixed table{
+  table-layout: fixed;
+}
+
 .mail-list-row {
   position: relative;
   padding: 0.75rem 0.938rem;
   border-bottom: 1px solid $input-border-color;
   font-size: 0.75rem;
   line-height: 1;
-
+  background-color: #fafaf9;
+  cursor: pointer;
+  
   @include media(">=ipad") {
     padding: 1.032rem 1.563rem;
   }
 
   &.is-unread {
     color: $brand-black !important;
+    background-color: #fff;
   }
 
   &.is-read {
@@ -930,6 +938,10 @@
   }
 
   &.is-selected,
+  &.is-selected:hover {
+    background: #ffc;
+  }
+
   &.is-active {
     background: $brand-secondary !important;
     color: $brand-white !important;
@@ -1059,6 +1071,13 @@
 }
 
 .mail-list-row {
+  
+  td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-top: unset;
+  }
+
   .icon-star {
     font-size: 0.938rem;
     color: $input-border-color;
@@ -1068,9 +1087,28 @@
     font-weight: bold;
   }
 
+  .mail-checkbox,
+  .mail-status {
+    width: 1.5rem;
+  }
+
+  .mail-inbox-message,
+  .mail-from-name{
+    padding: 0;
+    a {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding: 1rem;
+    }
+  }
+
+
+
   .mail-file-size,
   .mail-sent-date {
     font-size: 0.625rem;
+    width: 4rem;
 
     @include media("<=sm") {
       font-size: 0.75rem;
@@ -1082,6 +1120,7 @@
   }
 
   .mail-security-status {
+    width: 4rem;
     color: #34495e;
   }
 
@@ -1098,9 +1137,12 @@
   }
 
   .mail-from-name {
-    @include media("<=sm") {
-      font-size: 1rem;
-    }
+    width: 11.25rem;
+    vertical-align: middle;
+  }
+
+  .mail-subject .mail-content p{
+    display: inline;
   }
 
   .mail-desc {
@@ -1127,20 +1169,36 @@
   }
 }
 
-.mail-delete-badge {
-  margin-right: 0.938rem;
-
-  @include media("<=sm") {
-    margin: 0 0 0.5rem 0;
-    display: block;
-    width: 100%;
-  }
-
-  .badge {
-    padding: 0.21rem 0.5rem 0.23rem 0.5rem;
-    line-height: 1;
-  }
+.badge {
+  border-radius: 3px;
 }
+
+.badge.badge-success{
+  background-color: #007421;
+}
+
+.badge.badge-warning{
+  background-color: #ff9500;
+}
+
+.badge.badge-danger{
+  background-color: #ff4f41;
+}
+
+// .mail-delete-badge {
+//   margin-right: 0.938rem;
+
+//   @include media("<=sm") {
+//     margin: 0 0 0.5rem 0;
+//     display: block;
+//     width: 100%;
+//   }
+
+//   .badge {
+//     padding: 0.21rem 0.5rem 0.23rem 0.5rem;
+//     line-height: 1;
+//   }
+// }
 
 /* Mail list ends */
 

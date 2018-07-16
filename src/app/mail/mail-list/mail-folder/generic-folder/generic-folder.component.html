@@ -1,0 +1,246 @@
+<div class="mailbox-actionbar">
+  <div class="row">
+    <div class="col-12 col-sm-8 mailbox-actionbar-col">
+      <ul class="mailbox-actionbar-menu">
+        <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
+          <div ngbDropdown>
+            <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
+                    placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
+                            <span class="fancy-field-group">
+                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
+                                       type="checkbox" (change)="markAllMails($event.target.checked)"/>
+                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
+                            </span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
+              <a class="dropdown-item" translate="mail_list.all">All</a>
+              <a class="dropdown-item" translate="mail_list.read">Read</a>
+              <a class="dropdown-item" translate="mail_list.unread">Unread</a>
+              <a class="dropdown-item" translate="mail_list.starred">Starred</a>
+              <a class="dropdown-item" translate="mail_list.unstarred">Unstarred</a>
+            </div>
+          </div>
+        </li>
+        <li class="px-0">
+          <a href class="border-right-0 border-radius-right-0" placement="top"
+             [ngbTooltip]="'mail_list.move_to_archive' | translate">
+            <i class="icon icon-archive"></i>
+          </a>
+        </li>
+        <li class="pr-0 pl-0 hidden-xs-down">
+          <a class="border-right-0 border-radius-0" placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate">
+            <i class="icon icon-warning"></i>
+          </a>
+        </li>
+        <li class="px-0">
+          <a (click)="moveToTrash()" class="border-radius-left-0" placement="top"
+             [ngbTooltip]="'mail_list.move_to_trash' | translate">
+            <i class="icon icon-garbage"></i>
+          </a>
+        </li>
+        <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
+          <div ngbDropdown>
+            <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button">
+              <i class="icon icon-more"></i>
+            </button>
+            <div ngbDropdownMenu class="mobiledOptionsDropdown" aria-labelledby="dropdownMoreOptions">
+              <ul class="more-xs-options-list">
+                <li>
+                  <a class="disabled">
+                    <i class="icon icon-warning"></i>
+                  </a>
+                </li>
+                <li class="btn-dropdown mailbox-dropdown folders-dropdown">
+                  <div ngbDropdown>
+                    <button ngbDropdownToggle class="disabledx" id="extraOptionsDropdownMenuButton" role="button">
+                      <i class="icon icon-folder"></i>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="extraOptionsDropdownMenuButton">
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
+                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
+                      </a>
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)">
+                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
+                      </a>
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.ARCHIVE)">
+                        <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
+                      </a>
+                      <span class="divider-item d-block"></span>
+                      <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
+                        <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
+                      </a>
+                      <a class="dropdown-item">
+                        <span class="folder-color-box is-success"></span>Folder 1
+                      </a>
+                      <a class="dropdown-item">
+                        <span class="folder-color-box is-info"></span>Another Folder 21
+                      </a>
+                      <a class="dropdown-item">
+                        <span class="folder-color-box is-warning"></span>Folder 33
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
+          <div ngbDropdown>
+            <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button" placement="top"
+                    [ngbTooltip]="'mail_list.more_to' | translate">
+              <i class="icon icon-folder"></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton">
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
+                <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
+              </a>
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)">
+                <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
+              </a>
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.ARCHIVE)">
+                <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
+              </a>
+              <a class="dropdown-item">
+                <span class="folder-color-box is-success"></span>Folder 1
+              </a>
+              <a class="dropdown-item">
+                <span class="folder-color-box is-info"></span>Another Folder 21
+              </a>
+              <a class="dropdown-item">
+                <span class="folder-color-box is-warning"></span>Folder 33
+              </a>
+              <span class="divider-item d-block"></span>
+              <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
+                <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span></a>
+            </div>
+          </div>
+        </li>
+        <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown pl-0">
+          <div ngbDropdown class="dropdown">
+            <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton"
+                    translate="mail_list.more">
+              More
+            </button>
+            <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
+              <a class="dropdown-item" (click)="markAsStarred()" translate="mail_list.add_star">Add star</a>
+              <a class="dropdown-item" (click)="markAsRead()" translate="mail_list.mark_as_read">Mark as read</a>
+              <a class="dropdown-item" (click)="markAsRead(false)" translate="mail_list.mark_as_unread">Mark as
+                unread</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down">
+      <div class="mail-controls d-flex align-items-center justify-content-end">
+        <div class="mail-result-text text-muted">
+          <small>1-{{mails?.length}} of {{mails?.length}}</small>
+        </div>
+        <div class="mail-nav-control">
+          <button role="button" class="mail-nav-control-prev">
+            <i class="icon icon-chevron-left"></i>
+          </button>
+          <button role="button" class="mail-nav-control-next">
+            <i class="icon icon-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mail-listing">
+  <div class="table-responsive table-hover table-fixed">
+    <table class="table table-inbox">
+      <tbody>
+      <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
+          [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read, 'is-selected':mail.marked}">
+
+
+        <!-- Check box -->
+        <td class="mail-checkbox pl-4">
+          <div class="fancy-field-group">
+            <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" [(ngModel)]="mail.marked"/>
+            <label for={{mail.id}} class="fancy-field-empty"></label>
+          </div>
+        </td>
+
+        <!-- Starred Message -->
+        <td class="mail-status">
+          <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
+            <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
+          </a>
+        </td>
+
+        <!-- Sender Name -->
+        <td class="mail-from-name">
+          <a [routerLink]="['/mail/message/', mail.id]" class="text-dark">
+            {{mail.sender}}
+            <span class="font-weight-bold d-sm-block d-md-none" [innerHTML]="mail.subject">
+                                        <!-- Subject Goes Here -->
+                                </span>
+          </a>
+        </td>
+
+        <!-- Subject -->
+        <td class="mail-inbox-message d-none d-md-block">
+          <a [routerLink]="['/mail/message/', mail.id]" class="text-dark">
+                                <span class="mail-subject">
+
+                                    <span class="badge badge-success mr-2 p-1"
+                                          *ngIf="i==0">Dalay delivery in 1d 5:25:00</span>
+                                    <span class="badge badge-warning mr-2 p-1" *ngIf="i==1">Delete in 1d 5:25:00</span>
+                                    <span class="badge badge-danger mr-2 p-1"
+                                          *ngIf="i==2">Dead mans timer 1d 5:25:00</span>
+
+                                    <span [ngClass]="{'font-weight-bold': !mail.read}" [innerHTML]="mail.subject">
+                                        <!-- Subject Goes Here -->
+                                    </span>
+
+                                </span>
+          </a>
+        </td>
+
+        <!-- Attachment Size -->
+        <td class="mail-file-size">
+          2.6kB
+        </td>
+
+        <!-- Inbox Date -->
+        <td class="mail-sent-date">
+          Jun 18
+        </td>
+
+        <!-- Icon Secured -->
+        <td class="mail-security-status">
+          <i class="icon icon-secured"></i>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="mailbox-footer-actionbar hidden-sm-up">
+  <div class="row justify-content-end">
+
+    <div class="col-12 mailbox-actionbar-col">
+      <div class="mail-controls d-flex align-items-center justify-content-end">
+        <div class="mail-result-text text-muted">
+          <small>1-{{mails?.length}} of {{mails?.length}}</small>
+        </div>
+        <div class="mail-nav-control">
+          <button role="button" class="mail-nav-control-prev">
+            <i class="icon icon-chevron-left"></i>
+          </button>
+          <button role="button" class="mail-nav-control-next">
+            <i class="icon icon-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

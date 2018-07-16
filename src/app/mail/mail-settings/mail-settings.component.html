@@ -914,7 +914,7 @@
                             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                                    value="o8bg359348b24p08gn34408g4p389gbpq938g" readonly=""/>
                             <span class="form-label-text mt-1">
-                                <a [href]="publicKey | safeUrl"><strong><u>
+                                <a [href]="publicKey | safe: 'url'"><strong><u>
                                 <span translate="settings.download_public_kay">Download public key </span>
                                 (2048 Bit)</u></strong>
                                 </a>
