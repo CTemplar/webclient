@@ -8,6 +8,7 @@ export const initialState: MailState = {
   mailDetail: null,
   folders: new Map(),
   inProgress: false,
+  loaded: false,
   draft: null,
   encryptedContent: null,
   decryptedContent: null,
@@ -20,6 +21,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       const mails = state.folders.get(action.payload.folder);
       return {
         ...state,
+        loaded: mails ? true : false,
         mails: mails ? mails : [],
       };
     }
@@ -29,6 +31,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return {
         ...state,
         mails: action.payload.mails,
+        loaded: true,
       };
     }
 

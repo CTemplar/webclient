@@ -16,7 +16,7 @@ export class TrashComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mailFolderTypes = mailFolderTypes;
 
-  mails: Mail[];
+  mailState: MailState;
 
   constructor(public store: Store<AppState>) {
   }
@@ -26,7 +26,7 @@ export class TrashComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
-        this.mails = mailState.mails;
+        this.mailState = mailState;
       });
   }
 

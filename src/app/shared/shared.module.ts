@@ -16,6 +16,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { TranslateModule } from '@ngx-translate/core';
 import { SafePipe } from './pipes/safe.pipe';
 import { TagInputModule } from 'ngx-chips';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, TagInputModule],
@@ -31,6 +32,7 @@ import { TagInputModule } from 'ngx-chips';
     LoadingComponent,
     LoadingSpinnerComponent,
     SafePipe,
+    ProgressBarComponent,
   ],
   exports: [
     TranslateModule,
@@ -42,6 +44,7 @@ import { TagInputModule } from 'ngx-chips';
     LoadingSpinnerComponent,
     SafePipe,
     TagInputModule,
+    ProgressBarComponent,
   ],
   providers: [SpinnerService]
 })
