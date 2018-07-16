@@ -144,7 +144,13 @@
 // == Setting form content card
 .form-content-row {
   &:not(:last-child) {
-    margin-bottom: 1.125rem;
+    margin-bottom: 1.25rem;//~1.125rem;
+  }
+
+  &.is-sm {
+    &:not(:last-child) {
+      margin-bottom: 1.125rem;
+    }
   }
 }
 
@@ -163,9 +169,13 @@
 
 .form-content-holder {
   max-width: 570px;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 
-  @include media("<=sm") {
+  @include media(">sm") {
+    font-size: 0.75rem;
+  }
+
+  &-lg  {
     font-size: 0.875rem;
   }
 
@@ -193,6 +203,11 @@
     height: 2rem;
     width: 100%;
     line-height: 1;
+
+    .form-content-holder-lg & {
+      font-size: 0.875rem;
+      height: 2.75rem;
+    }
 
     &::before {
       right: 0.75rem;
@@ -392,4 +407,20 @@
       padding: 2.657rem 0.75rem;
     }
   }
+}
+
+// == Custom fields group
+.custom-field-group {
+  margin-right: -0.625rem;
+  margin-left: -0.625rem;
+  line-height: 1.4;
+}
+
+.custom-field-item {
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
+}
+
+.custom-field-label-sm-text {
+  font-size: 0.625rem;
 }

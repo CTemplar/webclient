@@ -1,10 +1,11 @@
 <!-- Settings page tab actions bar -->
 <div class="ui-tab settings-tab-component">
     <ngb-tabset type="pills">
+        <!-- Dashboard and plans tab -->
         <ngb-tab title="Dashboard and plans">
             <ng-template ngbTabContent>
                 <section class="mailbox-section mt-0">
-                    <div class="mailbox-section-body pt-0">
+                    <div class="mailbox-section-body border-0 p-0">
                         <div class="desc-card-holder mt-sm-3 mt-md-0">
                             <div class="row">
                                 <div class="col-md-6 d-flex mb-4 mb-md-0">
@@ -114,7 +115,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="mailbox-section">
+                <section class="mailbox-section mailbox-section-lg">
                     <div class="ui-header ui-header-bordered border-all-corner position-relative">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account Type</strong></h5>
                         <div class="l-alert l-alert-danger l-alert-is-floated d-inline-block text-center hidden-md-up">
@@ -124,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mailbox-section-body">
+                    <div class="mailbox-section-body border-0 p-0">
                         <div class="package-card-holder settings-package-card-holder">
                             <ul class="package-xs-tab list-style-none mt-0 hidden-sm-up">
                                 <li class="active" [class.is-active]="1 === selectedIndex" >
@@ -139,7 +140,7 @@
                             </ul>
                             <div class="row flex-nowrap row-md">
                                 <div class="col-sm-4 flex-sm-last package-col-sm package-prime-col active-slide" [class.is-active-slide]="1 === selectedIndex">
-                                    <div class="package-card package-card-prime is-shadowed bg-white text-dark">
+                                    <div class="package-card package-card-prime is-shadowed bg-faded text-dark">
                                         <header class="package-card-header text-center"><h2 class="text-white m-0">
                                             <strong translate="settings.prime">Prime</strong></h2></header>
                                         <div class="package-card-body">
@@ -151,9 +152,7 @@
                                                     <i class="fa fa-check text-green"></i>
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
-                                                            <button ngbDropdownToggle role="button"
-                                                                    id="storageDropdownMenuButton">5 Gb Storage
-                                                            </button>
+                                                            <button ngbDropdownToggle class="bg-faded" role="button" id="storageDropdownMenuButton">5 Gb Storage</button>
                                                             <div ngbDropdownMenu aria-labelledby="storageDropdownMenuButton">
                                                                 <a class="dropdown-item">10 Gb Storage + $4/MO </a>
                                                                 <a class="dropdown-item">15 Gb Storage + $8/MO</a>
@@ -167,7 +166,7 @@
                                                     <i class="fa fa-check text-green"></i>
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
-                                                            <button ngbDropdownToggle role="button" id="emailsDropdownMenuButton">5 E-mail Address</button>
+                                                            <button ngbDropdownToggle class="bg-faded" role="button" id="emailsDropdownMenuButton">5 E-mail Address</button>
                                                             <div ngbDropdownMenu aria-labelledby="emailsDropdownMenuButton">
                                                                 <a class="dropdown-item">10 Gb Storage + $4/MO </a>
                                                                 <a class="dropdown-item">15 Gb Storage + $8/MO</a>
@@ -181,7 +180,7 @@
                                                     <i class="fa fa-check text-green"></i>
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
-                                                            <button ngbDropdownToggle role="button" id="customDomainsDropdownMenuButton">1 Custom Domain</button>
+                                                            <button ngbDropdownToggle class="bg-faded" role="button" id="customDomainsDropdownMenuButton">1 Custom Domain</button>
                                                             <div ngbDropdownMenu aria-labelledby="customDomainsDropdownMenuButton">
                                                                 <a class="dropdown-item">10 Gb Storage + $4/MO </a>
                                                                 <a class="dropdown-item">15 Gb Storage + $8/MO</a>
@@ -268,7 +267,7 @@
                                 </div>
 
                                 <div class="col-sm-4 flex-sm-last package-col-sm package-elite-col active-slide" [class.is-active-slide]="2 === selectedIndex">
-                                    <div class="package-card package-card-elite is-shadowed bg-white text-dark">
+                                    <div class="package-card package-card-elite is-shadowed bg-faded text-dark">
                                         <header class="package-card-header text-center">
                                             <h2 class="text-white m-0"><strong>Elite</strong></h2>
                                         </header>
@@ -281,9 +280,7 @@
                                                     <i class="fa fa-check text-green"></i>
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
-                                                            <button ngbDropdownToggle role="button"
-                                                                    id="elitestorageDropdownMenuButton">5 Gb Storage
-                                                            </button>
+                                                            <button ngbDropdownToggle class="bg-faded" role="button" id="elitestorageDropdownMenuButton">5 Gb Storage</button>
                                                             <div ngbDropdownMenu aria-labelledby="elitestorageDropdownMenuButton">
                                                                 <a class="dropdown-item">10 Gb Storage + $4/MO </a>
                                                                 <a class="dropdown-item">15 Gb Storage + $8/MO</a>
@@ -297,7 +294,7 @@
                                                     <i class="fa fa-check text-green"></i>
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
-                                                            <button ngbDropdownToggle role="button" id="eliteemailsDropdownMenuButton">5 E-mail Address</button>
+                                                            <button ngbDropdownToggle class="bg-faded" role="button" id="eliteemailsDropdownMenuButton">5 E-mail Address</button>
                                                             <div ngbDropdownMenu aria-labelledby="eliteemailsDropdownMenuButton">
                                                                 <a class="dropdown-item">10 Gb Storage + $4/MO </a>
                                                                 <a class="dropdown-item">15 Gb Storage + $8/MO</a>
@@ -311,7 +308,7 @@
                                                     <i class="fa fa-check text-green"></i>
                                                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                                         <div ngbDropdown class="storage-select-dropdown">
-                                                            <button ngbDropdownToggle role="button" id="elitecustomDomainsDropdownMenuButton">1 Custom Domain</button>
+                                                            <button ngbDropdownToggle class="bg-faded" role="button" id="elitecustomDomainsDropdownMenuButton">1 Custom Domain</button>
                                                             <div ngbDropdownMenu aria-labelledby="elitecustomDomainsDropdownMenuButton">
                                                                 <a class="dropdown-item">10 Gb Storage + $4/MO </a>
                                                                 <a class="dropdown-item">15 Gb Storage + $8/MO</a>
@@ -397,7 +394,7 @@
                                 </div>
 
                                 <div class="col-sm-4 package-col-sm package-basic-col" [class.is-active-slide]="3 === selectedIndex">
-                                    <div class="package-card package-card-basic bg-faded text-dark">
+                                    <div class="package-card package-card-basic is-shadowed bg-faded text-dark">
                                         <header class="package-card-header text-center"><h2 class="text-white m-0">
                                             <strong translate="settings.free">Free</strong></h2></header>
                                         <div class="package-card-body">
@@ -455,14 +452,374 @@
                 </section>
             </ng-template>
         </ngb-tab>
+        <!-- /.Dashboard and plans tab ends -->
+
+        <!-- General tab -->
         <ngb-tab title="General">
             <ng-template ngbTabContent>
-                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-                    master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                    dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                    iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                <!-- General settings section -->
+                <section class="mailbox-section mt-0">
+                    <header class="ui-header ui-header-bordered border-all-corner position-relative mb-0">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General settings</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body bg-faded">
+                        <div class="form-content-holder form-content-holder-lg">
+                            <div class="form-content-row is-sm">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.language">Language</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="btn-dropdown btn-dropdown-select">
+                                            <div ngbDropdown class="dropdown-sm">
+                                                <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
+                                                    {{selectedLanguage?.name}} ({{selectedLanguage?.locale}})
+                                                </button>
+                                                <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
+                                                    <a class="dropdown-item"
+                                                       *ngFor="let language of languages"
+                                                       (click)="updateLanguage(language)">
+                                                        {{language.name}} ({{language.locale}})
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.current_time_zone">Current time zone</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="btn-dropdown btn-dropdown-select">
+                                            <div ngbDropdown class="dropdown-sm">
+                                                <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{settings.timezone}}
+                                                </button>
+                                                <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
+                                                    <a class="dropdown-item"
+                                                       *ngFor="let timezone of timezones"
+                                                       (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically save contacts</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="autoSaveField1" name="[1]" type="radio"
+                                                           (click)="updateSettings('save_contacts', true)"
+                                                           [checked]="settings.save_contacts"/>
+                                                    <label for="autoSaveField1" translate="common.enabled">Enabled</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="autoSaveField2" name="[1]" type="radio"
+                                                           (click)="updateSettings('save_contacts', false)"
+                                                           [checked]="!settings.save_contacts"/>
+                                                    <label for="autoSaveField2" translate="common.disabled">Disabled</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.vacation_responder">Vacation responder</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="responderField1" name="[2]" type="radio"
+                                                           (click)="updateSettings('autoresponder', true)"
+                                                           [checked]="settings.autoresponder"/>
+                                                    <label for="responderField1" translate="common.enabled">Enabled</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="responderField2" name="[2]" type="radio"
+                                                           (click)="updateSettings('autoresponder', false)"
+                                                           [checked]="!settings.autoresponder"/>
+                                                    <label for="responderField2" translate="common.disabled">Disabled</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /.General settings section ends -->
+
+                <!-- Appearance section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered border-all-corner position-relative mb-0">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body bg-faded">
+                        <div class="form-content-holder form-content-holder-lg">
+                            <!--<div class="form-content-row">-->
+                                <!--<div class="row align-items-center">-->
+                                    <!--<div class="col-sm-5">-->
+                                        <!--<label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display name</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-sm-7">-->
+                                        <!--<input class="form-control form-control-sm" id="displayName" type="text"-->
+                                               <!--[(ngModel)]="settings.display_name"-->
+                                               <!--[ngModelOptions]="{ updateOn: 'blur'}"-->
+                                               <!--(change)="updateSettings('display_name', $event.target.value)"-->
+                                               <!--placeholder="John Simpson"/>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-content-row">-->
+                                <!--<div class="row align-items-center">-->
+                                    <!--<div class="col-sm-5">-->
+                                        <!--<label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-sm-7">-->
+                            <!--<textarea class="form-control form-control-sm form-control-contenteditable" id="signature"-->
+                                      <!--[(ngModel)]="settings.signature"-->
+                                      <!--[ngModelOptions]="{ updateOn: 'blur'}"-->
+                                      <!--(change)="updateSettings('signature', $event.target.value)"-->
+                                      <!--contenteditable="true">-->
+                            <!--</textarea>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails per page</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="emailCoutField1" name="[5]" type="radio"
+                                                           (click)="updateSettings('emails_per_page', 20)"
+                                                           [checked]="settings?.emails_per_page===20"/>
+                                                    <label for="emailCoutField1">20</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="emailCoutField2" name="[5]" type="radio"
+                                                           (click)="updateSettings('emails_per_page', 50)"
+                                                           [checked]="settings?.emails_per_page===50"/>
+                                                    <label for="emailCoutField2">50</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="emailCoutField3" name="[5]" type="radio"
+                                                           (click)="updateSettings('emails_per_page', 100)"
+                                                           [checked]="settings?.emails_per_page===100"/>
+                                                    <label for="emailCoutField3">100</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="emailCoutField4" name="[5]" type="radio"
+                                                           (click)="updateSettings('emails_per_page', 200)"
+                                                           [checked]="settings?.emails_per_page===200"/>
+                                                    <label for="emailCoutField4">200</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load embedded content</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="embeddedContentField1" name="[6]" type="radio"
+                                                           (click)="updateSettings('embed_content', true)"
+                                                           [checked]="settings?.embed_content"/>
+                                                    <label for="embeddedContentField1" translate="common.yes">Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="embeddedContentField2" name="[6]" type="radio"
+                                                           (click)="updateSettings('embed_content', false)"
+                                                           [checked]="!settings?.embed_content"/>
+                                                    <label for="embeddedContentField2" translate="common.no">No</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="embeddedContentField3" name="[6]" type="radio" disabled/>
+                                                    <label for="embeddedContentField3" translate="settings.only_images">Only images</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.show_snippets">Show snippets</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="showSnippetsField1" name="[7]" type="radio"
+                                                           (click)="updateSettings('show_snippets', true)"
+                                                           [checked]="settings?.show_snippets"/>
+                                                    <label for="showSnippetsField1" translate="common.yes">Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="showSnippetsField2" name="[7]" type="radio"
+                                                           (click)="updateSettings('show_snippets', false)"
+                                                           [checked]="!settings?.show_snippets"/>
+                                                    <label for="showSnippetsField2" translate="common.no">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /. Appearance sction ends -->
+
+                <!-- Desktop notification section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered border-all-corner position-relative mb-0">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Desktop Notifications</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body bg-faded">
+                        <div class="form-content-holder form-content-holder-lg">
+                            <div class="form-content-row">
+                                <div class="d-flex custom-field-group">
+                                    <div class="custom-field-item">
+                                        <div class="fancy-field-group">
+                                            <input class="d-none fancy-field-control fancy-field-control-sm" id="allNotificationOnField" name="[desktopNotificationGroup]" type="radio" checked />
+                                            <label for="allNotificationOnField"></label>
+                                        </div>
+                                    </div>
+                                    <div class="custom-field-item">
+                                        <div class="custom-field-label">All notifications on <br/><span class="custom-field-label-sm-text">Notify me when any new message arrives in my inbox or primary tab</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="d-flex custom-field-group">
+                                    <div class="custom-field-item">
+                                        <div class="fancy-field-group">
+                                            <input class="d-none fancy-field-control fancy-field-control-sm" id="mailNotificationOnField" name="[desktopNotificationGroup]" type="radio" />
+                                            <label for="mailNotificationOnField"></label>
+                                        </div>
+                                    </div>
+                                    <div class="custom-field-item">
+                                        <div class="custom-field-label">Mail notifications on <br/><span class="custom-field-label-sm-text">Notify me only when an important message arrives in my inbox</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="d-flex custom-field-group">
+                                    <div class="custom-field-item">
+                                        <div class="fancy-field-group">
+                                            <input class="d-none fancy-field-control fancy-field-control-sm" id="mailNotificationOffField" name="[desktopNotificationGroup]" type="radio" />
+                                            <label for="mailNotificationOffField"></label>
+                                        </div>
+                                    </div>
+                                    <div class="custom-field-item">
+                                        <div class="custom-field-label">Mail notifications off</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /.Desktop notification section ends -->
+
+                <!-- Email notification section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered border-all-corner position-relative mb-0">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Email Notifications</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body bg-faded">
+                        <div class="form-content-holder form-content-holder-lg">
+                            <div class="form-content-row">
+                                <div class="d-flex custom-field-group">
+                                    <div class="custom-field-item">
+                                        <div class="fancy-field-group">
+                                            <input class="d-none fancy-field-control fancy-field-control-sm" id="emailNotificationOnField" name="[emailNotificationGroup]" type="radio" checked />
+                                            <label for="emailNotificationOnField"></label>
+                                        </div>
+                                    </div>
+                                    <div class="custom-field-item">
+                                        <div class="custom-field-label">Email notifications on <br/><span class="custom-field-label-sm-text">Notify me about any new system updates and news</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="d-flex custom-field-group">
+                                    <div class="custom-field-item">
+                                        <div class="fancy-field-group">
+                                            <input class="d-none fancy-field-control fancy-field-control-sm" id="emailNotificationOffField" name="[emailNotificationGroup]" type="radio" />
+                                            <label for="emailNotificationOffField"></label>
+                                        </div>
+                                    </div>
+                                    <div class="custom-field-item">
+                                        <div class="custom-field-label">Email notifications off</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /.Email notification section ends -->
             </ng-template>
         </ngb-tab>
+        <!-- /.General tab ends -->
+
         <ngb-tab title="Filters and blocked addresses">
             <ng-template ngbTabContent>
                 <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
@@ -827,118 +1184,118 @@
         <!--</div>-->
     <!--</section>-->
 
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General settings</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.language">Language</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="btn-dropdown btn-dropdown-select">
-                                <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
-                                        {{selectedLanguage?.name}} ({{selectedLanguage?.locale}})
-                                    </button>
-                                    <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                                        <a class="dropdown-item"
-                                           *ngFor="let language of languages"
-                                           (click)="updateLanguage(language)">
-                                            {{language.name}} ({{language.locale}})
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.current_time_zone">Current time zone</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="btn-dropdown btn-dropdown-select">
-                                <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{settings.timezone}}
-                                    </button>
-                                    <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
-                                        <a class="dropdown-item"
-                                           *ngFor="let timezone of timezones"
-                                           (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically save contacts</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField1" name="[1]" type="radio"
-                                               (click)="updateSettings('save_contacts', true)"
-                                               [checked]="settings.save_contacts"/>
-                                        <label for="autoSaveField1" translate="common.enabled">Enabled</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField2" name="[1]" type="radio"
-                                               (click)="updateSettings('save_contacts', false)"
-                                               [checked]="!settings.save_contacts"/>
-                                        <label for="autoSaveField2" translate="common.disabled">Disabled</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.vacation_responder">Vacation responder</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField1" name="[2]" type="radio"
-                                               (click)="updateSettings('autoresponder', true)"
-                                               [checked]="settings.autoresponder"/>
-                                        <label for="responderField1" translate="common.enabled">Enabled</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField2" name="[2]" type="radio"
-                                               (click)="updateSettings('autoresponder', false)"
-                                               [checked]="!settings.autoresponder"/>
-                                        <label for="responderField2" translate="common.disabled">Disabled</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!--<section class="mailbox-section">-->
+        <!--<header class="ui-header ui-header-bordered">-->
+            <!--<h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General settings</strong></h5>-->
+        <!--</header>-->
+        <!--<div class="mailbox-section-body mailbox-section-body-sm">-->
+            <!--<div class="form-content-holder">-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label class="form-label mb-0" translate="settings.language">Language</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="btn-dropdown btn-dropdown-select">-->
+                                <!--<div ngbDropdown class="dropdown-sm">-->
+                                    <!--<button ngbDropdownToggle role="button" id="langDropdownMenuButton">-->
+                                        <!--{{selectedLanguage?.name}} ({{selectedLanguage?.locale}})-->
+                                    <!--</button>-->
+                                    <!--<div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">-->
+                                        <!--<a class="dropdown-item"-->
+                                           <!--*ngFor="let language of languages"-->
+                                           <!--(click)="updateLanguage(language)">-->
+                                            <!--{{language.name}} ({{language.locale}})-->
+                                        <!--</a>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label class="form-label mb-0" translate="settings.current_time_zone">Current time zone</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="btn-dropdown btn-dropdown-select">-->
+                                <!--<div ngbDropdown class="dropdown-sm">-->
+                                    <!--<button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"-->
+                                            <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                                        <!--{{settings.timezone}}-->
+                                    <!--</button>-->
+                                    <!--<div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">-->
+                                        <!--<a class="dropdown-item"-->
+                                           <!--*ngFor="let timezone of timezones"-->
+                                           <!--(click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically save contacts</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="row row-sm">-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="autoSaveField1" name="[1]" type="radio"-->
+                                               <!--(click)="updateSettings('save_contacts', true)"-->
+                                               <!--[checked]="settings.save_contacts"/>-->
+                                        <!--<label for="autoSaveField1" translate="common.enabled">Enabled</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="autoSaveField2" name="[1]" type="radio"-->
+                                               <!--(click)="updateSettings('save_contacts', false)"-->
+                                               <!--[checked]="!settings.save_contacts"/>-->
+                                        <!--<label for="autoSaveField2" translate="common.disabled">Disabled</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label class="form-label mb-0" translate="settings.vacation_responder">Vacation responder</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="row row-sm">-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="responderField1" name="[2]" type="radio"-->
+                                               <!--(click)="updateSettings('autoresponder', true)"-->
+                                               <!--[checked]="settings.autoresponder"/>-->
+                                        <!--<label for="responderField1" translate="common.enabled">Enabled</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="responderField2" name="[2]" type="radio"-->
+                                               <!--(click)="updateSettings('autoresponder', false)"-->
+                                               <!--[checked]="!settings.autoresponder"/>-->
+                                        <!--<label for="responderField2" translate="common.disabled">Disabled</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</section>-->
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
@@ -1007,156 +1364,156 @@
         </div>
     </section>
 
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display name</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <input class="form-control form-control-sm" id="displayName" type="text"
-                                   [(ngModel)]="settings.display_name"
-                                   [ngModelOptions]="{ updateOn: 'blur'}"
-                                   (change)="updateSettings('display_name', $event.target.value)"
-                                   placeholder="John Simpson"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
-                                      [(ngModel)]="settings.signature"
-                                      [ngModelOptions]="{ updateOn: 'blur'}"
-                                      (change)="updateSettings('signature', $event.target.value)"
-                                 contenteditable="true">
-                            </textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails per page</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField1" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 20)"
-                                               [checked]="settings?.emails_per_page===20"/>
-                                        <label for="emailCoutField1">20</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField2" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 50)"
-                                               [checked]="settings?.emails_per_page===50"/>
-                                        <label for="emailCoutField2">50</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField3" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 100)"
-                                               [checked]="settings?.emails_per_page===100"/>
-                                        <label for="emailCoutField3">100</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField4" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 200)"
-                                               [checked]="settings?.emails_per_page===200"/>
-                                        <label for="emailCoutField4">200</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load embedded content</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField1" name="[6]" type="radio"
-                                               (click)="updateSettings('embed_content', true)"
-                                               [checked]="settings?.embed_content"/>
-                                        <label for="embeddedContentField1" translate="common.yes">Yes</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField2" name="[6]" type="radio"
-                                               (click)="updateSettings('embed_content', false)"
-                                               [checked]="!settings?.embed_content"/>
-                                        <label for="embeddedContentField2" translate="common.no">No</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField3" name="[6]" type="radio" disabled/>
-                                        <label for="embeddedContentField3" translate="settings.only_images">Only images</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.show_snippets">Show snippets</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField1" name="[7]" type="radio"
-                                               (click)="updateSettings('show_snippets', true)"
-                                               [checked]="settings?.show_snippets"/>
-                                        <label for="showSnippetsField1" translate="common.yes">Yes</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField2" name="[7]" type="radio"
-                                               (click)="updateSettings('show_snippets', false)"
-                                               [checked]="!settings?.show_snippets"/>
-                                        <label for="showSnippetsField2" translate="common.no">No</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!--<section class="mailbox-section">-->
+        <!--<header class="ui-header ui-header-bordered">-->
+            <!--<h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>-->
+        <!--</header>-->
+        <!--<div class="mailbox-section-body mailbox-section-body-sm">-->
+            <!--<div class="form-content-holder">-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display name</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<input class="form-control form-control-sm" id="displayName" type="text"-->
+                                   <!--[(ngModel)]="settings.display_name"-->
+                                   <!--[ngModelOptions]="{ updateOn: 'blur'}"-->
+                                   <!--(change)="updateSettings('display_name', $event.target.value)"-->
+                                   <!--placeholder="John Simpson"/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<textarea class="form-control form-control-sm form-control-contenteditable" id="signature"-->
+                                      <!--[(ngModel)]="settings.signature"-->
+                                      <!--[ngModelOptions]="{ updateOn: 'blur'}"-->
+                                      <!--(change)="updateSettings('signature', $event.target.value)"-->
+                                 <!--contenteditable="true">-->
+                            <!--</textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails per page</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="row row-sm">-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="emailCoutField1" name="[5]" type="radio"-->
+                                               <!--(click)="updateSettings('emails_per_page', 20)"-->
+                                               <!--[checked]="settings?.emails_per_page===20"/>-->
+                                        <!--<label for="emailCoutField1">20</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="emailCoutField2" name="[5]" type="radio"-->
+                                               <!--(click)="updateSettings('emails_per_page', 50)"-->
+                                               <!--[checked]="settings?.emails_per_page===50"/>-->
+                                        <!--<label for="emailCoutField2">50</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="emailCoutField3" name="[5]" type="radio"-->
+                                               <!--(click)="updateSettings('emails_per_page', 100)"-->
+                                               <!--[checked]="settings?.emails_per_page===100"/>-->
+                                        <!--<label for="emailCoutField3">100</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="emailCoutField4" name="[5]" type="radio"-->
+                                               <!--(click)="updateSettings('emails_per_page', 200)"-->
+                                               <!--[checked]="settings?.emails_per_page===200"/>-->
+                                        <!--<label for="emailCoutField4">200</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load embedded content</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="row row-sm">-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="embeddedContentField1" name="[6]" type="radio"-->
+                                               <!--(click)="updateSettings('embed_content', true)"-->
+                                               <!--[checked]="settings?.embed_content"/>-->
+                                        <!--<label for="embeddedContentField1" translate="common.yes">Yes</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="embeddedContentField2" name="[6]" type="radio"-->
+                                               <!--(click)="updateSettings('embed_content', false)"-->
+                                               <!--[checked]="!settings?.embed_content"/>-->
+                                        <!--<label for="embeddedContentField2" translate="common.no">No</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="embeddedContentField3" name="[6]" type="radio" disabled/>-->
+                                        <!--<label for="embeddedContentField3" translate="settings.only_images">Only images</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-content-row">-->
+                    <!--<div class="row align-items-center">-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<label class="form-label mb-sm-0" translate="settings.show_snippets">Show snippets</label>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="row row-sm">-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="showSnippetsField1" name="[7]" type="radio"-->
+                                               <!--(click)="updateSettings('show_snippets', true)"-->
+                                               <!--[checked]="settings?.show_snippets"/>-->
+                                        <!--<label for="showSnippetsField1" translate="common.yes">Yes</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-6 flex-auto-col">-->
+                                    <!--<div class="fancy-field-group">-->
+                                        <!--<input class="d-none fancy-field-control fancy-field-control-sm"-->
+                                               <!--id="showSnippetsField2" name="[7]" type="radio"-->
+                                               <!--(click)="updateSettings('show_snippets', false)"-->
+                                               <!--[checked]="!settings?.show_snippets"/>-->
+                                        <!--<label for="showSnippetsField2" translate="common.no">No</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</section>-->
 
     <!--This section is hidden for now, will be used in dev pack 1.-->
     <section class="mailbox-section" *ngIf="false">
