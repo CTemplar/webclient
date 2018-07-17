@@ -1,5 +1,5 @@
 // Angular
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -72,16 +72,17 @@ export class MailService {
     return this.http.delete<any>(`${apiUrl}/emails/messages/?id__in=${ids}`);
   }
 
-  uploadFile(data: Attachment): Observable<any[]> {
+  uploadFile(data: Attachment): Observable<HttpEvent<any>> {
     const formData = new FormData();
     formData.append('document', data.document);
     formData.append('message', data.message.toString());
     formData.append('hash', data.hash);
 
-    return this.http.post<any>(`${apiUrl}/emails/attachments/create/`, formData, {
-      reportProgress: true,
-      headers: new HttpHeaders().append('Content-Type', 'multipart/form-data')
+    const request = new HttpRequest('POST', `${apiUrl}/emails/attachments/create/`, formData, {
+      reportProgress: true
     });
+
+    return this.http.request(request);
   }
 
 
