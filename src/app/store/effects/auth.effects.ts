@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Ngrx
-import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 // Rxjs
@@ -22,7 +21,6 @@ import {
   AuthActionTypes,
   LogIn, LogInSuccess, LogInFailure,
   SignUp, SignUpSuccess, SignUpFailure,
-  Logout,
 } from '../actions';
 
 
@@ -70,7 +68,7 @@ export class AuthEffects {
     .switchMap(payload => {
       return this.authService.signUp(payload)
         .map((user) => {
-          return new SignUpSuccess(user);
+          return new LogInSuccess(user);
         })
         .catch((error) => {
           return Observable.of(new SignUpFailure({ error: error }));
@@ -78,12 +76,12 @@ export class AuthEffects {
     });
 
   @Effect({ dispatch: false })
-  SignUpSuccess: Observable<any> = this.actions
-    .ofType(AuthActionTypes.SIGNUP_SUCCESS)
-    .map((action: SignUpSuccess) => action.payload)
-    .map(payload => {
-      return new LogInSuccess(payload);
-    });
+    SignUpSuccess: Observable<any> = this.actions
+      .ofType(AuthActionTypes.SIGNUP_SUCCESS)
+      .map((action: SignUpSuccess) => action.payload)
+      .map(payload => {
+        this.router.navigateByUrl('/mail');
+      });
 
   @Effect({ dispatch: false })
   SignUpFailure: Observable<any> = this.actions.pipe(

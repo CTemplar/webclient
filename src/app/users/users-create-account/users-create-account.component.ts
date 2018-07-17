@@ -169,7 +169,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideFooter.emit(false);
   }
 }
