@@ -159,18 +159,19 @@ export class MailEffects {
     .ofType(MailActionTypes.UPLOAD_ATTACHMENT)
     .map((action: UploadAttachment) => action.payload)
     .switchMap(payload => {
-      return this.mailService.uploadFile(payload)
-        .pipe(
-          map((event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              const progress = Math.round(100 * event.loaded / event.total);
-              return [new UploadAttachmentProgress({ ...payload, progress })];
-            } else if (event instanceof HttpResponse) {
-              return [new UploadAttachmentSuccess(event)];
-            }
-          }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })]),
-        );
+      return Observable.create(observer => {
+        this.mailService.uploadFile(payload)
+          .finally(() => observer.complete())
+          .subscribe((event: any) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                const progress = Math.round(100 * event.loaded / event.total);
+                observer.next(new UploadAttachmentProgress({ ...payload, progress }));
+              } else if (event instanceof HttpResponse) {
+                observer.next(new UploadAttachmentSuccess(event.body));
+              }
+            },
+            err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
+      });
     });
 
 }
