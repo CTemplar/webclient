@@ -106,8 +106,8 @@
             <div class="attach-name">{{file.name}}
               <span class="attach-size">({{file.size}}) </span>
             </div>
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" [style.width]="file.progress || 0 + '%'"
+            <div class="progress" *ngIf="file.progress !== 100">
+              <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
                    [attr.aria-valuenow]="file.progress" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <button type="button" role="button" (click)="removeAttachment(file)"
