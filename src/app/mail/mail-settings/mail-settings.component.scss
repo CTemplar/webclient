@@ -283,16 +283,30 @@
 }
 
 .info-card {
-  background: #f5f5f5;
+  background: #fafafa;
   // line-height: 1.25;
 
   p {
     margin-bottom: 0.25rem;
   }
+
+  .btn {
+    padding-right: 1.841rem;
+    padding-left: 1.841rem;
+    font-size: 0.75rem;
+  }
 }
 
-.form-content-holder .btn-link {
-  font-size: 0.625rem;
+.form-content-holder {
+  .btn-link {
+    font-size: 0.625rem;
+  }
+
+  &-lg {
+    .btn-link {
+      font-size: 0.75rem;
+    }
+  }
 }
 
 // == Modals

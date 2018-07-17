@@ -723,7 +723,7 @@
                         </div>
                     </div>
                 </section>
-                <!-- /. Appearance sction ends -->
+                <!-- /. Appearance section ends -->
 
                 <!-- Desktop notification section -->
                 <section class="mailbox-section">
@@ -816,6 +816,72 @@
                     </div>
                 </section>
                 <!-- /.Email notification section ends -->
+
+                <!-- Payments section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered border-all-corner position-relative mb-0">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Payments</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body bg-faded">
+                        <div class="form-content-holder form-content-holder-lg">
+                            <ul class="ui-list ui-list-styled list-styled">
+                                <li class="ui-list-item ui-list-item-xs-full bg-white">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="form-label text-dark mb-0">xxxx xxxx xxxx 8634</div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="info-card p-0">
+                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                                   (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u translate="settings.add_new_method">Add new
+                                    method</u></strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /.Payments section ends -->
+
+                <!-- Donate section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered border-all-corner position-relative mb-0">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Donate</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body bg-faded">
+                        <div class="form-content-holder form-content-holder-lg">
+                            <div class="info-card p-0">
+                                <p translate="settings.donate.info">Your donation helps us support more users and continue to develop CTemplar as free and open
+                                    source software.</p>
+                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                                   (click)="makeDonationModalOpen(makeDonationContent)"><strong><u translate="settings.donate.make_a_donation">Make a donation</u></strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /.Donate section ends -->
+
+                <!-- Delete section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered border-all-corner position-relative mb-0">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Delete Account</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body bg-faded">
+                        <div class="form-content-holder form-content-holder-lg">
+                            <div class="info-card p-0">
+                                <a href="javascript:void(0);" class="btn btn-primary btn-md">Delete Account</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /.Delete section ends -->
+
             </ng-template>
         </ngb-tab>
         <!-- /.General tab ends -->
@@ -1714,35 +1780,35 @@
         </div>
     </section>
 
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.payment">Payments</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">xxxx xxxx xxxx 8634</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-card">
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u translate="settings.add_new_method">Add new
-                        method</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!--<section class="mailbox-section">-->
+        <!--<header class="ui-header ui-header-bordered">-->
+            <!--<h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.payment">Payments</strong></h5>-->
+        <!--</header>-->
+        <!--<div class="mailbox-section-body mailbox-section-body-sm">-->
+            <!--<div class="form-content-holder">-->
+                <!--<ul class="ui-list ui-list-styled list-styled">-->
+                    <!--<li class="ui-list-item ui-list-item-xs-full">-->
+                        <!--<div class="row row-xs align-items-center">-->
+                            <!--<div class="col-10 col-sm-8">-->
+                                <!--<div class="form-label text-dark mb-0">xxxx xxxx xxxx 8634</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-2 col-sm-4">-->
+                                <!--<ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">-->
+                                    <!--<li><a role="button"><i class="icon icon-edit"></i></a></li>-->
+                                    <!--<li><a role="button"><i class="icon icon-garbage"></i></a></li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--<div class="info-card">-->
+                    <!--<a href="javascript:void(0);" class="text-uppercase btn-link" role="button"-->
+                       <!--(click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u translate="settings.add_new_method">Add new-->
+                        <!--method</u></strong></a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</section>-->
 
     <section class="mailbox-section">
         <header class="ui-header ui-header-bordered">
@@ -1800,21 +1866,21 @@
         </div>
     </section>
 
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.donate.name">Donate</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="info-card">
-                    <p translate="settings.donate.info">Your donation helps us support more users and continue to develop CTemplar as free and open
-                        source software.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="makeDonationModalOpen(makeDonationContent)"><strong><u translate="settings.donate.make_a_donation">Make a donation</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!--<section class="mailbox-section">-->
+        <!--<header class="ui-header ui-header-bordered">-->
+            <!--<h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.donate.name">Donate</strong></h5>-->
+        <!--</header>-->
+        <!--<div class="mailbox-section-body mailbox-section-body-sm">-->
+            <!--<div class="form-content-holder">-->
+                <!--<div class="info-card">-->
+                    <!--<p translate="settings.donate.info">Your donation helps us support more users and continue to develop CTemplar as free and open-->
+                        <!--source software.</p>-->
+                    <!--<a href="javascript:void(0);" class="text-uppercase btn-link" role="button"-->
+                       <!--(click)="makeDonationModalOpen(makeDonationContent)"><strong><u translate="settings.donate.make_a_donation">Make a donation</u></strong></a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</section>-->
 </div>
 
 <!-- Modal groups -->
