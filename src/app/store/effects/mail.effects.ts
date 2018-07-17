@@ -19,14 +19,13 @@ import {
   MoveMailSuccess,
   ReadMail,
   ReadMailSuccess,
-  StarMailSuccess
+  StarMailSuccess, UndoDeleteMail, UndoDeleteMailSuccess
 } from '../actions/mail.actions';
 // Custom Actions
 import {
   CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
   GetMailsSuccess, MailActionTypes, SnackErrorPush,
-  GetMailboxes, GetMailboxesSuccess
-} from '../actions';
+  GetMailboxes, GetMailboxesSuccess, SnackPush } from '../actions';
 
 
 @Injectable()
@@ -84,6 +83,7 @@ export class MailEffects {
           switchMap(res => {
             return [
               new MoveMailSuccess(payload),
+              new SnackPush({message: `Mail moved to trash`, ids: payload.ids, folder: payload.folder, sourceFolder: payload.sourceFolder, mail: payload.mail})
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
@@ -148,6 +148,22 @@ export class MailEffects {
           switchMap(res => {
             return [new GetMailDetailSuccess(res)];
           })
+        );
+    });
+
+  @Effect()
+  undoDeleteDraftMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.UNDO_DELETE_MAIL)
+    .map((action: UndoDeleteMail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.moveMail(payload.ids, payload.sourceFolder)
+        .pipe(
+          switchMap(res => {
+            return [
+              new UndoDeleteMailSuccess(payload)
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
         );
     });
 

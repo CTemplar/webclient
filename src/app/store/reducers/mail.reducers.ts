@@ -46,6 +46,13 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return { ...state, inProgress: false };
     }
 
+    case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
+      return {
+        ...state,
+        mails: [...state.mails, action.payload.mail],
+      };
+    }
+
     case MailActionTypes.READ_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
       state.mails = state.mails.map(mail => {

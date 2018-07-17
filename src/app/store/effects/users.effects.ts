@@ -213,7 +213,9 @@ export class UsersEffects {
     .ofType(UsersActionTypes.SNACK_PUSH)
     .pipe(
       map((snackPushAction: SnackPush) => {
-        if (snackPushAction.payload && snackPushAction.payload.message) {
+        if (snackPushAction.payload && snackPushAction.payload.message && snackPushAction.payload.ids) {
+          this.notificationService.showUndo(snackPushAction.payload);
+        } else if (snackPushAction.payload && snackPushAction.payload.message) {
           this.notificationService.showSuccess(snackPushAction.payload.message);
         } else {
           let message = 'An error has occured';

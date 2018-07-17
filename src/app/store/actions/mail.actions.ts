@@ -28,6 +28,8 @@ export enum MailActionTypes {
   SET_DECRYPTED_KEY = '[DECRYPTED] SET KEY',
   SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
   UPDATE_PGP_CONTENT = '[PGP] UPDATE ENCRYPTED, DECRYPTED CONTENT',
+  UNDO_DELETE_MAIL = '[Mail] UNDO DELETE DRAFT MAIL',
+  UNDO_DELETE_MAIL_SUCCESS = '[Mail] UNDO DELETE DRAFT MAIL SUCCESS',
 }
 
 export class GetMails implements Action {
@@ -181,6 +183,18 @@ export class UpdatePGPContent implements Action {
   constructor(public payload?: any) {}
 }
 
+export class UndoDeleteMail implements Action {
+  readonly type = MailActionTypes.UNDO_DELETE_MAIL;
+
+  constructor(public payload?: any) {}
+}
+
+export class UndoDeleteMailSuccess implements Action {
+  readonly type = MailActionTypes.UNDO_DELETE_MAIL_SUCCESS;
+
+  constructor(public payload?: any) {}
+}
+
 
 export type MailActions =
   | GetMails
@@ -207,4 +221,6 @@ export type MailActions =
   | SetDecryptInProgress
   | SetDecryptedKey
   | SetCurrentMailbox
-  | UpdatePGPContent;
+  | UpdatePGPContent
+  | UndoDeleteMail
+  | UndoDeleteMailSuccess;
