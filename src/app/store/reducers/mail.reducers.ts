@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(',');
+      const listOfIDs = action.payload.ids.toString().split(',');
       state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
       return { ...state, inProgress: false };
     }
