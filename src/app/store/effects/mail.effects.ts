@@ -88,7 +88,13 @@ export class MailEffects {
           switchMap(res => {
             return [
               new MoveMailSuccess(payload),
-              new SnackPush({message: `Mail moved to trash`, ids: payload.ids, folder: payload.folder, sourceFolder: payload.sourceFolder, mail: payload.mail})
+              new SnackPush({
+                message: `Mail moved to trash`,
+                ids: payload.ids,
+                folder: payload.folder,
+                sourceFolder: payload.sourceFolder,
+                mail: payload.mail
+              })
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
