@@ -1,5 +1,5 @@
 // Angular
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { apiUrl } from '../../shared/config';
 
 // Models
-import { Mail } from '../models';
+import { Attachment, Mail } from '../models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -57,19 +57,32 @@ export class MailService {
   }
 
   markAsRead(ids: string, isMailRead: boolean): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {read: isMailRead});
+    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, { read: isMailRead });
   }
 
   markAsStarred(ids: string, isMailStarred: boolean): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {starred: isMailStarred});
+    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, { starred: isMailStarred });
   }
 
   moveMail(ids: string, folder: string): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, {folder: folder});
+    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, { folder: folder });
   }
 
   deleteMails(ids: string): Observable<any[]> {
     return this.http.delete<any>(`${apiUrl}/emails/messages/?id__in=${ids}`);
+  }
+
+  uploadFile(data: Attachment): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+    formData.append('document', data.document);
+    formData.append('message', data.message.toString());
+    formData.append('hash', data.hash);
+
+    const request = new HttpRequest('POST', `${apiUrl}/emails/attachments/create/`, formData, {
+      reportProgress: true
+    });
+
+    return this.http.request(request);
   }
 
 

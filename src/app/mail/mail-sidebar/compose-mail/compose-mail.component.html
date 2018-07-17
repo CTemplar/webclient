@@ -104,11 +104,11 @@
         <div class="attach-uploader-holder" *ngIf="attachments?.length>0">
           <div class="attach-uploader" *ngFor="let file of attachments">
             <div class="attach-name">{{file.name}}
-              <span class="attach-size">({{getFileSize(file)}}) </span>
+              <span class="attach-size">({{file.size}}) </span>
             </div>
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" style="width:45%;" aria-valuenow="45"
-                   aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress" *ngIf="file.progress !== 100">
+              <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
+                   [attr.aria-valuenow]="file.progress" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <button type="button" role="button" (click)="removeAttachment(file)"
                     class="attach-uploader-close" placement="top" ngbTooltip="Remove">

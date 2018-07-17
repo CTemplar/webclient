@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../../store/datatypes';
-import { Mail, MailFolderType, mailFolderTypes } from '../../../../store/models';
+import { Mail, MailFolderType } from '../../../../store/models';
 import { GetMails } from '../../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
@@ -15,7 +15,7 @@ import 'rxjs/add/operator/finally';
 })
 export class InboxComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
-  mailFolderTypes = mailFolderTypes;
+  mailFolderTypes = MailFolderType;
 
   mailState: MailState;
 

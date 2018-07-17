@@ -12,7 +12,8 @@ export const initialState: MailState = {
   draft: null,
   encryptedContent: null,
   decryptedContent: null,
-  isPGPInProgress: false
+  isPGPInProgress: false,
+  attachments: []
 };
 
 export function reducer(state = initialState, action: MailActions): MailState {
@@ -133,6 +134,30 @@ export function reducer(state = initialState, action: MailActions): MailState {
         isPGPInProgress: false,
         encryptedContent: null,
         decryptedContent: null,
+      };
+    }
+
+    case MailActionTypes.UPLOAD_ATTACHMENT: {
+      state.attachments.push(action.payload);
+      return {
+        ...state,
+      };
+    }
+
+    case MailActionTypes.UPLOAD_ATTACHMENT_PROGRESS: {
+      state.attachments.forEach((item, index) => {
+        if (item.attachmentId === action.payload.attachmentId) {
+          state.attachments[index].progress = action.payload.progress;
+        }
+      });
+      return {
+        ...state
+      };
+    }
+
+    case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
+      return {
+        ...state
       };
     }
 
