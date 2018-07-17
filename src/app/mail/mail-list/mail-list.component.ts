@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MailFolderType, mailFolderTypes } from '../../store/models';
+import { MailFolderType } from '../../store/models';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ export class MailListComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   mailFolder: MailFolderType = MailFolderType.INBOX;
-  mailFolderTypes = mailFolderTypes;
+  mailFolderTypes = MailFolderType;
 
   constructor(public route: ActivatedRoute) {
   }

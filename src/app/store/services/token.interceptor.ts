@@ -23,8 +23,7 @@ export class TokenInterceptor implements HttpInterceptor {
     if (is_necessary_token) {
       request = request.clone({
         setHeaders: {
-          'Authorization': `JWT ${token}`,
-          'Content-Type': 'application/json'
+          'Authorization': `JWT ${token}`
         }
       });
     }

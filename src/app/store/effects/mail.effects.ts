@@ -1,3 +1,5 @@
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+
 // Angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,7 +21,7 @@ import {
   MoveMailSuccess,
   ReadMail,
   ReadMailSuccess,
-  StarMailSuccess
+  StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess
 } from '../actions/mail.actions';
 // Custom Actions
 import {
@@ -27,6 +29,7 @@ import {
   GetMailsSuccess, MailActionTypes, SnackErrorPush,
   GetMailboxes, GetMailboxesSuccess
 } from '../actions';
+import { map } from 'rxjs/operators/map';
 
 
 @Injectable()
@@ -149,6 +152,26 @@ export class MailEffects {
             return [new GetMailDetailSuccess(res)];
           })
         );
+    });
+
+  @Effect()
+  uploadAttachmentEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.UPLOAD_ATTACHMENT)
+    .map((action: UploadAttachment) => action.payload)
+    .switchMap(payload => {
+      return Observable.create(observer => {
+        this.mailService.uploadFile(payload)
+          .finally(() => observer.complete())
+          .subscribe((event: any) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                const progress = Math.round(100 * event.loaded / event.total);
+                observer.next(new UploadAttachmentProgress({ ...payload, progress }));
+              } else if (event instanceof HttpResponse) {
+                observer.next(new UploadAttachmentSuccess(event.body));
+              }
+            },
+            err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
+      });
     });
 
 }

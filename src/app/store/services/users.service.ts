@@ -119,7 +119,8 @@ export class UsersService {
       'users/contact',
       'emails/messages/',
       'emails/mailboxes',
-      'users/settings'
+      'users/settings',
+      'emails/attachments'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

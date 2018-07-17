@@ -28,6 +28,9 @@ export enum MailActionTypes {
   SET_DECRYPTED_KEY = '[DECRYPTED] SET KEY',
   SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
   UPDATE_PGP_CONTENT = '[PGP] UPDATE ENCRYPTED, DECRYPTED CONTENT',
+  UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
+  UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
+  UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
 }
 
 export class GetMails implements Action {
@@ -181,6 +184,24 @@ export class UpdatePGPContent implements Action {
   constructor(public payload?: any) {}
 }
 
+export class UploadAttachment implements Action {
+  readonly type = MailActionTypes.UPLOAD_ATTACHMENT;
+
+  constructor(public payload: any) {}
+}
+
+export class UploadAttachmentProgress implements Action {
+  readonly type = MailActionTypes.UPLOAD_ATTACHMENT_PROGRESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UploadAttachmentSuccess implements Action {
+  readonly type = MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS;
+
+  constructor(public payload?: any) {}
+}
+
 
 export type MailActions =
   | GetMails
@@ -207,4 +228,7 @@ export type MailActions =
   | SetDecryptInProgress
   | SetDecryptedKey
   | SetCurrentMailbox
-  | UpdatePGPContent;
+  | UpdatePGPContent
+  | UploadAttachment
+  | UploadAttachmentProgress
+  | UploadAttachmentSuccess;
