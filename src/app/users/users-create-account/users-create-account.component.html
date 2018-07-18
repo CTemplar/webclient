@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                              <div *ngIf="checkEmailRecovery" class="l-alert l-alert-danger" role="alert">
+                              <div *ngIf="isRecoveryEmail !== null && !isRecoveryEmail" class="l-alert l-alert-danger" role="alert">
                                 Please agree to above terms or enter recovery email.
                               </div>
                             </div>
@@ -162,7 +162,7 @@
                               </span>
                             </div>
                           </div>
-                          <div *ngIf="checkPrivacybox" class="l-alert l-alert-danger mb-4" role="alert">
+                          <div *ngIf="isConfirmedPrivacy!== null && !isConfirmedPrivacy" class="l-alert l-alert-danger mb-4" role="alert">
                             Please abide by our Terms &amp; Conditions
                           </div>
 
