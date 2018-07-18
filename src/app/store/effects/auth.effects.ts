@@ -11,7 +11,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 // Service
 import { UsersService } from '../../store/services';
@@ -22,6 +22,7 @@ import {
   LogIn, LogInSuccess, LogInFailure,
   SignUp, SignUpSuccess, SignUpFailure,
 } from '../actions';
+import { of } from 'rxjs/observable/of';
 
 
 @Injectable()
@@ -39,12 +40,10 @@ export class AuthEffects {
     .map((action: LogIn) => action.payload)
     .switchMap(payload => {
       return this.authService.signIn(payload)
-        .map((user) => {
-          return new LogInSuccess(user);
-        })
-        .catch((error) => {
-          return Observable.of(new LogInFailure({ error: error }));
-        });
+        .pipe(
+          map((user) => new LogInSuccess(user)),
+          catchError((error) => of(new LogInFailure({ error })))
+        );
     });
 
 
@@ -67,12 +66,10 @@ export class AuthEffects {
     .map((action: SignUp) => action.payload)
     .switchMap(payload => {
       return this.authService.signUp(payload)
-        .map((user) => {
-          return new LogInSuccess(user);
-        })
-        .catch((error) => {
-          return Observable.of(new SignUpFailure({ error: error }));
-        });
+        .pipe(
+          map((user) => new LogInSuccess(user)),
+          catchError((error) => [new SignUpFailure(error)])
+        );
     });
 
   @Effect({ dispatch: false })

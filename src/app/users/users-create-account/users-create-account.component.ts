@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, UserState } from '../../store/datatypes';
-import { FinalLoading, SignUp } from '../../store/actions';
+import { FinalLoading, SignUp, SignUpFailure } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -64,7 +64,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService) {}
 
   ngOnInit() {
-
+    this.handleUserState();
     this.sharedService.hideFooter.emit(true);
 
     this.signupForm = this.formBuilder.group({
@@ -139,22 +139,20 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       password: this.signupForm.get('password').value,
       recaptcha: this.signupForm.value.captchaResponse
     };
+    this.signupInProgress = true;
     this.store.dispatch(new SignUp(this.data));
-    this.handleUserState();
   }
 
   private handleUserState(): void {
     this.store.select(state => state.auth).
     takeUntil(this.destroyed$).subscribe((state: AuthState) => {
-      this.signupInProgress = state.inProgress;
-      if (!this.signupInProgress) {
-        this.signupInProgress = false;
-        if (!state.inProgress && state.errorMessage) {
-          this.notificationService.showError(`Failed to create account.`);
-        } else {
+      if (this.signupInProgress && !state.inProgress  ) {
+      if ( !state.errorMessage) {
           this.notificationService.showSuccess(`Account created successfully.`);
-        }
-
+      } else {
+        this.notificationService.showError(`Failed to create account.` + state.errorMessage);
+      }
+        this.signupInProgress = false;
       }
     });
   }

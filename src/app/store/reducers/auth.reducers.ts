@@ -34,7 +34,8 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
-        errorMessage: 'Incorrect username and/or password.'
+        errorMessage: 'Incorrect username and/or password.',
+        inProgress: false
       };
     }
     case AuthActionTypes.SIGNUP_SUCCESS: {
@@ -49,7 +50,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SIGNUP_FAILURE: {
       return {
         ...state,
-        errorMessage: 'That username is already in use.',
+        errorMessage: 'Username already exist',
         inProgress: false
       };
     }
