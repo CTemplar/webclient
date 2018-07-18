@@ -38,7 +38,7 @@
                                                formControlName="username" (keyup)="checkUsernameTaken($event)"/>
                                         <span class="domain-separator text-center text-dark">@</span>
                                         <input class="form-control text-dark is-readonly border-0 px-0 email-input"
-                                               value="ctemplar.com" type="text" readonly/>
+                                               value="ctemplar.com" type="text" readonly tabindex="-1"/>
                                         <i class="fas fa-check green" *ngIf="userNameTaken == false"></i>
                                     </div>
                                     <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine"
