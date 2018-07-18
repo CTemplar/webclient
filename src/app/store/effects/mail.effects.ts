@@ -15,6 +15,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 import {
+  CreateFolder, CreateFolderSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   MoveMail,
@@ -177,6 +178,22 @@ export class MailEffects {
             },
             err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
       });
+    });
+
+  @Effect()
+  createFolderEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.CREATE_FOLDER)
+    .map((action: CreateFolder) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.createFolder(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new CreateFolderSuccess(res.folders),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to create folder.' })]),
+        );
     });
 
 }

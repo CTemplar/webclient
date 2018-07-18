@@ -50,6 +50,13 @@ export function reducer(state = initialState, action: MailActions): MailBoxesSta
       };
     }
 
+    case MailActionTypes.CREATE_FOLDER_SUCCESS: {
+      return {
+        ...state,
+        customFolders: action.payload
+      };
+    }
+
     default: {
       return state;
     }

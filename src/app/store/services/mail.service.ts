@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { apiUrl } from '../../shared/config';
 
 // Models
-import { Attachment, Mail } from '../models';
+import { Attachment, Mail, Mailbox } from '../models';
 
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -45,6 +45,10 @@ export class MailService {
   getMailboxes(limit: number = 1000, offset: number = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url).map(data => data['results']);
+  }
+
+  createFolder(data: Mailbox): Observable<any> {
+    return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
 
   createMail(data: any): Observable<any[]> {
