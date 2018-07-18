@@ -20,7 +20,7 @@ import {
   MoveMail,
   MoveMailSuccess,
   ReadMail,
-  ReadMailSuccess,
+  ReadMailSuccess, SetFolders,
   StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess
 } from '../actions/mail.actions';
 // Custom Actions
@@ -55,9 +55,14 @@ export class MailEffects {
     .map((action: GetMailboxes) => action.payload)
     .switchMap(payload => {
       return this.mailService.getMailboxes(payload.limit, payload.offset)
-        .map((mails) => {
-          return new GetMailboxesSuccess(mails);
-        });
+        .pipe(
+          switchMap((mails) => {
+            return [
+              new GetMailboxesSuccess(mails),
+              new SetFolders(mails[0].folders)
+            ];
+          })
+        );
     });
 
 

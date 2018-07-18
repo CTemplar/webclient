@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, Settings, UserState } from '../../store/datatypes';
+import { AppState, MailBoxesState, Settings, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
@@ -18,6 +18,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   public isComposeVisible: boolean = false;
   public settings: Settings;
 
+  customFolders: string[];
+
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
               config: NgbDropdownConfig) {
@@ -29,6 +31,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.settings = user.settings;
+      });
+
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe( (mailboxes: MailBoxesState) => {
+        this.customFolders = mailboxes.customFolders;
       });
   }
 

@@ -83,22 +83,10 @@
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
                     <ul class="folders-list">
-                        <li>
+                        <li *ngFor="let folder of customFolders; let i=index;">
                             <a href="">
-                                <span class="folder-color-box is-success"></span>
-                                <span class="folders-list-text">Folder 1</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <span class="folder-color-box is-info"></span>
-                                <span class="folders-list-text">Another Folder 2</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <span class="folder-color-box is-warning"></span>
-                                <span class="folders-list-text">Folder 33</span>
+                                <span class="folder-color-box is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></span>
+                                <span class="folders-list-text">{{folder}}</span>
                             </a>
                         </li>
                     </ul>

@@ -5,6 +5,7 @@ import { MailBoxesState } from '../datatypes';
 
 export const initialState: MailBoxesState = {
   mailboxes: [],
+  customFolders: [],
   currentMailbox: null,
   decryptKeyInProgress: false,
 };
@@ -39,6 +40,13 @@ export function reducer(state = initialState, action: MailActions): MailBoxesSta
       return {
         ...state,
         currentMailbox: action.payload,
+      };
+    }
+
+    case MailActionTypes.SET_FOLDERS: {
+      return {
+        ...state,
+        customFolders: action.payload,
       };
     }
 

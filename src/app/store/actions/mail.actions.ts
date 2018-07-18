@@ -31,6 +31,7 @@ export enum MailActionTypes {
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
   UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
+  SET_FOLDERS = '[MAILBOX] SET FOLDERS'
 }
 
 export class GetMails implements Action {
@@ -202,6 +203,12 @@ export class UploadAttachmentSuccess implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SetFolders implements  Action {
+  readonly  type = MailActionTypes.SET_FOLDERS;
+
+  constructor(public payload: any) {}
+}
+
 
 export type MailActions =
   | GetMails
@@ -231,4 +238,5 @@ export type MailActions =
   | UpdatePGPContent
   | UploadAttachment
   | UploadAttachmentProgress
-  | UploadAttachmentSuccess;
+  | UploadAttachmentSuccess
+  | SetFolders;
