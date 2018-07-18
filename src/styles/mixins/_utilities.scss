@@ -74,3 +74,27 @@ $prefixes: ("-moz-", "");
 		@content;
 	} 
 }
+
+// == Mixin to make btn-link
+@mixin make_btn_link($list, $val) {
+  // Counter initializes to 1
+  $i: 1;
+
+  // Looping each item through each loop
+  @each $l in $list {
+    // Catch each item in list passed as first argument
+    .btn-link-#{$l} {
+      color: nth($val, $i);
+
+      &:hover {
+        color: darken(nth($val, $i), 5%);
+      }
+    }
+
+    // Incrementing counter
+    $i: $i + 1;
+
+    // Below line of statement allows to append code later where the mixin is executed
+    @content;
+  }
+}

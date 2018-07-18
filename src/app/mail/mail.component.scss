@@ -832,13 +832,35 @@
 
 // Mailbox reusable components
 
-.ui-header {
-  margin-bottom: 2.15rem;
+/* ======================================== */
+/*            Mail ui-card styles           */
+/* ======================================== */
+
+/* ui-card */
+.ui-card {
+  position: relative;
+  overflow: hidden;
+
+  &:not(:last-of-type) {
+    margin-bottom: 1.875rem;
+  }
+}
+
+/* ui-card header */
+.ui-header,
+.ui-card-header {
+  position: relative;
   padding: 1.25rem 0.938rem;
 
   @include media(">=ipad") {
-    margin-bottom: 2.5rem;
-    padding: 1.53222rem 1.563rem;
+    padding: 1.5rem 1.563rem;
+  }
+
+  &.ui-header-btm-gap {
+    margin-bottom: 2.15rem;
+    @include media(">=ipad") {
+      margin-bottom: 2.5rem;
+    }
   }
 
   &.ui-header-bordered {
@@ -850,15 +872,33 @@
   &.border-all-corner {
     border: 1px solid darken($brand-faded, 3%);
   }
+
+  &.border-bottom-transparent {
+    border-bottom-color: transparent;
+  }
 }
 
-.ui-header-title,
-.ui-header-subtitle {
+/* ui-card title */
+.ui-card-title,
+.ui-card-subtitle {
   line-height: 1;
 }
 
-// == Mailbox sections
-.mailbox-section {
+/* ui-card-body */
+.ui-card-body {
+  padding: 1.563rem 1.071rem 1.563rem; //~2.15rem .938rem;
+  border: 1px solid #f2f2f2;
+  border-top: 0;
+
+  @include media(">=ipad") {
+    padding: 1.875rem 1.563rem 1.875rem; //~2.5rem 1.563rem;
+  }
+}
+
+/* ======================================== */
+/*          Mail ui-section styles          */
+/* ======================================== */
+.ui-section {
   margin: 1.875rem 1.563rem 1.875rem;
 
   &-lg {
@@ -870,28 +910,28 @@
   }
 }
 
-.mailbox-section-body {
-  padding: 1.563rem 1.071rem 1.563rem; //~2.15rem .938rem;
-  border: 1px solid #f2f2f2;
-  border-top: 0;
+//.mailbox-section-body {
+//  padding: 1.563rem 1.071rem 1.563rem; //~2.15rem .938rem;
+//  border: 1px solid #f2f2f2;
+//  border-top: 0;
+//
+//  @include media(">=ipad") {
+//    padding: 1.875rem 1.563rem 1.875rem; //~2.5rem 1.563rem;
+//  }
+//
+//  // == Small
+//  &-sm {
+//    margin: 1.563rem .938rem;
+//    //padding: 1.563rem .938rem;
+//
+//    @include media(">=ipad") {
+//      margin: 2.5rem 1.563rem;
+//      //padding: 2.25rem 1.563rem;
+//    }
+//  }
+//}
 
-  @include media(">=ipad") {
-    padding: 1.875rem 1.563rem 1.875rem; //~2.5rem 1.563rem;
-  }
-
-  // == Small
-  &-sm {
-    margin: 1.563rem .938rem;
-    //padding: 1.563rem .938rem;
-
-    @include media(">=ipad") {
-      margin: 2.5rem 1.563rem;
-      //padding: 2.25rem 1.563rem;
-    }
-  }
-}
-
-.mailbox-section-body {
+.ui-section-body {
   .container-sm {
     @include media("<laptop") {
       padding-right: 0;

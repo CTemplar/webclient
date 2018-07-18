@@ -56,7 +56,11 @@ $twitter-color:      #3299EF;
 $brand-green:         #00E860;
 $border-gray:         #e8e8e8;
 $gray-9e9e9e:         #9e9e9e;      
-$divider-color:       #d8d8d8;       
+$divider-color:       #d8d8d8;
+
+// == Brand color names
+$brand_color_list:  primary secondary success dark warning danger;
+$brand_color_val:   $brand-primary $brand-secondary $brand-success $brand-black $brand-warning $brand-danger;
 
 //== Scaffolding
 //

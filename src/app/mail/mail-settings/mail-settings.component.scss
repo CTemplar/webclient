@@ -171,22 +171,24 @@
   max-width: 570px;
   font-size: 0.875rem;
 
-  @include media(">sm") {
-    font-size: 0.75rem;
-  }
-
-  &-lg  {
-    font-size: 0.875rem;
-  }
+  //@include media(">sm") {
+  //  font-size: 0.75rem;
+  //}
+  //
+  //&-lg  {
+  //  font-size: 0.875rem;
+  //}
 
   .form-control-sm {
     padding-right: 0.75rem;
     padding-left: 0.75rem;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
+    height: 2.75rem;
+    //font-size: 0.875rem;
 
-    @include media(">sm") {
-      height: 2rem;
-    }
+    //@include media(">sm") {
+    //  height: 2rem;
+    //}
   }
 }
 
@@ -204,19 +206,16 @@
     width: 100%;
     line-height: 1;
 
-    .form-content-holder-lg & {
-      font-size: 0.875rem;
-      height: 2.75rem;
-    }
-
     &::before {
       right: 0.75rem;
     }
 
     .form-content-holder & {
-      @include media("<=sm") {
-        font-size: 0.875rem;
-        height: 2.625rem;
+      font-size: 0.875rem;
+      height: 2.625rem;
+
+      @include media(">sm") {
+        height: 2.75rem;
       }
     }
   }
@@ -263,7 +262,7 @@
 
 // == UI list
 .ui-list-item {
-  padding: 0.907rem 0.938rem;
+  padding: 0.875rem 0.938rem;
   line-height: 1;
 
   &-xs-full {
@@ -299,14 +298,14 @@
 
 .form-content-holder {
   .btn-link {
-    font-size: 0.625rem;
+    font-size: 0.75rem;//~0.625rem;
   }
 
-  &-lg {
-    .btn-link {
-      font-size: 0.75rem;
-    }
-  }
+  //&-lg {
+  //  .btn-link {
+  //    font-size: 0.75rem;
+  //  }
+  //}
 }
 
 // == Modals

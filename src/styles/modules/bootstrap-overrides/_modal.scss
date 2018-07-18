@@ -24,13 +24,13 @@
 }
 
 .modal-header {
-    padding: 0.75rem 0.938rem;
+    padding: 0.782rem 0.938rem;
     background: $brand-white;
     border-radius: 2px;
     line-height: 1;
 
     @include media(">sm") {
-        padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+        padding: 0.782rem 1.25rem 0.782rem 1.5rem;
     }
 
     .modal-lg &,

@@ -118,6 +118,14 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // == Delete account NgbModal
+  deleteAccountModalOpen(deleteAccountContent) {
+    this.modalService.open(deleteAccountContent, {
+        centered: true,
+        windowClass: 'modal-sm'
+    });
+  }
+
   public deleteWhiteList(id) {
     this.store.dispatch(new WhiteListDelete(id));
   }

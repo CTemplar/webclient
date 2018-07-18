@@ -119,6 +119,16 @@ body:not(.sidebar-expanded) {
 	}
 }
 
+.row-size-24 {
+	margin-right: -0.625rem;
+	margin-left: -0.625rem;
+
+	>[class*="col-"] {
+		padding-right: 0.625rem;
+		padding-left: 0.625rem;
+	}
+}
+
 // == Utilities
 figure {
 	margin-bottom: 0;
