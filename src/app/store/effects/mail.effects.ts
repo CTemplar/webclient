@@ -15,12 +15,13 @@ import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 import {
+  CreateFolder, CreateFolderSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   MoveMail,
   MoveMailSuccess,
   ReadMail,
-  ReadMailSuccess,
+  ReadMailSuccess, SetFolders,
   StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess,
   UndoDeleteMail, UndoDeleteMailSuccess
 } from '../actions/mail.actions';
@@ -56,9 +57,14 @@ export class MailEffects {
     .map((action: GetMailboxes) => action.payload)
     .switchMap(payload => {
       return this.mailService.getMailboxes(payload.limit, payload.offset)
-        .map((mails) => {
-          return new GetMailboxesSuccess(mails);
-        });
+        .pipe(
+          switchMap((mails) => {
+            return [
+              new GetMailboxesSuccess(mails),
+              new SetFolders(mails[0].folders)
+            ];
+          })
+        );
     });
 
 
@@ -182,6 +188,21 @@ export class MailEffects {
       });
     });
 
+  @Effect()
+  createFolderEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.CREATE_FOLDER)
+    .map((action: CreateFolder) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.createFolder(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new CreateFolderSuccess(res.folders),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to create folder.' })]),
+        );
+    });
 
   @Effect()
   undoDeleteDraftMailEffect: Observable<any> = this.actions

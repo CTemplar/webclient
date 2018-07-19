@@ -80,6 +80,7 @@ export interface MailState {
 
 export interface MailBoxesState {
   mailboxes: Mailbox[];
+  customFolders: string[];
   currentMailbox: Mailbox;
   decryptKeyInProgress: boolean;
   decryptedKey?: any;

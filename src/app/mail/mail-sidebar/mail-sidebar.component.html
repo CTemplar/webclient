@@ -83,22 +83,10 @@
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
                     <ul class="folders-list">
-                        <li>
+                        <li *ngFor="let folder of mailBoxesState.customFolders; let i=index;">
                             <a href="">
-                                <span class="folder-color-box is-success"></span>
-                                <span class="folders-list-text">Folder 1</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <span class="folder-color-box is-info"></span>
-                                <span class="folders-list-text">Another Folder 2</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <span class="folder-color-box is-warning"></span>
-                                <span class="folders-list-text">Folder 33</span>
+                                <span class="folder-color-box is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></span>
+                                <span class="folders-list-text">{{folder}}</span>
                             </a>
                         </li>
                     </ul>
@@ -144,7 +132,7 @@
     </div>
     <div class="modal-body bg-faded">
         <div class="form">
-            <form>
+            <form  [formGroup]="customFolderForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <div class="row align-items-center">
                         <div class="col-sm-3">
@@ -153,7 +141,7 @@
                             </label>
                         </div>
                         <div class="col-sm-9">
-                            <input class="form-control form-control-sm" id="folderName" type="text"/>
+                            <input class="form-control form-control-sm" id="folderName" type="text" formControlName="folderName"/>
                         </div>
                     </div>
                 </div>
@@ -214,10 +202,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer justify-content-center justify-content-sm-end">
+                    <button type="submit"  class="btn btn-secondary btn-sm">Create</button>
+                </div>
             </form>
         </div>
     </div>
-    <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a href="" class="btn btn-secondary btn-sm">Create</a>
-    </div>
+
 </ng-template><!-- /.Create folders Modal ends -->

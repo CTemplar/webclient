@@ -24,7 +24,7 @@ export interface Mail {
 
 export interface Mailbox {
   id?: number;
-  folders: string;
+  folders: string[];
   messages: string[];
   email: string;
   is_active?: boolean;

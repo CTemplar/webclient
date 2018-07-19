@@ -41,7 +41,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   isTextToggled: boolean = false;
   signupForm: FormGroup;
-  isRecoveryEmail: boolean = false;
+  isRecoveryEmail: boolean = null;
   isConfirmedPrivacy: boolean = null;
   isLoading: boolean = false;
   isFormCompleted: boolean = false;
@@ -50,8 +50,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   selectedPlan: any;
   pgpProgress: number = 0;
   data: any = null;
-  checkPrivacybox: boolean = null;
-  checkEmailRecovery = null;
   isCaptchaCompleted: boolean = false;
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -107,12 +105,11 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.isConfirmedPrivacy == null) {
       this.isConfirmedPrivacy = false;
     }
-    if (! this.isConfirmedPrivacy) {
-      this.checkPrivacybox = true;
+
+    if (this.isRecoveryEmail == null) {
+      this.isRecoveryEmail = false;
     }
-    if (this.isRecoveryEmail === false) {
-      this.checkEmailRecovery = true;
-    }
+
     if (this.signupForm.valid && this.isConfirmedPrivacy) {
       this.isFormCompleted = true;
       if (this.selectedPlan === 1) {

@@ -33,6 +33,9 @@ export enum MailActionTypes {
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
   UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
+  SET_FOLDERS = '[MAILBOX] SET FOLDERS',
+  CREATE_FOLDER = '[MAILBOX] CREATE FOLDER',
+  CREATE_FOLDER_SUCCESS = '[MAILBOX] CREATE FOLDER SUCCESS',
   SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT'
 }
 
@@ -217,12 +220,29 @@ export class UploadAttachmentSuccess implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SetFolders implements  Action {
+  readonly  type = MailActionTypes.SET_FOLDERS;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateFolder implements  Action {
+  readonly  type = MailActionTypes.CREATE_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateFolderSuccess implements  Action {
+  readonly  type = MailActionTypes.CREATE_FOLDER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
 export class SetCurrentFolder implements Action {
   readonly type = MailActionTypes.SET_CURRENT_FOLDER;
 
   constructor(public payload: any) {}
 }
-
 
 export type MailActions =
   | GetMails
@@ -255,4 +275,7 @@ export type MailActions =
   | UploadAttachment
   | UploadAttachmentProgress
   | UploadAttachmentSuccess
+  | SetFolders
+  | CreateFolder
+  | CreateFolderSuccess
   | SetCurrentFolder;
