@@ -14,7 +14,6 @@
             <div class="l-content-holder l-form-content-holder mx-auto mt-md-0">
                 <div class="form">
                     <form class="login-form position-relative" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
-                        <div *ngIf="errorMessage" class="login-form__failed">{{ errorMessage }}</div>
                         <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
                             <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up" translate="settings.username">Username</label>
                             <div class="input-group">
@@ -48,6 +47,7 @@
                                 <span *ngIf="loginForm.controls['password'].errors.required" translate="login.password_required">The password is required.</span>
                             </span>
                         </div>
+                        <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">{{ errorMessage }}</div>
                         <div class="form-group form-user-actions mt-4 pt-sm-2">
                             <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">
                               <span translate="login.name">Login</span>

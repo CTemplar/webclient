@@ -35,12 +35,12 @@ $error-red: #e94e4c;
   // padding-top: 13px;
 
   &__failed {
-    position: absolute;
-    left: 0px;
-    top: -20px;
-    width: 100%;
     text-align: center;
-    color: $error-red;
+    color: #e94e4c;
+    font-size: 18px;
+    float: left;
+    margin-bottom: 10px;
+    min-width: 100%;
   }
   .form-group {
     position: relative;

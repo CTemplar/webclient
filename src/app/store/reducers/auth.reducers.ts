@@ -21,6 +21,14 @@ export function logoutReducer(reducerAction: any) {
 
 export function reducer(state = initialState, action: AuthActionAll): AuthState {
   switch (action.type) {
+
+    case AuthActionTypes.LOGIN: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true,
+      };
+    }
     case AuthActionTypes.LOGIN_SUCCESS: {
       sessionStorage.setItem('token', action.payload.token);
       return {
@@ -34,7 +42,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
-        errorMessage: 'Incorrect username and/or password.',
+        errorMessage: 'Incorrect username or password.',
         inProgress: false
       };
     }
