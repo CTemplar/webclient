@@ -43,17 +43,11 @@ export function reducer(state = initialState, action: MailActions): MailBoxesSta
       };
     }
 
-    case MailActionTypes.SET_FOLDERS: {
-      return {
-        ...state,
-        customFolders: action.payload,
-      };
-    }
-
+    case MailActionTypes.SET_FOLDERS:
     case MailActionTypes.CREATE_FOLDER_SUCCESS: {
       return {
         ...state,
-        customFolders: action.payload
+        customFolders: action.payload,
       };
     }
 
