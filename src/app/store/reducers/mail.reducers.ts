@@ -37,8 +37,13 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.DELETE_MAIL:
+    case MailActionTypes.SEND_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       return { ...state, inProgress: true };
+    }
+
+    case MailActionTypes.SEND_MAIL_SUCCESS: {
+      return { ...state, inProgress: false };
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
@@ -161,7 +166,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
           state.attachments[index].request = action.payload.request;
         }
       });
-      return {...state};
+      return { ...state };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
@@ -185,7 +190,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
         state.attachments[index].request.unsubscribe();
         state.attachments.splice(index, 1);
       }
-      return {...state};
+      return { ...state };
     }
 
     case MailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
@@ -193,7 +198,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       if (index > -1) {
         state.attachments.splice(index, 1);
       }
-      return {...state};
+      return { ...state };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {

@@ -43,7 +43,8 @@ export enum MailFolderType {
   STARRED = 'starred',
   ARCHIVE = 'archive',
   SPAM = 'spam',
-  TRASH = 'trash'
+  TRASH = 'trash',
+  OUTBOX = 'outbox'
 }
 
 export interface Attachment {

@@ -1,8 +1,6 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-
 // Angular
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 // Ngrx
 import { Actions, Effect } from '@ngrx/effects';
 import { Subscription } from 'rxjs';
@@ -16,23 +14,41 @@ import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 import {
-  CreateFolder, CreateFolderSuccess,
+  CreateFolder,
+  CreateFolderSuccess,
+  DeleteAttachment,
+  DeleteAttachmentSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   MoveMail,
   MoveMailSuccess,
   ReadMail,
-  ReadMailSuccess, SetFolders,
-  StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess,
-  UndoDeleteMail, UndoDeleteMailSuccess, UploadAttachmentRequest, DeleteAttachmentSuccess, DeleteAttachment
+  ReadMailSuccess,
+  SendMail,
+  SendMailSuccess,
+  SetFolders,
+  StarMailSuccess,
+  UndoDeleteMail,
+  UndoDeleteMailSuccess,
+  UploadAttachment,
+  UploadAttachmentProgress,
+  UploadAttachmentRequest,
+  UploadAttachmentSuccess
 } from '../actions/mail.actions';
 // Custom Actions
 import {
-  CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
-  GetMailsSuccess, MailActionTypes, SnackErrorPush,
-  GetMailboxes, GetMailboxesSuccess, SnackPush
+  CreateMail,
+  CreateMailSuccess,
+  DeleteMailSuccess,
+  GetMailboxes,
+  GetMailboxesSuccess,
+  GetMails,
+  GetMailsSuccess,
+  MailActionTypes,
+  SnackErrorPush,
+  SnackPush
 } from '../actions';
-import { map } from 'rxjs/operators/map';
+import { Mail, MailFolderType } from '../models';
 
 
 @Injectable()
@@ -183,11 +199,11 @@ export class MailEffects {
                 const progress = Math.round(100 * event.loaded / event.total);
                 observer.next(new UploadAttachmentProgress({ ...payload, progress }));
               } else if (event instanceof HttpResponse) {
-                observer.next(new UploadAttachmentSuccess({data: payload, response: event.body}));
+                observer.next(new UploadAttachmentSuccess({ data: payload, response: event.body }));
               }
             },
             err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
-        observer.next(new UploadAttachmentRequest({...payload, request}));
+        observer.next(new UploadAttachmentRequest({ ...payload, request }));
       });
     });
 
@@ -238,6 +254,41 @@ export class MailEffects {
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
+        );
+    });
+
+  @Effect()
+  sendMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.SEND_MAIL)
+    .map((action: SendMail) => action.payload)
+    .switchMap((payload: Mail) => {
+      if (payload.dead_man_timer || payload.delayed_delivery || payload.destruct_date) {
+        payload.send = false;
+        return this.mailService.moveMail(`${payload.id}`, MailFolderType.OUTBOX)
+          .pipe(
+            switchMap(res => {
+              return [
+                new SendMailSuccess(payload),
+                new SnackPush({
+                  message: `Mail sent successfully`,
+                })
+              ];
+            }),
+            catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })]),
+          );
+      }
+      payload.send = true;
+      return this.mailService.moveMail(`${payload.id}`, MailFolderType.SENT)
+        .pipe(
+          switchMap(res => {
+            return [
+              new SendMailSuccess(payload),
+              new SnackPush({
+                message: `Mail sent successfully`,
+              })
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })]),
         );
     });
 
