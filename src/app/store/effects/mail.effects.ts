@@ -174,6 +174,7 @@ export class MailEffects {
     .ofType(MailActionTypes.UPLOAD_ATTACHMENT)
     .map((action: UploadAttachment) => action.payload)
     .switchMap(payload => {
+      // TODO: replace custom observable with switchMap
       return Observable.create(observer => {
         const request: Subscription = this.mailService.uploadFile(payload)
           .finally(() => observer.complete())

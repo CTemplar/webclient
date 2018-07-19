@@ -138,7 +138,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT: {
-      state.attachments.push(action.payload);
+      state.attachments = [...state.attachments, action.payload];
       return {
         ...state,
       };

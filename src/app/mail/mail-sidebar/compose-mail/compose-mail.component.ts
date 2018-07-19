@@ -125,7 +125,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.attachmentsQueue = [];
           }
         }
-        this.handleAttachment(response);
+        if (!this.inProgress) {
+          this.handleAttachment(response);
+        }
 
         this.mailState = response;
       });
