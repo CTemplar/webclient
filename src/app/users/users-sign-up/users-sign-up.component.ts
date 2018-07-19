@@ -80,8 +80,10 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
   }
 
   private loadStripeScripts() {
-    this.dynamicScriptLoader.load('stripe', 'stripe-key').then(data => {
-      // Script Loaded Successfully
+    this.dynamicScriptLoader.load('stripe').then(data => {
+      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
+        // Script Loaded Successfully
+      });
     }).catch(error => console.log(error));
   }
 
