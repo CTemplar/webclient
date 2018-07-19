@@ -319,13 +319,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDeadManTimerModal() {
-    if (this.deadManTimer.value) {
-      // reset to previous confirmed value
-      this.deadManTimer = {
-        ...this.deadManTimer,
-        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value)
-      };
-    } else {
+    if (!this.deadManTimer.value) {
       this.resetDeadManTimerValues();
     }
     this.deadManTimerModalRef = this.modalService.open(this.deadManTimerModal, {
@@ -388,12 +382,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setDeadManTimerValue() {
-    if (this.deadManTimer.date && this.deadManTimer.time) {
-      this.deadManTimer.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.deadManTimer.date,
-        this.deadManTimer.time);
-      this.closeDeadManTimerModal();
-      this.valueChanged$.next(this.deadManTimer.value);
-    }
+    this.deadManTimer.days = !this.deadManTimer.days || isNaN(this.deadManTimer.days) || this.deadManTimer.days < 0 ? 0 : Math.floor(this.deadManTimer.days);
+    this.deadManTimer.hours = !this.deadManTimer.hours || isNaN(this.deadManTimer.hours) || this.deadManTimer.hours < 0 ? 0 : Math.floor(this.deadManTimer.hours);
+    this.deadManTimer.value = this.deadManTimer.days * 24 + this.deadManTimer.hours;
+    this.closeDeadManTimerModal();
+    this.valueChanged$.next(this.deadManTimer.value);
   }
 
   clearDeadManTimerValue() {
@@ -514,12 +507,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetDeadManTimerValues() {
     this.deadManTimer.value = null;
-    this.deadManTimer.date = null;
-    this.deadManTimer.time = {
-      hour: 0,
-      minute: 0,
-      second: 0
-    };
+    this.deadManTimer.days = 0;
+    this.deadManTimer.hours = 0;
   }
 
   @HostListener('document:keydown', ['$event'])
