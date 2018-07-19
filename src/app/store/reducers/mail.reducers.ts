@@ -42,9 +42,16 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(',');
+      const listOfIDs = action.payload.ids.toString().split(',');
       state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
       return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
+      return {
+        ...state,
+        mails: (action.payload.sourceFolder === state.currentFolder) ? [...state.mails, action.payload.mail] : state.mails,
+      };
     }
 
     case MailActionTypes.READ_MAIL_SUCCESS: {
@@ -152,6 +159,10 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return {
         ...state
       };
+    }
+
+    case MailActionTypes.SET_CURRENT_FOLDER: {
+      return { ...state, currentFolder: action.payload };
     }
 
     default: {

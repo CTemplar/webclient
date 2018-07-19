@@ -21,13 +21,14 @@ import {
   MoveMailSuccess,
   ReadMail,
   ReadMailSuccess,
-  StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess
+  StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess,
+  UndoDeleteMail, UndoDeleteMailSuccess
 } from '../actions/mail.actions';
 // Custom Actions
 import {
   CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
   GetMailsSuccess, MailActionTypes, SnackErrorPush,
-  GetMailboxes, GetMailboxesSuccess
+  GetMailboxes, GetMailboxesSuccess, SnackPush
 } from '../actions';
 import { map } from 'rxjs/operators/map';
 
@@ -87,6 +88,13 @@ export class MailEffects {
           switchMap(res => {
             return [
               new MoveMailSuccess(payload),
+              new SnackPush({
+                message: `Mail moved to trash`,
+                ids: payload.ids,
+                folder: payload.folder,
+                sourceFolder: payload.sourceFolder,
+                mail: payload.mail
+              })
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
@@ -172,6 +180,23 @@ export class MailEffects {
             },
             err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
       });
+    });
+
+
+  @Effect()
+  undoDeleteDraftMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.UNDO_DELETE_MAIL)
+    .map((action: UndoDeleteMail) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.moveMail(payload.ids, payload.sourceFolder)
+        .pipe(
+          switchMap(res => {
+            return [
+              new UndoDeleteMailSuccess(payload)
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
+        );
     });
 
 }
