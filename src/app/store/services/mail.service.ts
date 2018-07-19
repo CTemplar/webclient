@@ -89,6 +89,9 @@ export class MailService {
     return this.http.request(request);
   }
 
+  deleteAttachment(attachment: Attachment): Observable<any> {
+    return this.http.delete<any>(`${apiUrl}emails/attachments/${attachment.id}/`);
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

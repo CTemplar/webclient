@@ -24,7 +24,7 @@ import {
   ReadMail,
   ReadMailSuccess, SetFolders,
   StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess,
-  UndoDeleteMail, UndoDeleteMailSuccess, UploadAttachmentRequest
+  UndoDeleteMail, UndoDeleteMailSuccess, UploadAttachmentRequest, DeleteAttachmentSuccess, DeleteAttachment
 } from '../actions/mail.actions';
 // Custom Actions
 import {
@@ -188,6 +188,24 @@ export class MailEffects {
             err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
         observer.next(new UploadAttachmentRequest({...payload, request}));
       });
+    });
+
+  @Effect()
+  deleteAttachmentEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.DELETE_ATTACHMENT)
+    .map((action: DeleteAttachment) => action.payload)
+    .switchMap(payload => {
+      if (payload.id) {
+        return this.mailService.deleteAttachment(payload)
+          .pipe(
+            switchMap(res => {
+              return [new DeleteAttachmentSuccess(payload)];
+            }),
+            catchError(err => [new SnackErrorPush({ message: 'Failed to delete attachment.' })])
+          );
+      } else {
+        return [new DeleteAttachmentSuccess(payload)];
+      }
     });
 
   @Effect()

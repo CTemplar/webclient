@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
-import { CloseMailbox, CreateMail, MoveMail, UpdateLocalDraft, UploadAttachment } from '../../../store/actions';
+import { CloseMailbox, CreateMail, DeleteAttachment, MoveMail, UpdateLocalDraft, UploadAttachment } from '../../../store/actions';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
@@ -246,12 +246,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resetValues();
   }
 
-  removeAttachment(file: any) {
-    const index = this.attachments.findIndex(attachment => attachment.id === file.id);
-    if (index > -1) {
-      // TODO: add API call for removing this file
-      this.attachments.splice(index, 1);
-    }
+  removeAttachment(attachment: Attachment) {
+    this.store.dispatch(new DeleteAttachment(attachment));
   }
 
   addSignature() {

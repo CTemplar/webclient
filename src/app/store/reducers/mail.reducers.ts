@@ -179,6 +179,23 @@ export function reducer(state = initialState, action: MailActions): MailState {
       };
     }
 
+    case MailActionTypes.DELETE_ATTACHMENT: {
+      const index = state.attachments.findIndex(attachment => attachment.attachmentId === action.payload.attachmentId);
+      if (index > -1 && !state.attachments[index].id) {
+        state.attachments[index].request.unsubscribe();
+        state.attachments.splice(index, 1);
+      }
+      return {...state};
+    }
+
+    case MailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
+      const index = state.attachments.findIndex(attachment => attachment.id === action.payload.id);
+      if (index > -1) {
+        state.attachments.splice(index, 1);
+      }
+      return {...state};
+    }
+
     case MailActionTypes.SET_CURRENT_FOLDER: {
       return { ...state, currentFolder: action.payload };
     }
