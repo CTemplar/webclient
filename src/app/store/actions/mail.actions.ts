@@ -33,6 +33,7 @@ export enum MailActionTypes {
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
   UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
+  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT'
 }
 
 export class GetMails implements Action {
@@ -216,6 +217,12 @@ export class UploadAttachmentSuccess implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SetCurrentFolder implements Action {
+  readonly type = MailActionTypes.SET_CURRENT_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
 
 export type MailActions =
   | GetMails
@@ -247,4 +254,5 @@ export type MailActions =
   | UndoDeleteMailSuccess
   | UploadAttachment
   | UploadAttachmentProgress
-  | UploadAttachmentSuccess;
+  | UploadAttachmentSuccess
+  | SetCurrentFolder;

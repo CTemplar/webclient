@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/datatypes';
 import { Mail, MailFolderType } from '../../../../store/models';
 import { Observable } from 'rxjs/Observable';
-import { DeleteMail, MoveMail, ReadMail, StarMail } from '../../../../store/actions';
+import { DeleteMail, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 @TakeUntilDestroy()
@@ -14,7 +14,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 })
 export class GenericFolderComponent implements OnInit, OnDestroy {
   @Input() mails: Mail[] = [];
-  @Input() mailFolder: string;
+  @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
 
   mailFolderTypes = MailFolderType;
@@ -23,7 +23,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<AppState>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.dispatch(new SetCurrentFolder(this.mailFolder));
+  }
 
   markAllMails(checkAll) {
     if (checkAll) {

@@ -50,7 +50,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
       return {
         ...state,
-        mails: [...state.mails, action.payload.mail],
+        mails: (action.payload.sourceFolder === state.currentFolder) ? [...state.mails, action.payload.mail] : state.mails,
       };
     }
 
@@ -159,6 +159,10 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return {
         ...state
       };
+    }
+
+    case MailActionTypes.SET_CURRENT_FOLDER: {
+      return { ...state, currentFolder: action.payload };
     }
 
     default: {
