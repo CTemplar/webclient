@@ -155,7 +155,25 @@ export function reducer(state = initialState, action: MailActions): MailState {
       };
     }
 
+    case MailActionTypes.UPLOAD_ATTACHMENT_REQUEST: {
+      state.attachments.forEach((item, index) => {
+        if (item.attachmentId === action.payload.attachmentId) {
+          state.attachments[index].request = action.payload.request;
+        }
+      });
+      return {...state};
+    }
+
     case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
+      state.attachments.forEach((item, index) => {
+        if (item.attachmentId === action.payload.data.attachmentId) {
+          if (item.hash === action.payload.response.hash) {
+            state.attachments[index].id = action.payload.response.id;
+            state.attachments[index].inProgress = false;
+            state.attachments[index].request = null;
+          }
+        }
+      });
       return {
         ...state
       };

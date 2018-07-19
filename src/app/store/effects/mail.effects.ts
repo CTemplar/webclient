@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Ngrx
 import { Actions, Effect } from '@ngrx/effects';
+import { Subscription } from 'rxjs';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -23,7 +24,7 @@ import {
   ReadMail,
   ReadMailSuccess, SetFolders,
   StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess,
-  UndoDeleteMail, UndoDeleteMailSuccess
+  UndoDeleteMail, UndoDeleteMailSuccess, UploadAttachmentRequest
 } from '../actions/mail.actions';
 // Custom Actions
 import {
@@ -174,17 +175,18 @@ export class MailEffects {
     .map((action: UploadAttachment) => action.payload)
     .switchMap(payload => {
       return Observable.create(observer => {
-        this.mailService.uploadFile(payload)
+        const request: Subscription = this.mailService.uploadFile(payload)
           .finally(() => observer.complete())
           .subscribe((event: any) => {
               if (event.type === HttpEventType.UploadProgress) {
                 const progress = Math.round(100 * event.loaded / event.total);
                 observer.next(new UploadAttachmentProgress({ ...payload, progress }));
               } else if (event instanceof HttpResponse) {
-                observer.next(new UploadAttachmentSuccess(event.body));
+                observer.next(new UploadAttachmentSuccess({data: payload, response: event.body}));
               }
             },
             err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
+        observer.next(new UploadAttachmentRequest({...payload, request}));
       });
     });
 

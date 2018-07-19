@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 export interface Mail {
   id?: number;
   content: string;
@@ -53,4 +55,6 @@ export interface Attachment {
   message: number;
   progress?: number;
   attachmentId?: number;
+  inProgress: boolean;
+  request?: Subscription;
 }

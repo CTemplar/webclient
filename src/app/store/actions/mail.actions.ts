@@ -32,6 +32,7 @@ export enum MailActionTypes {
   UNDO_DELETE_MAIL_SUCCESS = '[Mail] UNDO DELETE DRAFT MAIL SUCCESS',
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
+  UPLOAD_ATTACHMENT_REQUEST = '[Attachment] UPLOAD_ATTACHMENT_REQUEST',
   UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
   SET_FOLDERS = '[MAILBOX] SET FOLDERS',
   CREATE_FOLDER = '[MAILBOX] CREATE FOLDER',
@@ -214,6 +215,12 @@ export class UploadAttachmentProgress implements Action {
   constructor(public payload: any) {}
 }
 
+export class UploadAttachmentRequest implements Action {
+  readonly type = MailActionTypes.UPLOAD_ATTACHMENT_REQUEST;
+
+  constructor(public payload: any) {}
+}
+
 export class UploadAttachmentSuccess implements Action {
   readonly type = MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS;
 
@@ -274,6 +281,7 @@ export type MailActions =
   | UndoDeleteMailSuccess
   | UploadAttachment
   | UploadAttachmentProgress
+  | UploadAttachmentRequest
   | UploadAttachmentSuccess
   | SetFolders
   | CreateFolder

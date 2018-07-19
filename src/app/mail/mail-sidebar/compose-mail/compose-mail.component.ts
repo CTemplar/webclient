@@ -209,7 +209,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onFilesSelected(files: FileList) {
     for (let i = 0; i < files.length; i++) {
       const file: File = files.item(i);
-      // TODO: replace this id with value returned from backend
       const data: Attachment = {
         document: file,
         name: file.name,
@@ -217,9 +216,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachmentId: performance.now(),
         message: this.draftMail.id,
         hash: performance.now().toString(),
+        inProgress: true
       };
-      this.attachments.push(data);
-
       this.store.dispatch(new UploadAttachment(data));
     }
   }
