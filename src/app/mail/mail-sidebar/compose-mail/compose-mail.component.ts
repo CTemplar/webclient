@@ -242,7 +242,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   discardEmail() {
     if (this.draftMail && this.draftMail.id) {
-      this.store.dispatch(new MoveMail({ ids: this.draftMail.id, folder: MailFolderType.TRASH }));
+      this.store.dispatch(new MoveMail({ ids: this.draftMail.id, folder: MailFolderType.TRASH, sourceFolder: MailFolderType.DRAFT, mail: this.draftMail }));
     }
     this.hide.emit();
     this.resetValues();

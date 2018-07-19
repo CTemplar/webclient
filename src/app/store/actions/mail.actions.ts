@@ -28,12 +28,15 @@ export enum MailActionTypes {
   SET_DECRYPTED_KEY = '[DECRYPTED] SET KEY',
   SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
   UPDATE_PGP_CONTENT = '[PGP] UPDATE ENCRYPTED, DECRYPTED CONTENT',
+  UNDO_DELETE_MAIL = '[Mail] UNDO DELETE DRAFT MAIL',
+  UNDO_DELETE_MAIL_SUCCESS = '[Mail] UNDO DELETE DRAFT MAIL SUCCESS',
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
   UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
   SET_FOLDERS = '[MAILBOX] SET FOLDERS',
   CREATE_FOLDER = '[MAILBOX] CREATE FOLDER',
   CREATE_FOLDER_SUCCESS = '[MAILBOX] CREATE FOLDER SUCCESS',
+  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT'
 }
 
 export class GetMails implements Action {
@@ -187,6 +190,18 @@ export class UpdatePGPContent implements Action {
   constructor(public payload?: any) {}
 }
 
+export class UndoDeleteMail implements Action {
+  readonly type = MailActionTypes.UNDO_DELETE_MAIL;
+
+  constructor(public payload?: any) {}
+}
+
+export class UndoDeleteMailSuccess implements Action {
+  readonly type = MailActionTypes.UNDO_DELETE_MAIL_SUCCESS;
+
+  constructor(public payload?: any) {}
+}
+
 export class UploadAttachment implements Action {
   readonly type = MailActionTypes.UPLOAD_ATTACHMENT;
 
@@ -223,6 +238,12 @@ export class CreateFolderSuccess implements  Action {
   constructor(public payload: any) {}
 }
 
+export class SetCurrentFolder implements Action {
+  readonly type = MailActionTypes.SET_CURRENT_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -249,9 +270,12 @@ export type MailActions =
   | SetDecryptedKey
   | SetCurrentMailbox
   | UpdatePGPContent
+  | UndoDeleteMail
+  | UndoDeleteMailSuccess
   | UploadAttachment
   | UploadAttachmentProgress
   | UploadAttachmentSuccess
   | SetFolders
   | CreateFolder
-  | CreateFolderSuccess;
+  | CreateFolderSuccess
+  | SetCurrentFolder;
