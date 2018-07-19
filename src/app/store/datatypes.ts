@@ -19,6 +19,7 @@ export interface AuthState {
   user: User | null;
   // error message
   errorMessage: string | null;
+  inProgress: boolean;
 }
 
 export interface UserState {
@@ -132,6 +133,7 @@ export interface AppState {
   keyboard: KeyboardState;
   user: UserState;
   timezone: TimezonesState;
+  bitcoin: BitcoinState;
 }
 
 export interface TimezonesState {
@@ -141,4 +143,11 @@ export interface TimezonesState {
 export interface Timezone {
   value: string;
   key: string;
+}
+
+export interface BitcoinState {
+  currentUSDValue: number;
+  newWalletAddress: string;
+  loaded: boolean;
+  Wif: string;
 }

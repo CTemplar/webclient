@@ -39,7 +39,7 @@ export class SignUpSuccess implements Action {
 
 export class SignUpFailure implements Action {
   readonly type = AuthActionTypes.SIGNUP_FAILURE;
-  constructor(public payload: any) {}
+  constructor(public payload?: any) {}
 }
 
 export class Logout implements Action {

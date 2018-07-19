@@ -193,11 +193,14 @@
             </div>
         </div>
     </div>
-    <div *ngIf="isCaptchaCompleted" class="text-center">
-        <div class="btn btn-secondary btn-lg mt-4" role="button"
-             (click)="signupFormCompleted()" translate="login.create_account">Create Account
-        </div>
-    </div>
+    <div *ngIf="isCaptchaCompleted" class="text-center form-group mt-4">
+        <button class="btn btn-secondary btn-lg" role="button"
+             (click)="signupFormCompleted()" translate="login.create_account" [disabled]="signupInProgress" >Create Account
+        </button>
+      <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
+      </div>
+  <div>
+  </div>
     <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
@@ -210,9 +213,6 @@
         <h3 class="modal-title-lg mb-0 w-100 text-dark" id="resetPasswordModalLabel">
             <strong>Generating Key…</strong>
         </h3>
-        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
     </div>
     <div class="modal-body bg-faded">
         <div class="text-holder text-dark text-medium">
