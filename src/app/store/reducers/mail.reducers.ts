@@ -43,7 +43,11 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.SEND_MAIL_SUCCESS: {
-      return { ...state, inProgress: false };
+      return {
+        ...state,
+        inProgress: false,
+        mails: (action.payload.folder === state.currentFolder) ? [...state.mails, action.payload] : state.mails,
+      };
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
@@ -95,8 +99,8 @@ export function reducer(state = initialState, action: MailActions): MailState {
           newEntry = false;
         }
       });
-      if (newEntry) {
-        state.mails.push(action.payload);
+      if (newEntry && state.currentFolder === action.payload.folder) {
+        state.mails = [...state.mails, action.payload];
       }
       return { ...state, inProgress: false, draft: action.payload };
     }

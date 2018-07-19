@@ -263,7 +263,7 @@ export class MailEffects {
     .map((action: SendMail) => action.payload)
     .switchMap((payload: Mail) => {
       if (payload.dead_man_timer || payload.delayed_delivery || payload.destruct_date) {
-        payload.send = false;
+        payload.folder = MailFolderType.OUTBOX;
         return this.mailService.moveMail(`${payload.id}`, MailFolderType.OUTBOX)
           .pipe(
             switchMap(res => {
@@ -278,7 +278,8 @@ export class MailEffects {
           );
       }
       payload.send = true;
-      return this.mailService.moveMail(`${payload.id}`, MailFolderType.SENT)
+      payload.folder = MailFolderType.SENT;
+      return this.mailService.createMail(payload)
         .pipe(
           switchMap(res => {
             return [
