@@ -91,6 +91,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   private shouldSave: boolean;
   private mailState: MailState;
+  private attachmentsQueue: Array<Attachment> = [];
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -109,11 +110,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response: MailState) => {
         this.draftMail = response.draft;
         this.inProgress = response.inProgress;
-        if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress && response.draft) {
-          response.draft.content = response.encryptedContent;
-          this.shouldSave = false;
-          this.store.dispatch(new CreateMail({ ...response.draft }));
-          this.inProgress = true;
+        if (response.draft) {
+          if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
+            response.draft.content = response.encryptedContent;
+            this.shouldSave = false;
+            this.store.dispatch(new CreateMail({ ...response.draft }));
+            this.inProgress = true;
+          }
+          if (response.draft.id && this.attachmentsQueue.length > 0) {
+            this.attachmentsQueue.forEach(attachment => {
+              attachment.message = response.draft.id;
+              this.store.dispatch(new UploadAttachment(attachment));
+            });
+            this.attachmentsQueue = [];
+          }
         }
         this.handleAttachment(response);
 
@@ -207,18 +217,26 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onFilesSelected(files: FileList) {
+    if (!this.draftMail || !this.draftMail.id) {
+      this.updateEmail();
+    }
     for (let i = 0; i < files.length; i++) {
       const file: File = files.item(i);
-      const data: Attachment = {
+      const attachment: Attachment = {
         document: file,
         name: file.name,
         size: this.getFileSize(file),
         attachmentId: performance.now(),
         message: this.draftMail.id,
         hash: performance.now().toString(),
-        inProgress: true
+        inProgress: false
       };
-      this.store.dispatch(new UploadAttachment(data));
+      this.attachments.push(attachment);
+      if (!this.draftMail.id) {
+        this.attachmentsQueue.push(attachment);
+      } else {
+        this.store.dispatch(new UploadAttachment(attachment));
+      }
     }
   }
 
