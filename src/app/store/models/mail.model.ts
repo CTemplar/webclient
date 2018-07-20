@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs/Subscription';
+
 export interface Mail {
   id?: number;
   content: string;
@@ -20,6 +22,7 @@ export interface Mail {
   dead_man_timer?: string;
   datetime?: string;
   marked?: boolean;
+  is_encrypted?: boolean;
 }
 
 export interface Mailbox {
@@ -41,7 +44,8 @@ export enum MailFolderType {
   STARRED = 'starred',
   ARCHIVE = 'archive',
   SPAM = 'spam',
-  TRASH = 'trash'
+  TRASH = 'trash',
+  OUTBOX = 'outbox'
 }
 
 export interface Attachment {
@@ -53,4 +57,6 @@ export interface Attachment {
   message: number;
   progress?: number;
   attachmentId?: number;
+  inProgress: boolean;
+  request?: Subscription;
 }

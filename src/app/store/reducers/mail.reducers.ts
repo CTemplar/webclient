@@ -37,8 +37,17 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.DELETE_MAIL:
+    case MailActionTypes.SEND_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       return { ...state, inProgress: true };
+    }
+
+    case MailActionTypes.SEND_MAIL_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        mails: (action.payload.folder === state.currentFolder) ? [...state.mails, action.payload] : state.mails,
+      };
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
@@ -90,8 +99,8 @@ export function reducer(state = initialState, action: MailActions): MailState {
           newEntry = false;
         }
       });
-      if (newEntry) {
-        state.mails.push(action.payload);
+      if (newEntry && state.currentFolder === action.payload.folder) {
+        state.mails = [...state.mails, action.payload];
       }
       return { ...state, inProgress: false, draft: action.payload };
     }
@@ -138,7 +147,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT: {
-      state.attachments.push(action.payload);
+      state.attachments = [...state.attachments, action.payload];
       return {
         ...state,
       };
@@ -155,10 +164,45 @@ export function reducer(state = initialState, action: MailActions): MailState {
       };
     }
 
+    case MailActionTypes.UPLOAD_ATTACHMENT_REQUEST: {
+      state.attachments.forEach((item, index) => {
+        if (item.attachmentId === action.payload.attachmentId) {
+          state.attachments[index].request = action.payload.request;
+        }
+      });
+      return { ...state };
+    }
+
     case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
+      state.attachments.forEach((item, index) => {
+        if (item.attachmentId === action.payload.data.attachmentId) {
+          if (item.hash === action.payload.response.hash) {
+            state.attachments[index].id = action.payload.response.id;
+            state.attachments[index].inProgress = false;
+            state.attachments[index].request = null;
+          }
+        }
+      });
       return {
         ...state
       };
+    }
+
+    case MailActionTypes.DELETE_ATTACHMENT: {
+      const index = state.attachments.findIndex(attachment => attachment.attachmentId === action.payload.attachmentId);
+      if (index > -1 && !state.attachments[index].id) {
+        state.attachments[index].request.unsubscribe();
+        state.attachments.splice(index, 1);
+      }
+      return { ...state };
+    }
+
+    case MailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
+      const index = state.attachments.findIndex(attachment => attachment.id === action.payload.id);
+      if (index > -1) {
+        state.attachments.splice(index, 1);
+      }
+      return { ...state };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {

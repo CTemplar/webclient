@@ -32,11 +32,16 @@ export enum MailActionTypes {
   UNDO_DELETE_MAIL_SUCCESS = '[Mail] UNDO DELETE DRAFT MAIL SUCCESS',
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
+  UPLOAD_ATTACHMENT_REQUEST = '[Attachment] UPLOAD_ATTACHMENT_REQUEST',
   UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
+  DELETE_ATTACHMENT = '[Attachment] DELETE_ATTACHMENT',
+  DELETE_ATTACHMENT_SUCCESS = '[Attachment] DELETE_ATTACHMENT_SUCCESS',
   SET_FOLDERS = '[MAILBOX] SET FOLDERS',
   CREATE_FOLDER = '[MAILBOX] CREATE FOLDER',
   CREATE_FOLDER_SUCCESS = '[MAILBOX] CREATE FOLDER SUCCESS',
-  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT'
+  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT',
+  GET_USERS_KEYS = '[USERS] GET KEYS',
+  GET_USERS_KEYS_SUCCESS = '[USERS] GET KEYS SUCCESS',
 }
 
 export class GetMails implements Action {
@@ -138,16 +143,17 @@ export class ReadMailSuccess implements Action {
 }
 
 export class StarMail implements Action {
-    readonly type = MailActionTypes.STAR_MAIL;
+  readonly type = MailActionTypes.STAR_MAIL;
 
-    constructor(public payload: any) {}
+  constructor(public payload: any) {}
 }
 
 export class StarMailSuccess implements Action {
-    readonly type = MailActionTypes.STAR_MAIL_SUCCESS;
+  readonly type = MailActionTypes.STAR_MAIL_SUCCESS;
 
-    constructor(public payload: any) {}
+  constructor(public payload: any) {}
 }
+
 export class DeleteMailSuccess implements Action {
   readonly type = MailActionTypes.DELETE_MAIL_SUCCESS;
 
@@ -214,32 +220,62 @@ export class UploadAttachmentProgress implements Action {
   constructor(public payload: any) {}
 }
 
+export class UploadAttachmentRequest implements Action {
+  readonly type = MailActionTypes.UPLOAD_ATTACHMENT_REQUEST;
+
+  constructor(public payload: any) {}
+}
+
 export class UploadAttachmentSuccess implements Action {
   readonly type = MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS;
 
   constructor(public payload?: any) {}
 }
 
-export class SetFolders implements  Action {
-  readonly  type = MailActionTypes.SET_FOLDERS;
+export class DeleteAttachment implements Action {
+  readonly type = MailActionTypes.DELETE_ATTACHMENT;
 
   constructor(public payload: any) {}
 }
 
-export class CreateFolder implements  Action {
-  readonly  type = MailActionTypes.CREATE_FOLDER;
+export class DeleteAttachmentSuccess implements Action {
+  readonly type = MailActionTypes.DELETE_ATTACHMENT_SUCCESS;
 
   constructor(public payload: any) {}
 }
 
-export class CreateFolderSuccess implements  Action {
-  readonly  type = MailActionTypes.CREATE_FOLDER_SUCCESS;
+export class SetFolders implements Action {
+  readonly type = MailActionTypes.SET_FOLDERS;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateFolder implements Action {
+  readonly type = MailActionTypes.CREATE_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateFolderSuccess implements Action {
+  readonly type = MailActionTypes.CREATE_FOLDER_SUCCESS;
 
   constructor(public payload: any) {}
 }
 
 export class SetCurrentFolder implements Action {
   readonly type = MailActionTypes.SET_CURRENT_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
+export class GetUsersKeys implements Action {
+  readonly type = MailActionTypes.GET_USERS_KEYS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetUsersKeysSuccess implements Action {
+  readonly type = MailActionTypes.GET_USERS_KEYS_SUCCESS;
 
   constructor(public payload: any) {}
 }
@@ -274,8 +310,13 @@ export type MailActions =
   | UndoDeleteMailSuccess
   | UploadAttachment
   | UploadAttachmentProgress
+  | UploadAttachmentRequest
   | UploadAttachmentSuccess
+  | DeleteAttachment
+  | DeleteAttachmentSuccess
   | SetFolders
   | CreateFolder
   | CreateFolderSuccess
-  | SetCurrentFolder;
+  | SetCurrentFolder
+  | GetUsersKeys
+  | GetUsersKeysSuccess;

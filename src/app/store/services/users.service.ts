@@ -128,7 +128,8 @@ export class UsersService {
       'emails/messages/',
       'emails/mailboxes',
       'users/settings',
-      'emails/attachments'
+      'emails/attachments',
+      'emails/keys',
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

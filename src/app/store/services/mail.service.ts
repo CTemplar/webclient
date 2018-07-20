@@ -47,6 +47,10 @@ export class MailService {
     return this.http.get<any>(url).map(data => data['results']);
   }
 
+  getUsersPublicKeys(emails: string): Observable<any> {
+    return this.http.get<any>(`${apiUrl}emails/keys/?email__in=${emails}`).map(data => data['results']);
+  }
+
   createFolder(data: Mailbox): Observable<any> {
     return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
@@ -89,6 +93,9 @@ export class MailService {
     return this.http.request(request);
   }
 
+  deleteAttachment(attachment: Attachment): Observable<any> {
+    return this.http.delete<any>(`${apiUrl}emails/attachments/${attachment.id}/`);
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
