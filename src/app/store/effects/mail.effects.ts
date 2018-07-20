@@ -1,10 +1,9 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-
 // Angular
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 // Ngrx
 import { Actions, Effect } from '@ngrx/effects';
+import { Subscription } from 'rxjs/Subscription';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -15,23 +14,38 @@ import { catchError, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 import {
-  CreateFolder, CreateFolderSuccess,
+  CreateFolder,
+  CreateFolderSuccess,
+  DeleteAttachment,
+  DeleteAttachmentSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   MoveMail,
   MoveMailSuccess,
   ReadMail,
-  ReadMailSuccess, SetFolders,
-  StarMailSuccess, UploadAttachment, UploadAttachmentProgress, UploadAttachmentSuccess,
-  UndoDeleteMail, UndoDeleteMailSuccess
+  ReadMailSuccess,
+  SendMail,
+  SendMailSuccess,
+  StarMailSuccess,
+  UndoDeleteMail,
+  UndoDeleteMailSuccess,
+  UploadAttachment,
+  UploadAttachmentProgress,
+  UploadAttachmentRequest,
+  UploadAttachmentSuccess
 } from '../actions/mail.actions';
 // Custom Actions
 import {
-  CreateMail, CreateMailSuccess, DeleteMailSuccess, GetMails,
-  GetMailsSuccess, MailActionTypes, SnackErrorPush,
-  GetMailboxes, GetMailboxesSuccess, SnackPush
+  CreateMail,
+  CreateMailSuccess,
+  DeleteMailSuccess,
+  GetMails,
+  GetMailsSuccess,
+  MailActionTypes,
+  SnackErrorPush,
+  SnackPush
 } from '../actions';
-import { map } from 'rxjs/operators/map';
+import { Mail, MailFolderType } from '../models';
 
 
 @Injectable()
@@ -49,22 +63,6 @@ export class MailEffects {
         .map((mails) => {
           return new GetMailsSuccess({ ...payload, mails });
         });
-    });
-
-  @Effect()
-  getMailboxesEffect: Observable<any> = this.actions
-    .ofType(MailActionTypes.GET_MAILBOXES)
-    .map((action: GetMailboxes) => action.payload)
-    .switchMap(payload => {
-      return this.mailService.getMailboxes(payload.limit, payload.offset)
-        .pipe(
-          switchMap((mails) => {
-            return [
-              new GetMailboxesSuccess(mails),
-              new SetFolders(mails[0].folders)
-            ];
-          })
-        );
     });
 
 
@@ -173,19 +171,39 @@ export class MailEffects {
     .ofType(MailActionTypes.UPLOAD_ATTACHMENT)
     .map((action: UploadAttachment) => action.payload)
     .switchMap(payload => {
+      // TODO: replace custom observable with switchMap
       return Observable.create(observer => {
-        this.mailService.uploadFile(payload)
+        const request: Subscription = this.mailService.uploadFile(payload)
           .finally(() => observer.complete())
           .subscribe((event: any) => {
               if (event.type === HttpEventType.UploadProgress) {
                 const progress = Math.round(100 * event.loaded / event.total);
                 observer.next(new UploadAttachmentProgress({ ...payload, progress }));
               } else if (event instanceof HttpResponse) {
-                observer.next(new UploadAttachmentSuccess(event.body));
+                observer.next(new UploadAttachmentSuccess({ data: payload, response: event.body }));
               }
             },
             err => observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' })));
+        observer.next(new UploadAttachmentRequest({ ...payload, request }));
       });
+    });
+
+  @Effect()
+  deleteAttachmentEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.DELETE_ATTACHMENT)
+    .map((action: DeleteAttachment) => action.payload)
+    .switchMap(payload => {
+      if (payload.id) {
+        return this.mailService.deleteAttachment(payload)
+          .pipe(
+            switchMap(res => {
+              return [new DeleteAttachmentSuccess(payload)];
+            }),
+            catchError(err => [new SnackErrorPush({ message: 'Failed to delete attachment.' })])
+          );
+      } else {
+        return [new DeleteAttachmentSuccess(payload)];
+      }
     });
 
   @Effect()
@@ -217,6 +235,42 @@ export class MailEffects {
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })]),
+        );
+    });
+
+  @Effect()
+  sendMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.SEND_MAIL)
+    .map((action: SendMail) => action.payload)
+    .switchMap((payload: Mail) => {
+      if (payload.dead_man_timer || payload.delayed_delivery || payload.destruct_date) {
+        payload.folder = MailFolderType.OUTBOX;
+        return this.mailService.moveMail(`${payload.id}`, MailFolderType.OUTBOX)
+          .pipe(
+            switchMap(res => {
+              return [
+                new SendMailSuccess(payload),
+                new SnackPush({
+                  message: `Mail sent successfully`,
+                })
+              ];
+            }),
+            catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })]),
+          );
+      }
+      payload.send = true;
+      payload.folder = MailFolderType.SENT;
+      return this.mailService.createMail(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new SendMailSuccess(payload),
+              new SnackPush({
+                message: `Mail sent successfully`,
+              })
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })]),
         );
     });
 

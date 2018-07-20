@@ -203,7 +203,10 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center justify-content-sm-end">
-                    <button type="submit"  class="btn btn-secondary btn-sm">Create</button>
+                    <app-loading-spinner [showSpinner]="mailBoxesState?.inProgress"></app-loading-spinner>
+                    <button type="submit"
+                            [disabled]="mailBoxesState?.inProgress"
+                            class="btn btn-secondary btn-sm">Create</button>
                 </div>
             </form>
         </div>

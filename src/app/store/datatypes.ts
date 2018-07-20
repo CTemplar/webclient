@@ -101,6 +101,15 @@ export interface MailBoxesState {
   currentMailbox: Mailbox;
   decryptKeyInProgress: boolean;
   decryptedKey?: any;
+  encryptionInProgress: boolean;
+  getUserKeyInProgress: boolean;
+  usersKeys: PublicKey[];
+  inProgress?: boolean;
+}
+
+export interface PublicKey {
+  email: string;
+  public_key: string;
 }
 
 export interface LoadingState {

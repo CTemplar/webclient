@@ -24,13 +24,16 @@
           </div>
         </li>
         <li class="px-0">
-          <a href class="border-right-0 border-radius-right-0" placement="top"
+          <a  class="border-right-0 border-radius-right-0" placement="top"
+              (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
              [ngbTooltip]="'mail_list.move_to_archive' | translate">
             <i class="icon icon-archive"></i>
           </a>
         </li>
         <li class="pr-0 pl-0 hidden-xs-down">
-          <a class="border-right-0 border-radius-0" placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate">
+          <a class="border-right-0 border-radius-0"
+             (click)="moveToFolder(mailFolderTypes.SPAM)"
+             placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate">
             <i class="icon icon-warning"></i>
           </a>
         </li>
@@ -135,7 +138,7 @@
       </ul>
     </div>
 
-    <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down">
+    <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down" *ngIf="mails?.length>0">
       <div class="mail-controls d-flex align-items-center justify-content-end">
         <div class="mail-result-text text-muted">
           <small>1-{{mails?.length}} of {{mails?.length}}</small>

@@ -10,8 +10,17 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
-import { CloseMailbox, CreateMail, MoveMail, UpdateLocalDraft, UploadAttachment } from '../../../store/actions';
-import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
+import {
+  CloseMailbox,
+  CreateMail,
+  DeleteAttachment,
+  GetUsersKeys,
+  MoveMail,
+  SendMail,
+  UpdateLocalDraft,
+  UploadAttachment
+} from '../../../store/actions';
+import { AppState, Contact, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
@@ -90,7 +99,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly destroyed$: Observable<boolean>;
   private shouldSave: boolean;
+  private shouldSend: boolean;
   private mailState: MailState;
+  private attachmentsQueue: Array<Attachment> = [];
+  private mailBoxesState: MailBoxesState;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -109,13 +121,33 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response: MailState) => {
         this.draftMail = response.draft;
         this.inProgress = response.inProgress;
-        if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress && response.draft) {
-          response.draft.content = response.encryptedContent;
-          this.shouldSave = false;
-          this.store.dispatch(new CreateMail({ ...response.draft }));
-          this.inProgress = true;
+        if (response.draft) {
+          if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
+            response.draft.content = response.encryptedContent;
+            this.shouldSave = false;
+            this.store.dispatch(new CreateMail({ ...response.draft }));
+            this.inProgress = true;
+          } else if (this.shouldSend && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
+            response.draft.content = response.encryptedContent;
+            this.store.dispatch(new CreateMail({ ...response.draft, is_encrypted: true }));
+            this.shouldSend = false;
+            setTimeout(() => {
+              this.store.dispatch(new SendMail({ ...response.draft, is_encrypted: true }));
+            }, 500);
+            this.hide.emit();
+            this.resetValues();
+          }
+          if (response.draft.id && this.attachmentsQueue.length > 0) {
+            this.attachmentsQueue.forEach(attachment => {
+              attachment.message = response.draft.id;
+              this.store.dispatch(new UploadAttachment(attachment));
+            });
+            this.attachmentsQueue = [];
+          }
         }
-        this.handleAttachment(response);
+        if (!this.inProgress) {
+          this.handleAttachment(response);
+        }
 
         this.mailState = response;
       });
@@ -126,10 +158,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-      .subscribe((mailboxes) => {
-        if (mailboxes.mailboxes[0]) {
-          this.mailbox = mailboxes.mailboxes[0];
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        if (mailBoxesState.mailboxes[0]) {
+          this.mailbox = mailBoxesState.mailboxes[0];
         }
+        if (this.shouldSend && this.mailBoxesState.getUserKeyInProgress && !mailBoxesState.getUserKeyInProgress) {
+          this.openPgpService.encrypt(this.draftMail.content, mailBoxesState.usersKeys.map(item => item.public_key));
+        }
+        this.mailBoxesState = mailBoxesState;
       });
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
@@ -207,20 +243,26 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onFilesSelected(files: FileList) {
+    if (!this.draftMail || !this.draftMail.id) {
+      this.updateEmail();
+    }
     for (let i = 0; i < files.length; i++) {
       const file: File = files.item(i);
-      // TODO: replace this id with value returned from backend
-      const data: Attachment = {
+      const attachment: Attachment = {
         document: file,
         name: file.name,
         size: this.getFileSize(file),
         attachmentId: performance.now(),
         message: this.draftMail.id,
         hash: performance.now().toString(),
+        inProgress: false
       };
-      this.attachments.push(data);
-
-      this.store.dispatch(new UploadAttachment(data));
+      this.attachments.push(attachment);
+      if (!this.draftMail.id) {
+        this.attachmentsQueue.push(attachment);
+      } else {
+        this.store.dispatch(new UploadAttachment(attachment));
+      }
     }
   }
 
@@ -242,18 +284,35 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   discardEmail() {
     if (this.draftMail && this.draftMail.id) {
-      this.store.dispatch(new MoveMail({ ids: this.draftMail.id, folder: MailFolderType.TRASH, sourceFolder: MailFolderType.DRAFT, mail: this.draftMail }));
+      this.store.dispatch(new MoveMail({
+        ids: this.draftMail.id,
+        folder: MailFolderType.TRASH,
+        sourceFolder: MailFolderType.DRAFT,
+        mail: this.draftMail
+      }));
     }
     this.hide.emit();
     this.resetValues();
   }
 
-  removeAttachment(file: any) {
-    const index = this.attachments.findIndex(attachment => attachment.id === file.id);
-    if (index > -1) {
-      // TODO: add API call for removing this file
-      this.attachments.splice(index, 1);
+  sendEmail() {
+    this.setMailData();
+    const receivers: string[] = [...this.draftMail.receiver, ...this.draftMail.cc, ...this.draftMail.bcc];
+    if (receivers.length === 0) {
+      return false;
     }
+    if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
+      this.store.dispatch(new GetUsersKeys(receivers.join(',')));
+      this.shouldSend = true;
+    } else {
+      this.store.dispatch(new SendMail(this.draftMail));
+    }
+    this.hide.emit();
+    this.resetValues();
+  }
+
+  removeAttachment(attachment: Attachment) {
+    this.store.dispatch(new DeleteAttachment(attachment));
   }
 
   addSignature() {
@@ -294,13 +353,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDeadManTimerModal() {
-    if (this.deadManTimer.value) {
-      // reset to previous confirmed value
-      this.deadManTimer = {
-        ...this.deadManTimer,
-        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.deadManTimer.value)
-      };
-    } else {
+    if (!this.deadManTimer.value) {
       this.resetDeadManTimerValues();
     }
     this.deadManTimerModalRef = this.modalService.open(this.deadManTimerModal, {
@@ -363,12 +416,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setDeadManTimerValue() {
-    if (this.deadManTimer.date && this.deadManTimer.time) {
-      this.deadManTimer.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.deadManTimer.date,
-        this.deadManTimer.time);
-      this.closeDeadManTimerModal();
-      this.valueChanged$.next(this.deadManTimer.value);
-    }
+    this.deadManTimer.days = !this.deadManTimer.days || isNaN(this.deadManTimer.days) || this.deadManTimer.days < 0 ? 0 : Math.floor(this.deadManTimer.days);
+    this.deadManTimer.hours = !this.deadManTimer.hours || isNaN(this.deadManTimer.hours) || this.deadManTimer.hours < 0 ? 0 : Math.floor(this.deadManTimer.hours);
+    this.deadManTimer.value = this.deadManTimer.days * 24 + this.deadManTimer.hours;
+    this.closeDeadManTimerModal();
+    this.valueChanged$.next(this.deadManTimer.value);
   }
 
   clearDeadManTimerValue() {
@@ -407,6 +459,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
+    this.setMailData();
+    this.openPgpService.encrypt(this.draftMail.content);
+    this.shouldSave = true;
+  }
+
+  setMailData() {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
@@ -419,8 +477,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_timer = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
-    this.openPgpService.encrypt(this.draftMail.content);
-    this.shouldSave = true;
   }
 
   private resetValues() {
@@ -489,12 +545,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetDeadManTimerValues() {
     this.deadManTimer.value = null;
-    this.deadManTimer.date = null;
-    this.deadManTimer.time = {
-      hour: 0,
-      minute: 0,
-      second: 0
-    };
+    this.deadManTimer.days = 0;
+    this.deadManTimer.hours = 0;
   }
 
   @HostListener('document:keydown', ['$event'])

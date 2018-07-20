@@ -28,13 +28,12 @@ export class TokenInterceptor implements HttpInterceptor {
       });
     }
     return next.handle(request)
-      .catch((error: any) => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          sessionStorage.removeItem('token');
-          this.router.navigateByUrl('/signin');
-        } else {
-          return Observable.throw(error);
-        }
-      });
+      .do((event: HttpEvent<any>) => {},
+        (error: any) => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            sessionStorage.removeItem('token');
+            this.router.navigateByUrl('/signin');
+          }
+        });
   }
 }

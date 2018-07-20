@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDropdownConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, MailBoxesState, Settings, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -22,6 +22,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   mailBoxesState: MailBoxesState;
   customFolderForm: FormGroup;
+  private createFolderModalRef: NgbModalRef;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -34,7 +35,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
-      folderName: ['', Validators.required ],
+      folderName: ['', Validators.required],
       color: ''
     });
 
@@ -44,20 +45,28 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-      .subscribe( (mailboxes: MailBoxesState) => {
+      .subscribe((mailboxes: MailBoxesState) => {
+        if (this.mailBoxesState && this.mailBoxesState.inProgress && !mailboxes.inProgress && this.createFolderModalRef) {
+          this.createFolderModalRef.close();
+          this.createFolderModalRef = null;
+        }
         this.mailBoxesState = mailboxes;
       });
   }
 
   // == Open NgbModal
   open(content) {
-    this.modalService.open(content, { centered: true, windowClass: 'modal-sm' });
+    this.createFolderModalRef = this.modalService.open(content, { centered: true, windowClass: 'modal-sm' });
   }
 
   onSubmit() {
+    if (!this.mailBoxesState.mailboxes[0].folders) {
+      this.mailBoxesState.mailboxes[0].folders = [];
+    }
     this.mailBoxesState.mailboxes[0].folders.push(this.customFolderForm.value.folderName);
     this.store.dispatch(new CreateFolder(this.mailBoxesState.mailboxes[0]));
   }
+
   // == Show mail compose modal
   // == Setup click event to toggle mobile menu
   showMailComposeModal() { // click handler

@@ -75,9 +75,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     });
 
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
-      .subscribe(state => {
-        this.isLoading = false;
-        this.errorMessage = state.errorMessage;
+      .subscribe(authState => {
+        this.isLoading = authState.inProgress;
+        this.errorMessage = authState.errorMessage;
       });
   }
 
@@ -105,7 +105,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   login(user) {
     this.showFormErrors = true;
     if (this.loginForm.valid) {
-      this.isLoading = true;
       this.store.dispatch(new LogIn(user));
     }
   }
