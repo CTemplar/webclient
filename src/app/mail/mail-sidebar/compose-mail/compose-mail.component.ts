@@ -20,7 +20,7 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
+import { AppState, Contact, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
@@ -99,8 +99,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly destroyed$: Observable<boolean>;
   private shouldSave: boolean;
+  private shouldSend: boolean;
   private mailState: MailState;
   private attachmentsQueue: Array<Attachment> = [];
+  private mailBoxesState: MailBoxesState;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -125,6 +127,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.shouldSave = false;
             this.store.dispatch(new CreateMail({ ...response.draft }));
             this.inProgress = true;
+          } else if (this.shouldSend && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
+            this.draftMail.content = response.encryptedContent;
+            this.shouldSend = false;
+            this.store.dispatch(new SendMail({ ...this.draftMail }));
+            this.hide.emit();
+            this.resetValues();
           }
           if (response.draft.id && this.attachmentsQueue.length > 0) {
             this.attachmentsQueue.forEach(attachment => {
@@ -147,10 +155,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-      .subscribe((mailboxes) => {
-        if (mailboxes.mailboxes[0]) {
-          this.mailbox = mailboxes.mailboxes[0];
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        if (mailBoxesState.mailboxes[0]) {
+          this.mailbox = mailBoxesState.mailboxes[0];
         }
+        if (this.shouldSend && this.mailBoxesState.getUserKeyInProgress && !mailBoxesState.getUserKeyInProgress) {
+          this.openPgpService.encrypt(this.draftMail.content, mailBoxesState.usersKeys.map(item => item.public_key));
+        }
+        this.mailBoxesState = mailBoxesState;
       });
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
@@ -281,12 +293,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
+    this.setMailData();
     const receivers: string[] = [...this.draftMail.receiver, ...this.draftMail.cc, ...this.draftMail.bcc];
     if (receivers.length === 0) {
       return false;
     }
     if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
       this.store.dispatch(new GetUsersKeys(receivers.join(',')));
+      this.shouldSend = true;
     } else {
       this.store.dispatch(new SendMail(this.draftMail));
     }
@@ -442,6 +456,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
+    this.setMailData();
+    this.openPgpService.encrypt(this.draftMail.content);
+    this.shouldSave = true;
+  }
+
+  setMailData() {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
@@ -454,8 +474,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_timer = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
-    this.openPgpService.encrypt(this.draftMail.content);
-    this.shouldSave = true;
   }
 
   private resetValues() {

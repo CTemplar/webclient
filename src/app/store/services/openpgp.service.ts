@@ -60,8 +60,10 @@ export class OpenPgpService {
     }
   }
 
-  encrypt(content, publicKeys: any = this.pubkey) {
+  encrypt(content, publicKeys: any[] = []) {
     this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null }));
+
+    publicKeys.push(this.pubkey);
     this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys });
   }
 

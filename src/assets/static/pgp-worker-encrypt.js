@@ -17,7 +17,7 @@ async function encryptContent(data, publicKeys) {
     }
     const options = {
         data: data,
-        publicKeys: openpgp.key.readArmored(publicKeys).keys
+        publicKeys: publicKeys.map(item => openpgp.key.readArmored(item).keys[0])
     };
     return openpgp.encrypt(options).then(ciphertext => {
         return ciphertext.data;
