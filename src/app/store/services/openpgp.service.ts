@@ -12,6 +12,7 @@ export class OpenPgpService {
   private decryptedPrivKeyObj: any;
   private decryptInProgress: boolean;
   private pgpWorker: Worker;
+  private pgpEncryptWorker: Worker;
 
   constructor(private store: Store<AppState>) {
 
@@ -38,6 +39,7 @@ export class OpenPgpService {
       this.store.dispatch(new SetDecryptInProgress(true));
 
       this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
+      this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
       this.pgpWorker.postMessage({
         privkey: this.privkey,
         user_key: atob(userKey),
@@ -46,10 +48,13 @@ export class OpenPgpService {
         if (event.data.key) {
           this.decryptedPrivKeyObj = event.data.key;
           this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
-        } else if (event.data.encrypted) {
-          this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: false, encryptedContent: event.data.encryptedContent }));
         } else if (event.data.decrypted) {
           this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: false, decryptedContent: event.data.decryptedContent }));
+        }
+      });
+      this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
+        if (event.data.encrypted) {
+          this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: false, encryptedContent: event.data.encryptedContent }));
         }
       });
     }
@@ -57,7 +62,7 @@ export class OpenPgpService {
 
   encrypt(content, publicKeys: any = this.pubkey) {
     this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null }));
-    this.pgpWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys });
+    this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys });
   }
 
   decrypt(content) {
