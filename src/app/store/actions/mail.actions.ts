@@ -39,7 +39,9 @@ export enum MailActionTypes {
   SET_FOLDERS = '[MAILBOX] SET FOLDERS',
   CREATE_FOLDER = '[MAILBOX] CREATE FOLDER',
   CREATE_FOLDER_SUCCESS = '[MAILBOX] CREATE FOLDER SUCCESS',
-  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT'
+  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT',
+  GET_USERS_KEYS = '[USERS] GET KEYS',
+  GET_USERS_KEYS_SUCCESS = '[USERS] GET KEYS SUCCESS',
 }
 
 export class GetMails implements Action {
@@ -141,16 +143,17 @@ export class ReadMailSuccess implements Action {
 }
 
 export class StarMail implements Action {
-    readonly type = MailActionTypes.STAR_MAIL;
+  readonly type = MailActionTypes.STAR_MAIL;
 
-    constructor(public payload: any) {}
+  constructor(public payload: any) {}
 }
 
 export class StarMailSuccess implements Action {
-    readonly type = MailActionTypes.STAR_MAIL_SUCCESS;
+  readonly type = MailActionTypes.STAR_MAIL_SUCCESS;
 
-    constructor(public payload: any) {}
+  constructor(public payload: any) {}
 }
+
 export class DeleteMailSuccess implements Action {
   readonly type = MailActionTypes.DELETE_MAIL_SUCCESS;
 
@@ -241,26 +244,38 @@ export class DeleteAttachmentSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-export class SetFolders implements  Action {
-  readonly  type = MailActionTypes.SET_FOLDERS;
+export class SetFolders implements Action {
+  readonly type = MailActionTypes.SET_FOLDERS;
 
   constructor(public payload: any) {}
 }
 
-export class CreateFolder implements  Action {
-  readonly  type = MailActionTypes.CREATE_FOLDER;
+export class CreateFolder implements Action {
+  readonly type = MailActionTypes.CREATE_FOLDER;
 
   constructor(public payload: any) {}
 }
 
-export class CreateFolderSuccess implements  Action {
-  readonly  type = MailActionTypes.CREATE_FOLDER_SUCCESS;
+export class CreateFolderSuccess implements Action {
+  readonly type = MailActionTypes.CREATE_FOLDER_SUCCESS;
 
   constructor(public payload: any) {}
 }
 
 export class SetCurrentFolder implements Action {
   readonly type = MailActionTypes.SET_CURRENT_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
+export class GetUsersKeys implements Action {
+  readonly type = MailActionTypes.GET_USERS_KEYS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetUsersKeysSuccess implements Action {
+  readonly type = MailActionTypes.GET_USERS_KEYS_SUCCESS;
 
   constructor(public payload: any) {}
 }
@@ -302,4 +317,6 @@ export type MailActions =
   | SetFolders
   | CreateFolder
   | CreateFolderSuccess
-  | SetCurrentFolder;
+  | SetCurrentFolder
+  | GetUsersKeys
+  | GetUsersKeysSuccess;

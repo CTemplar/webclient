@@ -10,7 +10,16 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
-import { CloseMailbox, CreateMail, DeleteAttachment, MoveMail, SendMail, UpdateLocalDraft, UploadAttachment } from '../../../store/actions';
+import {
+  CloseMailbox,
+  CreateMail,
+  DeleteAttachment,
+  GetUsersKeys,
+  MoveMail,
+  SendMail,
+  UpdateLocalDraft,
+  UploadAttachment
+} from '../../../store/actions';
 import { AppState, Contact, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
@@ -272,7 +281,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
-    this.store.dispatch(new SendMail(this.draftMail));
+    const receivers: string[] = [...this.draftMail.receiver, ...this.draftMail.cc, ...this.draftMail.bcc];
+    if (receivers.length === 0) {
+      return false;
+    }
+    if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
+      this.store.dispatch(new GetUsersKeys(receivers.join(',')));
+    } else {
+      this.store.dispatch(new SendMail(this.draftMail));
+    }
     this.hide.emit();
     this.resetValues();
   }

@@ -3,7 +3,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 // Ngrx
 import { Actions, Effect } from '@ngrx/effects';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -26,7 +26,6 @@ import {
   ReadMailSuccess,
   SendMail,
   SendMailSuccess,
-  SetFolders,
   StarMailSuccess,
   UndoDeleteMail,
   UndoDeleteMailSuccess,
@@ -40,8 +39,6 @@ import {
   CreateMail,
   CreateMailSuccess,
   DeleteMailSuccess,
-  GetMailboxes,
-  GetMailboxesSuccess,
   GetMails,
   GetMailsSuccess,
   MailActionTypes,
@@ -66,22 +63,6 @@ export class MailEffects {
         .map((mails) => {
           return new GetMailsSuccess({ ...payload, mails });
         });
-    });
-
-  @Effect()
-  getMailboxesEffect: Observable<any> = this.actions
-    .ofType(MailActionTypes.GET_MAILBOXES)
-    .map((action: GetMailboxes) => action.payload)
-    .switchMap(payload => {
-      return this.mailService.getMailboxes(payload.limit, payload.offset)
-        .pipe(
-          switchMap((mails) => {
-            return [
-              new GetMailboxesSuccess(mails),
-              new SetFolders(mails[0].folders)
-            ];
-          })
-        );
     });
 
 

@@ -8,6 +8,9 @@ export const initialState: MailBoxesState = {
   customFolders: [],
   currentMailbox: null,
   decryptKeyInProgress: false,
+  encryptionInProgress: false,
+  getUserKeyInProgress: false,
+  usersKeys: [],
 };
 
 export function reducer(state = initialState, action: MailActions): MailBoxesState {
@@ -48,6 +51,19 @@ export function reducer(state = initialState, action: MailActions): MailBoxesSta
       return {
         ...state,
         customFolders: action.payload,
+      };
+    }
+    case MailActionTypes.GET_USERS_KEYS: {
+      return {
+        ...state,
+        getUserKeyInProgress: true,
+      };
+    }
+    case MailActionTypes.GET_USERS_KEYS_SUCCESS: {
+      return {
+        ...state,
+        usersKeys: action.payload,
+        getUserKeyInProgress: false,
       };
     }
 
