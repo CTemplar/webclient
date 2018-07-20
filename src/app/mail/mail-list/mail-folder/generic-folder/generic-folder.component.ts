@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../../store/datatypes';
+import { AppState, MailState } from '../../../../store/datatypes';
 import { Mail, MailFolderType } from '../../../../store/models';
 import { Observable } from 'rxjs/Observable';
-import { DeleteMail, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
+import { DeleteMail, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 @TakeUntilDestroy()
@@ -16,6 +16,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
+  @Input() fetchMails: boolean;
 
   mailFolderTypes = MailFolderType;
 
@@ -25,6 +26,14 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new SetCurrentFolder(this.mailFolder));
+    if (this.fetchMails) {
+      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
+      this.store.select(state => state.mail).takeUntil(this.destroyed$)
+        .subscribe((mailState: MailState) => {
+          this.showProgress = !mailState.loaded;
+          this.mails = mailState.mails;
+        });
+    }
   }
 
   markAllMails(checkAll) {

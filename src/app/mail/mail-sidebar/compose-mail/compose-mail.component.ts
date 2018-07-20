@@ -128,9 +128,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.store.dispatch(new CreateMail({ ...response.draft }));
             this.inProgress = true;
           } else if (this.shouldSend && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
-            this.draftMail.content = response.encryptedContent;
+            response.draft.content = response.encryptedContent;
+            this.store.dispatch(new CreateMail({ ...response.draft }));
             this.shouldSend = false;
-            this.store.dispatch(new SendMail({ ...this.draftMail }));
+            setTimeout(() => {
+              this.store.dispatch(new SendMail({ ...response.draft, }));
+            }, 500);
             this.hide.emit();
             this.resetValues();
           }
