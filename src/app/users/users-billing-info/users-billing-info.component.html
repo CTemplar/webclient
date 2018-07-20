@@ -66,19 +66,20 @@
                                 <h3 class="form-step-card-title text-dark mb-3">
                                     <strong>Payment Information</strong>
                                 </h3>
-                                <p><strong>{{count}}</strong> BTC sent after timer will be lost!</p>
+                                <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> BTC sent after timer will be lost!</p>
 
                                 <div class="card">
                                     <div class="card-header text-center">
                                         <h6>SEND <strong>EXACTLY</strong></h6>
-                                        <h5><strong *ngIf="bitcoinState?.loaded">{{bitcoinValueToDecimal}}</strong></h5>
+                                        <h5><strong *ngIf="bitcoinState?.loaded">{{bitcoinState.serviceValue}}</strong></h5>
                                     </div>
                                     <div class="card-body text-center">
                                         <p class="justify-content-center" *ngIf="bitcoinState?.loaded">{{bitcoinState.newWalletAddress}}</p>
-                                        <img *ngIf="bitcoinState?.loaded" src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl=bitcoin:{{bitcoinState.newWalletAddress}}?amount={{bitcoinValueToDecimal}}" alt="">
+                                        <img *ngIf="bitcoinState?.loaded" src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl=bitcoin:{{bitcoinState.newWalletAddress}}?amount={{bitcoinState.serviceValue}}" alt="">
                                     </div>
 
                                 </div>
+                                <strong class="text-center" style="color: green">Your payment is pending, But still you can create free account and your account would be set to premium after payment is verified</strong>
                             </div>
 
                             <div class="form-step-card" *ngIf="paymentMethod == 'stripe'">
@@ -202,9 +203,17 @@
                                 </div>
                             </div>
                             <div class="form-group text-center mt-3 mt-sm-4 mb-0">
-                                <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                                        (click)="getToken()">Submit
-                                </button>
+                                <div *ngIf="paymentMethod=='bitcoin';else stripecall">
+                                    <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
+                                            (click)="createAccount()">Submit
+                                    </button>
+                                </div>
+
+                                <ng-template #stripecall>
+                                    <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
+                                            (click)="getToken()">Submit
+                                    </button>
+                                </ng-template>
                             </div>
 
                             <div class="text-holder mt-2 text-center">

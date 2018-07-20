@@ -22,6 +22,22 @@ export interface AuthState {
   inProgress: boolean;
 }
 
+export interface SignupState {
+  username: string;
+  password: string;
+  recovery_email?: string;
+
+  /**
+   * @var from address of bitcoin walled
+   */
+  fromAddress?: string;
+
+  /**
+   * @var redeem code of bitcoin wallet
+   */
+  redeem_code?: string;
+}
+
 export interface UserState {
   username: string | null;
   id: number | null;
@@ -146,8 +162,18 @@ export interface Timezone {
 }
 
 export interface BitcoinState {
-  currentUSDValue: number;
+  serviceValue: number;
   newWalletAddress: string;
   loaded: boolean;
-  Wif: string;
+  redeemCode: string;
+  transactionStatus: string;
+  pendingBalanceResponse: PendingBalanceResponse;
+}
+
+export interface PendingBalanceResponse {
+  balance?: number;
+  required_balance?: number;
+  pending_balance?: number;
+  paid_out?: number;
+  confirmed?: boolean;
 }

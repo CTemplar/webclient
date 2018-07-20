@@ -1,19 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
-import { ConfirmTransaction, CreateNewWallet, FinalLoading, GetBitcoinValue } from '../../store/actions';
+import { CheckPendingBalance, CreateNewWallet, FinalLoading, GetBitcoinServiceValue } from '../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, BitcoinState } from '../../store/datatypes';
+import { AppState, BitcoinState, PendingBalanceResponse } from '../../store/datatypes';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import 'rxjs/add/observable/timer';
+import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',
   styleUrls: ['./users-billing-info.component.scss']
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
+  readonly destroyed$: Observable<boolean>;
+  private pendingBalanceResponse: PendingBalanceResponse;
+  public transactionSuccess: boolean;
+  private timerObservable: Subscription;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
@@ -28,9 +36,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
   paymentMethod: string = null;
-  count: number = 30;
+  seconds: number = 60;
+  minutes: number = 30;
   bitcoinState: BitcoinState;
-  bitcoinValueToDecimal: any = null;
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -39,16 +47,23 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.billingForm = this.formBuilder.group({
       'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]]
     });
+    this.store.select(state => state.bitcoin)
+      .subscribe((bitcoinState: BitcoinState) => {
+        this.bitcoinState = bitcoinState;
+        this.pendingBalanceResponse = this.bitcoinState.pendingBalanceResponse;
+      });
   }
 
   timer() {
-    if (this.count < 1) {
-      return;
+    this.seconds = this.minutes = 60;
+    if (this.timerObservable) {
+      this.timerObservable.unsubscribe();
     }
-    this.count--;
-    setTimeout(() => {
-      this.timer();
-    }, 1000);
+    const timer = Observable.timer(1000, 1000);
+    this.timerObservable = timer.takeUntil(this.destroyed$).subscribe(t => {
+      this.seconds = ((3600 - t) % 60);
+      this.minutes = ((3600 - t - this.seconds) / 60);
+    });
   }
 
   getToken() {
@@ -67,35 +82,40 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     });
   }
 
+
+  createAccount() {
+  }
+
+  checkPendingBalance() {
+    if (this.pendingBalanceResponse.pending_balance > 0 &&
+      this.pendingBalanceResponse.pending_balance >= this.pendingBalanceResponse.required_balance) {
+      this.transactionSuccess = true;
+      return;
+    }
+    setTimeout(() => {
+      // check after every one minute
+      this.store.dispatch(new CheckPendingBalance({
+        'redeem_code': this.bitcoinState.redeemCode,
+        'from_address': this.bitcoinState.newWalletAddress,
+        'opt_timeout': 864000,             // time to wait the transaction is 24 hours
+        'opt_interval': 1000               // interval to check transaction
+      }));
+
+      this.checkPendingBalance();
+    }, 60 * 1000);
+
+  }
+
   selectBitcoinMethod() {
-    this.store.dispatch(new GetBitcoinValue());
+    this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
     this.paymentMethod = 'bitcoin';
-    this.store.select(state => state.bitcoin).subscribe((bitcoinState: BitcoinState) => {
-      this.bitcoinState = bitcoinState;
-      this.bitcoinValueToDecimal = this.bitcoinState.currentUSDValue;
-      this.bitcoinValueToDecimal = (8 / this.bitcoinValueToDecimal).toFixed(5);
-    });
     this.createNewWallet();
+    this.checkPendingBalance();
   }
 
   createNewWallet() {
     this.store.dispatch(new CreateNewWallet());
-    this.store.select(state => state.bitcoin).subscribe((bitcoinState: BitcoinState) => {
-      this.bitcoinState.newWalletAddress = bitcoinState.newWalletAddress;
-    });
-  }
-
-  confirmTransaction() {
-    const data = {
-      'fromWIF': this.bitcoinState.Wif,
-      'fromAddress': this.bitcoinState.newWalletAddress,
-      'toAddress': '',
-      'value': this.bitcoinValueToDecimal,
-      'opt_timeout': 0,
-      'opt_interval': 1000
-    };
-   this.store.dispatch(new ConfirmTransaction(data));
   }
 
   selectMonth(month) {

@@ -3,12 +3,11 @@ import {Observable} from 'rxjs/Observable';
 import {Actions, Effect} from '@ngrx/effects';
 import {
   BitcoinActionTypes,
-  ConfirmTransaction,
   CreateNewWallet,
   CreateNewWalletSuccess,
-  GetBitcoinValueSuccess
+  GetBitcoinServiceValueSuccess,
+  GetBitcoinServiceValue, CheckPendingBalance, CheckPendingBalanceSuccess
 } from '../actions/bitcoin.action';
-import { GetBitcoinValue } from '../actions/bitcoin.action';
 import {BitcoinService} from '../services/bitcoin.service';
 import 'rxjs/add/operator/switchMap';
 
@@ -19,13 +18,13 @@ export class BitcoinEffects {
   }
 
   @Effect()
-  getBitcoinValue: Observable<any> = this.actions.
-    ofType(BitcoinActionTypes.GET_BITCOIN_VALUE).
-    map ((action: GetBitcoinValue) => action.payload).
+  getBitcoinServiceValue: Observable<any> = this.actions.
+    ofType(BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE).
+    map ((action: GetBitcoinServiceValue) => action.payload).
     switchMap (payload => {
-       return this.bitcoinService.getBitcoinValue().
-         map((usdValue) => {
-           return new GetBitcoinValueSuccess(usdValue);
+       return this.bitcoinService.getBitcoinServiceValue().
+         map((amount) => {
+           return new GetBitcoinServiceValueSuccess(amount);
        });
   });
 
@@ -41,14 +40,15 @@ export class BitcoinEffects {
     });
   });
 
+
   @Effect()
-  confirmTransaction: Observable<any> = this.actions.
-  ofType(BitcoinActionTypes.CONFIRM_TRANSACTION).
-  map ((action: ConfirmTransaction) => action.payload).
+  checkPendingBalance: Observable<any> = this.actions.
+  ofType(BitcoinActionTypes.CHECK_PENDING_BALANCE).
+  map ((action: CheckPendingBalance) => action.payload).
   switchMap (payload => {
-    return this.bitcoinService.confirmTransaction(payload).
-    map((USDValue) => {
-      return new CreateNewWalletSuccess(USDValue);
+    return this.bitcoinService.checkPendingBalance(payload).
+    map((response) => {
+      return new CheckPendingBalanceSuccess(response);
     });
   });
 }
