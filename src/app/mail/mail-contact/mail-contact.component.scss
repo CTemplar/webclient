@@ -273,3 +273,9 @@
     font-size: 12px;
   }
 }
+
+.mail-from-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
