@@ -22,6 +22,7 @@ export interface Mail {
   dead_man_timer?: string;
   datetime?: string;
   marked?: boolean;
+  is_encrypted?: boolean;
 }
 
 export interface Mailbox {
