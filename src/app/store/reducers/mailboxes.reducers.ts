@@ -46,11 +46,23 @@ export function reducer(state = initialState, action: MailActions): MailBoxesSta
       };
     }
 
-    case MailActionTypes.SET_FOLDERS:
+    case MailActionTypes.SET_FOLDERS: {
+      return {
+        ...state,
+        customFolders: action.payload,
+      };
+    }
+    case MailActionTypes.CREATE_FOLDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
     case MailActionTypes.CREATE_FOLDER_SUCCESS: {
       return {
         ...state,
         customFolders: action.payload,
+        inProgress: false,
       };
     }
     case MailActionTypes.GET_USERS_KEYS: {

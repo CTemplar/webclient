@@ -88,6 +88,7 @@ export interface MailBoxesState {
   encryptionInProgress: boolean;
   getUserKeyInProgress: boolean;
   usersKeys: PublicKey[];
+  inProgress?: boolean;
 }
 
 export interface PublicKey {
