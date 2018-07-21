@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -58,6 +58,8 @@ export class PasswordValidation {
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  @Input() receivers: Array<string> = [];
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -523,7 +525,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetMailData() {
     this.mailData = {
-      receiver: [],
+      receiver: this.receivers ? this.receivers.map(receiver => ({display: receiver, value: receiver})) : [],
       cc: [],
       bcc: [],
       subject: ''
