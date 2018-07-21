@@ -34,11 +34,10 @@ a {
 	@include media(">sm") {
 		top: auto;
 		right: 1.563rem;
-		bottom: 4.375rem;
 		left: auto;
 		overflow: inherit;
 		box-shadow: $shadow;
-		width: 45.313rem;
+		width: 40rem;
 	}
 }
 

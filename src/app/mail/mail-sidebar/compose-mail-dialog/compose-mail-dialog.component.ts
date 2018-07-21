@@ -15,6 +15,7 @@ export class ComposeMailDialogComponent {
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
   @ViewChild('confirmDiscardModal') confirmDiscardModal;
 
+  isMinimized: boolean;
   private confirmModalRef: NgbModalRef;
 
   constructor(private modalService: NgbModal) {
@@ -47,6 +48,10 @@ export class ComposeMailDialogComponent {
 
   onHide() {
     this.hideMailComposeDialog();
+  }
+
+  toggleMinimized() {
+    this.isMinimized = !this.isMinimized;
   }
 
   private hideMailComposeDialog() {

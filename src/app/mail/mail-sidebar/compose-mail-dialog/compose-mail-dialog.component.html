@@ -7,7 +7,8 @@
       <div class="mail-composer-header-actions">
         <div class="mail-actions-list">
           <div class="mail-actions-item">
-            <button role="button" placement="top" ngbTooltip="Minimize">
+            <button role="button" placement="top" ngbTooltip="Minimize"
+                (click)="toggleMinimized()">
               <i class="icon icon-minimize"></i>
             </button>
           </div>
@@ -21,7 +22,7 @@
       </div>
     </div>
 
-    <app-compose-mail [hidden]="!isComposeVisible" #composeMail (hide)="onHide()"></app-compose-mail>
+    <app-compose-mail [hidden]="!isComposeVisible" #composeMail (hide)="onHide()" [ngClass]="{'d-none': isMinimized}" ></app-compose-mail>
 
   </div>
 </div>
