@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
-import { CheckPendingBalance, CreateNewWallet, FinalLoading, GetBitcoinServiceValue, SignUp } from '../../store/actions';
+import { CheckPendingBalance, ClearWallet, CreateNewWallet, FinalLoading, GetBitcoinServiceValue, SignUp } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, BitcoinState, PendingBalanceResponse, SignupState } from '../../store/datatypes';
 
@@ -37,7 +37,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
   paymentMethod: string = 'stripe';
   seconds: number = 60;
-  minutes: number = 30;
+  minutes: number = 60;
   bitcoinState: BitcoinState;
   signupState: SignupState;
   signupInProgress: boolean;
@@ -143,5 +143,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
+    this.store.dispatch(new ClearWallet());
+    if (this.timerObservable) {
+      this.timerObservable.unsubscribe();
+    }
   }
 }

@@ -7,6 +7,7 @@ export enum BitcoinActionTypes {
   CREATE_NEW_WALLET_SUCCESS = '[BITCOIN] CREATE NEW WALLET',
   CHECK_PENDING_BALANCE = '[BITCOIN] CHECK PENDING BALANCE',
   CHECK_PENDING_BALANCE_SUCCESS = '[BITCOIN] CHECK PENDING BALANCE SUCCESS',
+  CLEAR_WALLET = '[BITCOIN] CLEAR WALLET',
 }
 
 export class GetBitcoinServiceValue implements Action {
@@ -51,10 +52,18 @@ export class CreateNewWalletSuccess implements Action {
   }
 }
 
+export class ClearWallet implements Action {
+  readonly type = BitcoinActionTypes.CLEAR_WALLET;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type BitcoinActionAll =
   | GetBitcoinServiceValue
   | GetBitcoinServiceValueSuccess
   | CreateNewWallet
   | CreateNewWalletSuccess
   | CheckPendingBalance
-  | CheckPendingBalanceSuccess;
+  | CheckPendingBalanceSuccess
+  | ClearWallet;

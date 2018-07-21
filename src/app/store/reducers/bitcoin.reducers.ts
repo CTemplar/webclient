@@ -9,7 +9,7 @@ export const initialState: BitcoinState = {
   pendingBalanceResponse: {}
 };
 
-export function reducer(state = initialState, action: BitcoinActionAll) {
+export function reducer(state = initialState, action: BitcoinActionAll): BitcoinState {
   switch (action.type) {
     case BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE: {
       return {
@@ -39,6 +39,12 @@ export function reducer(state = initialState, action: BitcoinActionAll) {
         pendingBalanceResponse: action.payload
       };
     }
+    case BitcoinActionTypes.CLEAR_WALLET: {
+      return {
+        ...initialState
+      };
+    }
+
     default : {
       return state;
     }
