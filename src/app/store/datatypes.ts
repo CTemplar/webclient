@@ -20,6 +20,13 @@ export interface AuthState {
   // error message
   errorMessage: string | null;
   inProgress: boolean;
+  signupState: SignupState;
+}
+
+export interface SignupState {
+  username?: string;
+  password?: string;
+  recovery_email?: string;
 }
 
 export interface UserState {
@@ -155,8 +162,17 @@ export interface Timezone {
 }
 
 export interface BitcoinState {
-  currentUSDValue: number;
+  serviceValue: number;
   newWalletAddress: string;
   loaded: boolean;
-  Wif: string;
+  redeemCode: string;
+  pendingBalanceResponse: PendingBalanceResponse;
+}
+
+export interface PendingBalanceResponse {
+  balance?: number;
+  required_balance?: number;
+  pending_balance?: number;
+  paid_out?: number;
+  confirmed?: boolean;
 }

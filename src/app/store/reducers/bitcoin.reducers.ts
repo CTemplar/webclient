@@ -1,41 +1,50 @@
-import {BitcoinState} from '../datatypes';
-import {BitcoinActionAll, BitcoinActionTypes} from '../actions/bitcoin.action';
-import {MailActionTypes} from '../actions';
+import { BitcoinState } from '../datatypes';
+import { BitcoinActionAll, BitcoinActionTypes } from '../actions/bitcoin.action';
 
 export const initialState: BitcoinState = {
-  currentUSDValue: 0,
+  serviceValue: 0,
   newWalletAddress: null,
   loaded: false,
-  Wif: null
+  redeemCode: null,
+  pendingBalanceResponse: {}
 };
 
-export function reducer(state = initialState, action: BitcoinActionAll) {
+export function reducer(state = initialState, action: BitcoinActionAll): BitcoinState {
   switch (action.type) {
-    case BitcoinActionTypes.GET_BITCOIN_VALUE : {
+    case BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE: {
       return {
         ...state, loaded: false
       };
     }
-    case BitcoinActionTypes.GET_BITCOIN_VALUE_SUCCESS: {
-      return { ...state, currentUSDValue: action.payload.USD, loaded: true   };
+    case BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE_SUCCESS: {
+      return { ...state, serviceValue: action.payload.required_balance, loaded: true };
     }
     case BitcoinActionTypes.CREATE_NEW_WALLET : {
       return {
-        ...state
+        ...state,
+        loaded: false,
       };
     }
     case BitcoinActionTypes.CREATE_NEW_WALLET_SUCCESS : {
       return {
-        ...state, newWalletAddress: action.payload.address,
-        wif: action.payload.wif
+        ...state,
+        loaded: true,
+        newWalletAddress: action.payload.address,
+        redeemCode: action.payload.redeem_code
       };
     }
-    case BitcoinActionTypes.CONFIRM_TRANSACTION: {
-      return { ...state, loaded: false   };
+    case BitcoinActionTypes.CHECK_PENDING_BALANCE_SUCCESS: {
+      return {
+        ...state,
+        pendingBalanceResponse: action.payload
+      };
     }
-    case BitcoinActionTypes.CONFIRM_TRANSACTION_SUCCESS: {
-      return { ...state, loaded: true   };
+    case BitcoinActionTypes.CLEAR_WALLET: {
+      return {
+        ...initialState
+      };
     }
+
     default : {
       return state;
     }

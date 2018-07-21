@@ -1,15 +1,14 @@
 // Custom Action
-import { AuthActionTypes, AuthActionAll, LogInSuccess } from '../actions';
-
+import { AuthActionAll, AuthActionTypes } from '../actions';
 // Model
 import { AuthState } from '../datatypes';
-import { ActionReducer } from '@ngrx/store';
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   errorMessage: null,
-  inProgress: false
+  inProgress: false,
+  signupState: { username: null, password: null }
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -65,6 +64,12 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SIGNUP: {
       return {
         ...state, inProgress: true
+      };
+    }
+    case AuthActionTypes.UPDATE_SIGNUP_DATA: {
+      return {
+        ...state,
+        signupState: action.payload,
       };
     }
     case AuthActionTypes.LOGOUT: {
