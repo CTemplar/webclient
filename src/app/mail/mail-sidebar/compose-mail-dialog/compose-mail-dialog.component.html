@@ -1,4 +1,4 @@
-<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
+<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx" [ngClass]="{'is-minimized' : isMinimized}"
      [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false"
      [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">

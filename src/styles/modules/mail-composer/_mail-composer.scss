@@ -38,6 +38,9 @@ a {
 		overflow: inherit;
 		box-shadow: $shadow;
 		width: 40rem;
+		&.is-minimized {
+			width: 20rem;
+		}
 	}
 }
 
