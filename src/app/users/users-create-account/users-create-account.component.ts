@@ -150,9 +150,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     takeUntil(this.destroyed$).subscribe((state: AuthState) => {
       if (this.signupInProgress && !state.inProgress  ) {
       if ( !state.errorMessage) {
-          this.notificationService.showSuccess(`Account created successfully.`);
+          this.notificationService.showSnackBar(`Account created successfully.`);
       } else {
-        this.notificationService.showError(`Failed to create account.` + state.errorMessage);
+        this.notificationService.showSnackBar(`Failed to create account.` + state.errorMessage);
       }
         this.signupInProgress = false;
       }

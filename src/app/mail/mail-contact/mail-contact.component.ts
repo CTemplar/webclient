@@ -52,7 +52,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
       this.userState = state;
       if (this.contactsCount === this.userState.contact.length + this.contactsToDelete.length) {
         this.inProgress = false;
-        this.notificationService.showSuccess('Contacts deleted successfully.');
+        this.notificationService.showSnackBar('Contacts deleted successfully.');
         this.contactsToDelete = [];
         this.contactsCount = null;
       }

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../store/services';
 import { CheckPendingBalance, ClearWallet, CreateNewWallet, FinalLoading, GetBitcoinServiceValue, SignUp } from '../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, BitcoinState, PendingBalanceResponse, SignupState } from '../../store/datatypes';
+import { AppState, AuthState, BitcoinState, PaymentMethod, PendingBalanceResponse, SignupState } from '../../store/datatypes';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/observable/timer';
@@ -23,11 +23,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   public transactionSuccess: boolean;
   private timerObservable: Subscription;
 
-  constructor(private sharedService: SharedService,
-              private store: Store<AppState>,
-              private formBuilder: FormBuilder) {
-  }
-
   cardNumber;
   billingForm: FormGroup;
   expiryMonth = 'Month';
@@ -35,12 +30,18 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   cvc;
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
-  paymentMethod: string = 'stripe';
+  paymentMethod: PaymentMethod = PaymentMethod.STRIPE;
+  paymentMethodType = PaymentMethod;
   seconds: number = 60;
   minutes: number = 60;
   bitcoinState: BitcoinState;
   signupState: SignupState;
   signupInProgress: boolean;
+
+  constructor(private sharedService: SharedService,
+              private store: Store<AppState>,
+              private formBuilder: FormBuilder) {
+  }
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -89,13 +90,24 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
 
+  submitForm() {
+    if (this.signupState && this.signupState.username && this.signupState.password) {
+      if (this.paymentMethod === PaymentMethod.STRIPE) {
+        this.getToken();
+      } else {
+        this.bitcoinSignup();
+      }
+    }
+  }
+
   bitcoinSignup() {
-    this.signupInProgress = true;
-    this.store.dispatch(new SignUp({
-      ...this.signupState,
-      from_address: this.bitcoinState.newWalletAddress,
-      redeem_code: this.bitcoinState.redeemCode,
-    }));
+    if (this.bitcoinState.newWalletAddress && this.bitcoinState.redeemCode) {
+      this.store.dispatch(new SignUp({
+        ...this.signupState,
+        from_address: this.bitcoinState.newWalletAddress,
+        redeem_code: this.bitcoinState.redeemCode,
+      }));
+    }
   }
 
   checkPendingBalance() {
@@ -121,7 +133,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   selectBitcoinMethod() {
     this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
-    this.paymentMethod = 'bitcoin';
+    this.paymentMethod = PaymentMethod.BITCOIN;
     this.createNewWallet();
     this.checkPendingBalance();
   }

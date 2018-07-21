@@ -23,19 +23,19 @@
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0">Plan</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>Ctemplar PRIME</strong>
+                      <strong>CTemplar PRIME</strong>
                     </div>
                   </div>
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0">Billing</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>Annually</strong>
+                      <strong>Monthly</strong>
                     </div>
                   </div>
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0">Price</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>48.00 € </strong>(4.00€/month)
+                      <strong>$8 </strong>($65€/month)
                     </div>
                   </div>
                   <div class="billing-overview-row payment-method-row">
@@ -48,7 +48,7 @@
                           </button>
                           <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
                             <a class="dropdown-item text-muted"
-                               (click)="paymentMethod = 'stripe'">
+                               (click)="paymentMethod = paymentMethodType.STRIPE">
                               <em>Stripe (Credit/Debit Card)</em>
                             </a>
                             <a class="dropdown-item text-muted"
@@ -62,7 +62,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-step-card" *ngIf="paymentMethod== 'bitcoin'">
+              <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN">
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong>Payment Information</strong>
                 </h3>
@@ -72,6 +72,7 @@
                   <div class="card-header text-center">
                     <h6>SEND <strong>EXACTLY</strong></h6>
                     <h5><strong *ngIf="bitcoinState?.loaded">{{bitcoinState.serviceValue}}</strong></h5>
+                    <app-loading-spinner [showSpinner]="!bitcoinState?.loaded"></app-loading-spinner>
                   </div>
                   <div class="card-body text-center">
                     <p class="justify-content-center"
@@ -80,6 +81,7 @@
                          class="mb-3"
                          src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl=bitcoin:{{bitcoinState.newWalletAddress}}?amount={{bitcoinState.serviceValue}}"
                          alt="captcha">
+                    <app-loading-spinner [showSpinner]="!bitcoinState?.loaded"></app-loading-spinner>
                   </div>
 
                 </div>
@@ -88,7 +90,7 @@
               </div>
 
 
-              <div class="form-step-card" *ngIf="paymentMethod == 'stripe'">
+              <div class="form-step-card" *ngIf="paymentMethod === paymentMethodType.STRIPE">
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong>Payment Information</strong>
                 </h3>
@@ -209,18 +211,11 @@
                 </div>
               </div>
               <div class="form-group text-center mt-3 mt-sm-4 mb-0">
-                <div *ngIf="paymentMethod=='bitcoin';else stripecall">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="signupInProgress"
-                          (click)="bitcoinSignup()">Submit
+                          (click)="submitForm()">Submit
                   </button>
-                </div>
-
-                <ng-template #stripecall>
-                  <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                          (click)="getToken()">Submit
-                  </button>
-                </ng-template>
+                  <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
               </div>
 
               <div class="text-holder mt-2 text-center">
