@@ -16,7 +16,7 @@ export class ComposeMailDialogComponent {
   @ViewChild('confirmDiscardModal') confirmDiscardModal;
 
   isMinimized: boolean;
-  isMaximized: boolean;
+  isFullScreen: boolean;
   private confirmModalRef: NgbModalRef;
 
   constructor(private modalService: NgbModal) {
@@ -52,13 +52,13 @@ export class ComposeMailDialogComponent {
   toggleMinimized() {
     this.isMinimized = !this.isMinimized;
 
-    if (this.isMaximized) {
-      this.isMaximized = false;
+    if (this.isFullScreen) {
+      this.isFullScreen = false;
     }
   }
 
-  toggleMaximized() {
-    this.isMaximized = !this.isMaximized;
+  toggleFullScreen() {
+    this.isFullScreen = !this.isFullScreen;
 
     if (this.isMinimized) {
       this.isMinimized = false;
