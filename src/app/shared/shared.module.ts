@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SpinnerComponent } from './spinner/components/spinner.component';
 import { SpinnerService } from './spinner/services/spinner.service';
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
@@ -15,9 +16,16 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { DynamicScriptLoaderService } from './services/dynamic-script-loader.service';
 import { FilenamePipe } from './pipes/filename.pipe';
 import { MatIconComponent } from './components/mat-icon/mat-icon.component';
+import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.component';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, TagInputModule, MatIconModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    TagInputModule,
+    MatIconModule,
+    NgbModule,
+  ],
   declarations: [
     SpinnerComponent,
     SpinnerImageComponent,
@@ -27,6 +35,7 @@ import { MatIconComponent } from './components/mat-icon/mat-icon.component';
     ProgressBarComponent,
     FilenamePipe,
     MatIconComponent,
+    PricingPlansComponent,
   ],
   exports: [
     TranslateModule,
@@ -41,7 +50,7 @@ import { MatIconComponent } from './components/mat-icon/mat-icon.component';
     FilenamePipe,
     MatIconModule,
     MatIconComponent,
-
+    PricingPlansComponent,
   ],
   providers: [SpinnerService, DynamicScriptLoaderService]
 })
