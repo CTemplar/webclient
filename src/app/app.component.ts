@@ -47,7 +47,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translate.setDefaultLang('en');
     setTimeout(() => {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
-    }, 1000);
+      this.updateLoadingStatus();
+    }, 2000);
 
   }
 
@@ -59,7 +60,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isHomepage = routeEvent.url === '/';
         window.scrollTo(0, 0);
       });
-    this.updateLoadingStatus();
 
     this.quote = quotes[Math.floor(Math.random() * 5)];
 
