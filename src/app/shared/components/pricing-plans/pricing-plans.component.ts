@@ -17,6 +17,8 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
   public selectedIndex: number = -1; // Assuming no element are selected initially
   @Input('hideHeader') hideHeader: boolean;
   @Input('blockGapsZero') blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
+  @Input() showCurrentPlan: boolean;
+  @Input() isPrime: boolean;
 
   constructor(
     private sharedService: SharedService,

@@ -185,10 +185,13 @@
                   </ul>
                 </div>
                 <div class="package-actions text-center">
-                  <a (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer">
+                  <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && !isPrime) || !showCurrentPlan"  class="btn btn-lg btn-gradient-primary cursor-pointer">
                     <span translate="settings.select_prime">Select Prime </span>  $8/
                     <span class="text-normal">mo</span>
                   </a>
+                  <div *ngIf="showCurrentPlan && isPrime">
+                    <a class="btn-link text-uppercase text-primary"><strong>Current Plan</strong></a>
+                  </div>
                 </div>
               </footer>
             </div>
@@ -241,7 +244,12 @@
               <footer class="package-card-footer text-center">
                 <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
                 <div class="package-actions">
-                  <a (click)="selectPlan(0)" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
+
+                  <a (click)="selectPlan(0)" *ngIf="(showCurrentPlan && isPrime) || !showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
+                  <div *ngIf="showCurrentPlan && !isPrime">
+                    <a class="btn-link text-uppercase text-primary"><strong>Current
+                      Plan</strong></a>
+                  </div>
                 </div>
               </footer>
             </div>
