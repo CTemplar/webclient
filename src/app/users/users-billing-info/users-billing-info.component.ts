@@ -35,7 +35,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   cvc;
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
-  paymentMethod: string = null;
+  paymentMethod: string = 'stripe';
   seconds: number = 60;
   minutes: number = 30;
   bitcoinState: BitcoinState;
@@ -62,7 +62,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   timer() {
-    this.seconds = this.minutes = 60;
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();
     }
@@ -128,6 +127,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   createNewWallet() {
+    if (this.bitcoinState && this.bitcoinState.newWalletAddress) {
+      return;
+    }
     this.store.dispatch(new CreateNewWallet());
   }
 
