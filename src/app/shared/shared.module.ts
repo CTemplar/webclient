@@ -18,6 +18,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { TagInputModule } from 'ngx-chips';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { DynamicScriptLoaderService } from './services/dynamic-script-loader.service';
+import { FilenamePipe } from './pipes/filename.pipe';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, TagInputModule],
@@ -34,6 +35,7 @@ import { DynamicScriptLoaderService } from './services/dynamic-script-loader.ser
     LoadingSpinnerComponent,
     SafePipe,
     ProgressBarComponent,
+    FilenamePipe,
   ],
   exports: [
     TranslateModule,
@@ -46,6 +48,7 @@ import { DynamicScriptLoaderService } from './services/dynamic-script-loader.ser
     SafePipe,
     TagInputModule,
     ProgressBarComponent,
+    FilenamePipe,
   ],
   providers: [SpinnerService, DynamicScriptLoaderService]
 })
