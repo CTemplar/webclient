@@ -11,7 +11,6 @@ export class FilenamePipe implements PipeTransform {
     }
 
     const filePathTokens = value.split('/');
-    console.log('testing');
     return  filePathTokens[filePathTokens.length - 1];
   }
 
