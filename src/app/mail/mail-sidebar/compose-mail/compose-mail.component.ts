@@ -170,6 +170,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.signature = user.settings.signature;
+        this.addSignature();
       });
 
     const now = new Date();
@@ -316,8 +317,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addSignature() {
-    const index = this.quill.getLength();
-    this.quill.insertText(index, this.signature);
+    if (this.signature) {
+      const index = this.quill.getLength();
+      this.quill.insertText(index, this.signature);
+    }
   }
 
   openSelfDestructModal() {
