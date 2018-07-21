@@ -4,15 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../../store/datatypes';
 import { Mail, MailFolderType } from '../../../../store/models';
 import { Observable } from 'rxjs/Observable';
-import {
-  DeleteMail,
-  GetMails,
-  MoveMail,
-  ReadMail,
-  SetCurrentFolder,
-  SetMailDetail,
-  StarMail
-} from '../../../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 @TakeUntilDestroy()
@@ -103,7 +95,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   }
 
   openMail(mail: Mail) {
-    this.store.dispatch(new SetMailDetail(mail));
+    this.store.dispatch(new GetMailDetailSuccess(mail));
     this.router.navigate(['/mail/message/', mail.id]);
   }
 
