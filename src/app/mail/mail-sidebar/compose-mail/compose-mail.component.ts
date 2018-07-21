@@ -103,6 +103,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private mailState: MailState;
   private attachmentsQueue: Array<Attachment> = [];
   private mailBoxesState: MailBoxesState;
+  private isSignatureAdded: boolean;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -317,9 +318,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addSignature() {
-    if (this.signature) {
+    if (this.signature && !this.isSignatureAdded) {
       const index = this.quill.getLength();
       this.quill.insertText(index, this.signature);
+      this.isSignatureAdded = true;
     }
   }
 
