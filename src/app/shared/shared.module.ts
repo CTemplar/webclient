@@ -14,6 +14,7 @@ import { TagInputModule } from 'ngx-chips';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { DynamicScriptLoaderService } from './services/dynamic-script-loader.service';
 import { FilenamePipe } from './pipes/filename.pipe';
+import { MatIconComponent } from './components/mat-icon/mat-icon.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, TagInputModule, MatIconModule],
@@ -25,6 +26,7 @@ import { FilenamePipe } from './pipes/filename.pipe';
     SafePipe,
     ProgressBarComponent,
     FilenamePipe,
+    MatIconComponent,
   ],
   exports: [
     TranslateModule,
@@ -37,7 +39,9 @@ import { FilenamePipe } from './pipes/filename.pipe';
     TagInputModule,
     ProgressBarComponent,
     FilenamePipe,
-    MatIconModule
+    MatIconModule,
+    MatIconComponent,
+
   ],
   providers: [SpinnerService, DynamicScriptLoaderService]
 })
