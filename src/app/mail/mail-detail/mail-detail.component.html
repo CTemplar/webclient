@@ -1,3 +1,5 @@
+<app-progress-bar [active]="!mail"></app-progress-bar>
+
 <!--Mail Info-->
 <ng-container *ngIf="mail">
   <section class="mailbox-section">
@@ -8,7 +10,8 @@
       </h5>
 
       <div class="icon-holder is-floated right y-center">
-        <i class="icon icon-md icon-star-filled" [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
+        <i class="icon icon-md icon-star-filled"
+           [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
     </div>
 
@@ -17,17 +20,28 @@
         <div class="col-8">
           <div class="mailbox-sender-content">
             <ul class="sender-content-list list-styled">
-              <li>From:
-                <span class="text-secondary">ProtonMail </span>
-                <a href="" class="text-muted">&lt;contact@protonmail.ch&gt;</a>
+              <li>
+                From:
+                <span class="text-secondary"> </span>
+                <a href="" class="text-muted">&lt;{{mail.sender}}&gt;</a>
               </li>
-              <li>To:
-                <span class="text-secondary">John Doe </span>
-                <a href="" class="text-muted">&lt;johndoe@gmail.com&gt;</a>
+              <li>
+                To:
+                <ng-container *ngFor="let receiver of mail.receiver; let i = index;">
+                  <span class="text-secondary"> </span>
+                  <a href="" class="text-muted">&lt;{{receiver}}&gt;</a>
+                  <!--Comma as a separator-->
+                  <span *ngIf=" i < mail.receiver.length-1">, </span>
+                </ng-container>
               </li>
-              <li>Cc:
-                <span class="text-secondary">Sam Smith </span>
-                <a href="" class="text-muted">&lt;samsmith@hotmail.com&gt;</a>
+              <li *ngIf="mail.cc.length>0">
+                Cc:
+                <ng-container *ngFor="let cc of mail.cc; let i = index;">
+                  <span class="text-secondary"> </span>
+                  <a href="" class="text-muted">&lt;{{cc}}&gt;</a>
+                  <!--Comma as a separator-->
+                  <span *ngIf=" i < mail.cc.length-1">, </span>
+                </ng-container>
               </li>
             </ul>
           </div>
@@ -37,7 +51,8 @@
             <div class="d-flex align-items-center justify-content-end">
               <label class="msg-received-time mb-0">{{mail.datetime}} (1 day ago) </label>
               <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
-                <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="messageReplyDropdownMenuButton"></button>
+                <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
+                        id="messageReplyDropdownMenuButton"></button>
                 <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
                   <a class="dropdown-item" href="">Forward</a>
                   <a class="dropdown-item" href="">Reply</a>
@@ -56,13 +71,26 @@
     </div>
   </section>
 
-<!--Mail Content-->
-<section class="mailbox-section" *ngIf="decryptedContent">
-  <div class="ui-body is-bordered-bottom">
-    <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'">
+  <!--Mail Content-->
+  <section class="mailbox-section">
+    <app-progress-bar [active]="!decryptedContent"></app-progress-bar>
 
-      </div>
+    <div class="ui-body is-bordered-bottom" *ngIf="decryptedContent">
+      <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'"></div>
     </div>
+
+    <ul class="list-style-none mt-3">
+      <li class="download-attachment-wrapper" *ngFor="let attachment of mail.attachments">
+        <a class="download-attachment" [href]="attachment.document" target="_blank" rel="noopener">
+          <div class="attachment-icon">
+            <i class="icon icon-attachment"></i>
+          </div>
+          <div class="attachment-name">
+            {{attachment.document | filename}}
+          </div>
+        </a>
+      </li>
+    </ul>
   </section>
 
   <!--Reply to mail.-->
@@ -79,9 +107,9 @@
           <i class="icon icon-reply position-left"></i> Reply All
         </button>
 
-          <button class="btn btn-gmail" (click)="showReplyBox=true">
-            <i class="icon icon-mail position-left"></i> Forward
-          </button>
+        <button class="btn btn-gmail" (click)="showReplyBox=true">
+          <i class="icon icon-mail position-left"></i> Forward
+        </button>
       </div>
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="showReplyBox">
