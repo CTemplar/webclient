@@ -341,9 +341,8 @@ a {
 	background: $brand-faded;
 	border: 1px solid $input-border-color;
 	border-radius: 2px;
-	max-width: 360px;
 	line-height: 1;
-	width: 100%;
+	max-width: 90%;
 
 	&:last-of-type {
 		margin-bottom: 0;
@@ -389,12 +388,23 @@ a {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 60%;
 }
 
+.file-name{
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
+  max-width: 300px;
+  color: #15c;
+  font-weight: bold;
+}
 .attach-size {
-	margin-left: 0.375rem;
-	color: #979797;
+  display: inline-block;
+  margin-left: 0.375rem;
+  color: #777;
+  font-weight: bold;
 }
 
 .send-mail-item {
