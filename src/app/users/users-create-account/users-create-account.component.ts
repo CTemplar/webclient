@@ -44,15 +44,14 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   isRecoveryEmail: boolean = null;
   isConfirmedPrivacy: boolean = null;
-  isLoading: boolean = false;
   isFormCompleted: boolean = false;
   errorMessage: string = '';
   userNameTaken: boolean = null;
   selectedPlan: any;
-  pgpProgress: number = 0;
   data: any = null;
   isCaptchaCompleted: boolean = false;
   signupInProgress: boolean = false;
+
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private router: Router,
@@ -78,7 +77,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.store.select(state => state.auth)
       .takeUntil(this.destroyed$)
       .subscribe((state: AuthState) => {
-        this.isLoading = false;
         this.errorMessage = state.errorMessage;
       });
 
@@ -134,7 +132,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.signupForm.value.captchaResponse = captchaResponse;
     this.isCaptchaCompleted = true;
   }
-  signupFormCompleted () {
+
+  signupFormCompleted() {
     this.data = {
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
@@ -146,14 +145,13 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private handleUserState(): void {
-    this.store.select(state => state.auth).
-    takeUntil(this.destroyed$).subscribe((state: AuthState) => {
-      if (this.signupInProgress && !state.inProgress  ) {
-      if ( !state.errorMessage) {
-          this.notificationService.showSuccess(`Account created successfully.`);
-      } else {
-        this.notificationService.showError(`Failed to create account.` + state.errorMessage);
-      }
+    this.store.select(state => state.auth).takeUntil(this.destroyed$).subscribe((state: AuthState) => {
+      if (this.signupInProgress && !state.inProgress) {
+        if (!state.errorMessage) {
+          this.notificationService.showSnackBar(`Account created successfully.`);
+        } else {
+          this.notificationService.showSnackBar(`Failed to create account.` + state.errorMessage);
+        }
         this.signupInProgress = false;
       }
     });

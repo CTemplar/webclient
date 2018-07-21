@@ -93,14 +93,7 @@ export class UsersService {
   }
 
   signUp(user): Observable<any> {
-    const url = `${apiUrl}auth/sign-up/`;
-    const body = {
-      recovery_email: user.recovery_email,
-      username: user.username,
-      password: user.password,
-      recaptcha: user.recaptcha
-    };
-    return this.http.post<any>(url, body).pipe(
+    return this.http.post<any>(`${apiUrl}auth/sign-up/`, user).pipe(
       tap(data => {
         this.setLoginData(data, user);
       })

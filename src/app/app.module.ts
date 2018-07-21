@@ -47,7 +47,6 @@ import { SharedService } from './store/services';
 import { OpenPgpService } from './store/services';
 
 import { TokenInterceptor } from './store/services';
-import { ToastrModule } from 'ngx-toastr';
 import { NotificationService } from './store/services/notification.service';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -77,7 +76,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     PagesModule,
     UsersModule,
     ngxZendeskWebwidgetModule.forRoot(ZendeskConfig),
-    ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

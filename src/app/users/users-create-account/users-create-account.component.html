@@ -204,27 +204,3 @@
     <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
-
-<img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg"/>
-
-<!-- Generating key modal -->
-<ng-template #generateKeyContent let-c="close" let-d="dismiss">
-    <div class="modal-header text-center justify-content-center">
-        <h3 class="modal-title-lg mb-0 w-100 text-dark" id="resetPasswordModalLabel">
-            <strong>Generating Key…</strong>
-        </h3>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="text-holder text-dark text-medium">
-            <p>Your GPG 4096-bit key is being created. It can take from several seconds to several minutes.</p>
-
-            <div class="progress-holder mb-3">
-                <div class="progress-label">STATUS: {{keyGenerateStatus}}</div>
-                <div class="progress progress-sm border-radius-0">
-                    <div class="progress-bar" role="progressbar" [ngStyle]="{'width': pgpProgress+'%'}" aria-valuenow="60" aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template>

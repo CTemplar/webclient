@@ -176,3 +176,8 @@ export interface PendingBalanceResponse {
   paid_out?: number;
   confirmed?: boolean;
 }
+
+export enum PaymentMethod {
+  STRIPE = 'Stripe',
+  BITCOIN = 'Bitcoin'
+}
