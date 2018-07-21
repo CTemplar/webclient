@@ -2,8 +2,8 @@
      [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false"
      [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">
-    <div class="mail-composer-header">
-      <div class="mail-composer-title">New message</div>
+    <div class="mail-composer-header p-0">
+      <div class="mail-composer-title p-2 mr-4" (click)="toggleMinimized()">New message</div>
       <div class="mail-composer-header-actions">
         <div class="mail-actions-list">
           <div class="mail-actions-item">
