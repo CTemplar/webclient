@@ -1,6 +1,7 @@
 // Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { SpinnerComponent } from './spinner/components/spinner.component';
 import { SpinnerService } from './spinner/services/spinner.service';
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
@@ -15,7 +16,7 @@ import { DynamicScriptLoaderService } from './services/dynamic-script-loader.ser
 import { FilenamePipe } from './pipes/filename.pipe';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, TagInputModule],
+  imports: [CommonModule, TranslateModule, TagInputModule, MatIconModule],
   declarations: [
     SpinnerComponent,
     SpinnerImageComponent,
@@ -36,6 +37,7 @@ import { FilenamePipe } from './pipes/filename.pipe';
     TagInputModule,
     ProgressBarComponent,
     FilenamePipe,
+    MatIconModule
   ],
   providers: [SpinnerService, DynamicScriptLoaderService]
 })

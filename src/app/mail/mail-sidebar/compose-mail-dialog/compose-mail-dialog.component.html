@@ -1,4 +1,4 @@
-<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx" [ngClass]="{'is-minimized' : isMinimized}"
+<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx" [ngClass]="{'is-minimized' : isMinimized, 'is-maximized' : isMaximized}"
      [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false"
      [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">
@@ -6,12 +6,24 @@
       <div class="mail-composer-title p-2 mr-4" (click)="toggleMinimized()">New message</div>
       <div class="mail-composer-header-actions">
         <div class="mail-actions-list">
+
+          <!--Minimize Modal-->
           <div class="mail-actions-item">
             <button role="button" placement="top" ngbTooltip="Minimize"
                 (click)="toggleMinimized()">
-              <i class="icon icon-minimize"></i>
+              <mat-icon class="md-16">remove</mat-icon>
             </button>
           </div>
+
+          <!--Maximize Modal-->
+          <div class="mail-actions-item">
+            <button role="button" placement="top" ngbTooltip="Maximize"
+                (click)="toggleMaximized()">
+              <i class="icon icon-maximize"></i>
+            </button>
+          </div>
+
+          <!--Close Modal-->
           <div class="mail-actions-item">
             <button role="button" placement="top" ngbTooltip="Close"
                     (click)="onClose()">

@@ -63,10 +63,28 @@ a {
 
 
 .mail-composer.is-maximized {
+
+    @include media(">sm") {
+      right: 1.563rem;
+      left: 1.563rem;
+      width: 80%;
+      margin: auto;
+      top: 3rem;
+      bottom: auto;
+      .mail-compose-editable-box {
+        background: #ffffff;
+        height: 60vh;
+        max-height: 100%;
+        overflow-y: auto;
+      }
+    }
+  
 	.mail-composer-body,
 	.mail-composer-footer {
 		display: block;
 	}
+
+
 }
 
 // == Is full screen
