@@ -68,7 +68,7 @@
                                 </h3>
                                 <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> BTC sent after timer will be lost!</p>
 
-                                <div class="card">
+                                <div class="card mb-3">
                                     <div class="card-header text-center">
                                         <h6>SEND <strong>EXACTLY</strong></h6>
                                         <h5><strong *ngIf="bitcoinState?.loaded">{{bitcoinState.serviceValue}}</strong></h5>
@@ -79,8 +79,9 @@
                                     </div>
 
                                 </div>
-                                <strong class="text-center" style="color: green">Your payment is pending, But still you can create free account and your account would be set to premium after payment is verified</strong>
+                                <strong class="text-center text-success">Your payment is pending, But still you can create free account and your account would be set to premium after payment is verified</strong>
                             </div>
+
 
                             <div class="form-step-card" *ngIf="paymentMethod == 'stripe'">
                                 <h3 class="form-step-card-title text-dark mb-3">
@@ -204,8 +205,8 @@
                             </div>
                             <div class="form-group text-center mt-3 mt-sm-4 mb-0">
                                 <div *ngIf="paymentMethod=='bitcoin';else stripecall">
-                                    <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                                            (click)="createAccount()">Submit
+                                    <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" [disabled]="signupInProgress"
+                                            (click)="bitcoinSignup()">Submit
                                     </button>
                                 </div>
 

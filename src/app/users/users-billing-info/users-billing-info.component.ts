@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
-import { CheckPendingBalance, CreateNewWallet, FinalLoading, GetBitcoinServiceValue } from '../../store/actions';
+import { CheckPendingBalance, CreateNewWallet, FinalLoading, GetBitcoinServiceValue, SignUp } from '../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, BitcoinState, PendingBalanceResponse } from '../../store/datatypes';
+import { AppState, AuthState, BitcoinState, PendingBalanceResponse, SignupState } from '../../store/datatypes';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/observable/timer';
@@ -22,7 +22,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   private pendingBalanceResponse: PendingBalanceResponse;
   public transactionSuccess: boolean;
   private timerObservable: Subscription;
-
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
               private formBuilder: FormBuilder) {
@@ -39,6 +38,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   seconds: number = 60;
   minutes: number = 30;
   bitcoinState: BitcoinState;
+  signupState: SignupState;
+  signupInProgress: boolean;
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -47,11 +48,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.billingForm = this.formBuilder.group({
       'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]]
     });
-    this.store.select(state => state.bitcoin)
+    this.store.select(state => state.bitcoin).takeUntil(this.destroyed$)
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
         this.pendingBalanceResponse = this.bitcoinState.pendingBalanceResponse;
       });
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        this.signupState = authState.signupState;
+        this.signupInProgress = authState.inProgress;
+    });
   }
 
   timer() {
@@ -83,9 +89,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
 
-  createAccount() {
+  bitcoinSignup() {
+    this.signupInProgress = true;
+    this.store.dispatch(new SignUp({
+      recovery_email: this.signupState.recovery_email,
+      username: this.signupState.username,
+      password: this.signupState.password,
+      from_address: this.bitcoinState.newWalletAddress,
+      redeem_code : this.bitcoinState.redeemCode
+    }));
   }
-
   checkPendingBalance() {
     if (this.pendingBalanceResponse.pending_balance > 0 &&
       this.pendingBalanceResponse.pending_balance >= this.pendingBalanceResponse.required_balance) {

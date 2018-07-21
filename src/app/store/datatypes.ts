@@ -20,17 +20,18 @@ export interface AuthState {
   // error message
   errorMessage: string | null;
   inProgress: boolean;
+  signupState: SignupState;
 }
 
 export interface SignupState {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
   recovery_email?: string;
 
   /**
    * @var from address of bitcoin walled
    */
-  fromAddress?: string;
+  from_address?: string;
 
   /**
    * @var redeem code of bitcoin wallet

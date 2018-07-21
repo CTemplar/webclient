@@ -9,7 +9,8 @@ export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   errorMessage: null,
-  inProgress: false
+  inProgress: false,
+  signupState: { username: null, password: null }
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -65,6 +66,12 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SIGNUP: {
       return {
         ...state, inProgress: true
+      };
+    }
+    case AuthActionTypes.STORE_SIGNUP_DATA: {
+      return {
+        ...state,
+        signupState: { username: action.payload.username, password: action.payload.password, recovery_email: action.payload.recovery_email }
       };
     }
     case AuthActionTypes.LOGOUT: {
