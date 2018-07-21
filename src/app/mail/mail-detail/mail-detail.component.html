@@ -10,7 +10,8 @@
       </h5>
 
       <div class="icon-holder is-floated right y-center">
-        <i class="icon icon-md icon-star-filled" [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
+        <i class="icon icon-md icon-star-filled"
+           [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
     </div>
 
@@ -21,8 +22,8 @@
             <ul class="sender-content-list list-styled">
               <li>
                 From:
-                  <span class="text-secondary"> </span>
-                  <a href="" class="text-muted">&lt;{{mail.sender}}&gt;</a>
+                <span class="text-secondary"> </span>
+                <a href="" class="text-muted">&lt;{{mail.sender}}&gt;</a>
               </li>
               <li>
                 To:
@@ -50,7 +51,8 @@
             <div class="d-flex align-items-center justify-content-end">
               <label class="msg-received-time mb-0">{{mail.datetime}} (1 day ago) </label>
               <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
-                <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="messageReplyDropdownMenuButton"></button>
+                <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
+                        id="messageReplyDropdownMenuButton"></button>
                 <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
                   <a class="dropdown-item" href="">Forward</a>
                   <a class="dropdown-item" href="">Reply</a>
@@ -69,14 +71,27 @@
     </div>
   </section>
 
-<!--Mail Content-->
-<section class="mailbox-section">
-  <app-progress-bar [active]="!decryptedContent"></app-progress-bar>
+  <!--Mail Content-->
+  <section class="mailbox-section">
+    <app-progress-bar [active]="!decryptedContent"></app-progress-bar>
 
-  <div class="ui-body is-bordered-bottom" *ngIf="decryptedContent">
-    <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'"></div>
-  </div>
-</section>
+    <div class="ui-body is-bordered-bottom" *ngIf="decryptedContent">
+      <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'"></div>
+    </div>
+
+    <ul class="list-style-none mt-3">
+      <li class="download-attachment-wrapper" *ngFor="let attachment of mail.attachments">
+        <a class="download-attachment" [href]="attachment.document" target="_blank" rel="noopener">
+          <div class="attachment-icon">
+            <i class="icon icon-attachment"></i>
+          </div>
+          <div class="attachment-name">
+            {{attachment.document}}
+          </div>
+        </a>
+      </li>
+    </ul>
+  </section>
 
   <!--Reply to mail.-->
   <div class="ui-body">
@@ -92,9 +107,9 @@
           <i class="icon icon-reply position-left"></i> Reply All
         </button>
 
-          <button class="btn btn-gmail" (click)="showReplyBox=true">
-            <i class="icon icon-mail position-left"></i> Forward
-          </button>
+        <button class="btn btn-gmail" (click)="showReplyBox=true">
+          <i class="icon icon-mail position-left"></i> Forward
+        </button>
       </div>
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="showReplyBox">
