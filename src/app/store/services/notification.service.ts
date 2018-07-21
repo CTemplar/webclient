@@ -1,6 +1,5 @@
-import { Injectable, Component } from '@angular/core';
-import { ToastrService,  ToastPackage, Toast  } from 'ngx-toastr';
-import {MatSnackBar} from '@angular/material';
+import { Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { AppState } from '../datatypes';
 import { Store } from '@ngrx/store';
 import { UndoDeleteMail } from '../actions';
@@ -8,19 +7,13 @@ import { UndoDeleteMail } from '../actions';
 @Injectable()
 export class NotificationService {
 
-  constructor(private toastr: ToastrService,
-              private snackBar: MatSnackBar,
+  constructor(private snackBar: MatSnackBar,
               private store: Store<AppState>) {
   }
 
-  showSuccess(message: string, title?: string) {
-    this.toastr.success(message,  title, );
+  showSnackBar(message: string, action: string = 'CLOSE', config: MatSnackBarConfig = { duration: 3000 }) {
+    this.snackBar.open(message, action, config);
   }
-
-  showError(message: string, title?: string) {
-    this.toastr.error(message, title);
-  }
-
 
   showUndo(payload: any) {
     if (payload.sourceFolder) {

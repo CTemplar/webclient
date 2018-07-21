@@ -1,5 +1,6 @@
 // Angular
 import { HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export function apiHeaders() {
   return {
@@ -7,8 +8,9 @@ export function apiHeaders() {
   };
 }
 
-export const apiUrl = 'https://api.ctemplar.com/';
- export const bitcoinUrl = 'http://82.221.139.154/';
+export const apiUrl = environment.apiServerUrl;
+export const bitcoinApiUrl = environment.bitcoinServerUrl;
+
 
 export const COLORS: string[] = [
   '#000000', '#616161', '#828282', '#adadad',

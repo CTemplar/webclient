@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, UserState } from '../../store/datatypes';
-import { FinalLoading, SignUp, SignUpFailure } from '../../store/actions';
+import { FinalLoading, SignUp, SignUpFailure, UpdateSignupData } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -122,6 +122,11 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private navigateToBillingPage() {
+    this.store.dispatch(new UpdateSignupData({
+      recovery_email: this.signupForm.get('recoveryEmail').value,
+      username: this.signupForm.get('username').value,
+      password: this.signupForm.get('password').value
+    }));
     this.router.navigateByUrl('/billing-info');
   }
 
@@ -145,9 +150,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     takeUntil(this.destroyed$).subscribe((state: AuthState) => {
       if (this.signupInProgress && !state.inProgress  ) {
       if ( !state.errorMessage) {
-          this.notificationService.showSuccess(`Account created successfully.`);
+          this.notificationService.showSnackBar(`Account created successfully.`);
       } else {
-        this.notificationService.showError(`Failed to create account.` + state.errorMessage);
+        this.notificationService.showSnackBar(`Failed to create account.` + state.errorMessage);
       }
         this.signupInProgress = false;
       }

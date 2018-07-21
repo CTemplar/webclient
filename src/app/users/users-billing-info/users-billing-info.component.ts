@@ -1,24 +1,36 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
-import { ConfirmTransaction, CreateNewWallet, FinalLoading, GetBitcoinValue } from '../../store/actions';
+import {
+  CheckPendingBalance,
+  ClearWallet,
+  CreateNewWallet,
+  FinalLoading,
+  GetBitcoinServiceValue,
+  SignUp,
+  SnackErrorPush
+} from '../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, BitcoinState } from '../../store/datatypes';
+import { AppState, AuthState, BitcoinState, PaymentMethod, PendingBalanceResponse, SignupState } from '../../store/datatypes';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import 'rxjs/add/observable/timer';
+import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',
   styleUrls: ['./users-billing-info.component.scss']
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
-
-  constructor(private sharedService: SharedService,
-              private store: Store<AppState>,
-              private formBuilder: FormBuilder) {
-  }
+  readonly destroyed$: Observable<boolean>;
+  private pendingBalanceResponse: PendingBalanceResponse;
+  public transactionSuccess: boolean;
+  private timerObservable: Subscription;
 
   cardNumber;
   billingForm: FormGroup;
@@ -27,10 +39,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   cvc;
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
-  paymentMethod: string = null;
-  count: number = 30;
+  paymentMethod: PaymentMethod = PaymentMethod.STRIPE;
+  paymentMethodType = PaymentMethod;
+  seconds: number = 60;
+  minutes: number = 60;
   bitcoinState: BitcoinState;
-  bitcoinValueToDecimal: any = null;
+  signupState: SignupState;
+  signupInProgress: boolean;
+
+  constructor(private sharedService: SharedService,
+              private store: Store<AppState>,
+              private router: Router,
+              private formBuilder: FormBuilder) {
+  }
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -39,16 +60,31 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.billingForm = this.formBuilder.group({
       'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]]
     });
+    this.store.select(state => state.bitcoin).takeUntil(this.destroyed$)
+      .subscribe((bitcoinState: BitcoinState) => {
+        this.bitcoinState = bitcoinState;
+        this.pendingBalanceResponse = this.bitcoinState.pendingBalanceResponse;
+      });
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        this.signupState = authState.signupState;
+        this.signupInProgress = authState.inProgress;
+      });
+
+    setTimeout(() => {
+      this.validateSignupData();
+    }, 3000);
   }
 
   timer() {
-    if (this.count < 1) {
-      return;
+    if (this.timerObservable) {
+      this.timerObservable.unsubscribe();
     }
-    this.count--;
-    setTimeout(() => {
-      this.timer();
-    }, 1000);
+    const timer = Observable.timer(1000, 1000);
+    this.timerObservable = timer.takeUntil(this.destroyed$).subscribe(t => {
+      this.seconds = ((3600 - t) % 60);
+      this.minutes = ((3600 - t - this.seconds) / 60);
+    });
   }
 
   getToken() {
@@ -67,35 +103,68 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     });
   }
 
+
+  submitForm() {
+    this.validateSignupData();
+    if (this.paymentMethod === PaymentMethod.STRIPE) {
+      this.getToken();
+    } else {
+      this.bitcoinSignup();
+    }
+  }
+
+  validateSignupData() {
+    if (this.signupState && this.signupState.username && this.signupState.password) {
+      return true;
+    }
+    this.router.navigateByUrl('/signup');
+  }
+
+  bitcoinSignup() {
+    if (this.bitcoinState.newWalletAddress && this.bitcoinState.redeemCode) {
+      this.store.dispatch(new SignUp({
+        ...this.signupState,
+        from_address: this.bitcoinState.newWalletAddress,
+        redeem_code: this.bitcoinState.redeemCode,
+      }));
+    } else {
+      this.store.dispatch(new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'));
+    }
+  }
+
+  checkPendingBalance() {
+    if (this.pendingBalanceResponse.pending_balance > 0 &&
+      this.pendingBalanceResponse.pending_balance >= this.pendingBalanceResponse.required_balance) {
+      this.transactionSuccess = true;
+      return;
+    }
+    setTimeout(() => {
+      // check after every one minute
+      this.store.dispatch(new CheckPendingBalance({
+        'redeem_code': this.bitcoinState.redeemCode,
+        'from_address': this.bitcoinState.newWalletAddress,
+        'opt_timeout': 864000,             // time to wait the transaction is 24 hours
+        'opt_interval': 1000               // interval to check transaction
+      }));
+
+      this.checkPendingBalance();
+    }, 60 * 1000);
+
+  }
+
   selectBitcoinMethod() {
-    this.store.dispatch(new GetBitcoinValue());
+    this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
-    this.paymentMethod = 'bitcoin';
-    this.store.select(state => state.bitcoin).subscribe((bitcoinState: BitcoinState) => {
-      this.bitcoinState = bitcoinState;
-      this.bitcoinValueToDecimal = this.bitcoinState.currentUSDValue;
-      this.bitcoinValueToDecimal = (8 / this.bitcoinValueToDecimal).toFixed(5);
-    });
+    this.paymentMethod = PaymentMethod.BITCOIN;
     this.createNewWallet();
+    this.checkPendingBalance();
   }
 
   createNewWallet() {
+    if (this.bitcoinState && this.bitcoinState.newWalletAddress) {
+      return;
+    }
     this.store.dispatch(new CreateNewWallet());
-    this.store.select(state => state.bitcoin).subscribe((bitcoinState: BitcoinState) => {
-      this.bitcoinState.newWalletAddress = bitcoinState.newWalletAddress;
-    });
-  }
-
-  confirmTransaction() {
-    const data = {
-      'fromWIF': this.bitcoinState.Wif,
-      'fromAddress': this.bitcoinState.newWalletAddress,
-      'toAddress': '',
-      'value': this.bitcoinValueToDecimal,
-      'opt_timeout': 0,
-      'opt_interval': 1000
-    };
-   this.store.dispatch(new ConfirmTransaction(data));
   }
 
   selectMonth(month) {
@@ -108,5 +177,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
+    this.store.dispatch(new ClearWallet());
+    if (this.timerObservable) {
+      this.timerObservable.unsubscribe();
+    }
   }
 }

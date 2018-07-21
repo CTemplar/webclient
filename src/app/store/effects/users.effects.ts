@@ -216,13 +216,13 @@ export class UsersEffects {
         if (snackPushAction.payload && snackPushAction.payload.message && snackPushAction.payload.ids) {
           this.notificationService.showUndo(snackPushAction.payload);
         } else if (snackPushAction.payload && snackPushAction.payload.message) {
-          this.notificationService.showSuccess(snackPushAction.payload.message);
+          this.notificationService.showSnackBar(snackPushAction.payload.message);
         } else {
           let message = 'An error has occured';
           if (snackPushAction.payload && snackPushAction.payload.type) {
             message = snackPushAction.payload.type + ' ' + message;
           }
-          this.notificationService.showError(message);
+          this.notificationService.showSnackBar(message);
         }
         return new SnackPushSuccess();
       }),
@@ -234,13 +234,13 @@ export class UsersEffects {
     .pipe(
       map((snackPushAction: SnackErrorPush) => {
         if (snackPushAction.payload && snackPushAction.payload.message) {
-          this.notificationService.showError(snackPushAction.payload.message);
+          this.notificationService.showSnackBar(snackPushAction.payload.message);
         } else {
           let message = 'An error has occured';
           if (snackPushAction.payload && snackPushAction.payload.type) {
             message = snackPushAction.payload.type + ' ' + message;
           }
-          this.notificationService.showError(message);
+          this.notificationService.showSnackBar(message);
         }
         return new SnackErrorPushSuccess();
       }),

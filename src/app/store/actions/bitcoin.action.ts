@@ -1,22 +1,24 @@
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 export enum BitcoinActionTypes {
-  GET_BITCOIN_VALUE = '[GET_BITCOIN_VALUE] GET BITCOIN VALUE',
-  GET_BITCOIN_VALUE_SUCCESS = '[GET_BITCOIN_VALUE_SUCCESS] GET BITCOIN VALUE SUCCESS',
-  CREATE_NEW_WALLET = '[CREATE_NEW_WALLET ] CREATE NEW WALLET',
-  CREATE_NEW_WALLET_SUCCESS = '[CREATE_NEW_WALLET_SUCCESS ] CREATE NEW WALLET',
-  CONFIRM_TRANSACTION = '[CONFIRM_TRANSACTION] CONFIRM TRANSACTION',
-  CONFIRM_TRANSACTION_SUCCESS = '[CONFIRM_TRANSACTION_SUCCESS] CONFIRM TRANSACTION SUCCESS'
+  GET_BITCOIN_SERVICE_VALUE = '[BITCOIN] GET BITCOIN SERVICE VALUE',
+  GET_BITCOIN_SERVICE_VALUE_SUCCESS = '[BITCOIN] GET BITCOIN SERVICE VALUE SUCCESS',
+  CREATE_NEW_WALLET = '[BITCOIN ] CREATE NEW WALLET',
+  CREATE_NEW_WALLET_SUCCESS = '[BITCOIN] CREATE NEW WALLET',
+  CHECK_PENDING_BALANCE = '[BITCOIN] CHECK PENDING BALANCE',
+  CHECK_PENDING_BALANCE_SUCCESS = '[BITCOIN] CHECK PENDING BALANCE SUCCESS',
+  CLEAR_WALLET = '[BITCOIN] CLEAR WALLET',
 }
 
-export class GetBitcoinValue implements Action {
-  readonly type = BitcoinActionTypes.GET_BITCOIN_VALUE;
+export class GetBitcoinServiceValue implements Action {
+  readonly type = BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE;
 
   constructor(public payload?: any) {
   }
 }
-export class GetBitcoinValueSuccess implements Action {
-  readonly type = BitcoinActionTypes.GET_BITCOIN_VALUE_SUCCESS;
+
+export class GetBitcoinServiceValueSuccess implements Action {
+  readonly type = BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE_SUCCESS;
 
   constructor(public payload: any) {
   }
@@ -29,18 +31,20 @@ export class CreateNewWallet implements Action {
   }
 }
 
-export class ConfirmTransaction implements Action {
-  readonly type = BitcoinActionTypes.CONFIRM_TRANSACTION;
+export class CheckPendingBalance implements Action {
+  readonly type = BitcoinActionTypes.CHECK_PENDING_BALANCE;
 
   constructor(public payload: any) {
   }
 }
-export class ConfirmTransactionSuccess implements Action {
-  readonly type = BitcoinActionTypes.CONFIRM_TRANSACTION_SUCCESS;
+
+export class CheckPendingBalanceSuccess implements Action {
+  readonly type = BitcoinActionTypes.CHECK_PENDING_BALANCE_SUCCESS;
 
   constructor(public payload: any) {
   }
 }
+
 export class CreateNewWalletSuccess implements Action {
   readonly type = BitcoinActionTypes.CREATE_NEW_WALLET_SUCCESS;
 
@@ -48,10 +52,18 @@ export class CreateNewWalletSuccess implements Action {
   }
 }
 
+export class ClearWallet implements Action {
+  readonly type = BitcoinActionTypes.CLEAR_WALLET;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type BitcoinActionAll =
-  GetBitcoinValue |
-  GetBitcoinValueSuccess |
-  CreateNewWallet |
-  CreateNewWalletSuccess |
-  ConfirmTransaction |
-  ConfirmTransactionSuccess;
+  | GetBitcoinServiceValue
+  | GetBitcoinServiceValueSuccess
+  | CreateNewWallet
+  | CreateNewWalletSuccess
+  | CheckPendingBalance
+  | CheckPendingBalanceSuccess
+  | ClearWallet;
