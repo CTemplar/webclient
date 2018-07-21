@@ -22,6 +22,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   private pendingBalanceResponse: PendingBalanceResponse;
   public transactionSuccess: boolean;
   private timerObservable: Subscription;
+
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
               private formBuilder: FormBuilder) {
@@ -57,7 +58,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
         this.signupInProgress = authState.inProgress;
-    });
+      });
   }
 
   timer() {
@@ -92,13 +93,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   bitcoinSignup() {
     this.signupInProgress = true;
     this.store.dispatch(new SignUp({
-      recovery_email: this.signupState.recovery_email,
-      username: this.signupState.username,
-      password: this.signupState.password,
+      ...this.signupState,
       from_address: this.bitcoinState.newWalletAddress,
-      redeem_code : this.bitcoinState.redeemCode
+      redeem_code: this.bitcoinState.redeemCode,
     }));
   }
+
   checkPendingBalance() {
     if (this.pendingBalanceResponse.pending_balance > 0 &&
       this.pendingBalanceResponse.pending_balance >= this.pendingBalanceResponse.required_balance) {

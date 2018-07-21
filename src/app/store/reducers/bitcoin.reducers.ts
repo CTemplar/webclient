@@ -6,7 +6,6 @@ export const initialState: BitcoinState = {
   newWalletAddress: null,
   loaded: false,
   redeemCode: null,
-  transactionStatus: null,
   pendingBalanceResponse: {}
 };
 

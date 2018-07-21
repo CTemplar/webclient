@@ -27,16 +27,6 @@ export interface SignupState {
   username?: string;
   password?: string;
   recovery_email?: string;
-
-  /**
-   * @var from address of bitcoin walled
-   */
-  from_address?: string;
-
-  /**
-   * @var redeem code of bitcoin wallet
-   */
-  redeem_code?: string;
 }
 
 export interface UserState {
@@ -176,7 +166,6 @@ export interface BitcoinState {
   newWalletAddress: string;
   loaded: boolean;
   redeemCode: string;
-  transactionStatus: string;
   pendingBalanceResponse: PendingBalanceResponse;
 }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {bitcoinUrl} from '../../shared/config';
+import {bitcoinApiUrl} from '../../shared/config';
 
 @Injectable()
 export class BitcoinService {
@@ -8,13 +8,13 @@ export class BitcoinService {
   }
 
   getBitcoinServiceValue() {
-    return this.http.get<any>(`${bitcoinUrl}api/v1.0/bitcoin/getServiceBitcoinValue`);
+    return this.http.get<any>(`${bitcoinApiUrl}getServiceBitcoinValue`);
   }
 
   getNewWalletAddress() {
-    return this.http.get<any>(`${bitcoinUrl}api/v1.0/bitcoin/createNewWallet`);
+    return this.http.get<any>(`${bitcoinApiUrl}createNewWallet`);
   }
   checkPendingBalance(data: any) {
-    return this.http.post(`${bitcoinUrl}api/v1.0/bitcoin/checkPendingBalance`, data);
+    return this.http.post(`${bitcoinApiUrl}checkPendingBalance`, data);
   }
 }
