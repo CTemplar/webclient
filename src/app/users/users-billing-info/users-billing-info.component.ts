@@ -96,9 +96,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, (status: number, response: any) => {
       if (status === 200) {
         // TODO: add next step of subscription
-        // console.log(`Success! Card token ${response.card.id}.`);
+         console.log(`Success! Card token ${response.card.id}.`);
       } else {
-        // console.log(response.error.message);
+         console.log(response.error.message);
       }
     });
   }
