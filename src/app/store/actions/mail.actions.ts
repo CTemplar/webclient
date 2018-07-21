@@ -7,6 +7,7 @@ export enum MailActionTypes {
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
   GET_MAILBOXES = '[Mail] GET_MAILBOXES',
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
+  SET_MAIL_DETAIL = '[Mail] SET_MAIL_DETAIL',
   GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
   CLEAR_MAIL_DETAIL = '[Mail] CLEAR_MAIL_DETAIL',
   GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
@@ -64,6 +65,12 @@ export class GetMailboxes implements Action {
 
 export class GetMailboxesSuccess implements Action {
   readonly type = MailActionTypes.GET_MAILBOXES_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class SetMailDetail implements Action {
+  readonly type = MailActionTypes.SET_MAIL_DETAIL;
 
   constructor(public payload: any) {}
 }
@@ -285,6 +292,7 @@ export type MailActions =
   | GetMailsSuccess
   | GetMailboxes
   | GetMailboxesSuccess
+  | SetMailDetail
   | GetMailDetail
   | ClearMailDetail
   | GetMailDetailSuccess

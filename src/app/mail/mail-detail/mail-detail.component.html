@@ -1,3 +1,5 @@
+<app-progress-bar [active]="!mail"></app-progress-bar>
+
 <!--Mail Info-->
 <ng-container *ngIf="mail">
   <section class="mailbox-section">
@@ -17,17 +19,28 @@
         <div class="col-8">
           <div class="mailbox-sender-content">
             <ul class="sender-content-list list-styled">
-              <li>From:
-                <span class="text-secondary">ProtonMail </span>
-                <a href="" class="text-muted">&lt;contact@protonmail.ch&gt;</a>
+              <li>
+                From:
+                  <span class="text-secondary"> </span>
+                  <a href="" class="text-muted">&lt;{{mail.sender}}&gt;</a>
               </li>
-              <li>To:
-                <span class="text-secondary">John Doe </span>
-                <a href="" class="text-muted">&lt;johndoe@gmail.com&gt;</a>
+              <li>
+                To:
+                <ng-container *ngFor="let receiver of mail.receiver; let i = index;">
+                  <span class="text-secondary"> </span>
+                  <a href="" class="text-muted">&lt;{{receiver}}&gt;</a>
+                  <!--Comma as a separator-->
+                  <span *ngIf=" i < mail.receiver.length-1">, </span>
+                </ng-container>
               </li>
-              <li>Cc:
-                <span class="text-secondary">Sam Smith </span>
-                <a href="" class="text-muted">&lt;samsmith@hotmail.com&gt;</a>
+              <li *ngIf="mail.cc.length>0">
+                Cc:
+                <ng-container *ngFor="let cc of mail.cc; let i = index;">
+                  <span class="text-secondary"> </span>
+                  <a href="" class="text-muted">&lt;{{cc}}&gt;</a>
+                  <!--Comma as a separator-->
+                  <span *ngIf=" i < mail.cc.length-1">, </span>
+                </ng-container>
               </li>
             </ul>
           </div>
@@ -57,13 +70,13 @@
   </section>
 
 <!--Mail Content-->
-<section class="mailbox-section" *ngIf="decryptedContent">
-  <div class="ui-body is-bordered-bottom">
-    <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'">
+<section class="mailbox-section">
+  <app-progress-bar [active]="!decryptedContent"></app-progress-bar>
 
-      </div>
-    </div>
-  </section>
+  <div class="ui-body is-bordered-bottom" *ngIf="decryptedContent">
+    <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'"></div>
+  </div>
+</section>
 
   <!--Reply to mail.-->
   <div class="ui-body">

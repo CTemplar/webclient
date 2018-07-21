@@ -25,7 +25,7 @@ import {
   ReadMail,
   ReadMailSuccess,
   SendMail,
-  SendMailSuccess,
+  SendMailSuccess, SetMailDetail,
   StarMailSuccess,
   UndoDeleteMail,
   UndoDeleteMailSuccess,
@@ -33,7 +33,7 @@ import {
   UploadAttachmentProgress,
   UploadAttachmentRequest,
   UploadAttachmentSuccess
-} from '../actions/mail.actions';
+} from "../actions/mail.actions";
 // Custom Actions
 import {
   CreateMail,
@@ -64,7 +64,6 @@ export class MailEffects {
           return new GetMailsSuccess({ ...payload, mails });
         });
     });
-
 
   @Effect()
   createMailEffect: Observable<any> = this.actions
@@ -165,6 +164,15 @@ export class MailEffects {
           })
         );
     });
+
+  @Effect()
+  setMailEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.SET_MAIL_DETAIL)
+    .map((action: SetMailDetail) => action.payload)
+    .switchMap(payload => {
+      return [new GetMailDetailSuccess(payload)];
+    });
+
 
   @Effect()
   uploadAttachmentEffect: Observable<any> = this.actions

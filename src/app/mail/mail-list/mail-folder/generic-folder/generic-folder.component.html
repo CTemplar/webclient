@@ -181,7 +181,7 @@
 
         <!-- Sender Name -->
         <td class="mail-from-name">
-          <a [routerLink]="['/mail/message/', mail.id]" class="text-dark">
+          <a (click)="openMail(mail)" class="text-dark">
             {{mail.sender}}
             <span class="font-weight-bold d-sm-block d-md-none" [innerHTML]="mail.subject">
                                         <!-- Subject Goes Here -->
@@ -191,7 +191,7 @@
 
         <!-- Subject -->
         <td class="mail-inbox-message d-none d-md-block">
-          <a [routerLink]="['/mail/message/', mail.id]" class="text-dark">
+          <a (click)="openMail(mail)" class="text-dark">
                                 <span class="mail-subject">
 
                                     <span class="badge badge-success mr-2 p-1"
