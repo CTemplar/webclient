@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
-import { CheckPendingBalance, ClearWallet, CreateNewWallet, FinalLoading, GetBitcoinServiceValue, SignUp } from '../../store/actions';
+import {
+  CheckPendingBalance,
+  ClearWallet,
+  CreateNewWallet,
+  FinalLoading,
+  GetBitcoinServiceValue,
+  SignUp,
+  SnackErrorPush
+} from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, BitcoinState, PaymentMethod, PendingBalanceResponse, SignupState } from '../../store/datatypes';
 
@@ -10,6 +18,7 @@ import 'rxjs/add/observable/timer';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 @TakeUntilDestroy()
 @Component({
@@ -40,6 +49,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
+              private router: Router,
               private formBuilder: FormBuilder) {
   }
 
@@ -60,6 +70,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.signupState = authState.signupState;
         this.signupInProgress = authState.inProgress;
       });
+
+    setTimeout(() => {
+      this.validateSignupData();
+    }, 3000);
   }
 
   timer() {
@@ -91,13 +105,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
 
   submitForm() {
-    if (this.signupState && this.signupState.username && this.signupState.password) {
-      if (this.paymentMethod === PaymentMethod.STRIPE) {
-        this.getToken();
-      } else {
-        this.bitcoinSignup();
-      }
+    this.validateSignupData();
+    if (this.paymentMethod === PaymentMethod.STRIPE) {
+      this.getToken();
+    } else {
+      this.bitcoinSignup();
     }
+  }
+
+  validateSignupData() {
+    if (this.signupState && this.signupState.username && this.signupState.password) {
+      return true;
+    }
+    this.router.navigateByUrl('/signup');
   }
 
   bitcoinSignup() {
@@ -107,6 +127,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         from_address: this.bitcoinState.newWalletAddress,
         redeem_code: this.bitcoinState.redeemCode,
       }));
+    } else {
+      this.store.dispatch(new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'));
     }
   }
 
