@@ -16,11 +16,12 @@ import {
   DeleteAttachment,
   GetUsersKeys,
   MoveMail,
+  NewDraft,
   SendMail,
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, Contact, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
+import { AppState, Contact, DraftState, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
@@ -71,6 +72,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('deadManTimerModal') deadManTimerModal;
   @ViewChild('encryptionModal') encryptionModal;
 
+  draftID: number;
   colors = COLORS;
   mailData: any = {};
   options: any = {};
@@ -103,7 +105,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   private shouldSave: boolean;
   private shouldSend: boolean;
-  private mailState: MailState;
+  private draftState: DraftState;
   private attachmentsQueue: Array<Attachment> = [];
   private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
@@ -118,42 +120,46 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initializeDraft();
     this.initializeAutoSave();
     this.resetMailData();
 
     this.store.select((state: AppState) => state.mail).takeUntil(this.destroyed$)
       .subscribe((response: MailState) => {
-        this.draftMail = response.draft;
-        this.inProgress = response.inProgress;
-        if (response.draft) {
-          if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
-            response.draft.content = response.encryptedContent;
-            this.shouldSave = false;
-            this.store.dispatch(new CreateMail({ ...response.draft }));
-            this.inProgress = true;
-          } else if (this.shouldSend && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
-            response.draft.content = response.encryptedContent;
-            this.store.dispatch(new CreateMail({ ...response.draft, is_encrypted: true }));
-            this.shouldSend = false;
-            setTimeout(() => {
-              this.store.dispatch(new SendMail({ ...response.draft, is_encrypted: true }));
-            }, 500);
-            this.hide.emit();
-            this.resetValues();
+        const draftState = response.drafts.find(draft => draft.id === this.draftID);
+        if (draftState) {
+          this.draftMail = draftState.draft;
+          this.inProgress = draftState.inProgress;
+          if (response.draft) {
+            if (this.shouldSave && this.draftState && this.draftState.isPGPInProgress && !draftState.isPGPInProgress) {
+              draftState.draft.content = draftState.encryptedContent;
+              this.shouldSave = false;
+              this.store.dispatch(new CreateMail({ ...draftState.draft }));
+              this.inProgress = true;
+            } else if (this.shouldSend && this.draftState && this.draftState.isPGPInProgress && !draftState.isPGPInProgress) {
+              draftState.draft.content = draftState.encryptedContent;
+              this.store.dispatch(new CreateMail({ ...draftState.draft, is_encrypted: true }));
+              this.shouldSend = false;
+              setTimeout(() => {
+                this.store.dispatch(new SendMail({ ...draftState.draft, is_encrypted: true }));
+              }, 500);
+              this.hide.emit();
+              this.resetValues();
+            }
+            if (draftState.draft.id && this.attachmentsQueue.length > 0) {
+              this.attachmentsQueue.forEach(attachment => {
+                attachment.message = draftState.draft.id;
+                this.store.dispatch(new UploadAttachment(attachment));
+              });
+              this.attachmentsQueue = [];
+            }
           }
-          if (response.draft.id && this.attachmentsQueue.length > 0) {
-            this.attachmentsQueue.forEach(attachment => {
-              attachment.message = response.draft.id;
-              this.store.dispatch(new UploadAttachment(attachment));
-            });
-            this.attachmentsQueue = [];
+          if (!this.inProgress) {
+            this.handleAttachment(draftState);
           }
-        }
-        if (!this.inProgress) {
-          this.handleAttachment(response);
         }
 
-        this.mailState = response;
+        this.draftState = draftState;
       });
 
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
@@ -198,6 +204,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new CloseMailbox());
+  }
+
+  initializeDraft() {
+    this.draftID = Date.now();
+    const draftState: DraftState = {
+      id: this.draftID,
+      draft: { content: null, mailbox: this.mailbox.id, folder: 'draft' },
+      inProgress: false,
+      attachments: []
+    };
+    this.store.dispatch(new NewDraft(draftState));
   }
 
   initializeQuillEditor() {
@@ -273,9 +290,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  handleAttachment(mailState: MailState) {
-    // usage Object.assign to create new copy and avoid storing reference of mailState.attachments
-    this.attachments = Object.assign([], mailState.attachments);
+  handleAttachment(draftState: DraftState) {
+    // usage Object.assign to create new copy and avoid storing reference of draftState.attachments
+    this.attachments = Object.assign([], draftState.attachments);
   }
 
   onAttachImageURL(url: string) {

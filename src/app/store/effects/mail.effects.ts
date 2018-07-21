@@ -75,7 +75,7 @@ export class MailEffects {
         .pipe(
           switchMap(res => {
             return [
-              new CreateMailSuccess(res),
+              new CreateMailSuccess({draftState: payload, response: res}),
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to save mail.' })]),
@@ -173,7 +173,7 @@ export class MailEffects {
     .switchMap(payload => {
       // TODO: replace custom observable with switchMap
       return Observable.create(observer => {
-        const request: Subscription = this.mailService.uploadFile(payload)
+        const request: Subscription = this.mailService.uploadFile(payload.draft)
           .finally(() => observer.complete())
           .subscribe((event: any) => {
               if (event.type === HttpEventType.UploadProgress) {

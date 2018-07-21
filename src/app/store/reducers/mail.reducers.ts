@@ -7,13 +7,8 @@ export const initialState: MailState = {
   mails: [],
   mailDetail: null,
   folders: new Map(),
-  inProgress: false,
   loaded: false,
-  draft: null,
-  encryptedContent: null,
-  decryptedContent: null,
-  isPGPInProgress: false,
-  attachments: []
+  drafts: []
 };
 
 export function reducer(state = initialState, action: MailActions): MailState {
@@ -207,6 +202,11 @@ export function reducer(state = initialState, action: MailActions): MailState {
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
       return { ...state, currentFolder: action.payload };
+    }
+
+    case MailActionTypes.NEW_DRAFT: {
+      state.drafts = [...state.drafts, action.payload];
+      return {...state};
     }
 
     default: {
