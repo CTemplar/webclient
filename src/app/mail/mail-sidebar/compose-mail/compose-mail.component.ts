@@ -86,6 +86,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
   draftMail: Mail;
+  isLoaded: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -530,6 +531,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       bcc: [],
       subject: ''
     };
+    this.isLoaded = true;
   }
 
   private resetSelfDestructValues() {

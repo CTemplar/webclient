@@ -4,6 +4,7 @@
       <div class="mail-compose-field mail-compose-field-to">
         <span class="mail-label label-to">To:</span>
         <tag-input [(ngModel)]="mailData.receiver"
+                   *ngIf="isLoaded"
                    name="to"
                    [placeholder]="'+'"
                    [secondaryPlaceholder]="'Enter recipient email'"
