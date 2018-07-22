@@ -69,7 +69,19 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.UPDATE_SIGNUP_DATA: {
       return {
         ...state,
-        signupState: action.payload,
+        signupState: { ...state.signupState, ...action.payload },
+      };
+    }
+    case AuthActionTypes.CHECK_USERNAME_AVAILABILITY: {
+      return {
+        ...state,
+        signupState: { ...state.signupState, inProgress: true },
+      };
+    }
+    case AuthActionTypes.CHECK_USERNAME_AVAILABILITY_SUCCESS: {
+      return {
+        ...state,
+        signupState: { ...state.signupState, usernameExists: action.payload.exists, inProgress: false },
       };
     }
     case AuthActionTypes.LOGOUT: {

@@ -35,11 +35,19 @@
                                             userame</label>
                                         <input class="form-control text-dark mb-3 mb-sm-0" id="username"
                                                [placeholder]="'create_account.choose_username' | translate" type="text" name="username"
-                                               formControlName="username" (keyup)="checkUsernameTaken($event)"/>
+                                               formControlName="username"/>
                                         <span class="domain-separator text-center text-dark">@</span>
                                         <input class="form-control text-dark is-readonly border-0 px-0 email-input"
                                                value="ctemplar.com" type="text" readonly tabindex="-1"/>
-                                        <i class="fas fa-check green" *ngIf="userNameTaken == false"></i>
+                                      <ng-container *ngIf="signupState?.inProgress; else showIcons">
+                                        <app-loading-spinner class="username-availability-spinner" [showSpinner]="true"></app-loading-spinner>
+                                      </ng-container>
+                                      <ng-template #showIcons>
+                                        <i class="fas fa-check green"
+                                           *ngIf="signupState.usernameExists === false"></i>
+                                        <i class="fas fa-times text-danger"
+                                           *ngIf="signupState.usernameExists === true"></i>
+                                      </ng-template>
                                     </div>
                                     <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine"
                                           id="email-valid" class="validate-message">
