@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
 import {
@@ -19,6 +19,7 @@ import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+
 
 @TakeUntilDestroy()
 @Component({
@@ -47,10 +48,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   signupState: SignupState;
   signupInProgress: boolean;
 
+  stripePaymentValidation: any = {
+    message: String,
+    param: String
+  };
+
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
               private router: Router,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private _zone: NgZone) {
   }
 
   ngOnInit() {
@@ -94,18 +101,30 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       exp_year: this.expiryYear,
       cvc: this.cvc
     }, (status: number, response: any) => {
-      if (status === 200) {
-        // TODO: add next step of subscription
-         console.log(`Success! Card token ${response.card.id}.`);
-      } else {
-         console.log(response.error.message);
-      }
+         // Wrapping inside the Angular zone
+         this._zone.run(() => {
+          if (status === 200) {
+            // TODO: add next step of subscription
+            console.log(`Success! Card token ${response.card.id}.`);
+          } else {
+            this.stripePaymentValidation = {
+              message:  response.error.message,
+              param:  response.error.param
+            };
+          }
+        });
     });
   }
 
 
   submitForm() {
-    this.validateSignupData();
+
+    // Reset Stripe validation
+    this.stripePaymentValidation = {
+      message:  '',
+      param:  ''
+    };
+
     if (this.paymentMethod === PaymentMethod.STRIPE) {
       this.getToken();
     } else {
@@ -173,6 +192,20 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   selectYear(year) {
     this.expiryYear = year;
+  }
+
+  checkStripeValidation() {
+    if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
+      this.stripePaymentValidationParam = 'number';
+      return false;
+    } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
+      this.stripePaymentValidationParam = 'exp_year';
+      return false;
+    } else if(!(<any>window).Stripe.card.validateCVC(this.expiryMonth, this.expiryYear)) {
+      this.stripePaymentValidationParam = 'cvc';
+      return false;
+    }
+      return true;
   }
 
   ngOnDestroy() {
