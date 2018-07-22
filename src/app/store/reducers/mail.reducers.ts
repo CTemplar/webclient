@@ -98,7 +98,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       if (newEntry && state.currentFolder === action.payload.response.folder) {
         state.mails = [...state.mails, action.payload.response];
       }
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: false, draft: action.payload.response };
+      state.drafts[action.payload.draft.id] = { ...state.drafts[action.payload.draft.id], inProgress: false, draft: action.payload.response };
       return { ...state, inProgress: false };
     }
 
@@ -176,11 +176,11 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+      state.drafts[action.payload.data.draftId].attachments.forEach((attachment, index) => {
         if (attachment.attachmentId === action.payload.attachmentId) {
-          state.drafts[action.payload.draftId].attachments[index].id = action.payload.response.id;
-          state.drafts[action.payload.draftId].attachments[index].inProgress = false;
-          state.drafts[action.payload.draftId].attachments[index].request = null;
+          state.drafts[action.payload.data.draftId].attachments[index].id = action.payload.response.id;
+          state.drafts[action.payload.data.draftId].attachments[index].inProgress = false;
+          state.drafts[action.payload.data.draftId].attachments[index].request = null;
         }
       });
       return { ...state };

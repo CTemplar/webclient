@@ -75,7 +75,7 @@ export class MailEffects {
         .pipe(
           switchMap(res => {
             return [
-              new CreateMailSuccess({draftState: payload, response: res}),
+              new CreateMailSuccess({draft: payload, response: res}),
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to save mail.' })]),
