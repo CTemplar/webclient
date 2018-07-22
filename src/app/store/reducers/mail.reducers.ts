@@ -98,7 +98,11 @@ export function reducer(state = initialState, action: MailActions): MailState {
       if (newEntry && state.currentFolder === action.payload.response.folder) {
         state.mails = [...state.mails, action.payload.response];
       }
-      state.drafts[action.payload.draft.id] = { ...state.drafts[action.payload.draft.id], inProgress: false, draft: action.payload.response };
+      state.drafts[action.payload.draft.id] = {
+        ...state.drafts[action.payload.draft.id],
+        inProgress: false,
+        draft: action.payload.response
+      };
       return { ...state, inProgress: false };
     }
 

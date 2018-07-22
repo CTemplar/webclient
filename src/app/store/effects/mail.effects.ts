@@ -75,7 +75,7 @@ export class MailEffects {
         .pipe(
           switchMap(res => {
             return [
-              new CreateMailSuccess({draft: payload, response: res}),
+              new CreateMailSuccess({ draft: payload, response: res }),
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to save mail.' })]),
@@ -243,23 +243,13 @@ export class MailEffects {
     .ofType(MailActionTypes.SEND_MAIL)
     .map((action: SendMail) => action.payload)
     .switchMap((payload: Draft) => {
-      if (payload.draft.dead_man_timer || payload.draft.delayed_delivery || payload.draft.destruct_date) {
+      if (payload.draft.dead_man_duration || payload.draft.delayed_delivery || payload.draft.destruct_date) {
+        payload.draft.send = false;
         payload.draft.folder = MailFolderType.OUTBOX;
-        return this.mailService.moveMail(`${payload.draft.id}`, MailFolderType.OUTBOX)
-          .pipe(
-            switchMap(res => {
-              return [
-                new SendMailSuccess(payload),
-                new SnackPush({
-                  message: `Mail sent successfully`,
-                })
-              ];
-            }),
-            catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })]),
-          );
+      } else {
+        payload.draft.send = true;
+        payload.draft.folder = MailFolderType.SENT;
       }
-      payload.draft.send = true;
-      payload.draft.folder = MailFolderType.SENT;
       return this.mailService.createMail(payload.draft)
         .pipe(
           switchMap(res => {

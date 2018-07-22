@@ -138,11 +138,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               this.inProgress = true;
             } else if (this.shouldSend && this.draft && this.draft.isPGPInProgress && !draft.isPGPInProgress) {
               draft.draft.content = draft.encryptedContent;
-              this.store.dispatch(new CreateMail({ ...draft, is_encrypted: true }));
               this.shouldSend = false;
-              setTimeout(() => {
-                this.store.dispatch(new SendMail({ ...draft, is_encrypted: true }));
-              }, 500);
+              this.store.dispatch(new SendMail({ ...draft, is_encrypted: true }));
               this.hide.emit();
               this.resetValues();
             }
@@ -330,7 +327,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new GetUsersKeys(receivers.join(',')));
       this.shouldSend = true;
     } else {
-      this.store.dispatch(new SendMail(this.draftMail));
+      this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
     }
     this.hide.emit();
     this.resetValues();
@@ -504,7 +501,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
-    this.draftMail.dead_man_timer = this.deadManTimer.value || null;
+    this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.store.dispatch(new UpdateLocalDraft({ ...this.draft, draft: { ...this.draftMail } }));
   }

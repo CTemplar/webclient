@@ -19,7 +19,7 @@ export interface Mail {
   bcc?: Array<string>;
   destruct_date?: string;
   delayed_delivery?: string;
-  dead_man_timer?: string;
+  dead_man_duration?: string;
   datetime?: string;
   marked?: boolean;
   is_encrypted?: boolean;
