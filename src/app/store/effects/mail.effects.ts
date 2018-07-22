@@ -30,7 +30,7 @@ import {
   DeleteAttachment,
   DeleteAttachmentSuccess,
   GetMailDetail,
-  GetMailDetailSuccess,
+  GetMailDetailSuccess, GetUsersKeys, GetUsersKeysSuccess,
   MoveMail,
   MoveMailSuccess,
   ReadMail,
@@ -261,6 +261,21 @@ export class MailEffects {
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })]),
+        );
+    });
+
+  @Effect()
+  getUsersKeysEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.GET_USERS_KEYS)
+    .map((action: GetUsersKeys) => action.payload)
+    .switchMap((payload: any) => {
+      return this.mailService.getUsersPublicKeys(payload.emails)
+        .pipe(
+          switchMap((keys) => {
+            return [
+              new GetUsersKeysSuccess({ draftId: payload.draftId, data: keys })
+            ];
+          })
         );
     });
 

@@ -65,7 +65,7 @@ export class OpenPgpService {
   }
 
   encrypt(draftId, content, publicKeys: any[] = []) {
-    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null, draftID: draftId }));
+    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
 
     publicKeys.push(this.pubkey);
     this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys, callerId: draftId });

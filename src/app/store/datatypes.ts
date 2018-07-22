@@ -92,6 +92,10 @@ export interface Draft {
   decryptedContent?: string;
   isPGPInProgress?: boolean;
   attachments: Attachment[];
+  shouldSend?: boolean;
+  shouldSave?: boolean;
+  getUserKeyInProgress?: boolean;
+  usersKeys?: PublicKey[];
 }
 
 export interface DraftState {
@@ -105,8 +109,6 @@ export interface MailBoxesState {
   decryptKeyInProgress: boolean;
   decryptedKey?: any;
   encryptionInProgress: boolean;
-  getUserKeyInProgress: boolean;
-  usersKeys: PublicKey[];
   inProgress?: boolean;
 }
 

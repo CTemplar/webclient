@@ -35,13 +35,14 @@ export function reducer(state = initialState, action: MailActions): MailState {
     case MailActionTypes.SEND_MAIL:
     case MailActionTypes.CREATE_MAIL: {
       state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: true };
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts } };
     }
 
     case MailActionTypes.SEND_MAIL_SUCCESS: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: false };
+      delete state.drafts[action.payload.id];
       return {
         ...state,
+        drafts: { ...state.drafts },
         mails: (action.payload.draft.folder === state.currentFolder) ? [...state.mails, action.payload.draft] : state.mails,
       };
     }
@@ -101,14 +102,15 @@ export function reducer(state = initialState, action: MailActions): MailState {
       state.drafts[action.payload.draft.id] = {
         ...state.drafts[action.payload.draft.id],
         inProgress: false,
-        draft: action.payload.response
+        draft: action.payload.response,
+        shouldSave: false,
       };
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPDATE_LOCAL_DRAFT: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], draft: action.payload.draft, isPGPInProgress: true };
-      return { ...state };
+      state.drafts[action.payload.id] = { ... state.drafts[action.payload.id], ...action.payload };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPDATE_PGP_CONTENT: {
@@ -121,14 +123,15 @@ export function reducer(state = initialState, action: MailActions): MailState {
       }
       return {
         ...state,
+        drafts: { ...state.drafts },
         isPGPInProgress: action.payload.isPGPInProgress,
         decryptedContent: action.payload.decryptedContent
       };
     }
 
     case MailActionTypes.CLOSE_MAILBOX: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], draft: null, inProgress: false };
-      return { ...state };
+      delete state.drafts[action.payload.id];
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
@@ -156,7 +159,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
 
     case MailActionTypes.UPLOAD_ATTACHMENT: {
       state.drafts[action.payload.draftId].attachments = [...state.drafts[action.payload.draftId].attachments, action.payload];
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_PROGRESS: {
@@ -165,9 +168,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
           state.drafts[action.payload.draftId].attachments[index].progress = action.payload.progress;
         }
       });
-      return {
-        ...state
-      };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_REQUEST: {
@@ -176,7 +177,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
           state.drafts[action.payload.draftId].attachments[index].request = action.payload.request;
         }
       });
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
@@ -188,7 +189,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
           state.drafts[data.draftId].attachments[index].request = null;
         }
       });
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
@@ -202,7 +203,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
           }
           return true;
         });
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
@@ -211,7 +212,18 @@ export function reducer(state = initialState, action: MailActions): MailState {
 
     case MailActionTypes.NEW_DRAFT: {
       state.drafts[action.payload.id] = action.payload;
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts }, };
+    }
+
+    case MailActionTypes.GET_USERS_KEYS: {
+      state.drafts[action.payload.draftId].getUserKeyInProgress = true;
+      return { ...state, drafts: { ...state.drafts }, };
+    }
+
+    case MailActionTypes.GET_USERS_KEYS_SUCCESS: {
+      state.drafts[action.payload.draftId].getUserKeyInProgress = true;
+      state.drafts[action.payload.draftId].usersKeys = action.payload.data;
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     default: {
