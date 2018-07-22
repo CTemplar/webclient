@@ -194,20 +194,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.expiryYear = year;
   }
 
-  checkStripeValidation() {
-    if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
-      this.stripePaymentValidation.param = 'number';
-      return false;
-    } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
-      this.stripePaymentValidation.param = 'exp_year';
-      return false;
-    } else if(!(<any>window).Stripe.card.validateCVC(this.expiryMonth, this.expiryYear)) {
-      this.stripePaymentValidation.param = 'cvc';
-      return false;
-    }
-      return true;
-  }
-
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
     this.store.dispatch(new ClearWallet());
