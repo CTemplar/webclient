@@ -95,6 +95,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   getToken() {
+    this.signupInProgress = true;
     (<any>window).Stripe.card.createToken({
       number: this.cardNumber,
       exp_month: this.expiryMonth,
@@ -103,6 +104,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, (status: number, response: any) => {
          // Wrapping inside the Angular zone
          this._zone.run(() => {
+           this.signupInProgress = false;
           if (status === 200) {
             // TODO: add next step of subscription
             console.log(`Success! Card token ${response.card.id}.`);

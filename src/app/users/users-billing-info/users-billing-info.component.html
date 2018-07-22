@@ -85,8 +85,8 @@
                   </div>
 
                 </div>
-                <strong class="text-center text-success">Your payment is pending, But still you can create free account
-                  and your account would be set to premium after payment is verified</strong>
+                <strong class="text-center text-success">Your payment is pending, But you can still create a free account
+                  and your account will be upgraded to premium after payment is verified.</strong>
               </div>
 
 
@@ -97,11 +97,11 @@
                 <div class="form-group">
                   <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on
                     Card</label>
-                  <input class="form-control" id="personName" placeholder="Name on Card" value="John"
+                  <input class="form-control" id="personName" placeholder="Name on Card"
                          type="text">
                 </div>
                 <div class="form-group">
-                  <span class="d-block text-right error-msg">Required field</span>
+                  <span class="d-block text-right error-msg">Required field <sup class="font-weight-bold error-msg">*</sup></span>
                   <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card
                     Number</label>
                   <input class="form-control error stripe-error number" id="cardName" name="cardName"
@@ -111,6 +111,7 @@
                 <div class="form-group form-group-3-col">
                   <div class="form-group-row">
                     <div class="form-group-col">
+                      <span class="d-block text-right error-msg font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up">Month</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class=" date-select-dropdown">
@@ -130,6 +131,7 @@
                       </div>
                     </div>
                     <div class="form-group-col">
+                      <span class="d-block text-right error-msg font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up">Year</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="year-select-dropdown">
