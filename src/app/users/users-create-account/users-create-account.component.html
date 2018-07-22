@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="form-inline userame-field-group"
-                                         [ngClass]="{'is-validate': signupForm.controls.username.invalid && !signupForm.controls.username.pristine}">
+                                         [ngClass]="{'is-validate': signupForm.controls.username.invalid && (signupForm.controls.username.touched || submitted)}">
                                         <label for="username" class="d-block text-muted text-left hidden-sm-up" translate="create_account.choose_username">Choose
                                             userame</label>
                                         <input class="form-control text-dark mb-3 mb-sm-0" id="username"
@@ -49,10 +49,15 @@
                                            *ngIf="signupState.usernameExists === true"></i>
                                       </ng-template>
                                     </div>
-                                    <span *ngIf="signupForm.controls['username'].errors && !signupForm.controls.username.pristine"
-                                          id="email-valid" class="validate-message">
-                    <span>The username is required.</span>
-                  </span>
+                                    <span *ngIf="signupForm.controls['username'].errors &&
+                                    (signupForm.controls['username'].touched || submitted); else usernameExistsBlock"
+                                          id="email-valid" class="validate-message">The username is required.
+                                    </span>
+                                  <ng-template #usernameExistsBlock>
+                                  <span *ngIf="signupState.usernameExists === true"
+                                        class="validate-message">Username already exists.
+                                    </span>
+                                  </ng-template>
                                 </div>
                             </div>
                             <div class="form-step-card">
@@ -74,6 +79,10 @@
                                     </div>
                                     <i class="fas fa-check green password-ok"
                                        *ngIf="signupForm.controls['password']?.value?.length>0"></i>
+                                  <div *ngIf="signupForm.controls['password'].errors &&
+                                    (signupForm.controls['password'].touched || submitted)"
+                                       class="validate-message">The password is required.
+                                  </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
@@ -91,7 +100,8 @@
                                     </div>
                                     <i class="fas fa-check green password-ok"
                                        *ngIf="!signupForm.controls['confirmPwd'].errors"></i>
-                                    <span *ngIf="signupForm.controls['confirmPwd'].errors && !signupForm.controls.confirmPwd.pristine"
+                                    <span *ngIf="signupForm.controls['confirmPwd'].errors &&
+                                    (!signupForm.controls.confirmPwd.pristine || submitted)"
                                           class="validate-message">
                     <span translate="create_account.passwords_not_match">Passwords do not match.</span>
                   </span>
@@ -126,12 +136,14 @@
                                         </div>
                                     </div>
                                 </div>
-                              <div *ngIf="isRecoveryEmail !== null && !isRecoveryEmail" class="l-alert l-alert-danger" role="alert">
+                              <div *ngIf="isRecoveryEmail !== null && (!isRecoveryEmail
+                              && (!signupForm.get('recoveryEmail').value
+                              || signupForm.get('recoveryEmail').invalid))" class="l-alert l-alert-danger" role="alert">
                                 Please agree to above terms or enter recovery email.
                               </div>
                             </div>
                             <div class="form-step-card"
-                                 [ngClass]="{'is-validate': signupForm.controls.recoveryEmail.invalid}"
+                                 [ngClass]="{'is-validate': signupForm.get('recoveryEmail').invalid && signupForm.controls['recoveryEmail'].touched}"
                                  *ngIf="!isRecoveryEmail">
                                 <h3 class="form-step-card-title text-dark mb-0">
                                     <strong translate="create_account.recovery_email_optional">Recovery email (optional)</strong>
@@ -143,12 +155,11 @@
                                     <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up" translate="settings.recovery_email">Recovery
                                         email</label>
                                     <input class="form-control text-dark" id="recoveryEmail"
-                                           [placeholder]="'settings.recovery_email' | translate " type="text" name="recoveryEmail"
+                                           [placeholder]="'settings.recovery_email' | translate " type="email" name="recoveryEmail"
                                            formControlName="recoveryEmail"/>
-                                    <span *ngIf="signupForm.controls['recoveryEmail'].errors" id="email-valid1"
-                                          class="validate-message">
-                    <span>The email is invalid.</span>
-                  </span>
+                                    <span *ngIf="signupForm.controls['recoveryEmail'].errors && signupForm.controls['recoveryEmail'].touched" id="email-valid1"
+                                          class="validate-message">The email is invalid.
+                                    </span>
                                 </div>
                             </div>
 
