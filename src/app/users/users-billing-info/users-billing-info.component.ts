@@ -188,10 +188,23 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   selectMonth(month) {
     this.expiryMonth = month;
+    this.checkStripeValidation();
   }
 
   selectYear(year) {
     this.expiryYear = year;
+    this.checkStripeValidation();
+  }
+
+  checkStripeValidation() {
+    this.stripePaymentValidation.message = '';
+    if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
+      this.stripePaymentValidation.param = 'number';
+    } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
+      this.stripePaymentValidation.param = 'exp_year exp_month';
+    } else if (!(<any>window).Stripe.card.validateCVC(this.cvc)) {
+      this.stripePaymentValidation.param = 'cvc';
+    }
   }
 
   ngOnDestroy() {
