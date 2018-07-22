@@ -47,12 +47,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isConfirmedPrivacy: boolean = null;
   isFormCompleted: boolean = false;
   errorMessage: string = '';
-  userNameExists: boolean = null;
   selectedPlan: any;
   data: any = null;
   isCaptchaCompleted: boolean = false;
   signupInProgress: boolean = false;
   signupState: SignupState;
+  submitted = false;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -106,19 +106,23 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signup() {
-    if (this.isConfirmedPrivacy == null) {
+    this.submitted = true;
+    if (this.isConfirmedPrivacy === null) {
       this.isConfirmedPrivacy = false;
     }
 
-    if (this.isRecoveryEmail == null) {
+    if (this.isRecoveryEmail === null) {
       this.isRecoveryEmail = false;
     }
 
-    if (this.signupForm.valid && this.isConfirmedPrivacy) {
-      this.isFormCompleted = true;
-      if (this.selectedPlan === 1) {
-        this.navigateToBillingPage();
-      }
+    if (this.signupState.usernameExists || this.signupForm.invalid || !this.isConfirmedPrivacy ||
+      (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
+      return false;
+    }
+
+    this.isFormCompleted = true;
+    if (this.selectedPlan === 1) {
+      this.navigateToBillingPage();
     }
   }
 

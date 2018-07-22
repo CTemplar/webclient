@@ -96,6 +96,9 @@ export class AuthEffects {
     .ofType(AuthActionTypes.CHECK_USERNAME_AVAILABILITY)
     .map((action: CheckUsernameAvailability) => action.payload)
     .switchMap(payload => {
+      if (!payload) {
+        return Observable.of(new CheckUsernameAvailabilitySuccess({ exists: true }));
+      }
       return this.authService.checkUsernameAvailability(payload)
         .pipe(
           map((response) => new CheckUsernameAvailabilitySuccess(response)),

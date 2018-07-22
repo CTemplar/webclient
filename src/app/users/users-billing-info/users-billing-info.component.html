@@ -85,12 +85,12 @@
                   </div>
 
                 </div>
-                <strong class="text-center text-success" translate="create_account.pending_payment_alert">Your payment is pending, But still you can create a free account
-                  and your account would be upgraded to premium after payment is verified</strong>
+                <strong class="text-center text-success">Your payment is pending, But you can still create a free account
+                  and your account will be upgraded to premium after payment is verified.</strong>
               </div>
 
 
-              <div class="form-step-card" *ngIf="paymentMethod === paymentMethodType.STRIPE">
+              <div class="form-step-card" [class]="stripePaymentValidation.param" *ngIf="paymentMethod === paymentMethodType.STRIPE">
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong translate="billing_info.payment_method">Payment Information</strong>
                 </h3>
@@ -100,21 +100,23 @@
                   <input class="form-control" id="personName" [placeholder]="'settings.donate.name_on_card'| translate"
                          type="text">
                 </div>
-                <div class="form-group has-error">
-                  <span class="d-block text-right error-msg">Required field</span>
-                  <label for="cardName" class="d-block text-muted text-left hidden-sm-up" translate="settings.donate.card_number">Card
-                    Number</label>
-                  <input class="form-control error" id="cardName" name="cardName"
+                <div class="form-group">
+                  <span class="d-block text-right error-msg">Required field <sup class="font-weight-bold error-msg">*</sup></span>
+                  <label for="cardName" class="d-block text-muted text-left hidden-sm-up"
+                         translate="settings.donate.card_number">Card Number
+                  </label>
+                  <input class="form-control error stripe-error number" id="cardName" name="cardName"
                          [placeholder]="'settings.donate.card_number'| translate" type="text" formControlName="cardNumber"
-                         [(ngModel)]="cardNumber"/>
+                         [(ngModel)]="cardNumber" (change)="checkStripeValidation()"/>
                 </div>
                 <div class="form-group form-group-3-col">
                   <div class="form-group-row">
                     <div class="form-group-col">
+                      <span class="d-block text-right error-msg font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up" translate="billing_info.month">Month</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class=" date-select-dropdown">
-                          <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle>
+                          <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle class="stripe-error exp_month">
                             {{expiryMonth}}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
@@ -130,10 +132,11 @@
                       </div>
                     </div>
                     <div class="form-group-col">
+                      <span class="d-block text-right error-msg font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up" translate="billing_info.year">Year</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="year-select-dropdown">
-                          <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle>
+                          <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle class="stripe-error exp_year">
                             {{expiryYear}}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
@@ -151,13 +154,16 @@
                     <div class="form-group-col">
                       <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" translate="home_header.security">Security
                         Code</label>
-                      <input class="form-control" id="securityCode" [placeholder]="'home_header.security'| translate"
+                      <input class="form-control stripe-error cvc" id="securityCode" [placeholder]="'home_header.security'| translate"
                              type="text" [(ngModel)]="cvc" name="securityCode"
-                             [ngModelOptions]="{standalone: true}">
+                             [ngModelOptions]="{standalone: true}" (change)="checkStripeValidation()">
                     </div>
                   </div>
                 </div>
               </div>
+
+              <div *ngIf="stripePaymentValidation.message" class="l-alert l-alert-danger">{{stripePaymentValidation.message}}</div>
+
               <div class="form-group text-center mt-3 mt-sm-4 mb-0">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="signupInProgress"
