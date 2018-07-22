@@ -78,13 +78,13 @@ export interface MailState {
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;
   loaded?: boolean;
-  drafts: DraftState[];
+  drafts: DraftState;
   inProgress?: boolean;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
 }
 
-export interface DraftState {
+export interface Draft {
   id: number;
   draft: Mail;
   inProgress?: boolean;
@@ -92,6 +92,10 @@ export interface DraftState {
   decryptedContent?: string;
   isPGPInProgress?: boolean;
   attachments: Attachment[];
+}
+
+export interface DraftState {
+  [key: number]: Draft;
 }
 
 export interface MailBoxesState {

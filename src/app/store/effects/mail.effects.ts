@@ -45,7 +45,7 @@ import {
   UploadAttachmentRequest,
   UploadAttachmentSuccess
 } from '../actions/mail.actions';
-import { DraftState } from '../datatypes';
+import { Draft, DraftState } from '../datatypes';
 import { MailFolderType } from '../models';
 
 @Injectable()
@@ -242,7 +242,7 @@ export class MailEffects {
   sendMailEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.SEND_MAIL)
     .map((action: SendMail) => action.payload)
-    .switchMap((payload: DraftState) => {
+    .switchMap((payload: Draft) => {
       if (payload.draft.dead_man_timer || payload.draft.delayed_delivery || payload.draft.destruct_date) {
         payload.draft.folder = MailFolderType.OUTBOX;
         return this.mailService.moveMail(`${payload.draft.id}`, MailFolderType.OUTBOX)
