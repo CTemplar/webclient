@@ -79,6 +79,9 @@ export interface MailState {
   currentFolder?: MailFolderType;
   loaded?: boolean;
   drafts: DraftState[];
+  inProgress?: boolean;
+  decryptedContent?: string;
+  isPGPInProgress?: boolean;
 }
 
 export interface DraftState {

@@ -130,18 +130,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         if (draftState) {
           this.draftMail = draftState.draft;
           this.inProgress = draftState.inProgress;
-          if (response.draft) {
+          if (draftState.draft) {
             if (this.shouldSave && this.draftState && this.draftState.isPGPInProgress && !draftState.isPGPInProgress) {
               draftState.draft.content = draftState.encryptedContent;
               this.shouldSave = false;
-              this.store.dispatch(new CreateMail({ ...draftState.draft }));
+              this.store.dispatch(new CreateMail({...draftState}));
               this.inProgress = true;
             } else if (this.shouldSend && this.draftState && this.draftState.isPGPInProgress && !draftState.isPGPInProgress) {
               draftState.draft.content = draftState.encryptedContent;
-              this.store.dispatch(new CreateMail({ ...draftState.draft, is_encrypted: true }));
+              this.store.dispatch(new CreateMail({...draftState, is_encrypted: true}));
               this.shouldSend = false;
               setTimeout(() => {
-                this.store.dispatch(new SendMail({ ...draftState.draft, is_encrypted: true }));
+                this.store.dispatch(new SendMail({...draftState, is_encrypted: true}));
               }, 500);
               this.hide.emit();
               this.resetValues();
@@ -149,7 +149,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             if (draftState.draft.id && this.attachmentsQueue.length > 0) {
               this.attachmentsQueue.forEach(attachment => {
                 attachment.message = draftState.draft.id;
-                this.store.dispatch(new UploadAttachment(attachment));
+                this.store.dispatch(new UploadAttachment({...attachment}));
               });
               this.attachmentsQueue = [];
             }
@@ -173,7 +173,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mailbox = mailBoxesState.mailboxes[0];
         }
         if (this.shouldSend && this.mailBoxesState.getUserKeyInProgress && !mailBoxesState.getUserKeyInProgress) {
-          this.openPgpService.encrypt(this.draftMail.content, mailBoxesState.usersKeys.map(item => item.public_key));
+          this.openPgpService.encrypt(this.draftID, this.draftMail.content, mailBoxesState.usersKeys.map(item => item.public_key));
         }
         this.mailBoxesState = mailBoxesState;
       });
@@ -203,18 +203,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new CloseMailbox());
+    this.store.dispatch(new CloseMailbox(this.draftState));
   }
 
   initializeDraft() {
     this.draftID = Date.now();
     const draftState: DraftState = {
       id: this.draftID,
-      draft: { content: null, mailbox: this.mailbox.id, folder: 'draft' },
+      draft: null,
       inProgress: false,
       attachments: []
     };
-    this.store.dispatch(new NewDraft(draftState));
+    this.store.dispatch(new NewDraft({...draftState}));
   }
 
   initializeQuillEditor() {
@@ -273,6 +273,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < files.length; i++) {
       const file: File = files.item(i);
       const attachment: Attachment = {
+        draftId: this.draftID,
         document: file,
         name: file.name,
         size: this.getFileSize(file),
@@ -285,7 +286,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.draftMail.id) {
         this.attachmentsQueue.push(attachment);
       } else {
-        this.store.dispatch(new UploadAttachment(attachment));
+        this.store.dispatch(new UploadAttachment({...attachment}));
       }
     }
   }
@@ -487,7 +488,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateEmail() {
     this.setMailData();
-    this.openPgpService.encrypt(this.draftMail.content);
+    this.openPgpService.encrypt(this.draftID, this.draftMail.content);
     this.shouldSave = true;
   }
 
@@ -503,7 +504,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_timer = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
+    this.store.dispatch(new UpdateLocalDraft({...this.draftState, draft: {...this.draftMail}}));
   }
 
   private resetValues() {

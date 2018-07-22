@@ -50,6 +50,7 @@ export enum MailFolderType {
 
 export interface Attachment {
   id?: number;
+  draftId: number;
   document: any;
   name: string;
   size: string;

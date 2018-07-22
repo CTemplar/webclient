@@ -3,16 +3,27 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 // Ngrx
 import { Actions, Effect } from '@ngrx/effects';
-import { Subscription } from 'rxjs/Subscription';
-// Rxjs
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
+// Rxjs
+import { Observable } from 'rxjs/Observable';
 import { catchError, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs/Subscription';
 // Services
 import { MailService } from '../../store/services';
+// Custom Actions
+import {
+  CreateMail,
+  CreateMailSuccess,
+  DeleteMailSuccess,
+  GetMails,
+  GetMailsSuccess,
+  MailActionTypes,
+  SnackErrorPush,
+  SnackPush
+} from '../actions';
 import {
   CreateFolder,
   CreateFolderSuccess,
@@ -34,19 +45,8 @@ import {
   UploadAttachmentRequest,
   UploadAttachmentSuccess
 } from '../actions/mail.actions';
-// Custom Actions
-import {
-  CreateMail,
-  CreateMailSuccess,
-  DeleteMailSuccess,
-  GetMails,
-  GetMailsSuccess,
-  MailActionTypes,
-  SnackErrorPush,
-  SnackPush
-} from '../actions';
-import { Mail, MailFolderType } from '../models';
-
+import { DraftState } from '../datatypes';
+import { MailFolderType } from '../models';
 
 @Injectable()
 export class MailEffects {
@@ -71,7 +71,7 @@ export class MailEffects {
     .ofType(MailActionTypes.CREATE_MAIL)
     .map((action: CreateMail) => action.payload)
     .switchMap(payload => {
-      return this.mailService.createMail(payload)
+      return this.mailService.createMail(payload.draft)
         .pipe(
           switchMap(res => {
             return [
@@ -173,7 +173,7 @@ export class MailEffects {
     .switchMap(payload => {
       // TODO: replace custom observable with switchMap
       return Observable.create(observer => {
-        const request: Subscription = this.mailService.uploadFile(payload.draft)
+        const request: Subscription = this.mailService.uploadFile(payload)
           .finally(() => observer.complete())
           .subscribe((event: any) => {
               if (event.type === HttpEventType.UploadProgress) {
@@ -242,10 +242,10 @@ export class MailEffects {
   sendMailEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.SEND_MAIL)
     .map((action: SendMail) => action.payload)
-    .switchMap((payload: Mail) => {
-      if (payload.dead_man_timer || payload.delayed_delivery || payload.destruct_date) {
-        payload.folder = MailFolderType.OUTBOX;
-        return this.mailService.moveMail(`${payload.id}`, MailFolderType.OUTBOX)
+    .switchMap((payload: DraftState) => {
+      if (payload.draft.dead_man_timer || payload.draft.delayed_delivery || payload.draft.destruct_date) {
+        payload.draft.folder = MailFolderType.OUTBOX;
+        return this.mailService.moveMail(`${payload.draft.id}`, MailFolderType.OUTBOX)
           .pipe(
             switchMap(res => {
               return [
@@ -258,9 +258,9 @@ export class MailEffects {
             catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })]),
           );
       }
-      payload.send = true;
-      payload.folder = MailFolderType.SENT;
-      return this.mailService.createMail(payload)
+      payload.draft.send = true;
+      payload.draft.folder = MailFolderType.SENT;
+      return this.mailService.createMail(payload.draft)
         .pipe(
           switchMap(res => {
             return [
