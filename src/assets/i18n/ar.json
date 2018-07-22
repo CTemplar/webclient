@@ -251,6 +251,20 @@
     "terms_and_conditions": "الأحكام والشروط",
     "already_have_account": "هل لديك حساب؟",
     "generate_key": "توليد مفتاح"
+  },
+  "billing_info": {
+    "pending_payment_alert": "دفعتك معلقة ، ولكن لا يزال بإمكانك إنشاء حساب مجاني وسيتم ترقية حسابك إلى قسط بعد التحقق من الدفع",
+    "bitcoin_sent_timer": "أرسلت BTC بعد الموقت!",
+    "payment_information": "معلومات الدفع",
+    "plan": "خطة",
+    "billing": "الفواتير",
+    "price": "السعر",
+    "payment_method": "طريقة الدفع او السداد:",
+    "name_on_card": "الاسم على الرعاية",
+    "month": "شهر",
+    "year": "عام",
+    "submit": "خضع",
+    "send_exactly": " إرسال بالضبط"
   }
 
 }

@@ -250,6 +250,20 @@
     "terms_and_conditions": "Voorwaarden",
     "already_have_account": "Heb al een account?",
     "generate_key": "Sleutel genereren"
+  },
+  "billing_info": {
+    "pending_payment_alert": "Uw betaling is in behandeling, maar u kunt nog steeds een gratis account maken en uw account wordt geüpgraded naar premium nadat de betaling is geverifieerd",
+    "bitcoin_sent_timer": "BTC verzonden na timer gaat verloren!",
+    "payment_information": "betalingsinformatie",
+    "plan": "Plan",
+    "billing": "Billing",
+    "price": "Prijs",
+    "payment_method": "Betalingsmiddel:",
+    "name_on_card": "Naam op Care",
+    "month": "Maand",
+    "year": "Jaar",
+    "submit": "voorleggen",
+    "send_exactly": "PRECIES VERZONDEN"
   }
 
 }

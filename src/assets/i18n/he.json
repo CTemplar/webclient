@@ -251,6 +251,20 @@
     "terms_and_conditions": "תנאים",
     "already_have_account": "כבר יש לך חשבון?",
     "generate_key": "צור מפתח"
+  },
+  "billing_info": {
+    "pending_payment_alert": "התשלום שלך ממתין, אך עדיין תוכל ליצור חשבון בחינם והחשבון שלך ישודרג לפרמיה לאחר אימות התשלום",
+    "bitcoin_sent_timer": "BTC נשלח לאחר טיימר יאבדו!",
+    "payment_information": "פרטי תשלום",
+    "plan": "לְתַכְנֵן",
+    "billing": "חיוב",
+    "price": "מחיר",
+    "payment_method": "אמצעי תשלום:",
+    "name_on_card": "שם על טיפול",
+    "month": "חוֹדֶשׁ",
+    "year": "שָׁנָה",
+    "submit": "שלח",
+    "send_exactly": "שלח בדיוק"
   }
 
 }

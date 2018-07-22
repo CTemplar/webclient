@@ -5,7 +5,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
           <h1 class="l-block-title text-uppercase text-secondary">
-            <strong>Billing Information</strong>
+            <strong translate="billing_info.payment_information">Billing Information</strong>
           </h1>
         </div>
       </div>
@@ -21,25 +21,25 @@
                 </h3>
                 <div class="billing-overview">
                   <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0">Plan</label>
+                    <label class="billing-overview-label mb-0" translate="billing_info.plan">Plan</label>
                     <div class="billing-overview-val text-secondary">
                       <strong>CTemplar PRIME</strong>
                     </div>
                   </div>
                   <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0">Billing</label>
+                    <label class="billing-overview-label mb-0" translate="billing_info.billing">Billing</label>
                     <div class="billing-overview-val text-secondary">
                       <strong>Monthly</strong>
                     </div>
                   </div>
                   <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0">Price</label>
+                    <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary">
                       <strong>$8 </strong>($65/month)
                     </div>
                   </div>
                   <div class="billing-overview-row payment-method-row">
-                    <label class="billing-overview-label">Payment Method: </label>
+                    <label class="billing-overview-label" translate="billing_info.payment_method">Payment Method: </label>
                     <div class="billing-overview-val text-secondary">
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="payment-select-dropdown">
@@ -64,13 +64,13 @@
               </div>
               <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong>Payment Information</strong>
+                  <strong translate="create_account.payment_information">Payment Information</strong>
                 </h3>
-                <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> BTC sent after timer will be lost!</p>
+                <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span translate="create_account.bitcoin_sent_timer">BTC sent after timer will be lost!</span> </p>
 
                 <div class="card mb-3">
                   <div class="card-header text-center">
-                    <h6>SEND <strong>EXACTLY</strong></h6>
+                    <h6 [innerHTML]="'billing_info.send_exactly'| translate">SEND <strong>EXACTLY</strong></h6>
                     <h5><strong *ngIf="bitcoinState?.loaded">{{bitcoinState.serviceValue}}</strong></h5>
                     <app-loading-spinner [showSpinner]="!bitcoinState?.loaded"></app-loading-spinner>
                   </div>
@@ -85,33 +85,33 @@
                   </div>
 
                 </div>
-                <strong class="text-center text-success">Your payment is pending, But still you can create free account
-                  and your account would be set to premium after payment is verified</strong>
+                <strong class="text-center text-success" translate="create_account.pending_payment_alert">Your payment is pending, But still you can create a free account
+                  and your account would be upgraded to premium after payment is verified</strong>
               </div>
 
 
               <div class="form-step-card" *ngIf="paymentMethod === paymentMethodType.STRIPE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong>Payment Information</strong>
+                  <strong translate="billing_info.payment_method">Payment Information</strong>
                 </h3>
                 <div class="form-group">
                   <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on
                     Card</label>
-                  <input class="form-control" id="personName" placeholder="Name on Card" value="John"
+                  <input class="form-control" id="personName" [placeholder]="'settings.donate.name_on_card'| translate"
                          type="text">
                 </div>
                 <div class="form-group has-error">
                   <span class="d-block text-right error-msg">Required field</span>
-                  <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card
+                  <label for="cardName" class="d-block text-muted text-left hidden-sm-up" translate="settings.donate.card_number">Card
                     Number</label>
                   <input class="form-control error" id="cardName" name="cardName"
-                         placeholder="Card Number" type="text" formControlName="cardNumber"
+                         [placeholder]="'settings.donate.card_number'| translate" type="text" formControlName="cardNumber"
                          [(ngModel)]="cardNumber"/>
                 </div>
                 <div class="form-group form-group-3-col">
                   <div class="form-group-row">
                     <div class="form-group-col">
-                      <label class="d-block text-muted text-left hidden-sm-up">Month</label>
+                      <label class="d-block text-muted text-left hidden-sm-up" translate="billing_info.month">Month</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class=" date-select-dropdown">
                           <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle>
@@ -130,7 +130,7 @@
                       </div>
                     </div>
                     <div class="form-group-col">
-                      <label class="d-block text-muted text-left hidden-sm-up">Year</label>
+                      <label class="d-block text-muted text-left hidden-sm-up" translate="billing_info.year">Year</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="year-select-dropdown">
                           <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle>
@@ -149,9 +149,9 @@
                       </div>
                     </div>
                     <div class="form-group-col">
-                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up">Security
+                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" translate="home_header.security">Security
                         Code</label>
-                      <input class="form-control" id="securityCode" placeholder="Security Code"
+                      <input class="form-control" id="securityCode" [placeholder]="'home_header.security'| translate"
                              type="text" [(ngModel)]="cvc" name="securityCode"
                              [ngModelOptions]="{standalone: true}">
                     </div>
@@ -161,13 +161,13 @@
               <div class="form-group text-center mt-3 mt-sm-4 mb-0">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="signupInProgress"
-                          (click)="submitForm()">Submit
+                          (click)="submitForm()"><span translate="billing_info.submit">Submit</span>
                   </button>
                   <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
               </div>
 
               <div class="text-holder mt-2 text-center">
-                <a href="">Cancel</a>
+                <a href="" translate="common.cancel">Cancel</a>
               </div>
             </div>
           </form>

@@ -250,6 +250,20 @@
     "terms_and_conditions": "Skilmálar &amp; skilyrði",
     "already_have_account": "Ertu þegar með reikning?",
     "generate_key": "Búðu til lykil"
+  },
+  "billing_info": {
+    "pending_payment_alert": "Greiðsla þín er í bið. En samt er hægt að búa til ókeypis reikning og reikningurinn þinn verður uppfærður í aukagjald eftir að greiðsla hefur verið staðfest",
+    "bitcoin_sent_timer": "BTC send eftir klukkustund mun glatast!",
+    "payment_information": "greiðslu upplýsingar",
+    "plan": "Áætlun",
+    "billing": "Innheimtu",
+    "price": "Verð",
+    "payment_method": "Greiðslumáti:",
+    "name_on_card": "Nafn á umönnun",
+    "month": "Mánuður",
+    "year": "Ár",
+    "submit": "Senda inn",
+    "send_exactly": "Sendið nákvæmlega"
   }
 
 }
