@@ -176,11 +176,12 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      state.drafts[action.payload.data.draftId].attachments.forEach((attachment, index) => {
-        if (attachment.attachmentId === action.payload.attachmentId) {
-          state.drafts[action.payload.data.draftId].attachments[index].id = action.payload.response.id;
-          state.drafts[action.payload.data.draftId].attachments[index].inProgress = false;
-          state.drafts[action.payload.data.draftId].attachments[index].request = null;
+      const data = action.payload.data;
+      state.drafts[data.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === data.attachmentId) {
+          state.drafts[data.draftId].attachments[index].id = action.payload.response.id;
+          state.drafts[data.draftId].attachments[index].inProgress = false;
+          state.drafts[data.draftId].attachments[index].request = null;
         }
       });
       return { ...state };
