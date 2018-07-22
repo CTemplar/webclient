@@ -55,7 +55,6 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 
 }
