@@ -52,6 +52,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     message: '',
     param: ''
   };
+  showPaymentPending: boolean;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
@@ -102,19 +103,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       exp_year: this.expiryYear,
       cvc: this.cvc
     }, (status: number, response: any) => {
-         // Wrapping inside the Angular zone
-         this._zone.run(() => {
-           this.signupInProgress = false;
-          if (status === 200) {
-            // TODO: add next step of subscription
-            console.log(`Success! Card token ${response.card.id}.`);
-          } else {
-            this.stripePaymentValidation = {
-              message:  response.error.message,
-              param:  response.error.param
-            };
-          }
-        });
+      // Wrapping inside the Angular zone
+      this._zone.run(() => {
+        this.signupInProgress = false;
+        if (status === 200) {
+          // TODO: add next step of subscription
+          console.log(`Success! Card token ${response.card.id}.`);
+        } else {
+          this.stripePaymentValidation = {
+            message: response.error.message,
+            param: response.error.param
+          };
+        }
+      });
     });
   }
 
@@ -123,8 +124,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
     // Reset Stripe validation
     this.stripePaymentValidation = {
-      message:  '',
-      param:  ''
+      message: '',
+      param: ''
     };
 
     if (this.paymentMethod === PaymentMethod.STRIPE) {
@@ -174,6 +175,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   selectBitcoinMethod() {
+    this.stripePaymentValidation = {
+      message: '',
+      param: ''
+    };
+    setTimeout(() => {
+      this.showPaymentPending = true;
+    }, 15000);
+
     this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
     this.paymentMethod = PaymentMethod.BITCOIN;

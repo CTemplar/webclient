@@ -250,6 +250,21 @@
     "terms_and_conditions": "Términos &amp; Condiciones",
     "already_have_account": "Ya tienes una cuenta ?",
     "generate_key": "Generar clave"
+  },
+  "billing_info": {
+    "pending_payment_alert": "Su pago está pendiente, pero aún así puede crear una cuenta gratuita y su cuenta se actualizará a la prima después de que se verifique el pago.",
+    "bitcoin_sent_timer": "¡BTC enviado después de que se haya perdido el temporizador!",
+    "payment_information": "Información del pago",
+    "plan": "Plan",
+    "billing": "Facturación",
+    "price": "Precio",
+    "payment_method": "Método de pago:",
+    "name_on_card": "Nombre en Cuidado",
+    "month": "Mes",
+    "year": "Año",
+    "submit": "Enviar",
+    "send_exactly": "ENVIAR EXACTAMENTE"
   }
+
 
 }

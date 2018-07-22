@@ -250,6 +250,19 @@
     "terms_and_conditions": "Termini &amp; Condizioni",
     "already_have_account": "Hai già un account?",
     "generate_key": "Genera chiave"
+  },
+  "billing_info": {
+    "pending_payment_alert": "Il pagamento è in sospeso, ma è comunque possibile creare un account gratuito e il tuo account verrà aggiornato a premium dopo la verifica del pagamento",
+    "bitcoin_sent_timer": "Il BTC inviato dopo il timer andrà perso!",
+    "payment_information": "Informazioni sul pagamento",
+    "plan": "Piano",
+    "billing": "Fatturazione",
+    "price": "Prezzo",
+    "payment_method": "Metodo di pagamento:",
+    "name_on_card": "Nome su cura",
+    "month": "Mese",
+    "year": "Anno",
+    "submit": "Sottoscrivi",
+    "send_exactly": "INVIA ESATTAMENTE"
   }
-
 }

@@ -250,6 +250,21 @@
     "terms_and_conditions": "Termes &amp; conditions",
     "already_have_account": "Vous avez déjà un compte?",
     "generate_key": "Générer la clé"
-  }
+  },
+  ,
+  "billing_info": {
+    "pending_payment_alert": "Votre paiement est en attente, mais vous pouvez toujours créer un compte gratuit et votre compte sera mis à jour en prime après la vérification du paiement",
+    "bitcoin_sent_timer": "BTC envoyé après la minuterie sera perdue!",
+    "payment_information": "Informations de paiement",
+    "plan": "Plan",
+    "billing": "Facturation",
+    "price": "Prix",
+    "payment_method": "Mode de paiement:",
+    "name_on_card": "Nom sur les soins",
+    "month": "Mois",
+    "year": "An",
+    "submit": "Soumettre",
+    "send_exactly": "ENVOYER EXACTEMENT"
+    }
 
 }
