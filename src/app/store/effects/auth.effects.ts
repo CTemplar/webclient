@@ -13,7 +13,17 @@ import { catchError, map, tap } from 'rxjs/operators';
 // Service
 import { UsersService } from '../../store/services';
 // Custom Actions
-import { AuthActionTypes, LogIn, LogInFailure, LogInSuccess, SignUp, SignUpFailure, SignUpSuccess, SnackErrorPush, } from '../actions';
+import {
+  AuthActionTypes,
+  CheckUsernameAvailability, CheckUsernameAvailabilitySuccess,
+  LogIn,
+  LogInFailure,
+  LogInSuccess,
+  SignUp,
+  SignUpFailure,
+  SignUpSuccess,
+  SnackErrorPush,
+} from '../actions';
 
 
 @Injectable()
@@ -79,5 +89,18 @@ export class AuthEffects {
       this.authService.signOut();
     })
   );
+
+
+  @Effect()
+  checkUsernameAvailability: Observable<any> = this.actions
+    .ofType(AuthActionTypes.CHECK_USERNAME_AVAILABILITY)
+    .map((action: CheckUsernameAvailability) => action.payload)
+    .switchMap(payload => {
+      return this.authService.checkUsernameAvailability(payload)
+        .pipe(
+          map((response) => new CheckUsernameAvailabilitySuccess(response)),
+          catchError((error) => [new SnackErrorPush({ message: 'Failed to check username availability.' })])
+        );
+    });
 
 }

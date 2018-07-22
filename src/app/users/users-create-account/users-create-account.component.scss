@@ -23,7 +23,6 @@ $error-red: #e94e4c;
   }
 
   i {
-    color: green;
     margin-left: 10px;
   }
 
@@ -106,4 +105,9 @@ $error-red: #e94e4c;
 .password-toggle, .confirmpasswordToggle {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 
+}
+
+.username-availability-spinner {
+  position: absolute;
+  right: -18px;
 }

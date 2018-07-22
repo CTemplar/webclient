@@ -204,6 +204,10 @@ export class UsersService {
     return this.http.delete<any>(url);
   }
 
+  checkUsernameAvailability(username): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/check-username/`, { username });
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
