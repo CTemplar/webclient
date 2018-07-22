@@ -49,8 +49,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   signupInProgress: boolean;
 
   stripePaymentValidation: any = {
-    message: String,
-    param: String
+    message: '',
+    param: ''
   };
 
   constructor(private sharedService: SharedService,
