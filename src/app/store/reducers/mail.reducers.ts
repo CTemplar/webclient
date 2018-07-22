@@ -100,8 +100,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
       state.drafts[action.payload.draft.id] = {
         ...state.drafts[action.payload.draft.id],
         inProgress: false,
-        draft: action.payload.response,
-        shouldSave: false,
+        draft: action.payload.response
       };
       return { ...state, inProgress: false, drafts: { ...state.drafts }, };
     }
@@ -219,13 +218,16 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.GET_USERS_KEYS: {
-      state.drafts[action.payload.draftId].getUserKeyInProgress = true;
+      state.drafts[action.payload.draftId] = {...state.drafts[action.payload.draftId], getUserKeyInProgress: true};
       return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.GET_USERS_KEYS_SUCCESS: {
-      state.drafts[action.payload.draftId].getUserKeyInProgress = false;
-      state.drafts[action.payload.draftId].usersKeys = action.payload.data;
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        getUserKeyInProgress: false,
+        usersKeys: action.payload.data
+      };
       return { ...state, drafts: { ...state.drafts }, };
     }
 

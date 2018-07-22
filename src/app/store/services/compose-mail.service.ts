@@ -24,10 +24,9 @@ export class ComposeMailService {
             } else if (draftMail.shouldSend && this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
               this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, draftMail.usersKeys.map(item => item.public_key));
             }
-            if (draftMail.isClosed && !draftMail.shouldSend && !draftMail.shouldSave) {
-              this.store.dispatch(new ClearDraft(draftMail));
-            }
-
+          }
+          if (draftMail.isClosed && !draftMail.shouldSend && !draftMail.shouldSave && !draftMail.inProgress) {
+            this.store.dispatch(new ClearDraft(draftMail));
           }
         });
 

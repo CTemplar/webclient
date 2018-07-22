@@ -395,6 +395,7 @@
         <li class="pr-0">
           <button role="button"
                   (click)="saveInDrafts()"
+                  [disabled]="inProgress"
                   class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
                   placement="top" ngbTooltip="Save to drafts"><i class="icon icon-save-disk"></i>
           </button>
@@ -402,6 +403,7 @@
         <li class="pl-0">
           <button role="button"
                   (click)="discardEmail()"
+                  [disabled]="inProgress"
                   class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                   ngbTooltip="Delete draft"><i class="icon icon-garbage"></i></button>
         </li>
