@@ -196,13 +196,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   checkStripeValidation() {
     if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
-      this.stripePaymentValidationParam = 'number';
+      this.stripePaymentValidation.param = 'number';
       return false;
     } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
-      this.stripePaymentValidationParam = 'exp_year';
+      this.stripePaymentValidation.param = 'exp_year';
       return false;
     } else if(!(<any>window).Stripe.card.validateCVC(this.expiryMonth, this.expiryYear)) {
-      this.stripePaymentValidationParam = 'cvc';
+      this.stripePaymentValidation.param = 'cvc';
       return false;
     }
       return true;
