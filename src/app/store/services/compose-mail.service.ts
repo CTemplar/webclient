@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppState, Draft, DraftState, MailState } from '../datatypes';
-import { CreateMail, SendMail } from '../actions';
+import { ClearDraft, CreateMail, SendMail } from '../actions';
 import { Store } from '@ngrx/store';
 import { OpenPgpService } from './openpgp.service';
 
@@ -17,14 +17,15 @@ export class ComposeMailService {
           if (draftMail.draft) {
             if (draftMail.shouldSave && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
               draftMail.draft.content = draftMail.encryptedContent;
-              draftMail.shouldSave = false;
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
               draftMail.draft.content = draftMail.encryptedContent;
-              draftMail.shouldSend = false;
-              this.store.dispatch(new SendMail({ ...draftMail, is_encrypted: true }));
+              this.store.dispatch(new SendMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
               this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, draftMail.usersKeys.map(item => item.public_key));
+            }
+            if (draftMail.isClosed && !draftMail.shouldSend && !draftMail.shouldSave) {
+              this.store.dispatch(new ClearDraft(draftMail));
             }
 
           }

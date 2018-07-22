@@ -34,15 +34,13 @@ export function reducer(state = initialState, action: MailActions): MailState {
     case MailActionTypes.DELETE_MAIL:
     case MailActionTypes.SEND_MAIL:
     case MailActionTypes.CREATE_MAIL: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: true };
+      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: true, shouldSend: false, shouldSave: false };
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case MailActionTypes.SEND_MAIL_SUCCESS: {
-      delete state.drafts[action.payload.id];
       return {
         ...state,
-        drafts: { ...state.drafts },
         mails: (action.payload.draft.folder === state.currentFolder) ? [...state.mails, action.payload.draft] : state.mails,
       };
     }
@@ -130,6 +128,11 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.CLOSE_MAILBOX: {
+      state.drafts[action.payload.id].isClosed = true;
+      return { ...state, drafts: { ...state.drafts }, };
+    }
+
+    case MailActionTypes.CLEAR_DRAFT: {
       delete state.drafts[action.payload.id];
       return { ...state, drafts: { ...state.drafts }, };
     }
@@ -221,7 +224,7 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.GET_USERS_KEYS_SUCCESS: {
-      state.drafts[action.payload.draftId].getUserKeyInProgress = true;
+      state.drafts[action.payload.draftId].getUserKeyInProgress = false;
       state.drafts[action.payload.draftId].usersKeys = action.payload.data;
       return { ...state, drafts: { ...state.drafts }, };
     }

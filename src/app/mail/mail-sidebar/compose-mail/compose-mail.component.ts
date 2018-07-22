@@ -309,8 +309,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
+      this.setMailData(true, false, true);
       this.store.dispatch(new GetUsersKeys({ draftId: this.draft.id, emails: receivers.join(',') }));
-      this.setMailData(true, false);
     } else {
       this.setMailData(false, false);
       this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
@@ -472,11 +472,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
-    this.setMailData(false, true);
+    this.setMailData(false, true, true);
     this.openPgpService.encrypt(this.draftId, this.draftMail.content);
   }
 
-  setMailData(shouldSend: boolean, shouldSave: boolean) {
+  setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
@@ -488,6 +488,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+    this.draftMail.is_encrypted = isEncrypted;
     this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
   }
 

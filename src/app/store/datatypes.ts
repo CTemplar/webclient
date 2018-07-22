@@ -96,6 +96,12 @@ export interface Draft {
   shouldSave?: boolean;
   getUserKeyInProgress?: boolean;
   usersKeys?: PublicKey[];
+
+  /**
+   * @var isClosed
+   * @description It represents if the compose mail editor has been closed or not.
+   */
+  isClosed?: boolean;
 }
 
 export interface DraftState {

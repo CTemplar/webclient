@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <app-compose-mail [hidden]="!isComposeVisible" #composeMail (hide)="onHide()"></app-compose-mail>
+    <app-compose-mail *ngIf="isComposeVisible" #composeMail (hide)="onHide()"></app-compose-mail>
 
   </div>
 </div>
