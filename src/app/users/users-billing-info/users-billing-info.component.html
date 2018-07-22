@@ -66,7 +66,7 @@
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong translate="create_account.payment_information">Payment Information</strong>
                 </h3>
-                <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span translate="create_account.bitcoin_sent_timer">BTC sent after timer will be lost!</span> </p>
+                <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span translate="billing_info.bitcoin_sent_timer">BTC sent after timer will be lost!</span> </p>
 
                 <div class="card mb-3">
                   <div class="card-header text-center">
@@ -85,7 +85,8 @@
                   </div>
 
                 </div>
-                <strong class="text-center text-success">Your payment is pending, But you can still create a free account
+                <strong class="text-center text-success" *ngIf="showPaymentPending">
+                  Your payment is pending, But you can still create a free account
                   and your account will be upgraded to premium after payment is verified.</strong>
               </div>
 
