@@ -7,6 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -170,7 +171,7 @@ export class MailEffects {
   uploadAttachmentEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.UPLOAD_ATTACHMENT)
     .map((action: UploadAttachment) => action.payload)
-    .switchMap(payload => {
+    .mergeMap(payload => {
       // TODO: replace custom observable with switchMap
       return Observable.create(observer => {
         const request: Subscription = this.mailService.uploadFile(payload)
