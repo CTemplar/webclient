@@ -11,7 +11,7 @@ export const initialState: MailState = {
   drafts: {},
 };
 
-export function reducer(state = initialState, action: MailActions): MailState {
+export function reducer(state: MailState = initialState, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
       const mails = state.folders.get(action.payload.folder);
