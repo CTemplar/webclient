@@ -127,7 +127,7 @@ export function reducer(state: MailState = initialState, action: MailActions): M
     }
 
     case MailActionTypes.CLOSE_MAILBOX: {
-      state.drafts[action.payload.id].isClosed = true;
+      state.drafts[action.payload.id] = {...state.drafts[action.payload.id], isClosed: true};
       return { ...state, drafts: { ...state.drafts }, };
     }
 
@@ -167,7 +167,10 @@ export function reducer(state: MailState = initialState, action: MailActions): M
     case MailActionTypes.UPLOAD_ATTACHMENT_PROGRESS: {
       state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
         if (attachment.attachmentId === action.payload.attachmentId) {
-          state.drafts[action.payload.draftId].attachments[index].progress = action.payload.progress;
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            progress: action.payload.progress
+          };
         }
       });
       return { ...state, drafts: { ...state.drafts }, };
@@ -176,7 +179,10 @@ export function reducer(state: MailState = initialState, action: MailActions): M
     case MailActionTypes.UPLOAD_ATTACHMENT_REQUEST: {
       state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
         if (attachment.attachmentId === action.payload.attachmentId) {
-          state.drafts[action.payload.draftId].attachments[index].request = action.payload.request;
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            request: action.payload.request
+          };
         }
       });
       return { ...state, drafts: { ...state.drafts }, };
@@ -186,9 +192,12 @@ export function reducer(state: MailState = initialState, action: MailActions): M
       const data = action.payload.data;
       state.drafts[data.draftId].attachments.forEach((attachment, index) => {
         if (attachment.attachmentId === data.attachmentId) {
-          state.drafts[data.draftId].attachments[index].id = action.payload.response.id;
-          state.drafts[data.draftId].attachments[index].inProgress = false;
-          state.drafts[data.draftId].attachments[index].request = null;
+          state.drafts[data.draftId].attachments[index] = {
+            ...state.drafts[data.draftId].attachments[index],
+            id: action.payload.response.id,
+            inProgress: false,
+            request: null
+          };
         }
       });
       return { ...state, drafts: { ...state.drafts }, };
