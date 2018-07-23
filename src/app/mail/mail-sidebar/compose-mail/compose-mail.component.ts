@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
 import {
   CloseMailbox,
-  CreateMail,
   DeleteAttachment,
   GetUsersKeys,
   MoveMail,
@@ -23,9 +22,9 @@ import {
 } from '../../../store/actions';
 import { AppState, Contact, Draft, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
+import { ComposeMailService } from '../../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import { ComposeMailService } from '../../../store/services/compose-mail.service';
 
 const Quill: any = QuillNamespace;
 
@@ -304,7 +303,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
-    const receivers: string[] = [...this.draftMail.receiver, ...this.draftMail.cc, ...this.draftMail.bcc];
+    const receivers: string[] = [
+      ...this.mailData.receiver.map(receiver => receiver.display),
+      ...this.mailData.cc.map(cc => cc.display),
+      ...this.mailData.bcc.map(bcc => bcc.display)
+    ];
     if (receivers.length === 0) {
       return false;
     }
