@@ -57,4 +57,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.store.dispatch(new ClearMailDetail());
   }
+
+  onComposeMailHide() {
+    this.showReplyBox = false;
+  }
 }
