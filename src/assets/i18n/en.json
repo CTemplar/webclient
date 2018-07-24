@@ -109,8 +109,8 @@
       "info": "Your donation helps us support more users and continue to develop CTemplar as free and open source software.",
       "make_a_donation": "Make a donation",
       "select_amount": "Select amount:",
-      "name_on_card": "Name on card:",
-      "card_number": "Card number:",
+      "name_on_card": "Name on card",
+      "card_number": "Card number",
       "expiry_date:": "Expiry date:",
       "security_code": "Security code:"
     },
@@ -176,23 +176,23 @@
     "easy_to_use_responsive": "Easy-to-use responsive interface makes sending secure emails quick and easy from any device.",
     "learn_more_about_ctempler": "Learn more about CTemplar security"
   },
-   "footer": {
-     "register_to_world_most": "Register <strong>World’s Most Secure Email</strong> Now!",
-     "send_unbreakable_emails": "Send unbreakable emails and protect your key professional and personal details trough next-gen encryption.",
-     "upgrade_to_prime": "upgrade to prime",
-     "media_kit": "Media Kit",
-     "onion_site": "Onion site",
-     "support": "Support",
-     "company": "Company",
-     "social": "Social",
-     "legal": "Legal",
-     "privacy_policy": "Privacy Policy",
-     "our_address": "Our Address",
-     "all_rights_reserved": "All Rights Reserved"
-   },
+  "footer": {
+    "register_to_world_most": "Register <strong>World’s Most Secure Email</strong> Now!",
+    "send_unbreakable_emails": "Send unbreakable emails and protect your key professional and personal details trough next-gen encryption.",
+    "upgrade_to_prime": "upgrade to prime",
+    "media_kit": "Media Kit",
+    "onion_site": "Onion site",
+    "support": "Support",
+    "company": "Company",
+    "social": "Social",
+    "legal": "Legal",
+    "privacy_policy": "Privacy Policy",
+    "our_address": "Our Address",
+    "all_rights_reserved": "All Rights Reserved"
+  },
   "page_about": {
     "as_the_govt_continues": "As the government continues to function completely outside the realm of accountability, all of us—reporter, missionary, student, businessperson, citizen—become one person, in need of privacy and protection.",
-     "why_i_started": "Why I started <strong> CTemplar</strong>",
+    "why_i_started": "Why I started <strong> CTemplar</strong>",
     "idea_to_create_service": "The idea to create this service first began when I heard about the atrocities happening in the Middle East, to the innocents and to humanity. Looking around, it would seem the larger world was too busy to pay much attention,distracted by their own affairs or helpless to offer assistance. <br/> As just one man with limited capabilities, what could I do? Months went by as I pondered this question, finally realizing I must use my own strengths to wage a larger fight against the oppression I see in the world. As a result, I turned to technology—something I know and understand—to create a system of communication so strong and resilient I would trust it with my own life. <br/> <br/>Through this effort to protect communications through encryption, an entirely new service has emerged, one that will never sell out to corporate investors or be weakened by international agendas—CTemplar.",
     "why_ctempler": "Why <strong>CTemplar?</strong>",
     "nearly_a_thousand_year": "Nearly a thousand years ago there was a group of men known as the Knights Templar. They protected the wandering pilgrims who wanted nothing more than to visit the Holy Land and find a way to achieve spirituality.",
@@ -218,7 +218,7 @@
     "unlike_the_old_days": "Unlike the old days where encrypted emailing meant complex manual encryption and private server setup, CTemplar does it all for you. Simply send and receive your emails just like a regular email account and rest assured knowing your privacy is 100% maintained.",
     "encrypted_email_to_non": "Encrypted email to non-CTemaplar acounts, self-destructing messages & much more….",
     "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. Though we do recommend everyone to use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected,  unlike regular accounts."
-   },
+  },
   "page_pricing": {
     "do_not_show_ads": "We do not show ads or make money by abusing your privacy. Instead, we depend on your support to keep the service running. Revenue from paid accounts is used to further develop CTemplar and support free users such as democracy activists and dissidents who need privacy but can't necessarily afford it.",
     "billed_as": "Billed as",
@@ -251,6 +251,19 @@
     "terms_and_conditions": "Terms &amp; Conditions",
     "already_have_account": "Already have an Account?",
     "generate_key": "Generate Key"
+  },
+  "billing_info": {
+    "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",
+    "bitcoin_sent_timer": "BTC sent after timer will be lost!",
+    "payment_information": "Payment Information",
+    "plan": "Plan",
+    "billing": "Billing",
+    "price": "Price",
+    "payment_method": "Payment Method:",
+    "name_on_card": "Name on Care",
+    "month": "Month",
+    "year": "Year",
+    "submit": "Submit",
+    "send_exactly": "SEND EXACTLY"
   }
-
 }

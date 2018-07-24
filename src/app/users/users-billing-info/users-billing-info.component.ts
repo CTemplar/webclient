@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
 import {
@@ -19,6 +19,7 @@ import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+
 
 @TakeUntilDestroy()
 @Component({
@@ -47,10 +48,17 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   signupState: SignupState;
   signupInProgress: boolean;
 
+  stripePaymentValidation: any = {
+    message: '',
+    param: ''
+  };
+  showPaymentPending: boolean;
+
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
               private router: Router,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private _zone: NgZone) {
   }
 
   ngOnInit() {
@@ -88,24 +96,38 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   getToken() {
+    this.signupInProgress = true;
     (<any>window).Stripe.card.createToken({
       number: this.cardNumber,
       exp_month: this.expiryMonth,
       exp_year: this.expiryYear,
       cvc: this.cvc
     }, (status: number, response: any) => {
-      if (status === 200) {
-        // TODO: add next step of subscription
-         console.log(`Success! Card token ${response.card.id}.`);
-      } else {
-         console.log(response.error.message);
-      }
+      // Wrapping inside the Angular zone
+      this._zone.run(() => {
+        this.signupInProgress = false;
+        if (status === 200) {
+          // TODO: add next step of subscription
+          console.log(`Success! Card token ${response.card.id}.`);
+        } else {
+          this.stripePaymentValidation = {
+            message: response.error.message,
+            param: response.error.param
+          };
+        }
+      });
     });
   }
 
 
   submitForm() {
-    this.validateSignupData();
+
+    // Reset Stripe validation
+    this.stripePaymentValidation = {
+      message: '',
+      param: ''
+    };
+
     if (this.paymentMethod === PaymentMethod.STRIPE) {
       this.getToken();
     } else {
@@ -153,6 +175,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   selectBitcoinMethod() {
+    this.stripePaymentValidation = {
+      message: '',
+      param: ''
+    };
+    setTimeout(() => {
+      this.showPaymentPending = true;
+    }, 15000);
+
     this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
     this.paymentMethod = PaymentMethod.BITCOIN;
@@ -169,10 +199,23 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   selectMonth(month) {
     this.expiryMonth = month;
+    this.checkStripeValidation();
   }
 
   selectYear(year) {
     this.expiryYear = year;
+    this.checkStripeValidation();
+  }
+
+  checkStripeValidation() {
+    this.stripePaymentValidation.message = '';
+    if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
+      this.stripePaymentValidation.param = 'number';
+    } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
+      this.stripePaymentValidation.param = 'exp_year exp_month';
+    } else if (!(<any>window).Stripe.card.validateCVC(this.cvc)) {
+      this.stripePaymentValidation.param = 'cvc';
+    }
   }
 
   ngOnDestroy() {

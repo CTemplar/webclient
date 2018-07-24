@@ -1,28 +1,24 @@
 // Angular
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-// Service
-import { SharedService } from '../../store/services';
-import { DynamicScriptLoaderService } from '../../shared/services/dynamic-script-loader.service';
-
-import {
-  FinalLoading,
-  MembershipUpdate
-} from '../../store/actions';
 import { Router } from '@angular/router';
-
-// Store
 import { Store } from '@ngrx/store';
+import { DynamicScriptLoaderService } from 'app/shared/services/dynamic-script-loader.service';
+import { FinalLoading, MembershipUpdate } from 'app/store/actions';
+import { SharedService } from 'app/store/services';
 
 @Component({
-  selector: 'app-pages-pricing',
-  templateUrl: './pages-pricing.component.html',
-  styleUrls: ['./pages-pricing.component.scss']
+  selector: 'app-pricing-plans',
+  templateUrl: './pricing-plans.component.html',
+  styleUrls: ['./pricing-plans.component.scss']
 })
-export class PagesPricingComponent implements OnDestroy, OnInit {
+export class PricingPlansComponent implements OnInit, OnDestroy {
+
   // == Defining public property as boolean
   public selectedIndex: number = -1; // Assuming no element are selected initially
   @Input('hideHeader') hideHeader: boolean;
   @Input('blockGapsZero') blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
+  @Input() showCurrentPlan: boolean;
+  @Input() isPrime: boolean;
 
   constructor(
     private sharedService: SharedService,
@@ -59,6 +55,6 @@ export class PagesPricingComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
+
 }

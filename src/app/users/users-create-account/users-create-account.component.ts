@@ -8,12 +8,13 @@ import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, UserState } from '../../store/datatypes';
-import { FinalLoading, SignUp, SignUpFailure, UpdateSignupData } from '../../store/actions';
+import { AppState, AuthState, SignupState, UserState } from '../../store/datatypes';
+import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateSignupData } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
+import { debounceTime } from 'rxjs/operators';
 
 declare var openpgp;
 
@@ -46,11 +47,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isConfirmedPrivacy: boolean = null;
   isFormCompleted: boolean = false;
   errorMessage: string = '';
-  userNameTaken: boolean = null;
   selectedPlan: any;
   data: any = null;
   isCaptchaCompleted: boolean = false;
   signupInProgress: boolean = false;
+  signupState: SignupState;
+  submitted = false;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -86,6 +88,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         this.selectedPlan = state.membership.id;
       });
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
+    this.handleUsernameAvailability();
   }
 
   // == Toggle password visibility
@@ -103,19 +106,23 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signup() {
-    if (this.isConfirmedPrivacy == null) {
+    this.submitted = true;
+    if (this.isConfirmedPrivacy === null) {
       this.isConfirmedPrivacy = false;
     }
 
-    if (this.isRecoveryEmail == null) {
+    if (this.isRecoveryEmail === null) {
       this.isRecoveryEmail = false;
     }
 
-    if (this.signupForm.valid && this.isConfirmedPrivacy) {
-      this.isFormCompleted = true;
-      if (this.selectedPlan === 1) {
-        this.navigateToBillingPage();
-      }
+    if (this.signupState.usernameExists || this.signupForm.invalid || !this.isConfirmedPrivacy ||
+      (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
+      return false;
+    }
+
+    this.isFormCompleted = true;
+    if (this.selectedPlan === 1) {
+      this.navigateToBillingPage();
     }
   }
 
@@ -145,25 +152,27 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private handleUserState(): void {
-    this.store.select(state => state.auth).takeUntil(this.destroyed$).subscribe((state: AuthState) => {
-      if (this.signupInProgress && !state.inProgress) {
-        if (!state.errorMessage) {
+    this.store.select(state => state.auth).takeUntil(this.destroyed$).subscribe((authState: AuthState) => {
+      if (this.signupInProgress && !authState.inProgress) {
+        if (!authState.errorMessage) {
           this.notificationService.showSnackBar(`Account created successfully.`);
         } else {
-          this.notificationService.showSnackBar(`Failed to create account.` + state.errorMessage);
+          this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);
         }
         this.signupInProgress = false;
       }
+      this.signupState = authState.signupState;
     });
   }
 
-  checkUsernameTaken(event: any) {
-    // TODO: Check if username is duplicated
-    if (event.target.value.length > 0) {
-      this.userNameTaken = false;
-    } else {
-      this.userNameTaken = true;
-    }
+  handleUsernameAvailability() {
+    this.signupForm.get('username').valueChanges
+      .pipe(
+        debounceTime(500),
+      )
+      .subscribe((username) => {
+        this.store.dispatch(new CheckUsernameAvailability(username));
+      });
   }
 
   ngOnDestroy() {

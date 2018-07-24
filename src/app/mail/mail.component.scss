@@ -320,27 +320,8 @@
   border-top: 1px solid $divider-color;
 }
 
-.mailbox-sidebar-footer {
-  position: absolute;
-  right: 0.938rem;
-  bottom: .938rem;
-  left: 0.938rem;
-  line-height: 1;
-
-  @include media("<=sm") {
-    bottom: -8rem;
-    padding-bottom: 0.938rem;
-  }
-
-  @include media(">sm") {
-    bottom: 3.125rem;
-  }
-
-  @include media(">=ipad") {
-    right: 1.563rem;
-    bottom: 1.25rem;
-    left: 1.563rem;
-  }
+.mailbox-sidebar-footer{
+  background: #29394e;
 }
 
 .mailbox-sidebar-footer-text {

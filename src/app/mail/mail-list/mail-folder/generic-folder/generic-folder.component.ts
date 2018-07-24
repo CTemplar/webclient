@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, MailState } from '../../../../store/datatypes';
 import { Mail, MailFolderType } from '../../../../store/models';
 import { Observable } from 'rxjs/Observable';
-import { DeleteMail, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { CreateFolderComponent } from '../../../dialogs/create-folder/create-folder.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @TakeUntilDestroy()
 @Component({
@@ -22,7 +25,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
 
   readonly destroyed$: Observable<boolean>;
 
-  constructor(public store: Store<AppState>) {}
+  constructor(public store: Store<AppState>,
+              private router: Router,
+              private modalService: NgbModal) {}
 
   ngOnInit() {
     this.store.dispatch(new SetCurrentFolder(this.mailFolder));
@@ -90,6 +95,15 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
     } else {
       this.moveToFolder(MailFolderType.TRASH);
     }
+  }
+
+  openMail(mail: Mail) {
+    this.store.dispatch(new GetMailDetailSuccess(mail));
+    this.router.navigate(['/mail/message/', mail.id]);
+  }
+
+  openCreateFolderDialog() {
+    this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
   }
 
   /**

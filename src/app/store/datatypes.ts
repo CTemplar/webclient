@@ -27,6 +27,8 @@ export interface SignupState {
   username?: string;
   password?: string;
   recovery_email?: string;
+  usernameExists?: boolean;
+  inProgress?: boolean;
 }
 
 export interface UserState {

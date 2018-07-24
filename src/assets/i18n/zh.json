@@ -250,6 +250,20 @@
     "terms_and_conditions": "条款和条件",
     "already_have_account": "已经有账户？",
     "generate_key": "生成密钥"
+  },
+  "billing_info": {
+    "pending_payment_alert": "您的付款尚待处理，但您仍可以创建免费帐户，并且在验证付款后，您的帐户将升级为高级版",
+    "bitcoin_sent_timer": "计时器发送后的BTC将丢失！",
+    "payment_information": "支付信息",
+    "plan": "计划",
+    "billing": "开票",
+    "price": "价钱",
+    "payment_method": "付款方法:",
+    "name_on_card": "护理名称",
+    "month": "月",
+    "year": "年",
+    "submit": "提交",
+    "send_exactly": "完全发送"
   }
 
 }

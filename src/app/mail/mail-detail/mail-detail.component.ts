@@ -35,14 +35,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
         if (!mailState.isPGPInProgress && mailState.decryptedContent && this.mail) {
           this.decryptedContent = mailState.decryptedContent;
+
+          // Mar mail as read
+          if (!this.mail.read) {
+            this.markAsRead(this.mail.id);
+          }
+
         }
       });
 
-
     this.route.params.subscribe(params => {
       const id = +params['id'];
-      this.getMailDetail(id);
-      this.markAsRead(id);
+
+      // Check if email is already available in state
+      if (!this.mail) {
+        this.getMailDetail(id);
+      }
+
     });
   }
 
@@ -50,8 +59,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMailDetail(messageId));
   }
 
-  private markAsRead(mailID: number){
-    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read: true }));
+  // getAttachementFileName(filepath: string) {
+  //   const filePathTokens = filepath.split('/');
+  //   console.log("testing");
+  //   return  filePathTokens[filePathTokens.length - 1];
+  // }
+
+  private markAsRead(mailID: number) {
+    this.store.dispatch(new ReadMail({ids: mailID.toString(), read: true}));
   }
 
   ngOnDestroy(): void {

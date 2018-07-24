@@ -15,6 +15,8 @@ export class ComposeMailDialogComponent {
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
   @ViewChild('confirmDiscardModal') confirmDiscardModal;
 
+  isMinimized: boolean;
+  isFullScreen: boolean;
   private confirmModalRef: NgbModalRef;
 
   constructor(private modalService: NgbModal) {
@@ -26,11 +28,9 @@ export class ComposeMailDialogComponent {
         centered: true,
         windowClass: 'modal-sm users-action-modal'
       });
-    }
-    else if (this.composeMail.draftMail && this.composeMail.draftMail.id) {
+    } else if (this.composeMail.draftMail && this.composeMail.draftMail.id) {
       this.discardEmail();
-    }
-    else {
+    } else {
       this.hideMailComposeDialog();
     }
   }
@@ -47,6 +47,22 @@ export class ComposeMailDialogComponent {
 
   onHide() {
     this.hideMailComposeDialog();
+  }
+
+  toggleMinimized() {
+    this.isMinimized = !this.isMinimized;
+
+    if (this.isFullScreen) {
+      this.isFullScreen = false;
+    }
+  }
+
+  toggleFullScreen() {
+    this.isFullScreen = !this.isFullScreen;
+
+    if (this.isMinimized) {
+      this.isMinimized = false;
+    }
   }
 
   private hideMailComposeDialog() {

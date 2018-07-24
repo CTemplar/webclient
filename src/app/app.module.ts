@@ -29,7 +29,8 @@ import {
   ngxZendeskWebwidgetModule,
   ngxZendeskWebwidgetConfig
 } from 'ngx-zendesk-webwidget';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
   accountUrl = 'ctemplar.zendesk.com';
@@ -87,10 +88,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     // Material modules
     MatButtonModule,
     MatKeyboardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
   providers: [
-      AuthGuard,
+    AuthGuard,
     BlogService,
     SharedService,
     OpenPgpService,

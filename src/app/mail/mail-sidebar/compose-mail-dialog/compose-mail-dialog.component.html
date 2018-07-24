@@ -1,16 +1,30 @@
 <div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
+     [ngClass]="{'is-minimized' : isMinimized, 'is-maximized' : isFullScreen}"
      [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false"
      [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">
-    <div class="mail-composer-header">
-      <div class="mail-composer-title">New message</div>
+    <div class="mail-composer-header p-0">
+      <div class="mail-composer-title p-2 mr-4" (click)="toggleMinimized()">New message</div>
       <div class="mail-composer-header-actions">
         <div class="mail-actions-list">
+
+          <!--Minimize Modal-->
           <div class="mail-actions-item">
-            <button role="button" placement="top" ngbTooltip="Minimize">
-              <i class="icon icon-minimize"></i>
+            <button role="button" placement="top" ngbTooltip="{{isMinimized ? 'Maximize' : 'Minimize'}}"
+                    (click)="toggleMinimized()">
+              <app-mat-icon iconName="remove"></app-mat-icon>
             </button>
           </div>
+
+          <!--Maximize Modal-->
+          <div class="mail-actions-item">
+            <button role="button" placement="top" ngbTooltip="{{isFullScreen ? 'Exit full screen' : 'Full screen'}}"
+                    (click)="toggleFullScreen()">
+              <i class="icon icon-maximize"></i>
+            </button>
+          </div>
+
+          <!--Close Modal-->
           <div class="mail-actions-item">
             <button role="button" placement="top" ngbTooltip="Close"
                     (click)="onClose()">
@@ -21,7 +35,8 @@
       </div>
     </div>
 
-    <app-compose-mail *ngIf="isComposeVisible" #composeMail (hide)="onHide()"></app-compose-mail>
+    <app-compose-mail *ngIf="isComposeVisible" #composeMail (hide)="onHide()"
+                      [ngClass]="{'d-none': isMinimized}"></app-compose-mail>
 
   </div>
 </div>

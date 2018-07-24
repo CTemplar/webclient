@@ -71,7 +71,7 @@
                         <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
                       </a>
                       <span class="divider-item d-block"></span>
-                      <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
+                      <a class="dropdown-item" (click)="openCreateFolderDialog()">
                         <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
                       </a>
                       <a class="dropdown-item">
@@ -116,7 +116,7 @@
                 <span class="folder-color-box is-warning"></span>Folder 33
               </a>
               <span class="divider-item d-block"></span>
-              <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
+              <a class="dropdown-item" (click)="openCreateFolderDialog()">
                 <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span></a>
             </div>
           </div>
@@ -181,7 +181,7 @@
 
         <!-- Sender Name -->
         <td class="mail-from-name">
-          <a [routerLink]="['/mail/message/', mail.id]" class="text-dark">
+          <a (click)="openMail(mail)" class="text-dark">
             {{mail.sender}}
             <span class="font-weight-bold d-sm-block d-md-none" [innerHTML]="mail.subject">
                                         <!-- Subject Goes Here -->
@@ -191,7 +191,7 @@
 
         <!-- Subject -->
         <td class="mail-inbox-message d-none d-md-block">
-          <a [routerLink]="['/mail/message/', mail.id]" class="text-dark">
+          <a (click)="openMail(mail)" class="text-dark">
                                 <span class="mail-subject">
 
                                     <span class="badge badge-success mr-2 p-1"

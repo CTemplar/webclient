@@ -6,7 +6,6 @@ import { SharedService } from '../../store/services';
 
 import { FinalLoading } from '../../store/actions';
 import { Store } from '@ngrx/store';
-import { DynamicScriptLoaderService } from '../../shared/services/dynamic-script-loader.service';
 
 @Component({
   selector: 'app-users-sign-up',
@@ -22,8 +21,7 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
   public selectedIndex = -1; // Assuming no element are selected initially
   constructor(
     private sharedService: SharedService,
-    private store: Store<any>,
-    private dynamicScriptLoader: DynamicScriptLoaderService
+    private store: Store<any>
   ) {}
 
   ngOnInit() {
@@ -47,7 +45,6 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
       }
     ];
     this.makePayments();
-    this.loadStripeScripts();
     this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
@@ -79,16 +76,7 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
     this.selectedPayment = index;
   }
 
-  private loadStripeScripts() {
-    this.dynamicScriptLoader.load('stripe').then(data => {
-      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
-        // Script Loaded Successfully
-      });
-    }).catch(error => console.log(error));
-  }
-
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

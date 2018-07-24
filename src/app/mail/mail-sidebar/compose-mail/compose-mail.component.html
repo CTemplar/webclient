@@ -104,8 +104,9 @@
                style="display:none">
         <div class="attach-uploader-holder" *ngIf="attachments?.length>0">
           <div class="attach-uploader" *ngFor="let file of attachments">
-            <div class="attach-name">{{file.name}}
-              <span class="attach-size">({{file.size}}) </span>
+            <div class="attach-name">
+              <div class="file-name">{{file.name}}</div>
+              <div class="attach-size">({{file.size}}) </div>
             </div>
             <div class="progress" *ngIf="file.progress !== 100">
               <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
