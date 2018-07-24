@@ -174,7 +174,7 @@
 .search-form {
   .form-control {
     padding-right: 3.438rem + 0.938rem;
-
+    height: 32px;
     @include media("<ipad", ">sm") {
       margin-top: -1px;
       padding: 0.875rem 3.438rem + 0.938rem 0.875rem 0.938rem;
