@@ -159,7 +159,7 @@
 
 .form-content-holder {
   max-width: 570px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 
   @include media("<=sm") {
     font-size: 0.875rem;
@@ -185,7 +185,7 @@
     padding-right: 0.75rem;
     padding-left: 0.75rem;
     border-radius: 2px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     height: 2rem;
     width: 100%;
     line-height: 1;
@@ -321,4 +321,8 @@
     right: .75rem;
     transform: translateY(-50%);
   }
+}
+
+.form-content-holder .form-control {
+  font-size: 0.8rem;
 }
