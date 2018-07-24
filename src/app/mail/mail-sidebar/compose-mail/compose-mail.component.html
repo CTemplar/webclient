@@ -125,6 +125,17 @@
   <div class="mail-composer-actions-row d-flex align-items-center">
     <div class="mail-composer-actions-col mail-composer-actions-col-lg">
       <ul class="mail-composer-actions d-flex align-items-center">
+          <li class="send-mail-item">
+              <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
+                      (click)="sendEmail()"
+                      [disabled]="inProgress"
+                      role="button"
+                      placement="top"
+                      ngbTooltip="{{inProgress ? 'Wait for the changes to save': 'Send Mail'}}">
+                <i class="hidden-sm-up icon icon-paper-plane"></i><span
+                      class="hidden-xs-down">Send</span>
+              </button>
+          </li>
           <li>
               <div ngbDropdown [autoClose]="false" placement="top" class="dropdown">
                 <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow"
@@ -369,23 +380,18 @@
           </button>
         </li>
         <li class="px-0">
-          <button role="button" type="button" (click)="addSignature()"
-                  class="actions-btn mail-sign-btn border-right-0 border-radius-0"
-                  placement="top" ngbTooltip="Signature"><i class="icon icon-sign"></i></button>
-        </li>
-        <li class="pl-0">
           <button type="button" role="button" (click)="openDelayedDeliveryModal()"
-                  class="actions-btn mail-self-timer-btn border-radius-l-0"
+                  class="actions-btn mail-self-timer-btn border-right-0  border-radius-l-0"
                   placement="top" ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i>
           </button>
         </li>
-        <li>
+        <li class="px-0">
           <button type="button" role="button" (click)="openDeadManTimerModal()"
-                  class="actions-btn mail-dead-btn border-radius-l-0"
+                  class="actions-btn mail-dead-btn border-right-0  border-radius-l-0"
                   placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i>
           </button>
         </li>
-        <li>
+        <li class="px-0">
           <button role="button" type="button" (click)="toggleOSK()"
                   class="actions-btn mail-keyboard-btn" placement="top"
                   ngbTooltip="On-screen keyboard"><i class="icon icon-keyboard-show"></i></button>
@@ -409,16 +415,6 @@
                   (click)="discardEmail()"
                   class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                   ngbTooltip="Delete draft"><i class="icon icon-garbage"></i></button>
-        </li>
-        <li class="send-mail-item">
-          <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
-                  (click)="sendEmail()"
-                  [disabled]="inProgress"
-                  role="button"
-                  placement="top"
-                  ngbTooltip="{{inProgress ? 'Wait for the changes to save': 'Send Mail'}}">
-            <i class="hidden-sm-up icon icon-paper-plane"></i><span
-                  class="hidden-xs-down">Send</span></button>
         </li>
       </ul>
     </div>
