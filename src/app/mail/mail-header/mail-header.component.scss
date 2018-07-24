@@ -118,30 +118,33 @@
 
       @include media(">sm") {
         padding: 0.438rem 0.813rem;
-        background: $brand-faded;
+        background: $brand-white;
         border: 1px solid $dropdown-border-color;
         color: $brand-light-gray;
         font-size: 1.25rem;
       }
     }
 
-    &.is-active > a {
+    .dropdown{
+      background: $brand-white;
+    }
+
+    &.is-active > a,
+    a:hover,
+    .dropdown-toggle:hover {
+      background: $brand-faded;
       color: $brand-secondary;
+      border-color: $brand-secondary;
     }
   }
 
   .dropdown-toggle {
     padding-top: 0.938rem;
     padding-bottom: 0.938rem;
-    background: $brand-faded;
     color: $brand-light-gray;
     font-size: 0.875rem;
     height: 3rem;
     width: 4.625rem;
-
-    &::before {
-      //margin-top: 0rem;
-    }
   }
 
   .show.lang-dropdown .dropdown-toggle {
