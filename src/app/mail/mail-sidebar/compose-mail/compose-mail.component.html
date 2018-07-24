@@ -4,6 +4,7 @@
       <div class="mail-compose-field mail-compose-field-to">
         <span class="mail-label label-to">To:</span>
         <tag-input [(ngModel)]="mailData.receiver"
+                   *ngIf="isLoaded"
                    name="to"
                    [placeholder]="'+'"
                    [secondaryPlaceholder]="'Enter recipient email'"
@@ -141,11 +142,6 @@
                   placement="top" ngbTooltip="Self-destructing timer"><i class="icon icon-clock"></i>
           </button>
         </li>
-        <li class="px-0">
-          <button role="button" type="button" (click)="addSignature()"
-                  class="actions-btn mail-sign-btn border-right-0 border-radius-0"
-                  placement="top" ngbTooltip="Signature"><i class="icon icon-sign"></i></button>
-        </li>
         <li class="pl-0">
           <button type="button" role="button" (click)="openDelayedDeliveryModal()"
                   class="actions-btn mail-self-timer-btn border-radius-l-0"
@@ -236,7 +232,7 @@
                         <div class="typo-holder">
                           <ul class="typo-list list-styled">
                             <li>
-                              <button value="small"
+                              <button value="10px"
                                       class="ql-size typo-select-link is-small">
                                 Small
                               </button>
@@ -248,13 +244,13 @@
                               </button>
                             </li>
                             <li>
-                              <button value="large"
+                              <button value="18px"
                                       class="ql-size typo-select-link is-large">
                                 Large
                               </button>
                             </li>
                             <li>
-                              <button value="huge"
+                              <button value="32px"
                                       class="ql-size typo-select-link is-huge">
                                 Huge
                               </button>
@@ -400,6 +396,7 @@
         <li class="pr-0">
           <button role="button"
                   (click)="saveInDrafts()"
+                  [disabled]="inProgress"
                   class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
                   placement="top" ngbTooltip="Save to drafts"><i class="icon icon-save-disk"></i>
           </button>
@@ -407,6 +404,7 @@
         <li class="pl-0">
           <button role="button"
                   (click)="discardEmail()"
+                  [disabled]="inProgress"
                   class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                   ngbTooltip="Delete draft"><i class="icon icon-garbage"></i></button>
         </li>

@@ -54,17 +54,21 @@ export class OpenPgpService {
       });
       this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
         if (event.data.encrypted) {
-          this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: false, encryptedContent: event.data.encryptedContent }));
+          this.store.dispatch(new UpdatePGPContent({
+            isPGPInProgress: false,
+            encryptedContent: event.data.encryptedContent,
+            draftId: event.data.callerId
+          }));
         }
       });
     }
   }
 
-  encrypt(content, publicKeys: any[] = []) {
-    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null }));
+  encrypt(draftId, content, publicKeys: any[] = []) {
+    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
 
     publicKeys.push(this.pubkey);
-    this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys });
+    this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys, callerId: draftId });
   }
 
   decrypt(content) {

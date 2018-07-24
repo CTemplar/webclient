@@ -122,6 +122,7 @@
     "inbox": "Inbox",
     "draft": "Draft",
     "sent": "Sent",
+    "outbox": "Outbox",
     "starred": "Starred",
     "archive": "Archive",
     "spam": "Spam",

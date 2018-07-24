@@ -14,6 +14,9 @@
   <app-generic-folder *ngSwitchCase="mailFolderTypes.SPAM"
                       [fetchMails]="true"
                       [mailFolder]="mailFolderTypes.SPAM"></app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.OUTBOX"
+                      [fetchMails]="true"
+                      [mailFolder]="mailFolderTypes.OUTBOX"></app-generic-folder>
 
   <ng-container *ngSwitchDefault>
     No folder found with this name!

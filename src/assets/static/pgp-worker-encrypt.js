@@ -6,7 +6,7 @@ var openpgp = window.openpgp;
 onmessage = function (event) {
     if (event.data.encrypt) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
-            postMessage({encryptedContent: data, encrypted: true});
+            postMessage({encryptedContent: data, encrypted: true, callerId: event.data.callerId});
         })
     }
 };
