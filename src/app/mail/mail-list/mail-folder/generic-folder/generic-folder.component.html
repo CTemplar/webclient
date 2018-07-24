@@ -71,7 +71,7 @@
                         <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
                       </a>
                       <span class="divider-item d-block"></span>
-                      <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
+                      <a class="dropdown-item" (click)="openCreateFolderDialog()">
                         <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
                       </a>
                       <a class="dropdown-item">
@@ -116,7 +116,7 @@
                 <span class="folder-color-box is-warning"></span>Folder 33
               </a>
               <span class="divider-item d-block"></span>
-              <a class="dropdown-item" data-toggle="modal" data-target="#createFoldersModal">
+              <a class="dropdown-item" (click)="openCreateFolderDialog()">
                 <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span></a>
             </div>
           </div>
