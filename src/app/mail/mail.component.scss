@@ -1211,7 +1211,7 @@
 // == Sender content
 .sender-content-list {
   > li {
-    font-size: 0.75rem;
+    font-size: 14px;
 
     &:not(:last-of-type) {
       margin-bottom: 0.313rem;
@@ -1241,7 +1241,7 @@
 
 .msg-received-time {
   margin-right: 0.938rem;
-  font-size: 0.75rem;
+  font-size: 14px;
 }
 
 // == Message reply dropdown
