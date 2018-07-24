@@ -7,3 +7,12 @@ textarea {
 #contactNote {
   min-height: 4.25rem;
 }
+
+.form-label,
+.form-control {
+  font-size: 14px;
+}
+
+.error-msg.is-sm {
+  font-size: 0.75rem;
+}
