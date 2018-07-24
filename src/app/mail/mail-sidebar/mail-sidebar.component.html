@@ -85,7 +85,7 @@
                     <ul class="folders-list">
                         <li *ngFor="let folder of mailBoxesState.customFolders; let i=index;">
                             <a href="">
-                                <span class="folder-color-box is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></span>
+                                <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
                                 <span class="folders-list-text">{{folder}}</span>
                             </a>
                         </li>

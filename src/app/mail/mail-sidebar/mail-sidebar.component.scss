@@ -28,17 +28,7 @@
   }
 
   > li > a {
-    position: relative;
-    display: flex;
-    padding-left: 0.875rem;
     color: $menu-link;
-
-    .folder-color-box {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-    }
 
     @include media("<=sm") {
       font-size: 0.625rem;
@@ -49,10 +39,10 @@
 // == Folder color boxes
 .folder-color-box {
   display: inline-block;
-  margin-right: 1.125rem;
   border-radius: 2px;
-  height: 0.5rem;
-  width: 0.5rem;
+  height: 0.6rem;
+  width: 0.6rem;
+  margin: 0.2rem;
   vertical-align: middle;
   border: solid 1px rgba(0, 0, 0, 0.12);
 
