@@ -200,9 +200,9 @@
                                     <span class="badge badge-danger mr-2 p-1"
                                           *ngIf="i==2">Dead mans timer 1d 5:25:00</span>
 
-                                    <span [ngClass]="{'font-weight-bold': !mail.read}" [innerHTML]="mail.subject">
+                                    <div class="mail-content" [ngClass]="{'font-weight-bold': !mail.read}" [innerHTML]="mail.subject">
                                         <!-- Subject Goes Here -->
-                                    </span>
+                                    </div>
 
                                 </span>
           </a>

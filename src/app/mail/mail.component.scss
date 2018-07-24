@@ -1076,6 +1076,7 @@
   .mail-inbox-message,
   .mail-from-name{
     padding: 0;
+    font-size: 14px;
     a {
       display: inline-block;
       position: relative;
@@ -1084,12 +1085,10 @@
     }
   }
 
-
-
   .mail-file-size,
   .mail-sent-date {
-    font-size: 0.625rem;
-    width: 4rem;
+    font-size: 0.75rem;
+    width: 5rem;
 
     @include media("<=sm") {
       font-size: 0.75rem;
@@ -1118,12 +1117,13 @@
   }
 
   .mail-from-name {
-    width: 11.25rem;
+    width: 12.5rem;
     vertical-align: middle;
   }
 
-  .mail-subject .mail-content p{
-    display: inline;
+  .mail-subject .mail-content{
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .mail-desc {
