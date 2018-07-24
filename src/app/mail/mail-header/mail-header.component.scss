@@ -44,7 +44,7 @@
       top: 15px;
     }
 
-    .mailbox-actions-menu .dropdown-toggle {
+    .mailbox-actions-menu .dropdown .dropdown-toggle {
       display: block;
       margin-top: -.05rem;
       padding: 0 1rem 0 0;
@@ -145,6 +145,7 @@
     font-size: 0.875rem;
     height: 3rem;
     width: 4.625rem;
+    border-radius: 0;
   }
 
   .show.lang-dropdown .dropdown-toggle {
