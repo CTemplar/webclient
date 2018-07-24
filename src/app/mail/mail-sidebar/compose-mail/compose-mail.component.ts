@@ -28,16 +28,18 @@ import { OpenPgpService } from '../../../store/services/openpgp.service';
 
 const Quill: any = QuillNamespace;
 
-const FontAttributor = Quill.import('attributors/class/font');
+const FontAttributor = Quill.import('attributors/style/font');
 FontAttributor.whitelist = [
   'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
 ];
 Quill.register(FontAttributor, true);
+
+const SizeAttributor = Quill.import('attributors/style/size');
+SizeAttributor.whitelist = ['10px', '18px', '32px'];
+Quill.register(SizeAttributor, true);
 Quill.register(Quill.import('attributors/style/align'), true);
 Quill.register(Quill.import('attributors/style/background'), true);
 Quill.register(Quill.import('attributors/style/color'), true);
-Quill.register(Quill.import('attributors/style/font'), true);
-Quill.register(Quill.import('attributors/style/size'), true);
 
 export class PasswordValidation {
 
