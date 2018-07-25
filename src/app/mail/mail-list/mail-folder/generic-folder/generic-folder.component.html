@@ -101,7 +101,8 @@
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.ARCHIVE)">
                 <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
               </a>
-              <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"  href="">
+              <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"
+                 (click)="moveToFolder(folder)">
                   <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
                   <span class="folders-list-text">{{folder}}</span>
               </a>

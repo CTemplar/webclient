@@ -17,7 +17,9 @@
                       </label>
                   </div>
                   <div class="col-sm-9">
-                      <input class="form-control form-control-sm" id="folderName" type="text" formControlName="folderName"/>
+                      <input class="form-control form-control-sm"
+                             (keyup)="customFolderForm.get('folderName').setValue(customFolderForm.get('folderName').value.replace(' ',''))"
+                             id="folderName" type="text" formControlName="folderName"/>
                   </div>
               </div>
           </div>

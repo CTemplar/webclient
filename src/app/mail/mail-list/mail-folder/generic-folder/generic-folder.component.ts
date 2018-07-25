@@ -117,7 +117,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
    * @description Move mails to selected folder type
    * @param {MailFolderType} folder
    */
-  moveToFolder(folder: MailFolderType) {
+  moveToFolder(folder: string) {
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch move to selected folder event
