@@ -91,7 +91,7 @@
                     <ul class="folders-list">
                         <li *ngFor="let folder of mailBoxesState.customFolders; let i=index;">
                             <a href="">
-                                <span class="folder-color-box is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></span>
+                                <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
                                 <span class="folders-list-text">{{folder}}</span>
                             </a>
                         </li>
@@ -100,7 +100,7 @@
             </ul>
         </nav>
 
-        <div class="mailbox-sidebar-footer text-center mt-3 py-2">
+        <div class="mailbox-sidebar-footer text-center mt-4 py-2">
                 <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm" translate="mail_sidebar.used">Used
                 <div class="text-white mt-1">43 MB</div>
             </div>

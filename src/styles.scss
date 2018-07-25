@@ -197,6 +197,11 @@ tag-input {
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: #444;
 
+  .icon-lg {
+    font-size: 1rem;
+    vertical-align: middle;
+  }
+  
   &:hover,
   &:focus{
     border: 1px solid #c6c6c6;

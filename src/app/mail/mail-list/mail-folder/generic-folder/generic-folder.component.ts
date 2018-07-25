@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, MailState } from '../../../../store/datatypes';
+import { AppState, MailState, MailBoxesState } from '../../../../store/datatypes';
 import { Mail, MailFolderType } from '../../../../store/models';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
@@ -20,6 +20,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
   @Input() fetchMails: boolean;
+  customFolders: string[];
 
   mailFolderTypes = MailFolderType;
 
@@ -39,6 +40,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
           this.mails = mailState.mails;
         });
     }
+
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    .subscribe((mailboxes: MailBoxesState) => {
+      this.customFolders = mailboxes.customFolders;
+    });
   }
 
   markAllMails(checkAll) {

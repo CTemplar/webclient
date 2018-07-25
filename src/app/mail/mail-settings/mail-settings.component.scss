@@ -159,7 +159,7 @@
 
 .form-content-holder {
   max-width: 570px;
-  font-size: 0.75rem;
+  font-size: 14px;
 
   @include media("<=sm") {
     font-size: 0.875rem;
@@ -185,7 +185,7 @@
     padding-right: 0.75rem;
     padding-left: 0.75rem;
     border-radius: 2px;
-    font-size: 0.75rem;
+    font-size: 14px;
     height: 2rem;
     width: 100%;
     line-height: 1;
@@ -265,15 +265,15 @@
 
 .info-card {
   background: #f5f5f5;
-  // line-height: 1.25;
-
+  
   p {
+    font-size: 14px;
     margin-bottom: 0.25rem;
   }
 }
 
 .form-content-holder .btn-link {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
 }
 
 // == Modals
@@ -321,4 +321,8 @@
     right: .75rem;
     transform: translateY(-50%);
   }
+}
+
+.form-content-holder .form-control {
+  font-size: 14px;
 }
