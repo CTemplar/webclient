@@ -161,8 +161,8 @@
     "signup": "Regístrate"
   },
   "home_page": {
-    "take_back_liberty": "<strong>Recupere su libertad</strong> con comunicación cifrada",
-    "send_unbreakable_email": "Envíe correos electrónicos irrompibles y proteja sus detalles profesionales y personales clave a través del cifrado de próxima generación",
+    "take_back_liberty": "<strong> Recupere su libertad </strong> con el sistema de correo electrónico más seguro del mundo",
+    "send_unbreakable_email": "Enviar correos electrónicos irrompibles &amp; proteja sus detalles profesionales y personales clave con cifrado de próxima generación y almacenamiento en servidores islandeses, seguros con las leyes de privacidad de datos más fuertes del mundo",
     "signup_for_free": "Registrate gratis",
     "latest_from_our_blog": "Lo último de <strong>Nuestro blog</strong>",
     "related_post": "Relacionado <strong>Enviar</strong>",
@@ -170,14 +170,14 @@
   },
   "home_feature": {
     "end_to_end_PKI_encryption": "El cifrado PKI de extremo a extremo mantiene su información privada a salvo de los gobiernos, las empresas y los piratas informáticos de alquiler.",
-    "safely_send_your_financial": "Envíe de forma segura sus registros financieros, contratos, resultados de laboratorio, periodismo y más, incluso a cuentas de correo electrónico no CTemplar.",
-    "iceland_based_server": "Los servidores basados ​​en Islandia tienen las estrictas leyes de privacidad del mundo, por lo que sus datos no se pueden compartir, incluso con las más altas autoridades.",
-    "easy_to_use_responsive": "La interfaz sensible y fácil de usar hace que el envío de correos electrónicos seguros sea rápido y fácil desde cualquier dispositivo.",
-    "learn_more_about_ctempler": "Conozca más sobre la seguridad CTemplar Obtenga más información sobre la seguridad CTemplar"
+    "safely_send_your_financial": "Envíe de manera segura sus registros financieros, contratos, resultados de laboratorio, periodismo y más, incluso a cuentas de correo electrónico no CTemplar, con registro anónimo de correo electrónico y sin registro de IP.",
+    "iceland_based_server": "Islandia tiene las leyes de privacidad de datos más fuertes del mundo, por lo que al utilizar nuestros servidores de Islandia, sus datos tienen la protección legal más sólida del mundo..",
+    "easy_to_use_responsive": "El sitio web y la aplicación fáciles de usar y con capacidad de respuesta hacen que el envío de correos electrónicos seguros sea rápido y fácil desde cualquier dispositivo.",
+    "learn_more_about_ctempler": "Conozca más sobre las características de seguridad de CTemplar"
   },
    "footer": {
-     "register_to_world_most": "Registro <strong>Correo electrónico más seguro del mundo</strong> ¡Ahora!",
-     "send_unbreakable_emails": "Envíe correos electrónicos irrompibles y proteja sus detalles profesionales y personales clave a través del cifrado de próxima generación.",
+     "register_to_world_most": "<strong> Regístrese para </strong> el correo electrónico más seguro del mundo <strong> ahora </strong>",
+     "send_unbreakable_emails": "Enviar correos electrónicos irrompibles &amp; proteja sus detalles profesionales y personales clave con el cifrado de próxima generación utilizando almacenamiento islandés centrado en la privacidad.",
      "upgrade_to_prime": "actualizar a primer",
      "media_kit": "Kit de medios",
      "onion_site": "Sitio de cebolla",
@@ -192,7 +192,7 @@
   "page_about": {
     "as_the_govt_continues": "A medida que el gobierno continúa funcionando completamente fuera del ámbito de la responsabilidad, todos nosotros, reportero, misionero, estudiante, empresario, ciudadano, nos convertimos en una persona que necesita privacidad y protección.",
      "why_i_started": "Por qué comencé <strong>CTemplar</strong>",
-    "idea_to_create_service": "La idea de crear este servicio comenzó cuando escuché acerca de las atrocidades que ocurren en el Medio Oriente, a los inocentes y a la humanidad. Al mirar a su alrededor, parecería que el mundo más grande estaba demasiado ocupado para prestar mucha atención, distraído por sus propios asuntos o incapaz de ofrecer ayuda.<br/> Como solo un hombre con capacidades limitadas, ¿qué podría hacer? Pasaron los meses mientras meditaba sobre esta pregunta, y al final me di cuenta de que debía usar mis propias fuerzas para librar una batalla más grande contra la opresión que veo en el mundo. Como resultado, recurrí a la tecnología, algo que sé y entiendo, para crear un sistema de comunicación tan fuerte y resistente que confíe en mi propia vida.<br/> <br/>A través de este esfuerzo para proteger las comunicaciones a través del cifrado, ha surgido un servicio completamente nuevo, que nunca se venderá a los inversionistas corporativos ni se verá debilitado por las agendas internacionales, CTemplar.",
+    "idea_to_create_service": "La idea de crear este servicio comenzó cuando reconocí las atrocidades que ocurren en Oriente Medio, los inocentes y la humanidad. Al mirar a su alrededor, parecería que el mundo más grande estaba demasiado ocupado para prestar mucha atención, distraído por sus propios asuntos o incapaz de ofrecer ayuda. <br/> Como solo un hombre con capacidades limitadas, ¿qué podría hacer? Pasaron los meses mientras meditaba sobre esta pregunta, y al final me di cuenta de que debía usar mis propias fuerzas para librar una batalla más grande contra la opresión que veo en el mundo. Como resultado, recurrí a la tecnología, algo que sé y entiendo, para crear un sistema de comunicación tan fuerte y resistente que confíe en mi propia vida. <br/> <br/> A través de este esfuerzo para proteger las comunicaciones a través del cifrado, ha surgido un servicio completamente nuevo, que nunca se venderá a los inversores corporativos ni se verá debilitado por las agendas internacionales.",
     "why_ctempler": "Por qué <strong>CTemplar?</strong>",
     "nearly_a_thousand_year": "Hace casi mil años había un grupo de hombres conocidos como los Caballeros Templarios. Protegieron a los peregrinos errantes que no querían nada más que visitar la Tierra Santa y encontrar una manera de lograr la espiritualidad.",
     "the_templer_safeguard": "Los templarios salvaguardaron los caminos de los viajeros al monitorear las carreteras y ayudarlos a encontrar un viaje exitoso. Los templarios representaban la rectitud, dispuestos a dar sus vidas por los pobres y los débiles, incluso si esto los llevaba a la muerte.<br/> Hoy en día, hay muchas personas en el mundo que todavía sufren este mismo temor que una vez sintieron los inocentes, como<a >buscan formas de vivir sus vidas en paz</a> y sin intrusión Tal vez tú eres uno de ellos. Creo que ahora necesitamos un nuevo Templar, que pueda ofrecer protección contra la invasión continua de nuestras vidas personales.<br/> Poco a poco, se está robando su privacidad, como la mía, y es el momento de reclamar nuestros derechos, nuestras libertades, nuestro anonimato y recordar la fortaleza de quienes nos precedieron, listos y dispuestos. para empuñar un arma en su propia defensa. Y para nosotros, para la sociedad moderna, esa herramienta es tecnología.",
@@ -207,7 +207,7 @@
   },
   "page_security": {
     "features": "Caracteristicas",
-    "end_to_end_encryption": "Cifrado de extremo a extremo con criptografía de código abierto",
+    "end_to_end_encryption": "Cifrado de extremo a extremo utilizando criptografía de código abierto",
     "whether_you_are_sending": "Ya sea que esté enviando información clasificada a su contador, socios comerciales, clientes, redes de noticias o simplemente a sus amigos, sus correos electrónicos se cifran automáticamente usando una fuerte <a> criptografía de clave pública </a> en nuestros servidores islandeses, por lo que incluso nosotros no podemos léalos Solo usted y su destinatario pueden decodificar sus correos electrónicos.",
     "benefit_from_world": "Benefíciese de las leyes de protección de datos más estrictas del mundo",
     "most_encrypted_email": "La mayoría de los proveedores de servicios de correo electrónico cifrados navegan sobre sus centros de datos suizos. Lo que no le dicen es que el gobierno suizo tiene un <a> acuerdo de intercambio de información con EE. UU. </a>, por lo que sus datos no son 100% seguros. Islandia tiene acuerdos de intercambio cero y mantiene las leyes de privacidad de datos más estrictas del mundo, por lo que sus datos permanecen encriptados en nuestros servidores y en ninguna otra parte.",
@@ -216,7 +216,7 @@
     "simple_to_use": "Interfaz fácil de usar como una cuenta de correo electrónico regular",
     "unlike_the_old_days": "A diferencia de los viejos tiempos en los que el correo electrónico encriptado significaba encriptación manual compleja y la configuración de un servidor privado, CTemplar lo hace todo por usted. Simplemente envíe y reciba sus correos electrónicos como una cuenta de correo electrónico regular y tenga la seguridad de que su privacidad se mantendrá al 100%.",
     "encrypted_email_to_non": "Correo electrónico encriptado para actas no CTemaplar, mensajes de autodestrucción y mucho más ...",
-    "your_contacts_dont_require": "Sus contactos no requieren una cuenta CTemplar para enviar y recibir correos cifrados, solo necesitan acceder a su clave pública para descifrar y abrir sus mensajes. Aunque recomendamos que todos utilicen cuentas de correo electrónico de CTemplar para una seguridad máxima, ya que incluso sus correos electrónicos y líneas de asunto almacenados estarán protegidos, a diferencia de las cuentas normales."
+    "your_contacts_dont_require": "Sus contactos no requieren una cuenta CTemplar para enviar y recibir correos cifrados, solo necesitan acceder a su clave pública para descifrar y abrir sus mensajes. Sin embargo, recomendamos que todos usen las cuentas de correo CTemplar para la máxima seguridad, ya que incluso sus correos electrónicos almacenados y líneas de asunto estarán protegidos, a diferencia de las cuentas normales."
    },
   "page_pricing": {
     "do_not_show_ads": "No mostramos anuncios ni ganamos dinero al abusar de su privacidad. En cambio, dependemos de su apoyo para mantener el servicio en funcionamiento. Los ingresos de las cuentas pagas se utilizan para desarrollar aún más CTemplar y apoyar a los usuarios libres, como los activistas por la democracia y los disidentes que necesitan privacidad, pero que no necesariamente pueden pagarla.",

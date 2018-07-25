@@ -161,8 +161,8 @@
     "signup": "Sign up"
   },
   "home_page": {
-    "take_back_liberty": "<strong>Take Back Your Liberty</strong> with Encrypted Communication",
-    "send_unbreakable_email": "Send unbreakable emails and protect your key professional and personal details trough next-gen encryption",
+    "take_back_liberty": "<strong>Take Back Your Liberty</strong> with the World’s Most Secure Email System",
+    "send_unbreakable_email": "Send unbreakable emails &amp; protect your key professional and personal details with next-gen encryption and storage on Icelandic servers, secure with the world’s strongest data privacy laws.",
     "signup_for_free": "Sign up for free",
     "latest_from_our_blog": "Latest From <strong>Our Blog</strong>",
     "related_post": "Related <strong>Post</strong>",
@@ -170,14 +170,14 @@
   },
   "home_feature": {
     "end_to_end_PKI_encryption": "End-to-end PKI encryption keeps your private information safe from governments, corporations and hackers-for-hire.",
-    "safely_send_your_financial": "Safely send your financial records, contracts, lab results, journalism and more, even to non-CTemplar email accounts.",
-    "iceland_based_server": "Iceland-based servers have the world’s strict privacy laws, so your data cannot be shared, even with the highest authorities.",
-    "easy_to_use_responsive": "Easy-to-use responsive interface makes sending secure emails quick and easy from any device.",
-    "learn_more_about_ctempler": "Learn more about CTemplar security"
+    "safely_send_your_financial": "Securely send your financial records, contracts, lab results, journalism and more, even to non-CTemplar email accounts, with anonymous email signup and no IP logging.",
+    "iceland_based_server": "Iceland has the world’s strongest data privacy laws, so by using our Icelandic servers, your data has the strongest legal protection in the world.",
+    "easy_to_use_responsive": "Easy-to-use, responsive website and app make sending secure emails quick and easy from any device.",
+    "learn_more_about_ctempler": "Learn more about the security features of CTemplar"
   },
   "footer": {
-    "register_to_world_most": "Register <strong>World’s Most Secure Email</strong> Now!",
-    "send_unbreakable_emails": "Send unbreakable emails and protect your key professional and personal details trough next-gen encryption.",
+    "register_to_world_most": "<strong>Register for the </strong> World’s Most Secure Email <strong>now!</strong>",
+    "send_unbreakable_emails": "Send unbreakable emails &amp; protect your key professional and personal details with next-gen encryption using privacy-centric Icelandic storage..",
     "upgrade_to_prime": "upgrade to prime",
     "media_kit": "Media Kit",
     "onion_site": "Onion site",
@@ -192,7 +192,7 @@
   "page_about": {
     "as_the_govt_continues": "As the government continues to function completely outside the realm of accountability, all of us—reporter, missionary, student, businessperson, citizen—become one person, in need of privacy and protection.",
     "why_i_started": "Why I started <strong> CTemplar</strong>",
-    "idea_to_create_service": "The idea to create this service first began when I heard about the atrocities happening in the Middle East, to the innocents and to humanity. Looking around, it would seem the larger world was too busy to pay much attention,distracted by their own affairs or helpless to offer assistance. <br/> As just one man with limited capabilities, what could I do? Months went by as I pondered this question, finally realizing I must use my own strengths to wage a larger fight against the oppression I see in the world. As a result, I turned to technology—something I know and understand—to create a system of communication so strong and resilient I would trust it with my own life. <br/> <br/>Through this effort to protect communications through encryption, an entirely new service has emerged, one that will never sell out to corporate investors or be weakened by international agendas—CTemplar.",
+    "idea_to_create_service": "The idea to create this service first began when I recognized about the atrocities happening in the Middle East, to the innocents and to humanity. Looking around, it would seem the larger world was too busy to pay much attention,distracted by their own affairs or helpless to offer assistance. <br/> As just one man with limited capabilities, what could I do? Months went by as I pondered this question, finally realizing I must use my own strengths to wage a larger fight against the oppression I see in the world. As a result, I turned to technology—something I know and understand—to create a system of communication so strong and resilient I would trust it with my own life. <br/> <br/>Through this effort to protect communications through encryption, an entirely new service has emerged, one that will never sell out to corporate investors or be weakened by international agendas.",
     "why_ctempler": "Why <strong>CTemplar?</strong>",
     "nearly_a_thousand_year": "Nearly a thousand years ago there was a group of men known as the Knights Templar. They protected the wandering pilgrims who wanted nothing more than to visit the Holy Land and find a way to achieve spirituality.",
     "the_templer_safeguard": "The Templar safeguarded travelers’ paths by monitoring the roadways and helping them find a successful journey. The Templar stood for righteousness, willing to lay down their lives for the poor and the weak, even if it led to their death. <br/> Today, there are many people in the world still suffering from this same fear once felt by the innocents, as <a >they look for ways to live their lives in peace</a> and without intrusion. Perhaps you are one of them. I believe we now find ourselves in need of a new Templar, one that can deliver protection against the ongoing invasion of our personal lives. <br/> Little by little, your privacy is being stolen away—as is mine—and the time is now to reclaim our rights, our freedoms, our anonymity, and to remember the strength of those who came before us, ready and willing to wield a weapon in their own defense. And for us, for modern society, that tool is technology.",
@@ -207,7 +207,7 @@
   },
   "page_security": {
     "features": "Features",
-    "end_to_end_encryption": "End-to-end Encryption with Open Source Cryptography",
+    "end_to_end_encryption": "End-to-End Encryption using Open Source Cryptography",
     "whether_you_are_sending": "Whether you’re sending classified information to your accountant, business partners, clients, news networks or simply your friends, your emails are automatically encrypted using strong <a >public key cryptography</a> on our Icelandic servers, so even we can’t read them. Only you and your recipient can decode your emails.",
     "benefit_from_world": "Benefit from the World’s Strictest Data Protection Laws",
     "most_encrypted_email": "Most encrypted email service providers boats about their Swiss data centers. What they don’t tell you is the Swiss government has an <a >information sharing agreement with USA</a>, so your data isn’t 100% secure. Iceland has zero sharing agreements and maintains the strictest data privacy laws in the world, so your data stays encrypted on our servers and nowhere else!",
@@ -216,7 +216,7 @@
     "simple_to_use": "Simple-to-use Interface Just Like a Regular Email Account",
     "unlike_the_old_days": "Unlike the old days where encrypted emailing meant complex manual encryption and private server setup, CTemplar does it all for you. Simply send and receive your emails just like a regular email account and rest assured knowing your privacy is 100% maintained.",
     "encrypted_email_to_non": "Encrypted email to non-CTemaplar acounts, self-destructing messages & much more….",
-    "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. Though we do recommend everyone to use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected,  unlike regular accounts."
+    "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. However, we do recommend everyone use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected, unlike regular accounts."
   },
   "page_pricing": {
     "do_not_show_ads": "We do not show ads or make money by abusing your privacy. Instead, we depend on your support to keep the service running. Revenue from paid accounts is used to further develop CTemplar and support free users such as democracy activists and dissidents who need privacy but can't necessarily afford it.",
