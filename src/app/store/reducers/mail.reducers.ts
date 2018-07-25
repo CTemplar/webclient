@@ -7,7 +7,8 @@ export const initialState: MailState = {
   mails: [],
   mailDetail: null,
   folders: new Map(),
-  loaded: false
+  loaded: false,
+  decryptedContents: {}
 };
 
 export function reducer(state: MailState = initialState, action: MailActions): MailState {
@@ -86,16 +87,33 @@ export function reducer(state: MailState = initialState, action: MailActions): M
     }
 
     case MailActionTypes.CLEAR_MAIL_DETAIL: {
+      delete state.decryptedContents[action.payload.id];
       return {
         ...state,
         mailDetail: null,
-        isPGPInProgress: false,
-        decryptedContent: null,
+        decryptedContents: {...state.decryptedContents},
       };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
       return { ...state, currentFolder: action.payload };
+    }
+
+    case MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT: {
+      if (!state.decryptedContents[action.payload.id]) {
+        state.decryptedContents[action.payload.id] = {
+          id: action.payload.id,
+          content: action.payload.decryptedContent,
+          inProgress: action.payload.isPGPInProgress
+        };
+      } else {
+        state.decryptedContents[action.payload.id] = {
+          ...state.decryptedContents[action.payload.id],
+          content: action.payload.decryptedContent,
+          inProgress: action.payload.isPGPInProgress
+        };
+      }
+      return {...state, decryptedContents: {...state.decryptedContents}};
     }
 
     default: {

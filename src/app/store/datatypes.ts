@@ -81,8 +81,17 @@ export interface MailState {
   currentFolder?: MailFolderType;
   loaded?: boolean;
   inProgress?: boolean;
-  decryptedContent?: string;
-  isPGPInProgress?: boolean;
+  decryptedContents: DecryptedContentState;
+}
+
+export interface DecryptedContent {
+  id: number;
+  content: string;
+  inProgress: boolean;
+}
+
+export interface DecryptedContentState {
+  [key: number]: DecryptedContent;
 }
 
 export interface Draft {

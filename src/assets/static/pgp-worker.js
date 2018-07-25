@@ -14,7 +14,7 @@ onmessage = function (event) {
         postMessage({key: decryptedPrivKeyObj});
     } else if (event.data.decrypt) {
         decryptContent(event.data.content).then((data) => {
-            postMessage({decryptedContent: data, decrypted: true,});
+            postMessage({decryptedContent: data, decrypted: true, callerId: event.data.callerId});
         })
     }
 }

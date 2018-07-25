@@ -26,7 +26,8 @@ export enum MailActionTypes {
   SET_FOLDERS = '[MAILBOX] SET FOLDERS',
   CREATE_FOLDER = '[MAILBOX] CREATE FOLDER',
   CREATE_FOLDER_SUCCESS = '[MAILBOX] CREATE FOLDER SUCCESS',
-  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT'
+  SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT',
+  UPDATE_PGP_DECRYPTED_CONTENT = '[PGP] UPDATE PGP DECRYPTED CONTENT'
 }
 
 export class GetMails implements Action {
@@ -174,6 +175,12 @@ export class SetCurrentFolder implements Action {
   constructor(public payload: any) {}
 }
 
+export class UpdatePGPDecryptedContent implements Action {
+  readonly type = MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT;
+
+  constructor(public payload: any) {}
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -198,4 +205,5 @@ export type MailActions =
   | SetFolders
   | CreateFolder
   | CreateFolderSuccess
-  | SetCurrentFolder;
+  | SetCurrentFolder
+  | UpdatePGPDecryptedContent;
