@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AppState, Draft, DraftState, MailState } from '../datatypes';
-import { ClearDraft, CreateMail, SendMail } from '../actions';
 import { Store } from '@ngrx/store';
+import { ClearDraft, CreateMail, SendMail } from '../actions';
+import { AppState, ComposeMailState, Draft, DraftState } from '../datatypes';
 import { OpenPgpService } from './openpgp.service';
 
 @Injectable()
@@ -10,17 +10,17 @@ export class ComposeMailService {
 
   constructor(private store: Store<AppState>,
               private openPgpService: OpenPgpService) {
-    this.store.select((state: AppState) => state.mail)
-      .subscribe((response: MailState) => {
+    this.store.select((state: AppState) => state.composeMail)
+      .subscribe((response: ComposeMailState) => {
         Object.keys(response.drafts).forEach((key) => {
           const draftMail: Draft = response.drafts[key];
           if (draftMail.draft) {
             if (draftMail.shouldSave && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
               draftMail.draft.content = draftMail.encryptedContent;
-              this.store.dispatch(new CreateMail({ ...draftMail }));
+              this.store.dispatch(new CreateMail({...draftMail}));
             } else if (draftMail.shouldSend && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
               draftMail.draft.content = draftMail.encryptedContent;
-              this.store.dispatch(new SendMail({ ...draftMail }));
+              this.store.dispatch(new SendMail({...draftMail}));
             } else if (draftMail.shouldSend && this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
               this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, draftMail.usersKeys.map(item => item.public_key));
             }
@@ -30,7 +30,7 @@ export class ComposeMailService {
           }
         });
 
-        this.drafts = { ...response.drafts };
+        this.drafts = {...response.drafts};
       });
 
   }

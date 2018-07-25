@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, MailBoxesState } from '../datatypes';
-import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPContent } from '../actions';
+import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPEncryptedContent, UpdatePGPDecryptedContent } from '../actions';
 
 @Injectable()
 export class OpenPgpService {
@@ -49,12 +49,16 @@ export class OpenPgpService {
           this.decryptedPrivKeyObj = event.data.key;
           this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
         } else if (event.data.decrypted) {
-          this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: false, decryptedContent: event.data.decryptedContent }));
+          this.store.dispatch(new UpdatePGPDecryptedContent({
+            id: event.data.callerId,
+            isPGPInProgress: false,
+            decryptedContent: event.data.decryptedContent
+          }));
         }
       });
       this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
         if (event.data.encrypted) {
-          this.store.dispatch(new UpdatePGPContent({
+          this.store.dispatch(new UpdatePGPEncryptedContent({
             isPGPInProgress: false,
             encryptedContent: event.data.encryptedContent,
             draftId: event.data.callerId
@@ -65,19 +69,19 @@ export class OpenPgpService {
   }
 
   encrypt(draftId, content, publicKeys: any[] = []) {
-    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
+    this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
 
     publicKeys.push(this.pubkey);
     this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys, callerId: draftId });
   }
 
-  decrypt(content) {
+  decrypt(mailId, content) {
     if (this.decryptedPrivKeyObj) {
-      this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, decryptedContent: null }));
-      this.pgpWorker.postMessage({ content: content, decrypt: true });
+      this.store.dispatch(new UpdatePGPDecryptedContent({ id: mailId, isPGPInProgress: true, decryptedContent: null }));
+      this.pgpWorker.postMessage({ content: content, decrypt: true, callerId: mailId });
     } else {
       setTimeout(() => {
-        this.decrypt(content);
+        this.decrypt(mailId, content);
       }, 1000);
     }
   }

@@ -10,6 +10,7 @@ import * as keyboard from './keyboard.reducers';
 import * as user from './users.reducers';
 import * as timezone from './timezone.reducer';
 import * as bitcoin from './bitcoin.reducers';
+import * as composeMail from './compose-mail.reducers';
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: auth.reducer,
@@ -20,6 +21,7 @@ export const reducers: ActionReducerMap<AppState> = {
   keyboard: keyboard.reducer,
   user: user.reducer,
   timezone: timezone.reducer,
-  bitcoin: bitcoin.reducer
+  bitcoin: bitcoin.reducer,
+  composeMail: composeMail.reducer
 };
 

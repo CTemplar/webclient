@@ -80,10 +80,18 @@ export interface MailState {
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;
   loaded?: boolean;
-  drafts: DraftState;
   inProgress?: boolean;
-  decryptedContent?: string;
-  isPGPInProgress?: boolean;
+  decryptedContents: DecryptedContentState;
+}
+
+export interface DecryptedContent {
+  id: number;
+  content: string;
+  inProgress: boolean;
+}
+
+export interface DecryptedContentState {
+  [key: number]: DecryptedContent;
 }
 
 export interface Draft {
@@ -108,6 +116,10 @@ export interface Draft {
 
 export interface DraftState {
   [key: number]: Draft;
+}
+
+export interface ComposeMailState {
+  drafts: DraftState;
 }
 
 export interface MailBoxesState {
@@ -172,6 +184,7 @@ export interface AppState {
   user: UserState;
   timezone: TimezonesState;
   bitcoin: BitcoinState;
+  composeMail: ComposeMailState;
 }
 
 export interface TimezonesState {

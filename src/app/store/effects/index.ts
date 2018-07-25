@@ -1,3 +1,4 @@
+import { ComposeMailEffects } from './compose-mail.effects';
 import { RouterEffects } from './router.effect';
 import { AuthEffects } from './auth.effects';
 import { BlogEffects } from './blog.effects';
@@ -10,7 +11,7 @@ import { MailboxEffects } from './mailbox.effects';
 export const effects: any[] = [
   RouterEffects, AuthEffects, BlogEffects,
   MailEffects, UsersEffects, TimezoneEffects, BitcoinEffects,
-  MailboxEffects,
+  MailboxEffects, ComposeMailEffects
 ];
 
 export * from './router.effect';
@@ -21,3 +22,4 @@ export * from './users.effects';
 export * from './timezone.effects';
 export * from './bitcoin.effects';
 export * from './mailbox.effects';
+export * from './compose-mail.effects';

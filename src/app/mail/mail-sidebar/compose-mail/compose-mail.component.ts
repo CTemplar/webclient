@@ -20,7 +20,7 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, Contact, Draft, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
+import { AppState, ComposeMailState, Contact, Draft, MailBoxesState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { ComposeMailService } from '../../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
@@ -47,7 +47,7 @@ export class PasswordValidation {
     const password = AC.get('password').value; // to get value in input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
     if (password !== confirmPassword) {
-      AC.get('confirmPwd').setErrors({ MatchPassword: true });
+      AC.get('confirmPwd').setErrors({MatchPassword: true});
     } else {
       return null;
     }
@@ -125,8 +125,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initializeAutoSave();
     this.resetMailData();
 
-    this.store.select((state: AppState) => state.mail).takeUntil(this.destroyed$)
-      .subscribe((response: MailState) => {
+    this.store.select((state: AppState) => state.composeMail).takeUntil(this.destroyed$)
+      .subscribe((response: ComposeMailState) => {
         const draft = response.drafts[this.draftId];
         if (draft) {
           this.draftMail = draft.draft;
@@ -135,7 +135,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             if (draft.draft.id && this.attachmentsQueue.length > 0) {
               this.attachmentsQueue.forEach(attachment => {
                 attachment.message = draft.draft.id;
-                this.store.dispatch(new UploadAttachment({ ...attachment }));
+                this.store.dispatch(new UploadAttachment({...attachment}));
               });
               this.attachmentsQueue = [];
             }
@@ -175,7 +175,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
-      'confirmPwd': ['', [Validators.required]],
+      'confirmPwd': ['', [Validators.required]]
     }, {
       validator: PasswordValidation.MatchPassword
     });
@@ -196,9 +196,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       draft: null,
       inProgress: false,
       attachments: [],
-      usersKeys: [],
+      usersKeys: []
     };
-    this.store.dispatch(new NewDraft({ ...draft }));
+    this.store.dispatch(new NewDraft({...draft}));
   }
 
   initializeQuillEditor() {
@@ -270,7 +270,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.draftMail.id) {
         this.attachmentsQueue.push(attachment);
       } else {
-        this.store.dispatch(new UploadAttachment({ ...attachment }));
+        this.store.dispatch(new UploadAttachment({...attachment}));
       }
     }
   }
@@ -315,10 +315,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
       this.setMailData(true, false, true);
-      this.store.dispatch(new GetUsersKeys({ draftId: this.draft.id, emails: receivers.join(',') }));
+      this.store.dispatch(new GetUsersKeys({draftId: this.draft.id, emails: receivers.join(',')}));
     } else {
       this.setMailData(false, false);
-      this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
+      this.store.dispatch(new SendMail({...this.draft, draft: {...this.draftMail}}));
     }
     this.hide.emit();
     this.resetValues();
@@ -483,7 +483,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
     if (!this.draftMail) {
-      this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
+      this.draftMail = {content: null, mailbox: this.mailbox.id, folder: 'draft'};
     }
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
@@ -494,7 +494,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
-    this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
+    this.store.dispatch(new UpdateLocalDraft({...this.draft, shouldSave, shouldSend, draft: {...this.draftMail}}));
   }
 
   private resetValues() {
@@ -534,7 +534,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetMailData() {
     this.mailData = {
-      receiver: this.receivers ? this.receivers.map(receiver => ({ display: receiver, value: receiver })) : [],
+      receiver: this.receivers ? this.receivers.map(receiver => ({display: receiver, value: receiver})) : [],
       cc: [],
       bcc: [],
       subject: ''
