@@ -6,3 +6,4 @@ export * from './loading.action';
 export * from './keyboard.action';
 export * from './users.action';
 export * from './bitcoin.action';
+export * from './compose-mail.actions';
