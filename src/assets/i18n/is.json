@@ -175,23 +175,23 @@
     "easy_to_use_responsive": "Auðvelt að nota, móttækilegur vefsíða og app gerir þér kleift að senda örugga tölvupóst á fljótlegan og auðveldan hátt frá hvaða tæki sem er.",
     "learn_more_about_ctempler": "Lærðu meira um öryggisaðgerðir CTemplar"
   },
-   "footer": {
-     "register_to_world_most": "<strong> Skráðu þig fyrir </strong> Öruggasta netfang heims <strong> núna! </strong>",
-     "send_unbreakable_emails": "Senda óbrjótanlegt tölvupóst &amp; vernda helstu faglegar og persónulegar upplýsingar þínar með dulkóðun næstu kynjanna með því að nota einkaleyfastöðu í íslenskum geymslum.",
-     "upgrade_to_prime": "uppfærsla að blómi",
-     "media_kit": "Media Kit",
-     "onion_site": "Laukur",
-     "support": "Stuðningur",
-     "company": "Fyrirtæki",
-     "social": "Félagsleg",
-     "legal": "Löglegt",
-     "privacy_policy": "Friðhelgisstefna",
-     "our_address": "Heimilisfang okkar",
-     "all_rights_reserved": "Allur réttur áskilinn"
-   },
+  "footer": {
+    "register_to_world_most": "<strong> Skráðu þig fyrir </strong> Öruggasta netfang heims <strong> núna! </strong>",
+    "send_unbreakable_emails": "Senda óbrjótanlegt tölvupóst &amp; vernda helstu faglegar og persónulegar upplýsingar þínar með dulkóðun næstu kynjanna með því að nota einkaleyfastöðu í íslenskum geymslum.",
+    "upgrade_to_prime": "uppfærsla að blómi",
+    "media_kit": "Media Kit",
+    "onion_site": "Laukur",
+    "support": "Stuðningur",
+    "company": "Fyrirtæki",
+    "social": "Félagsleg",
+    "legal": "Löglegt",
+    "privacy_policy": "Friðhelgisstefna",
+    "our_address": "Heimilisfang okkar",
+    "all_rights_reserved": "Allur réttur áskilinn"
+  },
   "page_about": {
     "as_the_govt_continues": "Þar sem ríkisstjórnin heldur áfram að virka algjörlega utan ríkissviðs ábyrgðar, verða öll okkur - fréttaritari, trúboði, nemandi, viðskiptaaðili, ríkisborgari - einn einstaklingur sem hefur þörf fyrir einkalíf og vernd.",
-     "why_i_started": "Af hverju byrjaði ég <strong> CTemplar </strong>",
+    "why_i_started": "Af hverju byrjaði ég <strong> CTemplar </strong>",
     "idea_to_create_service": "Hugmyndin um að stofna þessa þjónustu hófst fyrst þegar ég þekkti grimmdina sem gerast í Mið-Austurlöndum, saklausum og mannkyninu. Horft er í kring, það virðist sem stærri heimurinn væri of upptekinn til að borga mikla athygli, afvegaleiddur með eigin málefnum eða hjálparvana að bjóða aðstoð. <br/> Sem einn maður með takmarkaða getu, hvað gat ég gert? Mánuðir fóru með eins og ég hugleiddi þessa spurningu, að lokum að átta mig á að ég ætti að nota eigin styrkleika mína til að vinna meiri baráttu gegn kúguninni sem ég sé í heiminum. Þess vegna sneri ég sér að tækni-eitthvað sem ég þekki og skilur - að búa til samskiptakerfi svo sterk og seigur að ég treysti því með eigin lífi. <br/> <br/> Með þessu viðleitni til að vernda samskipti með dulkóðun hefur alveg ný þjónusta komið fram, sem mun aldrei selja út til fyrirtækjafjárfesta eða veikjast af alþjóðlegum dagatölum.",
     "why_ctempler": "<strong> Hvers vegna nafnið </strong> CTemplar?",
     "nearly_a_thousand_year": "Næstum þúsund árum síðan var hópur karla þekktur sem riddari Templar. Þeir fóru í vandræðum pílagríma sem vildi ekkert meira en að heimsækja Hið heilaga land og finna leið til að ná andlegu lífi.",
@@ -217,7 +217,7 @@
     "unlike_the_old_days": "Ólíkt gömlum dögum þar sem dulkóðuð tölvupóstur þýddi flókið handvirkt dulkóðun og uppsetning persónulegur miðlara, gerir CTemplar það allt fyrir þig. Einfaldlega senda og taka á móti tölvupósti þínum eins og venjulegur tölvupóstreikningur og vertu viss um að vita um persónuvernd þína er 100% viðhaldið.",
     "encrypted_email_to_non": "Dulritað tölvupóstur til non-CTemaplar reikninga, sjálfsmorðandi skilaboð og margt fleira ...",
     "your_contacts_dont_require": "Tengiliðir þínar þurfa ekki CTemplar reikning til að senda og taka á móti dulkóðuðum tölvupósti, þeir þurfa bara aðgang að almenningslyklinum til þess að afkóða og opna skilaboðin þín. Hins vegar mælum við með því að allir nota CTemplar tölvupóstreikninga fyrir hámarksöryggi þar sem jafnvel geymdir tölvupóstar og efnislínur verða varðir, ólíkt venjulegum reikningum."
-   },
+  },
   "page_pricing": {
     "do_not_show_ads": "Við birtum ekki auglýsingar eða græða peninga með því að misnota einkalíf þitt. Þess í stað treystum við á stuðninginn þinn til að halda þjónustunni áfram. Tekjur af greiddum reikningum eru notaðar til að þróa CTemplar frekar og styðja ókeypis notendur, svo sem lýðræðisstarfsmenn og dissidents sem þurfa einkalíf en geta ekki endilega efni á því.",
     "billed_as": "Innheimt sem",
@@ -265,5 +265,4 @@
     "submit": "Senda inn",
     "send_exactly": "Sendið nákvæmlega"
   }
-
 }

@@ -175,23 +175,23 @@
     "easy_to_use_responsive": "El sitio web y la aplicación fáciles de usar y con capacidad de respuesta hacen que el envío de correos electrónicos seguros sea rápido y fácil desde cualquier dispositivo.",
     "learn_more_about_ctempler": "Conozca más sobre las características de seguridad de CTemplar"
   },
-   "footer": {
-     "register_to_world_most": "<strong> Regístrese para </strong> el correo electrónico más seguro del mundo <strong> ahora </strong>",
-     "send_unbreakable_emails": "Enviar correos electrónicos irrompibles &amp; proteja sus detalles profesionales y personales clave con el cifrado de próxima generación utilizando almacenamiento islandés centrado en la privacidad.",
-     "upgrade_to_prime": "actualizar a primer",
-     "media_kit": "Kit de medios",
-     "onion_site": "Sitio de cebolla",
-     "support": "Apoyo",
-     "company": "Empresa",
-     "social": "Social",
-     "legal": "Legal",
-     "privacy_policy": "Política de privacidad",
-     "our_address": "Nuestra dirección",
-     "all_rights_reserved": "Todos los derechos reservados"
-   },
+  "footer": {
+    "register_to_world_most": "<strong> Regístrese para </strong> el correo electrónico más seguro del mundo <strong> ahora </strong>",
+    "send_unbreakable_emails": "Enviar correos electrónicos irrompibles &amp; proteja sus detalles profesionales y personales clave con el cifrado de próxima generación utilizando almacenamiento islandés centrado en la privacidad.",
+    "upgrade_to_prime": "actualizar a primer",
+    "media_kit": "Kit de medios",
+    "onion_site": "Sitio de cebolla",
+    "support": "Apoyo",
+    "company": "Empresa",
+    "social": "Social",
+    "legal": "Legal",
+    "privacy_policy": "Política de privacidad",
+    "our_address": "Nuestra dirección",
+    "all_rights_reserved": "Todos los derechos reservados"
+  },
   "page_about": {
     "as_the_govt_continues": "A medida que el gobierno continúa funcionando completamente fuera del ámbito de la responsabilidad, todos nosotros, reportero, misionero, estudiante, empresario, ciudadano, nos convertimos en una persona que necesita privacidad y protección.",
-     "why_i_started": "Por qué comencé <strong>CTemplar</strong>",
+    "why_i_started": "Por qué comencé <strong>CTemplar</strong>",
     "idea_to_create_service": "La idea de crear este servicio comenzó cuando reconocí las atrocidades que ocurren en Oriente Medio, los inocentes y la humanidad. Al mirar a su alrededor, parecería que el mundo más grande estaba demasiado ocupado para prestar mucha atención, distraído por sus propios asuntos o incapaz de ofrecer ayuda. <br/> Como solo un hombre con capacidades limitadas, ¿qué podría hacer? Pasaron los meses mientras meditaba sobre esta pregunta, y al final me di cuenta de que debía usar mis propias fuerzas para librar una batalla más grande contra la opresión que veo en el mundo. Como resultado, recurrí a la tecnología, algo que sé y entiendo, para crear un sistema de comunicación tan fuerte y resistente que confíe en mi propia vida. <br/> <br/> A través de este esfuerzo para proteger las comunicaciones a través del cifrado, ha surgido un servicio completamente nuevo, que nunca se venderá a los inversores corporativos ni se verá debilitado por las agendas internacionales.",
     "why_ctempler": "<strong> ¿Por qué el nombre </strong> CTemplar?",
     "nearly_a_thousand_year": "Hace casi mil años había un grupo de hombres conocidos como los Caballeros Templarios. Protegieron a los peregrinos errantes que no querían nada más que visitar la Tierra Santa y encontrar una manera de lograr la espiritualidad.",
@@ -217,7 +217,7 @@
     "unlike_the_old_days": "A diferencia de los viejos tiempos en los que el correo electrónico encriptado significaba encriptación manual compleja y la configuración de un servidor privado, CTemplar lo hace todo por usted. Simplemente envíe y reciba sus correos electrónicos como una cuenta de correo electrónico regular y tenga la seguridad de que su privacidad se mantendrá al 100%.",
     "encrypted_email_to_non": "Correo electrónico encriptado para actas no CTemaplar, mensajes de autodestrucción y mucho más ...",
     "your_contacts_dont_require": "Sus contactos no requieren una cuenta CTemplar para enviar y recibir correos cifrados, solo necesitan acceder a su clave pública para descifrar y abrir sus mensajes. Sin embargo, recomendamos que todos usen las cuentas de correo CTemplar para la máxima seguridad, ya que incluso sus correos electrónicos almacenados y líneas de asunto estarán protegidos, a diferencia de las cuentas normales."
-   },
+  },
   "page_pricing": {
     "do_not_show_ads": "No mostramos anuncios ni ganamos dinero al abusar de su privacidad. En cambio, dependemos de su apoyo para mantener el servicio en funcionamiento. Los ingresos de las cuentas pagas se utilizan para desarrollar aún más CTemplar y apoyar a los usuarios libres, como los activistas por la democracia y los disidentes que necesitan privacidad, pero que no necesariamente pueden pagarla.",
     "billed_as": "Facturado como",
@@ -264,7 +264,19 @@
     "year": "Año",
     "submit": "Enviar",
     "send_exactly": "ENVIAR EXACTAMENTE"
+  },
+  "page_terms": {
+    "the_terms": "Los términos",
+    "acceptance_of_terms": "ACEPTACIÓN DE LOS TÉRMINOS",
+    "welcome_to_ctemplar": "Bienvenido a www.ctemplar.com (&quot; Servicio &quot; o &quot; Sitio &quot;) propiedad y operado por CTemplar. Al hacer clic en &quot; Acepto &quot; en la página de registro o pago de cuenta o en el uso del Sitio de alguna manera, usted acepta cumplir y estar obligado por este Acuerdo, la Política de Privacidad y todas las reglas, políticas y renuncias publicadas en el Sitio o acerca de las cuales se le notifique ( colectivamente &quot; Términos &quot;). Si no está de acuerdo con todos los Términos, o si es menor de dieciocho (18) años, no use el Sitio. Por favor revise todos los Términos cuidadosamente antes de usar el Sitio.",
+    "using_the_site": "Al usar el Sitio, usted (i) acepta estar sujeto a los Términos, (ii) declara que es mayor de trece (18) años y que puede formar contratos legalmente vinculantes, (iii) acepta y reconoce que al usar el Servicio está aceptando un beneficio que no puede ser expulsado, (iv) representa que no está ubicado en un país sancionado ni una persona prohibida.",
+    "please_note_terms": "TENGA EN CUENTA QUE ESTOS TÉRMINOS OFRECEN QUE SI USTED Y CTEMPLAR NO PUEDEN RESOLVER CUALQUIER DISPUTA QUE SURJA ENTRE USTED Y CTEMPLAR Y QUE EL CONFLICTO NO SE RESUELVE DE MANERA INFORMAL O MEDIANTE LA MEDIACIÓN, EL CONFLICTO SE RESOLVERÁ MEDIANTE ARBITRAJE VINCULANTE. EL ARBITRAJE UTILIZA UN ÁRBITRO NEUTRAL EN LUGAR DE UN JUEZ O JURADO Y ESTÁ SUJETO A REVISIÓN MUY LIMITADA POR TRIBUNALES. LOS ÁRBITROS PUEDEN OTORGAR LOS MISMOS DAÑOS Y RESPONSABILIDAD QUE UN TRIBUNAL PUEDE OTORGAR. USTED Y CTEMPLAR TAMBIÉN ACUERDAN QUE CUALQUIER RECLAMO O CONFLICTO NO PUEDE SER PRESENTADO COMO UNA DEMANDA COLECTIVA. POR FAVOR, REVISE CON CUIDADO LA SECCIÓN DE RESOLUCIÓN DE CONFLICTOS A CONTINUACIÓN SI NO ACEPTA LA DISPOSICIÓN DE ARBITRAJE A CONTINUACIÓN, NO PUEDE USAR EL SITIO.",
+    "ctemplar_right": "DERECHO DE CTEMPLAR PARA MODIFICAR TÉRMINOS",
+    "ctemplar_may_modify": "CTemplar puede modificar cualquiera de los Términos en cualquier momento mediante su publicación en el Sitio. Tal publicación constituirá un Aviso apropiado. Los cambios serán automáticamente efectivos al momento de la publicación; con la condición, sin embargo, que aquellos cambios que CTemplar, a su exclusivo criterio, considere cambios materiales a los Términos serán efectivos en cuanto a un Usuario existente con anterioridad de: (1) el acuerdo del Usuario; o (2) treinta (30) días después de la notificación al Usuario existente, ya sea por correo electrónico desde una dirección de correo electrónico de @ctemplar.com a la dirección de correo electrónico del Usuario registrada con CTemplar o por otros medios que incluyen pero no se limitan a una ventana emergente o pancarta, mensaje u otro aviso conspicuo en el Sitio. Si acepta afirmativamente los nuevos términos, su acuerdo entrará en vigencia inmediatamente. Usted acuerda hacer todos los arreglos necesarios para que usted (y no su filtro de correo no deseado) reciba todos los correos electrónicos de las direcciones de correo electrónico de CTemplar. Su uso de la notificación posterior al Servicio implicará su aceptación de los cambios. Si no acepta los cambios, su única y exclusiva solución es descontinuar el uso del Sitio. Los últimos Términos se publicarán en el Sitio, y usted siempre debe revisarlos antes de usar el Sitio.",
+    "membership_and_security": "MEMBRESÍA Y SEGURIDAD",
+    "must_be_member": "Debe ser un miembro para usar nuestros servicios. Para convertirse en miembro debe completar nuestro proceso de registro, que requiere la selección de un nombre de usuario y contraseña. Usted acepta mantener su contraseña segura en todo momento y no divulgarla a ninguna otra persona. Usted es el único responsable de la seguridad de su sistema informático. CTemplar no será responsable por ninguna pérdida en la que pueda incurrir si otra persona está usando su cuenta, con o sin su conocimiento. <br> No puede usar la cuenta de otra persona, sin el permiso del titular de la cuenta. Usted acepta que CTemplar no tiene ninguna responsabilidad u obligación por la eliminación, corrupción o falla al almacenar cualquier mensaje u otro contenido mantenido o transmitido por cualquier servicio CTemplar.",
+    "license_to_acess": "SU LICENCIA PARA ACCEDER Y UTILIZAR LOS SERVICIOS Y LA PROPIEDAD",
+    "content_information": "El contenido, la información, el software, los diseños, los materiales, las funciones y los datos incluidos y contenidos en los Servicios (el \"Contenido \") están protegidos por la propiedad intelectual y otras leyes. Debe cumplir con estas y otras leyes aplicables cuando usa los Servicios."
+
   }
-
-
 }

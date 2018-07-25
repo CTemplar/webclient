@@ -175,23 +175,23 @@
     "easy_to_use_responsive": "Grâce à un site Web et à une application faciles à utiliser et réactifs, l'envoi d'e-mails sécurisés est rapide et facile depuis n'importe quel appareil.",
     "learn_more_about_ctempler": "En savoir plus sur les fonctionnalités de sécurité de CTemplar"
   },
-   "footer": {
-     "register_to_world_most": "<strong> Inscrivez-vous </ strong> au </strong> courriel le plus sûr au monde <strong>! </strong>",
-     "send_unbreakable_emails": "Envoyer des e-mails incassables &amp; Protégez vos informations professionnelles et personnelles grâce au cryptage de nouvelle génération grâce au stockage islandais centré sur la confidentialité.",
-     "upgrade_to_prime": "passer au premier",
-     "media_kit": "Dossier de presse",
-     "onion_site": "Onion site",
-     "support": "Soutien",
-     "company": "Compagnie",
-     "social": "Social",
-     "legal": "Légal",
-     "privacy_policy": "Politique de confidentialité",
-     "our_address": "Notre adresse",
-     "all_rights_reserved": "Tous les droits sont réservés"
-   },
+  "footer": {
+    "register_to_world_most": "<strong> Inscrivez-vous </ strong> au </strong> courriel le plus sûr au monde <strong>! </strong>",
+    "send_unbreakable_emails": "Envoyer des e-mails incassables &amp; Protégez vos informations professionnelles et personnelles grâce au cryptage de nouvelle génération grâce au stockage islandais centré sur la confidentialité.",
+    "upgrade_to_prime": "passer au premier",
+    "media_kit": "Dossier de presse",
+    "onion_site": "Onion site",
+    "support": "Soutien",
+    "company": "Compagnie",
+    "social": "Social",
+    "legal": "Légal",
+    "privacy_policy": "Politique de confidentialité",
+    "our_address": "Notre adresse",
+    "all_rights_reserved": "Tous les droits sont réservés"
+  },
   "page_about": {
     "as_the_govt_continues": "Comme le gouvernement continue de fonctionner complètement hors du domaine de la reddition de comptes, nous tous - journaliste, missionnaire, étudiant, homme d'affaires, citoyen - devenons une personne qui a besoin d'intimité et de protection.",
-     "why_i_started": "Pourquoi j'ai commencé <strong> CTemplar </ strong>",
+    "why_i_started": "Pourquoi j'ai commencé <strong> CTemplar </ strong>",
     "idea_to_create_service": "L'idée de créer ce service a commencé quand j'ai reconnu les atrocités commises au Moyen-Orient, les innocents et l'humanité. En regardant autour de soi, il semblerait que le monde entier était trop occupé pour prêter beaucoup d'attention, distrait par ses propres affaires ou impuissant à offrir de l'aide. <br/> Comme un seul homme avec des capacités limitées, que pouvais-je faire? Des mois passèrent alors que je réfléchissais à cette question, réalisant finalement que je devais utiliser mes propres forces pour mener un combat plus large contre l'oppression que je vois dans le monde. En conséquence, je me suis tourné vers la technologie - quelque chose que je connais et comprends - pour créer un système de communication si fort et si résistant que je le ferais avec ma propre vie. <br/> <br/> Grâce à cet effort visant à protéger les communications par cryptage, un service entièrement nouveau a vu le jour, un service qui ne se vendra jamais à des investisseurs corporatifs ou qui sera affaibli par les programmes internationaux.",
     "why_ctempler": "<strong> Pourquoi le nom </strong> CTemplar?",
     "nearly_a_thousand_year": "Il y a près de mille ans, il y avait un groupe d'hommes connu sous le nom des Templiers. Ils protégeaient les pèlerins errants qui ne voulaient rien de plus que visiter la Terre Sainte et trouver un moyen d'atteindre la spiritualité.",
@@ -217,7 +217,7 @@
     "unlike_the_old_days": "Contrairement aux anciens jours où l'emailing crypté signifiait un cryptage manuel complexe et une configuration de serveur privée, CTemplar fait tout pour vous. Il suffit d'envoyer et de recevoir vos courriels comme un compte courriel régulier et soyez assuré que votre vie privée est maintenue à 100%.",
     "encrypted_email_to_non": "Courriels cryptés aux comptes non-CTemaplar, messages auto-destructeurs et bien plus encore ...",
     "your_contacts_dont_require": "Vos contacts n'ont pas besoin d'un compte CTemplar pour envoyer et recevoir des emails cryptés, ils ont juste besoin d'accéder à votre clé publique pour déchiffrer et ouvrir vos messages. Cependant, nous recommandons à tout le monde d'utiliser les comptes de messagerie CTemplar pour une sécurité maximale, car même vos e-mails stockés et vos lignes d'objet seront protégés, contrairement aux comptes habituels."
-   },
+  },
   "page_pricing": {
     "do_not_show_ads": "Nous ne diffusons pas d'annonces ou ne gagnons pas d'argent en abusant de votre vie privée. Au lieu de cela, nous dépendons de votre soutien pour que le service continue à fonctionner. Les revenus générés par les comptes payants sont utilisés pour développer CTemplar et soutenir les utilisateurs libres tels que les activistes de la démocratie et les dissidents qui ont besoin de confidentialité mais ne peuvent pas nécessairement se le permettre.",
     "billed_as": "Facturé comme",
@@ -264,6 +264,5 @@
     "year": "An",
     "submit": "Soumettre",
     "send_exactly": "ENVOYER EXACTEMENT"
-    }
-
+  }
 }

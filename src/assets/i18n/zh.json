@@ -175,23 +175,23 @@
     "easy_to_use_responsive": "易于使用，响应迅速的网站和应用程序使您可以通过任何设备快速轻松地发送安全的电子邮件.",
     "learn_more_about_ctempler": "了解有关CTemplar安全功能的更多信息"
   },
-   "footer": {
-     "register_to_world_most": "<strong>立即注册 </strong>世界上最安全的电子邮件 <strong> </strong>",
-     "send_unbreakable_emails": "使用以隐私为中心的冰岛存储，使用下一代加密技术发送不可破解的电子邮件并保护您的关键专业和个人详细信息.",
-     "upgrade_to_prime": "升级到素数",
-     "media_kit": "媒体工具包",
-     "onion_site": "洋葱网站",
-     "support": "支持",
-     "company": "公司",
-     "social": "社会",
-     "legal": "法律",
-     "privacy_policy": "隐私政策",
-     "our_address": "我们的地址",
-     "all_rights_reserved": "版权所有"
-   },
+  "footer": {
+    "register_to_world_most": "<strong>立即注册 </strong>世界上最安全的电子邮件 <strong> </strong>",
+    "send_unbreakable_emails": "使用以隐私为中心的冰岛存储，使用下一代加密技术发送不可破解的电子邮件并保护您的关键专业和个人详细信息.",
+    "upgrade_to_prime": "升级到素数",
+    "media_kit": "媒体工具包",
+    "onion_site": "洋葱网站",
+    "support": "支持",
+    "company": "公司",
+    "social": "社会",
+    "legal": "法律",
+    "privacy_policy": "隐私政策",
+    "our_address": "我们的地址",
+    "all_rights_reserved": "版权所有"
+  },
   "page_about": {
     "as_the_govt_continues": "由于政府继续在问责制范围之外继续运作，我们所有人 - 记者，传教士，学生，商人，公民 - 成为一个人，需要隐私和保护。",
-     "why_i_started": "为什么我开始<strong> CTemplar </ strong>",
+    "why_i_started": "为什么我开始<strong> CTemplar </ strong>",
     "idea_to_create_service": "当我认识到中东，无辜者和人类发生的暴行时，首先开始创造这项服务的想法。环顾四周，看起来更大的世界太忙而无法引起太多关注，被自己的事情分散注意力或无助于提供援助。 <br/>作为一个能力有限的人，我该怎么办？几个月过去了，因为我思考了这个问题，终于意识到我必须用自己的力量对抗我在世界上看到的压迫。结果，我转向技术 - 我所知道和理解的 - 创建一个如此强大和有弹性的沟通系统，我会相信自己的生活。 <br/> <br/>通过这种通过加密来保护通信的努力，出现了一种全新的服务，一种永远不会卖给企业投资者或被国际议程削弱的服务。",
     "why_ctempler": "<strong>为什么名称</strong> CTemplar？",
     "nearly_a_thousand_year": "差不多一千年前，有一群人被称为圣殿骑士团。他们保护了流浪的朝圣者，他们只想访问圣地并找到实现灵性的方法。",
@@ -217,7 +217,7 @@
     "unlike_the_old_days": "与旧时代加密电子邮件意味着复杂的手动加密和私人服务器设置不同，CTemplar为您完成所有工作。只需像普通电子邮件帐户一样发送和接收您的电子邮件，并确保您的隐私得到100％保持。",
     "encrypted_email_to_non": "加密电子邮件到非CTemaplar帐户，自毁消息等等...",
     "your_contacts_dont_require": "您的联系人不需要CTemplar帐户来发送和接收加密的电子邮件，他们只需要访问您的公钥即可解密并打开您的邮件。但是，我们建议每个人都使用CTemplar电子邮件帐户以获得最大的安全性，因为即使您存储的电子邮件和主题行也会受到保护，这与普通帐户不同"
-   },
+  },
   "page_pricing": {
     "do_not_show_ads": "我们不会通过滥用您的隐私来展示广告或赚钱。相反，我们依靠您的支持来保持服务的运行。来自付费账户的收入用于进一步发展CTemplar并支持免费用户，如民主活动家和持不同政见者，他们需要隐私但不一定能负担得起。",
     "billed_as": "收费为",
@@ -265,5 +265,4 @@
     "submit": "提交",
     "send_exactly": "完全发送"
   }
-
 }

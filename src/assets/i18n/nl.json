@@ -175,23 +175,23 @@
     "easy_to_use_responsive": "De gebruiksvriendelijke, responsieve website en app maken het verzenden van beveiligde e-mails snel en gemakkelijk vanaf elk apparaat.",
     "learn_more_about_ctempler": "Meer informatie over de beveiligingsfuncties van CTemplar"
   },
-   "footer": {
-     "register_to_world_most": "<strong> Registreer u voor de </strong> meest beveiligde e-mail ter wereld <strong> nu! </strong>",
-     "send_unbreakable_emails": "Verzend onbreekbare e-mails &amp; bescherm uw belangrijkste professionele en persoonlijke gegevens met next-gen codering met behulp van privacygerichte IJslandse opslag.",
-     "upgrade_to_prime": "upgrade naar prime",
-     "media_kit": "Media Kit",
-     "onion_site": "Onion site",
-     "support": "Ondersteuning",
-     "company": "Bedrijf",
-     "social": "sociaal",
-     "legal": "wettelijk",
-     "privacy_policy": "Privacybeleid",
-     "our_address": "Ons adres",
-     "all_rights_reserved": "Alle rechten voorbehouden"
-   },
+  "footer": {
+    "register_to_world_most": "<strong> Registreer u voor de </strong> meest beveiligde e-mail ter wereld <strong> nu! </strong>",
+    "send_unbreakable_emails": "Verzend onbreekbare e-mails &amp; bescherm uw belangrijkste professionele en persoonlijke gegevens met next-gen codering met behulp van privacygerichte IJslandse opslag.",
+    "upgrade_to_prime": "upgrade naar prime",
+    "media_kit": "Media Kit",
+    "onion_site": "Onion site",
+    "support": "Ondersteuning",
+    "company": "Bedrijf",
+    "social": "sociaal",
+    "legal": "wettelijk",
+    "privacy_policy": "Privacybeleid",
+    "our_address": "Ons adres",
+    "all_rights_reserved": "Alle rechten voorbehouden"
+  },
   "page_about": {
     "as_the_govt_continues": "Omdat de overheid volledig buiten het bereik van verantwoordelijkheid blijft functioneren, worden wij allemaal - verslaggever, zendeling, student, ondernemer, burger - één persoon, die behoefte heeft aan privacy en bescherming.",
-     "why_i_started": "Waarom ik begon met <strong> CTemplar </ strong>",
+    "why_i_started": "Waarom ik begon met <strong> CTemplar </ strong>",
     "idea_to_create_service": "Het idee om deze service te maken begon voor het eerst toen ik inzag dat er gruweldaden plaatsvonden in het Midden-Oosten, de onschuldigen en de mensheid. Als we rondkijken, lijkt het erop dat de grotere wereld het te druk had om veel aandacht te besteden, afgeleid door hun eigen zaken of hulpeloos om hulp te bieden. <br/> Wat kan ik als slechts één man met beperkte mogelijkheden doen? Maanden gingen voorbij toen ik over deze vraag nadacht, eindelijk beseffend dat ik mijn eigen krachten moest gebruiken om een ​​groter gevecht te voeren tegen de onderdrukking die ik in de wereld zie. Als gevolg daarvan ben ik overgegaan op technologie - iets dat ik ken en begrijp - om een ​​communicatiesysteem te ontwikkelen dat zo sterk en veerkrachtig is dat ik het met mijn eigen leven zou vertrouwen. <br/> <br/> Door deze inspanning om communicatie via codering te beschermen, is een volledig nieuwe service ontstaan, een die nooit zal uitbesteden aan bedrijfsinvesteerders of wordt verzwakt door internationale agenda's.",
     "why_ctempler": "<strong> Waarom de naam </strong> CTemplar?",
     "nearly_a_thousand_year": "Bijna duizend jaar geleden was er een groep mannen bekend als de Tempeliers. Ze beschermden de dolende pelgrims die niets liever wilden dan het Heilige Land te bezoeken en een manier te vinden om spiritualiteit te bereiken.",
@@ -217,7 +217,7 @@
     "unlike_the_old_days": "In tegenstelling tot de oude tijd, waar gecodeerd e-mailen complexe handmatige codering en persoonlijke serverconfiguratie betekende, doet CTemplar het allemaal voor u. Verzend en ontvang eenvoudig uw e-mails net als een gewone e-mailaccount en wees gerust, wetende dat uw privacy 100% wordt gehandhaafd.",
     "encrypted_email_to_non": "Gecodeerde e-mail naar niet-CTemaplar-accounts, zelfvernietigende berichten en nog veel meer.",
     "your_contacts_dont_require": "Uw contactpersonen hebben geen CTemplar-account nodig om gecodeerde e-mails te verzenden en te ontvangen. Ze hebben alleen toegang tot uw openbare sleutel nodig om uw berichten te ontsleutelen en te openen. We raden echter iedereen aan CTemplar-e-mailaccounts te gebruiken voor maximale beveiliging, aangezien zelfs uw opgeslagen e-mails en onderwerpregels worden beschermd, in tegenstelling tot gewone accounts.."
-   },
+  },
   "page_pricing": {
     "do_not_show_ads": "We vertonen geen advertenties of verdienen geen geld door misbruik te maken van uw privacy. In plaats daarvan zijn we afhankelijk van uw ondersteuning om de service actief te houden. Inkomsten uit betaalde accounts worden gebruikt om CTemplar verder te ontwikkelen en gratis gebruikers te ondersteunen, zoals democratie-activisten en dissidenten die privacy nodig hebben, maar zich dit niet noodzakelijk kunnen veroorloven.",
     "billed_as": "Gefactureerd zoals",
@@ -265,5 +265,4 @@
     "submit": "voorleggen",
     "send_exactly": "PRECIES VERZONDEN"
   }
-
 }
