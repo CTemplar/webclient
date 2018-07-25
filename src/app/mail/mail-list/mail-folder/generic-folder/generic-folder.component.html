@@ -24,8 +24,8 @@
           </div>
         </li>
         <li class="px-0">
-          <a  class="border-right-0 border-radius-right-0" placement="top"
-              (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
+          <a class="border-right-0 border-radius-right-0" placement="top"
+             (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
              [ngbTooltip]="'mail_list.move_to_archive' | translate">
             <i class="icon icon-archive"></i>
           </a>
@@ -70,9 +70,11 @@
                       <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.ARCHIVE)">
                         <i class="icon icon-archive"></i><span translate="mail_sidebar.archive">Archive</span>
                       </a>
-                      <a class="dropdown-item" href="" *ngFor="let folder of customFolders; let i=index;">
-                          <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
-                          <span class="folders-list-text">{{folder}}</span>
+                      <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"
+                         (click)="moveToFolder(folder)">
+                        <i class="folder-color-box icon is-success"
+                           [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
+                        <span class="folders-list-text">{{folder}}</span>
                       </a>
                       <span class="divider-item d-block"></span>
                       <a class="dropdown-item" (click)="openCreateFolderDialog()">
@@ -103,8 +105,9 @@
               </a>
               <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"
                  (click)="moveToFolder(folder)">
-                  <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
-                  <span class="folders-list-text">{{folder}}</span>
+                <i class="folder-color-box icon is-success"
+                   [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
+                <span class="folders-list-text">{{folder}}</span>
               </a>
               <span class="divider-item d-block"></span>
               <a class="dropdown-item" (click)="openCreateFolderDialog()">
@@ -153,8 +156,8 @@
     <table class="table table-inbox">
       <tbody>
       <tr class="text-center" *ngIf="mails.length===0 && !showProgress">
-          <p class="py-2 mb-0">There are no conversations with this label.</p> 
-          <hr class="mt-0">
+        <p class="py-2 mb-0">There are no conversations with this label.</p>
+        <hr class="mt-0">
       </tr>
       <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read, 'is-selected':mail.marked}">
@@ -189,14 +192,16 @@
         <td class="mail-inbox-message d-none d-md-block">
           <a (click)="openMail(mail)" class="text-dark">
                                 <span class="mail-subject">
-
+                                  <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                                     <span class="badge badge-success mr-2 p-1"
                                           *ngIf="i==0">Dalay delivery in 1d 5:25:00</span>
                                     <span class="badge badge-warning mr-2 p-1" *ngIf="i==1">Delete in 1d 5:25:00</span>
                                     <span class="badge badge-danger mr-2 p-1"
-                                          *ngIf="i==2">Dead mans timer 1d 5:25:00</span>
-
-                                    <div class="mail-content" [ngClass]="{'font-weight-bold': !mail.read}" [innerHTML]="mail.subject">
+                                          *ngIf="i==2">Dead mans timer 1d 5:25:00
+                                    </span>
+                                  </ng-container>
+                                    <div class="mail-content" [ngClass]="{'font-weight-bold': !mail.read}"
+                                         [innerHTML]="mail.subject">
                                         <!-- Subject Goes Here -->
                                     </div>
 
@@ -205,13 +210,14 @@
         </td>
 
         <!-- Attachment Size -->
-        <td class="mail-file-size">
-          2.6kB
-        </td>
+        <!--<td class="mail-file-size">-->
+          <!--2.6kB-->
+        <!--</td>-->
 
         <!-- Inbox Date -->
         <td class="mail-sent-date">
-          Jun 18
+          <ng-container *ngIf="mail.sent_at; else createdAt">{{mail.sent_at | date:'MMM d'}}</ng-container>
+          <ng-template #createdAt>{{mail.created_at | date:'MMM d'}}</ng-template>
         </td>
 
         <!-- Icon Secured -->

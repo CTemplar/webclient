@@ -23,6 +23,8 @@ export interface Mail {
   datetime?: string;
   marked?: boolean;
   is_encrypted?: boolean;
+  sent_at?: string;
+  created_at?: string;
 }
 
 export interface Mailbox {
