@@ -89,6 +89,7 @@ export class UsersService {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('token_expiration');
     sessionStorage.removeItem('user_key');
+    this.openPgpService.clearData();
     this.router.navigateByUrl('/signin');
   }
 

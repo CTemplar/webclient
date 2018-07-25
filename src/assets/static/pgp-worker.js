@@ -6,8 +6,9 @@ var openpgp = window.openpgp;
 var decryptedPrivKeyObj;
 
 onmessage = function (event) {
-
-    if (!decryptedPrivKeyObj) {
+    if (event.data.clear) {
+        decryptedPrivKeyObj = null;
+    } else if (!decryptedPrivKeyObj) {
         decryptedPrivKeyObj = openpgp.key.readArmored(event.data.privkey).keys[0];
         decryptedPrivKeyObj.decrypt(event.data.user_key);
         postMessage({key: decryptedPrivKeyObj});
