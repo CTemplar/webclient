@@ -47,7 +47,7 @@ export class ComposeMailEffects {
   createMailEffect: Observable<any> = this.actions
     .ofType(ComposeMailActionTypes.CREATE_MAIL)
     .map((action: CreateMail) => action.payload)
-    .switchMap(payload => {
+    .mergeMap(payload => {
       return this.mailService.createMail(payload.draft)
         .pipe(
           switchMap(res => {
@@ -86,7 +86,7 @@ export class ComposeMailEffects {
   deleteAttachmentEffect: Observable<any> = this.actions
     .ofType(ComposeMailActionTypes.DELETE_ATTACHMENT)
     .map((action: DeleteAttachment) => action.payload)
-    .switchMap(payload => {
+    .mergeMap(payload => {
       if (payload.id) {
         return this.mailService.deleteAttachment(payload)
           .pipe(
@@ -104,7 +104,7 @@ export class ComposeMailEffects {
   sendMailEffect: Observable<any> = this.actions
     .ofType(ComposeMailActionTypes.SEND_MAIL)
     .map((action: SendMail) => action.payload)
-    .switchMap((payload: Draft) => {
+    .mergeMap((payload: Draft) => {
       if (payload.draft.dead_man_duration || payload.draft.delayed_delivery || payload.draft.destruct_date) {
         payload.draft.send = false;
         payload.draft.folder = MailFolderType.OUTBOX;
@@ -131,7 +131,7 @@ export class ComposeMailEffects {
   getUsersKeysEffect: Observable<any> = this.actions
     .ofType(ComposeMailActionTypes.GET_USERS_KEYS)
     .map((action: GetUsersKeys) => action.payload)
-    .switchMap((payload: any) => {
+    .mergeMap((payload: any) => {
       return this.mailService.getUsersPublicKeys(payload.emails)
         .pipe(
           switchMap((keys) => {

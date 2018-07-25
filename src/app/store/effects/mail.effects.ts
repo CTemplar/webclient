@@ -111,7 +111,7 @@ export class MailEffects {
   starMailEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.STAR_MAIL)
     .map((action: ReadMail) => action.payload)
-    .switchMap(payload => {
+    .mergeMap(payload => {
       return this.mailService.markAsStarred(payload.ids, payload.starred)
         .pipe(
           switchMap(res => {
