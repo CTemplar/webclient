@@ -151,6 +151,10 @@
   <div class="table-responsive table-hover table-fixed">
     <table class="table table-inbox">
       <tbody>
+      <tr class="text-center" *ngIf="mails.length===0 && !showProgress">
+          <p class="py-2 mb-0">There are no conversations with this label.</p> 
+          <hr class="mt-0">
+      </tr>
       <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read, 'is-selected':mail.marked}">
 

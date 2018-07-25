@@ -81,21 +81,27 @@
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.trash">Trash</span>
                     </a>
                 </li>
-                <li class="divider-item"></li>
-                <li class="mailbox-sidebar-nav-item add-folder text-uppercase">
-                    <a href="javascript:void(0);" class="mailbox-sidebar-nav-link" (click)="open()"
-                       role="button">
+
+                <!-- Custom Folder -->
+                <li class="divider-item my-0"></li>
+                <li class="mailbox-sidebar-nav-item">
+                    <a class="mailbox-sidebar-nav-link" (click)="open()">
                         <i class="icon icon-folder"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
-                    <ul class="folders-list">
-                        <li *ngFor="let folder of mailBoxesState.customFolders; let i=index;">
-                            <a href="">
-                                <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
-                                <span class="folders-list-text">{{folder}}</span>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of mailBoxesState.customFolders|slice:0:LIMIT; let i=index;">
+                    <a routerLink="/mail/{{folder}}/page/1" class="mailbox-sidebar-nav-link">
+                        <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
+                        <span class="mailbox-sidebar-nav-label text-capitalize" translate="mail_sidebar.trash">{{folder}}</span>
+                    </a>
+                </li>
+                <li class="mailbox-sidebar-nav-item" *ngIf="mailBoxesState.customFolders.length >= LIMIT">
+                    <a (click)="toggleDisplayLimit(mailBoxesState.customFolders.length)" class="mailbox-sidebar-nav-link">
+                        <span class="mailbox-sidebar-nav-label text-capitalize">
+                            {{LIMIT === mailBoxesState.customFolders.length? 'Less' : 'More'}}
+                        </span>
+                    </a>
                 </li>
             </ul>
         </nav>
