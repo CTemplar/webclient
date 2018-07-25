@@ -27,6 +27,7 @@ import {
   SendMailSuccess,
   SnackErrorPush,
   SnackPush,
+  UpdateCurrentFolder,
   UploadAttachment,
   UploadAttachmentProgress,
   UploadAttachmentRequest,
@@ -51,7 +52,8 @@ export class ComposeMailEffects {
         .pipe(
           switchMap(res => {
             return [
-              new CreateMailSuccess({draft: payload, response: res})
+              new CreateMailSuccess({draft: payload, response: res}),
+              new UpdateCurrentFolder(res)
             ];
           }),
           catchError(err => [new SnackErrorPush({message: 'Failed to save mail.'})])
@@ -115,6 +117,7 @@ export class ComposeMailEffects {
           switchMap(res => {
             return [
               new SendMailSuccess(payload),
+              new UpdateCurrentFolder(res),
               new SnackPush({
                 message: `Mail sent successfully`
               })

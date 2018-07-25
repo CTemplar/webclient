@@ -16,24 +16,7 @@ export function reducer(state: ComposeMailState = initialState, action: ComposeM
       return {...state, drafts: {...state.drafts}};
     }
 
-    case ComposeMailActionTypes.SEND_MAIL_SUCCESS: {
-      return {
-        ...state,
-        // mails: (action.payload.draft.folder === state.currentFolder) ? [...state.mails, action.payload.draft] : state.mails
-      };
-    }
-
     case ComposeMailActionTypes.CREATE_MAIL_SUCCESS: {
-      // let newEntry: boolean = true;
-      // state.mails.map((mail, index) => {
-      //   if (mail.id === action.payload.response.id) {
-      //     state.mails[index] = action.payload.response;
-      //     newEntry = false;
-      //   }
-      // });
-      // if (newEntry && state.currentFolder === action.payload.response.folder) {
-      //   state.mails = [...state.mails, action.payload.response];
-      // }
       state.drafts[action.payload.draft.id] = {
         ...state.drafts[action.payload.draft.id],
         inProgress: false,

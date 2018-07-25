@@ -116,6 +116,20 @@ export function reducer(state: MailState = initialState, action: MailActions): M
       return {...state, decryptedContents: {...state.decryptedContents}};
     }
 
+    case MailActionTypes.UPDATE_CURRENT_FOLDER: {
+      let newEntry: boolean = true;
+      state.mails.map((mail, index) => {
+        if (mail.id === action.payload.id) {
+          state.mails[index] = action.payload;
+          newEntry = false;
+        }
+      });
+      if (newEntry && state.currentFolder === action.payload.folder) {
+        state.mails = [...state.mails, action.payload];
+      }
+      return {...state, mails: [...state.mails]};
+    }
+
     default: {
       return state;
     }
