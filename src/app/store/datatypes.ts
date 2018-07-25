@@ -79,13 +79,35 @@ export interface MailState {
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;
+  loaded?: boolean;
+  drafts: DraftState;
+  inProgress?: boolean;
+  decryptedContent?: string;
+  isPGPInProgress?: boolean;
+}
+
+export interface Draft {
+  id: number;
   draft: Mail;
   inProgress?: boolean;
-  loaded?: boolean;
   encryptedContent?: string;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
   attachments: Attachment[];
+  shouldSend?: boolean;
+  shouldSave?: boolean;
+  getUserKeyInProgress?: boolean;
+  usersKeys?: PublicKey[];
+
+  /**
+   * @var isClosed
+   * @description It represents if the compose mail editor has been closed or not.
+   */
+  isClosed?: boolean;
+}
+
+export interface DraftState {
+  [key: number]: Draft;
 }
 
 export interface MailBoxesState {
@@ -95,8 +117,6 @@ export interface MailBoxesState {
   decryptKeyInProgress: boolean;
   decryptedKey?: any;
   encryptionInProgress: boolean;
-  getUserKeyInProgress: boolean;
-  usersKeys: PublicKey[];
   inProgress?: boolean;
 }
 

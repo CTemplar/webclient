@@ -11,7 +11,7 @@ import 'rxjs/add/operator/catch';
 import { switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
-import { GetUsersKeys, GetUsersKeysSuccess, SetFolders } from '../actions/mail.actions';
+import { SetFolders } from '../actions/mail.actions';
 // Custom Actions
 import { GetMailboxes, GetMailboxesSuccess, MailActionTypes } from '../actions';
 
@@ -37,21 +37,5 @@ export class MailboxEffects {
           })
         );
     });
-
-  @Effect()
-  getUsersKeysEffect: Observable<any> = this.actions
-    .ofType(MailActionTypes.GET_USERS_KEYS)
-    .map((action: GetUsersKeys) => action.payload)
-    .switchMap(payload => {
-      return this.mailService.getUsersPublicKeys(payload)
-        .pipe(
-          switchMap((keys) => {
-            return [
-              new GetUsersKeysSuccess(keys)
-            ];
-          })
-        );
-    });
-
 
 }

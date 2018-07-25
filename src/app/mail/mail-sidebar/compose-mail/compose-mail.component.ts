@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -12,31 +12,34 @@ import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
 import {
   CloseMailbox,
-  CreateMail,
   DeleteAttachment,
   GetUsersKeys,
   MoveMail,
+  NewDraft,
   SendMail,
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, Contact, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
+import { AppState, Contact, Draft, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
+import { ComposeMailService } from '../../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
 const Quill: any = QuillNamespace;
 
-const FontAttributor = Quill.import('attributors/class/font');
+const FontAttributor = Quill.import('attributors/style/font');
 FontAttributor.whitelist = [
   'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
 ];
 Quill.register(FontAttributor, true);
+
+const SizeAttributor = Quill.import('attributors/style/size');
+SizeAttributor.whitelist = ['10px', '18px', '32px'];
+Quill.register(SizeAttributor, true);
 Quill.register(Quill.import('attributors/style/align'), true);
 Quill.register(Quill.import('attributors/style/background'), true);
 Quill.register(Quill.import('attributors/style/color'), true);
-Quill.register(Quill.import('attributors/style/font'), true);
-Quill.register(Quill.import('attributors/style/size'), true);
 
 export class PasswordValidation {
 
@@ -59,6 +62,8 @@ export class PasswordValidation {
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  @Input() receivers: Array<string> = [];
+
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('editor') editor;
@@ -69,6 +74,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('deadManTimerModal') deadManTimerModal;
   @ViewChild('encryptionModal') encryptionModal;
 
+  draftId: number;
   colors = COLORS;
   mailData: any = {};
   options: any = {};
@@ -84,6 +90,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
   draftMail: Mail;
+  isLoaded: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -98,15 +105,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private defaultLocale: string = 'US International';
 
   readonly destroyed$: Observable<boolean>;
-  private shouldSave: boolean;
-  private shouldSend: boolean;
-  private mailState: MailState;
+  private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
   private mailBoxesState: MailBoxesState;
+  private isSignatureAdded: boolean;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
+              private composeMailService: ComposeMailService,
               private openPgpService: OpenPgpService,
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService) {
@@ -114,42 +121,31 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initializeDraft();
     this.initializeAutoSave();
     this.resetMailData();
 
     this.store.select((state: AppState) => state.mail).takeUntil(this.destroyed$)
       .subscribe((response: MailState) => {
-        this.draftMail = response.draft;
-        this.inProgress = response.inProgress;
-        if (response.draft) {
-          if (this.shouldSave && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
-            response.draft.content = response.encryptedContent;
-            this.shouldSave = false;
-            this.store.dispatch(new CreateMail({ ...response.draft }));
-            this.inProgress = true;
-          } else if (this.shouldSend && this.mailState && this.mailState.isPGPInProgress && !response.isPGPInProgress) {
-            response.draft.content = response.encryptedContent;
-            this.store.dispatch(new CreateMail({ ...response.draft, is_encrypted: true }));
-            this.shouldSend = false;
-            setTimeout(() => {
-              this.store.dispatch(new SendMail({ ...response.draft, is_encrypted: true }));
-            }, 500);
-            this.hide.emit();
-            this.resetValues();
+        const draft = response.drafts[this.draftId];
+        if (draft) {
+          this.draftMail = draft.draft;
+          this.inProgress = draft.inProgress;
+          if (draft.draft) {
+            if (draft.draft.id && this.attachmentsQueue.length > 0) {
+              this.attachmentsQueue.forEach(attachment => {
+                attachment.message = draft.draft.id;
+                this.store.dispatch(new UploadAttachment({ ...attachment }));
+              });
+              this.attachmentsQueue = [];
+            }
           }
-          if (response.draft.id && this.attachmentsQueue.length > 0) {
-            this.attachmentsQueue.forEach(attachment => {
-              attachment.message = response.draft.id;
-              this.store.dispatch(new UploadAttachment(attachment));
-            });
-            this.attachmentsQueue = [];
+          if (!this.inProgress) {
+            this.handleAttachment(draft);
           }
-        }
-        if (!this.inProgress) {
-          this.handleAttachment(response);
         }
 
-        this.mailState = response;
+        this.draft = draft;
       });
 
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
@@ -162,14 +158,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         if (mailBoxesState.mailboxes[0]) {
           this.mailbox = mailBoxesState.mailboxes[0];
         }
-        if (this.shouldSend && this.mailBoxesState.getUserKeyInProgress && !mailBoxesState.getUserKeyInProgress) {
-          this.openPgpService.encrypt(this.draftMail.content, mailBoxesState.usersKeys.map(item => item.public_key));
-        }
         this.mailBoxesState = mailBoxesState;
       });
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.signature = user.settings.signature;
+        this.addSignature();
       });
 
     const now = new Date();
@@ -192,7 +186,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new CloseMailbox());
+    this.store.dispatch(new CloseMailbox(this.draft));
+  }
+
+  initializeDraft() {
+    this.draftId = Date.now();
+    const draft: Draft = {
+      id: this.draftId,
+      draft: null,
+      inProgress: false,
+      attachments: [],
+      usersKeys: [],
+    };
+    this.store.dispatch(new NewDraft({ ...draft }));
   }
 
   initializeQuillEditor() {
@@ -208,6 +214,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.quill.on('text-change', (delta, oldDelta, source) => {
       this.valueChanged$.next();
     });
+
+    this.addSignature();
   }
 
   initializeAutoSave() {
@@ -249,6 +257,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < files.length; i++) {
       const file: File = files.item(i);
       const attachment: Attachment = {
+        draftId: this.draftId,
         document: file,
         name: file.name,
         size: this.getFileSize(file),
@@ -261,14 +270,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.draftMail.id) {
         this.attachmentsQueue.push(attachment);
       } else {
-        this.store.dispatch(new UploadAttachment(attachment));
+        this.store.dispatch(new UploadAttachment({ ...attachment }));
       }
     }
   }
 
-  handleAttachment(mailState: MailState) {
-    // usage Object.assign to create new copy and avoid storing reference of mailState.attachments
-    this.attachments = Object.assign([], mailState.attachments);
+  handleAttachment(draft: Draft) {
+    // usage Object.assign to create new copy and avoid storing reference of draft.attachments
+    this.attachments = Object.assign([], draft.attachments);
   }
 
   onAttachImageURL(url: string) {
@@ -296,16 +305,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
-    this.setMailData();
-    const receivers: string[] = [...this.draftMail.receiver, ...this.draftMail.cc, ...this.draftMail.bcc];
+    const receivers: string[] = [
+      ...this.mailData.receiver.map(receiver => receiver.display),
+      ...this.mailData.cc.map(cc => cc.display),
+      ...this.mailData.bcc.map(bcc => bcc.display)
+    ];
     if (receivers.length === 0) {
       return false;
     }
     if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
-      this.store.dispatch(new GetUsersKeys(receivers.join(',')));
-      this.shouldSend = true;
+      this.setMailData(true, false, true);
+      this.store.dispatch(new GetUsersKeys({ draftId: this.draft.id, emails: receivers.join(',') }));
     } else {
-      this.store.dispatch(new SendMail(this.draftMail));
+      this.setMailData(false, false);
+      this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
     }
     this.hide.emit();
     this.resetValues();
@@ -316,8 +329,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addSignature() {
-    const index = this.quill.getLength();
-    this.quill.insertText(index, this.signature);
+    if (this.quill && this.signature && !this.isSignatureAdded) {
+      const index = this.quill.getLength();
+      this.quill.insertText(index, this.signature);
+      this.isSignatureAdded = true;
+    }
   }
 
   openSelfDestructModal() {
@@ -416,8 +432,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setDeadManTimerValue() {
-    this.deadManTimer.days = !this.deadManTimer.days || isNaN(this.deadManTimer.days) || this.deadManTimer.days < 0 ? 0 : Math.floor(this.deadManTimer.days);
-    this.deadManTimer.hours = !this.deadManTimer.hours || isNaN(this.deadManTimer.hours) || this.deadManTimer.hours < 0 ? 0 : Math.floor(this.deadManTimer.hours);
+    this.deadManTimer.days =
+      !this.deadManTimer.days || isNaN(this.deadManTimer.days) || this.deadManTimer.days < 0 ? 0 : Math.floor(this.deadManTimer.days);
+    this.deadManTimer.hours =
+      !this.deadManTimer.hours || isNaN(this.deadManTimer.hours) || this.deadManTimer.hours < 0 ? 0 : Math.floor(this.deadManTimer.hours);
     this.deadManTimer.value = this.deadManTimer.days * 24 + this.deadManTimer.hours;
     this.closeDeadManTimerModal();
     this.valueChanged$.next(this.deadManTimer.value);
@@ -459,12 +477,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
-    this.setMailData();
-    this.openPgpService.encrypt(this.draftMail.content);
-    this.shouldSave = true;
+    this.setMailData(false, true, true);
+    this.openPgpService.encrypt(this.draftId, this.draftMail.content);
   }
 
-  setMailData() {
+  setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
     if (!this.draftMail) {
       this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
     }
@@ -474,9 +491,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
-    this.draftMail.dead_man_timer = this.deadManTimer.value || null;
+    this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    this.store.dispatch(new UpdateLocalDraft({ ...this.draftMail }));
+    this.draftMail.is_encrypted = isEncrypted;
+    this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
   }
 
   private resetValues() {
@@ -516,11 +534,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetMailData() {
     this.mailData = {
-      receiver: [],
+      receiver: this.receivers ? this.receivers.map(receiver => ({ display: receiver, value: receiver })) : [],
       cc: [],
       bcc: [],
       subject: ''
     };
+    this.isLoaded = true;
   }
 
   private resetSelfDestructValues() {

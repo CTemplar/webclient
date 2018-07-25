@@ -42,6 +42,8 @@ export enum MailActionTypes {
   SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT',
   GET_USERS_KEYS = '[USERS] GET KEYS',
   GET_USERS_KEYS_SUCCESS = '[USERS] GET KEYS SUCCESS',
+  NEW_DRAFT = '[DraftState] NEW_DRAFT',
+  CLEAR_DRAFT = '[DRAFT] CLEAR'
 }
 
 export class GetMails implements Action {
@@ -280,6 +282,18 @@ export class GetUsersKeysSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class NewDraft implements Action {
+  readonly type = MailActionTypes.NEW_DRAFT;
+
+  constructor(public payload: any) {}
+}
+
+export class ClearDraft implements Action {
+  readonly type = MailActionTypes.CLEAR_DRAFT;
+
+  constructor(public payload: any) {}
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -319,4 +333,6 @@ export type MailActions =
   | CreateFolderSuccess
   | SetCurrentFolder
   | GetUsersKeys
-  | GetUsersKeysSuccess;
+  | GetUsersKeysSuccess
+  | NewDraft
+  | ClearDraft;

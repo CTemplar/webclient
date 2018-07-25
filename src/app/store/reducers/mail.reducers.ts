@@ -7,16 +7,11 @@ export const initialState: MailState = {
   mails: [],
   mailDetail: null,
   folders: new Map(),
-  inProgress: false,
   loaded: false,
-  draft: null,
-  encryptedContent: null,
-  decryptedContent: null,
-  isPGPInProgress: false,
-  attachments: []
+  drafts: {},
 };
 
-export function reducer(state = initialState, action: MailActions): MailState {
+export function reducer(state: MailState = initialState, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
       const mails = state.folders.get(action.payload.folder);
@@ -39,14 +34,14 @@ export function reducer(state = initialState, action: MailActions): MailState {
     case MailActionTypes.DELETE_MAIL:
     case MailActionTypes.SEND_MAIL:
     case MailActionTypes.CREATE_MAIL: {
-      return { ...state, inProgress: true };
+      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: true, shouldSend: false, shouldSave: false };
+      return { ...state, drafts: { ...state.drafts } };
     }
 
     case MailActionTypes.SEND_MAIL_SUCCESS: {
       return {
         ...state,
-        inProgress: false,
-        mails: (action.payload.folder === state.currentFolder) ? [...state.mails, action.payload] : state.mails,
+        mails: (action.payload.draft.folder === state.currentFolder) ? [...state.mails, action.payload.draft] : state.mails,
       };
     }
 
@@ -94,32 +89,51 @@ export function reducer(state = initialState, action: MailActions): MailState {
     case MailActionTypes.CREATE_MAIL_SUCCESS: {
       let newEntry: boolean = true;
       state.mails.map((mail, index) => {
-        if (mail.id === action.payload.id) {
-          state.mails[index] = action.payload;
+        if (mail.id === action.payload.response.id) {
+          state.mails[index] = action.payload.response;
           newEntry = false;
         }
       });
-      if (newEntry && state.currentFolder === action.payload.folder) {
-        state.mails = [...state.mails, action.payload];
+      if (newEntry && state.currentFolder === action.payload.response.folder) {
+        state.mails = [...state.mails, action.payload.response];
       }
-      return { ...state, inProgress: false, draft: action.payload };
+      state.drafts[action.payload.draft.id] = {
+        ...state.drafts[action.payload.draft.id],
+        inProgress: false,
+        draft: action.payload.response
+      };
+      return { ...state, inProgress: false, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPDATE_LOCAL_DRAFT: {
-      return { ...state, draft: action.payload, isPGPInProgress: true };
+      state.drafts[action.payload.id] = { ... state.drafts[action.payload.id], ...action.payload };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPDATE_PGP_CONTENT: {
+      if (action.payload.draftId) {
+        state.drafts[action.payload.draftId] = {
+          ...state.drafts[action.payload.draftId],
+          isPGPInProgress: action.payload.isPGPInProgress,
+          encryptedContent: action.payload.encryptedContent
+        };
+      }
       return {
         ...state,
+        drafts: { ...state.drafts },
         isPGPInProgress: action.payload.isPGPInProgress,
-        encryptedContent: action.payload.encryptedContent,
         decryptedContent: action.payload.decryptedContent
       };
     }
 
     case MailActionTypes.CLOSE_MAILBOX: {
-      return { ...state, inProgress: false, draft: null };
+      state.drafts[action.payload.id] = {...state.drafts[action.payload.id], isClosed: true};
+      return { ...state, drafts: { ...state.drafts }, };
+    }
+
+    case MailActionTypes.CLEAR_DRAFT: {
+      delete state.drafts[action.payload.id];
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
@@ -141,72 +155,89 @@ export function reducer(state = initialState, action: MailActions): MailState {
         ...state,
         mailDetail: null,
         isPGPInProgress: false,
-        encryptedContent: null,
         decryptedContent: null,
       };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT: {
-      state.attachments = [...state.attachments, action.payload];
-      return {
-        ...state,
-      };
+      state.drafts[action.payload.draftId].attachments = [...state.drafts[action.payload.draftId].attachments, action.payload];
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_PROGRESS: {
-      state.attachments.forEach((item, index) => {
-        if (item.attachmentId === action.payload.attachmentId) {
-          state.attachments[index].progress = action.payload.progress;
+      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === action.payload.attachmentId) {
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            progress: action.payload.progress
+          };
         }
       });
-      return {
-        ...state
-      };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_REQUEST: {
-      state.attachments.forEach((item, index) => {
-        if (item.attachmentId === action.payload.attachmentId) {
-          state.attachments[index].request = action.payload.request;
+      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === action.payload.attachmentId) {
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            request: action.payload.request
+          };
         }
       });
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      state.attachments.forEach((item, index) => {
-        if (item.attachmentId === action.payload.data.attachmentId) {
-          if (item.hash === action.payload.response.hash) {
-            state.attachments[index].id = action.payload.response.id;
-            state.attachments[index].inProgress = false;
-            state.attachments[index].request = null;
-          }
+      const data = action.payload.data;
+      state.drafts[data.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === data.attachmentId) {
+          state.drafts[data.draftId].attachments[index] = {
+            ...state.drafts[data.draftId].attachments[index],
+            id: action.payload.response.id,
+            inProgress: false,
+            request: null
+          };
         }
       });
-      return {
-        ...state
-      };
-    }
-
-    case MailActionTypes.DELETE_ATTACHMENT: {
-      const index = state.attachments.findIndex(attachment => attachment.attachmentId === action.payload.attachmentId);
-      if (index > -1 && !state.attachments[index].id) {
-        state.attachments[index].request.unsubscribe();
-        state.attachments.splice(index, 1);
-      }
-      return { ...state };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
-      const index = state.attachments.findIndex(attachment => attachment.id === action.payload.id);
-      if (index > -1) {
-        state.attachments.splice(index, 1);
-      }
-      return { ...state };
+      state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments
+        .filter(attachment => {
+          if (attachment.attachmentId === action.payload.attachmentId) {
+            if (!attachment.id) {
+              attachment.request.unsubscribe();
+            }
+            return false;
+          }
+          return true;
+        });
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
       return { ...state, currentFolder: action.payload };
+    }
+
+    case MailActionTypes.NEW_DRAFT: {
+      state.drafts[action.payload.id] = action.payload;
+      return { ...state, drafts: { ...state.drafts }, };
+    }
+
+    case MailActionTypes.GET_USERS_KEYS: {
+      state.drafts[action.payload.draftId] = {...state.drafts[action.payload.draftId], getUserKeyInProgress: true};
+      return { ...state, drafts: { ...state.drafts }, };
+    }
+
+    case MailActionTypes.GET_USERS_KEYS_SUCCESS: {
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        getUserKeyInProgress: false,
+        usersKeys: action.payload.data
+      };
+      return { ...state, drafts: { ...state.drafts }, };
     }
 
     default: {

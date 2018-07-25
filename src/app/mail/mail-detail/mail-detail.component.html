@@ -31,16 +31,16 @@
                   <span class="text-secondary"> </span>
                   <a href="" class="text-muted">&lt;{{receiver}}&gt;</a>
                   <!--Comma as a separator-->
-                  <span *ngIf=" i < mail.receiver.length-1">, </span>
+                  <span *ngIf=" i < mail.receiver?.length-1">, </span>
                 </ng-container>
               </li>
-              <li *ngIf="mail.cc.length>0">
+              <li *ngIf="mail.cc?.length>0">
                 Cc:
                 <ng-container *ngFor="let cc of mail.cc; let i = index;">
                   <span class="text-secondary"> </span>
                   <a href="" class="text-muted">&lt;{{cc}}&gt;</a>
                   <!--Comma as a separator-->
-                  <span *ngIf=" i < mail.cc.length-1">, </span>
+                  <span *ngIf=" i < mail.cc?.length-1">, </span>
                 </ng-container>
               </li>
             </ul>
@@ -113,7 +113,7 @@
       </div>
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="showReplyBox">
-      <app-compose-mail></app-compose-mail>
+      <app-compose-mail [receivers]="mail.receiver" (hide)="onComposeMailHide()"></app-compose-mail>
     </div>
   </div>
 </ng-container>
