@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, MailBoxesState } from '../datatypes';
-import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPContent, UpdatePGPDecryptedContent } from '../actions';
+import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPEncryptedContent, UpdatePGPDecryptedContent } from '../actions';
 
 @Injectable()
 export class OpenPgpService {
@@ -58,7 +58,7 @@ export class OpenPgpService {
       });
       this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
         if (event.data.encrypted) {
-          this.store.dispatch(new UpdatePGPContent({
+          this.store.dispatch(new UpdatePGPEncryptedContent({
             isPGPInProgress: false,
             encryptedContent: event.data.encryptedContent,
             draftId: event.data.callerId
@@ -69,7 +69,7 @@ export class OpenPgpService {
   }
 
   encrypt(draftId, content, publicKeys: any[] = []) {
-    this.store.dispatch(new UpdatePGPContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
+    this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
 
     publicKeys.push(this.pubkey);
     this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys, callerId: draftId });

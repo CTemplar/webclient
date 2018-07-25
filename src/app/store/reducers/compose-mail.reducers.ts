@@ -47,7 +47,7 @@ export function reducer(state: ComposeMailState = initialState, action: ComposeM
       return {...state, drafts: {...state.drafts}};
     }
 
-    case ComposeMailActionTypes.UPDATE_PGP_CONTENT: {
+    case ComposeMailActionTypes.UPDATE_PGP_ENCRYPTED_CONTENT: {
       if (action.payload.draftId) {
         state.drafts[action.payload.draftId] = {
           ...state.drafts[action.payload.draftId],
