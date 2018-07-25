@@ -87,12 +87,17 @@
   bottom: 0;
   left: 0;
   overflow-x: hidden;
-  overflow-y: auto;
-  padding-bottom: 1.25rem;
+  overflow-y: hidden;
+  padding-bottom: 60px;
 
   @include media("<=sm") {
     padding-bottom: 8rem;
   }
+}
+
+.mailbox-sidebar-navbar{
+  overflow-y: auto;
+  max-height: calc(100% - 130px);
 }
 
 .mailbox-brand,
@@ -322,6 +327,9 @@
 
 .mailbox-sidebar-footer{
   background: #29394e;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .mailbox-sidebar-footer-text {
