@@ -174,7 +174,7 @@ a {
 	display: flex;
 	align-items: center;
 	position: relative;
-	padding: 0 $mail_composer_padding_x;
+	padding: 0.2rem $mail_composer_padding_x;
 	background: $brand-white;
 	border-bottom: 1px solid $input-border-color;
 
@@ -197,7 +197,6 @@ a {
 		resize: none;
 		width: 100%;
 		overflow: hidden;
-		border-bottom: 1px solid #e0e0e0;
 
 		@include media(">sm") {
 			padding: 0.688rem 0 0.5rem;
