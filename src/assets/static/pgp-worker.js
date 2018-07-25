@@ -18,7 +18,7 @@ onmessage = function (event) {
     }
 }
 
-async function decryptContent(data) {
+function decryptContent(data) {
     if (!data) {
         return null;
     }
