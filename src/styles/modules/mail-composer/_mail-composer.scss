@@ -23,7 +23,6 @@ a {
 	overflow-x: hidden;
 	overflow-y: auto;
 	display: none;
-	background: $brand-white;
 	font-size: 0.875rem;
 
 	// == is-minimized
@@ -36,11 +35,13 @@ a {
 		right: 1.563rem;
 		left: auto;
 		overflow: inherit;
-		box-shadow: $shadow;
 		width: 40rem;
 		&.is-minimized {
 			width: 20rem;
 		}
+	}
+	.mail-composer-dialog{
+		box-shadow: $shadow;
 	}
 }
 
@@ -196,6 +197,7 @@ a {
 		resize: none;
 		width: 100%;
 		overflow: hidden;
+		border-bottom: 1px solid #e0e0e0;
 
 		@include media(">sm") {
 			padding: 0.688rem 0 0.5rem;
