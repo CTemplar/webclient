@@ -13,16 +13,17 @@ onmessage = function (event) {
         decryptedPrivKeyObj.decrypt(event.data.user_key);
         postMessage({key: decryptedPrivKeyObj});
     } else if (event.data.decrypt) {
-        decryptContent(event.data.content).then((data) => {
-            postMessage({decryptedContent: data, decrypted: true,});
-        })
+        if (!event.data.content) {
+            postMessage({decryptedContent: event.data.content, decrypted: true,});
+        } else {
+            decryptContent(event.data.content).then((data) => {
+                postMessage({decryptedContent: data, decrypted: true,});
+            })
+        }
     }
 }
 
-async function decryptContent(data) {
-    if (!data) {
-        return null;
-    }
+function decryptContent(data) {
     const options = {
         message: openpgp.message.readArmored(data),
         privateKeys: [decryptedPrivKeyObj]

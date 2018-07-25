@@ -13,6 +13,9 @@ import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.co
   styleUrls: ['./mail-sidebar.component.scss']
 })
 export class MailSidebarComponent implements OnInit, OnDestroy {
+
+  LIMIT = 2;
+
   readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
@@ -51,6 +54,14 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   // == Setup click event to toggle mobile menu
   showMailComposeModal() { // click handler
     this.isComposeVisible = true;
+  }
+
+  toggleDisplayLimit(totalItems) {
+    if (this.LIMIT === totalItems) {
+      this.LIMIT = 2;
+    } else {
+      this.LIMIT = totalItems;
+    }
   }
 
   ngOnDestroy(): void {

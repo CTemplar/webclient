@@ -23,7 +23,6 @@ a {
 	overflow-x: hidden;
 	overflow-y: auto;
 	display: none;
-	background: $brand-white;
 	font-size: 0.875rem;
 
 	// == is-minimized
@@ -36,11 +35,13 @@ a {
 		right: 1.563rem;
 		left: auto;
 		overflow: inherit;
-		box-shadow: $shadow;
 		width: 40rem;
 		&.is-minimized {
 			width: 20rem;
 		}
+	}
+	.mail-composer-dialog{
+		box-shadow: $shadow-dark;
 	}
 }
 
@@ -173,7 +174,7 @@ a {
 	display: flex;
 	align-items: center;
 	position: relative;
-	padding: 0 $mail_composer_padding_x;
+	padding: 0.2rem $mail_composer_padding_x;
 	background: $brand-white;
 	border-bottom: 1px solid $input-border-color;
 
