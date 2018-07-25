@@ -67,4 +67,4 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-}}
+}
