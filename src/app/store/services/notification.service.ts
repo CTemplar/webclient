@@ -17,7 +17,7 @@ export class NotificationService {
 
   showUndo(payload: any) {
     if (payload.sourceFolder) {
-      const snackBarRef = this.snackBar.open(payload.message, 'Undo');
+      const snackBarRef = this.snackBar.open(payload.message, 'Undo', { duration: 5000 });
 
       snackBarRef.onAction().subscribe(() => {
         this.store.dispatch(new UndoDeleteMail(payload));
