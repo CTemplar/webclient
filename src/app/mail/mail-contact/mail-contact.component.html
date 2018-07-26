@@ -245,7 +245,7 @@
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
             <div class="form-group">
                 <span translate="contacts.delete.message">Are you sure, you want to delete</span>
-                {{contactsToDelete.length}} <span translate="common.contact">contact</span>?
+                {{contactsToDelete?.length}} <span translate="common.contact">contact</span>?
             </div>
             <div class="form-group text-right mb-0">
                 <button (click)="cancelDelete()" class="btn btn-secondary btn-sm"

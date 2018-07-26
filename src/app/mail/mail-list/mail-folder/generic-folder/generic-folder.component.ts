@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, MailState, MailBoxesState } from '../../../../store/datatypes';
@@ -8,6 +8,7 @@ import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurr
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { CreateFolderComponent } from '../../../dialogs/create-folder/create-folder.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SharedService } from '../../../../store/services';
 
 @TakeUntilDestroy()
 @Component({
@@ -15,7 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss']
 })
-export class GenericFolderComponent implements OnInit, OnDestroy {
+export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
@@ -28,6 +29,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<AppState>,
               private router: Router,
+              private sharedService: SharedService,
               private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -37,14 +39,24 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
       this.store.select(state => state.mail).takeUntil(this.destroyed$)
         .subscribe((mailState: MailState) => {
           this.showProgress = !mailState.loaded;
-          this.mails = mailState.mails;
+          this.mails = this.sharedService.sortByDate(mailState.mails, 'created_at');
         });
     }
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-    .subscribe((mailboxes: MailBoxesState) => {
-      this.customFolders = mailboxes.customFolders;
-    });
+      .subscribe((mailboxes: MailBoxesState) => {
+        this.customFolders = mailboxes.customFolders;
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['mails'] && changes['mails'].currentValue) {
+      let sortField = 'created_at';
+      if (this.mailFolder === MailFolderType.SENT) {
+        sortField = 'sent_at';
+      }
+      this.mails = this.sharedService.sortByDate(changes['mails'].currentValue, sortField);
+    }
   }
 
   markAllMails(checkAll) {

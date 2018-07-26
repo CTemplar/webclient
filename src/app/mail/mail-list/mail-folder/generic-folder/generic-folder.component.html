@@ -155,7 +155,7 @@
   <div class="table-responsive table-hover table-fixed">
     <table class="table table-inbox">
       <tbody>
-      <tr class="text-center" *ngIf="mails.length===0 && !showProgress">
+      <tr class="text-center" *ngIf="mails?.length===0 && !showProgress">
         <p class="py-2 mb-0">There are no conversations with this label.</p>
         <hr class="mt-0">
       </tr>
@@ -216,7 +216,7 @@
 
         <!-- Inbox Date -->
         <td class="mail-sent-date">
-          <ng-container *ngIf="mail.sent_at; else createdAt">{{mail.sent_at | date:'MMM d'}}</ng-container>
+          <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | date:'MMM d'}}</ng-container>
           <ng-template #createdAt>{{mail.created_at | date:'MMM d'}}</ng-template>
         </td>
 
