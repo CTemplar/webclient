@@ -2,6 +2,12 @@
       (submit)="createNewContact()"
       #newContactForm="ngForm">
     <div class="form-group">
+         <!-- Email validation -->
+         <div class="md-errors-spacer" *ngIf="contactName.errors && contactName.untouched">
+            <div *ngIf="contactName.errors.required">
+                <span class="d-block text-right error-msg is-sm">Name is required</span>
+            </div>
+        </div>
         <div class="row align-items-center">
             <div class="col-sm-2 px-2">
                 <label class="form-label mb-sm-0" for="contactName">
@@ -11,23 +17,35 @@
             <div class="col-sm-10">
                 <input class="form-control form-control-sm" id="contactName"
                        name="name" required
+                       #contactName="ngModel"
                        [(ngModel)]="newContactModel.name"
                        placeholder="Curtis Scott" type="text"/>
             </div>
         </div>
     </div>
-    <div class="form-group has-error is-repeatable">
-        <span class="d-block text-right error-msg is-sm">Check is e-mail information right</span>
+    <div class="form-group is-repeatable">
+        <!-- Email validation -->
+        <div class="md-errors-spacer" *ngIf="contactEmail.errors">
+            <div *ngIf="contactEmail.errors.required">
+                <span class="d-block text-right error-msg is-sm">Email address is required</span>
+            </div>
+            <div *ngIf="contactEmail.errors.pattern">
+                <span class="d-block text-right error-msg is-sm"> Email address is not valid</span>
+            </div>
+        </div>
+        <!-- Email -->
         <div class="row align-items-center">
             <div class="col-sm-2 px-2">
                 <label class="form-label mb-sm-0" for="contactEmail">
                     <span translate="common.email">Email</span><sup>*</sup></label>
             </div>
             <div class="col-sm-10">
-                <input class="form-control form-control-sm error" id="contactEmail"
+                <input class="form-control form-control-sm" id="contactEmail"
                        name="email" required
                        [(ngModel)]="newContactModel.email"
-                       placeholder="Curtis_Scottgmail.com" type="text"/>
+                       #contactEmail="ngModel"
+                       placeholder="Curtis_Scottgmail.com" type="text"
+                       pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
             </div>
         </div>
     </div>
