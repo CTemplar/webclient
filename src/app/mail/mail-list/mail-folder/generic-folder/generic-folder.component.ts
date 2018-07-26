@@ -9,6 +9,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { CreateFolderComponent } from '../../../dialogs/create-folder/create-folder.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from '../../../../store/services';
+import { SearchState } from '../../../../store/reducers/search.reducers';
 
 @TakeUntilDestroy()
 @Component({
@@ -46,6 +47,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes: MailBoxesState) => {
         this.customFolders = mailboxes.customFolders;
+      });
+
+    this.store.select(state => state.search).takeUntil(this.destroyed$)
+      .subscribe((searchState: SearchState) => {
+        // TODO: apply search
       });
   }
 

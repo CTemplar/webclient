@@ -1,6 +1,6 @@
-import {ActionReducerMap} from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 
-import {AppState} from '../datatypes';
+import { AppState } from '../datatypes';
 import * as auth from './auth.reducers';
 import * as blog from './blog.reducers';
 import * as mail from './mail.reducers';
@@ -11,6 +11,7 @@ import * as user from './users.reducers';
 import * as timezone from './timezone.reducer';
 import * as bitcoin from './bitcoin.reducers';
 import * as composeMail from './compose-mail.reducers';
+import * as search from './search.reducers';
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: auth.reducer,
@@ -22,6 +23,7 @@ export const reducers: ActionReducerMap<AppState> = {
   user: user.reducer,
   timezone: timezone.reducer,
   bitcoin: bitcoin.reducer,
-  composeMail: composeMail.reducer
+  composeMail: composeMail.reducer,
+  search: search.reducer,
 };
 

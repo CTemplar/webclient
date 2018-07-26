@@ -8,6 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../../shared/config';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
+import { UpdateSearch } from '../../store/actions/search.action';
 
 @TakeUntilDestroy()
 @Component({
@@ -22,6 +25,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   menuIsOpened: boolean = false;
   selectedLanguage: Language = { name: 'English', locale: 'en' };
   languages = LANGUAGES;
+  searchInput = new FormControl();
 
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
@@ -39,6 +43,12 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
           }
           this.selectedLanguage = language;
         }
+      });
+
+    this.searchInput.valueChanges.takeUntil(this.destroyed$)
+      .pipe(debounceTime(500))
+      .subscribe((value) => {
+        this.store.dispatch(new UpdateSearch(value));
       });
   }
 

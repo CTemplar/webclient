@@ -4,6 +4,7 @@ import { Params } from '@angular/router';
 // Ngrx
 // Models
 import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox, Attachment, MailFolderType } from '../store/models';
+import { SearchState } from './reducers/search.reducers';
 
 export interface RouterStateUrl {
   url: string;
@@ -185,6 +186,7 @@ export interface AppState {
   timezone: TimezonesState;
   bitcoin: BitcoinState;
   composeMail: ComposeMailState;
+  search: SearchState;
 }
 
 export interface TimezonesState {
