@@ -144,7 +144,7 @@
     "move_to_spam": "Verplaats naar spam",
     "move_to_trash": "Ga naar prullenbak",
     "create_folder": "Map aanmaken",
-    "more_to": "Meer ...",
+    "move_to": "Verplaatsen naar ...",
     "more": "Meer",
     "add_star": "Ster toevoegen",
     "mark_as_read": "Markeer als gelezen",
@@ -161,8 +161,8 @@
     "signup": "Aanmelden"
   },
   "home_page": {
-    "take_back_liberty": "<strong> Neem uw vrijheid terug </ strong> met gecodeerde communicatie",
-    "send_unbreakable_email": "Verzend onbreekbare e-mails en bescherm uw belangrijkste professionele en persoonlijke gegevens via next-gen-codering",
+    "take_back_liberty": "<strong> Neem uw vrijheid terug </ strong> met 's werelds meest veilige e-mailsysteem",
+    "send_unbreakable_email": "Verzend onbreekbare e-mails &amp; bescherm uw belangrijkste professionele en persoonlijke gegevens met next-gen codering en opslag op IJslandse servers, beveiligd met 's werelds sterkste wetten voor gegevensprivacy",
     "signup_for_free": "Gratis inschrijven",
     "latest_from_our_blog": "Nieuwste van <strong> onze blog </ strong>",
     "related_post": "Gerelateerd <strong> Verzenden </ strong>",
@@ -170,30 +170,30 @@
   },
   "home_feature": {
     "end_to_end_PKI_encryption": "End-to-end PKI-codering beschermt uw privégegevens tegen overheden, bedrijven en hackers.",
-    "safely_send_your_financial": "Verzend veilig uw financiële administratie, contracten, laboratoriumresultaten, journalistiek en meer, zelfs naar niet-CTemplar e-mailaccounts.",
-    "iceland_based_server": "Op IJsland gebaseerde servers hebben de strengste privacywetgeving ter wereld, dus uw gegevens kunnen niet worden gedeeld, zelfs niet met de hoogste autoriteiten.",
-    "easy_to_use_responsive": "De gebruiksvriendelijke, responsieve interface maakt het verzenden van veilige e-mails snel en eenvoudig vanaf elk apparaat.",
-    "learn_more_about_ctempler": "Meer informatie over CTemplar-beveiliging"
+    "safely_send_your_financial": "Veilig verzenden van uw financiële gegevens, contracten, laboratoriumresultaten, journalistiek en meer, zelfs naar niet-CTemplar e-mailaccounts, met anonieme aanmelding per e-mail en zonder IP-logging.",
+    "iceland_based_server": "IJsland heeft 's werelds sterkste wetten voor gegevensprivacy, dus door onze IJslandse servers te gebruiken, hebben uw gegevens de sterkste juridische bescherming ter wereld.",
+    "easy_to_use_responsive": "De gebruiksvriendelijke, responsieve website en app maken het verzenden van beveiligde e-mails snel en gemakkelijk vanaf elk apparaat.",
+    "learn_more_about_ctempler": "Meer informatie over de beveiligingsfuncties van CTemplar"
   },
-   "footer": {
-     "register_to_world_most": "Registreer <strong> 's Werelds meest veilige e-mail </ strong> nu!",
-     "send_unbreakable_emails": "Verzend onbreekbare e-mails en bescherm uw belangrijkste professionele en persoonlijke gegevens via next-gen-codering.",
-     "upgrade_to_prime": "upgrade naar prime",
-     "media_kit": "Media Kit",
-     "onion_site": "Onion site",
-     "support": "Ondersteuning",
-     "company": "Bedrijf",
-     "social": "sociaal",
-     "legal": "wettelijk",
-     "privacy_policy": "Privacybeleid",
-     "our_address": "Ons adres",
-     "all_rights_reserved": "Alle rechten voorbehouden"
-   },
+  "footer": {
+    "register_to_world_most": "<strong> Registreer u voor de </strong> meest beveiligde e-mail ter wereld <strong> nu! </strong>",
+    "send_unbreakable_emails": "Verzend onbreekbare e-mails &amp; bescherm uw belangrijkste professionele en persoonlijke gegevens met next-gen codering met behulp van privacygerichte IJslandse opslag.",
+    "upgrade_to_prime": "upgrade naar prime",
+    "media_kit": "Media Kit",
+    "onion_site": "Onion site",
+    "support": "Ondersteuning",
+    "company": "Bedrijf",
+    "social": "sociaal",
+    "legal": "wettelijk",
+    "privacy_policy": "Privacybeleid",
+    "our_address": "Ons adres",
+    "all_rights_reserved": "Alle rechten voorbehouden"
+  },
   "page_about": {
     "as_the_govt_continues": "Omdat de overheid volledig buiten het bereik van verantwoordelijkheid blijft functioneren, worden wij allemaal - verslaggever, zendeling, student, ondernemer, burger - één persoon, die behoefte heeft aan privacy en bescherming.",
-     "why_i_started": "Waarom ik begon met <strong> CTemplar </ strong>",
-    "idea_to_create_service": "Het idee om deze service te maken begon voor het eerst toen ik hoorde over de gruweldaden in het Midden-Oosten, de onschuldigen en de mensheid. Als we rondkijken, lijkt het erop dat de grotere wereld het te druk had om veel aandacht te besteden, afgeleid door hun eigen zaken of hulpeloos om hulp te bieden. <br/> Wat kan ik als slechts één man met beperkte mogelijkheden doen? Maanden gingen voorbij toen ik over deze vraag nadacht, eindelijk beseffend dat ik mijn eigen krachten moest gebruiken om een ​​groter gevecht te voeren tegen de onderdrukking die ik in de wereld zie. Als gevolg daarvan ben ik overgegaan op technologie - iets dat ik ken en begrijp - om een ​​communicatiesysteem te ontwikkelen dat zo sterk en veerkrachtig is dat ik het met mijn eigen leven zou vertrouwen. <br/> <br/> Door deze inspanning om communicatie via codering te beschermen, is een volledig nieuwe service ontstaan, een die nooit zal uitbesteden aan bedrijfsinvesteerders of wordt verzwakt door internationale agenda's - CTemplar.",
-    "why_ctempler": "Waarom <strong> CTemplar? </ Strong>",
+    "why_i_started": "Waarom ik begon met <strong> CTemplar </ strong>",
+    "idea_to_create_service": "Het idee om deze service te maken begon voor het eerst toen ik inzag dat er gruweldaden plaatsvonden in het Midden-Oosten, de onschuldigen en de mensheid. Als we rondkijken, lijkt het erop dat de grotere wereld het te druk had om veel aandacht te besteden, afgeleid door hun eigen zaken of hulpeloos om hulp te bieden. <br/> Wat kan ik als slechts één man met beperkte mogelijkheden doen? Maanden gingen voorbij toen ik over deze vraag nadacht, eindelijk beseffend dat ik mijn eigen krachten moest gebruiken om een ​​groter gevecht te voeren tegen de onderdrukking die ik in de wereld zie. Als gevolg daarvan ben ik overgegaan op technologie - iets dat ik ken en begrijp - om een ​​communicatiesysteem te ontwikkelen dat zo sterk en veerkrachtig is dat ik het met mijn eigen leven zou vertrouwen. <br/> <br/> Door deze inspanning om communicatie via codering te beschermen, is een volledig nieuwe service ontstaan, een die nooit zal uitbesteden aan bedrijfsinvesteerders of wordt verzwakt door internationale agenda's.",
+    "why_ctempler": "<strong> Waarom de naam </strong> CTemplar?",
     "nearly_a_thousand_year": "Bijna duizend jaar geleden was er een groep mannen bekend als de Tempeliers. Ze beschermden de dolende pelgrims die niets liever wilden dan het Heilige Land te bezoeken en een manier te vinden om spiritualiteit te bereiken.",
     "the_templer_safeguard": "De Tempeliers beschermden de paden van reizigers door de wegen te bewaken en hen te helpen een succesvolle reis te vinden. De Tempeliers stonden voor gerechtigheid, bereid om hun leven te geven voor de armen en de zwakken, zelfs als dit leidde tot hun dood. <br /> Tegenwoordig lijden veel mensen in de wereld nog altijd aan dezelfde angst die de onschuldigen ooit hebben gevoeld <a> omdat ze op zoek zijn naar manieren om hun leven in vrede te leiden </a> en zonder inbreuk te maken. Misschien ben jij een van hen. Ik geloof dat we nu een nieuwe Tempelier nodig hebben, een die bescherming kan bieden tegen de voortdurende invasie van ons persoonlijke leven. <br/> Langzamerhand wordt uw privacy gestript - net als de mijne - en de tijd is nu om onze rechten, onze vrijheden, onze anonimiteit terug te winnen en de kracht te onthouden van degenen die ons voorgingen, klaar en gewillig om een ​​wapen te hanteren in hun eigen verdediging. En voor ons, voor de moderne samenleving, is die tool technologie.",
     "who_does": "Wie doet",
@@ -202,12 +202,12 @@
     "educators_and_missionaries": "<li>Educators and missionaries under threat of persecution and death</li> <li>Refugees fleeing from oppressive regimes in their home country</li> <li>Reporters in war-torn and/or dictator-led countries</li> <li>Students looking for communication but finding only oppression</li> <li>Someone working in a business environment where competitor surveillance runs rampant </li> <li>Consumers who want to protect their financial information</li> <li>A relatively safe and comfortable individual who worries about privacy</li>",
     "regardless_who_you_are": "Ongeacht wie u bent en wat u zoekt, deze gecodeerde service is hier om u te helpen uw weg te vinden. Als u <span class = \"text-dark \"> <strong> zekerheid wilt hebben dat uw bericht </strong> </ span> is, worden uw visie en uw woorden beschermd tegen de ogen van degenen die hen zouden belemmeren- deze service is voor jou.",
     "legal_stance": "Juridische houding",
-    "ctempler_legal_team_views": "Het juridische team van CTemplar ziet internetprivacy als een dynamisch probleem. Het is een zich ontwikkelend landschap. Statische oplossingen bieden uw gegevens dus niet het beveiligingsniveau dat wordt vereist door mensen die waarde hechten aan beveiliging. <br/> <br/> Onze juridische afdeling blijft onderzoek doen naar internetveiligheids- en privacywetten overal ter wereld, zodat we gebruikers continu kunnen voorzien van het maximale niveau van internetprivacy. <br/> <br/> We hebben alle aspecten van internetprivacy onderzocht in verschillende rechtsgebieden om te verzekeren dat onze servers gedomicilieerd zijn op de meest veilige locatie av Onze servers bevinden zich in IJsland, erkend als de beste locatie voor internetprivacy. De IJslandse overheid heeft bewezen een voortrekkersrol te spelen op het gebied van internetprivacy en dwingt krachtig het recht af vrij te zijn van overheidsinmenging.",
+    "ctempler_legal_team_views": "Het juridische team van CTemplar ziet internetprivacy als een dynamisch probleem. Het is een zich ontwikkelend landschap. Statische oplossingen bieden uw gegevens dus niet het vereiste beschermingsniveau voor degenen die waarde hechten aan beveiliging. <br/> <br/> We hebben alle aspecten van internetprivacy onderzocht in verschillende rechtsgebieden om te zorgen dat onze servers gedomicilieerd zijn in de meest veilige locatie. Onze servers zijn gevestigd in IJsland, erkend als de beste locatie voor internetprivacy. De IJslandse overheid heeft bewezen een voortrekkersrol te spelen op het gebied van internetprivacy en handhaaft krachtig het recht om vrij te zijn van inbraak door de overheid. <br/> <br/> Onze juridische afdeling blijft internetveiligheids- en privacywetten over de hele wereld onderzoeken, zodat we kunnen gebruikers constant het maximale niveau van internetprivacy bieden. Als er een beleidswijziging wordt voorgesteld, zullen we als eerste op de hoogte zijn en beschikken over een migratieplan dat volledige doorlopende beveiliging garandeert.",
     "explore_our_security": "Ontdek onze beveiligingsfuncties"
   },
   "page_security": {
     "features": "Kenmerken",
-    "end_to_end_encryption": "End-to-end encryptie ontmoette Open Source Cryptography",
+    "end_to_end_encryption": "End-to-end encryptie met Open Source Cryptography",
     "whether_you_are_sending": "Of u nu gerubriceerde gegevens verzendt naar uw accountant, zakenpartners, klanten, nieuwsnetwerken of gewoon uw vrienden, uw e-mails worden automatisch gecodeerd met krachtige <a> cryptografie met openbare sleutels </a> op onze IJslandse servers, dus zelfs wij kunnen het ' ik lees ze niet. Alleen u en uw ontvanger kunnen uw e-mails decoderen.",
     "benefit_from_world": "Profiteer van de strengste wetten voor gegevensbescherming ter wereld",
     "most_encrypted_email": "De meeste geëncrypteerde e-mailproviders varen over hun Zwitserse datacenters. Wat zij u niet vertellen, is dat de Zwitserse overheid een <a> informatie-uitwisselingsovereenkomst heeft met de VS </a>, zodat uw gegevens niet 100% veilig zijn. IJsland heeft geen overeenkomsten voor het delen van gegevens en handhaaft de strengste wetten voor gegevensprivacy ter wereld, dus uw gegevens blijven gecodeerd op onze servers en nergens anders!",
@@ -216,8 +216,8 @@
     "simple_to_use": "Eenvoudig te gebruiken interface, net als een standaard e-mailaccount",
     "unlike_the_old_days": "In tegenstelling tot de oude tijd, waar gecodeerd e-mailen complexe handmatige codering en persoonlijke serverconfiguratie betekende, doet CTemplar het allemaal voor u. Verzend en ontvang eenvoudig uw e-mails net als een gewone e-mailaccount en wees gerust, wetende dat uw privacy 100% wordt gehandhaafd.",
     "encrypted_email_to_non": "Gecodeerde e-mail naar niet-CTemaplar-accounts, zelfvernietigende berichten en nog veel meer.",
-    "your_contacts_dont_require": "Uw contactpersonen hebben geen CTemplar-account nodig om gecodeerde e-mails te verzenden en te ontvangen. Ze hebben alleen toegang tot uw openbare sleutel nodig om uw berichten te ontsleutelen en te openen. Hoewel we iedereen aanraden om CTemplar e-mailaccounts te gebruiken voor maximale beveiliging, omdat zelfs uw opgeslagen e-mails en onderwerpregels worden beschermd, in tegenstelling tot reguliere accounts."
-   },
+    "your_contacts_dont_require": "Uw contactpersonen hebben geen CTemplar-account nodig om gecodeerde e-mails te verzenden en te ontvangen. Ze hebben alleen toegang tot uw openbare sleutel nodig om uw berichten te ontsleutelen en te openen. We raden echter iedereen aan CTemplar-e-mailaccounts te gebruiken voor maximale beveiliging, aangezien zelfs uw opgeslagen e-mails en onderwerpregels worden beschermd, in tegenstelling tot gewone accounts.."
+  },
   "page_pricing": {
     "do_not_show_ads": "We vertonen geen advertenties of verdienen geen geld door misbruik te maken van uw privacy. In plaats daarvan zijn we afhankelijk van uw ondersteuning om de service actief te houden. Inkomsten uit betaalde accounts worden gebruikt om CTemplar verder te ontwikkelen en gratis gebruikers te ondersteunen, zoals democratie-activisten en dissidenten die privacy nodig hebben, maar zich dit niet noodzakelijk kunnen veroorloven.",
     "billed_as": "Gefactureerd zoals",
@@ -265,5 +265,4 @@
     "submit": "voorleggen",
     "send_exactly": "PRECIES VERZONDEN"
   }
-
 }
