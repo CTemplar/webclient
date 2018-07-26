@@ -305,9 +305,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
-    if (!this.hasData()) {
-      return false;
-    }
     const receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
@@ -334,7 +331,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   addSignature() {
     if (this.quill && this.signature && !this.isSignatureAdded) {
       const index = this.quill.getLength();
-      this.quill.insertText(index, this.signature);
+      this.quill.insertText(index, this.signature, 'silent');
       this.isSignatureAdded = true;
     }
   }
@@ -452,13 +449,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
-    let isOnlySignature = false;
-    if (this.signature && this.editor.nativeElement.firstChild.innerText) {
-      const content = this.editor.nativeElement.firstChild.innerText.replace(' ', '').split('\n').filter(item => item).join(' ');
-      const signature = this.signature.trim().split('\n').join(' ');
-      isOnlySignature = content === signature;
-    }
-    return (!isOnlySignature && this.quill.getLength() > 1) ||
+    return this.quill.getLength() > 1 ||
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
@@ -486,10 +477,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
-    if (this.hasData()) {
-      this.setMailData(false, true, true);
-      this.openPgpService.encrypt(this.draftId, this.draftMail.content);
-    }
+    this.setMailData(false, true, true);
+    this.openPgpService.encrypt(this.draftId, this.draftMail.content);
   }
 
   setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
