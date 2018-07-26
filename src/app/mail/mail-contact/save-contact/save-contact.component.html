@@ -3,8 +3,8 @@
       #newContactForm="ngForm">
     <div class="form-group">
          <!-- Email validation -->
-         <div class="md-errors-spacer" *ngIf="contactName.errors && contactName.untouched">
-            <div *ngIf="contactName.errors.required">
+         <div class="md-errors-spacer" *ngIf="contactName.errors || !contactName.untouched">
+            <div *ngIf="contactName.errors && contactName.errors.required">
                 <span class="d-block text-right error-msg is-sm">Name is required</span>
             </div>
         </div>
