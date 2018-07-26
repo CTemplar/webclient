@@ -123,7 +123,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   openMail(mail: Mail) {
     this.store.dispatch(new GetMailDetailSuccess(mail));
-    this.router.navigate(['/mail/message/', mail.id]);
+    this.router.navigate([`/mail/${this.mailFolder}/message/`, mail.id]);
   }
 
   openCreateFolderDialog() {

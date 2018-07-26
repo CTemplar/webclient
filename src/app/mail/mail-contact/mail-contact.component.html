@@ -81,11 +81,6 @@
                         </button>
                     </div>
                 </li>
-                <li class="px-0">
-                    <a [ngbTooltip]="'contacts.edit_tooltip' | translate"
-                       [translate]="'common.edit'"
-                       class="border-radius-r-0 border-right-0 no-icon cursor-pointer">Edit</a>
-                </li>
                 <li class="pr-0 pl-0">
                     <a (click)="openConfirmDeleteModal(confirmDeleteModal)"
                        [ngbTooltip]="'contacts.delete_tooltip' | translate"
@@ -152,11 +147,6 @@
                                                            (change)="selectAll=false;"
                                                            [name]="contact.id" type="checkbox"/>
                                                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
-                                                </div>
-                                            </div>
-                                            <div class="mail-list-col-item mail-status">
-                                                <div class="mail-status-type">
-                                                    <i class="icon icon-star"></i>
                                                 </div>
                                             </div>
                                             <div class="mail-list-col-item mail-from-name cursor-pointer"
