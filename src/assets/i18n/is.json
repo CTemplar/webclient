@@ -144,7 +144,7 @@
     "move_to_spam": "Fara í ruslpóst",
     "move_to_trash": "Færðu í ruslið",
     "create_folder": "Búðu til möppu",
-    "more_to": "Meira til ...",
+    "move_to": "Flytja til...",
     "more": "Meira",
     "add_star": "Bæta við stjörnu",
     "mark_as_read": "merkja sem lesið",
@@ -161,8 +161,8 @@
     "signup": "Skráðu þig"
   },
   "home_page": {
-    "take_back_liberty": "<strong> Taktu aftur frelsi þína </strong> með dulkóðaðri samskiptum",
-    "send_unbreakable_email": "Sendu óbrjótanlegt tölvupóst og vernda helstu faglegar og persónulegar upplýsingar þínar með næstu kynkóðun",
+    "take_back_liberty": "<strong> Taktu aftur frelsi þína </strong> með öruggustu tölvupóstkerfi heims",
+    "send_unbreakable_email": "Senda óbrjótanlegt tölvupóst &amp; vernda helstu faglegar og persónulegar upplýsingar þínar með dulkóðun og geymslu á næstu kynslóðum á íslenskum netþjónum, tryggðu með sterkustu gagnaverndarlögum heims",
     "signup_for_free": "Skráðu þig Frítt",
     "latest_from_our_blog": "Nýjasta af <strong> bloggið okkar </strong>",
     "related_post": "Tengd <strong> Post </ strong>",
@@ -170,30 +170,30 @@
   },
   "home_feature": {
     "end_to_end_PKI_encryption": "PKI dulkóðun til enda, heldur persónulegum upplýsingum þínum frá ríkjum, fyrirtækjum og tölvusnápur til leigu.",
-    "safely_send_your_financial": "Sendu örugglega fjárhagslegar færslur, samninga, niðurstöður rannsókna, blaðamennsku og fleira, jafnvel til ótækra tölvupóstreikninga.",
-    "iceland_based_server": "Vefþjónar á Íslandi hafa strangar persónuverndarheimi í heiminum, þannig að gögnin þín geta ekki verið deilt, jafnvel með hæstu yfirvöldum.",
-    "easy_to_use_responsive": "Auðvelt að nota móttækileg tengi gerir sending öruggra tölvupósta fljótleg og auðveld frá hvaða tæki sem er.",
-    "learn_more_about_ctempler": "Frekari upplýsingar um CTemplar öryggi"
+    "safely_send_your_financial": "Vertu örugglega að senda fjárhagslegar færslur, samninga, rannsóknarstofu, blaðamennsku og fleira, jafnvel til ótækra tölvupóstreikninga, með nafnlausum tölvupósti og ekki IP-skráningu.",
+    "iceland_based_server": "Ísland hefur sterkustu gagnaverndarlög heimsins, þannig að með því að nota íslenskan vefþjónum hefur gögnin þín sterkustu lögverndarheimildirnar í heiminum.",
+    "easy_to_use_responsive": "Auðvelt að nota, móttækilegur vefsíða og app gerir þér kleift að senda örugga tölvupóst á fljótlegan og auðveldan hátt frá hvaða tæki sem er.",
+    "learn_more_about_ctempler": "Lærðu meira um öryggisaðgerðir CTemplar"
   },
-   "footer": {
-     "register_to_world_most": "Skráðu þig <strong> Öruggasta netfang heims </strong> Nú!",
-     "send_unbreakable_emails": "Sendu óbrjótanlegt tölvupóst og vernda helstu faglegar og persónulegar upplýsingar þínar með næstu kynkóðun.",
-     "upgrade_to_prime": "uppfærsla að blómi",
-     "media_kit": "Media Kit",
-     "onion_site": "Laukur",
-     "support": "Stuðningur",
-     "company": "Fyrirtæki",
-     "social": "Félagsleg",
-     "legal": "Löglegt",
-     "privacy_policy": "Friðhelgisstefna",
-     "our_address": "Heimilisfang okkar",
-     "all_rights_reserved": "Allur réttur áskilinn"
-   },
+  "footer": {
+    "register_to_world_most": "<strong> Skráðu þig fyrir </strong> Öruggasta netfang heims <strong> núna! </strong>",
+    "send_unbreakable_emails": "Senda óbrjótanlegt tölvupóst &amp; vernda helstu faglegar og persónulegar upplýsingar þínar með dulkóðun næstu kynjanna með því að nota einkaleyfastöðu í íslenskum geymslum.",
+    "upgrade_to_prime": "uppfærsla að blómi",
+    "media_kit": "Media Kit",
+    "onion_site": "Laukur",
+    "support": "Stuðningur",
+    "company": "Fyrirtæki",
+    "social": "Félagsleg",
+    "legal": "Löglegt",
+    "privacy_policy": "Friðhelgisstefna",
+    "our_address": "Heimilisfang okkar",
+    "all_rights_reserved": "Allur réttur áskilinn"
+  },
   "page_about": {
     "as_the_govt_continues": "Þar sem ríkisstjórnin heldur áfram að virka algjörlega utan ríkissviðs ábyrgðar, verða öll okkur - fréttaritari, trúboði, nemandi, viðskiptaaðili, ríkisborgari - einn einstaklingur sem hefur þörf fyrir einkalíf og vernd.",
-     "why_i_started": "Af hverju byrjaði ég <strong> CTemplar </strong>",
-    "idea_to_create_service": "Hugmyndin um að skapa þessa þjónustu byrjaði fyrst þegar ég heyrði um grimmdir sem gerast í Mið-Austurlöndum, saklausum og mannkyninu. Horft er í kring, það virðist sem stærri heimurinn væri of upptekinn til að borga mikla athygli, afvegaleiddur með eigin málefnum eða hjálparvana að bjóða aðstoð. <br/> Sem einn maður með takmarkaða getu, hvað gat ég gert? Mánuðir fóru með eins og ég hugleiddi þessa spurningu, að lokum að átta mig á að ég ætti að nota eigin styrkleika mína til að vinna meiri baráttu gegn kúguninni sem ég sé í heiminum. Þess vegna sneri ég sér að tækni-eitthvað sem ég þekki og skilur - að búa til samskiptakerfi svo sterk og seigur að ég treysti því með eigin lífi. <br/> <br/> Með þessu átaki til að vernda samskipti með dulkóðun hefur komið fram alveg ný þjónusta, sem mun aldrei selja út til fyrirtækjafjárfesta eða veikjast af alþjóðlegum dagblöðum-CTemplar.",
-    "why_ctempler": "Af hverju <strong>CTemplar?</strong>",
+    "why_i_started": "Af hverju byrjaði ég <strong> CTemplar </strong>",
+    "idea_to_create_service": "Hugmyndin um að stofna þessa þjónustu hófst fyrst þegar ég þekkti grimmdina sem gerast í Mið-Austurlöndum, saklausum og mannkyninu. Horft er í kring, það virðist sem stærri heimurinn væri of upptekinn til að borga mikla athygli, afvegaleiddur með eigin málefnum eða hjálparvana að bjóða aðstoð. <br/> Sem einn maður með takmarkaða getu, hvað gat ég gert? Mánuðir fóru með eins og ég hugleiddi þessa spurningu, að lokum að átta mig á að ég ætti að nota eigin styrkleika mína til að vinna meiri baráttu gegn kúguninni sem ég sé í heiminum. Þess vegna sneri ég sér að tækni-eitthvað sem ég þekki og skilur - að búa til samskiptakerfi svo sterk og seigur að ég treysti því með eigin lífi. <br/> <br/> Með þessu viðleitni til að vernda samskipti með dulkóðun hefur alveg ný þjónusta komið fram, sem mun aldrei selja út til fyrirtækjafjárfesta eða veikjast af alþjóðlegum dagatölum.",
+    "why_ctempler": "<strong> Hvers vegna nafnið </strong> CTemplar?",
     "nearly_a_thousand_year": "Næstum þúsund árum síðan var hópur karla þekktur sem riddari Templar. Þeir fóru í vandræðum pílagríma sem vildi ekkert meira en að heimsækja Hið heilaga land og finna leið til að ná andlegu lífi.",
     "the_templer_safeguard": "Templar varið vegum ferðamanna með því að fylgjast með götunum og hjálpa þeim að ná árangri ferð. Templar stóð fyrir réttlæti, tilbúinn að leggja líf sitt fyrir hina fátæku og veiku, jafnvel þótt það leiddi til dauða þeirra. <br/> Í dag eru margir í heimi sem þjást af sömu ótta einu sinni sem saklausir eru <a> eins og þeir leita leiða til að lifa lífi sínu í friði </a> og án afskipti. Kannski ertu einn af þeim. Ég trúi því að við finnum okkur nú í þörf fyrir nýja Templar, sem getur veitt vernd gegn áframhaldandi innrás persónulegu lífi okkar. <br/> Smám saman er persónuvernd þín stolið í burtu - eins og minn er - og tíminn er nú að endurheimta réttindi okkar, frelsi okkar, nafnleynd okkar og muna styrk þeirra sem komu fyrir okkur, tilbúnir og tilbúnir að reka vopn í eigin vörn. Og fyrir okkur, fyrir nútíma samfélagið, er þessi tól tækni.",
     "who_does": "Hver gerir",
@@ -202,12 +202,12 @@
     "educators_and_missionaries": "<li> Kennarar og trúboðar í hættu á ofsóknum og dauða </ li> <li> Flóttamenn sem flýja frá kúgunarsvæðum í heimalandi sínu </ li> <li> Fréttamenn í stríðshrjáðum og / eða einræðisherra löndum </ li > <li> Nemendur leita samskipta en finna aðeins kúgun </ li> <li> Einhver sem vinnur í viðskiptalegum umhverfi þar sem keppandi eftirlit er hneykslanlegt. </ li> <li> Neytendur sem vilja vernda fjárhagsupplýsingar sínar </ li> <li> tiltölulega örugg og þægileg einstaklingur sem hefur áhyggjur af næði </li>",
     "regardless_who_you_are": "Óháð hver þú ert og hvað þú leitar, er þetta dulkóðuð þjónusta hér til að hjálpa þér að finna leið. Ef þú þarft <span class = \"text-dark \"> <strong> fullvissa þig um að skilaboðin þín </strong> </ span>, framtíðarsýn þín og orð þín verði varin fyrir augum þeirra sem myndu hamla þeim - Þessi þjónusta er fyrir þig.",
     "legal_stance": "Lagaleg staða",
-    "ctempler_legal_team_views": "Löggjafar CTemplar eru að skoða netsamfélög sem kviklegt mál. Það er þróunarlandslag. Samkvæmt því eru truflanir lausnir ekki efni á gögnum þínum um verndarstig sem krafist er af þeim sem meta öryggi. <br/> <br/> Lögfræðideild okkar heldur áfram að rannsaka öryggis og persónuverndarlög um allan heim svo að við getum stöðugt veitt notendum Hámarksgildi netsins á netinu. <br/> <br/> Við höfum rannsakað alla þætti netsins í ýmsum lögsagnarumdæmum til að tryggja að netþjónum okkar sé staðsett á öruggasta staði. Þjónarnir okkar eru staðsettir á Íslandi, viðurkennd sem Fyrsti staðurinn fyrir næði einkalífs. Íslenski ríkisstjórnin hefur sýnt sig að vera í fararbroddi á netsamfélögum og fullnægir kröftuglega réttinum til að vera laus við stjórnvöld afskipti.",
+    "ctempler_legal_team_views": "Löggjafar CTemplar eru að skoða netsamfélög sem kviklegt mál. Það er þróunarlandslag. Samkvæmt því eru truflanir lausnir ekki efni á gögnum þínum um vernd sem krafist er af þeim sem meta öryggi. <br/> <br/> Við höfum rannsakað alla þætti netsins í ýmsum lögsagnarumdæmum til að tryggja að netþjónum okkar hafi búsetu í öruggasta staðsetningin. Netþjónarnir okkar eru staðsettir á Íslandi, viðurkennd sem fyrsti staðsetning netsins. Íslenski ríkisstjórnin hefur sýnt sig að vera í fararbroddi á netsamfélögum og fullnægir kröftuglega rétti til að vera laus við stjórnvöld afskipti. <br/> <br/> Lögfræðideild okkar heldur áfram að rannsaka öryggis og persónuverndarlög um allan heim svo að Við gætum stöðugt veitt notendum hámarksgildi netsins. Ef fyrirhugað er að breyta stefnu, munum við vera fyrstur til að vita og hafa flutningsáætlun til staðar sem tryggir fullkomið áframhaldandi öryggi.",
     "explore_our_security": "Kannaðu öryggiseiginleika okkar"
   },
   "page_security": {
     "features": "Lögun",
-    "end_to_end_encryption": "End-endir dulkóðun með Open Source dulritunar",
+    "end_to_end_encryption": "End-to-End dulkóðun með Open Source dulmál",
     "whether_you_are_sending": "Hvort sem þú sendir reikningsupplýsingar til endurskoðanda þinnar, viðskiptafélaga, viðskiptavina, frétta neta eða einfaldlega vini þína, eru tölvupóstin sjálfkrafa dulkóðuð með því að nota sterka <a> hnappur dulmáls í opinberum lyklum </a> á íslenskum netþjónum okkar, svo við getum ekki lesið þau. Aðeins þú og viðtakandinn þinn geti lesið tölvupóstinn þinn.",
     "benefit_from_world": "Njóta góðs af strangustu gagnaverndarlögum heimsins",
     "most_encrypted_email": "Flestar dulkóðaðar tölvupóstþjónustufyrirtæki báta um svissneska gagnamiðstöðvar. Það sem þeir segja þér ekki er sú svissnesku ríkisstjórnin sem hefur <a> upplýsingamiðlunarsamning við Bandaríkin </a>, svo gögnin þín eru ekki 100% örugg. Ísland hefur núllsamninga og heldur ströngustu gagnaverndarlög í heiminum, þannig að gögnin þín dulkóðuðu á netþjónum okkar og hvergi annars staðar!",
@@ -216,8 +216,8 @@
     "simple_to_use": "Einfaldur-til-nota tengi bara eins og venjulegur email reikningur",
     "unlike_the_old_days": "Ólíkt gömlum dögum þar sem dulkóðuð tölvupóstur þýddi flókið handvirkt dulkóðun og uppsetning persónulegur miðlara, gerir CTemplar það allt fyrir þig. Einfaldlega senda og taka á móti tölvupósti þínum eins og venjulegur tölvupóstreikningur og vertu viss um að vita um persónuvernd þína er 100% viðhaldið.",
     "encrypted_email_to_non": "Dulritað tölvupóstur til non-CTemaplar reikninga, sjálfsmorðandi skilaboð og margt fleira ...",
-    "your_contacts_dont_require": "Tengiliðir þínar þurfa ekki CTemplar reikning til að senda og taka á móti dulkóðuðum tölvupósti, þeir þurfa bara aðgang að almenningslyklinum til þess að afkóða og opna skilaboðin þín. Þó að við mælum með að allir nota CTemplar tölvupóstreikninga fyrir hámarksöryggi þar sem jafnvel vistaðar tölvupóstar og efnislínur verða varðir, ólíkt venjulegum reikningum."
-   },
+    "your_contacts_dont_require": "Tengiliðir þínar þurfa ekki CTemplar reikning til að senda og taka á móti dulkóðuðum tölvupósti, þeir þurfa bara aðgang að almenningslyklinum til þess að afkóða og opna skilaboðin þín. Hins vegar mælum við með því að allir nota CTemplar tölvupóstreikninga fyrir hámarksöryggi þar sem jafnvel geymdir tölvupóstar og efnislínur verða varðir, ólíkt venjulegum reikningum."
+  },
   "page_pricing": {
     "do_not_show_ads": "Við birtum ekki auglýsingar eða græða peninga með því að misnota einkalíf þitt. Þess í stað treystum við á stuðninginn þinn til að halda þjónustunni áfram. Tekjur af greiddum reikningum eru notaðar til að þróa CTemplar frekar og styðja ókeypis notendur, svo sem lýðræðisstarfsmenn og dissidents sem þurfa einkalíf en geta ekki endilega efni á því.",
     "billed_as": "Innheimt sem",
@@ -265,5 +265,4 @@
     "submit": "Senda inn",
     "send_exactly": "Sendið nákvæmlega"
   }
-
 }
