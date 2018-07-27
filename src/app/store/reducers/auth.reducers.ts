@@ -8,7 +8,7 @@ export const initialState: AuthState = {
   user: null,
   errorMessage: null,
   inProgress: false,
-  signupState: { username: null, password: null }
+  signupState: { username: null, password: null, recaptcha: null }
 };
 
 export function logoutReducer(reducerAction: any) {
