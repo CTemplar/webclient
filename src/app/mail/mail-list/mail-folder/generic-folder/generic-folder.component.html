@@ -160,7 +160,7 @@
         <hr class="mt-0">
       </tr>
       <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
-          [ngClass]="{'is-unread': !mail.read, 'is-read': mail.read, 'is-selected':mail.marked}">
+          [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT), 'is-read': mail.read, 'is-selected':mail.marked}">
 
 
         <!-- Check box -->
@@ -180,8 +180,18 @@
 
         <!-- Sender Name -->
         <td class="mail-from-name">
-          <a (click)="openMail(mail)" class="text-dark">
-            {{mail.sender}}
+          <a (click)="openMail(mail)" class="text-danger"
+          [ngClass]="{'font-weight-bold': (!mail.read && (mailFolder !== mailFolderTypes.SENT || mailFolder !== mailFolderTypes.DRAFT)), 
+          'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
+          <ng-container [ngSwitch]="mailFolder">
+            <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
+            <ng-container *ngSwitchCase="mailFolderTypes.SENT">
+             <span [ngbTooltip]="mail.receiver.join(', ')">{{mail.receiver.join(', ')}}</span>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{mail.sender}}
+            </ng-container>
+          </ng-container>
             <span class="font-weight-bold d-sm-block d-md-none" [innerHTML]="mail.subject">
                                         <!-- Subject Goes Here -->
                                 </span>
