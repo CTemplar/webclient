@@ -25,6 +25,7 @@ import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models
 import { ComposeMailService } from '../../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
+import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 
 const Quill: any = QuillNamespace;
 
@@ -116,7 +117,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private composeMailService: ComposeMailService,
               private openPgpService: OpenPgpService,
               private _keyboardService: MatKeyboardService,
-              private dateTimeUtilService: DateTimeUtilService) {
+              private dateTimeUtilService: DateTimeUtilService,
+              private filesizePipe: FilesizePipe) {
 
   }
 
@@ -260,7 +262,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         draftId: this.draftId,
         document: file,
         name: file.name,
-        size: this.getFileSize(file),
+        size: this.filesizePipe.transform(file.size),
         attachmentId: performance.now(),
         message: this.draftMail.id,
         hash: performance.now().toString(),
@@ -451,20 +453,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1 ||
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
-  }
-
-  getFileSize(file: File): string {
-    let size = file.size;
-    if (size < 1000) {
-      return `${size} B`;
-    } else {
-      size = +(size / 1000).toFixed(2);
-      if (size < 1000) {
-        return `${size} KB`;
-      } else {
-        return `${+(size / 1000).toFixed(2)} MB`;
-      }
-    }
   }
 
   private embedImageInQuill(value: string) {

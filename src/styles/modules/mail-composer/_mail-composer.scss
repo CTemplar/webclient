@@ -235,7 +235,8 @@ a {
 	overflow-x: hidden;
 	overflow-y: auto;
 	line-height: 1.67rem;
-
+	background: white;
+	
 	@include media(">sm") {
 		font-size: 0.75rem;
 	}
