@@ -30,6 +30,7 @@ export interface SignupState {
   recovery_email?: string;
   usernameExists?: boolean;
   inProgress?: boolean;
+  recaptcha: string;
 }
 
 export interface UserState {
