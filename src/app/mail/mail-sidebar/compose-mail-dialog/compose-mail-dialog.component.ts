@@ -9,6 +9,7 @@ import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
 })
 export class ComposeMailDialogComponent {
   @Input() public isComposeVisible: boolean;
+  @Input() public receivers: string[];
 
   @Output() public hide = new EventEmitter<boolean>();
 
