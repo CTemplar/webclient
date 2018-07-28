@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, MailBoxesState, Settings, UserState } from '../../store/datatypes';
+import { AppState, MailBoxesState, Settings, UserState, MailState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
+import { MailFolderType, Mail } from '../../store/models/mail.model';
 
 @TakeUntilDestroy()
 @Component({
@@ -24,6 +25,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   mailBoxesState: MailBoxesState;
 
+  draftCount: number = 0;
+  inboxUnreadCount: number = 0;
+
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               config: NgbDropdownConfig
@@ -41,6 +45,23 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes: MailBoxesState) => {
         this.mailBoxesState = mailboxes;
+      });
+
+      this.store.select(state => state.mail).takeUntil(this.destroyed$)
+      .subscribe((mailState: MailState) => {
+
+        // Draft items count
+        const drafts = mailState.folders.get(MailFolderType.DRAFT);
+        if (drafts) {
+          this.draftCount = drafts.length;
+        }
+
+        // Inbox unread items count
+        const inbox = mailState.folders.get(MailFolderType.INBOX);
+        if (inbox) {
+          this.inboxUnreadCount = inbox.filter((mail: Mail) => !mail.read).length;
+        }
+
       });
   }
 

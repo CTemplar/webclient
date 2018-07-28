@@ -558,6 +558,14 @@
 
     @include media(">sm") {
       padding: 0 0.75rem;
+      .dropdown-toggle{
+        &.no-caret {
+          width: 2.5rem;
+          &::before {
+            display: none;
+          }
+        }
+      }
     }
 
     > a,
@@ -1087,9 +1095,11 @@
     font-size: 14px;
     a {
       display: inline-block;
-      position: relative;
       width: 100%;
       padding: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
