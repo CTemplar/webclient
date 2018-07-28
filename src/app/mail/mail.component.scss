@@ -310,6 +310,9 @@
   }
 
   .mailbox-sidebar-nav-label {
+    display: inline-block;
+    width: 100%;
+
     @include media("<ipad", ">sm") {
       display: none;
 
@@ -317,6 +320,20 @@
         display: block;
       }
     }
+  }
+}
+
+.mailbox-sidebar-nav-link{
+  .hover-icon{
+    min-width: unset;
+  }
+
+  .mailbox-sidebar-nav-label .hover-icon {
+    display: none;
+  }
+
+  &:hover  .mailbox-sidebar-nav-label .hover-icon  {
+    display: inline-block;
   }
 }
 
