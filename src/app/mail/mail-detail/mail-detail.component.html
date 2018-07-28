@@ -116,7 +116,7 @@
       </div>
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="showReplyBox">
-      <app-compose-mail [receivers]="mail.receiver" (hide)="onComposeMailHide()"></app-compose-mail>
+      <app-compose-mail [receivers]="[mail.sender]" (hide)="onComposeMailHide()"></app-compose-mail>
     </div>
   </div>
 </ng-container>
