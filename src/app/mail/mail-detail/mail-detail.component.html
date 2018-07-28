@@ -57,7 +57,7 @@
                 <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
                         id="messageReplyDropdownMenuButton"></button>
                 <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
-                  <a class="dropdown-item">Forward</a>
+                  <a class="dropdown-item" (click)="onForward()">Forward</a>
                   <a class="dropdown-item" (click)="onReply()">Reply</a>
                   <a class="dropdown-item" (click)="onReplyAll()">Reply All</a>
                   <a class="dropdown-item">Print</a>
@@ -110,7 +110,7 @@
           <i class="icon icon-reply position-left"></i> Reply All
         </button>
 
-        <button class="btn btn-gmail" (click)="onReply()">
+        <button class="btn btn-gmail" (click)="onForward()">
           <i class="icon icon-mail icon-lg position-left"></i> Forward
         </button>
       </div>
@@ -118,6 +118,7 @@
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="isComposeMailVisible">
       <app-compose-mail [receivers]="composeMailData.receivers"
                         [cc]="composeMailData.cc"
+                        [content]="composeMailData.content"
                         (hide)="onComposeMailHide()"></app-compose-mail>
     </div>
   </div>

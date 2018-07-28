@@ -90,6 +90,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.isComposeMailVisible = true;
   }
 
+  onForward() {
+    this.composeMailData = {
+      content: this.decryptedContent
+    };
+    this.isComposeMailVisible = true;
+  }
+
   onComposeMailHide() {
     this.composeMailData = {};
     this.isComposeMailVisible = false;
