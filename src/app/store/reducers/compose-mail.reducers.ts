@@ -3,11 +3,7 @@ import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
 // Model
 import { ComposeMailState } from '../datatypes';
 
-export const initialState: ComposeMailState = {
-  drafts: {}
-};
-
-export function reducer(state: ComposeMailState = initialState, action: ComposeMailActions): ComposeMailState {
+export function reducer(state: ComposeMailState = {drafts: {}}, action: ComposeMailActions): ComposeMailState {
   switch (action.type) {
 
     case ComposeMailActionTypes.SEND_MAIL:

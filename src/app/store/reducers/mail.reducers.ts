@@ -3,15 +3,14 @@ import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailState } from '../datatypes';
 
-export const initialState: MailState = {
-  mails: [],
-  mailDetail: null,
-  folders: new Map(),
-  loaded: false,
-  decryptedContents: {}
-};
-
-export function reducer(state: MailState = initialState, action: MailActions): MailState {
+export function reducer(
+  state: MailState = {
+    mails: [],
+    mailDetail: null,
+    folders: new Map(),
+    loaded: false,
+    decryptedContents: {}
+  }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
       const mails = state.folders.get(action.payload.folder);
