@@ -212,17 +212,23 @@ export class UsersEffects {
   requestSnacks$: Observable<Action> = this.actions
     .ofType(UsersActionTypes.SNACK_PUSH)
     .pipe(
-      map((snackPushAction: SnackPush) => {
-        if (snackPushAction.payload && snackPushAction.payload.message && snackPushAction.payload.ids) {
-          this.notificationService.showUndo(snackPushAction.payload);
-        } else if (snackPushAction.payload && snackPushAction.payload.message) {
-          this.notificationService.showSnackBar(snackPushAction.payload.message);
-        } else {
-          let message = 'An error has occured';
-          if (snackPushAction.payload && snackPushAction.payload.type) {
-            message = snackPushAction.payload.type + ' ' + message;
+      map((action: SnackPush) => {
+        if (action.payload) {
+          if (action.payload.message) {
+            if (action.payload.ids && action.payload.allowUndo) {
+              this.notificationService.showUndo(action.payload);
+            } else {
+              this.notificationService.showSnackBar(action.payload.message);
+            }
+          } else {
+            let message = 'An error has occured';
+            if (action.payload.type) {
+              message = action.payload.type + ' ' + message;
+            }
+            this.notificationService.showSnackBar(message);
           }
-          this.notificationService.showSnackBar(message);
+        } else {
+          this.notificationService.showSnackBar('An error has occured');
         }
         return new SnackPushSuccess();
       }),

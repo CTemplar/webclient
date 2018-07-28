@@ -116,7 +116,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         ids: this.mail.id,
         folder: MailFolderType.TRASH,
         sourceFolder: this.mail.folder,
-        mail: this.mail
+        mail: this.mail,
+        allowUndo: true
       }));
     }
     this.router.navigateByUrl(`/mail/${this.mailFolder}`);

@@ -71,7 +71,8 @@ export class MailEffects {
               ids: payload.ids,
               folder: payload.folder,
               sourceFolder: payload.sourceFolder,
-              mail: payload.mail
+              mail: payload.mail,
+              allowUndo: payload.allowUndo
             }));
 
             return updateFolderActions;

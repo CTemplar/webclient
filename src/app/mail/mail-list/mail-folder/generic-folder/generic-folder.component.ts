@@ -152,7 +152,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch move to selected folder event
-      this.store.dispatch(new MoveMail({ ids, folder: folder }));
+      this.store.dispatch(new MoveMail({
+        ids,
+        folder,
+        sourceFolder: this.mailFolder,
+        mail: this.getMarkedMails(),
+        allowUndo: folder === MailFolderType.TRASH
+      }));
     }
   }
 
@@ -206,7 +212,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
-    return this.mails.filter(mail => mail.marked).map(mail => mail.id).join(',');
+    return this.getMarkedMails().map(mail => mail.id).join(',');
+  }
+
+  private getMarkedMails() {
+    return this.mails.filter(mail => mail.marked);
   }
 
   ngOnDestroy() {}

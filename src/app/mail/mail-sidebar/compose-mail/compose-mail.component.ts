@@ -313,7 +313,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         ids: this.draftMail.id,
         folder: MailFolderType.TRASH,
         sourceFolder: MailFolderType.DRAFT,
-        mail: this.draftMail
+        mail: this.draftMail,
+        allowUndo: true
       }));
     }
     this.hide.emit();
