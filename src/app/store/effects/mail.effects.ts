@@ -63,7 +63,7 @@ export class MailEffects {
             return [
               new MoveMailSuccess(payload),
               new SnackPush({
-                message: `Mail moved to trash`,
+                message: `Mail moved to ${payload.folder}`,
                 ids: payload.ids,
                 folder: payload.folder,
                 sourceFolder: payload.sourceFolder,

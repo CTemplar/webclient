@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
+import { DeleteMail, MoveMail } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailState } from '../../store/datatypes';
-import { Mail } from '../../store/models/mail.model';
+import { Mail, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService } from '../../store/services';
 
 @TakeUntilDestroy()
@@ -20,10 +21,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   composeMailData: any = {};
   isComposeMailVisible: boolean;
   decryptedContent: string;
+  private mailFolder: MailFolderType;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
-              private pgpService: OpenPgpService) {
+              private pgpService: OpenPgpService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -53,6 +56,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (!this.mail) {
         this.getMailDetail(id);
       }
+
+      this.mailFolder = params['folder'] as MailFolderType;
 
     });
   }
@@ -100,5 +105,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onComposeMailHide() {
     this.composeMailData = {};
     this.isComposeMailVisible = false;
+  }
+
+  onDelete() {
+    if (this.mail.folder === MailFolderType.TRASH) {
+      this.store.dispatch(new DeleteMail({ ids: this.mail.id }));
+    } else {
+      this.store.dispatch(new MoveMail({
+        ids: this.mail.id,
+        folder: MailFolderType.TRASH,
+        sourceFolder: this.mail.folder,
+        mail: this.mail
+      }));
+    }
+    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
   }
 }
