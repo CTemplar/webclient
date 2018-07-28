@@ -24,7 +24,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   public isComposeVisible: boolean = false;
   public settings: Settings;
   @ViewChild('confirmationModal') confirmationModal;
-  private confirmModalRef: NgbModalRef;
+  confirmModalRef: NgbModalRef;
 
   mailBoxesState: MailBoxesState;
   mailState: MailState;
@@ -111,11 +111,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         shouldDeleteFolder: true,
         mailbox: this.mailBoxesState.mailboxes[0]
       }));
-      this.confirmModalRef.dismiss();
     } else {
       this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
       this.store.dispatch(new UpdateFolder(this.mailBoxesState.mailboxes[0]));
     }
+    this.confirmModalRef.dismiss();
   }
 
   ngOnDestroy(): void {
