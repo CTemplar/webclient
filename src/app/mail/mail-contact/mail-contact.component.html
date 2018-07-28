@@ -251,9 +251,7 @@
         </div>
     </div>
 </ng-template><!-- /.Confirm contact delete modal ends -->
-<!-- <ng-container *ngIf="selectedContacts?.length>0 && showComposeMailDialog"> -->
-    <!-- Mail compose dialog -->
-<app-compose-mail-dialog [isComposeVisible]="isComposeVisible" [receivers]="receiverEmails" (hide)="onComposeMailHide()"></app-compose-mail-dialog>
-    <!-- <app-compose-mail [receivers]="getContactEmails()" (hide)="onComposeMailHide()"></app-compose-mail> -->
-    <!-- <app-compose-mail [receivers]="selectedContacts"></app-compose-mail> -->
-<!-- </ng-container> -->
+
+<!-- Mail compose dialog -->
+<app-compose-mail-dialog [isComposeVisible]="isComposeVisible" [receivers]="receiverEmails"
+                         (hide)="onComposeMailHide()"></app-compose-mail-dialog>

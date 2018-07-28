@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AppState, Contact, UserState } from '../../store/datatypes';
-import { ContactDelete } from '../../store';
+import { ContactDelete, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -128,8 +128,14 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   showComposeMailDialog() {
     this.selectedContacts = this.userState.contact.filter(item => item.markForDelete);
-    this.receiverEmails = this.selectedContacts.map(contact => contact.email);
-    this.isComposeVisible = true;
+    if (this.selectedContacts.length > 10) {
+      this.store.dispatch(new SnackErrorPush({
+        message: 'Cannot open compose for more than 10 contacts'
+      }));
+    } else {
+      this.receiverEmails = this.selectedContacts.map(contact => contact.email);
+      this.isComposeVisible = true;
+    }
   }
 
   onComposeMailHide() {
