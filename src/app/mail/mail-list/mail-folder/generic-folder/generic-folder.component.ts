@@ -27,6 +27,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
 
+  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
   constructor(public store: Store<AppState>,
@@ -54,6 +55,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((searchState: SearchState) => {
         // TODO: apply search
       });
+
+    this.initializeAutoRefresh();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -64,6 +67,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.mails = this.sharedService.sortByDate(changes['mails'].currentValue, sortField);
     }
+  }
+
+  initializeAutoRefresh() {
+    Observable.timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
+      .subscribe(event => {
+        this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
+      });
   }
 
   markAllMails(checkAll) {
