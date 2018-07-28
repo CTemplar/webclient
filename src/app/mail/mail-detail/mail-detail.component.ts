@@ -131,4 +131,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }));
     this.router.navigateByUrl(`/mail/${this.mailFolder}`);
   }
+
+  onPrint() {
+    if (this.decryptedContent) {
+      const printWindow = window.open();
+      printWindow.document.write(this.decryptedContent);
+      printWindow.print();
+      printWindow.close();
+    }
+  }
 }
