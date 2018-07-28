@@ -126,6 +126,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this._keyboardRef.instance.attachControl(this.loginForm.controls['username']);
     this.usernameVC.nativeElement.focus();
     this.isKeyboardOpened = true;
+    this.prependCloseButtonToMatKeyboard();
   }
 
   openPasswordOSK() {
@@ -141,6 +142,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this._keyboardRef.instance.attachControl(this.loginForm.controls['password']);
     this.passwordVC.nativeElement.focus();
     this.isKeyboardOpened = true;
+    this.prependCloseButtonToMatKeyboard();
   }
 
   closeKeyboard() {
@@ -160,10 +162,36 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     }
   }
 
+  private prependCloseButtonToMatKeyboard() {
+    const matKeyboardWrapper = document.getElementsByClassName('mat-keyboard-wrapper');
+    if (matKeyboardWrapper && this.checkIfCloseButtonExist()) {
+      const elChild = document.createElement('a');
+      elChild.setAttribute('id', 'close-mat-keyboard');
+      elChild.setAttribute('class', 'close-mat-keyboard');
+      elChild.innerHTML = '<i class="fa fa-times" id="close-mat-keyboard-icon"></i>';
+      // Prepend it to the parent element
+      matKeyboardWrapper[0].insertBefore(elChild, matKeyboardWrapper[0].firstChild);
+    }
+  }
+
+  private checkIfCloseButtonExist() {
+    return !document.getElementById('close-mat-keyboard')
+  }
+
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
     if (event.keyCode === ESCAPE_KEYCODE) {
+      this.isKeyboardOpened = false;
       this.closeKeyboard();
     }
   }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (event.target.id === 'close-mat-keyboard' || event.target.id === 'close-mat-keyboard-icon') {
+      this.isKeyboardOpened = false;
+      this.closeKeyboard();
+    }
+  }
+
 }
