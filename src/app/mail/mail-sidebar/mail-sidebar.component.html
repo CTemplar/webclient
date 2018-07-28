@@ -35,7 +35,7 @@
                     <a routerLink="/mail/inbox" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
-                        <span class="badge badge-square hidden-sm-down">4</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="inboxUnreadCount>0">{{inboxUnreadCount}}</span>
                         <span class="badge badge-sm badge-square hidden-md-up">1234</span>
                     </a>
                 </li>
@@ -43,6 +43,7 @@
                     <a routerLink="/mail/draft" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="draftCount>0">{{draftCount}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
