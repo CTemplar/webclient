@@ -201,21 +201,24 @@
         <!-- Subject -->
         <td class="mail-inbox-message d-none d-md-block">
           <a (click)="openMail(mail)" class="text-dark">
-                                <span class="mail-subject">
-                                  <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
-                                    <span class="badge badge-success mr-2 p-1"
-                                          *ngIf="i==0">Dalay delivery in 1d 5:25:00</span>
-                                    <span class="badge badge-warning mr-2 p-1" *ngIf="i==1">Delete in 1d 5:25:00</span>
-                                    <span class="badge badge-danger mr-2 p-1"
-                                          *ngIf="i==2">Dead mans timer 1d 5:25:00
-                                    </span>
-                                  </ng-container>
-                                    <div class="mail-content" [ngClass]="{'font-weight-bold': !mail.read}"
-                                         [innerHTML]="mail.subject">
-                                        <!-- Subject Goes Here -->
-                                    </div>
+            <span class="mail-subject">
+              <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
+                <span class="badge badge-success mr-2 p-1"
+                      *ngIf="mail.delayed_delivery">Dalay delivery in {{mail.delayed_delivery | remainingTime}}
+                </span>
+                <span class="badge badge-warning mr-2 p-1" 
+                      *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
+                </span>
+                <span class="badge badge-danger mr-2 p-1"
+                      *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
+                </span>
+              </ng-container>
+                <div class="mail-content" [ngClass]="{'font-weight-bold': !mail.read}"
+                      [innerHTML]="mail.subject">
+                    <!-- Subject Goes Here -->
+                </div>
 
-                                </span>
+            </span>
           </a>
         </td>
 

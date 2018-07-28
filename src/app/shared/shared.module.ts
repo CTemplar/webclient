@@ -18,6 +18,7 @@ import { FilenamePipe } from './pipes/filename.pipe';
 import { MatIconComponent } from './components/mat-icon/mat-icon.component';
 import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.component';
 import { FilesizePipe } from './pipes/filesize.pipe';
+import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { FilesizePipe } from './pipes/filesize.pipe';
     MatIconComponent,
     PricingPlansComponent,
     FilesizePipe,
+    RemainingTimePipe,
   ],
   exports: [
     TranslateModule,
@@ -54,6 +56,7 @@ import { FilesizePipe } from './pipes/filesize.pipe';
     MatIconComponent,
     PricingPlansComponent,
     FilesizePipe,
+    RemainingTimePipe,
   ],
   providers: [
     SpinnerService,
