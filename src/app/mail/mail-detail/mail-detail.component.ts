@@ -76,7 +76,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onReply() {
-    this.composeMailData.receivers = [this.mail.sender];
+    this.composeMailData = {
+      receivers: [this.mail.sender]
+    };
+    this.isComposeMailVisible = true;
+  }
+
+  onReplyAll() {
+    this.composeMailData = {
+      receivers: [this.mail.sender],
+      cc: [...this.mail.receiver, ...this.mail.cc]
+    };
     this.isComposeMailVisible = true;
   }
 

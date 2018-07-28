@@ -64,6 +64,7 @@ export class PasswordValidation {
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() receivers: Array<string> = [];
+  @Input() cc: Array<string> = [];
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -531,10 +532,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private resetMailData() {
     this.mailData = {
       receiver: this.receivers ? this.receivers.map(receiver => ({ display: receiver, value: receiver })) : [],
-      cc: [],
+      cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) : [],
       bcc: [],
       subject: ''
     };
+    if (this.mailData.cc.length > 0) {
+      this.options.isCcVisible = true;
+    }
     this.isLoaded = true;
   }
 

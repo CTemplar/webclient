@@ -58,8 +58,8 @@
                         id="messageReplyDropdownMenuButton"></button>
                 <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
                   <a class="dropdown-item">Forward</a>
-                  <a class="dropdown-item">Reply</a>
-                  <a class="dropdown-item">Reply All</a>
+                  <a class="dropdown-item" (click)="onReply()">Reply</a>
+                  <a class="dropdown-item" (click)="onReplyAll()">Reply All</a>
                   <a class="dropdown-item">Print</a>
                   <a class="dropdown-item">Add to Contact List</a>
                   <a class="dropdown-item">Delete this Message</a>
@@ -106,7 +106,7 @@
           <i class="icon icon-reply position-left"></i> Reply
         </button>
 
-        <button class="btn btn-gmail" (click)="onReply()">
+        <button class="btn btn-gmail" (click)="onReplyAll()">
           <i class="icon icon-reply position-left"></i> Reply All
         </button>
 
@@ -116,7 +116,9 @@
       </div>
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="isComposeMailVisible">
-      <app-compose-mail [receivers]="composeMailData.receivers" (hide)="onComposeMailHide()"></app-compose-mail>
+      <app-compose-mail [receivers]="composeMailData.receivers"
+                        [cc]="composeMailData.cc"
+                        (hide)="onComposeMailHide()"></app-compose-mail>
     </div>
   </div>
 </ng-container>
