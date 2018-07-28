@@ -90,7 +90,7 @@ export function reducer(
       return {
         ...state,
         mailDetail: null,
-        decryptedContents: {...state.decryptedContents},
+        decryptedContents: { ...state.decryptedContents },
       };
     }
 
@@ -112,7 +112,7 @@ export function reducer(
           inProgress: action.payload.isPGPInProgress
         };
       }
-      return {...state, decryptedContents: {...state.decryptedContents}};
+      return { ...state, decryptedContents: { ...state.decryptedContents } };
     }
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
@@ -126,7 +126,7 @@ export function reducer(
       if (newEntry && state.currentFolder === action.payload.folder) {
         state.mails = [...state.mails, action.payload];
       }
-      return {...state, mails: [...state.mails]};
+      return { ...state, mails: [...state.mails] };
     }
 
     default: {
