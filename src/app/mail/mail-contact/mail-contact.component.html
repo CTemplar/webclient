@@ -69,7 +69,7 @@
             <ul class="mailbox-actionbar-menu">
                 <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
                     <div>
-                        <button class="dropdown-toggle" role="button">
+                        <button class="dropdown-toggle no-caret" role="button">
                             <span class="fancy-field-group">
                                 <input class="d-none fancy-field-control"
                                        id="selectAll"
@@ -80,11 +80,6 @@
                             </span>
                         </button>
                     </div>
-                </li>
-                <li class="px-0">
-                    <a [ngbTooltip]="'contacts.edit_tooltip' | translate"
-                       [translate]="'common.edit'"
-                       class="border-radius-r-0 border-right-0 no-icon cursor-pointer">Edit</a>
                 </li>
                 <li class="pr-0 pl-0">
                     <a (click)="openConfirmDeleteModal(confirmDeleteModal)"
@@ -152,11 +147,6 @@
                                                            (change)="selectAll=false;"
                                                            [name]="contact.id" type="checkbox"/>
                                                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
-                                                </div>
-                                            </div>
-                                            <div class="mail-list-col-item mail-status">
-                                                <div class="mail-status-type">
-                                                    <i class="icon icon-star"></i>
                                                 </div>
                                             </div>
                                             <div class="mail-list-col-item mail-from-name cursor-pointer"

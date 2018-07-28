@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: 'contact', component: MailContactComponent },
       { path: ':folder', redirectTo: ':folder/page/1', pathMatch: 'full' },
       { path: ':folder/page/:page', component: MailListComponent },
-      { path: 'message/:id', component: MailDetailComponent },
+      { path: ':folder/message/:id', component: MailDetailComponent },
     ]
   }
 ];

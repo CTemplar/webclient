@@ -17,6 +17,8 @@ import { DynamicScriptLoaderService } from './services/dynamic-script-loader.ser
 import { FilenamePipe } from './pipes/filename.pipe';
 import { MatIconComponent } from './components/mat-icon/mat-icon.component';
 import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.component';
+import { FilesizePipe } from './pipes/filesize.pipe';
+import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 
 @NgModule({
   imports: [
@@ -36,6 +38,8 @@ import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.
     FilenamePipe,
     MatIconComponent,
     PricingPlansComponent,
+    FilesizePipe,
+    RemainingTimePipe,
   ],
   exports: [
     TranslateModule,
@@ -51,8 +55,14 @@ import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.
     MatIconModule,
     MatIconComponent,
     PricingPlansComponent,
+    FilesizePipe,
+    RemainingTimePipe,
   ],
-  providers: [SpinnerService, DynamicScriptLoaderService]
+  providers: [
+    SpinnerService,
+    DynamicScriptLoaderService,
+    FilesizePipe
+  ]
 })
 export class SharedModule {
 }

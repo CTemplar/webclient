@@ -32,51 +32,52 @@
         <nav class="mailbox-sidebar-navbar">
             <ul class="mailbox-sidebar-nav">
                 <li class="mailbox-sidebar-nav-item" routerLinkActive="active">
-                    <a routerLink="/mail/inbox/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/inbox" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
-                        <span class="badge badge-square hidden-sm-down">4</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="inboxUnreadCount>0">{{inboxUnreadCount}}</span>
                         <span class="badge badge-sm badge-square hidden-md-up">1234</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/draft" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="draftCount>0">{{draftCount}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/sent/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/sent" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-paper-plane"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.sent">Sent</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/outbox/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/outbox" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.outbox">Outbox</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/starred/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/starred" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-star"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.starred">Starred</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/archive/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/archive" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-archive"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.archive">Archive</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/spam/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/spam" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-warning"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.spam">Spam</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/trash/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/trash" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-garbage"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.trash">Trash</span>
                     </a>
@@ -91,7 +92,7 @@
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of mailBoxesState.customFolders|slice:0:LIMIT; let i=index;">
-                    <a routerLink="/mail/{{folder}}/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/{{folder}}" class="mailbox-sidebar-nav-link">
                         <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
                         <span class="mailbox-sidebar-nav-label text-capitalize" translate="mail_sidebar.trash">{{folder}}</span>
                     </a>
@@ -111,7 +112,7 @@
                 <div class="text-white mt-1">43 MB</div>
             </div>
             <div class="mailbox-sidebar-footer-text hidden-in-sm">
-                <span translate="common.used_storage">Used storage</span>: {{settings?.used_storage}} MB of {{settings?.allocated_storage}} MB</div>
+                <span translate="common.used_storage">Used storage</span>: {{settings?.used_storage | filesize}} of {{settings?.allocated_storage | filesize:'MB'}}</div>
             <a href="" class="btn-link text-white hidden-in-sm">
                 <small>
                     <u translate="common.upgrade_account">Upgrade account</u>
