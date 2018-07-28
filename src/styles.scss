@@ -233,3 +233,27 @@ tag-input {
 .green{
   color: green;
 }
+
+.close-mat-keyboard{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  background: #333;
+  color: white;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  opacity: 1;
+
+  &:hover {
+    color: white;
+    opacity: 0.8;
+  }
+
+  .close-mat-keyboard-icon {
+    font-size: 12px;
+    vertical-align: middle;
+  }
+}

@@ -1,12 +1,13 @@
 import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, MailBoxesState, MailState, Settings, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
-import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
 import { Mail, MailFolderType } from '../../store/models/mail.model';
+import { MoveMail, UpdateFolder } from '../../store/actions/mail.actions';
+import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
 
 @TakeUntilDestroy()
 @Component({
@@ -25,8 +26,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
   public settings: Settings;
+  @ViewChild('confirmationModal') confirmationModal;
+  confirmModalRef: NgbModalRef;
 
   mailBoxesState: MailBoxesState;
+  mailState: MailState;
+  selectedFolder: MailFolderType;
 
   private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
 
@@ -52,22 +57,24 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         this.mailBoxesState = mailboxes;
       });
 
-      this.store.select(state => state.mail).takeUntil(this.destroyed$)
-      .subscribe((mailState: MailState) => {
+    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    .subscribe((mailState: MailState) => {
 
-        // Draft items count
-        const drafts = mailState.folders.get(MailFolderType.DRAFT);
-        if (drafts) {
-          this.draftCount = drafts.length;
-        }
+      this.mailState = mailState;
 
-        // Inbox unread items count
-        const inbox = mailState.folders.get(MailFolderType.INBOX);
-        if (inbox) {
-          this.inboxUnreadCount = inbox.filter((mail: Mail) => !mail.read).length;
-        }
+      // Draft items count
+      const drafts = mailState.folders.get(MailFolderType.DRAFT);
+      if (drafts) {
+        this.draftCount = drafts.length;
+      }
 
-      });
+      // Inbox unread items count
+      const inbox = mailState.folders.get(MailFolderType.INBOX);
+      if (inbox) {
+        this.inboxUnreadCount = inbox.filter((mail: Mail) => !mail.read).length;
+      }
+
+    });
   }
 
   // == Open NgbModal
@@ -90,12 +97,38 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     });
   }
 
+  showConfirmationModal(folder) {
+    this.confirmModalRef = this.modalService.open(this.confirmationModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+    this.selectedFolder = folder;
+  }
+
   toggleDisplayLimit(totalItems) {
     if (this.LIMIT === totalItems) {
       this.LIMIT = 2;
     } else {
       this.LIMIT = totalItems;
     }
+  }
+
+  deleteFolder() {
+    const folderMails: Mail[] = this.mailState.folders.get(this.selectedFolder);
+    const ids = folderMails.map(mail => mail.id).join(',');
+    if (ids) {
+      this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
+      this.store.dispatch(new MoveMail({
+        ids: ids,
+        folder: MailFolderType.TRASH,
+        shouldDeleteFolder: true,
+        mailbox: this.mailBoxesState.mailboxes[0]
+      }));
+    } else {
+      this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
+      this.store.dispatch(new UpdateFolder(this.mailBoxesState.mailboxes[0]));
+    }
+    this.confirmModalRef.dismiss();
   }
 
   ngOnDestroy(): void {

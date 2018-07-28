@@ -33,7 +33,7 @@
       <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
         <span class="mail-label label-cc">Cc:</span>
         <tag-input [(ngModel)]="mailData.cc"
-                   name="to"
+                   name="cc"
                    [placeholder]="' '"
                    secondaryPlaceholder="Enter Cc email"
                    [onTextChangeDebounce]="100"
@@ -55,7 +55,7 @@
       <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
         <span class="mail-label label-bcc">Bcc:</span>
         <tag-input [(ngModel)]="mailData.bcc"
-                   name="to"
+                   name="bcc"
                    [placeholder]="' '"
                    secondaryPlaceholder="Enter Bcc email"
                    [onTextChangeDebounce]="100"
@@ -529,7 +529,9 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
-        If you do not log into your account after this set time, the email will be sent
+          Email will be sent when timer expires. Logging into
+          your account resets the timer. This email can be
+          watched in the "Outbox" page.
       </div>
       <form (submit)="setDeadManTimerValue()">
         <div class="form-group">

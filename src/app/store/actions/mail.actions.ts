@@ -24,8 +24,8 @@ export enum MailActionTypes {
   UNDO_DELETE_MAIL = '[Mail] UNDO DELETE DRAFT MAIL',
   UNDO_DELETE_MAIL_SUCCESS = '[Mail] UNDO DELETE DRAFT MAIL SUCCESS',
   SET_FOLDERS = '[MAILBOX] SET FOLDERS',
-  CREATE_FOLDER = '[MAILBOX] CREATE FOLDER',
-  CREATE_FOLDER_SUCCESS = '[MAILBOX] CREATE FOLDER SUCCESS',
+  UPDATE_FOLDER = '[MAILBOX] UPDATE FOLDER',
+  UPDATE_FOLDER_SUCCESS = '[MAILBOX] UPDATE FOLDER SUCCESS',
   SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT',
   UPDATE_PGP_DECRYPTED_CONTENT = '[PGP] UPDATE PGP DECRYPTED CONTENT',
   UPDATE_CURRENT_FOLDER = '[FOLDER] UPDATE CURRENT FOLDER'
@@ -158,14 +158,14 @@ export class SetFolders implements Action {
   constructor(public payload: any) {}
 }
 
-export class CreateFolder implements Action {
-  readonly type = MailActionTypes.CREATE_FOLDER;
+export class UpdateFolder implements Action {
+  readonly type = MailActionTypes.UPDATE_FOLDER;
 
   constructor(public payload: any) {}
 }
 
-export class CreateFolderSuccess implements Action {
-  readonly type = MailActionTypes.CREATE_FOLDER_SUCCESS;
+export class UpdateFolderSuccess implements Action {
+  readonly type = MailActionTypes.UPDATE_FOLDER_SUCCESS;
 
   constructor(public payload: any) {}
 }
@@ -210,8 +210,8 @@ export type MailActions =
   | UndoDeleteMail
   | UndoDeleteMailSuccess
   | SetFolders
-  | CreateFolder
-  | CreateFolderSuccess
+  | UpdateFolder
+  | UpdateFolderSuccess
   | SetCurrentFolder
   | UpdatePGPDecryptedContent
   | UpdateCurrentFolder;

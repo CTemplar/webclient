@@ -14,8 +14,6 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { MailService } from '../../store/services';
 // Custom Actions
 import {
-  CreateFolder,
-  CreateFolderSuccess,
   CreateMail,
   DeleteMailSuccess,
   GetMailDetail,
@@ -31,7 +29,7 @@ import {
   SnackPush,
   StarMailSuccess,
   UndoDeleteMail,
-  UndoDeleteMailSuccess
+  UndoDeleteMailSuccess, UpdateFolder, UpdateFolderSuccess
 } from '../actions';
 
 @Injectable()
@@ -60,16 +58,24 @@ export class MailEffects {
       return this.mailService.moveMail(payload.ids, payload.folder)
         .pipe(
           switchMap(res => {
-            return [
-              new MoveMailSuccess(payload),
-              new SnackPush({
-                message: `Mail moved to ${payload.folder}`,
-                ids: payload.ids,
-                folder: payload.folder,
-                sourceFolder: payload.sourceFolder,
-                mail: payload.mail
-              })
-            ];
+
+            const updateFolderActions = [];
+
+            if (payload.shouldDeleteFolder) {
+             updateFolderActions.push(new UpdateFolder(payload.mailbox));
+            }
+
+            updateFolderActions.push( new MoveMailSuccess(payload));
+            updateFolderActions.push( new SnackPush({
+              message: `Mail moved to ${payload.folder}`,
+              ids: payload.ids,
+              folder: payload.folder,
+              sourceFolder: payload.sourceFolder,
+              mail: payload.mail
+            }));
+
+            return updateFolderActions;
+
           }),
           catchError(err => [new SnackErrorPush({message: `Failed to move mail to ${payload.folder}.`})])
         );
@@ -137,15 +143,15 @@ export class MailEffects {
     });
 
   @Effect()
-  createFolderEffect: Observable<any> = this.actions
-    .ofType(MailActionTypes.CREATE_FOLDER)
-    .map((action: CreateFolder) => action.payload)
+  updateFolderEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.UPDATE_FOLDER)
+    .map((action: UpdateFolder) => action.payload)
     .switchMap(payload => {
-      return this.mailService.createFolder(payload)
+      return this.mailService.updateFolder(payload)
         .pipe(
           switchMap(res => {
             return [
-              new CreateFolderSuccess(res.folders)
+              new UpdateFolderSuccess(res.folders)
             ];
           }),
           catchError(err => [new SnackErrorPush({message: 'Failed to create folder.'})])

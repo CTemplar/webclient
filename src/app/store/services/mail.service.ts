@@ -51,7 +51,7 @@ export class MailService {
     return this.http.get<any>(`${apiUrl}emails/keys/?email__in=${emails}`).map(data => data['results']);
   }
 
-  createFolder(data: Mailbox): Observable<any> {
+  updateFolder(data: Mailbox): Observable<any> {
     return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
 
