@@ -102,21 +102,21 @@
     <div class="row">
       <div class="col-12">
 
-        <button class="btn btn-gmail" (click)="showReplyBox=true">
+        <button class="btn btn-gmail" (click)="onReply()">
           <i class="icon icon-reply position-left"></i> Reply
         </button>
 
-        <button class="btn btn-gmail" (click)="showReplyBox=true">
+        <button class="btn btn-gmail" (click)="onReply()">
           <i class="icon icon-reply position-left"></i> Reply All
         </button>
 
-        <button class="btn btn-gmail" (click)="showReplyBox=true">
+        <button class="btn btn-gmail" (click)="onReply()">
           <i class="icon icon-mail icon-lg position-left"></i> Forward
         </button>
       </div>
     </div>
-    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="showReplyBox">
-      <app-compose-mail [receivers]="[mail.sender]" (hide)="onComposeMailHide()"></app-compose-mail>
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="isComposeMailVisible">
+      <app-compose-mail [receivers]="composeMailData.receivers" (hide)="onComposeMailHide()"></app-compose-mail>
     </div>
   </div>
 </ng-container>

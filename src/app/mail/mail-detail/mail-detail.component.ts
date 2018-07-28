@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Mail } from '../../store/models/mail.model';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { Observable } from 'rxjs/Observable';
-import { AppState, MailState } from '../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs/Observable';
+import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
+import { AppState, MailState } from '../../store/datatypes';
+import { Mail } from '../../store/models/mail.model';
 import { OpenPgpService } from '../../store/services';
 
 @TakeUntilDestroy()
@@ -17,12 +17,14 @@ import { OpenPgpService } from '../../store/services';
 export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mail: Mail;
-  showReplyBox: boolean;
+  composeMailData: any = {};
+  isComposeMailVisible: boolean;
   decryptedContent: string;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
-              private pgpService: OpenPgpService) {}
+              private pgpService: OpenPgpService) {
+  }
 
   ngOnInit() {
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
@@ -66,14 +68,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   // }
 
   private markAsRead(mailID: number) {
-    this.store.dispatch(new ReadMail({ids: mailID.toString(), read: true}));
+    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read: true }));
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 
+  onReply() {
+    this.composeMailData.receivers = [this.mail.sender];
+    this.isComposeMailVisible = true;
+  }
+
   onComposeMailHide() {
-    this.showReplyBox = false;
+    this.composeMailData = {};
+    this.isComposeMailVisible = false;
   }
 }
