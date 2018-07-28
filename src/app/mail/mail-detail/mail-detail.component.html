@@ -61,10 +61,8 @@
                   <a class="dropdown-item" (click)="onReply()">Reply</a>
                   <a class="dropdown-item" (click)="onReplyAll()">Reply All</a>
                   <a class="dropdown-item">Print</a>
-                  <a class="dropdown-item">Add to Contact List</a>
                   <a class="dropdown-item" (click)="onDelete()">Delete this Message</a>
                   <a class="dropdown-item" *ngIf="mail.folder !== mailFolderType.DRAFT" (click)="onMarkAsSpam()">Mark as Spam</a>
-                  <a class="dropdown-item">Add «Show Header»</a>
                 </div>
               </div>
             </div>
