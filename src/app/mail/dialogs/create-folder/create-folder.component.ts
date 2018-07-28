@@ -5,7 +5,7 @@ import { AppState, MailBoxesState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateFolder } from '../../../store/actions';
+import { UpdateFolder } from '../../../store/actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -45,7 +45,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
       this.mailBoxesState.mailboxes[0].folders = [];
     }
     this.mailBoxesState.mailboxes[0].folders.push(this.customFolderForm.value.folderName);
-    this.store.dispatch(new CreateFolder(this.mailBoxesState.mailboxes[0]));
+    this.store.dispatch(new UpdateFolder(this.mailBoxesState.mailboxes[0]));
   }
 
   onHide() {

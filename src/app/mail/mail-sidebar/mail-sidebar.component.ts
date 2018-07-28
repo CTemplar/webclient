@@ -6,7 +6,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { MailFolderType, Mail } from '../../store/models/mail.model';
-import { MoveMail } from '../../store/actions/mail.actions';
+import { MoveMail, UpdateFolder } from '../../store/actions/mail.actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -104,9 +104,17 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     const folderMails: Mail[] = this.mailState.folders.get(this.selectedFolder);
     const ids = folderMails.map(mail => mail.id).join(',');
     if (ids) {
-      // Dispatch move to selected folder event
-      this.store.dispatch(new MoveMail({ ids, folder: MailFolderType.TRASH }));
+      this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
+      this.store.dispatch(new MoveMail({
+        ids: ids,
+        folder: MailFolderType.TRASH,
+        shouldDeleteFolder: true,
+        mailbox: this.mailBoxesState.mailboxes[0]
+      }));
       this.confirmModalRef.dismiss();
+    } else {
+      this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
+      this.store.dispatch(new UpdateFolder(this.mailBoxesState.mailboxes[0]));
     }
   }
 
