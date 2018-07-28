@@ -88,7 +88,7 @@
                             class="icon icon-garbage"></i></a>
                 </li>
                 <li class="pr-0">
-                    <a class="no-icon" [translate]="'common.compose'">Compose</a>
+                    <a class="no-icon" (click)="showComposeMailDialog()" [translate]="'common.compose'">Compose</a>
                 </li>
                 <li class="hidden-xs-down">
                     <a class="no-icon" role="button"
@@ -235,7 +235,7 @@
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
             <div class="form-group">
                 <span translate="contacts.delete.message">Are you sure, you want to delete</span>
-                {{contactsToDelete?.length}} <span translate="common.contact">contact</span>?
+                {{selectedContacts?.length}} <span translate="common.contact">contact</span>?
             </div>
             <div class="form-group text-right mb-0">
                 <button (click)="cancelDelete()" class="btn btn-secondary btn-sm"
@@ -251,3 +251,7 @@
         </div>
     </div>
 </ng-template><!-- /.Confirm contact delete modal ends -->
+
+<!-- Mail compose dialog -->
+<app-compose-mail-dialog [isComposeVisible]="isComposeVisible" [receivers]="receiverEmails"
+                         (hide)="onComposeMailHide()"></app-compose-mail-dialog>

@@ -34,7 +34,7 @@
       <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
         <span class="mail-label label-cc">Cc:</span>
         <tag-input [(ngModel)]="mailData.cc"
-                   name="to"
+                   name="cc"
                    [placeholder]="' '"
                    secondaryPlaceholder="Enter Cc email"
                    [onTextChangeDebounce]="100"
@@ -57,7 +57,7 @@
       <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
         <span class="mail-label label-bcc">Bcc:</span>
         <tag-input [(ngModel)]="mailData.bcc"
-                   name="to"
+                   name="bcc"
                    [placeholder]="' '"
                    secondaryPlaceholder="Enter Bcc email"
                    [onTextChangeDebounce]="100"
