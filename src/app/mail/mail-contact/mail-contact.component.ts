@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AppState, Contact, UserState } from '../../store/datatypes';
-import { ContactDelete } from '../../store';
+import { ContactDelete, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -27,8 +27,10 @@ export class MailContactComponent implements OnInit, OnDestroy {
   public selectAll: boolean;
 
   private contactsCount: number;
-  public contactsToDelete: Contact[] = [];
+  public selectedContacts: Contact[] = [];
   private confirmModalRef: NgbModalRef;
+  public isComposeVisible: boolean;
+  public receiverEmails: string[] = [];
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -50,10 +52,10 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user)
       .takeUntil(this.destroyed$).subscribe((state: UserState) => {
       this.userState = state;
-      if (this.contactsCount === this.userState.contact.length + this.contactsToDelete.length) {
+      if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {
         this.inProgress = false;
         this.notificationService.showSnackBar('Contacts deleted successfully.');
-        this.contactsToDelete = [];
+        this.selectedContacts = [];
         this.contactsCount = null;
       }
     });
@@ -103,8 +105,8 @@ export class MailContactComponent implements OnInit, OnDestroy {
   }
 
   openConfirmDeleteModal(modalRef) {
-    this.contactsToDelete = this.userState.contact.filter(item => item.markForDelete);
-    if (this.contactsToDelete.length === 0) {
+    this.selectedContacts = this.userState.contact.filter(item => item.markForDelete);
+    if (this.selectedContacts.length === 0) {
       return;
     }
     this.confirmModalRef = this.modalService.open(modalRef, {
@@ -121,7 +123,23 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.confirmModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.userState.contact.length;
-    this.store.dispatch(new ContactDelete(this.contactsToDelete.map(item => item.id).join(',')));
+    this.store.dispatch(new ContactDelete(this.selectedContacts.map(item => item.id).join(',')));
+  }
+
+  showComposeMailDialog() {
+    this.selectedContacts = this.userState.contact.filter(item => item.markForDelete);
+    if (this.selectedContacts.length > 10) {
+      this.store.dispatch(new SnackErrorPush({
+        message: 'Cannot open compose for more than 10 contacts'
+      }));
+    } else {
+      this.receiverEmails = this.selectedContacts.map(contact => contact.email);
+      this.isComposeVisible = true;
+    }
+  }
+
+  onComposeMailHide() {
+    this.isComposeVisible = false;
   }
 
   toggleSelectAll() {

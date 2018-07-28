@@ -121,16 +121,14 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     }
 
     this.isFormCompleted = true;
-    if (this.selectedPlan === 1) {
-      this.navigateToBillingPage();
-    }
   }
 
   private navigateToBillingPage() {
     this.store.dispatch(new UpdateSignupData({
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
-      password: this.signupForm.get('password').value
+      password: this.signupForm.get('password').value,
+      recaptcha: this.signupForm.value.captchaResponse
     }));
     this.router.navigateByUrl('/billing-info');
   }
@@ -141,6 +139,10 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signupFormCompleted() {
+    if (this.selectedPlan === 1 && this.signupForm.value.captchaResponse) {
+      this.navigateToBillingPage();
+      return;
+    }
     this.data = {
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
