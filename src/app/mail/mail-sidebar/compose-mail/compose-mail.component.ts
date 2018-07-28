@@ -20,7 +20,7 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, ComposeMailState, Contact, Draft, MailBoxesState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, ComposeMailState, Contact, Draft, MailBoxesState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { ComposeMailService } from '../../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
@@ -110,6 +110,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private attachmentsQueue: Array<Attachment> = [];
   private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
+  private isAuthenticated: boolean;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -155,6 +156,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.contacts = user.contact;
       });
 
+    this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        this.isAuthenticated = authState.isAuthenticated;
+      });
+
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailBoxesState: MailBoxesState) => {
         if (mailBoxesState.mailboxes[0]) {
@@ -188,7 +194,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new CloseMailbox(this.draft));
+    if (this.isAuthenticated) {
+      this.store.dispatch(new CloseMailbox(this.draft));
+    }
   }
 
   initializeDraft() {

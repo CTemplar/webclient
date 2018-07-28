@@ -22,6 +22,6 @@ export class PagesSecurityComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
+   // this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

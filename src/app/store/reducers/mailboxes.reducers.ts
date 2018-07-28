@@ -3,15 +3,15 @@ import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailBoxesState } from '../datatypes';
 
-export const initialState: MailBoxesState = {
-  mailboxes: [],
-  customFolders: [],
-  currentMailbox: null,
-  decryptKeyInProgress: false,
-  encryptionInProgress: false,
-};
 
-export function reducer(state = initialState, action: MailActions): MailBoxesState {
+export function reducer(
+  state = {
+    mailboxes: [],
+    customFolders: [],
+    currentMailbox: null,
+    decryptKeyInProgress: false,
+    encryptionInProgress: false
+  }, action: MailActions): MailBoxesState {
   switch (action.type) {
 
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
