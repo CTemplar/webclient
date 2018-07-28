@@ -56,11 +56,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.draftCount = drafts.length;
         }
 
+        // Inbox unread items count
         const inbox = mailState.folders.get(MailFolderType.INBOX);
         if (inbox) {
           this.inboxUnreadCount = inbox.filter((mail: Mail) => !mail.read).length;
         }
-        // console.log(this.draftCount, this.inboxUnreadCount);
 
       });
   }
