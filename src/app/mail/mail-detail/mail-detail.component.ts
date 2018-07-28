@@ -21,6 +21,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   composeMailData: any = {};
   isComposeMailVisible: boolean;
   decryptedContent: string;
+  mailFolderType = MailFolderType;
   private mailFolder: MailFolderType;
 
   constructor(private route: ActivatedRoute,
@@ -118,6 +119,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         mail: this.mail
       }));
     }
+    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+  }
+
+  onMarkAsSpam() {
+    this.store.dispatch(new MoveMail({
+      ids: this.mail.id,
+      folder: MailFolderType.SPAM,
+      sourceFolder: this.mail.folder,
+      mail: this.mail
+    }));
     this.router.navigateByUrl(`/mail/${this.mailFolder}`);
   }
 }
