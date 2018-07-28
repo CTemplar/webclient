@@ -41,7 +41,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     private store: Store<any>,
     private spinnerService: SpinnerService
   ) {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
+    // this.store.dispatch(new FinalLoading({ loadingState: true }));
 
     this.getBlogState$ = this.store.select(getNewBlogs);
     this.getCategories$ = this.store.select(getCategories);
@@ -107,6 +107,6 @@ export class BlogListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
+   // this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }
