@@ -25,6 +25,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   customFolders: string[];
 
   mailFolderTypes = MailFolderType;
+  selectAll: boolean;
 
   readonly destroyed$: Observable<boolean>;
 
@@ -71,11 +72,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         mail.marked = true;
         return mail;
       });
+      this.selectAll = true;
     } else {
       this.mails.map(mail => {
         mail.marked = false;
         return mail;
       });
+      this.selectAll = false;
     }
   }
 
@@ -141,6 +144,50 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       // Dispatch move to selected folder event
       this.store.dispatch(new MoveMail({ ids, folder: folder }));
     }
+  }
+
+  markReadMails() {
+    this.mails.map(mail => {
+      if (mail.read) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
+  }
+
+  markUneadMails() {
+    this.mails.map(mail => {
+      if (!mail.read) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
+  }
+
+  markStarredMails() {
+    this.mails.map(mail => {
+      if (mail.starred) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
+  }
+
+  markUnstarredMails() {
+    this.mails.map(mail => {
+      if (!mail.starred) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
   }
 
   /**

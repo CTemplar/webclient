@@ -6,6 +6,7 @@
         <tag-input [(ngModel)]="mailData.receiver"
                    *ngIf="isLoaded"
                    name="to"
+                   [placeholder]="' '"
                    secondaryPlaceholder="Enter recipient email"
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
@@ -34,6 +35,7 @@
         <span class="mail-label label-cc">Cc:</span>
         <tag-input [(ngModel)]="mailData.cc"
                    name="cc"
+                   [placeholder]="' '"
                    secondaryPlaceholder="Enter Cc email"
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
@@ -56,6 +58,7 @@
         <span class="mail-label label-bcc">Bcc:</span>
         <tag-input [(ngModel)]="mailData.bcc"
                    name="bcc"
+                   [placeholder]="' '"
                    secondaryPlaceholder="Enter Bcc email"
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"

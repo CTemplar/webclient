@@ -60,7 +60,8 @@ import { CreateFolderComponent } from './dialogs/create-folder/create-folder.com
     MailFooterComponent
   ],
   entryComponents: [
-    CreateFolderComponent
+    CreateFolderComponent,
+    ComposeMailDialogComponent
   ]
 })
 export class MailModule { }

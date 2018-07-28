@@ -108,7 +108,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.signupInProgress = false;
         if (status === 200) {
           // TODO: add next step of subscription
-          console.log(`Success! Card token ${response.card.id}.`);
+          this.stripeSignup(response.card.id);
         } else {
           this.stripePaymentValidation = {
             message: response.error.message,
@@ -140,6 +140,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       return true;
     }
     this.router.navigateByUrl('/signup');
+  }
+  stripeSignup(token: any) {
+    if (token) {
+      this.store.dispatch(new SignUp({
+        ...this.signupState,
+      stripe_token: token
+      }));
+    } else {
+      this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
+    }
   }
 
   bitcoinSignup() {
