@@ -57,14 +57,12 @@
                 <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
                         id="messageReplyDropdownMenuButton"></button>
                 <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
-                  <a class="dropdown-item">Forward</a>
-                  <a class="dropdown-item">Reply</a>
-                  <a class="dropdown-item">Reply All</a>
-                  <a class="dropdown-item">Print</a>
-                  <a class="dropdown-item">Add to Contact List</a>
-                  <a class="dropdown-item">Delete this Message</a>
-                  <a class="dropdown-item">Mark as Spam</a>
-                  <a class="dropdown-item">Add «Show Header»</a>
+                  <a class="dropdown-item" (click)="onForward()">Forward</a>
+                  <a class="dropdown-item" (click)="onReply()">Reply</a>
+                  <a class="dropdown-item" (click)="onReplyAll()">Reply All</a>
+                  <a class="dropdown-item" (click)="onPrint()">Print</a>
+                  <a class="dropdown-item" (click)="onDelete()">Delete this Message</a>
+                  <a class="dropdown-item" *ngIf="mail.folder !== mailFolderType.DRAFT" (click)="onMarkAsSpam()">Mark as Spam</a>
                 </div>
               </div>
             </div>
@@ -102,21 +100,24 @@
     <div class="row">
       <div class="col-12">
 
-        <button class="btn btn-gmail" (click)="showReplyBox=true">
+        <button class="btn btn-gmail" (click)="onReply()">
           <i class="icon icon-reply position-left"></i> Reply
         </button>
 
-        <button class="btn btn-gmail" (click)="showReplyBox=true">
+        <button class="btn btn-gmail" (click)="onReplyAll()">
           <i class="icon icon-reply position-left"></i> Reply All
         </button>
 
-        <button class="btn btn-gmail" (click)="showReplyBox=true">
+        <button class="btn btn-gmail" (click)="onForward()">
           <i class="icon icon-mail icon-lg position-left"></i> Forward
         </button>
       </div>
     </div>
-    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="showReplyBox">
-      <app-compose-mail [receivers]="mail.receiver" (hide)="onComposeMailHide()"></app-compose-mail>
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="isComposeMailVisible">
+      <app-compose-mail [receivers]="composeMailData.receivers"
+                        [cc]="composeMailData.cc"
+                        [content]="composeMailData.content"
+                        (hide)="onComposeMailHide()"></app-compose-mail>
     </div>
   </div>
 </ng-container>

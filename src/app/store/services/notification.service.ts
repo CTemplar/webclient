@@ -22,7 +22,8 @@ export class NotificationService {
       snackBarRef.onAction().subscribe(() => {
         this.store.dispatch(new UndoDeleteMail(payload));
       });
+    } else {
+      this.showSnackBar(payload.message);
     }
-
   }
 }

@@ -67,11 +67,12 @@ export class MailEffects {
 
             updateFolderActions.push( new MoveMailSuccess(payload));
             updateFolderActions.push( new SnackPush({
-              message: `Mail moved to trash`,
+              message: `Mail moved to ${payload.folder}`,
               ids: payload.ids,
               folder: payload.folder,
               sourceFolder: payload.sourceFolder,
-              mail: payload.mail
+              mail: payload.mail,
+              allowUndo: payload.allowUndo
             }));
 
             return updateFolderActions;

@@ -37,9 +37,18 @@ export function reducer(
     }
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
+      let mails = state.mails;
+      if (action.payload.sourceFolder === state.currentFolder) {
+        if (Array.isArray(action.payload.mail)) {
+          mails = [...state.mails, ...action.payload.mail];
+        }
+        else {
+          mails = [...state.mails, action.payload.mail];
+        }
+      }
       return {
         ...state,
-        mails: (action.payload.sourceFolder === state.currentFolder) ? [...state.mails, action.payload.mail] : state.mails,
+        mails: mails,
       };
     }
 

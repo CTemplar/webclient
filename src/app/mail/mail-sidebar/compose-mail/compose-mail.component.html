@@ -14,8 +14,7 @@
                    (onAdd)="valueChanged$.next(mailData.receiver)"
                    (onRemove)="valueChanged$.next(mailData.receiver)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [dynamicUpdate]="false"
-                              [focusFirstElement]="true"
+                              [appendToBody]="false"
                               [displayBy]="'email'"
                               [identifyBy]="'id'"
                               [autocompleteItems]="contacts">
@@ -43,8 +42,7 @@
                    (onAdd)="valueChanged$.next(mailData.cc)"
                    (onRemove)="valueChanged$.next(mailData.cc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [dynamicUpdate]="false"
-                              [focusFirstElement]="true"
+                              [appendToBody]="false"
                               [displayBy]="'email'"
                               [identifyBy]="'id'"
                               [autocompleteItems]="contacts">
@@ -66,8 +64,7 @@
                    (onAdd)="valueChanged$.next(mailData.bcc)"
                    (onRemove)="valueChanged$.next(mailData.bcc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [dynamicUpdate]="false"
-                              [focusFirstElement]="true"
+                              [appendToBody]="false"
                               [displayBy]="'email'"
                               [identifyBy]="'id'"
                               [autocompleteItems]="contacts">
@@ -388,14 +385,9 @@
         </li>
         <li class="px-0">
           <button type="button" role="button" (click)="openDeadManTimerModal()"
-                  class="actions-btn mail-dead-btn border-right-0  border-radius-l-0"
+                  class="actions-btn mail-dead-btn border-radius-l-0"
                   placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i>
           </button>
-        </li>
-        <li class="px-0">
-          <button role="button" type="button" (click)="toggleOSK()"
-                  class="actions-btn mail-keyboard-btn" placement="top"
-                  ngbTooltip="On-screen keyboard"><i class="icon icon-keyboard-show"></i></button>
         </li>
       </ul>
     </div>

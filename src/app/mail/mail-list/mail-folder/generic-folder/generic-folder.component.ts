@@ -27,6 +27,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
 
+  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
   constructor(public store: Store<AppState>,
@@ -54,6 +55,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((searchState: SearchState) => {
         // TODO: apply search
       });
+
+    this.initializeAutoRefresh();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -64,6 +67,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.mails = this.sharedService.sortByDate(changes['mails'].currentValue, sortField);
     }
+  }
+
+  initializeAutoRefresh() {
+    Observable.timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
+      .subscribe(event => {
+        this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
+      });
   }
 
   markAllMails(checkAll) {
@@ -142,7 +152,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch move to selected folder event
-      this.store.dispatch(new MoveMail({ ids, folder: folder }));
+      this.store.dispatch(new MoveMail({
+        ids,
+        folder,
+        sourceFolder: this.mailFolder,
+        mail: this.getMarkedMails(),
+        allowUndo: folder === MailFolderType.TRASH
+      }));
     }
   }
 
@@ -196,7 +212,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
-    return this.mails.filter(mail => mail.marked).map(mail => mail.id).join(',');
+    return this.getMarkedMails().map(mail => mail.id).join(',');
+  }
+
+  private getMarkedMails() {
+    return this.mails.filter(mail => mail.marked);
   }
 
   ngOnDestroy() {}

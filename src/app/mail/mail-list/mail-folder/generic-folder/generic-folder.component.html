@@ -10,7 +10,8 @@
                     placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
                             <span class="fancy-field-group">
                                 <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
-                                       type="checkbox" (change)="markAllMails($event.target.checked)" [(ngModel)]="selectAll"/>
+                                       type="checkbox" (change)="markAllMails($event.target.checked)"
+                                       [(ngModel)]="selectAll"/>
                                 <label for="mailboxBulkActions" class="fancy-field-empty"></label>
                             </span>
             </button>
@@ -160,7 +161,9 @@
         <hr class="mt-0">
       </tr>
       <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
-          [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT), 'is-read': mail.read, 'is-selected':mail.marked}">
+          [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT),
+          'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT),
+          'is-selected':mail.marked}">
 
 
         <!-- Check box -->
@@ -181,18 +184,20 @@
         <!-- Sender Name -->
         <td class="mail-from-name">
           <a (click)="openMail(mail)" class="text-danger"
-          [ngClass]="{'font-weight-bold': (!mail.read && (mailFolder !== mailFolderTypes.SENT || mailFolder !== mailFolderTypes.DRAFT)), 
+             [ngClass]="{'font-weight-bold': (!mail.read && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.DRAFT),
           'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
-          <ng-container [ngSwitch]="mailFolder">
-            <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
-            <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-             <span [ngbTooltip]="mail.receiver.join(', ')">{{mail.receiver.join(', ')}}</span>
+            <ng-container [ngSwitch]="mailFolder">
+              <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
+              <ng-container *ngSwitchCase="mailFolderTypes.SENT">
+                <span [ngbTooltip]="mail.receiver.join(', ')">{{mail.receiver.join(', ')}}</span>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{mail.sender}}
+              </ng-container>
             </ng-container>
-            <ng-container *ngSwitchDefault>
-              {{mail.sender}}
-            </ng-container>
-          </ng-container>
-            <span class="font-weight-bold d-sm-block d-md-none" [innerHTML]="mail.subject">
+            <span class="d-sm-block d-md-none"
+                  [ngClass]="{'font-weight-bold': (!mail.read && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.DRAFT)}"
+                  [innerHTML]="mail.subject">
                                         <!-- Subject Goes Here -->
                                 </span>
           </a>
@@ -206,15 +211,16 @@
                 <span class="badge badge-success mr-2 p-1"
                       *ngIf="mail.delayed_delivery">Dalay delivery in {{mail.delayed_delivery | remainingTime}}
                 </span>
-                <span class="badge badge-warning mr-2 p-1" 
+                <span class="badge badge-warning mr-2 p-1"
                       *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
                       *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
-                <div class="mail-content" [ngClass]="{'font-weight-bold': !mail.read}"
-                      [innerHTML]="mail.subject">
+                <div class="mail-content"
+                     [ngClass]="{'font-weight-bold': (!mail.read && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.DRAFT)}"
+                     [innerHTML]="mail.subject">
                     <!-- Subject Goes Here -->
                 </div>
 
@@ -224,12 +230,13 @@
 
         <!-- Attachment Size -->
         <!--<td class="mail-file-size">-->
-          <!--2.6kB-->
+        <!--2.6kB-->
         <!--</td>-->
 
         <!-- Inbox Date -->
         <td class="mail-sent-date">
-          <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | date:'MMM d'}}</ng-container>
+          <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | date:'MMM d'}}
+          </ng-container>
           <ng-template #createdAt>{{mail.created_at | date:'MMM d'}}</ng-template>
         </td>
 

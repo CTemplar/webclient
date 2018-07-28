@@ -64,6 +64,8 @@ export class PasswordValidation {
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() receivers: Array<string> = [];
+  @Input() cc: Array<string> = [];
+  @Input() content: string;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -225,6 +227,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.valueChanged$.next();
     });
 
+    if (this.content) {
+      this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
+    }
+
     this.addSignature();
   }
 
@@ -307,7 +313,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         ids: this.draftMail.id,
         folder: MailFolderType.TRASH,
         sourceFolder: MailFolderType.DRAFT,
-        mail: this.draftMail
+        mail: this.draftMail,
+        allowUndo: true
       }));
     }
     this.hide.emit();
@@ -341,7 +348,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   addSignature() {
     if (this.quill && this.signature && !this.isSignatureAdded) {
       const index = this.quill.getLength();
-      this.quill.insertText(index, this.signature, 'silent');
+      this.quill.insertText(index, '\n' + this.signature, 'silent');
       this.isSignatureAdded = true;
     }
   }
@@ -531,10 +538,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private resetMailData() {
     this.mailData = {
       receiver: this.receivers ? this.receivers.map(receiver => ({ display: receiver, value: receiver })) : [],
-      cc: [],
+      cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) : [],
       bcc: [],
       subject: ''
     };
+    if (this.mailData.cc.length > 0) {
+      this.options.isCcVisible = true;
+    }
     this.isLoaded = true;
   }
 
