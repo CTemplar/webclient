@@ -94,6 +94,12 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       return { ...state, drafts: { ...state.drafts } };
     }
 
+    case ComposeMailActionTypes.UPLOAD_ATTACHMENT_FAILURE: {
+      state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments
+        .filter(attachment => attachment.attachmentId !== action.payload.attachmentId);
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
     case ComposeMailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
       state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments
         .filter(attachment => {

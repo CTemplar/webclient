@@ -13,6 +13,7 @@ export enum ComposeMailActionTypes {
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
   UPLOAD_ATTACHMENT_REQUEST = '[Attachment] UPLOAD_ATTACHMENT_REQUEST',
   UPLOAD_ATTACHMENT_SUCCESS = '[Attachment] UPLOAD_ATTACHMENT_SUCCESS',
+  UPLOAD_ATTACHMENT_FAILURE = '[Attachment] UPLOAD_ATTACHMENT_FAILURE',
   DELETE_ATTACHMENT = '[Attachment] DELETE_ATTACHMENT',
   DELETE_ATTACHMENT_SUCCESS = '[Attachment] DELETE_ATTACHMENT_SUCCESS',
   GET_USERS_KEYS = '[USERS] GET KEYS',
@@ -98,6 +99,13 @@ export class UploadAttachmentSuccess implements Action {
   }
 }
 
+export class UploadAttachmentFailure implements Action {
+  readonly type = ComposeMailActionTypes.UPLOAD_ATTACHMENT_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export class DeleteAttachment implements Action {
   readonly type = ComposeMailActionTypes.DELETE_ATTACHMENT;
 
@@ -152,6 +160,7 @@ export type ComposeMailActions =
   | UploadAttachmentProgress
   | UploadAttachmentRequest
   | UploadAttachmentSuccess
+  | UploadAttachmentFailure
   | DeleteAttachment
   | DeleteAttachmentSuccess
   | GetUsersKeys
