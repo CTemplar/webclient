@@ -41,7 +41,7 @@
                                                 <div class="info-list-val-text" translate="settings.address_tooltip">One
                                                     - More available soon!
                                                 </div>
-                                                <div class="info-list-val-text">{{settings.used_storage}} MB of {{settings.allocated_storage}}MB</div>
+                                                
                                             </div>
                                         </div>
                                     </li>
@@ -49,7 +49,9 @@
                                         <div class="info-list-text info-list-label" translate="settings.storage">
                                             Storage
                                         </div>
+                                       
                                         <div class="info-list-text info-list-val">
+                                            <div class="info-list-val-text"> {{(settings?.used_storage * 1024) | filesize}} of {{settings.allocated_storage}} MB</div>
                                             <div class="progress progress-secondary progress-lg">
                                                 <div class="progress-bar" role="progressbar"
                                                      [style.width.%]="(settings.used_storage/settings.allocated_storage)*100"
