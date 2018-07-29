@@ -62,4 +62,5 @@ export interface Attachment {
   attachmentId?: number;
   inProgress: boolean;
   request?: Subscription;
+  isRemoved?: boolean;
 }
