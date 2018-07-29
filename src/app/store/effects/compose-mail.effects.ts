@@ -20,6 +20,7 @@ import {
   CreateMail,
   CreateMailSuccess,
   DeleteAttachment,
+  DeleteAttachmentFailure,
   DeleteAttachmentSuccess,
   GetUsersKeys,
   GetUsersKeysSuccess,
@@ -97,7 +98,10 @@ export class ComposeMailEffects {
             switchMap(res => {
               return [new DeleteAttachmentSuccess(payload)];
             }),
-            catchError(err => [new SnackErrorPush({ message: 'Failed to delete attachment.' })])
+            catchError(err => [
+              new SnackErrorPush({ message: 'Failed to delete attachment.' }),
+              new DeleteAttachmentFailure(payload)
+            ])
           );
       } else {
         return [new DeleteAttachmentSuccess(payload)];
