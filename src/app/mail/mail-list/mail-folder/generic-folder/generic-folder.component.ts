@@ -111,6 +111,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         new StarMail({ ids: mail.id.toString(), starred: true })
       );
     }
+    mail.starred = !mail.starred;
   }
 
   markAsStarred() {
