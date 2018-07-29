@@ -7,5 +7,5 @@ export const environment = {
   debug: true,
   production: false,
   apiServerUrl: 'https://api.ctemplar.com/',
-  bitcoinServerUrl: 'http://82.221.139.154:8080/api/v1.0/bitcoin/'
+  bitcoinServerUrl: 'https://bitcoin.ctemplar.com/api/v1.0/bitcoin/'
 };
