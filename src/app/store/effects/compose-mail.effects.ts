@@ -20,6 +20,7 @@ import {
   CreateMail,
   CreateMailSuccess,
   DeleteAttachment,
+  DeleteAttachmentFailure,
   DeleteAttachmentSuccess,
   GetUsersKeys,
   GetUsersKeysSuccess,
@@ -29,6 +30,7 @@ import {
   SnackPush,
   UpdateCurrentFolder,
   UploadAttachment,
+  UploadAttachmentFailure,
   UploadAttachmentProgress,
   UploadAttachmentRequest,
   UploadAttachmentSuccess
@@ -52,11 +54,11 @@ export class ComposeMailEffects {
         .pipe(
           switchMap(res => {
             return [
-              new CreateMailSuccess({draft: payload, response: res}),
+              new CreateMailSuccess({ draft: payload, response: res }),
               new UpdateCurrentFolder(res)
             ];
           }),
-          catchError(err => [new SnackErrorPush({message: 'Failed to save mail.'})])
+          catchError(err => [new SnackErrorPush({ message: 'Failed to save mail.' })])
         );
     });
 
@@ -72,13 +74,16 @@ export class ComposeMailEffects {
           .subscribe((event: any) => {
               if (event.type === HttpEventType.UploadProgress) {
                 const progress = Math.round(100 * event.loaded / event.total);
-                observer.next(new UploadAttachmentProgress({...payload, progress}));
+                observer.next(new UploadAttachmentProgress({ ...payload, progress }));
               } else if (event instanceof HttpResponse) {
-                observer.next(new UploadAttachmentSuccess({data: payload, response: event.body}));
+                observer.next(new UploadAttachmentSuccess({ data: payload, response: event.body }));
               }
             },
-            err => observer.next(new SnackErrorPush({message: 'Failed to upload attachment.'})));
-        observer.next(new UploadAttachmentRequest({...payload, request}));
+            err => {
+              observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' }));
+              observer.next(new UploadAttachmentFailure(payload));
+            });
+        observer.next(new UploadAttachmentRequest({ ...payload, request }));
       });
     });
 
@@ -93,7 +98,10 @@ export class ComposeMailEffects {
             switchMap(res => {
               return [new DeleteAttachmentSuccess(payload)];
             }),
-            catchError(err => [new SnackErrorPush({message: 'Failed to delete attachment.'})])
+            catchError(err => [
+              new SnackErrorPush({ message: 'Failed to delete attachment.' }),
+              new DeleteAttachmentFailure(payload)
+            ])
           );
       } else {
         return [new DeleteAttachmentSuccess(payload)];
@@ -123,7 +131,7 @@ export class ComposeMailEffects {
               })
             ];
           }),
-          catchError(err => [new SnackErrorPush({message: `Failed to send mail.`})])
+          catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })])
         );
     });
 
@@ -136,7 +144,7 @@ export class ComposeMailEffects {
         .pipe(
           switchMap((keys) => {
             return [
-              new GetUsersKeysSuccess({draftId: payload.draftId, data: keys})
+              new GetUsersKeysSuccess({ draftId: payload.draftId, data: keys })
             ];
           })
         );

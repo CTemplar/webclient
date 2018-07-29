@@ -94,6 +94,24 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       return { ...state, drafts: { ...state.drafts } };
     }
 
+    case ComposeMailActionTypes.UPLOAD_ATTACHMENT_FAILURE: {
+      state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments
+        .filter(attachment => attachment.attachmentId !== action.payload.attachmentId);
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.DELETE_ATTACHMENT: {
+      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === action.payload.attachmentId) {
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            isRemoved: true
+          };
+        }
+      });
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
     case ComposeMailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
       state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments
         .filter(attachment => {
@@ -105,6 +123,18 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
           }
           return true;
         });
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.DELETE_ATTACHMENT_FAILURE: {
+      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === action.payload.attachmentId) {
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            isRemoved: false
+          };
+        }
+      });
       return { ...state, drafts: { ...state.drafts } };
     }
 
