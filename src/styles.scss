@@ -257,3 +257,9 @@ tag-input {
     vertical-align: middle;
   }
 }
+
+app-compose-mail {
+  .mail-compose-field tag-input {
+    max-width: calc(100% - 4rem);
+  }
+}
