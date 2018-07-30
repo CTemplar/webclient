@@ -23,13 +23,13 @@ export class UsersService {
     private router: Router,
     private store: Store<AppState>,
   ) {
-    if (this.getToken() && this.getUserKey()) {
+    if (this.getToken() && this.getUserKey() && !this.isTokenExpired()) {
       this.store.dispatch(new LogInSuccess({ token: this.getToken() }));
     }
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + 7 * (1000 * 60 * 60 * 24);
+    const expiration = new Date().getTime() + (1000 * 60 * 60 * 3);  // set 3 hours expiration token time.
     sessionStorage.setItem('token_expiration', expiration.toString());
   }
 
@@ -44,14 +44,8 @@ export class UsersService {
     );
   }
 
-  signedIn() {
-    const token_active =
-      +sessionStorage.getItem('token_expiration') > new Date().getTime();
-    if (!!sessionStorage.getItem('token') && token_active) {
-      return true;
-    } else {
-      return false;
-    }
+  isTokenExpired() {
+    return +sessionStorage.getItem('token_expiration') < new Date().getTime();
   }
 
   signIn(body): Observable<any> {
