@@ -52,3 +52,15 @@ $error-red: #e94e4c;
     // left: 0px;
   }
 }
+
+.info-text {
+  line-height: 27px;
+}
+
+.remember-me {
+  input[type="checkbox"].fancy-field-control-lg + label.fancy-field-empty::after {
+    width: 6px !important;
+    top: 4px !important;
+    left: 7px !important;
+  }
+}

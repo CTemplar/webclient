@@ -66,12 +66,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
+      rememberMe: [false],
     });
 
     this.resetForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      email: ['', [Validators.required]]
+      email: ['', [Validators.required]],
     });
 
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
@@ -175,7 +176,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   }
 
   private checkIfCloseButtonExist() {
-    return !document.getElementById('close-mat-keyboard')
+    return !document.getElementById('close-mat-keyboard');
   }
 
   @HostListener('document:keydown', ['$event'])

@@ -2,44 +2,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 // Helpers
 import { apiUrl } from '../../shared/config';
-
 // Models
-import { User } from '../models';
-
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { OpenPgpService } from './openpgp.service';
+import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
 
-
-declare var openpgp;
-
 @Injectable()
 export class UsersService {
-  options: any;
-  encrypted: any;
-  pubkey: any;
-  privkey: any;
-  passphrase: any;
-  privKeyObj: any;
+  private token: string | null;
+  private userKey: string;
 
   constructor(
     private http: HttpClient,
-    // private mailService: MailService,
-    // private sharedService: SharedService,
     private router: Router,
-    private openPgpService: OpenPgpService,
     private store: Store<AppState>,
   ) {
-    if (this.getToken()) {
+    if (this.getToken() && this.getUserKey()) {
       this.store.dispatch(new LogInSuccess({ token: this.getToken() }));
     }
   }
@@ -80,16 +64,20 @@ export class UsersService {
   }
 
   private setLoginData(tokenResponse: any, requestData) {
+    this.token = tokenResponse.token;
+    this.userKey = btoa(requestData.password);
     sessionStorage.setItem('token', tokenResponse.token);
-    sessionStorage.setItem('user_key', btoa(requestData.password));
     this.setTokenExpiration();
+    if (requestData.rememberMe) {
+      sessionStorage.setItem('user_key', this.userKey);
+    }
   }
 
   signOut() {
+    this.userKey = this.token = null;
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('token_expiration');
     sessionStorage.removeItem('user_key');
-    this.openPgpService.clearData();
     this.router.navigateByUrl('/signin');
   }
 
@@ -108,7 +96,11 @@ export class UsersService {
   }
 
   getToken(): string {
-    return sessionStorage.getItem('token');
+    return this.token || sessionStorage.getItem('token');
+  }
+
+  getUserKey(): string {
+    return this.userKey || sessionStorage.getItem('user_key');
   }
 
   getNecessaryTokenUrl(url) {

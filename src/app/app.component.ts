@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
               private sharedService: SharedService,
               private store: Store<AppState>,
               private translate: TranslateService) {
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
     this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
     this.sharedService.isMail.subscribe(data => (this.isMail = data));

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState, MailBoxesState } from '../datatypes';
+import { AppState, AuthState, MailBoxesState } from '../datatypes';
 import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPEncryptedContent, UpdatePGPDecryptedContent } from '../actions';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class OpenPgpService {
@@ -13,8 +14,13 @@ export class OpenPgpService {
   private decryptInProgress: boolean;
   private pgpWorker: Worker;
   private pgpEncryptWorker: Worker;
+  private isAuthenticated: boolean;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>,
+              private usersService: UsersService) {
+
+    this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
+    this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
 
     this.store.select(state => state.mailboxes)
       .subscribe((response: MailBoxesState) => {
@@ -26,13 +32,19 @@ export class OpenPgpService {
         this.decryptInProgress = response.decryptKeyInProgress;
         this.initializeWorker();
       });
-    this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
-    this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
+
+    this.store.select((state: AppState) => state.auth)
+      .subscribe((authState: AuthState) => {
+        if (this.isAuthenticated && !authState.isAuthenticated) {
+          this.clearData();
+        }
+        this.isAuthenticated = authState.isAuthenticated;
+      });
   }
 
   initializeWorker() {
     if (this.privkey && !this.decryptedPrivKeyObj && !this.decryptInProgress) {
-      const userKey = sessionStorage.getItem('user_key');
+      const userKey = this.usersService.getUserKey();
       if (!userKey) {
         this.store.dispatch(new Logout());
         return;
@@ -91,7 +103,7 @@ export class OpenPgpService {
     this.pubkey = null;
     this.privkey = null;
     this.store.dispatch(new SetDecryptedKey({ decryptedKey: null }));
-    this.pgpWorker.postMessage({clear: true});
+    this.pgpWorker.postMessage({ clear: true });
   }
 
 }
