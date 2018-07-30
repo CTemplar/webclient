@@ -80,6 +80,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
+        if (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
+          this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
+          this.checkTransactionResponse.status === TransactionStatus.SENT) {
+          this.paymentSuccess = true;
+          return;
+        }
       });
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
       .subscribe((authState: AuthState) => {
