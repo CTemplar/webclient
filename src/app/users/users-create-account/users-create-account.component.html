@@ -227,8 +227,10 @@
   </div>
   <div *ngIf="isCaptchaCompleted" class="text-center form-group mt-4">
     <button class="btn btn-secondary btn-lg" role="button"
-            (click)="signupFormCompleted()" translate="login.create_account" [disabled]="signupInProgress">Create
-      Account
+            (click)="signupFormCompleted()"
+            translate="billing_info.submit"
+            [disabled]="signupInProgress">
+      Submit
     </button>
     <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
   </div>

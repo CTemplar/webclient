@@ -64,7 +64,7 @@
               </div>
               <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong translate="create_account.payment_information">Payment Information</strong>
+                  <strong translate="billing_info.payment_information">Payment Information</strong>
                 </h3>
                 <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span translate="billing_info.bitcoin_sent_timer">BTC sent after timer will be lost!</span> </p>
 
@@ -85,9 +85,13 @@
                   </div>
 
                 </div>
-                <strong class="text-center text-success" *ngIf="showPaymentPending">
+                <strong class="text-center text-success" *ngIf="showPaymentPending && !paymentSuccess">
                   Your payment is pending, But you can still create a free account
                   and your account will be upgraded to premium after payment is verified.</strong>
+                <strong class="text-center green" *ngIf="paymentSuccess">
+                  <i class="fa fa-check-circle green"></i>
+                  Your payment has been made successfully, Please click on create account in order to proceed.
+                </strong>
               </div>
 
 
@@ -168,7 +172,7 @@
               <div class="form-group text-center mt-3 mt-sm-4 mb-0">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="signupInProgress"
-                          (click)="submitForm()"><span translate="billing_info.submit">Submit</span>
+                          (click)="submitForm()"><span translate="login.create_account">Create Account</span>
                   </button>
                   <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
               </div>

@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 // Service
 import { SharedService } from '../../store/services';
 import {
-  CheckPendingBalance,
+  CheckTransaction,
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
@@ -11,7 +11,15 @@ import {
   SnackErrorPush
 } from '../../store/actions';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, BitcoinState, PaymentMethod, PendingBalanceResponse, SignupState } from '../../store/datatypes';
+import {
+  AppState,
+  AuthState,
+  BitcoinState,
+  PaymentMethod,
+  CheckTransactionResponse,
+  SignupState,
+  TransactionStatus
+} from '../../store/datatypes';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/observable/timer';
@@ -29,8 +37,7 @@ import { Router } from '@angular/router';
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   readonly destroyed$: Observable<boolean>;
-  private pendingBalanceResponse: PendingBalanceResponse;
-  public transactionSuccess: boolean;
+  private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
 
   cardNumber;
@@ -53,6 +60,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     param: ''
   };
   showPaymentPending: boolean;
+  paymentSuccess: boolean;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
@@ -71,7 +79,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.bitcoin).takeUntil(this.destroyed$)
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
-        this.pendingBalanceResponse = this.bitcoinState.pendingBalanceResponse;
+        this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
       });
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
       .subscribe((authState: AuthState) => {
@@ -141,11 +149,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     this.router.navigateByUrl('/signup');
   }
+
   stripeSignup(token: any) {
     if (token) {
       this.store.dispatch(new SignUp({
         ...this.signupState,
-      stripe_token: token
+        stripe_token: token
       }));
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
@@ -164,22 +173,21 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
   }
 
-  checkPendingBalance() {
-    if (this.pendingBalanceResponse.pending_balance > 0 &&
-      this.pendingBalanceResponse.pending_balance >= this.pendingBalanceResponse.required_balance) {
-      this.transactionSuccess = true;
+  checkTransaction() {
+    if (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
+      this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
+      this.checkTransactionResponse.status === TransactionStatus.SENT) {
+      this.paymentSuccess = true;
       return;
     }
     setTimeout(() => {
       // check after every one minute
-      this.store.dispatch(new CheckPendingBalance({
+      this.store.dispatch(new CheckTransaction({
         'redeem_code': this.bitcoinState.redeemCode,
         'from_address': this.bitcoinState.newWalletAddress,
-        'opt_timeout': 864000,             // time to wait the transaction is 24 hours
-        'opt_interval': 1000               // interval to check transaction
       }));
 
-      this.checkPendingBalance();
+      this.checkTransaction();
     }, 60 * 1000);
 
   }
@@ -196,8 +204,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
     this.paymentMethod = PaymentMethod.BITCOIN;
+    this.paymentSuccess = false;
     this.createNewWallet();
-    this.checkPendingBalance();
+    this.checkTransaction();
   }
 
   createNewWallet() {

@@ -204,15 +204,24 @@ export interface BitcoinState {
   newWalletAddress: string;
   loaded: boolean;
   redeemCode: string;
-  pendingBalanceResponse: PendingBalanceResponse;
+  checkTransactionResponse: CheckTransactionResponse;
 }
 
-export interface PendingBalanceResponse {
+export interface CheckTransactionResponse {
+  address?: string;
   balance?: number;
   required_balance?: number;
   pending_balance?: number;
   paid_out?: number;
   confirmed?: boolean;
+  status: TransactionStatus;
+}
+
+export enum TransactionStatus {
+  WAITING = 'Waiting',
+  PENDING = 'Pending',
+  RECEIVED = 'Received',
+  SENT = 'Sent'
 }
 
 export enum PaymentMethod {
