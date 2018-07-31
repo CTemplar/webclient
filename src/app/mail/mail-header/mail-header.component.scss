@@ -129,12 +129,22 @@
       background: $brand-white;
     }
 
-    &.is-active > a,
+    a {
+      transition: unset;
+    }
+
     a:hover,
     .dropdown-toggle:hover {
       background: $brand-faded;
-      color: $brand-secondary;
-      border-color: $brand-secondary;
+      color: #8a9095;
+      border-color: #8a9095;
+    }
+
+    a:active,
+    .dropdown-toggle:active {
+      background: #8a9095;
+      color: $brand-white;
+      border-color: #8a9095;
     }
   }
 
