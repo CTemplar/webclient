@@ -55,7 +55,7 @@
     "billing_cycle_end": "结算周期结束",
     "payment": "付款",
     "account_type": "帐户类型",
-    "free_plan_tip": "免费计划仅适用于250 MB存储空间。",
+    "free_plan_tip": "免费计划仅适用于512 MB存储空间。",
     "clear_storage": "清除存储",
     "prime": "主要",
     "free": "自由",
