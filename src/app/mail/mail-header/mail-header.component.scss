@@ -136,14 +136,16 @@
     a:hover,
     .dropdown-toggle:hover {
       background: $brand-faded;
+      // TODO: add scss variables files in refactor
       color: #8a9095;
       border-color: #8a9095;
     }
 
     a:active,
     .dropdown-toggle:active {
-      background: #8a9095;
       color: $brand-white;
+      // TODO: add scss variables files in refactor
+      background: #8a9095;
       border-color: #8a9095;
     }
   }
