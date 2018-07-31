@@ -203,7 +203,6 @@
   }
 
   .dropdown-item {
-    font-size: 0.75rem;
     line-height: 1;
 
     @include media("<=sm") {
@@ -222,7 +221,7 @@
 
 .form-label-text {
   display: block;
-  font-size: .688rem;
+  font-size: 12px;
 }
 
 // == Settings action list
