@@ -370,24 +370,24 @@
         </li>
         <li class="pr-0">
           <button role="button" type="button" (click)="openEncryptionModal()"
-                  class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"
+                  class="actions-btn mail-envelop-btn border-radius-r-0"
                   placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
         </li>
-        <li class="px-0">
+        <li class="px-0" *ngIf="userState.isPrime">
           <button role="button" type="button" (click)="openSelfDestructModal()"
-                  class="actions-btn mail-clock-btn border-right-0 border-radius-0"
+                  class="actions-btn mail-clock-btn border-left-0 border-radius-0"
                   placement="top" ngbTooltip="Self-destructing timer"><i class="icon icon-clock"></i>
           </button>
         </li>
-        <li class="px-0">
+        <li class="px-0" *ngIf="userState.isPrime">
           <button type="button" role="button" (click)="openDelayedDeliveryModal()"
-                  class="actions-btn mail-self-timer-btn border-right-0  border-radius-l-0"
+                  class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                   placement="top" ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i>
           </button>
         </li>
-        <li class="px-0">
+        <li class="px-0" *ngIf="userState.isPrime">
           <button type="button" role="button" (click)="openDeadManTimerModal()"
-                  class="actions-btn mail-dead-btn border-radius-l-0"
+                  class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                   placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i>
           </button>
         </li>
