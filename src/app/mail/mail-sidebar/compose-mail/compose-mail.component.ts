@@ -113,6 +113,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
+  public  userState: UserState;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -156,6 +157,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.contacts = user.contact;
+        this.userState = user;
       });
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)

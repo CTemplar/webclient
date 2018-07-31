@@ -55,7 +55,7 @@
     "billing_cycle_end": "Factuurcyclus einde",
     "payment": "Betaling",
     "account_type": "account type",
-    "free_plan_tip": "Vrij abonnement alleen beschikbaar voor opslag van 250 MB.",
+    "free_plan_tip": "Vrij abonnement alleen beschikbaar voor opslag van 512 MB.",
     "clear_storage": "Lege opslagruimte",
     "prime": "eerste",
     "free": "Gratis",

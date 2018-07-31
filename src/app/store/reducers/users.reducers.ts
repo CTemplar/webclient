@@ -5,8 +5,15 @@ import { UsersActionTypes, UsersActionAll } from '../actions';
 import { UserState } from '../datatypes';
 
 export const initialState: UserState = {
-  username: null, id: null, whiteList: [], blackList: [],
-  contact: [], settings: {}, membership: {}, mailboxes: []
+  username: null,
+  id: null,
+  isPrime: false,
+  whiteList: [],
+  blackList: [],
+  contact: [],
+  settings: {},
+  membership: {},
+  mailboxes: []
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
