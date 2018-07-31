@@ -423,6 +423,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date,
         this.selfDestruct.time);
       this.closeSelfDestructModal();
+      this.clearDelayedDeliveryValue();
+      this.clearDeadManTimerValue();
       this.valueChanged$.next(this.selfDestruct.value);
     }
   }
@@ -438,6 +440,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.delayedDelivery.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date,
         this.delayedDelivery.time);
       this.closeDelayedDeliveryModal();
+      this.clearSelfDestructValue();
+      this.clearDeadManTimerValue();
       this.valueChanged$.next(this.delayedDelivery.value);
     }
   }
@@ -455,6 +459,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       !this.deadManTimer.hours || isNaN(this.deadManTimer.hours) || this.deadManTimer.hours < 0 ? 0 : Math.floor(this.deadManTimer.hours);
     this.deadManTimer.value = this.deadManTimer.days * 24 + this.deadManTimer.hours;
     this.closeDeadManTimerModal();
+    if (this.deadManTimer.value) {
+      this.clearSelfDestructValue();
+      this.clearDelayedDeliveryValue();
+    }
     this.valueChanged$.next(this.deadManTimer.value);
   }
 
