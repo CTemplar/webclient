@@ -263,3 +263,8 @@ app-compose-mail {
     max-width: calc(100% - 4rem);
   }
 }
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
