@@ -67,6 +67,7 @@ export class UsersService {
 
   private createSalt(salt, username) {
     username = username.replace(/[^a-zA-Z ]/g, '');
+    username = username ? username : 'test';
     if (salt.length < 29) {
       return this.createSalt(salt + username, username);
     } else {
