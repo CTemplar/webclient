@@ -4,6 +4,8 @@ import { AppState, AuthState, MailBoxesState } from '../datatypes';
 import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPEncryptedContent, UpdatePGPDecryptedContent } from '../actions';
 import { UsersService } from './users.service';
 
+declare var openpgp;
+
 @Injectable()
 export class OpenPgpService {
   options: any;
@@ -104,6 +106,21 @@ export class OpenPgpService {
     this.privkey = null;
     this.store.dispatch(new SetDecryptedKey({ decryptedKey: null }));
     this.pgpWorker.postMessage({ clear: true });
+  }
+
+  generateUserKeys(username: string, password: string) {
+    const options = {
+      userIds: [{ name: username, email: `${username}@ctemplar.com` }],
+      numbits: 4096,
+      passphrase: password
+    };
+    return openpgp.generateKey(options).then(key => {
+      return {
+        public_key: key.publicKeyArmored,
+        private_key: key.privateKeyArmored,
+        fingerprint: openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint()
+      };
+    });
   }
 
 }

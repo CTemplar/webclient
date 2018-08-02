@@ -17,8 +17,6 @@ import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime, tap } from 'rxjs/operators';
 import { apiUrl } from '../../shared/config';
 
-declare var openpgp;
-
 export class PasswordValidation {
 
   static MatchPassword(AC: AbstractControl) {
@@ -124,11 +122,13 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
     this.isFormCompleted = true;
 
-    this.generateKey(this.signupForm.value).then((key) => {
-      this.userKeys.public_key = key.publicKeyArmored;
-      this.userKeys.private_key = key.privateKeyArmored;
-      this.userKeys.fingerprint = openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint();
-    });
+    const signupFormValue = this.signupForm.value;
+    this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password)
+      .then(data => {
+        this.userKeys.public_key = data.public_key;
+        this.userKeys.private_key = data.private_key;
+        this.userKeys.fingerprint = data.fingerprint;
+      });
   }
 
   private navigateToBillingPage() {
@@ -185,15 +185,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .subscribe((username) => {
         this.store.dispatch(new CheckUsernameAvailability(username));
       });
-  }
-
-  generateKey(user) {
-    const options = {
-      userIds: [{ name: user.username, email: `${user.username}@ctemplar.com` }],
-      numbits: 4096,
-      passphrase: user.password
-    };
-    return openpgp.generateKey(options);
   }
 
   ngOnDestroy() {
