@@ -40,6 +40,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   showFormErrors = false;
   showResetPasswordFormErrors = false;
   errorMessage: string = '';
+  resetPasswordErrorMessage: string = '';
   isLoading: boolean = false;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
