@@ -55,7 +55,7 @@
     "billing_cycle_end": "Ciclo di fatturazione",
     "payment": "Pagamento",
     "account_type": "Tipo di account",
-    "free_plan_tip": "Piano gratuito disponibile solo per 250 MB di spazio.",
+    "free_plan_tip": "Piano gratuito disponibile solo per 512 MB di spazio.",
     "clear_storage": "Spazio pulito",
     "prime": "primo",
     "free": "Gratuito",

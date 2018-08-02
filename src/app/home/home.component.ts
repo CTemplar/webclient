@@ -11,7 +11,6 @@ import { AppState, LoadingState } from '../store/datatypes';
 // Actions
 import { FinalLoading, GetCategories, GetPosts, GetRelatedPosts, RecentBlogLoading } from '../store/actions';
 // Services
-import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Router } from '@angular/router';
 
@@ -46,16 +45,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   constructor(
     private store: Store<AppState>,
-    private router: Router,
-    private _ngxZendeskWebwidgetService: ngxZendeskWebwidgetService
+    private router: Router
   ) {
     this.getNewBlogState$ = this.store.select(getNewBlogs);
     this.getCategories$ = this.store.select(getCategories);
-    _ngxZendeskWebwidgetService.identify({
-      name: '',
-      email: ''
-    });
-    _ngxZendeskWebwidgetService.show();
     this.getCategories$.takeUntil(this.destroyed$).subscribe(categories => {
       this.categories = categories;
     });

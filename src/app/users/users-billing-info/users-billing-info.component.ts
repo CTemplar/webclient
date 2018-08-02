@@ -121,8 +121,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this._zone.run(() => {
         this.signupInProgress = false;
         if (status === 200) {
-          // TODO: add next step of subscription
-          this.stripeSignup(response.card.id);
+          this.stripeSignup(response.id);
         } else {
           this.stripePaymentValidation = {
             message: response.error.message,

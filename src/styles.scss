@@ -202,7 +202,7 @@ tag-input {
   color: #444;
 
   .icon-lg {
-    font-size: 1rem;
+    font-size: 1.1rem;
     vertical-align: middle;
   }
   
@@ -262,4 +262,9 @@ app-compose-mail {
   .mail-compose-field tag-input {
     max-width: calc(100% - 4rem);
   }
+}
+
+button[disabled] {
+  cursor: not-allowed;
+  background-color: #f1f0f0;
 }

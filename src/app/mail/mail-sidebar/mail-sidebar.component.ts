@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, MailBoxesState, MailState, Settings, UserState } from '../../store/datatypes';
+import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
@@ -25,7 +25,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
-  public settings: Settings;
+  public userState: UserState;
   @ViewChild('confirmationModal') confirmationModal;
   confirmModalRef: NgbModalRef;
 
@@ -49,7 +49,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
-        this.settings = user.settings;
+        this.userState = user;
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)

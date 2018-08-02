@@ -129,13 +129,31 @@
       background: $brand-white;
     }
 
-    &.is-active > a,
+    a {
+      transition: unset;
+    }
+
     a:hover,
     .dropdown-toggle:hover {
       background: $brand-faded;
-      color: $brand-secondary;
-      border-color: $brand-secondary;
+      // TODO: add scss variables files in refactor
+      color: #8a9095;
+      border-color: #8a9095;
+      border-right-color: #8a9095 !important;
     }
+
+    a:active,
+    .dropdown-toggle:active {
+      color: $brand-white;
+      // TODO: add scss variables files in refactor
+      background: #8a9095;
+      border-color: #8a9095;
+    }
+
+    .border-right-no-color {
+      border-right-color: transparent;
+    }    
+
   }
 
   .dropdown-toggle {
