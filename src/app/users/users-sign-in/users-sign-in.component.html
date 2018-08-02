@@ -34,11 +34,11 @@
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="keyboardToggle" (click)="openPasswordOSK()">
                                     <i class="fa fa-keyboard"></i>
                                 </span>
-                                <input #passwordVC [attr.type]="password" formControlName="password" class="form-control form-control-lg border-right-0"
-                                       (click)="onInputFocusChange('password')"
+                                <input #passwordVC formControlName="password" class="form-control form-control-lg border-right-0"
+                                       (click)="onInputFocusChange('password')" type="password"
                                     id="password_noSpan" [placeholder]="'settings.password' | translate" aria-describedby="passwordToggle" name="password"
                                     required/>
-                                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(loginForm.controls['password'])">
+                                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(passwordVC)">
                                     <i class="fa fa-eye"></i>
 
                                 </span>
@@ -96,54 +96,146 @@
 <img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg" />
 
 <ng-template #resetPasswordModal let-c="close" let-d="dismiss">
-    <div class="modal-header text-center justify-content-center">
-        <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
-            <strong>Reset Password</strong>
-        </h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="text-holder text-dark text-medium">
-            <p>We will send a reset code to your
-                <a href="">recovery email</a> to reset your password. </p>
-            <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails
-                if you reset your password.</p>
-            <p>If you did not set a recovery email then your account is not recoverable.</p>
+  <div class="modal-header text-center justify-content-center">
+    <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
+      <strong>Reset Password</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <ng-container *ngIf="!isRecoverFormSubmitted; else recoverFormSubmitted">
+        <p>We will send a reset code to your
+          <a href="">recovery email</a> to reset your password. </p>
+        <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt
+          old emails
+          if you reset your password.</p>
+        <p>If you did not set a recovery email then your account is not recoverable.</p>
 
-            <div class="login-content-holder mx-auto mt-4 pt-sm-2">
-                <div class="form">
-                    <form [formGroup]="recoverPasswordForm" #form="ngForm" (submit)="resetPassword(recoverPasswordForm.value)">
-                        <div *ngIf="errorMessage" class="reset-form__failed">{{ errorMessage }}</div>
-                        <div class="form-group">
-                            <label for="resetPasswordUsername" class="d-block text-muted text-left">Username</label>
-                            <input appOnScreenKeyboard class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Username"
-                                type="text" formControlName="username" required/>
-                            <span *ngIf="recoverPasswordForm.controls['username'].errors && showFormErrors" id="name-valid" class="validate-message">
-                                <span *ngIf="recoverPasswordForm.controls['username'].errors.required">The username is required.</span>
-                            </span>
-                        </div>
+        <div class="login-content-holder mx-auto mt-4 pt-sm-2">
+          <div class="form">
+            <form [formGroup]="recoverPasswordForm" #form="ngForm"
+                  (submit)="recoverPassword(recoverPasswordForm.value)">
+              <div *ngIf="errorMessage" class="reset-form__failed">{{ errorMessage }}</div>
+              <div class="form-group">
+                <label for="recoverPasswordUsername"
+                       class="d-block text-muted text-left">Username</label>
+                <input class="form-control form-control-lg"
+                       id="recoverPasswordUsername" placeholder="Username"
+                       type="text" formControlName="username" required/>
+                <span *ngIf="recoverPasswordForm.controls['username'].errors && showResetPasswordFormErrors"
+                      id="recover-username-valid" class="validate-message">
+                  <span *ngIf="recoverPasswordForm.controls['username'].errors.required">The username is required.</span>
+                </span>
+              </div>
 
-                        <div class="form-group">
-                            <label for="resetPasswordemail" class="d-block text-muted text-left">Recovery Email
-                            </label>
-                            <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="email" formControlName="recovery_email"
-                                required/>
-                            <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors && showFormErrors" id="recovery-email-valid" class="validate-message">
-                                <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors.required">The recovery email is required.</span>
-                            </span>
-                        </div>
+              <div class="form-group">
+                <label for="recoverPasswordemail" class="d-block text-muted text-left">Recovery Email
+                </label>
+                <input class="form-control form-control-lg" id="recoverPasswordemail"
+                       placeholder="Recovery email" type="email" formControlName="recovery_email"
+                       required/>
+                <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors && showResetPasswordFormErrors"
+                      id="recovery-email-valid" class="validate-message">
+                  <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors.email">The recovery email is invalid.</span>
+                </span>
+              </div>
 
-                        <div class="form-group form-user-actions text-center mb-0">
-                            <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit"
-                                    [disabled]="recoverPasswordForm.invalid">
-                                Reset Password
-                            </button>
-                        </div>
-                    </form>
-                </div>
+              <div class="form-group form-user-actions text-center mb-0">
+                <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
+                  Reset Password
+                </button>
+              </div>
+            </form>
+            <div class="text-center mt-2">
+              <a (click)="isRecoverFormSubmitted = true; showResetPasswordFormErrors = false;"
+                 role="button">
+                <small>
+                  <u>Already have the code</u>
+                </small>
+              </a>
             </div>
+          </div>
         </div>
+      </ng-container>
+      <ng-template #recoverFormSubmitted>
+        <p>We have sent a reset code to your recovery email.</p>
+        <p>Please enter the code and your new password below.</p>
+
+        <div class="login-content-holder mx-auto mt-4 pt-sm-2">
+          <div class="form">
+            <form [formGroup]="resetPasswordForm" #form="ngForm"
+                  (submit)="resetPassword(resetPasswordForm.value)">
+              <div *ngIf="errorMessage" class="reset-form__failed">{{ errorMessage }}</div>
+              <div class="form-group">
+                <label for="resetCode" class="d-block text-muted text-left">Code</label>
+                <input class="form-control form-control-lg"
+                       id="resetCode" placeholder="Code"
+                       type="text" formControlName="code" required/>
+                <span *ngIf="resetPasswordForm.controls['code'].errors && showResetPasswordFormErrors"
+                      id="reset-code-valid" class="validate-message">
+                  <span *ngIf="resetPasswordForm.controls['code'].errors.required">Reset code is required.</span>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="resetPasswordUsername" class="d-block text-muted text-left">Username</label>
+                <input class="form-control form-control-lg"
+                       id="resetPasswordUsername" placeholder="Username"
+                       type="text" formControlName="username" required/>
+                <span *ngIf="resetPasswordForm.controls['username'].errors && showResetPasswordFormErrors"
+                      id="username-valid" class="validate-message">
+                  <span *ngIf="resetPasswordForm.controls['username'].errors.required">The username is required.</span>
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="resetPassword" class="d-block text-muted text-left"
+                       translate="settings.password">Password</label>
+                <div class="input-group">
+                  <input #resetPasswordInput class="form-control form-control-lg" id="resetPassword"
+                         [placeholder]="'settings.password' | translate" type="password"
+                         aria-describedby="resetPasswordToggle" name="password"
+                         formControlName="password">
+                  <span class="input-group-addon password-toggle bg-white text-muted"
+                        id="resetPasswordToggle" (click)="togglePassword(resetPasswordInput)">
+                      <i class="fa fa-eye"></i>
+                    </span>
+                </div>
+                <span *ngIf="resetPasswordForm.controls['password'].errors && showResetPasswordFormErrors"
+                      id="reset-password-valid" class="validate-message">
+                  <span *ngIf="resetPasswordForm.controls['password'].errors.required">The password is required.</span>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="resetPassword" class="d-block text-muted text-left"
+                       translate="create_account.confirm_password">Confirm Password</label>
+                <div class="input-group">
+                  <input #resetConfirmPasswordInput class="form-control form-control-lg" id="resetConfirmPassword"
+                         [placeholder]="'create_account.confirm_password' | translate" type="password"
+                         aria-describedby="resetConfirmPasswordToggle" name="confirm-password"
+                         formControlName="confirmPwd">
+                  <span class="input-group-addon password-toggle bg-white text-muted"
+                        id="resetConfirmPasswordToggle" (click)="togglePassword(resetConfirmPasswordInput)">
+                      <i class="fa fa-eye"></i>
+                    </span>
+                </div>
+                <span *ngIf="resetPasswordForm.controls['confirmPwd'].errors && showResetPasswordFormErrors"
+                      id="reset-confirm-password-valid" class="validate-message">
+                  <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+                </span>
+              </div>
+              <div class="form-group form-user-actions text-center mb-0">
+                <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </ng-template>
+
     </div>
+  </div>
 </ng-template>

@@ -23,6 +23,7 @@ import { FinalLoading } from '../../store/actions';
 import { SharedService } from '../../store/services';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
+import { PasswordValidation } from '../users-create-account/users-create-account.component';
 
 @TakeUntilDestroy()
 @Component({
@@ -35,7 +36,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   loginForm: FormGroup;
   recoverPasswordForm: FormGroup;
+  resetPasswordForm: FormGroup;
   showFormErrors = false;
+  showResetPasswordFormErrors = false;
   errorMessage: string = '';
   isLoading: boolean = false;
   // == NgBootstrap Modal stuffs
@@ -77,6 +80,16 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       recovery_email: ['', [Validators.required, Validators.email]],
     });
 
+    this.resetPasswordForm = this.formBuilder.group({
+      code: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      confirmPwd: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+    },
+      {
+        validator: PasswordValidation.MatchPassword
+      });
+
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
       .subscribe(authState => {
         this.isLoading = authState.inProgress;
@@ -91,6 +104,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   openResetPasswordModal() {
     this.isRecoverFormSubmitted = false;
+    this.showResetPasswordFormErrors = false;
+    this.recoverPasswordForm.reset();
     this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
       windowClass: 'modal-md'
@@ -102,7 +117,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (!input.value) {
       return;
     }
-    this.password = this.password === 'password' ? 'text' : 'password';
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   login(user) {
@@ -112,11 +127,17 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     }
   }
 
-  resetPassword(data) {
+  recoverPassword(data) {
+    this.showResetPasswordFormErrors = true;
     if (this.recoverPasswordForm.valid) {
       this.store.dispatch(new RecoverPassword(data));
       this.isRecoverFormSubmitted = true;
+      this.showResetPasswordFormErrors = false;
     }
+  }
+
+  resetPassword(data) {
+    this.showResetPasswordFormErrors = true;
   }
 
   openUsernameOSK() {
