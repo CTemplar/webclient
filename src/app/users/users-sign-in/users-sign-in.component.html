@@ -134,11 +134,12 @@
               </div>
 
               <div class="form-group">
-                <label for="recoverPasswordemail" class="d-block text-muted text-left">Recovery Email
+                <label for="recoverPasswordemail" class="d-block text-muted text-left"
+                       translate="settings.recovery_email">Recovery Email
                 </label>
                 <input class="form-control form-control-lg" id="recoverPasswordemail"
-                       placeholder="Recovery email" type="email" formControlName="recovery_email"
-                       required/>
+                       [placeholder]="'settings.recovery_email' | translate " type="email"
+                       formControlName="recovery_email" required/>
                 <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors && showResetPasswordFormErrors"
                       id="recovery-email-valid" class="validate-message">
                   <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors.email">The recovery email is invalid.</span>
