@@ -52,31 +52,8 @@
                   <li class="package-list-item has-border">
                     <i class="fa fa-check text-green"></i>1 User
                   </li>
-                  <li class="package-list-item is-sm has-border has-icon-center">
-                    <i class="fa fa-check text-green"></i>
-                    <!-- <select class="form-control package-storage-select">
-                      <option selected>50 Mb Storage</option>
-                      <option>100 Mb Storage</option>
-                      <option>100 Mb Storage</option>
-                      <option>200 Mb Storage</option>
-                      <option>300 Mb Storage</option>
-                      <option>400 Mb Storage</option>
-                      <option>500 Mb Storage</option>
-                    </select> -->
-                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                      <div ngbDropdown class="storage-select-dropdown">
-                        <button class="dropdown-toggle" type="button"
-                                id="storageDropdownMenuButton" ngbDropdownToggle>5 Gb Storage
-                        </button>
-                        <div ngbDropdownMenu class="dropdown-menu-right"
-                             aria-labelledby="storageDropdownMenuButton">
-                          <a class="dropdown-item" href="">10 Gb Storage + $4/MO </a>
-                          <a class="dropdown-item" href="">15 Gb Storage + $8/MO</a>
-                          <a class="dropdown-item" href="">20 Gb Storage + $12/MO</a>
-                          <a class="dropdown-item" href="">25 Gb Storage + $16/MO</a>
-                        </div>
-                      </div>
-                    </div>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>5 Gb Storage
                   </li>
                   <li class="package-list-item has-border">
                     <i class="fa fa-check text-green"></i>1 E-mail Address
@@ -147,15 +124,15 @@
                             <input class="d-none fancy-field-control" id="pay-annullay"
                                    name="[]" type="radio"/>
                             <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
-                            <span class="badge">-20%</span>
+                            <span class="badge">-25%</span>
                           </div>
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>$6.4</strong>
+                            <strong>$6</strong>
                             <span class="text-muted">/mo</span>
                           </div>
-                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; $65/yr</div>
+                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; $72/yr</div>
                         </div>
                       </div>
                     </li>
@@ -196,7 +173,7 @@
               </footer>
             </div>
           </div>
-          <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
+          <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex" *ngIf="!hideFreePlan">
             <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
               <header class="package-card-header text-center">
                 <h2 class="text-white m-0">
