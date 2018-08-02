@@ -26,7 +26,24 @@ import { NumberOfColumns } from '../../store/models';
 })
 export class BlogListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
-  firstPost: Post;
+  firstPost: Post = {
+    id: 1,
+    category: 0,
+    comments_count: 7,
+    date: 'June 21, 2018',
+    name: 'CTemplar now includes Bitcoin support! You can now get secure email anonymously.',
+    slug: 'ctemplar-now-includes-bitcoin-support',
+    image_card: 'assets/images/blog/blog-banner.jpg',
+    image_featured: 'assets/images/blog/blog-banner.jpg',
+    image: 'assets/images/blog/blog-banner.jpg',
+    text: '',
+    excerpt: `<p>It is now possible to pay for premium ProtonMail secure email account using Bitcoin. We have designed 
+    the payment system to work seamlessly so that Bitcoin payments are automatically converted to ProtonMail credits 
+    which can be used to pay for upgrades, pay invoices, or top up your account.</p> <p>This feature was long overdue, so 
+    we are glad to finally introduce this. Long time followers of CTemplar will know that we actually have a deep 
+    connection with Bitcoin, going all the way back to the very beginning of CTemplar’s story. We have always been 
+    quite interested in cryptocurrencies and blockchain, as they empower the same principles that inspired us to create CTemplar.</p>`
+  };
   postPosition: number = 0;
   positionCount: number = 7;
   isPostsLoading: boolean = false;
@@ -87,7 +104,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
       }
     });
     if (!this.postPosition) {
-      this.firstPost = newPosts[0];
+      // this.firstPost = newPosts[0];
       this.posts = newPosts.slice(1);
       this.setParamsOfPosts(newPosts.length, -1);
     } else {
