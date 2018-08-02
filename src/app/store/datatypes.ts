@@ -31,6 +31,9 @@ export interface SignupState {
   usernameExists?: boolean;
   inProgress?: boolean;
   recaptcha: string;
+  public_key?: string;
+  private_key?: string;
+  fingerprint?: string;
 }
 
 export interface UserState {

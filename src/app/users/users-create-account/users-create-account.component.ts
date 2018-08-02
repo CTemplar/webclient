@@ -14,7 +14,8 @@ import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateS
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
+import { apiUrl } from '../../shared/config';
 
 declare var openpgp;
 
@@ -53,6 +54,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   signupInProgress: boolean = false;
   signupState: SignupState;
   submitted = false;
+  userKeys: any = {};
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -121,10 +123,17 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     }
 
     this.isFormCompleted = true;
+
+    this.generateKey(this.signupForm.value).then((key) => {
+      this.userKeys.public_key = key.publicKeyArmored;
+      this.userKeys.private_key = key.privateKeyArmored;
+      this.userKeys.fingerprint = openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint();
+    });
   }
 
   private navigateToBillingPage() {
     this.store.dispatch(new UpdateSignupData({
+      ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
@@ -144,6 +153,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       return;
     }
     this.data = {
+      ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
@@ -175,6 +185,15 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .subscribe((username) => {
         this.store.dispatch(new CheckUsernameAvailability(username));
       });
+  }
+
+  generateKey(user) {
+    const options = {
+      userIds: [{ name: user.username, email: `${user.username}@ctemplar.com` }],
+      numbits: 4096,
+      passphrase: user.password
+    };
+    return openpgp.generateKey(options);
   }
 
   ngOnDestroy() {
