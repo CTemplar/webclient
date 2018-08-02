@@ -107,6 +107,16 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/recover/`, data);
   }
 
+  resetPassword(data): Observable<any> {
+    const requestData = { ...data };
+    requestData.password = this.hashPassword(requestData);
+    return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
+      tap(res => {
+        this.setLoginData(res, data);
+      })
+    );
+  }
+
   verifyToken(): Observable<any> {
     const body = { token: sessionStorage.getItem('token') };
     const url = `${apiUrl}auth/verify/`;

@@ -84,6 +84,20 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         signupState: { ...state.signupState, usernameExists: action.payload.exists, inProgress: false },
       };
     }
+    case AuthActionTypes.RESET_PASSWORD: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true,
+      };
+    }
+    case AuthActionTypes.RESET_PASSWORD_FAILURE: {
+      return {
+        ...state,
+        errorMessage: 'Incorrect reset code or username.',
+        inProgress: false
+      };
+    }
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }

@@ -18,7 +18,11 @@ import {
   CheckUsernameAvailability, CheckUsernameAvailabilitySuccess,
   LogIn,
   LogInFailure,
-  LogInSuccess, RecoverPasswordSuccess,
+  LogInSuccess,
+  RecoverPassword,
+  RecoverPasswordSuccess,
+  ResetPassword,
+  ResetPasswordFailure,
   SignUp,
   SignUpFailure,
   SignUpSuccess,
@@ -109,7 +113,7 @@ export class AuthEffects {
   @Effect()
   RecoverPassword: Observable<any> = this.actions
     .ofType(AuthActionTypes.RECOVER_PASSWORD)
-    .map((action: SignUp) => action.payload)
+    .map((action: RecoverPassword) => action.payload)
     .switchMap(payload => {
       return this.authService.recoverPassword(payload)
         .pipe(
@@ -120,4 +124,16 @@ export class AuthEffects {
         );
     });
 
+  @Effect()
+  ResetPassword: Observable<any> = this.actions
+    .ofType(AuthActionTypes.RESET_PASSWORD)
+    .map((action: ResetPassword) => action.payload)
+    .switchMap(payload => {
+      return this.authService.resetPassword(payload)
+        .pipe(
+          map((user) => new LogInSuccess(user)),
+          catchError((error) => [new ResetPasswordFailure(error),
+            new SnackErrorPush({ message: 'Failed to reset password, please try again.' })])
+        );
+    });
 }

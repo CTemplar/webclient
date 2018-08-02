@@ -16,11 +16,11 @@ import { Observable } from 'rxjs/Observable';
 
 // Store
 import { AppState } from '../../store/datatypes';
-import { LogIn, RecoverPassword } from '../../store/actions';
+import { LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 // Service
-import { SharedService } from '../../store/services';
+import { OpenPgpService, SharedService } from '../../store/services';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
@@ -61,7 +61,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
               private formBuilder: FormBuilder,
               private store: Store<AppState>,
               private sharedService: SharedService,
-              private _keyboardService: MatKeyboardService) {}
+              private _keyboardService: MatKeyboardService,
+              private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -106,7 +107,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   openResetPasswordModal() {
     this.isRecoverFormSubmitted = false;
     this.showResetPasswordFormErrors = false;
+    this.resetPasswordErrorMessage = '';
     this.recoverPasswordForm.reset();
+    this.resetPasswordForm.reset();
     this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
       windowClass: 'modal-md'
@@ -132,6 +135,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.showResetPasswordFormErrors = true;
     if (this.recoverPasswordForm.valid) {
       this.store.dispatch(new RecoverPassword(data));
+      this.resetPasswordForm.get('username').setValue(data.username);
       this.isRecoverFormSubmitted = true;
       this.showResetPasswordFormErrors = false;
     }
@@ -139,6 +143,21 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   resetPassword(data) {
     this.showResetPasswordFormErrors = true;
+    if (this.resetPasswordForm.valid) {
+      this.openPgpService.generateUserKeys(data.username, data.password)
+        .then(keysData => {
+          const requestData = {
+            code: data.code,
+            username: data.username,
+            password: data.password,
+            private_key: keysData.private_key,
+            public_key: keysData.public_key,
+            fingerprint: keysData.fingerprint
+          };
+          this.store.dispatch(new ResetPassword(requestData));
+          this.resetModalRef.dismiss();
+        });
+    }
   }
 
   openUsernameOSK() {
