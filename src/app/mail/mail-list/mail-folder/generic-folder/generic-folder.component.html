@@ -241,7 +241,7 @@
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status">
+        <td class="mail-security-status" [ngClass]="{'text-faded': !mail.is_encrypted}">
           <i class="icon icon-secured"></i>
         </td>
 
