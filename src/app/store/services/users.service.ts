@@ -12,6 +12,7 @@ import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -49,12 +50,28 @@ export class UsersService {
   }
 
   signIn(body): Observable<any> {
+    const requestData = { ...body };
+    requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
-    return this.http.post<any>(url, body).pipe(
+    return this.http.post<any>(url, requestData).pipe(
       tap(data => {
         this.setLoginData(data, body);
       })
     );
+  }
+
+  private hashPassword(requestData: any): string {
+    const salt = this.createSalt('$2a$10$', requestData.username);
+    return bcrypt.hashSync(requestData.password, salt);
+  }
+
+  private createSalt(salt, username) {
+    username = username.replace(/[^a-zA-Z ]/g, '');
+    if (salt.length < 29) {
+      return this.createSalt(salt + username, username);
+    } else {
+      return salt.substr(0, 29);
+    }
   }
 
   private setLoginData(tokenResponse: any, requestData) {
@@ -76,7 +93,9 @@ export class UsersService {
   }
 
   signUp(user): Observable<any> {
-    return this.http.post<any>(`${apiUrl}auth/sign-up/`, user).pipe(
+    const requestData = { ...user };
+    requestData.password = this.hashPassword(requestData);
+    return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
       tap(data => {
         this.setLoginData(data, user);
       })
