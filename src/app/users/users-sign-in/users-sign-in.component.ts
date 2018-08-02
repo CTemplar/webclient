@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
 
 // Store
 import { AppState } from '../../store/datatypes';
-import { LogIn } from '../../store/actions';
+import { LogIn, RecoverPassword } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 // Service
@@ -34,7 +34,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   readonly destroyed$: Observable<boolean>;
 
   loginForm: FormGroup;
-  resetForm: FormGroup;
+  recoverPasswordForm: FormGroup;
   showFormErrors = false;
   errorMessage: string = '';
   isLoading: boolean = false;
@@ -45,8 +45,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   password: string = 'password';
   layout: any = 'alphanumeric';
   isKeyboardOpened: boolean;
+  isRecoverFormSubmitted: boolean;
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
+  @ViewChild('resetPasswordModal') resetPasswordModal;
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
@@ -70,9 +72,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       rememberMe: [false],
     });
 
-    this.resetForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+    this.recoverPasswordForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      recovery_email: ['', [Validators.required, Validators.email]],
     });
 
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
@@ -87,9 +89,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.closeKeyboard();
   }
 
-  // == Open NgbModal
-  open(content) {
-    this.resetModalRef = this.modalService.open(content, {
+  openResetPasswordModal() {
+    this.isRecoverFormSubmitted = false;
+    this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
       windowClass: 'modal-md'
     });
@@ -111,7 +113,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   }
 
   resetPassword(data) {
-    this.resetModalRef.close();
+    if (this.recoverPasswordForm.valid) {
+      this.store.dispatch(new RecoverPassword(data));
+      this.isRecoverFormSubmitted = true;
+    }
   }
 
   openUsernameOSK() {

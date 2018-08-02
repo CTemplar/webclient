@@ -13,6 +13,8 @@ export enum AuthActionTypes {
   UPDATE_SIGNUP_DATA = '[Auth] Update Signup Data',
   CHECK_USERNAME_AVAILABILITY = '[Auth] Check Username Availability',
   CHECK_USERNAME_AVAILABILITY_SUCCESS = '[Auth] Check Username Availability Success',
+  RECOVER_PASSWORD = '[Auth] Recover Password',
+  RECOVER_PASSWORD_SUCCESS = '[Auth] Recover Password Success'
 }
 
 export class LogIn implements Action {
@@ -77,6 +79,20 @@ export class CheckUsernameAvailabilitySuccess {
   constructor(public payload: any) {}
 }
 
+export class RecoverPassword {
+  readonly type = AuthActionTypes.RECOVER_PASSWORD;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class RecoverPasswordSuccess {
+  readonly type = AuthActionTypes.RECOVER_PASSWORD_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type AuthActionAll =
   | LogIn
   | LogInSuccess
@@ -88,4 +104,6 @@ export type AuthActionAll =
   | GetStatus
   | UpdateSignupData
   | CheckUsernameAvailability
-  | CheckUsernameAvailabilitySuccess;
+  | CheckUsernameAvailabilitySuccess
+  | RecoverPassword
+  | RecoverPasswordSuccess;

@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-alternative-content">
                     <div class="reset-password mb-0 mb-sm-1">
-                        <a class="text-faded" (click)="open(content)" role="button">
+                        <a class="text-faded" (click)="openResetPasswordModal()" role="button">
                             <small>
                                 <u translate="login.reset_password">Reset Password</u>
                             </small>
@@ -95,7 +95,7 @@
 
 <img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg" />
 
-<ng-template #content let-c="close" let-d="dismiss">
+<ng-template #resetPasswordModal let-c="close" let-d="dismiss">
     <div class="modal-header text-center justify-content-center">
         <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
             <strong>Reset Password</strong>
@@ -114,29 +114,31 @@
 
             <div class="login-content-holder mx-auto mt-4 pt-sm-2">
                 <div class="form">
-                    <form [formGroup]="resetForm" #form="ngForm" (ngSubmit)="resetPassword(resetForm.value)">
+                    <form [formGroup]="recoverPasswordForm" #form="ngForm" (submit)="resetPassword(recoverPasswordForm.value)">
                         <div *ngIf="errorMessage" class="reset-form__failed">{{ errorMessage }}</div>
                         <div class="form-group">
-                            <label for="resetPasswordUsername" class="d-block text-muted text-left hidden-sm-up">Username to Reset</label>
-                            <input appOnScreenKeyboard class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Username to reset"
-                                type="text" formControlName="name" required/>
-                            <span *ngIf="resetForm.controls['name'].errors && showFormErrors" id="name-valid" class="validate-message">
-                                <span *ngIf="resetForm.controls['name'].errors.required">The username is required.</span>
+                            <label for="resetPasswordUsername" class="d-block text-muted text-left">Username</label>
+                            <input appOnScreenKeyboard class="form-control form-control-lg" id="resetPasswordUsername" placeholder="Username"
+                                type="text" formControlName="username" required/>
+                            <span *ngIf="recoverPasswordForm.controls['username'].errors && showFormErrors" id="name-valid" class="validate-message">
+                                <span *ngIf="recoverPasswordForm.controls['username'].errors.required">The username is required.</span>
                             </span>
                         </div>
 
                         <div class="form-group">
-                            <label for="resetPasswordemail" class="d-block text-muted text-left hidden-sm-up">Recovery Email
+                            <label for="resetPasswordemail" class="d-block text-muted text-left">Recovery Email
                             </label>
-                            <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="text" formControlName="email"
+                            <input class="form-control form-control-lg" id="resetPasswordemail" placeholder="Recovery email" type="email" formControlName="recovery_email"
                                 required/>
-                            <span *ngIf="resetForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
-                                <span *ngIf="resetForm.controls['email'].errors.required">The recovery email is required.</span>
+                            <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors && showFormErrors" id="recovery-email-valid" class="validate-message">
+                                <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors.required">The recovery email is required.</span>
                             </span>
                         </div>
 
                         <div class="form-group form-user-actions text-center mb-0">
-                            <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">Reset Password
+                            <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit"
+                                    [disabled]="recoverPasswordForm.invalid">
+                                Reset Password
                             </button>
                         </div>
                     </form>

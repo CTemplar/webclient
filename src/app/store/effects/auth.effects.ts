@@ -18,11 +18,11 @@ import {
   CheckUsernameAvailability, CheckUsernameAvailabilitySuccess,
   LogIn,
   LogInFailure,
-  LogInSuccess,
+  LogInSuccess, RecoverPasswordSuccess,
   SignUp,
   SignUpFailure,
   SignUpSuccess,
-  SnackErrorPush,
+  SnackErrorPush
 } from '../actions';
 
 
@@ -103,6 +103,20 @@ export class AuthEffects {
         .pipe(
           map((response) => new CheckUsernameAvailabilitySuccess(response)),
           catchError((error) => [new SnackErrorPush({ message: 'Failed to check username availability.' })])
+        );
+    });
+
+  @Effect()
+  RecoverPassword: Observable<any> = this.actions
+    .ofType(AuthActionTypes.RECOVER_PASSWORD)
+    .map((action: SignUp) => action.payload)
+    .switchMap(payload => {
+      return this.authService.recoverPassword(payload)
+        .pipe(
+          map((res) => new RecoverPasswordSuccess(res)),
+          catchError((error) => [
+            new SnackErrorPush({ message: 'Failed to send recovery email, please try again.' })
+          ])
         );
     });
 
