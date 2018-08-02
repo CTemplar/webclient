@@ -265,6 +265,6 @@ app-compose-mail {
 }
 
 button[disabled] {
-  opacity: 0.5;
   cursor: not-allowed;
+  background-color: #f1f0f0;
 }
