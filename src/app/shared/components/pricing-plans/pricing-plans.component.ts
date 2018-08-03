@@ -19,7 +19,6 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
   @Input('blockGapsZero') blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
   @Input() showCurrentPlan: boolean;
   @Input() isPrime: boolean;
-  @Input() hideFreePlan: boolean;
 
   constructor(
     private sharedService: SharedService,
