@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { ClearDraft, CreateMail, SendMail } from '../actions';
 import { AppState, ComposeMailState, Draft, DraftState } from '../datatypes';
 import { OpenPgpService } from './openpgp.service';
@@ -7,9 +8,12 @@ import { OpenPgpService } from './openpgp.service';
 @Injectable()
 export class ComposeMailService {
   private drafts: DraftState;
+  private composeMailContainer: ViewContainerRef;
+  private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
 
   constructor(private store: Store<AppState>,
-              private openPgpService: OpenPgpService) {
+              private openPgpService: OpenPgpService,
+              private componentFactoryResolver: ComponentFactoryResolver) {
     this.store.select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
         Object.keys(response.drafts).forEach((key) => {
@@ -33,6 +37,36 @@ export class ComposeMailService {
         this.drafts = {...response.drafts};
       });
 
+  }
+
+  initComposeMailContainer(container: ViewContainerRef) {
+    this.composeMailContainer = container;
+    this.componentRefList = [];
+  }
+
+  openComposeMailDialog() {
+    this.componentRefList.forEach(componentRef => {
+      componentRef.instance.isMinimized = true;
+    });
+    const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
+    const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(factory);
+    this.componentRefList.push(newComponentRef);
+    const index = this.componentRefList.length - 1;
+    newComponentRef.instance.hide.subscribe(event => {
+      this.destroyComponent(newComponentRef, index);
+    });
+  }
+
+  destroyAllComposeMailDialogs(): void {
+    this.componentRefList.forEach(componentRef => {
+      componentRef.destroy();
+    });
+    this.componentRefList = [];
+  }
+
+  private destroyComponent(newComponentRef: ComponentRef<ComposeMailDialogComponent>, index: number) {
+    newComponentRef.destroy();
+    this.componentRefList.splice(index, 1);
   }
 
 }

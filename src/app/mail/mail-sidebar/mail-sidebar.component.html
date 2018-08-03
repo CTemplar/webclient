@@ -23,7 +23,7 @@
 
         <div class="mail-compose-section hidden-xs-down">
             <button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon" role="button"
-                    (click)="showMailComposeModal();">
+                    (click)="openComposeMailDialog();">
                 <i class="icon icon-plus text-white hidden-md-up"></i>
                 <span class="mailbox-btn-text hidden-sm-down" translate="common.compose">Compose</span>
             </button>
@@ -131,7 +131,7 @@
 <!-- Compose button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
     <button class="btn btn-primary mailbox-btn mailbox-compose-btn btn-xs-rounded has-icon" role="button"
-            placement="top" [ngbTooltip]="'common.compose' | translate" (click)="showMailComposeModal();"><i
+            placement="top" [ngbTooltip]="'common.compose' | translate" (click)="openComposeMailDialog();"><i
             class="icon icon-plus text-white"></i></button>
 </div>
 

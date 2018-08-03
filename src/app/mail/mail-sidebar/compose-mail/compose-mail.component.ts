@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
+import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
   CloseMailbox,
   DeleteAttachment,
@@ -22,10 +23,8 @@ import {
 } from '../../../store/actions';
 import { AppState, AuthState, ComposeMailState, Contact, Draft, MailBoxesState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { ComposeMailService } from '../../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 
 const Quill: any = QuillNamespace;
 
@@ -113,12 +112,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
-  public  userState: UserState;
+  public userState: UserState;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
-              private composeMailService: ComposeMailService,
               private openPgpService: OpenPgpService,
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
