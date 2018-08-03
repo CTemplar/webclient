@@ -9,7 +9,7 @@ import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
   styleUrls: ['./compose-mail-dialog.component.scss', './../mail-sidebar.component.scss']
 })
 export class ComposeMailDialogComponent {
-  @Input() public isComposeVisible: boolean = true;
+  @Input() public isComposeVisible: boolean;
   @Input() public receivers: string[];
   @Input() public draft: Mail;
 

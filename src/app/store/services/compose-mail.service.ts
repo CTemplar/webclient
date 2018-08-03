@@ -54,6 +54,7 @@ export class ComposeMailService {
     Object.keys(inputData).forEach(key => {
       newComponentRef.instance[key] = inputData[key];
     });
+    newComponentRef.instance.isComposeVisible = true;
     const index = this.componentRefList.length - 1;
     newComponentRef.instance.hide.subscribe(event => {
       this.destroyComponent(newComponentRef, index);
