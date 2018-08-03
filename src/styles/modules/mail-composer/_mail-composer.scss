@@ -13,12 +13,23 @@ a {
 	bottom: 255px !important;
 }
 
-.mail-composer.is-sticky {
+.compose-mail-container{
 	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 100;
+	display: flex;
+	align-items: flex-end;
+	flex-direction: row-reverse;
+}
+
+.mail-composer.is-sticky {
+	position: relative;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
+	float: right;
 	z-index: $zindex-default + 999;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -32,12 +43,11 @@ a {
 
 	@include media(">sm") {
 		top: auto;
-		right: 1.563rem;
 		left: auto;
 		overflow: inherit;
 		width: 40rem;
 		&.is-minimized {
-			width: 20rem;
+			width: 15rem;
 		}
 	}
 	.mail-composer-dialog{
@@ -66,6 +76,7 @@ a {
 .mail-composer.is-maximized {
 
     @include media(">sm") {
+	  position: fixed;
       right: 1.563rem;
       left: 1.563rem;
       width: 80%;
