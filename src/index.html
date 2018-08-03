@@ -1,5 +1,6 @@
 ﻿<!doctype html>
 <html lang="en">
+
 <head>
     <base href="/">
     <meta charset="utf-8">
@@ -12,9 +13,184 @@
     <meta name="theme-color" content="#ffffff">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        noscript {
+            font-family: "Roboto", Helvetica, Arial, sans-serif;
+        }
+
+        noscript .nav-fixed {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            padding-right: 1.875rem;
+            padding-left: 1.875rem;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.38);
+            background-image: linear-gradient(267deg, #34495e, #2c3e50);
+            -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.38);
+        }
+
+        noscript .navbar-brand {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            color: #ffffff;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            line-height: 1;
+            text-transform: uppercase;
+            font-size: 1.25rem;
+        }
+
+        noscript .navbar-brand-logo {
+            margin-right: 10px;
+            max-width: 32px;
+        }
+
+        noscript a {
+            color: #3498db;
+        }
+
+        noscript .container {
+            max-width: 900px;
+            padding-top: 100px;
+            margin: auto;
+            color: #757675;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        noscript .row {
+            padding-left: -15px;
+            padding-right: -15px;
+        }
+
+        noscript .text-center {
+             text-align: center;
+        }
+
+        noscript .text-secondary {
+            color: #34495e;
+        }
+        
+        noscript .page-title {
+             font-weight: 300;
+        }
+
+        noscript ol {
+            padding: 0;
+            list-style: none;   
+        }
+
+        noscript p,
+        noscript li {
+            line-height: 1.8;
+        }
+      
+
+        noscript li {
+            position: relative;
+            margin-bottom: 1rem;
+            padding-left: 2.5rem;
+        }
+
+        noscript .lists-circle-arrow>li::before {
+            position: absolute;
+            top: .125rem;
+            bottom: 0;
+            left: 0;
+            content: "";
+            border: 1px solid #e0e0e0;
+            border-radius: 50%;
+            height: 1.375rem;
+            width: 1.375rem;
+        }
+
+        noscript .lists-circle-arrow>li::after {
+            position: absolute;
+            top: .65rem;
+            left: .45rem;
+            content: "";
+            border-style: solid;
+            border-width: .0938rem .0938rem 0 0;
+            width: .35rem;
+            height: .35rem;
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }   
+
+        noscript blockquote {
+            margin: 0;
+            line-height: 1.5;
+            margin-top: 50px;
+        }
+    </style>
 </head>
- 
+
 <body>
+    <noscript>
+        <header class="nav-fixed" role="banner">
+            <a class="navbar-brand" routerLink="/">
+                <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
+                <strong>ctemplar</strong>
+            </a>
+        </header>
+
+        <div class="container"> 
+            <div class="row">
+                <h1 class="page-title text-secondary">
+                   JavaScript  <strong>REQUIRED</strong>
+                </h1>
+                <p>
+                        If you are seeing this page, then you are visiting Ctemplar email with JavaScript disabled. We require the use of JavaScript for encryption and decryption of your emails. Please enable JavaScript to use our service. If you have security concerns about this, please see below:
+                        Our website code is open source and can be viewed on github by visiting  <a href="https://github.com/CTemplar/webclient">https://github.com/CTemplar/webclient</a>
+                </p>
+            </div>
+
+            <div class="row">
+                <p>Our code supplies truth that:</p>
+                 
+                <ol class="lists-circle-arrow">
+                    <li>
+                            Email encryption and decryption happens in your browser only (without our access) and is then sent to our server. We can only view your essential non-encrypted metadata that is required to transmit the email, such as recipient address. We have no way to decrypt your email.
+                    </li>
+                    <li>
+                            Only your password has the ability to encrypt and decrypt your emails.
+                    </li>
+                    <li>
+                            We have no access to your password. We use one-way hashing and salting. We only see the hashed and salted password and there is no way to reverse the process to discover your password. We are the only email service that can prove to you that we do not know your password.
+                    </li>
+                    <li>
+                            We do not inject malicious JavaScript. Our code can be reviewed at any time on github for reassurance. You can also send our site for malicious scripts using this tool: <a href="https://scanner.pcrisk.com">https://scanner.pcrisk.com</a>
+                    </li>
+                </ol>
+                    
+                <p>
+                        These are facts that can be proven by reviewing our code here: (<a href="https://github.com/CTemplar/webclient">https://github.com/CTemplar/webclient</a>). We are the only email service that provides this level of complete protection. Other email services provide the illusion of security, we provide real security. We have funded this project on our own and we cannot continue without your support. Respectfully we hope that we can earn your business by treating you honestly & honorably.
+                </p>
+                    
+                <blockquote>
+                    <cite> - Hugues De Payns</cite>
+                    <br>
+                    <span> CTemplar Owner</span>
+                </blockquote>
+                                       
+                <br>
+                <br>
+                <p class="text-center">
+                    <small><strong>NOTE</strong>: TOR Address is CTemplar42u6fulx.onion</small>
+                </p>
+            </div>
+        </div>
+    </noscript>
     <app-root></app-root>
 </body>
+
 </html>
