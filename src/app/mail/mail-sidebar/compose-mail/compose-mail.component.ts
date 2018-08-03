@@ -159,6 +159,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.contacts = user.contact;
         this.userState = user;
+        this.signature = user.settings.signature;
+        this.addSignature();
       });
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
@@ -172,11 +174,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mailbox = mailBoxesState.mailboxes[0];
         }
         this.mailBoxesState = mailBoxesState;
-      });
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
-      .subscribe((user: UserState) => {
-        this.signature = user.settings.signature;
-        this.addSignature();
       });
 
     if (this.draftMail) {
