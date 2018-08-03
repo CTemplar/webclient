@@ -4,6 +4,7 @@ import { AppState, MailBoxesState, MailState, UserState } from '../../store/data
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
+import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Mail, MailFolderType } from '../../store/models/mail.model';
 import { MoveMail, UpdateFolder } from '../../store/actions/mail.actions';
@@ -16,8 +17,6 @@ import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-d
   styleUrls: ['./mail-sidebar.component.scss']
 })
 export class MailSidebarComponent implements OnInit, OnDestroy {
-
-  @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
 
   LIMIT = 2;
 
@@ -33,15 +32,13 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   mailState: MailState;
   selectedFolder: MailFolderType;
 
-  private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
-
   draftCount: number = 0;
   inboxUnreadCount: number = 0;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               config: NgbDropdownConfig,
-              private componentFactoryResolver: ComponentFactoryResolver) {
+              private composeMailService: ComposeMailService) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
   }
@@ -83,18 +80,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   // == Show mail compose modal
-  // == Setup click event to toggle mobile menu
-  showMailComposeModal() { // click handler
-    this.componentRefList.forEach(componentRef => {
-      componentRef.instance.isMinimized = true;
-    });
-    const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
-    const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(factory);
-    this.componentRefList.push(newComponentRef);
-    const index = this.componentRefList.length - 1;
-    newComponentRef.instance.hide.subscribe(event => {
-      this.destroyComponent(newComponentRef, index);
-    });
+  openComposeMailDialog() {
+    this.composeMailService.openComposeMailDialog();
   }
 
   showConfirmationModal(folder) {
@@ -132,14 +119,5 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.componentRefList.forEach(componentRef => {
-      componentRef.destroy();
-    });
-    this.componentRefList = [];
-  }
-
-  private destroyComponent(newComponentRef: ComponentRef<ComposeMailDialogComponent>, index: number) {
-    newComponentRef.destroy();
-    this.componentRefList.splice(index, 1);
   }
 }

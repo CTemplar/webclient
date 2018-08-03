@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
 
 @Component({
@@ -8,8 +9,9 @@ import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
   styleUrls: ['./compose-mail-dialog.component.scss', './../mail-sidebar.component.scss']
 })
 export class ComposeMailDialogComponent {
-  @Input() public isComposeVisible: boolean = true;
+  @Input() public isComposeVisible: boolean;
   @Input() public receivers: string[];
+  @Input() public draft: Mail;
 
   @Output() public hide = new EventEmitter<boolean>();
 

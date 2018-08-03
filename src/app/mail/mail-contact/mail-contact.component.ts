@@ -8,6 +8,7 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import 'rxjs/add/operator/takeUntil';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
+import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { NotificationService } from '../../store/services/notification.service';
 
 @TakeUntilDestroy()
@@ -29,13 +30,12 @@ export class MailContactComponent implements OnInit, OnDestroy {
   private contactsCount: number;
   public selectedContacts: Contact[] = [];
   private confirmModalRef: NgbModalRef;
-  public isComposeVisible: boolean;
-  public receiverEmails: string[] = [];
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               private breakpointsService: BreakpointsService,
               private notificationService: NotificationService,
+              private composeMailService: ComposeMailService,
               config: NgbDropdownConfig) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
@@ -133,13 +133,9 @@ export class MailContactComponent implements OnInit, OnDestroy {
         message: 'Cannot open compose for more than 10 contacts'
       }));
     } else {
-      this.receiverEmails = this.selectedContacts.map(contact => contact.email);
-      this.isComposeVisible = true;
+      const receiverEmails = this.selectedContacts.map(contact => contact.email);
+      this.composeMailService.openComposeMailDialog({receivers: receiverEmails});
     }
-  }
-
-  onComposeMailHide() {
-    this.isComposeVisible = false;
   }
 
   toggleSelectAll() {

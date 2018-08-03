@@ -10,6 +10,8 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
+import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
+import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
   CloseMailbox,
   DeleteAttachment,
@@ -20,12 +22,10 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, AuthState, ComposeMailState, Contact, Draft, MailBoxesState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, ComposeMailState, Contact, Draft, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { ComposeMailService } from '../../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 
 const Quill: any = QuillNamespace;
 
@@ -63,9 +63,10 @@ export class PasswordValidation {
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() receivers: Array<string> = [];
-  @Input() cc: Array<string> = [];
+  @Input() receivers: Array<string>;
+  @Input() cc: Array<string>;
   @Input() content: string;
+  @Input() draftMail: Mail;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -92,7 +93,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   datePickerMinDate: NgbDateStruct;
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
-  draftMail: Mail;
   isLoaded: boolean;
 
   private quill: any;
@@ -113,16 +113,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
-  public  userState: UserState;
+  public userState: UserState;
+  private decryptedContent: string;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
-              private composeMailService: ComposeMailService,
               private openPgpService: OpenPgpService,
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
-              private filesizePipe: FilesizePipe) {
+              private filesizePipe: FilesizePipe,
+              private filenamePipe: FilenamePipe) {
 
   }
 
@@ -158,6 +159,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.contacts = user.contact;
         this.userState = user;
+        this.signature = user.settings.signature;
+        this.addSignature();
       });
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
@@ -172,11 +175,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.mailBoxesState = mailBoxesState;
       });
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
-      .subscribe((user: UserState) => {
-        this.signature = user.settings.signature;
-        this.addSignature();
-      });
+
+    if (this.draftMail) {
+      this.store.select(state => state.mail).takeUntil(this.destroyed$)
+        .subscribe((mailState: MailState) => {
+          if (!this.decryptedContent) {
+            const decryptedContent = mailState.decryptedContents[this.draftMail.id];
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
+              this.decryptedContent = decryptedContent.content;
+              this.addDecryptedContent();
+            }
+          }
+        });
+    }
 
     const now = new Date();
     this.datePickerMinDate = {
@@ -205,11 +216,23 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   initializeDraft() {
     this.draftId = Date.now();
+
+    if (this.draftMail && this.draftMail.content) {
+      this.openPgpService.decrypt(this.draftMail.id, this.draftMail.content);
+      this.isSignatureAdded = true;
+    }
+
     const draft: Draft = {
       id: this.draftId,
-      draft: null,
+      draft: this.draftMail,
       inProgress: false,
-      attachments: [],
+      attachments: this.draftMail ? this.draftMail.attachments.map(attachment => {
+        attachment.progress = 100;
+        attachment.name = this.filenamePipe.transform(attachment.document);
+        attachment.draftId = this.draftId;
+        attachment.attachmentId = performance.now();
+        return attachment;
+      }) : [],
       usersKeys: []
     };
     this.store.dispatch(new NewDraft({ ...draft }));
@@ -339,8 +362,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setMailData(false, false);
       this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
     }
-    this.hide.emit();
     this.resetValues();
+    this.hide.emit();
   }
 
   removeAttachment(attachment: Attachment) {
@@ -352,6 +375,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       const index = this.quill.getLength();
       this.quill.insertText(index, '\n' + this.signature, 'silent');
       this.isSignatureAdded = true;
+    }
+  }
+
+  addDecryptedContent() {
+    if (this.quill && this.decryptedContent) {
+      this.quill.setText('');
+      this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
     }
   }
 
@@ -547,14 +577,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetMailData() {
     this.mailData = {
-      receiver: this.receivers ? this.receivers.map(receiver => ({ display: receiver, value: receiver })) : [],
-      cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) : [],
-      bcc: [],
-      subject: ''
+      receiver: this.receivers ?
+        this.receivers.map(receiver => ({ display: receiver, value: receiver })) :
+        this.draftMail ?
+          this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver })) :
+          [],
+      cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) :
+        this.draftMail ?
+          this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver })) :
+          [],
+      bcc: this.draftMail ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
+      subject: this.draftMail ? this.draftMail.subject : ''
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
     }
+    if (this.mailData.bcc.length > 0) {
+      this.options.isBccVisible = true;
+    }
+    this.selfDestruct.value = this.draftMail ? this.draftMail.destruct_date : null;
+    this.deadManTimer.value = this.draftMail ? this.draftMail.dead_man_duration : null;
+    this.delayedDelivery.value = this.draftMail ? this.draftMail.delayed_delivery : null;
     this.isLoaded = true;
   }
 

@@ -61,7 +61,8 @@ import { RemainingTimePipe } from './pipes/remaining-time.pipe';
   providers: [
     SpinnerService,
     DynamicScriptLoaderService,
-    FilesizePipe
+    FilesizePipe,
+    FilenamePipe
   ]
 })
 export class SharedModule {
