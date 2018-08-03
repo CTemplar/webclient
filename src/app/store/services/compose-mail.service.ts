@@ -48,6 +48,15 @@ export class ComposeMailService {
     this.componentRefList.forEach(componentRef => {
       componentRef.instance.isMinimized = true;
     });
+    if (inputData.draft) {
+      const oldComponentRef = this.componentRefList.find(componentRef => {
+        return componentRef.instance.composeMail.draftMail && componentRef.instance.composeMail.draftMail.id === inputData.draft.id;
+      });
+      if (oldComponentRef) {
+        oldComponentRef.instance.isMinimized = false;
+        return;
+      }
+    }
     const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
     const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(factory);
     this.componentRefList.push(newComponentRef);
