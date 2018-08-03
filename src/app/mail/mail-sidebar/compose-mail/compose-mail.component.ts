@@ -22,7 +22,7 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, AuthState, ComposeMailState, Contact, Draft, MailBoxesState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, ComposeMailState, Contact, Draft, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
@@ -114,6 +114,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
   public userState: UserState;
+  private decryptedContent: string;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -178,6 +179,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.addSignature();
       });
 
+    if (this.draftMail) {
+      this.store.select(state => state.mail).takeUntil(this.destroyed$)
+        .subscribe((mailState: MailState) => {
+          if (!this.decryptedContent) {
+            const decryptedContent = mailState.decryptedContents[this.draftMail.id];
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
+              this.decryptedContent = decryptedContent.content;
+              this.addDecryptedContent();
+            }
+          }
+        });
+    }
+
     const now = new Date();
     this.datePickerMinDate = {
       year: now.getFullYear(),
@@ -205,6 +219,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   initializeDraft() {
     this.draftId = Date.now();
+
+    if (this.draftMail && this.draftMail.content) {
+      this.openPgpService.decrypt(this.draftMail.id, this.draftMail.content);
+      this.isSignatureAdded = true;
+    }
+
     const draft: Draft = {
       id: this.draftId,
       draft: this.draftMail,
@@ -358,6 +378,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       const index = this.quill.getLength();
       this.quill.insertText(index, '\n' + this.signature, 'silent');
       this.isSignatureAdded = true;
+    }
+  }
+
+  addDecryptedContent() {
+    if (this.quill && this.decryptedContent) {
+      this.quill.setText('');
+      this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
     }
   }
 
