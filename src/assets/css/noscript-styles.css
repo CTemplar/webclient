@@ -43,11 +43,9 @@ noscript a {
 
 noscript .container {
     max-width: 900px;
-    padding-top: 100px;
+    padding: 100px 15px;
     margin: auto;
     color: #757675;
-    padding-right: 15px;
-    padding-left: 15px;
 }
 
 noscript .row {
