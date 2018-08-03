@@ -16,13 +16,14 @@ import { Observable } from 'rxjs/Observable';
 
 // Store
 import { AppState } from '../../store/datatypes';
-import { LogIn } from '../../store/actions';
+import { LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 // Service
-import { SharedService } from '../../store/services';
+import { OpenPgpService, SharedService } from '../../store/services';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
+import { PasswordValidation } from '../users-create-account/users-create-account.component';
 
 @TakeUntilDestroy()
 @Component({
@@ -34,9 +35,12 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   readonly destroyed$: Observable<boolean>;
 
   loginForm: FormGroup;
-  resetForm: FormGroup;
+  recoverPasswordForm: FormGroup;
+  resetPasswordForm: FormGroup;
   showFormErrors = false;
+  showResetPasswordFormErrors = false;
   errorMessage: string = '';
+  resetPasswordErrorMessage: string = '';
   isLoading: boolean = false;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
@@ -45,8 +49,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   password: string = 'password';
   layout: any = 'alphanumeric';
   isKeyboardOpened: boolean;
+  isRecoverFormSubmitted: boolean;
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
+  @ViewChild('resetPasswordModal') resetPasswordModal;
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
@@ -55,7 +61,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
               private formBuilder: FormBuilder,
               private store: Store<AppState>,
               private sharedService: SharedService,
-              private _keyboardService: MatKeyboardService) {}
+              private _keyboardService: MatKeyboardService,
+              private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -70,10 +77,20 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       rememberMe: [false],
     });
 
-    this.resetForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+    this.recoverPasswordForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      recovery_email: ['', [Validators.required, Validators.email]],
     });
+
+    this.resetPasswordForm = this.formBuilder.group({
+      code: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      confirmPwd: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+    },
+      {
+        validator: PasswordValidation.MatchPassword
+      });
 
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
       .subscribe(authState => {
@@ -87,9 +104,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.closeKeyboard();
   }
 
-  // == Open NgbModal
-  open(content) {
-    this.resetModalRef = this.modalService.open(content, {
+  openResetPasswordModal() {
+    this.isRecoverFormSubmitted = false;
+    this.showResetPasswordFormErrors = false;
+    this.resetPasswordErrorMessage = '';
+    this.recoverPasswordForm.reset();
+    this.resetPasswordForm.reset();
+    this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
       windowClass: 'modal-md'
     });
@@ -100,7 +121,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (!input.value) {
       return;
     }
-    this.password = this.password === 'password' ? 'text' : 'password';
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   login(user) {
@@ -110,8 +131,31 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     }
   }
 
+  recoverPassword(data) {
+    this.showResetPasswordFormErrors = true;
+    if (this.recoverPasswordForm.valid) {
+      this.store.dispatch(new RecoverPassword(data));
+      this.resetPasswordForm.get('username').setValue(data.username);
+      this.isRecoverFormSubmitted = true;
+      this.showResetPasswordFormErrors = false;
+    }
+  }
+
   resetPassword(data) {
-    this.resetModalRef.close();
+    this.showResetPasswordFormErrors = true;
+    if (this.resetPasswordForm.valid) {
+      this.openPgpService.generateUserKeys(data.username, data.password)
+        .then(keysData => {
+          const requestData = {
+            code: data.code,
+            username: data.username,
+            password: data.password,
+            ...keysData
+          };
+          this.store.dispatch(new ResetPassword(requestData));
+          this.resetModalRef.dismiss();
+        });
+    }
   }
 
   openUsernameOSK() {

@@ -19,10 +19,14 @@ import {
   LogIn,
   LogInFailure,
   LogInSuccess,
+  RecoverPassword,
+  RecoverPasswordSuccess,
+  ResetPassword,
+  ResetPasswordFailure,
   SignUp,
   SignUpFailure,
   SignUpSuccess,
-  SnackErrorPush,
+  SnackErrorPush
 } from '../actions';
 
 
@@ -106,4 +110,30 @@ export class AuthEffects {
         );
     });
 
+  @Effect()
+  RecoverPassword: Observable<any> = this.actions
+    .ofType(AuthActionTypes.RECOVER_PASSWORD)
+    .map((action: RecoverPassword) => action.payload)
+    .switchMap(payload => {
+      return this.authService.recoverPassword(payload)
+        .pipe(
+          map((res) => new RecoverPasswordSuccess(res)),
+          catchError((error) => [
+            new SnackErrorPush({ message: 'Failed to send recovery email, please try again.' })
+          ])
+        );
+    });
+
+  @Effect()
+  ResetPassword: Observable<any> = this.actions
+    .ofType(AuthActionTypes.RESET_PASSWORD)
+    .map((action: ResetPassword) => action.payload)
+    .switchMap(payload => {
+      return this.authService.resetPassword(payload)
+        .pipe(
+          map((user) => new LogInSuccess(user)),
+          catchError((error) => [new ResetPasswordFailure(error),
+            new SnackErrorPush({ message: 'Failed to reset password, please try again.' })])
+        );
+    });
 }
