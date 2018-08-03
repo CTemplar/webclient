@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
+import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
   CloseMailbox,
@@ -62,9 +63,10 @@ export class PasswordValidation {
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() receivers: Array<string> = [];
-  @Input() cc: Array<string> = [];
+  @Input() receivers: Array<string>;
+  @Input() cc: Array<string>;
   @Input() content: string;
+  @Input() draftMail: Mail;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -91,7 +93,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   datePickerMinDate: NgbDateStruct;
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
-  draftMail: Mail;
   isLoaded: boolean;
 
   private quill: any;
@@ -120,7 +121,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private openPgpService: OpenPgpService,
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
-              private filesizePipe: FilesizePipe) {
+              private filesizePipe: FilesizePipe,
+              private filenamePipe: FilenamePipe) {
 
   }
 
@@ -205,9 +207,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftId = Date.now();
     const draft: Draft = {
       id: this.draftId,
-      draft: null,
+      draft: this.draftMail,
       inProgress: false,
-      attachments: [],
+      attachments: this.draftMail ? this.draftMail.attachments.map(attachment => {
+        attachment.progress = 100;
+        attachment.name = this.filenamePipe.transform(attachment.document);
+        attachment.draftId = this.draftId;
+        attachment.attachmentId = performance.now();
+        return attachment;
+      }) : [],
       usersKeys: []
     };
     this.store.dispatch(new NewDraft({ ...draft }));
@@ -337,8 +345,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setMailData(false, false);
       this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
     }
-    this.hide.emit();
     this.resetValues();
+    this.hide.emit();
   }
 
   removeAttachment(attachment: Attachment) {
@@ -545,14 +553,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetMailData() {
     this.mailData = {
-      receiver: this.receivers ? this.receivers.map(receiver => ({ display: receiver, value: receiver })) : [],
-      cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) : [],
-      bcc: [],
-      subject: ''
+      receiver: this.receivers ?
+        this.receivers.map(receiver => ({ display: receiver, value: receiver })) :
+        this.draftMail ?
+          this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver })) :
+          [],
+      cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) :
+        this.draftMail ?
+          this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver })) :
+          [],
+      bcc: this.draftMail ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
+      subject: this.draftMail ? this.draftMail.subject : ''
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
     }
+    if (this.mailData.bcc.length > 0) {
+      this.options.isBccVisible = true;
+    }
+    this.selfDestruct.value = this.draftMail ? this.draftMail.destruct_date : null;
+    this.deadManTimer.value = this.draftMail ? this.draftMail.dead_man_duration : null;
+    this.delayedDelivery.value = this.draftMail ? this.draftMail.delayed_delivery : null;
     this.isLoaded = true;
   }
 

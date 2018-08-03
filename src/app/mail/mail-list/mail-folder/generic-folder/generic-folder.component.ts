@@ -1,15 +1,16 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { AppState, MailState, MailBoxesState } from '../../../../store/datatypes';
-import { Mail, MailFolderType } from '../../../../store/models';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { CreateFolderComponent } from '../../../dialogs/create-folder/create-folder.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SharedService } from '../../../../store/services';
+import { AppState, MailBoxesState, MailState } from '../../../../store/datatypes';
+import { Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
+import { SharedService } from '../../../../store/services';
+import { ComposeMailService } from '../../../../store/services/compose-mail.service';
+import { CreateFolderComponent } from '../../../dialogs/create-folder/create-folder.component';
 
 @TakeUntilDestroy()
 @Component({
@@ -33,7 +34,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   constructor(public store: Store<AppState>,
               private router: Router,
               private sharedService: SharedService,
-              private modalService: NgbModal) {}
+              private modalService: NgbModal,
+              private composeMailService: ComposeMailService) {
+  }
 
   ngOnInit() {
     this.store.dispatch(new SetCurrentFolder(this.mailFolder));
@@ -136,8 +139,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openMail(mail: Mail) {
-    this.store.dispatch(new GetMailDetailSuccess(mail));
-    this.router.navigate([`/mail/${this.mailFolder}/message/`, mail.id]);
+    if (this.mailFolder === MailFolderType.DRAFT) {
+      this.composeMailService.openComposeMailDialog({ draft: mail });
+    }
+    else {
+      this.store.dispatch(new GetMailDetailSuccess(mail));
+      this.router.navigate([`/mail/${this.mailFolder}/message/`, mail.id]);
+    }
   }
 
   openCreateFolderDialog() {
@@ -220,5 +228,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     return this.mails.filter(mail => mail.marked);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+  }
 }
