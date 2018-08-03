@@ -81,8 +81,8 @@
     </div>
 
     <ul class="list-style-none mt-3">
-      <li class="download-attachment-wrapper" *ngFor="let attachment of mail.attachments">
-        <a class="download-attachment" [href]="attachment.document" target="_blank" rel="noopener">
+      <li class="download-attachment-wrapper mr-1" *ngFor="let attachment of mail.attachments">
+        <a class="download-attachment" [href]="attachment.document" placement="top" [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
           <div class="attachment-icon">
             <i class="icon icon-attachment"></i>
           </div>
