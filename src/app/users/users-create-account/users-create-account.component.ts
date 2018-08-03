@@ -60,7 +60,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
               private store: Store<AppState>,
               private openPgpService: OpenPgpService,
               private sharedService: SharedService,
-              private notificationService: NotificationService) {}
+              private notificationService: NotificationService) {
+  }
 
   ngOnInit() {
     this.handleUserState();
@@ -125,9 +126,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     const signupFormValue = this.signupForm.value;
     this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password)
       .then(data => {
-        this.userKeys.public_key = data.public_key;
-        this.userKeys.private_key = data.private_key;
-        this.userKeys.fingerprint = data.fingerprint;
+        this.userKeys = { ...data };
       });
   }
 
@@ -180,7 +179,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   handleUsernameAvailability() {
     this.signupForm.get('username').valueChanges
       .pipe(
-        debounceTime(500),
+        debounceTime(500)
       )
       .subscribe((username) => {
         this.store.dispatch(new CheckUsernameAvailability(username));

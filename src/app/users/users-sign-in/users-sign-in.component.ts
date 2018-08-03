@@ -150,9 +150,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
             code: data.code,
             username: data.username,
             password: data.password,
-            private_key: keysData.private_key,
-            public_key: keysData.public_key,
-            fingerprint: keysData.fingerprint
+            ...keysData
           };
           this.store.dispatch(new ResetPassword(requestData));
           this.resetModalRef.dismiss();
