@@ -52,7 +52,8 @@ export class ComposeMailService {
   }
 
   openComposeMailDialog(inputData: any = {}) {
-    if (this.componentRefList.length < 3) {
+    if (this.userState &&
+       ((this.userState.isPrime && this.componentRefList.length < 3) || (!this.userState.isPrime && this.componentRefList.length === 0 ))) {
       this.componentRefList.forEach(componentRef => {
         componentRef.instance.isMinimized = true;
       });
