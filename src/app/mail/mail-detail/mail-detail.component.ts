@@ -35,18 +35,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail) {
           this.mail = mailState.mailDetail;
-          const decryptedContent = mailState.decryptedContents[this.mail.id];
-          if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
-            this.pgpService.decrypt(this.mail.id, this.mail.content);
-          }
-          if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
-            this.decryptedContent = decryptedContent.content;
+          if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
+            this.decryptedContent = this.mail.content;
+          } else {
+            const decryptedContent = mailState.decryptedContents[this.mail.id];
+            if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
+              this.pgpService.decrypt(this.mail.id, this.mail.content);
+            }
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
+              this.decryptedContent = decryptedContent.content;
 
-            // Mar mail as read
-            if (!this.mail.read) {
-              this.markAsRead(this.mail.id);
+              // Mar mail as read
+              if (!this.mail.read) {
+                this.markAsRead(this.mail.id);
+              }
             }
           }
+
         }
       });
 
