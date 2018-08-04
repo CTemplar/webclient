@@ -1097,7 +1097,8 @@
     color: $input-border-color;
   }
 
-  &.is-unread .mail-from-name {
+  &.is-unread .mail-from-name,
+  &.is-unread .mail-subject {
     font-weight: bold;
   }
 
