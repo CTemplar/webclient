@@ -10,7 +10,8 @@
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12);
 	color: $brand-black;
 	font-size: 0.75rem;
-
+	width: 100%;
+	
 	@include media(">sm") {
 		padding: 0.688rem 1.563rem;
 	}
@@ -22,23 +23,14 @@
 
 .l-alert-warning {
 	background-color: #fff2df !important;
-	@include media(">sm") {
-		min-width: 405px;
-	}
 }
 
 .l-alert-danger {
 	background-color: #ffe1df !important;
-	@include media(">sm") {
-		min-width: 465px;
-	}
 }
 
 .l-alert-success {
 	background-color: #dff2ff !important;
-	@include media(">sm") {
-		min-width: 300px;
-	}
 }
 
 .l-alert-is-floated {
