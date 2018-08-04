@@ -14,6 +14,8 @@ export class ComposeMailDialogComponent {
   @Input() public draft: Mail;
 
   @Output() public hide = new EventEmitter<boolean>();
+  @Output() public minimize = new EventEmitter<boolean>();
+  @Output() public fullScreen = new EventEmitter<boolean>();
 
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
   @ViewChild('confirmDiscardModal') confirmDiscardModal;
@@ -54,7 +56,7 @@ export class ComposeMailDialogComponent {
 
   toggleMinimized() {
     this.isMinimized = !this.isMinimized;
-
+    this.minimize.emit(this.isMinimized);
     if (this.isFullScreen) {
       this.isFullScreen = false;
     }
@@ -62,7 +64,7 @@ export class ComposeMailDialogComponent {
 
   toggleFullScreen() {
     this.isFullScreen = !this.isFullScreen;
-
+    this.fullScreen.emit(this.isFullScreen);
     if (this.isMinimized) {
       this.isMinimized = false;
     }

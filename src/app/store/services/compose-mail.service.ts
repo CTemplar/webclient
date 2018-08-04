@@ -2,7 +2,7 @@ import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } 
 import { Store } from '@ngrx/store';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { ClearDraft, CreateMail, SendMail } from '../actions';
-import { AppState, ComposeMailState, Draft, DraftState } from '../datatypes';
+import { AppState, ComposeMailState, Draft, DraftState, UserState } from '../datatypes';
 import { OpenPgpService } from './openpgp.service';
 
 @Injectable()
@@ -10,6 +10,8 @@ export class ComposeMailService {
   private drafts: DraftState;
   private composeMailContainer: ViewContainerRef;
   private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
+
+  private userState: UserState;
 
   constructor(private store: Store<AppState>,
               private openPgpService: OpenPgpService,
@@ -37,6 +39,11 @@ export class ComposeMailService {
         this.drafts = { ...response.drafts };
       });
 
+    this.store.select((state: AppState) => state.user)
+    .subscribe((user: UserState) => {
+      this.userState = user;
+    });
+
   }
 
   initComposeMailContainer(container: ViewContainerRef) {
@@ -45,29 +52,52 @@ export class ComposeMailService {
   }
 
   openComposeMailDialog(inputData: any = {}) {
-    this.componentRefList.forEach(componentRef => {
-      componentRef.instance.isMinimized = true;
-    });
-    if (inputData.draft) {
-      const oldComponentRef = this.componentRefList.find(componentRef => {
-        return componentRef.instance.composeMail.draftMail && componentRef.instance.composeMail.draftMail.id === inputData.draft.id;
+    if (this.userState &&
+       ((this.userState.isPrime && this.componentRefList.length < 3) || (!this.userState.isPrime && this.componentRefList.length === 0 ))) {
+      this.componentRefList.forEach(componentRef => {
+        componentRef.instance.isMinimized = true;
       });
-      if (oldComponentRef) {
-        oldComponentRef.instance.isMinimized = false;
-        return;
+
+    if (inputData.draft) {
+        const oldComponentRef = this.componentRefList.find(componentRef => {
+          return componentRef.instance.composeMail.draftMail && componentRef.instance.composeMail.draftMail.id === inputData.draft.id;
+        });
+        if (oldComponentRef) {
+          oldComponentRef.instance.isMinimized = false;
+          return;
+        }
       }
+      const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
+      const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(factory);
+      this.componentRefList.push(newComponentRef);
+      Object.keys(inputData).forEach(key => {
+        newComponentRef.instance[key] = inputData[key];
+      });
+      newComponentRef.instance.isComposeVisible = true;
+      const index = this.componentRefList.length - 1;
+      newComponentRef.instance.hide.subscribe(event => {
+        this.destroyComponent(newComponentRef, index);
+      });
+      newComponentRef.instance.minimize.subscribe(isMinimized => {
+        if (!isMinimized) {
+          this.componentRefList.forEach(componentRef => {
+            componentRef.instance.isMinimized = true;
+            componentRef.instance.isFullScreen = false;
+          });
+          newComponentRef.instance.isMinimized = false;
+        }
+      });
+      newComponentRef.instance.fullScreen.subscribe(isFullScreen => {
+        if (isFullScreen) {
+          this.componentRefList.forEach(componentRef => {
+            componentRef.instance.isFullScreen = false;
+            componentRef.instance.isMinimized = true;
+          });
+          newComponentRef.instance.isFullScreen = true;
+        }
+      });
     }
-    const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
-    const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(factory);
-    this.componentRefList.push(newComponentRef);
-    Object.keys(inputData).forEach(key => {
-      newComponentRef.instance[key] = inputData[key];
-    });
-    newComponentRef.instance.isComposeVisible = true;
-    const index = this.componentRefList.length - 1;
-    newComponentRef.instance.hide.subscribe(event => {
-      this.destroyComponent(newComponentRef, index);
-    });
+
   }
 
   destroyAllComposeMailDialogs(): void {
