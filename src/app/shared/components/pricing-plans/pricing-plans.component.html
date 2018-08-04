@@ -173,7 +173,7 @@
               </footer>
             </div>
           </div>
-          <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex" *ngIf="!isPrime">
+          <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
             <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
               <header class="package-card-header text-center">
                 <h2 class="text-white m-0">
@@ -218,7 +218,7 @@
                   </li>
                 </ul>
               </div>
-              <footer class="package-card-footer text-center">
+              <footer class="package-card-footer text-center"  *ngIf="!isPrime">
                 <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
                 <div class="package-actions">
 
