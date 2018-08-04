@@ -80,7 +80,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   refresh() {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder, read: false }));
+    if (this.mailFolder === MailFolderType.INBOX) {
+      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder, read: false }));
+    } else {
+      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
+    }
   }
 
   markAllMails(checkAll) {
