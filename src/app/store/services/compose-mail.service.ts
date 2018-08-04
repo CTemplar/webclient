@@ -82,8 +82,18 @@ export class ComposeMailService {
         if (!isMinimized) {
           this.componentRefList.forEach(componentRef => {
             componentRef.instance.isMinimized = true;
+            componentRef.instance.isFullScreen = false;
           });
           newComponentRef.instance.isMinimized = false;
+        }
+      });
+      newComponentRef.instance.fullScreen.subscribe(isFullScreen => {
+        if (isFullScreen) {
+          this.componentRefList.forEach(componentRef => {
+            componentRef.instance.isFullScreen = false;
+            componentRef.instance.isMinimized = true;
+          });
+          newComponentRef.instance.isFullScreen = true;
         }
       });
     }
