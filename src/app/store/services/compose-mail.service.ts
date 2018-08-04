@@ -2,7 +2,7 @@ import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } 
 import { Store } from '@ngrx/store';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { ClearDraft, CreateMail, SendMail } from '../actions';
-import { AppState, ComposeMailState, Draft, DraftState } from '../datatypes';
+import { AppState, ComposeMailState, Draft, DraftState, UserState } from '../datatypes';
 import { OpenPgpService } from './openpgp.service';
 
 @Injectable()
@@ -10,6 +10,8 @@ export class ComposeMailService {
   private drafts: DraftState;
   private composeMailContainer: ViewContainerRef;
   private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
+
+  private userState: UserState;
 
   constructor(private store: Store<AppState>,
               private openPgpService: OpenPgpService,
@@ -36,6 +38,11 @@ export class ComposeMailService {
 
         this.drafts = { ...response.drafts };
       });
+
+    this.store.select((state: AppState) => state.user)
+    .subscribe((user: UserState) => {
+      this.userState = user;
+    });
 
   }
 
@@ -69,6 +76,14 @@ export class ComposeMailService {
       const index = this.componentRefList.length - 1;
       newComponentRef.instance.hide.subscribe(event => {
         this.destroyComponent(newComponentRef, index);
+      });
+      newComponentRef.instance.minimize.subscribe(isMinimized => {
+        if (!isMinimized) {
+          this.componentRefList.forEach(componentRef => {
+            componentRef.instance.isMinimized = true;
+          });
+          newComponentRef.instance.isMinimized = false;
+        }
       });
     }
 
