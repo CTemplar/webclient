@@ -1,37 +1,27 @@
 // Angular
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-
 // Helpers
 import { apiUrl } from '../../shared/config';
-
 // Models
 import { Attachment, Mail, Mailbox } from '../models';
-
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
 import { MailFolderType } from '../models/mail.model';
 
 @Injectable()
 export class MailService {
-  options: any;
-  encrypted: any;
-  pubkey: any;
-  privkey: any;
-  passphrase: any;
-  privKeyObj: any;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
-  }
+  constructor(private http: HttpClient) {}
 
   getMessages(limit: number = 1000, offset: number = 0, mailFolderType: MailFolderType = MailFolderType.INBOX): Observable<Mail[]> {
-    const url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}&folder=${mailFolderType}`;
+    let url = `${apiUrl}emails/messages/?limit=${limit}&offset=${offset}`;
+    if (mailFolderType === MailFolderType.STARRED) {
+      url = `${url}&starred=true`;
+    } else {
+      url = `${url}&folder=${mailFolderType}`;
+    }
     return this.http.get<Mail[]>(url).map(data => data['results']);
   }
 

@@ -193,7 +193,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       }));
 
       this.checkTransaction();
-    }, 60 * 1000);
+    }, 10 * 1000);
 
   }
 
