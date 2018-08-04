@@ -1,10 +1,10 @@
-// Angular
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { DynamicScriptLoaderService } from 'app/shared/services/dynamic-script-loader.service';
-import { FinalLoading, MembershipUpdate } from 'app/store/actions';
-import { SharedService } from 'app/store/services';
+import { SharedService } from '../../../store/services';
+import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
+import { FinalLoading, MembershipUpdate } from '../../../store/actions';
+
 
 @Component({
   selector: 'app-pricing-plans',
@@ -15,8 +15,8 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   // == Defining public property as boolean
   public selectedIndex: number = -1; // Assuming no element are selected initially
-  @Input('hideHeader') hideHeader: boolean;
-  @Input('blockGapsZero') blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
+  @Input() hideHeader: boolean;
+  @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
   @Input() showCurrentPlan: boolean;
   @Input() isPrime: boolean;
 
