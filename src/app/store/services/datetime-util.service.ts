@@ -38,4 +38,8 @@ export class DateTimeUtilService {
     }
   }
 
+  isDateTimeInPast(dateTimeStr: string): boolean {
+    return moment().diff(moment(dateTimeStr)) >= 0;
+  }
+
 }

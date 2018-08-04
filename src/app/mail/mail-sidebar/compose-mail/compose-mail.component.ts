@@ -451,13 +451,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setSelfDestructValue() {
+    this.selfDestruct.error = null;
     if (this.selfDestruct.date && this.selfDestruct.time) {
-      this.selfDestruct.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date,
+      const dateTimeStr = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.selfDestruct.date,
         this.selfDestruct.time);
-      this.closeSelfDestructModal();
-      this.clearDelayedDeliveryValue();
-      this.clearDeadManTimerValue();
-      this.valueChanged$.next(this.selfDestruct.value);
+      if (this.dateTimeUtilService.isDateTimeInPast(dateTimeStr)) {
+        this.selfDestruct.error = 'Selected datetime is in past.';
+      } else {
+        this.selfDestruct.value = dateTimeStr;
+        this.closeSelfDestructModal();
+        this.clearDelayedDeliveryValue();
+        this.clearDeadManTimerValue();
+        this.valueChanged$.next(this.selfDestruct.value);
+      }
     }
   }
 
@@ -469,12 +475,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setDelayedDeliveryValue() {
     if (this.delayedDelivery.date && this.delayedDelivery.time) {
-      this.delayedDelivery.value = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date,
+      const dateTimeStr = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(this.delayedDelivery.date,
         this.delayedDelivery.time);
-      this.closeDelayedDeliveryModal();
-      this.clearSelfDestructValue();
-      this.clearDeadManTimerValue();
-      this.valueChanged$.next(this.delayedDelivery.value);
+      if (this.dateTimeUtilService.isDateTimeInPast(dateTimeStr)) {
+        this.delayedDelivery.error = 'Selected datetime is in past.';
+      } else {
+        this.delayedDelivery.value = dateTimeStr;
+        this.closeDelayedDeliveryModal();
+        this.clearSelfDestructValue();
+        this.clearDeadManTimerValue();
+        this.valueChanged$.next(this.delayedDelivery.value);
+      }
     }
   }
 
@@ -609,6 +620,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       minute: 0,
       second: 0
     };
+    this.selfDestruct.error = null;
   }
 
   private resetDelayedDeliveryValues() {
@@ -619,6 +631,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       minute: 0,
       second: 0
     };
+    this.delayedDelivery.error = null;
   }
 
   private resetDeadManTimerValues() {
