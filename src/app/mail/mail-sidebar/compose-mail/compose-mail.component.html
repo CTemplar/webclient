@@ -104,7 +104,7 @@
             <div class="attach-uploader" *ngIf="!file.isRemoved">
               <div class="attach-name">
                 <div class="file-name">{{file.name}}</div>
-                <div class="attach-size">({{file.size}})</div>
+                <div class="attach-size" *ngIf="file.size">({{file.size}})</div>
               </div>
               <div class="progress" *ngIf="file.progress !== 100">
                 <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
