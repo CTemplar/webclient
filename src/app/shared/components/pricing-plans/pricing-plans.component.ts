@@ -2,9 +2,10 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { DynamicScriptLoaderService } from 'app/shared/services/dynamic-script-loader.service';
-import { FinalLoading, MembershipUpdate } from 'app/store/actions';
-import { SharedService } from 'app/store/services';
+import { SharedService } from '../../../store/services/shared.service';
+import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
+import { FinalLoading } from '../../../store/actions/loading.action';
+import { MembershipUpdate } from '../../../store/actions/users.action';
 
 @Component({
   selector: 'app-pricing-plans',
