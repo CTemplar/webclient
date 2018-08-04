@@ -75,8 +75,16 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   initializeAutoRefresh() {
     Observable.timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
       .subscribe(event => {
-        this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
+        this.refresh();
       });
+  }
+
+  refresh() {
+    if (this.mailFolder === MailFolderType.INBOX) {
+      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder, read: false }));
+    } else {
+      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
+    }
   }
 
   markAllMails(checkAll) {

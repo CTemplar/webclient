@@ -44,7 +44,7 @@ export class MailEffects {
     .ofType(MailActionTypes.GET_MAILS)
     .map((action: GetMails) => action.payload)
     .switchMap(payload => {
-      return this.mailService.getMessages(payload.limit, payload.offset, payload.folder)
+      return this.mailService.getMessages(payload)
         .map((mails) => {
           return new GetMailsSuccess({...payload, mails});
         });
