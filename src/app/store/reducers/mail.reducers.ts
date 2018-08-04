@@ -22,10 +22,16 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
-      state.folders.set(action.payload.folder, action.payload.mails);
+      let mails = action.payload.mails;
+      if (action.payload.read === false || action.payload.read === true) {
+        const mailIDs = mails.map(item => item.id);
+        mails = state.mails.filter(item => mailIDs.indexOf(item.id) < 0);
+        mails = [...mails, ...action.payload.mails];
+      }
+      state.folders.set(action.payload.folder, mails);
       return {
         ...state,
-        mails: action.payload.mails,
+        mails,
         loaded: true,
       };
     }
