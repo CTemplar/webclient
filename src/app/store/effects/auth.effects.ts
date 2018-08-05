@@ -9,11 +9,12 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 // Service
 import { UsersService } from '../../store/services';
 // Custom Actions
 import {
+  AccountDetailsGet,
   AuthActionTypes,
   CheckUsernameAvailability, CheckUsernameAvailabilitySuccess,
   LogIn,
@@ -144,7 +145,9 @@ export class AuthEffects {
     .switchMap(payload => {
       return this.authService.upgradeAccount(payload)
         .pipe(
-          map((res) => new UpgradeAccountSuccess(res)),
+          switchMap((res) => {
+            return [new UpgradeAccountSuccess(res), new AccountDetailsGet()];
+          }),
           catchError((error) => [new UpgradeAccountFailure(error),
             new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })])
         );
