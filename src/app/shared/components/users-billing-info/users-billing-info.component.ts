@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 // Service
-import { SharedService } from '../../store/services';
+import { SharedService } from '../../../store/services/index';
 import {
   CheckTransaction,
   ClearWallet,
@@ -9,7 +9,7 @@ import {
   GetBitcoinServiceValue,
   SignUp,
   SnackErrorPush
-} from '../../store/actions';
+} from '../../../store/actions/index';
 import { Store } from '@ngrx/store';
 import {
   AppState,
@@ -19,7 +19,7 @@ import {
   CheckTransactionResponse,
   SignupState,
   TransactionStatus
-} from '../../store/datatypes';
+} from '../../../store/datatypes';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/observable/timer';
