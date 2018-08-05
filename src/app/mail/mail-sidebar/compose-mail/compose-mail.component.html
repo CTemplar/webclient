@@ -104,7 +104,7 @@
             <div class="attach-uploader" *ngIf="!file.isRemoved">
               <div class="attach-name">
                 <div class="file-name">{{file.name}}</div>
-                <div class="attach-size">({{file.size}})</div>
+                <div class="attach-size" *ngIf="file.size">({{file.size}})</div>
               </div>
               <div class="progress" *ngIf="file.progress !== 100">
                 <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
@@ -377,21 +377,24 @@
           <button role="button" type="button" (click)="openSelfDestructModal()"
                   class="actions-btn mail-clock-btn border-left-0 border-radius-0"
                   [ngClass]="{'badge badge-warning text-white': selfDestruct.value}"
-                  placement="top" ngbTooltip="Self-destructing timer" [disabled]="!userState.isPrime"><i class="icon icon-clock"></i>
+                  placement="top" ngbTooltip="Self-destructing timer" [disabled]="!userState.isPrime"><i
+                  class="icon icon-clock"></i>
           </button>
         </li>
         <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
           <button type="button" role="button" (click)="openDelayedDeliveryModal()"
                   class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
-                  placement="top" ngbTooltip="Delayed delivery" [disabled]="!userState.isPrime"><i class="icon icon-self-timer"></i>
+                  placement="top" ngbTooltip="Delayed delivery" [disabled]="!userState.isPrime"><i
+                  class="icon icon-self-timer"></i>
           </button>
         </li>
         <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
           <button type="button" role="button" (click)="openDeadManTimerModal()"
                   class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
-                  placement="top" ngbTooltip="Dead Man's timer" [disabled]="!userState.isPrime"><i class="icon icon-dead"></i>
+                  placement="top" ngbTooltip="Dead Man's timer" [disabled]="!userState.isPrime"><i
+                  class="icon icon-dead"></i>
           </button>
         </li>
       </ul>
@@ -474,6 +477,9 @@
         <label class="form-inline">Select Time</label>
         <ngb-timepicker [(ngModel)]="selfDestruct.time"></ngb-timepicker>
       </div>
+      <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">
+        {{selfDestruct.error}}
+      </div>
       <div class="form-group text-center btns-xs-3 mb-0">
         <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm" role="button">
           Confirm
@@ -510,6 +516,9 @@
         <label class="form-inline">Select Time</label>
         <ngb-timepicker [(ngModel)]="delayedDelivery.time"></ngb-timepicker>
       </div>
+      <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">
+        {{delayedDelivery.error}}
+      </div>
       <div class="form-group text-center btns-xs-3 mb-0">
         <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm" role="button">
           Confirm
@@ -534,9 +543,9 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
-          Email will be sent when timer expires. Logging into
-          your account resets the timer. This email can be
-          watched in the "Outbox" page.
+        Email will be sent when timer expires. Logging into
+        your account resets the timer. This email can be
+        watched in the "Outbox" page.
       </div>
       <form (submit)="setDeadManTimerValue()">
         <div class="form-group">

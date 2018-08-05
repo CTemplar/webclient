@@ -166,8 +166,8 @@
         <hr class="mt-0">
       </tr>
       <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
-          [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT),
-          'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT),
+          [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
+          'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-selected':mail.marked}">
 
 
@@ -189,8 +189,7 @@
         <!-- Sender Name -->
         <td class="mail-from-name">
           <a (click)="openMail(mail)" class="text-danger"
-             [ngClass]="{'font-weight-bold': (!mail.read && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.DRAFT),
-          'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
+             [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
             <ng-container [ngSwitch]="mailFolder">
               <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
               <ng-container *ngSwitchCase="mailFolderTypes.SENT">
@@ -200,11 +199,9 @@
                 {{mail.sender}}
               </ng-container>
             </ng-container>
-            <span class="d-sm-block d-md-none"
-                  [ngClass]="{'font-weight-bold': (!mail.read && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.DRAFT)}"
-                  [innerHTML]="mail.subject">
-                                        <!-- Subject Goes Here -->
-                                </span>
+            <span class="d-sm-block d-md-none" [innerHTML]="mail.subject">
+                <!-- Subject Goes Here -->
+            </span>
           </a>
         </td>
 
@@ -223,12 +220,9 @@
                       *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
-                <div class="mail-content"
-                     [ngClass]="{'font-weight-bold': (!mail.read && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.DRAFT)}"
-                     [innerHTML]="mail.subject">
-                    <!-- Subject Goes Here -->
-                </div>
-
+              <div class="mail-content" [innerHTML]="mail.subject">
+                  <!-- Subject Goes Here -->
+              </div>
             </span>
           </a>
         </td>
