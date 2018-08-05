@@ -172,13 +172,15 @@
               <div class="form-group text-center mt-3 mt-sm-4 mb-0">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="signupInProgress"
-                          (click)="submitForm()"><span translate="login.create_account">Create Account</span>
+                          (click)="submitForm()">
+                    <span *ngIf="!isOpenedInModal" translate="login.create_account">Create Account</span>
+                    <span *ngIf="isOpenedInModal" translate="common.upgrade_account">Upgrade Account</span>
                   </button>
                   <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
               </div>
 
               <div class="text-holder mt-2 text-center">
-                <a href="" translate="common.cancel">Cancel</a>
+                <a href="" translate="common.cancel" (click)="onCancel($event)">Cancel</a>
               </div>
             </div>
           </form>

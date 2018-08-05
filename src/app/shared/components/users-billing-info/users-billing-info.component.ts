@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, Input, Output, EventEmitter } from '@angular/core';
 // Service
 import { SharedService } from '../../../store/services/index';
 import {
@@ -36,9 +36,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./users-billing-info.component.scss']
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
-  readonly destroyed$: Observable<boolean>;
-  private checkTransactionResponse: CheckTransactionResponse;
-  private timerObservable: Subscription;
+  @Input() isOpenedInModal: boolean;
+  @Output() cancel = new EventEmitter<boolean>();
 
   cardNumber;
   billingForm: FormGroup;
@@ -62,6 +61,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   showPaymentPending: boolean;
   paymentSuccess: boolean;
 
+  readonly destroyed$: Observable<boolean>;
+  private checkTransactionResponse: CheckTransactionResponse;
+  private timerObservable: Subscription;
+
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
               private router: Router,
@@ -80,22 +83,24 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
-        if (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
+        if (this.checkTransactionResponse && (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
           this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
-          this.checkTransactionResponse.status === TransactionStatus.SENT) {
+          this.checkTransactionResponse.status === TransactionStatus.SENT)) {
           this.paymentSuccess = true;
           return;
         }
       });
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
-      .subscribe((authState: AuthState) => {
-        this.signupState = authState.signupState;
-        this.signupInProgress = authState.inProgress;
-      });
+    if (!this.isOpenedInModal) {
+      this.store.select(state => state.auth).takeUntil(this.destroyed$)
+        .subscribe((authState: AuthState) => {
+          this.signupState = authState.signupState;
+          this.signupInProgress = authState.inProgress;
+        });
 
-    setTimeout(() => {
-      this.validateSignupData();
-    }, 3000);
+      setTimeout(() => {
+        this.validateSignupData();
+      }, 3000);
+    }
   }
 
   timer() {
@@ -239,6 +244,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.stripePaymentValidation.param = 'exp_year exp_month';
     } else if (!(<any>window).Stripe.card.validateCVC(this.cvc)) {
       this.stripePaymentValidation.param = 'cvc';
+    }
+  }
+
+  onCancel(event) {
+    event.preventDefault();
+    if (this.isOpenedInModal) {
+      this.cancel.emit(true);
+    } else {
+      this.router.navigateByUrl('/');
     }
   }
 

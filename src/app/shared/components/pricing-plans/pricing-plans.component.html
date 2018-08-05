@@ -238,3 +238,16 @@
   <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
+
+<!-- billing info modal -->
+<ng-template #billingInfoModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Upgrade Account</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <app-users-billing-info [isOpenedInModal]="true" (cancel)="d()"></app-users-billing-info>
+  </div>
+</ng-template><!-- /.billing info modal ends -->
