@@ -144,6 +144,7 @@ export class UsersService {
       'users/settings',
       'emails/attachments',
       'emails/keys',
+      'auth/upgrade'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -227,6 +228,10 @@ export class UsersService {
 
   checkUsernameAvailability(username): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/check-username/`, { username });
+  }
+
+  upgradeAccount(data) {
+    return this.http.post<any>(`${apiUrl}auth/upgrade/`, data);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

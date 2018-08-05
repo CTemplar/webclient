@@ -1,6 +1,12 @@
-import { Component, OnInit, NgZone, Input, Output, EventEmitter } from '@angular/core';
-// Service
-import { SharedService } from '../../../store/services/index';
+import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import 'rxjs/add/observable/timer';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import {
   CheckTransaction,
   ClearWallet,
@@ -8,26 +14,19 @@ import {
   FinalLoading,
   GetBitcoinServiceValue,
   SignUp,
-  SnackErrorPush
+  SnackErrorPush, UpgradeAccount
 } from '../../../store/actions/index';
-import { Store } from '@ngrx/store';
 import {
   AppState,
   AuthState,
   BitcoinState,
-  PaymentMethod,
   CheckTransactionResponse,
+  PaymentMethod,
   SignupState,
   TransactionStatus
 } from '../../../store/datatypes';
-
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import 'rxjs/add/observable/timer';
-import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
-
+// Service
+import { SharedService } from '../../../store/services/index';
 
 @TakeUntilDestroy()
 @Component({
@@ -36,8 +35,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./users-billing-info.component.scss']
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
-  @Input() isOpenedInModal: boolean;
-  @Output() cancel = new EventEmitter<boolean>();
+  @Input() isUpgradeAccount: boolean;
+  @Output() close = new EventEmitter<boolean>();
 
   cardNumber;
   billingForm: FormGroup;
@@ -52,7 +51,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   minutes: number = 60;
   bitcoinState: BitcoinState;
   signupState: SignupState;
-  signupInProgress: boolean;
+  inProgress: boolean;
 
   stripePaymentValidation: any = {
     message: '',
@@ -60,6 +59,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   };
   showPaymentPending: boolean;
   paymentSuccess: boolean;
+  errorMessage: string;
 
   readonly destroyed$: Observable<boolean>;
   private checkTransactionResponse: CheckTransactionResponse;
@@ -90,13 +90,20 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           return;
         }
       });
-    if (!this.isOpenedInModal) {
-      this.store.select(state => state.auth).takeUntil(this.destroyed$)
-        .subscribe((authState: AuthState) => {
-          this.signupState = authState.signupState;
-          this.signupInProgress = authState.inProgress;
-        });
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        this.signupState = authState.signupState;
+        if (this.inProgress && !authState.inProgress) {
+          if (authState.errorMessage) {
+            this.errorMessage = authState.errorMessage;
+          } else {
+            this.close.emit(true);
+          }
+        }
+        this.inProgress = authState.inProgress;
+      });
 
+    if (!this.isUpgradeAccount) {
       setTimeout(() => {
         this.validateSignupData();
       }, 3000);
@@ -115,7 +122,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   getToken() {
-    this.signupInProgress = true;
+    this.inProgress = true;
     (<any>window).Stripe.card.createToken({
       number: this.cardNumber,
       exp_month: this.expiryMonth,
@@ -124,7 +131,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, (status: number, response: any) => {
       // Wrapping inside the Angular zone
       this._zone.run(() => {
-        this.signupInProgress = false;
+        this.inProgress = false;
         if (status === 200) {
           this.stripeSignup(response.id);
         } else {
@@ -136,7 +143,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       });
     });
   }
-
 
   submitForm() {
 
@@ -162,10 +168,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   stripeSignup(token: any) {
     if (token) {
-      this.store.dispatch(new SignUp({
-        ...this.signupState,
-        stripe_token: token
-      }));
+      if (this.isUpgradeAccount) {
+        this.store.dispatch(new UpgradeAccount({ stripe_token: token, payment_type: PaymentMethod.STRIPE}));
+      } else {
+        this.store.dispatch(new SignUp({
+          ...this.signupState,
+          stripe_token: token
+        }));
+      }
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
     }
@@ -173,11 +183,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   bitcoinSignup() {
     if (this.bitcoinState.newWalletAddress && this.bitcoinState.redeemCode) {
-      this.store.dispatch(new SignUp({
-        ...this.signupState,
-        from_address: this.bitcoinState.newWalletAddress,
-        redeem_code: this.bitcoinState.redeemCode,
-      }));
+      if (this.isUpgradeAccount) {
+        this.store.dispatch(new UpgradeAccount({
+          from_address: this.bitcoinState.newWalletAddress,
+          redeem_code: this.bitcoinState.redeemCode,
+          payment_type: PaymentMethod.BITCOIN
+        }));
+      } else {
+        this.store.dispatch(new SignUp({
+          ...this.signupState,
+          from_address: this.bitcoinState.newWalletAddress,
+          redeem_code: this.bitcoinState.redeemCode
+        }));
+      }
     } else {
       this.store.dispatch(new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'));
     }
@@ -194,7 +212,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       // check after every one minute
       this.store.dispatch(new CheckTransaction({
         'redeem_code': this.bitcoinState.redeemCode,
-        'from_address': this.bitcoinState.newWalletAddress,
+        'from_address': this.bitcoinState.newWalletAddress
       }));
 
       this.checkTransaction();
@@ -249,8 +267,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   onCancel(event) {
     event.preventDefault();
-    if (this.isOpenedInModal) {
-      this.cancel.emit(true);
+    if (this.isUpgradeAccount) {
+      this.close.emit(true);
     } else {
       this.router.navigateByUrl('/');
     }

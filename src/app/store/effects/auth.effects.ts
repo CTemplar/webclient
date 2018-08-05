@@ -26,7 +26,7 @@ import {
   SignUp,
   SignUpFailure,
   SignUpSuccess,
-  SnackErrorPush
+  SnackErrorPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
 } from '../actions';
 
 
@@ -134,6 +134,19 @@ export class AuthEffects {
           map((user) => new LogInSuccess(user)),
           catchError((error) => [new ResetPasswordFailure(error),
             new SnackErrorPush({ message: 'Failed to reset password, please try again.' })])
+        );
+    });
+
+  @Effect()
+  UpgradeAccount: Observable<any> = this.actions
+    .ofType(AuthActionTypes.UPGRADE_ACCOUNT)
+    .map((action: UpgradeAccount) => action.payload)
+    .switchMap(payload => {
+      return this.authService.upgradeAccount(payload)
+        .pipe(
+          map((res) => new UpgradeAccountSuccess(res)),
+          catchError((error) => [new UpgradeAccountFailure(error),
+            new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })])
         );
     });
 }
