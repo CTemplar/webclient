@@ -304,7 +304,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         size: this.filesizePipe.transform(file.size),
         attachmentId: performance.now(),
         message: this.draftMail.id,
-        hash: performance.now().toString(),
         inProgress: false
       };
       this.attachments.push(attachment);

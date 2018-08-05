@@ -56,7 +56,7 @@ export interface Attachment {
   document: any;
   name: string;
   size: string;
-  hash: string;
+  hash?: string;
   message: number;
   progress?: number;
   attachmentId?: number;
