@@ -24,6 +24,11 @@
             </div>
           </div>
         </li>
+        <li>
+          <a (click)="refresh()" ngbTooltip="Refresh" placement="top">
+            <i class="fa fa-redo-alt"></i>
+          </a>
+        </li>
         <li class="px-0">
           <a class="border-right-0 border-radius-right-0" placement="top"
              (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
