@@ -105,7 +105,7 @@
                         <div class="col-8">
                           <div class="fancy-field-group">
                             <input class="d-none fancy-field-control" id="currency"
-                                    name="currency" type="radio" checked/>
+                                    name="currency" type="radio" checked (change)="paymentMonthly.checked=true"/>
                             <label for="currency">Currency</label>
                           </div>
                         </div>
@@ -142,7 +142,7 @@
                         <div class="col-8">
                           <div class="fancy-field-group">
                             <input class="d-none fancy-field-control" id="pay-monthly"
-                                   name="[]" type="radio" checked [disabled]="btcCurrency.checked"/>
+                                   name="[]" type="radio" checked [disabled]="btcCurrency.checked" #paymentMonthly/>
                             <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
                           </div>
                         </div>
