@@ -76,8 +76,8 @@
                                         <div class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text" translate="settings.plans">Plans</span>
-                                                <span class="font-weight-normal" *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
-                                                <span class="font-weight-normal" *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
+                                                <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
+                                                <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
                                             </div>
                                             <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
                                                 <strong> $8</strong><span class="text-muted">/mo</span>
