@@ -86,6 +86,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
           state.drafts[data.draftId].attachments[index] = {
             ...state.drafts[data.draftId].attachments[index],
             id: action.payload.response.id,
+            contentId: action.payload.response.content_id,
             inProgress: false,
             request: null
           };

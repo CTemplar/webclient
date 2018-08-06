@@ -56,11 +56,12 @@ export interface Attachment {
   document: any;
   name: string;
   size: string;
-  hash?: string;
   message: number;
   progress?: number;
   attachmentId?: number;
   inProgress: boolean;
+  isInline: boolean;
+  contentId?: string;
   request?: Subscription;
   isRemoved?: boolean;
 }
