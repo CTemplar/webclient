@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as QuillNamespace from 'quill';
+import * as Parchment from 'parchment';
 import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
@@ -41,6 +42,36 @@ Quill.register(SizeAttributor, true);
 Quill.register(Quill.import('attributors/style/align'), true);
 Quill.register(Quill.import('attributors/style/background'), true);
 Quill.register(Quill.import('attributors/style/color'), true);
+
+const QuillBlockEmbed = Quill.import('blots/block/embed');
+
+class BlockEmbed extends Parchment.default.Embed {
+}
+
+BlockEmbed.prototype = QuillBlockEmbed.prototype;
+
+class ImageBlot extends BlockEmbed {
+  static create(value) {
+    const node: any = super.create(value);
+    node.setAttribute('src', value.url);
+    if (value.hash) {
+      node.setAttribute('data-content-id', value.hash);
+    }
+    return node;
+  }
+
+  static value(node) {
+    return {
+      'data-content-id': node.getAttribute('data-content-id'),
+      url: node.getAttribute('src')
+    };
+  }
+}
+
+ImageBlot.blotName = 'image';
+ImageBlot.tagName = 'img';
+
+Quill.register(ImageBlot);
 
 export class PasswordValidation {
 
