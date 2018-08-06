@@ -104,43 +104,9 @@
                       <div class="row row-xs">
                         <div class="col-8">
                           <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="pay-monthly"
-                                   name="[]" type="radio" checked/>
-                            <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="pay-price">
-                            <strong>$8</strong>
-                            <span class="text-muted">/mo</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="pay-annullay"
-                                   name="[]" type="radio"/>
-                            <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
-                            <span class="badge">-25%</span>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="pay-price">
-                            <strong>$6</strong>
-                            <span class="text-muted">/mo</span>
-                          </div>
-                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; $72/yr</div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <label for="pay-currency">Currency</label>
+                            <input class="d-none fancy-field-control" id="currency"
+                                    name="currency" type="radio" checked/>
+                            <label for="currency">Currency</label>
                           </div>
                         </div>
                         <div class="col-4 text-right">
@@ -159,6 +125,55 @@
                         </div>
                       </div>
                     </li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-12">
+                          <div class="fancy-field-group">
+                            <input class="d-none fancy-field-control" id="btc-currency"
+                                    name="currency" type="radio" #btcCurrency/>
+                            <label for="btc-currency">BTC Currency</label>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group">
+                            <input class="d-none fancy-field-control" id="pay-monthly"
+                                   name="[]" type="radio" checked [disabled]="btcCurrency.checked"/>
+                            <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="pay-price">
+                            <strong>$8</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group">
+                            <input class="d-none fancy-field-control" id="pay-annullay"
+                                   name="[]" type="radio" [checked]="btcCurrency.checked"/>
+                            <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
+                            <span class="badge">-25%</span>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="pay-price">
+                            <strong>$6</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
+                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; $72/yr</div>
+                        </div>
+                      </div>
+                    </li>
+                  
                   </ul>
                 </div>
                 <div class="package-actions text-center">
