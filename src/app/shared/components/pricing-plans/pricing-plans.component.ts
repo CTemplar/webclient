@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { FinalLoading, MembershipUpdate } from '../../../store/actions';
 import { SharedService } from '../../../store/services';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
+import { UpdateSignupData } from '../../../store/actions/auth.action';
 
 @Component({
   selector: 'app-pricing-plans',
@@ -26,6 +27,7 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
   private billingInfoModalRef: NgbModalRef;
 
   public selectedCurrency: string = 'USD';
+  public paymentMethod: string = 'monthly';
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
@@ -51,6 +53,12 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   selectPlan(id) {
     this.store.dispatch(new MembershipUpdate({ id }));
+
+    // Add payment type for prime plan only
+    if (id === 1) {
+      this.store.dispatch( new UpdateSignupData({ payment_type: this.paymentMethod }));
+    }
+
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,

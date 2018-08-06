@@ -141,8 +141,8 @@
                       <div class="row row-xs">
                         <div class="col-8">
                           <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="pay-monthly"
-                                   name="[]" type="radio" checked [disabled]="btcCurrency.checked" #paymentMonthly/>
+                            <input class="d-none fancy-field-control" id="pay-monthly"  #paymentMonthly 
+                                   name="payment_type" value="monthly" type="radio" checked [disabled]="btcCurrency.checked"[(ngModel)]="paymentMethod"/>
                             <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
                           </div>
                         </div>
@@ -159,7 +159,7 @@
                         <div class="col-8">
                           <div class="fancy-field-group">
                             <input class="d-none fancy-field-control" id="pay-annullay"
-                                   name="[]" type="radio" [checked]="btcCurrency.checked"/>
+                                   name="payment_type" value="annually" type="radio" [checked]="btcCurrency.checked" [(ngModel)]="paymentMethod"/>
                             <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
                             <span class="badge">-25%</span>
                           </div>
