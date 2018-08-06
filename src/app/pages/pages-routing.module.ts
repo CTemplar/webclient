@@ -11,6 +11,7 @@ import { PagesPrivacyComponent } from './pages-privacy/pages-privacy.component';
 import { PagesSecurityComponent } from './pages-security/pages-security.component';
 import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
+import { PagesSupportComponent } from './pages-support/pages-support.component';
 
 const routes: Routes = [
   { path: 'about', component: PagesAboutComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'tor-onion', component: PagesTorOnionComponent },
   { path: 'privacy', component: PagesPrivacyComponent },
   { path: 'terms', component: PagesTermsComponent },
+  { path: 'support', component: PagesSupportComponent },
 ];
 
 @NgModule({
