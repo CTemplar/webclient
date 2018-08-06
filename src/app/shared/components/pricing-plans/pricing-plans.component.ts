@@ -25,6 +25,8 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   private billingInfoModalRef: NgbModalRef;
 
+  public selectedCurrency: string = 'USD';
+
   constructor(private sharedService: SharedService,
               private store: Store<any>,
               private router: Router,
@@ -57,6 +59,10 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigateByUrl('/create-account');
     }
+  }
+
+  changeCurrency(currency) {
+    this.selectedCurrency = currency;
   }
 
   private loadStripeScripts() {

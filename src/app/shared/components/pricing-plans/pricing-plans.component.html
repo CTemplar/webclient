@@ -114,11 +114,11 @@
                             <div ngbDropdown class="currency-select-dropdown" id="pay-currency">
                               <button class="dropdown-toggle" type="button" id="currencyDropdownMenuButton"
                                       ngbDropdownToggle>
-                                <strong>USD</strong>
+                                <strong>{{selectedCurrency}}</strong>
                               </button>
                               <div ngbDropdownMenu class="ext-center" aria-labelledby="currencyDropdownMenuButton">
-                                <a class="dropdown-item" >USD</a>
-                                <a class="dropdown-item" >Euro</a>
+                                <a class="dropdown-item" (click)="changeCurrency('USD')">USD</a>
+                                <a class="dropdown-item" (click)="changeCurrency('EUR')">EUR</a>
                               </div>
                             </div>
                           </div>
@@ -148,7 +148,7 @@
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>$8</strong>
+                            <strong>{{'8' | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
                         </div>
@@ -166,10 +166,10 @@
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>$6</strong>
+                            <strong>{{'6' | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
-                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; $72/yr</div>
+                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; {{'72' | currency:selectedCurrency}}/yr</div>
                         </div>
                       </div>
                     </li>
