@@ -9,11 +9,12 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 // Service
 import { UsersService } from '../../store/services';
 // Custom Actions
 import {
+  AccountDetailsGet,
   AuthActionTypes,
   CheckUsernameAvailability, CheckUsernameAvailabilitySuccess,
   LogIn,
@@ -26,7 +27,7 @@ import {
   SignUp,
   SignUpFailure,
   SignUpSuccess,
-  SnackErrorPush
+  SnackErrorPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
 } from '../actions';
 
 
@@ -134,6 +135,21 @@ export class AuthEffects {
           map((user) => new LogInSuccess(user)),
           catchError((error) => [new ResetPasswordFailure(error),
             new SnackErrorPush({ message: 'Failed to reset password, please try again.' })])
+        );
+    });
+
+  @Effect()
+  UpgradeAccount: Observable<any> = this.actions
+    .ofType(AuthActionTypes.UPGRADE_ACCOUNT)
+    .map((action: UpgradeAccount) => action.payload)
+    .switchMap(payload => {
+      return this.authService.upgradeAccount(payload)
+        .pipe(
+          switchMap((res) => {
+            return [new UpgradeAccountSuccess(res), new AccountDetailsGet()];
+          }),
+          catchError((error) => [new UpgradeAccountFailure(error),
+            new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })])
         );
     });
 }

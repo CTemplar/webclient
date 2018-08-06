@@ -98,6 +98,27 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         inProgress: false
       };
     }
+    case AuthActionTypes.UPGRADE_ACCOUNT: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT_SUCCESS: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: false
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT_FAILURE: {
+      return {
+        ...state,
+        errorMessage: 'Failed to upgrade account. Please try again.',
+        inProgress: false
+      };
+    }
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }

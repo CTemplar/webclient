@@ -1,8 +1,10 @@
 // Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UsersBillingInfoComponent } from './components/users-billing-info/users-billing-info.component';
 import { SpinnerComponent } from './spinner/components/spinner.component';
 import { SpinnerService } from './spinner/services/spinner.service';
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
@@ -23,6 +25,8 @@ import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule,
     TagInputModule,
     MatIconModule,
@@ -38,6 +42,7 @@ import { RemainingTimePipe } from './pipes/remaining-time.pipe';
     FilenamePipe,
     MatIconComponent,
     PricingPlansComponent,
+    UsersBillingInfoComponent,
     FilesizePipe,
     RemainingTimePipe,
   ],
@@ -55,6 +60,7 @@ import { RemainingTimePipe } from './pipes/remaining-time.pipe';
     MatIconModule,
     MatIconComponent,
     PricingPlansComponent,
+    UsersBillingInfoComponent,
     FilesizePipe,
     RemainingTimePipe,
   ],

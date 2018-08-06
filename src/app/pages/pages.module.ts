@@ -19,6 +19,7 @@ import { PagesPrivacyComponent } from './pages-privacy/pages-privacy.component';
 import { PagesSecurityComponent } from './pages-security/pages-security.component';
 import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
+import { PagesSupportComponent } from './pages-support/pages-support.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.compon
     PagesMediaKitComponent,
     PagesTorOnionComponent,
     PagesPrivacyComponent,
-    PagesTermsComponent
+    PagesTermsComponent,
+    PagesSupportComponent
   ]
 })
 export class PagesModule { }
