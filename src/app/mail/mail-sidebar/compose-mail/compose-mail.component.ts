@@ -4,8 +4,8 @@ import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap
 import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import * as QuillNamespace from 'quill';
 import * as Parchment from 'parchment';
+import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
@@ -54,8 +54,8 @@ class ImageBlot extends BlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
-    if (value.hash) {
-      node.setAttribute('data-content-id', value.hash);
+    if (value.contentId) {
+      node.setAttribute('data-content-id', value.contentId);
     }
     return node;
   }
@@ -141,6 +141,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
+  private inlineAttachmentIds: Array<number> = [];
   private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
@@ -308,14 +309,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onImagesSelected(files: FileList) {
+    if (!this.draftMail || !this.draftMail.id) {
+      this.updateEmail();
+    }
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
       if (/^image\//.test(file.type)) {
-        const fileReader = new FileReader();
-        fileReader.onload = (event: any) => {
-          this.embedImageInQuill(event.target.result);
-        };
-        fileReader.readAsDataURL(file);
+        this.uploadAttachment(file, true);
       } else {
         // TODO: add error notification here
       }
@@ -328,28 +328,39 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     for (let i = 0; i < files.length; i++) {
       const file: File = files.item(i);
-      const attachment: Attachment = {
-        draftId: this.draftId,
-        document: file,
-        name: file.name,
-        size: this.filesizePipe.transform(file.size),
-        attachmentId: performance.now(),
-        message: this.draftMail.id,
-        isInline: false,
-        inProgress: false
-      };
-      this.attachments.push(attachment);
-      if (!this.draftMail.id) {
-        this.attachmentsQueue.push(attachment);
-      } else {
-        this.store.dispatch(new UploadAttachment({ ...attachment }));
-      }
+      this.uploadAttachment(file, false);
+    }
+  }
+
+  uploadAttachment(file: File, isInline = false) {
+    const attachment: Attachment = {
+      draftId: this.draftId,
+      document: file,
+      name: file.name,
+      size: this.filesizePipe.transform(file.size),
+      attachmentId: performance.now(),
+      message: this.draftMail.id,
+      isInline: isInline,
+      inProgress: false
+    };
+    this.attachments.push(attachment);
+    if (!this.draftMail.id) {
+      this.attachmentsQueue.push(attachment);
+    } else {
+      this.store.dispatch(new UploadAttachment({ ...attachment }));
     }
   }
 
   handleAttachment(draft: Draft) {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
+    this.attachments.forEach(attachment => {
+      if (attachment.isInline && attachment.progress === 100 && attachment.id && !this.inlineAttachmentIds.includes(attachment.id)) {
+        this.inlineAttachmentIds.push(attachment.id);
+        attachment.document = `https://api.ctemplar.com${attachment.document}`;
+        this.embedImageInQuill(attachment.document, attachment.contentId);
+      }
+    });
   }
 
   onAttachImageURL(url: string) {
@@ -552,11 +563,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
-  private embedImageInQuill(value: string) {
-    if (value) {
+  private embedImageInQuill(url: string, contentId?: string) {
+    if (url) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
-      this.quill.insertEmbed(index, 'image', value);
+      this.quill.insertEmbed(index, 'image', {
+        url: url,
+        contentId: contentId
+      });
       this.quill.setSelection(index + 1);
     }
   }
