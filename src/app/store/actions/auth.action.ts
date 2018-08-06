@@ -17,7 +17,10 @@ export enum AuthActionTypes {
   RECOVER_PASSWORD_SUCCESS = '[Auth] Recover Password Success',
   RESET_PASSWORD = '[Auth] Reset Password',
   RESET_PASSWORD_SUCCESS = '[Auth] Reset Password Success',
-  RESET_PASSWORD_FAILURE = '[Auth] Reset Password Failure'
+  RESET_PASSWORD_FAILURE = '[Auth] Reset Password Failure',
+  UPGRADE_ACCOUNT = '[Auth] Upgrade Account',
+  UPGRADE_ACCOUNT_SUCCESS = '[Auth] Upgrade Account Success',
+  UPGRADE_ACCOUNT_FAILURE = '[Auth] Upgrade Account Failure'
 }
 
 export class LogIn implements Action {
@@ -117,6 +120,27 @@ export class ResetPasswordFailure {
   }
 }
 
+export class UpgradeAccount {
+  readonly type = AuthActionTypes.UPGRADE_ACCOUNT;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpgradeAccountSuccess {
+  readonly type = AuthActionTypes.UPGRADE_ACCOUNT_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpgradeAccountFailure {
+  readonly type = AuthActionTypes.UPGRADE_ACCOUNT_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type AuthActionAll =
   | LogIn
   | LogInSuccess
@@ -133,4 +157,7 @@ export type AuthActionAll =
   | RecoverPasswordSuccess
   | ResetPassword
   | ResetPasswordSuccess
-  | ResetPasswordFailure;
+  | ResetPasswordFailure
+  | UpgradeAccount
+  | UpgradeAccountSuccess
+  | UpgradeAccountFailure;

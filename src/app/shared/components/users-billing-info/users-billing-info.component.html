@@ -168,17 +168,20 @@
               </div>
 
               <div *ngIf="stripePaymentValidation.message" class="l-alert l-alert-danger">{{stripePaymentValidation.message}}</div>
+              <div *ngIf="errorMessage" class="l-alert l-alert-danger">{{errorMessage}}</div>
 
               <div class="form-group text-center mt-3 mt-sm-4 mb-0">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                          [disabled]="signupInProgress"
-                          (click)="submitForm()"><span translate="login.create_account">Create Account</span>
+                          [disabled]="inProgress"
+                          (click)="submitForm()">
+                    <span *ngIf="!isUpgradeAccount" translate="login.create_account">Create Account</span>
+                    <span *ngIf="isUpgradeAccount" translate="common.upgrade_account">Upgrade Account</span>
                   </button>
-                  <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
+                  <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
               </div>
 
               <div class="text-holder mt-2 text-center">
-                <a href="" translate="common.cancel">Cancel</a>
+                <a href="" translate="common.cancel" (click)="onCancel($event)">Cancel</a>
               </div>
             </div>
           </form>
