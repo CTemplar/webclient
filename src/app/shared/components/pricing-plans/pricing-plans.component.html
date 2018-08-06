@@ -104,14 +104,51 @@
                       <div class="row row-xs">
                         <div class="col-8">
                           <div class="fancy-field-group">
+                            <input class="d-none fancy-field-control" id="currency"
+                                    name="currency" type="radio" checked/>
+                            <label for="currency">Currency</label>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">
+                            <div ngbDropdown class="currency-select-dropdown" id="pay-currency">
+                              <button class="dropdown-toggle" type="button" id="currencyDropdownMenuButton"
+                                      ngbDropdownToggle>
+                                <strong>{{selectedCurrency}}</strong>
+                              </button>
+                              <div ngbDropdownMenu class="ext-center" aria-labelledby="currencyDropdownMenuButton">
+                                <a class="dropdown-item" (click)="changeCurrency('USD')">USD</a>
+                                <a class="dropdown-item" (click)="changeCurrency('EUR')">EUR</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-12">
+                          <div class="fancy-field-group">
+                            <input class="d-none fancy-field-control" id="btc-currency"
+                                    name="currency" type="radio" #btcCurrency/>
+                            <label for="btc-currency">BTC Currency</label>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group">
                             <input class="d-none fancy-field-control" id="pay-monthly"
-                                   name="[]" type="radio" checked/>
+                                   name="[]" type="radio" checked [disabled]="btcCurrency.checked"/>
                             <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
                           </div>
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>$8</strong>
+                            <strong>{{'8' | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
                         </div>
@@ -122,43 +159,21 @@
                         <div class="col-8">
                           <div class="fancy-field-group">
                             <input class="d-none fancy-field-control" id="pay-annullay"
-                                   name="[]" type="radio"/>
+                                   name="[]" type="radio" [checked]="btcCurrency.checked"/>
                             <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
                             <span class="badge">-25%</span>
                           </div>
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>$6</strong>
+                            <strong>{{'6' | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
-                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; $72/yr</div>
+                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; {{'72' | currency:selectedCurrency}}/yr</div>
                         </div>
                       </div>
                     </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <label for="pay-currency">Currency</label>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">
-                            <div ngbDropdown class="currency-select-dropdown" id="pay-currency">
-                              <button class="dropdown-toggle" type="button" id="currencyDropdownMenuButton"
-                                      ngbDropdownToggle>
-                                <strong>USD</strong>
-                              </button>
-                              <div ngbDropdownMenu class="ext-center" aria-labelledby="currencyDropdownMenuButton">
-                                <a class="dropdown-item" >USD</a>
-                                <a class="dropdown-item" >Euro</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
+                  
                   </ul>
                 </div>
                 <div class="package-actions text-center">
