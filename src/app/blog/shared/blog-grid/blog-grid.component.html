@@ -14,13 +14,15 @@
                         <img alt="News thumbnail" class="img news-img" (load)="post.isLoaded = true" [hidden]="!post.isLoaded" src="{{ post.image_card }}"/>
                     </figure>
                     <h4 class="news-card-title">{{post.name}}</h4>
-                    <p [innerHTML]="post.excerpt"></p>
+                    <p>{{post.text}}</p>
                 </div>
                 <footer class="news-card-footer">
                     <ul class="news-meta-list">
-                        <li>Posted on {{post.date}}</li>
-                        <li>
-                            <u>{{post.comments}} comments</u>
+                        <li class="text-left">Posted on {{post.date}}</li>
+
+                        <!-- WILL BE USED LATER -->
+                        <li *ngIf="false">
+                            <u>{{post.comments_count}} comments</u>
                         </li>
                     </ul>
                 </footer>

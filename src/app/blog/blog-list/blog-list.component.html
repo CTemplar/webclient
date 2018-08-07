@@ -22,7 +22,9 @@
             <div class="row">
                 <!-- BLOG FIRST POST WITH FULL WIDTH -->
                 <article class="col-12 mb-4 mb-sm-5 first-post">
-                    <a routerLink="/blog/{{ firstPost.slug }}/" class="d-block news-card-holder mb-4">
+
+                    <!-- WILL BE USED LATER -->
+                    <a routerLink="/blog/{{ firstPost.slug }}/" class="d-block news-card-holder mb-4" *ngIf="false">
                         <div class="news-card news-card-full px-lg position-relative">
                             <div class="row">
                                 <div class="col-md-6">
@@ -34,8 +36,8 @@
                                              (load)="firstPost.isLoaded = true" [hidden]="!firstPost.isLoaded"
                                              src="{{ firstPost.image_card }}"/>
                                         <span class="badge badge-sm badge-info text-uppercase">
-                      <strong>ARTICLE</strong>
-                    </span>
+                                            <strong>ARTICLE</strong>
+                                        </span>
                                     </figure>
                                 </div>
                                 <div class="col-md-6">
