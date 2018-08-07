@@ -11,9 +11,9 @@ export class BlogGridComponent implements OnInit {
   posts: Post[] = [
     {
      id: 1,
-     category: 0,
+     category: 1,
      comments_count: 10,
-     date: 'June 21, 2018',
+     date: 'August 08, 2018',
      name: 'Why Everyone Needs CTemplar?',
      slug: 'why-everyone-needs-ctemplar',
      image_card: 'assets/images/blog/why-everyone-needs-ctemplar.jpg',
@@ -27,9 +27,9 @@ export class BlogGridComponent implements OnInit {
     },
     {
       id: 2,
-      category: 0,
+      category: 1,
       comments_count: 8,
-      date: 'July 20, 2018',
+      date: 'August 08, 2018',
       name: 'CTemplar\'s 4 Wall Protection',
       slug: 'ctemplar-4-wall-protection',
       image_card: 'assets/images/blog/ctemplar-4-wall-protection.jpg',
@@ -45,7 +45,7 @@ export class BlogGridComponent implements OnInit {
       id: 3,
       category: 1,
       comments_count: 14,
-      date: 'August 1, 2018',
+      date: 'August 08, 2018',
       name: 'CTemplar vs Protonmail',
       slug: 'ctemplar-vs-protonmail',
       image_card: 'assets/images/blog/ctemplar-vs-proton-mail.jpg',
