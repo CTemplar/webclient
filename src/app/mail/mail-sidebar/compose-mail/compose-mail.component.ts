@@ -62,7 +62,7 @@ class ImageBlot extends BlockEmbed {
 
   static value(node) {
     return {
-      'data-content-id': node.getAttribute('data-content-id'),
+      contentId: node.getAttribute('data-content-id'),
       url: node.getAttribute('src')
     };
   }
