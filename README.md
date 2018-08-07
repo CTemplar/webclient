@@ -2,7 +2,7 @@
 
 Official Angular cross-platform client for the CTemplar secure email service.
 
-###Prerequisites
+## Prerequisites
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
@@ -41,7 +41,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 CTemplar uses [bcrypt.js](https://github.com/dcodeIO/bcrypt.js) and [OpenPGP.js](https://github.com/openpgpjs/openpgpjs) for hashing and encryption.
 
-###Hash Password
+### Hash Password
 
 CTemplar hashes every password before sending it to server for authentication or sign-up purposes.
 A unique salt is created from user's Username which is then used to hash the password using `bcrypt.hashSync(password, salt)` method.
@@ -81,12 +81,12 @@ CTemplar encrypts and decrypts contents of every email using user's public/priva
 
 ## Contribution
 
-This project is still in early phase so bug reports via Issues and Pull Requests are welcomed.
+This project is still in early phase so bug reports via Issues and Pull Requests are welcome.
 
-### Further help
+## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-#License
+## License
 
 Apache License 2.0
