@@ -118,7 +118,7 @@
             </div>
             <div class="mailbox-sidebar-footer-text hidden-in-sm">
                 <span translate="common.used_storage">Used storage</span>: {{(userState.settings?.used_storage * 1024) | filesize}} of {{userState.settings.allocated_storage}} MB</div>
-            <a href="" class="btn-link text-white hidden-in-sm">
+            <a routerLink="/mail/settings" class="btn-link text-white hidden-in-sm">
                 <small>
                     <u translate="common.upgrade_account">Upgrade account</u>
                 </small>
