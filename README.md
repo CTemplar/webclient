@@ -63,7 +63,7 @@ CTemplar encrypts and decrypts contents of every email using user's public/priva
   ```
   const options = {
       data: content,
-      publicKeys: openpgp.key.readArmored(publicKey).keys[0])
+      publicKeys: openpgp.key.readArmored(publicKey).keys
   };
   openpgp.encrypt(options);
   ```
