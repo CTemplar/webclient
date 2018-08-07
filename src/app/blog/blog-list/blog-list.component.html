@@ -24,7 +24,7 @@
                 <article class="col-12 mb-4 mb-sm-5 first-post">
 
                     <!-- WILL BE USED LATER -->
-                    <a routerLink="/blog/{{ firstPost.slug }}/" class="d-block news-card-holder mb-4" *ngIf="false">
+                    <a class="d-block news-card-holder mb-4">
                         <div class="news-card news-card-full px-lg position-relative">
                             <div class="row">
                                 <div class="col-md-6">
@@ -49,8 +49,8 @@
                                     </div>
                                     <footer class="news-card-footer">
                                         <ul class="news-meta-list">
-                                            <li>{{ firstPost.date }}</li>
-                                            <li>
+                                            <li class="text-left">{{ firstPost.date }}</li>
+                                            <li *ngIf="false">
                                                 <u>{{ firstPost.comments_count }} comments</u>
                                             </li>
                                         </ul>

@@ -30,7 +30,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     id: 1,
     category: 0,
     comments_count: 7,
-    date: 'June 21, 2018',
+    date: 'August 08, 2018',
     name: 'CTemplar now includes Bitcoin support! You can now get secure email anonymously.',
     slug: 'ctemplar-now-includes-bitcoin-support',
     image_card: 'assets/images/blog/blog-banner.jpg',
