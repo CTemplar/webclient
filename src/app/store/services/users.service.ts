@@ -2,50 +2,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 // Helpers
 import { apiUrl } from '../../shared/config';
-
 // Models
-import { User } from '../models';
-
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { OpenPgpService } from './openpgp.service';
+import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
-
-
-declare var openpgp;
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-  options: any;
-  encrypted: any;
-  pubkey: any;
-  privkey: any;
-  passphrase: any;
-  privKeyObj: any;
+  private token: string | null;
+  private userKey: string;
 
   constructor(
     private http: HttpClient,
-    // private mailService: MailService,
-    // private sharedService: SharedService,
     private router: Router,
-    private openPgpService: OpenPgpService,
     private store: Store<AppState>,
   ) {
-    if (this.getToken()) {
+    if (this.getToken() && this.getUserKey() && !this.isTokenExpired()) {
       this.store.dispatch(new LogInSuccess({ token: this.getToken() }));
     }
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + 7 * (1000 * 60 * 60 * 24);
+    const expiration = new Date().getTime() + (1000 * 60 * 60 * 3);  // set 3 hours expiration token time.
     sessionStorage.setItem('token_expiration', expiration.toString());
   }
 
@@ -60,32 +45,48 @@ export class UsersService {
     );
   }
 
-  signedIn() {
-    const token_active =
-      +sessionStorage.getItem('token_expiration') > new Date().getTime();
-    if (!!sessionStorage.getItem('token') && token_active) {
-      return true;
-    } else {
-      return false;
-    }
+  isTokenExpired() {
+    return +sessionStorage.getItem('token_expiration') < new Date().getTime();
   }
 
   signIn(body): Observable<any> {
+    const requestData = { ...body };
+    requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
-    return this.http.post<any>(url, body).pipe(
+    return this.http.post<any>(url, requestData).pipe(
       tap(data => {
         this.setLoginData(data, body);
       })
     );
   }
 
+  private hashPassword(requestData: any): string {
+    const salt = this.createSalt('$2a$10$', requestData.username);
+    return bcrypt.hashSync(requestData.password, salt);
+  }
+
+  private createSalt(salt, username) {
+    username = username.replace(/[^a-zA-Z ]/g, '');
+    username = username ? username : 'test';
+    if (salt.length < 29) {
+      return this.createSalt(salt + username, username);
+    } else {
+      return salt.substr(0, 29);
+    }
+  }
+
   private setLoginData(tokenResponse: any, requestData) {
+    this.token = tokenResponse.token;
+    this.userKey = btoa(requestData.password);
     sessionStorage.setItem('token', tokenResponse.token);
-    sessionStorage.setItem('user_key', btoa(requestData.password));
     this.setTokenExpiration();
+    if (requestData.rememberMe) {
+      sessionStorage.setItem('user_key', this.userKey);
+    }
   }
 
   signOut() {
+    this.userKey = this.token = null;
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('token_expiration');
     sessionStorage.removeItem('user_key');
@@ -93,9 +94,25 @@ export class UsersService {
   }
 
   signUp(user): Observable<any> {
-    return this.http.post<any>(`${apiUrl}auth/sign-up/`, user).pipe(
+    const requestData = { ...user };
+    requestData.password = this.hashPassword(requestData);
+    return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
       tap(data => {
         this.setLoginData(data, user);
+      })
+    );
+  }
+
+  recoverPassword(data): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/recover/`, data);
+  }
+
+  resetPassword(data): Observable<any> {
+    const requestData = { ...data };
+    requestData.password = this.hashPassword(requestData);
+    return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
+      tap(res => {
+        this.setLoginData(res, data);
       })
     );
   }
@@ -107,7 +124,11 @@ export class UsersService {
   }
 
   getToken(): string {
-    return sessionStorage.getItem('token');
+    return this.token || sessionStorage.getItem('token');
+  }
+
+  getUserKey(): string {
+    return this.userKey || sessionStorage.getItem('user_key');
   }
 
   getNecessaryTokenUrl(url) {
@@ -123,6 +144,7 @@ export class UsersService {
       'users/settings',
       'emails/attachments',
       'emails/keys',
+      'auth/upgrade'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -206,6 +228,10 @@ export class UsersService {
 
   checkUsernameAvailability(username): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/check-username/`, { username });
+  }
+
+  upgradeAccount(data) {
+    return this.http.post<any>(`${apiUrl}auth/upgrade/`, data);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

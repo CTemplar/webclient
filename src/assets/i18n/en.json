@@ -55,7 +55,7 @@
     "billing_cycle_end": "Billing Cycle End",
     "payment": "Payment",
     "account_type": "Account Type",
-    "free_plan_tip": "Free plan available only for 250 MB Storage.",
+    "free_plan_tip": "Free plan available only for 512 MB Storage.",
     "clear_storage": "Clear Storage",
     "prime": "Prime",
     "free": "Free",
@@ -122,6 +122,7 @@
     "inbox": "Inbox",
     "draft": "Draft",
     "sent": "Sent",
+    "outbox": "Outbox",
     "starred": "Starred",
     "archive": "Archive",
     "spam": "Spam",
@@ -227,7 +228,8 @@
     "user_login": "User Login",
     "password_required": "The password is required.",
     "reset_password": "Reset Password",
-    "create_account": "Create Account"
+    "create_account": "Create Account",
+    "remember_me": "Remember me on this computer"
   },
   "create_account": {
     "name": "Create your account",

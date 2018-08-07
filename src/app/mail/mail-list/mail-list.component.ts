@@ -3,6 +3,8 @@ import { MailFolderType } from '../../store/models';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ActivatedRoute } from '@angular/router';
+import { AppState, MailBoxesState } from '../../store/datatypes';
+import { Store } from '@ngrx/store';
 
 @TakeUntilDestroy()
 @Component({
@@ -15,13 +17,20 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   mailFolder: MailFolderType = MailFolderType.INBOX;
   mailFolderTypes = MailFolderType;
+  customFolders: string[] = [];
 
-  constructor(public route: ActivatedRoute) {
+  constructor(public route: ActivatedRoute,
+              private store: Store<AppState>) {
   }
 
   ngOnInit() {
     this.route.params.takeUntil(this.destroyed$).subscribe(params => {
       this.mailFolder = params['folder'] as MailFolderType;
+    });
+
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    .subscribe((mailboxes: MailBoxesState) => {
+      this.customFolders = mailboxes.customFolders;
     });
   }
 

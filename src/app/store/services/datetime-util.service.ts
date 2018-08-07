@@ -8,13 +8,13 @@ export class DateTimeUtilService {
   readonly ISO8601_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 
   createDateTimeStrFromNgbDateTimeStruct(date: NgbDateStruct, time: NgbTimeStruct): string {
-    return moment([date.year, date.month, date.day, time.hour, time.minute, time.second])
+    return moment([date.year, date.month - 1, date.day, time.hour, time.minute, time.second])
       .utc()
       .format(this.ISO8601_DATETIME_FORMAT);
   }
 
   createDateTimeFromNgbDateTimeStruct(date: NgbDateStruct, time: NgbTimeStruct): moment.Moment {
-    return moment([date.year, date.month, date.day, time.hour, time.minute, time.second]).utc();
+    return moment([date.year, date.month - 1, date.day, time.hour, time.minute, time.second]).utc();
   }
 
   getNgbDateTimeStructsFromDateTimeStr(dateTimeStr: string): {date: NgbDateStruct, time: NgbTimeStruct} {
@@ -36,6 +36,10 @@ export class DateTimeUtilService {
     else {
       return {date: null, time: null};
     }
+  }
+
+  isDateTimeInPast(dateTimeStr: string): boolean {
+    return moment().diff(moment(dateTimeStr)) >= 0;
   }
 
 }

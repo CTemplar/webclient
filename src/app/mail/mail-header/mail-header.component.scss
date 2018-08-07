@@ -44,7 +44,7 @@
       top: 15px;
     }
 
-    .mailbox-actions-menu .dropdown-toggle {
+    .mailbox-actions-menu .dropdown .dropdown-toggle {
       display: block;
       margin-top: -.05rem;
       padding: 0 1rem 0 0;
@@ -118,30 +118,52 @@
 
       @include media(">sm") {
         padding: 0.438rem 0.813rem;
-        background: $brand-faded;
+        background: $brand-white;
         border: 1px solid $dropdown-border-color;
         color: $brand-light-gray;
         font-size: 1.25rem;
       }
     }
 
-    &.is-active > a {
-      color: $brand-secondary;
+    .dropdown{
+      background: $brand-white;
     }
+
+    a {
+      transition: unset;
+    }
+
+    a:hover,
+    .dropdown-toggle:hover {
+      background: $brand-faded;
+      // TODO: add scss variables files in refactor
+      color: #8a9095;
+      border-color: #8a9095;
+      border-right-color: #8a9095 !important;
+    }
+
+    a:active,
+    .dropdown-toggle:active {
+      color: $brand-white;
+      // TODO: add scss variables files in refactor
+      background: #8a9095;
+      border-color: #8a9095;
+    }
+
+    .border-right-no-color {
+      border-right-color: transparent;
+    }    
+
   }
 
   .dropdown-toggle {
     padding-top: 0.938rem;
     padding-bottom: 0.938rem;
-    background: $brand-faded;
     color: $brand-light-gray;
     font-size: 0.875rem;
     height: 3rem;
     width: 4.625rem;
-
-    &::before {
-      //margin-top: 0rem;
-    }
+    border-radius: 0;
   }
 
   .show.lang-dropdown .dropdown-toggle {
@@ -170,7 +192,7 @@
 .search-form {
   .form-control {
     padding-right: 3.438rem + 0.938rem;
-
+    height: 32px;
     @include media("<ipad", ">sm") {
       margin-top: -1px;
       padding: 0.875rem 3.438rem + 0.938rem 0.875rem 0.938rem;

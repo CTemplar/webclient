@@ -4,6 +4,7 @@ import { Params } from '@angular/router';
 // Ngrx
 // Models
 import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox, Attachment, MailFolderType } from '../store/models';
+import { SearchState } from './reducers/search.reducers';
 
 export interface RouterStateUrl {
   url: string;
@@ -29,6 +30,10 @@ export interface SignupState {
   recovery_email?: string;
   usernameExists?: boolean;
   inProgress?: boolean;
+  recaptcha: string;
+  public_key?: string;
+  private_key?: string;
+  fingerprint?: string;
 }
 
 export interface UserState {
@@ -79,13 +84,47 @@ export interface MailState {
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;
+  loaded?: boolean;
+  inProgress?: boolean;
+  decryptedContents: DecryptedContentState;
+}
+
+export interface DecryptedContent {
+  id: number;
+  content: string;
+  inProgress: boolean;
+}
+
+export interface DecryptedContentState {
+  [key: number]: DecryptedContent;
+}
+
+export interface Draft {
+  id: number;
   draft: Mail;
   inProgress?: boolean;
-  loaded?: boolean;
   encryptedContent?: string;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
   attachments: Attachment[];
+  shouldSend?: boolean;
+  shouldSave?: boolean;
+  getUserKeyInProgress?: boolean;
+  usersKeys?: PublicKey[];
+
+  /**
+   * @var isClosed
+   * @description It represents if the compose mail editor has been closed or not.
+   */
+  isClosed?: boolean;
+}
+
+export interface DraftState {
+  [key: number]: Draft;
+}
+
+export interface ComposeMailState {
+  drafts: DraftState;
 }
 
 export interface MailBoxesState {
@@ -95,8 +134,6 @@ export interface MailBoxesState {
   decryptKeyInProgress: boolean;
   decryptedKey?: any;
   encryptionInProgress: boolean;
-  getUserKeyInProgress: boolean;
-  usersKeys: PublicKey[];
   inProgress?: boolean;
 }
 
@@ -152,6 +189,8 @@ export interface AppState {
   user: UserState;
   timezone: TimezonesState;
   bitcoin: BitcoinState;
+  composeMail: ComposeMailState;
+  search: SearchState;
 }
 
 export interface TimezonesState {
@@ -168,15 +207,24 @@ export interface BitcoinState {
   newWalletAddress: string;
   loaded: boolean;
   redeemCode: string;
-  pendingBalanceResponse: PendingBalanceResponse;
+  checkTransactionResponse: CheckTransactionResponse;
 }
 
-export interface PendingBalanceResponse {
+export interface CheckTransactionResponse {
+  address?: string;
   balance?: number;
   required_balance?: number;
   pending_balance?: number;
   paid_out?: number;
   confirmed?: boolean;
+  status: TransactionStatus;
+}
+
+export enum TransactionStatus {
+  WAITING = 'Waiting',
+  PENDING = 'Pending',
+  RECEIVED = 'Received',
+  SENT = 'Sent'
 }
 
 export enum PaymentMethod {

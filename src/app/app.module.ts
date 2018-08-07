@@ -53,6 +53,7 @@ import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
+import { ComposeMailService } from './store/services/compose-mail.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -100,6 +101,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BreakpointsService,
     TimezoneService,
     MailService,
+    ComposeMailService,
     DateTimeUtilService,
     {
       provide: HTTP_INTERCEPTORS,

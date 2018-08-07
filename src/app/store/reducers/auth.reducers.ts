@@ -8,7 +8,7 @@ export const initialState: AuthState = {
   user: null,
   errorMessage: null,
   inProgress: false,
-  signupState: { username: null, password: null }
+  signupState: { username: null, password: null, recaptcha: null }
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -82,6 +82,41 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         signupState: { ...state.signupState, usernameExists: action.payload.exists, inProgress: false },
+      };
+    }
+    case AuthActionTypes.RESET_PASSWORD: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true,
+      };
+    }
+    case AuthActionTypes.RESET_PASSWORD_FAILURE: {
+      return {
+        ...state,
+        errorMessage: 'Incorrect reset code or username.',
+        inProgress: false
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT_SUCCESS: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: false
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT_FAILURE: {
+      return {
+        ...state,
+        errorMessage: 'Failed to upgrade account. Please try again.',
+        inProgress: false
       };
     }
     case AuthActionTypes.LOGOUT: {

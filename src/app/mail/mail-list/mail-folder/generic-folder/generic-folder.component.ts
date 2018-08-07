@@ -1,11 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { AppState, MailState } from '../../../../store/datatypes';
-import { Mail, MailFolderType } from '../../../../store/models';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { AppState, MailBoxesState, MailState } from '../../../../store/datatypes';
+import { Mail, MailFolderType } from '../../../../store/models';
+import { SearchState } from '../../../../store/reducers/search.reducers';
+import { SharedService } from '../../../../store/services';
+import { ComposeMailService } from '../../../../store/services/compose-mail.service';
+import { CreateFolderComponent } from '../../../dialogs/create-folder/create-folder.component';
 
 @TakeUntilDestroy()
 @Component({
@@ -13,18 +18,25 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss']
 })
-export class GenericFolderComponent implements OnInit, OnDestroy {
+export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
   @Input() fetchMails: boolean;
+  customFolders: string[];
 
   mailFolderTypes = MailFolderType;
+  selectAll: boolean;
 
+  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
   constructor(public store: Store<AppState>,
-              private router: Router) {}
+              private router: Router,
+              private sharedService: SharedService,
+              private modalService: NgbModal,
+              private composeMailService: ComposeMailService) {
+  }
 
   ngOnInit() {
     this.store.dispatch(new SetCurrentFolder(this.mailFolder));
@@ -33,8 +45,45 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
       this.store.select(state => state.mail).takeUntil(this.destroyed$)
         .subscribe((mailState: MailState) => {
           this.showProgress = !mailState.loaded;
-          this.mails = mailState.mails;
+          this.mails = this.sharedService.sortByDate(mailState.mails, 'created_at');
         });
+    }
+
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailboxes: MailBoxesState) => {
+        this.customFolders = mailboxes.customFolders;
+      });
+
+    this.store.select(state => state.search).takeUntil(this.destroyed$)
+      .subscribe((searchState: SearchState) => {
+        // TODO: apply search
+      });
+
+    this.initializeAutoRefresh();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['mails'] && changes['mails'].currentValue) {
+      let sortField = 'created_at';
+      if (this.mailFolder === MailFolderType.SENT) {
+        sortField = 'sent_at';
+      }
+      this.mails = this.sharedService.sortByDate(changes['mails'].currentValue, sortField);
+    }
+  }
+
+  initializeAutoRefresh() {
+    Observable.timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
+      .subscribe(event => {
+        this.refresh();
+      });
+  }
+
+  refresh() {
+    if (this.mailFolder === MailFolderType.INBOX) {
+      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder, read: false }));
+    } else {
+      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
     }
   }
 
@@ -44,11 +93,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
         mail.marked = true;
         return mail;
       });
+      this.selectAll = true;
     } else {
       this.mails.map(mail => {
         mail.marked = false;
         return mail;
       });
+      this.selectAll = false;
     }
   }
 
@@ -71,6 +122,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
         new StarMail({ ids: mail.id.toString(), starred: true })
       );
     }
+    mail.starred = !mail.starred;
   }
 
   markAsStarred() {
@@ -95,8 +147,17 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   }
 
   openMail(mail: Mail) {
-    this.store.dispatch(new GetMailDetailSuccess(mail));
-    this.router.navigate(['/mail/message/', mail.id]);
+    if (this.mailFolder === MailFolderType.DRAFT) {
+      this.composeMailService.openComposeMailDialog({ draft: mail });
+    }
+    else {
+      this.store.dispatch(new GetMailDetailSuccess(mail));
+      this.router.navigate([`/mail/${this.mailFolder}/message/`, mail.id]);
+    }
+  }
+
+  openCreateFolderDialog() {
+    this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
   }
 
   /**
@@ -104,12 +165,62 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
    * @description Move mails to selected folder type
    * @param {MailFolderType} folder
    */
-  moveToFolder(folder: MailFolderType) {
+  moveToFolder(folder: string) {
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch move to selected folder event
-      this.store.dispatch(new MoveMail({ ids, folder: folder }));
+      this.store.dispatch(new MoveMail({
+        ids,
+        folder,
+        sourceFolder: this.mailFolder,
+        mail: this.getMarkedMails(),
+        allowUndo: folder === MailFolderType.TRASH
+      }));
     }
+  }
+
+  markReadMails() {
+    this.mails.map(mail => {
+      if (mail.read) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
+  }
+
+  markUneadMails() {
+    this.mails.map(mail => {
+      if (!mail.read) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
+  }
+
+  markStarredMails() {
+    this.mails.map(mail => {
+      if (mail.starred) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
+  }
+
+  markUnstarredMails() {
+    this.mails.map(mail => {
+      if (!mail.starred) {
+        mail.marked = true;
+      } else {
+        mail.marked = false;
+      }
+      return mail;
+    });
   }
 
   /**
@@ -118,8 +229,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
-    return this.mails.filter(mail => mail.marked).map(mail => mail.id).join(',');
+    return this.getMarkedMails().map(mail => mail.id).join(',');
   }
 
-  ngOnDestroy() {}
+  private getMarkedMails() {
+    return this.mails.filter(mail => mail.marked);
+  }
+
+  ngOnDestroy() {
+  }
 }

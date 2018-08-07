@@ -4,17 +4,17 @@
       <div class="mail-compose-field mail-compose-field-to">
         <span class="mail-label label-to">To:</span>
         <tag-input [(ngModel)]="mailData.receiver"
+                   *ngIf="isLoaded"
                    name="to"
-                   [placeholder]="'+'"
-                   [secondaryPlaceholder]="'Enter recipient email'"
+                   [placeholder]="' '"
+                   secondaryPlaceholder="Enter recipient email"
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
                    (onAdd)="valueChanged$.next(mailData.receiver)"
                    (onRemove)="valueChanged$.next(mailData.receiver)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [dynamicUpdate]="false"
-                              [focusFirstElement]="true"
+                              [appendToBody]="false"
                               [displayBy]="'email'"
                               [identifyBy]="'id'"
                               [autocompleteItems]="contacts">
@@ -33,17 +33,16 @@
       <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
         <span class="mail-label label-cc">Cc:</span>
         <tag-input [(ngModel)]="mailData.cc"
-                   name="to"
-                   [placeholder]="'+'"
-                   [secondaryPlaceholder]="'Enter Cc email'"
+                   name="cc"
+                   [placeholder]="' '"
+                   secondaryPlaceholder="Enter Cc email"
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
                    (onAdd)="valueChanged$.next(mailData.cc)"
                    (onRemove)="valueChanged$.next(mailData.cc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [dynamicUpdate]="false"
-                              [focusFirstElement]="true"
+                              [appendToBody]="false"
                               [displayBy]="'email'"
                               [identifyBy]="'id'"
                               [autocompleteItems]="contacts">
@@ -56,17 +55,16 @@
       <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
         <span class="mail-label label-bcc">Bcc:</span>
         <tag-input [(ngModel)]="mailData.bcc"
-                   name="to"
-                   [placeholder]="'+'"
-                   [secondaryPlaceholder]="'Enter Bcc email'"
+                   name="bcc"
+                   [placeholder]="' '"
+                   secondaryPlaceholder="Enter Bcc email"
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
                    (onAdd)="valueChanged$.next(mailData.bcc)"
                    (onRemove)="valueChanged$.next(mailData.bcc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [dynamicUpdate]="false"
-                              [focusFirstElement]="true"
+                              [appendToBody]="false"
                               [displayBy]="'email'"
                               [identifyBy]="'id'"
                               [autocompleteItems]="contacts">
@@ -102,20 +100,22 @@
                (change)="onFilesSelected($event.target.files)"
                style="display:none">
         <div class="attach-uploader-holder" *ngIf="attachments?.length>0">
-          <div class="attach-uploader" *ngFor="let file of attachments">
-            <div class="attach-name">
-              <div class="file-name">{{file.name}}</div>
-              <div class="attach-size">({{file.size}}) </div>
+          <ng-container *ngFor="let file of attachments">
+            <div class="attach-uploader" *ngIf="!file.isRemoved">
+              <div class="attach-name">
+                <div class="file-name">{{file.name}}</div>
+                <div class="attach-size" *ngIf="file.size">({{file.size}})</div>
+              </div>
+              <div class="progress" *ngIf="file.progress !== 100">
+                <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
+                     [attr.aria-valuenow]="file.progress" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <button type="button" role="button" (click)="removeAttachment(file)"
+                      class="attach-uploader-close" placement="top" ngbTooltip="Remove">
+                <i class="icon icon-cross"></i>
+              </button>
             </div>
-            <div class="progress" *ngIf="file.progress !== 100">
-              <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
-                   [attr.aria-valuenow]="file.progress" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <button type="button" role="button" (click)="removeAttachment(file)"
-                    class="attach-uploader-close" placement="top" ngbTooltip="Remove">
-              <i class="icon icon-cross"></i>
-            </button>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -125,43 +125,16 @@
   <div class="mail-composer-actions-row d-flex align-items-center">
     <div class="mail-composer-actions-col mail-composer-actions-col-lg">
       <ul class="mail-composer-actions d-flex align-items-center">
-        <li>
-          <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
-                  class="actions-btn mail-attach-btn" placement="top"
-                  ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
-        </li>
-        <li class="pr-0">
-          <button role="button" type="button" (click)="openEncryptionModal()"
-                  class="actions-btn mail-envelop-btn border-right-0 border-radius-r-0"
-                  placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
-        </li>
-        <li class="px-0">
-          <button role="button" type="button" (click)="openSelfDestructModal()"
-                  class="actions-btn mail-clock-btn border-right-0 border-radius-0"
-                  placement="top" ngbTooltip="Self-destructing timer"><i class="icon icon-clock"></i>
+        <li class="send-mail-item">
+          <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
+                  (click)="sendEmail()"
+                  [disabled]="inProgress"
+                  role="button"
+                  placement="top"
+                  ngbTooltip="{{inProgress ? 'Wait for the changes to save': 'Send Mail'}}">
+            <i class="hidden-sm-up icon icon-paper-plane"></i><span
+                  class="hidden-xs-down">Send</span>
           </button>
-        </li>
-        <li class="px-0">
-          <button role="button" type="button" (click)="addSignature()"
-                  class="actions-btn mail-sign-btn border-right-0 border-radius-0"
-                  placement="top" ngbTooltip="Signature"><i class="icon icon-sign"></i></button>
-        </li>
-        <li class="pl-0">
-          <button type="button" role="button" (click)="openDelayedDeliveryModal()"
-                  class="actions-btn mail-self-timer-btn border-radius-l-0"
-                  placement="top" ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i>
-          </button>
-        </li>
-        <li>
-          <button type="button" role="button" (click)="openDeadManTimerModal()"
-                  class="actions-btn mail-dead-btn border-radius-l-0"
-                  placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i>
-          </button>
-        </li>
-        <li>
-          <button role="button" type="button" (click)="toggleOSK()"
-                  class="actions-btn mail-keyboard-btn" placement="top"
-                  ngbTooltip="On-screen keyboard"><i class="icon icon-keyboard-show"></i></button>
         </li>
         <li>
           <div ngbDropdown [autoClose]="false" placement="top" class="dropdown">
@@ -236,7 +209,7 @@
                         <div class="typo-holder">
                           <ul class="typo-list list-styled">
                             <li>
-                              <button value="small"
+                              <button value="10px"
                                       class="ql-size typo-select-link is-small">
                                 Small
                               </button>
@@ -248,13 +221,13 @@
                               </button>
                             </li>
                             <li>
-                              <button value="large"
+                              <button value="18px"
                                       class="ql-size typo-select-link is-large">
                                 Large
                               </button>
                             </li>
                             <li>
-                              <button value="huge"
+                              <button value="32px"
                                       class="ql-size typo-select-link is-huge">
                                 Huge
                               </button>
@@ -390,6 +363,40 @@
             </div>
           </div>
         </li>
+        <li>
+          <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
+                  class="actions-btn mail-attach-btn" placement="top"
+                  ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
+        </li>
+        <li class="pr-0">
+          <button role="button" type="button" (click)="openEncryptionModal()"
+                  class="actions-btn mail-envelop-btn border-radius-r-0"
+                  placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
+        </li>
+        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
+          <button role="button" type="button" (click)="openSelfDestructModal()"
+                  class="actions-btn mail-clock-btn border-left-0 border-radius-0"
+                  [ngClass]="{'badge badge-warning text-white': selfDestruct.value}"
+                  placement="top" ngbTooltip="Self-destructing timer" [disabled]="!userState.isPrime"><i
+                  class="icon icon-clock"></i>
+          </button>
+        </li>
+        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
+          <button type="button" role="button" (click)="openDelayedDeliveryModal()"
+                  class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
+                  [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
+                  placement="top" ngbTooltip="Delayed delivery" [disabled]="!userState.isPrime"><i
+                  class="icon icon-self-timer"></i>
+          </button>
+        </li>
+        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
+          <button type="button" role="button" (click)="openDeadManTimerModal()"
+                  class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
+                  [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
+                  placement="top" ngbTooltip="Dead Man's timer" [disabled]="!userState.isPrime"><i
+                  class="icon icon-dead"></i>
+          </button>
+        </li>
       </ul>
     </div>
     <div class="mail-composer-actions-col mail-composer-actions-col-sm">
@@ -400,6 +407,7 @@
         <li class="pr-0">
           <button role="button"
                   (click)="saveInDrafts()"
+                  [disabled]="inProgress"
                   class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
                   placement="top" ngbTooltip="Save to drafts"><i class="icon icon-save-disk"></i>
           </button>
@@ -407,18 +415,9 @@
         <li class="pl-0">
           <button role="button"
                   (click)="discardEmail()"
+                  [disabled]="inProgress"
                   class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                   ngbTooltip="Delete draft"><i class="icon icon-garbage"></i></button>
-        </li>
-        <li class="send-mail-item">
-          <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
-                  (click)="sendEmail()"
-                  [disabled]="inProgress"
-                  role="button"
-                  placement="top"
-                  ngbTooltip="{{inProgress ? 'Wait for the changes to save': 'Send Mail'}}">
-            <i class="hidden-sm-up icon icon-paper-plane"></i><span
-                  class="hidden-xs-down">Send</span></button>
         </li>
       </ul>
     </div>
@@ -478,6 +477,9 @@
         <label class="form-inline">Select Time</label>
         <ngb-timepicker [(ngModel)]="selfDestruct.time"></ngb-timepicker>
       </div>
+      <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">
+        {{selfDestruct.error}}
+      </div>
       <div class="form-group text-center btns-xs-3 mb-0">
         <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm" role="button">
           Confirm
@@ -514,6 +516,9 @@
         <label class="form-inline">Select Time</label>
         <ngb-timepicker [(ngModel)]="delayedDelivery.time"></ngb-timepicker>
       </div>
+      <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">
+        {{delayedDelivery.error}}
+      </div>
       <div class="form-group text-center btns-xs-3 mb-0">
         <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm" role="button">
           Confirm
@@ -538,7 +543,9 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
-        If you do not log into your account after this set time, the email will be sent
+        Email will be sent when timer expires. Logging into
+        your account resets the timer. This email can be
+        watched in the "Outbox" page.
       </div>
       <form (submit)="setDeadManTimerValue()">
         <div class="form-group">

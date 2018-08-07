@@ -35,7 +35,8 @@
       </div>
     </div>
 
-    <app-compose-mail [hidden]="!isComposeVisible" #composeMail (hide)="onHide()"
+    <app-compose-mail *ngIf="isComposeVisible" #composeMail [receivers]="receivers" [draftMail]="draft"
+                      (hide)="onHide()"
                       [ngClass]="{'d-none': isMinimized}"></app-compose-mail>
 
   </div>

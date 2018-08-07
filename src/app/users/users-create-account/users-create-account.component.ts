@@ -14,9 +14,8 @@ import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateS
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
-import { debounceTime } from 'rxjs/operators';
-
-declare var openpgp;
+import { debounceTime, tap } from 'rxjs/operators';
+import { apiUrl } from '../../shared/config';
 
 export class PasswordValidation {
 
@@ -53,6 +52,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   signupInProgress: boolean = false;
   signupState: SignupState;
   submitted = false;
+  userKeys: any = {};
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -60,7 +60,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
               private store: Store<AppState>,
               private openPgpService: OpenPgpService,
               private sharedService: SharedService,
-              private notificationService: NotificationService) {}
+              private notificationService: NotificationService) {
+  }
 
   ngOnInit() {
     this.handleUserState();
@@ -121,16 +122,21 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     }
 
     this.isFormCompleted = true;
-    if (this.selectedPlan === 1) {
-      this.navigateToBillingPage();
-    }
+
+    const signupFormValue = this.signupForm.value;
+    this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password)
+      .then(data => {
+        this.userKeys = { ...data };
+      });
   }
 
   private navigateToBillingPage() {
     this.store.dispatch(new UpdateSignupData({
+      ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
-      password: this.signupForm.get('password').value
+      password: this.signupForm.get('password').value,
+      recaptcha: this.signupForm.value.captchaResponse
     }));
     this.router.navigateByUrl('/billing-info');
   }
@@ -141,7 +147,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signupFormCompleted() {
+    if (this.selectedPlan === 1 && this.signupForm.value.captchaResponse) {
+      this.navigateToBillingPage();
+      return;
+    }
     this.data = {
+      ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
@@ -168,7 +179,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   handleUsernameAvailability() {
     this.signupForm.get('username').valueChanges
       .pipe(
-        debounceTime(500),
+        debounceTime(500)
       )
       .subscribe((username) => {
         this.store.dispatch(new CheckUsernameAvailability(username));

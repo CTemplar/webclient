@@ -3,20 +3,14 @@ import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailState } from '../datatypes';
 
-export const initialState: MailState = {
-  mails: [],
-  mailDetail: null,
-  folders: new Map(),
-  inProgress: false,
-  loaded: false,
-  draft: null,
-  encryptedContent: null,
-  decryptedContent: null,
-  isPGPInProgress: false,
-  attachments: []
-};
-
-export function reducer(state = initialState, action: MailActions): MailState {
+export function reducer(
+  state: MailState = {
+    mails: [],
+    mailDetail: null,
+    folders: new Map(),
+    loaded: false,
+    decryptedContents: {}
+  }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
       const mails = state.folders.get(action.payload.folder);
@@ -28,25 +22,17 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
-      state.folders.set(action.payload.folder, action.payload.mails);
+      let mails = action.payload.mails;
+      if (action.payload.read === false || action.payload.read === true) {
+        const mailIDs = mails.map(item => item.id);
+        mails = state.mails.filter(item => mailIDs.indexOf(item.id) < 0);
+        mails = [...mails, ...action.payload.mails];
+      }
+      state.folders.set(action.payload.folder, mails);
       return {
         ...state,
-        mails: action.payload.mails,
+        mails,
         loaded: true,
-      };
-    }
-
-    case MailActionTypes.DELETE_MAIL:
-    case MailActionTypes.SEND_MAIL:
-    case MailActionTypes.CREATE_MAIL: {
-      return { ...state, inProgress: true };
-    }
-
-    case MailActionTypes.SEND_MAIL_SUCCESS: {
-      return {
-        ...state,
-        inProgress: false,
-        mails: (action.payload.folder === state.currentFolder) ? [...state.mails, action.payload] : state.mails,
       };
     }
 
@@ -57,9 +43,18 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
+      let mails = state.mails;
+      if (action.payload.sourceFolder === state.currentFolder) {
+        if (Array.isArray(action.payload.mail)) {
+          mails = [...state.mails, ...action.payload.mail];
+        }
+        else {
+          mails = [...state.mails, action.payload.mail];
+        }
+      }
       return {
         ...state,
-        mails: (action.payload.sourceFolder === state.currentFolder) ? [...state.mails, action.payload.mail] : state.mails,
+        mails: mails,
       };
     }
 
@@ -91,37 +86,6 @@ export function reducer(state = initialState, action: MailActions): MailState {
       return { ...state, inProgress: false };
     }
 
-    case MailActionTypes.CREATE_MAIL_SUCCESS: {
-      let newEntry: boolean = true;
-      state.mails.map((mail, index) => {
-        if (mail.id === action.payload.id) {
-          state.mails[index] = action.payload;
-          newEntry = false;
-        }
-      });
-      if (newEntry && state.currentFolder === action.payload.folder) {
-        state.mails = [...state.mails, action.payload];
-      }
-      return { ...state, inProgress: false, draft: action.payload };
-    }
-
-    case MailActionTypes.UPDATE_LOCAL_DRAFT: {
-      return { ...state, draft: action.payload, isPGPInProgress: true };
-    }
-
-    case MailActionTypes.UPDATE_PGP_CONTENT: {
-      return {
-        ...state,
-        isPGPInProgress: action.payload.isPGPInProgress,
-        encryptedContent: action.payload.encryptedContent,
-        decryptedContent: action.payload.decryptedContent
-      };
-    }
-
-    case MailActionTypes.CLOSE_MAILBOX: {
-      return { ...state, inProgress: false, draft: null };
-    }
-
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
       return {
         ...state,
@@ -137,76 +101,47 @@ export function reducer(state = initialState, action: MailActions): MailState {
     }
 
     case MailActionTypes.CLEAR_MAIL_DETAIL: {
+      delete state.decryptedContents[action.payload.id];
       return {
         ...state,
         mailDetail: null,
-        isPGPInProgress: false,
-        encryptedContent: null,
-        decryptedContent: null,
+        decryptedContents: { ...state.decryptedContents },
       };
-    }
-
-    case MailActionTypes.UPLOAD_ATTACHMENT: {
-      state.attachments = [...state.attachments, action.payload];
-      return {
-        ...state,
-      };
-    }
-
-    case MailActionTypes.UPLOAD_ATTACHMENT_PROGRESS: {
-      state.attachments.forEach((item, index) => {
-        if (item.attachmentId === action.payload.attachmentId) {
-          state.attachments[index].progress = action.payload.progress;
-        }
-      });
-      return {
-        ...state
-      };
-    }
-
-    case MailActionTypes.UPLOAD_ATTACHMENT_REQUEST: {
-      state.attachments.forEach((item, index) => {
-        if (item.attachmentId === action.payload.attachmentId) {
-          state.attachments[index].request = action.payload.request;
-        }
-      });
-      return { ...state };
-    }
-
-    case MailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      state.attachments.forEach((item, index) => {
-        if (item.attachmentId === action.payload.data.attachmentId) {
-          if (item.hash === action.payload.response.hash) {
-            state.attachments[index].id = action.payload.response.id;
-            state.attachments[index].inProgress = false;
-            state.attachments[index].request = null;
-          }
-        }
-      });
-      return {
-        ...state
-      };
-    }
-
-    case MailActionTypes.DELETE_ATTACHMENT: {
-      const index = state.attachments.findIndex(attachment => attachment.attachmentId === action.payload.attachmentId);
-      if (index > -1 && !state.attachments[index].id) {
-        state.attachments[index].request.unsubscribe();
-        state.attachments.splice(index, 1);
-      }
-      return { ...state };
-    }
-
-    case MailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
-      const index = state.attachments.findIndex(attachment => attachment.id === action.payload.id);
-      if (index > -1) {
-        state.attachments.splice(index, 1);
-      }
-      return { ...state };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
       return { ...state, currentFolder: action.payload };
+    }
+
+    case MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT: {
+      if (!state.decryptedContents[action.payload.id]) {
+        state.decryptedContents[action.payload.id] = {
+          id: action.payload.id,
+          content: action.payload.decryptedContent,
+          inProgress: action.payload.isPGPInProgress
+        };
+      } else {
+        state.decryptedContents[action.payload.id] = {
+          ...state.decryptedContents[action.payload.id],
+          content: action.payload.decryptedContent,
+          inProgress: action.payload.isPGPInProgress
+        };
+      }
+      return { ...state, decryptedContents: { ...state.decryptedContents } };
+    }
+
+    case MailActionTypes.UPDATE_CURRENT_FOLDER: {
+      let newEntry: boolean = true;
+      state.mails.map((mail, index) => {
+        if (mail.id === action.payload.id) {
+          state.mails[index] = action.payload;
+          newEntry = false;
+        }
+      });
+      if (newEntry && state.currentFolder === action.payload.folder) {
+        state.mails = [...state.mails, action.payload];
+      }
+      return { ...state, mails: [...state.mails] };
     }
 
     default: {

@@ -15,7 +15,7 @@
                     <strong>ctemplar</strong>
                 </a>
             </figure>
-            <div class="prime-account-content">
+            <div class="prime-account-content" *ngIf="userState.isPrime">
                 <i class="icon icon-secure-shield"></i>
                 <span class="prime-account-text">Prime</span>
             </div>
@@ -23,7 +23,7 @@
 
         <div class="mail-compose-section hidden-xs-down">
             <button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon" role="button"
-                    (click)="showMailComposeModal();">
+                    (click)="openComposeMailDialog();">
                 <i class="icon icon-plus text-white hidden-md-up"></i>
                 <span class="mailbox-btn-text hidden-sm-down" translate="common.compose">Compose</span>
             </button>
@@ -32,74 +32,92 @@
         <nav class="mailbox-sidebar-navbar">
             <ul class="mailbox-sidebar-nav">
                 <li class="mailbox-sidebar-nav-item" routerLinkActive="active">
-                    <a routerLink="/mail/inbox/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/inbox" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
-                        <span class="badge badge-square hidden-sm-down">4</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="inboxUnreadCount>0">{{inboxUnreadCount}}</span>
                         <span class="badge badge-sm badge-square hidden-md-up">1234</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/draft" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="draftCount>0">{{draftCount}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/sent/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/sent" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-paper-plane"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.sent">Sent</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/starred/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/outbox" class="mailbox-sidebar-nav-link">
+                        <i class="icon icon-draft"></i>
+                        <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.outbox">Outbox</span>
+                    </a>
+                </li>
+                <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
+                    <a routerLink="/mail/starred" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-star"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.starred">Starred</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/archive/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/archive" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-archive"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.archive">Archive</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/spam/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/spam" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-warning"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.spam">Spam</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/trash/page/1" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/trash" class="mailbox-sidebar-nav-link">
                         <i class="icon icon-garbage"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.trash">Trash</span>
                     </a>
                 </li>
+
+                <!-- Custom Folder -->
                 <li class="divider-item"></li>
-                <li class="mailbox-sidebar-nav-item add-folder text-uppercase">
-                    <a href="javascript:void(0);" class="mailbox-sidebar-nav-link" (click)="open(content)"
-                       role="button">
+                <li class="mailbox-sidebar-nav-item">
+                    <a class="mailbox-sidebar-nav-link" (click)="open()">
                         <i class="icon icon-folder"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
-                    <ul class="folders-list">
-                        <li *ngFor="let folder of mailBoxesState.customFolders; let i=index;">
-                            <a href="">
-                                <span class="folder-color-box is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></span>
-                                <span class="folders-list-text">{{folder}}</span>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of mailBoxesState.customFolders|slice:0:LIMIT; let i=index;">
+                    <a routerLink="/mail/{{folder}}" class="mailbox-sidebar-nav-link">
+                        <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
+                        <span class="mailbox-sidebar-nav-label text-capitalize">
+                            {{folder}}
+                            <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="showConfirmationModal(folder)">
+                                <i class="icon icon-cross icon-sm"></i>
+                            </button>
+                        </span>
+                    </a>
+                </li>
+                <li class="mailbox-sidebar-nav-item" *ngIf="mailBoxesState?.customFolders?.length >= LIMIT">
+                    <a (click)="toggleDisplayLimit(mailBoxesState.customFolders.length)" class="mailbox-sidebar-nav-link">
+                        <span class="mailbox-sidebar-nav-label text-capitalize">
+                            {{LIMIT === mailBoxesState.customFolders.length? 'Less' : 'More'}}
+                        </span>
+                    </a>
                 </li>
             </ul>
         </nav>
 
-        <div class="mailbox-sidebar-footer text-center">
+        <div class="mailbox-sidebar-footer text-center mt-4 py-2">
                 <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm" translate="mail_sidebar.used">Used
                 <div class="text-white mt-1">43 MB</div>
             </div>
-            <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
-                <span translate="common.used_storage">Used storage</span>: {{settings?.used_storage}} MB of {{settings?.allocated_storage}} MB</div>
+            <div class="mailbox-sidebar-footer-text hidden-in-sm">
+                <span translate="common.used_storage">Used storage</span>: {{(userState.settings?.used_storage * 1024) | filesize}} of {{userState.settings.allocated_storage}} MB</div>
             <a href="" class="btn-link text-white hidden-in-sm">
                 <small>
                     <u translate="common.upgrade_account">Upgrade account</u>
@@ -113,103 +131,34 @@
 <!-- Compose button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
     <button class="btn btn-primary mailbox-btn mailbox-compose-btn btn-xs-rounded has-icon" role="button"
-            placement="top" [ngbTooltip]="'common.compose' | translate" (click)="showMailComposeModal();"><i
+            placement="top" [ngbTooltip]="'common.compose' | translate" (click)="openComposeMailDialog();"><i
             class="icon icon-plus text-white"></i></button>
 </div>
 
-<!-- Mail compose dialog -->
-<app-compose-mail-dialog [isComposeVisible]="isComposeVisible" (hide)="isComposeVisible=false;"></app-compose-mail-dialog>
+<!-- Mail compose dialog container -->
+<div class="compose-mail-container">
+    <ng-template #composeMailContainer></ng-template>
+</div>
 
-<!-- Create folders Modal -->
-<ng-template #content let-c="close" let-d="dismiss" ng-modal-class="mailbox-modal">
+
+<!-- TODO: refactor to stand alone component: LATER -->
+<!-- Confirm discard email modal -->
+<ng-template #confirmationModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-            <strong>Create new folder</strong>
-        </h3>
+        <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body bg-faded">
-        <div class="form">
-            <form  [formGroup]="customFolderForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <div class="row align-items-center">
-                        <div class="col-sm-3">
-                            <label for="folderName" class="modal-form-label mb-2 mb-sm-0">
-                                <small>Folder name:</small>
-                            </label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input class="form-control form-control-sm" id="folderName" type="text" formControlName="folderName"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group mb-0">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
-                                <small>Select color:</small>
-                            </label>
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="color-boxes-holder">
-                                <ul class="color-boxes-group">
-                                    <li>
-                                        <div class="color-shape is-active" style="background: #1abc9c;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #2ecc71;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #3498db;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #9b59b6;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #f1c40f;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #e67e22;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #e74c3c;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #16a085;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #27ae60;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #2980b9;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #8e44ad;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #f39c12;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #d35400;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="color-shape" style="background: #c0392b;"></div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-center justify-content-sm-end">
-                    <app-loading-spinner [showSpinner]="mailBoxesState?.inProgress"></app-loading-spinner>
-                    <button type="submit"
-                            [disabled]="mailBoxesState?.inProgress"
-                            class="btn btn-secondary btn-sm">Create</button>
-                </div>
-            </form>
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">
+            Are you sure, you want to delete this folder?
+        </div>
+        <div class="form-group text-right mb-0">
+            <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+            <button (click)="deleteFolder()" class="btn btn-danger btn-sm" role="button" [disabled]="!mailState.loaded">Delete</button>
+        </div>
         </div>
     </div>
-
-</ng-template><!-- /.Create folders Modal ends -->
+</ng-template><!-- /.Confirm discard email modal ends -->

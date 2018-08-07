@@ -26,7 +26,8 @@
       "scripts": [
         "../node_modules/openpgp/dist/openpgp.min.js",
         "../node_modules/quill/dist/quill.min.js",
-        "../node_modules/moment/min/moment.min.js"
+        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/bcryptjs/dist/bcrypt.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

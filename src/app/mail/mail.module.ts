@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // Bootstrap
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MailRoutingModule } from './mail-routing.module';
 // component
@@ -25,11 +25,13 @@ import { InboxComponent } from './mail-list/mail-folder/inbox/inbox.component';
 import { DraftComponent } from './mail-list/mail-folder/draft/draft.component';
 import { TrashComponent } from './mail-list/mail-folder/trash/trash.component';
 import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
+import { CreateFolderComponent } from './dialogs/create-folder/create-folder.component';
 
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
+    NgbModalModule,
     MailRoutingModule,
     FormsModule,
     SharedModule,
@@ -51,8 +53,15 @@ import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/g
     InboxComponent,
     DraftComponent,
     TrashComponent,
-    GenericFolderComponent
+    GenericFolderComponent,
+    CreateFolderComponent
   ],
-  exports: [MailFooterComponent]
+  exports: [
+    MailFooterComponent
+  ],
+  entryComponents: [
+    CreateFolderComponent,
+    ComposeMailDialogComponent
+  ]
 })
 export class MailModule { }

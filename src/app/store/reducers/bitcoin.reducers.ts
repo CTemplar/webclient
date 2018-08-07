@@ -1,4 +1,4 @@
-import { BitcoinState } from '../datatypes';
+import { BitcoinState, TransactionStatus } from '../datatypes';
 import { BitcoinActionAll, BitcoinActionTypes } from '../actions/bitcoin.action';
 
 export const initialState: BitcoinState = {
@@ -6,7 +6,7 @@ export const initialState: BitcoinState = {
   newWalletAddress: null,
   loaded: false,
   redeemCode: null,
-  pendingBalanceResponse: {}
+  checkTransactionResponse: { status: TransactionStatus.WAITING }
 };
 
 export function reducer(state = initialState, action: BitcoinActionAll): BitcoinState {
@@ -33,10 +33,10 @@ export function reducer(state = initialState, action: BitcoinActionAll): Bitcoin
         redeemCode: action.payload.redeem_code
       };
     }
-    case BitcoinActionTypes.CHECK_PENDING_BALANCE_SUCCESS: {
+    case BitcoinActionTypes.CHECK_TRANSACTION_SUCCESS: {
       return {
         ...state,
-        pendingBalanceResponse: action.payload
+        checkTransactionResponse: action.payload
       };
     }
     case BitcoinActionTypes.CLEAR_WALLET: {

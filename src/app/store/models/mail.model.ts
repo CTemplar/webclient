@@ -19,10 +19,12 @@ export interface Mail {
   bcc?: Array<string>;
   destruct_date?: string;
   delayed_delivery?: string;
-  dead_man_timer?: string;
+  dead_man_duration?: string;
   datetime?: string;
   marked?: boolean;
   is_encrypted?: boolean;
+  sent_at?: string;
+  created_at?: string;
 }
 
 export interface Mailbox {
@@ -50,6 +52,7 @@ export enum MailFolderType {
 
 export interface Attachment {
   id?: number;
+  draftId: number;
   document: any;
   name: string;
   size: string;
@@ -59,4 +62,5 @@ export interface Attachment {
   attachmentId?: number;
   inProgress: boolean;
   request?: Subscription;
+  isRemoved?: boolean;
 }

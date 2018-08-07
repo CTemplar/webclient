@@ -1,8 +1,10 @@
 // Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UsersBillingInfoComponent } from './components/users-billing-info/users-billing-info.component';
 import { SpinnerComponent } from './spinner/components/spinner.component';
 import { SpinnerService } from './spinner/services/spinner.service';
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
@@ -17,10 +19,14 @@ import { DynamicScriptLoaderService } from './services/dynamic-script-loader.ser
 import { FilenamePipe } from './pipes/filename.pipe';
 import { MatIconComponent } from './components/mat-icon/mat-icon.component';
 import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.component';
+import { FilesizePipe } from './pipes/filesize.pipe';
+import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule,
     TagInputModule,
     MatIconModule,
@@ -36,6 +42,9 @@ import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.
     FilenamePipe,
     MatIconComponent,
     PricingPlansComponent,
+    UsersBillingInfoComponent,
+    FilesizePipe,
+    RemainingTimePipe,
   ],
   exports: [
     TranslateModule,
@@ -51,8 +60,16 @@ import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.
     MatIconModule,
     MatIconComponent,
     PricingPlansComponent,
+    UsersBillingInfoComponent,
+    FilesizePipe,
+    RemainingTimePipe,
   ],
-  providers: [SpinnerService, DynamicScriptLoaderService]
+  providers: [
+    SpinnerService,
+    DynamicScriptLoaderService,
+    FilesizePipe,
+    FilenamePipe
+  ]
 })
 export class SharedModule {
 }

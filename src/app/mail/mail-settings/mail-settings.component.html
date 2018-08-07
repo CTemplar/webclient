@@ -41,7 +41,7 @@
                                                 <div class="info-list-val-text" translate="settings.address_tooltip">One
                                                     - More available soon!
                                                 </div>
-                                                <div class="info-list-val-text">{{settings.used_storage}} MB of {{settings.allocated_storage}}MB</div>
+                                                
                                             </div>
                                         </div>
                                     </li>
@@ -49,12 +49,14 @@
                                         <div class="info-list-text info-list-label" translate="settings.storage">
                                             Storage
                                         </div>
+                                       
                                         <div class="info-list-text info-list-val">
+                                            <div class="info-list-val-text"> {{(settings?.used_storage * 1024) | filesize}} of {{settings.allocated_storage}} MB</div>
                                             <div class="progress progress-secondary progress-lg">
                                                 <div class="progress-bar" role="progressbar"
-                                                     [style.width.%]="(settings.used_storage/settings.allocated_storage)*100"
+                                                     [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
                                                      [attr.aria-valuenow]="settings.used_storage" aria-valuemin="0"
-                                                     [attr.aria-valuemax]="settings.allocated_storage"></div>
+                                                     [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
                                             </div>
                                         </div>
                                     </li>
@@ -70,33 +72,32 @@
                             </div>
                             <div class="desc-card-body">
                                 <ul class="info-list info-list-lg list-styled text-dark">
-                                    <li class="info-list-item">
+                                    <li class="info-list-item">                                        
                                         <div class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
-                                                <span class="info-list-label-text"
-                                                      translate="settings.plans">Plans</span>
-                                                <span class="info-list-label-text">
-                                                    <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
-                                                    <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
-                                                </span>
+                                                <span class="info-list-label-text" translate="settings.plans">Plans</span>
+                                                <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
+                                                <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
                                             </div>
                                             <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                                <strong>$8</strong><span class="text-muted">/mo</span>
+                                                <strong> $8</strong><span class="text-muted">/mo</span>
                                             </div>
                                         </div>
+
                                         <div *ngIf="userState.isPrime" class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text"
                                                       style="visibility: hidden" translate="settings.plans">Plans</span>
                                                 <span class="fw-light">+10 addresses</span>
                                             </div>
-                                            <div class="info-list-text info-list-val"><strong>$2</strong><span
-                                                    class="text-muted">/mo</span></div>
+                                            <div class="info-list-text info-list-val">
+                                                <strong> $2</strong><span class="text-muted">/mo</span>
+                                            </div>
                                         </div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.total_price">Total Price</div>
-                                        <div class="info-list-text info-list-val">$66/annually</div>
+                                        <div class="info-list-text info-list-val">$72/annually</div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing Cycle End</div>
@@ -121,12 +122,15 @@
             <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account Type</strong></h5>
             <div class="l-alert l-alert-danger l-alert-is-floated d-inline-block text-center hidden-md-up">
                 <div class="l-alert-inner">
-                    <div> <span translate="settings.free_plan_tip">Free plan available only for 250 MB Storage. </span>&nbsp;&nbsp;&nbsp;<a><u translate="settings.clear_storage">Clear Storage</u></a>
+                    <div> <span translate="settings.free_plan_tip">Free plan available only for 512 MB Storage. </span>&nbsp;&nbsp;&nbsp;<a><u translate="settings.clear_storage">Clear Storage</u></a>
                     </div>
                 </div>
             </div>
         </div>
-        <app-pricing-plans hideHeader="true" blockGapsZero="true" [showCurrentPlan]="true" [isPrime]="userState.isPrime"></app-pricing-plans>
+        <app-pricing-plans hideHeader="true" blockGapsZero="true"
+                           [showCurrentPlan]="true"
+                           [isPrime]="userState.isPrime"
+                           [openBillingInfoInModal]="true"></app-pricing-plans>
 
     </section>
 
@@ -210,7 +214,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-content-row">
+
+                <!-- Will be used later -->
+                <div class="form-content-row" *ngIf="false">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
                             <label class="form-label mb-0" translate="settings.vacation_responder">Vacation responder</label>
@@ -277,7 +283,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-content-row">
+
+                <!-- Will be used later -->
+                <div class="form-content-row" *ngIf="false">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
                             <label class="form-label mb-sm-0" translate="settings.security_alerts">Security alerts</label>
@@ -345,7 +353,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-content-row">
+
+                <!-- Will be used later -->
+                <div class="form-content-row" *ngIf="false">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
                             <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails per page</label>
@@ -392,7 +402,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-content-row">
+
+                <!-- Will be used later -->
+                <div class="form-content-row" *ngIf="false">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
                             <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load embedded content</label>
@@ -428,7 +440,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-content-row">
+
+                <!-- Will be used later -->
+                <div class="form-content-row" *ngIf="false">
                     <div class="row align-items-center">
                         <div class="col-sm-5">
                             <label class="form-label mb-sm-0" translate="settings.show_snippets">Show snippets</label>
@@ -660,7 +674,8 @@
         </div>
     </section>
 
-    <section class="mailbox-section">
+    <!-- Will be used later -->
+    <section class="mailbox-section" *ngIf="false">
         <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.payment">Payments</strong></h5>
         </header>
@@ -746,7 +761,8 @@
         </div>
     </section>
 
-    <section class="mailbox-section">
+    <!-- Will be used later -->
+    <section class="mailbox-section" *ngIf="false">
         <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.donate.name">Donate</strong></h5>
         </header>
