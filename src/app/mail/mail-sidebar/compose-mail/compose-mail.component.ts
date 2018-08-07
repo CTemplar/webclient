@@ -357,7 +357,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.attachments.forEach(attachment => {
       if (attachment.isInline && attachment.progress === 100 && attachment.id && !this.inlineAttachmentIds.includes(attachment.id)) {
         this.inlineAttachmentIds.push(attachment.id);
-        attachment.document = `https://api.ctemplar.com${attachment.document}`;
         this.embedImageInQuill(attachment.document, attachment.contentId);
       }
     });
