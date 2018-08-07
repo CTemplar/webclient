@@ -162,17 +162,17 @@
   },
   "home_page": {
     "take_back_liberty": "<strong>Take Back Your Liberty</strong> with the World’s Most Secure Email System",
-    "send_unbreakable_email": "Send unbreakable emails &amp; protect your key professional and personal details with next-gen encryption and storage on Icelandic servers, secure with the world’s strongest data privacy laws.",
+    "send_unbreakable_email": "Send unbreakable emails and secure your professional and personal details with next-gen encryption and storage on Icelandic servers, protected by the world’s strongest data privacy laws.",
     "signup_for_free": "Sign up for free",
     "latest_from_our_blog": "Latest From <strong>Our Blog</strong>",
     "related_post": "Related <strong>Post</strong>",
     "read_more_from_our_blog": "Read more from our blog"
   },
   "home_feature": {
-    "end_to_end_PKI_encryption": "End-to-end PKI encryption keeps your private information safe from governments, corporations and hackers-for-hire.",
-    "safely_send_your_financial": "Securely send your financial records, contracts, lab results, journalism and more, even to non-CTemplar email accounts, with anonymous email signup and no IP logging.",
+    "end_to_end_PKI_encryption": "4096 bit end-to-end encryption keeps your private information safe from governments, corporations, and hackers-for-hire.",
+    "safely_send_your_financial": "Securely send your financial records, contracts, lab results, investigative journalism and more, even to non-CTemplar email accounts, with anonymous email signup, no IP logging, and unmatched password security.",
     "iceland_based_server": "Iceland has the world’s strongest data privacy laws, so by using our Icelandic servers, your data has the strongest legal protection in the world.",
-    "easy_to_use_responsive": "Easy-to-use, responsive website and app make sending secure emails quick and easy from any device.",
+    "easy_to_use_responsive": "CTemplar’s exclusive 4 Wall Watch guarantees complete wall-to-wall protection of your data.",
     "learn_more_about_ctempler": "Learn more about the security features of CTemplar"
   },
   "footer": {
@@ -190,11 +190,10 @@
     "all_rights_reserved": "All Rights Reserved"
   },
   "page_about": {
-    "as_the_govt_continues": "As the government continues to function completely outside the realm of accountability, all of us—reporter, missionary, student, businessperson, citizen—become one person, in need of privacy and protection.",
-    "why_i_started": "Why I started <strong> CTemplar</strong>",
-    "idea_to_create_service": "The idea to create this service first began when I recognized about the atrocities happening in the Middle East, to the innocents and to humanity. Looking around, it would seem the larger world was too busy to pay much attention,distracted by their own affairs or helpless to offer assistance. <br/> As just one man with limited capabilities, what could I do? Months went by as I pondered this question, finally realizing I must use my own strengths to wage a larger fight against the oppression I see in the world. As a result, I turned to technology—something I know and understand—to create a system of communication so strong and resilient I would trust it with my own life. <br/> <br/>Through this effort to protect communications through encryption, an entirely new service has emerged, one that will never sell out to corporate investors or be weakened by international agendas.",
+    "as_the_govt_continues": "As governments and corporations continue to gather your private information at an alarming pace, all of us—reporter, missionary, student, businessperson, citizen—become one person, in need of privacy and protection.",
+    "why_i_started": "Why <strong> CTemplar?</strong>",
+    "idea_to_create_service": " The idea to create this service grew out of a recognition of the threats facing our internet privacy and security. Our effort to protect communications through end-to-end encryption & 4 Wall Protection is an entirely new approach. Our “Hash and Salt” technique guarantees even we do not know your login information. Our email service will give you peace of the mind and privacy you require.",
     "why_ctempler": "<strong> Why the name </strong> CTemplar?",
-    "nearly_a_thousand_year": "Nearly a thousand years ago there was a group of men known as the Knights Templar. They protected the wandering pilgrims who wanted nothing more than to visit the Holy Land and find a way to achieve spirituality.",
     "the_templer_safeguard": "The Templar safeguarded travelers’ paths by monitoring the roadways and helping them find a successful journey. The Templar stood for righteousness, willing to lay down their lives for the poor and the weak, even if it led to their death. <br/> Today, there are many people in the world still suffering from this same fear once felt by the innocents, as <a >they look for ways to live their lives in peace</a> and without intrusion. Perhaps you are one of them. I believe we now find ourselves in need of a new Templar, one that can deliver protection against the ongoing invasion of our personal lives. <br/> Little by little, your privacy is being stolen away—as is mine—and the time is now to reclaim our rights, our freedoms, our anonymity, and to remember the strength of those who came before us, ready and willing to wield a weapon in their own defense. And for us, for modern society, that tool is technology.",
     "who_does": "Who Does",
     "protect": "Protect?",
@@ -208,13 +207,13 @@
   "page_security": {
     "features": "Features",
     "end_to_end_encryption": "End-to-End Encryption using Open Source Cryptography",
-    "whether_you_are_sending": "Whether you’re sending classified information to your accountant, business partners, clients, news networks or simply your friends, your emails are automatically encrypted using strong <a >public key cryptography</a> on our Icelandic servers, so even we can’t read them. Only you and your recipient can decode your emails.",
+    "whether_you_are_sending": "Whether you are sending sensitive information to your accountant, business partners, clients, news networks, or simply your friends, your emails are automatically encrypted using strong public key cryptography on our Icelandic servers, so even we cannot read them. Only you and your recipient can decode your emails.",
     "benefit_from_world": "Benefit from the World’s Strictest Data Protection Laws",
-    "most_encrypted_email": "Most encrypted email service providers boats about their Swiss data centers. What they don’t tell you is the Swiss government has an <a >information sharing agreement with USA</a>, so your data isn’t 100% secure. Iceland has zero sharing agreements and maintains the strictest data privacy laws in the world, so your data stays encrypted on our servers and nowhere else!",
+    "most_encrypted_email": "Most encrypted email service providers boast about their Swiss data centers. What they fail to tell you is that the Swiss government has an information sharing agreement with other countries, meaning your data could be shared with others without your consent. Iceland has zero sharing agreements and maintains the strictest data privacy laws in the world, so your data stays encrypted on our servers and nowhere else.",
     "guaranted_anonymity": "Guaranteed Anonymity and Zero Access to Your Data",
-    "we_dont_require_any": "We don’t require any personal information to create your encrypted email account. Simply chose a username and password to access your email interface. For additional security, we don’t store your IP logs which can be traced to your anonymous email account. With CTemplar, your privacy is guaranteed.",
+    "we_dont_require_any": "We do not require any personal information to create your encrypted email account. Simply chose a username and password to access your email interface. Our industry leading “Hash & Salt” technique guarantee even we do not know your login information. For additional security, we do not store your IP logs, which can be traced to your anonymous email account. Your privacy is guaranteed with CTemplar.",
     "simple_to_use": "Simple-to-use Interface Just Like a Regular Email Account",
-    "unlike_the_old_days": "Unlike the old days where encrypted emailing meant complex manual encryption and private server setup, CTemplar does it all for you. Simply send and receive your emails just like a regular email account and rest assured knowing your privacy is 100% maintained.",
+    "unlike_the_old_days": "Unlike the old days where encrypted emailing meant complex manual encryption CTemplar does it all for you. Simply send and receive your emails, just like a regular email account, and rest assured knowing your privacy is 100% secure.",
     "encrypted_email_to_non": "Encrypted email to non-CTemaplar acounts, self-destructing messages & much more….",
     "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. However, we do recommend everyone use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected, unlike regular accounts."
   },
