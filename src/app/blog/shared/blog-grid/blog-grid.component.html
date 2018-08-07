@@ -1,0 +1,33 @@
+<div class="l-block-body pb-5">
+  <div class="row justify-content-center">
+      <article class="col-md-4 col-sm-6 mb-4" *ngFor="let post of posts">
+          <a routerLink="/blog" class="d-block news-card-holder">
+              <div class="news-card position-relative">
+                <span class="badge badge-sm badge-info text-uppercase">
+                  <strong>{{ categories[post.category]?.name }}</strong>
+                </span>
+                <div class="news-card-body">
+                    <figure class="news-pic-holder">
+                        <div class="loader-area" [hidden]="post.isLoaded">
+                            <img src="assets/icons/spinner.svg"/>
+                        </div>
+                        <img alt="News thumbnail" class="img news-img" (load)="post.isLoaded = true" [hidden]="!post.isLoaded" src="{{ post.image_card }}"/>
+                    </figure>
+                    <h4 class="news-card-title">{{post.name}}</h4>
+                    <p>{{post.text}}</p>
+                </div>
+                <footer class="news-card-footer">
+                    <ul class="news-meta-list">
+                        <li class="text-left">Posted on {{post.date}}</li>
+
+                        <!-- WILL BE USED LATER -->
+                        <li *ngIf="false">
+                            <u>{{post.comments_count}} comments</u>
+                        </li>
+                    </ul>
+                </footer>
+              </div>
+          </a>
+      </article>
+  </div>
+</div>

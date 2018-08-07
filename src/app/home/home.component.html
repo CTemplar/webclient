@@ -11,8 +11,8 @@
                 <strong>Post</strong>
             </h2>
         </header>
-        <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
-        <footer class="l-block-footer text-center" *ngIf="mode===modeObj.Recent">
+        <app-blog-grid></app-blog-grid>
+        <footer class="l-block-footer text-center mt-3" *ngIf="mode===modeObj.Recent">
             <a routerLink="/blog" class="text-success">
                 <em>
                     <u translate="home_page.read_more_from_our_blog">Read more from our blog</u>
