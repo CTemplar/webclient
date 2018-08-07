@@ -1,16 +1,16 @@
 <!-- PAGE SECTION -->
-<section class="l-block l-block-text bg-white gap-p-eq">
+<section class="l-block l-block-text bg-white pt-3">
   <div class="container container-sm">
     <header class="l-block-header position-relative text-center">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
-          <h1 class="l-block-title text-uppercase text-secondary">
+          <h6 class="text-uppercase text-secondary m-0">
             <strong translate="billing_info.payment_information">Billing Information</strong>
-          </h1>
+          </h6>
         </div>
       </div>
     </header>
-    <div class="l-block-body px-md">
+    <div class="l-block-body">
       <div class="form-card-holder mx-auto">
         <div class="form">
           <form [formGroup]="billingForm" #form="ngForm">
@@ -35,7 +35,7 @@
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>$8 </strong>($65/month)
+                      <strong>$8 </strong>($72/month)
                     </div>
                   </div>
                   <div class="billing-overview-row payment-method-row">
