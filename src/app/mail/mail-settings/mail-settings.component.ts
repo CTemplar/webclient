@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
 import { BlackListDelete, SettingsUpdate, WhiteListDelete } from '../../store/actions';
-import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState } from '../../store/datatypes';
+import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState, Payment } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Language, LANGUAGES } from '../../shared/config';
@@ -22,6 +22,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
   settings: Settings;
+  payment: Payment;
   selectedMailboxForKey: UserMailbox;
   publicKey: any;
 
@@ -47,6 +48,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+        if (user.payment_transaction.length > 0) {
+          this.payment = user.payment_transaction[0];
+        }
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
