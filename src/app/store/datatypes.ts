@@ -43,6 +43,7 @@ export interface UserState {
   blackList: BlackList[];
   contact: Contact[];
   settings: Settings;
+  payment_transaction?: Payment[];
   isPrime?: boolean;
   inProgress?: boolean;
   isError?: boolean;
@@ -66,6 +67,16 @@ export interface Settings {
   allocated_storage?: number;
   used_storage?: number;
   display_name?: string;
+}
+
+export interface Payment{
+  id?: number;
+  transaction_id?: string;
+  amount?: number;
+  currency?: string;
+  created?: string;
+  payment_method?: PaymentMethod;
+  payment_type?: PaymentType;
 }
 
 export interface BlogState {

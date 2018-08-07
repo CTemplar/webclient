@@ -71,7 +71,7 @@
                                         translate="settings.my_subscription">My Subscription</strong></h5>
                             </div>
                             <div class="desc-card-body">
-                                <ul class="info-list info-list-lg list-styled text-dark">
+                                <ul class="info-list info-list-lg list-styled text-dark" *ngIf="payment">
                                     <li class="info-list-item">                                        
                                         <div class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
@@ -80,11 +80,12 @@
                                                 <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
                                             </div>
                                             <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                                <strong> $8</strong><span class="text-muted">/mo</span>
+                                                <strong>{{(payment.amount/100) | currency:payment.currency}}</strong><span class="text-muted">/{{payment.payment_type}}</span>
                                             </div>
                                         </div>
 
-                                        <div *ngIf="userState.isPrime" class="info-list-item-row">
+                                        <!-- TODO: remove it if unused: Backend needs to confirm this -->
+                                        <div class="info-list-item-row" *ngIf="false">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text"
                                                       style="visibility: hidden" translate="settings.plans">Plans</span>
@@ -101,11 +102,11 @@
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing Cycle End</div>
-                                        <div class="info-list-text info-list-val">Apr 20, 2018</div>
+                                        <div class="info-list-text info-list-val">{{payment.created | date:'mediumDate'}}</div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.payment">Payment</div>
-                                        <div class="info-list-text info-list-val">Credit Card</div>
+                                        <div class="info-list-text info-list-val text-capitalize">{{payment.payment_method}}</div>
                                     </li>
                                 </ul>
                             </div>

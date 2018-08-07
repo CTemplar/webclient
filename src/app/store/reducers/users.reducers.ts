@@ -13,7 +13,8 @@ export const initialState: UserState = {
   contact: [],
   settings: {},
   membership: {},
-  mailboxes: []
+  mailboxes: [],
+  payment_transaction: []
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -138,7 +139,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         username: action.payload.username,
         isPrime: action.payload.is_prime,
         settings: action.payload.settings,
-        mailboxes: action.payload.mailboxes
+        mailboxes: action.payload.mailboxes,
+        payment_transaction: action.payload.payment_transaction
       };
     }
 
