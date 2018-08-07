@@ -231,3 +231,9 @@ export enum PaymentMethod {
   STRIPE = 'Stripe',
   BITCOIN = 'Bitcoin'
 }
+
+
+export enum PaymentType {
+  MONTHLY = 'monthly',
+  ANNUALLY = 'annually',
+}
