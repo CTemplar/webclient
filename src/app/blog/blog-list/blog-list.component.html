@@ -24,7 +24,7 @@
                 <article class="col-12 mb-4 mb-sm-5 first-post">
 
                     <!-- WILL BE USED LATER -->
-                    <a class="d-block news-card-holder mb-4">
+                    <a class="d-block news-card-holder mb-4" [routerLink]="firstPost.slug">
                         <div class="news-card news-card-full px-lg position-relative">
                             <div class="row">
                                 <div class="col-md-6">
@@ -43,8 +43,8 @@
                                 <div class="col-md-6">
                                     <div class="news-card-body">
                                         <h4 class="news-card-title">{{ firstPost.name }}</h4>
-                                        <div [innerHTML]="firstPost.excerpt">
-                                            
+                                        <div>
+                                            {{firstPost.text}}
                                         </div>
                                     </div>
                                     <footer class="news-card-footer">

@@ -28,21 +28,19 @@ export class BlogListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   firstPost: Post = {
     id: 1,
-    category: 0,
-    comments_count: 7,
+    category: 1,
+    comments_count: 10,
     date: 'August 08, 2018',
-    name: 'CTemplar now includes Bitcoin support! You can now get secure email anonymously.',
-    slug: 'ctemplar-now-includes-bitcoin-support',
-    image_card: 'assets/images/blog/blog-banner.jpg',
-    image_featured: 'assets/images/blog/blog-banner.jpg',
-    image: 'assets/images/blog/blog-banner.jpg',
-    text: '',
-    excerpt: `<p>It is now possible to pay for premium ProtonMail secure email account using Bitcoin. We have designed 
-    the payment system to work seamlessly so that Bitcoin payments are automatically converted to ProtonMail credits 
-    which can be used to pay for upgrades, pay invoices, or top up your account.</p> <p>This feature was long overdue, so 
-    we are glad to finally introduce this. Long time followers of CTemplar will know that we actually have a deep 
-    connection with Bitcoin, going all the way back to the very beginning of CTemplar’s story. We have always been 
-    quite interested in cryptocurrencies and blockchain, as they empower the same principles that inspired us to create CTemplar.</p>`
+    name: 'Why Everyone Needs CTemplar?',
+    slug: 'why-everyone-needs-ctemplar',
+    image_card: 'assets/images/blog/why-everyone-needs-ctemplar.jpg',
+    image_featured: 'assets/images/blog/why-everyone-needs-ctemplar.jpg',
+    image: 'assets/images/blog/why-everyone-needs-ctemplar.jpg',
+    text: `Picking a secure email system is not just checking for that little padlock to see that your webpages are encrypted when using
+    webmail.  When you are searching around for the most secure email system, whether for business or personal purposes, you will find a
+    range of options available. When evaluating each product, you will need to pour over the security features, software setup, privacy
+    policy, terms and conditions of use, and company background with a fine-tooth comb.`,
+    excerpt: ``
   };
   postPosition: number = 0;
   positionCount: number = 7;

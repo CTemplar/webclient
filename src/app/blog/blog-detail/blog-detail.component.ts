@@ -27,7 +27,26 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   slug: string;
-  blog: Post;
+  blog: Post =   {
+    id: 3,
+    category: 1,
+    comments_count: 14,
+    date: 'August 08, 2018',
+    name: 'CTemplar vs Protonmail',
+    slug: 'ctemplar-vs-protonmail',
+    image_card: 'assets/images/blog/ctemplar-vs-proton-mail.jpg',
+    image_featured: 'assets/images/blog/ctemplar-vs-proton-mail.jpg',
+    image: 'assets/images/blog/ctemplar-vs-proton-mail.jpg',
+    text: `Ctemplar is the unparalleled best email service in the world for these reasons below.  We lead the industry by providing
+    maximum protection for our users.  People desiring the highest level of protection should not buy discount services that may
+    give the illusion of security.  Your privacy is your fortress, you want the walls to be thick and impenetrable to even the
+    strongest attacks.`,
+    excerpt: `
+    <img alt="News thumbnail - Desktop" class="img news-img d-none d-lg-block" src="assets/images/blog/ctemplar-vs-protonmail-table_min.png"/>
+    <img alt="News thumbnail - Tablet" class="img news-img d-none d-sm-block d-md-block d-lg-none" src="assets/images/blog/ctemplar-vs-protonmail-table_min_T.png"/>
+    <img alt="News thumbnail - Mobile" class="img news-img d-block d-sm-none" src="assets/images/blog/ctemplar-vs-protonmail-table_min_M.png"/>`
+  };
+
   relatedPosts: Post[] = [];
   posts: Post[] = [];
   isLoaded: boolean = false;
