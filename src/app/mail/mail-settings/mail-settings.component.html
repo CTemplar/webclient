@@ -87,6 +87,12 @@
 
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
+                                        <div class="info-list-text info-list-label">Billing</div>
+                                      <div class="info-list-text info-list-val">
+                                        {{payment?.payment_type}} 
+                                      </div>
+                                    </li>
+                                    <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.total_price">Total Price</div>
                                       <div class="info-list-text info-list-val">
                                         ${{payment?.payment_type === paymentType.ANNUALLY ? '72':'96'}} /annually
