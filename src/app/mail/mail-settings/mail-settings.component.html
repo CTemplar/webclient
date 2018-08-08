@@ -253,13 +253,14 @@
                         <div class="col-sm-5">
                             <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
                         </div>
-                        <div class="col-sm-7">
-                            <input class="form-control form-control-sm" id="securityPassword" type="password"
-                                   placeholder="********"/>
-                            <span class="form-label-text mt-1"> <span translate="settings.last_time_changed">Last time changed</span> 3 month ago. <a
-                                    href="javascript:void(0);" role="button" class="text-uppercase btn-link"
-                                    (click)="changePasswordModalOpen(passwordContent)"><strong><u translate="settings.change_now">Change now</u></strong></a></span>
-                        </div>
+                      <div class="col-sm-7">
+                        <input class="form-control form-control-sm" id="securityPassword" type="password"
+                               placeholder="********"/>
+                        <span class="form-label-text mt-1">
+                              <a href="javascript:void(0);" role="button" class="text-uppercase btn-link"
+                                 (click)="changePasswordModalOpen(passwordContent)"><strong>
+                                <u translate="settings.change_now">Change now</u></strong></a></span>
+                      </div>
                     </div>
                 </div>
                 <div class="form-content-row">
@@ -268,7 +269,10 @@
                             <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery email</label>
                         </div>
                         <div class="col-sm-7">
-                            <input class="form-control form-control-sm" id="recoveryMail" type="text"
+                            <input class="form-control form-control-sm" id="recoveryMail" type="email"
+                                   [autocomplete]="false"
+                                   [autofocus]="false"
+                                   [attr.aria-autocomplete]="false"
                                    [(ngModel)]="settings.recovery_email"
                                    [ngModelOptions]="{ updateOn: 'blur'}"
                                    (change)="updateSettings('recovery_email', $event.target.value)"
