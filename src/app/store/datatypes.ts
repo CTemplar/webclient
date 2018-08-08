@@ -43,7 +43,7 @@ export interface UserState {
   blackList: BlackList[];
   contact: Contact[];
   settings: Settings;
-  payment_transaction?: Payment[];
+  payment_transaction?: Payment;
   isPrime?: boolean;
   inProgress?: boolean;
   isError?: boolean;

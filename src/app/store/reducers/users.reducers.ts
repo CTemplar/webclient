@@ -14,7 +14,7 @@ export const initialState: UserState = {
   settings: {},
   membership: {},
   mailboxes: [],
-  payment_transaction: []
+  payment_transaction: {},
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -140,7 +140,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isPrime: action.payload.is_prime,
         settings: action.payload.settings,
         mailboxes: action.payload.mailboxes,
-        payment_transaction: action.payload.payment_transaction
+        payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
       };
     }
 

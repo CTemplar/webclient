@@ -48,9 +48,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
-        if (user.payment_transaction.length > 0) {
-          this.payment = user.payment_transaction[0];
-        }
+        this.payment = user.payment_transaction;
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
