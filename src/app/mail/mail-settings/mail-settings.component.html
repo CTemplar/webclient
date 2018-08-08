@@ -41,7 +41,7 @@
                                                 <div class="info-list-val-text" translate="settings.address_tooltip">One
                                                     - More available soon!
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </li>
@@ -49,7 +49,7 @@
                                         <div class="info-list-text info-list-label" translate="settings.storage">
                                             Storage
                                         </div>
-                                       
+
                                         <div class="info-list-text info-list-val">
                                             <div class="info-list-val-text"> {{(settings?.used_storage * 1024) | filesize}} of {{(settings?.allocated_storage * 1024) | filesize}}</div>
                                             <div class="progress progress-secondary progress-lg">
@@ -72,33 +72,25 @@
                             </div>
                             <div class="desc-card-body">
                                 <ul class="info-list info-list-lg list-styled text-dark" *ngIf="payment">
-                                    <li class="info-list-item">                                        
+                                    <li class="info-list-item">
                                         <div class="info-list-item-row">
                                             <div class="info-list-text info-list-label">
                                                 <span class="info-list-label-text" translate="settings.plans">Plans</span>
                                                 <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
                                                 <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
                                             </div>
-                                            <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                                <strong>{{(payment.amount/100) | currency:payment.currency}}</strong><span class="text-muted">/{{payment.payment_type}}</span>
-                                            </div>
+                                          <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
+                                            <strong>${{payment?.payment_type === paymentType.ANNUALLY ? '6':'8'}}.00
+                                            </strong><span class="text-muted">/Month</span>
+                                          </div>
                                         </div>
 
-                                        <!-- TODO: remove it if unused: Backend needs to confirm this -->
-                                        <div class="info-list-item-row" *ngIf="false">
-                                            <div class="info-list-text info-list-label">
-                                                <span class="info-list-label-text"
-                                                      style="visibility: hidden" translate="settings.plans">Plans</span>
-                                                <span class="fw-light">+10 addresses</span>
-                                            </div>
-                                            <div class="info-list-text info-list-val">
-                                                <strong> $2</strong><span class="text-muted">/mo</span>
-                                            </div>
-                                        </div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.total_price">Total Price</div>
-                                        <div class="info-list-text info-list-val">$72/annually</div>
+                                      <div class="info-list-text info-list-val">
+                                        ${{payment?.payment_type === paymentType.ANNUALLY ? '72':'96'}} /annually
+                                      </div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing Cycle End</div>

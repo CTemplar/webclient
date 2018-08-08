@@ -69,7 +69,7 @@ export interface Settings {
   display_name?: string;
 }
 
-export interface Payment{
+export interface Payment {
   id?: number;
   transaction_id?: string;
   amount?: number;

@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
 import { BlackListDelete, SettingsUpdate, WhiteListDelete } from '../../store/actions';
-import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState, Payment } from '../../store/datatypes';
+import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState, Payment, PaymentType } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Language, LANGUAGES } from '../../shared/config';
@@ -23,6 +23,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   userState: UserState;
   settings: Settings;
   payment: Payment;
+  paymentType = PaymentType;
   selectedMailboxForKey: UserMailbox;
   publicKey: any;
 
