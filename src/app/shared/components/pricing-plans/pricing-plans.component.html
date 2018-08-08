@@ -81,7 +81,7 @@
                   </li>
                 </ul>
                 <div class="package-coming-soon mt-3">
-                  <h6 class="text-muted mb-3 mb-sm-4"><a href=""><u translate="settings.features_added_soon">Features to be added to this
+                  <h6 class="text-muted mb-3 mb-sm-4"><a href="javascript:void(0)"><u translate="settings.features_added_soon">Features to be added to this
                     package soon</u></a></h6>
                   <!-- <ul class="package-list mb-0 list-style-none pl-0">
                     <li class="package-list-item">
@@ -104,8 +104,8 @@
                       <div class="row row-xs">
                         <div class="col-8">
                           <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="currency"
-                                    name="currency" type="radio" checked (change)="paymentMonthly.checked=true"/>
+                            <input [(ngModel)]="paymentMethod" value="Stripe" (change)="paymentMonthly.checked=true"
+                                   class="d-none fancy-field-control" id="currency"  name="currency" type="radio" />
                             <label for="currency">Currency</label>
                           </div>
                         </div>
@@ -129,8 +129,8 @@
                       <div class="row row-xs">
                         <div class="col-12">
                           <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="btc-currency"
-                                    name="currency" type="radio" #btcCurrency/>
+                            <input [(ngModel)]="paymentMethod" value="Bitcoin" class="d-none fancy-field-control" 
+                                   id="btc-currency" name="currency" type="radio" #btcCurrency/>
                             <label for="btc-currency">BTC Currency</label>
                           </div>
                         </div>
@@ -142,7 +142,7 @@
                         <div class="col-8">
                           <div class="fancy-field-group">
                             <input class="d-none fancy-field-control" id="pay-monthly"  #paymentMonthly 
-                                   name="payment_type" value="monthly" type="radio" checked [disabled]="btcCurrency.checked"[(ngModel)]="paymentType"/>
+                                   name="payment_type" value="monthly" type="radio" checked [disabled]="btcCurrency.checked" [(ngModel)]="paymentType"/>
                             <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
                           </div>
                         </div>
@@ -263,6 +263,6 @@
     </button>
   </div>
   <div class="modal-body bg-faded p-3">
-    <app-users-billing-info [isUpgradeAccount]="true" [paymentType]="paymentType" (close)="d()"></app-users-billing-info>
+    <app-users-billing-info [isUpgradeAccount]="true" [paymentType]="paymentType" [paymentMethod]="paymentMethod" (close)="d()"></app-users-billing-info>
   </div>
 </ng-template><!-- /.billing info modal ends -->

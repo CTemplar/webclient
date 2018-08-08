@@ -6,7 +6,7 @@ import { FinalLoading, MembershipUpdate } from '../../../store/actions';
 import { SharedService } from '../../../store/services';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
-import { PaymentType } from '../../../store/datatypes';
+import { PaymentType, PaymentMethod } from '../../../store/datatypes';
 
 @Component({
   selector: 'app-pricing-plans',
@@ -29,6 +29,7 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   public selectedCurrency: string = 'USD';
   public paymentType: PaymentType = PaymentType.MONTHLY;
+  public paymentMethod: PaymentMethod = PaymentMethod.STRIPE;
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
