@@ -29,13 +29,13 @@
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0" translate="billing_info.billing">Billing</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>Monthly</strong>
+                      <strong class="text-capitalize">{{paymentType}}</strong>
                     </div>
                   </div>
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>$8 </strong>($72/month)
+                      <strong>${{paymentType === 'annually' ? '72':'96'}}</strong>(  ${{paymentType === 'annually' ? '6':'8'}}.00/monthly)
                     </div>
                   </div>
                   <div class="billing-overview-row payment-method-row">
@@ -44,7 +44,7 @@
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="payment-select-dropdown">
                           <button ngbDropdownToggle role="button"
-                                  id="paymentDropdownMenuButton">{{paymentMethod}}
+                                  id="paymentDropdownMenuButton" [disabled]="true">{{paymentMethod}}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
                             <a class="dropdown-item text-muted"
