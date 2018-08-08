@@ -74,6 +74,14 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
     this.selectedCurrency = currency;
   }
 
+  changePaymentMethod(paymentMethod: PaymentMethod) {
+    if (paymentMethod === PaymentMethod.BITCOIN) {
+      this.paymentType = PaymentType.ANNUALLY;
+    } else {
+      this.paymentType = PaymentType.MONTHLY;
+    }
+  }
+
   private loadStripeScripts() {
     this.dynamicScriptLoader.load('stripe').then(data => {
       this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
