@@ -260,6 +260,8 @@
                               <a href="javascript:void(0);" role="button" class="text-uppercase btn-link"
                                  (click)="changePasswordModalOpen(passwordContent)"><strong>
                                 <u translate="settings.change_now">Change now</u></strong></a></span>
+                          <input style="visibility: hidden;" id="username" type="text"
+                                 name="username"/>
                       </div>
                     </div>
                 </div>
@@ -270,9 +272,7 @@
                         </div>
                         <div class="col-sm-7">
                             <input class="form-control form-control-sm" id="recoveryMail" type="email"
-                                   [autocomplete]="false"
-                                   [autofocus]="false"
-                                   [attr.aria-autocomplete]="false"
+                                   autocomplete="off"
                                    [(ngModel)]="settings.recovery_email"
                                    [ngModelOptions]="{ updateOn: 'blur'}"
                                    (change)="updateSettings('recovery_email', $event.target.value)"
