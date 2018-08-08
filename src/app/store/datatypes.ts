@@ -75,6 +75,7 @@ export interface Payment{
   amount?: number;
   currency?: string;
   created?: string;
+  billing_cycle_ends?: string;
   payment_method?: PaymentMethod;
   payment_type?: PaymentType;
 }

@@ -102,7 +102,7 @@
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing Cycle End</div>
-                                        <div class="info-list-text info-list-val">{{payment.created | date:'mediumDate'}}</div>
+                                        <div class="info-list-text info-list-val">{{payment.billing_cycle_ends | date:'mediumDate'}}</div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label" translate="settings.payment">Payment</div>
