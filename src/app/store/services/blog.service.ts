@@ -68,7 +68,7 @@ export class BlogService {
     const url = `/assets/blogs.json`;
     return this.http.get<Post[]>(url)
     .pipe(
-      map(data => data['results']);
+      map(data => data['results'])
     );
   }
 }
