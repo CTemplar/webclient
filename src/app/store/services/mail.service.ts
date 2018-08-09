@@ -80,7 +80,7 @@ export class MailService {
     const formData = new FormData();
     formData.append('document', data.document);
     formData.append('message', data.message.toString());
-    formData.append('is_inline', data.isInline.toString());
+    formData.append('is_inline', data.is_inline.toString());
 
     const request = new HttpRequest('POST', `${apiUrl}/emails/attachments/create/`, formData, {
       reportProgress: true

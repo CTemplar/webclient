@@ -60,8 +60,8 @@ export interface Attachment {
   progress?: number;
   attachmentId?: number;
   inProgress: boolean;
-  isInline: boolean;
-  contentId?: string;
+  is_inline: boolean;
+  content_id?: string;
   request?: Subscription;
   isRemoved?: boolean;
 }

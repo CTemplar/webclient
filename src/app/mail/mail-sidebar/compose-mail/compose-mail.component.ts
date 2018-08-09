@@ -55,15 +55,15 @@ class ImageBlot extends BlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
-    if (value.contentId) {
-      node.setAttribute('data-content-id', value.contentId);
+    if (value.content_id) {
+      node.setAttribute('data-content-id', value.content_id);
     }
     return node;
   }
 
   static value(node) {
     return {
-      contentId: node.getAttribute('data-content-id'),
+      content_id: node.getAttribute('data-content-id'),
       url: node.getAttribute('src')
     };
   }
@@ -142,7 +142,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
-  private inlineAttachmentIds: Array<number> = [];
+  private inlineAttachmentContentIds: Array<string> = [];
   private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
@@ -253,6 +253,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.draftMail && this.draftMail.content) {
       this.openPgpService.decrypt(this.draftMail.id, this.draftMail.content);
       this.isSignatureAdded = true;
+      this.inlineAttachmentContentIds = this.draftMail.attachments
+        .filter((attachment: Attachment) => attachment.is_inline)
+        .map(attachment => attachment.content_id);
     }
 
     const draft: Draft = {
@@ -348,7 +351,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         size: this.filesizePipe.transform(file.size),
         attachmentId: performance.now(),
         message: this.draftMail.id,
-        isInline: isInline,
+        is_inline: isInline,
         inProgress: false
       };
       this.attachments.push(attachment);
@@ -364,9 +367,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
     this.attachments.forEach(attachment => {
-      if (attachment.isInline && attachment.progress === 100 && attachment.id && !this.inlineAttachmentIds.includes(attachment.id)) {
-        this.inlineAttachmentIds.push(attachment.id);
-        this.embedImageInQuill(attachment.document, attachment.contentId);
+      if (attachment.is_inline && attachment.progress === 100 && !attachment.isRemoved &&
+        attachment.content_id && !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
+        this.inlineAttachmentContentIds.push(attachment.content_id);
+        this.embedImageInQuill(attachment.document, attachment.content_id);
       }
     });
   }
@@ -600,7 +604,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       const index = selection ? selection.index : this.quill.getLength();
       this.quill.insertEmbed(index, 'image', {
         url: url,
-        contentId: contentId
+        content_id: contentId
       });
       this.quill.setSelection(index + 1);
     }
@@ -624,7 +628,30 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
+
+    this.checkInlineAttachments();
     this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
+  }
+
+  checkInlineAttachments() {
+    const contents = this.quill.getContents().ops;
+    const currentAttachments = [];
+    contents.forEach(item => {
+      if (item.insert && item.insert.image && item.insert.image.content_id) {
+        currentAttachments.push(item.insert.image.content_id);
+      }
+    });
+    this.inlineAttachmentContentIds = this.inlineAttachmentContentIds.filter(contentId => {
+      if (!currentAttachments.includes(contentId)) {
+        const attachmentToRemove = this.attachments.find(attachment => attachment.content_id === contentId);
+        if (attachmentToRemove) {
+          this.removeAttachment(attachmentToRemove);
+        }
+        return false;
+      } else {
+        return true;
+      }
+    });
   }
 
   private resetValues() {
