@@ -53,7 +53,7 @@ import {TranslateModule} from '@ngx-translate/core';
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: {
-        siteKey: '6LdGCFoUAAAAAFz-kzOkmvdBKtC6lyoanpnCTpzp'
+        siteKey: '6LdNHVoUAAAAAMUa9BYB-hqOkCH2n9aaT_iZL8Ma'
       } as RecaptchaSettings,
 
     }]
