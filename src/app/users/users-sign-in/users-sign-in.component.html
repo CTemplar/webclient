@@ -12,7 +12,7 @@
         </header>
         <div class="l-block-body px-xs">
             <div class="l-content-holder l-form-content-holder mx-auto mt-md-0">
-                <div class="form">
+                <div class="form" *ngIf="isCaptchaCompleted">
                     <form class="login-form position-relative" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
                         <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
                             <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up" translate="settings.username">Username</label>
@@ -69,25 +69,37 @@
                             </button>
                         </div>
                     </form>
+                </div>    <!--dd*****************-->
+
+              <div class="l-block-body px-md" *ngIf="!isCaptchaCompleted">
+                <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">Multiple login attempts with invalid credentials,
+                  Please resolve recaptcha in order to proceed</div>
+                <div class="form-recaptcha-holder mx-auto">
+                  <re-captcha (resolved)="recaptchaResolved($event)"></re-captcha>
                 </div>
+              </div>
+              <div *ngIf="!isCaptchaCompleted">
                 <div class="form-alternative-content">
-                    <div class="reset-password mb-0 mb-sm-1">
-                        <a class="text-faded" (click)="openResetPasswordModal()" role="button">
-                            <small>
-                                <u translate="login.reset_password">Reset Password</u>
-                            </small>
-                        </a>
-                    </div>
-                    <div class="create-account">
-                        <a routerLink="/signup" class="text-white">
-                            <strong>
-                                <u translate="login.create_account">Create Account</u>
-                            </strong>
-                        </a>
-                    </div>
+                  <div class="reset-password mb-0 mb-sm-1">
+                    <a class="text-faded" (click)="openResetPasswordModal()" role="button">
+                      <small>
+                        <u translate="login.reset_password">Reset Password</u>
+                      </small>
+                    </a>
+                  </div>
+                  <div class="create-account">
+                    <a routerLink="/signup" class="text-white">
+                      <strong>
+                        <u translate="login.create_account">Create Account</u>
+                      </strong>
+                    </a>
+                  </div>
                 </div>
+              </div>
+
             </div>
         </div>
+
     </div>
     <!-- /.Site container ends -->
 </section>

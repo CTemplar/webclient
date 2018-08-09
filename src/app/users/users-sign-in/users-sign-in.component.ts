@@ -50,6 +50,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   layout: any = 'alphanumeric';
   isKeyboardOpened: boolean;
   isRecoverFormSubmitted: boolean;
+  isCaptchaCompleted: boolean = true;
+  loginErrorCount: number = 0;
+  recaptcha: ReCAPTCHA;
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
   @ViewChild('resetPasswordModal') resetPasswordModal;
@@ -81,13 +84,12 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       username: ['', [Validators.required]],
       recovery_email: ['', [Validators.required, Validators.email]],
     });
-
     this.resetPasswordForm = this.formBuilder.group({
-      code: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      confirmPwd: ['', [Validators.required]],
-      username: ['', [Validators.required]],
-    },
+        code: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        confirmPwd: ['', [Validators.required]],
+        username: ['', [Validators.required]],
+      },
       {
         validator: PasswordValidation.MatchPassword
       });
@@ -96,6 +98,12 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       .subscribe(authState => {
         this.isLoading = authState.inProgress;
         this.errorMessage = authState.errorMessage;
+        if (authState.errorMessage) {
+          this.loginErrorCount++;
+          if (this.loginErrorCount >= 2) {
+            this.isCaptchaCompleted = false;
+          }
+        }
       });
   }
 
@@ -236,6 +244,14 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (event.target.id === 'close-mat-keyboard' || event.target.id === 'close-mat-keyboard-icon') {
       this.isKeyboardOpened = false;
       this.closeKeyboard();
+    }
+  }
+
+  recaptchaResolved(recaptchResponse) {
+    if (recaptchResponse) {
+      this.isCaptchaCompleted = true;
+      this.loginErrorCount = 0;
+      this.recaptcha.reset();
     }
   }
 
