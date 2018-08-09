@@ -49,9 +49,10 @@
                     </ng-container>
                     <ng-template #showIcons>
                       <i class="fas fa-check green"
-                         *ngIf="signupState.usernameExists === false"></i>
+                         *ngIf="signupState.usernameExists === false && !signupForm.controls['username'].errors"></i>
                       <i class="fas fa-times text-danger"
-                         *ngIf="signupState.usernameExists === true"></i>
+                         *ngIf="signupState.usernameExists === true || (signupForm.controls['username'].errors &&
+                         (signupForm.controls['username'].touched || submitted))"></i>
                     </ng-template>
                   </div>
                   <ng-container *ngIf="signupForm.controls['username'].errors &&

@@ -182,7 +182,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         debounceTime(500)
       )
       .subscribe((username) => {
-        this.store.dispatch(new CheckUsernameAvailability(username));
+        if (!this.signupForm.controls['username'].errors) {
+          this.store.dispatch(new CheckUsernameAvailability(username));
+        }
       });
   }
 
