@@ -24,6 +24,7 @@ import { OpenPgpService, SharedService } from '../../store/services';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
+import ReCaptcha = ReCaptchaV2.ReCaptcha;
 
 @TakeUntilDestroy()
 @Component({
@@ -52,7 +53,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   isRecoverFormSubmitted: boolean;
   isCaptchaCompleted: boolean = true;
   loginErrorCount: number = 0;
-  recaptcha: ReCAPTCHA;
+  recaptcha: ReCaptcha;
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
   @ViewChild('resetPasswordModal') resetPasswordModal;
