@@ -1,14 +1,18 @@
 // Custom Action
 import { AuthActionAll, AuthActionTypes } from '../actions';
 // Model
-import { AuthState } from '../datatypes';
+import { AuthState, PaymentMethod, PaymentType } from '../datatypes';
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   errorMessage: null,
   inProgress: false,
-  signupState: { username: null, password: null, recaptcha: null }
+  signupState: {
+    username: null, password: null, recaptcha: null,
+    payment_type: PaymentType.MONTHLY,
+    payment_method: PaymentMethod.STRIPE
+  },
 };
 
 export function logoutReducer(reducerAction: any) {

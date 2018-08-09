@@ -29,13 +29,13 @@
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0" translate="billing_info.billing">Billing</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong class="text-capitalize">{{paymentType}}</strong>
+                      <strong class="text-capitalize">{{paymentType === 'annually' ? 'Annually' : 'Recurring'}}</strong>
                     </div>
                   </div>
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>${{paymentType === 'annually' ? '72':'96'}}</strong>(  ${{paymentType === 'annually' ? '6':'8'}}.00/monthly)
+                      <strong>{{paymentType === 'annually' ? '$72/Yearly($6/month)':'$8.00/Month'}}</strong>
                     </div>
                   </div>
                   <div class="billing-overview-row payment-method-row">
@@ -47,12 +47,10 @@
                                   id="paymentDropdownMenuButton" [disabled]="true">{{paymentMethod}}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                            <a class="dropdown-item text-muted"
-                               (click)="paymentMethod = paymentMethodType.STRIPE">
+                            <a class="dropdown-item text-muted">
                               <em>Stripe (Credit/Debit Card)</em>
                             </a>
-                            <a class="dropdown-item text-muted"
-                               (click)="selectBitcoinMethod()">
+                            <a class="dropdown-item text-muted">
                               <em>Bitcoin</em>
                             </a>
                           </div>

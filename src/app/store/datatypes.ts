@@ -34,6 +34,8 @@ export interface SignupState {
   public_key?: string;
   private_key?: string;
   fingerprint?: string;
+  payment_type?: PaymentType;
+  payment_method?: PaymentMethod;
 }
 
 export interface UserState {

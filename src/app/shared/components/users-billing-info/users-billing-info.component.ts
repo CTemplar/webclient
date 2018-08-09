@@ -38,7 +38,7 @@ import { SharedService } from '../../../store/services/index';
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
   @Input() paymentType: PaymentType;
-  @Input() paymentMethod: PaymentMethod = PaymentMethod.STRIPE;
+  @Input() paymentMethod: PaymentMethod;
   @Output() close = new EventEmitter<boolean>();
 
   cardNumber;
@@ -101,6 +101,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           } else {
             this.close.emit(true);
           }
+        }
+        if (!this.paymentType && !this.paymentMethod) {
+          this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
+          this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
+        }
+        if (this.paymentMethod === PaymentMethod.BITCOIN) {
+          this.selectBitcoinMethod();
         }
         this.inProgress = authState.inProgress;
       });
@@ -171,7 +178,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   stripeSignup(token: any) {
     if (token) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount({ stripe_token: token, payment_type: this.paymentType}));
+        this.store.dispatch(new UpgradeAccount({ stripe_token: token, payment_type: this.paymentType }));
       } else {
         this.store.dispatch(new SignUp({
           ...this.signupState,
