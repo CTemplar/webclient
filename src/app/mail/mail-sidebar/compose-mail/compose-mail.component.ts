@@ -334,21 +334,29 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadAttachment(file: File, isInline = false) {
-    const attachment: Attachment = {
-      draftId: this.draftId,
-      document: file,
-      name: file.name,
-      size: this.filesizePipe.transform(file.size),
-      attachmentId: performance.now(),
-      message: this.draftMail.id,
-      isInline: isInline,
-      inProgress: false
-    };
-    this.attachments.push(attachment);
-    if (!this.draftMail.id) {
-      this.attachmentsQueue.push(attachment);
+    const sizeInMBs = file.size / (1024 * 1024);
+
+    if (this.userState.isPrime && sizeInMBs > 25) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 25MB.' }));
+    } else if (!this.userState.isPrime && sizeInMBs > 10) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 10MB.' }));
     } else {
-      this.store.dispatch(new UploadAttachment({ ...attachment }));
+      const attachment: Attachment = {
+        draftId: this.draftId,
+        document: file,
+        name: file.name,
+        size: this.filesizePipe.transform(file.size),
+        attachmentId: performance.now(),
+        message: this.draftMail.id,
+        isInline: isInline,
+        inProgress: false
+      };
+      this.attachments.push(attachment);
+      if (!this.draftMail.id) {
+        this.attachmentsQueue.push(attachment);
+      } else {
+        this.store.dispatch(new UploadAttachment({ ...attachment }));
+      }
     }
   }
 
