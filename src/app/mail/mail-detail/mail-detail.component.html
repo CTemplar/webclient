@@ -62,7 +62,8 @@
                   <a class="dropdown-item" (click)="onReplyAll()">Reply All</a>
                   <a class="dropdown-item" (click)="onPrint()">Print</a>
                   <a class="dropdown-item" (click)="onDelete()">Delete this Message</a>
-                  <a class="dropdown-item" *ngIf="mail.folder !== mailFolderType.DRAFT" (click)="onMarkAsSpam()">Mark as Spam</a>
+                  <a class="dropdown-item" *ngIf="mail.folder !== mailFolderType.DRAFT" (click)="onMarkAsSpam()">Mark as
+                    Spam</a>
                 </div>
               </div>
             </div>
@@ -81,16 +82,19 @@
     </div>
 
     <ul class="list-style-none mt-3">
-      <li class="download-attachment-wrapper mr-1" *ngFor="let attachment of mail.attachments">
-        <a class="download-attachment" [href]="attachment.document" placement="top" [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
-          <div class="attachment-icon">
-            <i class="icon icon-attachment"></i>
-          </div>
-          <div class="attachment-name">
-            {{attachment.document | filename}}
-          </div>
-        </a>
-      </li>
+      <ng-container *ngFor="let attachment of mail.attachments">
+        <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
+          <a class="download-attachment" [href]="attachment.document" placement="top"
+             [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
+            <div class="attachment-icon">
+              <i class="icon icon-attachment"></i>
+            </div>
+            <div class="attachment-name">
+              {{attachment.document | filename}}
+            </div>
+          </a>
+        </li>
+      </ng-container>
     </ul>
   </section>
 
