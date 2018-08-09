@@ -20,6 +20,7 @@ import {
   MoveMail,
   NewDraft,
   SendMail,
+  SnackErrorPush,
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
@@ -388,6 +389,29 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
+    if (this.userState.isPrime) {
+      if (this.mailData.receiver.length > 20) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "TO" addresses are allowed.' }));
+        return;
+      } else if (this.mailData.cc.length > 20) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "CC" addresses are allowed.' }));
+        return;
+      } else if (this.mailData.bcc.length > 20) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "BCC" addresses are allowed.' }));
+        return;
+      }
+    } else {
+      if (this.mailData.receiver.length > 5) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "TO" addresses are allowed.' }));
+        return;
+      } else if (this.mailData.cc.length > 5) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "CC" addresses are allowed.' }));
+        return;
+      } else if (this.mailData.bcc.length > 5) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "BCC" addresses are allowed.' }));
+        return;
+      }
+    }
     const receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
