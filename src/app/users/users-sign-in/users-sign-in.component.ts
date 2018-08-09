@@ -52,7 +52,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   isRecoverFormSubmitted: boolean;
   isCaptchaCompleted: boolean = true;
   loginErrorCount: number = 0;
-  grecaptcha: ReCAPTCHA;
+  recaptcha: ReCAPTCHA;
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
   @ViewChild('resetPasswordModal') resetPasswordModal;
@@ -251,7 +251,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (recaptchResponse) {
       this.isCaptchaCompleted = true;
       this.loginErrorCount = 0;
-      this.grecaptcha.reset();
+      this.recaptcha.reset();
     }
   }
 

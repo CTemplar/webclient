@@ -39,7 +39,7 @@ export const LANGUAGES: Language[] = [
   // { name: 'Chinese', locale: 'zh' },
   // { name: 'French', locale: 'fr' },
   // { name: 'Italiano', locale: 'it' },
-  // { name: 'portugees', locale: 'pt' },
+  // { name: 'Portugees', locale: 'pt' },
   // { name: 'Dutch', locale: 'nl' },
   // { name: 'Ukrainian', locale: 'uk' },
 ];
