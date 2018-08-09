@@ -54,11 +54,17 @@
                          *ngIf="signupState.usernameExists === true"></i>
                     </ng-template>
                   </div>
-                  <span *ngIf="signupForm.controls['username'].errors &&
-                                    (signupForm.controls['username'].touched || submitted); else usernameExistsBlock"
-                        id="email-valid"
-                        class="validate-message">The username is required.
-                  </span>
+                  <ng-container *ngIf="signupForm.controls['username'].errors &&
+                                    (signupForm.controls['username'].touched || submitted); else usernameExistsBlock">
+
+                    <span class="validate-message"
+                          *ngIf="signupForm.controls['username'].errors.pattern; else usernameRequiredError">
+                      The username must start with an alphabet and can only contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> characters.
+                    </span>
+                    <ng-template #usernameRequiredError>
+                      <span class="validate-message">The username is required.</span>
+                    </ng-template>
+                  </ng-container>
                   <ng-template #usernameExistsBlock>
                       <span *ngIf="signupState.usernameExists === true"
                             class="validate-message">Username already exists.
