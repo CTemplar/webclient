@@ -28,7 +28,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
 
-  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
+  readonly AUTO_REFRESH_DURATION: number = 10000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
   constructor(public store: Store<AppState>,
