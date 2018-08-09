@@ -54,15 +54,15 @@ class ImageBlot extends BlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
-    if (value.contentId) {
-      node.setAttribute('data-content-id', value.contentId);
+    if (value.content_id) {
+      node.setAttribute('data-content-id', value.content_id);
     }
     return node;
   }
 
   static value(node) {
     return {
-      contentId: node.getAttribute('data-content-id'),
+      content_id: node.getAttribute('data-content-id'),
       url: node.getAttribute('src')
     };
   }
@@ -340,7 +340,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       size: this.filesizePipe.transform(file.size),
       attachmentId: performance.now(),
       message: this.draftMail.id,
-      isInline: isInline,
+      is_inline: isInline,
       inProgress: false
     };
     this.attachments.push(attachment);
@@ -355,9 +355,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
     this.attachments.forEach(attachment => {
-      if (attachment.isInline && attachment.progress === 100 && attachment.id && !this.inlineAttachmentIds.includes(attachment.id)) {
+      if (attachment.is_inline && attachment.progress === 100 && attachment.id && !this.inlineAttachmentIds.includes(attachment.id)) {
         this.inlineAttachmentIds.push(attachment.id);
-        this.embedImageInQuill(attachment.document, attachment.contentId);
+        this.embedImageInQuill(attachment.document, attachment.content_id);
       }
     });
   }
@@ -568,7 +568,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       const index = selection ? selection.index : this.quill.getLength();
       this.quill.insertEmbed(index, 'image', {
         url: url,
-        contentId: contentId
+        content_id: contentId
       });
       this.quill.setSelection(index + 1);
     }

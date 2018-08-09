@@ -101,7 +101,7 @@
                style="display:none">
         <div class="attach-uploader-holder" *ngIf="attachments?.length>0">
           <ng-container *ngFor="let file of attachments">
-            <div class="attach-uploader" *ngIf="!file.isRemoved && !(file.isInline && file.progress === 100)">
+            <div class="attach-uploader" *ngIf="!file.isRemoved && !(file.is_inline && file.progress === 100)">
               <div class="attach-name">
                 <div class="file-name">{{file.name}}</div>
                 <div class="attach-size" *ngIf="file.size">({{file.size}})</div>
