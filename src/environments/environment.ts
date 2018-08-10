@@ -6,6 +6,6 @@
 export const environment = {
   debug: true,
   production: false,
-  apiServerUrl: 'https://api.ctemplar.com/',
+  apiServerUrl: 'https://devapi.ctemplar.com/',
   bitcoinServerUrl: 'https://bitcoin.ctemplar.com/api/v1.0/bitcoin/'
 };
