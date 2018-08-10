@@ -78,7 +78,7 @@
                   <re-captcha (resolved)="recaptchaResolved($event)"></re-captcha>
                 </div>
               </div>
-              <div *ngIf="!isCaptchaCompleted">
+              <div *ngIf="isCaptchaCompleted">
                 <div class="form-alternative-content">
                   <div class="reset-password mb-0 mb-sm-1">
                     <a class="text-faded" (click)="openResetPasswordModal()" role="button">
