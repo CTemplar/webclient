@@ -40,6 +40,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
+  @Input() currency;
   @Output() close = new EventEmitter<boolean>();
 
   cardNumber;
@@ -108,6 +109,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         if (!this.paymentType && !this.paymentMethod) {
           this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
           this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
+          this.currency = this.signupState.currency || 'USD';
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod();

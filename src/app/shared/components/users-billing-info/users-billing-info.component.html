@@ -35,7 +35,13 @@
                   <div class="billing-overview-row">
                     <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary">
-                      <strong>{{paymentType === 'annually' ? '$72/Yearly($6/month)':'$8.00/Month'}}</strong>
+                      <strong *ngIf="paymentType === 'annually'">
+                        {{'72'|currency:currency}}/Yearly({{'6'|currency:currency}}/month)
+                      </strong>
+                      <strong *ngIf="paymentType === 'monthly'">
+                        {{'8'|currency:currency}}/month
+                      </strong>
+                      <!-- {{payment.payment_method === 'stripe' ? payment.currency : payment.payment_method}} -->
                     </div>
                   </div>
                   <div class="billing-overview-row payment-method-row">

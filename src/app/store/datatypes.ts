@@ -36,6 +36,7 @@ export interface SignupState {
   fingerprint?: string;
   payment_type?: PaymentType;
   payment_method?: PaymentMethod;
+  currency?: string;
 }
 
 export interface UserState {
