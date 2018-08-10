@@ -28,6 +28,7 @@ import {
 } from '../../../store/datatypes';
 // Service
 import { SharedService } from '../../../store/services/index';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -219,19 +220,17 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.paymentSuccess = true;
       return;
     }
-    setTimeout(() => {
-      // check after every one minute
-      this.store.dispatch(new CheckTransaction({
-        'redeem_code': this.bitcoinState.redeemCode,
-        'from_address': this.bitcoinState.newWalletAddress
-      }));
-
-      this.checkTransaction();
-    }, 10 * 1000);
-
+    // check after every one minute
+    this.store.dispatch(new CheckTransaction({
+      'redeem_code': this.bitcoinState.redeemCode,
+      'from_address': this.bitcoinState.newWalletAddress
+    }));
   }
 
   selectBitcoinMethod() {
+    if (this.bitcoinState && this.bitcoinState.newWalletAddress) {
+      return;
+    }
     this.stripePaymentValidation = {
       message: '',
       param: ''
@@ -245,13 +244,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.paymentMethod = PaymentMethod.BITCOIN;
     this.paymentSuccess = false;
     this.createNewWallet();
-    this.checkTransaction();
+    Observable.timer(15000, 5000)
+      .pipe(
+        takeUntil(this.destroyed$),
+      )
+      .subscribe(() => {
+        this.checkTransaction();
+      });
   }
 
   createNewWallet() {
-    if (this.bitcoinState && this.bitcoinState.newWalletAddress) {
-      return;
-    }
     this.store.dispatch(new CreateNewWallet());
   }
 
