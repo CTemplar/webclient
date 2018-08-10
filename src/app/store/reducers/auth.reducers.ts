@@ -11,7 +11,8 @@ export const initialState: AuthState = {
   signupState: {
     username: null, password: null, recaptcha: null,
     payment_type: PaymentType.MONTHLY,
-    payment_method: PaymentMethod.STRIPE
+    payment_method: PaymentMethod.STRIPE,
+    currency: 'USD'
   },
 };
 
