@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 interface Scripts {
   name: string;
@@ -7,7 +8,6 @@ interface Scripts {
 
 export const ScriptStore: Scripts[] = [
   { name: 'stripe', src: 'https://js.stripe.com/v2/' },
-  { name: 'stripe-key', src: '../../../assets/js/stripe-key.js' }
 ];
 
 declare var document: any;
@@ -18,6 +18,11 @@ export class DynamicScriptLoaderService {
   private scripts: any = {};
 
   constructor() {
+    if (environment.production) {
+      ScriptStore.push({ name: 'stripe-key', src: '../../../assets/js/stripe-key.js' });
+    } else {
+      ScriptStore.push({ name: 'stripe-key', src: '../../../assets/js/stripe-test-key.js' });
+    }
     ScriptStore.forEach((script: any) => {
       this.scripts[script.name] = {
         loaded: false,

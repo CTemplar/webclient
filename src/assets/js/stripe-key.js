@@ -1,1 +1,1 @@
-Stripe.setPublishableKey('pk_test_74VES8ynn6mJuUoBY3stNyD3');
+Stripe.setPublishableKey('pk_live_1LuzdDnTEXzARPf1EqYVwfn7');
