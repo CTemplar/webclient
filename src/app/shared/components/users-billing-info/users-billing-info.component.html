@@ -83,12 +83,13 @@
                   </div>
 
                 </div>
-                <strong class="text-center text-success" *ngIf="showPaymentPending && !paymentSuccess">
+                <strong class="text-center text-success" *ngIf="showPaymentPending && !paymentSuccess && !authState?.isAuthenticated">
                   Your payment is pending, But you can still create a free account
                   and your account will be upgraded to premium after payment is verified.</strong>
                 <strong class="text-center green" *ngIf="paymentSuccess">
                   <i class="fa fa-check-circle green"></i>
-                  Your payment has been made successfully, Please click on create account in order to proceed.
+                  Your payment has been made successfully, Please click on
+                  {{authState?.isAuthenticated ? 'upgrade': 'create'}} account in order to proceed.
                 </strong>
               </div>
 

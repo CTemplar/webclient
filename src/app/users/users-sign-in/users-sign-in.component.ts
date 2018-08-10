@@ -143,6 +143,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   recoverPassword(data) {
     this.showResetPasswordFormErrors = true;
     if (this.recoverPasswordForm.valid) {
+      this.openPgpService.generateUserKeys(data.username, data.password);
       this.store.dispatch(new RecoverPassword(data));
       this.resetPasswordForm.get('username').setValue(data.username);
       this.isRecoverFormSubmitted = true;
@@ -153,18 +154,28 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   resetPassword(data) {
     this.showResetPasswordFormErrors = true;
     if (this.resetPasswordForm.valid) {
-      this.openPgpService.generateUserKeys(data.username, data.password)
-        .then(keysData => {
-          const requestData = {
-            code: data.code,
-            username: data.username,
-            password: data.password,
-            ...keysData
-          };
-          this.store.dispatch(new ResetPassword(requestData));
-          this.resetModalRef.dismiss();
-        });
+      if (!this.openPgpService.getUserKeys()) {
+        this.waitForPGPKeys(data);
+      }
+      const requestData = {
+        code: data.code,
+        username: data.username,
+        password: data.password,
+        ...this.openPgpService.getUserKeys(),
+      };
+      this.store.dispatch(new ResetPassword(requestData));
+      this.resetModalRef.dismiss();
     }
+  }
+
+  waitForPGPKeys(data) {
+    setTimeout(() => {
+      if (this.openPgpService.getUserKeys()) {
+        this.resetPassword(data);
+        return;
+      }
+      this.waitForPGPKeys(data);
+    }, 1000);
   }
 
   openUsernameOSK() {

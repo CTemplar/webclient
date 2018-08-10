@@ -52,7 +52,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   signupInProgress: boolean = false;
   signupState: SignupState;
   submitted = false;
-  userKeys: any = {};
+  userKeys: any;
+  generatingKeys: boolean;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -124,13 +125,17 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.isFormCompleted = true;
 
     const signupFormValue = this.signupForm.value;
-    this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password)
-      .then(data => {
-        this.userKeys = { ...data };
-      });
+    this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password);
   }
 
   private navigateToBillingPage() {
+    this.userKeys = this.openPgpService.getUserKeys();
+    if (!this.userKeys) {
+      this.generatingKeys = true;
+      this.waitForPGPKeys('navigateToBillingPage');
+      return;
+    }
+    this.generatingKeys = false;
     this.store.dispatch(new UpdateSignupData({
       ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
@@ -139,6 +144,16 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       recaptcha: this.signupForm.value.captchaResponse
     }));
     this.router.navigateByUrl('/billing-info');
+  }
+
+  waitForPGPKeys(callback) {
+    setTimeout(() => {
+      if (this.openPgpService.getUserKeys()) {
+        this[callback]();
+        return;
+      }
+      this.waitForPGPKeys(callback);
+    }, 1000);
   }
 
   recaptchaResolved(captchaResponse: string) {
@@ -151,6 +166,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.navigateToBillingPage();
       return;
     }
+    this.signupInProgress = true;
+    this.userKeys = this.openPgpService.getUserKeys();
+    if (!this.userKeys) {
+      this.waitForPGPKeys('signupFormCompleted');
+      return;
+    }
     this.data = {
       ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
@@ -158,7 +179,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       password: this.signupForm.get('password').value,
       recaptcha: this.signupForm.value.captchaResponse
     };
-    this.signupInProgress = true;
     this.store.dispatch(new SignUp(this.data));
   }
 

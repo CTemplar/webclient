@@ -62,6 +62,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   showPaymentPending: boolean;
   paymentSuccess: boolean;
   errorMessage: string;
+  authState: AuthState;
 
   readonly destroyed$: Observable<boolean>;
   private checkTransactionResponse: CheckTransactionResponse;
@@ -95,6 +96,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
+        this.authState = authState;
         if (this.inProgress && !authState.inProgress) {
           if (authState.errorMessage) {
             this.errorMessage = authState.errorMessage;

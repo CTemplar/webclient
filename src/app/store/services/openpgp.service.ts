@@ -17,12 +17,14 @@ export class OpenPgpService {
   private pgpWorker: Worker;
   private pgpEncryptWorker: Worker;
   private isAuthenticated: boolean;
+  private userKeys: any;
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
 
     this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
     this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
+    this.listenWorkerPostMessages();
 
     this.store.select(state => state.mailboxes)
       .subscribe((response: MailBoxesState) => {
@@ -58,28 +60,33 @@ export class OpenPgpService {
         privkey: this.privkey,
         user_key: atob(userKey),
       });
-      this.pgpWorker.onmessage = ((event: MessageEvent) => {
-        if (event.data.key) {
-          this.decryptedPrivKeyObj = event.data.key;
-          this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
-        } else if (event.data.decrypted) {
-          this.store.dispatch(new UpdatePGPDecryptedContent({
-            id: event.data.callerId,
-            isPGPInProgress: false,
-            decryptedContent: event.data.decryptedContent
-          }));
-        }
-      });
-      this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
-        if (event.data.encrypted) {
-          this.store.dispatch(new UpdatePGPEncryptedContent({
-            isPGPInProgress: false,
-            encryptedContent: event.data.encryptedContent,
-            draftId: event.data.callerId
-          }));
-        }
-      });
     }
+  }
+
+  listenWorkerPostMessages() {
+    this.pgpWorker.onmessage = ((event: MessageEvent) => {
+      if (event.data.generateKeys) {
+        this.userKeys = event.data.userKeys;
+      } else if (event.data.key) {
+        this.decryptedPrivKeyObj = event.data.key;
+        this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
+      } else if (event.data.decrypted) {
+        this.store.dispatch(new UpdatePGPDecryptedContent({
+          id: event.data.callerId,
+          isPGPInProgress: false,
+          decryptedContent: event.data.decryptedContent
+        }));
+      }
+    });
+    this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
+      if (event.data.encrypted) {
+        this.store.dispatch(new UpdatePGPEncryptedContent({
+          isPGPInProgress: false,
+          encryptedContent: event.data.encryptedContent,
+          draftId: event.data.callerId
+        }));
+      }
+    });
   }
 
   encrypt(draftId, content, publicKeys: any[] = []) {
@@ -109,18 +116,17 @@ export class OpenPgpService {
   }
 
   generateUserKeys(username: string, password: string) {
+    this.userKeys = null;
     const options = {
       userIds: [{ name: username, email: `${username}@ctemplar.com` }],
       numbits: 4096,
       passphrase: password
     };
-    return openpgp.generateKey(options).then(key => {
-      return {
-        public_key: key.publicKeyArmored,
-        private_key: key.privateKeyArmored,
-        fingerprint: openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint()
-      };
-    });
+    this.pgpWorker.postMessage({ options, generateKeys: true });
+  }
+
+  getUserKeys() {
+    return this.userKeys;
   }
 
 }
