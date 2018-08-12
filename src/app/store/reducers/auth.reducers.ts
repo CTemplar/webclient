@@ -60,9 +60,15 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
     case AuthActionTypes.SIGNUP_FAILURE: {
+
+      let error = '';
+      if (action.payload && action.payload.error && action.payload.error.length > 0) {
+        error = action.payload.error[0];
+      }
+
       return {
         ...state,
-        errorMessage: 'Username already exist',
+        errorMessage: error,
         inProgress: false
       };
     }
