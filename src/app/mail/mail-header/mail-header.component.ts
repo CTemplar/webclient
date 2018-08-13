@@ -55,7 +55,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   // == Setup click event to toggle mobile menu
-  toggleState($event) { // click handler
+  toggleMenu() { // click handler
     const bool = this.menuIsOpened;
     this.menuIsOpened = bool === false ? true : false;
     this.document.body.classList.add('menu-open');
