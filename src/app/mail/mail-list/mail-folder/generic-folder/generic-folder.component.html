@@ -240,7 +240,7 @@
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': !mail.is_protected}">
+        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
           <i class="icon icon-secured"></i>
         </td>
 
