@@ -16,7 +16,7 @@ export function reducer(
       const mails = state.folders.get(action.payload.folder);
       return {
         ...state,
-        loaded: mails ? true : false,
+        loaded: (mails && !action.payload.forceReload) ? true : false,
         mails: mails ? mails : [],
       };
     }
