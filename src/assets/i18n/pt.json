@@ -116,7 +116,7 @@
     },
     "add": "Adicionar",
     "type": "Tipo:",
-    "features_added_soon": "Recursos a serem adicionados a esse pacote em breve"
+    "features_added_soon": "Adicionado posteriormente a este pacote"
   },
   "mail_sidebar": {
     "inbox": "Caixa de entrada",
@@ -143,6 +143,7 @@
     "move_to_archive": "Mover para arquivo",
     "move_to_spam": "Mover para spam",
     "move_to_trash": "Mover para o lixo",
+    "permanently_delete": "Excluir permanentemente",
     "create_folder": "Criar pasta",
     "more_to": "Mais ...",
     "more": "Mais",
@@ -217,7 +218,7 @@
 
   },
   "page_pricing": {
-    "do_not_show_ads": "Nós não mostramos anúncios ou lucramos abusando de sua privacidade. Pelo contrário: dependemos da sua ajuda para mantermos esse serviço funcionando. Recursos oriundos de contas pagas são utilizados para o desenvolvimento do CTemplar e suporta usuários gratuitos como ativistas democráticos e dissidentes que precisem de privacidade mas não podem arcar com os custos.",
+    "do_not_show_ads": "Este site não é compatível com a receita de anúncios ou o compartilhamento de dados do assinante. Em vez disso, a CTemplar depende da receita de assinatura para manter e melhorar a qualidade de nosso serviço. A receita de contas pagas é usada para desenvolver ainda mais o CTemplar, além de oferecer suporte a usuários gratuitos. * Ctemplar não pode ser usado para spam ou para enviar e-mails em massa.",
     "billed_as": "Faturado como",
     "select_account_type": "Selecione o tipo de conta"
   },

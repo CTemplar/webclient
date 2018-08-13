@@ -368,12 +368,12 @@
                   class="actions-btn mail-attach-btn" placement="top"
                   ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
         </li>
-        <li class="pr-0">
+        <li class="pr-0" ngbTooltip="Feature coming soon">
           <button role="button" type="button" (click)="openEncryptionModal()"
                   class="actions-btn mail-envelop-btn border-radius-r-0"
-                  placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
+                  placement="top" ngbTooltip="Encryption" disabled><i class="icon icon-mail"></i></button>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
+        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
           <button role="button" type="button" (click)="openSelfDestructModal()"
                   class="actions-btn mail-clock-btn border-left-0 border-radius-0"
                   [ngClass]="{'badge badge-warning text-white': selfDestruct.value}"
@@ -381,7 +381,7 @@
                   class="icon icon-clock"></i>
           </button>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
+        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
           <button type="button" role="button" (click)="openDelayedDeliveryModal()"
                   class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
@@ -389,7 +389,7 @@
                   class="icon icon-self-timer"></i>
           </button>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Prime only feature' : ''">
+        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
           <button type="button" role="button" (click)="openDeadManTimerModal()"
                   class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"

@@ -116,7 +116,7 @@
     },
     "add": "添加",
     "type": "类型：",
-    "features_added_soon": "该功能即将添加到此套餐中"
+    "features_added_soon": "稍后添加到此包中"
   },
   "mail_sidebar": {
     "inbox": "收件箱",
@@ -143,6 +143,7 @@
     "move_to_archive": "移动到存档",
     "move_to_spam": "移动到垃圾邮件",
     "move_to_trash": "移动到废纸篓",
+    "permanently_delete": "永久删除",
     "create_folder": "新建文件夹",
     "more_to": "更多关于...",
     "more": "更多",
@@ -219,7 +220,7 @@
     "your_contacts_dont_require": "您的联系人୙需要有CTemplar帐户༶ྍ发7日和接收完全安全的ຍ密电子邮件，他们只需要幎问您的公钥༶ྍ解密和打开您的邮件。但是，ᡃ们建议通信各方最好都使用CTemplar电子邮件帐户以获得最大的安全性。୚常规帐户୙ྠ，CTemplar保护被存储的电子邮件和标题行。"
   },
   "page_pricing": {
-    "do_not_show_ads": "我们不会通过滥用您的隐私来推送广告或谋利。相反，我们依靠您的支持来保持服务的运行。来自付费账户的收入用于进一步发展CTemplar并支持免费用户，如民主活动家和持不同政见者，他们需要隐私但不一定能负担得起。",
+    "do_not_show_ads": "广告收入或订阅者数据共享不支持此网站。 相反，CTemplar依靠订阅收入来维持和改善我们的服务质量。 来自付费帐户的收入用于进一步开发CTemplar，以及支持免费用户。 * Ctemplar不能用于垃圾邮件或发送批量电子邮件。",
     "billed_as": "收费为",
     "select_account_type": "选择帐户类型"
   },

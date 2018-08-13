@@ -45,7 +45,7 @@
         </li>
         <li class="px-0">
           <a (click)="moveToTrash()" class="border-radius-left-0" placement="top"
-             [ngbTooltip]="'mail_list.move_to_trash' | translate">
+             [ngbTooltip]="(mailFolder !== mailFolderTypes.TRASH) ? ('mail_list.move_to_trash' | translate) : ('mail_list.permanently_delete' | translate)">
             <i class="icon icon-garbage"></i>
           </a>
         </li>
@@ -240,7 +240,7 @@
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': !mail.is_encrypted}">
+        <td class="mail-security-status" [ngClass]="{'text-faded': !mail.is_protected}">
           <i class="icon icon-secured"></i>
         </td>
 

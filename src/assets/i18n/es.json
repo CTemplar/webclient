@@ -116,7 +116,7 @@
     },
     "add": "Agregar",
     "type": "Tipo:",
-    "features_added_soon": "Se agregarán características a este paquete próximamente"
+    "features_added_soon": "Agregado más tarde a este paquete"
   },
   "mail_sidebar": {
     "inbox": "Bandeja de entrada",
@@ -143,6 +143,7 @@
     "move_to_archive": "Mover al archivo",
     "move_to_spam": "Mover a spam",
     "move_to_trash": "Mover a la papelera ",
+    "permanently_delete": "Borrar permanentemente",
     "create_folder": "Crear carpeta",
     "more_to": "Más de ...",
     "more": "Más",
@@ -219,7 +220,7 @@
     "your_contacts_dont_require": "Tus  contactos  no  requieren  una  cuenta  de  CTemplar  para  enviar  y  recibir  emails  encriptados  totalmente  seguros;  ellos  solo  necesitan  tener  acceso  a  tu  clave  pública  para  poder  decodificar  y  abrir  tus  mensajes.  Nosotros,  sin  embargo,  recomendamos  a  todos  utilizar  las  cuentas  de  email  de  CTemplar  para  obtener  la  máxima  seguridad.  CTemplar  protege  los  emails  almacenados  y  los  títulos  del  asunto,  a  diferencia  de  las  cuentas  normales."
   },
   "page_pricing": {
-    "do_not_show_ads": "No mostraremos anuncios, ni ganaremos dinero abusando de tu privacidad. En su lugar, nosotros dependemos de tu apoyo para mantener este servicio funcionando. Los ingresos de las cuentas de pago son utilizados para continuar con el desarrollo de CTemplar y ayudar a los usuarios gratuitos, tales como activistas defensores de la democracia y disidentes que necesitan privacidad, pero que no necesariamente pueden pagarla.",
+    "do_not_show_ads": "Este sitio no es compatible con los ingresos publicitarios ni con el intercambio de datos de suscriptores. En cambio, CTemplar depende de los ingresos de suscripción para mantener y mejorar la calidad de nuestro servicio. Los ingresos de las cuentas pagas se utilizan para desarrollar aún más CTemplar, así como para apoyar a los usuarios gratuitos. * Ctemplar no se puede utilizar para correo no deseado o para enviar correos electrónicos masivos",
     "billed_as": "Facturado como",
     "select_account_type": "Elegir un tipo de cuenta"
   },

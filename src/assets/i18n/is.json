@@ -116,7 +116,7 @@
     },
     "add": "Bæta við",
     "type": "Gerð:",
-    "features_added_soon": "Aðgerðir sem bæta við þessum pakka fljótlega"
+    "features_added_soon": "Bætt við seinna í pakka"
   },
   "mail_sidebar": {
     "inbox": "Innhólf",
@@ -143,6 +143,7 @@
     "move_to_archive": "Færðu í skjalasafn",
     "move_to_spam": "Fara í ruslpóst",
     "move_to_trash": "Færðu í ruslið",
+    "permanently_delete": "Varanlega eyða",
     "create_folder": "Búðu til möppu",
     "move_to": "Flytja til...",
     "more": "Meira",
@@ -219,7 +220,7 @@
     "your_contacts_dont_require": "Tengiliðir þínar þurfa ekki CTemplar reikning til að senda og taka á móti dulkóðuðum tölvupósti, þeir þurfa bara aðgang að almenningslyklinum til þess að afkóða og opna skilaboðin þín. Hins vegar mælum við með því að allir nota CTemplar tölvupóstreikninga fyrir hámarksöryggi þar sem jafnvel geymdir tölvupóstar og efnislínur verða varðir, ólíkt venjulegum reikningum."
   },
   "page_pricing": {
-    "do_not_show_ads": "Við birtum ekki auglýsingar eða græða peninga með því að misnota einkalíf þitt. Þess í stað treystum við á stuðninginn þinn til að halda þjónustunni áfram. Tekjur af greiddum reikningum eru notaðar til að þróa CTemplar frekar og styðja ókeypis notendur, svo sem lýðræðisstarfsmenn og dissidents sem þurfa einkalíf en geta ekki endilega efni á því.",
+    "do_not_show_ads": "Þessi síða styður ekki auglýsingatekjur eða samnýtingu áskrifandaupplýsinga. Þess í stað byggir CTemplar á áskriftartekjur til að viðhalda og bæta gæði þjónustu okkar. Tekjur af greiddum reikningum eru notaðar til frekari þróunar á CTemplar, auk stuðningslausra notenda. * Ctemplar er ekki hægt að nota fyrir ruslpóst eða til að senda lausu tölvupósti.",
     "billed_as": "Innheimt sem",
     "select_account_type": "Veldu reikningsger"
   },

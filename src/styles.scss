@@ -268,3 +268,9 @@ button[disabled] {
   cursor: not-allowed;
   background-color: #f1f0f0;
 }
+
+.menu-open .mailbox-sidebar {
+  @include media("<sm") {
+    left: 220px;
+  }
+}

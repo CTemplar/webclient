@@ -116,7 +116,7 @@
     },
     "add": "Ajouter",
     "type": "Type:",
-    "features_added_soon": "Caractéristiques à ajouter bientôt à ce package"
+    "features_added_soon": "Ajouté plus tard à ce paquet"
   },
   "mail_sidebar": {
     "inbox": "Boîte de réception",
@@ -143,6 +143,7 @@
     "move_to_archive": "Déplacer vers les archives",
     "move_to_spam": "Déplacer vers le spam",
     "move_to_trash": "Mettre à la corbeille",
+    "permanently_delete": "Effacé définitivement",
     "create_folder": "Créer le dossier",
     "move_to": "Déménager à...",
     "more": "Plus",
@@ -219,7 +220,7 @@
     "your_contacts_dont_require": "Vos contacts n'ont pas besoin d'un compte CTemplar pour envoyer et recevoir des emails cryptés, ils ont juste besoin d'accéder à votre clé publique pour déchiffrer et ouvrir vos messages. Cependant, nous recommandons à tout le monde d'utiliser les comptes de messagerie CTemplar pour une sécurité maximale, car même vos e-mails stockés et vos lignes d'objet seront protégés, contrairement aux comptes habituels."
   },
   "page_pricing": {
-    "do_not_show_ads": "Nous ne diffusons pas d'annonces ou ne gagnons pas d'argent en abusant de votre vie privée. Au lieu de cela, nous dépendons de votre soutien pour que le service continue à fonctionner. Les revenus générés par les comptes payants sont utilisés pour développer CTemplar et soutenir les utilisateurs libres tels que les activistes de la démocratie et les dissidents qui ont besoin de confidentialité mais ne peuvent pas nécessairement se le permettre.",
+    "do_not_show_ads": "Ce site n'est pas pris en charge par les revenus publicitaires ou le partage de données d'abonné. Au lieu de cela, CTemplar s'appuie sur les revenus d'abonnement pour maintenir et améliorer la qualité de notre service. Les revenus des comptes payants sont utilisés pour développer CTemplar, ainsi que pour aider les utilisateurs gratuits. * Ctemplar ne peut pas être utilisé pour le spam ou pour envoyer des emails en masse.",
     "billed_as": "Facturé comme",
     "select_account_type": "Sélectionnez le type de compte"
   },
