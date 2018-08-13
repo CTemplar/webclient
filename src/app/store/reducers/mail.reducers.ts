@@ -36,6 +36,10 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.MOVE_MAIL: {
+      return { ...state, inProgress: true };
+    }
+
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
       state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
