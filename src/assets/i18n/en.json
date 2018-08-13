@@ -218,7 +218,7 @@
     "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. However, we do recommend everyone use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected, unlike regular accounts."
   },
   "page_pricing": {
-    "do_not_show_ads": "We do not show ads or make money by abusing your privacy. Instead, we depend on your support to keep the service running. Revenue from paid accounts is used to further develop CTemplar and support free users such as democracy activists and dissidents who need privacy but can't necessarily afford it.",
+    "do_not_show_ads": "This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon subscription revenue to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop CTemplar, as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails",
     "billed_as": "Billed as",
     "select_account_type": "Select account type"
   },

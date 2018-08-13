@@ -220,7 +220,7 @@
     "your_contacts_dont_require": "I tuoi contatti non richiedono un account CTemplar per inviare e ricevere e-mail crittografate, hanno solo bisogno di accedere alla tua chiave pubblica per decodificare e aprire i tuoi messaggi. Tuttavia, raccomandiamo a tutti di utilizzare gli account e-mail di CTemplar per la massima sicurezza, dal momento che anche le e-mail memorizzate e le righe dell'oggetto saranno protette, a differenza degli account regolari."
   },
   "page_pricing": {
-    "do_not_show_ads": "Non pubblichiamo annunci o guadagniamo soldi abusando della tua privacy. Al contrario, dipendiamo dal tuo supporto per mantenere attivo il servizio. Le entrate dei conti a pagamento vengono utilizzate per sviluppare ulteriormente CTemplar e supportare utenti liberi come attivisti e dissidenti democratici che hanno bisogno di privacy ma non possono permetterselo.",
+    "do_not_show_ads": "Questo sito non è supportato dalle entrate pubblicitarie o dalla condivisione dei dati degli iscritti. Invece, CTemplar si affida alle entrate della sottoscrizione per mantenere e migliorare la qualità del nostro servizio. Le entrate derivanti dai conti a pagamento vengono utilizzate per sviluppare ulteriormente CTemplar e supportare gli utenti gratuiti. * Ctemplar non può essere utilizzato per spam o per l'invio di e-mail collettive",
     "billed_as": "Fatturato come",
     "select_account_type": "Seleziona il tipo di account"
   },

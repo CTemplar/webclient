@@ -220,7 +220,7 @@
     "your_contacts_dont_require": "Uw  contactpersonen  hebben  geen  CTemplar-account  nodig  om  volledig  beveiligde  versleutelde  e-mails  te  verzenden  en  te  ontvangen,  ze  hebben  alleen  toegang  tot  uw  Public  Key  nodig  om  uw  berichten  te ontsleutelen  en  te  openen.  We  raden  echter  aan  dat  iedereen  een  CTemplar  e-mailaccount  gebruikt  voor  maximale  veiligheid.  CTemplar  beschermt  opgeslagen  e-mails  en  onderwerpregels,  in  tegenstelling  tot  normale  accounts.  "
   },
   "page_pricing": {
-    "do_not_show_ads": " Wij tonen geen advertenties of verdienen geen geld door misbruik te maken van uw privacy. In plaats daarvan zijn we afhankelijk van uw support om de service draaiende te houden. Inkomsten uit betaalde accounts worden gebruikt om de CTemplar verder te ontwikkelen en vrije gebruikers te ondersteunen, zoals democratische activisten en dissidenten die privacy nodig hebben maar het zich niet kunnen veroorloven",
+    "do_not_show_ads": "Deze site wordt niet ondersteund door advertentie-inkomsten of het delen van abonneegegevens. In plaats daarvan vertrouwt CTemplar op abonnementsinkomsten om de kwaliteit van onze service te behouden en te verbeteren. Inkomsten uit betaalde accounts worden gebruikt om CTemplar verder te ontwikkelen en om gratis gebruikers te ondersteunen. * Ctemplar kan niet worden gebruikt voor spam of voor het verzenden van bulk-e-mails",
     "billed_as": "Gefactureerd als",
     "select_account_type": "Accounttype selecteren"
   },
