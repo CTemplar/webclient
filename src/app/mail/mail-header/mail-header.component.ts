@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, UserState } from '../../store/datatypes';
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { UpdateSearch } from '../../store/actions/search.action';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @TakeUntilDestroy()
 @Component({
@@ -29,7 +30,8 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              @Inject(DOCUMENT) private document: Document) {
     config.autoClose = true;
   }
 
@@ -56,6 +58,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   toggleState($event) { // click handler
     const bool = this.menuIsOpened;
     this.menuIsOpened = bool === false ? true : false;
+    this.document.body.classList.add('menu-open');
   }
 
   logout() {

@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef, Inject } from '@angular/core';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,7 @@ import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.co
 import { Mail, MailFolderType } from '../../store/models/mail.model';
 import { MoveMail, UpdateFolder } from '../../store/actions/mail.actions';
 import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @TakeUntilDestroy()
 @Component({
@@ -38,7 +39,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               config: NgbDropdownConfig,
-              private composeMailService: ComposeMailService) {
+              private composeMailService: ComposeMailService,
+              @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
   }
@@ -117,6 +119,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     }
     this.confirmModalRef.dismiss();
   }
+
+  toggleState($event) { // click handler
+    this.document.body.classList.remove('menu-open');
+  }
+
 
   ngOnDestroy(): void {
   }
