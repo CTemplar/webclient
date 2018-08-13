@@ -677,6 +677,15 @@
   }
 }
 
+.mailbox-actionbar-menu {
+  li > a {
+    transition: none;
+    &:active {
+      background: #e4e4e4;
+    }
+  }
+}
+
 // == Divider
 .divider-item {
   margin: 0.375rem 0.938rem;
