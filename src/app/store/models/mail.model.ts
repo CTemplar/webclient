@@ -23,6 +23,7 @@ export interface Mail {
   datetime?: string;
   marked?: boolean;
   is_encrypted?: boolean;
+  is_protected?: boolean;
   sent_at?: string;
   created_at?: string;
 }
