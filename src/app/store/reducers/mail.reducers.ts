@@ -39,6 +39,10 @@ export function reducer(
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
       state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
+      if (action.payload.sourceFolder) {
+        const oldMails = state.folders.get(action.payload.sourceFolder);
+        state.folders.set(action.payload.sourceFolder, oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())));
+      }
       return { ...state, inProgress: false };
     }
 
@@ -51,6 +55,7 @@ export function reducer(
         else {
           mails = [...state.mails, action.payload.mail];
         }
+        state.folders.set(action.payload.sourceFolder, [...mails]);
       }
       return {
         ...state,
