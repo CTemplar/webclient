@@ -113,7 +113,7 @@ export class ComposeMailEffects {
     .ofType(ComposeMailActionTypes.SEND_MAIL)
     .map((action: SendMail) => action.payload)
     .mergeMap((payload: Draft) => {
-      if (payload.draft.dead_man_duration || payload.draft.delayed_delivery || payload.draft.destruct_date) {
+      if (payload.draft.dead_man_duration || payload.draft.delayed_delivery) {
         payload.draft.send = false;
         payload.draft.folder = MailFolderType.OUTBOX;
       } else {
