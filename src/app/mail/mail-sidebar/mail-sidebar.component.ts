@@ -10,6 +10,7 @@ import { Mail, MailFolderType } from '../../store/models/mail.model';
 import { MoveMail, UpdateFolder } from '../../store/actions/mail.actions';
 import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
 import { DOCUMENT } from '@angular/platform-browser';
+import { BreakpointsService } from '../../store/services/breakpoint.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -35,10 +36,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   draftCount: number = 0;
   inboxUnreadCount: number = 0;
+  isMenuOpened: boolean;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               config: NgbDropdownConfig,
+              private breakpointsService: BreakpointsService,
               private composeMailService: ComposeMailService,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
@@ -57,23 +60,23 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       });
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
-    .subscribe((mailState: MailState) => {
+      .subscribe((mailState: MailState) => {
 
-      this.mailState = mailState;
+        this.mailState = mailState;
 
-      // Draft items count
-      const drafts = mailState.folders.get(MailFolderType.DRAFT);
-      if (drafts) {
-        this.draftCount = drafts.length;
-      }
+        // Draft items count
+        const drafts = mailState.folders.get(MailFolderType.DRAFT);
+        if (drafts) {
+          this.draftCount = drafts.length;
+        }
 
-      // Inbox unread items count
-      const inbox = mailState.folders.get(MailFolderType.INBOX);
-      if (inbox) {
-        this.inboxUnreadCount = inbox.filter((mail: Mail) => !mail.read).length;
-      }
+        // Inbox unread items count
+        const inbox = mailState.folders.get(MailFolderType.INBOX);
+        if (inbox) {
+          this.inboxUnreadCount = inbox.filter((mail: Mail) => !mail.read).length;
+        }
 
-    });
+      });
   }
 
   // == Open NgbModal
@@ -121,7 +124,15 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   toggleMenu() { // click handler
-    this.document.body.classList.remove('menu-open');
+    if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
+      if (this.isMenuOpened) {
+        this.document.body.classList.remove('menu-open');
+        this.isMenuOpened = false;
+      }
+      if (this.document.body.classList.contains('menu-open')) {
+        this.isMenuOpened = true;
+      }
+    }
   }
 
 

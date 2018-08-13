@@ -1,4 +1,6 @@
-<aside id="mailbox-sidebar" class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
+<aside id="mailbox-sidebar"
+       (clickOutside)="toggleMenu()"
+       class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
     <div class="mailbox-sidebar-inner">
 
         <div class="mailbox-brand">
@@ -32,7 +34,7 @@
         <nav class="mailbox-sidebar-navbar">
             <ul class="mailbox-sidebar-nav">
                 <li class="mailbox-sidebar-nav-item" routerLinkActive="active">
-                    <a routerLink="/mail/inbox" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/inbox" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
                         <span class="badge badge-square hidden-sm-down" *ngIf="inboxUnreadCount>0">{{inboxUnreadCount}}</span>
@@ -40,44 +42,44 @@
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/draft" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/draft" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
                         <span class="badge badge-square hidden-sm-down" *ngIf="draftCount>0">{{draftCount}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/sent" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/sent" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-paper-plane"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.sent">Sent</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/outbox" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/outbox" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.outbox">Outbox</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/starred" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/starred" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-star"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.starred">Starred</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/archive" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/archive" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-archive"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.archive">Archive</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/spam" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/spam" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-warning"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.spam">Spam</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
-                    <a routerLink="/mail/trash" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/trash" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-garbage"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.trash">Trash</span>
                     </a>
@@ -92,7 +94,7 @@
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of mailBoxesState.customFolders|slice:0:LIMIT; let i=index;">
-                    <a routerLink="/mail/{{folder}}" class="mailbox-sidebar-nav-link">
+                    <a routerLink="/mail/{{folder}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
                         <span class="mailbox-sidebar-nav-label text-capitalize">
                             {{folder}}
@@ -103,7 +105,8 @@
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item" *ngIf="mailBoxesState?.customFolders?.length >= LIMIT">
-                    <a (click)="toggleDisplayLimit(mailBoxesState.customFolders.length)" class="mailbox-sidebar-nav-link">
+                    <a (click)="toggleDisplayLimit(mailBoxesState.customFolders.length)"
+                       class="mailbox-sidebar-nav-link">
                         <span class="mailbox-sidebar-nav-label text-capitalize">
                             {{LIMIT === mailBoxesState.customFolders.length? 'Less' : 'More'}}
                         </span>

@@ -21,6 +21,7 @@ import { MatIconComponent } from './components/mat-icon/mat-icon.component';
 import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.component';
 import { FilesizePipe } from './pipes/filesize.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { RemainingTimePipe } from './pipes/remaining-time.pipe';
     UsersBillingInfoComponent,
     FilesizePipe,
     RemainingTimePipe,
+    ClickOutsideDirective,
   ],
   exports: [
     TranslateModule,
@@ -63,6 +65,7 @@ import { RemainingTimePipe } from './pipes/remaining-time.pipe';
     UsersBillingInfoComponent,
     FilesizePipe,
     RemainingTimePipe,
+    ClickOutsideDirective,
   ],
   providers: [
     SpinnerService,
