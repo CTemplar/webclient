@@ -15,11 +15,11 @@ import { UsersService } from '../../store/services';
 // Custom Actions
 import {
   AccountDetailsGet,
-  AuthActionTypes,
+  AuthActionTypes, ChangePassword,
   CheckUsernameAvailability, CheckUsernameAvailabilitySuccess,
   LogIn,
   LogInFailure,
-  LogInSuccess,
+  LogInSuccess, Logout,
   RecoverPassword,
   RecoverPasswordSuccess,
   ResetPassword,
@@ -27,7 +27,7 @@ import {
   SignUp,
   SignUpFailure,
   SignUpSuccess,
-  SnackErrorPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
+  SnackErrorPush, SnackPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
 } from '../actions';
 
 
@@ -152,4 +152,21 @@ export class AuthEffects {
             new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })])
         );
     });
+
+  @Effect()
+  ChangePassword: Observable<any> = this.actions
+    .ofType(AuthActionTypes.CHANGE_PASSWORD)
+    .map((action: ChangePassword) => action.payload)
+    .switchMap(payload => {
+      return this.authService.changePassword(payload)
+        .pipe(
+          switchMap((user) => [
+            new Logout(),
+            new SnackPush({ message: 'Password changed successfully, please sign in with new password.' })
+          ]),
+          catchError((error) => [
+            new SnackErrorPush({ message: 'Failed to change password, please try again.' })])
+        );
+    });
+
 }

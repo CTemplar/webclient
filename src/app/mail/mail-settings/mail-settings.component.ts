@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 
-import { BlackListDelete, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
+import { BlackListDelete, ChangePassword, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
 import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState, Payment, PaymentType } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Language, LANGUAGES } from '../../shared/config';
 import { Mailbox, UserMailbox } from '../../store/models';
+import { OpenPgpService } from '../../store/services';
+import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
 
 
 @TakeUntilDestroy()
@@ -18,7 +21,8 @@ import { Mailbox, UserMailbox } from '../../store/models';
   styleUrls: ['./mail-settings.component.scss']
 })
 export class MailSettingsComponent implements OnInit, OnDestroy {
-  // == Defining public property as boolean
+  @ViewChild('changePasswordModal') changePasswordModal;
+
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
   settings: Settings;
@@ -26,19 +30,23 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   paymentType = PaymentType;
   selectedMailboxForKey: UserMailbox;
   publicKey: any;
-
   newListContact = { show: false, type: 'Whitelist' };
-
-  readonly destroyed$: Observable<boolean>;
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
   timezones: Timezone[];
+  changePasswordForm: FormGroup;
+  showChangePasswordFormErrors = false;
+
+  readonly destroyed$: Observable<boolean>;
   private mailboxes: Mailbox[];
+  private changePasswordModalRef: NgbModalRef;
 
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private formBuilder: FormBuilder,
+    private openPgpService: OpenPgpService
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -68,6 +76,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
           this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
       });
+
+    this.changePasswordForm = this.formBuilder.group({
+        oldPassword: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        confirmPwd: ['', [Validators.required]]
+      },
+      {
+        validator: PasswordValidation.MatchPassword
+      });
   }
 
   // == Toggle active state of the slide in price page
@@ -82,8 +99,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   // == Methods related to ngbModal
 
   // == Open change password NgbModal
-  changePasswordModalOpen(passwordContent) {
-    this.modalService.open(passwordContent, {
+  openChangePasswordModal() {
+    this.showChangePasswordFormErrors = false;
+    this.changePasswordForm.reset();
+    this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
       centered: true,
       windowClass: 'modal-md'
     });
@@ -143,6 +162,48 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new SettingsUpdate(this.settings));
     }
+  }
+
+  changePassword(data) {
+    this.showChangePasswordFormErrors = true;
+    if (this.changePasswordForm.valid) {
+      this.openPgpService.generateUserKeys(data.username, data.password);
+      if (this.openPgpService.getUserKeys()) {
+        this.changePasswordConfirmed(data);
+      } else {
+        this.waitForPGPKeys(data);
+      }
+    }
+  }
+
+  waitForPGPKeys(data) {
+    setTimeout(() => {
+      if (this.openPgpService.getUserKeys()) {
+        this.changePasswordConfirmed(data);
+        return;
+      }
+      this.waitForPGPKeys(data);
+    }, 500);
+  }
+
+  changePasswordConfirmed(data) {
+    const requestData = {
+      username: this.userState.username,
+      old_password: data.oldPassword,
+      password: data.password,
+      confirm_password: data.confirmPwd,
+      ...this.openPgpService.getUserKeys(),
+    };
+    this.store.dispatch(new ChangePassword(requestData));
+    this.changePasswordModalRef.dismiss();
+  }
+
+  // == Toggle password visibility
+  togglePassword(input: any): any {
+    if (!input.value) {
+      return;
+    }
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   ngOnDestroy(): void {
