@@ -37,8 +37,8 @@
                     <a routerLink="/mail/inbox" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="inboxUnreadCount>0">{{inboxUnreadCount}}</span>
-                        <span class="badge badge-sm badge-square hidden-md-up">{{inboxUnreadCount}}</span>
+                        <span class="badge badge-square d-lg-block d-md-block d-sm-none" *ngIf="inboxUnreadCount>0">{{inboxUnreadCount}}</span>
+                        <span class="badge badge-sm badge-square d-none d-sm-block">{{inboxUnreadCount}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
