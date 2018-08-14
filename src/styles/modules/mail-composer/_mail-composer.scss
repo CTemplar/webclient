@@ -50,6 +50,28 @@ a {
 			width: 15rem;
 		}
 	}
+
+	@include media("<sm") {
+		position: fixed;
+		.mail-compose-editable-body {
+			margin-top: 0;
+			max-height: unset;
+		}
+
+		.mail-compose-box {
+			max-height: unset;			
+		}
+
+		.mail-compose-box-inner {
+			height: 75vh;
+			width: 100vw;
+		}
+
+		.mail-compose-editable-box {
+			 height: unset; 
+			max-height: unset;
+		}
+	}
 	.mail-composer-dialog{
 		box-shadow: $shadow-dark;
 	}
@@ -278,9 +300,10 @@ a {
 
 	@include media("<=sm") {
 		position: absolute;
-		top: 142px;
+		top: auto;
 		right: 0;
 		left: 0;
+		bottom: 0;
 		border-top: 0;
 	}
 }
