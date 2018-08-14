@@ -60,10 +60,10 @@ export class UsersService {
     );
   }
 
-  private hashPassword(requestData: any): string {
+  private hashPassword(requestData: any, field = 'password'): string {
     const username = requestData.username.toLowerCase();
     const salt = this.createSalt('$2a$10$', username);
-    return bcrypt.hashSync(requestData.password, salt);
+    return bcrypt.hashSync(requestData[field], salt);
   }
 
   private createSalt(salt, username) {
@@ -118,6 +118,15 @@ export class UsersService {
     );
   }
 
+  changePassword(data): Observable<any> {
+    const requestData = { ...data };
+    requestData.old_password = this.hashPassword(requestData, 'old_password');
+    requestData.password = this.hashPassword(requestData, 'password');
+    requestData.confirm_password = this.hashPassword(requestData, 'confirm_password');
+    delete requestData['username'];
+    return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData);
+  }
+
   verifyToken(): Observable<any> {
     const body = { token: sessionStorage.getItem('token') };
     const url = `${apiUrl}auth/verify/`;
@@ -145,7 +154,8 @@ export class UsersService {
       'users/settings',
       'emails/attachments',
       'emails/keys',
-      'auth/upgrade'
+      'auth/upgrade',
+      'auth/change-password'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
