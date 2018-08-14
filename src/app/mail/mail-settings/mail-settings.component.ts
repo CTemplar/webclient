@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 // Store
 import { Store } from '@ngrx/store';
 
-import { BlackListDelete, ChangePassword, SettingsUpdate, WhiteListDelete } from '../../store/actions';
+import { BlackListDelete, ChangePassword, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
 import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState, Payment, PaymentType } from '../../store/datatypes';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -207,5 +207,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+
+  onUpdateSettingsBtnClick() {
+    this.store.dispatch(new SnackPush({message: 'Settings updated successfully.'}));
   }
 }
