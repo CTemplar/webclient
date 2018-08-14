@@ -47,6 +47,8 @@
     "addresses": "Addresses",
     "storage": "Storage",
     "address_tooltip": "One - More available soon!",
+    "address_one": "One",
+    "none": "None",
     "my_subscription": "My Subscription",
     "plans": "Plans",
     "prime_plan": "Prime Plan",
