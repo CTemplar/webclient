@@ -50,7 +50,7 @@ export class UsersService {
   }
 
   signIn(body): Observable<any> {
-    const requestData = { ...body, username: body.username.toLowerCase() };
+    const requestData = { ...body };
     requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
@@ -61,7 +61,8 @@ export class UsersService {
   }
 
   private hashPassword(requestData: any): string {
-    const salt = this.createSalt('$2a$10$', requestData.username.toLowerCase());
+    const username = requestData.username.toLowerCase();
+    const salt = this.createSalt('$2a$10$', username);
     return bcrypt.hashSync(requestData.password, salt);
   }
 
@@ -94,7 +95,7 @@ export class UsersService {
   }
 
   signUp(user): Observable<any> {
-    const requestData = { ...user, username: user.username.toLowerCase() };
+    const requestData = { ...user };
     requestData.password = this.hashPassword(requestData);
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
       tap(data => {
@@ -108,7 +109,7 @@ export class UsersService {
   }
 
   resetPassword(data): Observable<any> {
-    const requestData = { ...data, username: data.username.toLowerCase() };
+    const requestData = { ...data };
     requestData.password = this.hashPassword(requestData);
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
       tap(res => {
