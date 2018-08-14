@@ -27,8 +27,9 @@
                                         <div class="info-list-text info-list-label" translate="settings.domains">
                                             Domains
                                         </div>
-                                        <div class="info-list-text info-list-val"
-                                             translate="settings.feature_coming_soon">Feature coming soon!
+                                        <div class="info-list-text info-list-val">
+                                             <span *ngIf="userState.isPrime" translate="settings.feature_coming_soon">Feature coming soon!</span>
+                                             <span *ngIf="!userState.isPrime" translate="settings.none">None</span>
                                         </div>
                                     </li>
                                     <li class="info-list-item align-items-start">
@@ -36,13 +37,18 @@
                                             Addresses
                                         </div>
                                         <div class="info-list-text info-list-val">
-                                            <div class="ng-tooltips-holder d-inline-block" placement="top"
-                                                 ngbTooltip="Prime accounts will be credited with 4 additional addresses at no cost as soon as this function is available">
-                                                <div class="info-list-val-text" translate="settings.address_tooltip">One
-                                                    - More available soon!
-                                                </div>
-
+                                            <div *ngIf="userState.isPrime" class="ng-tooltips-holder d-inline-block" placement="top"
+                                                  ngbTooltip="Prime accounts will be credited with 2 additional addresses at no cost as soon as this function is available">
+                                               <div class="info-list-val-text" translate="settings.address_tooltip">
+                                                   One - More available soon!
+                                               </div>
                                             </div>
+                                            <div *ngIf="!userState.isPrime"  class="d-inline-block">
+                                                <div class="info-list-val-text" translate="settings.address_one">
+                                                    One
+                                                </div>
+                                            </div>
+                                           
                                         </div>
                                     </li>
                                     <li class="info-list-item">
@@ -714,11 +720,6 @@
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
-                <div class="info-card">
-                    <p translate="settings.keys.info">Download your PGP Keys for use with other PGP compatible services. Only incoming messages in
-                        inline OpenPGP format are currently supported.</p>
-                </div>
-
                 <div class="form-content-row">
                     <div class="row align-items-center">
                         <div class="col-sm-5">

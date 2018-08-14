@@ -45,6 +45,8 @@
     "domains": "Домены",
     "feature_coming_soon": "Функция скоро появится!",
     "addresses": "Адреса",
+    "address_one": "Один",
+    "none": "Никто",
     "storage": "Место хранения",
     "address_tooltip": "Один - более скоро!",
     "my_subscription": "Моя подписка",

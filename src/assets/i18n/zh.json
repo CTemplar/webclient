@@ -45,6 +45,8 @@
     "domains": "域名",
     "feature_coming_soon": "此功能即将推出！",
     "addresses": "通信地址",
+    "address_one": "壹",
+    "none": "没有",
     "storage": "存储空间",
     "address_tooltip": "敬请期待!",
     "my_subscription": "我的订阅",

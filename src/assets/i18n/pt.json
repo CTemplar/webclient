@@ -45,6 +45,8 @@
     "domains": "Domínios",
     "feature_coming_soon": "Recurso disponível em breve!",
     "addresses": "Endereços",
+    "address_one": "um",
+    "none": "Nenhum",
     "storage": "Armazenamento",
     "address_tooltip": "Um – Mais estará disponível em breve!",
     "my_subscription": "Meu plano",
