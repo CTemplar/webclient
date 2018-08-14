@@ -111,6 +111,7 @@ export class OpenPgpService {
     this.decryptedPrivKeyObj = null;
     this.pubkey = null;
     this.privkey = null;
+    this.userKeys = null;
     this.store.dispatch(new SetDecryptedKey({ decryptedKey: null }));
     this.pgpWorker.postMessage({ clear: true });
   }

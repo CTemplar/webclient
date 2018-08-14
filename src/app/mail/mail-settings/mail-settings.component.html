@@ -89,7 +89,7 @@
                                     <li *ngIf="userState.isPrime" class="info-list-item">
                                         <div class="info-list-text info-list-label">Billing</div>
                                       <div class="info-list-text info-list-val">
-                                        {{payment?.payment_type}} 
+                                        {{payment?.payment_type}}
                                       </div>
                                     </li>
                                     <li *ngIf="userState.isPrime" class="info-list-item">
@@ -258,7 +258,7 @@
                                placeholder="********"/>
                         <span class="form-label-text mt-1">
                               <a href="javascript:void(0);" role="button" class="text-uppercase btn-link"
-                                 (click)="changePasswordModalOpen(passwordContent)"><strong>
+                                 (click)="openChangePasswordModal()"><strong>
                                 <u translate="settings.change_now">Change now</u></strong></a></span>
                           <input style="visibility: hidden;" id="username" type="text"
                                  name="username"/>
@@ -779,51 +779,80 @@
 <!-- Modal groups -->
 
 <!-- Change password Modal -->
-<ng-template #passwordContent let-c="close" let-d="dismiss">
-    <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-        <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="text-holder text-dark text-medium">
-            <p>We will send a reset code to your <a>recovery email</a> to reset your password. </p>
-            <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old
-                emails if you reset your password.</p>
-            <p>If you did not set a recovery email then your account is not recoverable.</p>
+<ng-template #changePasswordModal let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
+    <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old
+        emails if you reset your password.</p>
 
-            <div class="login-content-holder mx-auto mt-2 pt-sm-2">
-                <div class="form">
-                    <form>
-                        <div class="form-group form-group-sm">
-                            <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
-                                Password</label>
-                            <input class="form-control form-control-lg" id="oldPassword" placeholder="Old Password"
-                                   type="text"/>
-                        </div>
-                        <div class="form-group form-group-sm">
-                            <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
-                                Password</label>
-                            <input class="form-control form-control-lg" id="newPassword" placeholder="New Password"
-                                   type="text"/>
-                        </div>
-                        <div class="form-group form-group-sm">
-                            <label for="repeatNewPassword" class="d-block text-muted text-left hidden-sm-up">Repeat New
-                                Password</label>
-                            <input class="form-control form-control-lg" id="repeatNewPassword"
-                                   placeholder="Repeat New Password" type="text"/>
-                        </div>
-                        <div class="form-group form-user-actions text-center mb-0">
-                            <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
-                                Apply
-                            </button>
-                        </div>
-                    </form>
-                </div>
+      <div class="login-content-holder mx-auto mt-2 pt-sm-2">
+        <div class="form">
+          <form [formGroup]="changePasswordForm" (submit)="changePassword(changePasswordForm.value)">
+            <div class="form-group form-group-sm">
+              <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
+                Password</label>
+              <div class="input-group">
+                <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
+                       formControlName="oldPassword" placeholder="Old Password" type="password"/>
+                <span class="input-group-addon password-toggle bg-white text-muted"
+                      (click)="togglePassword(oldPasswordInput)">
+                      <i class="fa fa-eye"></i>
+                </span>
+              </div>
+              <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
+                    class="validate-message">
+                  <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required">Old password is required.</span>
+                </span>
             </div>
+            <div class="form-group form-group-sm">
+              <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
+                Password</label>
+              <div class="input-group">
+                <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
+                       formControlName="password" placeholder="New Password" type="password"/>
+                <span class="input-group-addon password-toggle bg-white text-muted"
+                      (click)="togglePassword(newPasswordInput)">
+                      <i class="fa fa-eye"></i>
+                </span>
+              </div>
+              <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
+                    class="validate-message">
+                  <span *ngIf="changePasswordForm.controls['password'].errors.required">New password is required.</span>
+              </span>
+            </div>
+            <div class="form-group form-group-sm">
+              <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
+                New Password</label>
+              <div class="input-group">
+                <input #confirmNewPasswordInput class="form-control form-control-lg"
+                       id="confirmNewPassword"
+                       formControlName="confirmPwd" placeholder="Confirm New Password" type="password"/>
+                <span class="input-group-addon password-toggle bg-white text-muted"
+                      (click)="togglePassword(confirmNewPasswordInput)">
+                      <i class="fa fa-eye"></i>
+                </span>
+              </div>
+              <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"
+                    class="validate-message">
+                  <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+              </span>
+            </div>
+            <div class="form-group form-user-actions text-center mb-0">
+              <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </ng-template><!-- /.Change password Modal ends -->
 
 <!-- Add custom filter Modal -->
