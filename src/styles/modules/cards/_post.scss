@@ -59,6 +59,10 @@
         transform: scale3d(1, 1, 1);
         transition: all ceaser($ease) 1.5s;
     }
+
+    .news-card-holder p {
+        font-size: 14px;
+    }
 }
 
 .news-card-title {
