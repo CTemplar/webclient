@@ -167,6 +167,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  /**
+   * @description
+   * Prime Users - Can create as many folders as they want
+   * Free Users - Only allow a maximum of 3 folders per account
+   */
   openCreateFolderDialog() {
     if (this.userState.isPrime) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
