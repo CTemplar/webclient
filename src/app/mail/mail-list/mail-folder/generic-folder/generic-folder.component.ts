@@ -5,12 +5,13 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
-import { AppState, MailBoxesState, MailState } from '../../../../store/datatypes';
+import { AppState, MailBoxesState, MailState, UserState } from '../../../../store/datatypes';
 import { Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
 import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../../../dialogs/create-folder/create-folder.component';
+import { NotificationService } from '../../../../store/services/notification.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -28,6 +29,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
 
+  userState: UserState;
+
   readonly AUTO_REFRESH_DURATION: number = 10000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
@@ -35,6 +38,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
               private router: Router,
               private sharedService: SharedService,
               private modalService: NgbModal,
+              private notificationService: NotificationService,
               private composeMailService: ComposeMailService) {
   }
 
@@ -49,6 +53,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         if (this.fetchMails) {
           this.mails = this.sharedService.sortByDate(mailState.mails, 'created_at');
         }
+      });
+
+    this.store.select(state => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        this.userState = user;
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
@@ -158,8 +167,19 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  /**
+   * @description
+   * Prime Users - Can create as many folders as they want
+   * Free Users - Only allow a maximum of 3 folders per account
+   */
   openCreateFolderDialog() {
-    this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    if (this.userState.isPrime) {
+      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    } else if (this.customFolders === null || this.customFolders.length < 3) {
+      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    } else {
+      this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
+    }
   }
 
   /**

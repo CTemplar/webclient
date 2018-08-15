@@ -11,6 +11,7 @@ import { MoveMail, UpdateFolder } from '../../store/actions/mail.actions';
 import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
 import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
+import { NotificationService } from '../../store/services/notification.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -43,6 +44,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               config: NgbDropdownConfig,
               private breakpointsService: BreakpointsService,
               private composeMailService: ComposeMailService,
+              private notificationService: NotificationService,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -79,9 +81,20 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * @description
+   * Prime Users - Can create as many folders as they want
+   * Free Users - Only allow a maximum of 3 folders per account
+   */
   // == Open NgbModal
   open() {
-    this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    if (this.userState.isPrime) {
+      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    } else if (this.mailBoxesState.customFolders === null || this.mailBoxesState.customFolders.length < 3) { 
+      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    } else {
+      this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
+    }
   }
 
   // == Show mail compose modal
