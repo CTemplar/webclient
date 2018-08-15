@@ -36,11 +36,20 @@
 .l-block-group .l-block-header {
 	margin: 0 auto;
 	max-width: 745px;
-
 	margin-bottom: 1.875rem;
 
 	@include media(">sm") {
 		margin-bottom: 3rem;
+	}
+}
+
+.l-block-header {
+	strong	{
+		font-weight: 900;
+	}
+
+	span {
+		font-weight: 300;
 	}
 }
 
