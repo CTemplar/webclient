@@ -373,11 +373,11 @@
                   class="actions-btn mail-envelop-btn border-radius-r-0"
                   placement="top" ngbTooltip="Encryption" disabled><i class="icon icon-mail"></i></button>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
+        <li class="px-0">
           <button role="button" type="button" (click)="openSelfDestructModal()"
                   class="actions-btn mail-clock-btn border-left-0 border-radius-0"
                   [ngClass]="{'badge badge-warning text-white': selfDestruct.value}"
-                  placement="top" ngbTooltip="Self-destructing timer" [disabled]="!userState.isPrime"><i
+                  placement="top" ngbTooltip="Self-destructing timer"><i
                   class="icon icon-clock"></i>
           </button>
         </li>
