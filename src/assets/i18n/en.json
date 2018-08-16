@@ -180,7 +180,7 @@
     "learn_more_about_ctempler": "Learn more about the security features of CTemplar"
   },
   "footer": {
-    "register_to_world_most": "<strong>Register for the </strong> World’s Most Secure Email <strong>now!</strong>",
+    "register_to_world_most": "<strong>Register for the </strong> <span>World’s Most Secure Email</span> <strong>now!</strong>",
     "send_unbreakable_emails": "Send unbreakable emails &amp; protect your key professional and personal details with next-gen encryption using privacy-centric Icelandic storage..",
     "upgrade_to_prime": "upgrade to prime",
     "media_kit": "Media Kit",
