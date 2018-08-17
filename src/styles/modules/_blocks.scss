@@ -363,7 +363,19 @@
 	max-width: 360px;
 }
 
-.onion-lg-btn {
+.btn-onion-lg {
+	padding: 0.8rem;
+	min-width: 250px;
+    font-size: 1rem;
+	border-radius: 2px;
+	color: #ffffff;
+    background-color: $brand-secondary;
+	border-color: $brand-secondary;
+
+	a {
+		color:white;
+	}
+
 	@include media("<=sm") {
 		padding-right: 0.938rem;
 		padding-left: 0.938rem;
