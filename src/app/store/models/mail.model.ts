@@ -12,7 +12,7 @@ export interface Mail {
   checked?: boolean;
   sender?: string;
   subject?: string;
-  encryption?: Array<any>;
+  encryption?: any;
   attachments?: Array<any>;
   receiver?: Array<string>;
   cc?: Array<string>;

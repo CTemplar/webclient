@@ -260,9 +260,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         .map(attachment => attachment.content_id);
     }
 
-    if (this.draftMail && this.draftMail.password) {
-      this.encryptForm.controls['password'].setValue(this.draftMail.password);
-      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.password_hint);
+    if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
+      this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
+      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint);
     }
 
     const draft: Draft = {
@@ -520,8 +520,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   closeEncryptionModal() {
     if (this.encryptForm.invalid) {
-      this.encryptForm.controls['password'].setValue(this.draftMail.password);
-      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.password_hint);
+      this.encryptForm.reset();
+      if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
+        this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
+        this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint);
+      }
     }
     this.encryptionModalRef.dismiss();
   }
