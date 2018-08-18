@@ -450,7 +450,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     if (this.encryptForm.controls['password'].value) {
-      this.openPgpService.generateEmailSshKeys(this.encryptForm.controls['password'].value, this.draftId, this.userState.username);
+      this.openPgpService.generateEmailSshKeys(this.encryptForm.controls['password'].value, this.draftId);
       if (cTemplarReceivers.length === 0) {
         this.setMailData(true, false);
       }
