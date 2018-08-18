@@ -126,6 +126,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
   isLoaded: boolean;
+  showEncryptFormErrors: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -231,7 +232,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
-      'confirmPwd': ['', [Validators.required]]
+      'confirmPwd': ['', [Validators.required]],
+      'passwordHint': ['', [Validators.required]]
     }, {
       validator: PasswordValidation.MatchPassword
     });
@@ -256,6 +258,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.inlineAttachmentContentIds = this.draftMail.attachments
         .filter((attachment: Attachment) => attachment.is_inline)
         .map(attachment => attachment.content_id);
+    }
+
+    if (this.draftMail && this.draftMail.password) {
+      this.encryptForm.controls['password'].setValue(this.draftMail.password);
+      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.password_hint);
     }
 
     const draft: Draft = {
@@ -511,6 +518,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  closeEncryptionModal() {
+    if (this.encryptForm.invalid) {
+      this.encryptForm.controls['password'].setValue(this.draftMail.password);
+      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.password_hint);
+    }
+    this.encryptionModalRef.dismiss();
+  }
+
   toggleOSK() {
     if (this._keyboardService.isOpened) {
       this.closeOSK();
@@ -592,6 +607,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.valueChanged$.next(this.deadManTimer.value);
   }
 
+  onSubmitEncryption() {
+    this.showEncryptFormErrors = true;
+    if (this.encryptForm.valid) {
+      this.valueChanged$.next(true);
+      this.closeEncryptionModal();
+    }
+  }
+
+  clearEncryption() {
+    this.encryptForm.reset();
+    this.valueChanged$.next(true);
+    this.closeEncryptionModal();
+  }
+
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1 ||
@@ -628,6 +657,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
+    this.draftMail.password = this.encryptForm.controls['password'].value || null;
+    this.draftMail.password_hint = this.encryptForm.controls['passwordHint'].value || null;
 
     this.checkInlineAttachments();
     this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
