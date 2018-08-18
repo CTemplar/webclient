@@ -512,13 +512,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openEncryptionModal() {
-    this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
-      centered: true,
-      windowClass: 'modal-md users-action-modal'
-    });
-  }
-
-  closeEncryptionModal() {
     if (this.encryptForm.invalid) {
       this.encryptForm.reset();
       if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
@@ -526,6 +519,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint);
       }
     }
+    this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
+      centered: true,
+      windowClass: 'modal-md users-action-modal'
+    });
+  }
+
+  closeEncryptionModal() {
     this.encryptionModalRef.dismiss();
   }
 
