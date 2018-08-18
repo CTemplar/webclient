@@ -40,6 +40,24 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       };
     }
 
+    case ComposeMailActionTypes.UPDATE_PGP_SSH_KEYS: {
+      if (action.payload.draftId) {
+        state.drafts[action.payload.draftId] = {
+          ...state.drafts[action.payload.draftId],
+          isSshInProgress: action.payload.isSshInProgress,
+          draft: {
+            ...state.drafts[action.payload.draftId].draft,
+            private_key: action.payload.keys.private_key,
+            public_key: action.payload.keys.public_key
+          }
+        };
+      }
+      return {
+        ...state,
+        drafts: { ...state.drafts }
+      };
+    }
+
     case ComposeMailActionTypes.CLOSE_MAILBOX: {
       state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], isClosed: true };
       return { ...state, drafts: { ...state.drafts } };

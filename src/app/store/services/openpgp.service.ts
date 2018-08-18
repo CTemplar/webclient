@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import {
+  Logout,
+  SetDecryptedKey,
+  SetDecryptInProgress,
+  UpdatePGPDecryptedContent,
+  UpdatePGPEncryptedContent,
+  UpdatePGPSshKeys
+} from '../actions';
 import { AppState, AuthState, MailBoxesState } from '../datatypes';
-import { Logout, SetDecryptedKey, SetDecryptInProgress, UpdatePGPEncryptedContent, UpdatePGPDecryptedContent } from '../actions';
 import { UsersService } from './users.service';
 
 declare var openpgp;
@@ -58,7 +65,7 @@ export class OpenPgpService {
 
       this.pgpWorker.postMessage({
         privkey: this.privkey,
-        user_key: atob(userKey),
+        user_key: atob(userKey)
       });
     }
   }
@@ -66,7 +73,16 @@ export class OpenPgpService {
   listenWorkerPostMessages() {
     this.pgpWorker.onmessage = ((event: MessageEvent) => {
       if (event.data.generateKeys) {
-        this.userKeys = event.data.userKeys;
+        if (event.data.forEmail) {
+          this.store.dispatch(new UpdatePGPSshKeys({
+            isSshInProgress: false,
+            sshKeys: event.data.keys,
+            draftId: event.data.callerId
+          }));
+        }
+        else {
+          this.userKeys = event.data.keys;
+        }
       } else if (event.data.key) {
         this.decryptedPrivKeyObj = event.data.key;
         this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
@@ -124,6 +140,16 @@ export class OpenPgpService {
       passphrase: password
     };
     this.pgpWorker.postMessage({ options, generateKeys: true });
+  }
+
+  generateEmailSshKeys(password: string, draftId: number) {
+    this.store.dispatch(new UpdatePGPSshKeys({isSshInProgress: true, sshKeys: null, draftId}));
+    const options = {
+      userIds: [draftId],
+      numbits: 4096,
+      passphrase: password
+    };
+    this.pgpWorker.postMessage({ options, generateKeys: true, forEmail: true, callerId: draftId });
   }
 
   getUserKeys() {

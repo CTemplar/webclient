@@ -121,6 +121,7 @@ export interface Draft {
   encryptedContent?: string;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
+  isSshInProgress?: boolean;
   attachments: Attachment[];
   shouldSend?: boolean;
   shouldSave?: boolean;
