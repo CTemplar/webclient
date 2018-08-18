@@ -44,13 +44,15 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       if (action.payload.draftId) {
         state.drafts[action.payload.draftId] = {
           ...state.drafts[action.payload.draftId],
-          isSshInProgress: action.payload.isSshInProgress,
-          draft: {
+          isSshInProgress: action.payload.isSshInProgress
+        };
+        if (action.payload.keys) {
+          state.drafts[action.payload.draftId].draft = {
             ...state.drafts[action.payload.draftId].draft,
             private_key: action.payload.keys.private_key,
             public_key: action.payload.keys.public_key
-          }
-        };
+          };
+        }
       }
       return {
         ...state,

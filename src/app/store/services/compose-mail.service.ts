@@ -24,11 +24,27 @@ export class ComposeMailService {
             if (draftMail.shouldSave && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
               draftMail.draft.content = draftMail.encryptedContent;
               this.store.dispatch(new CreateMail({ ...draftMail }));
-            } else if (draftMail.shouldSend && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
-              draftMail.draft.content = draftMail.encryptedContent;
-              this.store.dispatch(new SendMail({ ...draftMail }));
-            } else if (draftMail.shouldSend && this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
-              this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, draftMail.usersKeys.map(item => item.public_key));
+            } else if (draftMail.shouldSend && this.drafts[key]) {
+              if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
+                draftMail.draft.content = draftMail.encryptedContent;
+                if (!draftMail.isSshInProgress) {
+                  this.store.dispatch(new SendMail({ ...draftMail }));
+                }
+              } else if (this.drafts[key].isSshInProgress && !draftMail.isSshInProgress) {
+                if (!draftMail.getUserKeyInProgress) {
+                  const keys = draftMail.usersKeys ? draftMail.usersKeys.map(item => item.public_key) : [];
+                  keys.push(draftMail.draft.public_key);
+                  this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, keys);
+                }
+              } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
+                if (!draftMail.isSshInProgress) {
+                  const keys = draftMail.usersKeys.map(item => item.public_key);
+                  if (draftMail.draft.public_key) {
+                    keys.push(draftMail.draft.public_key);
+                  }
+                  this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, keys);
+                }
+              }
             }
           }
           if (draftMail.isClosed && !draftMail.shouldSend && !draftMail.shouldSave && !draftMail.inProgress) {
@@ -40,9 +56,9 @@ export class ComposeMailService {
       });
 
     this.store.select((state: AppState) => state.user)
-    .subscribe((user: UserState) => {
-      this.userState = user;
-    });
+      .subscribe((user: UserState) => {
+        this.userState = user;
+      });
 
   }
 
@@ -53,12 +69,12 @@ export class ComposeMailService {
 
   openComposeMailDialog(inputData: any = {}) {
     if (this.userState &&
-       ((this.userState.isPrime && this.componentRefList.length < 3) || (!this.userState.isPrime && this.componentRefList.length === 0 ))) {
+      ((this.userState.isPrime && this.componentRefList.length < 3) || (!this.userState.isPrime && this.componentRefList.length === 0))) {
       this.componentRefList.forEach(componentRef => {
         componentRef.instance.isMinimized = true;
       });
 
-    if (inputData.draft) {
+      if (inputData.draft) {
         const oldComponentRef = this.componentRefList.find(componentRef => {
           return componentRef.instance.composeMail.draftMail && componentRef.instance.composeMail.draftMail.id === inputData.draft.id;
         });

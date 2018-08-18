@@ -162,6 +162,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.encryptForm = this.formBuilder.group({
+      'password': ['', [Validators.required]],
+      'confirmPwd': ['', [Validators.required]],
+      'passwordHint': ['', [Validators.required]]
+    }, {
+      validator: PasswordValidation.MatchPassword
+    });
+
     this.initializeDraft();
     this.initializeAutoSave();
     this.resetMailData();
@@ -229,14 +237,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       month: now.getMonth() + 1,
       day: now.getDate()
     };
-
-    this.encryptForm = this.formBuilder.group({
-      'password': ['', [Validators.required]],
-      'confirmPwd': ['', [Validators.required]],
-      'passwordHint': ['', [Validators.required]]
-    }, {
-      validator: PasswordValidation.MatchPassword
-    });
   }
 
   ngAfterViewInit() {
@@ -439,12 +439,34 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (receivers.length === 0) {
       return false;
     }
-    if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
-      this.setMailData(true, false, true);
-      this.store.dispatch(new GetUsersKeys({ draftId: this.draft.id, emails: receivers.join(',') }));
-    } else {
-      this.setMailData(false, false);
-      this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
+    const cTemplarReceivers = [];
+    const nonCTemplarReceivers = [];
+    receivers.forEach(receiver => {
+      if (receiver.toLowerCase().indexOf('@ctemplar.com') === -1) {
+        nonCTemplarReceivers.push(receiver);
+      }
+      else {
+        cTemplarReceivers.push(receiver);
+      }
+    });
+    if (this.encryptForm.controls['password'].value) {
+      this.openPgpService.generateEmailSshKeys(this.encryptForm.controls['password'].value, this.draftId, this.userState.username);
+      if (cTemplarReceivers.length === 0) {
+        this.setMailData(true, false);
+      }
+      else {
+        this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
+        this.setMailData(true, false, true);
+      }
+    }
+    else {
+      if (nonCTemplarReceivers.length === 0) {
+        this.setMailData(true, false, true);
+        this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
+      } else {
+        this.setMailData(false, false);
+        this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
+      }
     }
     this.resetValues();
     this.hide.emit();
