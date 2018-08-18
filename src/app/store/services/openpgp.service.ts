@@ -76,7 +76,7 @@ export class OpenPgpService {
         if (event.data.forEmail) {
           this.store.dispatch(new UpdatePGPSshKeys({
             isSshInProgress: false,
-            sshKeys: event.data.keys,
+            keys: event.data.keys,
             draftId: event.data.callerId
           }));
         }
@@ -142,10 +142,10 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ options, generateKeys: true });
   }
 
-  generateEmailSshKeys(password: string, draftId: number) {
+  generateEmailSshKeys(password: string, draftId: number, username) {
     this.store.dispatch(new UpdatePGPSshKeys({isSshInProgress: true, sshKeys: null, draftId}));
     const options = {
-      userIds: [draftId],
+      userIds: [{ name: `${username}-email` }], // TODO: change this to a more unique value
       numbits: 4096,
       passphrase: password
     };
