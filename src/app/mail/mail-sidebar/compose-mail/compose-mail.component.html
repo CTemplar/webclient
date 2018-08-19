@@ -619,10 +619,6 @@
           <label for="password-hint">Password Hint</label>
           <input type="text" id="password-hint" class="form-control" formControlName="passwordHint"
                  placeholder="Password Hint">
-          <span *ngIf="encryptForm.controls['passwordHint'].errors && showEncryptFormErrors"
-                class="validate-message">
-            <span *ngIf="encryptForm.controls['passwordHint'].errors.required">Password hint is required.</span>
-          </span>
         </div>
         <div class="form-group text-small">
           Encrypted messages to non-Ctemplar recipients will expire in 5 days.

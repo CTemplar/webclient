@@ -165,7 +165,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
-      'passwordHint': ['', [Validators.required]]
+      'passwordHint': ['']
     }, {
       validator: PasswordValidation.MatchPassword
     });
@@ -262,7 +262,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
       this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
-      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint);
+      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint || '');
     }
 
     const draft: Draft = {
@@ -538,7 +538,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.encryptForm.reset();
       if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
         this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
-        this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint);
+        this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint || '');
       }
     }
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
