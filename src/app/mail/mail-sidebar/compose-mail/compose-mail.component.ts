@@ -126,6 +126,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
   isLoaded: boolean;
+  showEncryptFormErrors: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -161,6 +162,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.encryptForm = this.formBuilder.group({
+      'password': ['', [Validators.required]],
+      'confirmPwd': ['', [Validators.required]],
+      'passwordHint': ['']
+    }, {
+      validator: PasswordValidation.MatchPassword
+    });
+
     this.initializeDraft();
     this.initializeAutoSave();
     this.resetMailData();
@@ -228,13 +237,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       month: now.getMonth() + 1,
       day: now.getDate()
     };
-
-    this.encryptForm = this.formBuilder.group({
-      'password': ['', [Validators.required]],
-      'confirmPwd': ['', [Validators.required]]
-    }, {
-      validator: PasswordValidation.MatchPassword
-    });
   }
 
   ngAfterViewInit() {
@@ -256,6 +258,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.inlineAttachmentContentIds = this.draftMail.attachments
         .filter((attachment: Attachment) => attachment.is_inline)
         .map(attachment => attachment.content_id);
+    }
+
+    if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
+      this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
+      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint || '');
     }
 
     const draft: Draft = {
@@ -432,12 +439,34 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (receivers.length === 0) {
       return false;
     }
-    if (receivers.filter(item => item.toLowerCase().indexOf('@ctemplar.com') === -1).length === 0) {
-      this.setMailData(true, false, true);
-      this.store.dispatch(new GetUsersKeys({ draftId: this.draft.id, emails: receivers.join(',') }));
-    } else {
-      this.setMailData(false, false);
-      this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
+    const cTemplarReceivers = [];
+    const nonCTemplarReceivers = [];
+    receivers.forEach(receiver => {
+      if (receiver.toLowerCase().indexOf('@ctemplar.com') === -1) {
+        nonCTemplarReceivers.push(receiver);
+      }
+      else {
+        cTemplarReceivers.push(receiver);
+      }
+    });
+    if (this.encryptForm.controls['password'].value) {
+      this.openPgpService.generateEmailSshKeys(this.encryptForm.controls['password'].value, this.draftId);
+      if (cTemplarReceivers.length === 0) {
+        this.setMailData(true, false);
+      }
+      else {
+        this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
+        this.setMailData(true, false, true);
+      }
+    }
+    else {
+      if (nonCTemplarReceivers.length === 0) {
+        this.setMailData(true, false, true);
+        this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
+      } else {
+        this.setMailData(false, false);
+        this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
+      }
     }
     this.resetValues();
     this.hide.emit();
@@ -505,10 +534,21 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openEncryptionModal() {
+    if (this.encryptForm.invalid) {
+      this.encryptForm.reset();
+      if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
+        this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
+        this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint || '');
+      }
+    }
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
       centered: true,
       windowClass: 'modal-md users-action-modal'
     });
+  }
+
+  closeEncryptionModal() {
+    this.encryptionModalRef.dismiss();
   }
 
   toggleOSK() {
@@ -592,6 +632,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.valueChanged$.next(this.deadManTimer.value);
   }
 
+  onSubmitEncryption() {
+    this.showEncryptFormErrors = true;
+    if (this.encryptForm.valid) {
+      this.valueChanged$.next(true);
+      this.closeEncryptionModal();
+    }
+  }
+
+  clearEncryption() {
+    this.encryptForm.reset();
+    this.valueChanged$.next(true);
+    this.closeEncryptionModal();
+  }
+
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1 ||
@@ -628,6 +682,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
+    this.draftMail.password = this.encryptForm.controls['password'].value || null;
+    this.draftMail.password_hint = this.encryptForm.controls['passwordHint'].value || null;
 
     this.checkInlineAttachments();
     this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));

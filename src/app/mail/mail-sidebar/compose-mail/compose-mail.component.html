@@ -368,10 +368,11 @@
                   class="actions-btn mail-attach-btn" placement="top"
                   ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
         </li>
-        <li class="pr-0" ngbTooltip="Feature coming soon">
+        <li class="pr-0">
           <button role="button" type="button" (click)="openEncryptionModal()"
                   class="actions-btn mail-envelop-btn border-radius-r-0"
-                  placement="top" ngbTooltip="Encryption" disabled><i class="icon icon-mail"></i></button>
+                  [ngClass]="{'text-primary': draftMail?.encryption?.password}"
+                  placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
         </li>
         <li class="px-0">
           <button role="button" type="button" (click)="openSelfDestructModal()"
@@ -583,29 +584,51 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <h3>Encrypt for non-Ctemplar mail users</h3>
-      <form [formGroup]="encryptForm" #form="ngForm" (ngSubmit)="messageEncrypt()">
+      <form [formGroup]="encryptForm" (submit)="onSubmitEncryption()">
         <div class="form-group">
-          <label for="message-password">Message Password</label>
-          <input type="password" id="message-password" class="form-control"
-                 placeholder="Message pasword" formControlName="password">
+          <label for="encrypt-password">Message Password</label>
+          <div class="input-group">
+            <input #encryptPasswordInput type="password" class="form-control form-control-lg" id="encrypt-password"
+                   formControlName="password" placeholder="Message password"/>
+            <span class="input-group-addon password-toggle bg-white text-muted"
+                  (click)="encryptPasswordInput.type = encryptPasswordInput.type === 'password' ? 'text' : 'password'">
+              <i class="fa fa-eye"></i>
+            </span>
+          </div>
+          <span *ngIf="encryptForm.controls['password'].errors && showEncryptFormErrors"
+                class="validate-message">
+            <span *ngIf="encryptForm.controls['password'].errors.required">Message password is required.</span>
+          </span>
         </div>
         <div class="form-group">
-          <label for="confirm-password">Confirm Password</label>
-          <input type="password" id="confirm-password" class="form-control"
-                 placeholder="Confirm password" formControlName="confirmPwd">
+          <label for="confirm-encrypt-password">Confirm Password</label>
+          <div class="input-group">
+            <input #encryptConfirmPasswordInput type="password" class="form-control form-control-lg"
+                   id="confirm-encrypt-password" formControlName="confirmPwd" placeholder="Confirm password"/>
+            <span class="input-group-addon password-toggle bg-white text-muted"
+                  (click)="encryptConfirmPasswordInput.type = encryptConfirmPasswordInput.type === 'password' ? 'text' : 'password'">
+              <i class="fa fa-eye"></i>
+            </span>
+          </div>
+          <span *ngIf="encryptForm.controls['confirmPwd'].errors && showEncryptFormErrors"
+                class="validate-message">
+            <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+          </span>
         </div>
         <div class="form-group">
           <label for="password-hint">Password Hint</label>
-          <input type="text" id="password-hint" class="form-control"
-                 placeholder="Hint">
+          <input type="text" id="password-hint" class="form-control" formControlName="passwordHint"
+                 placeholder="Password Hint">
         </div>
         <div class="form-group text-small">
-          Encrypted messages to non-Ctemplar recipients will expire in 28-days unless a shorter expiration
-          time is set.
+          Encrypted messages to non-Ctemplar recipients will expire in 5 days.
         </div>
         <div class="form-group text-center mb-0">
           <button type="submit" class="btn btn-success btn-sm" role="button">Confirm</button>
-          <button type="reset" (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+          <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm"
+                  role="button">Clear
+          </button>
+          <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
         </div>
       </form>
     </div>

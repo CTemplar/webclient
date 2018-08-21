@@ -11,7 +11,7 @@ onmessage = function (event) {
     }
     else if (event.data.generateKeys) {
         generateKeys(event.data.options).then((data) => {
-            postMessage({generateKeys: true, userKeys: data});
+            postMessage({generateKeys: true, keys: data, callerId: event.data.callerId, forEmail: !!event.data.forEmail});
         })
     }
     else if (!decryptedPrivKeyObj) {
