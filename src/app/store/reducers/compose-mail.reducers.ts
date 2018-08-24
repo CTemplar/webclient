@@ -49,8 +49,11 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
         if (action.payload.keys) {
           state.drafts[action.payload.draftId].draft = {
             ...state.drafts[action.payload.draftId].draft,
-            private_key: action.payload.keys.private_key,
-            public_key: action.payload.keys.public_key
+            encryption: {
+              ...state.drafts[action.payload.draftId].draft.encryption,
+              private_key: action.payload.keys.private_key,
+              public_key: action.payload.keys.public_key
+            }
           };
         }
       }

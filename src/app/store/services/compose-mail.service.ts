@@ -33,14 +33,14 @@ export class ComposeMailService {
               } else if (this.drafts[key].isSshInProgress && !draftMail.isSshInProgress) {
                 if (!draftMail.getUserKeyInProgress) {
                   const keys = draftMail.usersKeys ? draftMail.usersKeys.map(item => item.public_key) : [];
-                  keys.push(draftMail.draft.public_key);
+                  keys.push(draftMail.draft.encryption.public_key);
                   this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, keys);
                 }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 if (!draftMail.isSshInProgress) {
                   const keys = draftMail.usersKeys.map(item => item.public_key);
-                  if (draftMail.draft.public_key) {
-                    keys.push(draftMail.draft.public_key);
+                  if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
+                    keys.push(draftMail.draft.encryption.public_key);
                   }
                   this.openPgpService.encrypt(draftMail.id, draftMail.draft.content, keys);
                 }

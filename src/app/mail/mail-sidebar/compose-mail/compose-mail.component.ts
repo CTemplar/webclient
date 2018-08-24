@@ -682,8 +682,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
-    this.draftMail.password = this.encryptForm.controls['password'].value || null;
-    this.draftMail.password_hint = this.encryptForm.controls['passwordHint'].value || null;
+    this.draftMail.encryption = this.draftMail.encryption || {};
+    this.draftMail.encryption.password = this.encryptForm.controls['password'].value || null;
+    this.draftMail.encryption.password_hint = this.encryptForm.controls['passwordHint'].value || null;
 
     this.checkInlineAttachments();
     this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
