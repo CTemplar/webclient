@@ -98,6 +98,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
   @Input() content: string;
+  @Input() subject: string;
   @Input() draftMail: Mail;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
@@ -757,7 +758,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver })) :
           [],
       bcc: this.draftMail ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
-      subject: this.draftMail ? this.draftMail.subject : ''
+      subject: this.subject ? this.subject : this.draftMail ? this.draftMail.subject : ''
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;

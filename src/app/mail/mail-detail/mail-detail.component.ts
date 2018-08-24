@@ -88,7 +88,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onReply() {
     this.composeMailData = {
-      receivers: [this.mail.sender]
+      receivers: [this.mail.sender],
+      subject: this.mail.subject
     };
     this.isComposeMailVisible = true;
   }
@@ -96,14 +97,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onReplyAll() {
     this.composeMailData = {
       receivers: [this.mail.sender],
-      cc: [...this.mail.receiver, ...this.mail.cc]
+      cc: [...this.mail.receiver, ...this.mail.cc],
+      subject: this.mail.subject
     };
     this.isComposeMailVisible = true;
   }
 
   onForward() {
     this.composeMailData = {
-      content: this.decryptedContent
+      content: this.decryptedContent,
+      subject: this.mail.subject
     };
     this.isComposeMailVisible = true;
   }
