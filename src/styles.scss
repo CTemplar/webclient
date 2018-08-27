@@ -286,6 +286,10 @@ button[disabled] {
     background-color: darken($twitter-color , 10%);
     border-color: darken($twitter-color , 10%);
   }
+
+  img {
+    max-height: 15px;
+  }
 }
 
 
@@ -299,5 +303,9 @@ button[disabled] {
     color: #fff;
     background-color: darken($facebook-color , 10%);
     border-color: darken($facebook-color , 10%);
+  }
+
+  img {
+    max-height: 15px;
   }
 }
