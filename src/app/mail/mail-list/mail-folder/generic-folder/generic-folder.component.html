@@ -209,12 +209,16 @@
         <td class="mail-inbox-message d-none d-md-block">
           <a (click)="openMail(mail)" class="text-dark">
             <span class="mail-subject">
+
+              <ng-container *ngIf="mailFolder === mailFolderTypes.SENT">
+                <span class="badge badge-warning mr-2 p-1"
+                      *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
+                </span>
+              </ng-container>
+
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                 <span class="badge badge-success mr-2 p-1"
                       *ngIf="mail.delayed_delivery">Dalay delivery in {{mail.delayed_delivery | remainingTime}}
-                </span>
-                <span class="badge badge-warning mr-2 p-1"
-                      *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
                       *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
