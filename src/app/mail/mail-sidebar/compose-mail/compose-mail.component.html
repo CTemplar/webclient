@@ -368,10 +368,11 @@
                   class="actions-btn mail-attach-btn" placement="top"
                   ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
         </li>
-        <li class="pr-0">
-          <button role="button" type="button" (click)="openEncryptionModal()"
+        <li class="pr-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
+          <button role="button" type="button"
                   class="actions-btn mail-envelop-btn border-radius-r-0"
                   [ngClass]="{'text-primary': draftMail?.encryption?.password}"
+                  [disabled]="!userState.isPrime"
                   placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
         </li>
         <li class="px-0">
