@@ -22,10 +22,6 @@ export interface Mail {
   dead_man_duration?: string;
   datetime?: string;
   marked?: boolean;
-  password?: string;
-  password_hint?: string;
-  private_key?: string;
-  public_key?: string;
   is_encrypted?: boolean;
   is_protected?: boolean;
   sent_at?: string;

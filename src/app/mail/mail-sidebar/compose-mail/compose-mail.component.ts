@@ -150,6 +150,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private isAuthenticated: boolean;
   public userState: UserState;
   private decryptedContent: string;
+  private encryptionData: any = {};
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -261,9 +262,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         .map(attachment => attachment.content_id);
     }
 
-    if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
-      this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
-      this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint || '');
+    this.encryptionData = {};
+    if (this.draftMail && this.draftMail.encryption) {
+      this.encryptionData.password = this.draftMail.encryption.password;
+      this.encryptionData.password_hint = this.draftMail.encryption.password_hint;
     }
 
     const draft: Draft = {
@@ -450,8 +452,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         cTemplarReceivers.push(receiver);
       }
     });
-    if (this.encryptForm.controls['password'].value) {
-      this.openPgpService.generateEmailSshKeys(this.encryptForm.controls['password'].value, this.draftId);
+    if (this.encryptionData.password) {
+      this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
       if (cTemplarReceivers.length === 0) {
         this.setMailData(true, false);
       }
@@ -535,13 +537,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openEncryptionModal() {
-    if (this.encryptForm.invalid) {
-      this.encryptForm.reset();
-      if (this.draftMail && this.draftMail.encryption && this.draftMail.encryption.password) {
-        this.encryptForm.controls['password'].setValue(this.draftMail.encryption.password);
-        this.encryptForm.controls['passwordHint'].setValue(this.draftMail.encryption.password_hint || '');
-      }
-    }
+    this.encryptForm.controls['password'].setValue(this.encryptionData.password || '');
+    this.encryptForm.controls['passwordHint'].setValue(this.encryptionData.password_hint || '');
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
       centered: true,
       windowClass: 'modal-md users-action-modal'
@@ -636,6 +633,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onSubmitEncryption() {
     this.showEncryptFormErrors = true;
     if (this.encryptForm.valid) {
+      this.encryptionData = {
+        password: this.encryptForm.controls['password'].value,
+        passwordHint: this.encryptForm.controls['passwordHint'].value
+      };
       this.valueChanged$.next(true);
       this.closeEncryptionModal();
     }
@@ -643,6 +644,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   clearEncryption() {
     this.encryptForm.reset();
+    this.encryptionData = {};
     this.valueChanged$.next(true);
     this.closeEncryptionModal();
   }
@@ -683,8 +685,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
-    this.draftMail.password = this.encryptForm.controls['password'].value || null;
-    this.draftMail.password_hint = this.encryptForm.controls['passwordHint'].value || null;
+    if (this.encryptionData.password) {
+      this.draftMail.encryption = this.draftMail.encryption || {};
+      this.draftMail.encryption.password = this.encryptForm.controls['password'].value || null;
+      this.draftMail.encryption.password_hint = this.encryptForm.controls['passwordHint'].value || null;
+    }
+    else if (this.draftMail.encryption) {
+      this.draftMail.encryption = {};
+    }
 
     this.checkInlineAttachments();
     this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
