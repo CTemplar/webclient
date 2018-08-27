@@ -153,6 +153,14 @@ export interface MailBoxesState {
   inProgress?: boolean;
 }
 
+export interface SecureMessageState {
+  message: Mail;
+  decryptedContent?: string;
+  isDecryptionInProgress?: boolean;
+  inProgress?: boolean;
+  errorMessage?: string;
+}
+
 export interface PublicKey {
   email: string;
   public_key: string;
@@ -206,6 +214,7 @@ export interface AppState {
   timezone: TimezonesState;
   bitcoin: BitcoinState;
   composeMail: ComposeMailState;
+  secureMessage: SecureMessageState;
   search: SearchState;
 }
 
