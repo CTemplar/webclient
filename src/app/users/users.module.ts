@@ -16,7 +16,7 @@ import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
 import { SecureMessageComponent } from './secure-message/secure-message.component';
-import { DecryptComponent } from './decrypt/decrypt.component';
+import { DecryptMessageComponent } from './decrypt/decrypt-message.component';
 
 // Module
 import { PagesModule } from '../pages/pages.module';
@@ -47,7 +47,7 @@ import {TranslateModule} from '@ngx-translate/core';
     UsersSignUpComponent,
     UsersCreateAccountComponent,
     SecureMessageComponent,
-    DecryptComponent
+    DecryptMessageComponent
   ],
   providers: [UsersService,
     {
