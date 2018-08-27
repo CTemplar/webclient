@@ -210,7 +210,7 @@
           <a (click)="openMail(mail)" class="text-dark">
             <span class="mail-subject">
 
-              <ng-container *ngIf="mailFolder === mailFolderTypes.SENT">
+              <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
                 <span class="badge badge-warning mr-2 p-1"
                       *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
                 </span>
