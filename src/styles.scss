@@ -274,3 +274,30 @@ button[disabled] {
     left: 220px;
   }
 }
+
+.btn-twitter {
+  background-color: $twitter-color;
+  border-color: $twitter-color;
+  color: #fff;
+  font-size: 14px;
+  &:hover,
+  &:focus {
+    color: #fff;
+    background-color: darken($twitter-color , 10%);
+    border-color: darken($twitter-color , 10%);
+  }
+}
+
+
+.btn-facebook {
+  background-color: $facebook-color;
+  border-color: $facebook-color;
+  color: #fff;
+  font-size: 14px;
+  &:hover,
+  &:focus {
+    color: #fff;
+    background-color: darken($facebook-color , 10%);
+    border-color: darken($facebook-color , 10%);
+  }
+}
