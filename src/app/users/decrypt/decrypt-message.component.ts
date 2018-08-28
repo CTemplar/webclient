@@ -5,8 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
+import { GetMessage } from '../../store/actions';
 // Store
-import { AppState } from '../../store/datatypes';
+import { AppState, SecureMessageState } from '../../store/datatypes';
+import { Mail } from '../../store/models';
 // Service
 import { SharedService } from '../../store/services';
 
@@ -26,6 +28,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   private hash: string;
   private secret: string;
+  private secureMessageState: SecureMessageState;
+  private message: Mail;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -44,12 +48,15 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     this.route.params.takeUntil(this.destroyed$).subscribe(params => {
       this.hash = params['hash'];
       this.secret = params['secret'];
+      this.store.dispatch(new GetMessage({ hash: this.hash, secret: this.secret }));
     });
 
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+    this.store.select(state => state.secureMessage).takeUntil(this.destroyed$)
       .subscribe(state => {
-        this.isLoading = false;
+        this.isLoading = state.inProgress || state.isDecryptionInProgress;
         this.errorMessage = state.errorMessage;
+        this.message = state.message;
+        this.secureMessageState = state;
       });
   }
 

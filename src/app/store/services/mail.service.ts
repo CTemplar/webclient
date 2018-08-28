@@ -47,6 +47,11 @@ export class MailService {
     return this.http.get<any>(`${apiUrl}emails/keys/?email__in=${emails}`).map(data => data['results']);
   }
 
+  getSecureMessage(hash: string, secret: string): Observable<any> {
+    const url = `${apiUrl}emails/secure-message/${hash}/${secret}/`;
+    return this.http.get<any>(url);
+  }
+
   updateFolder(data: Mailbox): Observable<any> {
     return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }

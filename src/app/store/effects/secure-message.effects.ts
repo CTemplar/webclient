@@ -5,7 +5,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
-import { GetMessage, GetMessageSuccess, SecureMessageActionTypes } from '../actions';
+import { catchError, switchMap } from 'rxjs/operators';
+import { GetMessage, GetMessageFailure, GetMessageSuccess, SecureMessageActionTypes } from '../actions';
 import { MailService } from '../services';
 
 @Injectable()
@@ -16,10 +17,16 @@ export class SecureMessageEffects {
   }
 
   @Effect()
-  createMailEffect: Observable<any> = this.actions
+  getMessageEffect: Observable<any> = this.actions
     .ofType(SecureMessageActionTypes.GET_MESSAGE)
     .map((action: GetMessage) => action.payload)
     .switchMap(payload => {
-      return [new GetMessageSuccess(null)];
+      return this.mailService.getSecureMessage(payload.hash, payload.secret)
+        .pipe(
+          switchMap(res => {
+            return [new GetMessageSuccess(res)];
+          }),
+          catchError(error => [new GetMessageFailure({ error })])
+        );
     });
 }
