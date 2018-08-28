@@ -10,7 +10,7 @@ import { GetMessage } from '../../store/actions';
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Mail } from '../../store/models';
 // Service
-import { SharedService } from '../../store/services';
+import { OpenPgpService, SharedService } from '../../store/services';
 
 @TakeUntilDestroy()
 @Component({
@@ -22,6 +22,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   decryptForm: FormGroup;
+  decryptedContent: string;
   showFormErrors: boolean;
   errorMessage: string;
   isLoading: boolean;
@@ -34,7 +35,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
-              private sharedService: SharedService) {
+              private sharedService: SharedService,
+              private openPgpService: OpenPgpService) {
   }
 
   ngOnInit() {
@@ -53,9 +55,16 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.secureMessage).takeUntil(this.destroyed$)
       .subscribe(state => {
-        this.isLoading = state.inProgress || state.isDecryptionInProgress;
+        this.isLoading = state.inProgress || state.isContentDecryptionInProgress;
         this.errorMessage = state.errorMessage;
         this.message = state.message;
+        if (this.secureMessageState) {
+          if (this.secureMessageState.isKeyDecryptionInProgress && !state.isKeyDecryptionInProgress) {
+            this.openPgpService.decryptSecureMessageContent(state.decryptedKey, this.message.content);
+          } else if (this.secureMessageState.isContentDecryptionInProgress && !state.isContentDecryptionInProgress) {
+            this.decryptedContent = state.decryptedContent;
+          }
+        }
         this.secureMessageState = state;
       });
   }
@@ -67,8 +76,9 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   onSubmit(data: any) {
     this.showFormErrors = true;
-    if (this.decryptForm.valid) {
+    if (this.decryptForm.valid && this.message) {
       this.isLoading = true;
+      this.openPgpService.decryptSecureMessagePrivKey(this.message.encryption.private_key, data.password);
     }
   }
 

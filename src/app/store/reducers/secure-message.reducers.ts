@@ -12,6 +12,12 @@ export function reducer(state: SecureMessageState = {
     case SecureMessageActionTypes.GET_MESSAGE_FAILURE: {
       return { ...state, message: null, inProgress: false, errorMessage: 'Unable to load message.' };
     }
+    case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_KEY: {
+      return { ...state, decryptedKey: action.payload.decryptedKey, isKeyDecryptionInProgress: action.payload.inProgress };
+    }
+    case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_CONTENT: {
+      return { ...state, decryptedContent: action.payload.decryptedContent, isContentDecryptionInProgress: action.payload.inProgress };
+    }
     default: {
       return state;
     }

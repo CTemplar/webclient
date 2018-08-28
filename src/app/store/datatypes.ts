@@ -156,7 +156,9 @@ export interface MailBoxesState {
 export interface SecureMessageState {
   message: Mail;
   decryptedContent?: string;
-  isDecryptionInProgress?: boolean;
+  decryptedKey?: any;
+  isKeyDecryptionInProgress?: boolean;
+  isContentDecryptionInProgress?: boolean;
   inProgress?: boolean;
   errorMessage?: string;
 }
