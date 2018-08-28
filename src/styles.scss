@@ -309,3 +309,32 @@ button[disabled] {
     border-color: darken($facebook-color , 10%);
   }
 }
+
+// Settings Tabs 
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  border-bottom: 1px solid #EEE;
+}
+
+.nav .nav-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  background-color: transparent;
+  padding: .5rem 1rem;
+  text-transform: unset;
+  border-radius: .25rem;
+  font-weight: 600;
+  color: $custom-select-indicator-color;
+  text-align: center;
+}
+
+.nav .nav-link.active {
+  color: $brand-primary;
+}
