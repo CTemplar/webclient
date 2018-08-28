@@ -245,12 +245,12 @@
 
         <!-- Icon Secured -->
         <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-          <img src="assets/images/features-icon/tower.svg" width="14px">
+          <img src="assets/images/features-icon/tower.svg" width="14px" ngbTooltip="4 Wall Protection">
         </td>
 
         <!-- Icon Secured -->
         <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-          <i class="icon icon-secured"></i>
+          <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : 'End-to-End Encrypted'" placement="left"></i>
         </td>
 
       </tr>
