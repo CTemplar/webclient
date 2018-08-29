@@ -15,7 +15,7 @@ import { SharedModule } from '../shared/shared.module';
 import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
-import { SecureMessageComponent } from './secure-message/secure-message.component';
+import { DisplaySecureMessageComponent } from './display-secure-message/display-secure-message.component';
 import { DecryptMessageComponent } from './decrypt/decrypt-message.component';
 
 // Module
@@ -46,7 +46,7 @@ import {TranslateModule} from '@ngx-translate/core';
     UsersSignInComponent,
     UsersSignUpComponent,
     UsersCreateAccountComponent,
-    SecureMessageComponent,
+    DisplaySecureMessageComponent,
     DecryptMessageComponent
   ],
   providers: [UsersService,

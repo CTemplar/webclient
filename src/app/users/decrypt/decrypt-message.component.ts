@@ -22,15 +22,14 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   decryptForm: FormGroup;
+  message: Mail;
   decryptedContent: string;
   showFormErrors: boolean;
   errorMessage: string;
   isLoading: boolean;
-
   private hash: string;
   private secret: string;
   private secureMessageState: SecureMessageState;
-  private message: Mail;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
