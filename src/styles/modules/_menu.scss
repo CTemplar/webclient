@@ -62,7 +62,7 @@
         }
     }
 
-    .nav-item {
+    .navbar-nav .nav-item {
         padding: 0 11px;
     }
 
@@ -166,7 +166,7 @@
         }
     }
 
-    .nav-item {
+    .navbar-nav .nav-item {
         opacity: 0;
         text-align: center;
         transform: translateY(-100px);
@@ -196,13 +196,13 @@
 }
 
 @include media("<ipad", ">sm") {
-    .nav-item {
+    .navbar-nav .nav-item {
         &:not(:last-of-type) {
             margin-bottom: 1.75rem;
         }
     }
 
-    .nav-link {
+    .navbar-nav .nav-link {
         font-size: 1.25rem;
         letter-spacing: 1.7px;
 

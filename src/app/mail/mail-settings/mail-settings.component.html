@@ -1,627 +1,740 @@
 <div class="mailbox-sub-content">
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered border-top-0">
-            <h3 class="ui-header-title text-dark mb-0"><strong translate="settings.dashboard">Dashboard</strong></h3>
-        </header>
-    </section>
 
-    <section class="mailbox-section">
-        <div class="mailbox-section-body pt-0">
-            <div class="desc-card-holder mt-sm-3 mt-md-0">
-                <div class="row">
-                    <div class="col-md-6 mb-4 mb-md-0">
-                        <div class="desc-card">
-                            <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-top-md-0 border-bottom-0">
-                                <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.overview">Overview</strong>
-                                </h5>
+    <ngb-tabset>
+
+        <!-- Dashboard and Plans -->
+        <ngb-tab>
+            <ng-template ngbTabTitle>Dashboard and <br>plans</ng-template>
+            <ng-template ngbTabContent>
+
+                <!-- Overview Section -->
+                <section class="mailbox-section">
+
+                    <div class="mailbox-section-body pt-0">
+                        <div class="desc-card-holder mt-sm-3 mt-md-0">
+                            <div class="row">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <div class="desc-card">
+                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-top-md-0 border-bottom-0">
+                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.overview">Overview</strong>
+                                            </h5>
+                                        </div>
+                                        <div class="desc-card-body">
+                                            <ul class="info-list list-styled text-dark">
+                                                <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.username">
+                                                        Username
+                                                    </div>
+                                                    <div class="info-list-text info-list-val">{{userState.username}}</div>
+                                                </li>
+                                                <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.domains">
+                                                        Domains
+                                                    </div>
+                                                    <div class="info-list-text info-list-val">
+                                                        <span *ngIf="userState.isPrime" translate="settings.feature_coming_soon">Feature
+                                                            coming soon!</span>
+                                                        <span *ngIf="!userState.isPrime" translate="settings.none">None</span>
+                                                    </div>
+                                                </li>
+                                                <li class="info-list-item align-items-start">
+                                                    <div class="info-list-text info-list-label" translate="settings.addresses">
+                                                        Addresses
+                                                    </div>
+                                                    <div class="info-list-text info-list-val">
+                                                        <div *ngIf="userState.isPrime" class="ng-tooltips-holder d-inline-block"
+                                                            placement="top" ngbTooltip="Prime accounts will be credited with 2 additional addresses at no cost as soon as this function is available">
+                                                            <div class="info-list-val-text" translate="settings.address_tooltip">
+                                                                One - More available soon!
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="!userState.isPrime" class="d-inline-block">
+                                                            <div class="info-list-val-text" translate="settings.address_one">
+                                                                One
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </li>
+                                                <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.storage">
+                                                        Storage
+                                                    </div>
+
+                                                    <div class="info-list-text info-list-val">
+                                                        <div class="info-list-val-text"> {{(settings?.used_storage *
+                                                            1024) | filesize}} of {{(settings?.allocated_storage *
+                                                            1024) | filesize}}</div>
+                                                        <div class="progress progress-secondary progress-lg">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
+                                                                [attr.aria-valuenow]="settings.used_storage"
+                                                                aria-valuemin="0" [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="desc-card">
+                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-top-sm-0 border-bottom-0">
+                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.my_subscription">My
+                                                    Subscription</strong></h5>
+                                        </div>
+                                        <div class="desc-card-body">
+                                            <ul class="info-list info-list-lg list-styled text-dark" *ngIf="payment">
+                                                <li class="info-list-item">
+                                                    <div class="info-list-item-row">
+                                                        <div class="info-list-text info-list-label">
+                                                            <span class="info-list-label-text" translate="settings.plans">Plans</span>
+                                                            <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime
+                                                                Plan</span>
+                                                            <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free
+                                                                Plan</span>
+                                                        </div>
+                                                        <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
+                                                            <strong>${{payment?.payment_type === paymentType.ANNUALLY ?
+                                                                '6':'8'}}.00
+                                                            </strong><span class="text-muted">/month</span>
+                                                        </div>
+                                                    </div>
+
+                                                </li>
+                                                <li *ngIf="userState.isPrime" class="info-list-item">
+                                                    <div class="info-list-text info-list-label">Billing</div>
+                                                    <div class="info-list-text info-list-val">
+                                                        {{payment?.payment_type}}
+                                                    </div>
+                                                </li>
+                                                <li *ngIf="userState.isPrime" class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.total_price">Total
+                                                        Price</div>
+                                                    <div class="info-list-text info-list-val">
+                                                        ${{payment?.payment_type === paymentType.ANNUALLY ? '72':'96'}}
+                                                        /annually
+                                                    </div>
+                                                </li>
+                                                <li *ngIf="userState.isPrime" class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing
+                                                        Cycle End</div>
+                                                    <div class="info-list-text info-list-val">{{payment.billing_cycle_ends
+                                                        | date:'mediumDate'}}</div>
+                                                </li>
+                                                <li *ngIf="userState.isPrime" class="info-list-item">
+                                                    <div class="info-list-text info-list-label" translate="settings.payment">Payment</div>
+                                                    <div class="info-list-text info-list-val text-capitalize">{{payment.payment_method}}</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="desc-card-body">
-                                <ul class="info-list list-styled text-dark">
-                                    <li class="info-list-item">
-                                        <div class="info-list-text info-list-label" translate="settings.username">
-                                            Username
-                                        </div>
-                                        <div class="info-list-text info-list-val">{{userState.username}}</div>
-                                    </li>
-                                    <li class="info-list-item">
-                                        <div class="info-list-text info-list-label" translate="settings.domains">
-                                            Domains
-                                        </div>
-                                        <div class="info-list-text info-list-val">
-                                             <span *ngIf="userState.isPrime" translate="settings.feature_coming_soon">Feature coming soon!</span>
-                                             <span *ngIf="!userState.isPrime" translate="settings.none">None</span>
-                                        </div>
-                                    </li>
-                                    <li class="info-list-item align-items-start">
-                                        <div class="info-list-text info-list-label" translate="settings.addresses">
-                                            Addresses
-                                        </div>
-                                        <div class="info-list-text info-list-val">
-                                            <div *ngIf="userState.isPrime" class="ng-tooltips-holder d-inline-block" placement="top"
-                                                  ngbTooltip="Prime accounts will be credited with 2 additional addresses at no cost as soon as this function is available">
-                                               <div class="info-list-val-text" translate="settings.address_tooltip">
-                                                   One - More available soon!
-                                               </div>
-                                            </div>
-                                            <div *ngIf="!userState.isPrime"  class="d-inline-block">
-                                                <div class="info-list-val-text" translate="settings.address_one">
-                                                    One
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- Account Type Section -->
+                <section class="mailbox-section">
+                    <div class="ui-header ui-header-bordered position-relative">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account
+                                Type</strong></h5>
+                    </div>
+                    <app-pricing-plans hideHeader="true" blockGapsZero="true" [showCurrentPlan]="true" [isPrime]="userState.isPrime"
+                        [openBillingInfoInModal]="true"></app-pricing-plans>
+
+                </section>
+
+
+            </ng-template>
+        </ngb-tab>
+
+        <!-- General -->
+        <ngb-tab>
+            <ng-template ngbTabTitle>General</ng-template>
+            <ng-template ngbTabContent>
+
+                <!-- General Settings -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General
+                                settings</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.language">Language</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="btn-dropdown btn-dropdown-select">
+                                            <div ngbDropdown class="dropdown-sm">
+                                                <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
+                                                    {{selectedLanguage?.name}} ({{selectedLanguage?.locale}})
+                                                </button>
+                                                <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
+                                                    <a class="dropdown-item" *ngFor="let language of languages" (click)="updateLanguage(language)">
+                                                        {{language.name}} ({{language.locale}})
+                                                    </a>
                                                 </div>
                                             </div>
-                                           
                                         </div>
-                                    </li>
-                                    <li class="info-list-item">
-                                        <div class="info-list-text info-list-label" translate="settings.storage">
-                                            Storage
-                                        </div>
-
-                                        <div class="info-list-text info-list-val">
-                                            <div class="info-list-val-text"> {{(settings?.used_storage * 1024) | filesize}} of {{(settings?.allocated_storage * 1024) | filesize}}</div>
-                                            <div class="progress progress-secondary progress-lg">
-                                                <div class="progress-bar" role="progressbar"
-                                                     [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
-                                                     [attr.aria-valuenow]="settings.used_storage" aria-valuemin="0"
-                                                     [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.current_time_zone">Current
+                                            time zone</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="btn-dropdown btn-dropdown-select">
+                                            <div ngbDropdown class="dropdown-sm">
+                                                <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{settings.timezone}}
+                                                </button>
+                                                <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
+                                                    <a class="dropdown-item" *ngFor="let timezone of timezones" (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </li>
-                                </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="desc-card">
-                            <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-top-sm-0 border-bottom-0">
-                                <h5 class="ui-header-subtitle text-dark mb-0"><strong
-                                        translate="settings.my_subscription">My Subscription</strong></h5>
-                            </div>
-                            <div class="desc-card-body">
-                                <ul class="info-list info-list-lg list-styled text-dark" *ngIf="payment">
-                                    <li class="info-list-item">
-                                        <div class="info-list-item-row">
-                                            <div class="info-list-text info-list-label">
-                                                <span class="info-list-label-text" translate="settings.plans">Plans</span>
-                                                <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime Plan</span>
-                                                <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free Plan</span>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically
+                                            save contacts</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField1"
+                                                        name="[1]" type="radio" (click)="updateSettings('save_contacts', true)"
+                                                        [checked]="settings.save_contacts" />
+                                                    <label for="autoSaveField1" translate="common.enabled">Enabled</label>
+                                                </div>
                                             </div>
-                                          <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                            <strong>${{payment?.payment_type === paymentType.ANNUALLY ? '6':'8'}}.00
-                                            </strong><span class="text-muted">/month</span>
-                                          </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField2"
+                                                        name="[1]" type="radio" (click)="updateSettings('save_contacts', false)"
+                                                        [checked]="!settings.save_contacts" />
+                                                    <label for="autoSaveField2" translate="common.disabled">Disabled</label>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                    </li>
-                                    <li *ngIf="userState.isPrime" class="info-list-item">
-                                        <div class="info-list-text info-list-label">Billing</div>
-                                      <div class="info-list-text info-list-val">
-                                        {{payment?.payment_type}}
-                                      </div>
-                                    </li>
-                                    <li *ngIf="userState.isPrime" class="info-list-item">
-                                        <div class="info-list-text info-list-label" translate="settings.total_price">Total Price</div>
-                                      <div class="info-list-text info-list-val">
-                                        ${{payment?.payment_type === paymentType.ANNUALLY ? '72':'96'}} /annually
-                                      </div>
-                                    </li>
-                                    <li *ngIf="userState.isPrime" class="info-list-item">
-                                        <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing Cycle End</div>
-                                        <div class="info-list-text info-list-val">{{payment.billing_cycle_ends | date:'mediumDate'}}</div>
-                                    </li>
-                                    <li *ngIf="userState.isPrime" class="info-list-item">
-                                        <div class="info-list-text info-list-label" translate="settings.payment">Payment</div>
-                                        <div class="info-list-text info-list-val text-capitalize">{{payment.payment_method}}</div>
-                                    </li>
-                                </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-
-    <section class="mailbox-section">
-        <div class="ui-header ui-header-bordered position-relative">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account Type</strong></h5>
-        </div>
-        <app-pricing-plans hideHeader="true" blockGapsZero="true"
-                           [showCurrentPlan]="true"
-                           [isPrime]="userState.isPrime"
-                           [openBillingInfoInModal]="true"></app-pricing-plans>
-
-    </section>
-
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General settings</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.language">Language</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="btn-dropdown btn-dropdown-select">
-                                <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
-                                        {{selectedLanguage?.name}} ({{selectedLanguage?.locale}})
-                                    </button>
-                                    <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                                        <a class="dropdown-item"
-                                           *ngFor="let language of languages"
-                                           (click)="updateLanguage(language)">
-                                            {{language.name}} ({{language.locale}})
-                                        </a>
+                            <!-- Will be used later -->
+                            <div class="form-content-row" *ngIf="false">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0" translate="settings.vacation_responder">Vacation
+                                            responder</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="responderField1"
+                                                        name="[2]" type="radio" (click)="updateSettings('autoresponder', true)"
+                                                        [checked]="settings.autoresponder" />
+                                                    <label for="responderField1" translate="common.enabled">Enabled</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="responderField2"
+                                                        name="[2]" type="radio" (click)="updateSettings('autoresponder', false)"
+                                                        [checked]="!settings.autoresponder" />
+                                                    <label for="responderField2" translate="common.disabled">Disabled</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.current_time_zone">Current time zone</label>
+                </section>
+
+                <!-- Appreance Section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>
+                    </header>
+
+                </section>
+
+                <!-- Save Button -->
+                <section class="mailbox-section">
+                    <button class="btn btn-sm btn-success m-3" type="button" role="button" (click)="onUpdateSettingsBtnClick()">
+                        Save
+                    </button>
+                </section>
+            </ng-template>
+        </ngb-tab>
+
+        <!-- Filtered and blocked addresses -->
+        <ngb-tab>
+            <ng-template ngbTabTitle>Filtered and blocked <br> addresses</ng-template>
+            <ng-template ngbTabContent>
+
+                <!-- Whitelist settings -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.whitelist.name">Whitelist</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <ul class="ui-list ui-list-styled list-styled">
+                                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="form-label text-dark mb-0">{{item.email}}</div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <li><a (click)="deleteWhiteList(item.id)" role="button"><i class="icon icon-garbage"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="info-card">
+                                <p [innerHTML]="'settings.whitelist.info' | translate">Messages from contacts in the
+                                    whitelist
+                                    always go to <strong>Inbox folder</strong>. Marking a
+                                    message as not spam adds the address to the Whitelist.</p>
+                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u
+                                            translate="settings.whitelist.add_whitelist_contact">Add whitelist
+                                            contact</u></strong></a>
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <div class="btn-dropdown btn-dropdown-select">
-                                <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{settings.timezone}}
-                                    </button>
-                                    <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
-                                        <a class="dropdown-item"
-                                           *ngFor="let timezone of timezones"
-                                           (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
+                    </div>
+                </section>
+
+                <!-- Blacklist settings -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.blacklist.name">Blacklist</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <ul class="ui-list ui-list-styled list-styled">
+                                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="form-label text-dark mb-0">{{item.email}}</div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <li>
+                                                    <a (click)="deleteBlackList(item.id)" role="button">
+                                                        <i class="icon icon-garbage"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="info-card">
+                                <p [innerHTML]="'settings.blacklist.info' | translate">Messages from contacts in the
+                                    blacklist
+                                    always go to <strong>Spam folder</strong>. Marking a
+                                    message as spam adds the address to the Blacklist.</p>
+                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u
+                                            translate="settings.blacklist.add_blacklist_contact">Add blacklist
+                                            contact</u></strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </ng-template>
+        </ngb-tab>
+
+        <!-- Addresses and Signatures -->
+        <ngb-tab>
+            <ng-template ngbTabTitle>Addresses and <br>signatures</ng-template>
+            <ng-template ngbTabContent>
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.signature">Signature</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display
+                                            name</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <input class="form-control form-control-sm" id="displayName" type="text"
+                                            [(ngModel)]="settings.display_name" [ngModelOptions]="{ updateOn: 'blur'}"
+                                            (change)="updateSettings('display_name', $event.target.value)" placeholder="John Simpson" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
+                                            [(ngModel)]="settings.signature" [ngModelOptions]="{ updateOn: 'blur'}"
+                                            (change)="updateSettings('signature', $event.target.value)" contenteditable="true">
+
+                                                </textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Will be used later -->
+                            <div class="form-content-row" *ngIf="false">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
+                                            per page</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1"
+                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)"
+                                                        [checked]="settings?.emails_per_page===20" />
+                                                    <label for="emailCoutField1">20</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2"
+                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)"
+                                                        [checked]="settings?.emails_per_page===50" />
+                                                    <label for="emailCoutField2">50</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3"
+                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)"
+                                                        [checked]="settings?.emails_per_page===100" />
+                                                    <label for="emailCoutField3">100</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField4"
+                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 200)"
+                                                        [checked]="settings?.emails_per_page===200" />
+                                                    <label for="emailCoutField4">200</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Will be used later -->
+                            <div class="form-content-row" *ngIf="false">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load
+                                            embedded
+                                            content</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="embeddedContentField1"
+                                                        name="[6]" type="radio" (click)="updateSettings('embed_content', true)"
+                                                        [checked]="settings?.embed_content" />
+                                                    <label for="embeddedContentField1" translate="common.yes">Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="embeddedContentField2"
+                                                        name="[6]" type="radio" (click)="updateSettings('embed_content', false)"
+                                                        [checked]="!settings?.embed_content" />
+                                                    <label for="embeddedContentField2" translate="common.no">No</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="embeddedContentField3"
+                                                        name="[6]" type="radio" disabled />
+                                                    <label for="embeddedContentField3" translate="settings.only_images">Only
+                                                        images</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Will be used later -->
+                            <div class="form-content-row" *ngIf="false">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.show_snippets">Show
+                                            snippets</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="showSnippetsField1"
+                                                        name="[7]" type="radio" (click)="updateSettings('show_snippets', true)"
+                                                        [checked]="settings?.show_snippets" />
+                                                    <label for="showSnippetsField1" translate="common.yes">Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="showSnippetsField2"
+                                                        name="[7]" type="radio" (click)="updateSettings('show_snippets', false)"
+                                                        [checked]="!settings?.show_snippets" />
+                                                    <label for="showSnippetsField2" translate="common.no">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically save contacts</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField1" name="[1]" type="radio"
-                                               (click)="updateSettings('save_contacts', true)"
-                                               [checked]="settings.save_contacts"/>
-                                        <label for="autoSaveField1" translate="common.enabled">Enabled</label>
+
+                </section>
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.keys.name">Keys</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.keys.email_address">Email
+                                            address</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="btn-dropdown btn-dropdown-select">
+                                            <div ngbDropdown class="dropdown-sm">
+                                                <button ngbDropdownToggle class="dropdown-toggle" id="emailAddressDropdownMenuButton"
+                                                    role="button">
+                                                    {{selectedMailboxForKey?.email}}
+                                                </button>
+                                                <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
+                                                    <a class="dropdown-item" *ngFor="let mailbox of userState.mailboxes"
+                                                        (click)="selectedMailboxForKey=mailbox;">{{mailbox.email}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="autoSaveField2" name="[1]" type="radio"
-                                               (click)="updateSettings('save_contacts', false)"
-                                               [checked]="!settings.save_contacts"/>
-                                        <label for="autoSaveField2" translate="common.disabled">Disabled</label>
+                            </div>
+
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label for="fingerPrint" class="form-label mb-sm-0" translate="settings.keys.fingerprint">Fingerprint</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <input class="form-control form-control-sm" id="fingerPrint" type="text" value="o8bg359348b24p08gn34408g4p389gbpq938g"
+                                            readonly="" />
+                                        <span class="form-label-text mt-1">
+                                            <a [href]="publicKey | safe: 'url'"><strong><u>
+                                                        <span translate="settings.download_public_kay">Download public
+                                                            key </span>
+                                                        (4096 Bit)</u></strong>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+            </ng-template>
+        </ngb-tab>
+
+        <!-- Security -->
+        <ngb-tab>
+            <ng-template ngbTabTitle>Security</ng-template>
+            <ng-template ngbTabContent>
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.security_settings">Security
+                                settings</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <input class="form-control form-control-sm" id="securityPassword" type="password"
+                                            placeholder="********" />
+                                        <span class="form-label-text mt-1">
+                                            <a href="javascript:void(0);" role="button" class="text-uppercase btn-link"
+                                                (click)="openChangePasswordModal()"><strong>
+                                                    <u translate="settings.change_now">Change now</u></strong></a></span>
+                                        <input style="visibility: hidden;" id="username" type="text" name="username" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
+                                            email</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <input class="form-control form-control-sm" id="recoveryMail" type="email"
+                                            autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur'}"
+                                            (change)="updateSettings('recovery_email', $event.target.value)"
+                                            placeholder="johnsimpson@gmail.com" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Will be used later -->
+                            <div class="form-content-row" *ngIf="false">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-sm-0" translate="settings.security_alerts">Security
+                                            alerts</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField1"
+                                                        name="[4]" type="radio" (click)="updateSettings('newsletter', true)"
+                                                        [checked]="settings.newsletter" />
+                                                    <label for="securityField1" translate="common.enabled">Enabled</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField2"
+                                                        name="[4]" type="radio" (click)="updateSettings('newsletter', false)"
+                                                        [checked]="!settings.newsletter" />
+                                                    <label for="securityField2" translate="common.disabled">Disabled</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
+            </ng-template>
+        </ngb-tab>
 
-                <!-- Will be used later -->
-                <div class="form-content-row" *ngIf="false">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-0" translate="settings.vacation_responder">Vacation responder</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField1" name="[2]" type="radio"
-                                               (click)="updateSettings('autoresponder', true)"
-                                               [checked]="settings.autoresponder"/>
-                                        <label for="responderField1" translate="common.enabled">Enabled</label>
+        <!-- Forwarding and auto responder -->
+        <ngb-tab *ngIf="false">
+            <ng-template ngbTabTitle>Forwarding and <br>autoresponder</ng-template>
+            <ng-template ngbTabContent>
+
+                <!--This section is hidden for now, will be used in dev pack 1.-->
+                <section class="mailbox-section" *ngIf="false">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <ul class="ui-list ui-list-styled list-styled">
+                                <li class="ui-list-item ui-list-item-xs-full">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="toggle-switcher">
+                                                <input class="d-none toggle-switcher-control" id="switcherField1" name=""
+                                                    type="checkbox" checked />
+                                                <label for="switcherField1"></label>
+                                                <span class="toggle-switcher-text">My spam filter</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="responderField2" name="[2]" type="radio"
-                                               (click)="updateSettings('autoresponder', false)"
-                                               [checked]="!settings.autoresponder"/>
-                                        <label for="responderField2" translate="common.disabled">Disabled</label>
+                                </li>
+                                <li class="ui-list-item ui-list-item-xs-full">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="toggle-switcher">
+                                                <input class="d-none toggle-switcher-control" id="switcherField3" name=""
+                                                    type="checkbox" checked />
+                                                <label for="switcherField3"></label>
+                                                <span class="toggle-switcher-text">Important messages filter</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
+                                </li>
+                                <li class="ui-list-item ui-list-item-xs-full">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="toggle-switcher">
+                                                <input class="d-none toggle-switcher-control" id="switcherField2" name=""
+                                                    type="checkbox" />
+                                                <label for="switcherField2"></label>
+                                                <span class="toggle-switcher-text">Auto-labeling test</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="info-card">
+                                <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
+                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="addCustomFilterModalOpen(customFilterContent)"><strong><u>Add
+                                            custom filter</u></strong></a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                </section>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
 
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.security_settings">Security settings</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
-                        </div>
-                      <div class="col-sm-7">
-                        <input class="form-control form-control-sm" id="securityPassword" type="password"
-                               placeholder="********"/>
-                        <span class="form-label-text mt-1">
-                              <a href="javascript:void(0);" role="button" class="text-uppercase btn-link"
-                                 (click)="openChangePasswordModal()"><strong>
-                                <u translate="settings.change_now">Change now</u></strong></a></span>
-                          <input style="visibility: hidden;" id="username" type="text"
-                                 name="username"/>
-                      </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery email</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <input class="form-control form-control-sm" id="recoveryMail" type="email"
-                                   autocomplete="off"
-                                   [(ngModel)]="settings.recovery_email"
-                                   [ngModelOptions]="{ updateOn: 'blur'}"
-                                   (change)="updateSettings('recovery_email', $event.target.value)"
-                                   placeholder="johnsimpson@gmail.com"/>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Will be used later -->
-                <div class="form-content-row" *ngIf="false">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.security_alerts">Security alerts</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="securityField1" name="[4]" type="radio"
-                                               (click)="updateSettings('newsletter', true)"
-                                               [checked]="settings.newsletter"/>
-                                        <label for="securityField1" translate="common.enabled">Enabled</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="securityField2" name="[4]" type="radio"
-                                               (click)="updateSettings('newsletter', false)"
-                                               [checked]="!settings.newsletter"/>
-                                        <label for="securityField2" translate="common.disabled">Disabled</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display name</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <input class="form-control form-control-sm" id="displayName" type="text"
-                                   [(ngModel)]="settings.display_name"
-                                   [ngModelOptions]="{ updateOn: 'blur'}"
-                                   (change)="updateSettings('display_name', $event.target.value)"
-                                   placeholder="John Simpson"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
-                                      [(ngModel)]="settings.signature"
-                                      [ngModelOptions]="{ updateOn: 'blur'}"
-                                      (change)="updateSettings('signature', $event.target.value)"
-                                 contenteditable="true">
-                            </textarea>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Will be used later -->
-                <div class="form-content-row" *ngIf="false">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails per page</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField1" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 20)"
-                                               [checked]="settings?.emails_per_page===20"/>
-                                        <label for="emailCoutField1">20</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField2" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 50)"
-                                               [checked]="settings?.emails_per_page===50"/>
-                                        <label for="emailCoutField2">50</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField3" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 100)"
-                                               [checked]="settings?.emails_per_page===100"/>
-                                        <label for="emailCoutField3">100</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="emailCoutField4" name="[5]" type="radio"
-                                               (click)="updateSettings('emails_per_page', 200)"
-                                               [checked]="settings?.emails_per_page===200"/>
-                                        <label for="emailCoutField4">200</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Will be used later -->
-                <div class="form-content-row" *ngIf="false">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load embedded content</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField1" name="[6]" type="radio"
-                                               (click)="updateSettings('embed_content', true)"
-                                               [checked]="settings?.embed_content"/>
-                                        <label for="embeddedContentField1" translate="common.yes">Yes</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField2" name="[6]" type="radio"
-                                               (click)="updateSettings('embed_content', false)"
-                                               [checked]="!settings?.embed_content"/>
-                                        <label for="embeddedContentField2" translate="common.no">No</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="embeddedContentField3" name="[6]" type="radio" disabled/>
-                                        <label for="embeddedContentField3" translate="settings.only_images">Only images</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Will be used later -->
-                <div class="form-content-row" *ngIf="false">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.show_snippets">Show snippets</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row row-sm">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField1" name="[7]" type="radio"
-                                               (click)="updateSettings('show_snippets', true)"
-                                               [checked]="settings?.show_snippets"/>
-                                        <label for="showSnippetsField1" translate="common.yes">Yes</label>
-                                    </div>
-                                </div>
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="showSnippetsField2" name="[7]" type="radio"
-                                               (click)="updateSettings('show_snippets', false)"
-                                               [checked]="!settings?.show_snippets"/>
-                                        <label for="showSnippetsField2" translate="common.no">No</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mailbox-section">
-        <button class="btn btn-sm btn-success m-3" type="button" role="button" (click)="onUpdateSettingsBtnClick()">
-            Save
-        </button>
-    </section>
-
-    <!--This section is hidden for now, will be used in dev pack 1.-->
-    <section class="mailbox-section" *ngIf="false">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="toggle-switcher">
-                                    <input class="d-none toggle-switcher-control" id="switcherField1" name=""
-                                           type="checkbox" checked/>
-                                    <label for="switcherField1"></label>
-                                    <span class="toggle-switcher-text">My spam filter</span>
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="toggle-switcher">
-                                    <input class="d-none toggle-switcher-control" id="switcherField3" name=""
-                                           type="checkbox" checked/>
-                                    <label for="switcherField3"></label>
-                                    <span class="toggle-switcher-text">Important messages filter</span>
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="toggle-switcher">
-                                    <input class="d-none toggle-switcher-control" id="switcherField2" name=""
-                                           type="checkbox"/>
-                                    <label for="switcherField2"></label>
-                                    <span class="toggle-switcher-text">Auto-labeling test</span>
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-card">
-                    <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="addCustomFilterModalOpen(customFilterContent)"><strong><u>Add custom filter</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.whitelist.name">Whitelist</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">{{item.email}}</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a (click)="deleteWhiteList(item.id)" role="button"><i
-                                            class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-card">
-                    <p [innerHTML]="'settings.whitelist.info' | translate" >Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a
-                        message as not spam adds the address to the Whitelist.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u translate="settings.whitelist.add_whitelist_contact">Add whitelist
-                        contact</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.blacklist.name">Blacklist</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">{{item.email}}</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li>
-                                        <a (click)="deleteBlackList(item.id)" role="button">
-                                            <i class="icon icon-garbage"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-card">
-                    <p [innerHTML]="'settings.blacklist.info' | translate">Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a
-                        message as spam adds the address to the Blacklist.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u translate="settings.blacklist.add_blacklist_contact">Add blacklist
-                        contact</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!--This section is hidden for now, will be used in dev pack 1.-->
     <section class="mailbox-section" *ngIf="false">
@@ -633,8 +746,8 @@
                 <div class="info-card">
                     <p>Create and administer sub-accounts and assign them email addresses on your custom domain. To
                         enable this feature, upgrade your account.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="billingInfoModalOpen(billingInfoContent)"><strong><u>Upgrade account</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="billingInfoModalOpen(billingInfoContent)"><strong><u>Upgrade
+                                account</u></strong></a>
                 </div>
             </div>
         </div>
@@ -706,64 +819,14 @@
                     </li>
                 </ul>
                 <div class="info-card">
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u translate="settings.add_new_method">Add new
-                        method</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u
+                                translate="settings.add_new_method">Add new
+                                method</u></strong></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="mailbox-section">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.keys.name">Keys</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label class="form-label mb-sm-0" translate="settings.keys.email_address">Email address</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="btn-dropdown btn-dropdown-select">
-                                <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle class="dropdown-toggle"
-                                            id="emailAddressDropdownMenuButton" role="button">
-                                        {{selectedMailboxForKey?.email}}
-                                    </button>
-                                    <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
-                                        <a class="dropdown-item"
-                                           *ngFor="let mailbox of userState.mailboxes"
-                                           (click)="selectedMailboxForKey=mailbox;">{{mailbox.email}}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-content-row">
-                    <div class="row align-items-center">
-                        <div class="col-sm-5">
-                            <label for="fingerPrint" class="form-label mb-sm-0" translate="settings.keys.fingerprint">Fingerprint</label>
-                        </div>
-                        <div class="col-sm-7">
-                            <input class="form-control form-control-sm" id="fingerPrint" type="text"
-                                   value="o8bg359348b24p08gn34408g4p389gbpq938g" readonly=""/>
-                            <span class="form-label-text mt-1">
-                                <a [href]="publicKey | safe: 'url'"><strong><u>
-                                <span translate="settings.download_public_kay">Download public key </span>
-                                (4096 Bit)</u></strong>
-                                </a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
 
     <!-- Will be used later -->
     <section class="mailbox-section" *ngIf="false">
@@ -773,10 +836,11 @@
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
                 <div class="info-card">
-                    <p translate="settings.donate.info">Your donation helps us support more users and continue to develop CTemplar as free and open
+                    <p translate="settings.donate.info">Your donation helps us support more users and continue to
+                        develop CTemplar as free and open
                         source software.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="makeDonationModalOpen(makeDonationContent)"><strong><u translate="settings.donate.make_a_donation">Make a donation</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="makeDonationModalOpen(makeDonationContent)"><strong><u
+                                translate="settings.donate.make_a_donation">Make a donation</u></strong></a>
                 </div>
             </div>
         </div>
@@ -787,79 +851,77 @@
 
 <!-- Change password Modal -->
 <ng-template #changePasswordModal let-c="close" let-d="dismiss">
-  <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-    <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="text-holder text-dark text-medium">
-      <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old
-        emails if you reset your password.</p>
-
-      <div class="login-content-holder mx-auto mt-2 pt-sm-2">
-        <div class="form">
-          <form [formGroup]="changePasswordForm" (submit)="changePassword(changePasswordForm.value)">
-            <div class="form-group form-group-sm">
-              <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
-                Password</label>
-              <div class="input-group">
-                <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
-                       formControlName="oldPassword" placeholder="Old Password" type="password"/>
-                <span class="input-group-addon password-toggle bg-white text-muted"
-                      (click)="togglePassword(oldPasswordInput)">
-                      <i class="fa fa-eye"></i>
-                </span>
-              </div>
-              <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
-                    class="validate-message">
-                  <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required">Old password is required.</span>
-                </span>
-            </div>
-            <div class="form-group form-group-sm">
-              <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
-                Password</label>
-              <div class="input-group">
-                <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
-                       formControlName="password" placeholder="New Password" type="password"/>
-                <span class="input-group-addon password-toggle bg-white text-muted"
-                      (click)="togglePassword(newPasswordInput)">
-                      <i class="fa fa-eye"></i>
-                </span>
-              </div>
-              <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
-                    class="validate-message">
-                  <span *ngIf="changePasswordForm.controls['password'].errors.required">New password is required.</span>
-              </span>
-            </div>
-            <div class="form-group form-group-sm">
-              <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
-                New Password</label>
-              <div class="input-group">
-                <input #confirmNewPasswordInput class="form-control form-control-lg"
-                       id="confirmNewPassword"
-                       formControlName="confirmPwd" placeholder="Confirm New Password" type="password"/>
-                <span class="input-group-addon password-toggle bg-white text-muted"
-                      (click)="togglePassword(confirmNewPasswordInput)">
-                      <i class="fa fa-eye"></i>
-                </span>
-              </div>
-              <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"
-                    class="validate-message">
-                  <span translate="create_account.passwords_not_match">Passwords do not match.</span>
-              </span>
-            </div>
-            <div class="form-group form-user-actions text-center mb-0">
-              <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+    <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
+        <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-  </div>
+    <div class="modal-body bg-faded">
+        <div class="text-holder text-dark text-medium">
+            <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old
+                emails if you reset your password.</p>
+
+            <div class="login-content-holder mx-auto mt-2 pt-sm-2">
+                <div class="form">
+                    <form [formGroup]="changePasswordForm" (submit)="changePassword(changePasswordForm.value)">
+                        <div class="form-group form-group-sm">
+                            <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
+                                Password</label>
+                            <div class="input-group">
+                                <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
+                                    formControlName="oldPassword" placeholder="Old Password" type="password" />
+                                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword(oldPasswordInput)">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                            </div>
+                            <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
+                                class="validate-message">
+                                <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required">Old password
+                                    is required.</span>
+                            </span>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
+                                Password</label>
+                            <div class="input-group">
+                                <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
+                                    formControlName="password" placeholder="New Password" type="password" />
+                                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword(newPasswordInput)">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                            </div>
+                            <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
+                                class="validate-message">
+                                <span *ngIf="changePasswordForm.controls['password'].errors.required">New password is
+                                    required.</span>
+                            </span>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
+                                New Password</label>
+                            <div class="input-group">
+                                <input #confirmNewPasswordInput class="form-control form-control-lg" id="confirmNewPassword"
+                                    formControlName="confirmPwd" placeholder="Confirm New Password" type="password" />
+                                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword(confirmNewPasswordInput)">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                            </div>
+                            <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"
+                                class="validate-message">
+                                <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+                            </span>
+                        </div>
+                        <div class="form-group form-user-actions text-center mb-0">
+                            <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </ng-template><!-- /.Change password Modal ends -->
 
 <!-- Add custom filter Modal -->
@@ -879,7 +941,7 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="filterName" type="text"/>
+                            <input class="form-control form-control-sm" id="filterName" type="text" />
                         </div>
                     </div>
                 </div>
@@ -911,8 +973,7 @@
                                 <div ngbDropdown class="dropdown-sm">
                                     <button ngbDropdownToggle id="containsDropdownMenuButton" role="button">contains
                                     </button>
-                                    <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
-                                         aria-labelledby="containsDropdownMenuButton">
+                                    <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="containsDropdownMenuButton">
                                         <a class="dropdown-item">contains</a>
                                         <a class="dropdown-item">contains</a>
                                         <a class="dropdown-item">contains</a>
@@ -923,8 +984,7 @@
                             </div>
                         </div>
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="patternField" type="text"
-                                   placeholder="text or pattern"/>
+                            <input class="form-control form-control-sm" id="patternField" type="text" placeholder="text or pattern" />
                         </div>
                     </div>
                 </div>
@@ -940,8 +1000,8 @@
                             <div class="row row-sm align-items-center">
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="moveToField1" name="[1]" type="checkbox" checked/>
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="moveToField1"
+                                            name="[1]" type="checkbox" checked />
                                         <label for="moveToField1">move to</label>
                                     </div>
                                 </div>
@@ -949,19 +1009,14 @@
                                     <div class="btn-dropdown btn-dropdown-select">
                                         <div ngbDropdown class="dropdown-sm">
                                             <button ngbDropdownToggle class="has-icon" id="moveToDropdownMenuButton"
-                                                    role="button"><i class="icon icon-inbox"></i>Inbox
+                                                role="button"><i class="icon icon-inbox"></i>Inbox
                                             </button>
                                             <div ngbDropdownMenu aria-labelledby="moveToDropdownMenuButton">
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-inbox"></i>Inbox</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-draft"></i>Draft</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-archive"></i>Archivex</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-paper-plane"></i>Sent</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-garbage"></i>Trash</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-inbox"></i>Inbox</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-draft"></i>Draft</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-archive"></i>Archivex</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-paper-plane"></i>Sent</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-garbage"></i>Trash</a>
                                             </div>
                                         </div>
                                     </div>
@@ -973,8 +1028,8 @@
                             <div class="row row-sm align-items-center">
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="applyLabelField1" name="[1]" type="checkbox" disabled=""/>
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="applyLabelField1"
+                                            name="[1]" type="checkbox" disabled="" />
                                         <label for="applyLabelField1">apply label</label>
                                     </div>
                                 </div>
@@ -982,18 +1037,13 @@
                                     <div class="btn-dropdown btn-dropdown-select">
                                         <div ngbDropdown class="dropdown-sm">
                                             <button ngbDropdownToggle class="has-icon" id="applyDropdownMenuButton"
-                                                    role="button" disabled></button>
+                                                role="button" disabled></button>
                                             <div ngbDropdownMenu aria-labelledby="applyDropdownMenuButton">
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-inbox"></i>Inbox</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-draft"></i>Draft</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-archive"></i>Archivex</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-paper-plane"></i>Sent</a>
-                                                <a class="dropdown-item has-icon"><i
-                                                        class="icon icon-garbage"></i>Trash</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-inbox"></i>Inbox</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-draft"></i>Draft</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-archive"></i>Archivex</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-paper-plane"></i>Sent</a>
+                                                <a class="dropdown-item has-icon"><i class="icon icon-garbage"></i>Trash</a>
                                             </div>
                                         </div>
                                     </div>
@@ -1005,15 +1055,15 @@
                             <div class="row row-sm align-items-center">
                                 <div class="col-6 flex-auto-col">
                                     <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="markReadField1" name="[1]" type="checkbox"/>
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="markReadField1"
+                                            name="[1]" type="checkbox" />
                                         <label for="markReadField1">mark as read</label>
                                     </div>
                                 </div>
                                 <div class="col-8 flex-auto-col">
                                     <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                               id="markStarredField1" name="[1]" type="checkbox"/>
+                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="markStarredField1"
+                                            name="[1]" type="checkbox" />
                                         <label for="markStarredField1">mark as starred</label>
                                     </div>
                                 </div>
@@ -1031,9 +1081,7 @@
     </div>
 </ng-template><!-- /.Add custom filter ends -->
 
-<app-save-list-contact *ngIf="newListContact.show"
-                       [contactType]="newListContact.type"
-                       (closed)="newListContact.show=false;"></app-save-list-contact>
+<app-save-list-contact *ngIf="newListContact.show" [contactType]="newListContact.type" (closed)="newListContact.show=false;"></app-save-list-contact>
 
 
 <!-- Billing Information Modal -->
@@ -1078,7 +1126,7 @@
                                                 <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
                                                     <a class="dropdown-item text-muted"><em>Stripe</em></a>
                                                     <a class="dropdown-item text-muted"><em>Credit/Debit
-                                                        card</em></a>
+                                                            card</em></a>
                                                     <a class="dropdown-item text-muted"><em>Bitcoin</em></a>
                                                     <a class="dropdown-item text-muted"><em>Monero</em></a>
                                                     <a class="dropdown-item text-muted"><em>Ethereum</em></a>
@@ -1092,10 +1140,10 @@
                         <div class="form-step-card">
                             <h3 class="form-step-card-title text-dark mb-3"><strong>Payment Information</strong></h3>
                             <div class="form-group">
-                                <label for="personName" class="d-block text-muted text-left hidden-sm-up"
-                                       translate="settings.donate.name_on_card">Name on Card</label>
+                                <label for="personName" class="d-block text-muted text-left hidden-sm-up" translate="settings.donate.name_on_card">Name
+                                    on Card</label>
                                 <input class="form-control" id="personName" placeholder="Name on Card" value="John"
-                                       type="text">
+                                    type="text">
                             </div>
                             <div class="form-group has-error">
                                 <span class="d-block text-right error-msg">Required field</span>
@@ -1114,8 +1162,7 @@
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
                                                     <a class="dropdown-item text-muted"><em>Date</em></a>
-                                                    <a class="dropdown-item text-muted"
-                                                    ><em>01</em></a>
+                                                    <a class="dropdown-item text-muted"><em>01</em></a>
                                                     <a class="dropdown-item text-muted"><em>02</em></a>
                                                     <a class="dropdown-item text-muted"><em>03</em></a>
                                                     <a class="dropdown-item text-muted"><em>04</em></a>
@@ -1136,8 +1183,7 @@
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                                                     <a class="dropdown-item text-muted"><em>Year</em></a>
-                                                    <a class="dropdown-item text-muted"
-                                                    ><em>2018</em></a>
+                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
                                                     <a class="dropdown-item text-muted"><em>2018</em></a>
                                                     <a class="dropdown-item text-muted"><em>2018</em></a>
                                                     <a class="dropdown-item text-muted"><em>2018</em></a>
@@ -1152,8 +1198,7 @@
                                     <div class="form-group-col">
                                         <label for="securityCode" class="d-block text-muted text-left hidden-sm-up">Security
                                             Code</label>
-                                        <input class="form-control" id="securityCode" placeholder="Security Code"
-                                               type="text">
+                                        <input class="form-control" id="securityCode" placeholder="Security Code" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -1162,8 +1207,8 @@
                                     <div class="form-group-col">
                                         <label for="zipCode" class="d-block text-muted text-left hidden-sm-up">ZIP /
                                             Postal Code</label>
-                                        <input class="form-control" id="zipCode" placeholder="ZIP / Postal Code"
-                                               value="ZIP / Postal Code" type="text">
+                                        <input class="form-control" id="zipCode" placeholder="ZIP / Postal Code" value="ZIP / Postal Code"
+                                            type="text">
                                     </div>
                                     <div class="form-group-col">
                                         <label class="d-block text-muted text-left hidden-sm-up">Country</label>
@@ -1174,16 +1219,14 @@
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="countryDropdownMenuButton">
                                                     <a class="dropdown-item text-muted"><em>Country</em></a>
-                                                    <a class="dropdown-item text-muted"
-                                                    ><em>Afghanistan</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Afghanistan</em></a>
                                                     <a class="dropdown-item text-muted"><em>Belgium</em></a>
                                                     <a class="dropdown-item text-muted"><em>Canada</em></a>
                                                     <a class="dropdown-item text-muted"><em>Denmark</em></a>
                                                     <a class="dropdown-item text-muted"><em>Egypt</em></a>
                                                     <a class="dropdown-item text-muted"><em>France</em></a>
                                                     <a class="dropdown-item text-muted"><em>Germany</em></a>
-                                                    <a class="dropdown-item text-muted"
-                                                    ><em>Ireland</em></a>
+                                                    <a class="dropdown-item text-muted"><em>Ireland</em></a>
                                                     <a class="dropdown-item text-muted"><em>USA</em></a>
                                                 </div>
                                             </div>
@@ -1218,7 +1261,8 @@
 <!-- Add new payment method Modal -->
 <ng-template #newPaymentMethodContent let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="addPaymentMethodModalLabel"><strong translate="settings.add_new_method">Add payment method</strong></h3>
+        <h3 class="modal-title w-100 text-dark" id="addPaymentMethodModalLabel"><strong translate="settings.add_new_method">Add
+                payment method</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -1252,11 +1296,12 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name on card:</label>
+                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name
+                            on card:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="nameoncardField" type="text"/>
+                            <input class="form-control form-control-sm" id="nameoncardField" type="text" />
                         </div>
                     </div>
                 </div>
@@ -1265,12 +1310,13 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card number:</label>
+                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card
+                            number:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="cardNumberField"
-                                   placeholder="0000-0000-0000-0000" type="text"/>
+                            <input class="form-control form-control-sm" id="cardNumberField" placeholder="0000-0000-0000-0000"
+                                type="text" />
                         </div>
                     </div>
                 </div>
@@ -1279,7 +1325,8 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry date:</label>
+                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry
+                            date:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="row row-xs-sm align-items-center">
@@ -1288,8 +1335,7 @@
                                     <div ngbDropdown class="dropdown-sm">
                                         <button ngbDropdownToggle id="expiryMonthDropdownMenuButton" role="button">01
                                         </button>
-                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
-                                             aria-labelledby="expiryMonthDropdownMenuButton">
+                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="expiryMonthDropdownMenuButton">
                                             <a class="dropdown-item">01</a>
                                             <a class="dropdown-item">02</a>
                                             <a class="dropdown-item">03</a>
@@ -1322,15 +1368,16 @@
             <div class="form-group mb-0">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security code:</label>
+                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security
+                            code:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
                             <div class="row row-xs-sm align-items-center">
                                 <div class="col-sm-6">
                                     <div class="form-field-has-icon position-relative">
-                                        <input class="form-control form-control-sm" id="securityCardField"
-                                               placeholder="" type="text"/>
+                                        <input class="form-control form-control-sm" id="securityCardField" placeholder=""
+                                            type="text" />
                                         <i class="icon icon-warning"></i>
                                     </div>
                                 </div>
@@ -1350,7 +1397,8 @@
 <!-- Make a donation Modal -->
 <ng-template #makeDonationContent let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong translate="settings.donate.make_a_donation">Make a donation</strong></h3>
+        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong translate="settings.donate.make_a_donation">Make
+                a donation</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -1383,11 +1431,12 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name on card:</label>
+                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name
+                            on card:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="nameoncardField" type="text"/>
+                            <input class="form-control form-control-sm" id="nameoncardField" type="text" />
                         </div>
                     </div>
                 </div>
@@ -1396,12 +1445,13 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card number:</label>
+                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card
+                            number:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="cardNumberField"
-                                   placeholder="0000-0000-0000-0000" type="text"/>
+                            <input class="form-control form-control-sm" id="cardNumberField" placeholder="0000-0000-0000-0000"
+                                type="text" />
                         </div>
                     </div>
                 </div>
@@ -1410,7 +1460,8 @@
             <div class="form-group form-group-sm">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry date:</label>
+                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry
+                            date:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="row row-xs-sm align-items-center">
@@ -1419,8 +1470,7 @@
                                     <div ngbDropdown class="dropdown-sm">
                                         <button ngbDropdownToggle id="expiryMonthDropdownMenuButton2" role="button">01
                                         </button>
-                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
-                                             aria-labelledby="expiryMonthDropdownMenuButton">
+                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="expiryMonthDropdownMenuButton">
                                             <a class="dropdown-item">01</a>
                                             <a class="dropdown-item">02</a>
                                             <a class="dropdown-item">03</a>
@@ -1453,15 +1503,16 @@
             <div class="form-group mb-0">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security code:</label>
+                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security
+                            code:</label>
                     </div>
                     <div class="col-sm-9">
                         <div class="form-content-row mb-0">
                             <div class="row row-xs-sm align-items-center">
                                 <div class="col-sm-6">
                                     <div class="form-field-has-icon position-relative">
-                                        <input class="form-control form-control-sm" id="securityCardField"
-                                               placeholder="" type="text"/>
+                                        <input class="form-control form-control-sm" id="securityCardField" placeholder=""
+                                            type="text" />
                                         <i class="icon icon-warning"></i>
                                     </div>
                                 </div>
