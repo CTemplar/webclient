@@ -325,3 +325,11 @@
 .form-content-holder .form-control {
   font-size: 14px;
 }
+
+.fab-bottom {
+  position: fixed;
+  z-index: 10;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: $brand-blue;
+}

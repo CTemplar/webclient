@@ -276,12 +276,6 @@
 
                 </section>
 
-                <!-- Save Button -->
-                <section class="mailbox-section">
-                    <button class="btn btn-sm btn-success m-3" type="button" role="button" (click)="onUpdateSettingsBtnClick()">
-                        Save
-                    </button>
-                </section>
             </ng-template>
         </ngb-tab>
 
@@ -396,8 +390,7 @@
                                         <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
                                             [(ngModel)]="settings.signature" [ngModelOptions]="{ updateOn: 'blur'}"
                                             (change)="updateSettings('signature', $event.target.value)" contenteditable="true">
-
-                                                </textarea>
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -732,7 +725,10 @@
         </ngb-tab>
     </ngb-tabset>
 
-
+    <!-- Save Button -->
+    <button mat-fab color="warn" class="fab-bottom" (click)="onUpdateSettingsBtnClick()">
+        <i class="icon icon-save-disk"></i>
+    </button>
 
 
 

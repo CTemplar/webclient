@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 // Bootstrap
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
+// Angular Material
+import { MatButtonModule } from '@angular/material';
+
 import { MailRoutingModule } from './mail-routing.module';
 // component
 import { MailComponent } from './mail.component';
@@ -35,7 +38,8 @@ import { CreateFolderComponent } from './dialogs/create-folder/create-folder.com
     MailRoutingModule,
     FormsModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule
   ],
   declarations: [
     MailComponent,
