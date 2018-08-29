@@ -445,7 +445,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     const cTemplarReceivers = [];
     const nonCTemplarReceivers = [];
     receivers.forEach(receiver => {
-      if (receiver.toLowerCase().indexOf('@ctemplar.com') === -1) {
+      if (receiver.toLowerCase().indexOf('@ctemplar.com') === -1 && receiver.toLowerCase().indexOf('@dev.ctemplar.com') === -1) {
         nonCTemplarReceivers.push(receiver);
       }
       else {
