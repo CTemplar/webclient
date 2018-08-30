@@ -57,7 +57,7 @@
     "billing_cycle_end": "Vencimento",
     "payment": "Pagamento",
     "account_type": "Tipo de conta",
-    "free_plan_tip": "Plano gratuito disponível apenas para 512 MB de armazenamento.",
+    "free_plan_tip": "Plano gratuito disponível apenas para 200 MB de armazenamento.",
     "clear_storage": "Limpar armazenamento",
     "prime": "Prime",
     "free": "Grátis",

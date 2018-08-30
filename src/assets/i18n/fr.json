@@ -57,7 +57,7 @@
     "billing_cycle_end": "Fin du cycle de facturation",
     "payment": "Paiement",
     "account_type": "Type de compte",
-    "free_plan_tip": "Plan gratuit disponible uniquement pour 512 Mo de stockage.",
+    "free_plan_tip": "Plan gratuit disponible uniquement pour 200 Mo de stockage.",
     "clear_storage": "Effacer le stockage",
     "prime": "Premier",
     "free": "Gratuit",
