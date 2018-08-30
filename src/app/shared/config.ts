@@ -31,17 +31,17 @@ export const COLORS: string[] = [
 
 export const LANGUAGES: Language[] = [
   { name: 'English', locale: 'en' },
-  // { name: 'Spanish', locale: 'es' },
-  // { name: 'Russian', locale: 'ru' },
+  { name: 'Spanish', locale: 'es' },
+  { name: 'Russian', locale: 'ru' },
   // { name: 'Icelandic', locale: 'is' },
   // { name: 'Arabic', locale: 'ar' },
   // { name: 'Hebrew', locale: 'he' },
-  // { name: 'Chinese', locale: 'zh' },
-  // { name: 'French', locale: 'fr' },
+  { name: 'Chinese', locale: 'zh' },
+  { name: 'French', locale: 'fr' },
   // { name: 'Italiano', locale: 'it' },
   // { name: 'Portugees', locale: 'pt' },
   // { name: 'Dutch', locale: 'nl' },
-  // { name: 'Ukrainian', locale: 'uk' },
+   { name: 'Ukrainian', locale: 'uk' },
 ];
 
 export interface Language {
