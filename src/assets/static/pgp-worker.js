@@ -15,15 +15,15 @@ onmessage = function (event) {
         })
     }
     else if (event.data.decryptSecureMessageKey) {
-	    const privKeyObj = openpgp.key.readArmored(event.data.privKey).keys[0];
-	    privKeyObj.decrypt(event.data.password);
-	    postMessage({decryptSecureMessageKey: true, decryptedKey: privKeyObj});
+        decryptedPrivKeyObj = openpgp.key.readArmored(event.data.privKey).keys[0];
+        decryptedPrivKeyObj.decrypt(event.data.password);
+	    postMessage({decryptSecureMessageKey: true, decryptedKey: decryptedPrivKeyObj});
     }
     else if (event.data.decryptSecureMessageContent) {
 	    if (!event.data.content) {
 		    postMessage({decryptedContent: event.data.content, decryptSecureMessageContent: true});
 	    } else {
-		    decryptContent(event.data.content, event.data.decryptedKey).then((data) => {
+		    decryptContent(event.data.content, decryptedPrivKeyObj).then((data) => {
 			    postMessage({decryptedContent: data, decryptSecureMessageContent: true});
 		    })
 	    }
