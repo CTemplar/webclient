@@ -27,6 +27,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   showFormErrors: boolean;
   errorMessage: string;
   isLoading: boolean;
+  isReplying: boolean;
+
   private hash: string;
   private secret: string;
   private secureMessageState: SecureMessageState;
@@ -79,6 +81,10 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.openPgpService.decryptSecureMessagePrivKey(this.message.encryption.private_key, data.password);
     }
+  }
+
+  onReply() {
+    this.isReplying = true;
   }
 
 }

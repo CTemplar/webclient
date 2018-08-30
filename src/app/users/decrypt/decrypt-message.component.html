@@ -48,7 +48,14 @@
     </ng-container>
 
     <ng-template #displayMessage>
-      <app-display-secure-message [message]="message" [decryptedContent]="decryptedContent"></app-display-secure-message>
+      <app-display-secure-message *ngIf="!isReplying; else replyMessage"
+                                  [message]="message"
+                                  [decryptedContent]="decryptedContent"
+                                  (reply)="onReply()"></app-display-secure-message>
+
+      <ng-template #replyMessage>
+        <app-reply-secure-message [sourceMessage]="message"></app-reply-secure-message>
+      </ng-template>
     </ng-template>
   </div>
 </section>

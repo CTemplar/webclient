@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { Mail } from '../../store/models';
@@ -15,6 +15,8 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
   @Input() message: Mail;
   @Input() decryptedContent: string;
 
+  @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   constructor() {
   }
 
@@ -22,5 +24,9 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+  }
+
+  onReply() {
+    this.reply.emit(true);
   }
 }

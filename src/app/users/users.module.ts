@@ -29,6 +29,7 @@ import {
   RecaptchaSettings
 } from 'ng-recaptcha';
 import {TranslateModule} from '@ngx-translate/core';
+import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure-message.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import {TranslateModule} from '@ngx-translate/core';
     UsersSignUpComponent,
     UsersCreateAccountComponent,
     DisplaySecureMessageComponent,
-    DecryptMessageComponent
+    DecryptMessageComponent,
+    ReplySecureMessageComponent
   ],
   providers: [UsersService,
     {
