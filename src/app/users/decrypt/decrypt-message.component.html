@@ -54,7 +54,9 @@
                                   (reply)="onReply()"></app-display-secure-message>
 
       <ng-template #replyMessage>
-        <app-reply-secure-message [sourceMessage]="message" (cancel)="onCancelReply()"></app-reply-secure-message>
+        <app-reply-secure-message [sourceMessage]="message"
+                                  (cancel)="onCancelReply()"
+                                  (replySuccess)="onReplySuccess()"></app-reply-secure-message>
       </ng-template>
     </ng-template>
   </div>

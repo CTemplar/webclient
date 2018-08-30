@@ -91,4 +91,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     this.isReplying = false;
   }
 
+  onReplySuccess() {
+    this.isReplying = false;
+  }
+
 }

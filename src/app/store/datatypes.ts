@@ -157,8 +157,10 @@ export interface SecureMessageState {
   message: Mail;
   decryptedContent?: string;
   decryptedKey?: any;
+  encryptedContent?: string;
   isKeyDecryptionInProgress?: boolean;
   isContentDecryptionInProgress?: boolean;
+  isEncryptionInProgress?: boolean;
   inProgress?: boolean;
   errorMessage?: string;
 }

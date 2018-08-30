@@ -6,7 +6,16 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { catchError, switchMap } from 'rxjs/operators';
-import { GetMessage, GetMessageFailure, GetMessageSuccess, SecureMessageActionTypes } from '../actions';
+import {
+  GetMessage,
+  GetMessageFailure,
+  GetMessageSuccess,
+  SecureMessageActionTypes,
+  SendSecureMessageReply,
+  SendSecureMessageReplySuccess,
+  SnackErrorPush,
+  SnackPush
+} from '../actions';
 import { MailService } from '../services';
 
 @Injectable()
@@ -29,4 +38,24 @@ export class SecureMessageEffects {
           catchError(error => [new GetMessageFailure({ error })])
         );
     });
+
+  @Effect()
+  sendReplyEffect: Observable<any> = this.actions
+    .ofType(SecureMessageActionTypes.SEND_SECURE_MESSAGE_REPLY)
+    .map((action: SendSecureMessageReply) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.createMail(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new SendSecureMessageReplySuccess({ data: payload, response: res }),
+              new SnackPush({
+                message: `Reply sent successfully`
+              })
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to send reply.' })])
+        );
+    });
+
 }
