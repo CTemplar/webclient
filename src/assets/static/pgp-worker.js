@@ -4,6 +4,7 @@ importScripts('/openpgp.min.js');
 var openpgp = window.openpgp;
 
 var decryptedPrivKeyObj;
+var decryptedSecureMsgPrivKeyObj;
 
 onmessage = function (event) {
     if (event.data.clear) {
@@ -15,15 +16,15 @@ onmessage = function (event) {
         })
     }
     else if (event.data.decryptSecureMessageKey) {
-        decryptedPrivKeyObj = openpgp.key.readArmored(event.data.privKey).keys[0];
-        decryptedPrivKeyObj.decrypt(event.data.password);
-	    postMessage({decryptSecureMessageKey: true, decryptedKey: decryptedPrivKeyObj});
+	    decryptedSecureMsgPrivKeyObj = openpgp.key.readArmored(event.data.privKey).keys[0];
+	    decryptedSecureMsgPrivKeyObj.decrypt(event.data.password);
+	    postMessage({decryptSecureMessageKey: true, decryptedKey: decryptedSecureMsgPrivKeyObj});
     }
     else if (event.data.decryptSecureMessageContent) {
 	    if (!event.data.content) {
 		    postMessage({decryptedContent: event.data.content, decryptSecureMessageContent: true});
 	    } else {
-		    decryptContent(event.data.content, decryptedPrivKeyObj).then((data) => {
+		    decryptContent(event.data.content, decryptedSecureMsgPrivKeyObj).then((data) => {
 			    postMessage({decryptedContent: data, decryptSecureMessageContent: true});
 		    })
 	    }
