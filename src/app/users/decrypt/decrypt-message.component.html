@@ -3,6 +3,16 @@
   <div class="container position-static">
     <div class="go-back-holder"><a routerLink="/" class="text-white" role="button"><i
             class="icon icon-arrow-left icon-sm mr-2"></i>Go to ctemplar.com</a></div>
+    <header *ngIf="isMessageExpired" class="l-block-header text-center position-relative mb-md-2">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
+          <h1 class="l-block-title text-white text-uppercase">
+            <strong>This message has expired</strong>
+          </h1>
+        </div>
+      </div>
+    </header>
+
     <ng-container *ngIf="!message || !decryptedContent; else displayMessage">
       <header class="l-block-header text-center position-relative mb-md-2">
         <div class="row justify-content-center">

@@ -11,6 +11,7 @@ import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Mail } from '../../store/models';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
+import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -27,6 +28,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   showFormErrors: boolean;
   errorMessage: string;
   isLoading: boolean;
+  isMessageExpired: boolean;
   isReplying: boolean;
   senderId: any;
 
@@ -38,7 +40,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private sharedService: SharedService,
-              private openPgpService: OpenPgpService) {
+              private openPgpService: OpenPgpService,
+              private dateTimeUtilService: DateTimeUtilService) {
   }
 
   ngOnInit() {
@@ -60,6 +63,12 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       .subscribe(state => {
         this.isLoading = state.inProgress || state.isContentDecryptionInProgress;
         this.errorMessage = state.errorMessage;
+        if (!this.message && state.message) {
+          // message is loaded so check if it has expired
+          if (this.dateTimeUtilService.isDateTimeInPast(state.message.encryption.expires_at)) {
+            this.isMessageExpired = true;
+          }
+        }
         this.message = state.message;
         if (this.secureMessageState) {
           if (this.secureMessageState.isKeyDecryptionInProgress && !state.isKeyDecryptionInProgress && !state.errorMessage) {
