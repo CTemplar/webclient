@@ -28,6 +28,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   errorMessage: string;
   isLoading: boolean;
   isReplying: boolean;
+  senderId: any;
 
   private hash: string;
   private secret: string;
@@ -51,6 +52,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     this.route.params.takeUntil(this.destroyed$).subscribe(params => {
       this.hash = params['hash'];
       this.secret = params['secret'];
+      this.senderId = params['senderId'];
       this.store.dispatch(new GetMessage({ hash: this.hash, secret: this.secret }));
     });
 

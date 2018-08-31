@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'signup', component: UsersSignUpComponent },
   { path: 'create-account', component: UsersCreateAccountComponent },
   { path: 'billing-info', component: UsersBillingInfoComponent },
-  { path: 'message/:hash/:secret', component: DecryptMessageComponent },
+  { path: 'message/:hash/:secret/:senderId', component: DecryptMessageComponent },
 ];
 
 @NgModule({
