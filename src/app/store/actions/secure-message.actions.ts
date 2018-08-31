@@ -10,6 +10,8 @@ export enum SecureMessageActionTypes {
   SEND_SECURE_MESSAGE_REPLY = '[Mail] SEND SECURE MESSAGE REPLY MAIL',
   SEND_SECURE_MESSAGE_REPLY_SUCCESS = '[Mail] SEND SECURE MESSAGE REPLY SUCCESS',
   SEND_SECURE_MESSAGE_REPLY_FAILURE = '[Mail] SEND SECURE MESSAGE REPLY FAILURE',
+  GET_SECURE_MESSAGE_USERS_KEYS = '[USERS] GET SECURE MESSAGE USER KEYS',
+  GET_SECURE_MESSAGE_USERS_KEYS_SUCCESS = '[USERS] GET SECURE MESSAGE USER KEYS SUCCESS',
 }
 
 export class GetMessage implements Action {
@@ -75,6 +77,20 @@ export class SendSecureMessageReplyFailure implements Action {
   }
 }
 
+export class GetSecureMessageUserKeys implements Action {
+  readonly type = SecureMessageActionTypes.GET_SECURE_MESSAGE_USERS_KEYS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class GetSecureMessageUserKeysSuccess implements Action {
+  readonly type = SecureMessageActionTypes.GET_SECURE_MESSAGE_USERS_KEYS_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type SecureMessageActions =
   | GetMessage
   | GetMessageSuccess
@@ -84,4 +100,6 @@ export type SecureMessageActions =
   | UpdateSecureMessageEncryptedContent
   | SendSecureMessageReply
   | SendSecureMessageReplySuccess
-  | SendSecureMessageReplyFailure;
+  | SendSecureMessageReplyFailure
+  | GetSecureMessageUserKeys
+  | GetSecureMessageUserKeysSuccess;

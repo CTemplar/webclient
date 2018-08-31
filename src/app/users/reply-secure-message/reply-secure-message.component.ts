@@ -5,7 +5,7 @@ import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs/Observable';
 import { COLORS } from '../../shared/config';
-import { SendSecureMessageReply } from '../../store/actions';
+import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/actions';
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
@@ -65,6 +65,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   readonly destroyed$: Observable<boolean>;
 
   @Input() sourceMessage: Mail;
+  @Input() senderId: string;
 
   @Output() cancel: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() replySuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -76,6 +77,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   attachments: Attachment[] = [];
   inProgress: boolean;
 
+  private message: Mail;
   private quill: any;
   private secureMessageState: SecureMessageState;
 
@@ -88,8 +90,12 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
       .subscribe(state => {
         this.inProgress = state.inProgress || state.isEncryptionInProgress;
         if (this.secureMessageState) {
-          if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
-            this.sendEmail(state.encryptedContent);
+          if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {
+            const keys = [...state.usersKeys.map(item => item.public_key), this.sourceMessage.encryption.public_key];
+            this.openPgpService.encryptSecureMessageContent(this.message.content, keys);
+          } else if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
+            this.message.content = state.encryptedContent;
+            this.store.dispatch(new SendSecureMessageReply(this.message));
           } else if (this.secureMessageState.inProgress && !state.inProgress) {
             if (!state.errorMessage) {
               this.replySuccess.emit(true);
@@ -117,7 +123,13 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
 
   onSend() {
     if (this.hasData()) {
-      this.openPgpService.encryptSecureMessageContent(this.editor.nativeElement.firstChild.innerHTML, [this.sourceMessage.encryption.public_key]);
+      this.message = {
+        receiver: [this.sourceMessage.sender],
+        subject: this.sourceMessage.subject,
+        content: this.editor.nativeElement.firstChild.innerHTML,
+        sender: this.senderId
+      };
+      this.store.dispatch(new GetSecureMessageUserKeys({ emails: [this.sourceMessage.sender] }));
     }
   }
 
@@ -129,18 +141,4 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return this.quill.getLength() > 1;
   }
-
-  private sendEmail(encryptedContent: string) {
-    const message: Mail = {
-      receiver: [this.sourceMessage.sender],
-      subject: this.sourceMessage.subject,
-      content: encryptedContent,
-      sender: this.sourceMessage.receiver[0], // TODO: (confirm this) using [0] because there can be multiple receivers of original message
-      folder: 'sent',
-      send: true,
-      mailbox: 0 // TODO: remove this when mailbox is made non-required on backend
-    };
-    this.store.dispatch(new SendSecureMessageReply(message));
-  }
-
 }

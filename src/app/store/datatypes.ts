@@ -163,6 +163,8 @@ export interface SecureMessageState {
   isEncryptionInProgress?: boolean;
   inProgress?: boolean;
   errorMessage?: string;
+  getUserKeyInProgress?: boolean;
+  usersKeys?: PublicKey[];
 }
 
 export interface PublicKey {

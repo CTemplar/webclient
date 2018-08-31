@@ -19,16 +19,22 @@ export function reducer(state: SecureMessageState = {
       return { ...state, decryptedContent: action.payload.decryptedContent, isContentDecryptionInProgress: action.payload.inProgress };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_ENCRYPTED_CONTENT: {
-      return {...state, isEncryptionInProgress: action.payload.inProgress, encryptedContent: action.payload.encryptedContent};
+      return { ...state, isEncryptionInProgress: action.payload.inProgress, encryptedContent: action.payload.encryptedContent };
     }
     case SecureMessageActionTypes.SEND_SECURE_MESSAGE_REPLY: {
-      return {...state, inProgress: true, errorMessage: null};
+      return { ...state, inProgress: true, errorMessage: null };
     }
     case SecureMessageActionTypes.SEND_SECURE_MESSAGE_REPLY_SUCCESS: {
-      return {...state, inProgress: false, errorMessage: null};
+      return { ...state, inProgress: false, errorMessage: null };
     }
     case SecureMessageActionTypes.SEND_SECURE_MESSAGE_REPLY_FAILURE: {
-      return {...state, inProgress: false, errorMessage: 'Unable to send secure reply.'};
+      return { ...state, inProgress: false, errorMessage: 'Unable to send secure reply.' };
+    }
+    case SecureMessageActionTypes.GET_SECURE_MESSAGE_USERS_KEYS: {
+      return { ...state, getUserKeyInProgress: true};
+    }
+    case SecureMessageActionTypes.GET_SECURE_MESSAGE_USERS_KEYS_SUCCESS: {
+      return {...state, getUserKeyInProgress: false, usersKeys: action.payload};
     }
     default: {
       return state;
