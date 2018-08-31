@@ -65,7 +65,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
         this.errorMessage = state.errorMessage;
         if (!this.message && state.message) {
           // message is loaded so check if it has expired
-          if (this.dateTimeUtilService.isDateTimeInPast(state.message.encryption.expires_at)) {
+          if (this.dateTimeUtilService.isDateTimeInPast(state.message.encryption.expires)) {
             this.isMessageExpired = true;
           }
         }
