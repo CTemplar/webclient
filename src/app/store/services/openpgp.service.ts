@@ -96,7 +96,11 @@ export class OpenPgpService {
           decryptedContent: event.data.decryptedContent
         }));
       } else if (event.data.decryptSecureMessageKey) {
-        this.store.dispatch(new UpdateSecureMessageKey({ decryptedKey: event.data.decryptedKey, inProgress: false }));
+        this.store.dispatch(new UpdateSecureMessageKey({
+          decryptedKey: event.data.decryptedKey,
+          inProgress: false,
+          error: event.data.error
+        }));
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.decryptedContent, inProgress: false }));
       }

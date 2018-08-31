@@ -17,8 +17,13 @@ onmessage = function (event) {
     }
     else if (event.data.decryptSecureMessageKey) {
 	    decryptedSecureMsgPrivKeyObj = openpgp.key.readArmored(event.data.privKey).keys[0];
-	    decryptedSecureMsgPrivKeyObj.decrypt(event.data.password);
-	    postMessage({decryptSecureMessageKey: true, decryptedKey: decryptedSecureMsgPrivKeyObj});
+	    decryptedSecureMsgPrivKeyObj.decrypt(event.data.password)
+		    .then(res => {
+			    postMessage({decryptSecureMessageKey: true, decryptedKey: decryptedSecureMsgPrivKeyObj});
+		    })
+		    .catch(error => {
+			    postMessage({decryptSecureMessageKey: true, error: error.message});
+		    });
     }
     else if (event.data.decryptSecureMessageContent) {
 	    if (!event.data.content) {
