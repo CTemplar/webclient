@@ -65,6 +65,8 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   readonly destroyed$: Observable<boolean>;
 
   @Input() sourceMessage: Mail;
+  @Input() hash: string;
+  @Input() secret: string;
   @Input() senderId: string;
 
   @Output() cancel: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -95,7 +97,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
             this.openPgpService.encryptSecureMessageContent(this.message.content, keys);
           } else if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
             this.message.content = state.encryptedContent;
-            this.store.dispatch(new SendSecureMessageReply(this.message));
+            this.store.dispatch(new SendSecureMessageReply({ hash: this.hash, secret: this.secret, message: this.message }));
           } else if (this.secureMessageState.inProgress && !state.inProgress) {
             if (!state.errorMessage) {
               this.replySuccess.emit(true);

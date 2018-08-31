@@ -66,6 +66,8 @@
 
         <ng-template #replyMessage>
           <app-reply-secure-message [sourceMessage]="message"
+                                    [hash]="hash"
+                                    [secret]="secret"
                                     [senderId]="senderId"
                                     (cancel)="onCancelReply()"
                                     (replySuccess)="onReplySuccess()"></app-reply-secure-message>

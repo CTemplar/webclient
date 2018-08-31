@@ -23,6 +23,9 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   decryptForm: FormGroup;
+  hash: string;
+  secret: string;
+  senderId: string;
   message: Mail;
   decryptedContent: string;
   showFormErrors: boolean;
@@ -30,10 +33,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   isMessageExpired: boolean;
   isReplying: boolean;
-  senderId: any;
 
-  private hash: string;
-  private secret: string;
   private secureMessageState: SecureMessageState;
 
   constructor(private route: ActivatedRoute,

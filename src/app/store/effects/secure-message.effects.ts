@@ -46,7 +46,7 @@ export class SecureMessageEffects {
     .ofType(SecureMessageActionTypes.SEND_SECURE_MESSAGE_REPLY)
     .map((action: SendSecureMessageReply) => action.payload)
     .switchMap(payload => {
-      return this.mailService.createMail(payload)
+      return this.mailService.secureReply(payload.hash, payload.secret, payload.message)
         .pipe(
           switchMap(res => {
             return [
