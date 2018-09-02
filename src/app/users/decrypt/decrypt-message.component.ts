@@ -106,4 +106,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     this.isReplying = false;
   }
 
+  onExpired() {
+    this.isMessageExpired = true;
+  }
+
 }

@@ -1,8 +1,11 @@
 <div class="l-block-body px-xs">
   <div id="secure-message-card" class="ui-card">
     <div class="ui-card-header bg-primary text-sm-center">
-      <h6 class="ui-card-title mb-0 fw-light text-white pr-4 px-sm-0">Expiring in <strong>2 Days 6 Hours
-        43 Minutes 46 Seconds</strong>.</h6>
+      <h6 class="ui-card-title mb-0 fw-light text-white pr-4 px-sm-0">Expiring in
+        <strong>
+          <app-countdown-timer [duration]="expiryDurationInSeconds" (finished)="onExpired()"></app-countdown-timer>
+        </strong>
+      </h6>
       <button role="button" class="close ui-card-dismiss hidden-md-up"><i
               class="icon icon-cross text-white"></i></button>
     </div>

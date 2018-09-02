@@ -3,7 +3,8 @@
   <div class="container position-static">
     <div class="go-back-holder"><a routerLink="/" class="text-white" role="button"><i
             class="icon icon-arrow-left icon-sm mr-2"></i>Go to ctemplar.com</a></div>
-    <header *ngIf="isMessageExpired; else messageNotExpired" class="l-block-header text-center position-relative mb-md-2">
+    <header *ngIf="isMessageExpired; else messageNotExpired"
+            class="l-block-header text-center position-relative mb-md-2">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
           <h1 class="l-block-title text-white text-uppercase">
@@ -62,7 +63,8 @@
         <app-display-secure-message *ngIf="!isReplying; else replyMessage"
                                     [message]="message"
                                     [decryptedContent]="decryptedContent"
-                                    (reply)="onReply()"></app-display-secure-message>
+                                    (reply)="onReply()"
+                                    (expired)="onExpired()"></app-display-secure-message>
 
         <ng-template #replyMessage>
           <app-reply-secure-message [sourceMessage]="message"
