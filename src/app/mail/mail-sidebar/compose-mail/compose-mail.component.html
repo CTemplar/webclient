@@ -373,6 +373,7 @@
                   class="actions-btn mail-envelop-btn border-radius-r-0"
                   [ngClass]="{'text-primary': draftMail?.encryption?.password}"
                   [disabled]="!userState.isPrime"
+                  (click)="openEncryptionModal()"
                   placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
         </li>
         <li class="px-0">
