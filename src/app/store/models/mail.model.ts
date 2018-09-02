@@ -3,11 +3,11 @@ import { Subscription } from 'rxjs/Subscription';
 export interface Mail {
   id?: number;
   content: string;
-  folder: string;
+  folder?: string;
   read?: boolean;
   starred?: boolean;
   send?: boolean;
-  mailbox: number;
+  mailbox?: number;
   from?: string;
   checked?: boolean;
   sender?: string;

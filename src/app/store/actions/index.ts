@@ -7,3 +7,4 @@ export * from './keyboard.action';
 export * from './users.action';
 export * from './bitcoin.action';
 export * from './compose-mail.actions';
+export * from './secure-message.actions';

@@ -1,0 +1,37 @@
+<div class="l-block-body px-xs">
+  <div id="secure-message-card" class="ui-card">
+    <div class="ui-card-header bg-primary text-sm-center">
+      <h6 class="ui-card-title mb-0 fw-light text-white pr-4 px-sm-0">Expiring in
+        <strong>
+          <app-countdown-timer [duration]="expiryDurationInSeconds" (finished)="onExpired()"></app-countdown-timer>
+        </strong>
+      </h6>
+      <button role="button" class="close ui-card-dismiss hidden-md-up"><i
+              class="icon icon-cross text-white"></i></button>
+    </div>
+    <div class="ui-card-body">
+      <div class="msg-reply-card">
+        <div class="msg-reply-card-header d-sm-flex justify-content-sm-start align-items-sm-center">
+          <h5 class="text-dark mb-3 mb-sm-0"><strong>{{message.subject}}</strong></h5>
+          <button class="btn btn-disabled btn-sm btn-reply ml-sm-auto" role="button" (click)="onReply()"><i
+                  class="icon icon-reply mr-2"></i><strong>Reply Securely</strong></button>
+        </div>
+        <div class="msg-reply-address-row">
+          <div class="msg-reply-address"><span class="text-muted">From: </span>
+            <span class="text-muted">&lt;{{message.sender}}&gt;</span>
+          </div>
+          <div class="msg-reply-address"><span class="text-muted">To: </span>
+            <ng-container *ngFor="let receiver of message.receiver; let i = index;">
+              <span class="text-muted">&lt;{{receiver}}&gt;</span>
+              <!--Comma as a separator-->
+              <span *ngIf=" i < message.receiver?.length - 1">, </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="msg-reply-card-body">
+          <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

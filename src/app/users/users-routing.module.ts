@@ -8,8 +8,7 @@ import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
 import { UsersBillingInfoComponent } from '../shared/components/users-billing-info/users-billing-info.component';
-import { SecureMessageComponent } from './secure-message/secure-message.component';
-import { DecryptComponent } from './decrypt/decrypt.component';
+import { DecryptMessageComponent } from './decrypt/decrypt-message.component';
 import { AuthGuard } from '../store/services';
 
 const routes: Routes = [
@@ -17,8 +16,7 @@ const routes: Routes = [
   { path: 'signup', component: UsersSignUpComponent },
   { path: 'create-account', component: UsersCreateAccountComponent },
   { path: 'billing-info', component: UsersBillingInfoComponent },
-  { path: 'secure-message', component: SecureMessageComponent },
-  { path: 'decrypt', component: DecryptComponent },
+  { path: 'message/:hash/:secret/:senderId', component: DecryptMessageComponent },
 ];
 
 @NgModule({

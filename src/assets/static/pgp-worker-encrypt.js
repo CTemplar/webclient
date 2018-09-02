@@ -9,6 +9,11 @@ onmessage = function (event) {
             postMessage({encryptedContent: data, encrypted: true, callerId: event.data.callerId});
         })
     }
+    else if (event.data.encryptSecureMessageReply) {
+	    encryptContent(event.data.content, event.data.publicKeys).then(data => {
+		    postMessage({encryptedContent: data, encryptSecureMessageReply: true});
+	    })
+    }
 };
 
 async function encryptContent(data, publicKeys) {

@@ -22,6 +22,7 @@ import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.
 import { FilesizePipe } from './pipes/filesize.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     FilesizePipe,
     RemainingTimePipe,
     ClickOutsideDirective,
+    CountdownTimerComponent,
   ],
   exports: [
     TranslateModule,
@@ -66,6 +68,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     FilesizePipe,
     RemainingTimePipe,
     ClickOutsideDirective,
+    CountdownTimerComponent
   ],
   providers: [
     SpinnerService,
