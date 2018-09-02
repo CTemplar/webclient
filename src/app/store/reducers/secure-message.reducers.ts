@@ -36,10 +36,10 @@ export function reducer(state: SecureMessageState = {
       return { ...state, inProgress: false, errorMessage: 'Unable to send secure reply.' };
     }
     case SecureMessageActionTypes.GET_SECURE_MESSAGE_USERS_KEYS: {
-      return { ...state, getUserKeyInProgress: true};
+      return { ...state, inProgress: true, getUserKeyInProgress: true };
     }
     case SecureMessageActionTypes.GET_SECURE_MESSAGE_USERS_KEYS_SUCCESS: {
-      return {...state, getUserKeyInProgress: false, usersKeys: action.payload};
+      return { ...state, inProgress: false, getUserKeyInProgress: false, usersKeys: action.payload };
     }
     default: {
       return state;

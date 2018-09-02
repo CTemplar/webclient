@@ -93,7 +93,12 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
         this.inProgress = state.inProgress || state.isEncryptionInProgress;
         if (this.secureMessageState) {
           if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {
-            const keys = [...state.usersKeys.map(item => item.public_key), this.sourceMessage.encryption.public_key];
+            const keys = [
+              ...state.usersKeys
+                .filter(item => this.message.receiver.indexOf(item.email) > -1)
+                .map(item => item.public_key),
+              this.sourceMessage.encryption.public_key
+            ];
             this.openPgpService.encryptSecureMessageContent(this.message.content, keys);
           } else if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
             this.message.content = state.encryptedContent;
@@ -131,7 +136,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
         content: this.editor.nativeElement.firstChild.innerHTML,
         sender: this.senderId
       };
-      this.store.dispatch(new GetSecureMessageUserKeys({ emails: [this.sourceMessage.sender] }));
+      this.store.dispatch(new GetSecureMessageUserKeys({ hash: this.hash, secret: this.secret }));
     }
   }
 

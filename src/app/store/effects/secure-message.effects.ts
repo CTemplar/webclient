@@ -65,7 +65,7 @@ export class SecureMessageEffects {
     .ofType(SecureMessageActionTypes.GET_SECURE_MESSAGE_USERS_KEYS)
     .map((action: GetSecureMessageUserKeys) => action.payload)
     .mergeMap((payload: any) => {
-      return this.mailService.getUsersPublicKeys(payload.emails)
+      return this.mailService.getSecureMessageKeys(payload.hash, payload.secret)
         .pipe(
           switchMap((keys) => {
             return [
