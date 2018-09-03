@@ -15,6 +15,7 @@ import { SharedModule } from '../shared/shared.module';
 // Services
 import { BlogService } from '../store/services';
 import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component';
+import { BlogGridComponent } from './shared/blog-grid/blog-grid.component';
 
 
 
@@ -31,9 +32,11 @@ import { BlogSampleComponent } from './shared/blog-sample/blog-sample.component'
     BlogDetailComponent,
     BlogListComponent,
     BlogSampleComponent,
+    BlogGridComponent,
   ],
   exports: [
-    BlogSampleComponent
+    BlogSampleComponent,
+    BlogGridComponent,
   ],
   providers: [
     BlogService

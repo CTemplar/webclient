@@ -1,39 +1,53 @@
 // Custom Action
-import { AuthActionTypes, AuthActionAll } from '../actions';
-
+import { AuthActionAll, AuthActionTypes } from '../actions';
 // Model
-import { AuthState } from '../datatypes';
-import {ActionReducer} from '@ngrx/store';
+import { AuthState, PaymentMethod, PaymentType } from '../datatypes';
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
-  errorMessage: null
+  errorMessage: null,
+  inProgress: false,
+  signupState: {
+    username: null, password: null, recaptcha: null,
+    payment_type: PaymentType.MONTHLY,
+    payment_method: PaymentMethod.STRIPE,
+    currency: 'USD'
+  },
 };
 
 export function logoutReducer(reducerAction: any) {
-    return function (state, action) {
-        return reducerAction(action.type === AuthActionTypes.LOGOUT ? undefined : state, action);
-    };
+  return function (state, action) {
+    return reducerAction(action.type === AuthActionTypes.LOGOUT ? undefined : state, action);
+  };
 }
-
 
 
 export function reducer(state = initialState, action: AuthActionAll): AuthState {
   switch (action.type) {
+
+    case AuthActionTypes.LOGIN: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true,
+      };
+    }
     case AuthActionTypes.LOGIN_SUCCESS: {
       sessionStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        errorMessage: null
+        errorMessage: null,
+        inProgress: false
       };
     }
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
-        errorMessage: 'Incorrect username and/or password.'
+        errorMessage: 'Incorrect username or password.',
+        inProgress: false
       };
     }
     case AuthActionTypes.SIGNUP_SUCCESS: {
@@ -41,17 +55,83 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        errorMessage: null
+        errorMessage: null,
+        inProgress: false,
       };
     }
     case AuthActionTypes.SIGNUP_FAILURE: {
+
+      let error = '';
+      if (action.payload && action.payload.error && action.payload.error.length > 0) {
+        error = action.payload.error[0];
+      }
+
       return {
         ...state,
-        errorMessage: 'That username is already in use.'
+        errorMessage: error,
+        inProgress: false
+      };
+    }
+    case AuthActionTypes.SIGNUP: {
+      return {
+        ...state, inProgress: true
+      };
+    }
+    case AuthActionTypes.UPDATE_SIGNUP_DATA: {
+      return {
+        ...state,
+        signupState: { ...state.signupState, ...action.payload },
+      };
+    }
+    case AuthActionTypes.CHECK_USERNAME_AVAILABILITY: {
+      return {
+        ...state,
+        signupState: { ...state.signupState, inProgress: true },
+      };
+    }
+    case AuthActionTypes.CHECK_USERNAME_AVAILABILITY_SUCCESS: {
+      return {
+        ...state,
+        signupState: { ...state.signupState, usernameExists: action.payload.exists, inProgress: false },
+      };
+    }
+    case AuthActionTypes.RESET_PASSWORD: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true,
+      };
+    }
+    case AuthActionTypes.RESET_PASSWORD_FAILURE: {
+      return {
+        ...state,
+        errorMessage: 'Incorrect reset code or username.',
+        inProgress: false
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT_SUCCESS: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: false
+      };
+    }
+    case AuthActionTypes.UPGRADE_ACCOUNT_FAILURE: {
+      return {
+        ...state,
+        errorMessage: 'Failed to upgrade account. Please try again.',
+        inProgress: false
       };
     }
     case AuthActionTypes.LOGOUT: {
-        return initialState;
+      return initialState;
     }
     default: {
       return state;

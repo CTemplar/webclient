@@ -9,12 +9,13 @@
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-md-7">
                     <div class="text-card">
-                        <h2 class="l-block-title mb-3 pb-1">Register <strong>World’s Most Secure Email</strong> Now!
+                        <!-- TODO: Fix translations -->
+                        <h2 class="l-block-title mb-3 pb-1" [innerHTML]="'footer.register_to_world_most' | translate">Register <strong>World’s Most Secure Email</strong> Now!
                         </h2>
-                        <h4 class="l-block-subtitile fw-light mb-3 pb-2">Send unbreakable emails and protect your key
+                        <h4 class="l-block-subtitile fw-light mb-3 pb-2" [innerHTML]="'footer.send_unbreakable_emails' |translate ">Send unbreakable emails and protect your key
                             professional and personal details trough
                             next-gen encryption.</h4>
-                        <a routerLink="/signup" class="btn btn-lg btn-gradient-primary">upgrade to prime</a>
+                        <a routerLink="/signup" class="btn btn-lg btn-gradient-primary" translate="footer.upgrade_to_prime">upgrade to prime</a>
                     </div>
                 </div>
             </div>
@@ -35,37 +36,19 @@
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a routerLink="/security">Security</a>
+                                <a routerLink="/security" translate="home_header.security">Security</a>
                             </li>
                             <li>
-                                <a routerLink="/pricing">Pricing</a>
+                                <a routerLink="/pricing" translate="home_header.pricing">Pricing</a>
                             </li>
                             <li>
-                                <a routerLink="/media-kit">Media Kit</a>
+                                <a routerLink="/media-kit" translate="footer.media_kit">Media Kit</a>
                             </li>
                             <li>
-                                <a routerLink="/tor-onion">Onion site</a>
+                                <a routerLink="/tor-onion" translate="footer.onion_site">Onion site</a>
                             </li>
                             <li>
-                                <a href="https://ctemplar.zendesk.com">Support</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 footer-col footer-col-5">
-                <div class="footer-widget">
-                    <h4 class="footer-widget-title">Company</h4>
-                    <div class="footer-widget-body">
-                        <ul class="lists lists-arrow">
-                            <li>
-                                <a routerLink="/about">About</a>
-                            </li>
-                            <li>
-                                <a routerLink="/blog">Blog</a>
-                            </li>
-                            <li>
-                                <a routerLink="/donate">Donate</a>
+                                <a href="https://ctemplar.zendesk.com" translate="footer.support">Support</a>
                             </li>
                         </ul>
                     </div>
@@ -73,21 +56,17 @@
             </div>
             <div class="col-6 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title">Social</h4>
+                    <h4 class="footer-widget-title" translate="footer.company">Company</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
-                            <!-- Please replace href="javascript:void();" with corresponding links -->
                             <li>
-                                <a href="javascript:void();">Facebook</a>
+                                <a routerLink="/about" translate="home_header.about">About</a>
                             </li>
                             <li>
-                                <a href="javascript:void();">Twitter</a>
+                                <a routerLink="/blog" translate="home_header.blog">Blog</a>
                             </li>
                             <li>
-                                <a href="javascript:void();">Google+</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void();">LinkedIn</a>
+                                <a routerLink="/donate" translate="settings.donate.name">Donate</a>
                             </li>
                         </ul>
                     </div>
@@ -95,14 +74,29 @@
             </div>
             <div class="col-6 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title">Legal</h4>
+                    <h4 class="footer-widget-title" translate="footer.social">Social</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a routerLink="/privacy">Privacy Policy</a>
+                                <a href="https://www.facebook.com/CTemplarEncryption" target="_blank">Facebook</a>
                             </li>
                             <li>
-                                <a routerLink="/terms">Terms &amp; Conditions</a>
+                                <a href="https://twitter.com/RealCTemplar" target="_blank">Twitter</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 footer-col footer-col-5">
+                <div class="footer-widget">
+                    <h4 class="footer-widget-title" translate="footer.legal">Legal</h4>
+                    <div class="footer-widget-body">
+                        <ul class="lists lists-arrow">
+                            <li>
+                                <a routerLink="/privacy" translate="footer.privacy_policy">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a routerLink="/terms" [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</a>
                             </li>
                         </ul>
                     </div>
@@ -110,9 +104,11 @@
             </div>
             <div class="col-12 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title">Our Address</h4>
+                    <h4 class="footer-widget-title" translate="footer.our_address">Our Address</h4>
                     <div class="footer-widget-body">
-                        <address> Orange Project ehf
+                        <address> 
+                            CTemplar
+                            <br/> Orange Project ehf
                             <br/> Armula 4 &amp; 6
                             <br/> Reykjavík, 108
                             <br/> Iceland
@@ -122,18 +118,7 @@
             </div>
         </div>
         <div class="footer-bottom-row text-center">
-            <ul class="lists lists-inline lists-dashed footer-lang-list justify-content-center">
-                <li class="lists-item active">
-                    <a href="javascript:void();" class="lists-link">English</a>
-                </li>
-                <li class="lists-item">
-                    <a href="javascript:void();" class="lists-link">Russian</a>
-                </li>
-                <li class="lists-item">
-                    <a href="javascript:void();" class="lists-link">Spanish</a>
-                </li>
-            </ul>
-            <p class="app-credit small">&copy;2018 CTemplar. All Rights Reserved.</p>
+            <p class="app-credit small">&copy;2018 CTemplar. <span translate="footer.all_rights_reserved">All Rights Reserved</span>.</p>
         </div>
     </div>
 </footer><!-- /.REUSABLE COMPONENT :: FOOTER ENDS -->

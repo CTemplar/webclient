@@ -3,17 +3,64 @@ import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailBoxesState } from '../datatypes';
 
-export const initialState: MailBoxesState = {
-  mailboxes: []
-};
 
-export function reducer(state = initialState, action: MailActions): MailBoxesState {
+export function reducer(
+  state = {
+    mailboxes: [],
+    customFolders: [],
+    currentMailbox: null,
+    decryptKeyInProgress: false,
+    encryptionInProgress: false
+  }, action: MailActions): MailBoxesState {
   switch (action.type) {
 
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
       return {
         ...state,
-        mailboxes: action.payload
+        mailboxes: action.payload,
+        currentMailbox: action.payload[0],
+      };
+    }
+
+    case MailActionTypes.SET_DECRYPT_INPROGRESS: {
+      return {
+        ...state,
+        decryptKeyInProgress: action.payload,
+      };
+    }
+
+    case MailActionTypes.SET_DECRYPTED_KEY: {
+      return {
+        ...state,
+        decryptKeyInProgress: false,
+        decryptedKey: action.payload.decryptedKey,
+      };
+    }
+
+    case MailActionTypes.SET_CURRENT_MAILBOX: {
+      return {
+        ...state,
+        currentMailbox: action.payload,
+      };
+    }
+
+    case MailActionTypes.SET_FOLDERS: {
+      return {
+        ...state,
+        customFolders: action.payload,
+      };
+    }
+    case MailActionTypes.UPDATE_FOLDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+    case MailActionTypes.UPDATE_FOLDER_SUCCESS: {
+      return {
+        ...state,
+        customFolders: action.payload,
+        inProgress: false,
       };
     }
 

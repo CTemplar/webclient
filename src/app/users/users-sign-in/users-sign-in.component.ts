@@ -3,7 +3,7 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ElementRef
+  ElementRef, HostListener
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -16,12 +16,15 @@ import { Observable } from 'rxjs/Observable';
 
 // Store
 import { AppState } from '../../store/datatypes';
-import { LogIn } from '../../store/actions';
+import { LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 // Service
-import { SharedService } from '../../store/services';
+import { OpenPgpService, SharedService } from '../../store/services';
 import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
+import { ESCAPE_KEYCODE } from '../../shared/config';
+import { PasswordValidation } from '../users-create-account/users-create-account.component';
+import ReCaptcha = ReCaptchaV2.ReCaptcha;
 
 @TakeUntilDestroy()
 @Component({
@@ -33,9 +36,12 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   readonly destroyed$: Observable<boolean>;
 
   loginForm: FormGroup;
-  resetForm: FormGroup;
+  recoverPasswordForm: FormGroup;
+  resetPasswordForm: FormGroup;
   showFormErrors = false;
+  showResetPasswordFormErrors = false;
   errorMessage: string = '';
+  resetPasswordErrorMessage: string = '';
   isLoading: boolean = false;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
@@ -44,8 +50,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   password: string = 'password';
   layout: any = 'alphanumeric';
   isKeyboardOpened: boolean;
+  isRecoverFormSubmitted: boolean;
+  isCaptchaCompleted: boolean = true;
+  loginErrorCount: number = 0;
+  recaptcha: ReCaptcha;
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
+  @ViewChild('resetPasswordModal') resetPasswordModal;
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
@@ -54,7 +65,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
               private formBuilder: FormBuilder,
               private store: Store<AppState>,
               private sharedService: SharedService,
-              private _keyboardService: MatKeyboardService) {}
+              private _keyboardService: MatKeyboardService,
+              private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -65,18 +77,34 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
+      rememberMe: [false],
     });
 
-    this.resetForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]]
+    this.recoverPasswordForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      recovery_email: ['', [Validators.required, Validators.email]],
     });
+    this.resetPasswordForm = this.formBuilder.group({
+        code: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        confirmPwd: ['', [Validators.required]],
+        username: ['', [Validators.required]],
+      },
+      {
+        validator: PasswordValidation.MatchPassword
+      });
 
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
-      .subscribe(state => {
-        this.isLoading = false;
-        this.errorMessage = state.errorMessage;
+      .subscribe(authState => {
+        this.isLoading = authState.inProgress;
+        this.errorMessage = authState.errorMessage;
+        if (authState.errorMessage) {
+          this.loginErrorCount++;
+          if (this.loginErrorCount >= 2) {
+            this.isCaptchaCompleted = false;
+          }
+        }
       });
   }
 
@@ -85,9 +113,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.closeKeyboard();
   }
 
-  // == Open NgbModal
-  open(content) {
-    this.resetModalRef = this.modalService.open(content, {
+  openResetPasswordModal() {
+    this.isRecoverFormSubmitted = false;
+    this.showResetPasswordFormErrors = false;
+    this.resetPasswordErrorMessage = '';
+    this.recoverPasswordForm.reset();
+    this.resetPasswordForm.reset();
+    this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
       windowClass: 'modal-md'
     });
@@ -98,19 +130,57 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (!input.value) {
       return;
     }
-    this.password = this.password === 'password' ? 'text' : 'password';
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   login(user) {
     this.showFormErrors = true;
     if (this.loginForm.valid) {
-      this.isLoading = true;
       this.store.dispatch(new LogIn(user));
     }
   }
 
+  recoverPassword(data) {
+    this.showResetPasswordFormErrors = true;
+    if (this.recoverPasswordForm.valid) {
+      this.store.dispatch(new RecoverPassword(data));
+      this.resetPasswordForm.get('username').setValue(data.username);
+      this.isRecoverFormSubmitted = true;
+      this.showResetPasswordFormErrors = false;
+    }
+  }
+
   resetPassword(data) {
-    this.resetModalRef.close();
+    this.showResetPasswordFormErrors = true;
+    if (this.resetPasswordForm.valid) {
+      this.openPgpService.generateUserKeys(data.username, data.password);
+      if (this.openPgpService.getUserKeys()) {
+        this.resetPasswordConfirmed(data);
+      } else {
+        this.waitForPGPKeys(data);
+      }
+    }
+  }
+
+  waitForPGPKeys(data) {
+    setTimeout(() => {
+      if (this.openPgpService.getUserKeys()) {
+        this.resetPasswordConfirmed(data);
+        return;
+      }
+      this.waitForPGPKeys(data);
+    }, 1000);
+  }
+
+  resetPasswordConfirmed(data) {
+    const requestData = {
+      code: data.code,
+      username: data.username,
+      password: data.password,
+      ...this.openPgpService.getUserKeys(),
+    };
+    this.store.dispatch(new ResetPassword(requestData));
+    this.resetModalRef.dismiss();
   }
 
   openUsernameOSK() {
@@ -126,6 +196,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this._keyboardRef.instance.attachControl(this.loginForm.controls['username']);
     this.usernameVC.nativeElement.focus();
     this.isKeyboardOpened = true;
+    this.prependCloseButtonToMatKeyboard();
   }
 
   openPasswordOSK() {
@@ -141,6 +212,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this._keyboardRef.instance.attachControl(this.loginForm.controls['password']);
     this.passwordVC.nativeElement.focus();
     this.isKeyboardOpened = true;
+    this.prependCloseButtonToMatKeyboard();
   }
 
   closeKeyboard() {
@@ -159,4 +231,45 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       }
     }
   }
+
+  private prependCloseButtonToMatKeyboard() {
+    const matKeyboardWrapper = document.getElementsByClassName('mat-keyboard-wrapper');
+    if (matKeyboardWrapper && this.checkIfCloseButtonExist()) {
+      const elChild = document.createElement('a');
+      elChild.setAttribute('id', 'close-mat-keyboard');
+      elChild.setAttribute('class', 'close-mat-keyboard');
+      elChild.innerHTML = '<i class="fa fa-times" id="close-mat-keyboard-icon"></i>';
+      // Prepend it to the parent element
+      matKeyboardWrapper[0].insertBefore(elChild, matKeyboardWrapper[0].firstChild);
+    }
+  }
+
+  private checkIfCloseButtonExist() {
+    return !document.getElementById('close-mat-keyboard');
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === ESCAPE_KEYCODE) {
+      this.isKeyboardOpened = false;
+      this.closeKeyboard();
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (event.target.id === 'close-mat-keyboard' || event.target.id === 'close-mat-keyboard-icon') {
+      this.isKeyboardOpened = false;
+      this.closeKeyboard();
+    }
+  }
+
+  recaptchaResolved(recaptchResponse) {
+    if (recaptchResponse) {
+      this.isCaptchaCompleted = true;
+      this.loginErrorCount = 0;
+      this.recaptcha.reset();
+    }
+  }
+
 }

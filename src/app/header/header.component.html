@@ -52,7 +52,7 @@
                                    translate="home_header.blog">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://ctemplar.zendesk.com" class="nav-link" target="_blank"
+                                <a routerLink="/support" class="nav-link"
                                    (click)="closeMenu()" translate="home_header.support">Support</a>
                             </li>
                             <li class="nav-item hidden-sm-up">
@@ -107,11 +107,12 @@
                             <div ngbDropdown placement="bottom-right" class="lang-selector-dropdown">
                                 <button class="bg-transparent" type="button" id="langDropdownMenuButton"
                                         ngbDropdownToggle>
-                                    <i class="fa fa-globe hidden-xs-down"></i>{{selectedLanguage}}
+                                    <i class="fa fa-globe hidden-xs-down"></i> {{selectedLanguage?.locale?.toUpperCase()}}
                                 </button>
                                 <div ngbDropdownMenu class="text-center" aria-labelledby="langDropdownMenuButton">
-                                    <a class="dropdown-item" (click)="changeLanguage('en')">English (EN)</a>
-                                    <a class="dropdown-item" (click)="changeLanguage('ru')">Russian (RU)</a>
+                                    <a class="dropdown-item language-dropdown"
+                                       *ngFor="let language of languages" (click)="changeLanguage(language)"
+                                    >{{language.name}} ({{language.locale}})</a>
                                 </div>
                             </div>
                         </li>

@@ -78,6 +78,5 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

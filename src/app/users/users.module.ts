@@ -15,9 +15,8 @@ import { SharedModule } from '../shared/shared.module';
 import { UsersSignInComponent } from './users-sign-in/users-sign-in.component';
 import { UsersSignUpComponent } from './users-sign-up/users-sign-up.component';
 import { UsersCreateAccountComponent } from './users-create-account/users-create-account.component';
-import { UsersBillingInfoComponent } from './users-billing-info/users-billing-info.component';
-import { SecureMessageComponent } from './secure-message/secure-message.component';
-import { DecryptComponent } from './decrypt/decrypt.component';
+import { DisplaySecureMessageComponent } from './display-secure-message/display-secure-message.component';
+import { DecryptMessageComponent } from './decrypt/decrypt-message.component';
 
 // Module
 import { PagesModule } from '../pages/pages.module';
@@ -29,6 +28,8 @@ import {
   RECAPTCHA_SETTINGS,
   RecaptchaSettings
 } from 'ng-recaptcha';
+import {TranslateModule} from '@ngx-translate/core';
+import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure-message.component';
 
 @NgModule({
   imports: [
@@ -39,21 +40,22 @@ import {
     UsersRoutingModule,
     PagesModule,
     SharedModule,
-    RecaptchaModule.forRoot()
+    RecaptchaModule.forRoot(),
+    TranslateModule
   ],
   declarations: [
     UsersSignInComponent,
     UsersSignUpComponent,
     UsersCreateAccountComponent,
-    UsersBillingInfoComponent,
-    SecureMessageComponent,
-    DecryptComponent
+    DisplaySecureMessageComponent,
+    DecryptMessageComponent,
+    ReplySecureMessageComponent
   ],
   providers: [UsersService,
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: {
-        siteKey: '6LdGCFoUAAAAAFz-kzOkmvdBKtC6lyoanpnCTpzp'
+        siteKey: '6LdNHVoUAAAAAMUa9BYB-hqOkCH2n9aaT_iZL8Ma'
       } as RecaptchaSettings,
 
     }]

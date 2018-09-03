@@ -1,0 +1,254 @@
+<!-- PAGE SECTION -->
+<section class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
+  <div class="container container-sm">
+    <header class="l-block-header position-relative text-center mb-4 mb-sm-5 mb-md-8" [hidden]="hideHeader">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
+          <h1 class="l-block-title fw-light text-uppercase text-secondary">
+            <strong translate="home_header.pricing">Pricing</strong> <span translate="settings.plans">Plans</span>
+          </h1>
+          <h4 class="l-block-subtitle mb-0 text-dark fw-light" translate="page_pricing.do_not_show_ads">
+            This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon subscription revenue
+            to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop CTemplar,
+            as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails
+          </h4>
+        </div>
+      </div>
+    </header>
+    <div class="l-block-body px-xs">
+      <div class="package-card-holder mt-3 mt-sm-0 mt-md-5">
+        <ul class="package-xs-tab list-style-none hidden-sm-up">
+          <li class="active" [class.is-active]="1 === selectedIndex"><a role="button"
+                                                                        (click)="toggleSlides(1);" translate="settings.prime">Prime</a>
+          </li>
+          <li [class.is-active]="2 === selectedIndex"><a role="button" (click)="toggleSlides(2);" translate="settings.free">Free</a>
+          </li>
+        </ul>
+        <div class="row flex-nowrap row-lg mb-4">
+          <div class="col-sm-6 flex-sm-last package-prime-col active-slide"
+               [class.is-active-slide]="1 === selectedIndex">
+            <div class="package-card package-card-prime is-shadowed bg-faded text-dark">
+              <header class="package-card-header text-center">
+                <h2 class="text-white m-0">
+                  <strong translate="settings.prime">Prime</strong>
+                </h2>
+              </header>
+              <div class="package-card-body">
+                <ul class="package-list mb-0 list-style-none pl-0">
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 User
+                  </li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>5 Gb Storage
+                  </li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 E-mail Address
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>1000 Messages per Day
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>200 Folders
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Normal Support
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Self Destruct Timer
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Encryption for non-CTemplar Users
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Dead Mans Timer
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Delayed Delivery Timer
+                  </li>
+                </ul>
+                <div class="package-coming-soon mt-3">
+                  <h6 class="text-muted"><p class="text-success"><span translate="settings.features_added_soon">Added later to this package</span></p></h6>
+                  <ul class="package-list mb-0 list-style-none pl-0">
+                    <li class="package-list-item">
+                      <i class="fa fa-check text-green"></i>+2 Email Address Aliases </li>
+                      <li class="package-list-item">
+                          <i class="fa fa-check text-green"></i>+1 Custom Domain</li>
+                    <!-- <li class="package-list-item">
+                      <i class="fa fa-check text-green"></i>Custom Filters</li>
+                    <li class="package-list-item">
+                      <i class="fa fa-check text-green"></i>Autoresponder</li>
+                    <li class="package-list-item">
+                      <i class="fa fa-check text-green"></i>Notifications</li>
+                    -->
+                  </ul> 
+                </div>
+              </div>
+              <footer class="package-card-footer">
+                <div class="package-divider package-divider-sm">
+                  <ul class="pay-type-list list-style-none mb-0 pl-0">
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group">
+                            <input [(ngModel)]="paymentMethod" value="Stripe" (change)="changePaymentMethod($event.target.value)"
+                                   class="d-none fancy-field-control" id="currency"  name="currency" type="radio" />
+                            <label for="currency">Currency</label>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">
+                            <div ngbDropdown class="currency-select-dropdown" id="pay-currency">
+                              <button class="dropdown-toggle" type="button" id="currencyDropdownMenuButton"
+                                      ngbDropdownToggle>
+                                <strong>{{selectedCurrency}}</strong>
+                              </button>
+                              <div ngbDropdownMenu class="ext-center" aria-labelledby="currencyDropdownMenuButton">
+                                <a class="dropdown-item" (click)="changeCurrency('USD')">USD</a>
+                                <a class="dropdown-item" (click)="changeCurrency('EUR')">EUR</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-12">
+                          <div class="fancy-field-group">
+                            <input [(ngModel)]="paymentMethod" value="Bitcoin" class="d-none fancy-field-control" (change)="changePaymentMethod($event.target.value)" 
+                                   id="btc-currency" name="currency" type="radio" #btcCurrency/>
+                            <label for="btc-currency">BTC Currency</label>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group mb-2">
+                            <input class="d-none fancy-field-control" id="pay-monthly"
+                                   name="payment_type" value="monthly" type="radio" checked [disabled]="btcCurrency.checked" [(ngModel)]="paymentType"/>
+                            <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="pay-price">
+                            <strong>{{'8' | currency:selectedCurrency}}</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group">
+                            <input class="d-none fancy-field-control" id="pay-annullay"
+                                   name="payment_type" value="annually" type="radio" [checked]="btcCurrency.checked" [(ngModel)]="paymentType"/>
+                            <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
+                            <span class="badge">-25%</span>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="pay-price">
+                            <strong>{{'6' | currency:selectedCurrency}}</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
+                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; {{'72' | currency:selectedCurrency}}/yr</div>
+                        </div>
+                      </div>
+                    </li>
+                  
+                  </ul>
+                </div>
+                <div class="package-actions text-center">
+                  <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && !isPrime) || !showCurrentPlan"  class="btn btn-lg btn-gradient-primary cursor-pointer">
+                    <span translate="settings.select_prime">Select Prime </span> ${{paymentType === 'annually' ? '6':'8'}}/
+                    <span class="text-normal">mo</span>
+                  </a>
+                  <div *ngIf="showCurrentPlan && isPrime">
+                    <a class="btn-link text-uppercase text-primary"><strong>Current Plan</strong></a>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </div>
+          <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
+            <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
+              <header class="package-card-header text-center">
+                <h2 class="text-white m-0">
+                  <strong translate="settings.free">Free</strong>
+                </h2>
+              </header>
+              <div class="package-card-body">
+                <ul class="package-list mb-0 list-style-none pl-0">
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 User
+                  </li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>200 Mb Storage
+                  </li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 E-mail Address
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>100 Messages per Day
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>3 Folders
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>Limited Support
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>
+                    Self Destruct Timer
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>
+                    Encryption for non-CTemplar Users
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-times text-danger"></i>
+                    <del>Dead Mans Timer</del>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-times text-danger"></i>
+                    <del>Delayed Delivery Timer</del>
+                  </li>
+                </ul>
+              </div>
+              <footer class="package-card-footer text-center"  *ngIf="!isPrime">
+                <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
+                <div class="package-actions">
+
+                  <a (click)="selectPlan(0)" *ngIf="(showCurrentPlan && isPrime) || !showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
+                  <div *ngIf="showCurrentPlan && !isPrime">
+                    <a class="btn-link text-uppercase text-primary"><strong>Current
+                      Plan</strong></a>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.Site container ends -->
+</section>
+<!-- /.PAGE SECTION ENDS -->
+
+<!-- billing info modal -->
+<ng-template #billingInfoModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Upgrade Account</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded p-3">
+    <app-users-billing-info [isUpgradeAccount]="true" [paymentType]="paymentType" [paymentMethod]="paymentMethod" [currency]="selectedCurrency" (close)="d()"></app-users-billing-info>
+  </div>
+</ng-template><!-- /.billing info modal ends -->

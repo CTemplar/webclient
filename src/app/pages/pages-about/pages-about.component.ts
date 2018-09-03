@@ -29,6 +29,6 @@ export class PagesAboutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
+    // this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

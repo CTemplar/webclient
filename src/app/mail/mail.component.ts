@@ -1,34 +1,44 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { SharedService } from '../store/services';
-
-// Actions
-import { AccountDetailsGet, FinalLoading } from '../store/actions';
-
+import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 // Store
 import { Store } from '@ngrx/store';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs/Observable';
+// Actions
+import { AccountDetailsGet, GetMailboxes } from '../store/actions';
+import { TimezoneGet } from '../store/actions/timezone.action';
+import { AppState } from '../store/datatypes';
+import { SharedService } from '../store/services';
+import { ComposeMailService } from '../store/services/compose-mail.service';
 
-// Service
+@TakeUntilDestroy()
 @Component({
   selector: 'app-mail',
   templateUrl: './mail.component.html',
   styleUrls: ['./mail.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MailComponent implements OnDestroy, OnInit {
+export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
+  readonly destroyed$: Observable<boolean>;
 
-  constructor(
-    private store: Store<any>,
-    private sharedService: SharedService,
-  ) {
+  @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+
+  constructor(private store: Store<AppState>,
+              private sharedService: SharedService,
+              private composeMailService: ComposeMailService) {
   }
 
   ngOnInit() {
     this.store.dispatch(new AccountDetailsGet());
-    setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
+    this.store.dispatch(new GetMailboxes());
+    this.store.dispatch(new TimezoneGet());
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
     this.sharedService.hideEntireFooter.emit(true);
     this.sharedService.isMail.emit(true);
+  }
+
+  ngAfterViewInit() {
+    this.composeMailService.initComposeMailContainer(this.composeMailContainer);
   }
 
   ngOnDestroy() {
@@ -36,5 +46,6 @@ export class MailComponent implements OnDestroy, OnInit {
     this.sharedService.hideHeader.emit(false);
     this.sharedService.hideEntireFooter.emit(false);
     this.sharedService.isMail.emit(false);
+    this.composeMailService.destroyAllComposeMailDialogs();
   }
 }

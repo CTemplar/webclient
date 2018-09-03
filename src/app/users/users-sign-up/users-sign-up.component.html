@@ -5,25 +5,19 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
                     <h1 class="l-block-title text-uppercase text-secondary">
-                        <strong>Select account type</strong>
+                        <strong translate="page_pricing.select_account_type">Select account type</strong>
                     </h1>
-                    <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select mt-4 mt-sm-0">
-                        <div ngbDropdown class="currency-select-dropdown">
-                            <button class="dropdown-toggle" type="button" id="currencyDropdownMenuButton"
-                                    ngbDropdownToggle>
-                                <strong>USD</strong>
-                            </button>
-                            <div ngbDropdownMenu class="ext-center" aria-labelledby="currencyDropdownMenuButton">
-                                <a class="dropdown-item" href="">Ru</a>
-                                <a class="dropdown-item" href="">Es</a>
-                            </div>
-                        </div>
-                    </div>
+                    <h4 class="l-block-subtitle mb-0 text-dark fw-light" translate="page_pricing.do_not_show_ads">
+                        This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon subscription revenue
+                        to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop CTemplar,
+                        as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails
+                    </h4>
                 </div>
             </div>
         </header>
-        <app-pages-pricing hideHeader="true" blockGapsZero="true"></app-pages-pricing>
+        <app-pricing-plans hideHeader="true" blockGapsZero="true"></app-pricing-plans>
     </div>
     <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
+

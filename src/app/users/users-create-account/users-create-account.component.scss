@@ -23,7 +23,6 @@ $error-red: #e94e4c;
   }
 
   i {
-    color: green;
     margin-left: 10px;
   }
 
@@ -96,14 +95,19 @@ $error-red: #e94e4c;
   }
 }
 
-.password-confirm {
-  position: absolute;
-  top: 120px;
-  right: -30px;
+.password-ok {
   color: green;
+  float: right;
+  margin-right: -28px;
+  margin-top: -30px;
 }
 
 .password-toggle, .confirmpasswordToggle {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 
+}
+
+.username-availability-spinner {
+  position: absolute;
+  right: -18px;
 }

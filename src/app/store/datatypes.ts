@@ -3,7 +3,8 @@ import { MailBoxesState } from './datatypes';
 import { Params } from '@angular/router';
 // Ngrx
 // Models
-import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox } from '../store/models';
+import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox, Attachment, MailFolderType } from '../store/models';
+import { SearchState } from './reducers/search.reducers';
 
 export interface RouterStateUrl {
   url: string;
@@ -19,6 +20,23 @@ export interface AuthState {
   user: User | null;
   // error message
   errorMessage: string | null;
+  inProgress: boolean;
+  signupState: SignupState;
+}
+
+export interface SignupState {
+  username?: string;
+  password?: string;
+  recovery_email?: string;
+  usernameExists?: boolean;
+  inProgress?: boolean;
+  recaptcha: string;
+  public_key?: string;
+  private_key?: string;
+  fingerprint?: string;
+  payment_type?: PaymentType;
+  payment_method?: PaymentMethod;
+  currency?: string;
 }
 
 export interface UserState {
@@ -28,6 +46,7 @@ export interface UserState {
   blackList: BlackList[];
   contact: Contact[];
   settings: Settings;
+  payment_transaction?: Payment;
   isPrime?: boolean;
   inProgress?: boolean;
   isError?: boolean;
@@ -45,6 +64,23 @@ export interface Settings {
   recovery_email?: string;
   save_contacts?: boolean;
   show_snippets?: boolean;
+  timezone?: string;
+  language?: string;
+  signature?: string;
+  allocated_storage?: number;
+  used_storage?: number;
+  display_name?: string;
+}
+
+export interface Payment {
+  id?: number;
+  transaction_id?: string;
+  amount?: number;
+  currency?: string;
+  created?: string;
+  billing_cycle_ends?: string;
+  payment_method?: PaymentMethod;
+  payment_type?: PaymentType;
 }
 
 export interface BlogState {
@@ -60,13 +96,80 @@ export interface BlogState {
 
 export interface MailState {
   mails: Mail[];
-  folders: any[];
+  mailDetail: Mail;
+  folders: Map<string, Mail[]>;
+  currentFolder?: MailFolderType;
+  loaded?: boolean;
+  inProgress?: boolean;
+  decryptedContents: DecryptedContentState;
+}
+
+export interface DecryptedContent {
+  id: number;
+  content: string;
+  inProgress: boolean;
+}
+
+export interface DecryptedContentState {
+  [key: number]: DecryptedContent;
+}
+
+export interface Draft {
+  id: number;
   draft: Mail;
   inProgress?: boolean;
+  encryptedContent?: string;
+  decryptedContent?: string;
+  isPGPInProgress?: boolean;
+  isSshInProgress?: boolean;
+  attachments: Attachment[];
+  shouldSend?: boolean;
+  shouldSave?: boolean;
+  getUserKeyInProgress?: boolean;
+  usersKeys?: PublicKey[];
+
+  /**
+   * @var isClosed
+   * @description It represents if the compose mail editor has been closed or not.
+   */
+  isClosed?: boolean;
+}
+
+export interface DraftState {
+  [key: number]: Draft;
+}
+
+export interface ComposeMailState {
+  drafts: DraftState;
 }
 
 export interface MailBoxesState {
   mailboxes: Mailbox[];
+  customFolders: string[];
+  currentMailbox: Mailbox;
+  decryptKeyInProgress: boolean;
+  decryptedKey?: any;
+  encryptionInProgress: boolean;
+  inProgress?: boolean;
+}
+
+export interface SecureMessageState {
+  message: Mail;
+  decryptedContent?: string;
+  decryptedKey?: any;
+  encryptedContent?: string;
+  isKeyDecryptionInProgress?: boolean;
+  isContentDecryptionInProgress?: boolean;
+  isEncryptionInProgress?: boolean;
+  inProgress?: boolean;
+  errorMessage?: string;
+  getUserKeyInProgress?: boolean;
+  usersKeys?: PublicKey[];
+}
+
+export interface PublicKey {
+  email: string;
+  public_key: string;
 }
 
 export interface LoadingState {
@@ -114,5 +217,54 @@ export interface AppState {
   loading: LoadingState;
   keyboard: KeyboardState;
   user: UserState;
+  timezone: TimezonesState;
+  bitcoin: BitcoinState;
+  composeMail: ComposeMailState;
+  secureMessage: SecureMessageState;
+  search: SearchState;
 }
 
+export interface TimezonesState {
+  timezones: Timezone[];
+}
+
+export interface Timezone {
+  value: string;
+  key: string;
+}
+
+export interface BitcoinState {
+  serviceValue: number;
+  newWalletAddress: string;
+  loaded: boolean;
+  redeemCode: string;
+  checkTransactionResponse: CheckTransactionResponse;
+}
+
+export interface CheckTransactionResponse {
+  address?: string;
+  balance?: number;
+  required_balance?: number;
+  pending_balance?: number;
+  paid_out?: number;
+  confirmed?: boolean;
+  status: TransactionStatus;
+}
+
+export enum TransactionStatus {
+  WAITING = 'Waiting',
+  PENDING = 'Pending',
+  RECEIVED = 'Received',
+  SENT = 'Sent'
+}
+
+export enum PaymentMethod {
+  STRIPE = 'Stripe',
+  BITCOIN = 'Bitcoin'
+}
+
+
+export enum PaymentType {
+  MONTHLY = 'monthly',
+  ANNUALLY = 'annually',
+}

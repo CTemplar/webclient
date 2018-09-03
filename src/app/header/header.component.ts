@@ -12,6 +12,7 @@ import { Logout } from '../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
+import { Language, LANGUAGES } from '../shared/config';
 
 @TakeUntilDestroy()
 @Component({
@@ -29,7 +30,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // Switch the footer call to action for this view.
   externalPageCallToAction: boolean = false;
   isLoggedIn: boolean;
-  selectedLanguage: string = 'EN';
+  selectedLanguage: Language = { name: 'English', locale: 'en' };
+  languages = LANGUAGES;
 
   constructor(
     @Inject(DOCUMENT) private document: any,
@@ -44,15 +46,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.usersService.getToken() ? true : false;
+    this.isLoggedIn = this.usersService.getUserKey() ? true : false;
     this.store.select(state => state.auth).takeUntil(this.destroyed$)
       .subscribe((data: AuthState) => this.isLoggedIn = data.isAuthenticated);
   }
 
-  changeLanguage(lang: string) {
+  changeLanguage(lang: Language) {
     // the lang to use, if the lang isn't available, it will use the current loader to get them
-    this.translate.use(lang);
-    this.selectedLanguage = lang.toUpperCase();
+    this.translate.use(lang.locale);
+    this.selectedLanguage = lang;
   }
 
   // == Setup click event to toggle mobile menu

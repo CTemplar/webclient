@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.usersService.getToken()) {
+    if (this.usersService.getUserKey()) {
       if (state.url === '/signin') {
         this.router.navigateByUrl('/mail');
       }

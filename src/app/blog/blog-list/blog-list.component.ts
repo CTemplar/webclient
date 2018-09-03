@@ -26,7 +26,22 @@ import { NumberOfColumns } from '../../store/models';
 })
 export class BlogListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
-  firstPost: Post;
+  firstPost: Post = {
+    id: 1,
+    category: 1,
+    comments_count: 10,
+    date: 'August 08, 2018',
+    name: 'Why Everyone Needs CTemplar?',
+    slug: 'why-everyone-needs-ctemplar',
+    image_card: 'assets/images/blog/why-everyone-needs-ctemplar.jpg',
+    image_featured: 'assets/images/blog/why-everyone-needs-ctemplar.jpg',
+    image: 'assets/images/blog/why-everyone-needs-ctemplar.jpg',
+    text: `Picking a secure email system is not just checking for that little padlock to see that your webpages are encrypted when using
+    webmail.  When you are searching around for the most secure email system, whether for business or personal purposes, you will find a
+    range of options available. When evaluating each product, you will need to pour over the security features, software setup, privacy
+    policy, terms and conditions of use, and company background with a fine-tooth comb.`,
+    excerpt: ``
+  };
   postPosition: number = 0;
   positionCount: number = 7;
   isPostsLoading: boolean = false;
@@ -41,7 +56,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
     private store: Store<any>,
     private spinnerService: SpinnerService
   ) {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
+    // this.store.dispatch(new FinalLoading({ loadingState: true }));
 
     this.getBlogState$ = this.store.select(getNewBlogs);
     this.getCategories$ = this.store.select(getCategories);
@@ -87,7 +102,7 @@ export class BlogListComponent implements OnInit, OnDestroy {
       }
     });
     if (!this.postPosition) {
-      this.firstPost = newPosts[0];
+      // this.firstPost = newPosts[0];
       this.posts = newPosts.slice(1);
       this.setParamsOfPosts(newPosts.length, -1);
     } else {
@@ -107,6 +122,6 @@ export class BlogListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
+   // this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

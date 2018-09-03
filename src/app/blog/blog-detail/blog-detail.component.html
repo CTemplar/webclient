@@ -25,21 +25,24 @@
                             <img alt="News thumbnail" class="img news-img" (load)="isLoaded = true" [hidden]="!isLoaded"
                                  src="{{ blog.image }}"/>
                             <span class="badge badge-sm badge-info text-uppercase">
-                <strong *ngIf="categories[blog.category]">{{ categories[blog.category].name }}</strong>
+                <strong *ngIf="categories[blog.category]">ARTICLE</strong>
               </span>
                         </figure>
                         <div class="news-meta">
                             <div class="row align-items-center">
                                 <div class="col-sm-7 pb-1 pb-sm-0 mb-2 mb-sm-0">
                                     <ul class="news-meta-list list-style-none">
-                                        <li>Posted on {{ blog.date }}</li>
-                                        <li>
+                                        <!-- TO BE USED LATER -->
+                                        <li *ngIf="false">Posted on {{ blog.date }}</li>
+                                        <!-- TO BE USED LATER -->
+                                        <li *ngIf="false">
                                             <u>{{ blog.comments_count }} comments</u>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-5">
-                                    <div class="social-share d-flex justify-content-sm-end flex-wrap">
+                                    <!-- TO BE USED LATER -->
+                                    <div class="social-share d-flex justify-content-sm-end flex-wrap" *ngIf="false">
                                         <div class="social-share-text">
                                             <em>Share this post:</em>
                                         </div>
@@ -63,7 +66,7 @@
                             <h2 class="text-dark">
                                 <strong>{{ blog.name }}</strong>
                             </h2>
-                            <p [innerHTML]="blog.text"></p>
+                            <p [innerHTML]="blog.excerpt"></p>
                         </div>
                     </article>
                 </div>
@@ -72,7 +75,7 @@
     </div>
 </section>
 
-<section class="l-block mt-0 pb-0 bg-faded is-clipped is-clipped-lg top top-left bottom bottom-right" *ngIf="blog">
+<section class="l-block mt-0 pb-0 bg-faded is-clipped is-clipped-lg top top-left bottom bottom-right" *ngIf="false">
     <div class="container container-xs">
         <div class="l-block-body px-xs">
             <div class="comment-holder">
@@ -196,7 +199,18 @@
     </div>
 </section>
 
-<app-blog-sample *ngIf="blog" [mode]="mode" [posts]="posts"></app-blog-sample>
+<div class="container container-xs">
+    <div class="l-block-body px-xs">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="page-title text-uppercase text-secondary text-center">
+                    Related <strong>Posts</strong>
+                </h3>
+            </div>
+            <app-blog-grid></app-blog-grid>
+        </div>
+    </div>
+</div>
 
 <!--<ng-template #content let-c="close" let-d="dismiss" class="modal-type-default">-->
     <!--<div class="modal-header text-center justify-content-center">-->

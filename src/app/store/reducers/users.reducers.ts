@@ -4,8 +4,18 @@ import { UsersActionTypes, UsersActionAll } from '../actions';
 // Model
 import { UserState } from '../datatypes';
 
-export const initialState: UserState = { username: null, id: null, whiteList: [], blackList: [],
-  contact: [], settings: {}, membership: {}, mailboxes: []};
+export const initialState: UserState = {
+  username: null,
+  id: null,
+  isPrime: false,
+  whiteList: [],
+  blackList: [],
+  contact: [],
+  settings: {},
+  membership: {},
+  mailboxes: [],
+  payment_transaction: {},
+};
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
   switch (action.type) {
@@ -109,11 +119,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CONTACT_ADD_ERROR: {
       return { ...state, inProgress: false, isError: true };
     }
+
     case UsersActionTypes.CONTACT_DELETE_SUCCESS: {
-      const contact = state.contact.filter(item => item.id === action.payload)[0];
-      state.contact.splice(state.contact.indexOf(contact), 1);
+      const ids = action.payload.split(',');
+      const contacts = state.contact.filter(item => ids.indexOf(`${item.id}`) > -1);
+      contacts.forEach(contact => {
+        state.contact.splice(state.contact.indexOf(contact), 1);
+      });
+
       return { ...state, inProgress: false, isError: false };
     }
+
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
       return {
         ...state,
@@ -123,8 +139,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         username: action.payload.username,
         isPrime: action.payload.is_prime,
         settings: action.payload.settings,
+        mailboxes: action.payload.mailboxes,
+        payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
       };
     }
+
+    case UsersActionTypes.SETTINGS_UPDATE_SUCCESS: {
+      return {
+        ...state,
+        settings: action.payload,
+      };
+    }
+
     case UsersActionTypes.MEMBERSHIP_UPDATE: {
       return { ...state, membership: action.payload };
     }

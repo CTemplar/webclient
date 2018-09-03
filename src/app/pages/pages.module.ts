@@ -15,11 +15,11 @@ import { SharedModule } from '../shared/shared.module';
 import { PagesAboutComponent } from './pages-about/pages-about.component';
 import { PagesDonateComponent } from './pages-donate/pages-donate.component';
 import { PagesMediaKitComponent } from './pages-media-kit/pages-media-kit.component';
-import { PagesPricingComponent } from './pages-pricing/pages-pricing.component';
 import { PagesPrivacyComponent } from './pages-privacy/pages-privacy.component';
 import { PagesSecurityComponent } from './pages-security/pages-security.component';
 import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
+import { PagesSupportComponent } from './pages-support/pages-support.component';
 
 @NgModule({
   imports: [
@@ -34,14 +34,11 @@ import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.compon
     PagesAboutComponent,
     PagesSecurityComponent,
     PagesDonateComponent,
-    PagesPricingComponent,
     PagesMediaKitComponent,
     PagesTorOnionComponent,
     PagesPrivacyComponent,
-    PagesTermsComponent
-  ],
-  exports: [
-    PagesPricingComponent
+    PagesTermsComponent,
+    PagesSupportComponent
   ]
 })
 export class PagesModule { }

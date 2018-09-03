@@ -35,12 +35,12 @@ $error-red: #e94e4c;
   // padding-top: 13px;
 
   &__failed {
-    position: absolute;
-    left: 0px;
-    top: -20px;
-    width: 100%;
     text-align: center;
-    color: $error-red;
+    color: #e94e4c;
+    font-size: 18px;
+    float: left;
+    margin-bottom: 10px;
+    min-width: 100%;
   }
   .form-group {
     position: relative;
@@ -51,4 +51,20 @@ $error-red: #e94e4c;
     // position: absolute;
     // left: 0px;
   }
+}
+
+.info-text {
+  line-height: 27px;
+}
+
+.remember-me {
+  input[type="checkbox"].fancy-field-control-lg + label.fancy-field-empty::after {
+    width: 6px !important;
+    top: 4px !important;
+    left: 7px !important;
+  }
+}
+
+.main-body {
+  min-height: 317px;
 }

@@ -9,7 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        { "glob": "openpgp.min.js", "input": "../node_modules/openpgp/dist", "output": "."}
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -20,12 +21,13 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "../node_modules/ngx-toastr/toastr.css",
         "../node_modules/quill/dist/quill.snow.css"
       ],
       "scripts": [
-        "../node_modules/openpgp/dist/openpgp.js",
-        "../node_modules/quill/dist/quill.min.js"
+        "../node_modules/openpgp/dist/openpgp.min.js",
+        "../node_modules/quill/dist/quill.min.js",
+        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/bcryptjs/dist/bcrypt.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

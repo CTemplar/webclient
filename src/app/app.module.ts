@@ -21,6 +21,7 @@ import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
 import { MailModule } from './mail/mail.module';
 import { PagesModule } from './pages/pages.module';
+import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { UsersModule } from './users/users.module';
 import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
@@ -28,7 +29,8 @@ import {
   ngxZendeskWebwidgetModule,
   ngxZendeskWebwidgetConfig
 } from 'ngx-zendesk-webwidget';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
   accountUrl = 'ctemplar.zendesk.com';
@@ -40,17 +42,18 @@ export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
 }
 
 // Services
-import {AuthGuard, BlogService} from './store/services';
+import {AuthGuard, BitcoinService, BlogService} from './store/services';
 import { MailService } from './store/services';
 import { SharedService } from './store/services';
 import { OpenPgpService } from './store/services';
 
 import { TokenInterceptor } from './store/services';
-import { ToastrModule } from 'ngx-toastr';
 import { NotificationService } from './store/services/notification.service';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TimezoneService } from './store/services/timezone.service';
+import { ComposeMailService } from './store/services/compose-mail.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -75,7 +78,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     PagesModule,
     UsersModule,
     ngxZendeskWebwidgetModule.forRoot(ZendeskConfig),
-    ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -86,15 +88,21 @@ export function HttpLoaderFactory(http: HttpClient) {
     // Material modules
     MatButtonModule,
     MatKeyboardModule,
+    MatSnackBarModule,
+    MatIconModule
   ],
   providers: [
-      AuthGuard,
+    AuthGuard,
     BlogService,
     SharedService,
     OpenPgpService,
+    BitcoinService,
     NotificationService,
     BreakpointsService,
+    TimezoneService,
     MailService,
+    ComposeMailService,
+    DateTimeUtilService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

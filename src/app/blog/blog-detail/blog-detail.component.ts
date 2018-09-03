@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { AppState, AuthState, BlogState, LoadingState } from '../../store/datatypes';
 import { getCategories, getRelatedBlogs } from '../../store/selectors';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { BlogService } from '../../store/services/blog.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -28,6 +29,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
   slug: string;
   blog: Post;
+
   relatedPosts: Post[] = [];
   posts: Post[] = [];
   isLoaded: boolean = false;
@@ -46,7 +48,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   getRelatedBlogsState$: Observable<any>;
 
   constructor(
-    private userService: UsersService,
+    private blogService: BlogService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
@@ -67,7 +69,15 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     this.getCategories();
     // this.isActive = this.userService.signedIn();
     this.updateUserAuthStatus();
-    this.slug = this.route.snapshot.paramMap.get('slug');
+   
+    this.route.params.subscribe( params => {
+      this.slug = params['slug'];
+      this.blogService.getBlogPosts()
+      .subscribe( (posts: Post[]) => {
+        this.blog = posts.find(post => post.slug === this.slug);
+      });
+    });
+
     this.store.select(state => state.blog).takeUntil(this.destroyed$)
       .subscribe((blogState: BlogState) => {
         if (blogState.selectedPost && this.blog !== blogState.selectedPost) {
@@ -200,6 +210,6 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
+   // this.store.dispatch(new FinalLoading({ loadingState: true }));
   }
 }

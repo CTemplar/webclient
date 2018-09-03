@@ -1,17 +1,29 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { AppState } from '../datatypes';
+import { Store } from '@ngrx/store';
+import { UndoDeleteMail } from '../actions';
 
 @Injectable()
 export class NotificationService {
 
-  constructor(private toastr: ToastrService) {
+  constructor(private snackBar: MatSnackBar,
+              private store: Store<AppState>) {
   }
 
-  showSuccess(message: string, title?: string) {
-    this.toastr.success(message, title);
+  showSnackBar(message: string, action: string = 'CLOSE', config: MatSnackBarConfig = { duration: 3000 }) {
+    this.snackBar.open(message, action, config);
   }
 
-  showError(message: string, title?: string) {
-    this.toastr.error(message, title);
+  showUndo(payload: any) {
+    if (payload.sourceFolder) {
+      const snackBarRef = this.snackBar.open(payload.message, 'Undo', { duration: 5000 });
+
+      snackBarRef.onAction().subscribe(() => {
+        this.store.dispatch(new UndoDeleteMail(payload));
+      });
+    } else {
+      this.showSnackBar(payload.message);
+    }
   }
 }

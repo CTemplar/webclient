@@ -8,13 +8,14 @@ import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, UserState } from '../../store/datatypes';
-import { FinalLoading } from '../../store/actions';
+import { AppState, AuthState, SignupState, UserState } from '../../store/datatypes';
+import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateSignupData } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-
-declare var openpgp;
+import { NotificationService } from '../../store/services/notification.service';
+import { debounceTime, tap } from 'rxjs/operators';
+import { apiUrl } from '../../shared/config';
 
 export class PasswordValidation {
 
@@ -41,33 +42,34 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   isTextToggled: boolean = false;
   signupForm: FormGroup;
-  isRecoveryEmail: boolean = false;
+  isRecoveryEmail: boolean = null;
   isConfirmedPrivacy: boolean = null;
-  isLoading: boolean = false;
   isFormCompleted: boolean = false;
   errorMessage: string = '';
-  userNameTaken: boolean = null;
   selectedPlan: any;
-  pgpProgress: number = 0;
-  fingerprint: any;
-  privkey: any;
-  pubkey: any;
-  processInstance: any;
-  keyGenerateStatus: string = 'Generating';
+  data: any = null;
+  isCaptchaCompleted: boolean = false;
+  signupInProgress: boolean = false;
+  signupState: SignupState;
+  submitted = false;
+  userKeys: any;
+  generatingKeys: boolean;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private router: Router,
               private store: Store<AppState>,
               private openPgpService: OpenPgpService,
-              private sharedService: SharedService) {}
+              private sharedService: SharedService,
+              private notificationService: NotificationService) {
+  }
 
   ngOnInit() {
-
+    this.handleUserState();
     this.sharedService.hideFooter.emit(true);
 
     this.signupForm = this.formBuilder.group({
-      'username': ['', [Validators.required]],
+      'username': ['', [Validators.required, Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i)]],
       'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
       'recoveryEmail': ['', [Validators.pattern('[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)' +
@@ -79,7 +81,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.store.select(state => state.auth)
       .takeUntil(this.destroyed$)
       .subscribe((state: AuthState) => {
-        this.isLoading = false;
         this.errorMessage = state.errorMessage;
       });
 
@@ -89,34 +90,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         this.selectedPlan = state.membership.id;
       });
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
-  }
-
-  // == Open NgbModal
-  openGenerateKeyModal(generateKeyContent) {
-    this.pgpProgress = 0;
-    this.keyGenerateStatus = 'Generating';
-    this.modalService.open(generateKeyContent, {
-      centered: true,
-      windowClass: 'modal-md'
-    });
-    this.processInstance = setInterval(() => {
-      this.pgpProgress = this.pgpProgress + 1;
-      if (this.pgpProgress >= 100) {
-        this.keyGenerateStatus = 'Completed';
-        clearInterval(this.processInstance);
-      }
-    }, 10);
-    this.openPgpService.generateKey(this.signupForm.value).then((key) => {
-      // this.store.dispatch(new SignUp(this.signupForm.value));
-      this.fingerprint = key.fingerprint;
-      this.privkey = key.privkey;
-      this.pubkey = key.pubkey;
-    });
-  }
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password').value === g.get('confirmPwd').value
-      ? null : { 'mismatch': true };
+    this.handleUsernameAvailability();
   }
 
   // == Toggle password visibility
@@ -133,46 +107,108 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.isTextToggled = bool === false ? true : false;
   }
 
-  formCompleted() {
-    if (this.signupForm.valid && this.isConfirmedPrivacy) {
-      this.isFormCompleted = true;
-    }
-  }
-
   signup() {
-    if (this.isConfirmedPrivacy == null) {
+    this.submitted = true;
+    if (this.isConfirmedPrivacy === null) {
       this.isConfirmedPrivacy = false;
     }
-    if (this.signupForm.valid && this.isConfirmedPrivacy) {
-      this.isFormCompleted = true;
-      if (this.selectedPlan === 1) {
-        this.navigateToBillingPage();
-      }
+
+    if (this.isRecoveryEmail === null) {
+      this.isRecoveryEmail = false;
     }
+
+    if (this.signupState.usernameExists || this.signupForm.invalid || !this.isConfirmedPrivacy ||
+      (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
+      return false;
+    }
+
+    this.isFormCompleted = true;
+
+    const signupFormValue = this.signupForm.value;
+    this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password);
   }
 
   private navigateToBillingPage() {
+    this.userKeys = this.openPgpService.getUserKeys();
+    if (!this.userKeys) {
+      this.generatingKeys = true;
+      this.waitForPGPKeys('navigateToBillingPage');
+      return;
+    }
+    this.generatingKeys = false;
+    this.store.dispatch(new UpdateSignupData({
+      ...this.userKeys,
+      recovery_email: this.signupForm.get('recoveryEmail').value,
+      username: this.signupForm.get('username').value,
+      password: this.signupForm.get('password').value,
+      recaptcha: this.signupForm.value.captchaResponse
+    }));
     this.router.navigateByUrl('/billing-info');
+  }
+
+  waitForPGPKeys(callback) {
+    setTimeout(() => {
+      if (this.openPgpService.getUserKeys()) {
+        this[callback]();
+        return;
+      }
+      this.waitForPGPKeys(callback);
+    }, 1000);
   }
 
   recaptchaResolved(captchaResponse: string) {
     this.signupForm.value.captchaResponse = captchaResponse;
-    this.signupForm.value.fingerprint = this.fingerprint;
-    this.signupForm.value.privkey = this.privkey;
-    this.signupForm.value.pubkey = this.pubkey;
+    this.isCaptchaCompleted = true;
   }
 
-  checkUsernameTaken(event: any) {
-    // TODO: Check if username is duplicated
-    if (event.target.value.length > 0) {
-      this.userNameTaken = false;
-    } else {
-      this.userNameTaken = true;
+  signupFormCompleted() {
+    if (this.selectedPlan === 1 && this.signupForm.value.captchaResponse) {
+      this.navigateToBillingPage();
+      return;
     }
+    this.signupInProgress = true;
+    this.userKeys = this.openPgpService.getUserKeys();
+    if (!this.userKeys) {
+      this.waitForPGPKeys('signupFormCompleted');
+      return;
+    }
+    this.data = {
+      ...this.userKeys,
+      recovery_email: this.signupForm.get('recoveryEmail').value,
+      username: this.signupForm.get('username').value,
+      password: this.signupForm.get('password').value,
+      recaptcha: this.signupForm.value.captchaResponse
+    };
+    this.store.dispatch(new SignUp(this.data));
+  }
+
+  private handleUserState(): void {
+    this.store.select(state => state.auth).takeUntil(this.destroyed$).subscribe((authState: AuthState) => {
+      if (this.signupInProgress && !authState.inProgress) {
+        if (!authState.errorMessage) {
+          this.notificationService.showSnackBar(`Account created successfully.`);
+        } else {
+          this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);
+        }
+        this.signupInProgress = false;
+      }
+      this.signupState = authState.signupState;
+    });
+  }
+
+  handleUsernameAvailability() {
+    this.signupForm.get('username').valueChanges
+      .pipe(
+        debounceTime(500)
+      )
+      .subscribe((username) => {
+        if (!this.signupForm.controls['username'].errors) {
+          this.store.dispatch(new CheckUsernameAvailability(username));
+        }
+      });
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideFooter.emit(false);
   }
 }

@@ -4,20 +4,34 @@
 <section class="l-block news-block gap-p-eq bg-white">
     <div class="container">
         <header class="l-block-header text-center">
-            <h2 class="l-block-title" *ngIf="mode === modeObj.Recent">Latest From
+            <h2 class="l-block-title" *ngIf="mode === modeObj.Recent" [innerHTML]="'home_page.latest_from_our_blog' | translate">Latest From
                 <strong>Our Blog</strong>
             </h2>
-            <h2 class="l-block-title" *ngIf="mode === modeObj.Related">Related
+            <h2 class="l-block-title" *ngIf="mode === modeObj.Related" [innerHTML]="'home_page.related_post' | translate">Related
                 <strong>Post</strong>
             </h2>
         </header>
-        <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
-        <footer class="l-block-footer text-center" *ngIf="mode===modeObj.Recent">
+        <app-blog-grid></app-blog-grid>
+        <footer class="l-block-footer text-center mt-3" *ngIf="mode===modeObj.Recent">
             <a routerLink="/blog" class="text-success">
                 <em>
-                    <u>Read more from our blog</u>
+                    <u translate="home_page.read_more_from_our_blog">Read more from our blog</u>
                 </em>
             </a>
+
+            
+            <div class="row justify-content-sm-center">
+                <div class="col-lg-3 col-sm-4 col-8 offset-2 offset-sm-0 mt-4">
+                    <a href="https://twitter.com/RealCTemplar" target="_blank" class="btn btn-social btn-twitter btn-block text-uppercase">
+                       <img src="assets/images/home/twitter.svg" alt="Twitter Logo" class="mr-2"> Follow us on twitter
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-4 col-8 offset-2 offset-sm-0 mt-4">
+                    <a href="https://www.facebook.com/CTemplarEncryption" target="_blank" class="btn btn-social btn-facebook btn-block text-uppercase">
+                        <img src="assets/images/home/facebook.svg" alt="Facebook Logo" class="mr-2"> Like us on facebook
+                    </a>
+                </div>
+            </div>
         </footer>
     </div>
     <!-- /.Site container ends -->

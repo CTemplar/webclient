@@ -21,4 +21,10 @@ export class SharedService {
     private http: HttpClient,
   ) {}
 
+  sortByDate(data: any[], sortField: string): any[] {
+    return data.sort((a: any, b: any) =>
+      new Date(b[sortField]).getTime() - new Date(a[sortField]).getTime()
+    );
+  }
+
 }

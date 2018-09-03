@@ -2,43 +2,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 // Helpers
 import { apiUrl } from '../../shared/config';
-
 // Models
-import { User } from '../models';
-
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
-
-import { OpenPgpService } from './openpgp.service';
-
-
-declare var openpgp;
+import { tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState, Settings } from '../datatypes';
+import { LogInSuccess } from '../actions';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-  options: any;
-  encrypted: any;
-  pubkey: any;
-  privkey: any;
-  passphrase: any;
-  privKeyObj: any;
+  private token: string | null;
+  private userKey: string;
 
   constructor(
     private http: HttpClient,
-    // private mailService: MailService,
-    // private sharedService: SharedService,
     private router: Router,
-    private openPgpService: OpenPgpService
+    private store: Store<AppState>,
   ) {
+    if (this.getToken() && this.getUserKey() && !this.isTokenExpired()) {
+      this.store.dispatch(new LogInSuccess({ token: this.getToken() }));
+    }
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + 7 * (1000 * 60 * 60 * 24);
+    const expiration = new Date().getTime() + (1000 * 60 * 60 * 3);  // set 3 hours expiration token time.
     sessionStorage.setItem('token_expiration', expiration.toString());
   }
 
@@ -53,43 +45,86 @@ export class UsersService {
     );
   }
 
-  signedIn() {
-    const token_active =
-      +sessionStorage.getItem('token_expiration') > new Date().getTime();
-    if (!!sessionStorage.getItem('token') && token_active) {
-      return true;
-    } else {
-      return false;
-    }
+  isTokenExpired() {
+    return +sessionStorage.getItem('token_expiration') < new Date().getTime();
   }
 
   signIn(body): Observable<any> {
+    const requestData = { ...body };
+    requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
-    return this.http.post<any>(url, body).pipe(
+    return this.http.post<any>(url, requestData).pipe(
       tap(data => {
-        sessionStorage.setItem('token', data.token);
-        this.setTokenExpiration();
+        this.setLoginData(data, body);
       })
     );
   }
 
+  private hashPassword(requestData: any, field = 'password'): string {
+    const username = requestData.username.toLowerCase();
+    const salt = this.createSalt('$2a$10$', username);
+    return bcrypt.hashSync(requestData[field], salt);
+  }
+
+  private createSalt(salt, username) {
+    username = username.replace(/[^a-zA-Z ]/g, '');
+    username = username ? username : 'test';
+    if (salt.length < 29) {
+      return this.createSalt(salt + username, username);
+    } else {
+      return salt.substr(0, 29);
+    }
+  }
+
+  private setLoginData(tokenResponse: any, requestData) {
+    this.token = tokenResponse.token;
+    this.userKey = btoa(requestData.password);
+    sessionStorage.setItem('token', tokenResponse.token);
+    this.setTokenExpiration();
+    if (requestData.rememberMe) {
+      sessionStorage.setItem('user_key', this.userKey);
+    }
+  }
+
   signOut() {
+    this.userKey = this.token = null;
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('token_expiration');
+    sessionStorage.removeItem('user_key');
     this.router.navigateByUrl('/signin');
   }
 
   signUp(user): Observable<any> {
-    const url = `${apiUrl}auth/sign-up/`;
-    const body = {
-      fingerprint: user.fingerprint,
-      private_key: user.privkey,
-      public_key: user.pubkey,
-      username: user.username,
-      password: user.password,
-      recaptcha: user.captchaResponse
-    };
-    return this.http.post<any>(url, body);
+    const requestData = { ...user };
+    requestData.password = this.hashPassword(requestData);
+    return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
+      tap(data => {
+        this.setLoginData(data, user);
+      })
+    );
+  }
+
+  recoverPassword(data): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/recover/`, data);
+  }
+
+  resetPassword(data): Observable<any> {
+    const requestData = { ...data };
+    requestData.password = this.hashPassword(requestData);
+    return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
+      tap(res => {
+        this.setLoginData(res, data);
+      })
+    );
+  }
+
+  changePassword(data): Observable<any> {
+    const requestData = { ...data };
+    requestData.old_password = this.hashPassword(requestData, 'old_password');
+    requestData.password = this.hashPassword(requestData, 'password');
+    requestData.confirm_password = this.hashPassword(requestData, 'confirm_password');
+    delete requestData['username'];
+    return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData);
   }
 
   verifyToken(): Observable<any> {
@@ -99,7 +134,11 @@ export class UsersService {
   }
 
   getToken(): string {
-    return sessionStorage.getItem('token');
+    return this.token || sessionStorage.getItem('token');
+  }
+
+  getUserKey(): string {
+    return this.userKey || sessionStorage.getItem('user_key');
   }
 
   getNecessaryTokenUrl(url) {
@@ -111,7 +150,12 @@ export class UsersService {
       'users/blacklist/',
       'users/contact',
       'emails/messages/',
-      'emails/mailboxes'
+      'emails/mailboxes',
+      'users/settings',
+      'emails/attachments',
+      'emails/keys',
+      'auth/upgrade',
+      'auth/change-password'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -144,6 +188,10 @@ export class UsersService {
     const url = `${apiUrl}users/whitelist/`;
     const body = { email: email, name: name };
     return this.http.post<any>(url, body);
+  }
+
+  updateSettings(data: Settings) {
+    return this.http.patch<any>(`${apiUrl}users/settings/${data.id}/`, data);
   }
 
   deleteWhiteList(id) {
@@ -184,9 +232,17 @@ export class UsersService {
     return this.http.post<any>(url, payload);
   }
 
-  deleteContact(id) {
-    const url = `${apiUrl}users/contacts/${id}/`;
+  deleteContact(ids) {
+    const url = `${apiUrl}users/contacts/?id__in=${ids}`;
     return this.http.delete<any>(url);
+  }
+
+  checkUsernameAvailability(username): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/check-username/`, { username });
+  }
+
+  upgradeAccount(data) {
+    return this.http.post<any>(`${apiUrl}auth/upgrade/`, data);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

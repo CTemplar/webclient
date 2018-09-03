@@ -56,12 +56,12 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
         this.inProgress = false;
         if (!state.isError) {
           this.notificationService
-            .showSuccess(`${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`);
+            .showSnackBar(`${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`);
           this.closed.emit();
           this.modalRef.close();
         } else {
           this.notificationService
-            .showError(`Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.
+            .showSnackBar(`Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.
                           ${state.error}`);
         }
 

@@ -22,7 +22,9 @@
             <div class="row">
                 <!-- BLOG FIRST POST WITH FULL WIDTH -->
                 <article class="col-12 mb-4 mb-sm-5 first-post">
-                    <a routerLink="/blog/{{ firstPost.slug }}/" class="d-block news-card-holder">
+
+                    <!-- WILL BE USED LATER -->
+                    <a class="d-block news-card-holder mb-4" [routerLink]="firstPost.slug">
                         <div class="news-card news-card-full px-lg position-relative">
                             <div class="row">
                                 <div class="col-md-6">
@@ -34,19 +36,23 @@
                                              (load)="firstPost.isLoaded = true" [hidden]="!firstPost.isLoaded"
                                              src="{{ firstPost.image_card }}"/>
                                         <span class="badge badge-sm badge-info text-uppercase">
-                      <strong>{{ categories[firstPost.category].name }}</strong>
-                    </span>
+                                            <strong>ARTICLE</strong>
+                                        </span>
                                     </figure>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="news-card-body">
                                         <h4 class="news-card-title">{{ firstPost.name }}</h4>
-                                        <div>{{ firstPost.excerpt }}</div>
+                                        <p>
+                                            {{firstPost.text}}
+                                        </p>
                                     </div>
                                     <footer class="news-card-footer">
                                         <ul class="news-meta-list">
-                                            <li>{{ firstPost.date }}</li>
-                                            <li>
+                                            <!-- TO BE USED LATER -->
+                                            <li class="text-left" *ngIf="false">{{ firstPost.date }}</li>
+                                            <!-- TO BE USED LATER -->
+                                            <li *ngIf="false">
                                                 <u>{{ firstPost.comments_count }} comments</u>
                                             </li>
                                         </ul>
@@ -55,9 +61,13 @@
                             </div>
                         </div>
                     </a>
+
+                    <app-blog-grid></app-blog-grid>
+
                 </article>
                 <!-- BLOG FIRST POST WITH FULL WIDTH ENDS -->
-                <app-blog-sample [mode]="mode" [numberOfColumns]="numberOfColumns" [posts]="posts"></app-blog-sample>
+        
+
                 <!--
                         <article class="col-md-4 col-sm-6 mb-4 mb-sm-5 normal-post" *ngFor= "let post of posts">
                           <a routerLink="/blog/{{ post.slug }}/" class="d-block news-card-holder">

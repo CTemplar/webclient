@@ -1,5 +1,5 @@
 <nav class="navbar mailbox-navbar" role="navigation">
-    <button class="navbar-toggler hidden-sm-up" role="button">
+    <button class="navbar-toggler hidden-sm-up" role="button" (click)="toggleMenu()">
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggler-icon"></span>
@@ -11,6 +11,7 @@
                 <form>
                     <div class="form-group mb-0 position-relative">
                         <input class="form-control form-control-sm" type="text"
+                               [formControl]="searchInput"
                                [placeholder]="'common.search' | translate"/>
                         <button class="btn btn-sm btn-secondary search-btn" role="button"><i
                                 class="icon icon-search"></i></button>
@@ -22,7 +23,7 @@
             <ul class="mailbox-actions-menu d-flex justify-content-end">
                 <li class=""><a routerLink="/mail/contact" placement="bottom" [ngbTooltip]="'mail_header.contacts' | translate"><i
                         class="icon icon-login"></i></a></li>
-                <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings" class="border-right-0"
+                <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings" class="border-right-no-color"
                                                         placement="bottom" [ngbTooltip]="'mail_header.settings'| translate"><i
                         class="icon icon-gear"></i></a></li>
                 <li class="mailbox-signout pl-sm-0">
@@ -33,12 +34,13 @@
                     <div ngbDropdown class="lang-dropdown">
                         <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom"
                                 [ngbTooltip]="'settings.language' |translate"><i class="icon icon-earth-globe hidden-xs-down"></i>
-                            {{selectedLanguage}}
+                            {{selectedLanguage?.locale?.toUpperCase()}}
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right text-center"
                              aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item" (click)="changeLanguage('ru')">Russian (RU)</a>
-                            <a class="dropdown-item" (click)="changeLanguage('en')">English (EN)</a>
+                            <a class="dropdown-item text-left"
+                               *ngFor="let language of languages"
+                               (click)="changeLanguage(language)">{{language.name}} ({{language.locale}})</a>
                         </div>
                     </div>
                 </li>

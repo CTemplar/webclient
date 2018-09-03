@@ -1,5 +1,6 @@
 // Angular
 import { HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export function apiHeaders() {
   return {
@@ -7,9 +8,11 @@ export function apiHeaders() {
   };
 }
 
-export const apiUrl = 'https://api.ctemplar.com/';
+export const apiUrl = environment.apiServerUrl;
+export const bitcoinApiUrl = environment.bitcoinServerUrl;
 
-export const colors: string[] = [
+
+export const COLORS: string[] = [
   '#000000', '#616161', '#828282', '#adadad',
   '#d2d2d2', '#e9e9e9', '#ffffff', '#730000',
   '#ae0000', '#e60000', '#ff2121', '#ff7676',
@@ -25,3 +28,25 @@ export const colors: string[] = [
   '#f1efff', '#530073', '#7500ae', '#ba00e6',
   '#e955ff', '#de76ff', '#f2c9ff', '#fcefff',
 ];
+
+export const LANGUAGES: Language[] = [
+  { name: 'English', locale: 'en' },
+  { name: 'Spanish', locale: 'es' },
+  { name: 'Russian', locale: 'ru' },
+  // { name: 'Icelandic', locale: 'is' },
+  // { name: 'Arabic', locale: 'ar' },
+  // { name: 'Hebrew', locale: 'he' },
+  { name: 'Chinese', locale: 'zh' },
+  { name: 'French', locale: 'fr' },
+  // { name: 'Italiano', locale: 'it' },
+  // { name: 'Portugees', locale: 'pt' },
+  // { name: 'Dutch', locale: 'nl' },
+   { name: 'Ukrainian', locale: 'uk' },
+];
+
+export interface Language {
+  name: string;
+  locale: string;
+}
+
+export const ESCAPE_KEYCODE = 27;

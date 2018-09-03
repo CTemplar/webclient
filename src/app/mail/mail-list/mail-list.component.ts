@@ -1,71 +1,39 @@
-// Angular
 import { Component, OnInit } from '@angular/core';
-
-// Models
-import { Mail } from '../../store/models';
-
-// Rxjs
+import { MailFolderType } from '../../store/models';
 import { Observable } from 'rxjs/Observable';
-
-// Store
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { ActivatedRoute } from '@angular/router';
+import { AppState, MailBoxesState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { getMails } from '../../store/selectors';
-import { GetMails, GetMailboxes, FinalLoading } from '../../store/actions';
-import { OpenPgpService } from '../../store/services/openpgp.service';
 
-declare var openpgp;
-
+@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-list',
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.scss']
 })
-export class MailListComponent implements OnInit {
-  mails: Mail[];
-  getMailsState$: Observable<any>;
-  getMailboxesState$: Observable<any>;
+export class MailListComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  // Public property of boolean type set false by default
-  public isComposeVisible: boolean = false;
+  mailFolder: MailFolderType = MailFolderType.INBOX;
+  mailFolderTypes = MailFolderType;
+  customFolders: string[] = [];
 
-  constructor(private store: Store<any>, private openPgpService: OpenPgpService) {
-    this.getMailsState$ = this.store.select(getMails);
-    // this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-    // .subscribe((mailboxes) => {
-    //   console.log(mailboxes);
-    // });
+  constructor(public route: ActivatedRoute,
+              private store: Store<AppState>) {
   }
 
   ngOnInit() {
-    this.getMailsState$.subscribe((mails) => {
-      this.mails = mails;
-      this.store.dispatch(new FinalLoading({ loadingState: false }));
+    this.route.params.takeUntil(this.destroyed$).subscribe(params => {
+      this.mailFolder = params['folder'] as MailFolderType;
     });
-    this.getMailboxes();
-    this.getMails();
 
-    // this.openPgpService.makeDecrypt(this..value).then((key) => {
-    //   // this.store.dispatch(new SignUp(this.signupForm.value));
-    //   this.fingerprint = key.fingerprint;
-    //   this.privkey = key.privkey;
-    //   this.pubkey = key.pubkey;
-    // });
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    .subscribe((mailboxes: MailBoxesState) => {
+      this.customFolders = mailboxes.customFolders;
+    });
   }
 
-  getMails() {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0 }));
+  ngOnDestroy(): void {
   }
-
-  getMailboxes() {
-    this.store.dispatch(new GetMailboxes({ limit: 1000, offset: 0 }));
-  }
-
-  // == Show mail compose modal
-  // == Setup click event to toggle mobile menu
-  hideMailComposeModal() { // click handler
-    const bool = this.isComposeVisible;
-    this.isComposeVisible = false;
-  }
-
 }

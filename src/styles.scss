@@ -133,6 +133,7 @@
 }
 
 // TODO: add src of this font
+
 .ql-font-abril-fatface {
   font-family: 'Abril Fatface', sans-serif;
 }
@@ -148,4 +149,192 @@
 
 .ql-font-times-new-roman {
   font-family: Times New Roman, serif;
+}
+
+.generic-dropdown-list {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+//START tag input css
+
+tag-input {
+
+  .ng2-tag-input{
+    border-bottom: 0 !important;
+
+    // TODO @kriti please fix this width for multiple devices.
+    //width: 650px;
+  }
+
+  .ng2-tag-input__text-input{
+    height: 20px !important;
+  }
+
+  tag {
+    height: 20px !important;
+    border-radius: 1px !important;
+    border: 1px solid lightgrey !important;
+
+    .tag-wrapper {
+      margin-top: -10px !important;
+    }
+  }
+
+  .ng2-dropdown-menu {
+    margin-top: -15px;
+  }
+}
+
+// Gmail styled button
+.btn-gmail {
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 11px;
+  text-align: center;
+  margin-right: 10px;
+  line-height: 2rem;
+  min-width: 54px;
+  outline: 0;
+  padding: 0 8px;
+  background-color: #f1f1f1;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #444;
+
+  .icon-lg {
+    font-size: 1.1rem;
+    vertical-align: middle;
+  }
+  
+  &:hover,
+  &:focus{
+    border: 1px solid #c6c6c6;
+    color: #333;
+  }
+  
+  &:active {
+      background: #dedede;
+  }
+}
+
+.position-left {
+  margin-right: 7px;
+}
+
+.btn {
+  cursor: pointer;
+}
+//END tag input css
+
+.zEWidget-launcher{
+  z-index: 10 !important;
+}
+
+.green{
+  color: green;
+}
+
+.close-mat-keyboard{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  background: #333;
+  color: white;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  opacity: 1;
+
+  &:hover {
+    color: white;
+    opacity: 0.8;
+  }
+
+  .close-mat-keyboard-icon {
+    font-size: 12px;
+    vertical-align: middle;
+  }
+}
+
+app-compose-mail {
+  .mail-compose-field tag-input {
+    max-width: calc(100% - 4rem);
+  }
+}
+
+button[disabled] {
+  cursor: not-allowed;
+  background-color: #f1f0f0;
+}
+
+.menu-open .mailbox-sidebar {
+  @include media("<sm") {
+    left: 220px;
+  }
+}
+
+.btn-social {
+  color: #fff;
+  font-size: 14px;
+  &:hover,
+  &:focus {
+    color: #fff;
+  }
+
+  img {
+    max-height: 15px;
+  }
+}
+
+.btn-twitter {
+  background-color: $twitter-color;
+  border-color: $twitter-color;
+ 
+  &:hover,
+  &:focus {
+    background-color: darken($twitter-color , 10%);
+    border-color: darken($twitter-color , 10%);
+  }
+}
+
+
+.btn-facebook {
+  background-color: $facebook-color;
+  border-color: $facebook-color;
+  &:hover,
+  &:focus {
+    background-color: darken($facebook-color , 10%);
+    border-color: darken($facebook-color , 10%);
+  }
+}
+
+// Settings Tabs 
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  border-bottom: 1px solid #EEE;
+}
+
+.nav .nav-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  background-color: transparent;
+  padding: .5rem 1rem;
+  text-transform: unset;
+  border-radius: .25rem;
+  font-weight: 600;
+  color: $custom-select-indicator-color;
+  text-align: center;
+}
+
+.nav .nav-link.active {
+  color: $brand-primary;
 }

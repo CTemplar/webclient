@@ -1,13 +1,12 @@
 // Custom Action
-import { LoadingActionTypes, LoadingActionAll, RelatedBlogLoading } from '../actions';
-
+import { LoadingActionAll, LoadingActionTypes } from '../actions';
 // Model
 import { LoadingState } from '../datatypes';
 
 export const initialState: LoadingState = {
-  RecentBlogLoading: true,
-  RelatedBlogLoading: true,
-  Loading: true
+  RecentBlogLoading: false,
+  RelatedBlogLoading: false,
+  Loading: false
 };
 
 export function reducer(state = initialState, action: LoadingActionAll): LoadingState {
