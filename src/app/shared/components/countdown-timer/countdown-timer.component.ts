@@ -30,10 +30,12 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
       .pipe(
         takeWhile(() => this.duration > 0)
       )
-      .finally(() => this.finished.emit(true))
       .subscribe(res => {
         this.calculate();
         this.duration--;
+        if (this.duration === 0) {
+          this.finished.emit(true);
+        }
       });
   }
 
