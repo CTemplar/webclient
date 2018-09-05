@@ -48,6 +48,7 @@ export interface UserState {
   settings: Settings;
   payment_transaction?: Payment;
   isPrime?: boolean;
+  joinedDate?: string;
   inProgress?: boolean;
   isError?: boolean;
   error?: string;
