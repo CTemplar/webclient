@@ -1,7 +1,7 @@
 <div class="l-block-body pb-5">
   <div class="row justify-content-center">
       <article class="col-md-4 col-sm-6 mb-4" *ngFor="let post of posts">
-          <a routerLink="/blog/{{post.slug}}" class="d-block news-card-holder">
+          <a href="https://blog.ctemplar.com/{{post.slug}}" target="_blank" rel="noopener" class="d-block news-card-holder">
               <div class="news-card position-relative">
                 <span class="badge badge-sm badge-info text-uppercase">
                   <strong>{{ categories[post.category]?.name }}</strong>

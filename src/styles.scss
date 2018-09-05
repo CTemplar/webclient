@@ -312,29 +312,60 @@ button[disabled] {
 
 // Settings Tabs 
 
-.nav {
+.nav-tabs {
+  box-shadow: 0 4px 10px 0 rgba(1, 70, 109, 0.1);
+}
+
+.nav-tabs.nav {
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  border-bottom: 1px solid #EEE;
+  border-bottom: 1px solid #F5F5F5;
 }
 
-.nav .nav-link {
+.nav-tabs.nav li{
+  border-right: 1px solid #F5F5F5;
+}
+
+.nav-tabs.nav .nav-link {
   display: flex;
   align-items: center;
   height: 100%;
   text-decoration: none;
   background-color: transparent;
-  padding: .5rem 1rem;
+  padding: 1rem 0.9rem;
   text-transform: unset;
   border-radius: .25rem;
+  font-size: 14px;
   font-weight: 600;
-  color: $custom-select-indicator-color;
+  color: #616161;
   text-align: center;
+  max-width: 175px;
 }
 
-.nav .nav-link.active {
+@media (max-width: 767px) {
+  .nav-tabs.nav {
+    flex-direction: column;
+  }
+
+  .nav-tabs.nav .nav-link{
+    text-align: left;
+    max-width: 100%;
+  }
+} 
+
+.nav-tabs.nav  {
+  .nav-link{
+    &:hover,
+    &.active {
+      background: #f4f4f4;
+      border-radius: 0;
+    }
+  }
+}
+
+.nav-tabs.nav .nav-link.active {
   color: $brand-primary;
 }
