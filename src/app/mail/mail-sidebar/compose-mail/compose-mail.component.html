@@ -384,19 +384,23 @@
                   class="icon icon-clock"></i>
           </button>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
+        <li class="px-0"
+            [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? 'Feature not available with Free Account' : ''">
           <button type="button" role="button" (click)="openDelayedDeliveryModal()"
                   class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
-                  placement="top" ngbTooltip="Delayed delivery" [disabled]="!userState.isPrime"><i
+                  placement="top" ngbTooltip="Delayed delivery"
+                  [disabled]="!userState.isPrime && !isTrialPrimeFeaturesAvailable"><i
                   class="icon icon-self-timer"></i>
           </button>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
+        <li class="px-0"
+            [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? 'Feature not available with Free Account' : ''">
           <button type="button" role="button" (click)="openDeadManTimerModal()"
                   class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
-                  placement="top" ngbTooltip="Dead Man's timer" [disabled]="!userState.isPrime"><i
+                  placement="top" ngbTooltip="Dead Man's timer"
+                  [disabled]="!userState.isPrime && !isTrialPrimeFeaturesAvailable"><i
                   class="icon icon-dead"></i>
           </button>
         </li>
