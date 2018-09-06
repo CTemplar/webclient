@@ -37,8 +37,8 @@ export interface SignupState {
   payment_type?: PaymentType;
   payment_method?: PaymentMethod;
   currency?: string;
-  storage?: number;
-  emailAddressAliases?: number;
+  memory?: number;
+  email_count?: number;
   monthlyPrice?: number;
   annualPricePerMonth?: number;
   annualPriceTotal?: number;

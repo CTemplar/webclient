@@ -89,8 +89,8 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
           currency: this.selectedCurrency,
-          storage: this.selectedStorage,
-          emailAddressAliases: this.selectedEmailAddress,
+          memory: this.selectedStorage,
+          email_count: this.selectedEmailAddress,
           monthlyPrice: this.monthlyPrice,
           annualPricePerMonth: this.annualPricePerMonth,
           annualPriceTotal: this.annualPriceTotal
