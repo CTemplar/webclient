@@ -14,8 +14,11 @@ import { PaymentType, PaymentMethod } from '../../../store/datatypes';
   styleUrls: ['./pricing-plans.component.scss']
 })
 export class PricingPlansComponent implements OnInit, OnDestroy {
+  readonly defaultMonthlyPrice = 8;
+  readonly defaultAnnualPricePerMonth = 6;
+  readonly defaultStorage = 5; // storage in GB
+  readonly defaultEmailAddress = 1;
 
-  // == Defining public property as boolean
   public selectedIndex: number = -1; // Assuming no element are selected initially
   @Input() hideHeader: boolean;
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
@@ -30,6 +33,13 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
   public selectedCurrency: string = 'USD';
   public paymentType: PaymentType = PaymentType.MONTHLY;
   public paymentMethod: PaymentMethod = PaymentMethod.STRIPE;
+  availableStorage = [];
+  availableEmailAddress = [];
+  selectedStorage: number;
+  selectedEmailAddress: number;
+  monthlyPrice: number;
+  annualPricePerMonth: number;
+  annualPriceTotal: number;
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
@@ -41,6 +51,17 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
     this.loadStripeScripts();
+    for (let i = 6; i <= 50; i++) {
+      this.availableStorage.push(i);
+    }
+    for (let i = 2; i <= 50; i++) {
+      this.availableEmailAddress.push(i);
+    }
+    this.selectedStorage = this.defaultStorage;
+    this.selectedEmailAddress = this.defaultEmailAddress;
+    this.monthlyPrice = this.defaultMonthlyPrice;
+    this.annualPricePerMonth = this.defaultAnnualPricePerMonth;
+    this.annualPriceTotal = this.annualPricePerMonth * 12;
     this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
@@ -84,6 +105,15 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
     } else {
       this.paymentType = PaymentType.MONTHLY;
     }
+  }
+
+  calculatePrices() {
+    let monthlyPrice = this.defaultMonthlyPrice;
+    monthlyPrice += (this.selectedStorage - this.defaultStorage);
+    monthlyPrice += (this.selectedEmailAddress - this.defaultEmailAddress);
+    this.monthlyPrice = monthlyPrice;
+    this.annualPricePerMonth = +(this.monthlyPrice * 0.75).toFixed(2);
+    this.annualPriceTotal = +(this.annualPricePerMonth * 12).toFixed(2);
   }
 
   private loadStripeScripts() {

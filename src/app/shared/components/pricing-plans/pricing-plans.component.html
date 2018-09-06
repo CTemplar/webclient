@@ -39,10 +39,39 @@
                     <i class="fa fa-check text-green"></i>1 User
                   </li>
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>5 Gb Storage
+                    <i class="fa fa-check text-green"></i>
+                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                      <div ngbDropdown class="storage-select-dropdown">
+                        <button class="dropdown-toggle" type="button"
+                                id="storageDropdownMenuButton" ngbDropdownToggle>{{selectedStorage}} GB Storage
+                        </button>
+                        <div ngbDropdownMenu class="dropdown-menu-right"
+                             aria-labelledby="storageDropdownMenuButton">
+                          <a class="dropdown-item" (click)="selectedStorage = 5; calculatePrices();">5 GB Storage</a>
+                          <a *ngFor="let storage of availableStorage"
+                             class="dropdown-item" (click)="selectedStorage = storage; calculatePrices();">
+                            {{storage}} GB Storage + {{(storage - defaultStorage) | currency:selectedCurrency}}/mo</a>
+                        </div>
+                      </div>
+                    </div>
                   </li>
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 E-mail Address
+                    <i class="fa fa-check text-green"></i>
+                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                      <div ngbDropdown class="storage-select-dropdown">
+                        <button class="dropdown-toggle" type="button" id="emailAddressDropdownMenuButton"
+                                ngbDropdownToggle>
+                          {{selectedEmailAddress}} Email Address Alias{{selectedEmailAddress > 1 ? 'es': ''}}
+                        </button>
+                        <div ngbDropdownMenu class="dropdown-menu-right"
+                             aria-labelledby="emailAddressDropdownMenuButton">
+                          <a class="dropdown-item" (click)="selectedEmailAddress = 1; calculatePrices();">1 Email Address Alias</a>
+                          <a *ngFor="let address of availableEmailAddress"
+                             class="dropdown-item" (click)="selectedEmailAddress = address; calculatePrices();">
+                            {{address}} Email Address Aliases + {{(address - defaultEmailAddress) | currency:selectedCurrency}}/mo</a>
+                        </div>
+                      </div>
+                    </div>
                   </li>
                   <li class="package-list-item">
                     <i class="fa fa-check text-green"></i>1000 Messages per Day
@@ -69,8 +98,6 @@
                 <div class="package-coming-soon mt-3">
                   <h6 class="text-muted"><p class="text-success"><span translate="settings.features_added_soon">Added later to this package</span></p></h6>
                   <ul class="package-list mb-0 list-style-none pl-0">
-                    <li class="package-list-item">
-                      <i class="fa fa-check text-green"></i>+2 Email Address Aliases </li>
                       <li class="package-list-item">
                           <i class="fa fa-check text-green"></i>+1 Custom Domain</li>
                     <!-- <li class="package-list-item">
@@ -134,7 +161,7 @@
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>{{'8' | currency:selectedCurrency}}</strong>
+                            <strong>{{monthlyPrice | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
                         </div>
@@ -152,10 +179,10 @@
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>{{'6' | currency:selectedCurrency}}</strong>
+                            <strong>{{annualPricePerMonth | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
-                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; {{'72' | currency:selectedCurrency}}/yr</div>
+                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; {{annualPriceTotal | currency:selectedCurrency}}/yr</div>
                         </div>
                       </div>
                     </li>
@@ -164,8 +191,8 @@
                 </div>
                 <div class="package-actions text-center">
                   <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && !isPrime) || !showCurrentPlan"  class="btn btn-lg btn-gradient-primary cursor-pointer">
-                    <span translate="settings.select_prime">Select Prime </span> ${{paymentType === 'annually' ? '6':'8'}}/
-                    <span class="text-normal">mo</span>
+                    <span translate="settings.select_prime">Select Prime </span>
+                    {{(paymentType === 'annually' ? annualPricePerMonth : monthlyPrice) | currency:selectedCurrency}}/<span class="text-normal">mo</span>
                   </a>
                   <div *ngIf="showCurrentPlan && isPrime">
                     <a class="btn-link text-uppercase text-primary"><strong>Current Plan</strong></a>
