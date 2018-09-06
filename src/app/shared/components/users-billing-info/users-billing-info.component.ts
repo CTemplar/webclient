@@ -41,6 +41,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
+  @Input() storage: number;
+  @Input() emailAddressAliases: number;
+  @Input() monthlyPrice: number;
+  @Input() annualPricePerMonth: number;
+  @Input() annualPriceTotal: number;
   @Output() close = new EventEmitter<boolean>();
 
   cardNumber;
@@ -110,6 +115,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
           this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
           this.currency = this.signupState.currency || 'USD';
+          this.storage = this.storage || this.signupState.storage;
+          this.emailAddressAliases = this.emailAddressAliases || this.signupState.emailAddressAliases;
+          this.monthlyPrice = this.monthlyPrice || this.signupState.monthlyPrice;
+          this.annualPricePerMonth = this.annualPricePerMonth || this.signupState.annualPricePerMonth;
+          this.annualPriceTotal = this.annualPriceTotal || this.signupState.annualPriceTotal;
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod();
