@@ -128,6 +128,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   inProgress: boolean;
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
+  isTrialPrimeFeaturesAvailable: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -202,6 +203,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.contacts = user.contact;
+        this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') <= 14;
         this.userState = user;
         this.signature = user.settings.signature;
         this.addSignature();
