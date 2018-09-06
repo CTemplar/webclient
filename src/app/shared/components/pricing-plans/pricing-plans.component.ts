@@ -85,10 +85,15 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
     } else {
       // Add payment type for prime plan only
       if (id === 1) {
-        this.store.dispatch(new UpdateSignupData({ 
+        this.store.dispatch(new UpdateSignupData({
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
-          currency: this.selectedCurrency
+          currency: this.selectedCurrency,
+          storage: this.selectedStorage,
+          emailAddressAliases: this.selectedEmailAddress,
+          monthlyPrice: this.monthlyPrice,
+          annualPricePerMonth: this.annualPricePerMonth,
+          annualPriceTotal: this.annualPriceTotal
         }));
       }
       this.router.navigateByUrl('/create-account');
