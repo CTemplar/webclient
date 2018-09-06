@@ -369,12 +369,15 @@
                   ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
         </li>
         <li class="pr-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
-          <button role="button" type="button"
+          <button *ngIf="userState.isPrime; else disabledEncryptionBtn" role="button" type="button"
                   class="actions-btn mail-envelop-btn border-radius-r-0"
                   [ngClass]="{'text-primary': draftMail?.encryption?.password}"
-                  [disabled]="!userState.isPrime"
                   (click)="openEncryptionModal()"
                   placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
+          <ng-template #disabledEncryptionBtn>
+            <button role="button" type="button" class="actions-btn mail-envelop-btn border-radius-r-0"
+                    disabled><i class="icon icon-mail"></i></button>
+          </ng-template>
         </li>
         <li class="px-0">
           <button role="button" type="button" (click)="openSelfDestructModal()"
@@ -384,21 +387,33 @@
                   class="icon icon-clock"></i>
           </button>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
-          <button type="button" role="button" (click)="openDelayedDeliveryModal()"
+        <li class="px-0"
+            [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? 'Feature not available with Free Account' : ''">
+          <button *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn"
+                  type="button" role="button" (click)="openDelayedDeliveryModal()"
                   class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
-                  placement="top" ngbTooltip="Delayed delivery" [disabled]="!userState.isPrime"><i
-                  class="icon icon-self-timer"></i>
+                  placement="top" ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i>
           </button>
+          <ng-template #disabledDelayedDeliveryBtn>
+            <button type="button" role="button" class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
+                    disabled><i class="icon icon-self-timer"></i>
+            </button>
+          </ng-template>
         </li>
-        <li class="px-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
-          <button type="button" role="button" (click)="openDeadManTimerModal()"
+        <li class="px-0"
+            [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? 'Feature not available with Free Account' : ''">
+          <button *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn"
+                  type="button" role="button" (click)="openDeadManTimerModal()"
                   class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                   [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
-                  placement="top" ngbTooltip="Dead Man's timer" [disabled]="!userState.isPrime"><i
-                  class="icon icon-dead"></i>
+                  placement="top" ngbTooltip="Dead Man's timer"><i class="icon icon-dead"></i>
           </button>
+          <ng-template #disabledDeadManTimerBtn>
+            <button type="button" role="button" class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
+                   disabled><i class="icon icon-dead"></i>
+            </button>
+          </ng-template>
         </li>
       </ul>
     </div>

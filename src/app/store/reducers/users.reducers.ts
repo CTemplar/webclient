@@ -138,6 +138,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         whiteList: action.payload.whitelist,
         username: action.payload.username,
         isPrime: action.payload.is_prime,
+        joinedDate: action.payload.joined_date,
         settings: action.payload.settings,
         mailboxes: action.payload.mailboxes,
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
