@@ -57,7 +57,7 @@
     "billing_cycle_end": "Fin de Cycle de Facturation",
     "payment": "Paiement",
     "account_type": "Type de compte",
-    "free_plan_tip": "Forfait gratuit seulement pour 512 Mo de stockage.",
+    "free_plan_tip": "Forfait gratuit seulement pour 200 Mo de stockage.",
     "clear_storage": "Videz l'espace de stockage",
     "prime": "Principal",
     "free": "Gratuit",
@@ -181,7 +181,7 @@
   },
   "footer": {
     "register_to_world_most": "<strong>Inscrivez-vous pour le </strong>Courriel le Plus Sécurisé au Monde <strong>maintenant!</strong>.",
-    "send_unbreakable_emails": "Envoyez des courriels inviolables et protégez vos données professionnelles etpersonnelles avec le cryptage de nouvelle génération utilisant le système de stockage islandais centré sur le respect de la vie privée.",
+    "send_unbreakable_emails": "Envoyez des courriels inviolables et protégez vos données professionnelles et personnelles avec le cryptage de nouvelle génération utilisant le système de stockage islandais centré sur le respect de la vie privée.",
     "upgrade_to_prime": "Passer à la version supérieure",
     "media_kit": "Kit Media",
     "onion_site": "site Onion",
