@@ -193,7 +193,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   stripeSignup(token: any) {
     if (token) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount({ stripe_token: token, payment_type: this.paymentType }));
+        this.store.dispatch(new UpgradeAccount({
+          stripe_token: token,
+          payment_type: this.paymentType,
+          memory: this.storage,
+          email_count: this.emailAddressAliases
+        }));
       } else {
         this.store.dispatch(new SignUp({
           ...this.signupState,
@@ -211,7 +216,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.store.dispatch(new UpgradeAccount({
           from_address: this.bitcoinState.newWalletAddress,
           redeem_code: this.bitcoinState.redeemCode,
-          payment_type: PaymentType.ANNUALLY
+          payment_type: PaymentType.ANNUALLY,
+          memory: this.storage,
+          email_count: this.emailAddressAliases
         }));
       } else {
         this.store.dispatch(new SignUp({

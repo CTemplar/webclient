@@ -8,7 +8,17 @@ import { Observable } from 'rxjs/Observable';
 import { Language, LANGUAGES } from '../../shared/config';
 
 import { BlackListDelete, ChangePassword, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
-import { AppState, MailBoxesState, Payment, PaymentType, Settings, Timezone, TimezonesState, UserState } from '../../store/datatypes';
+import {
+  AppState,
+  MailBoxesState,
+  Payment,
+  PaymentMethod,
+  PaymentType,
+  Settings,
+  Timezone,
+  TimezonesState,
+  UserState
+} from '../../store/datatypes';
 import { Mailbox, UserMailbox } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
@@ -31,6 +41,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   settings: Settings;
   payment: Payment;
   paymentType = PaymentType;
+  paymentMethod = PaymentMethod;
   selectedMailboxForKey: UserMailbox;
   publicKey: any;
   newListContact = { show: false, type: 'Whitelist' };
