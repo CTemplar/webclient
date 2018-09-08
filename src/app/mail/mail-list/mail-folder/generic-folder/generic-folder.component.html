@@ -78,8 +78,7 @@
                       </a>
                       <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"
                          (click)="moveToFolder(folder.name)">
-                        <i class="folder-color-box icon is-success"
-                           [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
+                        <i class="folder-color-box icon" [style.background]="folder.color"></i>
                         <span class="folders-list-text">{{folder.name}}</span>
                       </a>
                       <span class="divider-item d-block"></span>
@@ -111,8 +110,7 @@
               </a>
               <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"
                  (click)="moveToFolder(folder.name)">
-                <i class="folder-color-box icon is-success"
-                   [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
+                <i class="folder-color-box icon" [style.background]="folder.color"></i>
                 <span class="folders-list-text">{{folder.name}}</span>
               </a>
               <span class="divider-item d-block"></span>
