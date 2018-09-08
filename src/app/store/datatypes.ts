@@ -76,6 +76,7 @@ export interface Settings {
   allocated_storage?: number;
   used_storage?: number;
   display_name?: string;
+  email_count?: number;
 }
 
 export interface Payment {
