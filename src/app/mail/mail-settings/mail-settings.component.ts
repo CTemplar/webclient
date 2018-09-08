@@ -104,6 +104,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       } else {
         this.annualTotalPrice = +(price * 12).toFixed(2);
       }
+    } else {
+      this.annualTotalPrice = 96;
     }
   }
 
