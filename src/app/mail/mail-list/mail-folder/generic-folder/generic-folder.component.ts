@@ -6,7 +6,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
 import { AppState, MailBoxesState, MailState, UserState } from '../../../../store/datatypes';
-import { Mail, MailFolderType } from '../../../../store/models';
+import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
 import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
@@ -24,7 +24,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
   @Input() fetchMails: boolean;
-  customFolders: string[];
+  customFolders: Folder[];
 
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
@@ -62,7 +62,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes: MailBoxesState) => {
-        this.customFolders = mailboxes.customFolders;
+        if (mailboxes.currentMailbox) {
+          this.customFolders = mailboxes.currentMailbox.customFolders;
+        }
       });
 
     this.store.select(state => state.search).takeUntil(this.destroyed$)

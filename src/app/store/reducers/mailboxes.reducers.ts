@@ -5,9 +5,8 @@ import { MailBoxesState } from '../datatypes';
 
 
 export function reducer(
-  state = {
+  state: MailBoxesState = {
     mailboxes: [],
-    customFolders: [],
     currentMailbox: null,
     decryptKeyInProgress: false,
     encryptionInProgress: false
@@ -45,21 +44,33 @@ export function reducer(
     }
 
     case MailActionTypes.SET_FOLDERS: {
+      state.currentMailbox.customFolders = [...state.currentMailbox.customFolders, action.payload];
+      state.mailboxes = state.mailboxes.map((mailbox) => {
+        if (mailbox.id === state.currentMailbox.id) {
+          return { ...state.currentMailbox };
+        }
+        return mailbox;
+      });
       return {
-        ...state,
-        customFolders: action.payload,
+        ...state
       };
     }
-    case MailActionTypes.UPDATE_FOLDER: {
+    case MailActionTypes.CREATE_FOLDER: {
       return {
         ...state,
         inProgress: true,
       };
     }
-    case MailActionTypes.UPDATE_FOLDER_SUCCESS: {
+    case MailActionTypes.CREATE_FOLDER_SUCCESS: {
+      state.currentMailbox.customFolders = [...state.currentMailbox.customFolders, action.payload];
+      state.mailboxes = state.mailboxes.map((mailbox) => {
+        if (mailbox.id === state.currentMailbox.id) {
+          return { ...state.currentMailbox };
+        }
+        return mailbox;
+      });
       return {
         ...state,
-        customFolders: action.payload,
         inProgress: false,
       };
     }

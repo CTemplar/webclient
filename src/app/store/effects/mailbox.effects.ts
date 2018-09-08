@@ -11,7 +11,6 @@ import 'rxjs/add/operator/catch';
 import { switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
-import { SetFolders } from '../actions/mail.actions';
 // Custom Actions
 import { GetMailboxes, GetMailboxesSuccess, MailActionTypes } from '../actions';
 
@@ -30,10 +29,7 @@ export class MailboxEffects {
       return this.mailService.getMailboxes(payload.limit, payload.offset)
         .pipe(
           switchMap((mails) => {
-            return [
-              new GetMailboxesSuccess(mails),
-              new SetFolders(mails[0].folders)
-            ];
+            return [new GetMailboxesSuccess(mails)];
           })
         );
     });

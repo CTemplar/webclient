@@ -6,8 +6,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
-import { Mail, MailFolderType } from '../../store/models/mail.model';
-import { MoveMail, UpdateFolder } from '../../store/actions/mail.actions';
+import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
+import { MoveMail, CreateFolder } from '../../store/actions/mail.actions';
 import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
 import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
@@ -38,6 +38,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   draftCount: number = 0;
   inboxUnreadCount: number = 0;
   isMenuOpened: boolean;
+  customFolders: Folder[] = [];
+  currentMailbox: Mailbox;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -59,6 +61,10 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes: MailBoxesState) => {
         this.mailBoxesState = mailboxes;
+        this.currentMailbox = mailboxes.currentMailbox;
+        if (mailboxes.currentMailbox) {
+          this.customFolders = this.currentMailbox.customFolders;
+        }
       });
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
@@ -90,7 +96,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   open() {
     if (this.userState.isPrime) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
-    } else if (this.mailBoxesState.customFolders === null || this.mailBoxesState.customFolders.length < 3) { 
+    } else if (this.mailBoxesState.currentMailbox.customFolders === null || this.mailBoxesState.currentMailbox.customFolders.length < 3) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
     } else {
       this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
@@ -131,7 +137,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       }));
     } else {
       this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
-      this.store.dispatch(new UpdateFolder(this.mailBoxesState.mailboxes[0]));
+      this.store.dispatch(new CreateFolder(this.mailBoxesState.mailboxes[0]));
     }
     this.confirmModalRef.dismiss();
   }

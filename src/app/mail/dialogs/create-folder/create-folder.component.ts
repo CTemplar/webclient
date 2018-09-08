@@ -5,7 +5,9 @@ import { AppState, MailBoxesState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UpdateFolder } from '../../../store/actions';
+import { CreateFolder } from '../../../store/actions';
+import { FOLDER_COLRORS } from '../../../shared/config';
+import { Folder, Mailbox } from '../../../store/models';
 
 @TakeUntilDestroy()
 @Component({
@@ -19,6 +21,9 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   customFolderForm: FormGroup;
   mailBoxesState: MailBoxesState;
+  folderColors: string[] = FOLDER_COLRORS;
+  selectedColorIndex: number = 0;
+  currentMailbox: Mailbox;
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
@@ -37,15 +42,22 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
           this.activeModal.close();
         }
         this.mailBoxesState = mailboxes;
+        this.currentMailbox = mailboxes.currentMailbox;
       });
   }
 
   onSubmit() {
-    if (!this.mailBoxesState.mailboxes[0].folders) {
-      this.mailBoxesState.mailboxes[0].folders = [];
+    const customFolder: Folder = {
+      name: this.customFolderForm.value.folderName,
+      color: this.folderColors[this.selectedColorIndex],
+      mailbox: this.currentMailbox.id
+    };
+    if (this.currentMailbox.customFolders
+      .filter(folder => folder.name.toLowerCase() === customFolder.name.toLowerCase()).length > 0) {
+      this.onHide();
+      return;
     }
-    this.mailBoxesState.mailboxes[0].folders.push(this.customFolderForm.value.folderName);
-    this.store.dispatch(new UpdateFolder(this.mailBoxesState.mailboxes[0]));
+    this.store.dispatch(new CreateFolder(customFolder));
   }
 
   onHide() {
