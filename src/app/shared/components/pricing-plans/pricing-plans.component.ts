@@ -26,8 +26,8 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedCurrency: string;
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
-  @Input() selectedStorage: number;
-  @Input() selectedEmailAddress: number;
+  @Input() selectedStorage: number = this.defaultStorage;
+  @Input() selectedEmailAddress: number = this.defaultEmailAddress;
 
   @ViewChild('billingInfoModal') billingInfoModal;
 
@@ -60,14 +60,16 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.paymentType = this.paymentType || PaymentType.MONTHLY;
     this.paymentMethod = this.paymentMethod || PaymentMethod.STRIPE;
     this.selectedCurrency = this.selectedCurrency || 'USD';
-    this.selectedStorage = this.selectedStorage || this.defaultStorage;
-    this.selectedEmailAddress = this.selectedEmailAddress || this.defaultEmailAddress;
     this.calculatePrices();
     this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
   ngOnChanges(changes: any) {
     if (changes.selectedStorage || changes.selectedEmailAddress) {
+      this.selectedStorage = changes.selectedStorage && changes.selectedStorage.currentValue > 0 ?
+        changes.selectedStorage.currentValue : this.defaultStorage;
+      this.selectedEmailAddress = changes.selectedEmailAddress && changes.selectedEmailAddress.currentValue > 0 ?
+        changes.selectedEmailAddress.currentValue : this.defaultEmailAddress;
       this.calculatePrices();
     }
   }
