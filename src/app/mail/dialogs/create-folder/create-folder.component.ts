@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateFolder } from '../../../store/actions';
-import { FOLDER_COLRORS } from '../../../shared/config';
+import { FOLDER_COLORS } from '../../../shared/config';
 import { Folder, Mailbox } from '../../../store/models';
 
 @TakeUntilDestroy()
@@ -21,7 +21,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   customFolderForm: FormGroup;
   mailBoxesState: MailBoxesState;
-  folderColors: string[] = FOLDER_COLRORS;
+  folderColors: string[] = FOLDER_COLORS;
   selectedColorIndex: number = 0;
   currentMailbox: Mailbox;
 

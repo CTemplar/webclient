@@ -29,7 +29,7 @@ export const COLORS: string[] = [
   '#e955ff', '#de76ff', '#f2c9ff', '#fcefff',
 ];
 
-export const FOLDER_COLRORS: string[] = [
+export const FOLDER_COLORS: string[] = [
   '#1abc9c', '#2ecc71', '#3498db', '#9b59b6',
   '#f1c40f', '#e67e22', '#e74c3c', '#16a085',
   '#27ae60', '#2980b9', '#8e44ad', '#f39c12',
