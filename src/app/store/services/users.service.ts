@@ -151,6 +151,7 @@ export class UsersService {
       'users/contact',
       'emails/messages/',
       'emails/mailboxes',
+      'emails/custom-folder',
       'users/settings',
       'emails/attachments',
       'emails/keys',
