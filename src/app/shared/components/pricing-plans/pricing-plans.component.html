@@ -68,7 +68,7 @@
                           <a class="dropdown-item" (click)="selectedEmailAddress = 1; calculatePrices(); isValueChanged = true;">1 Email Address Alias</a>
                           <a *ngFor="let address of availableEmailAddress"
                              class="dropdown-item" (click)="selectedEmailAddress = address; calculatePrices(); isValueChanged = true;">
-                            {{address}} Email Address Aliases + {{(address - defaultEmailAddress) | currency:selectedCurrency}}/mo</a>
+                            {{address}} Email Address Aliases + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
                         </div>
                       </div>
                     </div>
