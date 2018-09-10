@@ -224,7 +224,20 @@
   "page_pricing": {
     "do_not_show_ads": "Deze site wordt niet ondersteund door advertentie-inkomsten of het delen van abonneegegevens. In plaats daarvan vertrouwt CTemplar op abonnementsinkomsten om de kwaliteit van onze service te behouden en te verbeteren. Inkomsten uit betaalde accounts worden gebruikt om CTemplar verder te ontwikkelen en om gratis gebruikers te ondersteunen. * Ctemplar kan niet worden gebruikt voor spam of voor het verzenden van bulk-e-mails",
     "billed_as": "Gefactureerd als",
-    "select_account_type": "Accounttype selecteren"
+    "select_account_type": "Accounttype selecteren",
+    "user": "Gebruiker",
+    "messages_per_day": "Berichten per dag",
+    "folders": "folders",
+    "limited_support": "Beperkte ondersteuning",
+    "normal_support": "normale ondersteuning",
+    "self_destruct": "Zelfvernietigingstimer",
+    "encryption": "Versleuteling voor niet-CTemplar-gebruikers",
+    "dead_mans_timer": "dodeman's timer",
+    "delayed_delivery": "Uitgestelde leveringstimer",
+    "email_alias": "E-mailadres Aliassen",
+    "custom_domain": "Aangepast domein",
+    "currency": "Valuta",
+    "btc_currency": "BTC-valuta"
   },
   "login": {
     "name": "Inloggen",
