@@ -130,7 +130,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.extraEmailAddress = this.settings.email_count - this.defaultEmailAddress;
       }
       if (this.payment && this.payment.payment_type === PaymentType.ANNUALLY) {
-        this.annualTotalPrice = +((8 + this.extraStorage + this.extraEmailAddress) * 12).toFixed(2);
+        this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
       }
     }
   }

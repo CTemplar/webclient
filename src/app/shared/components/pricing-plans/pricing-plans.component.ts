@@ -54,7 +54,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     for (let i = 6; i <= 50; i++) {
       this.availableStorage.push(i);
     }
-    for (let i = 2; i <= 50; i++) {
+    for (let i = 4; i <= 52; i += 3) {
       this.availableEmailAddress.push(i);
     }
     this.paymentType = this.paymentType || PaymentType.MONTHLY;
@@ -124,7 +124,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   calculatePrices() {
     let monthlyPrice = this.defaultMonthlyPrice;
     monthlyPrice += (this.selectedStorage - this.defaultStorage);
-    monthlyPrice += (this.selectedEmailAddress - this.defaultEmailAddress);
+    monthlyPrice += this.selectedEmailAddress === 1 ? 0 : ((this.selectedEmailAddress - this.defaultEmailAddress) / 3);
     this.monthlyPrice = monthlyPrice;
     this.annualPricePerMonth = +(this.monthlyPrice * 0.75).toFixed(2);
     this.annualPriceTotal = +(this.annualPricePerMonth * 12).toFixed(2);
