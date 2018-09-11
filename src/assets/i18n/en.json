@@ -102,7 +102,7 @@
     "keys": {
       "name": "Keys",
       "info": "Download your PGP Keys for use with other PGP compatible services. Only incoming messages in inline OpenPGP format are currently supported.",
-      "email_address": "Email address",
+      "email_address": "E-mail address",
       "fingerprint": "Fingerprint"
     },
     "download_public_kay": "Download public key",
