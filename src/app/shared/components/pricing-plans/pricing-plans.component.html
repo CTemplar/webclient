@@ -36,21 +36,21 @@
               <div class="package-card-body">
                 <ul class="package-list mb-0 list-style-none pl-0">
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 User
+                    <i class="fa fa-check text-green"></i>1 <span translate="page_pricing.user">User</span>
                   </li>
                   <li class="package-list-item has-border">
                     <i class="fa fa-check text-green"></i>
                     <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                       <div ngbDropdown class="storage-select-dropdown">
                         <button class="dropdown-toggle" type="button"
-                                id="storageDropdownMenuButton" ngbDropdownToggle>{{selectedStorage}} GB Storage
+                                id="storageDropdownMenuButton" ngbDropdownToggle>{{selectedStorage}} GB <span translate="settings.storage">Storage</span>
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right"
                              aria-labelledby="storageDropdownMenuButton">
-                          <a class="dropdown-item" (click)="selectedStorage = 5; calculatePrices(); isValueChanged = true;">5 GB Storage</a>
+                          <a class="dropdown-item" (click)="selectedStorage = 5; calculatePrices(); isValueChanged = true;">5 GB <span translate="settings.storage">Storage</span></a>
                           <a *ngFor="let storage of availableStorage"
                              class="dropdown-item" (click)="selectedStorage = storage; calculatePrices();isValueChanged = true;">
-                            {{storage}} GB Storage + {{(storage - defaultStorage) | currency:selectedCurrency}}/mo</a>
+                            {{storage}} GB <span translate="settings.storage">Storage</span> + {{(storage - defaultStorage) | currency:selectedCurrency}}/mo</a>
                         </div>
                       </div>
                     </div>
@@ -61,45 +61,47 @@
                       <div ngbDropdown class="storage-select-dropdown">
                         <button class="dropdown-toggle" type="button" id="emailAddressDropdownMenuButton"
                                 ngbDropdownToggle>
-                          {{selectedEmailAddress}} Email Address Alias{{selectedEmailAddress > 1 ? 'es': ''}}
+                          {{selectedEmailAddress}}
+                          <span translate="page_pricing.email_aliases" *ngIf="selectedEmailAddress > 1">Email Address Aliases</span>
+                          <span translate="page_pricing.email_alias" *ngIf="selectedEmailAddress === 1">Email Address Alias</span>
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right"
                              aria-labelledby="emailAddressDropdownMenuButton">
-                          <a class="dropdown-item" (click)="selectedEmailAddress = 1; calculatePrices(); isValueChanged = true;">1 Email Address Alias</a>
+                          <a class="dropdown-item" (click)="selectedEmailAddress = 1; calculatePrices(); isValueChanged = true;">1 <span translate="page_pricing.email_alias">Email Address Alias</span></a>
                           <a *ngFor="let address of availableEmailAddress"
                              class="dropdown-item" (click)="selectedEmailAddress = address; calculatePrices(); isValueChanged = true;">
-                            {{address}} Email Address Aliases + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
+                            {{address}} <span translate="page_pricing.email_aliases">Email Address Alias</span> + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
                         </div>
                       </div>
                     </div>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>1000 Messages per Day
+                    <i class="fa fa-check text-green"></i>1000 <span translate="page_pricing.messages_per_day">Messages per Day</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>200 Folders
+                    <i class="fa fa-check text-green"></i>200 <span translate="page_pricing.folders">Folders</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Normal Support
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.normal_support">Normal Support</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Self Destruct Timer
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.self_destruct">Self Destruct Timer</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Encryption for non-CTemplar Users
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.encryption">Encryption for non-CTemplar Users</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Dead Mans Timer
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.dead_mans_timer">Dead Mans Timer</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Delayed Delivery Timer
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.delayed_delivery">Delayed Delivery Timer</span>
                   </li>
                 </ul>
                 <div class="package-coming-soon mt-3">
                   <h6 class="text-muted"><p class="text-success"><span translate="settings.features_added_soon">Added later to this package</span></p></h6>
                   <ul class="package-list mb-0 list-style-none pl-0">
                       <li class="package-list-item">
-                          <i class="fa fa-check text-green"></i>+1 Custom Domain</li>
+                          <i class="fa fa-check text-green"></i>+1 <span translate="page_pricing.custom_domain">Custom Domain</span></li>
                     <!-- <li class="package-list-item">
                       <i class="fa fa-check text-green"></i>Custom Filters</li>
                     <li class="package-list-item">
@@ -120,7 +122,7 @@
                             <input [(ngModel)]="paymentMethod" value="Stripe"
                                    (change)="changePaymentMethod($event.target.value); isValueChanged = true;"
                                    class="d-none fancy-field-control" id="currency"  name="currency" type="radio" />
-                            <label for="currency">Currency</label>
+                            <label for="currency" translate="page_pricing.currency">Currency</label>
                           </div>
                         </div>
                         <div class="col-4 text-right">
@@ -146,7 +148,7 @@
                             <input [(ngModel)]="paymentMethod" value="Bitcoin" class="d-none fancy-field-control"
                                    (change)="changePaymentMethod($event.target.value); isValueChanged = true;"
                                    id="btc-currency" name="currency" type="radio" #btcCurrency/>
-                            <label for="btc-currency">BTC Currency</label>
+                            <label for="btc-currency" translate="page_pricing.btc_currency">BTC Currency</label>
                           </div>
                         </div>
                       </div>
@@ -216,38 +218,38 @@
               <div class="package-card-body">
                 <ul class="package-list mb-0 list-style-none pl-0">
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 User
+                    <i class="fa fa-check text-green"></i>1 <span translate="page_pricing.user">User</span>
                   </li>
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>200 Mb Storage
+                    <i class="fa fa-check text-green"></i>200 Mb <span translate="settings.storage">Storage</span>
                   </li>
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 E-mail Address
+                    <i class="fa fa-check text-green"></i>1 <span translate="settings.keys.email_address">E-mail Address</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>100 Messages per Day
+                    <i class="fa fa-check text-green"></i>100 <span translate="page_pricing.messages_per_day">Messages per Day</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>3 Folders
+                    <i class="fa fa-check text-green"></i>3 <span translate="page_pricing.folders">Folders</span>
                   </li>
                   <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Limited Support
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.limited_support">Limited Support</span>
                   </li>
                   <li class="package-list-item">
                     <i class="fa fa-check text-green"></i>
-                    Self Destruct Timer
+                    <span translate="page_pricing.self_destruct">Self Destruct Timer</span>
                   </li>
                   <li class="package-list-item">
                     <i class="fa fa-check text-green"></i>
-                    Encryption for non-CTemplar Users
+                    <span translate="page_pricing.encryption">Encryption for non-CTemplar Users</span>
                   </li>
                   <li class="package-list-item">
                     <i class="fa fa-times text-danger"></i>
-                    <del>Dead Mans Timer</del>
+                    <del translate="page_pricing.dead_mans_timer">Dead Mans Timer</del>
                   </li>
                   <li class="package-list-item">
                     <i class="fa fa-times text-danger"></i>
-                    <del>Delayed Delivery Timer</del>
+                    <del translate="page_pricing.delayed_delivery">Delayed Delivery Timer</del>
                   </li>
                 </ul>
               </div>

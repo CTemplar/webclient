@@ -225,7 +225,21 @@
   "page_pricing": {
     "do_not_show_ads": "אתר זה אינו נתמך על ידי הכנסות ממודעות או שיתוף של נתוני המנוי. במקום זאת, CTemplar מסתמך על הכנסות מנוי לשמור ולשפר את איכות השירות שלנו. ההכנסות מחשבונות בתשלום משמשות לפיתוח CTemplar נוסף, כמו גם למשתמשים ללא תשלום. * Ctemplar לא ניתן להשתמש עבור דואר זבל או עבור שליחת הודעות דוא\"ל בתפוצה רחבה.",
     "billed_as": "מחויב כ-",
-    "select_account_type": "בחר סוג חשבון"
+    "select_account_type": "בחר סוג חשבון",
+    "user": "מִשׁתַמֵשׁ",
+    "messages_per_day": "הודעות ליום",
+    "folders": "תיקיות",
+    "limited_support": "תמיכה מוגבלת",
+    "normal_support": "תמיכה רגילה",
+    "self_destruct": "עצמי להרוס טיימר",
+    "encryption": "הצפנה למשתמשים שאינם Ctemplar",
+    "dead_mans_timer": "טיימר המת",
+    "delayed_delivery": "עיכוב משלוח טיימר",
+    "email_aliases": "כתובת דואל כינויים",
+    "email_alias": "כתובת דואל כינוי",
+    "custom_domain": "תחום מותאם אישית",
+    "currency": "מַטְבֵּעַ",
+    "btc_currency": "מטבע BTC"
   },
   "login": {
     "name": "התחברות",

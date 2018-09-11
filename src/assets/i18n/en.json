@@ -102,7 +102,7 @@
     "keys": {
       "name": "Keys",
       "info": "Download your PGP Keys for use with other PGP compatible services. Only incoming messages in inline OpenPGP format are currently supported.",
-      "email_address": "Email address",
+      "email_address": "E-mail address",
       "fingerprint": "Fingerprint"
     },
     "download_public_kay": "Download public key",
@@ -222,7 +222,21 @@
   "page_pricing": {
     "do_not_show_ads": "This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon subscription revenue to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop CTemplar, as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails",
     "billed_as": "Billed as",
-    "select_account_type": "Select account type"
+    "select_account_type": "Select account type",
+    "user": "User",
+    "messages_per_day": "Messages per Day",
+    "folders": "Folders",
+    "limited_support": "Limited Support",
+    "normal_support": "Normal Support",
+    "self_destruct": "Self Destruct Timer",
+    "encryption": "Encryption for non-CTemplar Users",
+    "dead_mans_timer": "Dead Mans Timer",
+    "delayed_delivery": "Delayed Delivery Timer",
+    "email_aliases": "Email Address Aliases",
+    "email_alias": "Email Address Alias",
+    "custom_domain": "Custom Domain",
+    "currency": "Currency",
+    "btc_currency": "BTC Currency"
   },
   "login": {
     "name": "login",

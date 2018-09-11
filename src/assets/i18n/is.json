@@ -224,7 +224,21 @@
   "page_pricing": {
     "do_not_show_ads": "Þessi síða styður ekki auglýsingatekjur eða samnýtingu áskrifandaupplýsinga. Þess í stað byggir CTemplar á áskriftartekjur til að viðhalda og bæta gæði þjónustu okkar. Tekjur af greiddum reikningum eru notaðar til frekari þróunar á CTemplar, auk stuðningslausra notenda. * Ctemplar er ekki hægt að nota fyrir ruslpóst eða til að senda lausu tölvupósti.",
     "billed_as": "Innheimt sem",
-    "select_account_type": "Veldu reikningsger"
+    "select_account_type": "Veldu reikningsger",
+    "user": "Notandi",
+    "messages_per_day": "Skilaboð á dag",
+    "folders": "Mappa",
+    "limited_support": "Takmarkaður stuðningur",
+    "normal_support": "Venjulegur stuðningur",
+    "self_destruct": "Sjálfsdroparinn",
+    "encryption": "Dulkóðun fyrir non-CTemplar notendur",
+    "dead_mans_timer": "Tími dauða mannsins",
+    "delayed_delivery": "Tafir á afhendingu",
+    "email_aliases": "Netfang alias",
+    "email_alias": "Netfang Alias",
+    "custom_domain": "Sérsniðið lén",
+    "currency": "Gjaldmiðill",
+    "btc_currency": "BTC Gjaldmiðill"
   },
   "login": {
     "name": "skrá inn",
