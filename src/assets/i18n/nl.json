@@ -234,7 +234,8 @@
     "encryption": "Versleuteling voor niet-CTemplar-gebruikers",
     "dead_mans_timer": "dodeman's timer",
     "delayed_delivery": "Uitgestelde leveringstimer",
-    "email_alias": "E-mailadres Aliassen",
+    "email_aliases": "E-mailadres Aliassen",
+    "email_alias": "E-mailadres alias",
     "custom_domain": "Aangepast domein",
     "currency": "Valuta",
     "btc_currency": "BTC-valuta"

@@ -233,7 +233,8 @@
     "encryption": "تشفير لغير مستخدمي CTemplar",
     "dead_mans_timer": "ديد مانر الموقت",
     "delayed_delivery": "تأخر تسليم الموقت",
-    "email_alias": "عنوان البريد الإلكتروني",
+    "email_aliases": "عنوان البريد الإلكتروني",
+    "email_alias": "عنوان البريد الإلكتروني الاسم المستعار",
     "custom_domain": "مجال مخصص",
     "currency": "دقة",
     "btc_currency": "عملة BTC"

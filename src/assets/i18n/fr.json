@@ -232,7 +232,8 @@
     "encryption": "Chiffrement pour les utilisateurs non-CTemplar",
     "dead_mans_timer": "Minuteur du mort",
     "delayed_delivery": "Délai de livraison différé",
-    "email_alias": "Alias ​​d'adresse électronique",
+    "email_aliases": "Alias ​​de l'adresse email",
+    "email_alias": "Alias ​​d'adresse email",
     "custom_domain": "Domaine personnalisé",
     "currency": "Devise",
     "btc_currency": "Devise BTC"

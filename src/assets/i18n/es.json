@@ -230,6 +230,7 @@
     "encryption": "Cifrado para usuarios que no son CTemplar",
     "dead_mans_timer": "Dead Mans Timer",
     "delayed_delivery": "Temporizador de entrega retrasada",
+    "email_aliases": "Alias ​​de dirección de correo electrónico",
     "email_alias": "Alias ​​de dirección de correo electrónico",
     "custom_domain": "Dominio personalizado",
     "currency": "Moneda",

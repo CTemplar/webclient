@@ -232,6 +232,7 @@
     "encryption": "非CTemplar用户的加密",
     "dead_mans_timer": "死人计时器",
     "delayed_delivery": "延迟交货计时器",
+    "email_aliases": "电子邮件地址别名",
     "email_alias": "电子邮件地址别名",
     "custom_domain": "自定义域",
     "currency": "货币",

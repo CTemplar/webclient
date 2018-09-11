@@ -234,7 +234,8 @@
     "encryption": "Dulkóðun fyrir non-CTemplar notendur",
     "dead_mans_timer": "Tími dauða mannsins",
     "delayed_delivery": "Tafir á afhendingu",
-    "email_alias": "Netfang alias",
+    "email_aliases": "Netfang alias",
+    "email_alias": "Netfang Alias",
     "custom_domain": "Sérsniðið lén",
     "currency": "Gjaldmiðill",
     "btc_currency": "BTC Gjaldmiðill"

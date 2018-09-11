@@ -235,7 +235,8 @@
     "encryption": "הצפנה למשתמשים שאינם Ctemplar",
     "dead_mans_timer": "טיימר המת",
     "delayed_delivery": "עיכוב משלוח טיימר",
-    "email_alias": "כתובת דואל כינויים",
+    "email_aliases": "כתובת דואל כינויים",
+    "email_alias": "כתובת דואל כינוי",
     "custom_domain": "תחום מותאם אישית",
     "currency": "מַטְבֵּעַ",
     "btc_currency": "מטבע BTC"
