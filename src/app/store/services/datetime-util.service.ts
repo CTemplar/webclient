@@ -42,8 +42,11 @@ export class DateTimeUtilService {
     return moment().diff(moment(dateTimeStr)) >= 0;
   }
 
-  getDiffFromCurrentDateTimeInSeconds(dateTimeStr: string): number {
-    return moment(dateTimeStr).diff(moment(), 'seconds');
+  getDiffFromCurrentDateTime(dateTimeStr: string, unit?: any): number {
+    return moment(dateTimeStr).diff(moment(), unit);
   }
 
+  getDiffToCurrentDateTime(dateTimeStr: string, unit?: any): number {
+    return moment().diff(moment(dateTimeStr), unit);
+  }
 }

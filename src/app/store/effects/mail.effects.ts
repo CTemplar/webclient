@@ -29,7 +29,7 @@ import {
   SnackPush,
   StarMailSuccess,
   UndoDeleteMail,
-  UndoDeleteMailSuccess, UpdateFolder, UpdateFolderSuccess
+  UndoDeleteMailSuccess, CreateFolder, CreateFolderSuccess
 } from '../actions';
 
 @Injectable()
@@ -62,7 +62,7 @@ export class MailEffects {
             const updateFolderActions = [];
 
             if (payload.shouldDeleteFolder) {
-             updateFolderActions.push(new UpdateFolder(payload.mailbox));
+             updateFolderActions.push(new CreateFolder(payload.mailbox));
             }
 
             updateFolderActions.push( new MoveMailSuccess(payload));
@@ -145,14 +145,14 @@ export class MailEffects {
 
   @Effect()
   updateFolderEffect: Observable<any> = this.actions
-    .ofType(MailActionTypes.UPDATE_FOLDER)
-    .map((action: UpdateFolder) => action.payload)
+    .ofType(MailActionTypes.CREATE_FOLDER)
+    .map((action: CreateFolder) => action.payload)
     .switchMap(payload => {
-      return this.mailService.updateFolder(payload)
+      return this.mailService.createFolder(payload)
         .pipe(
           switchMap(res => {
             return [
-              new UpdateFolderSuccess(res.folders)
+              new CreateFolderSuccess(res)
             ];
           }),
           catchError(err => [new SnackErrorPush({message: 'Failed to create folder.'})])

@@ -25,7 +25,7 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.expiryDurationInSeconds = this.dateTimeUtilService.getDiffFromCurrentDateTimeInSeconds(this.message.encryption.expires);
+    this.expiryDurationInSeconds = this.dateTimeUtilService.getDiffFromCurrentDateTime(this.message.encryption.expires, 'seconds');
   }
 
   ngOnDestroy() {

@@ -18,8 +18,8 @@
                       [fetchMails]="true"
                       [mailFolder]="mailFolderTypes.OUTBOX"></app-generic-folder>
   <ng-container *ngFor="let folder of customFolders">
-    <app-generic-folder *ngSwitchCase="folder"
+    <app-generic-folder *ngSwitchCase="folder.name"
                       [fetchMails]="true"
-                      [mailFolder]="folder"></app-generic-folder>
+                      [mailFolder]="folder.name"></app-generic-folder>
   </ng-container>
 </div>

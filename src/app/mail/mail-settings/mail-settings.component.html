@@ -43,9 +43,9 @@
                                                     </div>
                                                     <div class="info-list-text info-list-val">
                                                         <div *ngIf="userState.isPrime" class="ng-tooltips-holder d-inline-block"
-                                                            placement="top" ngbTooltip="Prime accounts will be credited with 2 additional addresses at no cost as soon as this function is available">
+                                                            placement="top">
                                                             <div class="info-list-val-text" translate="settings.address_tooltip">
-                                                                One - More available soon!
+                                                                {{settings?.email_count}}
                                                             </div>
                                                         </div>
                                                         <div *ngIf="!userState.isPrime" class="d-inline-block">
@@ -95,37 +95,74 @@
                                                                 Plan</span>
                                                         </div>
                                                         <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                                            <strong>${{payment?.payment_type === paymentType.ANNUALLY ?
-                                                                '6':'8'}}.00
-                                                            </strong><span class="text-muted">/month</span>
+                                                            <strong>{{8|currency:payment.currency}}</strong>
+                                                            <span class="text-muted">/month</span>
                                                         </div>
                                                     </div>
+                                                    <ng-container *ngIf="userState.isPrime">
+                                                        <div *ngIf="extraStorage > 0" class="info-list-item-row">
+                                                            <div class="info-list-text info-list-label">
+                                                                <span class="info-list-label-text text-muted ml-6">+{{extraStorage}} GB</span>
+                                                            </div>
+                                                            <div class="info-list-text info-list-val">
+                                                                +{{extraStorage|currency:payment.currency}}/month
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="extraEmailAddress > 0" class="info-list-item-row">
+                                                            <div class="info-list-text info-list-label">
+                                                                <span class="info-list-label-text text-muted ml-6">
+                                                                    +{{extraEmailAddress}} Addresses
+                                                                </span>
+                                                            </div>
+                                                            <div class="info-list-text info-list-val">
+                                                                +{{extraEmailAddress / 3|currency:payment.currency}}/month
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
 
                                                 </li>
-                                                <li *ngIf="userState.isPrime" class="info-list-item">
-                                                    <div class="info-list-text info-list-label">Billing</div>
-                                                    <div class="info-list-text info-list-val">
-                                                        {{payment?.payment_type}}
-                                                    </div>
-                                                </li>
-                                                <li *ngIf="userState.isPrime" class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.total_price">Total
-                                                        Price</div>
-                                                    <div class="info-list-text info-list-val">
-                                                        ${{payment?.payment_type === paymentType.ANNUALLY ? '72':'96'}}
-                                                        /annually
-                                                    </div>
-                                                </li>
-                                                <li *ngIf="userState.isPrime" class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.billing_cycle_end">Billing
-                                                        Cycle End</div>
-                                                    <div class="info-list-text info-list-val">{{payment.billing_cycle_ends
-                                                        | date:'mediumDate'}}</div>
-                                                </li>
-                                                <li *ngIf="userState.isPrime" class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.payment">Payment</div>
-                                                    <div class="info-list-text info-list-val text-capitalize">{{payment.payment_method}}</div>
-                                                </li>
+                                                <ng-container *ngIf="userState.isPrime">
+                                                    <li class="info-list-item">
+                                                        <div class="info-list-text info-list-label">Billing</div>
+                                                        <div class="info-list-text info-list-val">
+                                                            {{payment.payment_type}}
+                                                        </div>
+                                                    </li>
+                                                    <li class="info-list-item">
+                                                        <div class="info-list-text info-list-label"
+                                                             translate="settings.total_price">Total Price
+                                                        </div>
+                                                        <div class="info-list-text info-list-val">
+                                                            {{annualTotalPrice|currency:payment.currency}}/annually
+                                                        </div>
+                                                    </li>
+                                                    <li class="info-list-item" *ngIf="payment.payment_type === paymentType.ANNUALLY">
+                                                        <div class="info-list-text info-list-label">Discounted Price
+                                                        </div>
+                                                        <div class="info-list-text info-list-val">
+                                                            {{annualDiscountedPrice|currency:payment.currency}}/annually
+                                                            <span class="text-primary">&nbsp;(-25%)</span>
+                                                        </div>
+                                                    </li>
+                                                    <li class="info-list-item">
+                                                        <div class="info-list-text info-list-label"
+                                                             translate="settings.billing_cycle_end">Billing
+                                                            Cycle End
+                                                        </div>
+                                                        <div class="info-list-text info-list-val">
+                                                            {{payment.billing_cycle_ends
+                                                            | date:'mediumDate'}}
+                                                        </div>
+                                                    </li>
+                                                    <li class="info-list-item">
+                                                        <div class="info-list-text info-list-label"
+                                                             translate="settings.payment">Payment
+                                                        </div>
+                                                        <div class="info-list-text info-list-val text-capitalize">
+                                                            {{payment.payment_method}}
+                                                        </div>
+                                                    </li>
+                                                </ng-container>
                                             </ul>
                                         </div>
                                     </div>
@@ -142,8 +179,17 @@
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account
                                 Type</strong></h5>
                     </div>
-                    <app-pricing-plans hideHeader="true" blockGapsZero="true" [showCurrentPlan]="true" [isPrime]="userState.isPrime"
-                        [openBillingInfoInModal]="true"></app-pricing-plans>
+                    <app-pricing-plans hideHeader="true" blockGapsZero="true"
+                                       [showCurrentPlan]="true"
+                                       [isPrime]="userState.isPrime"
+                                       [selectedCurrency]="payment.currency"
+                                       [paymentType]="payment.payment_type"
+                                       [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :
+                                                        payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN :
+                                                        payment.payment_method"
+                                       [selectedStorage]="defaultStorage + extraStorage"
+                                       [selectedEmailAddress]="defaultEmailAddress + extraEmailAddress"
+                                       [openBillingInfoInModal]="true"></app-pricing-plans>
 
                 </section>
 

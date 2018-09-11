@@ -9,6 +9,7 @@ import { Attachment, Mail, Mailbox } from '../models';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { MailFolderType } from '../models/mail.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MailService {
@@ -40,7 +41,13 @@ export class MailService {
 
   getMailboxes(limit: number = 1000, offset: number = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
-    return this.http.get<any>(url).map(data => data['results']);
+    return this.http.get<any>(url).map(data => {
+      const newData = data['results'].map(mailbox => {
+        mailbox.customFolders = mailbox.custom_folders;
+        return mailbox;
+      });
+      return newData;
+    });
   }
 
   getUsersPublicKeys(emails: string): Observable<any> {
@@ -57,8 +64,8 @@ export class MailService {
     return this.http.get<any>(url);
   }
 
-  updateFolder(data: Mailbox): Observable<any> {
-    return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
+  createFolder(data: Mailbox): Observable<any> {
+    return this.http.post<any>(`${apiUrl}emails/custom-folder/`, data);
   }
 
   createMail(data: any): Observable<any[]> {

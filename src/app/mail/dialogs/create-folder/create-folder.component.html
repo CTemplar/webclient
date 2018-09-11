@@ -18,14 +18,13 @@
                   </div>
                   <div class="col-sm-9">
                       <input class="form-control form-control-sm"
-                             (keyup)="customFolderForm.get('folderName').setValue(customFolderForm.get('folderName').value.replace(' ',''))"
                              id="folderName" type="text" formControlName="folderName"/>
                   </div>
               </div>
           </div>
 
           <!-- To be used later -->
-          <div class="form-group mb-0 p-3" *ngIf="false">
+          <div class="form-group mb-0 p-3">
               <div class="row">
                   <div class="col-sm-3">
                       <label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
@@ -34,48 +33,12 @@
                   </div>
                   <div class="col-sm-9">
                       <div class="color-boxes-holder">
-                          <ul class="color-boxes-group">
-                              <li>
-                                  <div class="color-shape is-active" style="background: #1abc9c;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #2ecc71;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #3498db;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #9b59b6;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #f1c40f;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #e67e22;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #e74c3c;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #16a085;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #27ae60;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #2980b9;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #8e44ad;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #f39c12;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #d35400;"></div>
-                              </li>
-                              <li>
-                                  <div class="color-shape" style="background: #c0392b;"></div>
+                          <ul class="color-boxes-group" id="colorSelection">
+                              <li *ngFor="let color of folderColors; let i=index">
+                                  <div class="color-shape"
+                                       (click)="selectedColorIndex=i;"
+                                       [class.is-active]="i===selectedColorIndex"
+                                       [style.background]="color"></div>
                               </li>
                           </ul>
                       </div>
