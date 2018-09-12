@@ -7,12 +7,12 @@ export class BitcoinService {
   constructor(private http: HttpClient) {
   }
 
-  getBitcoinServiceValue() {
-    return this.http.get<any>(`${bitcoinApiUrl}getServiceBitcoinValue`);
+  getBitcoinServiceValue(data: any) {
+    return this.http.post<any>(`${bitcoinApiUrl}getServiceBitcoinValue`, data);
   }
 
-  getNewWalletAddress() {
-    return this.http.get<any>(`${bitcoinApiUrl}createNewWallet`);
+  createNewWallet(data: any) {
+    return this.http.post<any>(`${bitcoinApiUrl}createNewWallet`, data);
   }
 
   checkTransaction(data: any) {

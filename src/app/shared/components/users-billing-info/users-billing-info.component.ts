@@ -216,7 +216,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.store.dispatch(new UpgradeAccount({
           from_address: this.bitcoinState.newWalletAddress,
           redeem_code: this.bitcoinState.redeemCode,
-          payment_type: PaymentType.ANNUALLY,
+          payment_type: this.paymentType,
           memory: this.storage,
           email_count: this.emailAddressAliases
         }));
@@ -258,7 +258,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.showPaymentPending = true;
     }, 15000);
 
-    this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
     this.paymentMethod = PaymentMethod.BITCOIN;
     this.paymentSuccess = false;
@@ -273,7 +272,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   createNewWallet() {
-    this.store.dispatch(new CreateNewWallet());
+    this.store.dispatch(new CreateNewWallet({
+      payment_type: this.paymentType,
+      memory: this.storage,
+      email_count: this.emailAddressAliases
+    }));
   }
 
   selectMonth(month) {
