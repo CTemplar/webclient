@@ -113,14 +113,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedCurrency = currency;
   }
 
-  changePaymentMethod(paymentMethod: PaymentMethod) {
-    if (paymentMethod === PaymentMethod.BITCOIN) {
-      this.paymentType = PaymentType.ANNUALLY;
-    } else {
-      this.paymentType = PaymentType.MONTHLY;
-    }
-  }
-
   calculatePrices() {
     let monthlyPrice = this.defaultMonthlyPrice;
     monthlyPrice += (this.selectedStorage - this.defaultStorage);
