@@ -1,6 +1,6 @@
 # CTemplar
 
-.. image:: https://travis-ci.org/CTemplar/webclient.svg?branch=master
+.. image:: https://travis-ci.org/CTemplar/webclient.svg?branch=dev
     :target: https://travis-ci.org/CTemplar/webclient
 
 Official Angular cross-platform client for the CTemplar secure email service.
