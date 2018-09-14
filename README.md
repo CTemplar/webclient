@@ -1,5 +1,8 @@
 # CTemplar
 
+.. image:: https://travis-ci.org/CTemplar/webclient.svg?branch=master
+    :target: https://travis-ci.org/CTemplar/webclient
+
 Official Angular cross-platform client for the CTemplar secure email service.
 
 ## Prerequisites
