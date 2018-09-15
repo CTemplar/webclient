@@ -94,15 +94,17 @@
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of customFolders|slice:0:LIMIT; let i=index;">
-                    <a routerLink="/mail/{{folder.name}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
-                        <i class="folder-color-box icon" [style.background]="folder.color"></i>
-                        <span class="mailbox-sidebar-nav-label text-capitalize">
-                            {{folder.name}}
-                            <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="showConfirmationModal(folder)">
-                                <i class="icon icon-cross icon-sm"></i>
-                            </button>
-                        </span>
-                    </a>
+                    <div>
+                        <a routerLink="/mail/{{folder.name}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
+                            <i class="folder-color-box icon" [style.background]="folder.color"></i>
+                            <span class="mailbox-sidebar-nav-label text-capitalize">
+                                {{folder.name}}
+                            </span>
+                        </a>
+                        <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="$event.preventDefault();showConfirmationModal(folder)">
+                            <i class="icon icon-cross icon-sm"></i>
+                        </button>
+                    </div>
                 </li>
                 <li class="mailbox-sidebar-nav-item" *ngIf="customFolders?.length > LIMIT">
                     <a (click)="toggleDisplayLimit(customFolders.length)"
