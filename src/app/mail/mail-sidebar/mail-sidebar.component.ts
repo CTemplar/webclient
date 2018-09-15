@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { MoveMail, CreateFolder } from '../../store/actions/mail.actions';
+import { MoveMail, CreateFolder, DeleteFolder } from '../../store/actions/mail.actions';
 import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
 import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
@@ -33,7 +33,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   mailBoxesState: MailBoxesState;
   mailState: MailState;
-  selectedFolder: MailFolderType;
+  selectedFolder: Folder;
 
   draftCount: number = 0;
   inboxUnreadCount: number = 0;
@@ -125,19 +125,17 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   deleteFolder() {
-    const folderMails: Mail[] = this.mailState.folders.get(this.selectedFolder);
+    const folderMails: Mail[] = this.mailState.folders.get(this.selectedFolder.name);
     const ids = folderMails.map(mail => mail.id).join(',');
     if (ids) {
-      this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
       this.store.dispatch(new MoveMail({
         ids: ids,
         folder: MailFolderType.TRASH,
         shouldDeleteFolder: true,
-        mailbox: this.mailBoxesState.mailboxes[0]
+        folderToDelete: this.selectedFolder
       }));
     } else {
-      this.mailBoxesState.mailboxes[0].folders = this.mailBoxesState.mailboxes[0].folders.filter(folder => folder !== this.selectedFolder);
-      this.store.dispatch(new CreateFolder(this.mailBoxesState.mailboxes[0]));
+      this.store.dispatch(new DeleteFolder(this.selectedFolder));
     }
     this.confirmModalRef.dismiss();
   }

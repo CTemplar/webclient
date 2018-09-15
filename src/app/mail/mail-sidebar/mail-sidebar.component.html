@@ -98,7 +98,7 @@
                         <i class="folder-color-box icon" [style.background]="folder.color"></i>
                         <span class="mailbox-sidebar-nav-label text-capitalize">
                             {{folder.name}}
-                            <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="showConfirmationModal(folder.name)">
+                            <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="showConfirmationModal(folder)">
                                 <i class="icon icon-cross icon-sm"></i>
                             </button>
                         </span>
@@ -156,7 +156,7 @@
     <div class="modal-body bg-faded">
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
         <div class="form-group">
-            Are you sure, you want to delete this folder?
+            Are you sure, you want to delete folder <b>"{{selectedFolder?.name}}"</b>?
         </div>
         <div class="form-group text-right mb-0">
             <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
