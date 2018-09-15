@@ -14,6 +14,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { UsersService } from '../../store/services';
 // Custom Actions
 import {
+  AccountDetailsGet,
   AccountDetailsGetSuccess,
   Accounts,
   AccountsReadSuccess,
@@ -94,7 +95,7 @@ export class UsersEffects {
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return [new WhiteListAddSuccess(contact)];
+            return [new WhiteListAddSuccess(contact), new AccountDetailsGet()];
           }),
           catchError(err => [new WhiteListAddError(err)]),
         );
@@ -136,7 +137,7 @@ export class UsersEffects {
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return [new BlackListAddSuccess(contact)];
+            return [new BlackListAddSuccess(contact), new AccountDetailsGet()];
           }),
           catchError(err => [new BlackListAddError(err)]),
         );
