@@ -80,4 +80,15 @@ export class DateTimeUtilService {
   getDiffToCurrentDateTime(dateTimeStr: string, unit?: any): number {
     return moment().diff(moment(dateTimeStr), unit);
   }
+
+  formatDateTimeStr(dateTimeStr: string, format: string, timezone?: string): string {
+    if (this.preDefinedFormats[format]) {
+      format = this.preDefinedFormats[format];
+    }
+    if (timezone) {
+      return moment(dateTimeStr, timezone).format(format);
+    } else {
+      return moment(dateTimeStr).format(format); // using the default timezone set in moment
+    }
+  }
 }
