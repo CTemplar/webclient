@@ -22,12 +22,12 @@ export class TrashComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.TRASH }));
+    // this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.TRASH }));
 
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
-      .subscribe((mailState: MailState) => {
-        this.mailState = mailState;
-      });
+    // this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    //   .subscribe((mailState: MailState) => {
+    //     this.mailState = mailState;
+    //   });
   }
 
 

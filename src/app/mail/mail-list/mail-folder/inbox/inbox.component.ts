@@ -19,15 +19,18 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   mailState: MailState;
 
+  LIMIT: number;
+  OFFSET: number = 0;
+
   constructor(public store: Store<AppState>) {
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.INBOX }));
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
-      .subscribe((mailState: MailState) => {
-        this.mailState = mailState;
-      });
+    // this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.INBOX }));
+    // this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    //   .subscribe((mailState: MailState) => {
+    //     this.mailState = mailState;
+    //   });
   }
 
 

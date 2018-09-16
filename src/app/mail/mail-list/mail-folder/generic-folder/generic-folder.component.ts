@@ -34,6 +34,10 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   readonly AUTO_REFRESH_DURATION: number = 10000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
+  MAX_EMAIL_PAGE_LIMIT: number = 1;
+  LIMIT: number;
+  OFFSET: number = 0;
+
   constructor(public store: Store<AppState>,
               private router: Router,
               private sharedService: SharedService,
@@ -44,9 +48,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     this.store.dispatch(new SetCurrentFolder(this.mailFolder));
-    if (this.fetchMails) {
-      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder }));
-    }
+
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
         this.showProgress = !mailState.loaded || mailState.inProgress;
@@ -58,6 +60,14 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.userState = user;
+        if (this.fetchMails && this.userState.settings) {
+          this.LIMIT =  user.settings.emails_per_page;
+          this.MAX_EMAIL_PAGE_LIMIT = user.settings.email_count;
+          if (this.LIMIT) {
+            this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
+            this.initializeAutoRefresh();
+          }
+        }
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
@@ -72,7 +82,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         // TODO: apply search
       });
 
-    this.initializeAutoRefresh();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -96,9 +105,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   refresh(forceReload: boolean = false) {
     if (!forceReload && this.mailFolder === MailFolderType.INBOX) {
-      this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: this.mailFolder, read: false }));
+      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder, read: false }));
     } else {
-      this.store.dispatch(new GetMails({ forceReload, limit: 1000, offset: 0, folder: this.mailFolder }));
+      this.store.dispatch(new GetMails({ forceReload, limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
     }
   }
 
@@ -164,8 +173,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   openMail(mail: Mail) {
     if (this.mailFolder === MailFolderType.DRAFT) {
       this.composeMailService.openComposeMailDialog({ draft: mail });
-    }
-    else {
+    } else {
       this.store.dispatch(new GetMailDetailSuccess(mail));
       this.router.navigate([`/mail/${this.mailFolder}/message/`, mail.id]);
     }
@@ -247,6 +255,20 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       }
       return mail;
     });
+  }
+
+  prevPage() {
+    if (this.OFFSET > 0) {
+      this.OFFSET--;
+      this.refresh();
+    }
+  }
+
+  nextPage() {
+    if (this.OFFSET < (this.MAX_EMAIL_PAGE_LIMIT - 1)) {
+      this.OFFSET++;
+      this.refresh();
+    }
   }
 
   /**

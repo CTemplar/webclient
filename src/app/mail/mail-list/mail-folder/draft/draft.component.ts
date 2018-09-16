@@ -22,12 +22,12 @@ export class DraftComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.DRAFT }));
+    // this.store.dispatch(new GetMails({ limit: 1000, offset: 0, folder: MailFolderType.DRAFT }));
 
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
-      .subscribe((mailState: MailState) => {
-        this.mailState = mailState;
-      });
+    // this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    //   .subscribe((mailState: MailState) => {
+    //     this.mailState = mailState;
+    //   });
   }
 
 
