@@ -150,8 +150,7 @@
                                                             Cycle End
                                                         </div>
                                                         <div class="info-list-text info-list-val">
-                                                            {{payment.billing_cycle_ends
-                                                            | date:'mediumDate'}}
+                                                            {{payment.billing_cycle_ends | momentDate:'mediumDate'}}
                                                         </div>
                                                     </li>
                                                     <li class="info-list-item">
