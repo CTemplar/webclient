@@ -67,6 +67,7 @@ export class OpenPgpService {
       this.store.dispatch(new SetDecryptInProgress(true));
 
       this.pgpWorker.postMessage({
+        decryptPrivateKey: true,
         privkey: this.privkey,
         user_key: atob(userKey)
       });
@@ -86,7 +87,7 @@ export class OpenPgpService {
         else {
           this.userKeys = event.data.keys;
         }
-      } else if (event.data.key) {
+      } else if (event.data.decryptPrivateKey) {
         this.decryptedPrivKeyObj = event.data.key;
         this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
       } else if (event.data.decrypted) {
