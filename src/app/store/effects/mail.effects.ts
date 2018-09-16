@@ -29,7 +29,7 @@ import {
   SnackPush,
   StarMailSuccess,
   UndoDeleteMail,
-  UndoDeleteMailSuccess, CreateFolder, CreateFolderSuccess
+  UndoDeleteMailSuccess, CreateFolder, CreateFolderSuccess, DeleteFolder, DeleteFolderSuccess
 } from '../actions';
 
 @Injectable()
@@ -46,7 +46,7 @@ export class MailEffects {
     .switchMap(payload => {
       return this.mailService.getMessages(payload)
         .map((mails) => {
-          return new GetMailsSuccess({...payload, mails});
+          return new GetMailsSuccess({ ...payload, mails });
         });
     });
 
@@ -62,23 +62,41 @@ export class MailEffects {
             const updateFolderActions = [];
 
             if (payload.shouldDeleteFolder) {
-             updateFolderActions.push(new CreateFolder(payload.mailbox));
+              updateFolderActions.push(new DeleteFolder(payload.folderToDelete));
             }
 
-            updateFolderActions.push( new MoveMailSuccess(payload));
-            updateFolderActions.push( new SnackPush({
-              message: `Mail moved to ${payload.folder}`,
-              ids: payload.ids,
-              folder: payload.folder,
-              sourceFolder: payload.sourceFolder,
-              mail: payload.mail,
-              allowUndo: payload.allowUndo
-            }));
+            updateFolderActions.push(new MoveMailSuccess(payload));
+            if (!payload.shouldDeleteFolder) {
+              updateFolderActions.push(new SnackPush({
+                message: `Mail moved to ${payload.folder}`,
+                ids: payload.ids,
+                folder: payload.folder,
+                sourceFolder: payload.sourceFolder,
+                mail: payload.mail,
+                allowUndo: payload.allowUndo
+              }));
+            }
 
             return updateFolderActions;
 
           }),
-          catchError(err => [new SnackErrorPush({message: `Failed to move mail to ${payload.folder}.`})])
+          catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })])
+        );
+    });
+
+  @Effect()
+  deleteFolderEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.DELETE_FOLDER)
+    .map((action: DeleteFolder) => action.payload)
+    .switchMap(folder => {
+      return this.mailService.deleteFolder(folder.id)
+        .pipe(
+          switchMap(res => {
+            return [
+              new DeleteFolderSuccess(folder)
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
         );
     });
 
@@ -94,7 +112,7 @@ export class MailEffects {
               new DeleteMailSuccess(payload)
             ];
           }),
-          catchError(err => [new SnackErrorPush({message: 'Failed to delete mail.'})])
+          catchError(err => [new SnackErrorPush({ message: 'Failed to delete mail.' })])
         );
     });
 
@@ -110,7 +128,7 @@ export class MailEffects {
               new ReadMailSuccess(payload)
             ];
           }),
-          catchError(err => [new SnackErrorPush({message: 'Failed to mark mail as read.'})])
+          catchError(err => [new SnackErrorPush({ message: 'Failed to mark mail as read.' })])
         );
     });
 
@@ -126,7 +144,7 @@ export class MailEffects {
               new StarMailSuccess(payload)
             ];
           }),
-          catchError(err => [new SnackErrorPush({message: 'Failed to mark as starred.'})])
+          catchError(err => [new SnackErrorPush({ message: 'Failed to mark as starred.' })])
         );
     });
 
@@ -155,7 +173,7 @@ export class MailEffects {
               new CreateFolderSuccess(res)
             ];
           }),
-          catchError(err => [new SnackErrorPush({message: 'Failed to create folder.'})])
+          catchError(err => [new SnackErrorPush({ message: 'Failed to create folder.' })])
         );
     });
 
@@ -171,7 +189,7 @@ export class MailEffects {
               new UndoDeleteMailSuccess(payload)
             ];
           }),
-          catchError(err => [new SnackErrorPush({message: `Failed to move mail to ${payload.folder}.`})])
+          catchError(err => [new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })])
         );
     });
 

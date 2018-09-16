@@ -75,6 +75,26 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.DELETE_FOLDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+    case MailActionTypes.DELETE_FOLDER_SUCCESS: {
+      state.currentMailbox.customFolders = state.currentMailbox.customFolders.filter(folder => folder.id !== action.payload.id);
+      state.mailboxes = state.mailboxes.map((mailbox) => {
+        if (mailbox.id === state.currentMailbox.id) {
+          return { ...state.currentMailbox };
+        }
+        return mailbox;
+      });
+      return {
+        ...state,
+        inProgress: false,
+      };
+    }
+
     default: {
       return state;
     }

@@ -98,6 +98,10 @@ export class MailService {
     return this.http.delete<any>(`${apiUrl}/emails/messages/?id__in=${ids}`);
   }
 
+  deleteFolder(id: string): Observable<any[]> {
+    return this.http.delete<any>(`${apiUrl}/emails/custom-folder/${id}/`);
+  }
+
   uploadFile(data: Attachment): Observable<HttpEvent<any>> {
     const formData = new FormData();
     formData.append('document', data.document);
