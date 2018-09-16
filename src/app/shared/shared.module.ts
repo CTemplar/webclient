@@ -23,6 +23,7 @@ import { FilesizePipe } from './pipes/filesize.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
+import { MomentDatePipe } from './pipes/moment-date.pipe';
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     RemainingTimePipe,
     ClickOutsideDirective,
     CountdownTimerComponent,
+    MomentDatePipe,
   ],
   exports: [
     TranslateModule,
@@ -68,7 +70,8 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     FilesizePipe,
     RemainingTimePipe,
     ClickOutsideDirective,
-    CountdownTimerComponent
+    CountdownTimerComponent,
+    MomentDatePipe
   ],
   providers: [
     SpinnerService,
