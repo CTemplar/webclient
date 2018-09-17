@@ -69,7 +69,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.sharedService.hideFooter.emit(true);
 
     this.signupForm = this.formBuilder.group({
-      'username': ['', [Validators.required, Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i)]],
+      'username': ['', [
+        Validators.required,
+        Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i),
+        Validators.minLength(4),
+        Validators.maxLength(64),
+      ]],
       'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
       'recoveryEmail': ['', [Validators.pattern('[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)' +
