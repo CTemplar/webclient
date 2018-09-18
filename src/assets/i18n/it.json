@@ -224,7 +224,21 @@
   "page_pricing": {
     "do_not_show_ads": "Questo sito non è supportato dalle entrate pubblicitarie o dalla condivisione dei dati degli iscritti. Invece, CTemplar si affida alle entrate della sottoscrizione per mantenere e migliorare la qualità del nostro servizio. Le entrate derivanti dai conti a pagamento vengono utilizzate per sviluppare ulteriormente CTemplar e supportare gli utenti gratuiti. * Ctemplar non può essere utilizzato per spam o per l'invio di e-mail collettive",
     "billed_as": "Fatturato come",
-    "select_account_type": "Seleziona il tipo di account"
+    "select_account_type": "Seleziona il tipo di account",
+    "user": "Utente",
+    "messages_per_day": "Messaggi al giorno",
+    "folders": "Cartelle",
+    "limited_support": "Supporto limitato",
+    "normal_support": "Supporto normale",
+    "self_destruct": "Self Destruct Timer",
+    "encryption": "Crittografia per utenti non-CTemplar",
+    "dead_mans_timer": "Tempo dell'uomo morto",
+    "delayed_delivery": "Tempo di consegna differito",
+    "email_aliases": "Alias ​​degli indirizzi email",
+    "email_alias": "Alias ​​indirizzo email",
+    "custom_domain": "Dominio personalizzato",
+    "currency": "Moneta",
+    "btc_currency": "Valuta BTC"
   },
   "login": {
     "name": "accesso",

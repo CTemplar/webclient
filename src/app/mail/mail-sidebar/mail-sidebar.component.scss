@@ -12,22 +12,23 @@
 
   @include media("<ipad") {
     display: none;
+
     .is-sidebar-expanded & {
       display: block;
       padding-left: 2.75rem;
     }
   }
 
-  > li:first-child {
+  >li:first-child {
     padding-top: 0.938rem;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
-  > li:not(:last-of-type) {
+  >li:not(:last-of-type) {
     margin-bottom: 0.8rem;
   }
 
-  > li > a {
+  >li>a {
     color: $menu-link;
 
     @include media("<=sm") {
@@ -68,7 +69,7 @@
   padding: 0 0;
   list-style: none;
 
-  > li {
+  >li {
     margin-bottom: 1rem;
     padding: 0 .469rem;
     line-height: 1;
@@ -110,5 +111,26 @@
   @include media("<=sm") {
     margin-bottom: 0.5rem;
     font-size: 0.875rem;
+  }
+}
+
+.mailbox-sidebar-nav-item>div {
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  a {
+    flex-grow: 1;
+  }
+
+  button {
+    position: absolute;
+    right: 0;
+    top: 0.8rem;
+    min-width: 50px;
+
+    .icon {
+      padding: 0.5rem;
+    }
   }
 }

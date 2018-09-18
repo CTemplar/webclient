@@ -34,10 +34,10 @@ onmessage = function (event) {
 		    })
 	    }
     }
-    else if (!decryptedPrivKeyObj) {
+    else if (event.data.decryptPrivateKey) {
         decryptedPrivKeyObj = openpgp.key.readArmored(event.data.privkey).keys[0];
         decryptedPrivKeyObj.decrypt(event.data.user_key);
-        postMessage({key: decryptedPrivKeyObj});
+        postMessage({key: decryptedPrivKeyObj, decryptPrivateKey: true});
     }
     else if (event.data.decrypt) {
         if (!event.data.content) {

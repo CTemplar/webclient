@@ -31,12 +31,20 @@ export interface Mail {
 export interface Mailbox {
   id?: number;
   folders: string[];
+  customFolders: Folder[];
   messages: string[];
   email: string;
   is_active?: boolean;
   private_key: string;
   public_key: string;
   signature?: string;
+}
+
+export interface Folder {
+  id?: number;
+  name: string;
+  color: string;
+  mailbox: number;
 }
 
 

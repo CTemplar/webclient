@@ -93,22 +93,24 @@
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
                 </li>
-                <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of mailBoxesState.customFolders|slice:0:LIMIT; let i=index;">
-                    <a routerLink="/mail/{{folder}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
-                        <i class="folder-color-box icon is-success" [ngClass]="{'is-info': i%2 === 0, 'is-warning': i%3 === 0}"></i>
-                        <span class="mailbox-sidebar-nav-label text-capitalize">
-                            {{folder}}
-                            <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="showConfirmationModal(folder)">
-                                <i class="icon icon-cross icon-sm"></i>
-                            </button>
-                        </span>
-                    </a>
+                <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of customFolders|slice:0:LIMIT; let i=index;">
+                    <div>
+                        <a routerLink="/mail/{{folder.name}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
+                            <i class="folder-color-box icon" [style.background]="folder.color"></i>
+                            <span class="mailbox-sidebar-nav-label text-capitalize">
+                                {{folder.name}}
+                            </span>
+                        </a>
+                        <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="$event.preventDefault();showConfirmationModal(folder)">
+                            <i class="icon icon-cross icon-sm"></i>
+                        </button>
+                    </div>
                 </li>
-                <li class="mailbox-sidebar-nav-item" *ngIf="mailBoxesState?.customFolders?.length >= LIMIT">
-                    <a (click)="toggleDisplayLimit(mailBoxesState.customFolders.length)"
+                <li class="mailbox-sidebar-nav-item" *ngIf="customFolders?.length > LIMIT">
+                    <a (click)="toggleDisplayLimit(customFolders.length)"
                        class="mailbox-sidebar-nav-link">
                         <span class="mailbox-sidebar-nav-label text-capitalize">
-                            {{LIMIT === mailBoxesState.customFolders.length? 'Less' : 'More'}}
+                            {{LIMIT === customFolders.length? 'Less' : 'More'}}
                         </span>
                     </a>
                 </li>
@@ -156,7 +158,7 @@
     <div class="modal-body bg-faded">
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
         <div class="form-group">
-            Are you sure, you want to delete this folder?
+            Are you sure, you want to delete folder <b>"{{selectedFolder?.name}}"</b>?
         </div>
         <div class="form-group text-right mb-0">
             <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>

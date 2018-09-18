@@ -54,7 +54,7 @@ export class AccountsReadSuccess implements Action {
 export class WhiteList implements Action {
   readonly type = UsersActionTypes.WHITELIST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 }
 
@@ -103,7 +103,7 @@ export class WhiteListDeleteSuccess implements Action {
 export class BlackList implements Action {
   readonly type = UsersActionTypes.BLACKLIST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 }
 

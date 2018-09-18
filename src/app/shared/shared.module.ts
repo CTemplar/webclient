@@ -25,6 +25,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { BrowserDetectorService } from './services/browser-detector.service';
 import { IsIeDirective } from './directives/is-ie.directive';
+import { MomentDatePipe } from './pipes/moment-date.pipe';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { IsIeDirective } from './directives/is-ie.directive';
     ClickOutsideDirective,
     CountdownTimerComponent,
     IsIeDirective,
+    MomentDatePipe,
   ],
   exports: [
     TranslateModule,
@@ -72,7 +74,8 @@ import { IsIeDirective } from './directives/is-ie.directive';
     RemainingTimePipe,
     ClickOutsideDirective,
     CountdownTimerComponent,
-    IsIeDirective
+    IsIeDirective,
+    MomentDatePipe
   ],
   providers: [
     SpinnerService,

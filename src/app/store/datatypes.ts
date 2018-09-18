@@ -37,6 +37,11 @@ export interface SignupState {
   payment_type?: PaymentType;
   payment_method?: PaymentMethod;
   currency?: string;
+  memory?: number;
+  email_count?: number;
+  monthlyPrice?: number;
+  annualPricePerMonth?: number;
+  annualPriceTotal?: number;
 }
 
 export interface UserState {
@@ -71,6 +76,7 @@ export interface Settings {
   allocated_storage?: number;
   used_storage?: number;
   display_name?: string;
+  email_count?: number;
 }
 
 export interface Payment {
@@ -146,7 +152,6 @@ export interface ComposeMailState {
 
 export interface MailBoxesState {
   mailboxes: Mailbox[];
-  customFolders: string[];
   currentMailbox: Mailbox;
   decryptKeyInProgress: boolean;
   decryptedKey?: any;

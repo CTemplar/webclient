@@ -50,7 +50,8 @@ export class UsersService {
   }
 
   signIn(body): Observable<any> {
-    const requestData = { ...body };
+    const requestData: any = { ...body };
+    requestData.username = requestData.username.toLowerCase().replace('@ctemplar.com', '');
     requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
@@ -151,6 +152,7 @@ export class UsersService {
       'users/contact',
       'emails/messages/',
       'emails/mailboxes',
+      'emails/custom-folder',
       'users/settings',
       'emails/attachments',
       'emails/keys',
