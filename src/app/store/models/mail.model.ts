@@ -26,6 +26,7 @@ export interface Mail {
   is_protected?: boolean;
   sent_at?: string;
   created_at?: string;
+  parent?: number;
 }
 
 export interface Mailbox {
