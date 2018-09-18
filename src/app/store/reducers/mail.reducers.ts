@@ -75,6 +75,9 @@ export function reducer(
         }
         return mail;
       });
+      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
+        state.mailDetail = {...state.mailDetail, read: action.payload.read};
+      }
       return { ...state, inProgress: false };
     }
 
