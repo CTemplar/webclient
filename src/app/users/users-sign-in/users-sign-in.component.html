@@ -5,12 +5,15 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
                     <h1 class="l-block-title text-white text-uppercase">
-                        <strong translate="login.user_login">User Login</strong>
+                        <strong translate="login.user_login" *showInIE="false">User Login</strong>
                     </h1>
+                    <h4 class="l-block-title text-white">
+                        <strong *showInIE="true">IE has limited support. For better experience use Chrome, Firefox, Safari, Opera, Edge etc.</strong>
+                    </h4>
                 </div>
             </div>
         </header>
-        <div class="l-block-body px-xs main-body">
+        <div class="l-block-body px-xs main-body" *showInIE="false">
             <div class="l-content-holder l-form-content-holder mx-auto mt-md-0">
                 <div class="form" *ngIf="isCaptchaCompleted">
                     <form class="login-form position-relative" [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
