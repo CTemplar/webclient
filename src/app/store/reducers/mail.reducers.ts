@@ -44,7 +44,7 @@ export function reducer(
       const listOfIDs = action.payload.ids.toString().split(',');
       state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
       if (action.payload.sourceFolder) {
-        const oldMails = state.folders.get(action.payload.sourceFolder);
+        const oldMails = state.folders.get(action.payload.sourceFolder) || [];
         state.folders.set(action.payload.sourceFolder, oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())));
       }
       return { ...state, inProgress: false };
