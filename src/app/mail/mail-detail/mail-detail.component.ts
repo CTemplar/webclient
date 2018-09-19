@@ -22,6 +22,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   isComposeMailVisible: boolean;
   decryptedContent: string;
   mailFolderType = MailFolderType;
+  childDecryptedContents: any = {};
   private mailFolder: MailFolderType;
 
   constructor(private route: ActivatedRoute,
@@ -45,10 +46,22 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContent = decryptedContent.content;
 
-              // Mar mail as read
+              // Mark mail as read
               if (!this.mail.read) {
                 this.markAsRead(this.mail.id);
               }
+            }
+            if (this.mail.children) {
+              this.mail.children.forEach(child => {
+                const childDecryptedContent = mailState.decryptedContents[child.id];
+                if (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content)) {
+                  this.pgpService.decrypt(child.id, child.content);
+                }
+                if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
+                  this.childDecryptedContents[child.id] = childDecryptedContent.content;
+                }
+                // TODO: mark child email as read
+              });
             }
           }
 
@@ -59,7 +72,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const id = +params['id'];
 
       // Check if email is already available in state
-      if (!this.mail) {
+      if (!this.mail || this.mail.has_children) {
         this.getMailDetail(id);
       }
 
