@@ -27,6 +27,8 @@ export interface Mail {
   sent_at?: string;
   created_at?: string;
   parent?: number;
+  has_children?: boolean;
+  children?: Array<Mail>;
 }
 
 export interface Mailbox {
