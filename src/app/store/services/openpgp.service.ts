@@ -169,7 +169,7 @@ export class OpenPgpService {
     this.userKeys = null;
     const options = {
       userIds: [{ name: username, email: `${username}@ctemplar.com` }],
-      numbits: 4096,
+      numBits: 4096,
       passphrase: password
     };
     this.pgpWorker.postMessage({ options, generateKeys: true });
@@ -179,7 +179,7 @@ export class OpenPgpService {
     this.store.dispatch(new UpdatePGPSshKeys({ isSshInProgress: true, sshKeys: null, draftId }));
     const options = {
       userIds: [{ name: `${draftId}` }],
-      numbits: 4096,
+      numBits: 4096,
       passphrase: password
     };
     this.pgpWorker.postMessage({ options, generateKeys: true, forEmail: true, callerId: draftId });
