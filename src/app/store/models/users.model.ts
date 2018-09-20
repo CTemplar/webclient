@@ -42,7 +42,7 @@ export interface Payment {
 
 export interface UserMailbox {
   id: number;
-  email: string;
+  email?: string;
 }
 
 export const StorageData: Storage[] = [

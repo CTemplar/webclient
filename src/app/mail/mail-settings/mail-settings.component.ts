@@ -22,6 +22,7 @@ import {
 import { Mailbox, UserMailbox } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
+import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -54,6 +55,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   annualDiscountedPrice: number;
   extraStorage: number = 0; // storage extra than the default 5GB
   extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
+  currentMailBox: Mailbox;
 
   private mailboxes: Mailbox[];
   private changePasswordModalRef: NgbModalRef;
@@ -92,6 +94,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       .subscribe((mailboxesState: MailBoxesState) => {
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
+
+          this.currentMailBox = mailboxesState.currentMailbox;
           this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
       });
@@ -209,6 +213,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       }
     } else {
       this.store.dispatch(new SettingsUpdate(this.settings));
+    }
+  }
+
+  updateMailboxSettings(key?: string, value?: any) {
+    if (key) {
+      if (this.currentMailBox[key] !== value) {
+        this.currentMailBox[key] = value;
+        this.store.dispatch(new MailboxSettingsUpdate(this.currentMailBox));
+      }
     }
   }
 

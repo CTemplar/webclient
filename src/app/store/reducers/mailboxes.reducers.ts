@@ -2,6 +2,7 @@
 import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailBoxesState } from '../datatypes';
+import { Mailbox } from '../models/mail.model';
 
 
 export function reducer(
@@ -81,6 +82,7 @@ export function reducer(
         inProgress: true,
       };
     }
+
     case MailActionTypes.DELETE_FOLDER_SUCCESS: {
       state.currentMailbox.customFolders = state.currentMailbox.customFolders.filter(folder => folder.id !== action.payload.id);
       state.mailboxes = state.mailboxes.map((mailbox) => {
@@ -91,6 +93,25 @@ export function reducer(
       });
       return {
         ...state,
+        inProgress: false,
+      };
+    }
+
+    case MailActionTypes.MAILBOX_SETTINGS_UPDATE_SUCCESS: {
+      const updatedCurrentMailBox: Mailbox = action.payload;
+      let mailboxes: Mailbox[] = state.mailboxes;
+
+      mailboxes = mailboxes.map((mailbox) => {
+        if (mailbox.id === updatedCurrentMailBox.id) {
+          return { ...updatedCurrentMailBox };
+        }
+        return mailbox;
+      });
+
+      return {
+        ...state,
+        currentMailbox: updatedCurrentMailBox,
+        mailboxes: mailboxes,
         inProgress: false,
       };
     }

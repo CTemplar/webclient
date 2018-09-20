@@ -8,11 +8,14 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 // Custom Actions
 import { GetMailboxes, GetMailboxesSuccess, MailActionTypes } from '../actions';
+import { UserMailbox } from '../models/users.model';
+import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
+import { SettingsUpdateSuccess, SnackErrorPush } from '../actions/users.action';
 
 
 @Injectable()
@@ -31,6 +34,20 @@ export class MailboxEffects {
           switchMap((mails) => {
             return [new GetMailboxesSuccess(mails)];
           })
+        );
+    });
+
+  @Effect()
+  mailboxSettingsUpdate: Observable<any> = this.actions
+    .ofType(MailActionTypes.MAILBOX_SETTINGS_UPDATE)
+    .map((action: MailboxSettingsUpdate) => action.payload)
+    .switchMap((payload: UserMailbox) => {
+      return this.mailService.updateMailBoxSettings(payload)
+        .pipe(
+          switchMap(res => {
+            return [new MailboxSettingsUpdateSuccess(payload)];
+          }),
+          catchError(err => [new SnackErrorPush(err)]),
         );
     });
 
