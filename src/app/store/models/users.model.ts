@@ -43,7 +43,6 @@ export interface Payment {
 export interface UserMailbox {
   id: number;
   email?: string;
-  signature?: string;
 }
 
 export const StorageData: Storage[] = [

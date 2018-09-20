@@ -14,7 +14,7 @@ import { MailService } from '../../store/services';
 // Custom Actions
 import { GetMailboxes, GetMailboxesSuccess, MailActionTypes } from '../actions';
 import { UserMailbox } from '../models/users.model';
-import { MailboxSettingsUpdate } from '../actions/mail.actions';
+import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
 import { SettingsUpdateSuccess, SnackErrorPush } from '../actions/users.action';
 
 
@@ -45,7 +45,7 @@ export class MailboxEffects {
       return this.mailService.updateMailBoxSettings(payload)
         .pipe(
           switchMap(res => {
-            return [new SettingsUpdateSuccess(payload)];
+            return [new MailboxSettingsUpdateSuccess(payload)];
           }),
           catchError(err => [new SnackErrorPush(err)]),
         );

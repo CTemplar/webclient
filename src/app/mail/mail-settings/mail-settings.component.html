@@ -421,8 +421,8 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <input class="form-control form-control-sm" id="displayName" type="text"
-                                            [(ngModel)]="settings.display_name" [ngModelOptions]="{ updateOn: 'blur'}"
-                                            (change)="updateSettings('display_name', $event.target.value)" placeholder="John Simpson" />
+                                            [(ngModel)]="currentMailBox.display_name" [ngModelOptions]="{ updateOn: 'blur'}"
+                                            (change)="updateMailboxSettings('display_name', $event.target.value)" placeholder="John Simpson" />
                                     </div>
                                 </div>
                             </div>
@@ -433,7 +433,7 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
-                                            [(ngModel)]="selectedMailboxForKey.signature" [ngModelOptions]="{ updateOn: 'blur'}"
+                                            [(ngModel)]="currentMailBox.signature" [ngModelOptions]="{ updateOn: 'blur'}"
                                             (change)="updateMailboxSettings('signature', $event.target.value)" contenteditable="true">
                                         </textarea>
                                     </div>
