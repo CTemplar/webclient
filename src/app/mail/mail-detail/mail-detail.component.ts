@@ -141,12 +141,101 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/mail/${this.mailFolder}`);
   }
 
-  onPrint() {
+  onPrint(): void {
     if (this.decryptedContent) {
-      const printWindow = window.open();
-      printWindow.document.write(this.decryptedContent);
-      printWindow.print();
-      printWindow.close();
-    }
+
+        let popupWin;
+
+        const subject = document.getElementById('mail-subject').innerHTML;
+        const from = document.getElementById('mail-from').innerHTML;
+        const to = document.getElementById('mail-to').innerHTML;
+        const date = document.getElementById('mail-date').innerHTML;
+        const content = document.getElementById('mail-content').innerHTML;
+
+        const hasCC = document.getElementById('mail-cc');
+        let cc = '';
+        if (hasCC) {
+          cc = `CC: <span class="text-muted">${hasCC.innerHTML}</span>`;
+        }
+
+        popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+        popupWin.document.open();
+        popupWin.document.write(`
+          <html>
+            <head>
+              <title>Print tab</title>
+              <style>
+              body {
+                font-family: "Roboto", Helvetica, Arial, sans-serif;
+                }
+
+                .navbar-brand-logo {
+                    margin-right: 10px;
+                    max-width: 32px;
+                }
+
+                a {
+                    color: #3498db;
+                }
+
+                .container {
+                    max-width: 900px;
+                    padding: 100px 15px;
+                    margin: auto;
+                    color: #757675;
+                }
+
+                .row {
+                    padding-left: -15px;
+                    padding-right: -15px;
+                }
+
+                .text-center {
+                    text-align: center;
+                }
+
+                .text-secondary {
+                    color: #34495e;
+                }
+
+                .page-title {
+                    font-weight: 300;
+                }
+
+                .dashed-separator {
+                    border-top: 1px dashed #777;margin:20px 0 20px;
+                }
+              </style>
+            </head>
+            <body onload="window.print();window.close()">
+            <div class="container">
+                <div class="row">
+                    <!-- Mail Subject -->
+                    <h1>${subject}</h1>
+                    <div class="dashed-separator"></div>
+                    <!-- Mail From  -->
+                    <span class="text-muted">${from}</span>
+                    <br>
+                    <!-- Mail To  -->
+                    <span class="text-muted">${to}</span>
+                    <br>
+                    <!-- Mail CC  -->
+                    ${cc}
+                    <br>
+                    <!-- Mail Date Created  -->
+                    Dated:<strong>${date}</strong>
+                    <br>
+                    <div class="dashed-separator"></div>
+                    <!-- Mail Content  -->
+                    <div>
+                      ${content}
+                    </div>
+                </div>
+            </div>
+            </body>
+          </html>`
+        );
+        popupWin.document.close();
+      }
   }
 }
