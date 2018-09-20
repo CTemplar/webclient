@@ -19,10 +19,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mail: Mail;
   composeMailData: any = {};
-  isComposeMailVisible: boolean;
-  decryptedContent: string;
   mailFolderType = MailFolderType;
-  childDecryptedContents: any = {};
+  decryptedContents: any = {};
+  mailOptions: any = {};
   private mailFolder: MailFolderType;
 
   constructor(private route: ActivatedRoute,
@@ -37,34 +36,43 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (mailState.mailDetail) {
           this.mail = mailState.mailDetail;
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
-            this.decryptedContent = this.mail.content;
+            this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
             const decryptedContent = mailState.decryptedContents[this.mail.id];
             if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
               this.pgpService.decrypt(this.mail.id, this.mail.content);
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
-              this.decryptedContent = decryptedContent.content;
+              this.decryptedContents[this.mail.id] = decryptedContent.content;
 
               // Mark mail as read
               if (!this.mail.read) {
                 this.markAsRead(this.mail.id);
               }
             }
-            if (this.mail.children) {
-              this.mail.children.forEach(child => {
+          }
+          if (!this.mailOptions[this.mail.id]) {
+            this.mailOptions[this.mail.id] = {};
+          }
+          if (this.mail.children) {
+            this.mail.children.forEach(child => {
+              if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
+                this.decryptedContents[child.id] = child.content;
+              } else {
                 const childDecryptedContent = mailState.decryptedContents[child.id];
                 if (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content)) {
                   this.pgpService.decrypt(child.id, child.content);
                 }
                 if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
-                  this.childDecryptedContents[child.id] = childDecryptedContent.content;
+                  this.decryptedContents[child.id] = childDecryptedContent.content;
                 }
                 // TODO: mark child email as read
-              });
-            }
+              }
+              if (!this.mailOptions[child.id]) {
+                this.mailOptions[child.id] = {};
+              }
+            });
           }
-
         }
       });
 
@@ -99,67 +107,71 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 
-  onReply() {
-    this.composeMailData = {
-      receivers: [this.mail.sender],
-      subject: this.mail.subject,
-      parentId: this.mail.id
+  onReply(mail: Mail) {
+    this.composeMailData[mail.id] = {
+      receivers: [mail.sender],
+      subject: mail.subject,
+      parentId: this.mail.id // TODO: check if this is correct
     };
-    this.isComposeMailVisible = true;
+    this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onReplyAll() {
-    this.composeMailData = {
-      receivers: [this.mail.sender],
-      cc: [...this.mail.receiver, ...this.mail.cc],
-      subject: this.mail.subject,
+  onReplyAll(mail: Mail) {
+    this.composeMailData[mail.id] = {
+      receivers: [mail.sender],
+      cc: [...mail.receiver, ...mail.cc],
+      subject: mail.subject,
       parentId: this.mail.id
     };
-    this.isComposeMailVisible = true;
+    this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onForward() {
-    this.composeMailData = {
-      content: this.decryptedContent,
+  onForward(mail: Mail) {
+    this.composeMailData[mail.id] = {
+      content: this.decryptedContents[mail.id],
       subject: this.mail.subject
     };
-    this.isComposeMailVisible = true;
+    this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onComposeMailHide() {
-    this.composeMailData = {};
-    this.isComposeMailVisible = false;
+  onComposeMailHide(mail: Mail) {
+    this.composeMailData[mail.id] = {};
+    this.mailOptions[mail.id].isComposeMailVisible = false;
   }
 
-  onDelete() {
-    if (this.mail.folder === MailFolderType.TRASH) {
-      this.store.dispatch(new DeleteMail({ ids: this.mail.id }));
+  onDelete(mail: Mail) {
+    if (mail.folder === MailFolderType.TRASH) {
+      this.store.dispatch(new DeleteMail({ ids: mail.id }));
     } else {
       this.store.dispatch(new MoveMail({
-        ids: this.mail.id,
+        ids: mail.id,
         folder: MailFolderType.TRASH,
-        sourceFolder: this.mail.folder,
-        mail: this.mail,
+        sourceFolder: mail.folder,
+        mail: mail,
         allowUndo: true
       }));
     }
-    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    if (mail.id === this.mail.id) {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    }
   }
 
-  onMarkAsSpam() {
+  onMarkAsSpam(mail: Mail) {
     this.store.dispatch(new MoveMail({
-      ids: this.mail.id,
+      ids: mail.id,
       folder: MailFolderType.SPAM,
-      sourceFolder: this.mail.folder,
-      mail: this.mail
+      sourceFolder: mail.folder,
+      mail: mail
     }));
-    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    if (mail.id === this.mail.id) {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    }
   }
 
-  onPrint() {
-    if (this.decryptedContent) {
+  onPrint(mail: Mail) {
+    if (this.decryptedContents[mail.id]) {
       const printWindow = window.open();
-      printWindow.document.write(this.decryptedContent);
+      printWindow.document.write(this.decryptedContents[mail.id]);
       printWindow.print();
       printWindow.close();
     }
