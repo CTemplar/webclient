@@ -22,6 +22,7 @@ import {
 import { Mailbox, UserMailbox } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
+import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -209,6 +210,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       }
     } else {
       this.store.dispatch(new SettingsUpdate(this.settings));
+    }
+  }
+
+  updateMailboxSettings(key?: string, value?: any) {
+    if (key) {
+      if (this.selectedMailboxForKey[key] !== value) {
+        this.selectedMailboxForKey[key] = value;
+        this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForKey));
+      }
     }
   }
 

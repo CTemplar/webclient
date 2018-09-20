@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { MailFolderType } from '../models/mail.model';
 import { map } from 'rxjs/operators';
+import { UserMailbox } from '../models/users.model';
 
 @Injectable()
 export class MailService {
@@ -117,6 +118,10 @@ export class MailService {
 
   deleteAttachment(attachment: Attachment): Observable<any> {
     return this.http.delete<any>(`${apiUrl}emails/attachments/${attachment.id}/`);
+  }
+
+  updateMailBoxSettings(data: UserMailbox) {
+    return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
