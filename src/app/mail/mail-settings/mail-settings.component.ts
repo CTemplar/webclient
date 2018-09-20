@@ -95,8 +95,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
 
-          // TODO: change it to mailboxesState.currentMailBox
-          this.currentMailBox = mailboxesState.mailboxes[0];
+          this.currentMailBox = mailboxesState.currentMailbox;
           this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
       });
