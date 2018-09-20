@@ -55,6 +55,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   annualDiscountedPrice: number;
   extraStorage: number = 0; // storage extra than the default 5GB
   extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
+  currentMailBox: Mailbox;
 
   private mailboxes: Mailbox[];
   private changePasswordModalRef: NgbModalRef;
@@ -93,6 +94,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       .subscribe((mailboxesState: MailBoxesState) => {
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
+
+          // TODO: change it to mailboxesState.currentMailBox
+          this.currentMailBox = mailboxesState.mailboxes[0];
           this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
       });
@@ -215,9 +219,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   updateMailboxSettings(key?: string, value?: any) {
     if (key) {
-      if (this.selectedMailboxForKey[key] !== value) {
-        this.selectedMailboxForKey[key] = value;
-        this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForKey));
+      if (this.currentMailBox[key] !== value) {
+        this.currentMailBox[key] = value;
+        this.store.dispatch(new MailboxSettingsUpdate(this.currentMailBox));
       }
     }
   }
