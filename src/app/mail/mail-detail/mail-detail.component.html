@@ -2,10 +2,10 @@
 
 <!--Mail Info-->
 <ng-container *ngIf="mail">
-  <section class="mailbox-section" id="print-section">
+  <section class="mailbox-section" id="{{mail.id}}-print-section">
     <div class="ui-header ui-header-bordered border-top-0 position-relative">
       <h5 class="ui-header-subtitle text-dark mb-0">
-        <strong id="mail-subject">{{mail.subject}}</strong>
+        <strong id="{{mail.id}}-mail-subject">{{mail.subject}}</strong>
         <i class="icon icon-secured icon-md text-muted ml-2"></i>
       </h5>
 
@@ -20,12 +20,12 @@
         <div class="col-8">
           <div class="mailbox-sender-content">
             <ul class="sender-content-list list-styled">
-              <li id="mail-from">
+              <li id="{{mail.id}}-mail-from">
                 From:
                 <span class="text-secondary"> </span>
                 <a class="text-muted">&lt;{{mail.sender}}&gt;</a>
               </li>
-              <li id="mail-to">
+              <li id="{{mail.id}}-mail-to">
                 To:
                 <ng-container *ngFor="let receiver of mail.receiver; let i = index;">
                   <span class="text-secondary"> </span>
@@ -34,7 +34,7 @@
                   <span *ngIf=" i < mail.receiver?.length-1">, </span>
                 </ng-container>
               </li>
-              <li *ngIf="mail.cc?.length>0" id="mail-cc">
+              <li *ngIf="mail.cc?.length>0" id="{{mail.id}}-mail-cc">
                 Cc:
                 <ng-container *ngFor="let cc of mail.cc; let i = index;">
                   <span class="text-secondary"> </span>
@@ -49,7 +49,7 @@
         <div class="col-4">
           <div class="msg-reply-type-holder">
             <div class="d-flex align-items-center justify-content-end">
-              <label class="msg-received-time mb-0" id="mail-date">
+              <label class="msg-received-time mb-0" id="{{mail.id}}-mail-date">
                 <ng-container *ngIf="mail.sent_at; else createdAt">{{mail.sent_at | momentDate:'medium'}}</ng-container>
                 <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
               </label>
@@ -78,7 +78,8 @@
     <app-progress-bar [active]="!decryptedContents[mail.id]"></app-progress-bar>
 
     <div class="ui-body is-bordered-bottom" *ngIf="decryptedContents[mail.id]">
-      <div class="msg-reply-content text-dark" [innerHTML]="decryptedContents[mail.id] | safe: 'html'" id="mail-content"></div>
+      <div class="msg-reply-content text-dark" id="{{mail.id}}-mail-content"
+           [innerHTML]="decryptedContents[mail.id] | safe: 'html'"></div>
     </div>
 
     <ul class="list-style-none mt-3">
@@ -128,18 +129,18 @@
   </div>
 
   <ng-container *ngFor="let childMail of mail.children">
-    <section class="mailbox-section">
+    <section class="mailbox-section" id="{{childMail.id}}-print-section">
       <div class="ui-body is-xs is-bordered-bottom bg-faded">
         <div class="row">
           <div class="col-8">
             <div class="mailbox-sender-content">
               <ul class="sender-content-list list-styled">
-                <li>
+                <li id="{{childMail.id}}-mail-from">
                   From:
                   <span class="text-secondary"> </span>
                   <a class="text-muted">&lt;{{childMail.sender}}&gt;</a>
                 </li>
-                <li>
+                <li id="{{childMail.id}}-mail-to">
                   To:
                   <ng-container *ngFor="let receiver of childMail.receiver; let i = index;">
                     <span class="text-secondary"> </span>
@@ -148,7 +149,7 @@
                     <span *ngIf=" i < childMail.receiver?.length-1">, </span>
                   </ng-container>
                 </li>
-                <li *ngIf="childMail.cc?.length>0">
+                <li *ngIf="childMail.cc?.length>0" id="{{childMail.id}}-mail-cc">
                   Cc:
                   <ng-container *ngFor="let cc of childMail.cc; let i = index;">
                     <span class="text-secondary"> </span>
@@ -163,7 +164,7 @@
           <div class="col-4">
             <div class="msg-reply-type-holder">
               <div class="d-flex align-items-center justify-content-end">
-                <label class="msg-received-time mb-0">
+                <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
                   <ng-container *ngIf="childMail.sent_at; else createdAt">{{childMail.sent_at | momentDate:'medium'}}
                   </ng-container>
                   <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
@@ -191,7 +192,8 @@
       <app-progress-bar [active]="!decryptedContents[childMail.id]"></app-progress-bar>
 
       <div class="ui-body is-bordered-bottom" *ngIf="decryptedContents[childMail.id]">
-        <div class="msg-reply-content text-dark" [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
+        <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
+             [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
       </div>
 
       <ul class="list-style-none mt-3">

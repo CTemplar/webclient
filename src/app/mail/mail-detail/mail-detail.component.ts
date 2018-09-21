@@ -172,13 +172,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (this.decryptedContents[mail.id]) {
       let popupWin;
 
-      const subject = document.getElementById('mail-subject').innerHTML;
-      const from = document.getElementById('mail-from').innerHTML;
-      const to = document.getElementById('mail-to').innerHTML;
-      const date = document.getElementById('mail-date').innerHTML;
-      const content = document.getElementById('mail-content').innerHTML;
+      const subject = document.getElementById(`${this.mail.id}-mail-subject`).innerHTML;
+      const from = document.getElementById(`${mail.id}-mail-from`).innerHTML;
+      const to = document.getElementById(`${mail.id}-mail-to`).innerHTML;
+      const date = document.getElementById(`${mail.id}-mail-date`).innerHTML;
+      const content = document.getElementById(`${mail.id}-mail-content`).innerHTML;
 
-      const hasCC = document.getElementById('mail-cc');
+      const hasCC = document.getElementById(`${mail.id}-mail-cc`);
       let cc = '';
       if (hasCC) {
         cc = `CC: <span class="text-muted">${hasCC.innerHTML}</span>`;
