@@ -95,6 +95,9 @@
                        [translate]="'contacts.new_contact'"
                        (click)="editContact(null, addUserContent);">New Contact</a>
                 </li>
+                <li class="pl-0">
+                    <a class="no-icon" (click)="openImportContactsModal()">Import Contacts</a>
+                </li>
                 <li *ngIf="inProgress">
                     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
                 </li>
@@ -251,3 +254,49 @@
         </div>
     </div>
 </ng-template><!-- /.Confirm contact delete modal ends -->
+
+<!-- import contacts modal -->
+<ng-template #importContactsModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>Import Contacts</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                Select a CSV file from one of the following providers.
+            </div>
+            <input type="file"
+                   #importContactsInput
+                   accept=".csv"
+                   (change)="onContactsFileSelected($event.target.files)"
+                   style="display:none">
+            <div *ngIf="importContactsError" class="l-alert l-alert-danger mb-3">
+                {{importContactsError}}
+            </div>
+            <div class="form-group mb-0">
+                <button type="button"
+                        (click)="selectedContactsProvider = contactsProviderType.GOOGLE;importContactsInput.click();"
+                        class="btn btn-success btn-sm col col-sm-7" role="button">Import from Google
+                </button>
+                <br/>
+                <button type="button"
+                        (click)="selectedContactsProvider = contactsProviderType.YAHOO;importContactsInput.click();"
+                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">Import from Yahoo
+                </button>
+                <br/>
+                <button type="button"
+                        (click)="selectedContactsProvider = contactsProviderType.OUTLOOK;importContactsInput.click();"
+                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">Import from Outlook
+                </button>
+                <br/>
+                <button type="button"
+                        (click)="selectedContactsProvider = contactsProviderType.OTHER;importContactsInput.click();"
+                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">Import from Other
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.import contacts modal ends -->

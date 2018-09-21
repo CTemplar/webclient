@@ -1,15 +1,17 @@
+import { HttpResponse } from '@angular/common/http';
+
 // Angular
 import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
 // Ngrx
 import { Action } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
-// Rxjs
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
-import { catchError, map, switchMap } from 'rxjs/operators';
+// Rxjs
+import { Observable } from 'rxjs/Observable';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 // Service
 import { UsersService } from '../../store/services';
 // Custom Actions
@@ -29,7 +31,12 @@ import {
   ContactAddSuccess,
   ContactDeleteSuccess,
   ContactGet,
-  ContactGetSuccess, SettingsUpdate, SettingsUpdateSuccess,
+  ContactGetSuccess,
+  ContactImport,
+  ContactImportFailure,
+  ContactImportSuccess,
+  SettingsUpdate,
+  SettingsUpdateSuccess,
   SnackErrorPush,
   SnackErrorPushSuccess,
   SnackPush,
@@ -43,9 +50,8 @@ import {
   WhiteListDeleteSuccess,
   WhiteListsReadSuccess
 } from '../actions';
-import { NotificationService } from '../services/notification.service';
 import { Settings } from '../datatypes';
-
+import { NotificationService } from '../services/notification.service';
 
 @Injectable()
 export class UsersEffects {
@@ -207,6 +213,33 @@ export class UsersEffects {
       return this.userService.deleteContact(payload).map(contact => {
         return new ContactDeleteSuccess(payload);
       });
+    });
+
+  @Effect()
+  ContactImport: Observable<any> = this.actions
+    .ofType(UsersActionTypes.CONTACT_IMPORT)
+    .map((action: ContactImport) => action.payload)
+    .switchMap(payload => {
+      return this.userService.importContacts(payload)
+        .pipe(
+          mergeMap(event => {
+            if (event instanceof HttpResponse) {
+              return [
+                new ContactImportSuccess(event.body),
+                new ContactGet({}),
+                new SnackPush({ message: 'Contacts imported successfully' })
+              ];
+            } else {
+              return [];
+            }
+          }),
+          catchError(error => {
+            return [
+              new SnackErrorPush({ message: 'Failed to import contacts' }),
+              new ContactImportFailure(error)
+            ];
+          })
+        );
     });
 
   @Effect()
