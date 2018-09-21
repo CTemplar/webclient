@@ -1,5 +1,5 @@
 // Angular
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
@@ -150,6 +150,7 @@ export class UsersService {
       'users/whitelist/',
       'users/blacklist/',
       'users/contact',
+      'users/bulk-contact/create/',
       'emails/messages/',
       'emails/mailboxes',
       'emails/custom-folder',
@@ -237,6 +238,16 @@ export class UsersService {
   deleteContact(ids) {
     const url = `${apiUrl}users/contacts/?id__in=${ids}`;
     return this.http.delete<any>(url);
+  }
+
+  importContacts(data: any) {
+    const formData = new FormData();
+    formData.append('csv_file', data.file);
+    formData.append('provider', data.provider);
+
+    const request = new HttpRequest('POST', `${apiUrl}users/bulk-contact/create/`, formData);
+
+    return this.http.request(request);
   }
 
   checkUsernameAvailability(username): Observable<any> {

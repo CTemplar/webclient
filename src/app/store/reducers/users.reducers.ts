@@ -1,6 +1,5 @@
 // Custom Action
-import { UsersActionTypes, UsersActionAll } from '../actions';
-
+import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
 import { UserState } from '../datatypes';
 
@@ -128,6 +127,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       });
 
       return { ...state, inProgress: false, isError: false };
+    }
+
+    case UsersActionTypes.CONTACT_IMPORT: {
+      return { ...state, inProgress: true };
+    }
+
+    case UsersActionTypes.CONTACT_IMPORT_SUCCESS: {
+      return { ...state, inProgress: false };
+    }
+
+    case UsersActionTypes.CONTACT_IMPORT_FAILURE: {
+      return { ...state, inProgress: false };
     }
 
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
