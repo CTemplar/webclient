@@ -47,6 +47,14 @@ export function reducer(
         const oldMails = state.folders.get(action.payload.sourceFolder) || [];
         state.folders.set(action.payload.sourceFolder, oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())));
       }
+      if (state.mailDetail && state.mailDetail.children &&
+        state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
+        state.mailDetail.children.forEach((child, index) => {
+          if (listOfIDs.includes(child.id.toString())) {
+            state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.folder };
+          }
+        });
+      }
       return { ...state, inProgress: false };
     }
 
@@ -60,6 +68,15 @@ export function reducer(
           mails = [...state.mails, action.payload.mail];
         }
         state.folders.set(action.payload.sourceFolder, [...mails]);
+      }
+      const listOfIDs = action.payload.ids.toString().split(',');
+      if (state.mailDetail && state.mailDetail.children &&
+        state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
+        state.mailDetail.children.forEach((child, index) => {
+          if (listOfIDs.includes(child.id.toString())) {
+            state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.sourceFolder };
+          }
+        });
       }
       return {
         ...state,
@@ -75,6 +92,9 @@ export function reducer(
         }
         return mail;
       });
+      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
+        state.mailDetail = {...state.mailDetail, read: action.payload.read};
+      }
       return { ...state, inProgress: false };
     }
 
@@ -111,11 +131,24 @@ export function reducer(
 
     case MailActionTypes.CLEAR_MAIL_DETAIL: {
       delete state.decryptedContents[action.payload.id];
+      if (action.payload.children && action.payload.children.length > 0) {
+        action.payload.children.forEach(child => {
+          delete state.decryptedContents[child.id];
+        });
+      }
       return {
         ...state,
         mailDetail: null,
         decryptedContents: { ...state.decryptedContents },
       };
+    }
+
+    case MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN: {
+      if (state.mailDetail && action.payload.parent === state.mailDetail.id) {
+        state.mailDetail.children = state.mailDetail.children || [];
+        state.mailDetail.children = [...state.mailDetail.children, action.payload];
+      }
+      return { ...state };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
