@@ -64,10 +64,9 @@ function decryptContent(data, privKeyObj) {
 function generateKeys(options) {
     return openpgp.generateKey(options).then(key => {
         return {
-            public_key: key.publicKeyArmored,
-            private_key: key.privateKeyArmored,
+            public_key: key.publicKeyArmored.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
+            private_key: key.privateKeyArmored.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
             fingerprint: openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint()
         };
     });
 }
-
