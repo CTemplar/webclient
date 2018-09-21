@@ -10,6 +10,7 @@ export enum MailActionTypes {
   GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
   CLEAR_MAIL_DETAIL = '[Mail] CLEAR_MAIL_DETAIL',
   GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
+  UPDATE_MAIL_DETAIL_CHILDREN = '[Mail] UPDATE_MAIL_DETAIL_CHILDREN',
   MOVE_MAIL = '[Mail] MOVE',
   MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
   DELETE_MAIL = '[Mail] DELETE',
@@ -74,6 +75,12 @@ export class ClearMailDetail implements Action {
 
 export class GetMailDetailSuccess implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateMailDetailChildren implements Action {
+  readonly type = MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN;
 
   constructor(public payload: any) {}
 }
@@ -225,6 +232,7 @@ export type MailActions =
   | GetMailDetail
   | ClearMailDetail
   | GetMailDetailSuccess
+  | UpdateMailDetailChildren
   | MoveMail
   | MoveMailSuccess
   | DeleteMail

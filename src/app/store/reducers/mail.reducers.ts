@@ -143,6 +143,14 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN: {
+      if (state.mailDetail && action.payload.parent === state.mailDetail.id) {
+        state.mailDetail.children = state.mailDetail.children || [];
+        state.mailDetail.children = [...state.mailDetail.children, action.payload];
+      }
+      return { ...state };
+    }
+
     case MailActionTypes.SET_CURRENT_FOLDER: {
       return { ...state, currentFolder: action.payload };
     }
