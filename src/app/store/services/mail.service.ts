@@ -17,7 +17,7 @@ export class MailService {
 
   constructor(private http: HttpClient) {}
 
-  getMessages(payload: { limit: number, offset: number, folder: MailFolderType, read: null }): Observable<Mail[]> {
+  getMessages(payload: { limit: number, offset: number, folder: MailFolderType, read: null, seconds?: number }): Observable<Mail[]> {
     let url = `${apiUrl}emails/messages/?limit=${payload.limit}&offset=${payload.offset}`;
     if (!payload.folder) {
       payload.folder = MailFolderType.INBOX;
@@ -29,6 +29,9 @@ export class MailService {
     }
     if (payload.read === false || payload.read === true) {
       url = `${url}&read=${payload.read}`;
+    }
+    if (payload.seconds) {
+      url = `${url}&seconds=${payload.seconds}`;
     }
     return this.http.get<Mail[]>(url).map(data => data['results']);
   }
