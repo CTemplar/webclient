@@ -129,118 +129,121 @@
   </div>
 
   <ng-container *ngFor="let childMail of mail.children">
-    <section class="mailbox-section" id="{{childMail.id}}-print-section">
-      <div class="ui-body is-xs is-bordered-bottom bg-faded">
-        <div class="row">
-          <div class="col-8">
-            <div class="mailbox-sender-content">
-              <ul class="sender-content-list list-styled">
-                <li id="{{childMail.id}}-mail-from">
-                  From:
-                  <span class="text-secondary"> </span>
-                  <a class="text-muted">&lt;{{childMail.sender}}&gt;</a>
-                </li>
-                <li id="{{childMail.id}}-mail-to">
-                  To:
-                  <ng-container *ngFor="let receiver of childMail.receiver; let i = index;">
+    <ng-container *ngIf="childMail.folder !== mailFolderType.TRASH">
+      <section class="mailbox-section" id="{{childMail.id}}-print-section">
+        <div class="ui-body is-xs is-bordered-bottom bg-faded">
+          <div class="row">
+            <div class="col-8">
+              <div class="mailbox-sender-content">
+                <ul class="sender-content-list list-styled">
+                  <li id="{{childMail.id}}-mail-from">
+                    From:
                     <span class="text-secondary"> </span>
-                    <a class="text-muted">&lt;{{receiver}}&gt;</a>
-                    <!--Comma as a separator-->
-                    <span *ngIf=" i < childMail.receiver?.length-1">, </span>
-                  </ng-container>
-                </li>
-                <li *ngIf="childMail.cc?.length>0" id="{{childMail.id}}-mail-cc">
-                  Cc:
-                  <ng-container *ngFor="let cc of childMail.cc; let i = index;">
-                    <span class="text-secondary"> </span>
-                    <a class="text-muted">&lt;{{cc}}&gt;</a>
-                    <!--Comma as a separator-->
-                    <span *ngIf=" i < childMail.cc?.length-1">, </span>
-                  </ng-container>
-                </li>
-              </ul>
+                    <a class="text-muted">&lt;{{childMail.sender}}&gt;</a>
+                  </li>
+                  <li id="{{childMail.id}}-mail-to">
+                    To:
+                    <ng-container *ngFor="let receiver of childMail.receiver; let i = index;">
+                      <span class="text-secondary"> </span>
+                      <a class="text-muted">&lt;{{receiver}}&gt;</a>
+                      <!--Comma as a separator-->
+                      <span *ngIf=" i < childMail.receiver?.length-1">, </span>
+                    </ng-container>
+                  </li>
+                  <li *ngIf="childMail.cc?.length>0" id="{{childMail.id}}-mail-cc">
+                    Cc:
+                    <ng-container *ngFor="let cc of childMail.cc; let i = index;">
+                      <span class="text-secondary"> </span>
+                      <a class="text-muted">&lt;{{cc}}&gt;</a>
+                      <!--Comma as a separator-->
+                      <span *ngIf=" i < childMail.cc?.length-1">, </span>
+                    </ng-container>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-          <div class="col-4">
-            <div class="msg-reply-type-holder">
-              <div class="d-flex align-items-center justify-content-end">
-                <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
-                  <ng-container *ngIf="childMail.sent_at; else createdAt">{{childMail.sent_at | momentDate:'medium'}}
-                  </ng-container>
-                  <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
-                </label>
-                <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
-                  <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
-                          id="{{childMail.id}}-messageReplyDropdownMenuButton"></button>
-                  <div ngbDropdownMenu [attr.aria-labelledby]="childMail.id + '-messageReplyDropdownMenuButton'">
-                    <a class="dropdown-item" (click)="onForward(childMail)">Forward</a>
-                    <a class="dropdown-item" (click)="onReply(childMail)">Reply</a>
-                    <a class="dropdown-item" (click)="onReplyAll(childMail)">Reply All</a>
-                    <a class="dropdown-item" (click)="onPrint(childMail)">Print</a>
-                    <a class="dropdown-item" (click)="onDelete(childMail)">Delete this Message</a>
+            <div class="col-4">
+              <div class="msg-reply-type-holder">
+                <div class="d-flex align-items-center justify-content-end">
+                  <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
+                    <ng-container *ngIf="childMail.sent_at; else createdAt">{{childMail.sent_at | momentDate:'medium'}}
+                    </ng-container>
+                    <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
+                  </label>
+                  <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
+                    <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
+                            id="{{childMail.id}}-messageReplyDropdownMenuButton"></button>
+                    <div ngbDropdownMenu [attr.aria-labelledby]="childMail.id + '-messageReplyDropdownMenuButton'">
+                      <a class="dropdown-item" (click)="onForward(childMail)">Forward</a>
+                      <a class="dropdown-item" (click)="onReply(childMail)">Reply</a>
+                      <a class="dropdown-item" (click)="onReplyAll(childMail)">Reply All</a>
+                      <a class="dropdown-item" (click)="onPrint(childMail)">Print</a>
+                      <a class="dropdown-item" (click)="onDelete(childMail)">Delete this Message</a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!--Mail Content-->
-    <section class="mailbox-section">
-      <app-progress-bar [active]="!decryptedContents[childMail.id]"></app-progress-bar>
+      <!--Mail Content-->
+      <section class="mailbox-section">
+        <app-progress-bar [active]="!decryptedContents[childMail.id]"></app-progress-bar>
 
-      <div class="ui-body is-bordered-bottom" *ngIf="decryptedContents[childMail.id]">
-        <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
-             [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
-      </div>
+        <div class="ui-body is-bordered-bottom" *ngIf="decryptedContents[childMail.id]">
+          <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
+               [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
+        </div>
 
-      <ul class="list-style-none mt-3">
-        <ng-container *ngFor="let attachment of childMail.attachments">
-          <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
-            <a class="download-attachment" [href]="attachment.document" placement="top"
-               [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
-              <div class="attachment-icon">
-                <i class="icon icon-attachment"></i>
-              </div>
-              <div class="attachment-name">
-                {{attachment.document | filename}}
-              </div>
-            </a>
-          </li>
-        </ng-container>
-      </ul>
-    </section>
+        <ul class="list-style-none mt-3">
+          <ng-container *ngFor="let attachment of childMail.attachments">
+            <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
+              <a class="download-attachment" [href]="attachment.document" placement="top"
+                 [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
+                <div class="attachment-icon">
+                  <i class="icon icon-attachment"></i>
+                </div>
+                <div class="attachment-name">
+                  {{attachment.document | filename}}
+                </div>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </section>
 
-    <!--Reply to mail.-->
-    <div class="ui-body">
+      <!--Reply to mail.-->
+      <div class="ui-body">
 
-      <div class="row">
-        <div class="col-12">
+        <div class="row">
+          <div class="col-12">
 
-          <button class="btn btn-gmail" (click)="onReply(childMail)">
-            <i class="icon icon-reply position-left"></i> Reply
-          </button>
+            <button class="btn btn-gmail" (click)="onReply(childMail)">
+              <i class="icon icon-reply position-left"></i> Reply
+            </button>
 
-          <button class="btn btn-gmail" (click)="onReplyAll(childMail)">
-            <i class="icon icon-reply position-left"></i> Reply All
-          </button>
+            <button class="btn btn-gmail" (click)="onReplyAll(childMail)">
+              <i class="icon icon-reply position-left"></i> Reply All
+            </button>
 
-          <button class="btn btn-gmail" (click)="onForward(childMail)">
-            <i class="icon icon-mail icon-lg position-left"></i> Forward
-          </button>
+            <button class="btn btn-gmail" (click)="onForward(childMail)">
+              <i class="icon icon-mail icon-lg position-left"></i> Forward
+            </button>
+          </div>
+        </div>
+        <div class="mail-composer is-borderd border-bottom-0 mt-2"
+             *ngIf="mailOptions[childMail.id]?.isComposeMailVisible">
+          <app-compose-mail [receivers]="composeMailData[childMail.id].receivers"
+                            [cc]="composeMailData[childMail.id].cc"
+                            [content]="composeMailData[childMail.id].content"
+                            [subject]="composeMailData[childMail.id].subject"
+                            [parentId]="composeMailData[childMail.id].parentId"
+                            (hide)="onComposeMailHide(childMail)"></app-compose-mail>
         </div>
       </div>
-      <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible">
-        <app-compose-mail [receivers]="composeMailData[childMail.id].receivers"
-                          [cc]="composeMailData[childMail.id].cc"
-                          [content]="composeMailData[childMail.id].content"
-                          [subject]="composeMailData[childMail.id].subject"
-                          [parentId]="composeMailData[childMail.id].parentId"
-                          (hide)="onComposeMailHide(childMail)"></app-compose-mail>
-      </div>
-    </div>
+    </ng-container>
   </ng-container>
 
 </ng-container>

@@ -47,6 +47,14 @@ export function reducer(
         const oldMails = state.folders.get(action.payload.sourceFolder) || [];
         state.folders.set(action.payload.sourceFolder, oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())));
       }
+      if (state.mailDetail && state.mailDetail.children &&
+        state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
+        state.mailDetail.children.forEach((child, index) => {
+          if (listOfIDs.includes(child.id.toString())) {
+            state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.folder };
+          }
+        });
+      }
       return { ...state, inProgress: false };
     }
 
@@ -60,6 +68,15 @@ export function reducer(
           mails = [...state.mails, action.payload.mail];
         }
         state.folders.set(action.payload.sourceFolder, [...mails]);
+      }
+      const listOfIDs = action.payload.ids.toString().split(',');
+      if (state.mailDetail && state.mailDetail.children &&
+        state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
+        state.mailDetail.children.forEach((child, index) => {
+          if (listOfIDs.includes(child.id.toString())) {
+            state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.sourceFolder };
+          }
+        });
       }
       return {
         ...state,
