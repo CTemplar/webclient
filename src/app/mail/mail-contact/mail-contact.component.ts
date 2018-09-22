@@ -91,19 +91,11 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   initSplitContactLayout(): any {
     this.isLayoutSplitted = true;
-
-    if (this.isLayoutSplitted === true) {
-      window.document.documentElement.classList.add('no-scroll');
-    }
     this.isNewContact = true;
   }
 
   destroySplitContactLayout(): any {
     this.isLayoutSplitted = false;
-
-    if (this.isLayoutSplitted === false) {
-      window.document.documentElement.classList.remove('no-scroll');
-    }
     this.isNewContact = false;
     this.selectedContact = null;
   }
