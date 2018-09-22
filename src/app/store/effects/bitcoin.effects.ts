@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import {
   BitcoinActionTypes,
   CreateNewWallet,
@@ -40,7 +40,8 @@ export class BitcoinEffects {
               new CreateNewWalletSuccess(res),
               new GetBitcoinServiceValue({address: res.address})
             ];
-          })
+          }),
+          catchError((error) => [])
         );
     });
 
