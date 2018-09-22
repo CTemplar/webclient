@@ -321,6 +321,53 @@
 
                 </section>
 
+                <!-- Payments Section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong
+                                translate="settings.payments">Payments</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0">Reoccurring Billing</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="enableRecurringBilling"
+                                                           name="recurringBilling" type="radio"
+                                                           (click)="updateSettings('recurrence_billing', true)"
+                                                           [checked]="settings.recurrence_billing"/>
+                                                    <label for="enableRecurringBilling"
+                                                           translate="common.yes">Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                           id="disableRecurringBilling"
+                                                           name="recurringBilling" type="radio"
+                                                           (click)="updateSettings('recurrence_billing', false)"
+                                                           [checked]="!settings.recurrence_billing"/>
+                                                    <label for="disableRecurringBilling"
+                                                           translate="common.no">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+                <!-- Payments Section Ends -->
+
             </ng-template>
         </ngb-tab>
 
