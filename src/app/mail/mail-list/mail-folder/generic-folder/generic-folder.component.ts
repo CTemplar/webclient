@@ -53,6 +53,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((mailState: MailState) => {
         this.showProgress = !mailState.loaded || mailState.inProgress;
         if (this.fetchMails) {
+          this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = this.sharedService.sortByDate(mailState.mails, 'created_at');
         }
       });
@@ -62,7 +63,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         this.userState = user;
         if (this.fetchMails && this.userState.settings) {
           this.LIMIT =  user.settings.emails_per_page;
-          this.MAX_EMAIL_PAGE_LIMIT = user.settings.email_count;
           if (this.LIMIT) {
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
             this.initializeAutoRefresh();
