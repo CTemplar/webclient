@@ -29,7 +29,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnInit() {
     this.store.dispatch(new AccountDetailsGet());
-    // this.store.dispatch(new GetMailboxes());
+    this.store.dispatch(new GetMailboxes());
     this.store.dispatch(new TimezoneGet());
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
