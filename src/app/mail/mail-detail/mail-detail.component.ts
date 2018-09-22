@@ -5,8 +5,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, MoveMail } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailState } from '../../store/datatypes';
-import { Mail, MailFolderType } from '../../store/models/mail.model';
+import { AppState, MailBoxesState, MailState } from '../../store/datatypes';
+import { Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService } from '../../store/services';
 
 @TakeUntilDestroy()
@@ -23,6 +23,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   decryptedContents: any = {};
   mailOptions: any = {};
   private mailFolder: MailFolderType;
+  private currentMailbox: Mailbox;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -76,6 +77,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        this.currentMailbox = mailBoxesState.currentMailbox;
+      });
+
     this.route.params.subscribe(params => {
       const id = +params['id'];
 
@@ -123,6 +129,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       subject: mail.subject,
       parentId: this.mail.id
     };
+    this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc.filter(email => email !== this.currentMailbox.email);
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
