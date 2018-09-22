@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { AppState, Contact, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, SnackErrorPush } from '../../store';
@@ -39,6 +40,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   selectedContactsProvider: ContactsProviderType;
   importContactsError: any;
   isLayoutSplitted: boolean = false;
+  isMenuOpened: boolean;
 
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;
@@ -49,7 +51,8 @@ export class MailContactComponent implements OnInit, OnDestroy {
               private breakpointsService: BreakpointsService,
               private notificationService: NotificationService,
               private composeMailService: ComposeMailService,
-              config: NgbDropdownConfig) {
+              config: NgbDropdownConfig,
+              @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
@@ -72,6 +75,18 @@ export class MailContactComponent implements OnInit, OnDestroy {
         this.contactsCount = null;
       }
     });
+  }
+
+  toggleMenu() { // click handler
+    if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
+      if (this.isMenuOpened) {
+        this.document.body.classList.remove('menu-open');
+        this.isMenuOpened = false;
+      }
+      if (this.document.body.classList.contains('menu-open')) {
+        this.isMenuOpened = true;
+      }
+    }
   }
 
   initSplitContactLayout(): any {
