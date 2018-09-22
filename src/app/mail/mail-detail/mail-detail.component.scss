@@ -10,7 +10,8 @@
     padding: 0.5rem;
     border: 1px solid #e5e5e5;
     color: #444;
-    &:hover{
+
+    &:hover {
       border: 1px solid #4177F6;
     }
   }
@@ -28,7 +29,7 @@
     margin-right: 5px;
   }
 
-  .attachment-name{
+  .attachment-name {
     font-size: 12px;
     font-weight: bold;
     white-space: nowrap;
@@ -37,4 +38,30 @@
     max-width: 200px;
   }
 
+}
+
+.content-separator {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+
+  span{
+    position: relative;
+    padding: 5px;
+    background-color: white;
+  }
+
+  &::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #f1f1f1;
+    top: 10px;
+    left: 0;
+    display: block;
+    position: relative;
+    z-index: 0;
+  }
 }
