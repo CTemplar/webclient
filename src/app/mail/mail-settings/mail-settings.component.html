@@ -322,7 +322,7 @@
                 </section>
 
                 <!-- Payments Section -->
-                <section class="mailbox-section">
+                <section class="mailbox-section" *ngIf="payment?.payment_method === 'stripe'">
                     <header class="ui-header ui-header-bordered">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong
                                 translate="settings.payments">Payments</strong></h5>
