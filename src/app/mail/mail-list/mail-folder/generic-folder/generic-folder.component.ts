@@ -105,7 +105,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   refresh(forceReload: boolean = false) {
     if (!forceReload && this.mailFolder === MailFolderType.INBOX) {
-      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder, read: false }));
+      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder, read: false, seconds: 30 }));
     } else {
       this.store.dispatch(new GetMails({ forceReload, limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
     }

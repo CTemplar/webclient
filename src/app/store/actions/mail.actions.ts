@@ -10,6 +10,7 @@ export enum MailActionTypes {
   GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
   CLEAR_MAIL_DETAIL = '[Mail] CLEAR_MAIL_DETAIL',
   GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
+  UPDATE_MAIL_DETAIL_CHILDREN = '[Mail] UPDATE_MAIL_DETAIL_CHILDREN',
   MOVE_MAIL = '[Mail] MOVE',
   MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
   DELETE_MAIL = '[Mail] DELETE',
@@ -30,7 +31,9 @@ export enum MailActionTypes {
   DELETE_FOLDER_SUCCESS = '[MAILBOX] DELETE FOLDER SUCCESS',
   SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT',
   UPDATE_PGP_DECRYPTED_CONTENT = '[PGP] UPDATE PGP DECRYPTED CONTENT',
-  UPDATE_CURRENT_FOLDER = '[FOLDER] UPDATE CURRENT FOLDER'
+  UPDATE_CURRENT_FOLDER = '[FOLDER] UPDATE CURRENT FOLDER',
+  MAILBOX_SETTINGS_UPDATE = '[MAILBOX SETTINGS] UPDATE',
+  MAILBOX_SETTINGS_UPDATE_SUCCESS = '[MAILBOX SETTINGS] UPDATE SUCCESS'
 }
 
 export class GetMails implements Action {
@@ -72,6 +75,12 @@ export class ClearMailDetail implements Action {
 
 export class GetMailDetailSuccess implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateMailDetailChildren implements Action {
+  readonly type = MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN;
 
   constructor(public payload: any) {}
 }
@@ -202,6 +211,19 @@ export class UpdateCurrentFolder implements Action {
   constructor(public payload: any) {}
 }
 
+export class MailboxSettingsUpdate implements Action {
+  readonly type = MailActionTypes.MAILBOX_SETTINGS_UPDATE;
+
+  constructor(public payload: any) {}
+}
+
+export class MailboxSettingsUpdateSuccess implements Action {
+  readonly type = MailActionTypes.MAILBOX_SETTINGS_UPDATE_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -210,6 +232,7 @@ export type MailActions =
   | GetMailDetail
   | ClearMailDetail
   | GetMailDetailSuccess
+  | UpdateMailDetailChildren
   | MoveMail
   | MoveMailSuccess
   | DeleteMail
@@ -230,4 +253,6 @@ export type MailActions =
   | DeleteFolderSuccess
   | SetCurrentFolder
   | UpdatePGPDecryptedContent
-  | UpdateCurrentFolder;
+  | UpdateCurrentFolder
+  | MailboxSettingsUpdate
+  | MailboxSettingsUpdateSuccess;

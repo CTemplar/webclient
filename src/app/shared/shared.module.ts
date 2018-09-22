@@ -23,6 +23,9 @@ import { FilesizePipe } from './pipes/filesize.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
+import { BrowserDetectorService } from './services/browser-detector.service';
+import { IsIeDirective } from './directives/is-ie.directive';
+import { MomentDatePipe } from './pipes/moment-date.pipe';
 
 @NgModule({
   imports: [
@@ -49,6 +52,8 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     RemainingTimePipe,
     ClickOutsideDirective,
     CountdownTimerComponent,
+    IsIeDirective,
+    MomentDatePipe,
   ],
   exports: [
     TranslateModule,
@@ -68,11 +73,14 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     FilesizePipe,
     RemainingTimePipe,
     ClickOutsideDirective,
-    CountdownTimerComponent
+    CountdownTimerComponent,
+    IsIeDirective,
+    MomentDatePipe
   ],
   providers: [
     SpinnerService,
     DynamicScriptLoaderService,
+    BrowserDetectorService,
     FilesizePipe,
     FilenamePipe
   ]

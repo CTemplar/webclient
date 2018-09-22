@@ -10,13 +10,14 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { MailFolderType } from '../models/mail.model';
 import { map } from 'rxjs/operators';
+import { UserMailbox } from '../models/users.model';
 
 @Injectable()
 export class MailService {
 
   constructor(private http: HttpClient) {}
 
-  getMessages(payload: { limit: number, offset: number, folder: MailFolderType, read: null }): Observable<any> {
+  getMessages(payload: { limit: number, offset: number, folder: MailFolderType, read: null, seconds?: number }): Observable<any> {
     let url = `${apiUrl}emails/messages/?limit=${payload.limit}&offset=${payload.offset}`;
     if (!payload.folder) {
       payload.folder = MailFolderType.INBOX;
@@ -28,6 +29,9 @@ export class MailService {
     }
     if (payload.read === false || payload.read === true) {
       url = `${url}&read=${payload.read}`;
+    }
+    if (payload.seconds) {
+      url = `${url}&seconds=${payload.seconds}`;
     }
     return this.http.get<Mail[]>(url).map(data => data);
   }
@@ -117,6 +121,10 @@ export class MailService {
 
   deleteAttachment(attachment: Attachment): Observable<any> {
     return this.http.delete<any>(`${apiUrl}emails/attachments/${attachment.id}/`);
+  }
+
+  updateMailBoxSettings(data: UserMailbox) {
+    return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

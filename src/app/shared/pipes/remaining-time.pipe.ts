@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 
 @Pipe({
   name: 'remainingTime'
@@ -24,7 +24,7 @@ export class RemainingTimePipe implements PipeTransform {
   }
 
   private getTimeRemaining(date) {
-    const now = moment(new Date());
+    const now = moment();
     const end = moment(date);
     const duration = moment.duration(end.diff(now));
     const seconds = duration.asSeconds();
