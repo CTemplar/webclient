@@ -10,7 +10,6 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import 'rxjs/add/operator/takeUntil';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { NotificationService } from '../../store/services/notification.service';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -49,7 +48,6 @@ export class MailContactComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               private breakpointsService: BreakpointsService,
-              private notificationService: NotificationService,
               private composeMailService: ComposeMailService,
               config: NgbDropdownConfig,
               @Inject(DOCUMENT) private document: Document) {
@@ -70,7 +68,6 @@ export class MailContactComponent implements OnInit, OnDestroy {
       this.userState = state;
       this.inProgress = this.userState.inProgress;
       if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {
-        this.notificationService.showSnackBar('Contacts deleted successfully.');
         this.selectedContacts = [];
         this.contactsCount = null;
       }
