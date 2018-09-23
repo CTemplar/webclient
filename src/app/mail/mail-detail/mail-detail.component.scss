@@ -40,28 +40,19 @@
 
 }
 
-.content-separator {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 12px;
-
-  span{
-    position: relative;
-    padding: 5px;
-    background-color: white;
-  }
-
-  &::before {
-    content: "";
-    width: 100%;
-    height: 1px;
-    background: #f1f1f1;
-    top: 10px;
-    left: 0;
-    display: block;
-    position: relative;
-    z-index: 0;
+.ellipsis-wrapper {
+  background-color: #e8eaed;
+  border: none;
+  border-radius: 5.5px;
+  width: 24px;
+  margin-top: 10px;
+  .gmail-ellipsis {
+      background-image: url(/assets/images/more_horiz_black_20dp.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 20px;
+      height: 11px;
+      width: 24px;
+      opacity: .54;
   }
 }

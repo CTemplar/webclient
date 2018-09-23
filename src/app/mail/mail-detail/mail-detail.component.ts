@@ -22,6 +22,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailFolderType = MailFolderType;
   decryptedContents: any = {};
   mailOptions: any = {};
+  showGmailExtraContent: boolean = false;
   private mailFolder: MailFolderType;
   private currentMailbox: Mailbox;
 
@@ -173,6 +174,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.id === this.mail.id) {
       this.router.navigateByUrl(`/mail/${this.mailFolder}`);
     }
+  }
+
+  toggleGmailExtra() {
+    this.showGmailExtraContent = !this.showGmailExtraContent;
   }
 
   onPrint(mail: Mail) {
