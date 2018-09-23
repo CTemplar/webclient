@@ -215,9 +215,15 @@ export class UsersEffects {
           .pipe(
             switchMap(contact => {
               contact.isUpdating = action.payload.id;
-              return [new ContactAddSuccess(contact)];
+              return [
+                new ContactAddSuccess(contact),
+                new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` })
+            ];
             }),
-            catchError(err => [new ContactAddError()]),
+            catchError(err => [
+              new ContactAddError(),
+              new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` })
+            ]),
           ))
     );
 
@@ -228,8 +234,11 @@ export class UsersEffects {
     .switchMap(payload => {
       return this.userService.deleteContact(payload)
         .pipe(
-          map(contact => {
-            return new ContactDeleteSuccess(payload);
+          switchMap(contact => {
+            return [
+              new ContactDeleteSuccess(payload),
+              new SnackPush({ message: 'Contacts deleted successfully.' })
+            ];
           }),
           catchError((error) => [])
         );

@@ -2,7 +2,7 @@
     <div class="mailbox-sidebar-inner">
 
         <div class="mailbox-brand">
-            <button class="navbar-toggler hidden-md-up" role="button">
+            <button class="navbar-toggler hidden-md-up" role="button" (click)="toggleMenu()">
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
@@ -10,18 +10,18 @@
                 <span class="navbar-toggle-text">Menu</span>
             </button>
             <figure class="navbar-brand-holder hidden-sm-down">
-                <a class="navbar-brand ff-roboto text-uppercase" routerLink="">
+                <a class="navbar-brand ff-roboto text-uppercase" routerLink="/mail">
                     <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg"/>
                     <strong>ctemplar</strong>
                 </a>
             </figure>
-            <div class="prime-account-content">
+            <div class="prime-account-content" *ngIf="userState.isPrime">
                 <i class="icon icon-secure-shield"></i>
                 <span class="prime-account-text">Prime</span>
             </div>
         </div>
 
-        <div class="mail-compose-section hidden-xs-down">
+        <div class="mail-compose-section">
             <a routerLink="/mail"
                class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"><i
                     class="icon icon-arrow-left icon-sm mr-md-2"></i>
@@ -40,13 +40,13 @@
         </nav>
 
         <div class="mailbox-sidebar-footer text-center">
-            <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">Used
-                <div class="text-white mt-1">43 MB</div>
+            <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm" translate="mail_sidebar.used">Used
+                <div class="text-white mt-1">{{(userState.settings?.used_storage * 1024) | filesize}}</div>
             </div>
             <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
-                <span translate="common.used_storage">Used storage</span>: 43 MB of 100 MB
+                <span translate="common.used_storage">Used storage</span>: {{(userState.settings?.used_storage * 1024) | filesize}} of {{(userState.settings.allocated_storage * 1024) | filesize}}
             </div>
-            <a class="btn-link text-white hidden-in-sm">
+            <a routerLink="/mail/settings" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
                 <small>
                     <u translate="common.upgrade_account">Upgrade account</u>
                 </small>
@@ -65,7 +65,7 @@
 
 <div class="mailbox-actionbar border-bottom-0">
     <div class="row">
-        <div class="col-12 col-sm-8 mailbox-actionbar-col">
+        <div class="col-12">
             <ul class="mailbox-actionbar-menu">
                 <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
                     <div>
@@ -90,12 +90,12 @@
                 <li class="pr-0">
                     <a class="no-icon" (click)="showComposeMailDialog()" [translate]="'common.compose'">Compose</a>
                 </li>
-                <li class="hidden-xs-down">
+                <li class="hidden-xs-down pr-0">
                     <a class="no-icon" role="button"
                        [translate]="'contacts.new_contact'"
                        (click)="editContact(null, addUserContent);">New Contact</a>
                 </li>
-                <li class="pl-0">
+                <li class="">
                     <a class="no-icon" (click)="openImportContactsModal()">Import Contacts</a>
                 </li>
                 <li *ngIf="inProgress">
@@ -188,8 +188,8 @@
 
 <div class="mailbox-footer-actionbar hidden-sm-up">
     <div class="row justify-content-end">
-
-        <div class="col-12 mailbox-actionbar-col">
+      <!--TODO pagination to be done later.-->
+        <div class="col-12 mailbox-actionbar-col" *ngIf="false">
             <div class="mail-controls d-flex align-items-center justify-content-end">
                 <div class="mail-result-text text-muted">
                     <small>1-50 of 2346</small>
