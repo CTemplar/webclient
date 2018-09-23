@@ -99,7 +99,7 @@
     </ul>
   </section>
   
-  <ng-container *ngFor="let childMail of mail.children; let j=index;">
+  <ng-container *ngFor="let childMail of mail.children">
     <ng-container *ngIf="childMail.folder !== mailFolderType.TRASH">
       <section class="mailbox-section" id="{{childMail.id}}-print-section">
       
