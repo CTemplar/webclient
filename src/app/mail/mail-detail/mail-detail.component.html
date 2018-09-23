@@ -129,7 +129,7 @@
                           <div class="msg-reply-content text-dark mt-2" id="{{childMail.id}}-mail-content"
                           [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
 
-                          <a href="javascript:void(0)" (click)="toggleGmailExtra(j)" >
+                          <a href="javascript:void(0)" (click)="toggleGmailExtra(j)" *ngIf="decryptedContents[childMail.id].indexOf('gmail_extra') > -1" >
                             <div class="ellipsis-wrapper" placement="top"
                             [ngbTooltip]="showGmailExtraContent[j] ? 'Hide extra content' : 'Show trimmed content'">
                               <div class="gmail-ellipsis"></div>
