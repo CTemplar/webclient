@@ -125,18 +125,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   deleteFolder() {
-    const folderMails: Mail[] = this.mailState.folders.get(this.selectedFolder.name);
-    const ids = folderMails.map(mail => mail.id).join(',');
-    if (ids) {
-      this.store.dispatch(new MoveMail({
-        ids: ids,
-        folder: MailFolderType.TRASH,
-        shouldDeleteFolder: true,
-        folderToDelete: this.selectedFolder
-      }));
-    } else {
-      this.store.dispatch(new DeleteFolder(this.selectedFolder));
-    }
+    this.store.dispatch(new DeleteFolder(this.selectedFolder));
     this.confirmModalRef.dismiss();
   }
 
