@@ -147,7 +147,8 @@ export class ComposeMailEffects {
             return [
               new GetUsersKeysSuccess({ draftId: payload.draftId, data: keys })
             ];
-          })
+          }),
+          catchError((error) => [])
         );
     });
 

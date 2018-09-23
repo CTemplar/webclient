@@ -33,7 +33,8 @@ export class MailboxEffects {
         .pipe(
           switchMap((mails) => {
             return [new GetMailboxesSuccess(mails)];
-          })
+          }),
+          catchError((error) => [])
         );
     });
 

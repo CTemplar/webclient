@@ -5,6 +5,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
+import { catchError, map } from 'rxjs/operators';
 import { TimezoneActionTypes, TimezoneGet, TimezoneGetSuccess } from '../actions/timezone.action';
 import { TimezoneService } from '../services/timezone.service';
 
@@ -23,8 +24,11 @@ export class TimezoneEffects {
     .map((action: TimezoneGet) => action.payload)
     .switchMap(payload => {
       return this.timezoneService.getTimezones()
-        .map((timezones) => {
-          return new TimezoneGetSuccess(timezones);
-        });
+        .pipe(
+          map((timezones) => {
+            return new TimezoneGetSuccess(timezones);
+          }),
+          catchError((error) => [])
+        );
     });
 }
