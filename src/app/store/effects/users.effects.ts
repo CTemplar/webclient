@@ -77,9 +77,13 @@ export class UsersEffects {
     .ofType(UsersActionTypes.ACCOUNT_DETAILS_GET)
     .map((action: Accounts) => action.payload)
     .switchMap(payload => {
-      return this.userService.getAccountDetails().map(user => {
-        return new AccountDetailsGetSuccess(user[0]);
-      });
+      return this.userService.getAccountDetails()
+        .pipe(
+          map(user => {
+            return new AccountDetailsGetSuccess(user[0]);
+          }),
+          catchError((error) => [])
+        );
     });
 
   @Effect()
@@ -87,9 +91,13 @@ export class UsersEffects {
     .ofType(UsersActionTypes.WHITELIST)
     .map((action: WhiteList) => action.payload)
     .switchMap(payload => {
-      return this.userService.getWhiteList().map(whiteList => {
-        return new WhiteListsReadSuccess(whiteList.results);
-      });
+      return this.userService.getWhiteList()
+        .pipe(
+          map(whiteList => {
+            return new WhiteListsReadSuccess(whiteList.results);
+          }),
+          catchError((error) => [])
+        );
     });
 
   @Effect()
@@ -129,9 +137,13 @@ export class UsersEffects {
     .ofType(UsersActionTypes.BLACKLIST)
     .map((action: BlackList) => action.payload)
     .switchMap(payload => {
-      return this.userService.getBlackList().map(blackList => {
-        return new BlackListsReadSuccess(blackList.results);
-      });
+      return this.userService.getBlackList()
+        .pipe(
+          map(blackList => {
+            return new BlackListsReadSuccess(blackList.results);
+          }),
+          catchError((error) => [])
+        );
     });
 
   @Effect()
@@ -185,9 +197,13 @@ export class UsersEffects {
     .ofType(UsersActionTypes.CONTACT_GET)
     .map((action: ContactGet) => action.payload)
     .switchMap(payload => {
-      return this.userService.getContact().map(contact => {
-        return new ContactGetSuccess(contact.results);
-      });
+      return this.userService.getContact()
+        .pipe(
+          map(contact => {
+            return new ContactGetSuccess(contact.results);
+          }),
+          catchError((error) => [])
+        );
     });
 
 
@@ -210,9 +226,13 @@ export class UsersEffects {
     .ofType(UsersActionTypes.CONTACT_DELETE)
     .map((action: Accounts) => action.payload)
     .switchMap(payload => {
-      return this.userService.deleteContact(payload).map(contact => {
-        return new ContactDeleteSuccess(payload);
-      });
+      return this.userService.deleteContact(payload)
+        .pipe(
+          map(contact => {
+            return new ContactDeleteSuccess(payload);
+          }),
+          catchError((error) => [])
+        );
     });
 
   @Effect()

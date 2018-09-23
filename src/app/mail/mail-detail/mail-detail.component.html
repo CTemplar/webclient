@@ -98,42 +98,8 @@
       </ng-container>
     </ul>
   </section>
-
-  <!--Reply to mail.-->
-  <div class="ui-body">
-
-    <div class="row">
-      <div class="col-12">
-
-        <button class="btn btn-gmail" (click)="onReply(mail)">
-          <i class="icon icon-reply position-left"></i> Reply
-        </button>
-
-        <button class="btn btn-gmail" (click)="onReplyAll(mail)">
-          <i class="icon icon-reply position-left"></i> Reply All
-        </button>
-
-        <button class="btn btn-gmail" (click)="onForward(mail)">
-          <i class="icon icon-mail icon-lg position-left"></i> Forward
-        </button>
-      </div>
-    </div>
-    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible">
-      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
-                        [cc]="composeMailData[mail.id]?.cc"
-                        [content]="composeMailData[mail.id]?.content"
-                        [subject]="composeMailData[mail.id]?.subject"
-                        [parentId]="composeMailData[mail.id]?.parentId"
-                        (hide)="onComposeMailHide(mail)"></app-compose-mail>
-    </div>
-  </div>
-
-  <!-- Older Conversation Separator -->
-  <div class="content-separator">
-    <span>Email Conversation</span>
-  </div>
   
-  <ng-container *ngFor="let childMail of mail.children">
+  <ng-container *ngFor="let childMail of mail.children; let j=index;">
     <ng-container *ngIf="childMail.folder !== mailFolderType.TRASH">
       <section class="mailbox-section" id="{{childMail.id}}-print-section">
       
@@ -159,9 +125,17 @@
                       </td>
                     </tr>
                     <tr *ngIf="decryptedContents[childMail.id]">
-                      <td id="{{childMail.id}}-mail-content">
+                      <td id="{{childMail.id}}-mail-content" [ngClass]="{'show_gmail_extra': showGmailExtraContent[j]}">
                           <div class="msg-reply-content text-dark mt-2" id="{{childMail.id}}-mail-content"
                           [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
+
+                          <a href="javascript:void(0)" (click)="toggleGmailExtra(j)" >
+                            <div class="ellipsis-wrapper" placement="top"
+                            [ngbTooltip]="showGmailExtraContent[j] ? 'Hide extra content' : 'Show trimmed content'">
+                              <div class="gmail-ellipsis"></div>
+                            </div>
+                          </a>
+
                       </td>
                       </tr>
                   </tbody>
@@ -210,5 +184,35 @@
       </section>
     </ng-container>
   </ng-container>
+
+
+  <!--Reply to mail.-->
+  <div class="ui-body">
+
+    <div class="row">
+      <div class="col-12">
+
+        <button class="btn btn-gmail" (click)="onReply(mail)">
+          <i class="icon icon-reply position-left"></i> Reply
+        </button>
+
+        <button class="btn btn-gmail" (click)="onReplyAll(mail)">
+          <i class="icon icon-reply position-left"></i> Reply All
+        </button>
+
+        <button class="btn btn-gmail" (click)="onForward(mail)">
+          <i class="icon icon-mail icon-lg position-left"></i> Forward
+        </button>
+      </div>
+    </div>
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible">
+      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
+                        [cc]="composeMailData[mail.id]?.cc"
+                        [content]="composeMailData[mail.id]?.content"
+                        [subject]="composeMailData[mail.id]?.subject"
+                        [parentId]="composeMailData[mail.id]?.parentId"
+                        (hide)="onComposeMailHide(mail)"></app-compose-mail>
+    </div>
+  </div>
 
 </ng-container>
