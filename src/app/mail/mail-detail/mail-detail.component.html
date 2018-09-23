@@ -98,35 +98,6 @@
       </ng-container>
     </ul>
   </section>
-
-  <!--Reply to mail.-->
-  <div class="ui-body">
-
-    <div class="row">
-      <div class="col-12">
-
-        <button class="btn btn-gmail" (click)="onReply(mail)">
-          <i class="icon icon-reply position-left"></i> Reply
-        </button>
-
-        <button class="btn btn-gmail" (click)="onReplyAll(mail)">
-          <i class="icon icon-reply position-left"></i> Reply All
-        </button>
-
-        <button class="btn btn-gmail" (click)="onForward(mail)">
-          <i class="icon icon-mail icon-lg position-left"></i> Forward
-        </button>
-      </div>
-    </div>
-    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible">
-      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
-                        [cc]="composeMailData[mail.id]?.cc"
-                        [content]="composeMailData[mail.id]?.content"
-                        [subject]="composeMailData[mail.id]?.subject"
-                        [parentId]="composeMailData[mail.id]?.parentId"
-                        (hide)="onComposeMailHide(mail)"></app-compose-mail>
-    </div>
-  </div>
   
   <ng-container *ngFor="let childMail of mail.children; let j=index;">
     <ng-container *ngIf="childMail.folder !== mailFolderType.TRASH">
@@ -213,5 +184,35 @@
       </section>
     </ng-container>
   </ng-container>
+
+
+  <!--Reply to mail.-->
+  <div class="ui-body">
+
+    <div class="row">
+      <div class="col-12">
+
+        <button class="btn btn-gmail" (click)="onReply(mail)">
+          <i class="icon icon-reply position-left"></i> Reply
+        </button>
+
+        <button class="btn btn-gmail" (click)="onReplyAll(mail)">
+          <i class="icon icon-reply position-left"></i> Reply All
+        </button>
+
+        <button class="btn btn-gmail" (click)="onForward(mail)">
+          <i class="icon icon-mail icon-lg position-left"></i> Forward
+        </button>
+      </div>
+    </div>
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible">
+      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
+                        [cc]="composeMailData[mail.id]?.cc"
+                        [content]="composeMailData[mail.id]?.content"
+                        [subject]="composeMailData[mail.id]?.subject"
+                        [parentId]="composeMailData[mail.id]?.parentId"
+                        (hide)="onComposeMailHide(mail)"></app-compose-mail>
+    </div>
+  </div>
 
 </ng-container>
