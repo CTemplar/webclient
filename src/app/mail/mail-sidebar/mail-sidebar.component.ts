@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -7,11 +7,11 @@ import { Observable } from 'rxjs/Observable';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { MoveMail, CreateFolder, DeleteFolder } from '../../store/actions/mail.actions';
-import { ComposeMailDialogComponent } from './compose-mail-dialog/compose-mail-dialog.component';
+import { DeleteFolder } from '../../store/actions/mail.actions';
 import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @TakeUntilDestroy()
 @Component({
@@ -34,6 +34,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   mailBoxesState: MailBoxesState;
   mailState: MailState;
   selectedFolder: Folder;
+  currentRoute: string;
 
   draftCount: number = 0;
   inboxUnreadCount: number = 0;
@@ -47,9 +48,16 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private breakpointsService: BreakpointsService,
               private composeMailService: ComposeMailService,
               private notificationService: NotificationService,
+              private router: Router,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+          this.currentRoute = event.url;
+        }
+    });
   }
 
   ngOnInit() {
@@ -126,6 +134,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   deleteFolder() {
     this.store.dispatch(new DeleteFolder(this.selectedFolder));
+    if (this.currentRoute.indexOf(this.selectedFolder.name) > -1) {
+      this.router.navigateByUrl('/mail/inbox');
+    }
     this.confirmModalRef.dismiss();
   }
 
