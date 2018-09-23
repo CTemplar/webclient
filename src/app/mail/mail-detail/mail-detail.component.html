@@ -182,6 +182,16 @@
           </ng-container>
         </ul>
       </section>
+      <div class="ui-body" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible">
+        <div class="mail-composer is-borderd border-bottom-0 mt-2">
+          <app-compose-mail [receivers]="composeMailData[childMail.id]?.receivers"
+                            [cc]="composeMailData[childMail.id]?.cc"
+                            [content]="composeMailData[childMail.id]?.content"
+                            [subject]="composeMailData[childMail.id]?.subject"
+                            [parentId]="composeMailData[childMail.id]?.parentId"
+                            (hide)="onComposeMailHide(childMail)"></app-compose-mail>
+        </div>
+      </div>
     </ng-container>
   </ng-container>
 
