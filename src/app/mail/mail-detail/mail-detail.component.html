@@ -114,7 +114,7 @@
       <section class="mailbox-section" id="{{childMail.id}}-print-section">
       
         <!--Mail Content-->
-        <app-progress-bar [active]="!decryptedContents[childMail.id]"></app-progress-bar>
+        <app-progress-bar [active]="!decryptedContents[childMail.id]" *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
         <div class="ui-body is-bordered-bottom pt-0" [ngbCollapse]="isConversationCollapsed && (childIndex!=mail.children.length-1)">
           <div class="row">
               <div class="col-8">
