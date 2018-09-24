@@ -22,6 +22,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailFolderType = MailFolderType;
   decryptedContents: any = {};
   mailOptions: any = {};
+  isConversationCollapsed = true;
   private mailFolder: MailFolderType;
   private currentMailbox: Mailbox;
 
