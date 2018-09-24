@@ -114,22 +114,25 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onReply(mail: Mail) {
+    const sender = mail.sender !== this.currentMailbox.email ? mail.sender : this.mail.sender;
     this.composeMailData[mail.id] = {
-      receivers: [mail.sender],
+      receivers: [sender],
       subject: mail.subject,
-      parentId: this.mail.id // TODO: check if this is correct
+      parentId: this.mail.id
     };
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
   onReplyAll(mail: Mail) {
+    const sender = mail.sender !== this.currentMailbox.email ? mail.sender : this.mail.sender;
     this.composeMailData[mail.id] = {
-      receivers: [mail.sender],
+      receivers: [sender],
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id
     };
-    this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc.filter(email => email !== this.currentMailbox.email);
+    this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
+      .filter(email => email !== this.currentMailbox.email && email !== sender);
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
