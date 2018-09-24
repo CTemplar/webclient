@@ -22,7 +22,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailFolderType = MailFolderType;
   decryptedContents: any = {};
   mailOptions: any = {};
-  showGmailExtraContent: any = {};
   private mailFolder: MailFolderType;
   private currentMailbox: Mailbox;
 
@@ -176,8 +175,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleGmailExtra(index) {
-    this.showGmailExtraContent[index] = !this.showGmailExtraContent[index];
+  toggleGmailExtra(mail: Mail) {
+    this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
   }
 
   onPrint(mail: Mail) {
