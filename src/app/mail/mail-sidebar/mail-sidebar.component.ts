@@ -134,7 +134,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   deleteFolder() {
     this.store.dispatch(new DeleteFolder(this.selectedFolder));
-    if (this.currentRoute.indexOf(this.selectedFolder.name) > -1) {
+    if (decodeURIComponent(this.currentRoute).indexOf(this.selectedFolder.name) > -1) {
       this.router.navigateByUrl('/mail/inbox');
     }
     this.confirmModalRef.dismiss();
