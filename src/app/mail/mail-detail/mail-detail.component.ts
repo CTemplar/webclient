@@ -119,8 +119,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       subject: mail.subject,
       parentId: this.mail.id
     };
-    this.composeMailData[mail.id].receivers = mail.sender !== this.currentMailbox.email ? [mail.sender] :
-      this.mail.sender !== this.currentMailbox.email ? [this.mail.sender] : this.mail.receiver;
+    if (mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [mail.sender];
+    } else if (this.mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [this.mail.sender];
+    } else {
+      this.composeMailData[mail.id].receivers = this.mail.receiver;
+    }
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -130,8 +135,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       subject: mail.subject,
       parentId: this.mail.id
     };
-    this.composeMailData[mail.id].receivers = mail.sender !== this.currentMailbox.email ? [mail.sender] :
-      this.mail.sender !== this.currentMailbox.email ? [this.mail.sender] : this.mail.receiver;
+    if (mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [mail.sender];
+    } else if (this.mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [this.mail.sender];
+    } else {
+      this.composeMailData[mail.id].receivers = this.mail.receiver;
+    }
     this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
       .filter(email => email !== this.currentMailbox.email && !this.composeMailData[mail.id].receivers.includes(email));
     this.mailOptions[mail.id].isComposeMailVisible = true;
