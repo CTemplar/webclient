@@ -379,3 +379,12 @@ button[disabled] {
 .show_gmail_extra .gmail_quote{
   display: block;
 }
+
+.l-alert-custom {
+  border: none !important;
+  background-color: #e3f1fd;
+  font-size: 14px;
+  i {
+    vertical-align: middle;
+  }
+}
