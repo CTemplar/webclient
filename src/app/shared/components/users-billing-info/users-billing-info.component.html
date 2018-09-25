@@ -36,10 +36,10 @@
                     <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary">
                       <strong *ngIf="paymentType === 'annually'">
-                        {{'72'|currency:currency}}/Yearly({{'6'|currency:currency}}/month)
+                        {{annualPriceTotal|currency:currency}}/Yearly({{annualPricePerMonth|currency:currency}}/month)
                       </strong>
                       <strong *ngIf="paymentType === 'monthly'">
-                        {{'8'|currency:currency}}/month
+                        {{monthlyPrice|currency:currency}}/month
                       </strong>
                       <!-- {{payment.payment_method === 'stripe' ? payment.currency : payment.payment_method}} -->
                     </div>
@@ -89,9 +89,6 @@
                   </div>
 
                 </div>
-                <strong class="text-center text-success" *ngIf="showPaymentPending && !paymentSuccess && !authState?.isAuthenticated">
-                  Your payment is pending, But you can still create a free account
-                  and your account will be upgraded to premium after payment is verified.</strong>
                 <strong class="text-center green" *ngIf="paymentSuccess">
                   <i class="fa fa-check-circle green"></i>
                   Your payment has been made successfully, Please click on
@@ -175,9 +172,10 @@
               <div *ngIf="stripePaymentValidation.message" class="l-alert l-alert-danger">{{stripePaymentValidation.message}}</div>
               <div *ngIf="errorMessage" class="l-alert l-alert-danger">{{errorMessage}}</div>
 
-              <div class="form-group text-center mt-3 mt-sm-4 mb-0">
+              <div class="form-group text-center mt-3 mt-sm-4 mb-0"
+                   [ngbTooltip]="(paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) ? 'Please pay in order to proceed':''">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                          [disabled]="inProgress"
+                          [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess)"
                           (click)="submitForm()">
                     <span *ngIf="!isUpgradeAccount" translate="login.create_account">Create Account</span>
                     <span *ngIf="isUpgradeAccount" translate="common.upgrade_account">Upgrade Account</span>

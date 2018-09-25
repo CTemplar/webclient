@@ -122,6 +122,12 @@
         border: 1px solid $dropdown-border-color;
         color: $brand-light-gray;
         font-size: 1.25rem;
+
+        &.active, &:active {
+          background: #8b9095;
+          border-color: #8b9095;
+          color: #fafafa;
+        }
       }
     }
 

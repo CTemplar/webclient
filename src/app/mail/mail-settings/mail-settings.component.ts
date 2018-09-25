@@ -3,16 +3,26 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs/Observable';
+import { Language, LANGUAGES } from '../../shared/config';
 
 import { BlackListDelete, ChangePassword, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
-import { AppState, MailBoxesState, Settings, Timezone, TimezonesState, UserState, Payment, PaymentType } from '../../store/datatypes';
-import { Observable } from 'rxjs/Observable';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Language, LANGUAGES } from '../../shared/config';
+import {
+  AppState,
+  MailBoxesState,
+  Payment,
+  PaymentMethod,
+  PaymentType,
+  Settings,
+  Timezone,
+  TimezonesState,
+  UserState
+} from '../../store/datatypes';
 import { Mailbox, UserMailbox } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
-
+import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -21,6 +31,10 @@ import { PasswordValidation } from '../../users/users-create-account/users-creat
   styleUrls: ['./mail-settings.component.scss']
 })
 export class MailSettingsComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
+  readonly defaultStorage = 5; // storage in GB
+  readonly defaultEmailAddress = 1;
+
   @ViewChild('changePasswordModal') changePasswordModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
@@ -28,6 +42,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   settings: Settings;
   payment: Payment;
   paymentType = PaymentType;
+  paymentMethod = PaymentMethod;
   selectedMailboxForKey: UserMailbox;
   publicKey: any;
   newListContact = { show: false, type: 'Whitelist' };
@@ -36,8 +51,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   timezones: Timezone[];
   changePasswordForm: FormGroup;
   showChangePasswordFormErrors = false;
+  annualTotalPrice: number;
+  annualDiscountedPrice: number;
+  extraStorage: number = 0; // storage extra than the default 5GB
+  extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
+  currentMailBox: Mailbox;
 
-  readonly destroyed$: Observable<boolean>;
   private mailboxes: Mailbox[];
   private changePasswordModalRef: NgbModalRef;
 
@@ -58,6 +77,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.settings = user.settings;
         this.payment = user.payment_transaction;
+        this.calculatePrices();
+        this.calculateExtraStorageAndEmailAddresses();
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
@@ -73,6 +94,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       .subscribe((mailboxesState: MailBoxesState) => {
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
+
+          this.currentMailBox = mailboxesState.currentMailbox;
           this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
       });
@@ -85,6 +108,35 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       {
         validator: PasswordValidation.MatchPassword
       });
+  }
+
+  calculatePrices() {
+    if (this.payment && this.payment.amount) {
+      let price = +this.payment.amount;
+      price = +(price / 100).toFixed(2);
+      if (this.payment.payment_type === PaymentType.ANNUALLY) {
+        this.annualDiscountedPrice = price;
+      } else {
+        this.annualTotalPrice = +(price * 12).toFixed(2);
+      }
+    } else {
+      this.annualTotalPrice = 96;
+    }
+  }
+
+  calculateExtraStorageAndEmailAddresses() {
+    if (this.settings) {
+      if (this.settings.allocated_storage) {
+        const storageInGB = +(this.settings.allocated_storage / 1048576).toFixed(0);
+        this.extraStorage = storageInGB - this.defaultStorage;
+      }
+      if (this.settings.email_count) {
+        this.extraEmailAddress = this.settings.email_count - this.defaultEmailAddress;
+      }
+      if (this.payment && this.payment.payment_type === PaymentType.ANNUALLY) {
+        this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
+      }
+    }
   }
 
   // == Toggle active state of the slide in price page
@@ -161,6 +213,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       }
     } else {
       this.store.dispatch(new SettingsUpdate(this.settings));
+    }
+  }
+
+  updateMailboxSettings(key?: string, value?: any) {
+    if (key) {
+      if (this.currentMailBox[key] !== value) {
+        this.currentMailBox[key] = value;
+        this.store.dispatch(new MailboxSettingsUpdate(this.currentMailBox));
+      }
     }
   }
 

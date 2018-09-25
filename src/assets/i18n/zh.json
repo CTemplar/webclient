@@ -222,7 +222,21 @@
   "page_pricing": {
     "do_not_show_ads": "本网站不支持广告收入或订阅者数据共享。相反，CTemplar依靠订阅收入来维持和改善我们的服务质量。来自付费帐户的收入用于进一步开发CTemplar，以及支持免费用户。*Ctemplar不能用于垃圾邮件或批量电子邮件的发送",
     "billed_as": "收费为",
-    "select_account_type": "选择帐户类型"
+    "select_account_type": "选择帐户类型",
+    "user": "用户",
+    "messages_per_day": "每日消息",
+    "folders": "文件夹",
+    "limited_support": "有限支持",
+    "normal_support": "正常支持",
+    "self_destruct": "自毁计时器",
+    "encryption": "非CTemplar用户的加密",
+    "dead_mans_timer": "死人计时器",
+    "delayed_delivery": "延迟交货计时器",
+    "email_aliases": "电子邮件地址别名",
+    "email_alias": "电子邮件地址别名",
+    "custom_domain": "自定义域",
+    "currency": "货币",
+    "btc_currency": "BTC货币"
   },
   "login": {
     "name": "登录",

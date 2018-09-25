@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { AppState, Contact, UserState } from '../../store/datatypes';
-import { ContactDelete, SnackErrorPush } from '../../store';
+import { ContactDelete, ContactImport, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -9,7 +10,13 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import 'rxjs/add/operator/takeUntil';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { NotificationService } from '../../store/services/notification.service';
+
+export enum ContactsProviderType {
+  GOOGLE = <any>'GOOGLE',
+  YAHOO = <any>'YAHOO',
+  OUTLOOK = <any>'OUTLOOK',
+  OTHER = <any>'OTHER'
+}
 
 @TakeUntilDestroy()
 @Component({
@@ -18,25 +25,32 @@ import { NotificationService } from '../../store/services/notification.service';
   styleUrls: ['./mail-contact.component.scss']
 })
 export class MailContactComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
 
-  isLayoutSplitted: boolean = false;
+  @ViewChild('importContactsModal') importContactsModal;
+
+  contactsProviderType = ContactsProviderType;
   public userState: UserState;
   public isNewContact: boolean;
-  readonly destroyed$: Observable<boolean>;
   public selectedContact: Contact;
   public inProgress: boolean;
   public selectAll: boolean;
+  public selectedContacts: Contact[] = [];
+  selectedContactsProvider: ContactsProviderType;
+  importContactsError: any;
+  isLayoutSplitted: boolean = false;
+  isMenuOpened: boolean;
 
   private contactsCount: number;
-  public selectedContacts: Contact[] = [];
   private confirmModalRef: NgbModalRef;
+  private importContactsModalRef: NgbModalRef;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               private breakpointsService: BreakpointsService,
-              private notificationService: NotificationService,
               private composeMailService: ComposeMailService,
-              config: NgbDropdownConfig) {
+              config: NgbDropdownConfig,
+              @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
@@ -52,30 +66,33 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user)
       .takeUntil(this.destroyed$).subscribe((state: UserState) => {
       this.userState = state;
+      this.inProgress = this.userState.inProgress;
       if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {
-        this.inProgress = false;
-        this.notificationService.showSnackBar('Contacts deleted successfully.');
         this.selectedContacts = [];
         this.contactsCount = null;
       }
     });
   }
 
+  toggleMenu() { // click handler
+    if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
+      if (this.isMenuOpened) {
+        this.document.body.classList.remove('menu-open');
+        this.isMenuOpened = false;
+      }
+      if (this.document.body.classList.contains('menu-open')) {
+        this.isMenuOpened = true;
+      }
+    }
+  }
+
   initSplitContactLayout(): any {
     this.isLayoutSplitted = true;
-
-    if (this.isLayoutSplitted === true) {
-      window.document.documentElement.classList.add('no-scroll');
-    }
     this.isNewContact = true;
   }
 
   destroySplitContactLayout(): any {
     this.isLayoutSplitted = false;
-
-    if (this.isLayoutSplitted === false) {
-      window.document.documentElement.classList.remove('no-scroll');
-    }
     this.isNewContact = false;
     this.selectedContact = null;
   }
@@ -140,5 +157,33 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   toggleSelectAll() {
     this.userState.contact.forEach(item => item.markForDelete = this.selectAll);
+  }
+
+  openImportContactsModal() {
+    this.selectedContactsProvider = null;
+    this.importContactsError = null;
+    this.importContactsModalRef = this.modalService.open(this.importContactsModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  closeImportContactsModal() {
+    if (this.importContactsModalRef) {
+      this.importContactsModalRef.close();
+    }
+  }
+
+  onContactsFileSelected(files: Array<File>) {
+    if (files.length === 1) {
+      const data = {
+        file: files[0],
+        provider: this.selectedContactsProvider
+      };
+      this.store.dispatch(new ContactImport(data));
+      this.closeImportContactsModal();
+    } else if (files.length > 1) {
+      this.importContactsError = 'Multiple files are not allowed.';
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
+import { catchError, switchMap } from 'rxjs/operators';
 import {
   BitcoinActionTypes,
   CreateNewWallet,
@@ -21,7 +22,7 @@ export class BitcoinEffects {
   getBitcoinServiceValue: Observable<any> = this.actions
     .ofType(BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE)
     .map((action: GetBitcoinServiceValue) => action.payload).switchMap(payload => {
-      return this.bitcoinService.getBitcoinServiceValue().map((amount) => {
+      return this.bitcoinService.getBitcoinServiceValue(payload).map((amount) => {
         return new GetBitcoinServiceValueSuccess(amount);
       });
     });
@@ -30,10 +31,18 @@ export class BitcoinEffects {
   @Effect()
   createWalletAddress: Observable<any> = this.actions
     .ofType(BitcoinActionTypes.CREATE_NEW_WALLET)
-    .map((action: CreateNewWallet) => action.payload).switchMap(payload => {
-      return this.bitcoinService.getNewWalletAddress().map((address) => {
-        return new CreateNewWalletSuccess(address);
-      });
+    .map((action: CreateNewWallet) => action.payload)
+    .switchMap(payload => {
+      return this.bitcoinService.createNewWallet(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new CreateNewWalletSuccess(res),
+              new GetBitcoinServiceValue({address: res.address})
+            ];
+          }),
+          catchError((error) => [])
+        );
     });
 
 

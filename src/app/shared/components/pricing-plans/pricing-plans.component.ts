@@ -1,35 +1,45 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { FinalLoading, MembershipUpdate } from '../../../store/actions';
+import { UpdateSignupData } from '../../../store/actions/auth.action';
+import { PaymentMethod, PaymentType } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
-import { UpdateSignupData } from '../../../store/actions/auth.action';
-import { PaymentType, PaymentMethod } from '../../../store/datatypes';
 
 @Component({
   selector: 'app-pricing-plans',
   templateUrl: './pricing-plans.component.html',
   styleUrls: ['./pricing-plans.component.scss']
 })
-export class PricingPlansComponent implements OnInit, OnDestroy {
+export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
+  readonly defaultMonthlyPrice = 8;
+  readonly defaultStorage = 5; // storage in GB
+  readonly defaultEmailAddress = 1;
 
-  // == Defining public property as boolean
-  public selectedIndex: number = -1; // Assuming no element are selected initially
   @Input() hideHeader: boolean;
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
   @Input() showCurrentPlan: boolean;
   @Input() isPrime: boolean;
   @Input() openBillingInfoInModal: boolean;
+  @Input() selectedCurrency: string;
+  @Input() paymentType: PaymentType;
+  @Input() paymentMethod: PaymentMethod;
+  @Input() selectedStorage: number = this.defaultStorage;
+  @Input() selectedEmailAddress: number = this.defaultEmailAddress;
 
   @ViewChild('billingInfoModal') billingInfoModal;
 
   private billingInfoModalRef: NgbModalRef;
 
-  public selectedCurrency: string = 'USD';
-  public paymentType: PaymentType = PaymentType.MONTHLY;
-  public paymentMethod: PaymentMethod = PaymentMethod.STRIPE;
+  selectedIndex: number = -1; // Assuming no element are selected initially
+  availableStorage = [];
+  availableEmailAddress = [];
+  monthlyPrice: number;
+  annualPricePerMonth: number;
+  annualPriceTotal: number;
+  isValueChanged: boolean;
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
@@ -41,7 +51,27 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
     this.loadStripeScripts();
+    for (let i = 6; i <= 50; i++) {
+      this.availableStorage.push(i);
+    }
+    for (let i = 4; i <= 52; i += 3) {
+      this.availableEmailAddress.push(i);
+    }
+    this.paymentType = this.paymentType || PaymentType.MONTHLY;
+    this.paymentMethod = this.paymentMethod || PaymentMethod.STRIPE;
+    this.selectedCurrency = this.selectedCurrency || 'USD';
+    this.calculatePrices();
     this.store.dispatch(new FinalLoading({ loadingState: false }));
+  }
+
+  ngOnChanges(changes: any) {
+    if (changes.selectedStorage || changes.selectedEmailAddress) {
+      this.selectedStorage = changes.selectedStorage && changes.selectedStorage.currentValue > 0 ?
+        changes.selectedStorage.currentValue : this.defaultStorage;
+      this.selectedEmailAddress = changes.selectedEmailAddress && changes.selectedEmailAddress.currentValue > 0 ?
+        changes.selectedEmailAddress.currentValue : this.defaultEmailAddress;
+      this.calculatePrices();
+    }
   }
 
   // == Toggle active state of the slide in price page
@@ -64,10 +94,15 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
     } else {
       // Add payment type for prime plan only
       if (id === 1) {
-        this.store.dispatch(new UpdateSignupData({ 
+        this.store.dispatch(new UpdateSignupData({
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
-          currency: this.selectedCurrency
+          currency: this.selectedCurrency,
+          memory: this.selectedStorage,
+          email_count: this.selectedEmailAddress,
+          monthlyPrice: this.monthlyPrice,
+          annualPricePerMonth: this.annualPricePerMonth,
+          annualPriceTotal: this.annualPriceTotal
         }));
       }
       this.router.navigateByUrl('/create-account');
@@ -78,12 +113,13 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
     this.selectedCurrency = currency;
   }
 
-  changePaymentMethod(paymentMethod: PaymentMethod) {
-    if (paymentMethod === PaymentMethod.BITCOIN) {
-      this.paymentType = PaymentType.ANNUALLY;
-    } else {
-      this.paymentType = PaymentType.MONTHLY;
-    }
+  calculatePrices() {
+    let monthlyPrice = this.defaultMonthlyPrice;
+    monthlyPrice += (this.selectedStorage - this.defaultStorage);
+    monthlyPrice += this.selectedEmailAddress === 1 ? 0 : ((this.selectedEmailAddress - this.defaultEmailAddress) / 3);
+    this.monthlyPrice = monthlyPrice;
+    this.annualPricePerMonth = +(this.monthlyPrice * 0.75).toFixed(2);
+    this.annualPriceTotal = +(this.annualPricePerMonth * 12).toFixed(2);
   }
 
   private loadStripeScripts() {

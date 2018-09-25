@@ -5,8 +5,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, MoveMail } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailState } from '../../store/datatypes';
-import { Mail, MailFolderType } from '../../store/models/mail.model';
+import { AppState, MailBoxesState, MailState } from '../../store/datatypes';
+import { Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService } from '../../store/services';
 
 @TakeUntilDestroy()
@@ -19,10 +19,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   mail: Mail;
   composeMailData: any = {};
-  isComposeMailVisible: boolean;
-  decryptedContent: string;
   mailFolderType = MailFolderType;
+  decryptedContents: any = {};
+  mailOptions: any = {};
+  isConversationCollapsed = true;
   private mailFolder: MailFolderType;
+  private currentMailbox: Mailbox;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -36,30 +38,56 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (mailState.mailDetail) {
           this.mail = mailState.mailDetail;
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
-            this.decryptedContent = this.mail.content;
+            this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
             const decryptedContent = mailState.decryptedContents[this.mail.id];
             if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
               this.pgpService.decrypt(this.mail.id, this.mail.content);
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
-              this.decryptedContent = decryptedContent.content;
+              this.decryptedContents[this.mail.id] = decryptedContent.content;
 
-              // Mar mail as read
+              // Mark mail as read
               if (!this.mail.read) {
                 this.markAsRead(this.mail.id);
               }
             }
           }
-
+          if (!this.mailOptions[this.mail.id]) {
+            this.mailOptions[this.mail.id] = {};
+          }
+          if (this.mail.children) {
+            this.mail.children.forEach(child => {
+              if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
+                this.decryptedContents[child.id] = child.content;
+              } else {
+                const childDecryptedContent = mailState.decryptedContents[child.id];
+                if (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content)) {
+                  this.pgpService.decrypt(child.id, child.content);
+                }
+                if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
+                  this.decryptedContents[child.id] = childDecryptedContent.content;
+                }
+                // TODO: mark child email as read
+              }
+              if (!this.mailOptions[child.id]) {
+                this.mailOptions[child.id] = {};
+              }
+            });
+          }
         }
+      });
+
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        this.currentMailbox = mailBoxesState.currentMailbox;
       });
 
     this.route.params.subscribe(params => {
       const id = +params['id'];
 
       // Check if email is already available in state
-      if (!this.mail) {
+      if (!this.mail || this.mail.has_children) {
         this.getMailDetail(id);
       }
 
@@ -86,67 +114,179 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 
-  onReply() {
-    this.composeMailData = {
-      receivers: [this.mail.sender],
+  onReply(mail: Mail) {
+    this.composeMailData[mail.id] = {
+      subject: mail.subject,
+      parentId: this.mail.id
+    };
+    if (mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [mail.sender];
+    } else if (this.mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [this.mail.sender];
+    } else {
+      this.composeMailData[mail.id].receivers = this.mail.receiver;
+    }
+    this.mailOptions[mail.id].isComposeMailVisible = true;
+  }
+
+  onReplyAll(mail: Mail) {
+    this.composeMailData[mail.id] = {
+      cc: [...mail.receiver, ...mail.cc],
+      subject: mail.subject,
+      parentId: this.mail.id
+    };
+    if (mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [mail.sender];
+    } else if (this.mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [this.mail.sender];
+    } else {
+      this.composeMailData[mail.id].receivers = this.mail.receiver;
+    }
+    this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
+      .filter(email => email !== this.currentMailbox.email && !this.composeMailData[mail.id].receivers.includes(email));
+    this.mailOptions[mail.id].isComposeMailVisible = true;
+  }
+
+  onForward(mail: Mail) {
+    this.composeMailData[mail.id] = {
+      content: this.decryptedContents[mail.id],
       subject: this.mail.subject
     };
-    this.isComposeMailVisible = true;
+    this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onReplyAll() {
-    this.composeMailData = {
-      receivers: [this.mail.sender],
-      cc: [...this.mail.receiver, ...this.mail.cc],
-      subject: this.mail.subject
-    };
-    this.isComposeMailVisible = true;
+  onComposeMailHide(mail: Mail) {
+    this.composeMailData[mail.id] = {};
+    this.mailOptions[mail.id].isComposeMailVisible = false;
   }
 
-  onForward() {
-    this.composeMailData = {
-      content: this.decryptedContent,
-      subject: this.mail.subject
-    };
-    this.isComposeMailVisible = true;
-  }
-
-  onComposeMailHide() {
-    this.composeMailData = {};
-    this.isComposeMailVisible = false;
-  }
-
-  onDelete() {
-    if (this.mail.folder === MailFolderType.TRASH) {
-      this.store.dispatch(new DeleteMail({ ids: this.mail.id }));
+  onDelete(mail: Mail) {
+    if (mail.folder === MailFolderType.TRASH) {
+      this.store.dispatch(new DeleteMail({ ids: mail.id }));
     } else {
       this.store.dispatch(new MoveMail({
-        ids: this.mail.id,
+        ids: mail.id,
         folder: MailFolderType.TRASH,
-        sourceFolder: this.mail.folder,
-        mail: this.mail,
+        sourceFolder: mail.folder,
+        mail: mail,
         allowUndo: true
       }));
     }
-    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    if (mail.id === this.mail.id) {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    }
   }
 
-  onMarkAsSpam() {
+  onMarkAsSpam(mail: Mail) {
     this.store.dispatch(new MoveMail({
-      ids: this.mail.id,
+      ids: mail.id,
       folder: MailFolderType.SPAM,
-      sourceFolder: this.mail.folder,
-      mail: this.mail
+      sourceFolder: mail.folder,
+      mail: mail
     }));
-    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    if (mail.id === this.mail.id) {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    }
   }
 
-  onPrint() {
-    if (this.decryptedContent) {
-      const printWindow = window.open();
-      printWindow.document.write(this.decryptedContent);
-      printWindow.print();
-      printWindow.close();
+  toggleGmailExtra(mail: Mail) {
+    this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
+  }
+
+  onPrint(mail: Mail) {
+    if (this.decryptedContents[mail.id]) {
+      let popupWin;
+
+      const subject = document.getElementById(`${this.mail.id}-mail-subject`).innerHTML;
+      const from = document.getElementById(`${mail.id}-mail-from`).innerHTML;
+      const to = document.getElementById(`${mail.id}-mail-to`).innerHTML;
+      const date = document.getElementById(`${mail.id}-mail-date`).innerHTML;
+      const content = document.getElementById(`${mail.id}-mail-content`).innerHTML;
+
+      const hasCC = document.getElementById(`${mail.id}-mail-cc`);
+      let cc = '';
+      if (hasCC) {
+        cc = `CC: <span class="text-muted">${hasCC.innerHTML}</span>`;
+      }
+
+      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      popupWin.document.open();
+      popupWin.document.write(`
+          <html>
+            <head>
+              <title>Print tab</title>
+              <style>
+              body {
+                font-family: "Roboto", Helvetica, Arial, sans-serif;
+                }
+
+                .navbar-brand-logo {
+                    margin-right: 10px;
+                    max-width: 32px;
+                }
+
+                a {
+                    color: #3498db;
+                }
+
+                .container {
+                    max-width: 900px;
+                    padding: 100px 15px;
+                    margin: auto;
+                    color: #757675;
+                }
+
+                .row {
+                    padding-left: -15px;
+                    padding-right: -15px;
+                }
+
+                .text-center {
+                    text-align: center;
+                }
+
+                .text-secondary {
+                    color: #34495e;
+                }
+
+                .page-title {
+                    font-weight: 300;
+                }
+
+                .dashed-separator {
+                    border-top: 1px dashed #777;margin:20px 0 20px;
+                }
+              </style>
+            </head>
+            <body onload="window.print();window.close()">
+            <div class="container">
+                <div class="row">
+                    <!-- Mail Subject -->
+                    <h1>${subject}</h1>
+                    <div class="dashed-separator"></div>
+                    <!-- Mail From  -->
+                    <span class="text-muted">${from}</span>
+                    <br>
+                    <!-- Mail To  -->
+                    <span class="text-muted">${to}</span>
+                    <br>
+                    <!-- Mail CC  -->
+                    ${cc}
+                    <br>
+                    <!-- Mail Date Created  -->
+                    Dated:<strong>${date}</strong>
+                    <br>
+                    <div class="dashed-separator"></div>
+                    <!-- Mail Content  -->
+                    <div>
+                      ${content}
+                    </div>
+                </div>
+            </div>
+            </body>
+          </html>`
+      );
+      popupWin.document.close();
     }
   }
 }

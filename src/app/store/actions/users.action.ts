@@ -26,6 +26,9 @@ export enum UsersActionTypes {
   CONTACT_ADD_ERROR = '[Users] Contact_Add_Error',
   CONTACT_DELETE = '[Users] Contact_Delete',
   CONTACT_DELETE_SUCCESS = '[Users] Contact_Delete_Success',
+  CONTACT_IMPORT = '[Users] Contact Import',
+  CONTACT_IMPORT_SUCCESS = '[Users] Contact Import Success',
+  CONTACT_IMPORT_FAILURE = '[Users] Contact Import Failure',
   ACCOUNT_DETAILS_GET = '[Users] ACCOUNT_DETAILS_GET',
   ACCOUNT_DETAILS_GET_SUCCESS = '[Users] ACCOUNT_DETAILS_GET_SUCCESS',
   SNACK_PUSH = '[Snacks] Push',
@@ -54,7 +57,7 @@ export class AccountsReadSuccess implements Action {
 export class WhiteList implements Action {
   readonly type = UsersActionTypes.WHITELIST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 }
 
@@ -103,7 +106,7 @@ export class WhiteListDeleteSuccess implements Action {
 export class BlackList implements Action {
   readonly type = UsersActionTypes.BLACKLIST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 }
 
@@ -198,6 +201,27 @@ export class ContactDeleteSuccess implements Action {
   }
 }
 
+export class ContactImport implements Action {
+  readonly type = UsersActionTypes.CONTACT_IMPORT;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ContactImportSuccess implements Action {
+  readonly type = UsersActionTypes.CONTACT_IMPORT_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ContactImportFailure implements Action {
+  readonly type = UsersActionTypes.CONTACT_IMPORT_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class AccountDetailsGet implements Action {
   readonly type = UsersActionTypes.ACCOUNT_DETAILS_GET;
 
@@ -283,6 +307,9 @@ export type UsersActionAll =
   | ContactAddError
   | ContactDelete
   | ContactDeleteSuccess
+  | ContactImport
+  | ContactImportSuccess
+  | ContactImportFailure
   | AccountDetailsGet
   | AccountDetailsGetSuccess
   | SnackPush

@@ -100,6 +100,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() content: string;
   @Input() subject: string;
   @Input() draftMail: Mail;
+  @Input() parentId: number;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -203,7 +204,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.contacts = user.contact;
-        this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') <= 14;
+        this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
         this.signature = user.settings.signature;
         this.addSignature();
@@ -687,6 +688,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
+    if (this.parentId) {
+      this.draftMail.parent = this.parentId;
+    }
     if (this.encryptionData.password) {
       this.draftMail.encryption = this.draftMail.encryption || {};
       this.draftMail.encryption.password = this.encryptForm.controls['password'].value || null;

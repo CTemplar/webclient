@@ -29,6 +29,7 @@ import {
   SignUpSuccess,
   SnackErrorPush, SnackPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
 } from '../actions';
+import { SignupState } from '../datatypes';
 
 
 @Injectable()
@@ -70,7 +71,11 @@ export class AuthEffects {
   SignUp: Observable<any> = this.actions
     .ofType(AuthActionTypes.SIGNUP)
     .map((action: SignUp) => action.payload)
-    .switchMap(payload => {
+    .switchMap((payload: SignupState) => {
+      delete payload.monthlyPrice;
+      delete payload.annualPricePerMonth;
+      delete payload.annualPriceTotal;
+
       return this.authService.signUp(payload)
         .pipe(
           map((user) => new LogInSuccess(user)),

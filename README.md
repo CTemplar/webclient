@@ -1,5 +1,7 @@
 # CTemplar
 
+[![Build Status](https://travis-ci.org/CTemplar/webclient.svg?branch=dev)](https://travis-ci.org/CTemplar/webclient)
+
 Official Angular cross-platform client for the CTemplar secure email service.
 
 ## Prerequisites
@@ -54,7 +56,7 @@ CTemplar encrypts and decrypts contents of every email using user's public/priva
   ```
   const options = {
     userIds: [{ name: username, email: 'username@ctemplar.com' }],
-    numbits: 4096,
+    numBits: 4096,
     passphrase: password
   };
   openpgp.generateKey(options);

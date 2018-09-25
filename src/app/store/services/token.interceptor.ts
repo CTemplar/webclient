@@ -2,9 +2,11 @@ import { Injectable, Injector } from '@angular/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
-import { Router } from '@angular/router';
+import { Logout } from '../actions';
+import { AppState } from '../datatypes';
 
 import { UsersService } from './users.service';
 
@@ -14,7 +16,7 @@ export class TokenInterceptor implements HttpInterceptor {
   private authService: UsersService;
 
   constructor(private injector: Injector,
-              private router: Router) {}
+              private store: Store<AppState>) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(UsersService);
@@ -31,8 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
       .do((event: HttpEvent<any>) => {},
         (error: any) => {
           if (error instanceof HttpErrorResponse && error.status === 401) {
-            sessionStorage.removeItem('token');
-            this.router.navigateByUrl('/signin');
+            this.store.dispatch(new Logout());
           }
         });
   }

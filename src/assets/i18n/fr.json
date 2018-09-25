@@ -222,7 +222,21 @@
   "page_pricing": {
     "do_not_show_ads": "Ce site n'est pas supporté par les revenus publicitaires ou le partage des données des abonnés. CTemplar compte plutôt sur les revenus d'abonnement pour maintenir et améliorer la qualité de notre service. Les revenus des comptes payants sont utilisés pour développer CTemplar, ainsi que pour soutenir les utilisateurs gratuits. Ctemplar ne peut pas être utilisé pour le spam ou pour l'envoi de courriels en vrac.",
     "billed_as": "Facturé en tant que",
-    "select_account_type": "Sélectionnez un type de compte"
+    "select_account_type": "Sélectionnez un type de compte",
+    "user": "Utilisateur",
+    "messages_per_day": "Messages par jour",
+    "folders": "Dossiers",
+    "limited_support": "Soutien limité",
+    "normal_support": "Soutien Ordinaire",
+    "self_destruct": "Minuterie auto-destructrice",
+    "encryption": "Chiffrement pour les utilisateurs non-CTemplar",
+    "dead_mans_timer": "Minuteur du mort",
+    "delayed_delivery": "Délai de livraison différé",
+    "email_aliases": "Alias ​​de l'adresse email",
+    "email_alias": "Alias ​​d'adresse email",
+    "custom_domain": "Domaine personnalisé",
+    "currency": "Devise",
+    "btc_currency": "Devise BTC"
   },
   "login": {
     "name": "connexion",

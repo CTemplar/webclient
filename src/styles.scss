@@ -369,3 +369,13 @@ button[disabled] {
 .nav-tabs.nav .nav-link.active {
   color: $brand-primary;
 }
+
+.gmail_extra,
+.gmail_quote {
+  display: none;
+}
+
+.show_gmail_extra .gmail_extra,
+.show_gmail_extra .gmail_quote{
+  display: block;
+}

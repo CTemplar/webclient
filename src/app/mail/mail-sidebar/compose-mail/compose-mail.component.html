@@ -368,16 +368,12 @@
                   class="actions-btn mail-attach-btn" placement="top"
                   ngbTooltip="Attachments"><i class="icon icon-attachment"></i></button>
         </li>
-        <li class="pr-0" [ngbTooltip]="!userState.isPrime? 'Feature not available with Free Account' : ''">
-          <button *ngIf="userState.isPrime; else disabledEncryptionBtn" role="button" type="button"
+        <li class="pr-0" ngbTooltip="Encryption for non CTemplar users">
+          <button role="button" type="button"
                   class="actions-btn mail-envelop-btn border-radius-r-0"
                   [ngClass]="{'text-primary': draftMail?.encryption?.password}"
                   (click)="openEncryptionModal()"
                   placement="top" ngbTooltip="Encryption"><i class="icon icon-mail"></i></button>
-          <ng-template #disabledEncryptionBtn>
-            <button role="button" type="button" class="actions-btn mail-envelop-btn border-radius-r-0"
-                    disabled><i class="icon icon-mail"></i></button>
-          </ng-template>
         </li>
         <li class="px-0">
           <button role="button" type="button" (click)="openSelfDestructModal()"

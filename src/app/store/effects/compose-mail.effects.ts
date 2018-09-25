@@ -28,7 +28,7 @@ import {
   SendMailSuccess,
   SnackErrorPush,
   SnackPush,
-  UpdateCurrentFolder,
+  UpdateCurrentFolder, UpdateMailDetailChildren,
   UploadAttachment,
   UploadAttachmentFailure,
   UploadAttachmentProgress,
@@ -126,6 +126,7 @@ export class ComposeMailEffects {
             return [
               new SendMailSuccess(payload),
               new UpdateCurrentFolder(res),
+              new UpdateMailDetailChildren(res),
               new SnackPush({
                 message: `Mail sent successfully`
               })
@@ -146,7 +147,8 @@ export class ComposeMailEffects {
             return [
               new GetUsersKeysSuccess({ draftId: payload.draftId, data: keys })
             ];
-          })
+          }),
+          catchError((error) => [])
         );
     });
 

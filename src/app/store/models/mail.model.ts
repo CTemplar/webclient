@@ -26,6 +26,9 @@ export interface Mail {
   is_protected?: boolean;
   sent_at?: string;
   created_at?: string;
+  parent?: number;
+  has_children?: boolean;
+  children?: Array<Mail>;
 }
 
 export interface Mailbox {
@@ -38,9 +41,11 @@ export interface Mailbox {
   private_key: string;
   public_key: string;
   signature?: string;
+  display_name?: string;
 }
 
 export interface Folder {
+  id?: number;
   name: string;
   color: string;
   mailbox: number;

@@ -41,6 +41,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
+  @Input() storage: number;
+  @Input() emailAddressAliases: number;
+  @Input() monthlyPrice: number;
+  @Input() annualPricePerMonth: number;
+  @Input() annualPriceTotal: number;
   @Output() close = new EventEmitter<boolean>();
 
   cardNumber;
@@ -110,6 +115,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
           this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
           this.currency = this.signupState.currency || 'USD';
+          this.storage = this.storage || this.signupState.memory;
+          this.emailAddressAliases = this.emailAddressAliases || this.signupState.email_count;
+          this.monthlyPrice = this.monthlyPrice || this.signupState.monthlyPrice;
+          this.annualPricePerMonth = this.annualPricePerMonth || this.signupState.annualPricePerMonth;
+          this.annualPriceTotal = this.annualPriceTotal || this.signupState.annualPriceTotal;
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod();
@@ -183,7 +193,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   stripeSignup(token: any) {
     if (token) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount({ stripe_token: token, payment_type: this.paymentType }));
+        this.store.dispatch(new UpgradeAccount({
+          stripe_token: token,
+          payment_type: this.paymentType,
+          memory: this.storage,
+          email_count: this.emailAddressAliases
+        }));
       } else {
         this.store.dispatch(new SignUp({
           ...this.signupState,
@@ -201,7 +216,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.store.dispatch(new UpgradeAccount({
           from_address: this.bitcoinState.newWalletAddress,
           redeem_code: this.bitcoinState.redeemCode,
-          payment_type: PaymentType.ANNUALLY
+          payment_type: this.paymentType,
+          memory: this.storage,
+          email_count: this.emailAddressAliases
         }));
       } else {
         this.store.dispatch(new SignUp({
@@ -241,7 +258,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.showPaymentPending = true;
     }, 15000);
 
-    this.store.dispatch(new GetBitcoinServiceValue());
     this.timer();
     this.paymentMethod = PaymentMethod.BITCOIN;
     this.paymentSuccess = false;
@@ -256,7 +272,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   createNewWallet() {
-    this.store.dispatch(new CreateNewWallet());
+    this.store.dispatch(new CreateNewWallet({
+      payment_type: this.paymentType,
+      memory: this.storage,
+      email_count: this.emailAddressAliases
+    }));
   }
 
   selectMonth(month) {
