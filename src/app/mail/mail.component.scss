@@ -1272,11 +1272,11 @@
     width: 0.55rem;
     transform: translateX(-50%) translateY(-50%) rotate(135deg)
   }
+}
 
-  .show & {
-    &::before {
-      transform: translateX(-50%) translateY(-50%) rotate(-45deg)
-    }
+.show.dropdown {
+  .actions-btn.msg-reply-btn::before {
+    transform: translateX(-50%) translateY(-50%) rotate(-45deg)
   }
 }
 
