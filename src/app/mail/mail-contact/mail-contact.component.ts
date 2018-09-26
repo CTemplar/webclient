@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { AppState, Contact, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, SnackErrorPush } from '../../store';
@@ -9,7 +10,6 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import 'rxjs/add/operator/takeUntil';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { NotificationService } from '../../store/services/notification.service';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -39,6 +39,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   selectedContactsProvider: ContactsProviderType;
   importContactsError: any;
   isLayoutSplitted: boolean = false;
+  isMenuOpened: boolean;
 
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;
@@ -47,9 +48,9 @@ export class MailContactComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               private breakpointsService: BreakpointsService,
-              private notificationService: NotificationService,
               private composeMailService: ComposeMailService,
-              config: NgbDropdownConfig) {
+              config: NgbDropdownConfig,
+              @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
@@ -67,28 +68,31 @@ export class MailContactComponent implements OnInit, OnDestroy {
       this.userState = state;
       this.inProgress = this.userState.inProgress;
       if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {
-        this.notificationService.showSnackBar('Contacts deleted successfully.');
         this.selectedContacts = [];
         this.contactsCount = null;
       }
     });
   }
 
+  toggleMenu() { // click handler
+    if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
+      if (this.isMenuOpened) {
+        this.document.body.classList.remove('menu-open');
+        this.isMenuOpened = false;
+      }
+      if (this.document.body.classList.contains('menu-open')) {
+        this.isMenuOpened = true;
+      }
+    }
+  }
+
   initSplitContactLayout(): any {
     this.isLayoutSplitted = true;
-
-    if (this.isLayoutSplitted === true) {
-      window.document.documentElement.classList.add('no-scroll');
-    }
     this.isNewContact = true;
   }
 
   destroySplitContactLayout(): any {
     this.isLayoutSplitted = false;
-
-    if (this.isLayoutSplitted === false) {
-      window.document.documentElement.classList.remove('no-scroll');
-    }
     this.isNewContact = false;
     this.selectedContact = null;
   }

@@ -71,7 +71,8 @@ export class SecureMessageEffects {
             return [
               new GetSecureMessageUserKeysSuccess(keys)
             ];
-          })
+          }),
+          catchError((error) => [])
         );
     });
 }

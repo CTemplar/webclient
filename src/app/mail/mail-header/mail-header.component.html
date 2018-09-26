@@ -21,9 +21,12 @@
         </div>
         <div class="col-sm-6 mailbox-navbar-col">
             <ul class="mailbox-actions-menu d-flex justify-content-end">
-                <li class=""><a routerLink="/mail/contact" placement="bottom" [ngbTooltip]="'mail_header.contacts' | translate"><i
+                <li class=""><a routerLink="/mail/contact" placement="bottom"
+                                routerLinkActive="active"
+                                [ngbTooltip]="'mail_header.contacts' | translate"><i
                         class="icon icon-login"></i></a></li>
                 <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings" class="border-right-no-color"
+                                                        routerLinkActive="active"
                                                         placement="bottom" [ngbTooltip]="'mail_header.settings'| translate"><i
                         class="icon icon-gear"></i></a></li>
                 <li class="mailbox-signout pl-sm-0">
@@ -79,9 +82,9 @@
                 href=""><u>Undo</u></a></div>
     </div>
 </div>
-<div class="l-alert l-alert-success l-alert-is-floated d-sm-inline-block text-center d-none"
-     style="display: none !important;">
-    <div class="l-alert-inner">
-        <div>Your message has been sent. &nbsp;&nbsp;&nbsp;<a href=""><u>View Message</u></a></div>
+<div class="d-sm-inline-block l-alert l-alert-custom">
+    <div class="l-alert-inner text-secondary">
+        <div> <i class="icon icon-secured position-left"></i>We are in <b>open beta</b>. Please report all bugs to
+            <a class="cursor-pointer">support@ctemplar.com</a></div>
     </div>
 </div>

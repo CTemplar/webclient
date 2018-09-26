@@ -204,6 +204,8 @@
 }
 
 .mailbox-sidebar-nav-link {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
   position: relative;
   display: flex;
   align-items: center;
@@ -1272,11 +1274,11 @@
     width: 0.55rem;
     transform: translateX(-50%) translateY(-50%) rotate(135deg)
   }
+}
 
-  .show & {
-    &::before {
-      transform: translateX(-50%) translateY(-50%) rotate(-45deg)
-    }
+.show.dropdown {
+  .actions-btn.msg-reply-btn::before {
+    transform: translateX(-50%) translateY(-50%) rotate(-45deg)
   }
 }
 

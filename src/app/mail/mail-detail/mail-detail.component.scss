@@ -40,28 +40,56 @@
 
 }
 
-.content-separator {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 12px;
+.ellipsis-wrapper {
+  background-color: #e8eaed;
+  border: none;
+  border-radius: 5.5px;
+  width: 24px;
+  margin-top: 10px;
 
-  span{
-    position: relative;
-    padding: 5px;
-    background-color: white;
+  .gmail-ellipsis {
+    background-image: url(/assets/images/more_horiz_black_20dp.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    height: 11px;
+    width: 24px;
+    opacity: .54;
+  }
+}
+
+.mail-from {
+  font-size: 14px;
+}
+
+.conversation-collapsor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 32px;
+
+  div {
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    width: 100%;
+    background-color: #f5f5f5;
   }
 
-  &::before {
-    content: "";
-    width: 100%;
-    height: 1px;
-    background: #f1f1f1;
-    top: 10px;
-    left: 0;
-    display: block;
-    position: relative;
-    z-index: 0;
+  a {
+    font-size: .75rem;
+    letter-spacing: .3px;
+    align-items: center;
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px #dadce0;
+    color: #5f6368;
+    background-color: white;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    width: 32px;
+    z-index: 1;
   }
 }

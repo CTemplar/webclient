@@ -9,7 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 // Custom Actions
@@ -45,9 +45,12 @@ export class MailEffects {
     .map((action: GetMails) => action.payload)
     .switchMap(payload => {
       return this.mailService.getMessages(payload)
-        .map((response) => {
+      .pipe(
+        map((response) => {
           return new GetMailsSuccess({ ...payload, mails: response['results'], total_mail_count: response['total_count'] });
-        });
+        }),
+        catchError((error) => [])
+      );
     });
 
   @Effect()

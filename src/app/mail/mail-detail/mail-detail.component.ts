@@ -5,8 +5,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { DeleteMail, MoveMail } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailState } from '../../store/datatypes';
-import { Mail, MailFolderType } from '../../store/models/mail.model';
+import { AppState, MailBoxesState, MailState } from '../../store/datatypes';
+import { Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService } from '../../store/services';
 
 @TakeUntilDestroy()
@@ -22,7 +22,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailFolderType = MailFolderType;
   decryptedContents: any = {};
   mailOptions: any = {};
+  isConversationCollapsed = true;
   private mailFolder: MailFolderType;
+  private currentMailbox: Mailbox;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -76,6 +78,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        this.currentMailbox = mailBoxesState.currentMailbox;
+      });
+
     this.route.params.subscribe(params => {
       const id = +params['id'];
 
@@ -109,20 +116,34 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onReply(mail: Mail) {
     this.composeMailData[mail.id] = {
-      receivers: [mail.sender],
       subject: mail.subject,
-      parentId: this.mail.id // TODO: check if this is correct
+      parentId: this.mail.id
     };
+    if (mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [mail.sender];
+    } else if (this.mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [this.mail.sender];
+    } else {
+      this.composeMailData[mail.id].receivers = this.mail.receiver;
+    }
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
   onReplyAll(mail: Mail) {
     this.composeMailData[mail.id] = {
-      receivers: [mail.sender],
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id
     };
+    if (mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [mail.sender];
+    } else if (this.mail.sender !== this.currentMailbox.email) {
+      this.composeMailData[mail.id].receivers = [this.mail.sender];
+    } else {
+      this.composeMailData[mail.id].receivers = this.mail.receiver;
+    }
+    this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
+      .filter(email => email !== this.currentMailbox.email && !this.composeMailData[mail.id].receivers.includes(email));
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -166,6 +187,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.id === this.mail.id) {
       this.router.navigateByUrl(`/mail/${this.mailFolder}`);
     }
+  }
+
+  toggleGmailExtra(mail: Mail) {
+    this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
   }
 
   onPrint(mail: Mail) {

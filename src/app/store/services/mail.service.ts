@@ -73,7 +73,7 @@ export class MailService {
   }
 
   createMail(data: any): Observable<any[]> {
-    let url = `${apiUrl}/emails/messages/`;
+    let url = `${apiUrl}emails/messages/`;
     if (data.id) {
       url = url + data.id + '/';
       return this.http.patch<any>(url, data);
@@ -82,28 +82,28 @@ export class MailService {
   }
 
   secureReply(hash: string, secret: string, data: any): Observable<any> {
-    const url = `${apiUrl}/emails/secure-message/${hash}/${secret}/reply/`;
+    const url = `${apiUrl}emails/secure-message/${hash}/${secret}/reply/`;
     return this.http.post<any>(url, data);
   }
 
   markAsRead(ids: string, isMailRead: boolean): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, { read: isMailRead });
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { read: isMailRead });
   }
 
   markAsStarred(ids: string, isMailStarred: boolean): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, { starred: isMailStarred });
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred });
   }
 
   moveMail(ids: string, folder: string): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}/emails/messages/?id__in=${ids}`, { folder: folder });
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder });
   }
 
   deleteMails(ids: string): Observable<any[]> {
-    return this.http.delete<any>(`${apiUrl}/emails/messages/?id__in=${ids}`);
+    return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}`);
   }
 
   deleteFolder(id: string): Observable<any[]> {
-    return this.http.delete<any>(`${apiUrl}/emails/custom-folder/${id}/`);
+    return this.http.delete<any>(`${apiUrl}emails/custom-folder/${id}/`);
   }
 
   uploadFile(data: Attachment): Observable<HttpEvent<any>> {
@@ -112,7 +112,7 @@ export class MailService {
     formData.append('message', data.message.toString());
     formData.append('is_inline', data.is_inline.toString());
 
-    const request = new HttpRequest('POST', `${apiUrl}/emails/attachments/create/`, formData, {
+    const request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
       reportProgress: true
     });
 
