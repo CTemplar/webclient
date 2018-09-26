@@ -46,7 +46,7 @@ export class MailEffects {
     .switchMap(payload => {
       return this.mailService.getMessages(payload)
         .map((response) => {
-          return new GetMailsSuccess({ ...payload, mails: response['results'], total_mail_count: response['count'] });
+          return new GetMailsSuccess({ ...payload, mails: response['results'], total_mail_count: response['total_count'] });
         });
     });
 
