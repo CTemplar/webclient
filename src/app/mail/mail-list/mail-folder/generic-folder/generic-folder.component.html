@@ -140,7 +140,7 @@
     <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down" *ngIf="mails?.length>0">
       <div class="mail-controls d-flex align-items-center justify-content-end">
         <div class="mail-result-text text-muted">
-          <small>{{ OFFSET * LIMIT }}-{{ ( OFFSET * LIMIT ) + (LIMIT > MAX_EMAIL_PAGE_LIMIT? MAX_EMAIL_PAGE_LIMIT :LIMIT) }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+          <small>{{ OFFSET }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : LIMIT }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>
         <div class="mail-nav-control">
           <button role="button" class="mail-nav-control-prev" (click)="prevPage()">
