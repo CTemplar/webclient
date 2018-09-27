@@ -131,6 +131,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
     const signupFormValue = this.signupForm.value;
     this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password);
+    if (this.selectedPlan === 1) {
+      this.navigateToBillingPage();
+    }
   }
 
   private navigateToBillingPage() {
