@@ -265,7 +265,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   nextPage() {
-    if (this.OFFSET < (this.MAX_EMAIL_PAGE_LIMIT - 1)) {
+    if (this.OFFSET < Math.floor((this.MAX_EMAIL_PAGE_LIMIT / this.LIMIT))) {
       this.OFFSET++;
       this.refresh();
     }
