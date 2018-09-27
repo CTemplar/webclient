@@ -24,9 +24,6 @@ import { SharedModule } from '../shared/shared.module';
 import { SaveListContactComponent } from './mail-settings/save-list-contact/save-list-contact.component';
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
-import { InboxComponent } from './mail-list/mail-folder/inbox/inbox.component';
-import { DraftComponent } from './mail-list/mail-folder/draft/draft.component';
-import { TrashComponent } from './mail-list/mail-folder/trash/trash.component';
 import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
 import { CreateFolderComponent } from './dialogs/create-folder/create-folder.component';
 
@@ -54,9 +51,6 @@ import { CreateFolderComponent } from './dialogs/create-folder/create-folder.com
     ComposeMailDialogComponent,
     SaveListContactComponent,
     ComposeMailComponent,
-    InboxComponent,
-    DraftComponent,
-    TrashComponent,
     GenericFolderComponent,
     CreateFolderComponent
   ],

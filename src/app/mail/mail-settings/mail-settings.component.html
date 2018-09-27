@@ -318,6 +318,52 @@
                     <header class="ui-header ui-header-bordered">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>
                     </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-row">
+                            <div class="row align-items-center">
+                                <div class="col-sm-5">
+                                    <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
+                                        per page</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="row row-sm">
+                                        <div class="col-6 flex-auto-col">
+                                            <div class="fancy-field-group">
+                                                <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1"
+                                                    name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)"
+                                                    [checked]="settings?.emails_per_page===20" />
+                                                <label for="emailCoutField1">20</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 flex-auto-col">
+                                            <div class="fancy-field-group">
+                                                <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2"
+                                                    name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)"
+                                                    [checked]="settings?.emails_per_page===50" />
+                                                <label for="emailCoutField2">50</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 flex-auto-col">
+                                            <div class="fancy-field-group">
+                                                <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3"
+                                                    name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)"
+                                                    [checked]="settings?.emails_per_page===100" />
+                                                <label for="emailCoutField3">100</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 flex-auto-col">
+                                            <div class="fancy-field-group">
+                                                <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField4"
+                                                    name="[5]" type="radio" (click)="updateSettings('emails_per_page', 200)"
+                                                    [checked]="settings?.emails_per_page===200" />
+                                                <label for="emailCoutField4">200</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </section>
 
@@ -487,51 +533,6 @@
                                 </div>
                             </div>
 
-                            <!-- Will be used later -->
-                            <div class="form-content-row" *ngIf="false">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-5">
-                                        <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
-                                            per page</label>
-                                    </div>
-                                    <div class="col-sm-7">
-                                        <div class="row row-sm">
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1"
-                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)"
-                                                        [checked]="settings?.emails_per_page===20" />
-                                                    <label for="emailCoutField1">20</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2"
-                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)"
-                                                        [checked]="settings?.emails_per_page===50" />
-                                                    <label for="emailCoutField2">50</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3"
-                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)"
-                                                        [checked]="settings?.emails_per_page===100" />
-                                                    <label for="emailCoutField3">100</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField4"
-                                                        name="[5]" type="radio" (click)="updateSettings('emails_per_page', 200)"
-                                                        [checked]="settings?.emails_per_page===200" />
-                                                    <label for="emailCoutField4">200</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- Will be used later -->
                             <div class="form-content-row" *ngIf="false">
