@@ -37,6 +37,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   LIMIT: number;
   OFFSET: number = 0;
+  PAGE: number = 0;
 
   constructor(public store: Store<AppState>,
               private router: Router,
@@ -258,16 +259,18 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   prevPage() {
-    if (this.OFFSET > 0) {
-      this.OFFSET--;
-      this.refresh();
+    if (this.PAGE > 0) {
+      this.PAGE--;
+      this.OFFSET = this.PAGE * this.LIMIT;
+      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
     }
   }
 
   nextPage() {
-    if (this.OFFSET < Math.floor((this.MAX_EMAIL_PAGE_LIMIT / this.LIMIT))) {
-      this.OFFSET++;
-      this.refresh();
+    if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
+      this.OFFSET = (this.PAGE + 1) * this.LIMIT;
+      this.PAGE++;
+      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
     }
   }
 
