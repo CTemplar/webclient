@@ -418,7 +418,7 @@
         <li class="pr-1" *ngIf="inProgress || draftMail?.id">
           <span>{{inProgress ? 'Saving...': 'Saved'}}</span>
         </li>
-        <li class="pr-0">
+        <li class="pr-0" *ngIf="showSaveButton">
           <button role="button"
                   (click)="saveInDrafts()"
                   [disabled]="inProgress"

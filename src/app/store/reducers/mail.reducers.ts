@@ -2,6 +2,7 @@
 import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailState } from '../datatypes';
+import { MailFolderType } from '../models';
 
 export function reducer(
   state: MailState = {
@@ -148,6 +149,8 @@ export function reducer(
     case MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN: {
       if (state.mailDetail && action.payload.parent === state.mailDetail.id) {
         state.mailDetail.children = state.mailDetail.children || [];
+        state.mailDetail.children = state.mailDetail.children
+          .filter(child => !(child.id === action.payload.id && child.folder === MailFolderType.DRAFT));
         state.mailDetail.children = [...state.mailDetail.children, action.payload];
       }
       return { ...state };
