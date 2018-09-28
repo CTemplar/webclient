@@ -209,6 +209,7 @@
                             [content]="composeMailData[childMail.id]?.content"
                             [subject]="composeMailData[childMail.id]?.subject"
                             [parentId]="composeMailData[childMail.id]?.parentId"
+                            [showSaveButton]="false"
                             (hide)="onComposeMailHide(childMail)"></app-compose-mail>
         </div>
       </div>
@@ -241,6 +242,7 @@
                         [content]="composeMailData[mail.id]?.content"
                         [subject]="composeMailData[mail.id]?.subject"
                         [parentId]="composeMailData[mail.id]?.parentId"
+                        [showSaveButton]="false"
                         (hide)="onComposeMailHide(mail)"></app-compose-mail>
     </div>
   </div>

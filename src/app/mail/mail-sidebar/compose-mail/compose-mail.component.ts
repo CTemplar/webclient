@@ -101,6 +101,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() subject: string;
   @Input() draftMail: Mail;
   @Input() parentId: number;
+  @Input() showSaveButton: boolean = true;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
