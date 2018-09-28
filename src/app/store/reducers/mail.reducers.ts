@@ -6,6 +6,7 @@ import { MailState } from '../datatypes';
 export function reducer(
   state: MailState = {
     mails: [],
+    total_mail_count: 0,
     mailDetail: null,
     folders: new Map(),
     loaded: false,
@@ -23,6 +24,7 @@ export function reducer(
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
       let mails = action.payload.mails;
+      state.total_mail_count = action.payload.total_mail_count;
       if (action.payload.read === false || action.payload.read === true) {
         const mailIDs = mails.map(item => item.id);
         mails = state.mails.filter(item => mailIDs.indexOf(item.id) < 0);

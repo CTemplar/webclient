@@ -45,10 +45,12 @@ export class MailEffects {
     .map((action: GetMails) => action.payload)
     .switchMap(payload => {
       return this.mailService.getMessages(payload)
-        .pipe(
-          map((mails) => new GetMailsSuccess({ ...payload, mails })),
-          catchError((error) => [])
-        );
+      .pipe(
+        map((response) => {
+          return new GetMailsSuccess({ ...payload, mails: response['results'], total_mail_count: response['total_count'] });
+        }),
+        catchError((error) => [])
+      );
     });
 
   @Effect()

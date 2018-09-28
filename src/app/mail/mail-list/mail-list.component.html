@@ -1,7 +1,13 @@
 <div [ngSwitch]="mailFolder">
-  <app-inbox *ngSwitchCase="mailFolderTypes.INBOX"></app-inbox>
-  <app-draft *ngSwitchCase="mailFolderTypes.DRAFT"></app-draft>
-  <app-trash *ngSwitchCase="mailFolderTypes.TRASH"></app-trash>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.INBOX"
+                      [fetchMails]="true"
+                      [mailFolder]="mailFolderTypes.INBOX"></app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.DRAFT"
+                      [fetchMails]="true"
+                      [mailFolder]="mailFolderTypes.DRAFT"></app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.TRASH"
+                      [fetchMails]="true"
+                      [mailFolder]="mailFolderTypes.TRASH"></app-generic-folder>
   <app-generic-folder *ngSwitchCase="mailFolderTypes.SENT"
                       [fetchMails]="true"
                       [mailFolder]="mailFolderTypes.SENT"></app-generic-folder>

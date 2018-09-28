@@ -103,6 +103,7 @@ export interface BlogState {
 
 export interface MailState {
   mails: Mail[];
+  total_mail_count: number;
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;
