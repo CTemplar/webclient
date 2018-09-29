@@ -68,7 +68,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
                   this.decryptedContents[child.id] = childDecryptedContent.content;
                 }
-                // TODO: mark child email as read
               }
               if (!this.mailOptions[child.id]) {
                 this.mailOptions[child.id] = {};
