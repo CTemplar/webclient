@@ -1,6 +1,6 @@
 <aside id="mailbox-sidebar"
        (clickOutside)="toggleMenu()"
-       class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
+       class="mailbox-sidebar is-sidebar-expandedx" role="complementary" [ngClass]="{'is-sidebar-expanded': isSidebarOpened}">
     <div class="mailbox-sidebar-inner">
 
         <div class="mailbox-brand">
