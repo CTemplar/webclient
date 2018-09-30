@@ -228,7 +228,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   changePassword(data) {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
-      this.openPgpService.generateUserKeys(data.username, data.password);
+      this.openPgpService.generateUserKeys(this.userState.username, data.password);
       if (this.openPgpService.getUserKeys()) {
         this.changePasswordConfirmed(data);
       } else {
