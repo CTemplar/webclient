@@ -109,6 +109,7 @@
                 <li class="mailbox-sidebar-nav-item" *ngIf="customFolders?.length > LIMIT">
                     <a (click)="toggleDisplayLimit(customFolders.length)"
                        class="mailbox-sidebar-nav-link">
+                        <i class="icon icon-more ml-1"></i>
                         <span class="mailbox-sidebar-nav-label text-capitalize">
                             {{LIMIT === customFolders.length? 'Less' : 'More'}}
                         </span>
