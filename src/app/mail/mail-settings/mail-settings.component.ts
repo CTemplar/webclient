@@ -56,8 +56,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   extraStorage: number = 0; // storage extra than the default 5GB
   extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
   currentMailBox: Mailbox;
+  mailboxes: Mailbox[];
 
-  private mailboxes: Mailbox[];
   private changePasswordModalRef: NgbModalRef;
 
   constructor(

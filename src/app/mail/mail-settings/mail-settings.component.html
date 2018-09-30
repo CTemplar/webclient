@@ -608,6 +608,36 @@
                 </section>
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0">
+                            <strong translate="settings.addresses">Addresses</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <ul class="ui-list ui-list-styled list-styled">
+                                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let mailbox of mailboxes">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="form-label text-dark mb-0">
+                                                {{mailbox.email}}
+                                                <span *ngIf="mailbox.is_default" class="badge badge-default">Default</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <!--<li><a href="" role="button">Disable</a></li>-->
+                                                <!--<li><a href="" role="button">Enable</a></li>-->
+                                                <li *ngIf="!mailbox.is_default"><a href="" role="button">Make Default</a></li>
+                                                <li><a href="" role="button"><i class="icon icon-garbage"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.keys.name">Keys</strong></h5>
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
