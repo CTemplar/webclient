@@ -42,6 +42,7 @@ export interface Mailbox {
   public_key: string;
   signature?: string;
   display_name?: string;
+  is_default?: string;
 }
 
 export interface Folder {
