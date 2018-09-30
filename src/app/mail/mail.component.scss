@@ -481,7 +481,7 @@
 @include media("<=sm") {
   .btn-xs-holder.is-sticky {
     position: fixed;
-    top: 50%;
+    bottom: 0;
     right: 0.938rem;
     z-index: $zindex-default;
     transform: translateY(-50%);
