@@ -10,6 +10,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/finally';
 import { catchError, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
 // Services
