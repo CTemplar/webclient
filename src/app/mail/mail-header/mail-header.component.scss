@@ -191,12 +191,6 @@
   }
 }
 
-.lang-dropdown.dropdown .dropdown-menu {
-  @include media("<=sm") {
-    width: 65px;
-  }
-}
-
 // == Search form
 .search-form {
   .form-control {
