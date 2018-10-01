@@ -5,9 +5,19 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
+import { debounceTime } from 'rxjs/operators';
 import { Language, LANGUAGES } from '../../shared/config';
 
-import { BlackListDelete, ChangePassword, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
+import {
+  BlackListDelete,
+  ChangePassword,
+  CreateMailbox,
+  SettingsUpdate,
+  SnackErrorPush,
+  SnackPush,
+  WhiteListDelete
+} from '../../store/actions';
+import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
   AppState,
   MailBoxesState,
@@ -20,9 +30,8 @@ import {
   UserState
 } from '../../store/datatypes';
 import { Mailbox, UserMailbox } from '../../store/models';
-import { OpenPgpService } from '../../store/services';
+import { OpenPgpService, UsersService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
-import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -55,8 +64,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   annualDiscountedPrice: number;
   extraStorage: number = 0; // storage extra than the default 5GB
   extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
+  mailBoxesState: MailBoxesState;
   currentMailBox: Mailbox;
   mailboxes: Mailbox[];
+  newAddressForm: FormGroup;
+  newAddressOptions: any = {};
 
   private changePasswordModalRef: NgbModalRef;
 
@@ -65,7 +77,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     config: NgbDropdownConfig,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
-    private openPgpService: OpenPgpService
+    private openPgpService: OpenPgpService,
+    private usersService: UsersService
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -92,9 +105,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       });
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxesState: MailBoxesState) => {
+        if (this.mailBoxesState && this.mailBoxesState.inProgress && !mailboxesState.inProgress && this.newAddressOptions.isBusy) {
+          this.onDiscardNewAddress();
+        }
+        this.mailBoxesState = mailboxesState;
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
-
           this.currentMailBox = mailboxesState.currentMailbox;
           this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
@@ -108,6 +124,16 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       {
         validator: PasswordValidation.MatchPassword
       });
+
+    this.newAddressForm = this.formBuilder.group({
+      'username': ['', [
+        Validators.required,
+        Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i),
+        Validators.minLength(4),
+        Validators.maxLength(64)
+      ]]
+    });
+    this.handleUsernameAvailability();
   }
 
   calculatePrices() {
@@ -225,29 +251,30 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  changePassword(data) {
+  changePassword() {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
-      this.openPgpService.generateUserKeys(this.userState.username, data.password);
+      this.openPgpService.generateUserKeys(this.userState.username, this.changePasswordForm.value.password);
       if (this.openPgpService.getUserKeys()) {
-        this.changePasswordConfirmed(data);
+        this.changePasswordConfirmed();
       } else {
-        this.waitForPGPKeys(data);
+        this.waitForPGPKeys('changePasswordConfirmed');
       }
     }
   }
 
-  waitForPGPKeys(data) {
+  waitForPGPKeys(callback) {
     setTimeout(() => {
       if (this.openPgpService.getUserKeys()) {
-        this.changePasswordConfirmed(data);
+        this[callback]();
         return;
       }
-      this.waitForPGPKeys(data);
+      this.waitForPGPKeys(callback);
     }, 500);
   }
 
-  changePasswordConfirmed(data) {
+  changePasswordConfirmed() {
+    const data = this.changePasswordForm.value;
     const requestData = {
       username: this.userState.username,
       old_password: data.oldPassword,
@@ -273,4 +300,63 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   onUpdateSettingsBtnClick() {
     this.store.dispatch(new SnackPush({message: 'Settings updated successfully.'}));
   }
+
+  onAddNewAddress() {
+    if (!this.newAddressOptions.isAddingNew) {
+      this.newAddressForm.reset('username');
+      this.newAddressOptions = {
+        isAddingNew: true
+      };
+    }
+  }
+
+  onDiscardNewAddress() {
+    this.newAddressForm.reset('username');
+    this.newAddressOptions = {
+      isAddingNew: false
+    };
+  }
+
+  submitNewAddress() {
+    this.newAddressOptions.isSubmitted = true;
+    if (this.newAddressForm.valid && !this.newAddressOptions.usernameExists) {
+      this.newAddressOptions.isBusy = true;
+      this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
+      if (this.openPgpService.getUserKeys()) {
+        this.addNewAddress();
+      } else {
+        this.waitForPGPKeys('addNewAddress');
+      }
+    }
+  }
+
+  addNewAddress() {
+    const requestData = {
+      email: this.newAddressForm.value.username, // backend appends domain in username to create `email`
+      ...this.openPgpService.getUserKeys()
+    };
+    this.store.dispatch(new CreateMailbox(requestData));
+  }
+
+  handleUsernameAvailability() {
+    this.newAddressForm.get('username').valueChanges
+      .pipe(
+        debounceTime(500)
+      )
+      .subscribe((username) => {
+        if (!this.newAddressForm.controls['username'].errors) {
+          this.newAddressOptions.isBusy = true;
+          this.usersService.checkUsernameAvailability(this.newAddressForm.controls['username'].value)
+            .subscribe(response => {
+                this.newAddressOptions.usernameExists = response.exists;
+                this.newAddressOptions.isBusy = false;
+              },
+              error => {
+                this.store.dispatch(new SnackErrorPush({ message: 'Failed to check username availability.' }));
+                this.newAddressOptions.isBusy = false;
+              });
+        }
+      });
+  }
+
 }
