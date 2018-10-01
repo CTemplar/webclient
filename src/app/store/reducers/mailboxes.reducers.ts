@@ -4,7 +4,6 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailBoxesState } from '../datatypes';
 import { Mailbox } from '../models/mail.model';
 
-
 export function reducer(
   state: MailBoxesState = {
     mailboxes: [],
@@ -114,6 +113,19 @@ export function reducer(
         mailboxes: mailboxes,
         inProgress: false,
       };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX: {
+      return { ...state, inProgress: true };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX_SUCCESS: {
+      state.mailboxes = [...state.mailboxes, action.payload];
+      return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX_FAILURE: {
+      return { ...state, inProgress: false };
     }
 
     default: {

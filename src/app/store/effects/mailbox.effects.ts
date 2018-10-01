@@ -12,7 +12,7 @@ import { switchMap, catchError } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 // Custom Actions
-import { GetMailboxes, GetMailboxesSuccess, MailActionTypes } from '../actions';
+import { CreateMailbox, CreateMailboxFailure, CreateMailboxSuccess, GetMailboxes, GetMailboxesSuccess, MailActionTypes } from '../actions';
 import { UserMailbox } from '../models/users.model';
 import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
 import { SettingsUpdateSuccess, SnackErrorPush } from '../actions/users.action';
@@ -49,6 +49,23 @@ export class MailboxEffects {
             return [new MailboxSettingsUpdateSuccess(payload)];
           }),
           catchError(err => [new SnackErrorPush(err)]),
+        );
+    });
+
+  @Effect()
+  createMailbox: Observable<any> = this.actions
+    .ofType(MailActionTypes.CREATE_MAILBOX)
+    .map((action: CreateMailbox) => action.payload)
+    .switchMap((payload: any) => {
+      return this.mailService.createMailbox(payload)
+        .pipe(
+          switchMap(res => {
+            return [new CreateMailboxSuccess(res)];
+          }),
+          catchError(err => [
+            new CreateMailboxFailure(err),
+            new SnackErrorPush({message: 'Failed to create new email address.'})
+            ]),
         );
     });
 

@@ -127,6 +127,10 @@ export class MailService {
     return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
 
+  createMailbox(data: any) {
+    return this.http.post<any>(`${apiUrl}emails/mailboxes/`, data);
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
