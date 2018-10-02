@@ -137,227 +137,229 @@
           </button>
         </li>
         <li>
-          <div ngbDropdown [autoClose]="'outside'" placement="top" class="dropdown">
+          <div ngbDropdown [autoClose]="'outside'" placement="top-left" class="dropdown">
             <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow"
                     id="typoDropdownMenu" role="button" placement="top"
                     ngbTooltip="Text formatting"><i class="icon icon-text-color"></i></button>
-            <div ngbDropdownMenu class="typo-actions-dropdown-menu is-centered"
+            <div ngbDropdownMenu class="typo-actions-dropdown-menu"
                  aria-labelledby="typoDropdownMenu">
               <div #toolbar class="mail-comopser-typo-actions-holder">
-                <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
-                  <li class="pr-0">
-                    <div ngbDropdown placement="top" class="dropup">
-                      <button ngbDropdownToggle role="button"
-                              class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0"
-                              id="typoFamilyDropdownMenu"><i
-                              class="icon icon-text-size"></i></button>
-                      <div ngbDropdownMenu class="typo-family-dropdown-menu"
-                           aria-labelledby="typoFamilyDropdownMenu">
-                        <div class="typo-holder">
-                          <ul class="typo-list list-styled">
-                            <li>
-                              <button value="hiragino-sans"
-                                      class="ql-font typo-select-link">Hiragino
-                                Sans
-                              </button>
-                            </li>
-                            <li>
-                              <button value="lato"
-                                      class="ql-font typo-select-link">Lato
-                              </button>
-                            </li>
-                            <li>
-                              <button value="roboto"
-                                      class="ql-font typo-select-link">Roboto
-                              </button>
-                            </li>
-                            <li>
-                              <button value="abril-fatface"
-                                      class="ql-font typo-select-link">Abril
-                                Fatface
-                              </button>
-                            </li>
-                            <li>
-                              <button value="andale-mono"
-                                      class="ql-font typo-select-link">Andale Mono
-                              </button>
-                            </li>
-                            <li>
-                              <button value="arial"
-                                      class="ql-font typo-select-link">Arial
-                              </button>
-                            </li>
-                            <li>
-                              <button value="times-new-roman"
-                                      class="ql-font typo-select-link">Times New
-                                Roman
-                              </button>
-                            </li>
-                          </ul>
+                <ul class="mail-composer-actions d-flex align-items-center justify-content-center pb-1">
+                    <li class="pr-0">
+                      <div ngbDropdown placement="top" class="dropup">
+                        <button ngbDropdownToggle role="button"
+                                class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0"
+                                id="typoFamilyDropdownMenu"><i
+                                class="icon icon-text-size"></i></button>
+                        <div ngbDropdownMenu class="typo-family-dropdown-menu"
+                            aria-labelledby="typoFamilyDropdownMenu">
+                          <div class="typo-holder">
+                            <ul class="typo-list list-styled">
+                              <li>
+                                <button value="hiragino-sans"
+                                        class="ql-font typo-select-link">Hiragino
+                                  Sans
+                                </button>
+                              </li>
+                              <li>
+                                <button value="lato"
+                                        class="ql-font typo-select-link">Lato
+                                </button>
+                              </li>
+                              <li>
+                                <button value="roboto"
+                                        class="ql-font typo-select-link">Roboto
+                                </button>
+                              </li>
+                              <li>
+                                <button value="abril-fatface"
+                                        class="ql-font typo-select-link">Abril
+                                  Fatface
+                                </button>
+                              </li>
+                              <li>
+                                <button value="andale-mono"
+                                        class="ql-font typo-select-link">Andale Mono
+                                </button>
+                              </li>
+                              <li>
+                                <button value="arial"
+                                        class="ql-font typo-select-link">Arial
+                                </button>
+                              </li>
+                              <li>
+                                <button value="times-new-roman"
+                                        class="ql-font typo-select-link">Times New
+                                  Roman
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                  <li class="pl-0">
-                    <div ngbDropdown placement="top" class="dropup">
-                      <button ngbDropdownToggle role="button"
-                              class="actions-btn mail-font-family-btn"
-                              id="typoSizeDropdownMenu"><i
-                              class="icon icon-text-size-alt"></i></button>
-                      <div ngbDropdownMenu class="typo-size-dropdown-menu"
-                           aria-labelledby="typoSizeDropdownMenu">
-                        <div class="typo-holder">
-                          <ul class="typo-list list-styled">
-                            <li>
-                              <button value="10px"
-                                      class="ql-size typo-select-link is-small">
-                                Small
-                              </button>
-                            </li>
-                            <li>
-                              <button value=""
-                                      class="ql-size typo-select-link is-normal">
-                                Normal
-                              </button>
-                            </li>
-                            <li>
-                              <button value="18px"
-                                      class="ql-size typo-select-link is-large">
-                                Large
-                              </button>
-                            </li>
-                            <li>
-                              <button value="32px"
-                                      class="ql-size typo-select-link is-huge">
-                                Huge
-                              </button>
-                            </li>
-                          </ul>
+                    </li>
+                    <li class="pl-0">
+                      <div ngbDropdown placement="top" class="dropup">
+                        <button ngbDropdownToggle role="button"
+                                class="actions-btn mail-font-family-btn"
+                                id="typoSizeDropdownMenu"><i
+                                class="icon icon-text-size-alt"></i></button>
+                        <div ngbDropdownMenu class="typo-size-dropdown-menu"
+                            aria-labelledby="typoSizeDropdownMenu">
+                          <div class="typo-holder">
+                            <ul class="typo-list list-styled">
+                              <li>
+                                <button value="10px"
+                                        class="ql-size typo-select-link is-small">
+                                  Small
+                                </button>
+                              </li>
+                              <li>
+                                <button value=""
+                                        class="ql-size typo-select-link is-normal">
+                                  Normal
+                                </button>
+                              </li>
+                              <li>
+                                <button value="18px"
+                                        class="ql-size typo-select-link is-large">
+                                  Large
+                                </button>
+                              </li>
+                              <li>
+                                <button value="32px"
+                                        class="ql-size typo-select-link is-huge">
+                                  Huge
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
 
-                  <li class="pr-0">
-                    <button role="button"
-                            class="ql-bold actions-btn mail-bold-btn border-right-0 border-radius-r-0">
-                      <i class="icon icon-bold"></i></button>
-                  </li>
-                  <li class="px-0">
-                    <button role="button"
-                            class="ql-italic actions-btn mail-italic-btn border-right-0 border-radius-0">
-                      <i class="icon icon-italic"></i></button>
-                  </li>
-                  <li class="px-0">
-                    <button role="button"
-                            class="ql-underline actions-btn mail-underline-btn border-right-0 border-radius-0">
-                      <i class="icon icon-underline"></i></button>
-                  </li>
-                  <li class="pl-0">
-                    <div ngbDropdown placement="top" class="dropdown">
-                      <button ngbDropdownToggle
-                              class="actions-btn mail-font-color-btn border-radius-l-0"
-                              id="typoColorDropdownMenu" role="button"><i
-                              class="icon icon-text-color"></i></button>
-                      <div ngbDropdownMenu class="left-0"
-                           aria-labelledby="typoColorDropdownMenu">
-                        <div class="color-picker-holder">
-                          <div class="row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                              <div class="color-picker">
-                                <div class="color-picker-title"><strong>Background
-                                  Color</strong></div>
-                                <ul class="color-picker-list d-flex flex-wrap">
-                                  <li *ngFor="let color of colors">
-                                    <button class="ql-background color-shape"
-                                            [class.border-lightgrey]="color==='#ffffff'"
-                                            [value]="color"
-                                            [style.background]="color"></button>
-                                  </li>
-                                </ul>
+                    <li class="pr-0">
+                      <button role="button"
+                              class="ql-bold actions-btn mail-bold-btn border-right-0 border-radius-r-0">
+                        <i class="icon icon-bold"></i></button>
+                    </li>
+                    <li class="px-0">
+                      <button role="button"
+                              class="ql-italic actions-btn mail-italic-btn border-right-0 border-radius-0">
+                        <i class="icon icon-italic"></i></button>
+                    </li>
+                    <li class="px-0">
+                      <button role="button"
+                              class="ql-underline actions-btn mail-underline-btn border-right-0 border-radius-0">
+                        <i class="icon icon-underline"></i></button>
+                    </li>
+                    <li class="pl-0">
+                      <button role="button"
+                              class="ql-blockquote actions-btn mail-quote-right-btn border-radius-l-0">
+                        <i
+                                class="icon icon-quote-right"></i></button>
+                    </li>
+  
+                    <li class="pr-0 d-none d-sm-block">
+                      <button role="button"
+                              class="ql-align actions-btn mail-align-right-btn border-right-0 border-radius-r-0"
+                              value="right">
+                        <i class="icon icon-text-align-right"></i></button>
+                    </li>
+                    <li class="px-0 d-none d-sm-block">
+                      <button role="button"
+                              class="ql-align actions-btn mail-align-center-btn border-right-0 border-radius-0"
+                              value="center">
+                        <i class="icon icon-text-align-center"></i></button>
+                    </li>
+                    <li class="pl-0 d-none d-sm-block">
+                      <button role="button"
+                              class="ql-align actions-btn mail-align-left-btn border-radius-l-0">
+                        <i class="icon icon-text-align-left"></i></button>
+                    </li>
+                  </ul>
+                  <ul class="mail-composer-actions d-flex align-items-center justify-content-center">
+                    <li class="pl-0">
+                      <div ngbDropdown placement="top" class="dropdown">
+                        <button ngbDropdownToggle
+                                class="actions-btn mail-font-color-btn border-radius-l-0"
+                                id="typoColorDropdownMenu" role="button"><i
+                                class="icon icon-text-color"></i></button>
+                        <div ngbDropdownMenu class="left-0"
+                            aria-labelledby="typoColorDropdownMenu">
+                          <div class="color-picker-holder">
+                            <div class="row">
+                              <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div class="color-picker">
+                                  <div class="color-picker-title"><strong>Background
+                                    Color</strong></div>
+                                  <ul class="color-picker-list d-flex flex-wrap">
+                                    <li *ngFor="let color of colors">
+                                      <button class="ql-background color-shape"
+                                              [class.border-lightgrey]="color==='#ffffff'"
+                                              [value]="color"
+                                              [style.background]="color"></button>
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
-                            </div>
 
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                              <div class="color-picker">
-                                <div class="color-picker-title"><strong>Text
-                                  Color</strong></div>
-                                <ul class="color-picker-list d-flex flex-wrap">
-                                  <li *ngFor="let color of colors">
-                                    <button class="ql-color color-shape"
-                                            [class.border-lightgrey]="color==='#ffffff'"
-                                            [value]="color"
-                                            [style.background]="color"></button>
-                                  </li>
-                                </ul>
+                              <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div class="color-picker">
+                                  <div class="color-picker-title"><strong>Text
+                                    Color</strong></div>
+                                  <ul class="color-picker-list d-flex flex-wrap">
+                                    <li *ngFor="let color of colors">
+                                      <button class="ql-color color-shape"
+                                              [class.border-lightgrey]="color==='#ffffff'"
+                                              [value]="color"
+                                              [style.background]="color"></button>
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+    
+                    <li class="pr-0">
+                      <button role="button"
+                              class="ql-list actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"
+                              value="bullet">
+                        <i class="icon icon-unorder-list"></i></button>
+                    </li>
+                    <li class="px-0">
+                      <button role="button"
+                              class="ql-list actions-btn mail-order-list-btn border-right-0 border-radius-0"
+                              value="ordered">
+                        <i class="icon icon-ordered-list"></i></button>
+                    </li>
+                    <li class="px-0">
+                      <button role="button"
+                              class="ql-indent actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"
+                              value="-1">
+                        <i class="icon icon-indent-decrease"></i></button>
+                    </li>
+                    <li class="pl-0">
+                      <button role="button"
+                              class="ql-indent actions-btn mail-indent-increase-btn"
+                              value="+1">
+                        <i class="icon icon-indent-increase"></i></button>
+                    </li>
 
-                  <li class="pr-0">
-                    <button role="button"
-                            class="ql-align actions-btn mail-align-right-btn border-right-0 border-radius-r-0"
-                            value="right">
-                      <i class="icon icon-text-align-right"></i></button>
-                  </li>
-                  <li class="px-0">
-                    <button role="button"
-                            class="ql-align actions-btn mail-align-center-btn border-right-0 border-radius-0"
-                            value="center">
-                      <i class="icon icon-text-align-center"></i></button>
-                  </li>
-                  <li class="pl-0">
-                    <button role="button"
-                            class="ql-align actions-btn mail-align-left-btn border-radius-l-0">
-                      <i class="icon icon-text-align-left"></i></button>
-                  </li>
+                    <li>
+                      <button role="button" type="button"
+                              class="ql-image actions-btn mail-attach-image-btn"><i
+                              class="icon fa fa-image"></i></button>
+                    </li>
 
-                  <li class="pr-0">
-                    <button role="button"
-                            class="ql-list actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"
-                            value="bullet">
-                      <i class="icon icon-unorder-list"></i></button>
-                  </li>
-                  <li class="px-0">
-                    <button role="button"
-                            class="ql-list actions-btn mail-order-list-btn border-right-0 border-radius-0"
-                            value="ordered">
-                      <i class="icon icon-ordered-list"></i></button>
-                  </li>
-                  <li class="px-0">
-                    <button role="button"
-                            class="ql-indent actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"
-                            value="-1">
-                      <i class="icon icon-indent-decrease"></i></button>
-                  </li>
-                  <li class="px-0">
-                    <button role="button"
-                            class="ql-indent actions-btn mail-indent-increase-btn border-right-0 border-radius-0"
-                            value="+1">
-                      <i class="icon icon-indent-increase"></i></button>
-                  </li>
-                  <li class="pl-0">
-                    <button role="button"
-                            class="ql-blockquote actions-btn mail-quote-right-btn border-radius-l-0">
-                      <i
-                              class="icon icon-quote-right"></i></button>
-                  </li>
-
-                  <li>
-                    <button role="button" type="button"
-                            class="ql-image actions-btn mail-attach-image-btn"><i
-                            class="icon fa fa-image"></i></button>
-                  </li>
-
-                  <li>
-                    <button role="button"
-                            class="ql-clean actions-btn mail-format-clear-btn"><i
-                            class="icon icon-format-clear"></i></button>
-                  </li>
+                    <li>
+                      <button role="button"
+                              class="ql-clean actions-btn mail-format-clear-btn"><i
+                              class="icon icon-format-clear"></i></button>
+                    </li>
                 </ul>
               </div>
             </div>
