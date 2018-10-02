@@ -134,3 +134,16 @@
     }
   }
 }
+
+.mailbox-sidebar {
+  @include media( ">sm", "<ipad") {
+    .mailbox-sidebar-nav-link + button {
+      display: none;
+    }
+    &.is-sidebar-expanded {
+      .mailbox-sidebar-nav-link + button {
+        display: block;
+      }
+    }
+  }
+}
