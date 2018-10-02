@@ -2,7 +2,7 @@
 
 <div class="mailbox-actionbar">
   <div class="row">
-    <div class="col-12 col-sm-8 mailbox-actionbar-col">
+    <div class="col-12 col-sm-9 mailbox-actionbar-col">
       <ul class="mailbox-actionbar-menu">
         <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
           <div ngbDropdown>
@@ -24,7 +24,7 @@
             </div>
           </div>
         </li>
-        <li>
+        <li class="px-0">
           <a (click)="refresh(true)" ngbTooltip="Refresh" placement="top">
             <i class="fa fa-redo-alt"></i>
           </a>
@@ -50,7 +50,7 @@
           </a>
         </li>
         <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
-          <div ngbDropdown>
+          <div ngbDropdown autoClose="outside">
             <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button">
               <i class="icon icon-more"></i>
             </button>
@@ -137,8 +137,8 @@
       </ul>
     </div>
 
-    <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down" *ngIf="mails?.length>0">
-      <div class="mail-controls d-flex align-items-center justify-content-end">
+    <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
+      <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="mails?.length>0">
         <div class="mail-result-text text-muted">
           <small>{{ OFFSET }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : LIMIT }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>

@@ -248,9 +248,11 @@
 }
 
 .tile-card.px-lg {
-	.l-block-title {
-		margin-right: -6.5rem;
-		margin-left: -6.5rem;
+	@include media(">sm") {
+		.l-block-title {
+			margin-right: -6.5rem;
+			margin-left: -6.5rem;
+		}
 	}
 }
 

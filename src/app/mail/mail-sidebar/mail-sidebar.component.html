@@ -1,6 +1,6 @@
 <aside id="mailbox-sidebar"
        (clickOutside)="toggleMenu()"
-       class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
+       class="mailbox-sidebar is-sidebar-expandedx" role="complementary" [ngClass]="{'is-sidebar-expanded': isSidebarOpened}">
     <div class="mailbox-sidebar-inner">
 
         <div class="mailbox-brand">
@@ -109,6 +109,7 @@
                 <li class="mailbox-sidebar-nav-item" *ngIf="customFolders?.length > LIMIT">
                     <a (click)="toggleDisplayLimit(customFolders.length)"
                        class="mailbox-sidebar-nav-link">
+                        <i class="icon icon-more ml-1"></i>
                         <span class="mailbox-sidebar-nav-label text-capitalize">
                             {{LIMIT === customFolders.length? 'Less' : 'More'}}
                         </span>

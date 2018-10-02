@@ -91,14 +91,18 @@
   padding-bottom: 60px;
 
   @include media("<=sm") {
-    padding-bottom: 8rem;
+    padding-bottom: 60px;
   }
 }
 
 .mailbox-sidebar-navbar{
   overflow-y: auto;
-  max-height: calc(100% - 130px);
+  max-height: calc(100% - 140px);
+  @include media("<=sm") {
+    max-height: calc(100% - 60px);
+  }
 }
+
 
 .mailbox-brand,
 .mail-compose-section {
@@ -477,7 +481,7 @@
 @include media("<=sm") {
   .btn-xs-holder.is-sticky {
     position: fixed;
-    top: 50%;
+    bottom: 0;
     right: 0.938rem;
     z-index: $zindex-default;
     transform: translateY(-50%);
