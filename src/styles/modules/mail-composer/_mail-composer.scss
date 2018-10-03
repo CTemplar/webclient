@@ -299,7 +299,7 @@ a {
 	border-bottom: 1px solid $input-border-color;
 
 	@include media("<=sm") {
-		position: absolute;
+		position: fixed;
 		top: auto;
 		right: 0;
 		left: 0;
