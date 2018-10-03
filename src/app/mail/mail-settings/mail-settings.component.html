@@ -506,32 +506,61 @@
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
                         <div class="form-content-holder">
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-5">
-                                        <label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display
-                                            name</label>
+                          <div class="form-content-row">
+                            <div class="row align-items-center">
+                              <div class="col-sm-5">
+                                <label class="form-label mb-sm-0" translate="settings.keys.email_address">
+                                  Email address</label>
+                              </div>
+                              <div class="col-sm-7">
+                                <div class="btn-dropdown btn-dropdown-select">
+                                  <div ngbDropdown class="dropdown-sm">
+                                    <button ngbDropdownToggle class="dropdown-toggle"
+                                            id="signatureEmailAddressDropdownMenuButton"
+                                            role="button">
+                                      {{selectedMailboxForSignature?.email}}
+                                    </button>
+                                    <div ngbDropdownMenu aria-labelledby="signatureEmailAddressDropdownMenuButton">
+                                      <a class="dropdown-item" *ngFor="let mailbox of mailboxes"
+                                         (click)="selectedMailboxForSignature = mailbox">{{mailbox.email}}</a>
                                     </div>
-                                    <div class="col-sm-7">
-                                        <input class="form-control form-control-sm" id="displayName" type="text"
-                                            [(ngModel)]="currentMailBox.display_name" [ngModelOptions]="{ updateOn: 'blur'}"
-                                            (change)="updateMailboxSettings('display_name', $event.target.value)" placeholder="John Simpson" />
-                                    </div>
+                                  </div>
                                 </div>
+                              </div>
+                            </div>
+                          </div>
+                          <ng-container *ngIf="selectedMailboxForSignature">
+                            <div class="form-content-row">
+                              <div class="row align-items-center">
+                                <div class="col-sm-5">
+                                  <label for="displayName" class="form-label mb-sm-0"
+                                         translate="settings.display_name">Display name</label>
+                                </div>
+                                <div class="col-sm-7">
+                                  <input class="form-control form-control-sm" id="displayName" type="text"
+                                         [value]="selectedMailboxForSignature.display_name"
+                                         (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
+                                         placeholder="John Simpson"/>
+                                </div>
+                              </div>
                             </div>
                             <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-5">
-                                        <label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>
-                                    </div>
-                                    <div class="col-sm-7">
-                                        <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
-                                            [(ngModel)]="currentMailBox.signature" [ngModelOptions]="{ updateOn: 'blur'}"
-                                            (change)="updateMailboxSettings('signature', $event.target.value)" contenteditable="true">
-                                        </textarea>
-                                    </div>
+                              <div class="row align-items-center">
+                                <div class="col-sm-5">
+                                  <label for="signature" class="form-label mb-sm-0" translate="settings.signature">
+                                    Signature</label>
                                 </div>
+                                <div class="col-sm-7">
+                                  <textarea class="form-control form-control-sm form-control-contenteditable"
+                                            id="signature"
+                                            [value]="selectedMailboxForSignature.signature"
+                                            (change)="updateMailboxSettings(selectedMailboxForSignature, 'signature', $event.target.value)"
+                                            contenteditable="true">
+                                  </textarea>
+                                </div>
+                              </div>
                             </div>
+                          </ng-container>
 
 
                             <!-- Will be used later -->

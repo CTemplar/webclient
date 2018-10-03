@@ -107,9 +107,12 @@ export function reducer(
         return mailbox;
       });
 
+      if (updatedCurrentMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = {...updatedCurrentMailBox};
+      }
+
       return {
         ...state,
-        currentMailbox: updatedCurrentMailBox,
         mailboxes: mailboxes,
         inProgress: false,
       };

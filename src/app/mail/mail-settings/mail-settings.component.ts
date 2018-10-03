@@ -69,6 +69,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   mailboxes: Mailbox[];
   newAddressForm: FormGroup;
   newAddressOptions: any = {};
+  selectedMailboxForSignature: Mailbox;
 
   private changePasswordModalRef: NgbModalRef;
 
@@ -112,6 +113,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
           this.currentMailBox = mailboxesState.currentMailbox;
+          if (!this.selectedMailboxForSignature || this.selectedMailboxForSignature.id === this.currentMailBox.id) {
+            // update selected mailbox in case `currentMailbox` has been updated
+            this.selectedMailboxForSignature = mailboxesState.currentMailbox;
+          }
           this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
         }
       });
@@ -242,12 +247,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateMailboxSettings(key?: string, value?: any) {
-    if (key) {
-      if (this.currentMailBox[key] !== value) {
-        this.currentMailBox[key] = value;
-        this.store.dispatch(new MailboxSettingsUpdate(this.currentMailBox));
-      }
+  updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
+    if (selectedMailbox[key] !== value) {
+      selectedMailbox[key] = value;
+      this.store.dispatch(new MailboxSettingsUpdate(selectedMailbox));
     }
   }
 

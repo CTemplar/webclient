@@ -48,7 +48,7 @@ export class MailboxEffects {
           switchMap(res => {
             return [new MailboxSettingsUpdateSuccess(payload)];
           }),
-          catchError(err => [new SnackErrorPush(err)]),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to update email address settings.'})]),
         );
     });
 
