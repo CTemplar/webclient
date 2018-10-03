@@ -131,6 +131,31 @@ export function reducer(
       return { ...state, inProgress: false };
     }
 
+    case MailActionTypes.SET_DEFAULT_MAILBOX_SUCCESS: {
+      const updatedCurrentMailBox: Mailbox = action.payload;
+      const previousDefaultMailBox = state.mailboxes.find(mailbox => !!mailbox.is_default);
+      let mailboxes: Mailbox[] = state.mailboxes;
+      mailboxes = mailboxes.map((mailbox) => {
+        if (mailbox.id === updatedCurrentMailBox.id) {
+          return { ...updatedCurrentMailBox };
+        } else if (mailbox.id === previousDefaultMailBox.id) {
+          return { ...mailbox, is_default: false };
+        }
+        return mailbox;
+      });
+
+      if (updatedCurrentMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = { ...updatedCurrentMailBox };
+      } else if (previousDefaultMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = { ...state.currentMailbox, is_default: false };
+      }
+
+      return {
+        ...state,
+        mailboxes: mailboxes
+      };
+    }
+
     default: {
       return state;
     }

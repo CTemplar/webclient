@@ -123,7 +123,7 @@ export class MailService {
     return this.http.delete<any>(`${apiUrl}emails/attachments/${attachment.id}/`);
   }
 
-  updateMailBoxSettings(data: UserMailbox) {
+  updateMailBoxSettings(data: Mailbox) {
     return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
 

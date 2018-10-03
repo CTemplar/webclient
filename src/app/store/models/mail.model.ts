@@ -42,7 +42,7 @@ export interface Mailbox {
   public_key: string;
   signature?: string;
   display_name?: string;
-  is_default?: string;
+  is_default?: boolean;
 }
 
 export interface Folder {

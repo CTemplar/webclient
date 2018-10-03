@@ -12,7 +12,16 @@ import { switchMap, catchError } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';
 // Custom Actions
-import { CreateMailbox, CreateMailboxFailure, CreateMailboxSuccess, GetMailboxes, GetMailboxesSuccess, MailActionTypes } from '../actions';
+import {
+  CreateMailbox,
+  CreateMailboxFailure,
+  CreateMailboxSuccess,
+  GetMailboxes,
+  GetMailboxesSuccess,
+  MailActionTypes,
+  SetDefaultMailbox, SetDefaultMailboxSuccess
+} from '../actions';
+import { Mailbox } from '../models';
 import { UserMailbox } from '../models/users.model';
 import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
 import { SettingsUpdateSuccess, SnackErrorPush } from '../actions/users.action';
@@ -42,11 +51,11 @@ export class MailboxEffects {
   mailboxSettingsUpdate: Observable<any> = this.actions
     .ofType(MailActionTypes.MAILBOX_SETTINGS_UPDATE)
     .map((action: MailboxSettingsUpdate) => action.payload)
-    .switchMap((payload: UserMailbox) => {
+    .switchMap((payload: Mailbox) => {
       return this.mailService.updateMailBoxSettings(payload)
         .pipe(
           switchMap(res => {
-            return [new MailboxSettingsUpdateSuccess(payload)];
+            return [new MailboxSettingsUpdateSuccess(res)];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to update email address settings.'})]),
         );
@@ -66,6 +75,22 @@ export class MailboxEffects {
             new CreateMailboxFailure(err),
             new SnackErrorPush({message: 'Failed to create new email address.'})
             ]),
+        );
+    });
+
+  @Effect()
+  setDefaultMailbox: Observable<any> = this.actions
+    .ofType(MailActionTypes.SET_DEFAULT_MAILBOX)
+    .map((action: SetDefaultMailbox) => action.payload)
+    .switchMap((payload: Mailbox) => {
+      return this.mailService.updateMailBoxSettings({ ...payload, is_default: true })
+        .pipe(
+          switchMap(res => {
+            return [new SetDefaultMailboxSuccess(res)];
+          }),
+          catchError(err => [
+            new SnackErrorPush({ message: 'Failed to set email address as default.' })
+          ]),
         );
     });
 

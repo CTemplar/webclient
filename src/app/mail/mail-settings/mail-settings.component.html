@@ -727,7 +727,8 @@
                                         <div class="col-2 col-sm-4">
                                             <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                                                 <li *ngIf="!mailbox.is_default">
-                                                    <button type="button" role="button" class="btn-link">Make Default</button>
+                                                    <button type="button" role="button" class="btn-link"
+                                                            (click)="updateDefaultEmailAddress(mailbox)">Make Default</button>
                                                 </li>
                                                 <li><button type="button" role="button" class="btn-link">Disable</button></li>
                                                 <!--<li><button type="button" class="btn-link">Enable</button></li>-->

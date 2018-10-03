@@ -11,7 +11,7 @@ import { Language, LANGUAGES } from '../../shared/config';
 import {
   BlackListDelete,
   ChangePassword,
-  CreateMailbox,
+  CreateMailbox, SetDefaultMailbox,
   SettingsUpdate,
   SnackErrorPush,
   SnackPush,
@@ -339,6 +339,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       ...this.openPgpService.getUserKeys()
     };
     this.store.dispatch(new CreateMailbox(requestData));
+  }
+
+  updateDefaultEmailAddress(selectedMailbox: Mailbox) {
+    this.store.dispatch(new SetDefaultMailbox(selectedMailbox));
   }
 
   private handleUsernameAvailability() {
