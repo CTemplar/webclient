@@ -39,6 +39,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   draftCount: number = 0;
   inboxUnreadCount: number = 0;
   isMenuOpened: boolean;
+  isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
 
@@ -141,7 +142,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   toggleMenu() { // click handler
-    if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
+    if (this.breakpointsService.isXS()) {
       if (this.isMenuOpened) {
         this.document.body.classList.remove('menu-open');
         this.isMenuOpened = false;
@@ -149,6 +150,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       if (this.document.body.classList.contains('menu-open')) {
         this.isMenuOpened = true;
       }
+    } else if (this.breakpointsService.isSM() || this.breakpointsService.isMD()) {
+      this.isSidebarOpened = !this.isSidebarOpened;
     }
   }
 
