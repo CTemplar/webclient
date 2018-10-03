@@ -749,19 +749,19 @@
                             <div class="form-content-row">
                                 <div class="row align-items-center">
                                     <div class="col-sm-5">
-                                        <label class="form-label mb-sm-0" translate="settings.keys.email_address">Email
-                                            address</label>
+                                        <label class="form-label mb-sm-0" translate="settings.keys.email_address">
+                                          Email address</label>
                                     </div>
                                     <div class="col-sm-7">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
-                                                <button ngbDropdownToggle class="dropdown-toggle" id="emailAddressDropdownMenuButton"
-                                                    role="button">
+                                                <button ngbDropdownToggle class="dropdown-toggle"
+                                                        id="keyEmailAddressDropdownMenuButton" role="button">
                                                     {{selectedMailboxForKey?.email}}
                                                 </button>
-                                                <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
-                                                    <a class="dropdown-item" *ngFor="let mailbox of userState.mailboxes"
-                                                        (click)="selectedMailboxForKey=mailbox;">{{mailbox.email}}</a>
+                                                <div ngbDropdownMenu aria-labelledby="keyEmailAddressDropdownMenuButton">
+                                                    <a class="dropdown-item" *ngFor="let mailbox of mailboxes"
+                                                        (click)="onSelectedMailboxForKeyChanged(mailbox)">{{mailbox.email}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -772,17 +772,18 @@
                             <div class="form-content-row">
                                 <div class="row align-items-center">
                                     <div class="col-sm-5">
-                                        <label for="fingerPrint" class="form-label mb-sm-0" translate="settings.keys.fingerprint">Fingerprint</label>
+                                        <label for="fingerPrint" class="form-label mb-sm-0"
+                                               translate="settings.keys.fingerprint">Fingerprint</label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <input class="form-control form-control-sm" id="fingerPrint" type="text" value="o8bg359348b24p08gn34408g4p389gbpq938g"
-                                            readonly="" />
-                                        <span class="form-label-text mt-1">
-                                            <a [href]="publicKey | safe: 'url'"><strong><u>
-                                                        <span translate="settings.download_public_kay">Download public
-                                                            key </span>
-                                                        (4096 Bit)</u></strong>
-                                            </a>
+                                        <input class="form-control form-control-sm" id="fingerPrint" type="text"
+                                               [value]="selectedMailboxForKey?.fingerprint" readonly=""/>
+                                        <span *ngIf="selectedMailboxPublicKey" class="form-label-text mt-1">
+                                          <a [href]="selectedMailboxPublicKey | safe: 'url'">
+                                            <strong><u>
+                                              <span translate="settings.download_public_kay">Download public key </span>
+                                              (4096 Bit)</u></strong>
+                                          </a>
                                         </span>
                                     </div>
                                 </div>

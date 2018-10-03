@@ -52,8 +52,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   payment: Payment;
   paymentType = PaymentType;
   paymentMethod = PaymentMethod;
-  selectedMailboxForKey: UserMailbox;
-  publicKey: any;
   newListContact = { show: false, type: 'Whitelist' };
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
@@ -70,6 +68,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   newAddressForm: FormGroup;
   newAddressOptions: any = {};
   selectedMailboxForSignature: Mailbox;
+  selectedMailboxForKey: Mailbox;
+  selectedMailboxPublicKey: any;
 
   private changePasswordModalRef: NgbModalRef;
 
@@ -96,9 +96,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
-        if (this.userState.mailboxes.length > 0) {
-          this.selectedMailboxForKey = this.userState.mailboxes[0];
-        }
       });
     this.store.select(state => state.timezone).takeUntil(this.destroyed$)
       .subscribe((timezonesState: TimezonesState) => {
@@ -117,7 +114,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
             // update selected mailbox in case `currentMailbox` has been updated
             this.selectedMailboxForSignature = mailboxesState.currentMailbox;
           }
-          this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
+          if (!this.selectedMailboxForKey || this.selectedMailboxForKey.id === this.currentMailBox.id) {
+            // update selected mailbox in case `currentMailbox` has been updated
+            this.onSelectedMailboxForKeyChanged(mailboxesState.currentMailbox);
+          }
         }
       });
 
@@ -343,6 +343,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   updateDefaultEmailAddress(selectedMailbox: Mailbox) {
     this.store.dispatch(new SetDefaultMailbox(selectedMailbox));
+  }
+
+  onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
+    this.selectedMailboxForKey = mailbox;
+    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
   }
 
   private handleUsernameAvailability() {
