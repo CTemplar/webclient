@@ -280,7 +280,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       old_password: data.oldPassword,
       password: data.password,
       confirm_password: data.confirmPwd,
-      ...this.openPgpService.getUserKeys(),
+      ...this.openPgpService.getUserKeys()
     };
     this.store.dispatch(new ChangePassword(requestData));
     this.changePasswordModalRef.dismiss();
@@ -298,7 +298,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   onUpdateSettingsBtnClick() {
-    this.store.dispatch(new SnackPush({message: 'Settings updated successfully.'}));
+    this.store.dispatch(new SnackPush({ message: 'Settings updated successfully.' }));
   }
 
   onAddNewAddress() {
@@ -338,7 +338,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new CreateMailbox(requestData));
   }
 
-  handleUsernameAvailability() {
+  private handleUsernameAvailability() {
     this.newAddressForm.get('username').valueChanges
       .pipe(
         debounceTime(500)
