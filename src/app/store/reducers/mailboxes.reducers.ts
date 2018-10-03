@@ -4,7 +4,6 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailBoxesState } from '../datatypes';
 import { Mailbox } from '../models/mail.model';
 
-
 export function reducer(
   state: MailBoxesState = {
     mailboxes: [],
@@ -108,11 +107,52 @@ export function reducer(
         return mailbox;
       });
 
+      if (updatedCurrentMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = {...updatedCurrentMailBox};
+      }
+
       return {
         ...state,
-        currentMailbox: updatedCurrentMailBox,
         mailboxes: mailboxes,
         inProgress: false,
+      };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX: {
+      return { ...state, inProgress: true };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX_SUCCESS: {
+      state.mailboxes = [...state.mailboxes, action.payload];
+      return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX_FAILURE: {
+      return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.SET_DEFAULT_MAILBOX_SUCCESS: {
+      const updatedCurrentMailBox: Mailbox = action.payload;
+      const previousDefaultMailBox = state.mailboxes.find(mailbox => !!mailbox.is_default);
+      let mailboxes: Mailbox[] = state.mailboxes;
+      mailboxes = mailboxes.map((mailbox) => {
+        if (mailbox.id === updatedCurrentMailBox.id) {
+          return { ...updatedCurrentMailBox };
+        } else if (mailbox.id === previousDefaultMailBox.id) {
+          return { ...mailbox, is_default: false };
+        }
+        return mailbox;
+      });
+
+      if (updatedCurrentMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = { ...updatedCurrentMailBox };
+      } else if (previousDefaultMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = { ...state.currentMailbox, is_default: false };
+      }
+
+      return {
+        ...state,
+        mailboxes: mailboxes
       };
     }
 

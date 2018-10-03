@@ -40,8 +40,10 @@ export interface Mailbox {
   is_active?: boolean;
   private_key: string;
   public_key: string;
+  fingerprint?: string;
   signature?: string;
   display_name?: string;
+  is_default?: boolean;
 }
 
 export interface Folder {

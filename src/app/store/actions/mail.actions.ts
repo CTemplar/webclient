@@ -33,7 +33,12 @@ export enum MailActionTypes {
   UPDATE_PGP_DECRYPTED_CONTENT = '[PGP] UPDATE PGP DECRYPTED CONTENT',
   UPDATE_CURRENT_FOLDER = '[FOLDER] UPDATE CURRENT FOLDER',
   MAILBOX_SETTINGS_UPDATE = '[MAILBOX SETTINGS] UPDATE',
-  MAILBOX_SETTINGS_UPDATE_SUCCESS = '[MAILBOX SETTINGS] UPDATE SUCCESS'
+  MAILBOX_SETTINGS_UPDATE_SUCCESS = '[MAILBOX SETTINGS] UPDATE SUCCESS',
+  CREATE_MAILBOX = '[MAILBOX] CREATE MAILBOX',
+  CREATE_MAILBOX_SUCCESS = '[MAILBOX] CREATE MAILBOX SUCCESS',
+  CREATE_MAILBOX_FAILURE = '[MAILBOX] CREATE MAILBOX FAILURE',
+  SET_DEFAULT_MAILBOX = '[MAILBOX] SET DEFAULT MAILBOX',
+  SET_DEFAULT_MAILBOX_SUCCESS = '[MAILBOX] SET DEFAULT MAILBOX SUCCESS',
 }
 
 export class GetMails implements Action {
@@ -223,6 +228,37 @@ export class MailboxSettingsUpdateSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class CreateMailbox implements Action {
+  readonly type = MailActionTypes.CREATE_MAILBOX;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateMailboxSuccess implements Action {
+  readonly type = MailActionTypes.CREATE_MAILBOX_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateMailboxFailure implements Action {
+  readonly type = MailActionTypes.CREATE_MAILBOX_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
+export class SetDefaultMailbox implements Action {
+  readonly type = MailActionTypes.SET_DEFAULT_MAILBOX;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class SetDefaultMailboxSuccess implements Action {
+  readonly type = MailActionTypes.SET_DEFAULT_MAILBOX_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
 
 export type MailActions =
   | GetMails
@@ -255,4 +291,9 @@ export type MailActions =
   | UpdatePGPDecryptedContent
   | UpdateCurrentFolder
   | MailboxSettingsUpdate
-  | MailboxSettingsUpdateSuccess;
+  | MailboxSettingsUpdateSuccess
+  | CreateMailbox
+  | CreateMailboxSuccess
+  | CreateMailboxFailure
+  | SetDefaultMailbox
+  | SetDefaultMailboxSuccess;
