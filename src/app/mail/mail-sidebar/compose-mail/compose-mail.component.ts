@@ -122,7 +122,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   deadManTimer: any = {};
   attachments: Attachment[] = [];
   isKeyboardOpened: boolean;
-  mailbox: Mailbox;
+  selectedMailbox: Mailbox;
   encryptForm: FormGroup;
   contacts: Contact[];
   datePickerMinDate: NgbDateStruct;
@@ -131,6 +131,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
   isTrialPrimeFeaturesAvailable: boolean;
+  mailBoxesState: MailBoxesState;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -148,7 +149,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
   private inlineAttachmentContentIds: Array<string> = [];
-  private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
   public userState: UserState;
@@ -218,8 +218,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailBoxesState: MailBoxesState) => {
-        if (mailBoxesState.mailboxes[0]) {
-          this.mailbox = mailBoxesState.mailboxes[0];
+        if (mailBoxesState.currentMailbox && !this.selectedMailbox || this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
+          this.selectedMailbox = mailBoxesState.currentMailbox;
         }
         this.mailBoxesState = mailBoxesState;
       });
@@ -324,6 +324,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       centered: true,
       windowClass: 'modal-sm users-action-modal'
     });
+  }
+
+  onFromChanged(mailbox: Mailbox) {
+    this.selectedMailbox = mailbox;
+    this.valueChanged$.next(this.selectedMailbox);
   }
 
   onImagesSelected(files: FileList) {
@@ -678,8 +683,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
     if (!this.draftMail) {
-      this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
+      this.draftMail = { content: null, mailbox: this.selectedMailbox.id, folder: 'draft' };
     }
+    this.draftMail.mailbox = this.selectedMailbox.id;
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
