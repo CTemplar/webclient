@@ -159,9 +159,10 @@
                       </div>
                     </div>
                     <div class="form-group-col">
+                        <span class="d-block text-right error-msg font-weight-bold hidden-sm-down">&nbsp;</span>
                       <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" translate="home_header.security">Security
                         Code</label>
-                      <input class="form-control stripe-error cvc" id="securityCode" [placeholder]="'home_header.security'| translate"
+                      <input class="form-control stripe-error cvc p-2" id="securityCode" [placeholder]="'home_header.security'| translate"
                              type="text" [(ngModel)]="cvc" name="securityCode"
                              [ngModelOptions]="{standalone: true}" (change)="checkStripeValidation()">
                     </div>

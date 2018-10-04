@@ -106,14 +106,6 @@
   }
 }
 
-// == Modal cotents
-.modal-form-label {
-  @include media("<=sm") {
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-  }
-}
-
 .mailbox-sidebar-nav-item>div {
   display: flex;
   position: relative;

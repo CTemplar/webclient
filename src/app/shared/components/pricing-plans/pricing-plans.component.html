@@ -155,7 +155,7 @@
                     <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
                     <li>
                       <div class="row row-xs">
-                        <div class="col-8">
+                        <div class="col-8 pb-1">
                           <div class="fancy-field-group mb-2">
                             <input class="d-none fancy-field-control" id="pay-monthly" name="payment_type"
                                    value="monthly" type="radio" checked [(ngModel)]="paymentType"
@@ -201,7 +201,7 @@
                   </a>
                   <div *ngIf="showCurrentPlan && isPrime">
                     <a *ngIf="isValueChanged" (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer"><strong>Upgrade Plan</strong></a>
-                    <a *ngIf="!isValueChanged" class="btn-link text-uppercase text-primary"><strong>Current Plan</strong></a>
+                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
               </footer>
@@ -258,8 +258,7 @@
 
                   <a (click)="selectPlan(0)" *ngIf="(showCurrentPlan && isPrime) || !showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
                   <div *ngIf="showCurrentPlan && !isPrime">
-                    <a class="btn-link text-uppercase text-primary"><strong>Current
-                      Plan</strong></a>
+                    <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
               </footer>

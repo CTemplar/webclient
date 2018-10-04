@@ -169,6 +169,7 @@ tag-input {
 
   .ng2-tag-input__text-input{
     height: 20px !important;
+    font-size: 14px !important;
   }
 
   tag {
@@ -261,6 +262,10 @@ tag-input {
 app-compose-mail {
   .mail-compose-field tag-input {
     max-width: calc(100% - 4rem);
+  }
+
+  .mail-compose-field textarea{
+    font-size: 14px;
   }
 }
 
@@ -387,4 +392,12 @@ button[disabled] {
   i {
     vertical-align: middle;
   }
+}
+
+.text-grey-dark {
+  color: #727272;
+} 
+
+.text-grey-dark-500 {
+  color: #757575;
 }

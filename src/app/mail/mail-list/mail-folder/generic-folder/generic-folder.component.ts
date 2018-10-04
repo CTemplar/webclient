@@ -28,6 +28,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
+  disableFolderActions: boolean = true;
 
   userState: UserState;
 
@@ -119,12 +120,14 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         return mail;
       });
       this.selectAll = true;
+      this.disableFolderActions = false;
     } else {
       this.mails.map(mail => {
         mail.marked = false;
         return mail;
       });
       this.selectAll = false;
+      this.disableFolderActions = true;
     }
   }
 
@@ -271,6 +274,20 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
       this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
+    }
+  }
+
+
+  toggleEmailSelection(mail, event) {
+    mail.marked = event;
+    if (event) {
+      this.disableFolderActions = false;
+    } else {
+      if (this.mails.filter(m => m.marked === true).length > 0) {
+        this.disableFolderActions = false;
+      } else {
+        this.disableFolderActions = true;
+      }
     }
   }
 
