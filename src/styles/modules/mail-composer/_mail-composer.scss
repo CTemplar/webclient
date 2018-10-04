@@ -289,6 +289,10 @@ a {
 	&[contenteditable]:focus {
 		outline: 0;
 	}
+
+	.ql-editor p {
+		font-size: 14px;
+	}
 }
 
 // Mail composer footer
