@@ -29,8 +29,9 @@ import {
   SnackPush,
   StarMailSuccess,
   UndoDeleteMail,
-  UndoDeleteMailSuccess, CreateFolder, CreateFolderSuccess, DeleteFolder, DeleteFolderSuccess
+  UndoDeleteMailSuccess, CreateFolder, CreateFolderSuccess, DeleteFolder, DeleteFolderSuccess, AccountDetailsGet
 } from '../actions';
+import { MailFolderType } from '../models';
 
 @Injectable()
 export class MailEffects {
@@ -78,6 +79,9 @@ export class MailEffects {
                 mail: payload.mail,
                 allowUndo: payload.allowUndo
               }));
+            }
+            if (payload.folder === MailFolderType.TRASH) {
+              updateFolderActions.push(new AccountDetailsGet());
             }
 
             return updateFolderActions;
