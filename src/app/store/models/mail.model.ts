@@ -44,6 +44,7 @@ export interface Mailbox {
   signature?: string;
   display_name?: string;
   is_default?: boolean;
+  is_enabled?: boolean;
 }
 
 export interface Folder {
