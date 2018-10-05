@@ -80,7 +80,7 @@ export class MailEffects {
                 allowUndo: payload.allowUndo
               }));
             }
-            if (payload.folder === MailFolderType.TRASH) {
+            if (payload.folder === MailFolderType.SPAM) {
               updateFolderActions.push(new AccountDetailsGet());
             }
 
