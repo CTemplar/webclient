@@ -218,7 +218,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailBoxesState: MailBoxesState) => {
-        if (mailBoxesState.currentMailbox && !this.selectedMailbox || this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
+        if (!this.selectedMailbox) {
+          if (this.draftMail && this.draftMail.mailbox) {
+            this.selectedMailbox = mailBoxesState.mailboxes.find(mailbox => mailbox.id === this.draftMail.mailbox);
+          } else if (mailBoxesState.currentMailbox) {
+            this.selectedMailbox = mailBoxesState.currentMailbox;
+          }
+        }
+        if (this.selectedMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
         }
         this.mailBoxesState = mailBoxesState;
@@ -259,7 +266,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftId = Date.now();
 
     if (this.draftMail && this.draftMail.content) {
-      this.openPgpService.decrypt(this.draftMail.id, this.draftMail.content);
+      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, this.draftMail.content);
       this.isSignatureAdded = true;
       this.inlineAttachmentContentIds = this.draftMail.attachments
         .filter((attachment: Attachment) => attachment.is_inline)
@@ -678,7 +685,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateEmail() {
     this.setMailData(false, true, true);
-    this.openPgpService.encrypt(this.draftId, this.draftMail.content);
+    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, this.draftMail.content);
   }
 
   setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
@@ -686,6 +693,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail = { content: null, mailbox: this.selectedMailbox.id, folder: 'draft' };
     }
     this.draftMail.mailbox = this.selectedMailbox.id;
+    this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);

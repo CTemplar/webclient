@@ -42,7 +42,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           } else {
             const decryptedContent = mailState.decryptedContents[this.mail.id];
             if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
-              this.pgpService.decrypt(this.mail.id, this.mail.content);
+              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content);
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
@@ -63,7 +63,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               } else {
                 const childDecryptedContent = mailState.decryptedContents[child.id];
                 if (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content)) {
-                  this.pgpService.decrypt(child.id, child.content);
+                  this.pgpService.decrypt(child.mailbox, child.id, child.content);
                 }
                 if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
                   this.decryptedContents[child.id] = childDecryptedContent.content;
