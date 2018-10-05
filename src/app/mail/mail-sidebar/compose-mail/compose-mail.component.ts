@@ -20,7 +20,7 @@ import {
   MoveMail,
   NewDraft,
   SendMail,
-  SnackErrorPush,
+  SnackErrorPush, SnackPush,
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
@@ -427,6 +427,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
+    if (!this.selectedMailbox.is_enabled) {
+      this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.'}));
+      return;
+    }
     if (this.userState.isPrime) {
       if (this.mailData.receiver.length > 20) {
         this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "TO" addresses are allowed.' }));
