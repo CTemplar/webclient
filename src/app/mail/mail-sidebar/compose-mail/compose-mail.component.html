@@ -3,16 +3,16 @@
     <div class="mail-compose-field-group">
       <div class="mail-compose-field">
         <span class="mail-label label-from">From:</span>
-        <div class="col-sm col-sm-11">
+        <div class="col-sm p-0">
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
             <div ngbDropdown class="dropdown-sm">
-              <button ngbDropdownToggle class="dropdown-toggle"
+              <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
                       id="fromEmailDropdownMenuButton" role="button">
                 {{selectedMailbox?.email}}
               </button>
               <div ngbDropdownMenu aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
-                  <a class="dropdown-item" *ngIf="mailbox.is_enabled"
+                  <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled"
                      (click)="onFromChanged(mailbox)">{{mailbox.email}}</a>
                 </ng-container>
               </div>
