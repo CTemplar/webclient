@@ -55,7 +55,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     for (let i = 6; i <= 50; i++) {
       this.availableStorage.push(i);
     }
-    for (let i = 6; i <= 52; i += 3) {
+    for (let i = 6; i <= 30; i += 3) {
       this.availableEmailAddress.push(i);
     }
     this.paymentType = this.paymentType || PaymentType.MONTHLY;
