@@ -62,15 +62,14 @@
                         <button class="dropdown-toggle" type="button" id="emailAddressDropdownMenuButton"
                                 ngbDropdownToggle>
                           {{selectedEmailAddress}}
-                          <span translate="page_pricing.email_aliases" *ngIf="selectedEmailAddress > 1">Email Address Aliases</span>
-                          <span translate="page_pricing.email_alias" *ngIf="selectedEmailAddress === 1">Email Address Alias</span>
+                          <span translate="page_pricing.email_aliases">Email Address Aliases</span>
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right"
                              aria-labelledby="emailAddressDropdownMenuButton">
-                          <a class="dropdown-item" (click)="selectedEmailAddress = 1; calculatePrices(); isValueChanged = true;">1 <span translate="page_pricing.email_alias">Email Address Alias</span></a>
+                          <a class="dropdown-item" (click)="selectedEmailAddress = 3; calculatePrices(); isValueChanged = true;">3 <span translate="page_pricing.email_alias">Email Address Aliases</span></a>
                           <a *ngFor="let address of availableEmailAddress"
                              class="dropdown-item" (click)="selectedEmailAddress = address; calculatePrices(); isValueChanged = true;">
-                            {{address}} <span translate="page_pricing.email_aliases">Email Address Alias</span> + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
+                            {{address}} <span translate="page_pricing.email_aliases">Email Address Aliases</span> + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
                         </div>
                       </div>
                     </div>
