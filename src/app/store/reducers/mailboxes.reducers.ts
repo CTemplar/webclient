@@ -17,7 +17,7 @@ export function reducer(
       return {
         ...state,
         mailboxes: action.payload,
-        currentMailbox: action.payload[0],
+        currentMailbox: action.payload.find(mailbox => mailbox.is_default)
       };
     }
 
