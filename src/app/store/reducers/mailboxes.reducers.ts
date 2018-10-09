@@ -43,59 +43,6 @@ export function reducer(
       };
     }
 
-    case MailActionTypes.SET_FOLDERS: {
-      state.currentMailbox.customFolders = [...state.currentMailbox.customFolders, action.payload];
-      state.mailboxes = state.mailboxes.map((mailbox) => {
-        if (mailbox.id === state.currentMailbox.id) {
-          return { ...state.currentMailbox };
-        }
-        return mailbox;
-      });
-      return {
-        ...state
-      };
-    }
-    case MailActionTypes.CREATE_FOLDER: {
-      return {
-        ...state,
-        inProgress: true,
-      };
-    }
-    case MailActionTypes.CREATE_FOLDER_SUCCESS: {
-      state.currentMailbox.customFolders = [...state.currentMailbox.customFolders, action.payload];
-      state.mailboxes = state.mailboxes.map((mailbox) => {
-        if (mailbox.id === state.currentMailbox.id) {
-          return { ...state.currentMailbox };
-        }
-        return mailbox;
-      });
-      return {
-        ...state,
-        inProgress: false,
-      };
-    }
-
-    case MailActionTypes.DELETE_FOLDER: {
-      return {
-        ...state,
-        inProgress: true,
-      };
-    }
-
-    case MailActionTypes.DELETE_FOLDER_SUCCESS: {
-      state.currentMailbox.customFolders = state.currentMailbox.customFolders.filter(folder => folder.id !== action.payload.id);
-      state.mailboxes = state.mailboxes.map((mailbox) => {
-        if (mailbox.id === state.currentMailbox.id) {
-          return { ...state.currentMailbox };
-        }
-        return mailbox;
-      });
-      return {
-        ...state,
-        inProgress: false,
-      };
-    }
-
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_SUCCESS: {
       const updatedCurrentMailBox: Mailbox = action.payload;
       let mailboxes: Mailbox[] = state.mailboxes;
@@ -108,7 +55,7 @@ export function reducer(
       });
 
       if (updatedCurrentMailBox.id === state.currentMailbox.id) {
-        state.currentMailbox = {...updatedCurrentMailBox};
+        state.currentMailbox = { ...updatedCurrentMailBox };
       }
 
       return {

@@ -1,7 +1,8 @@
 // Custom Action
-import { UsersActionAll, UsersActionTypes } from '../actions';
+
 // Model
 import { UserState } from '../datatypes';
+import { UsersActionAll, UsersActionTypes } from '../actions';
 
 export const initialState: UserState = {
   username: null,
@@ -14,6 +15,7 @@ export const initialState: UserState = {
   membership: {},
   mailboxes: [],
   payment_transaction: {},
+  customFolders: [],
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -153,6 +155,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         settings: action.payload.settings,
         mailboxes: action.payload.mailboxes,
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
+        customFolders: action.payload.custom_folders,
       };
     }
 
@@ -166,6 +169,37 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.MEMBERSHIP_UPDATE: {
       return { ...state, membership: action.payload };
     }
+
+    case UsersActionTypes.CREATE_FOLDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+
+    case UsersActionTypes.CREATE_FOLDER_SUCCESS: {
+      state.customFolders = [...state.customFolders, action.payload];
+      return {
+        ...state,
+        inProgress: false,
+      };
+    }
+
+    case UsersActionTypes.DELETE_FOLDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+
+    case UsersActionTypes.DELETE_FOLDER_SUCCESS: {
+      state.customFolders = state.customFolders.filter(folder => folder.id !== action.payload.id);
+      return {
+        ...state,
+        inProgress: false,
+      };
+    }
+
     default: {
       return state;
     }

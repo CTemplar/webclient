@@ -63,19 +63,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.customFolders = user.customFolders;
         if (this.fetchMails && this.userState.settings) {
           this.LIMIT =  user.settings.emails_per_page;
           if (this.LIMIT) {
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
             this.initializeAutoRefresh();
           }
-        }
-      });
-
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-      .subscribe((mailboxes: MailBoxesState) => {
-        if (mailboxes.currentMailbox) {
-          this.customFolders = mailboxes.currentMailbox.customFolders;
         }
       });
 
