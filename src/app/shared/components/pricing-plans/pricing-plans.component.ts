@@ -6,6 +6,7 @@ import { FinalLoading, MembershipUpdate } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
 import { PaymentMethod, PaymentType } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
+import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE } from '../../config';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
 @Component({
@@ -15,8 +16,8 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
 })
 export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly defaultMonthlyPrice = 8;
-  readonly defaultStorage = 5; // storage in GB
-  readonly defaultEmailAddress = 3;
+  readonly defaultStorage = DEFAULT_STORAGE;
+  readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
 
   @Input() hideHeader: boolean;
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
