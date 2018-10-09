@@ -11,7 +11,8 @@ import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES } from '../
 import {
   BlackListDelete,
   ChangePassword,
-  CreateMailbox, SetDefaultMailbox,
+  CreateMailbox,
+  SetDefaultMailbox,
   SettingsUpdate,
   SnackErrorPush,
   SnackPush,
@@ -29,7 +30,7 @@ import {
   TimezonesState,
   UserState
 } from '../../store/datatypes';
-import { Mailbox, UserMailbox } from '../../store/models';
+import { Mailbox } from '../../store/models';
 import { OpenPgpService, UsersService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
 
@@ -144,11 +145,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   calculatePrices() {
     if (this.payment && this.payment.amount) {
       let price = +this.payment.amount;
-      price = +(price / 100).toFixed(2);
+      if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
+        price = +(price / 100000000).toFixed(5);
+      } else {
+        price = +(price / 100).toFixed(2);
+      }
       if (this.payment.payment_type === PaymentType.ANNUALLY) {
         this.annualDiscountedPrice = price;
       } else {
-        this.annualTotalPrice = +(price * 12).toFixed(2);
+        this.annualTotalPrice = +(price * 12).toFixed(this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase() ? 5 : 2);
       }
     } else {
       this.annualTotalPrice = 96;
@@ -165,7 +170,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.extraEmailAddress = this.settings.email_count - this.defaultEmailAddress;
       }
       if (this.payment && this.payment.payment_type === PaymentType.ANNUALLY) {
-        this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
+        this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12)
+          .toFixed(this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase() ? 5 : 2);
       }
     }
   }
