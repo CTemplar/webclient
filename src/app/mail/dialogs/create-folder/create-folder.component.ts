@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import { AppState, MailBoxesState } from '../../../store/datatypes';
+import { AppState, MailBoxesState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,10 +20,10 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   customFolderForm: FormGroup;
-  mailBoxesState: MailBoxesState;
   folderColors: string[] = FOLDER_COLORS;
   selectedColorIndex: number = 0;
   currentMailbox: Mailbox;
+  userState: UserState;
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
@@ -38,11 +38,14 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes: MailBoxesState) => {
-        if (this.mailBoxesState && this.mailBoxesState.inProgress && !mailboxes.inProgress) {
+        this.currentMailbox = mailboxes.currentMailbox;
+      });
+    this.store.select(state => state.user).takeUntil(this.destroyed$)
+      .subscribe((user: UserState) => {
+        if (this.userState && this.userState.inProgress && !user.inProgress) {
           this.activeModal.close();
         }
-        this.mailBoxesState = mailboxes;
-        this.currentMailbox = mailboxes.currentMailbox;
+        this.userState = user;
       });
   }
 
@@ -52,7 +55,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
       color: this.folderColors[this.selectedColorIndex],
       mailbox: this.currentMailbox.id
     };
-    if (this.currentMailbox.customFolders
+    if (this.userState.customFolders
       .filter(folder => folder.name.toLowerCase() === customFolder.name.toLowerCase()).length > 0) {
       this.onHide();
       return;

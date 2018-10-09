@@ -13,7 +13,7 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 // Service
-import { UsersService } from '../../store/services';
+import { MailService, UsersService } from '../../store/services';
 // Custom Actions
 import {
   AccountDetailsGet,
@@ -34,7 +34,7 @@ import {
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
-  ContactImportSuccess,
+  ContactImportSuccess, CreateFolder, CreateFolderSuccess, DeleteFolder, DeleteFolderSuccess, MailActionTypes,
   SettingsUpdate,
   SettingsUpdateSuccess,
   SnackErrorPush,
@@ -58,7 +58,8 @@ export class UsersEffects {
   constructor(
     private actions: Actions,
     private userService: UsersService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private mailService: MailService,
   ) {
   }
 
@@ -218,7 +219,7 @@ export class UsersEffects {
               return [
                 new ContactAddSuccess(contact),
                 new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` })
-            ];
+              ];
             }),
             catchError(err => [
               new ContactAddError(),
@@ -314,5 +315,37 @@ export class UsersEffects {
         return new SnackErrorPushSuccess();
       }),
     );
+
+  @Effect()
+  createFolderEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.CREATE_FOLDER)
+    .map((action: CreateFolder) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.createFolder(payload)
+        .pipe(
+          switchMap(res => {
+            return [
+              new CreateFolderSuccess(res)
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to create folder.' })])
+        );
+    });
+
+  @Effect()
+  deleteFolderEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.DELETE_FOLDER)
+    .map((action: DeleteFolder) => action.payload)
+    .switchMap(folder => {
+      return this.mailService.deleteFolder(folder.id)
+        .pipe(
+          switchMap(res => {
+            return [
+              new DeleteFolderSuccess(folder)
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
+        );
+    });
 
 }

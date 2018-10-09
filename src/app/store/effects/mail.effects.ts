@@ -29,7 +29,7 @@ import {
   SnackPush,
   StarMailSuccess,
   UndoDeleteMail,
-  UndoDeleteMailSuccess, CreateFolder, CreateFolderSuccess, DeleteFolder, DeleteFolderSuccess, AccountDetailsGet
+  UndoDeleteMailSuccess, AccountDetailsGet, DeleteFolder
 } from '../actions';
 import { MailFolderType } from '../models';
 
@@ -92,22 +92,6 @@ export class MailEffects {
     });
 
   @Effect()
-  deleteFolderEffect: Observable<any> = this.actions
-    .ofType(MailActionTypes.DELETE_FOLDER)
-    .map((action: DeleteFolder) => action.payload)
-    .switchMap(folder => {
-      return this.mailService.deleteFolder(folder.id)
-        .pipe(
-          switchMap(res => {
-            return [
-              new DeleteFolderSuccess(folder)
-            ];
-          }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
-        );
-    });
-
-  @Effect()
   deleteMailEffect: Observable<any> = this.actions
     .ofType(MailActionTypes.DELETE_MAIL)
     .map((action: CreateMail) => action.payload)
@@ -165,22 +149,6 @@ export class MailEffects {
           switchMap(res => {
             return [new GetMailDetailSuccess(res)];
           })
-        );
-    });
-
-  @Effect()
-  updateFolderEffect: Observable<any> = this.actions
-    .ofType(MailActionTypes.CREATE_FOLDER)
-    .map((action: CreateFolder) => action.payload)
-    .switchMap(payload => {
-      return this.mailService.createFolder(payload)
-        .pipe(
-          switchMap(res => {
-            return [
-              new CreateFolderSuccess(res)
-            ];
-          }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to create folder.' })])
         );
     });
 

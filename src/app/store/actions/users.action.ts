@@ -37,7 +37,11 @@ export enum UsersActionTypes {
   SNACK_ERROR_PUSH_SUCCESS = '[Snacks] Error Push success',
   MEMBERSHIP_UPDATE = '[Membership] Update',
   SETTINGS_UPDATE = '[SETTINGS] UPDATE',
-  SETTINGS_UPDATE_SUCCESS = '[SETTINGS] UPDATE SUCCESS'
+  SETTINGS_UPDATE_SUCCESS = '[SETTINGS] UPDATE SUCCESS',
+  CREATE_FOLDER = '[USER] UPDATE FOLDER',
+  CREATE_FOLDER_SUCCESS = '[USER] UPDATE FOLDER SUCCESS',
+  DELETE_FOLDER = '[USER] DELETE FOLDER',
+  DELETE_FOLDER_SUCCESS = '[USER] DELETE FOLDER SUCCESS',
 }
 
 export class Accounts implements Action {
@@ -283,6 +287,30 @@ export class SettingsUpdateSuccess implements Action {
   constructor(public payload: Settings) {}
 }
 
+export class CreateFolder implements Action {
+  readonly type = UsersActionTypes.CREATE_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateFolderSuccess implements Action {
+  readonly type = UsersActionTypes.CREATE_FOLDER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteFolder implements Action {
+  readonly type = UsersActionTypes.DELETE_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteFolderSuccess implements Action {
+  readonly type = UsersActionTypes.DELETE_FOLDER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -318,4 +346,8 @@ export type UsersActionAll =
   | SnackErrorPushSuccess
   | MembershipUpdate
   | SettingsUpdate
-  | SettingsUpdateSuccess;
+  | SettingsUpdateSuccess
+  | CreateFolder
+  | CreateFolderSuccess
+  | DeleteFolder
+  | DeleteFolderSuccess;

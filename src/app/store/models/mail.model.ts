@@ -34,7 +34,6 @@ export interface Mail {
 export interface Mailbox {
   id?: number;
   folders: string[];
-  customFolders: Folder[];
   messages: string[];
   email: string;
   is_active?: boolean;
