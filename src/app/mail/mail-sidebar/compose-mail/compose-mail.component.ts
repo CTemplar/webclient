@@ -207,8 +207,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.contacts = user.contact;
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
-        this.signature = user.settings.signature;
-        this.addSignature();
       });
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
@@ -223,10 +221,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.selectedMailbox = mailBoxesState.mailboxes.find(mailbox => mailbox.id === this.draftMail.mailbox);
           } else if (mailBoxesState.currentMailbox) {
             this.selectedMailbox = mailBoxesState.currentMailbox;
+            this.addSignature();
           }
+          this.signature = this.selectedMailbox.signature;
         }
         if (this.selectedMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
+          this.signature = this.selectedMailbox.signature;
         }
         this.mailBoxesState = mailBoxesState;
       });
