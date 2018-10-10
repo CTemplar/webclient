@@ -7,10 +7,11 @@
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
-                      id="fromEmailDropdownMenuButton" role="button">
+                      id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
                 {{selectedMailbox?.email}}
               </button>
-              <div ngbDropdownMenu aria-labelledby="fromEmailDropdownMenuButton">
+              <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu
+                   aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
                   <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled"
                      (click)="onFromChanged(mailbox)">{{mailbox.email}}</a>
