@@ -204,7 +204,7 @@
                     {{(paymentType === 'annually' ? annualPricePerMonth : monthlyPrice) | currency:selectedCurrency}}/<span class="text-normal">mo</span>
                   </a>
                   <div *ngIf="showCurrentPlan && isPrime">
-                    <a *ngIf="isValueChanged" (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer"><strong>Upgrade Plan</strong></a>
+                    <a *ngIf="false" (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer"><strong>Upgrade Plan</strong></a>
                     <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
