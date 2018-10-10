@@ -6,6 +6,7 @@ import { FinalLoading, MembershipUpdate } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
 import { PaymentMethod, PaymentType } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
+import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE } from '../../config';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
 @Component({
@@ -15,8 +16,8 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
 })
 export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly defaultMonthlyPrice = 8;
-  readonly defaultStorage = 5; // storage in GB
-  readonly defaultEmailAddress = 1;
+  readonly defaultStorage = DEFAULT_STORAGE;
+  readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
 
   @Input() hideHeader: boolean;
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
@@ -54,7 +55,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     for (let i = 6; i <= 50; i++) {
       this.availableStorage.push(i);
     }
-    for (let i = 4; i <= 52; i += 3) {
+    for (let i = 6; i <= 30; i += 3) {
       this.availableEmailAddress.push(i);
     }
     this.paymentType = this.paymentType || PaymentType.MONTHLY;
@@ -116,7 +117,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   calculatePrices() {
     let monthlyPrice = this.defaultMonthlyPrice;
     monthlyPrice += (this.selectedStorage - this.defaultStorage);
-    monthlyPrice += this.selectedEmailAddress === 1 ? 0 : ((this.selectedEmailAddress - this.defaultEmailAddress) / 3);
+    monthlyPrice += ((this.selectedEmailAddress - this.defaultEmailAddress) / 3);
     this.monthlyPrice = monthlyPrice;
     this.annualPricePerMonth = +(this.monthlyPrice * 0.75).toFixed(2);
     this.annualPriceTotal = +(this.annualPricePerMonth * 12).toFixed(2);
