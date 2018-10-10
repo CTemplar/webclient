@@ -13,7 +13,7 @@
               <div class="row align-items-center">
                   <div class="col-sm-3">
                       <label for="folderName" class="modal-form-label mb-2 mb-sm-0">
-                          <small>Folder name:</small>
+                          Folder name:
                       </label>
                   </div>
                   <div class="col-sm-9">
@@ -28,7 +28,7 @@
               <div class="row">
                   <div class="col-sm-3">
                       <label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
-                          <small>Select color:</small>
+                          Select color:
                       </label>
                   </div>
                   <div class="col-sm-9">
@@ -46,8 +46,8 @@
               </div>
           </div>
           <div class="modal-footer justify-content-center justify-content-sm-end">
-              <app-loading-spinner [showSpinner]="mailBoxesState?.inProgress"></app-loading-spinner>
-              <button type="submit" [disabled]="mailBoxesState?.inProgress" class="btn btn-secondary btn-sm">Create</button>
+              <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+              <button type="submit" [disabled]="userState?.inProgress" class="btn btn-secondary btn-sm">Create</button>
           </div>
       </form>
   </div>

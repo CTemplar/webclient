@@ -289,6 +289,10 @@ a {
 	&[contenteditable]:focus {
 		outline: 0;
 	}
+
+	.ql-editor p {
+		font-size: 14px;
+	}
 }
 
 // Mail composer footer
@@ -377,6 +381,10 @@ a {
 		left: 0.375rem;
 		transform: translateY(-50%);	
 	}
+}
+
+.mail-actions-form-title .actions-btn {
+	margin-left: -5px;
 }
 
 // == Attachment uploader

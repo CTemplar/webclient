@@ -24,16 +24,16 @@ export enum MailActionTypes {
   SET_CURRENT_MAILBOX = '[MAILBOX] SET CURRENTLY SELECTED',
   UNDO_DELETE_MAIL = '[Mail] UNDO DELETE DRAFT MAIL',
   UNDO_DELETE_MAIL_SUCCESS = '[Mail] UNDO DELETE DRAFT MAIL SUCCESS',
-  SET_FOLDERS = '[MAILBOX] SET FOLDERS',
-  CREATE_FOLDER = '[MAILBOX] UPDATE FOLDER',
-  CREATE_FOLDER_SUCCESS = '[MAILBOX] UPDATE FOLDER SUCCESS',
-  DELETE_FOLDER = '[MAILBOX] DELETE FOLDER',
-  DELETE_FOLDER_SUCCESS = '[MAILBOX] DELETE FOLDER SUCCESS',
   SET_CURRENT_FOLDER = '[FOLDER] SET CURRENT',
   UPDATE_PGP_DECRYPTED_CONTENT = '[PGP] UPDATE PGP DECRYPTED CONTENT',
   UPDATE_CURRENT_FOLDER = '[FOLDER] UPDATE CURRENT FOLDER',
   MAILBOX_SETTINGS_UPDATE = '[MAILBOX SETTINGS] UPDATE',
-  MAILBOX_SETTINGS_UPDATE_SUCCESS = '[MAILBOX SETTINGS] UPDATE SUCCESS'
+  MAILBOX_SETTINGS_UPDATE_SUCCESS = '[MAILBOX SETTINGS] UPDATE SUCCESS',
+  CREATE_MAILBOX = '[MAILBOX] CREATE MAILBOX',
+  CREATE_MAILBOX_SUCCESS = '[MAILBOX] CREATE MAILBOX SUCCESS',
+  CREATE_MAILBOX_FAILURE = '[MAILBOX] CREATE MAILBOX FAILURE',
+  SET_DEFAULT_MAILBOX = '[MAILBOX] SET DEFAULT MAILBOX',
+  SET_DEFAULT_MAILBOX_SUCCESS = '[MAILBOX] SET DEFAULT MAILBOX SUCCESS',
 }
 
 export class GetMails implements Action {
@@ -163,36 +163,6 @@ export class UndoDeleteMailSuccess implements Action {
   constructor(public payload?: any) {}
 }
 
-export class SetFolders implements Action {
-  readonly type = MailActionTypes.SET_FOLDERS;
-
-  constructor(public payload: any) {}
-}
-
-export class CreateFolder implements Action {
-  readonly type = MailActionTypes.CREATE_FOLDER;
-
-  constructor(public payload: any) {}
-}
-
-export class CreateFolderSuccess implements Action {
-  readonly type = MailActionTypes.CREATE_FOLDER_SUCCESS;
-
-  constructor(public payload: any) {}
-}
-
-export class DeleteFolder implements Action {
-  readonly type = MailActionTypes.DELETE_FOLDER;
-
-  constructor(public payload: any) {}
-}
-
-export class DeleteFolderSuccess implements Action {
-  readonly type = MailActionTypes.DELETE_FOLDER_SUCCESS;
-
-  constructor(public payload: any) {}
-}
-
 export class SetCurrentFolder implements Action {
   readonly type = MailActionTypes.SET_CURRENT_FOLDER;
 
@@ -223,6 +193,37 @@ export class MailboxSettingsUpdateSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class CreateMailbox implements Action {
+  readonly type = MailActionTypes.CREATE_MAILBOX;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateMailboxSuccess implements Action {
+  readonly type = MailActionTypes.CREATE_MAILBOX_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class CreateMailboxFailure implements Action {
+  readonly type = MailActionTypes.CREATE_MAILBOX_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
+export class SetDefaultMailbox implements Action {
+  readonly type = MailActionTypes.SET_DEFAULT_MAILBOX;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class SetDefaultMailboxSuccess implements Action {
+  readonly type = MailActionTypes.SET_DEFAULT_MAILBOX_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
 
 export type MailActions =
   | GetMails
@@ -246,13 +247,13 @@ export type MailActions =
   | SetCurrentMailbox
   | UndoDeleteMail
   | UndoDeleteMailSuccess
-  | SetFolders
-  | CreateFolder
-  | CreateFolderSuccess
-  | DeleteFolder
-  | DeleteFolderSuccess
   | SetCurrentFolder
   | UpdatePGPDecryptedContent
   | UpdateCurrentFolder
   | MailboxSettingsUpdate
-  | MailboxSettingsUpdateSuccess;
+  | MailboxSettingsUpdateSuccess
+  | CreateMailbox
+  | CreateMailboxSuccess
+  | CreateMailboxFailure
+  | SetDefaultMailbox
+  | SetDefaultMailboxSuccess;

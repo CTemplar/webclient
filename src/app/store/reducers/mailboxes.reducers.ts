@@ -4,7 +4,6 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailBoxesState } from '../datatypes';
 import { Mailbox } from '../models/mail.model';
 
-
 export function reducer(
   state: MailBoxesState = {
     mailboxes: [],
@@ -18,7 +17,7 @@ export function reducer(
       return {
         ...state,
         mailboxes: action.payload,
-        currentMailbox: action.payload[0],
+        currentMailbox: action.payload.find(mailbox => mailbox.is_default)
       };
     }
 
@@ -44,59 +43,6 @@ export function reducer(
       };
     }
 
-    case MailActionTypes.SET_FOLDERS: {
-      state.currentMailbox.customFolders = [...state.currentMailbox.customFolders, action.payload];
-      state.mailboxes = state.mailboxes.map((mailbox) => {
-        if (mailbox.id === state.currentMailbox.id) {
-          return { ...state.currentMailbox };
-        }
-        return mailbox;
-      });
-      return {
-        ...state
-      };
-    }
-    case MailActionTypes.CREATE_FOLDER: {
-      return {
-        ...state,
-        inProgress: true,
-      };
-    }
-    case MailActionTypes.CREATE_FOLDER_SUCCESS: {
-      state.currentMailbox.customFolders = [...state.currentMailbox.customFolders, action.payload];
-      state.mailboxes = state.mailboxes.map((mailbox) => {
-        if (mailbox.id === state.currentMailbox.id) {
-          return { ...state.currentMailbox };
-        }
-        return mailbox;
-      });
-      return {
-        ...state,
-        inProgress: false,
-      };
-    }
-
-    case MailActionTypes.DELETE_FOLDER: {
-      return {
-        ...state,
-        inProgress: true,
-      };
-    }
-
-    case MailActionTypes.DELETE_FOLDER_SUCCESS: {
-      state.currentMailbox.customFolders = state.currentMailbox.customFolders.filter(folder => folder.id !== action.payload.id);
-      state.mailboxes = state.mailboxes.map((mailbox) => {
-        if (mailbox.id === state.currentMailbox.id) {
-          return { ...state.currentMailbox };
-        }
-        return mailbox;
-      });
-      return {
-        ...state,
-        inProgress: false,
-      };
-    }
-
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_SUCCESS: {
       const updatedCurrentMailBox: Mailbox = action.payload;
       let mailboxes: Mailbox[] = state.mailboxes;
@@ -108,11 +54,52 @@ export function reducer(
         return mailbox;
       });
 
+      if (updatedCurrentMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = { ...updatedCurrentMailBox };
+      }
+
       return {
         ...state,
-        currentMailbox: updatedCurrentMailBox,
         mailboxes: mailboxes,
         inProgress: false,
+      };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX: {
+      return { ...state, inProgress: true };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX_SUCCESS: {
+      state.mailboxes = [...state.mailboxes, action.payload];
+      return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.CREATE_MAILBOX_FAILURE: {
+      return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.SET_DEFAULT_MAILBOX_SUCCESS: {
+      const updatedCurrentMailBox: Mailbox = action.payload;
+      const previousDefaultMailBox = state.mailboxes.find(mailbox => !!mailbox.is_default);
+      let mailboxes: Mailbox[] = state.mailboxes;
+      mailboxes = mailboxes.map((mailbox) => {
+        if (mailbox.id === updatedCurrentMailBox.id) {
+          return { ...updatedCurrentMailBox };
+        } else if (mailbox.id === previousDefaultMailBox.id) {
+          return { ...mailbox, is_default: false };
+        }
+        return mailbox;
+      });
+
+      if (updatedCurrentMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = { ...updatedCurrentMailBox };
+      } else if (previousDefaultMailBox.id === state.currentMailbox.id) {
+        state.currentMailbox = { ...state.currentMailbox, is_default: false };
+      }
+
+      return {
+        ...state,
+        mailboxes: mailboxes
       };
     }
 

@@ -34,14 +34,16 @@ export interface Mail {
 export interface Mailbox {
   id?: number;
   folders: string[];
-  customFolders: Folder[];
   messages: string[];
   email: string;
   is_active?: boolean;
   private_key: string;
   public_key: string;
+  fingerprint?: string;
   signature?: string;
   display_name?: string;
+  is_default?: boolean;
+  is_enabled?: boolean;
 }
 
 export interface Folder {

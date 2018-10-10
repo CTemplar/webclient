@@ -5,6 +5,7 @@ import { Params } from '@angular/router';
 // Models
 import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox, Attachment, MailFolderType } from '../store/models';
 import { SearchState } from './reducers/search.reducers';
+import { Folder } from './models/mail.model';
 
 export interface RouterStateUrl {
   url: string;
@@ -59,6 +60,7 @@ export interface UserState {
   error?: string;
   membership: Membership;
   mailboxes: UserMailbox[];
+  customFolders: Folder[];
 }
 
 export interface Settings {

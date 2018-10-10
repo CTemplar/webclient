@@ -506,32 +506,61 @@
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
                         <div class="form-content-holder">
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-5">
-                                        <label for="displayName" class="form-label mb-sm-0" translate="settings.display_name">Display
-                                            name</label>
+                          <div class="form-content-row">
+                            <div class="row align-items-center">
+                              <div class="col-sm-5">
+                                <label class="form-label mb-sm-0" translate="settings.keys.email_address">
+                                  Email address</label>
+                              </div>
+                              <div class="col-sm-7">
+                                <div class="btn-dropdown btn-dropdown-select">
+                                  <div ngbDropdown class="dropdown-sm">
+                                    <button ngbDropdownToggle class="dropdown-toggle"
+                                            id="signatureEmailAddressDropdownMenuButton"
+                                            role="button">
+                                      {{selectedMailboxForSignature?.email}}
+                                    </button>
+                                    <div ngbDropdownMenu aria-labelledby="signatureEmailAddressDropdownMenuButton">
+                                      <a class="dropdown-item" *ngFor="let mailbox of mailboxes"
+                                         (click)="selectedMailboxForSignature = mailbox">{{mailbox.email}}</a>
                                     </div>
-                                    <div class="col-sm-7">
-                                        <input class="form-control form-control-sm" id="displayName" type="text"
-                                            [(ngModel)]="currentMailBox.display_name" [ngModelOptions]="{ updateOn: 'blur'}"
-                                            (change)="updateMailboxSettings('display_name', $event.target.value)" placeholder="John Simpson" />
-                                    </div>
+                                  </div>
                                 </div>
+                              </div>
+                            </div>
+                          </div>
+                          <ng-container *ngIf="selectedMailboxForSignature">
+                            <div class="form-content-row">
+                              <div class="row align-items-center">
+                                <div class="col-sm-5">
+                                  <label for="displayName" class="form-label mb-sm-0"
+                                         translate="settings.display_name">Display name</label>
+                                </div>
+                                <div class="col-sm-7">
+                                  <input class="form-control form-control-sm" id="displayName" type="text"
+                                         [value]="selectedMailboxForSignature.display_name"
+                                         (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
+                                         placeholder="John Simpson"/>
+                                </div>
+                              </div>
                             </div>
                             <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-5">
-                                        <label for="signature" class="form-label mb-sm-0" translate="settings.signature">Signature</label>
-                                    </div>
-                                    <div class="col-sm-7">
-                                        <textarea class="form-control form-control-sm form-control-contenteditable" id="signature"
-                                            [(ngModel)]="currentMailBox.signature" [ngModelOptions]="{ updateOn: 'blur'}"
-                                            (change)="updateMailboxSettings('signature', $event.target.value)" contenteditable="true">
-                                        </textarea>
-                                    </div>
+                              <div class="row align-items-center">
+                                <div class="col-sm-5">
+                                  <label for="signature" class="form-label mb-sm-0" translate="settings.signature">
+                                    Signature</label>
                                 </div>
+                                <div class="col-sm-7">
+                                  <textarea class="form-control form-control-sm form-control-contenteditable"
+                                            id="signature"
+                                            [value]="selectedMailboxForSignature.signature"
+                                            (change)="updateMailboxSettings(selectedMailboxForSignature, 'signature', $event.target.value)"
+                                            contenteditable="true">
+                                  </textarea>
+                                </div>
+                              </div>
                             </div>
+                          </ng-container>
 
 
                             <!-- Will be used later -->
@@ -608,6 +637,118 @@
                 </section>
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0">
+                            <strong translate="settings.addresses">Addresses</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                          <button type="button" *ngIf="mailboxes?.length < settings?.email_count"
+                                  (click)="onAddNewAddress()" class="btn btn-link right">Add Address</button>
+                            <ul class="ui-list ui-list-styled list-styled">
+                              <li *ngIf="newAddressOptions.isAddingNew" class="ui-list-item ui-list-item-xs-full">
+                                <form class="signup-form" [formGroup]="newAddressForm" #form="ngForm" (ngSubmit)="submitNewAddress()">
+                                  <div class="row row-xs align-items-center">
+                                    <div class="col-sm-10">
+                                      <div class="form-group mb-0">
+                                        <div class="form-inline userame-field-group"
+                                             [ngClass]="{'is-validate': newAddressForm.controls.username.invalid &&
+                                             (newAddressForm.controls.username.touched || newAddressOptions.isSubmitted)}">
+                                          <input class="form-control text-dark mb-3 mb-sm-0" id="new-address-username"
+                                                 [placeholder]="'create_account.choose_username' | translate"
+                                                 type="text" name="username"
+                                                 formControlName="username"/>
+                                          <span class="domain-separator text-center text-dark">@</span>
+                                          <input class="form-control text-dark is-readonly border-0 px-0 email-input"
+                                                 value="ctemplar.com" type="text" readonly tabindex="-1"/>
+                                          <ng-container *ngIf="newAddressOptions.isBusy || mailBoxesState?.inProgress; else showIcons">
+                                            <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
+                                          </ng-container>
+                                          <ng-template #showIcons>
+                                            <i class="fas fa-check green"
+                                               *ngIf="newAddressOptions.usernameExists === false && !newAddressForm.controls['username'].errors"></i>
+                                            <i class="fas fa-times text-danger"
+                                               *ngIf="newAddressOptions.usernameExists === true ||
+                                               (newAddressForm.controls['username'].errors &&
+                                               (newAddressForm.controls['username'].touched ||
+                                               newAddressOptions.isSubmitted))"></i>
+                                          </ng-template>
+                                        </div>
+                                        <ng-container
+                                                *ngIf="newAddressForm.controls['username'].errors &&
+                                                (newAddressForm.controls['username'].touched ||
+                                                newAddressOptions.isSubmitted); else usernameExistsBlock">
+                                          <span class="validate-message"
+                                                *ngIf="newAddressForm.controls['username'].errors; else usernameRequiredError">
+                                            <ng-container *ngIf="newAddressForm.controls['username'].errors.pattern; else usernameLengthBlock">
+                                              The username must start with an alphabet and can only contain
+                                              <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> characters, and minimum length should be 4 characters.
+                                            </ng-container>
+                                            <ng-template #usernameLengthBlock>
+                                              <ng-container
+                                                      *ngIf="newAddressForm.controls['username'].errors.minlength ||
+                                                      newAddressForm.controls['username'].errors.maxlength">
+                                                The username must be between 4 and 64 characters.
+                                              </ng-container>
+                                            </ng-template>
+                                          </span>
+                                          <ng-template #usernameRequiredError>
+                                            <span class="validate-message">The username is required.</span>
+                                          </ng-template>
+                                        </ng-container>
+                                        <ng-template #usernameExistsBlock>
+                                          <span *ngIf="newAddressOptions.usernameExists === true"
+                                                class="validate-message">Email alias already exists.
+                                          </span>
+                                        </ng-template>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                        <li><button type="submit" class="btn-link cursor-pointer"
+                                                    [disabled]="newAddressOptions.isBusy">Add</button></li>
+                                        <li>
+                                            <button type="button" class="btn-link p-0" (click)="onDiscardNewAddress()"
+                                                    role="button" [disabled]="newAddressOptions.isBusy">
+                                                <i class="icon icon-garbage"></i></button>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </form>
+                              </li>
+                              <li class="ui-list-item ui-list-item-xs-full" *ngFor="let mailbox of mailboxes">
+                                    <div class="row row-xs align-items-center">
+                                        <div class="col-10 col-sm-8">
+                                            <div class="form-label text-dark mb-0">
+                                                {{mailbox.email}}
+                                                <span *ngIf="mailbox.is_default" class="badge badge-default">Primary</span>
+                                                <span *ngIf="!mailbox.is_enabled" class="badge badge-danger">Disabled</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 col-sm-4">
+                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                                <li *ngIf="false">
+                                                    <button type="button" role="button" class="btn-link"
+                                                            (click)="updateDefaultEmailAddress(mailbox)">Make Default</button>
+                                                </li>
+                                                <li *ngIf="mailbox.is_enabled && !mailbox.is_default">
+                                                    <button type="button" role="button" class="btn-link"
+                                                            (click)="updateMailboxSettings(mailbox, 'is_enabled', false)">Disable</button>
+                                                </li>
+                                                <li *ngIf="!mailbox.is_enabled">
+                                                    <button type="button" role="button" class="btn-link"
+                                                            (click)="updateMailboxSettings(mailbox, 'is_enabled', true)">Enable</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.keys.name">Keys</strong></h5>
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
@@ -615,19 +756,19 @@
                             <div class="form-content-row">
                                 <div class="row align-items-center">
                                     <div class="col-sm-5">
-                                        <label class="form-label mb-sm-0" translate="settings.keys.email_address">Email
-                                            address</label>
+                                        <label class="form-label mb-sm-0" translate="settings.keys.email_address">
+                                          Email address</label>
                                     </div>
                                     <div class="col-sm-7">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
-                                                <button ngbDropdownToggle class="dropdown-toggle" id="emailAddressDropdownMenuButton"
-                                                    role="button">
+                                                <button ngbDropdownToggle class="dropdown-toggle"
+                                                        id="keyEmailAddressDropdownMenuButton" role="button">
                                                     {{selectedMailboxForKey?.email}}
                                                 </button>
-                                                <div ngbDropdownMenu aria-labelledby="emailAddressDropdownMenuButton">
-                                                    <a class="dropdown-item" *ngFor="let mailbox of userState.mailboxes"
-                                                        (click)="selectedMailboxForKey=mailbox;">{{mailbox.email}}</a>
+                                                <div ngbDropdownMenu aria-labelledby="keyEmailAddressDropdownMenuButton">
+                                                    <a class="dropdown-item" *ngFor="let mailbox of mailboxes"
+                                                        (click)="onSelectedMailboxForKeyChanged(mailbox)">{{mailbox.email}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -638,17 +779,18 @@
                             <div class="form-content-row">
                                 <div class="row align-items-center">
                                     <div class="col-sm-5">
-                                        <label for="fingerPrint" class="form-label mb-sm-0" translate="settings.keys.fingerprint">Fingerprint</label>
+                                        <label for="fingerPrint" class="form-label mb-sm-0"
+                                               translate="settings.keys.fingerprint">Fingerprint</label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <input class="form-control form-control-sm" id="fingerPrint" type="text" value="o8bg359348b24p08gn34408g4p389gbpq938g"
-                                            readonly="" />
-                                        <span class="form-label-text mt-1">
-                                            <a [href]="publicKey | safe: 'url'"><strong><u>
-                                                        <span translate="settings.download_public_kay">Download public
-                                                            key </span>
-                                                        (4096 Bit)</u></strong>
-                                            </a>
+                                        <input class="form-control form-control-sm" id="fingerPrint" type="text"
+                                               [value]="selectedMailboxForKey?.fingerprint" readonly=""/>
+                                        <span *ngIf="selectedMailboxPublicKey" class="form-label-text mt-1">
+                                          <a [href]="selectedMailboxPublicKey | safe: 'url'">
+                                            <strong><u>
+                                              <span translate="settings.download_public_kay">Download public key </span>
+                                              (4096 Bit)</u></strong>
+                                          </a>
                                         </span>
                                     </div>
                                 </div>
@@ -953,7 +1095,7 @@
 
             <div class="login-content-holder mx-auto mt-2 pt-sm-2">
                 <div class="form">
-                    <form [formGroup]="changePasswordForm" (submit)="changePassword(changePasswordForm.value)">
+                    <form [formGroup]="changePasswordForm" (submit)="changePassword()">
                         <div class="form-group form-group-sm">
                             <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
                                 Password</label>

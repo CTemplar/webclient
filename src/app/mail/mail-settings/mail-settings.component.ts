@@ -5,9 +5,20 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import { Language, LANGUAGES } from '../../shared/config';
+import { debounceTime } from 'rxjs/operators';
+import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES } from '../../shared/config';
 
-import { BlackListDelete, ChangePassword, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
+import {
+  BlackListDelete,
+  ChangePassword,
+  CreateMailbox,
+  SetDefaultMailbox,
+  SettingsUpdate,
+  SnackErrorPush,
+  SnackPush,
+  WhiteListDelete
+} from '../../store/actions';
+import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
   AppState,
   MailBoxesState,
@@ -19,10 +30,9 @@ import {
   TimezonesState,
   UserState
 } from '../../store/datatypes';
-import { Mailbox, UserMailbox } from '../../store/models';
-import { OpenPgpService } from '../../store/services';
+import { Mailbox } from '../../store/models';
+import { OpenPgpService, UsersService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
-import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -32,8 +42,8 @@ import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 })
 export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
-  readonly defaultStorage = 5; // storage in GB
-  readonly defaultEmailAddress = 1;
+  readonly defaultStorage = DEFAULT_STORAGE;
+  readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
 
   @ViewChild('changePasswordModal') changePasswordModal;
 
@@ -43,8 +53,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   payment: Payment;
   paymentType = PaymentType;
   paymentMethod = PaymentMethod;
-  selectedMailboxForKey: UserMailbox;
-  publicKey: any;
   newListContact = { show: false, type: 'Whitelist' };
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
@@ -55,9 +63,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   annualDiscountedPrice: number;
   extraStorage: number = 0; // storage extra than the default 5GB
   extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
+  mailBoxesState: MailBoxesState;
   currentMailBox: Mailbox;
+  mailboxes: Mailbox[];
+  newAddressForm: FormGroup;
+  newAddressOptions: any = {};
+  selectedMailboxForSignature: Mailbox;
+  selectedMailboxForKey: Mailbox;
+  selectedMailboxPublicKey: any;
 
-  private mailboxes: Mailbox[];
   private changePasswordModalRef: NgbModalRef;
 
   constructor(
@@ -65,7 +79,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     config: NgbDropdownConfig,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
-    private openPgpService: OpenPgpService
+    private openPgpService: OpenPgpService,
+    private usersService: UsersService
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -82,9 +97,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
-        if (this.userState.mailboxes.length > 0) {
-          this.selectedMailboxForKey = this.userState.mailboxes[0];
-        }
       });
     this.store.select(state => state.timezone).takeUntil(this.destroyed$)
       .subscribe((timezonesState: TimezonesState) => {
@@ -92,11 +104,21 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       });
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxesState: MailBoxesState) => {
+        if (this.mailBoxesState && this.mailBoxesState.inProgress && !mailboxesState.inProgress && this.newAddressOptions.isBusy) {
+          this.onDiscardNewAddress();
+        }
+        this.mailBoxesState = mailboxesState;
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
-
           this.currentMailBox = mailboxesState.currentMailbox;
-          this.publicKey = 'data:application/octet-stream;charset=utf-8;base64,' + btoa(this.mailboxes[0].public_key);
+          if (!this.selectedMailboxForSignature || this.selectedMailboxForSignature.id === this.currentMailBox.id) {
+            // update selected mailbox in case `currentMailbox` has been updated
+            this.selectedMailboxForSignature = mailboxesState.currentMailbox;
+          }
+          if (!this.selectedMailboxForKey || this.selectedMailboxForKey.id === this.currentMailBox.id) {
+            // update selected mailbox in case `currentMailbox` has been updated
+            this.onSelectedMailboxForKeyChanged(mailboxesState.currentMailbox);
+          }
         }
       });
 
@@ -108,16 +130,30 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       {
         validator: PasswordValidation.MatchPassword
       });
+
+    this.newAddressForm = this.formBuilder.group({
+      'username': ['', [
+        Validators.required,
+        Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i),
+        Validators.minLength(4),
+        Validators.maxLength(64)
+      ]]
+    });
+    this.handleUsernameAvailability();
   }
 
   calculatePrices() {
     if (this.payment && this.payment.amount) {
       let price = +this.payment.amount;
-      price = +(price / 100).toFixed(2);
+      if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
+        price = +(price / 100000000).toFixed(5);
+      } else {
+        price = +(price / 100).toFixed(2);
+      }
       if (this.payment.payment_type === PaymentType.ANNUALLY) {
         this.annualDiscountedPrice = price;
       } else {
-        this.annualTotalPrice = +(price * 12).toFixed(2);
+        this.annualTotalPrice = +(price * 12).toFixed(this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase() ? 5 : 2);
       }
     } else {
       this.annualTotalPrice = 96;
@@ -134,7 +170,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.extraEmailAddress = this.settings.email_count - this.defaultEmailAddress;
       }
       if (this.payment && this.payment.payment_type === PaymentType.ANNUALLY) {
-        this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
+        this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12)
+          .toFixed(this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase() ? 5 : 2);
       }
     }
   }
@@ -216,44 +253,43 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateMailboxSettings(key?: string, value?: any) {
-    if (key) {
-      if (this.currentMailBox[key] !== value) {
-        this.currentMailBox[key] = value;
-        this.store.dispatch(new MailboxSettingsUpdate(this.currentMailBox));
-      }
+  updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
+    if (selectedMailbox[key] !== value) {
+      selectedMailbox[key] = value;
+      this.store.dispatch(new MailboxSettingsUpdate(selectedMailbox));
     }
   }
 
-  changePassword(data) {
+  changePassword() {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
-      this.openPgpService.generateUserKeys(this.userState.username, data.password);
+      this.openPgpService.generateUserKeys(this.userState.username, this.changePasswordForm.value.password);
       if (this.openPgpService.getUserKeys()) {
-        this.changePasswordConfirmed(data);
+        this.changePasswordConfirmed();
       } else {
-        this.waitForPGPKeys(data);
+        this.waitForPGPKeys('changePasswordConfirmed');
       }
     }
   }
 
-  waitForPGPKeys(data) {
+  waitForPGPKeys(callback) {
     setTimeout(() => {
       if (this.openPgpService.getUserKeys()) {
-        this.changePasswordConfirmed(data);
+        this[callback]();
         return;
       }
-      this.waitForPGPKeys(data);
+      this.waitForPGPKeys(callback);
     }, 500);
   }
 
-  changePasswordConfirmed(data) {
+  changePasswordConfirmed() {
+    const data = this.changePasswordForm.value;
     const requestData = {
       username: this.userState.username,
       old_password: data.oldPassword,
       password: data.password,
       confirm_password: data.confirmPwd,
-      ...this.openPgpService.getUserKeys(),
+      ...this.openPgpService.getUserKeys()
     };
     this.store.dispatch(new ChangePassword(requestData));
     this.changePasswordModalRef.dismiss();
@@ -271,6 +307,74 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   onUpdateSettingsBtnClick() {
-    this.store.dispatch(new SnackPush({message: 'Settings updated successfully.'}));
+    this.store.dispatch(new SnackPush({ message: 'Settings updated successfully.' }));
   }
+
+  onAddNewAddress() {
+    if (!this.newAddressOptions.isAddingNew) {
+      this.newAddressForm.reset('username');
+      this.newAddressOptions = {
+        isAddingNew: true
+      };
+    }
+  }
+
+  onDiscardNewAddress() {
+    this.newAddressForm.reset('username');
+    this.newAddressOptions = {
+      isAddingNew: false
+    };
+  }
+
+  submitNewAddress() {
+    this.newAddressOptions.isSubmitted = true;
+    if (this.newAddressForm.valid && !this.newAddressOptions.usernameExists) {
+      this.newAddressOptions.isBusy = true;
+      this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
+      if (this.openPgpService.getUserKeys()) {
+        this.addNewAddress();
+      } else {
+        this.waitForPGPKeys('addNewAddress');
+      }
+    }
+  }
+
+  addNewAddress() {
+    const requestData = {
+      email: this.newAddressForm.value.username, // backend appends domain in username to create `email`
+      ...this.openPgpService.getUserKeys()
+    };
+    this.store.dispatch(new CreateMailbox(requestData));
+  }
+
+  updateDefaultEmailAddress(selectedMailbox: Mailbox) {
+    this.store.dispatch(new SetDefaultMailbox(selectedMailbox));
+  }
+
+  onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
+    this.selectedMailboxForKey = mailbox;
+    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
+  }
+
+  private handleUsernameAvailability() {
+    this.newAddressForm.get('username').valueChanges
+      .pipe(
+        debounceTime(500)
+      )
+      .subscribe((username) => {
+        if (!this.newAddressForm.controls['username'].errors) {
+          this.newAddressOptions.isBusy = true;
+          this.usersService.checkUsernameAvailability(this.newAddressForm.controls['username'].value)
+            .subscribe(response => {
+                this.newAddressOptions.usernameExists = response.exists;
+                this.newAddressOptions.isBusy = false;
+              },
+              error => {
+                this.store.dispatch(new SnackErrorPush({ message: 'Failed to check username availability.' }));
+                this.newAddressOptions.isBusy = false;
+              });
+        }
+      });
+  }
+
 }

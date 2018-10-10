@@ -3,12 +3,12 @@ self.window = {crypto: self.crypto}; // to make UMD bundles work
 importScripts('/openpgp.min.js');
 var openpgp = window.openpgp;
 
-var decryptedPrivKeyObj;
+var decryptedPrivKeys = {};
 var decryptedSecureMsgPrivKeyObj;
 
 onmessage = function (event) {
     if (event.data.clear) {
-        decryptedPrivKeyObj = null;
+        decryptedPrivKeys = {};
     }
     else if (event.data.generateKeys) {
         generateKeys(event.data.options).then((data) => {
@@ -34,16 +34,22 @@ onmessage = function (event) {
 		    })
 	    }
     }
-    else if (event.data.decryptPrivateKey) {
-        decryptedPrivKeyObj = openpgp.key.readArmored(event.data.privkey).keys[0];
-        decryptedPrivKeyObj.decrypt(event.data.user_key);
-        postMessage({key: decryptedPrivKeyObj, decryptPrivateKey: true});
+    else if (event.data.decryptPrivateKeys) {
+    	if (event.data.privkeys) {
+    		event.data.privkeys.forEach(key => {
+    			if (!decryptedPrivKeys[key.mailboxId]) {
+				    decryptedPrivKeys[key.mailboxId] = openpgp.key.readArmored(key.privkey).keys[0];
+				    decryptedPrivKeys[key.mailboxId].decrypt(event.data.user_key);
+			    }
+		    });
+	    }
+      postMessage({keys: decryptedPrivKeys, decryptPrivateKeys: true});
     }
     else if (event.data.decrypt) {
-        if (!event.data.content) {
+        if (!event.data.content || !event.data.mailboxId) {
             postMessage({decryptedContent: event.data.content, decrypted: true, callerId: event.data.callerId});
         } else {
-            decryptContent(event.data.content, decryptedPrivKeyObj).then((data) => {
+            decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId]).then((data) => {
                 postMessage({decryptedContent: data, decrypted: true, callerId: event.data.callerId});
             })
         }

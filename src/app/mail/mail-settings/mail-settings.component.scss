@@ -3,6 +3,8 @@
 @import '../../../styles/config/include-media-config';
 @import '../../../styles/vendors/ceaser/ceaser-easing';
 
+$error-red: #e94e4c;
+
 // == Settigs page styles
 
 .desc-card-holder {
@@ -332,4 +334,99 @@
   bottom: 6rem;
   right: 0.8rem;
   background-color: $brand-blue;
+}
+
+.userame-field-group {
+  .form-control {
+    @include media(">sm") {
+      width: calc(70% - 50px);
+
+      &.is-readonly {
+        width: calc(30% - 50px);
+      }
+    }
+
+    @include media("<=sm") {
+      &.is-readonly {
+        width: calc(100% - 48px);
+      }
+    }
+  }
+
+  i {
+    margin-left: 10px;
+  }
+
+  .domain-separator {
+    margin-left: 0.75rem;
+    width: 2.25rem;
+    font-size: 1.5rem;
+  }
+
+  .is-readonly {
+    background: $brand-white;
+    font-style: italic;
+  }
+}
+
+.is-validate {
+  &.input-group {
+    border: 1px solid $error-red;
+    border-radius: 4px;
+
+    .form-control {
+      border: 0;
+    }
+    .input-group-addon {
+      border: 0;
+    }
+  }
+  label::before {
+    border-color: $error-red;
+  }
+}
+
+.signup-form {
+  position: relative;
+  padding-top: 5px;
+  .validate-message {
+    display: block;
+    margin-bottom: 0.375rem;
+    color: $error-red !important;
+    font-size: 0.875rem;
+    text-align: left;
+  }
+
+  &__failed {
+    position: absolute;
+    left: 0px;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    color: $error-red;
+  }
+  .email-input {
+    border: none !important;
+    &:focus {
+      box-shadow: none;
+      outline: none;
+    }
+  }
+}
+
+// == Key generator modal
+.progress-label {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.progress-sm {
+  .progress-bar {
+    height: 0.875rem;
+  }
+}
+
+.username-availability-spinner {
+  position: absolute;
+  right: -18px;
 }

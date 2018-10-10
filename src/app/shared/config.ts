@@ -57,3 +57,6 @@ export interface Language {
 }
 
 export const ESCAPE_KEYCODE = 27;
+
+export const DEFAULT_STORAGE = 5; // storage in GB
+export const DEFAULT_EMAIL_ADDRESS = 3;

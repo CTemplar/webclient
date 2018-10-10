@@ -20,7 +20,7 @@ import {
   MoveMail,
   NewDraft,
   SendMail,
-  SnackErrorPush,
+  SnackErrorPush, SnackPush,
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
@@ -122,7 +122,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   deadManTimer: any = {};
   attachments: Attachment[] = [];
   isKeyboardOpened: boolean;
-  mailbox: Mailbox;
+  selectedMailbox: Mailbox;
   encryptForm: FormGroup;
   contacts: Contact[];
   datePickerMinDate: NgbDateStruct;
@@ -131,6 +131,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
   isTrialPrimeFeaturesAvailable: boolean;
+  mailBoxesState: MailBoxesState;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -148,7 +149,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
   private inlineAttachmentContentIds: Array<string> = [];
-  private mailBoxesState: MailBoxesState;
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
   public userState: UserState;
@@ -207,8 +207,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.contacts = user.contact;
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
-        this.signature = user.settings.signature;
-        this.addSignature();
       });
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
@@ -218,8 +216,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailBoxesState: MailBoxesState) => {
-        if (mailBoxesState.mailboxes[0]) {
-          this.mailbox = mailBoxesState.mailboxes[0];
+        if (!this.selectedMailbox) {
+          if (this.draftMail && this.draftMail.mailbox) {
+            this.selectedMailbox = mailBoxesState.mailboxes.find(mailbox => mailbox.id === this.draftMail.mailbox);
+          } else if (mailBoxesState.currentMailbox) {
+            this.selectedMailbox = mailBoxesState.currentMailbox;
+            this.addSignature();
+          }
+          this.signature = this.selectedMailbox.signature;
+        }
+        if (this.selectedMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
+          this.selectedMailbox = mailBoxesState.currentMailbox;
+          this.signature = this.selectedMailbox.signature;
         }
         this.mailBoxesState = mailBoxesState;
       });
@@ -259,7 +267,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftId = Date.now();
 
     if (this.draftMail && this.draftMail.content) {
-      this.openPgpService.decrypt(this.draftMail.id, this.draftMail.content);
+      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, this.draftMail.content);
       this.isSignatureAdded = true;
       this.inlineAttachmentContentIds = this.draftMail.attachments
         .filter((attachment: Attachment) => attachment.is_inline)
@@ -324,6 +332,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       centered: true,
       windowClass: 'modal-sm users-action-modal'
     });
+  }
+
+  onFromChanged(mailbox: Mailbox) {
+    this.selectedMailbox = mailbox;
+    this.valueChanged$.next(this.selectedMailbox);
   }
 
   onImagesSelected(files: FileList) {
@@ -415,6 +428,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
+    if (!this.selectedMailbox.is_enabled) {
+      this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.'}));
+      return;
+    }
     if (this.userState.isPrime) {
       if (this.mailData.receiver.length > 20) {
         this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "TO" addresses are allowed.' }));
@@ -673,13 +690,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateEmail() {
     this.setMailData(false, true, true);
-    this.openPgpService.encrypt(this.draftId, this.draftMail.content);
+    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, this.draftMail.content);
   }
 
   setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
     if (!this.draftMail) {
-      this.draftMail = { content: null, mailbox: this.mailbox.id, folder: 'draft' };
+      this.draftMail = { content: null, mailbox: this.selectedMailbox.id, folder: 'draft' };
     }
+    this.draftMail.mailbox = this.selectedMailbox.id;
+    this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);

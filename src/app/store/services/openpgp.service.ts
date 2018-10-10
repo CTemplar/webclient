@@ -20,9 +20,9 @@ declare var openpgp;
 export class OpenPgpService {
   options: any;
   encrypted: any;
-  private pubkey: any;
-  private privkey: any;
-  private decryptedPrivKeyObj: any;
+  private pubkeys: any;
+  private privkeys: any;
+  private decryptedPrivKeys: any;
   private decryptInProgress: boolean;
   private pgpWorker: Worker;
   private pgpEncryptWorker: Worker;
@@ -37,14 +37,25 @@ export class OpenPgpService {
     this.listenWorkerPostMessages();
 
     this.store.select(state => state.mailboxes)
-      .subscribe((response: MailBoxesState) => {
-        // TODO: replace mailboxes[0] with the mailbox selected by user
-        if (response.currentMailbox) {
-          this.pubkey = response.currentMailbox.public_key;
-          this.privkey = response.currentMailbox.private_key;
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        if (mailBoxesState.mailboxes.length > 0) {
+          this.privkeys = this.privkeys || {};
+          this.pubkeys = this.pubkeys || {};
+          let hasNewPrivateKey = false;
+          mailBoxesState.mailboxes.forEach(mailbox => {
+            if (!this.privkeys[mailbox.id]) {
+              this.privkeys[mailbox.id] = mailbox.private_key;
+              hasNewPrivateKey = true;
+            }
+            if (!this.pubkeys[mailbox.id]) {
+              this.pubkeys[mailbox.id] = mailbox.public_key;
+            }
+          });
+          if (hasNewPrivateKey) {
+            this.decryptPrivateKeys();
+          }
         }
-        this.decryptInProgress = response.decryptKeyInProgress;
-        this.initializeWorker();
+        this.decryptInProgress = mailBoxesState.decryptKeyInProgress;
       });
 
     this.store.select((state: AppState) => state.auth)
@@ -56,22 +67,20 @@ export class OpenPgpService {
       });
   }
 
-  initializeWorker() {
-    if (this.privkey && !this.decryptedPrivKeyObj && !this.decryptInProgress) {
-      const userKey = this.usersService.getUserKey();
-      if (!userKey) {
-        this.store.dispatch(new Logout());
-        return;
-      }
-
-      this.store.dispatch(new SetDecryptInProgress(true));
-
-      this.pgpWorker.postMessage({
-        decryptPrivateKey: true,
-        privkey: this.privkey,
-        user_key: atob(userKey)
-      });
+  decryptPrivateKeys() {
+    const userKey = this.usersService.getUserKey();
+    if (!userKey) {
+      this.store.dispatch(new Logout());
+      return;
     }
+
+    this.store.dispatch(new SetDecryptInProgress(true));
+
+    this.pgpWorker.postMessage({
+      decryptPrivateKeys: true,
+      privkeys: Object.keys(this.privkeys).map(key => ({ mailboxId: key, privkey: this.privkeys[key] })),
+      user_key: atob(userKey)
+    });
   }
 
   listenWorkerPostMessages() {
@@ -87,9 +96,9 @@ export class OpenPgpService {
         else {
           this.userKeys = event.data.keys;
         }
-      } else if (event.data.decryptPrivateKey) {
-        this.decryptedPrivKeyObj = event.data.key;
-        this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeyObj }));
+      } else if (event.data.decryptPrivateKeys) {
+        this.decryptedPrivKeys = event.data.keys;
+        this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeys }));
       } else if (event.data.decrypted) {
         this.store.dispatch(new UpdatePGPDecryptedContent({
           id: event.data.callerId,
@@ -122,10 +131,10 @@ export class OpenPgpService {
     });
   }
 
-  encrypt(draftId, content, publicKeys: any[] = []) {
+  encrypt(mailboxId, draftId, content, publicKeys: any[] = []) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
 
-    publicKeys.push(this.pubkey);
+    publicKeys.push(this.pubkeys[mailboxId]);
     this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys, callerId: draftId });
   }
 
@@ -135,13 +144,13 @@ export class OpenPgpService {
     this.pgpEncryptWorker.postMessage({ content: content, encryptSecureMessageReply: true, publicKeys: publicKeys });
   }
 
-  decrypt(mailId, content) {
-    if (this.decryptedPrivKeyObj) {
+  decrypt(mailboxId, mailId, content) {
+    if (this.decryptedPrivKeys) {
       this.store.dispatch(new UpdatePGPDecryptedContent({ id: mailId, isPGPInProgress: true, decryptedContent: null }));
-      this.pgpWorker.postMessage({ content: content, decrypt: true, callerId: mailId });
+      this.pgpWorker.postMessage({ mailboxId: mailboxId, content: content, decrypt: true, callerId: mailId });
     } else {
       setTimeout(() => {
-        this.decrypt(mailId, content);
+        this.decrypt(mailboxId, mailId, content);
       }, 1000);
     }
   }
@@ -157,9 +166,9 @@ export class OpenPgpService {
   }
 
   clearData() {
-    this.decryptedPrivKeyObj = null;
-    this.pubkey = null;
-    this.privkey = null;
+    this.decryptedPrivKeys = null;
+    this.pubkeys = null;
+    this.privkeys = null;
     this.userKeys = null;
     this.store.dispatch(new SetDecryptedKey({ decryptedKey: null }));
     this.pgpWorker.postMessage({ clear: true });

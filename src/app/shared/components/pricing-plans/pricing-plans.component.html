@@ -47,7 +47,10 @@
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right"
                              aria-labelledby="storageDropdownMenuButton">
-                          <a class="dropdown-item" (click)="selectedStorage = 5; calculatePrices(); isValueChanged = true;">5 GB <span translate="settings.storage">Storage</span></a>
+                          <a class="dropdown-item"
+                             (click)="selectedStorage = defaultStorage; calculatePrices(); isValueChanged = true;">
+                            {{defaultStorage}} GB <span translate="settings.storage">Storage</span>
+                          </a>
                           <a *ngFor="let storage of availableStorage"
                              class="dropdown-item" (click)="selectedStorage = storage; calculatePrices();isValueChanged = true;">
                             {{storage}} GB <span translate="settings.storage">Storage</span> + {{(storage - defaultStorage) | currency:selectedCurrency}}/mo</a>
@@ -57,21 +60,22 @@
                   </li>
                   <li class="package-list-item has-border">
                     <i class="fa fa-check text-green"></i>
-                    1 <span translate="settings.keys.email_address">E-mail Address</span>
-                    <div *ngIf="false" class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                       <div ngbDropdown class="storage-select-dropdown">
                         <button class="dropdown-toggle" type="button" id="emailAddressDropdownMenuButton"
                                 ngbDropdownToggle>
                           {{selectedEmailAddress}}
-                          <span translate="page_pricing.email_aliases" *ngIf="selectedEmailAddress > 1">Email Address Aliases</span>
-                          <span translate="page_pricing.email_alias" *ngIf="selectedEmailAddress === 1">Email Address Alias</span>
+                          <span translate="page_pricing.email_aliases">Email Address Aliases</span>
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right"
                              aria-labelledby="emailAddressDropdownMenuButton">
-                          <a class="dropdown-item" (click)="selectedEmailAddress = 1; calculatePrices(); isValueChanged = true;">1 <span translate="page_pricing.email_alias">Email Address Alias</span></a>
+                          <a class="dropdown-item"
+                             (click)="selectedEmailAddress = defaultEmailAddress; calculatePrices(); isValueChanged = true;">
+                            {{defaultEmailAddress}} <span translate="page_pricing.email_alias">Email Address Aliases</span>
+                          </a>
                           <a *ngFor="let address of availableEmailAddress"
                              class="dropdown-item" (click)="selectedEmailAddress = address; calculatePrices(); isValueChanged = true;">
-                            {{address}} <span translate="page_pricing.email_aliases">Email Address Alias</span> + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
+                            {{address}} <span translate="page_pricing.email_aliases">Email Address Aliases</span> + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
                         </div>
                       </div>
                     </div>
@@ -155,7 +159,7 @@
                     <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
                     <li>
                       <div class="row row-xs">
-                        <div class="col-8">
+                        <div class="col-8 pb-1">
                           <div class="fancy-field-group mb-2">
                             <input class="d-none fancy-field-control" id="pay-monthly" name="payment_type"
                                    value="monthly" type="radio" checked [(ngModel)]="paymentType"
@@ -201,7 +205,7 @@
                   </a>
                   <div *ngIf="showCurrentPlan && isPrime">
                     <a *ngIf="isValueChanged" (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer"><strong>Upgrade Plan</strong></a>
-                    <a *ngIf="!isValueChanged" class="btn-link text-uppercase text-primary"><strong>Current Plan</strong></a>
+                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
               </footer>
@@ -258,8 +262,7 @@
 
                   <a (click)="selectPlan(0)" *ngIf="(showCurrentPlan && isPrime) || !showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
                   <div *ngIf="showCurrentPlan && !isPrime">
-                    <a class="btn-link text-uppercase text-primary"><strong>Current
-                      Plan</strong></a>
+                    <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
               </footer>

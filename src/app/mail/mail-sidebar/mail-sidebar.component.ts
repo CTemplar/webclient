@@ -7,11 +7,11 @@ import { Observable } from 'rxjs/Observable';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { DeleteFolder } from '../../store/actions/mail.actions';
 import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { DeleteFolder } from '../../store/actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -31,7 +31,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   @ViewChild('confirmationModal') confirmationModal;
   confirmModalRef: NgbModalRef;
 
-  mailBoxesState: MailBoxesState;
   mailState: MailState;
   selectedFolder: Folder;
   currentRoute: string;
@@ -56,8 +55,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-          this.currentRoute = event.url;
-        }
+        this.currentRoute = event.url;
+      }
     });
   }
 
@@ -65,15 +64,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.customFolders = user.customFolders;
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxes: MailBoxesState) => {
-        this.mailBoxesState = mailboxes;
         this.currentMailbox = mailboxes.currentMailbox;
-        if (mailboxes.currentMailbox) {
-          this.customFolders = this.currentMailbox.customFolders;
-        }
       });
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
@@ -105,7 +101,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   open() {
     if (this.userState.isPrime) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
-    } else if (this.mailBoxesState.currentMailbox.customFolders === null || this.mailBoxesState.currentMailbox.customFolders.length < 3) {
+    } else if (this.userState.customFolders === null || this.userState.customFolders.length < 3) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
     } else {
       this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
