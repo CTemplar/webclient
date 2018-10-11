@@ -293,6 +293,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  scrollTo(elementRef: any) {
+    setTimeout(() => {
+      window.scrollTo({
+        top: elementRef.offsetTop,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }
+
   private getOriginalMessageContent(mail: Mail) {
     let content =  `</br>---------- Original message ---------</br>` +
       `From: &lt;${mail.sender}&gt;</br>` +
