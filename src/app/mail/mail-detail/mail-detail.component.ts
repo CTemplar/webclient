@@ -119,7 +119,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getOriginalMessageContent(mail)
+      content: this.getMessageSummary(mail)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -136,7 +136,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getOriginalMessageContent(mail)
+      content: this.getMessageSummary(mail)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -152,7 +152,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onForward(mail: Mail) {
     this.composeMailData[mail.id] = {
-      content: this.decryptedContents[mail.id] + '</br>' + this.getOriginalMessageContent(mail),
+      content:  this.getMessageSummary(mail, 'Forwarded') + '</br>' + this.decryptedContents[mail.id],
       subject: this.mail.subject
     };
     this.mailOptions[mail.id].isComposeMailVisible = true;
@@ -302,8 +302,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  private getOriginalMessageContent(mail: Mail) {
-    let content =  `</br>---------- Original message ---------</br>` +
+  private getMessageSummary(mail: Mail, messageType: string = 'Original') {
+    let content =  `</br>---------- ${messageType} message ----------</br>` +
       `From: &lt;${mail.sender}&gt;</br>` +
       `Date: ${mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium') : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')}</br>` +
       `Subject: ${mail.subject}</br>` +
