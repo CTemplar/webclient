@@ -95,7 +95,7 @@
                                                                 Plan</span>
                                                         </div>
                                                         <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
-                                                            <strong>{{8|currency:payment.currency}}</strong>
+                                                            <strong>{{8|currency:'USD'}}</strong>
                                                             <span class="text-muted">/month</span>
                                                         </div>
                                                     </div>
@@ -105,7 +105,7 @@
                                                                 <span class="info-list-label-text text-muted ml-6">+{{extraStorage}} GB</span>
                                                             </div>
                                                             <div class="info-list-text info-list-val">
-                                                                +{{extraStorage|currency:payment.currency}}/month
+                                                                +{{extraStorage|currency:'USD'}}/month
                                                             </div>
                                                         </div>
                                                         <div *ngIf="extraEmailAddress > 0" class="info-list-item-row">
@@ -115,7 +115,7 @@
                                                                 </span>
                                                             </div>
                                                             <div class="info-list-text info-list-val">
-                                                                +{{extraEmailAddress / 3|currency:payment.currency}}/month
+                                                                +{{extraEmailAddress / 3|currency:'USD'}}/month
                                                             </div>
                                                         </div>
                                                     </ng-container>
@@ -133,14 +133,14 @@
                                                              translate="settings.total_price">Total Price
                                                         </div>
                                                         <div class="info-list-text info-list-val">
-                                                            {{annualTotalPrice|currency:payment.currency}}/annually
+                                                            {{annualTotalPrice|currency:'USD'}}/annually
                                                         </div>
                                                     </li>
                                                     <li class="info-list-item" *ngIf="payment.payment_type === paymentType.ANNUALLY">
                                                         <div class="info-list-text info-list-label">Discounted Price
                                                         </div>
                                                         <div class="info-list-text info-list-val">
-                                                            {{annualDiscountedPrice|currency:payment.currency}}/annually
+                                                            {{annualDiscountedPrice|currency:'USD'}}/annually
                                                             <span class="text-primary">&nbsp;(-25%)</span>
                                                         </div>
                                                     </li>
