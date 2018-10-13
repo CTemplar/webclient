@@ -150,10 +150,13 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       } else {
         price = +(price / 100).toFixed(2);
       }
-      if (this.payment.payment_type === PaymentType.ANNUALLY) {
-        this.annualDiscountedPrice = price;
-      } else {
-        this.annualTotalPrice = +(price * 12).toFixed(this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase() ? 5 : 2);
+      if (this.payment.payment_method !== PaymentMethod.BITCOIN.toLowerCase()) {
+        // prices are calculated in `calculateExtraStorageAndEmailAddresses` method when payment method is Bitcoin
+        if (this.payment.payment_type === PaymentType.ANNUALLY) {
+          this.annualDiscountedPrice = price;
+        } else {
+          this.annualTotalPrice = +(price * 12).toFixed(2);
+        }
       }
     } else {
       this.annualTotalPrice = 96;
@@ -169,9 +172,13 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       if (this.settings.email_count) {
         this.extraEmailAddress = this.settings.email_count - this.defaultEmailAddress;
       }
-      if (this.payment && this.payment.payment_type === PaymentType.ANNUALLY) {
-        this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12)
-          .toFixed(this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase() ? 5 : 2);
+      if (this.payment) {
+        if (this.payment.payment_type === PaymentType.ANNUALLY) {
+          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
+        } else if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
+          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
+          this.annualDiscountedPrice = +(this.annualTotalPrice * 0.75).toFixed(2);
+        }
       }
     }
   }
