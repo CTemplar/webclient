@@ -1,8 +1,8 @@
 // Custom Action
 
+import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
 import { UserState } from '../datatypes';
-import { UsersActionAll, UsersActionTypes } from '../actions';
 
 export const initialState: UserState = {
   username: null,
@@ -16,6 +16,7 @@ export const initialState: UserState = {
   mailboxes: [],
   payment_transaction: {},
   customFolders: [],
+  filters: []
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -198,6 +199,38 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
       };
+    }
+
+    case UsersActionTypes.CREATE_FILTER:
+    case UsersActionTypes.UPDATE_FILTER:
+    case UsersActionTypes.DELETE_FILTER: {
+      return { ...state, inProgress: true };
+    }
+
+    case UsersActionTypes.CREATE_FILTER_SUCCESS: {
+      state.filters = [...state.filters, action.payload];
+      return { ...state, inProgress: false };
+    }
+
+    case UsersActionTypes.UPDATE_FILTER_SUCCESS: {
+      state.filters = state.filters.map(filter => {
+        if (filter.id === action.payload.id) {
+          return { ...action.payload.id };
+        }
+        return filter;
+      });
+      return { ...state, inProgress: false };
+    }
+
+    case UsersActionTypes.DELETE_FILTER_SUCCESS: {
+      state.filters = state.filters.filter(filter => filter.id !== action.payload.id);
+      return { ...state, inProgress: false };
+    }
+
+    case UsersActionTypes.CREATE_FILTER_FAILURE:
+    case UsersActionTypes.UPDATE_FILTER_FAILURE:
+    case UsersActionTypes.DELETE_FILTER_FAILURE: {
+      return { ...state, inProgress: false };
     }
 
     default: {

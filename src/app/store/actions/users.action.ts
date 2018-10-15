@@ -42,6 +42,15 @@ export enum UsersActionTypes {
   CREATE_FOLDER_SUCCESS = '[USER] UPDATE FOLDER SUCCESS',
   DELETE_FOLDER = '[USER] DELETE FOLDER',
   DELETE_FOLDER_SUCCESS = '[USER] DELETE FOLDER SUCCESS',
+  CREATE_FILTER = '[USER] CREATE FILTER',
+  CREATE_FILTER_SUCCESS = '[USER] CREATE FILTER SUCCESS',
+  CREATE_FILTER_FAILURE = '[USER] CREATE FILTER FAILURE',
+  UPDATE_FILTER = '[USER] UPDATE FILTER',
+  UPDATE_FILTER_SUCCESS = '[USER] UPDATE FILTER SUCCESS',
+  UPDATE_FILTER_FAILURE = '[USER] UPDATE FILTER FAILURE',
+  DELETE_FILTER = '[USER] DELETE FILTER',
+  DELETE_FILTER_SUCCESS = '[USER] DELETE FILTER SUCCESS',
+  DELETE_FILTER_FAILURE = '[USER] DELETE FILTER FAILURE',
 }
 
 export class Accounts implements Action {
@@ -311,6 +320,69 @@ export class DeleteFolderSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class CreateFilter implements Action {
+  readonly type = UsersActionTypes.CREATE_FILTER;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CreateFilterSuccess implements Action {
+  readonly type = UsersActionTypes.CREATE_FILTER_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CreateFilterFailure implements Action {
+  readonly type = UsersActionTypes.CREATE_FILTER_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateFilter implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateFilterSuccess implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateFilterFailure implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteFilter implements Action {
+  readonly type = UsersActionTypes.DELETE_FILTER;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteFilterSuccess implements Action {
+  readonly type = UsersActionTypes.DELETE_FILTER_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteFilterFailure implements Action {
+  readonly type = UsersActionTypes.DELETE_FILTER_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -350,4 +422,13 @@ export type UsersActionAll =
   | CreateFolder
   | CreateFolderSuccess
   | DeleteFolder
-  | DeleteFolderSuccess;
+  | DeleteFolderSuccess
+  | CreateFilter
+  | CreateFilterSuccess
+  | CreateFilterFailure
+  | UpdateFilter
+  | UpdateFilterSuccess
+  | UpdateFilterFailure
+  | DeleteFilter
+  | DeleteFilterSuccess
+  | DeleteFilterFailure;
