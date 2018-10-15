@@ -57,9 +57,9 @@
                 <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
                         id="messageReplyDropdownMenuButton"></button>
                 <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
-                  <a class="dropdown-item" (click)="onForward(mail)">Forward</a>
-                  <a class="dropdown-item" (click)="onReply(mail)">Reply</a>
-                  <a class="dropdown-item" (click)="onReplyAll(mail)">Reply All</a>
+                  <a class="dropdown-item" (click)="onForward(mail); scrollTo(replyActions);">Forward</a>
+                  <a class="dropdown-item" (click)="onReply(mail); scrollTo(replyActions);">Reply</a>
+                  <a class="dropdown-item" (click)="onReplyAll(mail); scrollTo(replyActions);">Reply All</a>
                   <a class="dropdown-item" (click)="onPrint(mail)">Print</a>
                   <a class="dropdown-item" (click)="onDelete(mail)">Delete this Message</a>
                   <a class="dropdown-item" *ngIf="mail.folder !== mailFolderType.DRAFT" (click)="onMarkAsSpam(mail)">Mark as
@@ -234,7 +234,7 @@
 
 
   <!--Reply to mail.-->
-  <div class="ui-body">
+  <div class="ui-body" #replyActions>
 
     <div class="row">
       <div class="col-12">

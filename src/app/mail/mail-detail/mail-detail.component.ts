@@ -8,6 +8,7 @@ import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/ma
 import { AppState, MailBoxesState, MailState } from '../../store/datatypes';
 import { Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService } from '../../store/services';
+import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -29,7 +30,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
               private pgpService: OpenPgpService,
-              private router: Router) {
+              private router: Router,
+              private dateTimeUtilService: DateTimeUtilService) {
   }
 
   ngOnInit() {
@@ -116,7 +118,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onReply(mail: Mail) {
     this.composeMailData[mail.id] = {
       subject: mail.subject,
-      parentId: this.mail.id
+      parentId: this.mail.id,
+      content: this.getMessageSummary(mail)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -132,7 +135,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
-      parentId: this.mail.id
+      parentId: this.mail.id,
+      content: this.getMessageSummary(mail)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -148,7 +152,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onForward(mail: Mail) {
     this.composeMailData[mail.id] = {
-      content: this.decryptedContents[mail.id],
+      content:  this.getMessageSummary(mail, 'Forwarded') + '</br>' + this.decryptedContents[mail.id],
       subject: this.mail.subject
     };
     this.mailOptions[mail.id].isComposeMailVisible = true;
@@ -287,5 +291,28 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       );
       popupWin.document.close();
     }
+  }
+
+  scrollTo(elementRef: any) {
+    setTimeout(() => {
+      window.scrollTo({
+        top: elementRef.offsetTop,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }
+
+  private getMessageSummary(mail: Mail, messageType: string = 'Original') {
+    let content =  `</br>---------- ${messageType} message ----------</br>` +
+      `From: &lt;${mail.sender}&gt;</br>` +
+      `Date: ${mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium') : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')}</br>` +
+      `Subject: ${mail.subject}</br>` +
+      `To: ${mail.receiver.map(receiver => '&lt;' + receiver + '&gt;').join(', ')}</br>`;
+
+    if (mail.cc.length > 0) {
+      content += `CC: ${mail.cc.map(cc => '&lt;' + cc + '&gt;').join(', ')}</br>`;
+    }
+
+    return content;
   }
 }
