@@ -46,7 +46,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
 
   @ViewChild('changePasswordModal') changePasswordModal;
-  @ViewChild('customFilterModal') customFilterModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
@@ -74,7 +73,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedMailboxPublicKey: any;
 
   private changePasswordModalRef: NgbModalRef;
-  private customFilterModalRef: NgbModalRef;
 
   constructor(
     private modalService: NgbModal,
@@ -203,14 +201,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
       centered: true,
       windowClass: 'modal-md'
-    });
-  }
-
-  // == Open add custom filter NgbModal
-  openCustomFilterModal(selectedFilter?: any) {
-    this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
-      centered: true,
-      windowClass: 'modal-sm'
     });
   }
 
