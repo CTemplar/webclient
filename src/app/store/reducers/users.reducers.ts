@@ -201,6 +201,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.GET_FILTERS: {
+      return { ...state, filters: action.payload };
+    }
+
     case UsersActionTypes.CREATE_FILTER:
     case UsersActionTypes.UPDATE_FILTER:
     case UsersActionTypes.DELETE_FILTER: {

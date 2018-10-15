@@ -42,6 +42,8 @@ export enum UsersActionTypes {
   CREATE_FOLDER_SUCCESS = '[USER] UPDATE FOLDER SUCCESS',
   DELETE_FOLDER = '[USER] DELETE FOLDER',
   DELETE_FOLDER_SUCCESS = '[USER] DELETE FOLDER SUCCESS',
+  GET_FILTERS = '[USER] GET FILTERS',
+  GET_FILTERS_SUCCESS = '[USER] GET FILTERS SUCCESS',
   CREATE_FILTER = '[USER] CREATE FILTER',
   CREATE_FILTER_SUCCESS = '[USER] CREATE FILTER SUCCESS',
   CREATE_FILTER_FAILURE = '[USER] CREATE FILTER FAILURE',
@@ -320,6 +322,20 @@ export class DeleteFolderSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetFilters implements Action {
+  readonly type = UsersActionTypes.GET_FILTERS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GetFiltersSuccess implements Action {
+  readonly type = UsersActionTypes.GET_FILTERS_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class CreateFilter implements Action {
   readonly type = UsersActionTypes.CREATE_FILTER;
 
@@ -423,6 +439,8 @@ export type UsersActionAll =
   | CreateFolderSuccess
   | DeleteFolder
   | DeleteFolderSuccess
+  | GetFilters
+  | GetFiltersSuccess
   | CreateFilter
   | CreateFilterSuccess
   | CreateFilterFailure

@@ -44,6 +44,8 @@ import {
   DeleteFilterSuccess,
   DeleteFolder,
   DeleteFolderSuccess,
+  GetFilters,
+  GetFiltersSuccess,
   SettingsUpdate,
   SettingsUpdateSuccess,
   SnackErrorPush,
@@ -357,6 +359,20 @@ export class UsersEffects {
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
+        );
+    });
+
+  @Effect()
+  getFiltersEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.GET_FILTERS)
+    .map((action: GetFilters) => action.payload)
+    .switchMap(payload => {
+      return this.userService.getFilters(payload)
+        .pipe(
+          switchMap(res => {
+            return [new GetFiltersSuccess(res.results)];
+          }),
+          catchError(err => [])
         );
     });
 

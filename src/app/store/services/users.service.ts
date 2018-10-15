@@ -260,6 +260,11 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/upgrade/`, data);
   }
 
+  getFilters(limit = 0, offset = 0) {
+    const url = `${apiUrl}users/filters/?limit=${limit}&offset=${offset}`;
+    return this.http.get<any>(url);
+  }
+
   createFilter(data: Filter) {
     const url = `${apiUrl}users/filters/`;
     if (data.id) {
