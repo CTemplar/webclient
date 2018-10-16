@@ -85,6 +85,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.errorMessage = null;
     if (this.createFilterForm.valid) {
       const data = {
         ...this.createFilterData,
@@ -94,12 +95,18 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         mark_as_read: this.createFilterForm.get('markAsRead').value || false,
         mark_as_starred: this.createFilterForm.get('markAsStarred').value || false
       };
-      if (data.id) {
-        this.store.dispatch(new UpdateFilter(data));
+      if (data.move_to && !data.folder) {
+        this.errorMessage = 'Please select a folder.';
+      } else if (data.condition && !data.filter_text) {
+        this.errorMessage = 'Please enter some text or pattern.';
       } else {
-        this.store.dispatch(new CreateFilter(data));
+        if (data.id) {
+          this.store.dispatch(new UpdateFilter(data));
+        } else {
+          this.store.dispatch(new CreateFilter(data));
+        }
+        this.customFilterModalRef.dismiss();
       }
-      this.customFilterModalRef.dismiss();
     }
   }
 

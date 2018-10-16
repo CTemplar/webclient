@@ -181,6 +181,9 @@
           </div>
         </div>
       </div>
+      <div *ngIf="errorMessage" class="l-alert l-alert-danger mt-3">
+        {{errorMessage}}
+      </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
       <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
