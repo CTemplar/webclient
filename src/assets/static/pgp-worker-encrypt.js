@@ -25,6 +25,6 @@ async function encryptContent(data, publicKeys) {
         publicKeys: publicKeys.map(item => openpgp.key.readArmored(item).keys[0])
     };
     return openpgp.encrypt(options).then(ciphertext => {
-        return ciphertext.data;
+        return ciphertext.data.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2");
     })
 }
