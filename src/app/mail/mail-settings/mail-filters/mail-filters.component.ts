@@ -90,9 +90,9 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         ...this.createFilterData,
         name: this.createFilterForm.get('name').value,
         filter_text: this.createFilterForm.get('filterText').value,
-        move_to: this.createFilterForm.get('moveTo').value,
-        mark_as_read: this.createFilterForm.get('markAsRead').value,
-        mark_as_starred: this.createFilterForm.get('markAsStarred').value
+        move_to: this.createFilterForm.get('moveTo').value || false,
+        mark_as_read: this.createFilterForm.get('markAsRead').value || false,
+        mark_as_starred: this.createFilterForm.get('markAsStarred').value || false
       };
       if (data.id) {
         this.store.dispatch(new UpdateFilter(data));
