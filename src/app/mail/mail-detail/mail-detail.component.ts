@@ -35,6 +35,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.mailFolder)
+
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail) {
@@ -165,7 +167,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onDelete(mail: Mail) {
     if (mail.folder === MailFolderType.TRASH) {
-      this.store.dispatch(new DeleteMail({ ids: mail.id }));
+      this.store.dispatch(new DeleteMail({ ids: mail.id.toString() }));
     } else {
       this.store.dispatch(new MoveMail({
         ids: mail.id,
