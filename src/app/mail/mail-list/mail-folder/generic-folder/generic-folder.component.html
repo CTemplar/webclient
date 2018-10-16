@@ -182,7 +182,7 @@
 
         <!-- Starred Message -->
         <td class="mail-status">
-          <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
+          <a class="mail-status-type" [ngbTooltip]="mail.starred ? 'Remove Star' : 'Star Message'"  (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
             <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
           </a>
         </td>
