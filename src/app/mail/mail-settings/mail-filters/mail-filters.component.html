@@ -15,7 +15,7 @@
             <div class="col-2 col-sm-4">
               <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li><a (click)="openCustomFilterModal(filter)" role="button"><i class="icon icon-edit"></i></a></li>
-                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                <li><a (click)="confirmDeleteFilter(filter)" role="button"><i class="icon icon-garbage"></i></a></li>
               </ul>
             </div>
           </div>
@@ -187,3 +187,26 @@
     </div>
   </form>
 </ng-template><!-- /.Add custom filter ends -->
+
+<!-- Confirm delete filter modal -->
+<ng-template #deleteFilterModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        Are you sure, you want to delete filter <b>"{{selectedFilter?.name}}"</b>?
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+        <button (click)="deleteFilter()" class="btn btn-danger btn-sm" role="button">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm delete filter modal ends -->

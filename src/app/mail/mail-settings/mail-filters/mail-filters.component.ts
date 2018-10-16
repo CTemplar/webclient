@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import { CreateFilter, UpdateFilter } from '../../../store/actions';
+import { CreateFilter, DeleteFilter, UpdateFilter } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
 import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
@@ -25,6 +25,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   };
 
   @ViewChild('customFilterModal') customFilterModal;
+  @ViewChild('deleteFilterModal') deleteFilterModal;
 
   mailFolderType = MailFolderType;
   filterCondition = FilterCondition;
@@ -38,6 +39,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   selectedFilter: Filter;
 
   private customFilterModalRef: NgbModalRef;
+  private deleteFilterModalRef: NgbModalRef;
 
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
@@ -98,6 +100,21 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         this.store.dispatch(new CreateFilter(data));
       }
       this.customFilterModalRef.dismiss();
+    }
+  }
+
+  confirmDeleteFilter(filter: Filter) {
+    this.selectedFilter = filter;
+    this.deleteFilterModalRef = this.modalService.open(this.deleteFilterModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  deleteFilter() {
+    if (this.selectedFilter) {
+      this.store.dispatch(new DeleteFilter(this.selectedFilter));
+      this.deleteFilterModalRef.dismiss();
     }
   }
 
