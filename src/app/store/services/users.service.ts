@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { AppState, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
+import { Filter } from '../models/filter.model';
 
 @Injectable()
 export class UsersService {
@@ -151,6 +152,7 @@ export class UsersService {
       'users/blacklist/',
       'users/contact',
       'users/bulk-contact/create/',
+      'users/filters/',
       'emails/messages/',
       'emails/mailboxes',
       'emails/custom-folder',
@@ -256,6 +258,23 @@ export class UsersService {
 
   upgradeAccount(data) {
     return this.http.post<any>(`${apiUrl}auth/upgrade/`, data);
+  }
+
+  getFilters(limit = 0, offset = 0) {
+    const url = `${apiUrl}users/filters/?limit=${limit}&offset=${offset}`;
+    return this.http.get<any>(url);
+  }
+
+  createFilter(data: Filter) {
+    const url = `${apiUrl}users/filters/`;
+    if (data.id) {
+      return this.http.patch<any>(`${url}${data.id}/`, data);
+    }
+    return this.http.post<any>(url, data);
+  }
+
+  deleteFilter(filterId: number) {
+    return this.http.delete<any>(`${apiUrl}users/filters/${filterId}`);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
