@@ -8,12 +8,6 @@
         <li *ngFor="let filter of filters" class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
             <div class="col-10 col-sm-8">
-              <div class="toggle-switcher" *ngIf="false">
-                <input class="d-none toggle-switcher-control" id="switcherField1" name=""
-                       type="checkbox" checked/>
-                <label for="switcherField1"></label>
-                <span class="toggle-switcher-text">My spam filter</span>
-              </div>
               {{filter.name}}
             </div>
             <div class="col-2 col-sm-4">
