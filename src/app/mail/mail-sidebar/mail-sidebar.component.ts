@@ -137,7 +137,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.confirmModalRef.dismiss();
   }
 
-  toggleMenu(event) { // click handler
+  toggleMenu(event?: any) { // click handler
     if (this.breakpointsService.isXS()) {
       if (this.isMenuOpened) {
         this.document.body.classList.remove('menu-open');
