@@ -201,7 +201,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.GET_FILTERS: {
+    case UsersActionTypes.GET_FILTERS_SUCCESS: {
       return { ...state, filters: action.payload };
     }
 
@@ -219,7 +219,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.UPDATE_FILTER_SUCCESS: {
       state.filters = state.filters.map(filter => {
         if (filter.id === action.payload.id) {
-          return { ...action.payload.id };
+          return { ...action.payload };
         }
         return filter;
       });

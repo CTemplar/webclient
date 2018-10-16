@@ -17,5 +17,5 @@ export enum FilterParameter {
 
 export enum FilterCondition {
   CONTAINS = 'contains',
-  STARTSwITH = 'startswith'
+  STARTSWITH = 'startswith'
 }
