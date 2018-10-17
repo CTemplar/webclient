@@ -153,7 +153,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onForward(mail: Mail) {
     this.composeMailData[mail.id] = {
       content:  this.getMessageSummary(mail, 'Forwarded') + '</br>' + this.decryptedContents[mail.id],
-      subject: this.mail.subject
+      subject: this.mail.subject,
+      forwardAttachmentsMessageId: mail.id
     };
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
