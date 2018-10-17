@@ -4,6 +4,7 @@ import { Params } from '@angular/router';
 // Ngrx
 // Models
 import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox, Attachment, MailFolderType } from '../store/models';
+import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
 
@@ -61,6 +62,7 @@ export interface UserState {
   membership: Membership;
   mailboxes: UserMailbox[];
   customFolders: Folder[];
+  filters: Filter[];
 }
 
 export interface Settings {

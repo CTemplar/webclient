@@ -422,7 +422,10 @@
             <ng-template ngbTabTitle>Filtered and blocked addresses</ng-template>
             <ng-template ngbTabContent>
 
-                <!-- Whitelist settings -->
+              <!-- Custom filters -->
+              <app-mail-filters></app-mail-filters>
+
+              <!-- Whitelist settings -->
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.whitelist.name">Whitelist</strong></h5>
@@ -950,7 +953,7 @@
                             </ul>
                             <div class="info-card">
                                 <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
-                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="addCustomFilterModalOpen(customFilterContent)"><strong><u>Add
+                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
                                             custom filter</u></strong></a>
                             </div>
                         </div>
@@ -1154,163 +1157,6 @@
         </div>
     </div>
 </ng-template><!-- /.Change password Modal ends -->
-
-<!-- Add custom filter Modal -->
-<ng-template #customFilterContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="customFilterModalLabel"><strong>Add custom filter</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="form-content-holder">
-            <div class="form-group">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="filterName">Filter name:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="filterName" type="text" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0">Condition:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row form-content-row-sm">
-                            <div class="btn-dropdown btn-dropdown-select">
-                                <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle id="subjectDropdownMenuButton" role="button">If the
-                                        subject
-                                    </button>
-                                    <div ngbDropdownMenu aria-labelledby="subjectDropdownMenuButton">
-                                        <a class="dropdown-item">If the subject</a>
-                                        <a class="dropdown-item">If the subject</a>
-                                        <a class="dropdown-item">If the subject</a>
-                                        <a class="dropdown-item">If the subject</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-content-row form-content-row-sm">
-                            <div class="btn-dropdown btn-dropdown-select">
-                                <div ngbDropdown class="dropdown-sm">
-                                    <button ngbDropdownToggle id="containsDropdownMenuButton" role="button">contains
-                                    </button>
-                                    <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="containsDropdownMenuButton">
-                                        <a class="dropdown-item">contains</a>
-                                        <a class="dropdown-item">contains</a>
-                                        <a class="dropdown-item">contains</a>
-                                        <a class="dropdown-item">contains</a>
-                                        <a class="dropdown-item">contains</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="patternField" type="text" placeholder="text or pattern" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mb-0">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0">Actions:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row form-content-row-sm">
-                            <div class="row row-sm align-items-center">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="moveToField1"
-                                            name="[1]" type="checkbox" checked />
-                                        <label for="moveToField1">move to</label>
-                                    </div>
-                                </div>
-                                <div class="col-8 add-filter-moveto-col">
-                                    <div class="btn-dropdown btn-dropdown-select">
-                                        <div ngbDropdown class="dropdown-sm">
-                                            <button ngbDropdownToggle class="has-icon" id="moveToDropdownMenuButton"
-                                                role="button"><i class="icon icon-inbox"></i>Inbox
-                                            </button>
-                                            <div ngbDropdownMenu aria-labelledby="moveToDropdownMenuButton">
-                                                <a class="dropdown-item has-icon"><i class="icon icon-inbox"></i>Inbox</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-draft"></i>Draft</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-archive"></i>Archivex</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-paper-plane"></i>Sent</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-garbage"></i>Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-content-row form-content-row-sm">
-                            <div class="row row-sm align-items-center">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="applyLabelField1"
-                                            name="[1]" type="checkbox" disabled="" />
-                                        <label for="applyLabelField1">apply label</label>
-                                    </div>
-                                </div>
-                                <div class="col-8 add-filter-applylabel-col">
-                                    <div class="btn-dropdown btn-dropdown-select">
-                                        <div ngbDropdown class="dropdown-sm">
-                                            <button ngbDropdownToggle class="has-icon" id="applyDropdownMenuButton"
-                                                role="button" disabled></button>
-                                            <div ngbDropdownMenu aria-labelledby="applyDropdownMenuButton">
-                                                <a class="dropdown-item has-icon"><i class="icon icon-inbox"></i>Inbox</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-draft"></i>Draft</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-archive"></i>Archivex</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-paper-plane"></i>Sent</a>
-                                                <a class="dropdown-item has-icon"><i class="icon icon-garbage"></i>Trash</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-content-row">
-                            <div class="row row-sm align-items-center">
-                                <div class="col-6 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="markReadField1"
-                                            name="[1]" type="checkbox" />
-                                        <label for="markReadField1">mark as read</label>
-                                    </div>
-                                </div>
-                                <div class="col-8 flex-auto-col">
-                                    <div class="fancy-field-group">
-                                        <input class="d-none fancy-field-control fancy-field-control-sm" id="markStarredField1"
-                                            name="[1]" type="checkbox" />
-                                        <label for="markStarredField1">mark as starred</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a class="btn btn-secondary btn-sm" role="button">Add filter</a>
-    </div>
-</ng-template><!-- /.Add custom filter ends -->
 
 <app-save-list-contact *ngIf="newListContact.show" [contactType]="newListContact.type" (closed)="newListContact.show=false;"></app-save-list-contact>
 
