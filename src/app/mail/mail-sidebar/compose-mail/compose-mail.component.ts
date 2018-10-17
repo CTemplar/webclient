@@ -312,6 +312,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.content) {
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
+      this.quill.setSelection(0);
     }
 
     this.addSignature();
