@@ -74,6 +74,16 @@
 	@include media(">=ipad") {
 		margin-bottom: 3.750rem;
 	}
+	/* Blog Page
+	=================================*/
+	@media (max-width: 767px) {
+		.page-title{
+			font-size: 1.5rem;
+		}
+		.featured-article{
+			margin-top: 1.5rem;
+		}
+	}
 }
 
 .l-block-subtitle  {
@@ -437,4 +447,12 @@
 	label {
 		font-size: 1rem;
 	}
+}
+@media (max-width: 767px) {
+  /* Blog Page
+ =================================*/
+  .is-clipped.bg-white:before,
+  .is-clipped.bg-white:after{
+    display: none;
+  }
 }

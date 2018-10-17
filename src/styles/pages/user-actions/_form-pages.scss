@@ -124,6 +124,33 @@
 			margin-bottom: 0.938rem;
 		}
 	}
+	.error-msg {
+		color: #e55747 !important;
+	}
+	.error {
+		border-color: #e55747;
+	}
+	.form-control.error::-webkit-placeholder {color: #e55747;}
+	.form-control.error::-moz-placeholder {color: #e55747;}
+	.form-control.error::-ms-placeholder {color: #e55747;}
+	.form-control.error::placeholder {color: #e55747;}
+	@media (max-width: 767px) {
+		label {
+			float: left;
+			font-size: 14px;
+		}
+		.label-error {
+			color: #e55747 !important;
+		}
+		.error-msg {
+			float: right;
+			margin-top: 5px;
+		}
+		.form-control.error::-webkit-placeholder {color: #FFFFFF;}
+		.form-control.error::-moz-placeholder {color: #FFFFFF;}
+		.form-control.error::-ms-placeholder {color: #FFFFFF;}
+		.form-control.error::placeholder {color: #FFFFFF;}
+	}
 }
 
 .billing-overview {
