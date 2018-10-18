@@ -81,7 +81,7 @@
       <div [ngClass]="{'show_gmail_extra': mailOptions[mail.id]?.showGmailExtraContent}">
         <div class="msg-reply-content text-dark" id="{{mail.id}}-mail-content"
            [innerHTML]="decryptedContents[mail.id] | safe: 'html'"></div>
-           <a href="javascript:void(0)" (click)="toggleGmailExtra(mail)" 
+           <a href="javascript:void(0)" (click)="toggleGmailExtra(mail)"
            *ngIf="decryptedContents[mail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[mail.id]?.indexOf('gmail_quote') > -1" >
              <div class="ellipsis-wrapper" placement="top"
              [ngbTooltip]="mailOptions[mail.id]?.showGmailExtraContent ? 'Hide extra content' : 'Show trimmed content'">
@@ -107,10 +107,10 @@
       </ng-container>
     </ul>
   </section>
-  
+
   <div class="conversation-collapsor" *ngIf="mail.children?.length>1">
     <div></div>
-    <a href="javascript:void(0)"  placement="top" 
+    <a href="javascript:void(0)"  placement="top"
       [ngbTooltip]="isConversationCollapsed ? 'Expand conversation' : 'Collapse conversation'"
       (click)="isConversationCollapsed = !isConversationCollapsed" [attr.aria-expanded]="!isConversationCollapsed" aria-controls="collapseExample">
       <small>{{mail.children?.length-1}}</small>
@@ -266,3 +266,26 @@
   </div>
 
 </ng-container>
+
+<!-- Confirm forward attachments modal -->
+<ng-template #forwardAttachmentsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Confirm Forward Attachments</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        Do you want to forward attachments of this message?
+      </div>
+      <div class="form-group text-right mb-0">
+        <button type="button" (click)="confirmForwardAttachments(true)" class="btn btn-success btn-sm" role="button">
+          Yes
+        </button>
+        <button type="button" (click)="confirmForwardAttachments(false)" class="btn btn-sm" role="button">No</button>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm forward attachments modal ends -->

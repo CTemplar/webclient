@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
@@ -18,20 +19,27 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
+
+  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
+
   mail: Mail;
   composeMailData: any = {};
   mailFolderType = MailFolderType;
   decryptedContents: any = {};
   mailOptions: any = {};
   isConversationCollapsed = true;
+  selectedMailToForward: Mail;
+
   private mailFolder: MailFolderType;
   private currentMailbox: Mailbox;
+  private forwardAttachmentsModalRef: NgbModalRef;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
               private pgpService: OpenPgpService,
               private router: Router,
-              private dateTimeUtilService: DateTimeUtilService) {
+              private dateTimeUtilService: DateTimeUtilService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -151,12 +159,31 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail) {
-    this.composeMailData[mail.id] = {
-      content:  this.getMessageSummary(mail, 'Forwarded') + '</br>' + this.decryptedContents[mail.id],
-      subject: this.mail.subject,
-      forwardAttachmentsMessageId: mail.id
+    this.selectedMailToForward = mail;
+    if (mail.attachments.length > 0) {
+      this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal'
+      });
+    } else {
+      this.confirmForwardAttachments();
+    }
+  }
+
+  confirmForwardAttachments(shouldForward?: boolean) {
+    this.composeMailData[this.selectedMailToForward.id] = {
+      content: this.getMessageSummary(this.selectedMailToForward, 'Forwarded') + '</br>' +
+        this.decryptedContents[this.selectedMailToForward.id],
+      subject: this.mail.subject
     };
-    this.mailOptions[mail.id].isComposeMailVisible = true;
+    if (shouldForward) {
+      this.composeMailData[this.selectedMailToForward.id].forwardAttachmentsMessageId = this.selectedMailToForward.id;
+    }
+    this.mailOptions[this.selectedMailToForward.id].isComposeMailVisible = true;
+    this.selectedMailToForward = null;
+    if (this.forwardAttachmentsModalRef) {
+      this.forwardAttachmentsModalRef.dismiss();
+    }
   }
 
   onComposeMailHide(mail: Mail) {
