@@ -132,6 +132,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   showEncryptFormErrors: boolean;
   isTrialPrimeFeaturesAvailable: boolean;
   mailBoxesState: MailBoxesState;
+  isUploadingAttachment: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -394,11 +395,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   handleAttachment(draft: Draft) {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
+    this.isUploadingAttachment = false;
     this.attachments.forEach(attachment => {
       if (attachment.is_inline && attachment.progress === 100 && !attachment.isRemoved &&
         attachment.content_id && !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
         this.inlineAttachmentContentIds.push(attachment.content_id);
         this.embedImageInQuill(attachment.document, attachment.content_id);
+      }
+      if (attachment.progress < 100 && !attachment.isRemoved) {
+        this.isUploadingAttachment = true;
       }
     });
   }

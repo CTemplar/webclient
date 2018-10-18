@@ -148,7 +148,7 @@
         <li class="send-mail-item">
           <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
                   (click)="sendEmail()"
-                  [disabled]="inProgress"
+                  [disabled]="inProgress || isUploadingAttachment"
                   role="button"
                   placement="top"
                   ngbTooltip="{{inProgress ? 'Wait for the changes to save': 'Send Mail'}}">
@@ -443,7 +443,7 @@
         <li class="pr-0" *ngIf="showSaveButton">
           <button role="button"
                   (click)="saveInDrafts()"
-                  [disabled]="inProgress"
+                  [disabled]="inProgress || isUploadingAttachment"
                   class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
                   placement="top" ngbTooltip="Save to drafts"><i class="icon icon-save-disk"></i>
           </button>
@@ -451,7 +451,7 @@
         <li class="pl-0">
           <button role="button"
                   (click)="discardEmail()"
-                  [disabled]="inProgress"
+                  [disabled]="inProgress || isUploadingAttachment"
                   class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                   ngbTooltip="Delete draft"><i class="icon icon-garbage"></i></button>
         </li>
