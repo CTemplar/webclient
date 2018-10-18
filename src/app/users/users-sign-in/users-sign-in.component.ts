@@ -54,6 +54,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   isCaptchaCompleted: boolean = true;
   loginErrorCount: number = 0;
   recaptcha: ReCaptcha;
+  isGeneratingKeys: boolean;
+
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
   @ViewChild('resetPasswordModal') resetPasswordModal;
@@ -157,6 +159,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (this.resetPasswordForm.valid) {
       const index = data.username.indexOf('@');
       data.username = index > -1 ? data.username.substring(0, index) : data.username;
+      this.isGeneratingKeys = true;
       this.openPgpService.generateUserKeys(data.username, data.password);
       if (this.openPgpService.getUserKeys()) {
         this.resetPasswordConfirmed(data);
@@ -177,6 +180,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   }
 
   resetPasswordConfirmed(data) {
+    this.isGeneratingKeys = false;
     const requestData = {
       code: data.code,
       username: data.username,
