@@ -124,9 +124,6 @@
 			margin-bottom: 0.938rem;
 		}
 	}
-	.error-msg {
-		color: #e55747 !important;
-	}
 	.error {
 		border-color: #e55747;
 	}
@@ -140,7 +137,7 @@
 			font-size: 14px;
 		}
 		.label-error {
-			color: #e55747 !important;
+			color: #e55747;
 		}
 		.error-msg {
 			float: right;
@@ -323,6 +320,6 @@
 }
 
 .error-msg {
-    color: $brand-danger !important;
+	color: #e55747;
     font-size: 0.75rem;
 }

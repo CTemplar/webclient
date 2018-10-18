@@ -9,7 +9,7 @@
     position: relative;
     display: inline-block;
     color: $menu-link;
-    font-size: 1.125rem;
+    font-size: 0.75rem;
     font-weight: bold;
     text-transform: uppercase;
     // padding-bottom: 0.15rem;
@@ -41,6 +41,9 @@
         }
     }
 }
+.nav-link{
+    font-size: 1.125rem;
+}
 
 // == In large screen
 @include media(">=ipad") {
@@ -68,6 +71,7 @@
 
     .nav-link {
         letter-spacing: 0.6px;
+        font-size: 0.75rem;
     }
 }
 
