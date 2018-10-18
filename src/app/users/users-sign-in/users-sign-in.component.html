@@ -247,9 +247,11 @@
                 </span>
               </div>
               <div class="form-group form-user-actions text-center mb-0">
-                <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
+                <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit"
+                        [disabled]="isGeneratingKeys">
                   Submit
                 </button>
+                <app-loading-spinner [showSpinner]="isGeneratingKeys"></app-loading-spinner>
               </div>
             </form>
           </div>
