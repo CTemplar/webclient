@@ -19,7 +19,7 @@
                        name="name" required
                        #contactName="ngModel"
                        [(ngModel)]="newContactModel.name"
-                       placeholder="Curtis Scott" type="text"/>
+                       placeholder="Contact Name" type="text"/>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
                        name="email" required
                        [(ngModel)]="newContactModel.email"
                        #contactEmail="ngModel"
-                       placeholder="Curtis_Scottgmail.com" type="text"
+                       placeholder="Type E-mail" type="text"
                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <input class="form-control form-control-sm" id="contactPhone1"
                        name="phone"
                        [(ngModel)]="newContactModel.phone"
-                       placeholder="+73409853498" type="text"/>
+                       placeholder="Phone" type="text"/>
             </div>
         </div>
     </div>
@@ -69,7 +69,7 @@
                 <label class="form-label mb-sm-0" for="contactPhone2" translate="contacts.phone2">Phone2</label>
             </div>
             <div class="col-sm-10">
-                <input class="form-control form-control-sm" id="contactPhone2" placeholder="+734920"
+                <input class="form-control form-control-sm" id="contactPhone2" placeholder="Phone"
                        name="phone2"
                        [(ngModel)]="newContactModel.phone2"
                        type="text"/>
@@ -96,7 +96,7 @@
                 <label class="form-label pt-sm-2 mb-sm-0" for="contactNote" translate="contacts.note">Note</label>
             </div>
             <div class="col-sm-10">
-                                    <textarea class="form-control form-control-sm resize-off" id="contactNote" placeholder="Note"
+                                    <textarea class="form-control form-control-sm resize-off" id="contactNote" placeholder="A note"
                                               name="note"
                                               [(ngModel)]="newContactModel.note"
                                               rows="3"></textarea>
