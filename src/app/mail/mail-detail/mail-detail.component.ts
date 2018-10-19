@@ -341,6 +341,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content += `CC: ${mail.cc.map(cc => '&lt;' + cc + '&gt;').join(', ')}</br>`;
     }
 
-    return content;
+    return `<div class='gmail_quote'>${content}</div>`;
   }
 }
