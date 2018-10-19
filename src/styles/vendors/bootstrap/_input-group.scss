@@ -36,6 +36,9 @@
   &:not(:first-child):not(:last-child) {
     @include border-radius(0);
   }
+  &[type="text"] + span{
+    opacity: 0.5;
+  }
 }
 
 .input-group-addon,

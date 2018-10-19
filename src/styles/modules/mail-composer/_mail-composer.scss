@@ -15,12 +15,18 @@ a {
 
 .compose-mail-container{
 	position: fixed;
-	bottom: 0;
-	right: 0;
+	bottom: 50px;
+	right: 15px;
+	left: 83px;
 	z-index: 100;
 	display: flex;
 	align-items: flex-end;
 	flex-direction: row-reverse;
+	@include media(">sm") {
+		> .ng-star-inserted {
+			width: 100%;
+		}
+	}
 }
 
 .mail-composer.is-sticky {
@@ -45,9 +51,9 @@ a {
 		top: auto;
 		left: auto;
 		overflow: inherit;
-		width: 40rem;
+		width: 100%;
 		&.is-minimized {
-			width: 15rem;
+
 		}
 	}
 
@@ -148,7 +154,7 @@ a {
 	line-height: 1.33;
 
 	@include media(">sm") {
-		font-size: 0.75rem;
+		padding: 0.9375rem;
 	}
 }
 
