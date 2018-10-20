@@ -123,11 +123,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 
-  onReply(mail: Mail) {
+  onReply(mail: Mail, index: number = 0, isChildMail?: boolean) {
+    const previousMails = this.getPreviousMails(index, isChildMail);
     this.composeMailData[mail.id] = {
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getMessageSummary(mail)
+      content: this.getMessageHistory(mail, previousMails)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -139,12 +140,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onReplyAll(mail: Mail) {
+  onReplyAll(mail: Mail, index: number = 0, isChildMail?: boolean) {
+    const previousMails = this.getPreviousMails(index, isChildMail);
     this.composeMailData[mail.id] = {
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getMessageSummary(mail)
+      content: this.getMessageHistory(mail, previousMails)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -158,7 +160,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onForward(mail: Mail) {
+  onForward(mail: Mail, index: number = 0, isChildMail?: boolean) {
+    const previousMails = this.getPreviousMails(index, isChildMail);
+    this.composeMailData[mail.id] = {
+      content: this.getMessageHistory(mail, previousMails, 'Forwarded') + '</br>' + this.decryptedContents[mail.id],
+      subject: this.mail.subject
+    };
     this.selectedMailToForward = mail;
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
@@ -171,11 +178,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   confirmForwardAttachments(shouldForward?: boolean) {
-    this.composeMailData[this.selectedMailToForward.id] = {
-      content: this.getMessageSummary(this.selectedMailToForward, 'Forwarded') + '</br>' +
-        this.decryptedContents[this.selectedMailToForward.id],
-      subject: this.mail.subject
-    };
     if (shouldForward) {
       this.composeMailData[this.selectedMailToForward.id].forwardAttachmentsMessageId = this.selectedMailToForward.id;
     }
@@ -330,8 +332,26 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  private getMessageSummary(mail: Mail, messageType: string = 'Original') {
-    let content =  `</br>---------- ${messageType} message ----------</br>` +
+  private getPreviousMails(index: number, isChildMail: boolean) {
+    const previousMails = [];
+    if (isChildMail && index >= 0) {
+      // previous mails in order of most recent first to parent last (excluding the mail at given index)
+      for (let i = index - 1; i >= 0; i--) {
+        previousMails.push(this.mail.children[i]);
+      }
+      previousMails.push(this.mail);
+    }
+    return previousMails;
+  }
+
+  private getMessageHistory(mail: Mail, previousMails: Mail[], messageType: string = 'Original'): string {
+    let history = this.getMessageSummary('', mail, messageType);
+    previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
+    return `<div class='gmail_quote'>${history}</div>`;
+  }
+
+  private getMessageSummary(content: string, mail: Mail, messageType: string = 'Original'): string {
+    content +=  `</br>---------- ${messageType} message ----------</br>` +
       `From: &lt;${mail.sender}&gt;</br>` +
       `Date: ${mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium') : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')}</br>` +
       `Subject: ${mail.subject}</br>` +
@@ -341,6 +361,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content += `CC: ${mail.cc.map(cc => '&lt;' + cc + '&gt;').join(', ')}</br>`;
     }
 
-    return `<div class='gmail_quote'>${content}</div>`;
+    return content;
   }
+
 }

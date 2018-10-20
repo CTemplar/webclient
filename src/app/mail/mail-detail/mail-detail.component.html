@@ -187,9 +187,9 @@
                         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
                                 id="{{childMail.id}}-messageReplyDropdownMenuButton"></button>
                         <div ngbDropdownMenu [attr.aria-labelledby]="childMail.id + '-messageReplyDropdownMenuButton'">
-                          <a class="dropdown-item" (click)="onForward(childMail)">Forward</a>
-                          <a class="dropdown-item" (click)="onReply(childMail)">Reply</a>
-                          <a class="dropdown-item" (click)="onReplyAll(childMail)">Reply All</a>
+                          <a class="dropdown-item" (click)="onForward(childMail, childIndex, true)">Forward</a>
+                          <a class="dropdown-item" (click)="onReply(childMail, childIndex, true)">Reply</a>
+                          <a class="dropdown-item" (click)="onReplyAll(childMail, childIndex, true)">Reply All</a>
                           <a class="dropdown-item" (click)="onPrint(childMail)">Print</a>
                           <a class="dropdown-item" (click)="onDelete(childMail)">Delete this Message</a>
                         </div>
