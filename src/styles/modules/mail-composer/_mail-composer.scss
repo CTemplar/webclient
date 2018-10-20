@@ -27,6 +27,14 @@ a {
 			width: 100%;
 		}
 	}
+    @include media(">=ipad") {
+        left: auto;
+        right: 0;
+        bottom: 0;
+        > .ng-star-inserted {
+            width: auto;
+        }
+    }
 }
 
 .mail-composer.is-sticky {
@@ -81,6 +89,9 @@ a {
 	.mail-composer-dialog{
 		box-shadow: $shadow-dark;
 	}
+    @include media(">=ipad") {
+      width: 40rem;
+    }
 }
 
 .shadow {

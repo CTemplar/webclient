@@ -7,7 +7,7 @@
         <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
           <div ngbDropdown>
             <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
-                    placement="top">
+                    placement="top" placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
                             <span class="fancy-field-group">
                                 <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
                                        type="checkbox" (change)="markAllMails($event.target.checked)"
@@ -25,26 +25,31 @@
           </div>
         </li>
         <li class="px-0">
-          <a (click)="refresh(true)" placement="top" class="border-right-0 border-radius-0">
+          <a (click)="refresh(true)" ngbTooltip="Refresh" placement="top" class="border-right-0 border-radius-0">
             <i class="icon-self-timer"></i>
           </a>
         </li>
         <li class="px-0">
           <a class="border-right-0 border-radius-right-0" placement="top"
-             (click)="moveToFolder(mailFolderTypes.ARCHIVE)" [ngClass]="{'disabled': disableFolderActions}">
+             (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
+             [ngbTooltip]="'mail_list.move_to_archive' | translate"
+             [ngClass]="{'disabled': disableFolderActions}">
             <i class="icon icon-archive"></i>
           </a>
         </li>
         <li class="pr-0 pl-0 hidden-xs-down">
           <a class="border-right-0 border-radius-0"
              (click)="moveToFolder(mailFolderTypes.SPAM)"
-             placement="top" [ngClass]="{'disabled': disableFolderActions}">
-            <i class="icon icon-warning"></i>
+             placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate"
+             [ngClass]="{'disabled': disableFolderActions}">
+          <i class="icon icon-warning"></i>
           </a>
         </li>
         <li class="px-0">
-          <a (click)="moveToTrash()" class="border-radius-left-0" placement="top" [ngClass]="{'disabled': disableFolderActions}">
-            <i class="icon icon-garbage"></i>
+          <a (click)="moveToTrash()" class="border-radius-left-0" placement="top"
+             [ngbTooltip]="(mailFolder !== mailFolderTypes.TRASH) ? ('mail_list.move_to_trash' | translate) : ('mail_list.permanently_delete' | translate)"
+             [ngClass]="{'disabled': disableFolderActions}">
+          <i class="icon icon-garbage"></i>
           </a>
         </li>
         <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
@@ -92,8 +97,9 @@
         </li>
         <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
           <div ngbDropdown>
-            <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button" placement="top">
-              <i class="icon icon-folder"></i>
+            <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button" placement="top"
+                    [ngbTooltip]="'mail_list.move_to' | translate">
+            <i class="icon icon-folder"></i>
             </button>
             <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton">
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
