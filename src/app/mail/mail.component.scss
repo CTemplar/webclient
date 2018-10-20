@@ -668,6 +668,9 @@
       }
     }
   }
+  @include media("<ipad") {
+    .tooltip * {display: none}
+  }
 
   .iconncy-field-group {
     display: block;
