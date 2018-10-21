@@ -239,7 +239,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const hasCC = document.getElementById(`${mail.id}-mail-cc`);
       let cc = '';
       if (hasCC) {
-        cc = `CC: <span class="text-muted">${hasCC.innerHTML}</span>`;
+        cc = `<span class="text-muted">${hasCC.innerHTML}</span>`;
       }
 
       popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
