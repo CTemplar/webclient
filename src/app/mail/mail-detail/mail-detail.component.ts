@@ -163,7 +163,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onForward(mail: Mail, index: number = 0, isChildMail?: boolean) {
     const previousMails = this.getPreviousMails(index, isChildMail);
     this.composeMailData[mail.id] = {
-      content: this.getMessageHistory(mail, previousMails, 'Forwarded') + '</br>' + this.decryptedContents[mail.id],
+      content: this.getMessageHistory(mail, previousMails, 'Forwarded'),
       subject: this.mail.subject
     };
     this.selectedMailToForward = mail;
@@ -344,14 +344,27 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     return previousMails;
   }
 
-  private getMessageHistory(mail: Mail, previousMails: Mail[], messageType: string = 'Original'): string {
-    let history = this.getMessageSummary('', mail, messageType);
+  private getMessageHistory(mail: Mail, previousMails: Mail[], messageType: 'Forwarded' | 'Original' = 'Original'): string {
+    let history = '';
+    if (messageType === 'Forwarded') {
+      history = this.getForwardMessageSummary(mail);
+    } else {
+      history = this.getMessageSummary('', mail);
+    }
     previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
-    return `<div class='gmail_quote'>${history}</div>`;
+    return `<div class="gmail_quote">${history}</div>`;
   }
 
-  private getMessageSummary(content: string, mail: Mail, messageType: string = 'Original'): string {
-    content +=  `</br>---------- ${messageType} message ----------</br>` +
+  private getMessageSummary(content: string, mail: Mail): string {
+    const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
+      this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
+    content +=  `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
+
+    return content;
+  }
+
+  private getForwardMessageSummary(mail: Mail): string {
+    let content = `</br>---------- Forwarded message ----------</br>` +
       `From: &lt;${mail.sender}&gt;</br>` +
       `Date: ${mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium') : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')}</br>` +
       `Subject: ${mail.subject}</br>` +
@@ -361,7 +374,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content += `CC: ${mail.cc.map(cc => '&lt;' + cc + '&gt;').join(', ')}</br>`;
     }
 
+    content += `</br>${this.decryptedContents[mail.id]}</br>`;
+
     return content;
+
   }
 
 }
