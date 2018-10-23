@@ -200,6 +200,7 @@
 .mailbox-sidebar-nav-item {
   font-size: 0.875rem;
   line-height: 1;
+  overflow: hidden;
 
   &.add-folder {
     font-size: 0.75rem;
@@ -213,17 +214,18 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding: 0.813rem 0.938rem 0.813rem 3rem;
+  padding: 0.813rem 2.5rem 0.813rem 3rem;
   color: $menu-link;
   min-height: 2.5rem;
   line-height: 1;
+  word-break: break-all;
 
   .is-sidebar-expanded & {
     // padding-left: 0.938rem;
   }
 
   @include media(">=ipad") {
-    padding: 0.813rem 1.563rem 0.813rem 3.375rem;
+    padding: 0.813rem 2.5rem 0.813rem 3.375rem;
   }
 
   // 5-11-
