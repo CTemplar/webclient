@@ -41,6 +41,11 @@
             }
         }
     }
+    /* Single Blog Page
+    =================================*/
+    p + h2{
+        font-size: 1rem;
+    }
 }
 
 // == Social sharer list
@@ -74,4 +79,9 @@
 
 .fa-twitter-square {
     color: $twitter-color       
+}
+/* Single Blog Page
+=================================*/
+.l-block-footer{
+  margin-top: 0 !important;
 }
