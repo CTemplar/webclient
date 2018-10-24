@@ -129,13 +129,10 @@
         top: 70px;
         right: 0;
         left: 0;
-        bottom: 0;
         opacity: 0;
         pointer-events: none;
         overflow-x: hidden;
         overflow-y: auto;
-        padding: 1.875rem 0.938rem;
-        background: transparentize($brand-secondary, 0.1);
         letter-spacing: 0.9px;
         visibility: hidden;
         // transform: translateY(-1.2rem);
@@ -163,6 +160,10 @@
                     }
                 }
             }
+        }
+        ul{
+            padding: 1.875rem 0.938rem;
+            background: transparentize($brand-secondary, 0.1);
         }
     }
 

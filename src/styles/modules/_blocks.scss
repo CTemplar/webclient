@@ -45,11 +45,11 @@
 
 .l-block-header {
 	strong	{
-		font-weight: 700;
+		font-weight: 300;
 	}
 
 	span {
-		font-weight: 300;
+		font-weight: 900;
 	}
 }
 
@@ -60,6 +60,7 @@
 	@include media(">sm") {
 		margin-bottom: 3rem;
 		font-weight: 300;
+        font-size: 1.75rem;
 	}
 }
 
@@ -107,15 +108,9 @@
 		margin-top: 3.125rem;
 		padding: 1.125rem 0 2.5rem;
 		
-		@include media(">sm") {
-			margin-top: 3.875rem;
-			padding-top: 5rem;
-    		padding-bottom: 5rem;
-		}
-
-		@include media(">sm") {
-			padding-top: 3.75rem;
-    		padding-bottom: 3.75rem;
+		@include media("<ipad") {
+			margin-top: 0;
+			padding-top: 0;
 		}
 	}
 
@@ -166,7 +161,7 @@
 			display: block;
 			
 			@include media(">sm") {
-				height: 5rem;
+				height: 3rem;
 			}
 		}
 	}
@@ -239,7 +234,10 @@
 	}
 
 	@include media("<ipad", ">sm") {
-		padding: 0 1.875rem
+		padding: 0 1.875rem;
+        .text-center {
+            padding-top: 25px;
+        }
 	}
 
 	figure .img.shadowed {
