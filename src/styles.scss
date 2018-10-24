@@ -401,3 +401,10 @@ button[disabled] {
 .text-grey-dark-500 {
   color: #757575;
 }
+
+// Resolve mail detail page paragraph margin issues
+app-mail-detail {
+  p {
+    margin: 0 !important;
+  }
+}

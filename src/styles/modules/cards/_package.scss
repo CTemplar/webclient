@@ -178,10 +178,6 @@
     font-size: 0.875rem;
     font-weight: bold;
     vertical-align: middle;
-
-    @include media(">sm") {
-        padding: 0.5rem 0.625rem;
-    }
 }
 
 // == Small screen code for package cards

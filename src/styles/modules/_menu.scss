@@ -41,6 +41,12 @@
         }
     }
 }
+.nav-link{
+    font-size: 1.125rem;
+}
+ul.navbar-nav .btn.signup-btn{
+    font-size: 0.875rem;
+}
 
 // == In large screen
 @include media(">=ipad") {
@@ -68,6 +74,10 @@
 
     .nav-link {
         letter-spacing: 0.6px;
+        font-size: 0.75rem;
+    }
+    .btn.signup-btn{
+      font-size: 0.75rem;
     }
 }
 

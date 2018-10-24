@@ -1,5 +1,4 @@
 import { HttpResponse } from '@angular/common/http';
-
 // Angular
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
@@ -34,13 +33,28 @@ import {
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
-  ContactImportSuccess, CreateFolder, CreateFolderSuccess, DeleteFolder, DeleteFolderSuccess, MailActionTypes,
+  ContactImportSuccess,
+  CreateFilter,
+  CreateFilterFailure,
+  CreateFilterSuccess,
+  CreateFolder,
+  CreateFolderSuccess,
+  DeleteFilter,
+  DeleteFilterFailure,
+  DeleteFilterSuccess,
+  DeleteFolder,
+  DeleteFolderSuccess,
+  GetFilters,
+  GetFiltersSuccess,
   SettingsUpdate,
   SettingsUpdateSuccess,
   SnackErrorPush,
   SnackErrorPushSuccess,
   SnackPush,
   SnackPushSuccess,
+  UpdateFilter,
+  UpdateFilterFailure,
+  UpdateFilterSuccess,
   UsersActionTypes,
   WhiteList,
   WhiteListAdd,
@@ -345,6 +359,71 @@ export class UsersEffects {
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
+        );
+    });
+
+  @Effect()
+  getFiltersEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.GET_FILTERS)
+    .map((action: GetFilters) => action.payload)
+    .switchMap(payload => {
+      return this.userService.getFilters(payload)
+        .pipe(
+          switchMap(res => {
+            return [new GetFiltersSuccess(res.results)];
+          }),
+          catchError(err => [])
+        );
+    });
+
+  @Effect()
+  createFilterEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.CREATE_FILTER)
+    .map((action: CreateFilter) => action.payload)
+    .switchMap(payload => {
+      return this.userService.createFilter(payload)
+        .pipe(
+          switchMap(res => {
+            return [new CreateFilterSuccess(res)];
+          }),
+          catchError(err => [
+            new SnackErrorPush({ message: 'Failed to create filter.' }),
+            new CreateFilterFailure(err)
+          ])
+        );
+    });
+
+  @Effect()
+  updateFilterEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.UPDATE_FILTER)
+    .map((action: UpdateFilter) => action.payload)
+    .switchMap(payload => {
+      return this.userService.createFilter(payload)
+        .pipe(
+          switchMap(res => {
+            return [new UpdateFilterSuccess(res)];
+          }),
+          catchError(err => [
+            new SnackErrorPush({ message: 'Failed to update filter.' }),
+            new UpdateFilterFailure(err)
+          ])
+        );
+    });
+
+  @Effect()
+  deleteFilterEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.DELETE_FILTER)
+    .map((action: DeleteFilter) => action.payload)
+    .switchMap(filter => {
+      return this.userService.deleteFilter(filter.id)
+        .pipe(
+          switchMap(res => {
+            return [new DeleteFilterSuccess(filter)];
+          }),
+          catchError(err => [
+            new SnackErrorPush({ message: 'Failed to delete filter.' }),
+            new DeleteFilterFailure(err)
+          ])
         );
     });
 

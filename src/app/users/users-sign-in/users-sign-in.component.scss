@@ -28,6 +28,11 @@ $error-red: #e94e4c;
   &:focus + .input-group-addon {
     border-color: $dropdown-border-color !important;
   }
+  &[type="text"]{
+    + span i {
+      opacity: 0.5;
+    }
+  }
 }
 
 .login-form {

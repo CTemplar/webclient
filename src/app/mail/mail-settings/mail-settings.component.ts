@@ -204,14 +204,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // == Open add custom filter NgbModal
-  addCustomFilterModalOpen(customFilterContent) {
-    this.modalService.open(customFilterContent, {
-      centered: true,
-      windowClass: 'modal-sm'
-    });
-  }
-
   // == Open billing information NgbModal
   billingInfoModalOpen(billingInfoContent) {
     this.modalService.open(billingInfoContent, {

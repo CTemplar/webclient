@@ -101,3 +101,30 @@
 .news-card-holder p {
     font-size: 14px;
 }
+.news-card-holder .post-meta {
+    &:after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        clear: both;
+    }
+    .post-date {
+        float: left;
+        font-style: italic;
+    }
+    .post-comments {
+        float: right;
+        font-style: italic;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.38);
+    }
+}
+@media (max-width: 767px) {
+    /* Home Page
+    =================================*/
+    .l-block-footer .offset-2{
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-left: 0;
+    }
+}

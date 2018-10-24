@@ -102,6 +102,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() draftMail: Mail;
   @Input() parentId: number;
   @Input() showSaveButton: boolean = true;
+  @Input() forwardAttachmentsMessageId: number;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -132,6 +133,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   showEncryptFormErrors: boolean;
   isTrialPrimeFeaturesAvailable: boolean;
   mailBoxesState: MailBoxesState;
+  isUploadingAttachment: boolean;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -223,7 +225,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.selectedMailbox = mailBoxesState.currentMailbox;
             this.addSignature();
           }
-          this.signature = this.selectedMailbox.signature;
+          this.signature = this.selectedMailbox ? this.selectedMailbox.signature : '';
         }
         if (this.selectedMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
@@ -312,6 +314,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.content) {
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
+      this.quill.setSelection(0);
     }
 
     this.addSignature();
@@ -393,11 +396,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   handleAttachment(draft: Draft) {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
+    this.isUploadingAttachment = false;
     this.attachments.forEach(attachment => {
       if (attachment.is_inline && attachment.progress === 100 && !attachment.isRemoved &&
         attachment.content_id && !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
         this.inlineAttachmentContentIds.push(attachment.content_id);
         this.embedImageInQuill(attachment.document, attachment.content_id);
+      }
+      if (attachment.progress < 100 && !attachment.isRemoved) {
+        this.isUploadingAttachment = true;
       }
     });
   }
@@ -695,9 +702,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
     if (!this.draftMail) {
-      this.draftMail = { content: null, mailbox: this.selectedMailbox.id, folder: 'draft' };
+      this.draftMail = { content: null, folder: 'draft' };
     }
-    this.draftMail.mailbox = this.selectedMailbox.id;
+    this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
@@ -708,6 +715,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     this.draftMail.is_encrypted = isEncrypted;
+    if (this.forwardAttachmentsMessageId) {
+      this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
+    }
     if (this.parentId) {
       this.draftMail.parent = this.parentId;
     }
@@ -715,8 +725,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail.encryption = this.draftMail.encryption || {};
       this.draftMail.encryption.password = this.encryptForm.controls['password'].value || null;
       this.draftMail.encryption.password_hint = this.encryptForm.controls['passwordHint'].value || null;
-    }
-    else if (this.draftMail.encryption) {
+    } else if (this.draftMail.encryption) {
       this.draftMail.encryption = {};
     }
 

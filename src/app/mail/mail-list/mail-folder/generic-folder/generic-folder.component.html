@@ -7,7 +7,7 @@
         <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
           <div ngbDropdown>
             <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
-                    placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
+                    placement="top" placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
                             <span class="fancy-field-group">
                                 <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
                                        type="checkbox" (change)="markAllMails($event.target.checked)"
@@ -42,14 +42,14 @@
              (click)="moveToFolder(mailFolderTypes.SPAM)"
              placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate"
              [ngClass]="{'disabled': disableFolderActions}">
-            <i class="icon icon-warning"></i>
+          <i class="icon icon-warning"></i>
           </a>
         </li>
         <li class="px-0">
           <a (click)="moveToTrash()" class="border-radius-left-0" placement="top"
              [ngbTooltip]="(mailFolder !== mailFolderTypes.TRASH) ? ('mail_list.move_to_trash' | translate) : ('mail_list.permanently_delete' | translate)"
              [ngClass]="{'disabled': disableFolderActions}">
-            <i class="icon icon-garbage"></i>
+          <i class="icon icon-garbage"></i>
           </a>
         </li>
         <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
@@ -99,7 +99,7 @@
           <div ngbDropdown>
             <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button" placement="top"
                     [ngbTooltip]="'mail_list.move_to' | translate">
-              <i class="icon icon-folder"></i>
+            <i class="icon icon-folder"></i>
             </button>
             <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton">
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
@@ -173,7 +173,7 @@
 
 
         <!-- Check box -->
-        <td class="mail-checkbox pl-4">
+        <td class="mail-checkbox">
           <div class="fancy-field-group">
             <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" [ngModel]="mail.marked" (ngModelChange)="toggleEmailSelection(mail, $event)"/>
             <label for={{mail.id}} class="fancy-field-empty"></label>
@@ -200,14 +200,11 @@
                 {{mail.sender}}
               </ng-container>
             </ng-container>
-            <span class="d-sm-block d-md-none" [innerHTML]="mail.subject">
-                <!-- Subject Goes Here -->
-            </span>
           </a>
         </td>
 
         <!-- Subject -->
-        <td class="mail-inbox-message d-none d-md-block">
+        <td class="mail-inbox-message d-md-block">
           <a (click)="openMail(mail)" class="text-dark">
             <span class="mail-subject">
 

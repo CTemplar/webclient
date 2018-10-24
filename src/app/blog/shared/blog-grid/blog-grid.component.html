@@ -1,4 +1,4 @@
-<div class="l-block-body pb-5">
+<div class="l-block-body">
   <div class="row justify-content-center">
       <article class="col-md-4 col-sm-6 mb-4" *ngFor="let post of posts">
           <a href="https://blog.ctemplar.com/{{post.slug}}" target="_blank" rel="noopener" class="d-block news-card-holder">
@@ -27,6 +27,10 @@
                         </li>
                     </ul>
                 </footer>
+                <p class="post-meta">
+                    <span class="post-date">{{post.date}}</span>
+                    <span class="post-comments">{{post.comments_count}} Comments</span>
+                </p>
               </div>
           </a>
       </article>

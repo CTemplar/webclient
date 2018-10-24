@@ -12,14 +12,21 @@
 }
 
 .hero-home {
-    min-height: 25rem;    
+    min-height: 35rem;
 
     // Add shadow to non-squared/non-rectangular image 
     filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.38));
 
-    @include media("<ipad", ">=870px") {
-        min-height: 30rem;
+    @include media(">sm") {
+        min-height: 35rem;
     }
+    @include media("<ipad", ">=870px") {
+        min-height: 35rem;
+    }
+    @include media(">=laptop") {
+        min-height: 25rem;
+    }
+
 
     @include media(">=ipad") {
         padding-bottom: 47%;
