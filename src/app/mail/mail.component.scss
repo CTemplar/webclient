@@ -36,7 +36,7 @@
   width: 220px;
 
   @include media("<ipad") {
-    z-index: $zindex-default + 10;
+    z-index: $zindex-default + 998;
   }
 
   @include media("<=sm") {
@@ -554,7 +554,9 @@
 
   > li {
     padding: 0 0.375rem;
-
+    @media(max-width: 360px) {
+      padding: 0 3px;
+    }
     &.checkbox-dropdown {
       .fancy-field-group {
         margin-top: -3px;
@@ -667,6 +669,9 @@
         text-transform: uppercase;
       }
     }
+  }
+  @include media("<ipad") {
+    .tooltip * {display: none}
   }
 
   .iconncy-field-group {
@@ -924,7 +929,7 @@
 .mailbox-dropdown {
   .dropdown-item {
     position: relative;
-    padding: 0.375rem 0.938rem; //~0.625rem 0.938rem;
+    padding: 0.625rem 0.938rem;
     border-bottom: 0;
     font-size: 0.875rem;
     line-height: 1.2;
@@ -1300,7 +1305,7 @@
 // == Message reply dropdown
 .dropdown-xs.msg-reply-dropdown {
   .dropdown-item {
-    padding: .375rem .938rem;
+    padding: 0.625rem .938rem;
     font-size: .75rem;
   }
 }
@@ -1467,4 +1472,26 @@
       }
     }
   }
+}
+/* For Inbox Contact page
+===========================*/
+.add-button{
+  position: relative;
+  .add-button-link{
+    position: absolute;
+    top: 8px;
+    left: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 17px;
+    padding: 0;
+    margin-left: 8px;
+}
+
+}
+/* For Inbox Settings Tabs
+===========================*/
+.label-align label{
+  margin-top: 10px;
 }
