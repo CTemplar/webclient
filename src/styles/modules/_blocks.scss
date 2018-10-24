@@ -148,7 +148,7 @@
 		transform: skew(-48deg) rotate(2deg);
 
 		@include media("<=sm") {
-			height: 3.125rem;
+			height: 3rem;
 			transform: skew(-48deg) rotate(4deg);
 		}
 	}
@@ -157,7 +157,7 @@
 		&::after {
 			position: relative;
 			top: auto;
-			bottom: -1.75rem;
+			bottom: -1.5rem;
 			display: block;
 			
 			@include media(">sm") {
