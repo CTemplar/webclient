@@ -49,6 +49,7 @@
         <div class="col-4">
           <div class="msg-reply-type-holder">
             <div class="d-flex align-items-center justify-content-end">
+              <span *ngIf="mail.attachments?.length > 0" class="mr-3"><i class="icon icon-attachment"></i></span>
               <label class="msg-received-time mb-0" id="{{mail.id}}-mail-date">
                 <ng-container *ngIf="mail.sent_at; else createdAt">{{mail.sent_at | momentDate:'medium'}}</ng-container>
                 <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
@@ -168,6 +169,8 @@
                   <div class="col-4">
                     <div class="msg-reply-type-holder">
                       <div class="d-flex align-items-center justify-content-end">
+                        <span *ngIf="childMail.attachments?.length > 0" class="mr-3"><i
+                                class="icon icon-attachment"></i></span>
                         <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
                           <ng-container *ngIf="childMail.sent_at; else createdAt">
                             {{childMail.sent_at | momentDate:'medium'}}
