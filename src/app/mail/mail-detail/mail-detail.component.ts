@@ -335,12 +335,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getPreviousMails(index: number, isChildMail: boolean) {
     const previousMails = [];
     if (isChildMail && index >= 0) {
-      // previous mails in order of most recent first to parent last (excluding the mail at given index)
-      for (let i = index - 1; i >= 0; i--) {
+      // previous mails in order of most recent first to parent last (including the mail at given index)
+      for (let i = index; i >= 0; i--) {
         previousMails.push(this.mail.children[i]);
       }
-      previousMails.push(this.mail);
+    } else {
+      previousMails.push(...this.mail.children);
+      previousMails.reverse();
     }
+    previousMails.push(this.mail);
     return previousMails;
   }
 
@@ -348,8 +351,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     let history = '';
     if (messageType === 'Forwarded') {
       history = this.getForwardMessageSummary(mail);
-    } else {
-      history = this.getMessageSummary('', mail);
     }
     previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
     return `<div class="gmail_quote">${history}</div>`;
