@@ -20,36 +20,10 @@
         </header>
         <div class="l-block-body px-xs">
             <div class="l-content-holder donate-content-holder mx-auto mt-4 mt-sm-5">
-                <div class="row">
-                    <div class="col-sm-6 mb-4 mb-sm-0">
-                        <a class="v-card square-card bg-faded has-border br-4">
-                            <div class="square-card-content">
-                                <figure>
-                                    <img alt="PayPal Logo" class="img" src="assets/images/donate/stripe-logo.png" />
-                                </figure>
-                            </div>
-                            <div class="square-card-footer">
-                                <div class="donate-text text-secondary text-uppercase">
-                                    <strong>Donate via CREDIT/DEBIT Card</strong>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6">
-                        <a class="v-card square-card bg-faded has-border br-4">
-                            <div class="square-card-content">
-                                <figure>
-                                    <img alt="PayPal Logo" class="img" src="assets/images/donate/bitcoin.png" />
-                                </figure>
-                            </div>
-                            <div class="square-card-footer">
-                                <div class="donate-text text-secondary text-uppercase">
-                                    <strong>Donate via bitcoin</strong>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                
+                <!-- Render Payment Options -->
+                <router-outlet></router-outlet>
+                
                 <div class="text-holder pt-2 pt-sm-0 mt-4 mt-sm-6 mt-md-7">
                     <h2 class="text-secondary mb-0">
                         <strong>Thank you</strong> for your support!</h2>

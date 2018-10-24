@@ -12,10 +12,19 @@ import { PagesSecurityComponent } from './pages-security/pages-security.componen
 import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
 import { PagesSupportComponent } from './pages-support/pages-support.component';
+import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-options.component';
+import { StripeFormComponent } from '../shared/components/stripe-form/stripe-form.component';
 
 const routes: Routes = [
   { path: 'about', component: PagesAboutComponent },
-  { path: 'donate', component: PagesDonateComponent },
+  {
+    path: 'donate',
+    component: PagesDonateComponent,
+    children: [
+      { path: '', component: PaymentOptionsComponent },
+      { path: 'stripe', component: StripeFormComponent }
+    ]
+  },
   { path: 'pricing', component: PricingPlansComponent },
   { path: 'security', component: PagesSecurityComponent },
   { path: 'media-kit', component: PagesMediaKitComponent },
@@ -29,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}
