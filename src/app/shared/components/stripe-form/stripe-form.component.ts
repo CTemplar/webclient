@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/datatypes';
 import { SnackErrorPush } from '../../../store';
 import { DonationService } from '../../../store/services/donation.service';
+import { MakeStripDonation } from '../../../store/actions/donate.actions';
 
 @Component({
   selector: 'app-stripe-form',
@@ -164,21 +165,10 @@ export class StripeFormComponent implements OnInit {
    */
   private performStripeDonationTransaction(token: any) {
     if (token) {
-
-      // TODO: use store to dispatch stripe transaction instead of making API call directly
-      this.donationService
-        .createStripeDonation({
-          stripe_token: token,
-          amount: this.donationAmount
-        })
-        .subscribe(
-          res => {
-            console.log('SUCCESS', res);
-          },
-          error => {
-            console.log('ERROR', error);
-          }
-        );
+      this.store.dispatch(new MakeStripDonation({
+        stripe_token: token,
+        amount: this.donationAmount
+      }));
     } else {
       this.store.dispatch(
         new SnackErrorPush(
