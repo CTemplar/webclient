@@ -8,8 +8,18 @@ export function apiHeaders() {
   };
 }
 
-export const apiUrl = environment.apiServerUrl;
+export const apiUrl = getApiUrl();
 export const bitcoinApiUrl = environment.bitcoinServerUrl;
+
+export function getApiUrl() {
+  if (window.location && window.location.href) {
+    const url = window.location.href.split('//')[1].replace('/', '');
+    if (url.indexOf(environment.onionDomain) > -1) {
+      return environment.onionApiServerUrl;
+    }
+  }
+  return environment.apiServerUrl;
+}
 
 
 export const COLORS: string[] = [
@@ -48,7 +58,7 @@ export const LANGUAGES: Language[] = [
   // { name: 'Italiano', locale: 'it' },
   // { name: 'Portugees', locale: 'pt' },
   // { name: 'Dutch', locale: 'nl' },
-   { name: 'Ukrainian', locale: 'uk' },
+  { name: 'Ukrainian', locale: 'uk' },
 ];
 
 export interface Language {
