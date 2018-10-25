@@ -14,6 +14,7 @@ import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.compon
 import { PagesSupportComponent } from './pages-support/pages-support.component';
 import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-options.component';
 import { StripeFormComponent } from '../shared/components/stripe-form/stripe-form.component';
+import { BitcoinFormComponent } from '../shared/components/bitcoin-form/bitcoin-form.component';
 
 const routes: Routes = [
   { path: 'about', component: PagesAboutComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
     component: PagesDonateComponent,
     children: [
       { path: '', component: PaymentOptionsComponent },
-      { path: 'stripe', component: StripeFormComponent }
+      { path: 'stripe', component: StripeFormComponent },
+      { path: 'bitcoin', component: BitcoinFormComponent }
     ]
   },
   { path: 'pricing', component: PricingPlansComponent },

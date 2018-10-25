@@ -27,6 +27,7 @@ import { BrowserDetectorService } from './services/browser-detector.service';
 import { IsIeDirective } from './directives/is-ie.directive';
 import { MomentDatePipe } from './pipes/moment-date.pipe';
 import { StripeFormComponent } from './components/stripe-form/stripe-form.component';
+import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { StripeFormComponent } from './components/stripe-form/stripe-form.compon
     IsIeDirective,
     MomentDatePipe,
     StripeFormComponent,
+    BitcoinFormComponent,
   ],
   exports: [
     TranslateModule,
