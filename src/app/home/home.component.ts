@@ -83,7 +83,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
             post.excerpt = post.text;
           }
           if (this.categories.length - 1 < post.category) {
-            console.log(this.categories.length, post.category);
             this.getCategories();
           }
         });

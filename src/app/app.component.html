@@ -12,7 +12,7 @@
 
 
 <!-- Zendesk Widget Placeholder Button -->
-<div class="btn-zendesk-container" *ngIf="!isZendeskWebWidgetShown">
+<div class="btn-zendesk-container" *ngIf="!isZendeskWebWidgetShown && !isAuthenticated">
     <button id="btn-zendesk" (click)="showZendeskWebWidget()">
         <span class="help-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;">

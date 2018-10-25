@@ -36,10 +36,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isZendeskWebWidgetShown: boolean;
   isZendeskWebWidgetLoading: boolean;
+  isAuthenticated: boolean;
 
-  constructor(@Inject(DOCUMENT) private document: any,
-              public router: Router,
-              private blogService: BlogService,
+  constructor(public router: Router,
               private sharedService: SharedService,
               private store: Store<AppState>,
               private translate: TranslateService,
@@ -72,10 +71,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
       .subscribe((authState: AuthState) => {
         if (authState.isAuthenticated) {
-          // this.isZendeskWebWidgetShown = false;
+          this.isAuthenticated = true;
           this.hideZendeskWebWidget();
         } else {
-          // this.isZendeskWebWidgetShown = true;
+          this.isAuthenticated = false;
         }
       });
   }

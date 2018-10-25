@@ -9,7 +9,9 @@ export class ZendeskWebWidgetService {
 
   private window;
 
-  constructor() {}
+  constructor() {
+    this.window = getWindow();
+  }
 
   loadZendeskWebWidget() {
     return new Promise(( resolve, reject) => {
@@ -21,8 +23,6 @@ export class ZendeskWebWidgetService {
           'Missing accountUrl. Please set in app config via ZendeskWidgetProvider'
         );
       }
-
-      this.window = getWindow();
 
       const window = this.window;
       // Following is essentially a copy paste of JS portion of the Zendesk embed code
@@ -92,8 +92,10 @@ export class ZendeskWebWidgetService {
   }
 
   hide() {
-    this.window.zE = null;
-    console.log(this.window);
+    if (this.window && this.window.zE) {
+      this.window.zE.hide();
+      this.window.zE = null;
+    }
   }
 
   show() {

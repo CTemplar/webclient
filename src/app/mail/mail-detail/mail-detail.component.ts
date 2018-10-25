@@ -35,7 +35,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.mailFolder)
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
