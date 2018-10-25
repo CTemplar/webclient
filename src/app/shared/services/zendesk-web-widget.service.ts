@@ -94,32 +94,39 @@ export class ZendeskWebWidgetService {
   hide() {
     if (this.window && this.window.zE) {
       this.window.zE.hide();
-      this.window.zE = null;
     }
   }
 
   show() {
-    this.window.zE(() => {
-      this.window.zE.show();
-    });
+    if (this.window && this.window.zE) {
+      this.window.zE(() => {
+        this.window.zE.show();
+      });
+    }
   }
 
   activate(options?) {
-    this.window.zE(() => {
-      this.window.zE.activate(options);
-    });
+    if (this.window && this.window.zE) {
+      this.window.zE(() => {
+        this.window.zE.activate(options);
+      });
+    }
   }
 
   setHelpCenterSuggestions(options) {
-    this.window.zE(() => {
-      this.window.zE.setHelpCenterSuggestions(options);
-    });
+    if (this.window && this.window.zE) {
+      this.window.zE(() => {
+        this.window.zE.setHelpCenterSuggestions(options);
+      });
+    }
   }
 
   setLocale(language?: string) {
-    this.window.zE(() => {
-      this.window.zE.setLocale(language);
-    });
+    if (this.window && this.window.zE) {
+      this.window.zE(() => {
+        this.window.zE.setLocale(language);
+      });
+    }
   }
 
   setSettings(settings) {
