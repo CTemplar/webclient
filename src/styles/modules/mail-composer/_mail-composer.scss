@@ -70,6 +70,7 @@ a {
 		.mail-compose-editable-body {
 			margin-top: 0;
 			max-height: unset;
+            position: relative;
 		}
 
 		.mail-compose-box {
@@ -77,7 +78,7 @@ a {
 		}
 
 		.mail-compose-box-inner {
-			height: 75vh;
+			height: 82.5vh;
 			width: 100vw;
 		}
 
@@ -252,15 +253,25 @@ a {
 			padding: 0.688rem 0 0.5rem;
 		}
 	}
+    @include media("<sm") {
+      &.mail-compose-field-to{
+        position: relative;
+        padding-left: 38px;
+        .label-to{
+          position: absolute;
+          top: 11px;
+          left: 12px;
+        }
+      }
+    }
 }
 
 .extra-mail-label {
 	position: absolute;
-	top: 50%;
+	top: 12px;
 	right: 0.625rem;
 	display: flex;
 	align-items: right;
-	transform: translateY(-50%);
 
 	.mail-label {
 		cursor: pointer;
@@ -307,8 +318,11 @@ a {
 		outline: 0;
 	}
 
-	.ql-editor p {
-		font-size: 14px;
+	.ql-editor {
+		padding-top: 65px;
+		p {
+			font-size: 14px;
+		}
 	}
 }
 
@@ -320,11 +334,10 @@ a {
 	border-bottom: 1px solid $input-border-color;
 
 	@include media("<=sm") {
-		position: fixed;
-		top: auto;
+		position: absolute;
+		top: 0;
 		right: 0;
 		left: 0;
-		bottom: 0;
 		border-top: 0;
 	}
 }
@@ -368,6 +381,11 @@ a {
 		font-size: 0.75rem;
 		min-width: 85px;
 	}
+    .dropdown-menu{
+        top: 43px !important;
+        border-top: none;
+        border-radius: 0 4px 4px;
+    }
 }
 
 .actions-btn {

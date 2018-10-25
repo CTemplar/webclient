@@ -1264,6 +1264,19 @@
   &.is-bordered-bottom {
     border-bottom: 1px solid #f2f2f2;
   }
+  @include media("<sm") {
+      &.ui-footer-sec{
+        background: #fafafa;
+        text-align: center;
+        .btn-gmail{
+          background: none;
+          border: none;
+          i{
+            display: block;
+          }
+        }
+      }
+  }
 }
 
 // == Sender content
