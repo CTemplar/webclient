@@ -933,6 +933,8 @@
     border-bottom: 0;
     font-size: 0.875rem;
     line-height: 1.2;
+    white-space: normal;
+    word-break: break-all;
 
     // &:not(:last-of-type) {
     // 	margin-bottom: 0.5rem;
