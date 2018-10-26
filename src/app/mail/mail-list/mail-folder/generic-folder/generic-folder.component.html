@@ -29,7 +29,7 @@
             <i class="icon-self-timer"></i>
           </a>
         </li>
-        <li class="px-0">
+        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE">
           <a class="border-right-0 border-radius-right-0" placement="top"
              (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
              [ngbTooltip]="'mail_list.move_to_archive' | translate"
@@ -37,15 +37,15 @@
             <i class="icon icon-archive"></i>
           </a>
         </li>
-        <li class="pr-0 pl-0 hidden-xs-down">
-          <a class="border-right-0 border-radius-0"
+        <li class="pr-0 pl-0 hidden-xs-down" *ngIf="mailFolder !== mailFolderTypes.SPAM">
+          <a class="border-radius-0"
              (click)="moveToFolder(mailFolderTypes.SPAM)"
              placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate"
-             [ngClass]="{'disabled': noEmailSelected}">
+             [ngClass]="{'border-right-0': mailFolder !== mailFolderTypes.TRASH, 'disabled': noEmailSelected}">
           <i class="icon icon-warning"></i>
           </a>
         </li>
-        <li class="px-0">
+        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.TRASH">
           <a (click)="moveToTrash()" class="border-radius-left-0" placement="top"
              [ngbTooltip]="(mailFolder !== mailFolderTypes.TRASH) ? ('mail_list.move_to_trash' | translate) : ('mail_list.permanently_delete' | translate)"
              [ngClass]="{'disabled': noEmailSelected}">
@@ -70,20 +70,23 @@
                       <i class="icon icon-folder"></i>
                     </button>
                     <div ngbDropdownMenu aria-labelledby="extraOptionsDropdownMenuButton">
-                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
                         <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
                       </a>
-                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)">
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
                         <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
                       </a>
-                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)">
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
                         <i class="icon icon-archive"></i><span translate="mail_sidebar.outbox">Outbox</span>
                       </a>
-                      <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"
-                         (click)="moveToFolder(folder.name)">
-                        <i class="folder-color-box icon" [style.background]="folder.color"></i>
-                        <span class="folders-list-text">{{folder.name}}</span>
-                      </a>
+                      <ng-container *ngFor="let folder of customFolders; let i=index;">
+                        <a class="dropdown-item"
+                          *ngIf="mailFolder !== folder.name"
+                          (click)="moveToFolder(folder.name)">
+                          <i class="folder-color-box icon" [style.background]="folder.color"></i>
+                          <span class="folders-list-text">{{folder.name}}</span>
+                        </a>
+                      </ng-container>
                       <span class="divider-item d-block"></span>
                       <a class="dropdown-item" (click)="openCreateFolderDialog()">
                         <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
@@ -103,20 +106,24 @@
             <i class="icon icon-folder"></i>
             </button>
             <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton">
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
                 <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
               </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)">
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
                 <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
               </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)">
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
                 <i class="icon icon-draft"></i><span translate="mail_sidebar.outbox">Outbox</span>
               </a>
-              <a class="dropdown-item" *ngFor="let folder of customFolders; let i=index;"
-                 (click)="moveToFolder(folder.name)">
-                <i class="folder-color-box icon" [style.background]="folder.color"></i>
-                <span class="folders-list-text">{{folder.name}}</span>
-              </a>
+              <ng-container *ngFor="let folder of customFolders; let i=index;">
+                <a class="dropdown-item"
+                  *ngIf="mailFolder !== folder.name"
+                  (click)="moveToFolder(folder.name)">
+                  <i class="folder-color-box icon" [style.background]="folder.color"></i>
+                  <span class="folders-list-text">{{folder.name}}</span>
+                </a>
+              </ng-container>
+
               <span class="divider-item d-block"></span>
               <a class="dropdown-item" (click)="openCreateFolderDialog()">
                 <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
