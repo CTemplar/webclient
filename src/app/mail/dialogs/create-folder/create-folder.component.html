@@ -58,6 +58,7 @@
 </div>
 
 <ng-template #folderNameErrors>
+  <span class="validate-message" *ngIf="duplicateFoldername">Folder name already exists.</span>
   <ng-container *ngIf="customFolderForm.controls['folderName'].errors &&
                                     (customFolderForm.controls['folderName'].touched || submitted)">
     <span class="validate-message">

@@ -25,6 +25,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   currentMailbox: Mailbox;
   userState: UserState;
   submitted: boolean;
+  duplicateFoldername: boolean;
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
@@ -55,6 +56,11 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
         }
         this.userState = user;
       });
+    this.customFolderForm.get('folderName').valueChanges.takeUntil(this.destroyed$)
+      .subscribe((value) => {
+        console.log(value);
+        this.checkFolderExist(value);
+      });
   }
 
   onSubmit() {
@@ -67,12 +73,21 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
       color: this.folderColors[this.selectedColorIndex],
       mailbox: this.currentMailbox.id
     };
-    if (this.userState.customFolders
-      .filter(folder => folder.name.toLowerCase() === customFolder.name.toLowerCase()).length > 0) {
-      this.onHide();
+    if (this.checkFolderExist(customFolder.name)) {
       return;
     }
+
     this.store.dispatch(new CreateFolder(customFolder));
+  }
+
+  checkFolderExist(folderName: string) {
+    if (this.userState.customFolders
+      .filter(folder => folder.name.toLowerCase() === folderName.toLowerCase()).length > 0) {
+      this.duplicateFoldername = true;
+      return true;
+    }
+    this.duplicateFoldername = false;
+    return false;
   }
 
   onHide() {
