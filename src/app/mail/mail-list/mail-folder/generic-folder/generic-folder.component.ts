@@ -28,7 +28,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
-  disableFolderActions: boolean = true;
+  noEmailSelected: boolean = true;
 
   userState: UserState;
 
@@ -65,7 +65,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         this.userState = user;
         this.customFolders = user.customFolders;
         if (this.fetchMails && this.userState.settings) {
-          this.LIMIT =  user.settings.emails_per_page;
+          this.LIMIT = user.settings.emails_per_page;
           if (this.LIMIT) {
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
             this.initializeAutoRefresh();
@@ -114,14 +114,14 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         return mail;
       });
       this.selectAll = true;
-      this.disableFolderActions = false;
+      this.noEmailSelected = false;
     } else {
       this.mails.map(mail => {
         mail.marked = false;
         return mail;
       });
       this.selectAll = false;
-      this.disableFolderActions = true;
+      this.noEmailSelected = true;
     }
   }
 
@@ -275,12 +275,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   toggleEmailSelection(mail, event) {
     mail.marked = event;
     if (event) {
-      this.disableFolderActions = false;
+      this.noEmailSelected = false;
     } else {
       if (this.mails.filter(m => m.marked === true).length > 0) {
-        this.disableFolderActions = false;
+        this.noEmailSelected = false;
       } else {
-        this.disableFolderActions = true;
+        this.noEmailSelected = true;
       }
     }
   }
@@ -294,7 +294,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     return this.getMarkedMails().map(mail => mail.id).join(',');
   }
 
-  private getMarkedMails() {
+
+  getMarkedMails() {
     return this.mails.filter(mail => mail.marked);
   }
 

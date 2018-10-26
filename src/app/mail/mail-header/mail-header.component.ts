@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { UpdateSearch } from '../../store/actions/search.action';
 import { DOCUMENT } from '@angular/platform-browser';
+import { ComposeMailService } from '../../store/services/compose-mail.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -31,7 +32,8 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
               private translate: TranslateService,
-              @Inject(DOCUMENT) private document: Document) {
+              @Inject(DOCUMENT) private document: Document,
+              private composeMailService: ComposeMailService) {
     config.autoClose = true;
   }
 
@@ -69,6 +71,10 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     this.translate.use(lang.locale);
     this.selectedLanguage = lang;
+  }
+
+  openComposeMailDialog(receivers) {
+    this.composeMailService.openComposeMailDialog({ receivers });
   }
 
   ngOnDestroy(): void {

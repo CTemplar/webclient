@@ -24,6 +24,8 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   selectedColorIndex: number = 0;
   currentMailbox: Mailbox;
   userState: UserState;
+  submitted: boolean;
+  duplicateFoldername: boolean;
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
@@ -32,7 +34,14 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
-      folderName: ['', Validators.required],
+      folderName: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^[a-z]+[a-z0-9. _-]+$/i),
+          Validators.minLength(4),
+          Validators.maxLength(30),
+        ]
+      ],
       color: ''
     });
 
@@ -47,20 +56,38 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
         }
         this.userState = user;
       });
+    this.customFolderForm.get('folderName').valueChanges.takeUntil(this.destroyed$)
+      .subscribe((value) => {
+        console.log(value);
+        this.checkFolderExist(value);
+      });
   }
 
   onSubmit() {
+    this.submitted = true;
+    if (this.customFolderForm.invalid) {
+      return;
+    }
     const customFolder: Folder = {
       name: this.customFolderForm.value.folderName,
       color: this.folderColors[this.selectedColorIndex],
       mailbox: this.currentMailbox.id
     };
-    if (this.userState.customFolders
-      .filter(folder => folder.name.toLowerCase() === customFolder.name.toLowerCase()).length > 0) {
-      this.onHide();
+    if (this.checkFolderExist(customFolder.name)) {
       return;
     }
+
     this.store.dispatch(new CreateFolder(customFolder));
+  }
+
+  checkFolderExist(folderName: string) {
+    if (this.userState.customFolders
+      .filter(folder => folder.name.toLowerCase() === folderName.toLowerCase()).length > 0) {
+      this.duplicateFoldername = true;
+      return true;
+    }
+    this.duplicateFoldername = false;
+    return false;
   }
 
   onHide() {

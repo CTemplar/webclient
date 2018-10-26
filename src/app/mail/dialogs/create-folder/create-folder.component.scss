@@ -51,3 +51,15 @@
 .modal-form-label {
   font-size: 14px;
 }
+
+.validate-message {
+  display: block;
+  margin-bottom: 0.375rem;
+  color: #E94E4C !important;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.errors-field {
+  min-height: 40px;
+}
