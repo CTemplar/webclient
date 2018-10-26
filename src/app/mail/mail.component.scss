@@ -1107,7 +1107,7 @@
 }
 
 .mail-list-row {
-  
+
   td {
     padding: 1rem;
     vertical-align: middle;
@@ -1206,6 +1206,46 @@
       white-space: nowrap;
     }
   }
+  @include media("<sm") {
+    .mail-from-name{
+      position: relative;
+      padding-top: 15px;
+      a{
+        padding: 0 0 10px;
+      }
+      .fancy-field-group{
+        position: absolute;
+        top: 15px;
+        left: 15px;
+      }
+      span{
+        display: block;
+      }
+      .mail-file-size{
+        position: absolute;
+        top: 17px;
+        right: 0;
+        width: auto;
+      }
+      .mail-sent-date{
+        position: absolute;
+        top: 17px;
+        right: 40px;
+        width: auto;
+      }
+      .mail-status{
+        width: 1rem;
+        text-align: right;
+        .mail-security-status{
+          display: block;
+          margin-bottom: 10px;
+        }
+      }
+    }
+    &.HideOnMobile {
+      display: none;
+    }
+  }
 }
 
 .badge {
@@ -1271,8 +1311,9 @@
         .btn-gmail{
           background: none;
           border: none;
+          font-size: 0;
           i{
-            display: block;
+            display: none;
           }
         }
       }

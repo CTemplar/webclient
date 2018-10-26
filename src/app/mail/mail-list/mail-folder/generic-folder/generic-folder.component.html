@@ -166,7 +166,7 @@
         <p class="py-2 mb-0">There are no conversations with this label.</p>
         <hr class="mt-0">
       </tr>
-      <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
+      <tr class="mail-list-row HideOnMobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-selected':mail.marked}">
@@ -251,6 +251,71 @@
           <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : 'End-to-End Encrypted'" placement="left"></i>
         </td>
 
+      </tr>
+      <tr class="hidden-sm-up mail-list-row" *ngFor="let mail of mails; let i=index"
+          [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
+          'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
+          'is-selected':mail.marked}">
+          <td class="mail-checkbox">
+              <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" [ngModel]="mail.marked" (ngModelChange)="toggleEmailSelection(mail, $event)"/>
+                  <label for={{mail.id}} class="fancy-field-empty"></label>
+              </div>
+          </td>
+          <td class="mail-from-name">
+              <a (click)="openMail(mail)" class="text-danger"
+                 [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
+                  <ng-container [ngSwitch]="mailFolder">
+                      <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
+                      <ng-container *ngSwitchCase="mailFolderTypes.SENT">
+                          <span [ngbTooltip]="mail.receiver.join(', ')">{{mail.receiver.join(', ')}}</span>
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                          {{mail.sender}}
+                      </ng-container>
+                  </ng-container>
+              </a>
+              <span class="mail-inbox-message d-md-block">
+                  <a (click)="openMail(mail)" class="text-dark">
+                    <span class="mail-subject">
+
+                      <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
+                        <span class="badge badge-warning mr-2 p-1"
+                              *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
+                        </span>
+                      </ng-container>
+
+                      <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
+                        <span class="badge badge-success mr-2 p-1"
+                              *ngIf="mail.delayed_delivery">Dalay delivery in {{mail.delayed_delivery | remainingTime}}
+                        </span>
+                        <span class="badge badge-danger mr-2 p-1"
+                              *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
+                        </span>
+                      </ng-container>
+                      <div class="mail-content" [innerHTML]="mail.subject">
+                          <!-- Subject Goes Here -->
+                      </div>
+                    </span>
+                  </a>
+              </span>
+              <span class="mail-file-size">
+                <i class="icon icon-attachment" *ngIf="mail.attachments.length>0"></i>
+              </span>
+              <span class="mail-sent-date">
+                  <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'MMM D'}}
+                  </ng-container>
+                  <ng-template #createdAt>{{mail.created_at | momentDate:'MMM D'}}</ng-template>
+              </span>
+          </td>
+          <td class="mail-status">
+              <span class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
+                <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : 'End-to-End Encrypted'" placement="left"></i>
+              </span>
+              <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
+                  <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
+              </a>
+          </td>
       </tr>
       </tbody>
     </table>
