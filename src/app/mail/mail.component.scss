@@ -697,6 +697,10 @@
       background: #e4e4e4;
     }
   }
+  .mailbox-dropdown .dropdown-item{
+    white-space: normal;
+    word-break: break-all;
+  }
 }
 
 // == Divider
@@ -1207,16 +1211,19 @@
     }
   }
   @include media("<sm") {
+    .fancy-field-group{
+      position: absolute;
+      top: 18px;
+      left: 15px;
+    }
     .mail-from-name{
       position: relative;
       padding-top: 15px;
       a{
         padding: 0 0 10px;
       }
-      .fancy-field-group{
-        position: absolute;
-        top: 15px;
-        left: 15px;
+      .text-danger{
+        font-size: 16px;
       }
       span{
         display: block;
@@ -1233,13 +1240,14 @@
         right: 40px;
         width: auto;
       }
-      .mail-status{
-        width: 1rem;
-        text-align: right;
-        .mail-security-status{
-          display: block;
-          margin-bottom: 10px;
-        }
+    }
+    .mail-status{
+      width: 1rem;
+      text-align: right;
+      .mail-security-status{
+        width: auto;
+        display: block;
+        margin-bottom: 10px;
       }
     }
     &.HideOnMobile {
