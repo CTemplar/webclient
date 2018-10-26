@@ -24,6 +24,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   selectedColorIndex: number = 0;
   currentMailbox: Mailbox;
   userState: UserState;
+  submitted: boolean;
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
@@ -32,7 +33,14 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
-      folderName: ['', Validators.required],
+      folderName: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^[a-z]+[a-z0-9. _-]+$/i),
+          Validators.minLength(4),
+          Validators.maxLength(30),
+        ]
+      ],
       color: ''
     });
 
@@ -50,6 +58,10 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.submitted = true;
+    if (this.customFolderForm.invalid) {
+      return;
+    }
     const customFolder: Folder = {
       name: this.customFolderForm.value.folderName,
       color: this.folderColors[this.selectedColorIndex],
