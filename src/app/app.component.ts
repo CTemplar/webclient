@@ -108,6 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this._zendeskWebwidgetService.loadZendeskWebWidget().then(loaded => {
         this.isZendeskWebWidgetShown = true;
         this.isZendeskWebWidgetLoading = false;
+        this._zendeskWebwidgetService.show();
       });
     }
   }

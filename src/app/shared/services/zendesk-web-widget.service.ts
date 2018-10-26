@@ -8,6 +8,7 @@ function getWindow(): any {
 export class ZendeskWebWidgetService {
 
   private window;
+  private scriptLoaded = false;
 
   constructor() {
     this.window = getWindow();
@@ -15,6 +16,10 @@ export class ZendeskWebWidgetService {
 
   loadZendeskWebWidget() {
     return new Promise(( resolve, reject) => {
+
+      if (this.scriptLoaded) {
+        resolve();
+      }
 
       const accountUrl = 'ctemplar.zendesk.com';
 
@@ -74,6 +79,7 @@ export class ZendeskWebWidgetService {
         })();
 
         window.zE(() => {
+          this.scriptLoaded = true;
           this.identify({
             name: '',
             email: ''
