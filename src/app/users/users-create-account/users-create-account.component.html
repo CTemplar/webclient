@@ -19,6 +19,10 @@
           </p>
         </div>
 
+        <p class="text-center">
+          <button class="btn btn-primary" (click)="openAccountInitModal()">Open Account Init Modal</button>
+        </p>
+
         <div class="form">
           <form class="signup-form" [formGroup]="signupForm" #form="ngForm" (ngSubmit)="signup()">
             <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>

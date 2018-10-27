@@ -16,6 +16,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime, tap } from 'rxjs/operators';
 import { apiUrl, VALID_EMAIL_REGEX } from '../../shared/config';
+import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 export class PasswordValidation {
 
@@ -133,6 +134,10 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan === 1) {
       this.navigateToBillingPage();
     }
+  }
+
+  openAccountInitModal() {
+    this.modalService.open(UserAccountInitDialogComponent, { centered: true, windowClass: 'modal-sm' });
   }
 
   private navigateToBillingPage() {
