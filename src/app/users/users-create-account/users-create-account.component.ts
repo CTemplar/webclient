@@ -9,13 +9,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, SignupState, UserState } from '../../store/datatypes';
-import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateSignupData } from '../../store/actions';
+import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime, tap } from 'rxjs/operators';
-import { apiUrl } from '../../shared/config';
+import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 export class PasswordValidation {
 
@@ -134,6 +134,10 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan === 1) {
       this.navigateToBillingPage();
     }
+  }
+
+  openAccountInitModal() {
+    this.modalService.open(UserAccountInitDialogComponent, { centered: true, windowClass: 'modal-sm' });
   }
 
   private navigateToBillingPage() {
