@@ -121,9 +121,9 @@
   </div>
   <div class="modal-body bg-faded">
     <div class="text-holder text-dark text-medium">
-      <ng-container *ngIf="!isRecoverFormSubmitted; else recoverFormSubmitted">
+      <ng-container *ngIf="!isRecoveryCodeSent; else recoveryCodeSent">
         <p>We will send a reset code to your
-          <a href="">recovery email</a> to reset your password. </p>
+          <b>recovery email</b> to reset your password. </p>
         <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt
           old emails
           if you reset your password.</p>
@@ -133,9 +133,6 @@
           <div class="form">
             <form [formGroup]="recoverPasswordForm" #form="ngForm"
                   (submit)="recoverPassword(recoverPasswordForm.value)">
-              <div *ngIf="resetPasswordErrorMessage" class="reset-form__failed  l-alert l-alert-danger">
-                {{ resetPasswordErrorMessage }}
-              </div>
               <div class="form-group">
                 <label for="recoverPasswordUsername"
                        class="d-block text-muted text-left">Username</label>
@@ -160,15 +157,19 @@
                   <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors.email">The recovery email is invalid.</span>
                 </span>
               </div>
-
+              <div *ngIf="resetPasswordErrorMessage" class="reset-form__failed  l-alert l-alert-danger mb-3">
+                {{ resetPasswordErrorMessage }}
+              </div>
               <div class="form-group form-user-actions text-center mb-0">
-                <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
+                <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit"
+                        [disabled]="isLoading">
                   Reset Password
                 </button>
+                <app-loading-spinner [showSpinner]="isLoading"></app-loading-spinner>
               </div>
             </form>
             <div class="text-center mt-2">
-              <a (click)="isRecoverFormSubmitted = true; showResetPasswordFormErrors = false;"
+              <a (click)="isRecoveryCodeSent = true; showResetPasswordFormErrors = false; resetPasswordErrorMessage = null;"
                  role="button">
                 <small>
                   <u>Already have the code</u>
@@ -178,7 +179,7 @@
           </div>
         </div>
       </ng-container>
-      <ng-template #recoverFormSubmitted>
+      <ng-template #recoveryCodeSent>
         <p>We have sent a reset code to your recovery email.</p>
         <p>Please enter the code and your new password below.</p>
 
@@ -186,9 +187,6 @@
           <div class="form">
             <form [formGroup]="resetPasswordForm" #form="ngForm"
                   (submit)="resetPassword(resetPasswordForm.value)">
-              <div *ngIf="resetPasswordErrorMessage" class="reset-form__failed  l-alert l-alert-danger">
-                {{ resetPasswordErrorMessage }}
-              </div>
               <div class="form-group">
                 <label for="resetCode" class="d-block text-muted text-left">Code</label>
                 <input class="form-control form-control-lg"
@@ -245,6 +243,9 @@
                       id="reset-confirm-password-valid" class="validate-message">
                   <span translate="create_account.passwords_not_match">Passwords do not match.</span>
                 </span>
+              </div>
+              <div *ngIf="resetPasswordErrorMessage" class="reset-form__failed  l-alert l-alert-danger mb-3">
+                {{ resetPasswordErrorMessage }}
               </div>
               <div class="form-group form-user-actions text-center mb-0">
                 <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit"
