@@ -252,7 +252,7 @@
         </td>
 
       </tr>
-      <tr class="hidden-sm-up mail-list-row" *ngFor="let mail of mails; let i=index"
+      <tr class="hidden-sm-up mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-selected':mail.marked}">

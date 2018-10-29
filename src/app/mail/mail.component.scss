@@ -1211,10 +1211,12 @@
     }
   }
   @include media("<sm") {
-    .fancy-field-group{
-      position: absolute;
-      top: 18px;
-      left: 15px;
+    &.show-on-mobile{
+      .fancy-field-group{
+        position: absolute;
+        top: 18px;
+        left: 15px;
+      }
     }
     .mail-from-name{
       position: relative;
