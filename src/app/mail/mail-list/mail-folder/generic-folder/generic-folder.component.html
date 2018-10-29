@@ -166,7 +166,7 @@
         <p class="py-2 mb-0">There are no conversations with this label.</p>
         <hr class="mt-0">
       </tr>
-      <tr class="mail-list-row HideOnMobile" *ngFor="let mail of mails; let i=index"
+      <tr class="mail-list-row hide-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-selected':mail.marked}">
