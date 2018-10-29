@@ -102,7 +102,7 @@
                     [ngbTooltip]="'mail_list.move_to' | translate">
             <i class="icon icon-folder"></i>
             </button>
-            <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton">
+            <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton" class="folder-dropdown">
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)">
                 <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
               </a>
