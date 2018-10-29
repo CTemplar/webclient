@@ -1,11 +1,13 @@
 .account-creation{
-  padding: 0;
-  max-width: 570px;
+  padding: 0 !important;
 }
 .account-creation-info{
-  padding: 2rem 3.75rem;
   overflow: hidden;
   position: relative;
+  min-height: 300px;
+  div{
+    padding: 2rem 3.75rem;
+  }
   h3 {
     font-family: Lato;
     font-size: 18px;
@@ -24,18 +26,110 @@
       font-size: 16px;
       margin-bottom: 1rem;
       color: rgba(0, 0, 0, 0.54);
-      &.delay-1s{
-        animation-duration: 1s;
-        animation-delay: 1s;
-      }
-      &.delay-2s{
-        animation-duration: 2s;
-        animation-delay: 2s;
-      }
-      &.delay-3s{
-        animation-duration: 3s;
-        animation-delay: 3s;
-      }
     }
+  }
+  @media (max-width: 570px) {
+    h3{
+      line-height: 1.33;
+    }
+    div{
+      padding: 1rem 2rem;
+    }
+  }
+}
+.info-box1 {
+  -webkit-animation: info-box1 1.0s forwards;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 5s;
+  animation: info-box1 1.0s forwards;
+  animation-iteration-count: 1;
+  animation-delay: 5s;
+  li{
+    animation-duration: 1s;
+    &.delay-2s{
+      animation-delay: 1s;
+    }
+    &.delay-3s{
+      animation-delay: 2s;
+    }
+    &.delay-4s{
+      animation-delay: 3s;
+    }
+  }
+}
+@-webkit-keyframes info-box1 {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: -9999px;
+    position: absolute;
+  }
+}
+@keyframes info-box1 {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: -9999px;
+    position: absolute;
+  }
+}
+.info-box2 {
+  -webkit-animation: info-box2 1.0s forwards;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 5s;
+  animation: info-box2 1.0s forwards;
+  animation-iteration-count: 1;
+  animation-delay: 5s;
+  opacity: 0;
+  left: -9999px;
+  position: absolute;
+  h3{
+    animation-delay: 5s;
+  }
+  li{
+    animation-duration: 1s;
+    i {
+      color: #e74c3c;
+      font-size: 14px;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    &.delay-6s{
+      animation-delay: 6s;
+    }
+    &.delay-7s{
+      animation-delay: 7s;
+    }
+    &.delay-8s{
+      animation-delay: 8s;
+    }
+    &.delay-9s{
+      animation-delay: 9s;
+    }
+    &.delay-10s{
+      animation-delay: 10s;
+    }
+  }
+}
+@-webkit-keyframes info-box2 {
+  0% {
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+    position: static;
+  }
+}
+@keyframes info-box2 {
+  0% {
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+    position: static;
   }
 }

@@ -134,6 +134,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan === 1) {
       this.navigateToBillingPage();
     }
+    this.modalService.open(UserAccountInitDialogComponent, { centered: true, windowClass: 'modal-sm' });
   }
 
   openAccountInitModal() {
