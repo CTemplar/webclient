@@ -408,3 +408,23 @@ app-mail-detail {
     margin: 0 !important;
   }
 }
+
+.accordion .card {
+  margin-bottom: 10px;
+  border-radius: 0;
+  border-color: #f2f2f2;
+}
+
+.accordion .card {
+
+  .card-header{
+    border-bottom: 0;
+  }
+
+  .card-header:first-child {
+    padding: 0;
+    a {
+      color: rgba(0, 0, 0, 0.54);
+    }
+  }
+}
