@@ -98,6 +98,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
   @Input() content: string;
+  @Input() messageHistory: string;
   @Input() subject: string;
   @Input() draftMail: Mail;
   @Input() parentId: number;
@@ -314,10 +315,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.content) {
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
-      this.quill.setSelection(0);
     }
 
     this.addSignature();
+
+    if (this.messageHistory) {
+      const index = this.quill.getLength();
+      this.quill.insertText(index, '\n', 'silent');
+      this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
+    }
+
+    this.quill.setSelection(0);
   }
 
   initializeAutoSave() {
