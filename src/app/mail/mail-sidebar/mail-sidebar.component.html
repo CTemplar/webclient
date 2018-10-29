@@ -119,7 +119,8 @@
         </nav>
 
         <div class="mailbox-sidebar-footer text-center mt-4 py-2">
-                <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm" translate="mail_sidebar.used">
+                <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">
+                    <span translate="mail_sidebar.used"></span>
                     <div class="text-white mt-1">{{(userState.settings?.used_storage * 1024) | filesize}}</div>
                 </div>
             <div class="mailbox-sidebar-footer-text hidden-in-sm">

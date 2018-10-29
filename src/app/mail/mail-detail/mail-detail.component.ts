@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import { DeleteMail, MoveMail } from '../../store/actions';
+import {DeleteMail, MoveMail, StarMail} from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailBoxesState, MailState } from '../../store/datatypes';
 import { Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -222,6 +222,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/mail/${this.mailFolder}`);
     }
   }
+    ontoggleStarred(mail: Mail) {
+        if (mail.starred) {
+            this.store.dispatch(
+                new StarMail({ ids: mail.id.toString(), starred: false })
+            );
+        } else {
+            this.store.dispatch(
+                new StarMail({ ids: mail.id.toString(), starred: true })
+            );
+        }
+        mail.starred = !mail.starred;
+    }
 
   toggleGmailExtra(mail: Mail) {
     this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
