@@ -128,7 +128,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getMessageHistory(mail, previousMails)
+      messageHistory: this.getMessageHistory(previousMails)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -146,7 +146,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getMessageHistory(mail, previousMails)
+      messageHistory: this.getMessageHistory(previousMails)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -163,7 +163,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onForward(mail: Mail, index: number = 0, isChildMail?: boolean) {
     const previousMails = this.getPreviousMails(index, isChildMail);
     this.composeMailData[mail.id] = {
-      content: this.getMessageHistory(mail, previousMails, 'Forwarded'),
+      content: this.getForwardMessageSummary(mail),
+      messageHistory: this.getMessageHistory(previousMails),
       subject: this.mail.subject
     };
     this.selectedMailToForward = mail;
@@ -359,11 +360,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     return previousMails;
   }
 
-  private getMessageHistory(mail: Mail, previousMails: Mail[], messageType: 'Forwarded' | 'Original' = 'Original'): string {
+  private getMessageHistory(previousMails: Mail[]): string {
     let history = '';
-    if (messageType === 'Forwarded') {
-      history = this.getForwardMessageSummary(mail);
-    }
     previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
     return `<div class="gmail_quote">${history}</div>`;
   }

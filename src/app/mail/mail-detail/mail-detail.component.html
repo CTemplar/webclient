@@ -198,7 +198,7 @@
                           <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
                             <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
                                 [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
-          
+
                             <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
                               *ngIf="decryptedContents[childMail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[childMail.id]?.indexOf('gmail_quote') > -1">
                               <div class="ellipsis-wrapper" placement="top"
@@ -229,6 +229,7 @@
                         <app-compose-mail [receivers]="composeMailData[childMail.id]?.receivers"
                                           [cc]="composeMailData[childMail.id]?.cc"
                                           [content]="composeMailData[childMail.id]?.content"
+                                          [messageHistory]="composeMailData[childMail.id]?.messageHistory"
                                           [subject]="composeMailData[childMail.id]?.subject"
                                           [parentId]="composeMailData[childMail.id]?.parentId"
                                           [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId"
@@ -271,6 +272,7 @@
       <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
                         [cc]="composeMailData[mail.id]?.cc"
                         [content]="composeMailData[mail.id]?.content"
+                        [messageHistory]="composeMailData[mail.id]?.messageHistory"
                         [subject]="composeMailData[mail.id]?.subject"
                         [parentId]="composeMailData[mail.id]?.parentId"
                         [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId"
