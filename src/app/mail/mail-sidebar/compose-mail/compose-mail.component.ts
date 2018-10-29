@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
+import { COLORS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -468,7 +468,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.bcc.map(bcc => bcc.display)
     ];
     if (receivers.length === 0) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
+    }
+    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
+    const invalidAddress = receivers.find(receiver => !validEmailRegex.test(receiver));
+    if (invalidAddress) {
+      this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
+      return;
     }
     const cTemplarReceivers = [];
     const nonCTemplarReceivers = [];
