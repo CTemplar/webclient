@@ -1,0 +1,41 @@
+.account-creation{
+  padding: 0;
+  max-width: 570px;
+}
+.account-creation-info{
+  padding: 2rem 3.75rem;
+  overflow: hidden;
+  position: relative;
+  h3 {
+    font-family: Lato;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 2.22;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: rgba(33, 33, 33, 0.87);
+  }
+  ul{
+    margin: 0;
+    padding: 0;
+    li {
+      font-family: Lato;
+      line-height: 1;
+      font-size: 16px;
+      margin-bottom: 1rem;
+      color: rgba(0, 0, 0, 0.54);
+      &.delay-1s{
+        animation-duration: 1s;
+        animation-delay: 1s;
+      }
+      &.delay-2s{
+        animation-duration: 2s;
+        animation-delay: 2s;
+      }
+      &.delay-3s{
+        animation-duration: 3s;
+        animation-delay: 3s;
+      }
+    }
+  }
+}
