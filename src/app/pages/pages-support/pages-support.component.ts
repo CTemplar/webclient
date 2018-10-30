@@ -14,7 +14,10 @@ export class PagesSupportComponent implements OnInit {
   }
 
   showZenDeskHelpWidget() {
-    document.getElementById('btn-zendesk').click();
+    const btnZendeskWebWidget = document.getElementById('btn-zendesk');
+    if (btnZendeskWebWidget) {
+      btnZendeskWebWidget.click();
+    }
   }
 
 }

@@ -86,15 +86,18 @@ export class ZendeskWebWidgetService {
           });
 
           resolve();
+          this.activate();
           this.setLocale('en');
         });
     });
   }
 
   identify(userObj) {
-    this.window.zE(() => {
-      this.window.zE.identify(userObj);
-    });
+    if (this.window && this.window.zE) {
+      this.window.zE(() => {
+        this.window.zE.identify(userObj);
+      });
+    }
   }
 
   hide() {
