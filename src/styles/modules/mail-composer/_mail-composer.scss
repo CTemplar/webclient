@@ -382,9 +382,12 @@ a {
 		min-width: 85px;
 	}
     .dropdown-menu{
-        top: 43px !important;
-        border-top: none;
-        border-radius: 0 4px 4px;
+		@include media("<=sm") {
+			top: 43px !important;
+			border-top: none;
+			border-radius: 0 4px 4px;
+			bottom: auto;
+		}
     }
 }
 
