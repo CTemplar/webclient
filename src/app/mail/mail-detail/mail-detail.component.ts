@@ -28,6 +28,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   decryptedContents: any = {};
   mailOptions: any = {};
   selectedMailToForward: Mail;
+  childMailCollapsed: boolean[] = [];
 
   private mailFolder: MailFolderType;
   private currentMailbox: Mailbox;
@@ -67,6 +68,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
           if (this.mail.children) {
+            
+            /**
+             * Collapse all emails by default
+             */
+            this.childMailCollapsed.fill(true, 0, this.mail.children.length);
+            // Do not collapse the last email in the list
+            this.childMailCollapsed[this.mail.children.length - 1] = false;
+
             this.mail.children.forEach(child => {
               if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
                 this.decryptedContents[child.id] = child.content;
