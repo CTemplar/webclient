@@ -128,9 +128,9 @@
           <div>
             <section class="mailbox-section" id="{{childMail.id}}-print-section">
 
-              <div class="ui-body is-bordered-bottom bg-faded">
+              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
                 <div class="row">
-                  <div class="col-8 cursor-pointer" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
+                  <div class="col-8">
                     <div class="mailbox-sender-content">
                       <ul class="sender-content-list list-styled">
                         <li id="{{childMail.id}}-mail-from">
@@ -168,19 +168,6 @@
                           </ng-container>
                           <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
                         </label>
-                        <div ngbDropdown placement="bottom-right"
-                             class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
-                          <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
-                                  id="{{childMail.id}}-messageReplyDropdownMenuButton"></button>
-                          <div ngbDropdownMenu
-                               [attr.aria-labelledby]="childMail.id + '-messageReplyDropdownMenuButton'">
-                            <a class="dropdown-item" (click)="onForward(childMail, childIndex, true)">Forward</a>
-                            <a class="dropdown-item" (click)="onReply(childMail, childIndex, true)">Reply</a>
-                            <a class="dropdown-item" (click)="onReplyAll(childMail, childIndex, true)">Reply All</a>
-                            <a class="dropdown-item" (click)="onPrint(childMail)">Print</a>
-                            <a class="dropdown-item" (click)="onDelete(childMail)">Delete this Message</a>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -192,7 +179,20 @@
             <section class="mailbox-section" id="{{childMail.id + '-ngb-collapse'}}" [ngbCollapse]="childMailCollapsed[childIndex]">
               <app-progress-bar [active]="!decryptedContents[childMail.id]"
                                 *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
-              <div class="ui-body" *ngIf="decryptedContents[childMail.id]">
+              <div class="ui-body conversation-list" *ngIf="decryptedContents[childMail.id]">
+                  <div ngbDropdown placement="bottom-right"
+                        class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
+                    <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
+                            id="{{childMail.id}}-messageReplyDropdownMenuButton"></button>
+                    <div ngbDropdownMenu
+                          [attr.aria-labelledby]="childMail.id + '-messageReplyDropdownMenuButton'">
+                      <a class="dropdown-item" (click)="onForward(childMail, childIndex, true)">Forward</a>
+                      <a class="dropdown-item" (click)="onReply(childMail, childIndex, true)">Reply</a>
+                      <a class="dropdown-item" (click)="onReplyAll(childMail, childIndex, true)">Reply All</a>
+                      <a class="dropdown-item" (click)="onPrint(childMail)">Print</a>
+                      <a class="dropdown-item" (click)="onDelete(childMail)">Delete this Message</a>
+                    </div>
+                  </div>
                 <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
                   <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
                        [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
