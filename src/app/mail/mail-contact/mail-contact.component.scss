@@ -84,11 +84,11 @@
 // == Smaller screen { max-width: 767px}
 @include media("<=sm") {
   .mail-list-row .mail-from-name {
-    padding-left: 2.33rem;
+    padding-left: 1rem;
   }
 
   .mail-list-row .mail-desc {
-    padding-left: 3.75rem;
+    padding-left: 2.2rem;
   }
 
   .mail-list-col-row > .mail-list-col-item.mail-status {

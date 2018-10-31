@@ -149,6 +149,10 @@
 .modal-sm .modal-dialog {
     .btn {
         font-size: 0.75rem;
+        @include media("<=sm") {
+            min-width: inherit;
+            padding: 0.5633rem 0.5rem;
+        }
     }
 }
 

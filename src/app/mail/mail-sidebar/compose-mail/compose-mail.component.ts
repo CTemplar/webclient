@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
+import { COLORS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -98,6 +98,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
   @Input() content: string;
+  @Input() messageHistory: string;
   @Input() subject: string;
   @Input() draftMail: Mail;
   @Input() parentId: number;
@@ -314,10 +315,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.content) {
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
-      this.quill.setSelection(0);
     }
 
     this.addSignature();
+
+    if (this.messageHistory) {
+      const index = this.quill.getLength();
+      this.quill.insertText(index, '\n', 'silent');
+      this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
+    }
+
+    this.quill.setSelection(0);
   }
 
   initializeAutoSave() {
@@ -468,7 +476,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.bcc.map(bcc => bcc.display)
     ];
     if (receivers.length === 0) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
+    }
+    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
+    const invalidAddress = receivers.find(receiver => !validEmailRegex.test(receiver));
+    if (invalidAddress) {
+      this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
+      return;
     }
     const cTemplarReceivers = [];
     const nonCTemplarReceivers = [];

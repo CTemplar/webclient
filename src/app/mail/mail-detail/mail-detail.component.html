@@ -13,7 +13,7 @@
       </h5>
 
       <div class="icon-holder is-floated right y-center">
-        <i class="icon icon-md icon-star-filled"
+        <i class="icon icon-md icon-star-filled" (click)="ontoggleStarred(mail)"
            [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
     </div>
@@ -112,16 +112,6 @@
     </ul>
   </section>
 
-  <div class="conversation-collapsor mb-4" *ngIf="mail.children?.length>1">
-    <div></div>
-    <a href="javascript:void(0)"  placement="top"
-      [ngbTooltip]="isConversationCollapsed ? 'Expand conversation' : 'Collapse conversation'"
-      (click)="isConversationCollapsed = !isConversationCollapsed" [attr.aria-expanded]="!isConversationCollapsed" aria-controls="collapseExample">
-      <small>{{mail.children?.length-1}}</small>
-    </a>
-  </div>
-
-
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
     <ng-container *ngIf="childMail.folder !== mailFolderType.TRASH">
       <ng-container [ngSwitch]="childMail.folder">
@@ -135,12 +125,12 @@
           </div>
         </ng-container>
         <ng-container *ngSwitchDefault>
-          <div [ngbCollapse]="isConversationCollapsed && (childIndex!=mail.children.length-1)">
+          <div>
             <section class="mailbox-section" id="{{childMail.id}}-print-section">
 
               <div class="ui-body is-bordered-bottom bg-faded">
                 <div class="row">
-                  <div class="col-8">
+                  <div class="col-8 cursor-pointer" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
                     <div class="mailbox-sender-content">
                       <ul class="sender-content-list list-styled">
                         <li id="{{childMail.id}}-mail-from">
@@ -172,8 +162,6 @@
                   <div class="col-4">
                     <div class="msg-reply-type-holder">
                       <div class="d-flex align-items-center justify-content-end">
-                        <span *ngIf="childMail.attachments?.length > 0" class="mr-3"><i
-                                class="icon icon-attachment"></i></span>
                         <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
                           <ng-container *ngIf="childMail.sent_at; else createdAt">
                             {{childMail.sent_at | momentDate:'medium'}}
@@ -201,7 +189,7 @@
             </section>
 
             <!--Mail Content-->
-            <section class="mailbox-section">
+            <section class="mailbox-section" id="{{childMail.id + '-ngb-collapse'}}" [ngbCollapse]="childMailCollapsed[childIndex]">
               <app-progress-bar [active]="!decryptedContents[childMail.id]"
                                 *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
               <div class="ui-body" *ngIf="decryptedContents[childMail.id]">
@@ -239,6 +227,7 @@
                 <app-compose-mail [receivers]="composeMailData[childMail.id]?.receivers"
                                   [cc]="composeMailData[childMail.id]?.cc"
                                   [content]="composeMailData[childMail.id]?.content"
+                                  [messageHistory]="composeMailData[childMail.id]?.messageHistory"
                                   [subject]="composeMailData[childMail.id]?.subject"
                                   [parentId]="composeMailData[childMail.id]?.parentId"
                                   [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId"
@@ -254,21 +243,24 @@
 
 
   <!--Reply to mail.-->
-  <div class="ui-body" #replyActions>
+  <div class="ui-body ui-footer-sec" #replyActions>
 
     <div class="row">
       <div class="col-12">
 
         <button class="btn btn-gmail" (click)="onReply(mail)">
           <i class="icon icon-reply position-left"></i> Reply
+          <img src="assets/images/icon-reply.svg" class="hidden-sm-up">
         </button>
 
         <button class="btn btn-gmail" (click)="onReplyAll(mail)">
           <i class="icon icon-reply position-left"></i> Reply All
+          <img src="assets/images/icon-reply-all.svg" class="hidden-sm-up">
         </button>
 
         <button class="btn btn-gmail" (click)="onForward(mail)">
           <i class="icon icon-mail icon-lg position-left"></i> Forward
+          <img src="assets/images/icon-mail.svg" class="hidden-sm-up">
         </button>
       </div>
     </div>
@@ -276,11 +268,32 @@
       <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
                         [cc]="composeMailData[mail.id]?.cc"
                         [content]="composeMailData[mail.id]?.content"
+                        [messageHistory]="composeMailData[mail.id]?.messageHistory"
                         [subject]="composeMailData[mail.id]?.subject"
                         [parentId]="composeMailData[mail.id]?.parentId"
                         [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId"
                         [showSaveButton]="false"
                         (hide)="onComposeMailHide(mail)"></app-compose-mail>
+    </div>
+  </div>
+  <div class="mailbox-footer-actionbar hidden-sm-up">
+    <div class="row justify-content-end">
+        <!--TODO pagination to be done later.-->
+        <div class="col-12 mailbox-actionbar-col">
+            <div class="mail-controls d-flex align-items-center justify-content-end">
+                <div class="mail-result-text text-muted">
+                    <small>1-50 of 2346</small>
+                </div>
+                <div class="mail-nav-control">
+                    <button role="button" class="mail-nav-control-prev">
+                        <i class="icon icon-chevron-left"></i>
+                    </button>
+                    <button role="button" class="mail-nav-control-next">
+                        <i class="icon icon-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
 

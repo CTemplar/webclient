@@ -70,3 +70,5 @@ export const ESCAPE_KEYCODE = 27;
 
 export const DEFAULT_STORAGE = 5; // storage in GB
 export const DEFAULT_EMAIL_ADDRESS = 3;
+
+export const VALID_EMAIL_REGEX = /^([a-zA-Z0-9_\.\-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/m;

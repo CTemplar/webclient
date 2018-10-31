@@ -323,3 +323,16 @@
 	color: #e55747;
     font-size: 0.75rem;
 }
+// == Contact page
+@include media("<sm") {
+	.mail-actions-form {
+		.form-group {
+			position: relative;
+		}
+		.md-errors-spacer{
+			position: absolute;
+			top: 2px;
+			right: 0;
+		}
+	}
+}
