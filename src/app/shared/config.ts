@@ -12,11 +12,8 @@ export const apiUrl = getApiUrl();
 export const bitcoinApiUrl = environment.bitcoinServerUrl;
 
 export function getApiUrl() {
-  if (window.location && window.location.href) {
-    const url = window.location.href.split('//')[1].replace('/', '');
-    if (url.indexOf(environment.onionDomain) > -1) {
-      return environment.onionApiServerUrl;
-    }
+  if (window.location && window.location.hostname === environment.onionDomain) {
+    return environment.onionApiServerUrl;
   }
   return environment.apiServerUrl;
 }
