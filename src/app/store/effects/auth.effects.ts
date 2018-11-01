@@ -20,10 +20,10 @@ import {
   LogIn,
   LogInFailure,
   LogInSuccess, Logout,
-  RecoverPassword,
+  RecoverPassword, RecoverPasswordFailure,
   RecoverPasswordSuccess,
   ResetPassword,
-  ResetPasswordFailure,
+  ResetPasswordFailure, ResetPasswordSuccess,
   SignUp,
   SignUpFailure,
   SignUpSuccess,
@@ -124,9 +124,7 @@ export class AuthEffects {
       return this.authService.recoverPassword(payload)
         .pipe(
           map((res) => new RecoverPasswordSuccess(res)),
-          catchError((error) => [
-            new SnackErrorPush({ message: 'Failed to send recovery email, please try again.' })
-          ])
+          catchError((error) => [new RecoverPasswordFailure(error)])
         );
     });
 
@@ -137,9 +135,11 @@ export class AuthEffects {
     .switchMap(payload => {
       return this.authService.resetPassword(payload)
         .pipe(
-          map((user) => new LogInSuccess(user)),
-          catchError((error) => [new ResetPasswordFailure(error),
-            new SnackErrorPush({ message: 'Failed to reset password, please try again.' })])
+          map((user) => [
+            new LogInSuccess(user),
+            new ResetPasswordSuccess(user)
+          ]),
+          catchError((error) => [new ResetPasswordFailure(error)])
         );
     });
 

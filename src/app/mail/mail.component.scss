@@ -697,6 +697,10 @@
       background: #e4e4e4;
     }
   }
+  .mailbox-dropdown .dropdown-item{
+    white-space: normal;
+    word-break: break-all;
+  }
 }
 
 // == Divider
@@ -933,6 +937,8 @@
     border-bottom: 0;
     font-size: 0.875rem;
     line-height: 1.2;
+    white-space: normal;
+    word-break: break-all;
 
     // &:not(:last-of-type) {
     // 	margin-bottom: 0.5rem;
@@ -1107,7 +1113,7 @@
 }
 
 .mail-list-row {
-  
+
   td {
     padding: 1rem;
     vertical-align: middle;
@@ -1206,6 +1212,52 @@
       white-space: nowrap;
     }
   }
+  @include media("<sm") {
+    &.show-on-mobile{
+      .fancy-field-group{
+        position: absolute;
+        top: 18px;
+        left: 15px;
+      }
+    }
+    .mail-from-name{
+      position: relative;
+      padding-top: 15px;
+      a{
+        padding: 0 0 10px;
+      }
+      .text-danger{
+        font-size: 16px;
+      }
+      span{
+        display: block;
+      }
+      .mail-file-size{
+        position: absolute;
+        top: 17px;
+        right: 0;
+        width: auto;
+      }
+      .mail-sent-date{
+        position: absolute;
+        top: 17px;
+        right: 40px;
+        width: auto;
+      }
+    }
+    .mail-status{
+      width: 1rem;
+      text-align: right;
+      .mail-security-status{
+        width: auto;
+        display: block;
+        margin-bottom: 10px;
+      }
+    }
+    &.hide-on-mobile {
+      display: none;
+    }
+  }
 }
 
 .badge {
@@ -1263,6 +1315,20 @@
 
   &.is-bordered-bottom {
     border-bottom: 1px solid #f2f2f2;
+  }
+  @include media("<sm") {
+      &.ui-footer-sec{
+        background: #fafafa;
+        text-align: center;
+        .btn-gmail{
+          background: none;
+          border: none;
+          font-size: 0;
+          i{
+            display: none;
+          }
+        }
+      }
   }
 }
 

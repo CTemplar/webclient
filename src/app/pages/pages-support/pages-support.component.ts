@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
 
 @Component({
   selector: 'app-pages-support',
@@ -9,13 +8,16 @@ import { ngxZendeskWebwidgetService } from 'ngx-zendesk-webwidget';
 export class PagesSupportComponent implements OnInit {
 
 
-  constructor(private _ngxZendeskWebwidgetService: ngxZendeskWebwidgetService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
   showZenDeskHelpWidget() {
-    this._ngxZendeskWebwidgetService.activate();
+    const btnZendeskWebWidget = document.getElementById('btn-zendesk');
+    if (btnZendeskWebWidget) {
+      btnZendeskWebWidget.click();
+    }
   }
 
 }

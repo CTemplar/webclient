@@ -3,3 +3,8 @@ a.disabled {
     cursor: default;
     color: #9E9E9E;
 }
+
+.folder-dropdown{
+    max-height: 430px;
+    overflow-y: auto;
+}

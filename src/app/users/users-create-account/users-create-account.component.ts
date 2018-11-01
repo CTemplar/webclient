@@ -15,7 +15,7 @@ import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime, tap } from 'rxjs/operators';
-import { apiUrl } from '../../shared/config';
+import { apiUrl, VALID_EMAIL_REGEX } from '../../shared/config';
 
 export class PasswordValidation {
 
@@ -75,10 +75,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         Validators.minLength(4),
         Validators.maxLength(64),
       ]],
-      'password': ['', [Validators.required]],
-      'confirmPwd': ['', [Validators.required]],
-      'recoveryEmail': ['', [Validators.pattern('[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)' +
-        '*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')]]
+      'password': ['', [Validators.required, Validators.maxLength(128)]],
+      'confirmPwd': ['', [Validators.required, Validators.maxLength(128)]],
+      'recoveryEmail': ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
     }, {
       validator: PasswordValidation.MatchPassword
     });

@@ -137,7 +137,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.confirmModalRef.dismiss();
   }
 
-  toggleMenu() { // click handler
+  toggleMenu(event?: any) { // click handler
     if (this.breakpointsService.isXS()) {
       if (this.isMenuOpened) {
         this.document.body.classList.remove('menu-open');
@@ -147,7 +147,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         this.isMenuOpened = true;
       }
     } else if (this.breakpointsService.isSM() || this.breakpointsService.isMD()) {
-      this.isSidebarOpened = !this.isSidebarOpened;
+      if (event) {
+        this.isSidebarOpened = false;
+      } else {
+        this.isSidebarOpened = !this.isSidebarOpened;
+      }
     }
   }
 
