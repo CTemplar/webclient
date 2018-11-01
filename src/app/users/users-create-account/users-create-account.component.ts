@@ -75,8 +75,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         Validators.minLength(4),
         Validators.maxLength(64),
       ]],
-      'password': ['', [Validators.required]],
-      'confirmPwd': ['', [Validators.required]],
+      'password': ['', [Validators.required, Validators.maxLength(128)]],
+      'confirmPwd': ['', [Validators.required, Validators.maxLength(128)]],
       'recoveryEmail': ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
     }, {
       validator: PasswordValidation.MatchPassword
