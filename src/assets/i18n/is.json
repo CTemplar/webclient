@@ -111,8 +111,8 @@
       "info": "Framlag þitt hjálpar okkur að styðja fleiri notendur og halda áfram að þróa CTemplar sem ókeypis og opinn hugbúnaður.",
       "make_a_donation": "Gerðu framlag",
       "select_amount": "Veldu upphæð:",
-      "name_on_card": "Nafn á korti:",
-      "card_number": "Kortanúmer:",
+      "name_on_card": "Nafn á korti",
+      "card_number": "Kortanúmer",
       "expiry_date:": "Upphafsdagur:",
       "security_code": "Öryggiskóði:"
     },

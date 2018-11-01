@@ -111,8 +111,8 @@
       "info": "La tua donazione ci aiuta a supportare più utenti e continua a sviluppare CTemplar come software libero e open source.",
       "make_a_donation": "Fai una donazione",
       "select_amount": "Seleziona importo:",
-      "name_on_card": " Nome sulla carta:",
-      "card_number": "Numero di carta:",
+      "name_on_card": " Nome sulla carta",
+      "card_number": "Numero di carta",
       "expiry_date:": "Data di scadenza:",
       "security_code": "Codice di sicurezza:"
     },
