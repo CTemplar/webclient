@@ -36,8 +36,11 @@
   &:not(:first-child):not(:last-child) {
     @include border-radius(0);
   }
-  &[type="text"] + span{
-    opacity: 0.5;
+  &[type="text"] + span .fa-eye{
+    display: none;
+  }
+  &[type="password"] + span .fa-eye-slash{
+    display: none;
   }
 }
 

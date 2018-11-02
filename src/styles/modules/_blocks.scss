@@ -51,6 +51,9 @@
 	span {
 		font-weight: 900;
 	}
+    .about-title strong {
+        font-weight: 900;
+    }
 }
 
 .l-block-title {
@@ -63,7 +66,12 @@
         font-size: 1.75rem;
 	}
 }
-
+.l-mediakit-block-group .text-secondary{
+    font-weight: 300;
+    strong {
+        font-weight: 900;
+    }
+}
 .page-title {
 	margin-bottom: 1.875rem;
 	color: rgba(0, 0, 0, 0.87);
@@ -90,6 +98,9 @@
 .l-block-subtitle  {
 	line-height: 28px;
 }
+.about-title + .l-block-subtitle{
+    line-height: 36px;
+}
 
 .title-horz-line {
 	margin: 1.25rem 0;
@@ -110,7 +121,7 @@
 		
 		@include media(">sm") {
 			padding: 1.125rem 0 3.75rem;
-			margin-top: 5.25rem;//~7rem;
+			margin-top: 7.25rem;//~7rem;
 		}
 	}
 
@@ -131,7 +142,7 @@
 		content: "";
 		display: block;
 		background: $brand-faded;
-		width: 100%;
+		width: calc(115% + 4rem);
 		height: 4.5rem;	
 		transform: skew(48deg) rotate(-4deg);
 
@@ -159,7 +170,6 @@
 
 		@include media("<=sm") {
 			height: 3rem;
-			transform: skew(-48deg) rotate(4deg);
 		}
 	}
 
@@ -254,7 +264,14 @@
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
 	}
 }
-
+@include media("<=sm") {
+  .is-clipped-after {
+    margin-bottom: 4.375rem;
+  }
+  .is-clipped-after-50 {
+      margin-bottom: 3.125rem;
+  }
+}
 .tile-card.px-lg {
 	@include media(">sm") {
 		.l-block-title {
