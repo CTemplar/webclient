@@ -683,8 +683,8 @@
                                           <span class="validate-message"
                                                 *ngIf="newAddressForm.controls['username'].errors; else usernameRequiredError">
                                             <ng-container *ngIf="newAddressForm.controls['username'].errors.pattern; else usernameLengthBlock">
-                                              The username must start with an alphabet and can only contain
-                                              <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> characters, and minimum length should be 4 characters.
+                                                The username must start with a letter or a number and end with a letter or number.It may only
+                                                contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters, and minimum length is 4 characters.
                                             </ng-container>
                                             <ng-template #usernameLengthBlock>
                                               <ng-container

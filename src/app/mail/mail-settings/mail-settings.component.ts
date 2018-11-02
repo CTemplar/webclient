@@ -134,7 +134,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.newAddressForm = this.formBuilder.group({
       'username': ['', [
         Validators.required,
-        Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i),
+        Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
         Validators.minLength(4),
         Validators.maxLength(64)
       ]]
