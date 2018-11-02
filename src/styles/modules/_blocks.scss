@@ -51,6 +51,9 @@
 	span {
 		font-weight: 900;
 	}
+    .about-title strong {
+        font-weight: 900;
+    }
 }
 
 .l-block-title {
@@ -89,6 +92,9 @@
 
 .l-block-subtitle  {
 	line-height: 28px;
+}
+.about-title + .l-block-subtitle{
+    line-height: 36px;
 }
 
 .title-horz-line {
