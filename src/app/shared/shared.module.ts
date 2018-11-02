@@ -9,7 +9,6 @@ import { SpinnerComponent } from './spinner/components/spinner.component';
 import { SpinnerService } from './spinner/services/spinner.service';
 import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
 import { LoadingComponent } from './loading/loading.component';
-import { ngxZendeskWebwidgetModule } from 'ngx-zendesk-webwidget';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SafePipe } from './pipes/safe.pipe';
@@ -60,7 +59,6 @@ import { MomentDatePipe } from './pipes/moment-date.pipe';
     SpinnerComponent,
     LoadingComponent,
     SpinnerImageComponent,
-    ngxZendeskWebwidgetModule,
     LoadingSpinnerComponent,
     SafePipe,
     TagInputModule,

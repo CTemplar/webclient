@@ -15,6 +15,7 @@ export enum AuthActionTypes {
   CHECK_USERNAME_AVAILABILITY_SUCCESS = '[Auth] Check Username Availability Success',
   RECOVER_PASSWORD = '[Auth] Recover Password',
   RECOVER_PASSWORD_SUCCESS = '[Auth] Recover Password Success',
+  RECOVER_PASSWORD_FAILURE = '[Auth] Recover Password Failure',
   RESET_PASSWORD = '[Auth] Reset Password',
   RESET_PASSWORD_SUCCESS = '[Auth] Reset Password Success',
   RESET_PASSWORD_FAILURE = '[Auth] Reset Password Failure',
@@ -100,6 +101,13 @@ export class RecoverPasswordSuccess {
   }
 }
 
+export class RecoverPasswordFailure {
+  readonly type = AuthActionTypes.RECOVER_PASSWORD_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class ResetPassword {
   readonly type = AuthActionTypes.RESET_PASSWORD;
 
@@ -163,6 +171,7 @@ export type AuthActionAll =
   | CheckUsernameAvailabilitySuccess
   | RecoverPassword
   | RecoverPasswordSuccess
+  | RecoverPasswordFailure
   | ResetPassword
   | ResetPasswordSuccess
   | ResetPasswordFailure

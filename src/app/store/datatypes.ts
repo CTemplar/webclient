@@ -24,6 +24,8 @@ export interface AuthState {
   errorMessage: string | null;
   inProgress: boolean;
   signupState: SignupState;
+  isRecoveryCodeSent: boolean;
+  resetPasswordErrorMessage: string | null;
 }
 
 export interface SignupState {

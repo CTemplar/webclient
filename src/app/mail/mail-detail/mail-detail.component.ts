@@ -27,8 +27,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailFolderType = MailFolderType;
   decryptedContents: any = {};
   mailOptions: any = {};
-  isConversationCollapsed = true;
   selectedMailToForward: Mail;
+  childMailCollapsed: boolean[] = [];
 
   private mailFolder: MailFolderType;
   private currentMailbox: Mailbox;
@@ -43,6 +43,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail) {
@@ -67,6 +68,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
           if (this.mail.children) {
+            
+            /**
+             * Collapse all emails by default
+             */
+            this.childMailCollapsed.fill(true, 0, this.mail.children.length);
+            // Do not collapse the last email in the list
+            this.childMailCollapsed[this.mail.children.length - 1] = false;
+
             this.mail.children.forEach(child => {
               if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
                 this.decryptedContents[child.id] = child.content;
@@ -128,7 +137,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getMessageHistory(mail, previousMails)
+      messageHistory: this.getMessageHistory(previousMails)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -146,7 +155,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id,
-      content: this.getMessageHistory(mail, previousMails)
+      messageHistory: this.getMessageHistory(previousMails)
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -163,7 +172,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onForward(mail: Mail, index: number = 0, isChildMail?: boolean) {
     const previousMails = this.getPreviousMails(index, isChildMail);
     this.composeMailData[mail.id] = {
-      content: this.getMessageHistory(mail, previousMails, 'Forwarded'),
+      content: this.getForwardMessageSummary(mail),
+      messageHistory: this.getMessageHistory(previousMails),
       subject: this.mail.subject
     };
     this.selectedMailToForward = mail;
@@ -195,7 +205,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onDelete(mail: Mail) {
     if (mail.folder === MailFolderType.TRASH) {
-      this.store.dispatch(new DeleteMail({ ids: mail.id }));
+      this.store.dispatch(new DeleteMail({ ids: mail.id.toString() }));
     } else {
       this.store.dispatch(new MoveMail({
         ids: mail.id,
@@ -347,22 +357,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getPreviousMails(index: number, isChildMail: boolean) {
     const previousMails = [];
     if (isChildMail && index >= 0) {
-      // previous mails in order of most recent first to parent last (excluding the mail at given index)
-      for (let i = index - 1; i >= 0; i--) {
+      // previous mails in order of most recent first to parent last (including the mail at given index)
+      for (let i = index; i >= 0; i--) {
         previousMails.push(this.mail.children[i]);
       }
-      previousMails.push(this.mail);
+    } else {
+      previousMails.push(...this.mail.children);
+      previousMails.reverse();
     }
+    previousMails.push(this.mail);
     return previousMails;
   }
 
-  private getMessageHistory(mail: Mail, previousMails: Mail[], messageType: 'Forwarded' | 'Original' = 'Original'): string {
+  private getMessageHistory(previousMails: Mail[]): string {
     let history = '';
-    if (messageType === 'Forwarded') {
-      history = this.getForwardMessageSummary(mail);
-    } else {
-      history = this.getMessageSummary('', mail);
-    }
     previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
     return `<div class="gmail_quote">${history}</div>`;
   }

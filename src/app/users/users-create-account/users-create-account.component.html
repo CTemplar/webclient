@@ -60,9 +60,9 @@
 
                     <span class="validate-message"
                           *ngIf="signupForm.controls['username'].errors; else usernameRequiredError">
-                      <ng-container *ngIf="signupForm.controls['username'].errors.pattern else usernameLengthBlock">
-                        The username must start with an alphabet and can only contain
-                        <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> characters, and minimum length should be 4 characters.
+                      <ng-container *ngIf="signupForm.controls['username'].errors.pattern; else usernameLengthBlock">
+                        The username must start with a letter or a number and end with a letter or number.It may only
+                        contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters, and minimum length is 4 characters.
                       </ng-container>
                       <ng-template #usernameLengthBlock>
                         <ng-container *ngIf="signupForm.controls['username'].errors.minlength || signupForm.controls['username'].errors.maxlength">
@@ -99,10 +99,12 @@
                     </span>
                   </div>
                   <i class="fas fa-check green password-ok"
-                     *ngIf="signupForm.controls['password']?.value?.length>0"></i>
+                     *ngIf="signupForm.controls['password']?.value?.length>0 && signupForm.controls['password']?.value?.length<=128"></i>
                   <div *ngIf="signupForm.controls['password'].errors &&
                                     (signupForm.controls['password'].touched || submitted)"
-                       class="validate-message">The password is required.
+                       class="validate-message">
+                    <ng-container *ngIf="signupForm.controls['password'].errors.required">The password is required.</ng-container>
+                    <ng-container *ngIf="signupForm.controls['password'].errors.maxlength">The password must be between 0 and 128 characters.</ng-container>
                   </div>
                 </div>
                 <div class="form-group">

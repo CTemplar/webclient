@@ -14,6 +14,8 @@ export const initialState: AuthState = {
     payment_method: PaymentMethod.STRIPE,
     currency: 'USD'
   },
+  resetPasswordErrorMessage: null,
+  isRecoveryCodeSent: false
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -95,18 +97,58 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         signupState: { ...state.signupState, usernameExists: action.payload.exists, inProgress: false },
       };
     }
+
+    case AuthActionTypes.RECOVER_PASSWORD: {
+      return {
+        ...state,
+        errorMessage: null,
+        inProgress: true,
+        resetPasswordErrorMessage: null,
+        isRecoveryCodeSent: false
+      };
+    }
+
+    case AuthActionTypes.RECOVER_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        resetPasswordErrorMessage: null,
+        isRecoveryCodeSent: true
+      };
+    }
+
+    case AuthActionTypes.RECOVER_PASSWORD_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+        resetPasswordErrorMessage: 'Failed to send recovery email, please try again.',
+        isRecoveryCodeSent: false
+      };
+    }
+
     case AuthActionTypes.RESET_PASSWORD: {
       return {
         ...state,
         errorMessage: null,
         inProgress: true,
+        isRecoveryCodeSent: true,
+        resetPasswordErrorMessage: null
       };
     }
+
+    case AuthActionTypes.RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        resetPasswordErrorMessage: null
+      };
+    }
+
     case AuthActionTypes.RESET_PASSWORD_FAILURE: {
       return {
         ...state,
-        errorMessage: 'Incorrect reset code or username.',
-        inProgress: false
+        inProgress: false,
+        resetPasswordErrorMessage: 'Failed to reset password, please try again.'
       };
     }
     case AuthActionTypes.UPGRADE_ACCOUNT: {

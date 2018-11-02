@@ -319,7 +319,6 @@ a {
 	}
 
 	.ql-editor {
-		padding-top: 65px;
 		p {
 			font-size: 14px;
 		}
@@ -382,12 +381,12 @@ a {
 		min-width: 85px;
 	}
     .dropdown-menu{
-		@include media("<=sm") {
-			top: 43px !important;
-			border-top: none;
-			border-radius: 0 4px 4px;
-			bottom: auto;
-		}
+      @include media("<=sm") {
+        top: 43px !important;
+        border-top: none;
+        border-radius: 0 4px 4px;
+        bottom: auto;
+      }
     }
 }
 
