@@ -9,12 +9,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, SignupState, UserState } from '../../store/datatypes';
-import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } from '../../store/actions';
+import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateSignupData } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime, tap } from 'rxjs/operators';
+import { apiUrl, VALID_EMAIL_REGEX } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 export class PasswordValidation {
@@ -71,14 +72,13 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.signupForm = this.formBuilder.group({
       'username': ['', [
         Validators.required,
-        Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i),
+        Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
         Validators.minLength(4),
         Validators.maxLength(64),
       ]],
-      'password': ['', [Validators.required]],
-      'confirmPwd': ['', [Validators.required]],
-      'recoveryEmail': ['', [Validators.pattern('[a-z0-9!#$%&*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)' +
-        '*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?')]]
+      'password': ['', [Validators.required, Validators.maxLength(128)]],
+      'confirmPwd': ['', [Validators.required, Validators.maxLength(128)]],
+      'recoveryEmail': ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
     }, {
       validator: PasswordValidation.MatchPassword
     });
