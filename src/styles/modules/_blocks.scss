@@ -66,7 +66,12 @@
         font-size: 1.75rem;
 	}
 }
-
+.l-mediakit-block-group .text-secondary{
+    font-weight: 300;
+    strong {
+        font-weight: 900;
+    }
+}
 .page-title {
 	margin-bottom: 1.875rem;
 	color: rgba(0, 0, 0, 0.87);
