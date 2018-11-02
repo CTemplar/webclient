@@ -80,16 +80,15 @@
     }
 
     &.has-border {
-        padding: 1.25rem 0 1.25rem 1.875rem;
+        padding: 0.5rem 0 0.5rem 1.875rem;
         border-bottom: 1px solid $border-gray;
         
         @include media(">=ipad") {
-            padding: 1.25rem 0 1.25rem 2.5rem;
+            padding: 0.5rem 0 0.5rem 2.5rem;
         }
 
         .fa {
             position: absolute;
-            top: 1.25rem;
         }
 
         + .package-list-item:not(.has-border) {
@@ -111,8 +110,9 @@
 
     .fa {
         position: absolute;
-        top: 0.7rem;
+        top: 50%;
         left: 0;
+        margin-top: -8px;
 
         @include media(">=ipad") {
             left: 0.75rem;
