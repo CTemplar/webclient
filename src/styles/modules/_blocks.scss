@@ -131,7 +131,7 @@
 		content: "";
 		display: block;
 		background: $brand-faded;
-		width: 100%;
+		width: calc(115% + 4rem);
 		height: 4.5rem;	
 		transform: skew(48deg) rotate(-4deg);
 
@@ -159,7 +159,6 @@
 
 		@include media("<=sm") {
 			height: 3rem;
-			transform: skew(-48deg) rotate(4deg);
 		}
 	}
 
@@ -254,7 +253,14 @@
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
 	}
 }
-
+@include media("<=sm") {
+  .is-clipped-after {
+    margin-bottom: 4.375rem;
+  }
+  .is-clipped-after-50 {
+      margin-bottom: 3.125rem;
+  }
+}
 .tile-card.px-lg {
 	@include media(">sm") {
 		.l-block-title {

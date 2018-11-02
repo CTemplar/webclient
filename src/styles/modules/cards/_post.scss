@@ -119,6 +119,10 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0.38);
     }
 }
+.l-block-footer .text-success{
+    margin-bottom: 30px;
+    display: inline-block;
+}
 @media (max-width: 767px) {
     /* Home Page
     =================================*/
@@ -126,5 +130,8 @@
         flex: 0 0 100%;
         max-width: 100%;
         margin-left: 0;
+    }
+    .l-block-footer .text-success{
+        margin-bottom: 0;
     }
 }
