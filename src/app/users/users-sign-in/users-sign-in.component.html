@@ -43,6 +43,7 @@
                                     required/>
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(passwordVC)">
                                     <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
 
                                 </span>
                             </div>
@@ -219,6 +220,7 @@
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         id="resetPasswordToggle" (click)="togglePassword(resetPasswordInput)">
                       <i class="fa fa-eye"></i>
+                      <i class="fa fa-eye-slash"></i>
                     </span>
                 </div>
                 <span *ngIf="resetPasswordForm.controls['password'].errors && showResetPasswordFormErrors"
@@ -237,6 +239,7 @@
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         id="resetConfirmPasswordToggle" (click)="togglePassword(resetConfirmPasswordInput)">
                       <i class="fa fa-eye"></i>
+                      <i class="fa fa-eye-slash"></i>
                     </span>
                 </div>
                 <span *ngIf="resetPasswordForm.controls['confirmPwd'].errors && showResetPasswordFormErrors"
