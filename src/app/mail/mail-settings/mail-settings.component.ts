@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators';
-import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES } from '../../shared/config';
+import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -46,6 +46,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
 
   @ViewChild('changePasswordModal') changePasswordModal;
+  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
+  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
@@ -71,8 +73,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedMailboxForSignature: Mailbox;
   selectedMailboxForKey: Mailbox;
   selectedMailboxPublicKey: any;
+  deleteAccountInfoForm: FormGroup;
+  deleteAccountOptions: any = {};
 
   private changePasswordModalRef: NgbModalRef;
+  private deleteAccountInfoModalRef: NgbModalRef;
+  private confirmDeleteAccountModalRef: NgbModalRef;
 
   constructor(
     private modalService: NgbModal,
@@ -139,6 +145,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         Validators.maxLength(64)
       ]]
     });
+
+    this.deleteAccountInfoForm = this.formBuilder.group({
+      'email': ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
+      'password': ['', [Validators.required]]
+    });
+
     this.handleUsernameAvailability();
   }
 
@@ -353,6 +365,30 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
     this.selectedMailboxForKey = mailbox;
     this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
+  }
+
+  onDeleteAccount() {
+    this.deleteAccountOptions = {};
+    this.deleteAccountInfoForm.reset();
+    this.deleteAccountInfoModalRef = this.modalService.open(this.deleteAccountInfoModal, {
+      centered: true,
+      windowClass: 'modal-sm'
+    });
+  }
+
+  onDeleteAccountInfoSubmit() {
+    this.deleteAccountOptions.showErrors = true;
+    if (this.deleteAccountInfoForm.valid) {
+      this.deleteAccountInfoModalRef.dismiss();
+      this.confirmDeleteAccountModalRef = this.modalService.open(this.confirmDeleteAccountModal, {
+        centered: true,
+        windowClass: 'modal-sm'
+      });
+    }
+  }
+
+  confirmDeleteAccount() {
+
   }
 
   private handleUsernameAvailability() {
