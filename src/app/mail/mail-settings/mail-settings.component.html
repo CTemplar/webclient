@@ -422,11 +422,14 @@
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
                         <div class="form-content-holder">
+                            <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
                             <div class="info-card">
                                 <p>If you permanently delete your account you will lose all the data in your mailbox.
                                     In 2 months this username will be available for re-use by anyone who selects it.</p>
-                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                                   (click)="onDeleteAccount()"><strong><u>Permanently Delete Account</u></strong></a>
+                                <button type="button" class="text-uppercase btn-link" role="button"
+                                        [disabled]="authState?.inProgress"
+                                        (click)="onDeleteAccount()"><strong><u>Permanently Delete Account</u></strong>
+                                </button>
                             </div>
                         </div>
                     </div>

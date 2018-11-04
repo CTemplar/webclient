@@ -161,7 +161,8 @@ export class UsersService {
       'emails/attachments',
       'emails/keys',
       'auth/upgrade',
-      'auth/change-password'
+      'auth/change-password',
+      'auth/delete'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -276,6 +277,11 @@ export class UsersService {
 
   deleteFilter(filterId: number) {
     return this.http.delete<any>(`${apiUrl}users/filters/${filterId}`);
+  }
+
+  deleteAccount(data: any) {
+    // TODO: send data to backend after backend is updated to accept data in the request
+    return this.http.post<any>(`${apiUrl}auth/delete/`, null);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

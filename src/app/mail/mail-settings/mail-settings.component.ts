@@ -11,7 +11,7 @@ import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAI
 import {
   BlackListDelete,
   ChangePassword,
-  CreateMailbox,
+  CreateMailbox, DeleteAccount,
   SetDefaultMailbox,
   SettingsUpdate,
   SnackErrorPush,
@@ -20,7 +20,7 @@ import {
 } from '../../store/actions';
 import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
-  AppState,
+  AppState, AuthState,
   MailBoxesState,
   Payment,
   PaymentMethod,
@@ -51,6 +51,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
+  authState: AuthState;
   settings: Settings;
   payment: Payment;
   paymentType = PaymentType;
@@ -93,6 +94,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        this.authState = authState;
+      });
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.userState = user;
@@ -388,7 +393,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   confirmDeleteAccount() {
-
+    this.store.dispatch(new DeleteAccount(this.deleteAccountInfoForm.value));
+    this.confirmDeleteAccountModalRef.dismiss();
   }
 
   private handleUsernameAvailability() {
