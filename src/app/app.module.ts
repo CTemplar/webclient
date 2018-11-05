@@ -25,21 +25,8 @@ import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { UsersModule } from './users/users.module';
 import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
-import {
-  ngxZendeskWebwidgetModule,
-  ngxZendeskWebwidgetConfig
-} from 'ngx-zendesk-webwidget';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-
-export class ZendeskConfig extends ngxZendeskWebwidgetConfig {
-  accountUrl = 'ctemplar.zendesk.com';
-
-  beforePageLoad(zE) {
-    zE.setLocale('en');
-    zE.hide();
-  }
-}
 
 // Services
 import {AuthGuard, BitcoinService, BlogService} from './store/services';
@@ -54,6 +41,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
 import { ComposeMailService } from './store/services/compose-mail.service';
+import { ZendeskWebWidgetService } from './shared/services/zendesk-web-widget.service';
 import { DonationService } from './store/services/donation.service';
 
 // AoT requires an exported function for factories
@@ -78,7 +66,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MailModule,
     PagesModule,
     UsersModule,
-    ngxZendeskWebwidgetModule.forRoot(ZendeskConfig),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -109,7 +96,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    ZendeskWebWidgetService
   ],
   bootstrap: [AppComponent]
 })

@@ -25,7 +25,7 @@
     "edit": "EDITEZ",
     "search": "Recherchez",
     "upgrade_account": "Mettre le compte à jour",
-    "terms_and_privacy": "Conditions d'utilisation et confidentialité",
+    "terms_and_privacy": "Conditions d'utilisation",
     "report_bug": "Signalez un bug",
     "used_storage": "Capacité de stockage utilisé",
     "contact": "contact",
@@ -111,8 +111,8 @@
       "info": "Votre don nous aide à soutenir plus d'utilisateurs et à continuer à développer CTemplar en tant que logiciel libre et open source.",
       "make_a_donation": "Faites un don",
       "select_amount": "Sélectionnez le montant:",
-      "name_on_card": "Nom sur la carte:",
-      "card_number": "Numéro de carte:",
+      "name_on_card": "Nom sur la carte",
+      "card_number": "Numéro de carte",
       "expiry_date:": "Date d'expiration:",
       "security_code": "Code de sécurité:"
     },
@@ -165,8 +165,6 @@
     "signup": "S'inscrire"
   },
   "home_page": {
-    "take_back_liberty": "Protégez votre vie privée avec le service de courrier électronique crypté le plus avancé au monde.",
-    "send_unbreakable_email": "Envoyez des courriels inviolables et sécurisez vos données professionnelles et personnelles grâce au cryptage et au stockage de nouvelle génération sur des serveurs islandais, protégés par les lois les plus strictes au monde en matière de confidentialité des données.",
     "signup_for_free": "Inscrivez-vous gratuitement",
     "latest_from_our_blog": "Dernières Nouvelles De<strong>Notre Blog</strong>",
     "related_post": "Message<strong>associé</strong>",

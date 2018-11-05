@@ -25,7 +25,7 @@
     "edit": "EDIT",
     "search": "Leita",
     "upgrade_account": "Uppfærsla reikningur",
-    "terms_and_privacy": "skilmálar &amp; næði",
+    "terms_and_privacy": "Skilmálar þjónustu",
     "report_bug": "Tilkynna villu",
     "used_storage": "Notað geymsla",
     "contact": "hafðu samband",
@@ -111,8 +111,8 @@
       "info": "Framlag þitt hjálpar okkur að styðja fleiri notendur og halda áfram að þróa CTemplar sem ókeypis og opinn hugbúnaður.",
       "make_a_donation": "Gerðu framlag",
       "select_amount": "Veldu upphæð:",
-      "name_on_card": "Nafn á korti:",
-      "card_number": "Kortanúmer:",
+      "name_on_card": "Nafn á korti",
+      "card_number": "Kortanúmer",
       "expiry_date:": "Upphafsdagur:",
       "security_code": "Öryggiskóði:"
     },
@@ -164,8 +164,6 @@
     "signup": "Skráðu þig"
   },
   "home_page": {
-    "take_back_liberty": "<strong> Taktu aftur frelsi þína </strong> með öruggustu tölvupóstkerfi heims",
-    "send_unbreakable_email": "Senda óbrjótanlegt tölvupóst &amp; vernda helstu faglegar og persónulegar upplýsingar þínar með dulkóðun og geymslu á næstu kynslóðum á íslenskum netþjónum, tryggðu með sterkustu gagnaverndarlögum heims",
     "signup_for_free": "Skráðu þig Frítt",
     "latest_from_our_blog": "Nýjasta af <strong> bloggið okkar </strong>",
     "related_post": "Tengd <strong> Post </ strong>",

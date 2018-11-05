@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { COLORS, ESCAPE_KEYCODE } from '../../../shared/config';
+import { COLORS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -74,6 +74,24 @@ ImageBlot.tagName = 'img';
 
 Quill.register(ImageBlot);
 
+class SignatureBlot extends BlockEmbed {
+  static create(value) {
+    const node: any = super.create(value);
+    node.innerText = value;
+    return node;
+  }
+
+  static value(node) {
+    return node.innerHTML;
+  }
+}
+
+SignatureBlot.blotName = 'signature';
+SignatureBlot.tagName = 'div';
+SignatureBlot.className = 'ctemplar-signature';
+
+Quill.register(SignatureBlot);
+
 export class PasswordValidation {
 
   static MatchPassword(AC: AbstractControl) {
@@ -98,6 +116,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
   @Input() content: string;
+  @Input() messageHistory: string;
   @Input() subject: string;
   @Input() draftMail: Mail;
   @Input() parentId: number;
@@ -143,7 +162,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private delayedDeliveryModalRef: NgbModalRef;
   private deadManTimerModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
-  private signature: string;
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
 
@@ -223,13 +241,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.selectedMailbox = mailBoxesState.mailboxes.find(mailbox => mailbox.id === this.draftMail.mailbox);
           } else if (mailBoxesState.currentMailbox) {
             this.selectedMailbox = mailBoxesState.currentMailbox;
-            this.addSignature();
+            this.updateSignature();
           }
-          this.signature = this.selectedMailbox ? this.selectedMailbox.signature : '';
         }
         if (this.selectedMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
-          this.signature = this.selectedMailbox.signature;
+          this.updateSignature();
         }
         this.mailBoxesState = mailBoxesState;
       });
@@ -314,10 +331,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.content) {
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
-      this.quill.setSelection(0);
     }
 
-    this.addSignature();
+    this.updateSignature();
+
+    if (this.messageHistory) {
+      const index = this.quill.getLength();
+      this.quill.insertText(index, '\n', 'silent');
+      this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
+    }
+
+    this.quill.setSelection(0);
   }
 
   initializeAutoSave() {
@@ -339,6 +363,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onFromChanged(mailbox: Mailbox) {
     this.selectedMailbox = mailbox;
+    this.updateSignature();
     this.valueChanged$.next(this.selectedMailbox);
   }
 
@@ -468,7 +493,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.bcc.map(bcc => bcc.display)
     ];
     if (receivers.length === 0) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
+    }
+    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
+    const invalidAddress = receivers.find(receiver => !validEmailRegex.test(receiver));
+    if (invalidAddress) {
+      this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
+      return;
     }
     const cTemplarReceivers = [];
     const nonCTemplarReceivers = [];
@@ -507,11 +539,22 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new DeleteAttachment(attachment));
   }
 
-  addSignature() {
-    if (this.quill && this.signature && !this.isSignatureAdded) {
-      const index = this.quill.getLength();
-      this.quill.insertText(index, '\n' + this.signature, 'silent');
-      this.isSignatureAdded = true;
+  updateSignature() {
+    if (this.quill && this.selectedMailbox) {
+      if (!this.isSignatureAdded) {
+        const index = this.quill.getLength();
+        this.quill.insertText(index, '\n', 'silent');
+        this.quill.insertEmbed(index + 1, 'signature', this.selectedMailbox.signature || '', 'silent');
+        this.isSignatureAdded = true;
+      } else {
+        const updatedContents = this.quill.getContents().map(op => {
+          if (op.insert && op.insert.signature) {
+            op.insert.signature = this.selectedMailbox.signature || '';
+          }
+          return op;
+        });
+        this.quill.setContents(updatedContents);
+      }
     }
   }
 
@@ -714,6 +757,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+    if (shouldSend) {
+      this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
+    }
     this.draftMail.is_encrypted = isEncrypted;
     if (this.forwardAttachmentsMessageId) {
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;

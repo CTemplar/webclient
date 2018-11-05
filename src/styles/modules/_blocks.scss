@@ -45,12 +45,15 @@
 
 .l-block-header {
 	strong	{
-		font-weight: 700;
+		font-weight: 300;
 	}
 
 	span {
-		font-weight: 300;
+		font-weight: 900;
 	}
+    .about-title strong {
+        font-weight: 900;
+    }
 }
 
 .l-block-title {
@@ -60,9 +63,15 @@
 	@include media(">sm") {
 		margin-bottom: 3rem;
 		font-weight: 300;
+        font-size: 1.75rem;
 	}
 }
-
+.l-mediakit-block-group .text-secondary{
+    font-weight: 300;
+    strong {
+        font-weight: 900;
+    }
+}
 .page-title {
 	margin-bottom: 1.875rem;
 	color: rgba(0, 0, 0, 0.87);
@@ -89,6 +98,9 @@
 .l-block-subtitle  {
 	line-height: 28px;
 }
+.about-title + .l-block-subtitle{
+    line-height: 36px;
+}
 
 .title-horz-line {
 	margin: 1.25rem 0;
@@ -109,7 +121,7 @@
 		
 		@include media(">sm") {
 			padding: 1.125rem 0 3.75rem;
-			margin-top: 5.25rem;//~7rem;
+			margin-top: 7.25rem;//~7rem;
 		}
 	}
 
@@ -117,15 +129,9 @@
 		margin-top: 3.125rem;
 		padding: 1.125rem 0 2.5rem;
 		
-		@include media(">sm") {
-			margin-top: 3.875rem;
-			padding-top: 5rem;
-    		padding-bottom: 5rem;
-		}
-
-		@include media(">sm") {
-			padding-top: 3.75rem;
-    		padding-bottom: 3.75rem;
+		@include media("<ipad") {
+			margin-top: 0;
+			padding-top: 0;
 		}
 	}
 
@@ -136,7 +142,7 @@
 		content: "";
 		display: block;
 		background: $brand-faded;
-		width: 100%;
+		width: calc(115% + 4rem);
 		height: 4.5rem;	
 		transform: skew(48deg) rotate(-4deg);
 
@@ -163,8 +169,7 @@
 		transform: skew(-48deg) rotate(2deg);
 
 		@include media("<=sm") {
-			height: 3.125rem;
-			transform: skew(-48deg) rotate(4deg);
+			height: 3rem;
 		}
 	}
 
@@ -172,11 +177,11 @@
 		&::after {
 			position: relative;
 			top: auto;
-			bottom: -1.75rem;
+			bottom: -1.5rem;
 			display: block;
 			
 			@include media(">sm") {
-				height: 5rem;
+				height: 3rem;
 			}
 		}
 	}
@@ -249,14 +254,24 @@
 	}
 
 	@include media("<ipad", ">sm") {
-		padding: 0 1.875rem
+		padding: 0 1.875rem;
+        .text-center {
+            padding-top: 25px;
+        }
 	}
 
 	figure .img.shadowed {
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
 	}
 }
-
+@include media("<=sm") {
+  .is-clipped-after {
+    margin-bottom: 4.375rem;
+  }
+  .is-clipped-after-50 {
+      margin-bottom: 3.125rem;
+  }
+}
 .tile-card.px-lg {
 	@include media(">sm") {
 		.l-block-title {

@@ -25,7 +25,7 @@
     "edit": "לַעֲרוֹך",
     "search": "לחפש",
     "upgrade_account": "שדרג חשבון",
-    "terms_and_privacy": "תנאים ופרטיות",
+    "terms_and_privacy": "תנאי השירות",
     "report_bug": "דווח על באג",
     "used_storage": "אחסון משומש",
     "contact": "איש קשר",
@@ -164,8 +164,6 @@
     "signup": "הירשם"
   },
   "home_page": {
-    "take_back_liberty": "<strong> קח חזרה את החירות שלך </ strong> עם מערכת הדואר האלקטרוני המאובטח ביותר בעולם",
-    "send_unbreakable_email": "שלח הודעות אימייל בלתי ניתנות לשבירה &amp; להגן על הפרטים המקצועיים והאישיים שלך עם הצפנה ואחסון של הדור הבא בשרתים איסלנדים, מאובטחת עם חוקי הפרטיות החזקים ביותר בעולם",
     "signup_for_free": "הרשם בחינם",
     "latest_from_our_blog": "אחרון מ <strong> הבלוג שלנו </ strong>",
     "related_post": "קשור <strong> פרסם </ strong>",

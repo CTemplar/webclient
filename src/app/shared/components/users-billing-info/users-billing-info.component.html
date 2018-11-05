@@ -68,7 +68,7 @@
               </div>
               <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong translate="billing_info.payment_information">Payment Information</strong>
+                  <strong translate="billing_info.payment_information">Billing Information</strong>
                 </h3>
                 <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span translate="billing_info.bitcoin_sent_timer">BTC sent after timer will be lost!</span> </p>
 
@@ -99,7 +99,7 @@
 
               <div class="form-step-card" [class]="stripePaymentValidation.param" *ngIf="paymentMethod === paymentMethodType.STRIPE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong translate="billing_info.payment_method">Payment Information</strong>
+                  <strong translate="billing_info.payment_information">Billing Information</strong>
                 </h3>
                 <div class="form-group">
                   <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on

@@ -15,7 +15,7 @@ import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-m
 import { Observable } from 'rxjs/Observable';
 
 // Store
-import { AppState } from '../../store/datatypes';
+import { AppState, AuthState } from '../../store/datatypes';
 import { LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
@@ -55,6 +55,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   loginErrorCount: number = 0;
   recaptcha: ReCaptcha;
   isGeneratingKeys: boolean;
+  isRecoveryCodeSent: boolean;
 
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
@@ -62,6 +63,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
+  private authState: AuthState;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -101,12 +103,18 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       .subscribe(authState => {
         this.isLoading = authState.inProgress;
         this.errorMessage = authState.errorMessage;
+        this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
+        this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;
         if (authState.errorMessage) {
           this.loginErrorCount++;
           if (this.loginErrorCount >= 2) {
             this.isCaptchaCompleted = false;
           }
         }
+        if (this.isRecoverFormSubmitted && this.authState.inProgress && !authState.inProgress && !authState.resetPasswordErrorMessage) {
+          this.resetModalRef.dismiss();
+        }
+        this.authState = authState;
       });
   }
 
@@ -117,6 +125,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   openResetPasswordModal() {
     this.isRecoverFormSubmitted = false;
+    this.isRecoveryCodeSent = false;
     this.showResetPasswordFormErrors = false;
     this.resetPasswordErrorMessage = '';
     this.recoverPasswordForm.reset();
@@ -188,7 +197,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       ...this.openPgpService.getUserKeys(),
     };
     this.store.dispatch(new ResetPassword(requestData));
-    this.resetModalRef.dismiss();
   }
 
   openUsernameOSK() {

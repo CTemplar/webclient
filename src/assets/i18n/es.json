@@ -25,7 +25,7 @@
     "edit": "EDITAR",
     "search": "Buscar",
     "upgrade_account": "Actualizar cuenta",
-    "terms_and_privacy": "Términos y política de privacidad",
+    "terms_and_privacy": "Términos de servicio",
     "report_bug": "Reportar un error",
     "used_storage": "Almacenamiento utilizado",
     "contact": "Contacto",
@@ -163,8 +163,6 @@
     "signup": "Inscribirse"
   },
   "home_page": {
-    "take_back_liberty": "Asegura tu privacidad con el servicio de email encriptado más avanzado del mundo.",
-    "send_unbreakable_email": "Envía emails indescifrables y protege tus detalles personales y profesionales esenciales, con una encriptación de última generación y alojados en servidores islandeses, protegidos por las leyes de privacidad de datos más estrictas del mundo.",
     "signup_for_free": "Inscríbete gratis",
     "latest_from_our_blog": "Últimas noticias de <strong>nuestro blog</strong>",
     "related_post": " <strong>Publicación</strong> relacionada",
