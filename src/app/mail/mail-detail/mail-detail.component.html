@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="ui-body is-xs is-bordered-bottom bg-faded">
+    <div class="ui-body is-xs bg-faded" style="border: solid 1px #e5e5e5;margin: 5px;">
       <div class="row">
         <div class="col-8">
           <div class="mailbox-sender-content">
@@ -82,16 +82,9 @@
     <app-progress-bar [active]="!decryptedContents[mail.id]"></app-progress-bar>
 
     <div class="ui-body" *ngIf="decryptedContents[mail.id]">
-      <div [ngClass]="{'show_gmail_extra': mailOptions[mail.id]?.showGmailExtraContent}">
+      <div class="show_gmail_extra">
         <div class="msg-reply-content text-dark" id="{{mail.id}}-mail-content"
            [innerHTML]="decryptedContents[mail.id] | safe: 'html'"></div>
-           <a href="javascript:void(0)" (click)="toggleGmailExtra(mail)"
-           *ngIf="decryptedContents[mail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[mail.id]?.indexOf('gmail_quote') > -1" >
-             <div class="ellipsis-wrapper" placement="top"
-             [ngbTooltip]="mailOptions[mail.id]?.showGmailExtraContent ? 'Hide extra content' : 'Show trimmed content'">
-               <div class="gmail-ellipsis"></div>
-             </div>
-           </a>
       </div>
     </div>
 
@@ -128,7 +121,7 @@
           <div>
             <section class="mailbox-section" id="{{childMail.id}}-print-section">
 
-              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
+              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer"  style="border: solid 1px #e5e5e5;margin: 5px;" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
                 <div class="row">
                   <div class="col-8">
                     <div class="mailbox-sender-content">
@@ -193,17 +186,9 @@
                       <a class="dropdown-item" (click)="onDelete(childMail)">Delete this Message</a>
                     </div>
                   </div>
-                <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
+                <div class="show_gmail_extra">
                   <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
                        [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"></div>
-
-                  <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
-                     *ngIf="decryptedContents[childMail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[childMail.id]?.indexOf('gmail_quote') > -1">
-                    <div class="ellipsis-wrapper" placement="top"
-                         [ngbTooltip]="mailOptions[childMail.id]?.showGmailExtraContent ? 'Hide extra content' : 'Show trimmed content'">
-                      <div class="gmail-ellipsis"></div>
-                    </div>
-                  </a>
                 </div>
               </div>
               <ul class="list-style-none mt-3">
