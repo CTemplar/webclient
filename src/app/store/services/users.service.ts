@@ -161,7 +161,8 @@ export class UsersService {
       'emails/attachments',
       'emails/keys',
       'auth/upgrade',
-      'auth/change-password'
+      'auth/change-password',
+      'auth/delete'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -276,6 +277,13 @@ export class UsersService {
 
   deleteFilter(filterId: number) {
     return this.http.delete<any>(`${apiUrl}users/filters/${filterId}`);
+  }
+
+  deleteAccount(data: any) {
+    const requestData = { ...data };
+    requestData.password = this.hashPassword(requestData);
+    delete requestData['username'];
+    return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

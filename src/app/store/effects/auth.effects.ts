@@ -16,7 +16,7 @@ import { UsersService } from '../../store/services';
 import {
   AccountDetailsGet,
   AuthActionTypes, ChangePassword,
-  CheckUsernameAvailability, CheckUsernameAvailabilitySuccess,
+  CheckUsernameAvailability, CheckUsernameAvailabilitySuccess, DeleteAccount, DeleteAccountFailure, DeleteAccountSuccess,
   LogIn,
   LogInFailure,
   LogInSuccess, Logout,
@@ -171,6 +171,24 @@ export class AuthEffects {
           ]),
           catchError((error) => [
             new SnackErrorPush({ message: 'Failed to change password, please try again.' })])
+        );
+    });
+
+  @Effect()
+  DeleteAccount: Observable<any> = this.actions
+    .ofType(AuthActionTypes.DELETE_ACCOUNT)
+    .map((action: DeleteAccount) => action.payload)
+    .switchMap(payload => {
+      return this.authService.deleteAccount(payload)
+        .pipe(
+          switchMap((user) => [
+            new DeleteAccountSuccess(),
+            new SnackPush({ message: 'Account deleted successfully.' }),
+            new Logout()
+          ]),
+          catchError((error) => [
+            new DeleteAccountFailure(error),
+            new SnackErrorPush({ message: 'Failed to delete account, please try again.' })])
         );
     });
 

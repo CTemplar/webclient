@@ -22,7 +22,10 @@ export enum AuthActionTypes {
   UPGRADE_ACCOUNT = '[Auth] Upgrade Account',
   UPGRADE_ACCOUNT_SUCCESS = '[Auth] Upgrade Account Success',
   UPGRADE_ACCOUNT_FAILURE = '[Auth] Upgrade Account Failure',
-  CHANGE_PASSWORD = '[Auth] Change Password'
+  CHANGE_PASSWORD = '[Auth] Change Password',
+  DELETE_ACCOUNT = '[Auth] Delete Account',
+  DELETE_ACCOUNT_SUCCESS = '[Auth] Delete Account Success',
+  DELETE_ACCOUNT_FAILURE = '[Auth] Delete Account Failure'
 }
 
 export class LogIn implements Action {
@@ -157,6 +160,27 @@ export class ChangePassword {
   }
 }
 
+export class DeleteAccount {
+  readonly type = AuthActionTypes.DELETE_ACCOUNT;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteAccountSuccess {
+  readonly type = AuthActionTypes.DELETE_ACCOUNT_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class DeleteAccountFailure {
+  readonly type = AuthActionTypes.DELETE_ACCOUNT_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type AuthActionAll =
   | LogIn
   | LogInSuccess
@@ -178,4 +202,7 @@ export type AuthActionAll =
   | UpgradeAccount
   | UpgradeAccountSuccess
   | UpgradeAccountFailure
-  | ChangePassword;
+  | ChangePassword
+  | DeleteAccount
+  | DeleteAccountSuccess
+  | DeleteAccountFailure;
