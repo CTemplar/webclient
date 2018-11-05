@@ -277,7 +277,8 @@
     "month": "Month",
     "year": "Year",
     "submit": "Submit",
-    "send_exactly": "SEND EXACTLY"
+    "send_exactly": "SEND EXACTLY",
+    "donation_amount": "Amount"
   },
   "page_terms": {
     "the_terms": "The Terms",

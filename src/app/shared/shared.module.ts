@@ -25,6 +25,8 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
 import { BrowserDetectorService } from './services/browser-detector.service';
 import { IsIeDirective } from './directives/is-ie.directive';
 import { MomentDatePipe } from './pipes/moment-date.pipe';
+import { StripeFormComponent } from './components/stripe-form/stripe-form.component';
+import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.component';
 
 @NgModule({
   imports: [
@@ -53,6 +55,8 @@ import { MomentDatePipe } from './pipes/moment-date.pipe';
     CountdownTimerComponent,
     IsIeDirective,
     MomentDatePipe,
+    StripeFormComponent,
+    BitcoinFormComponent,
   ],
   exports: [
     TranslateModule,
@@ -73,7 +77,8 @@ import { MomentDatePipe } from './pipes/moment-date.pipe';
     ClickOutsideDirective,
     CountdownTimerComponent,
     IsIeDirective,
-    MomentDatePipe
+    MomentDatePipe,
+    StripeFormComponent,
   ],
   providers: [
     SpinnerService,
