@@ -7,18 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BitcoinFormComponent implements OnInit {
 
-  // donationAmount : The amount user wants to donate to CTemplar
-  donationAmount: number;
-
-  // Display loader on form submission
-  inProgress = false;
-
   constructor() { }
 
   ngOnInit() {
   }
-
-  submitForm() {
-  }
-
 }

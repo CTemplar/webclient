@@ -1,55 +1,22 @@
 <div class="row">
   <div class="col-sm-12">
       <div class="form-step-card">
-        <h6 class="form-step-card-title text-dark mb-3 text-left">
-          <strong translate="billing_info.donation_amount">Amount</strong>
-        </h6>
-        <div class="d-flex justify-content-between btn-group btn-group-toggle text-left" ngbRadioGroup name="donationAmount"
-          [(ngModel)]="donationAmount">
-          <label ngbButtonLabel class="btn-outline-secondary">
-            <input ngbButton type="radio" [value]="1"> $1
-          </label>
-          <label ngbButtonLabel class="btn-outline-secondary">
-            <input ngbButton type="radio" [value]="5"> $5
-          </label>
-          <label ngbButtonLabel class="btn-outline-secondary">
-            <input ngbButton type="radio" [value]="10"> $10
-          </label>
-          <div class="form-group mb-0">
-            <label for="donationAmount" class="text-muted text-left hidden-sm-up">Other</label>
-            <input class="form-control" (click)="donationAmount = 0" [(ngModel)]="donationAmount"
-              [placeholder]="'settings.donate.select_amount'| translate" type="text">
-          </div>
-        </div>
-
-
         <h6 class="form-step-card-title text-dark mt-3 text-left">
           <strong translate="billing_info.payment_information">Payment Information</strong>
         </h6>
 
-
-        <p><strong> 2 minutes : 34 seconds </strong> <span translate="billing_info.bitcoin_sent_timer">BTC sent after timer will be lost!</span> </p>
+        <p>Please send your donations to following bitcoin address.</p>
 
         <div class="card mb-3">
           <div class="card-header text-center">
-            <h6 [innerHTML]="'billing_info.send_exactly'| translate">SEND <strong>EXACTLY</strong></h6>
-            <h5><strong > 0.000014 </strong></h5>
+            <h6>BITCOIN WALLET</h6>
+            <h5><strong>1612e9NUhwCGDAizMfk5VQa3pzMemDSGik</strong></h5>
           </div>
           <div class="card-body text-center">
-            <p class="justify-content-center">3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC</p>
             <img class="mb-3"
-                 src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl=bitcoin:3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC?amount=0.00000001"
+                 src="https://chart.googleapis.com/chart?chs=225x225&chld=L|2&cht=qr&chl=1612e9NUhwCGDAizMfk5VQa3pzMemDSGik"
                  alt="captcha">
           </div>
-        </div>
-
-
-        <!-- SUBMIT BUTTON -->
-        <div class="form-group text-center mt-3 mt-sm-4 mb-0">
-          <button class="btn btn-lg btn-secondary billing-submit-btn" role="button" [disabled]="inProgress" (click)="submitForm()">
-            Donate
-          </button>
-          <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
         </div>
       </div>
   </div>
