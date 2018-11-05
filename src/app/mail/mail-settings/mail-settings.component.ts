@@ -152,7 +152,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
 
     this.deleteAccountInfoForm = this.formBuilder.group({
-      'email': ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
+      'contact_email': ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       'password': ['', [Validators.required]]
     });
 
@@ -393,7 +393,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   confirmDeleteAccount() {
-    this.store.dispatch(new DeleteAccount(this.deleteAccountInfoForm.value));
+    const data = {
+      ...this.deleteAccountInfoForm.value,
+      username: this.userState.username
+    };
+    this.store.dispatch(new DeleteAccount(data));
     this.confirmDeleteAccountModalRef.dismiss();
   }
 

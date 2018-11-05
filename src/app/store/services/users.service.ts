@@ -280,8 +280,10 @@ export class UsersService {
   }
 
   deleteAccount(data: any) {
-    // TODO: send data to backend after backend is updated to accept data in the request
-    return this.http.post<any>(`${apiUrl}auth/delete/`, null);
+    const requestData = { ...data };
+    requestData.password = this.hashPassword(requestData);
+    delete requestData['username'];
+    return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
