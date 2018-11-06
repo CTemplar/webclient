@@ -1,11 +1,16 @@
 
-.conversation-list {
+.mail-content {
   position: relative;
 
   .msg-reply-dropdown {
     position: absolute; 
     right: 20px;
   }
+}
+
+.mail-header { 
+  border: solid 1px #e5e5e5;
+  margin: 5px;
 }
 
 .download-attachment-wrapper {

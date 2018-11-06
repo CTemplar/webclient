@@ -28,6 +28,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   decryptedContents: any = {};
   mailOptions: any = {};
   selectedMailToForward: Mail;
+
+  parentMailCollapsed: boolean = true;
   childMailCollapsed: boolean[] = [];
 
   private mailFolder: MailFolderType;
@@ -68,10 +70,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
           if (this.mail.children) {
-            
-            /**
-             * Collapse all emails by default
-             */
+            this.parentMailCollapsed = true;
+            // Collapse all emails by default
             this.childMailCollapsed.fill(true, 0, this.mail.children.length);
             // Do not collapse the last email in the list
             this.childMailCollapsed[this.mail.children.length - 1] = false;
@@ -92,6 +92,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 this.mailOptions[child.id] = {};
               }
             });
+          } else {
+            this.parentMailCollapsed = false;
           }
         }
       });
