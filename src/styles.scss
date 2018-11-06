@@ -428,3 +428,12 @@ app-mail-detail {
     }
   }
 }
+
+
+.mail-checkbox {
+  mat-checkbox {
+    label {
+      margin-bottom: 0 !important;
+    }
+  }
+}
