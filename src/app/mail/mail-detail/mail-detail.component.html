@@ -28,6 +28,9 @@
                 <span class="text-secondary"> </span>
                 <a class="text-gray-dark text-muted">&lt;{{mail.sender}}&gt;</a>
               </li>
+              <li *ngIf="parentMailCollapsed && decryptedContents[mail.id]">
+                <p class="clipped-content" [innerHTML]="decryptedContents[mail.id] | safe: 'html'"> </p>
+              </li>
               <ng-container *ngIf="!parentMailCollapsed">
                 <li id="{{mail.id}}-mail-to">
                   To:
@@ -74,12 +77,12 @@
           </div>
         </div>
       </div>
+      <app-progress-bar [active]="!decryptedContents[mail.id]"></app-progress-bar>
     </div>
   </section>
 
   <!--Mail Content-->
   <section class="mailbox-section" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
-    <app-progress-bar [active]="!decryptedContents[mail.id]"></app-progress-bar>
 
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">
       <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
@@ -144,6 +147,9 @@
                           <span class="text-secondary"> </span>
                           <a class="text-muted text-gray-dark">&lt;{{childMail.sender}}&gt;</a>
                         </li>
+                        <li *ngIf="childMailCollapsed[childIndex] && decryptedContents[childMail.id]">
+                          <p class="clipped-content" [innerHTML]="decryptedContents[childMail.id] | safe: 'html'"> </p>
+                        </li>
                         <ng-container *ngIf="!childMailCollapsed[childIndex]">
                           <li id="{{childMail.id}}-mail-to">
                             To:
@@ -190,13 +196,12 @@
                     </div>
                   </div>
                 </div>
+                <app-progress-bar [active]="!decryptedContents[childMail.id]" *ngIf="childIndex === mail.children.length"></app-progress-bar>
               </div>
             </section>
 
             <!--Mail Content-->
             <section class="mailbox-section" id="{{childMail.id + '-ngb-collapse'}}" [ngbCollapse]="childMailCollapsed[childIndex]">
-              <app-progress-bar [active]="!decryptedContents[childMail.id]"
-                                *ngIf="childIndex === mail.children.length"></app-progress-bar>
               <div class="ui-body mail-content" *ngIf="decryptedContents[childMail.id]">
                   <div ngbDropdown placement="bottom-right"
                         class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
