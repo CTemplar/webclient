@@ -65,6 +65,12 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         this.checkFilterExist(value);
       });
+    this.createFilterForm.get('moveTo').valueChanges.takeUntil(this.destroyed$)
+      .subscribe((value) => {
+        if (!value && this.createFilterData) {
+          this.createFilterData.folder = null;
+        }
+      });
   }
 
   ngOnDestroy(): void {
