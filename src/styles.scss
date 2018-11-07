@@ -437,3 +437,8 @@ app-mail-detail {
     }
   }
 }
+
+.show-ellipses {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
