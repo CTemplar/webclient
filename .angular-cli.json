@@ -21,7 +21,8 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "../node_modules/quill/dist/quill.snow.css"
+        "../node_modules/quill/dist/quill.snow.css",
+        "styles/material-theme.scss"
       ],
       "scripts": [
         "../node_modules/openpgp/dist/openpgp.min.js",
