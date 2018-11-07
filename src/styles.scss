@@ -389,6 +389,8 @@ button[disabled] {
   border: none !important;
   background-color: #e3f1fd;
   font-size: 14px;
+  position: relative;
+  z-index: 1;
   i {
     vertical-align: middle;
   }
