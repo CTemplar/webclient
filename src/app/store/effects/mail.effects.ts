@@ -29,7 +29,7 @@ import {
   SnackPush,
   StarMailSuccess,
   UndoDeleteMail,
-  UndoDeleteMailSuccess, AccountDetailsGet, DeleteFolder
+  UndoDeleteMailSuccess, AccountDetailsGet, DeleteFolder, GetUnreadMailsCount, GetUnreadMailsCountSuccess
 } from '../actions';
 import { MailFolderType } from '../models';
 
@@ -49,6 +49,21 @@ export class MailEffects {
       .pipe(
         map((response) => {
           return new GetMailsSuccess({ ...payload, mails: response['results'], total_mail_count: response['total_count'] });
+        }),
+        catchError((error) => [])
+      );
+    });
+
+
+  @Effect()
+  getUnreadMailsCountEffect: Observable<any> = this.actions
+    .ofType(MailActionTypes.GET_UNREAD_MAILS_COUNT)
+    .map((action: GetUnreadMailsCount) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.getUnreadMailsCount()
+      .pipe(
+        map((response) => {
+          return new GetUnreadMailsCountSuccess(response);
         }),
         catchError((error) => [])
       );

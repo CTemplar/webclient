@@ -3,7 +3,16 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, ReadMail, SetCurrentFolder, StarMail } from '../../../../store/actions';
+import {
+  DeleteMail,
+  GetMailDetailSuccess,
+  GetMails,
+  GetUnreadMailsCount,
+  MoveMail,
+  ReadMail,
+  SetCurrentFolder,
+  StarMail
+} from '../../../../store/actions';
 import { AppState, MailState, UserState } from '../../../../store/datatypes';
 import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
@@ -126,6 +135,10 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (ids) {
       // Dispatch mark as read event to store
       this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+
+      setTimeout(() => {
+        this.store.dispatch(new GetUnreadMailsCount());
+      }, 1000);
     }
   }
 
