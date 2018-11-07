@@ -37,51 +37,59 @@
                     <a routerLink="/mail/inbox" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
-                        <span class="badge badge-square d-lg-block d-md-block d-sm-none" *ngIf="inboxUnreadCount>0">{{inboxUnreadCount}}</span>
-                        <span class="badge badge-sm badge-square d-none d-sm-block">{{inboxUnreadCount}}</span>
+                        <ng-container *ngIf="mailState?.unreadMailsCount?.inbox>0">
+                            <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{mailState?.unreadMailsCount?.inbox}}</span>
+                            <span class="badge badge-sm badge-square d-none d-sm-block">{{mailState?.unreadMailsCount?.inbox}}</span>
+                        </ng-container>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/draft" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="draftCount>0">{{draftCount}}</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.draft>0">{{mailState?.unreadMailsCount?.draft}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/sent" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-paper-plane"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.sent">Sent</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.sent>0">{{mailState?.unreadMailsCount?.sent}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/outbox" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.outbox">Outbox</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.outbox>0">{{mailState?.unreadMailsCount?.outbox}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/starred" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-star"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.starred">Starred</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.starred>0">{{mailState?.unreadMailsCount?.starred}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/archive" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-archive"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.archive">Archive</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.archive>0">{{mailState?.unreadMailsCount?.archive}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/spam" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-warning"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.spam">Spam</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.spam>0">{{mailState?.unreadMailsCount?.spam}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/trash" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-garbage"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.trash">Trash</span>
+                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.trash>0">{{mailState?.unreadMailsCount?.trash}}</span>
                     </a>
                 </li>
 
@@ -93,13 +101,14 @@
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
                 </li>
-                <li class="mailbox-sidebar-nav-item"  routerLinkActive="active" *ngFor="let folder of customFolders|slice:0:LIMIT; let i=index;">
+                <li class="mailbox-sidebar-nav-item custom-folder"  routerLinkActive="active" *ngFor="let folder of customFolders|slice:0:LIMIT; let i=index;">
                     <div>
                         <a routerLink="/mail/{{folder.name}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                             <i class="folder-color-box icon" [style.background]="folder.color"></i>
                             <span class="mailbox-sidebar-nav-label text-capitalize">
                                 {{folder.name}}
                             </span>
+                            <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name]>0">{{mailState?.unreadMailsCount[folder.name]}}</span>
                         </a>
                         <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="$event.preventDefault();showConfirmationModal(folder)">
                             <i class="icon icon-cross icon-sm"></i>

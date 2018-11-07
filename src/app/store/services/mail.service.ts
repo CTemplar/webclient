@@ -43,6 +43,10 @@ export class MailService {
     });
   }
 
+  getUnreadMailsCount(): Observable<any> {
+    return this.http.get<Mail>(`${apiUrl}emails/unread/`);
+  }
+
   getMailboxes(limit: number = 50, offset: number = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url).map(data => {

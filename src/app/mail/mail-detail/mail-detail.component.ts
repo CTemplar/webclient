@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import {DeleteMail, MoveMail, StarMail} from '../../store/actions';
+import { DeleteMail, GetUnreadMailsCount, MoveMail, StarMail } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -141,6 +141,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
     if (!read) {
       this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    } else {
+      setTimeout(() => {
+        this.store.dispatch(new GetUnreadMailsCount());
+      }, 1000);
     }
   }
 

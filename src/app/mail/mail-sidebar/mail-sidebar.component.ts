@@ -11,7 +11,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { DeleteFolder } from '../../store/actions';
+import { DeleteFolder, GetUnreadMailsCount } from '../../store/actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -35,12 +35,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   selectedFolder: Folder;
   currentRoute: string;
 
-  draftCount: number = 0;
-  inboxUnreadCount: number = 0;
   isMenuOpened: boolean;
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
+  readonly AUTO_REFRESH_DURATION: number = 10000; // duration in milliseconds
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -60,6 +59,13 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     });
   }
 
+  initializeAutoRefresh() {
+    Observable.timer(0, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
+      .subscribe(event => {
+        this.store.dispatch(new GetUnreadMailsCount());
+      });
+  }
+
   ngOnInit() {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
@@ -74,22 +80,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
-
         this.mailState = mailState;
-
-        // Draft items count
-        const drafts = mailState.folders.get(MailFolderType.DRAFT);
-        if (drafts) {
-          this.draftCount = drafts.length;
-        }
-
-        // Inbox unread items count
-        const inbox = mailState.folders.get(MailFolderType.INBOX);
-        if (inbox) {
-          this.inboxUnreadCount = inbox.filter((mail: Mail) => !mail.read).length;
-        }
-
       });
+    this.initializeAutoRefresh();
   }
 
   /**
