@@ -51,7 +51,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
-        if (mailState.mailDetail) {
+        if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
@@ -259,21 +259,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/mail/${this.mailFolder}`);
     }
   }
-    ontoggleStarred(mail: Mail) {
-        if (mail.starred) {
-            this.store.dispatch(
-                new StarMail({ ids: mail.id.toString(), starred: false })
-            );
-        } else {
-            this.store.dispatch(
-                new StarMail({ ids: mail.id.toString(), starred: true })
-            );
-        }
-        mail.starred = !mail.starred;
-    }
 
-  toggleGmailExtra(mail: Mail) {
-    this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
+  ontoggleStarred(mail: Mail) {
+    if (mail.starred) {
+      this.store.dispatch(
+        new StarMail({ ids: mail.id.toString(), starred: false })
+      );
+    } else {
+      this.store.dispatch(
+        new StarMail({ ids: mail.id.toString(), starred: true })
+      );
+    }
+    mail.starred = !mail.starred;
   }
 
   moveToFolder(folder: MailFolderType) {
@@ -284,7 +281,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/mail/${this.mailFolder}`);
   }
 
-  openCreateFolderDialog(){
+  openCreateFolderDialog() {
     this.shareService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
   }
 
@@ -420,7 +417,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getMessageSummary(content: string, mail: Mail): string {
     const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
       this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
-    content +=  `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
+    content += `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
 
     return content;
   }

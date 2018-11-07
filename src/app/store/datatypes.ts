@@ -117,6 +117,7 @@ export interface MailState {
   inProgress?: boolean;
   decryptedContents: DecryptedContentState;
   unreadMailsCount: any;
+  noUnreadCountChange: boolean;
 }
 
 export interface DecryptedContent {
