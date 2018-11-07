@@ -262,7 +262,7 @@
           </div>
         </ng-container>
         <ng-container *ngSwitchDefault>
-          <div>
+          <div [ngClass]="{'last-child': childIndex === mail.children.length-1}">
             <section class="mailbox-section" id="{{childMail.id}}-print-section">
 
               <div class="ui-body is-bordered-bottom bg-faded cursor-pointer p-3 mail-header" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">

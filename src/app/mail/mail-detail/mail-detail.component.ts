@@ -63,6 +63,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
 
+              // Automatically scrolls to last element in the list 
+              // Class name .last-child is set inside the template
+              if (this.mail.children.length > 0) {
+                this.scrollTo(document.querySelector('.last-child'));
+              }
+
               // Mark mail as read
               if (!this.mail.read) {
                 this.markAsRead(this.mail.id);
@@ -380,12 +386,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   scrollTo(elementRef: any) {
-    setTimeout(() => {
-      window.scrollTo({
-        top: elementRef.offsetTop,
-        behavior: 'smooth'
-      });
-    }, 100);
+    if (elementRef) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: elementRef.offsetTop,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
   }
 
   private getPreviousMails(index: number, isChildMail: boolean) {
