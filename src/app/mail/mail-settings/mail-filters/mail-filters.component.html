@@ -54,6 +54,7 @@
                 <span *ngIf="createFilterForm.controls['name'].errors && createFilterForm.controls['name'].touched"
                       id="username-valid" class="validate-message">
                   <span *ngIf="createFilterForm.controls['name'].errors.required">Filter name is required.</span>
+                  <span *ngIf="createFilterForm.controls['name'].errors.maxlength">Filter name must be less than 64 characters.</span>
               </span>
               </div>
             </div>

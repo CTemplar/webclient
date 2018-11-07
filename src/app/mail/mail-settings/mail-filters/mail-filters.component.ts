@@ -54,7 +54,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         this.userState = userState;
       });
     this.createFilterForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.maxLength(64)]],
       filterText: [''],
       moveTo: [false],
       markAsRead: [false],
