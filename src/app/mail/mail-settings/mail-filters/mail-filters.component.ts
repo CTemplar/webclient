@@ -109,10 +109,12 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         mark_as_read: this.createFilterForm.get('markAsRead').value || false,
         mark_as_starred: this.createFilterForm.get('markAsStarred').value || false
       };
-      if (data.move_to && !data.folder) {
-        this.errorMessage = 'Please select a folder.';
-      } else if (data.condition && !data.filter_text) {
+      if (!data.condition || !data.parameter) {
+        this.errorMessage = 'Please select a condition.';
+      } else if (!data.filter_text) {
         this.errorMessage = 'Please enter some text or pattern.';
+      } else if (data.move_to && !data.folder) {
+        this.errorMessage = 'Please select a folder.';
       } else {
         if (data.id) {
           this.store.dispatch(new UpdateFilter(data));
