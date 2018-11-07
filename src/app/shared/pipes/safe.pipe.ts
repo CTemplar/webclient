@@ -13,6 +13,7 @@ export class SafePipe implements PipeTransform {
     switch (type.toLowerCase()) {
       case 'html':
         const xssValue = xss(value, {
+          stripIgnoreTag: true,
           onIgnoreTagAttr: (tag, name, value, isWhiteAttr) => {
             if (name === 'style') {
               const safeAttrValue = xss.safeAttrValue(tag, name, value, xss.cssFilter);
