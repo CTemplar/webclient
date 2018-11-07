@@ -51,7 +51,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
-    this.loadStripeScripts();
     for (let i = 6; i <= 50; i++) {
       this.availableStorage.push(i);
     }
@@ -88,6 +87,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.store.dispatch(new MembershipUpdate({ id }));
 
     if (this.openBillingInfoInModal) {
+      this.loadStripeScripts();
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
         windowClass: 'modal-lg users-action-modal'
@@ -95,6 +95,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       // Add payment type for prime plan only
       if (id === 1) {
+        this.loadStripeScripts();
         this.store.dispatch(new UpdateSignupData({
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
