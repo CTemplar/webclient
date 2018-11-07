@@ -5,6 +5,8 @@ import { Action } from '@ngrx/store';
 export enum MailActionTypes {
   GET_MAILS = '[Mail] GET_MAILS',
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
+  GET_UNREAD_MAILS_COUNT = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT',
+  GET_UNREAD_MAILS_COUNT_SUCCESS = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT_SUCCESS',
   GET_MAILBOXES = '[Mail] GET_MAILBOXES',
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
   GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
@@ -44,6 +46,18 @@ export class GetMails implements Action {
 
 export class GetMailsSuccess implements Action {
   readonly type = MailActionTypes.GET_MAILS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetUnreadMailsCount implements Action {
+  readonly type = MailActionTypes.GET_UNREAD_MAILS_COUNT;
+
+  constructor(public payload?: any) {}
+}
+
+export class GetUnreadMailsCountSuccess implements Action {
+  readonly type = MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS;
 
   constructor(public payload: any) {}
 }
@@ -228,6 +242,8 @@ export class SetDefaultMailboxSuccess implements Action {
 export type MailActions =
   | GetMails
   | GetMailsSuccess
+  | GetUnreadMailsCount
+  | GetUnreadMailsCountSuccess
   | GetMailboxes
   | GetMailboxesSuccess
   | GetMailDetail

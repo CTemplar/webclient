@@ -1201,7 +1201,7 @@
                         <div class="form-group form-group-sm">
                             <label for="deleteAccountEmail" class="d-block text-muted text-left hidden-sm-up">Email
                             </label>
-                            <input class="form-control text-dark" id="deleteAccountEmail"
+                            <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off"
                                    placeholder="Email" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
                             <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
                                   class="validate-message">The email is invalid.
@@ -1212,7 +1212,7 @@
                                 Password</label>
                             <div class="input-group">
                                 <input #deleteAccountPasswordInput class="form-control form-control-lg"
-                                       id="deleteAccountPassword"
+                                       id="deleteAccountPassword" autocomplete="new-password" name="deleteAccountPassword"
                                        formControlName="password" placeholder="Your Current Password" type="password"/>
                                 <span class="input-group-addon password-toggle bg-white text-muted"
                                       (click)="togglePassword(deleteAccountPasswordInput)">

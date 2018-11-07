@@ -1,5 +1,133 @@
 <app-progress-bar [active]="!mail"></app-progress-bar>
 
+<div class="mailbox-actionbar">
+  <div class="row">
+    <div class="col-12 col-sm-9 mailbox-actionbar-col">
+      <ul class="mailbox-actionbar-menu">
+        <li>
+          <a placement="top"
+             (click)="goBack()">
+            <i class="material-icons">keyboard_backspace</i>
+          </a>
+        </li>
+        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE">
+          <a class="border-right-0 border-radius-right-0" placement="top"
+             (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
+             [ngbTooltip]="'mail_list.move_to_archive' | translate">
+            <i class="icon icon-archive"></i>
+          </a>
+        </li>
+        <li class="pr-0 pl-0 hidden-xs-down" *ngIf="mailFolder !== mailFolderTypes.SPAM">
+          <a class="border-radius-0"
+             (click)="moveToFolder(mailFolderTypes.SPAM)"
+             placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate"
+             [ngClass]="{'border-right-0': mailFolder !== mailFolderTypes.TRASH}">
+            <i class="icon icon-warning"></i>
+          </a>
+        </li>
+        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.TRASH">
+          <a (click)="onDelete(mail)" class="border-radius-left-0" placement="top"
+             [ngbTooltip]="(mailFolder !== mailFolderTypes.TRASH) ? ('mail_list.move_to_trash' | translate) : ('mail_list.permanently_delete' | translate)">
+            <i class="icon icon-garbage"></i>
+          </a>
+        </li>
+        <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
+          <div ngbDropdown autoClose="outside">
+            <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button">
+              <i class="icon icon-more"></i>
+            </button>
+            <div ngbDropdownMenu class="mobiledOptionsDropdown" aria-labelledby="dropdownMoreOptions">
+              <ul class="more-xs-options-list">
+                <li>
+                  <a class="disabled">
+                    <i class="icon icon-warning"></i>
+                  </a>
+                </li>
+                <li class="btn-dropdown mailbox-dropdown folders-dropdown">
+                  <div ngbDropdown>
+                    <button ngbDropdownToggle class="disabledx" id="extraOptionsDropdownMenuButton" role="button">
+                      <i class="icon icon-folder"></i>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="extraOptionsDropdownMenuButton">
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
+                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
+                      </a>
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
+                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
+                      </a>
+                      <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
+                        <i class="icon icon-archive"></i><span translate="mail_sidebar.outbox">Outbox</span>
+                      </a>
+                      <ng-container *ngFor="let folder of customFolders; let i=index;">
+                        <a class="dropdown-item"
+                           *ngIf="mailFolder !== folder.name"
+                           (click)="moveToFolder(folder.name)">
+                          <i class="folder-color-box icon" [style.background]="folder.color"></i>
+                          <span class="folders-list-text">{{folder.name}}</span>
+                        </a>
+                      </ng-container>
+                      <span class="divider-item d-block"></span>
+                      <a class="dropdown-item" (click)="openCreateFolderDialog()">
+                        <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
+          <div ngbDropdown>
+            <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button" placement="top"
+                    [ngbTooltip]="'mail_list.move_to' | translate">
+              <i class="icon icon-folder"></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton" class="folder-dropdown">
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
+                <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
+              </a>
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
+                <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
+              </a>
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
+                <i class="icon icon-draft"></i><span translate="mail_sidebar.outbox">Outbox</span>
+              </a>
+              <ng-container *ngFor="let folder of customFolders; let i=index;">
+                <a class="dropdown-item"
+                   *ngIf="mailFolder !== folder.name"
+                   (click)="moveToFolder(folder.name)">
+                  <i class="folder-color-box icon" [style.background]="folder.color"></i>
+                  <span class="folders-list-text">{{folder.name}}</span>
+                </a>
+              </ng-container>
+
+              <span class="divider-item d-block"></span>
+              <a class="dropdown-item" (click)="openCreateFolderDialog()">
+                <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown pl-0">
+          <div ngbDropdown class="dropdown">
+            <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton"
+                    translate="mail_list.more">
+              More
+            </button>
+            <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
+              <a class="dropdown-item" (click)="markAsStarred()" translate="mail_list.add_star">Add star</a>
+              <a class="dropdown-item" (click)="markAsRead(mail.id)" translate="mail_list.mark_as_read">Mark as read</a>
+              <a class="dropdown-item" (click)="markAsRead(mail.id, false)" translate="mail_list.mark_as_unread">Mark as
+                unread</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!--Mail Info-->
 <ng-container *ngIf="mail">
   <section class="mailbox-section" id="{{mail.id}}-print-section">
@@ -13,7 +141,7 @@
       </h5>
 
       <div class="icon-holder is-floated right y-center">
-        <i class="icon icon-md icon-star-filled" (click)="ontoggleStarred(mail)"
+        <i class="icon icon-md icon-star-filled cursor-pointer" (click)="ontoggleStarred(mail)"
            [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
     </div>
@@ -72,7 +200,7 @@
                 <ng-container *ngIf="mail.sent_at; else createdAt">{{mail.sent_at | momentDate:'medium'}}</ng-container>
                 <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
               </label>
-              
+
             </div>
           </div>
         </div>
@@ -122,9 +250,9 @@
   </section>
 
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
-    <ng-container *ngIf="childMail.folder !== mailFolderType.TRASH">
+    <ng-container *ngIf="childMail.folder !== mailFolderTypes.TRASH">
       <ng-container [ngSwitch]="childMail.folder">
-        <ng-container *ngSwitchCase="mailFolderType.DRAFT">
+        <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
           <div class="ui-body">
             <div class="mail-composer is-borderd border-bottom-0 mt-2">
               <app-compose-mail [draftMail]="childMail"

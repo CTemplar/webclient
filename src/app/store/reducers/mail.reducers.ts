@@ -11,7 +11,8 @@ export function reducer(
     mailDetail: null,
     folders: new Map(),
     loaded: false,
-    decryptedContents: {}
+    decryptedContents: {},
+    unreadMailsCount: {},
   }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -37,6 +38,10 @@ export function reducer(
         mails,
         loaded: true,
       };
+    }
+
+    case MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS: {
+      return { ...state, unreadMailsCount: action.payload };
     }
 
     case MailActionTypes.MOVE_MAIL: {

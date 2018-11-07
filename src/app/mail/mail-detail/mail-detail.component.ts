@@ -4,11 +4,11 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import {DeleteMail, MoveMail, StarMail} from '../../store/actions';
+import { DeleteMail, GetUnreadMailsCount, MoveMail, StarMail } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailBoxesState, MailState } from '../../store/datatypes';
-import { Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { OpenPgpService } from '../../store/services';
+import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
+import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
 @TakeUntilDestroy()
@@ -24,21 +24,24 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   mail: Mail;
   composeMailData: any = {};
-  mailFolderType = MailFolderType;
+  mailFolderTypes = MailFolderType;
   decryptedContents: any = {};
   mailOptions: any = {};
   selectedMailToForward: Mail;
 
   parentMailCollapsed: boolean = true;
   childMailCollapsed: boolean[] = [];
+  mailFolder: MailFolderType;
+  customFolders: Folder[] = [];
 
-  private mailFolder: MailFolderType;
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
+  private userState: UserState;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
               private pgpService: OpenPgpService,
+              private shareService: SharedService,
               private router: Router,
               private dateTimeUtilService: DateTimeUtilService,
               private modalService: NgbModal) {
@@ -113,6 +116,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
       this.mailFolder = params['folder'] as MailFolderType;
 
+      this.store.select(state => state.user).takeUntil(this.destroyed$)
+        .subscribe((user: UserState) => {
+          this.customFolders = user.customFolders;
+          this.userState = user;
+        });
+
     });
   }
 
@@ -126,8 +135,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   //   return  filePathTokens[filePathTokens.length - 1];
   // }
 
-  private markAsRead(mailID: number) {
-    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read: true }));
+  markAsStarred() {
+    this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred: true }));
+  }
+
+  markAsRead(mailID: number, read: boolean = true) {
+    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
+    if (!read) {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    } else {
+      setTimeout(() => {
+        this.store.dispatch(new GetUnreadMailsCount());
+      }, 1000);
+    }
   }
 
   ngOnDestroy(): void {
@@ -248,6 +268,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   toggleGmailExtra(mail: Mail) {
     this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
+  }
+
+  moveToFolder(folder: MailFolderType) {
+    this.store.dispatch(new MoveMail({ ids: this.mail.id, folder }));
+  }
+
+  goBack() {
+    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+  }
+
+  openCreateFolderDialog(){
+    this.shareService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
   }
 
   onPrint(mail: Mail) {

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Angular Material
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 
 import { MailRoutingModule } from './mail-routing.module';
 // component
@@ -37,7 +37,8 @@ import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckboxModule,
   ],
   declarations: [
     MailComponent,

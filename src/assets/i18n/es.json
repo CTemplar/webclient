@@ -71,6 +71,8 @@
     "vacation_responder": "Respuesta automática",
     "security_settings": "Configuración de seguridad",
     "password": "Contraseña",
+    "new_password": "Nueva contraseña",
+    "confirm_new_password": "Confirmar nueva contraseña",
     "change_now": "Cambiar ahora",
     "last_time_changed": "Última vez cambiada",
     "recovery_email": "Email de recuperación",

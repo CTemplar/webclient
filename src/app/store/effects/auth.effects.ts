@@ -186,9 +186,10 @@ export class AuthEffects {
             new SnackPush({ message: 'Account deleted successfully.' }),
             new Logout()
           ]),
-          catchError((error) => [
-            new DeleteAccountFailure(error),
-            new SnackErrorPush({ message: 'Failed to delete account, please try again.' })])
+          catchError((errorResponse) => [
+            new DeleteAccountFailure(errorResponse),
+            new SnackErrorPush({ message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
+                'Failed to delete account, please try again.' })])
         );
     });
 

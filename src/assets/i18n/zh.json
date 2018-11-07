@@ -73,6 +73,8 @@
     "vacation_responder": "假期自动回复功能",
     "security_settings": "安全设置",
     "password": "密码",
+    "new_password": "新密码",
+    "confirm_new_password": "确认新密码",
     "change_now": "立即修改",
     "last_time_changed": "上次修改",
     "recovery_email": "恢复邮件",

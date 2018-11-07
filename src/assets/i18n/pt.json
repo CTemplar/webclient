@@ -73,6 +73,8 @@
     "vacation_responder": "Aviso de férias",
     "security_settings": "Configurações de segurança",
     "password": "Senha",
+    "new_password": "Nova senha",
+    "confirm_new_password": "Confirme a nova senha",
     "change_now": "Altere agora",
     "last_time_changed": "Atualização mais recente",
     "recovery_email": "Recuperar e-mail",
