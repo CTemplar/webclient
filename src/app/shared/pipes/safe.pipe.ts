@@ -9,9 +9,12 @@ export class SafePipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  public transform(value: any, type: string = ''): SafeHtml | SafeUrl {
+  public transform(value: any, type: string = '', fromEmail): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
+        if (fromEmail === 'support@ctemplar.com') {
+          return this.sanitizer.bypassSecurityTrustHtml(value);
+        }
         const xssValue = xss(value, {
           stripIgnoreTag: true,
           onIgnoreTagAttr: (tag, name, value, isWhiteAttr) => {

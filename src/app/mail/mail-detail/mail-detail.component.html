@@ -212,7 +212,7 @@
     <div class="ui-body" *ngIf="decryptedContents[mail.id]">
       <div [ngClass]="{'show_gmail_extra': mailOptions[mail.id]?.showGmailExtraContent}">
         <div class="msg-reply-content text-dark" id="{{mail.id}}-mail-content"
-           [innerHTML]="decryptedContents[mail.id] | safe: 'html'"></div>
+           [innerHTML]="decryptedContents[mail.id] | safe: 'html': mail.sender"></div>
            <a href="javascript:void(0)" (click)="toggleGmailExtra(mail)"
            *ngIf="decryptedContents[mail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[mail.id]?.indexOf('gmail_quote') > -1" >
              <div class="ellipsis-wrapper" placement="top"
