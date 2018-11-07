@@ -51,6 +51,7 @@
             <div class="col-sm-9">
               <div class="form-content-row mb-0">
                 <input class="form-control form-control-sm" id="filterName" type="text" formControlName="name"/>
+                <span class="validate-message" *ngIf="hasDuplicateFilterName">Filter name already exists.</span>
                 <span *ngIf="createFilterForm.controls['name'].errors && createFilterForm.controls['name'].touched"
                       id="username-valid" class="validate-message">
                   <span *ngIf="createFilterForm.controls['name'].errors.required">Filter name is required.</span>

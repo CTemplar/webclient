@@ -37,6 +37,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   createFilterData: any;
   errorMessage: string;
   selectedFilter: Filter;
+  hasDuplicateFilterName: boolean;
 
   private customFilterModalRef: NgbModalRef;
   private deleteFilterModalRef: NgbModalRef;
@@ -60,6 +61,10 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       markAsRead: [false],
       markAsStarred: [false]
     });
+    this.createFilterForm.get('name').valueChanges.takeUntil(this.destroyed$)
+      .subscribe((value) => {
+        this.checkFilterExist(value);
+      });
   }
 
   ngOnDestroy(): void {
@@ -67,9 +72,11 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
 
   openCustomFilterModal(selectedFilter?: Filter) {
     this.errorMessage = null;
+    this.hasDuplicateFilterName = false;
     this.createFilterForm.reset();
     if (selectedFilter) {
       this.createFilterData = { ...selectedFilter };
+      this.selectedFilter = selectedFilter;
       this.createFilterForm.get('name').setValue(selectedFilter.name);
       this.createFilterForm.get('filterText').setValue(selectedFilter.filter_text);
       this.createFilterForm.get('moveTo').setValue(selectedFilter.move_to);
@@ -77,6 +84,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       this.createFilterForm.get('markAsStarred').setValue(selectedFilter.mark_as_starred);
     } else {
       this.createFilterData = {};
+      this.selectedFilter = null;
     }
     this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
       centered: true,
@@ -86,7 +94,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.errorMessage = null;
-    if (this.createFilterForm.valid) {
+    if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
       const data = {
         ...this.createFilterData,
         name: this.createFilterForm.get('name').value,
@@ -125,4 +133,16 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     }
   }
 
+  private checkFilterExist(value: string) {
+    if (value) {
+      if (this.selectedFilter && this.selectedFilter.name.toLowerCase() === value.toLowerCase()) {
+        this.hasDuplicateFilterName = false;
+      } else if (this.filters.find(filter => value && filter.name.toLowerCase() === value.toLowerCase())) {
+        this.hasDuplicateFilterName = true;
+        return true;
+      }
+    }
+    this.hasDuplicateFilterName = false;
+    return false;
+  }
 }
