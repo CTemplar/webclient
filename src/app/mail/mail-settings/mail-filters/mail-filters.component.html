@@ -139,7 +139,7 @@
                           <i class="icon icon-{{folderIcons[createFilterData.folder] || 'icon-folder'}}"></i>
                           {{createFilterData.folder}}
                         </button>
-                        <div ngbDropdownMenu aria-labelledby="filterFolderDropdownMenuBtn">
+                        <div ngbDropdownMenu aria-labelledby="filterFolderDropdownMenuBtn" class="folder-dropdown">
                           <a (click)="createFilterData.folder = mailFolderType.INBOX" class="dropdown-item has-icon">
                             <i class="icon {{folderIcons[mailFolderType.INBOX]}}"></i>Inbox</a>
                           <a (click)="createFilterData.folder = mailFolderType.ARCHIVE" class="dropdown-item has-icon">
@@ -150,7 +150,7 @@
                             <i class="icon {{folderIcons[mailFolderType.TRASH]}}"></i>Trash</a>
                           <a *ngFor="let folder of customFolders" class="dropdown-item has-icon"
                              (click)="createFilterData.folder = folder.name">
-                            <i class="icon icon-folder"></i>{{folder.name}}</a>
+                            <i class="icon icon-folder"></i><p class="folder-dropdown-item">{{folder.name}}</p></a>
                         </div>
                       </div>
                     </div>
