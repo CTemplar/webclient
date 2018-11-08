@@ -125,7 +125,6 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         } else {
           this.store.dispatch(new CreateFilter(data));
         }
-        this.customFilterModalRef.dismiss();
       }
     }
   }
