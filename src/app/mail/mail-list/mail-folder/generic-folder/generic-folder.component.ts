@@ -153,6 +153,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       );
     }
     mail.starred = !mail.starred;
+    if (this.mailFolder === MailFolderType.STARRED) {
+      setTimeout(() => {
+        this.mails.splice(this.mails.indexOf(mail), 1);
+      }, 1000);
+    }
   }
 
   markAsStarred() {
