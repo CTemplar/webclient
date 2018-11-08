@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod --subresource-integrity",
-    "dev": "ng build --env=dev --output-hashing all --subresource-integrity",
+    "dev": "ng build --env=dev --output-hashing all",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
