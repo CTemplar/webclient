@@ -51,9 +51,11 @@
             <div class="col-sm-9">
               <div class="form-content-row mb-0">
                 <input class="form-control form-control-sm" id="filterName" type="text" formControlName="name"/>
+                <span class="validate-message" *ngIf="hasDuplicateFilterName">Filter name already exists.</span>
                 <span *ngIf="createFilterForm.controls['name'].errors && createFilterForm.controls['name'].touched"
                       id="username-valid" class="validate-message">
                   <span *ngIf="createFilterForm.controls['name'].errors.required">Filter name is required.</span>
+                  <span *ngIf="createFilterForm.controls['name'].errors.maxlength">Filter name must be less than 64 characters.</span>
               </span>
               </div>
             </div>
@@ -137,7 +139,7 @@
                                 id="filterFolderDropdownMenuBtn" role="button"
                                 [disabled]="!createFilterForm.controls['moveTo'].value">
                           <i class="icon icon-{{folderIcons[createFilterData.folder] || 'icon-folder'}}"></i>
-                          {{createFilterData.folder}}
+                          {{createFilterData.folder || 'Select folder'}}
                         </button>
                         <div ngbDropdownMenu aria-labelledby="filterFolderDropdownMenuBtn" class="folder-dropdown">
                           <a (click)="createFilterData.folder = mailFolderType.INBOX" class="dropdown-item has-icon">
@@ -186,7 +188,8 @@
       </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-      <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
+      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState?.inProgress">Submit</button>
+      <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </div>
   </form>
 </ng-template><!-- /.Add custom filter ends -->

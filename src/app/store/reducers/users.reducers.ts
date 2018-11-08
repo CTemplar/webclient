@@ -208,12 +208,12 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FILTER:
     case UsersActionTypes.UPDATE_FILTER:
     case UsersActionTypes.DELETE_FILTER: {
-      return { ...state, inProgress: true };
+      return { ...state, inProgress: true, filtersError: null };
     }
 
     case UsersActionTypes.CREATE_FILTER_SUCCESS: {
       state.filters = [...state.filters, action.payload];
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, filtersError: null };
     }
 
     case UsersActionTypes.UPDATE_FILTER_SUCCESS: {
@@ -223,18 +223,19 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         }
         return filter;
       });
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, filtersError: null };
     }
 
     case UsersActionTypes.DELETE_FILTER_SUCCESS: {
       state.filters = state.filters.filter(filter => filter.id !== action.payload.id);
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, filtersError: null };
     }
 
     case UsersActionTypes.CREATE_FILTER_FAILURE:
     case UsersActionTypes.UPDATE_FILTER_FAILURE:
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
-      return { ...state, inProgress: false };
+      const error = Object.keys(action.payload).map(key => `${key}: ${action.payload[key]}`).join(', ');
+      return { ...state, inProgress: false, filtersError: error };
     }
 
     default: {
