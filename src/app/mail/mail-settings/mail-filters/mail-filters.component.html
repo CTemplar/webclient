@@ -188,7 +188,8 @@
       </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-      <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
+      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState?.inProgress">Submit</button>
+      <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </div>
   </form>
 </ng-template><!-- /.Add custom filter ends -->

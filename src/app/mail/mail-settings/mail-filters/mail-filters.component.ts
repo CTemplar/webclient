@@ -52,6 +52,10 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       .subscribe((userState: UserState) => {
         this.filters = userState.filters;
         this.customFolders = userState.customFolders;
+        if (this.userState && this.userState.inProgress && !userState.inProgress && !userState.filtersError) {
+          this.customFilterModalRef.dismiss();
+        }
+        this.errorMessage = userState.filtersError;
         this.userState = userState;
       });
     this.createFilterForm = this.formBuilder.group({

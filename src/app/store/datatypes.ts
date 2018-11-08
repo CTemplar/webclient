@@ -65,6 +65,7 @@ export interface UserState {
   mailboxes: UserMailbox[];
   customFolders: Folder[];
   filters: Filter[];
+  filtersError?: any;
 }
 
 export interface Settings {
