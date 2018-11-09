@@ -18,6 +18,10 @@ export class SafePipe implements PipeTransform {
         }
         const xssValue = xss(value, {
           stripIgnoreTag: true,
+          onTag: (tag, html, options) => {
+            if (tag === 'a' && !(options && options['isClosing'] === true)) {
+            }
+          },
           onIgnoreTagAttr: (tag, name, value, isWhiteAttr) => {
             const safeAttrValue = xss.safeAttrValue(tag, name, value, new cssfilter.FilterCSS({
               onIgnoreAttr: (name, value, opts) => {
