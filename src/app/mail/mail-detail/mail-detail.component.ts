@@ -63,9 +63,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
 
-              // Automatically scrolls to last element in the list 
+              // Automatically scrolls to last element in the list
               // Class name .last-child is set inside the template
-              if (this.mail.children.length > 0) {
+              if (this.mail.children && this.mail.children.length > 0) {
                 this.scrollTo(document.querySelector('.last-child'));
               }
 
