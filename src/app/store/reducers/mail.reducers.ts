@@ -207,7 +207,7 @@ export function reducer(
     }
 
     default: {
-      return { ...state, noUnreadCountChange: true };
+      return state;
     }
   }
 }
