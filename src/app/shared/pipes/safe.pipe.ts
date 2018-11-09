@@ -38,6 +38,7 @@ export class SafePipe implements PipeTransform {
             if (tag === 'a' && !(options && options['isClosing'] === true)) {
               let htmlAttrs = '';
 
+              // "<a href='' target=''>" => "href='' target=''"
               const reg = /\s|\n|\t/;
               const match = reg.exec(html);
               const i = match ? match.index : -1;
