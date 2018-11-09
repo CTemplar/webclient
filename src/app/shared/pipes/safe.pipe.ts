@@ -16,6 +16,21 @@ export class SafePipe implements PipeTransform {
         if (fromEmail === 'support@ctemplar.com') {
           return this.sanitizer.bypassSecurityTrustHtml(value);
         }
+        const cssFilter = new cssfilter.FilterCSS({
+          onIgnoreAttr: (styleName, styleValue, opts) => {
+            const blackList = {
+              position: ['fixed']
+            };
+            if (blackList.hasOwnProperty(styleName)) {
+              const blackValList = blackList[styleName];
+              const val = styleValue.replace(/!important/g, '').trim();
+              if (blackValList.includes(val)) {
+                return '';
+              }
+            }
+            return styleName + ':' + xss.friendlyAttrValue(styleValue);
+          }
+        });
         const xssValue = xss(value, {
           stripIgnoreTag: true,
           stripIgnoreTagBody: ['script', 'style'],
@@ -32,21 +47,7 @@ export class SafePipe implements PipeTransform {
             }
           },
           onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
-            const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, new cssfilter.FilterCSS({
-              onIgnoreAttr: (styleName, styleValue, opts) => {
-                const blackList = {
-                  position: ['fixed']
-                };
-                if (blackList.hasOwnProperty(styleName)) {
-                  const blackValList = blackList[styleName];
-                  const val = styleValue.replace(/!important/g, '').trim();
-                  if (blackValList.includes(val)) {
-                    return '';
-                  }
-                }
-                return styleName + ':' + styleValue;
-              }
-            }));
+            const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
             return attrName + '="' + safeAttrValue + '"';
           }
         });
