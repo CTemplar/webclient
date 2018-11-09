@@ -18,27 +18,28 @@ export class SafePipe implements PipeTransform {
         }
         const xssValue = xss(value, {
           stripIgnoreTag: true,
+          stripIgnoreTagBody: ['script', 'style'],
           onTag: (tag, html, options) => {
             if (tag === 'a' && !(options && options['isClosing'] === true)) {
             }
           },
-          onIgnoreTagAttr: (tag, name, value, isWhiteAttr) => {
-            const safeAttrValue = xss.safeAttrValue(tag, name, value, new cssfilter.FilterCSS({
-              onIgnoreAttr: (name, value, opts) => {
+          onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
+            const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, new cssfilter.FilterCSS({
+              onIgnoreAttr: (styleName, styleValue, opts) => {
                 const blackList = {
                   position: ['fixed']
                 };
-                if (blackList.hasOwnProperty(name)) {
-                  const blackValList = blackList[name];
-                  const val = value.replace(/!important/g, '').trim();
+                if (blackList.hasOwnProperty(styleName)) {
+                  const blackValList = blackList[styleName];
+                  const val = styleValue.replace(/!important/g, '').trim();
                   if (blackValList.includes(val)) {
                     return '';
                   }
                 }
-                return name + ':' + value;
+                return styleName + ':' + styleValue;
               }
             }));
-            return name + '="' + safeAttrValue + '"';
+            return attrName + '="' + safeAttrValue + '"';
           }
         });
         return this.sanitizer.bypassSecurityTrustHtml(xssValue);
