@@ -54,7 +54,8 @@ export class SafePipe implements PipeTransform {
                 }
 
                 // call `onTagAttr()`
-                const whiteAttrList = xss.getDefaultWhiteList[tag] || [];
+                const whiteList = xss.getDefaultWhiteList();
+                const whiteAttrList = whiteList[tag] || [];
                 const isWhiteAttr = whiteAttrList.indexOf(attrName) !== -1;
                 const ret1 = xss.onTagAttr(tag, attrName, attrValue, isWhiteAttr) || '';
                 if (ret1 !== '') {
