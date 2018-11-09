@@ -13,6 +13,7 @@ export function reducer(
     loaded: false,
     decryptedContents: {},
     unreadMailsCount: {},
+    noUnreadCountChange: true,
   }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -21,6 +22,7 @@ export function reducer(
         ...state,
         loaded: (mails && !action.payload.forceReload) ? true : false,
         mails: mails ? mails : [],
+        noUnreadCountChange: true,
       };
     }
 
@@ -37,15 +39,19 @@ export function reducer(
         ...state,
         mails,
         loaded: true,
+        noUnreadCountChange: true,
       };
     }
 
+    case MailActionTypes.GET_UNREAD_MAILS_COUNT: {
+      return { ...state, noUnreadCountChange: false };
+    }
     case MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS: {
-      return { ...state, unreadMailsCount: action.payload };
+      return { ...state, unreadMailsCount: action.payload, noUnreadCountChange: false, };
     }
 
     case MailActionTypes.MOVE_MAIL: {
-      return { ...state, inProgress: true };
+      return { ...state, inProgress: true, noUnreadCountChange: true };
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
@@ -63,7 +69,7 @@ export function reducer(
           }
         });
       }
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
@@ -89,6 +95,7 @@ export function reducer(
       return {
         ...state,
         mails: mails,
+        noUnreadCountChange: true,
       };
     }
 
@@ -103,7 +110,7 @@ export function reducer(
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = {...state.mailDetail, read: action.payload.read};
       }
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
@@ -114,26 +121,28 @@ export function reducer(
         }
         return mail;
       });
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
       state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
-      return { ...state, inProgress: false };
+      return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
       return {
         ...state,
-        mailDetail: action.payload
+        mailDetail: action.payload,
+        noUnreadCountChange: true,
       };
     }
 
     case MailActionTypes.GET_MAIL_DETAIL: {
       return {
         ...state,
-        mailDetail: null
+        mailDetail: null,
+        noUnreadCountChange: true,
       };
     }
 
@@ -148,6 +157,7 @@ export function reducer(
         ...state,
         mailDetail: null,
         decryptedContents: { ...state.decryptedContents },
+        noUnreadCountChange: true,
       };
     }
 
@@ -158,7 +168,7 @@ export function reducer(
           .filter(child => !(child.id === action.payload.id && child.folder === MailFolderType.DRAFT));
         state.mailDetail.children = [...state.mailDetail.children, action.payload];
       }
-      return { ...state };
+      return { ...state, noUnreadCountChange: true };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
@@ -179,7 +189,7 @@ export function reducer(
           inProgress: action.payload.isPGPInProgress
         };
       }
-      return { ...state, decryptedContents: { ...state.decryptedContents } };
+      return { ...state, decryptedContents: { ...state.decryptedContents }, noUnreadCountChange: true };
     }
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
@@ -193,11 +203,11 @@ export function reducer(
       if (newEntry && state.currentFolder === action.payload.folder) {
         state.mails = [...state.mails, action.payload];
       }
-      return { ...state, mails: [...state.mails] };
+      return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 
     default: {
-      return state;
+      return { ...state, noUnreadCountChange: true };
     }
   }
 }

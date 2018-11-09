@@ -73,6 +73,8 @@
     "vacation_responder": "Vacation responder",
     "security_settings": "Security settings",
     "password": "Password",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
     "change_now": "Change now",
     "last_time_changed": "Last time changed",
     "recovery_email": "Recovery email",

@@ -73,6 +73,8 @@
     "vacation_responder": "Répondeur en période de vacances",
     "security_settings": "Paramètres de sécurité",
     "password": "Mot de passe",
+    "new_password": "nouveau mot de passe",
+    "confirm_new_password": "Confirmer le nouveau mot de passe",
     "change_now": "Changez maintenant",
     "last_time_changed": "Dernière modification",
     "recovery_email": "Email de récupération",

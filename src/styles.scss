@@ -389,6 +389,8 @@ button[disabled] {
   border: none !important;
   background-color: #e3f1fd;
   font-size: 14px;
+  position: relative;
+  z-index: 1;
   i {
     vertical-align: middle;
   }
@@ -429,11 +431,19 @@ app-mail-detail {
   }
 }
 
-
 .mail-checkbox {
   mat-checkbox {
     label {
       margin-bottom: 0 !important;
     }
+
+    .mat-checkbox-frame {
+      border: 2px solid #cccaca;
+    }
   }
+}
+
+.show-ellipses {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -73,6 +73,8 @@
     "vacation_responder": "Vakantie antwoord",
     "security_settings": "Veiligheidsinstellingen",
     "password": "Wachtwoord",
+    "new_password": "nieuw paswoord",
+    "confirm_new_password": "Bevestig nieuw wachtwoord",
     "change_now": "Nu wijzigen",
     "last_time_changed": "Laatste keer gewijzigd",
     "recovery_email": "Herstel email",

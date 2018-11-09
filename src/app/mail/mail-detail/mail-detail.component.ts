@@ -28,6 +28,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   decryptedContents: any = {};
   mailOptions: any = {};
   selectedMailToForward: Mail;
+
+  parentMailCollapsed: boolean = true;
   childMailCollapsed: boolean[] = [];
   mailFolder: MailFolderType;
   customFolders: Folder[] = [];
@@ -49,7 +51,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
-        if (mailState.mailDetail) {
+        if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
@@ -61,6 +63,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
 
+              // Automatically scrolls to last element in the list 
+              // Class name .last-child is set inside the template
+              if (this.mail.children.length > 0) {
+                this.scrollTo(document.querySelector('.last-child'));
+              }
+
               // Mark mail as read
               if (!this.mail.read) {
                 this.markAsRead(this.mail.id);
@@ -71,10 +79,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
           if (this.mail.children) {
-            
-            /**
-             * Collapse all emails by default
-             */
+            this.parentMailCollapsed = true;
+            // Collapse all emails by default
             this.childMailCollapsed.fill(true, 0, this.mail.children.length);
             // Do not collapse the last email in the list
             this.childMailCollapsed[this.mail.children.length - 1] = false;
@@ -95,6 +101,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 this.mailOptions[child.id] = {};
               }
             });
+          } else {
+            this.parentMailCollapsed = false;
           }
         }
       });
@@ -251,21 +259,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/mail/${this.mailFolder}`);
     }
   }
-    ontoggleStarred(mail: Mail) {
-        if (mail.starred) {
-            this.store.dispatch(
-                new StarMail({ ids: mail.id.toString(), starred: false })
-            );
-        } else {
-            this.store.dispatch(
-                new StarMail({ ids: mail.id.toString(), starred: true })
-            );
-        }
-        mail.starred = !mail.starred;
-    }
 
-  toggleGmailExtra(mail: Mail) {
-    this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
+  ontoggleStarred(mail: Mail) {
+    if (mail.starred) {
+      this.store.dispatch(
+        new StarMail({ ids: mail.id.toString(), starred: false })
+      );
+    } else {
+      this.store.dispatch(
+        new StarMail({ ids: mail.id.toString(), starred: true })
+      );
+    }
+    mail.starred = !mail.starred;
   }
 
   moveToFolder(folder: MailFolderType) {
@@ -276,7 +281,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/mail/${this.mailFolder}`);
   }
 
-  openCreateFolderDialog(){
+  openCreateFolderDialog() {
     this.shareService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
   }
 
@@ -378,12 +383,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   scrollTo(elementRef: any) {
-    setTimeout(() => {
-      window.scrollTo({
-        top: elementRef.offsetTop,
-        behavior: 'smooth'
-      });
-    }, 100);
+    if (elementRef) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: elementRef.offsetTop,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
   }
 
   private getPreviousMails(index: number, isChildMail: boolean) {
@@ -410,7 +417,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getMessageSummary(content: string, mail: Mail): string {
     const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
       this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
-    content +=  `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
+    content += `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
 
     return content;
   }

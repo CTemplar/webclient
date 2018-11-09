@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --prod --subresource-integrity",
     "dev": "ng build --env=dev --output-hashing all",
     "test": "ng test",
     "lint": "ng lint",

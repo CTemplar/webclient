@@ -73,6 +73,8 @@
     "vacation_responder": "Ferðalög",
     "security_settings": "Öryggisstillingar",
     "password": "Lykilorð",
+    "new_password": "nýtt lykilorð",
+    "confirm_new_password": "Staðfestu nýtt lykilorð",
     "change_now": "Breyta núna",
     "last_time_changed": "Síðasta skipti breytt",
     "recovery_email": "Bati tölvupóstur",
