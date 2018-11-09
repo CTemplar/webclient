@@ -51,6 +51,28 @@ export class SafePipe implements PipeTransform {
                   containsTargetAttr = true;
                   return attrName + '="_new"';
                 }
+
+                // call `onTagAttr()`
+                const whiteAttrList = xss.getDefaultWhiteList[tag] || [];
+                const isWhiteAttr = whiteAttrList.indexOf(attrName) !== -1;
+                const ret1 = xss.onTagAttr(tag, attrName, attrValue, isWhiteAttr) || '';
+                if (ret1 !== '') {
+                  return ret1;
+                }
+
+                if (isWhiteAttr) {
+                  // call `safeAttrValue()`
+                  attrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
+                  if (attrValue) {
+                    return attrName + '="' + attrValue + '"';
+                  } else {
+                    return attrName;
+                  }
+                } else {
+                  // call `onIgnoreTagAttr()`
+                  const ret2 = xss.onIgnoreTagAttr(tag, attrName, attrValue, isWhiteAttr) || '';
+                  return ret2;
+                }
               });
 
               if (!containsTargetAttr) {
