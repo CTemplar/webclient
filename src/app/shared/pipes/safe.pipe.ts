@@ -21,6 +21,14 @@ export class SafePipe implements PipeTransform {
           stripIgnoreTagBody: ['script', 'style'],
           onTag: (tag, html, options) => {
             if (tag === 'a' && !(options && options['isClosing'] === true)) {
+              let htmlAttrs = '';
+
+              const reg = /\s|\n|\t/;
+              const match = reg.exec(html);
+              const i = match ? match.index : -1;
+              if (i !== -1) {
+                htmlAttrs = html.slice(i + 1, -1).trim();
+              }
             }
           },
           onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
