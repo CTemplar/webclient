@@ -44,8 +44,14 @@ export class SafePipe implements PipeTransform {
               if (i !== -1) {
                 htmlAttrs = html.slice(i + 1, -1).trim();
               }
+
+              let containsTargetAttr = false;
               let attrsHtml = xss.parseAttr(htmlAttrs, (attrName, attrValue) => {
               });
+
+              if (!containsTargetAttr) {
+                attrsHtml = attrsHtml + ' target="_new"';
+              }
 
               let outputHtml = '<' + tag;
               if (attrsHtml) {
