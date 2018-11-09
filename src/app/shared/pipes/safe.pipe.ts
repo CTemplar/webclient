@@ -47,6 +47,10 @@ export class SafePipe implements PipeTransform {
 
               let containsTargetAttr = false;
               let attrsHtml = xss.parseAttr(htmlAttrs, (attrName, attrValue) => {
+                if (attrName === 'target') {
+                  containsTargetAttr = true;
+                  return attrName + '="_new"';
+                }
               });
 
               if (!containsTargetAttr) {
