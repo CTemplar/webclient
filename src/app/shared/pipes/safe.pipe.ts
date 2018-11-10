@@ -50,7 +50,7 @@ export class SafePipe implements PipeTransform {
               let attrsHtml = xss.parseAttr(htmlAttrs, (attrName, attrValue) => {
                 if (attrName === 'target') {
                   containsTargetAttr = true;
-                  return attrName + '="_new"';
+                  return attrName + '="_blank"';
                 }
 
                 // call `onTagAttr()`
@@ -78,7 +78,7 @@ export class SafePipe implements PipeTransform {
               });
 
               if (!containsTargetAttr) {
-                attrsHtml = attrsHtml + ' target="_new"';
+                attrsHtml = attrsHtml + ' target="_blank"';
               }
 
               let outputHtml = '<' + tag;
