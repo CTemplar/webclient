@@ -44,10 +44,6 @@
 }
 
 .l-block-header {
-	strong	{
-		font-weight: 300;
-	}
-
 	span {
 		font-weight: 900;
 	}
@@ -62,8 +58,6 @@
 
 	@include media(">sm") {
 		margin-bottom: 3rem;
-		font-weight: 300;
-        font-size: 1.75rem;
 	}
 }
 .l-mediakit-block-group .text-secondary{

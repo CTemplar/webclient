@@ -9,7 +9,7 @@
       <ul class="ui-list ui-list-styled list-styled">
         <li *ngFor="let filter of filters" class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
-            <div class="col-10 col-sm-8">
+            <div class="col-10 col-sm-8 show-ellipses">
               {{filter.name}}
             </div>
             <div class="col-2 col-sm-4">
@@ -51,9 +51,11 @@
             <div class="col-sm-9">
               <div class="form-content-row mb-0">
                 <input class="form-control form-control-sm" id="filterName" type="text" formControlName="name"/>
+                <span class="validate-message" *ngIf="hasDuplicateFilterName">Filter name already exists.</span>
                 <span *ngIf="createFilterForm.controls['name'].errors && createFilterForm.controls['name'].touched"
                       id="username-valid" class="validate-message">
                   <span *ngIf="createFilterForm.controls['name'].errors.required">Filter name is required.</span>
+                  <span *ngIf="createFilterForm.controls['name'].errors.maxlength">Filter name must be less than 64 characters.</span>
               </span>
               </div>
             </div>
@@ -137,9 +139,9 @@
                                 id="filterFolderDropdownMenuBtn" role="button"
                                 [disabled]="!createFilterForm.controls['moveTo'].value">
                           <i class="icon icon-{{folderIcons[createFilterData.folder] || 'icon-folder'}}"></i>
-                          {{createFilterData.folder}}
+                          {{createFilterData.folder || 'Select folder'}}
                         </button>
-                        <div ngbDropdownMenu aria-labelledby="filterFolderDropdownMenuBtn">
+                        <div ngbDropdownMenu aria-labelledby="filterFolderDropdownMenuBtn" class="folder-dropdown">
                           <a (click)="createFilterData.folder = mailFolderType.INBOX" class="dropdown-item has-icon">
                             <i class="icon {{folderIcons[mailFolderType.INBOX]}}"></i>Inbox</a>
                           <a (click)="createFilterData.folder = mailFolderType.ARCHIVE" class="dropdown-item has-icon">
@@ -150,7 +152,7 @@
                             <i class="icon {{folderIcons[mailFolderType.TRASH]}}"></i>Trash</a>
                           <a *ngFor="let folder of customFolders" class="dropdown-item has-icon"
                              (click)="createFilterData.folder = folder.name">
-                            <i class="icon icon-folder"></i>{{folder.name}}</a>
+                            <i class="icon icon-folder"></i><p class="folder-dropdown-item">{{folder.name}}</p></a>
                         </div>
                       </div>
                     </div>
@@ -186,7 +188,8 @@
       </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-      <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
+      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState?.inProgress">Submit</button>
+      <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </div>
   </form>
 </ng-template><!-- /.Add custom filter ends -->

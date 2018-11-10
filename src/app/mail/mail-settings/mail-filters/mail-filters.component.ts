@@ -37,6 +37,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   createFilterData: any;
   errorMessage: string;
   selectedFilter: Filter;
+  hasDuplicateFilterName: boolean;
 
   private customFilterModalRef: NgbModalRef;
   private deleteFilterModalRef: NgbModalRef;
@@ -51,15 +52,29 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       .subscribe((userState: UserState) => {
         this.filters = userState.filters;
         this.customFolders = userState.customFolders;
+        if (this.userState && this.userState.inProgress && !userState.inProgress && !userState.filtersError) {
+          this.customFilterModalRef.dismiss();
+        }
+        this.errorMessage = userState.filtersError;
         this.userState = userState;
       });
     this.createFilterForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.maxLength(64)]],
       filterText: [''],
       moveTo: [false],
       markAsRead: [false],
       markAsStarred: [false]
     });
+    this.createFilterForm.get('name').valueChanges.takeUntil(this.destroyed$)
+      .subscribe((value) => {
+        this.checkFilterExist(value);
+      });
+    this.createFilterForm.get('moveTo').valueChanges.takeUntil(this.destroyed$)
+      .subscribe((value) => {
+        if (!value && this.createFilterData) {
+          this.createFilterData.folder = null;
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -67,9 +82,11 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
 
   openCustomFilterModal(selectedFilter?: Filter) {
     this.errorMessage = null;
+    this.hasDuplicateFilterName = false;
     this.createFilterForm.reset();
     if (selectedFilter) {
       this.createFilterData = { ...selectedFilter };
+      this.selectedFilter = selectedFilter;
       this.createFilterForm.get('name').setValue(selectedFilter.name);
       this.createFilterForm.get('filterText').setValue(selectedFilter.filter_text);
       this.createFilterForm.get('moveTo').setValue(selectedFilter.move_to);
@@ -77,6 +94,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       this.createFilterForm.get('markAsStarred').setValue(selectedFilter.mark_as_starred);
     } else {
       this.createFilterData = {};
+      this.selectedFilter = null;
     }
     this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
       centered: true,
@@ -86,7 +104,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.errorMessage = null;
-    if (this.createFilterForm.valid) {
+    if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
       const data = {
         ...this.createFilterData,
         name: this.createFilterForm.get('name').value,
@@ -95,17 +113,18 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         mark_as_read: this.createFilterForm.get('markAsRead').value || false,
         mark_as_starred: this.createFilterForm.get('markAsStarred').value || false
       };
-      if (data.move_to && !data.folder) {
-        this.errorMessage = 'Please select a folder.';
-      } else if (data.condition && !data.filter_text) {
+      if (!data.condition || !data.parameter) {
+        this.errorMessage = 'Please select a condition.';
+      } else if (!data.filter_text) {
         this.errorMessage = 'Please enter some text or pattern.';
+      } else if (data.move_to && !data.folder) {
+        this.errorMessage = 'Please select a folder.';
       } else {
         if (data.id) {
           this.store.dispatch(new UpdateFilter(data));
         } else {
           this.store.dispatch(new CreateFilter(data));
         }
-        this.customFilterModalRef.dismiss();
       }
     }
   }
@@ -125,4 +144,16 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     }
   }
 
+  private checkFilterExist(value: string) {
+    if (value) {
+      if (this.selectedFilter && this.selectedFilter.name.toLowerCase() === value.toLowerCase()) {
+        this.hasDuplicateFilterName = false;
+      } else if (this.filters.find(filter => value && filter.name.toLowerCase() === value.toLowerCase())) {
+        this.hasDuplicateFilterName = true;
+        return true;
+      }
+    }
+    this.hasDuplicateFilterName = false;
+    return false;
+  }
 }

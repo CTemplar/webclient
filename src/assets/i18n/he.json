@@ -73,6 +73,8 @@
     "vacation_responder": "מגיב חופשה",
     "security_settings": "הגדרות אבטחה",
     "password": "סיסמה",
+    "new_password": "סיסמה חדשה",
+    "confirm_new_password": "תאשר סיסמא חדשה",
     "change_now": "החלף עכשיו",
     "last_time_changed": "הפעם האחרונה השתנתה",
     "recovery_email": "דואר אלקטרוני לשיחזור",

@@ -184,8 +184,7 @@
         <!-- Check box -->
         <td class="mail-checkbox">
           <div class="fancy-field-group">
-            <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" [ngModel]="mail.marked" (ngModelChange)="toggleEmailSelection(mail, $event)"/>
-            <label for={{mail.id}} class="fancy-field-empty"></label>
+            <mat-checkbox [checked]="mail.marked" (change)="toggleEmailSelection(mail, $event.checked)"></mat-checkbox>
           </div>
         </td>
 

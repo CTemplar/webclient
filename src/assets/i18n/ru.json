@@ -73,6 +73,8 @@
     "vacation_responder": "Автоответчик",
     "security_settings": "Настройки безопасности",
     "password": "Пароль",
+    "new_password": "новый пароль",
+    "confirm_new_password": "Подтвердите новый пароль",
     "change_now": "Изменить",
     "last_time_changed": "Последнее изменение",
     "recovery_email": "Адрес эл. почты для восстановления пароля",

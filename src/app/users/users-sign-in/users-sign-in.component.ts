@@ -158,7 +158,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       data.username = index > -1 ? data.username.substring(0, index) : data.username;
       this.store.dispatch(new RecoverPassword(data));
       this.resetPasswordForm.get('username').setValue(data.username);
-      this.isRecoverFormSubmitted = true;
       this.showResetPasswordFormErrors = false;
     }
   }
@@ -196,6 +195,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       password: data.password,
       ...this.openPgpService.getUserKeys(),
     };
+    this.isRecoverFormSubmitted = true;
     this.store.dispatch(new ResetPassword(requestData));
   }
 

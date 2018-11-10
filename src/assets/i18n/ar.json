@@ -73,6 +73,8 @@
     "vacation_responder": " المجيب التلقائي ",
     "security_settings": " إعدادات الأمان ",
     "password": "كلمة المرور",
+    "new_password": "كلمة السر الجديدة",
+    "confirm_new_password": "تأكيد كلمة المرور الجديدة",
     "change_now": "تغيير الآن",
     "last_time_changed": "التعديل الأخير",
     "recovery_email": " استرداد البريد الإلكتروني",

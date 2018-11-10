@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
+import * as xss from 'xss';
+import * as cssfilter from 'cssfilter';
 
 @Pipe({
   name: 'safe',
@@ -8,10 +10,35 @@ export class SafePipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  public transform(value: any, type: string = ''): SafeHtml | SafeUrl {
+  public transform(value: any, type: string = '', fromEmail): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
-        return this.sanitizer.bypassSecurityTrustHtml(value);
+        if (fromEmail === 'support@ctemplar.com') {
+          return this.sanitizer.bypassSecurityTrustHtml(value);
+        }
+        const xssValue = xss(value, {
+          stripIgnoreTag: true,
+          stripIgnoreTagBody: ['script', 'style'],
+          onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
+            const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, new cssfilter.FilterCSS({
+              onIgnoreAttr: (styleName, styleValue, opts) => {
+                const blackList = {
+                  position: ['fixed']
+                };
+                if (blackList.hasOwnProperty(styleName)) {
+                  const blackValList = blackList[styleName];
+                  const val = styleValue.replace(/!important/g, '').trim();
+                  if (blackValList.includes(val)) {
+                    return '';
+                  }
+                }
+                return styleName + ':' + styleValue;
+              }
+            }));
+            return attrName + '="' + safeAttrValue + '"';
+          }
+        });
+        return this.sanitizer.bypassSecurityTrustHtml(xssValue);
       case 'url':
         return this.sanitizer.bypassSecurityTrustUrl(value);
       default:

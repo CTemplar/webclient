@@ -65,6 +65,7 @@ export interface UserState {
   mailboxes: UserMailbox[];
   customFolders: Folder[];
   filters: Filter[];
+  filtersError?: any;
 }
 
 export interface Settings {
@@ -116,6 +117,8 @@ export interface MailState {
   loaded?: boolean;
   inProgress?: boolean;
   decryptedContents: DecryptedContentState;
+  unreadMailsCount: any;
+  noUnreadCountChange: boolean;
 }
 
 export interface DecryptedContent {
