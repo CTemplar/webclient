@@ -28,7 +28,11 @@ export class SafePipe implements PipeTransform {
                 return '';
               }
             }
-            return styleName + ':' + xss.friendlyAttrValue(styleValue);
+            const safeAttrValue = cssfilter.safeAttrValue(styleName, styleValue);
+            if (safeAttrValue) {
+              return styleName + ':' + safeAttrValue;
+            }
+            return '';
           }
         });
         const xssValue = xss(value, {
