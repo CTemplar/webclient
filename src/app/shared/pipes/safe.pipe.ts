@@ -28,7 +28,11 @@ export class SafePipe implements PipeTransform {
                 return '';
               }
             }
-            return styleName + ':' + xss.friendlyAttrValue(styleValue);
+            const safeAttrValue = cssfilter.safeAttrValue(styleName, styleValue);
+            if (safeAttrValue) {
+              return styleName + ':' + safeAttrValue;
+            }
+            return '';
           }
         });
         const xssValue = xss(value, {
@@ -90,7 +94,19 @@ export class SafePipe implements PipeTransform {
             }
           },
           onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
-            const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
+            let safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
+            if (attrName !== 'style') {
+              // Encode chars '(' and ')' to prevent function calls in scripts.
+              // Encode char '.' to prevent access to members or properties in scripts.
+              // Encode char '=' to prevent changing members or properties in scripts.
+              // Encode char '&' to prevent further decoding of the above encoded characters.
+              safeAttrValue = safeAttrValue
+                .replace(/\(/g, '&lpar;')
+                .replace(/\)/g, '&rpar;')
+                .replace(/\./g, '&period;')
+                .replace(/=/g, '&equals;')
+                .replace(/&/g, '&amp;');
+            }
             return attrName + '="' + safeAttrValue + '"';
           }
         });
