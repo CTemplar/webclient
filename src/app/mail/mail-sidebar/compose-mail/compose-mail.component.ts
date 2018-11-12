@@ -396,8 +396,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.userState.isPrime && sizeInMBs > 25) {
       this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 25MB.' }));
-    } else if (!this.userState.isPrime && sizeInMBs > 10) {
-      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 10MB.' }));
+    } else if (!this.userState.isPrime && sizeInMBs > 5) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 5MB. Please upgrade your account to prime to send larger attachments.' }));
     } else {
       const attachment: Attachment = {
         draftId: this.draftId,
@@ -476,14 +476,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
     } else {
-      if (this.mailData.receiver.length > 5) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "TO" addresses are allowed.' }));
+      if (this.mailData.receiver.length > 20) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "TO" addresses are allowed.' }));
         return;
-      } else if (this.mailData.cc.length > 5) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "CC" addresses are allowed.' }));
+      } else if (this.mailData.cc.length > 20) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "CC" addresses are allowed.' }));
         return;
-      } else if (this.mailData.bcc.length > 5) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "BCC" addresses are allowed.' }));
+      } else if (this.mailData.bcc.length > 1) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 1 "BCC" address is allowed. Please upgrade your account to prime to add more addresses.' }));
         return;
       }
     }
