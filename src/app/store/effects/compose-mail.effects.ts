@@ -134,7 +134,7 @@ export class ComposeMailEffects {
             ];
           }),
           catchError(errorResponse => [new SnackErrorPush({ message: errorResponse.error && errorResponse.error.detail ?
-              errorResponse.error.detail : 'Failed to send mail.' })])
+              errorResponse.error.detail : 'Failed to send mail.', duration: 10000 })])
         );
     });
 
