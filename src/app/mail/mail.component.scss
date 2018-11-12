@@ -1215,9 +1215,7 @@
   @include media("<sm") {
     &.show-on-mobile{
       .fancy-field-group{
-        position: absolute;
-        top: 18px;
-        left: 15px;
+        margin-top: -18px;
       }
     }
     .mail-from-name{

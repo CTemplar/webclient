@@ -73,6 +73,8 @@
     "vacation_responder": "Vakantie antwoord",
     "security_settings": "Veiligheidsinstellingen",
     "password": "Wachtwoord",
+    "new_password": "nieuw paswoord",
+    "confirm_new_password": "Bevestig nieuw wachtwoord",
     "change_now": "Nu wijzigen",
     "last_time_changed": "Laatste keer gewijzigd",
     "recovery_email": "Herstel email",
@@ -111,8 +113,8 @@
       "info": "Uw donatie helpt ons om meer gebruikers te ondersteunen en CTemplar verder te ontwikkelen als gratis en open source software.",
       "make_a_donation": "Doe een donatie",
       "select_amount": "Selecteer het bedrag:",
-      "name_on_card": "Naam op de kaart:",
-      "card_number": "Kaartnummer:",
+      "name_on_card": "Naam op de kaart",
+      "card_number": "Kaartnummer",
       "expiry_date:": "Vervaldatum:",
       "security_code": "Beveiligingscode:"
     },
@@ -164,8 +166,6 @@
     "signup": "Aanmelden"
   },
   "home_page": {
-    "take_back_liberty": "Beveilig  uw  privacy  met  de  meest  geavanceerde  versleutelde  e-maildienst  ter  wereld.",
-    "send_unbreakable_email": "Stuur  uw  e-mails  en  beveilig  uw  professionele  en  persoonlijke  gegevens  met  innovatieve  versleuteling  en  opslag  op  IJslandse  servers,  beschermd  door  's  werelds  sterkste  wetten  op  vlak  van  bescherming  van  gegevens.",
     "signup_for_free": "Gratis aanmelden",
     "latest_from_our_blog": "Laatste van <strong>Onze blog</strong>",
     "related_post": "Gerelateerd <strong>Post</strong>",

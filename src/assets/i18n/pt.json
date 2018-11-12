@@ -73,6 +73,8 @@
     "vacation_responder": "Aviso de férias",
     "security_settings": "Configurações de segurança",
     "password": "Senha",
+    "new_password": "Nova senha",
+    "confirm_new_password": "Confirme a nova senha",
     "change_now": "Altere agora",
     "last_time_changed": "Atualização mais recente",
     "recovery_email": "Recuperar e-mail",
@@ -111,8 +113,8 @@
       "info": "Sua doação nos ajuda a dar suporte a mais usuários e no contínuo desenvolvimento de CTemplar como um software livre e de fonte aberta.",
       "make_a_donation": "Faça uma doação",
       "select_amount": "Selecione o valor:",
-      "name_on_card": "Nome conforme consta no cartão:",
-      "card_number": "Número do cartão:",
+      "name_on_card": "Nome conforme consta no cartão",
+      "card_number": "Número do cartão",
       "expiry_date:": "Data de validade:",
       "security_code": "Código de segurança:"
     },
@@ -164,8 +166,6 @@
     "signup": "Registre-se"
   },
   "home_page": {
-    "take_back_liberty": "Proteja  sua  privacidade  com  o  serviço  de  criptografia  de  e-mail  mais  avançado  do  mundo.",
-    "send_unbreakable_email": "Envie  e-mails  inalteráveis  e  proteja  seus  dados  profissionais  e  pessoais  com  criptografia  e  armazenamento  de  próxima  geração  em  servidores  islandeses,  protegidos  pelas  leis  de  privacidade  de  dados  mais  fortes  do  mundo.",
     "signup_for_free": "Registre-se sem custo",
     "latest_from_our_blog": "Ultimas atualizações de <strong>nosso blog</strong>",
     "related_post": "<strong>Postagens</strong>relacionadas",

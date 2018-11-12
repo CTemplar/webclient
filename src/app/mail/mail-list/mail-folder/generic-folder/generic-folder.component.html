@@ -184,8 +184,7 @@
         <!-- Check box -->
         <td class="mail-checkbox">
           <div class="fancy-field-group">
-            <input class="d-none fancy-field-control" id={{mail.id}} type="checkbox" [ngModel]="mail.marked" (ngModelChange)="toggleEmailSelection(mail, $event)"/>
-            <label for={{mail.id}} class="fancy-field-empty"></label>
+            <mat-checkbox [checked]="mail.marked" (change)="toggleEmailSelection(mail, $event.checked)"></mat-checkbox>
           </div>
         </td>
 
@@ -231,8 +230,8 @@
                       *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
-              <div class="mail-content" [innerHTML]="mail.subject">
-                  <!-- Subject Goes Here -->
+              <div class="mail-content">
+                  {{mail.subject}}
               </div>
             </span>
           </a>

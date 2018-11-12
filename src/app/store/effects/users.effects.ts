@@ -386,9 +386,8 @@ export class UsersEffects {
           switchMap(res => {
             return [new CreateFilterSuccess(res)];
           }),
-          catchError(err => [
-            new SnackErrorPush({ message: 'Failed to create filter.' }),
-            new CreateFilterFailure(err)
+          catchError(errorResponse => [
+            new CreateFilterFailure(errorResponse.error)
           ])
         );
     });
@@ -403,9 +402,8 @@ export class UsersEffects {
           switchMap(res => {
             return [new UpdateFilterSuccess(res)];
           }),
-          catchError(err => [
-            new SnackErrorPush({ message: 'Failed to update filter.' }),
-            new UpdateFilterFailure(err)
+          catchError(errorResponse => [
+            new UpdateFilterFailure(errorResponse.error)
           ])
         );
     });
@@ -420,9 +418,9 @@ export class UsersEffects {
           switchMap(res => {
             return [new DeleteFilterSuccess(filter)];
           }),
-          catchError(err => [
+          catchError(errorResponse => [
             new SnackErrorPush({ message: 'Failed to delete filter.' }),
-            new DeleteFilterFailure(err)
+            new DeleteFilterFailure(errorResponse.error)
           ])
         );
     });

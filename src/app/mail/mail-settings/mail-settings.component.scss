@@ -430,3 +430,19 @@ $error-red: #e94e4c;
   position: absolute;
   right: -18px;
 }
+
+.folder-dropdown {
+  max-height: 221px;
+  overflow-y: auto;
+  max-width: 250px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.folder-dropdown-item {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-bottom: 1px;
+}

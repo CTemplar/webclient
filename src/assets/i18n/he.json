@@ -73,6 +73,8 @@
     "vacation_responder": "מגיב חופשה",
     "security_settings": "הגדרות אבטחה",
     "password": "סיסמה",
+    "new_password": "סיסמה חדשה",
+    "confirm_new_password": "תאשר סיסמא חדשה",
     "change_now": "החלף עכשיו",
     "last_time_changed": "הפעם האחרונה השתנתה",
     "recovery_email": "דואר אלקטרוני לשיחזור",
@@ -164,8 +166,6 @@
     "signup": "הירשם"
   },
   "home_page": {
-    "take_back_liberty": "<strong> קח חזרה את החירות שלך </ strong> עם מערכת הדואר האלקטרוני המאובטח ביותר בעולם",
-    "send_unbreakable_email": "שלח הודעות אימייל בלתי ניתנות לשבירה &amp; להגן על הפרטים המקצועיים והאישיים שלך עם הצפנה ואחסון של הדור הבא בשרתים איסלנדים, מאובטחת עם חוקי הפרטיות החזקים ביותר בעולם",
     "signup_for_free": "הרשם בחינם",
     "latest_from_our_blog": "אחרון מ <strong> הבלוג שלנו </ strong>",
     "related_post": "קשור <strong> פרסם </ strong>",

@@ -58,7 +58,6 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
       });
     this.customFolderForm.get('folderName').valueChanges.takeUntil(this.destroyed$)
       .subscribe((value) => {
-        console.log(value);
         this.checkFolderExist(value);
       });
   }

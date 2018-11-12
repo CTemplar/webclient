@@ -172,6 +172,19 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         inProgress: false
       };
     }
+    case AuthActionTypes.DELETE_ACCOUNT: {
+      return {
+        ...state,
+        inProgress: true
+      };
+    }
+    case AuthActionTypes.DELETE_ACCOUNT_SUCCESS:
+    case AuthActionTypes.DELETE_ACCOUNT_FAILURE: {
+      return {
+        ...state,
+        inProgress: false
+      };
+    }
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }

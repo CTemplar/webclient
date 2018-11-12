@@ -118,7 +118,6 @@
   button {
     position: absolute;
     right: 0;
-    top: 0.8rem;
     min-width: 50px;
 
     .icon {
@@ -136,6 +135,17 @@
       .mailbox-sidebar-nav-link + button {
         display: block;
       }
+    }
+  }
+}
+
+.custom-folder {
+  a {
+    .mailbox-sidebar-nav-label {
+      width: 90%;
+    }
+    .badge-square {
+      right: 2.3rem;
     }
   }
 }

@@ -43,6 +43,7 @@
                                     required/>
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(passwordVC)">
                                     <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
 
                                 </span>
                             </div>
@@ -210,7 +211,7 @@
 
               <div class="form-group">
                 <label for="resetPassword" class="d-block text-muted text-left"
-                       translate="settings.password">Password</label>
+                       translate="settings.new_password">New Password</label>
                 <div class="input-group">
                   <input #resetPasswordInput class="form-control form-control-lg" id="resetPassword"
                          [placeholder]="'settings.password' | translate" type="password"
@@ -219,6 +220,7 @@
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         id="resetPasswordToggle" (click)="togglePassword(resetPasswordInput)">
                       <i class="fa fa-eye"></i>
+                      <i class="fa fa-eye-slash"></i>
                     </span>
                 </div>
                 <span *ngIf="resetPasswordForm.controls['password'].errors && showResetPasswordFormErrors"
@@ -228,7 +230,7 @@
               </div>
               <div class="form-group">
                 <label for="resetConfirmPassword" class="d-block text-muted text-left"
-                       translate="create_account.confirm_password">Confirm Password</label>
+                       translate="settings.confirm_new_password">Confirm New Password</label>
                 <div class="input-group">
                   <input #resetConfirmPasswordInput class="form-control form-control-lg" id="resetConfirmPassword"
                          [placeholder]="'create_account.confirm_password' | translate" type="password"
@@ -237,6 +239,7 @@
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         id="resetConfirmPasswordToggle" (click)="togglePassword(resetConfirmPasswordInput)">
                       <i class="fa fa-eye"></i>
+                      <i class="fa fa-eye-slash"></i>
                     </span>
                 </div>
                 <span *ngIf="resetPasswordForm.controls['confirmPwd'].errors && showResetPasswordFormErrors"
@@ -249,10 +252,10 @@
               </div>
               <div class="form-group form-user-actions text-center mb-0">
                 <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit"
-                        [disabled]="isGeneratingKeys">
+                        [disabled]="isGeneratingKeys || isLoading">
                   Submit
                 </button>
-                <app-loading-spinner [showSpinner]="isGeneratingKeys"></app-loading-spinner>
+                <app-loading-spinner [showSpinner]="isGeneratingKeys || isLoading"></app-loading-spinner>
               </div>
             </form>
           </div>

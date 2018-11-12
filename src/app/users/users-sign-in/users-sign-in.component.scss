@@ -29,8 +29,13 @@ $error-red: #e94e4c;
     border-color: $dropdown-border-color !important;
   }
   &[type="text"]{
-    + span i {
-      opacity: 0.5;
+    + span .fa-eye {
+      display: none;
+    }
+  }
+  &[type="password"]{
+    + span .fa-eye-slash {
+      display: none;
     }
   }
 }

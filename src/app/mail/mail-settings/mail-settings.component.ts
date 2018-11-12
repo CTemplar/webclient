@@ -6,12 +6,12 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators';
-import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES } from '../../shared/config';
+import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
 
 import {
   BlackListDelete,
   ChangePassword,
-  CreateMailbox,
+  CreateMailbox, DeleteAccount,
   SetDefaultMailbox,
   SettingsUpdate,
   SnackErrorPush,
@@ -20,7 +20,7 @@ import {
 } from '../../store/actions';
 import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
-  AppState,
+  AppState, AuthState,
   MailBoxesState,
   Payment,
   PaymentMethod,
@@ -46,9 +46,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
 
   @ViewChild('changePasswordModal') changePasswordModal;
+  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
+  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
+  authState: AuthState;
   settings: Settings;
   payment: Payment;
   paymentType = PaymentType;
@@ -71,8 +74,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedMailboxForSignature: Mailbox;
   selectedMailboxForKey: Mailbox;
   selectedMailboxPublicKey: any;
+  deleteAccountInfoForm: FormGroup;
+  deleteAccountOptions: any = {};
 
   private changePasswordModalRef: NgbModalRef;
+  private deleteAccountInfoModalRef: NgbModalRef;
+  private confirmDeleteAccountModalRef: NgbModalRef;
 
   constructor(
     private modalService: NgbModal,
@@ -87,6 +94,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        this.authState = authState;
+      });
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.userState = user;
@@ -134,11 +145,17 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.newAddressForm = this.formBuilder.group({
       'username': ['', [
         Validators.required,
-        Validators.pattern(/^[a-z]+[a-z0-9._-]+$/i),
+        Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
         Validators.minLength(4),
         Validators.maxLength(64)
       ]]
     });
+
+    this.deleteAccountInfoForm = this.formBuilder.group({
+      'contact_email': ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
+      'password': ['', [Validators.required]]
+    });
+
     this.handleUsernameAvailability();
   }
 
@@ -353,6 +370,35 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
     this.selectedMailboxForKey = mailbox;
     this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
+  }
+
+  onDeleteAccount() {
+    this.deleteAccountOptions = {};
+    this.deleteAccountInfoForm.reset();
+    this.deleteAccountInfoModalRef = this.modalService.open(this.deleteAccountInfoModal, {
+      centered: true,
+      windowClass: 'modal-sm'
+    });
+  }
+
+  onDeleteAccountInfoSubmit() {
+    this.deleteAccountOptions.showErrors = true;
+    if (this.deleteAccountInfoForm.valid) {
+      this.deleteAccountInfoModalRef.dismiss();
+      this.confirmDeleteAccountModalRef = this.modalService.open(this.confirmDeleteAccountModal, {
+        centered: true,
+        windowClass: 'modal-sm'
+      });
+    }
+  }
+
+  confirmDeleteAccount() {
+    const data = {
+      ...this.deleteAccountInfoForm.value,
+      username: this.userState.username
+    };
+    this.store.dispatch(new DeleteAccount(data));
+    this.confirmDeleteAccountModalRef.dismiss();
   }
 
   private handleUsernameAvailability() {
