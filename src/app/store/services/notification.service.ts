@@ -11,13 +11,13 @@ export class NotificationService {
               private store: Store<AppState>) {
   }
 
-  showSnackBar(message: string, action: string = 'CLOSE', config: MatSnackBarConfig = { duration: 3000 }) {
+  showSnackBar(message: string, action: string = 'CLOSE', config: MatSnackBarConfig = { duration: 10000 }) {
     this.snackBar.open(message, action, config);
   }
 
   showUndo(payload: any) {
     if (payload.sourceFolder) {
-      const snackBarRef = this.snackBar.open(payload.message, 'Undo', { duration: 5000 });
+      const snackBarRef = this.snackBar.open(payload.message, 'Undo', { duration: 10000 });
 
       snackBarRef.onAction().subscribe(() => {
         this.store.dispatch(new UndoDeleteMail(payload));
