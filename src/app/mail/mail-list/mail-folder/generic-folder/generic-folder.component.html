@@ -230,8 +230,8 @@
                       *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
-              <div class="mail-content" [innerHTML]="mail.subject">
-                  <!-- Subject Goes Here -->
+              <div class="mail-content">
+                  {{mail.subject}}
               </div>
             </span>
           </a>
