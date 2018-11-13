@@ -16,6 +16,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime, tap } from 'rxjs/operators';
 import { apiUrl, VALID_EMAIL_REGEX } from '../../shared/config';
+import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
 export class PasswordValidation {
 
@@ -54,6 +56,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   submitted = false;
   userKeys: any;
   generatingKeys: boolean;
+  modalRef: NgbModalRef;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -135,9 +138,14 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     }
   }
 
+  openAccountInitModal() {
+    this.modalRef = this.modalService.open(UserAccountInitDialogComponent, { centered: true, windowClass: 'modal-sm' });
+  }
+
   private navigateToBillingPage() {
     this.userKeys = this.openPgpService.getUserKeys();
     if (!this.userKeys) {
+      this.openAccountInitModal();
       this.generatingKeys = true;
       this.waitForPGPKeys('navigateToBillingPage');
       return;
@@ -169,6 +177,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signupFormCompleted() {
+    this.openAccountInitModal();
     if (this.selectedPlan === 1 && this.signupForm.value.captchaResponse) {
       this.navigateToBillingPage();
       return;
@@ -217,5 +226,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
   }
 }

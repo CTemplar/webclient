@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 // Bootstrap
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Custom Module
 import { UsersRoutingModule } from './users-routing.module';
@@ -30,6 +30,7 @@ import {
 } from 'ng-recaptcha';
 import {TranslateModule} from '@ngx-translate/core';
 import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure-message.component';
+import { UserAccountInitDialogComponent } from './dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    NgbModalModule,
     UsersRoutingModule,
     PagesModule,
     SharedModule,
@@ -49,7 +51,11 @@ import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure
     UsersCreateAccountComponent,
     DisplaySecureMessageComponent,
     DecryptMessageComponent,
-    ReplySecureMessageComponent
+    ReplySecureMessageComponent,
+    UserAccountInitDialogComponent
+  ],
+  entryComponents: [
+    UserAccountInitDialogComponent
   ],
   providers: [UsersService,
     {
