@@ -94,8 +94,8 @@ export class SafePipe implements PipeTransform {
             }
           },
           onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
-            const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
             if (attrName === 'style') {
+              const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
               return attrName + '="' + safeAttrValue + '"';
             }
           }
