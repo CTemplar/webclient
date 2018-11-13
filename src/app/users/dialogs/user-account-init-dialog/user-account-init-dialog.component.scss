@@ -37,7 +37,6 @@
       font-size: 16px;
       margin-bottom: 1rem;
       color: rgba(0, 0, 0, 0.54);
-      animation-duration: 1s;
     }
   }
   @include media("<=xmd") {
@@ -50,33 +49,7 @@
     }
   }
 }
-.info-box1 {
-  z-index: 1;
-  li{
-    &.delay-2s{
-      animation-delay: 1.5s;
-    }
-    &.delay-3s{
-      animation-delay: 3s;
-    }
-    &.delay-4s{
-      animation-delay: 4.5s;
-    }
-  }
-}
 .info-box2 {
-  -moz-animation: cssAnimation2 0s ease-in 6s forwards;
-  /* Firefox */
-  -webkit-animation: cssAnimation2 0s ease-in 6s forwards;
-  /* Safari and Chrome */
-  -o-animation: cssAnimation2 0s ease-in 6s forwards;
-  /* Opera */
-  animation: cssAnimation2 0s ease-in 6s forwards;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  h3{
-    animation-delay: 6s;
-  }
   li{
     i {
       color: #e74c3c;
@@ -84,81 +57,9 @@
       display: inline-block;
       margin-right: 10px;
     }
-    &.delay-6s{
-      animation-delay: 7.5s;
-    }
-    &.delay-7s{
-      animation-delay: 9s;
-    }
-    &.delay-8s{
-      animation-delay: 10.5s;
-    }
-    &.delay-9s{
-      animation-delay: 12s;
-    }
-    &.delay-10s{
-      animation-delay: 13.5s;
-    }
-  }
-}
-@keyframes cssAnimation2 {
-  to {
-    z-index: 2;
-  }
-}
-@-webkit-keyframes cssAnimation2 {
-  to {
-    z-index: 2;
-  }
-}
-.info-box3 {
-  -moz-animation: cssAnimation3 0s ease-in 15s forwards;
-  /* Firefox */
-  -webkit-animation: cssAnimation3 0s ease-in 15s forwards;
-  /* Safari and Chrome */
-  -o-animation: cssAnimation3 0s ease-in 15s forwards;
-  /* Opera */
-  animation: cssAnimation3 0s ease-in 15s forwards;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  li{
-    &.delay-11s{
-      animation-delay: 15s;
-    }
-    &.delay-12s{
-      animation-delay: 16.5s;
-    }
-    &.delay-13s{
-      animation-delay: 18s;
-    }
-    &.delay-14s{
-      animation-delay: 19.5s;
-    }
-  }
-}
-@keyframes cssAnimation3 {
-  to {
-    z-index: 3;
-  }
-}
-@-webkit-keyframes cssAnimation3 {
-  to {
-    z-index: 3;
   }
 }
 .info-box4 {
-  -moz-animation: cssAnimation4 0s ease-in 21s forwards;
-  /* Firefox */
-  -webkit-animation: cssAnimation4 0s ease-in 21s forwards;
-  /* Safari and Chrome */
-  -o-animation: cssAnimation4 0s ease-in 21s forwards;
-  /* Opera */
-  animation: cssAnimation4 0s ease-in 21s forwards;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  h3{
-    animation-delay: 21s;
-  }
   li{
     padding-left: 25px;
     position: relative;
@@ -172,24 +73,5 @@
       top: 2px;
       left: 0;
     }
-    &.delay-16s{
-      animation-delay: 22.5s;
-    }
-    &.delay-17s{
-      animation-delay: 24s;
-    }
-    &.delay-18s{
-      animation-delay: 25.5s;
-    }
-  }
-}
-@keyframes cssAnimation4 {
-  to {
-    z-index: 4;
-  }
-}
-@-webkit-keyframes cssAnimation4 {
-  to {
-    z-index: 4;
   }
 }
