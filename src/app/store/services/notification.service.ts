@@ -11,7 +11,7 @@ export class NotificationService {
               private store: Store<AppState>) {
   }
 
-  showSnackBar(message: string, action: string = 'CLOSE', config: MatSnackBarConfig = { duration: 3000 }) {
+  showSnackBar(message: string, action: string = 'CLOSE', config: MatSnackBarConfig = { duration: 5000 }) {
     this.snackBar.open(message, action, config);
   }
 

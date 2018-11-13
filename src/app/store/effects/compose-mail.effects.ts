@@ -133,7 +133,8 @@ export class ComposeMailEffects {
               })
             ];
           }),
-          catchError(err => [new SnackErrorPush({ message: `Failed to send mail.` })])
+          catchError(errorResponse => [new SnackErrorPush({ message: errorResponse.error && errorResponse.error.detail ?
+              errorResponse.error.detail : 'Failed to send mail.', duration: 10000 })])
         );
     });
 
