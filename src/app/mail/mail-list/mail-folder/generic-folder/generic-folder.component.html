@@ -45,7 +45,7 @@
           <i class="icon icon-warning"></i>
           </a>
         </li>
-        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.TRASH">
+        <li class="px-0">
           <a (click)="moveToTrash()" class="border-radius-left-0" placement="top"
              [ngbTooltip]="(mailFolder !== mailFolderTypes.TRASH) ? ('mail_list.move_to_trash' | translate) : ('mail_list.permanently_delete' | translate)"
              [ngClass]="{'disabled': noEmailSelected}">
