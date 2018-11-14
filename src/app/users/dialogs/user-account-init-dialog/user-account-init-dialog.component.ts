@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, HostListener } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   trigger,
@@ -101,4 +101,7 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  @HostListener('@pageAnimation4.done', ['$event']) onClick(evt) {
+    console.log('animation finished');
+  }
 }
