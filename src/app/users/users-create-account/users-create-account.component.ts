@@ -217,8 +217,5 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
-    if (this.modalRef) {
-      this.modalRef.close();
-    }
   }
 }

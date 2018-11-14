@@ -55,7 +55,6 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SIGNUP_SUCCESS: {
       return {
         ...state,
-        isAuthenticated: true,
         user: action.payload,
         errorMessage: null,
         inProgress: false,
