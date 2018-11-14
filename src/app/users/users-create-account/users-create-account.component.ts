@@ -131,8 +131,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
     this.isFormCompleted = true;
 
-    const signupFormValue = this.signupForm.value;
-    this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password);
     if (this.selectedPlan === 1) {
       this.navigateToBillingPage();
     }
@@ -143,16 +141,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private navigateToBillingPage() {
-    this.userKeys = this.openPgpService.getUserKeys();
-    if (!this.userKeys) {
-      this.openAccountInitModal();
-      this.generatingKeys = true;
-      this.waitForPGPKeys('navigateToBillingPage');
-      return;
-    }
-    this.generatingKeys = false;
     this.store.dispatch(new UpdateSignupData({
-      ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
@@ -161,15 +150,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/billing-info');
   }
 
-  waitForPGPKeys(callback) {
-    setTimeout(() => {
-      if (this.openPgpService.getUserKeys()) {
-        this[callback]();
-        return;
-      }
-      this.waitForPGPKeys(callback);
-    }, 1000);
-  }
 
   recaptchaResolved(captchaResponse: string) {
     this.signupForm.value.captchaResponse = captchaResponse;
@@ -177,17 +157,28 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signupFormCompleted() {
-    this.openAccountInitModal();
     if (this.selectedPlan === 1 && this.signupForm.value.captchaResponse) {
       this.navigateToBillingPage();
-      return;
+    } else {
+      this.signupInProgress = true;
+      this.openAccountInitModal();
+      this.openPgpService.generateUserKeys(this.signupForm.get('username').value, this.signupForm.get('password').value);
+      this.waitForPGPKeys();
     }
-    this.signupInProgress = true;
-    this.userKeys = this.openPgpService.getUserKeys();
-    if (!this.userKeys) {
-      this.waitForPGPKeys('signupFormCompleted');
-      return;
-    }
+  }
+
+  waitForPGPKeys() {
+    setTimeout(() => {
+      this.userKeys = this.openPgpService.getUserKeys();
+      if (this.userKeys) {
+        this.pgpKeyGenerationCompleted();
+        return;
+      }
+      this.waitForPGPKeys();
+    }, 1000);
+  }
+
+  pgpKeyGenerationCompleted() {
     this.data = {
       ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,

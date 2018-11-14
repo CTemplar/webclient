@@ -9,7 +9,12 @@ import {
   stagger,
   animateChild,
 } from '@angular/animations';
+import { Store } from '@ngrx/store';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs/Observable';
+import { AppState, AuthState, SignupState } from '../../../store/datatypes';
 
+@TakeUntilDestroy()
 @Component({
   selector: 'app-user-account-init-dialog',
   templateUrl: './user-account-init-dialog.component.html',
@@ -72,13 +77,28 @@ import {
     ])
   ]
 })
-export class UserAccountInitDialogComponent implements OnInit {
+export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
+  readonly destroyed$: Observable<boolean>;
+
   @HostBinding('@pageAnimations')
   public animatePage = true;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  private signupState: SignupState;
+
+  constructor(public activeModal: NgbActiveModal,
+              private store: Store<AppState>) { }
 
   ngOnInit() {
+    this.store.select(state => state.auth).takeUntil(this .destroyed$)
+      .subscribe((authState: AuthState) => {
+        if (this.signupState && this.signupState.inProgress && !authState.signupState.inProgress) {
+          this.activeModal.dismiss();
+        }
+        this.signupState = authState.signupState;
+    });
+  }
+
+  ngOnDestroy() {
   }
 
 }

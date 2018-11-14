@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import 'rxjs/add/observable/timer';
@@ -27,8 +28,9 @@ import {
   PaymentType
 } from '../../../store/datatypes';
 // Service
-import { SharedService } from '../../../store/services/index';
+import { OpenPgpService, SharedService } from '../../../store/services/index';
 import { takeUntil } from 'rxjs/operators';
+import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 @TakeUntilDestroy()
 @Component({
@@ -74,11 +76,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   readonly destroyed$: Observable<boolean>;
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
+  private modalRef: NgbModalRef;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
               private router: Router,
               private formBuilder: FormBuilder,
+              private openPgpService: OpenPgpService,
+              private modalService: NgbModal,
               private _zone: NgZone) {
   }
 
@@ -200,10 +205,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           email_count: this.emailAddressAliases
         }));
       } else {
-        this.store.dispatch(new SignUp({
-          ...this.signupState,
-          stripe_token: token
-        }));
+        this.inProgress = true;
+        this.openAccountInitModal();
+        this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
+        this.waitForPGPKeys({ ...this.signupState, stripe_token: token });
       }
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
@@ -221,15 +226,33 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           email_count: this.emailAddressAliases
         }));
       } else {
-        this.store.dispatch(new SignUp({
+        this.inProgress = true;
+        this.openAccountInitModal();
+        this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
+        this.waitForPGPKeys({
           ...this.signupState,
           from_address: this.bitcoinState.newWalletAddress,
           redeem_code: this.bitcoinState.redeemCode
-        }));
+        });
       }
     } else {
       this.store.dispatch(new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'));
     }
+  }
+
+  waitForPGPKeys(data: any) {
+    setTimeout(() => {
+      const userKeys = this.openPgpService.getUserKeys();
+      if (userKeys) {
+        this.pgpKeyGenerationCompleted({ ...userKeys, ...data });
+        return;
+      }
+      this.waitForPGPKeys(data);
+    }, 1000);
+  }
+
+  pgpKeyGenerationCompleted(data: any) {
+    this.store.dispatch(new SignUp(data));
   }
 
   checkTransaction() {
@@ -307,6 +330,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     } else {
       this.router.navigateByUrl('/');
     }
+  }
+
+  openAccountInitModal() {
+    this.modalRef = this.modalService.open(UserAccountInitDialogComponent, { centered: true, windowClass: 'modal-sm' });
   }
 
   ngOnDestroy() {
