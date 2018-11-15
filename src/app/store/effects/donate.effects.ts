@@ -27,7 +27,7 @@ export class DonateEffects {
         return this.donationService.makeStripeDonation(payload)
         .pipe(
             map((payment_success) => new MakeStripeDonationSuccess(payment_success)),
-            catchError((error) => [new SnackErrorPush({ message: error.detail })])
+            catchError((errorResponse) => [new SnackErrorPush({ message: errorResponse.error.detail })])
         );
     });
 
