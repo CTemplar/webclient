@@ -21,23 +21,9 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
   styleUrls: ['./user-account-init-dialog.component.scss'],
   providers: [],
   animations: [
-    trigger('pageAnimations', [
-      transition(':enter', [
-        query('.info-box2', style({opacity: 0})),
-        query('.info-box3', style({opacity: 0})),
-        query('.info-box4', style({opacity: 0})),
-        query('@pageAnimation1', animateChild()),
-        query('.info-box2', style({opacity: 1})),
-        query('@pageAnimation2', animateChild()),
-        query('.info-box3', style({opacity: 1})),
-        query('@pageAnimation3', animateChild()),
-        query('.info-box4', style({opacity: 1})),
-        query('@pageAnimation4', animateChild()),
-      ])
-    ]),
     trigger('pageAnimation1', [
       transition(':enter', [
-        query('.animated1', [
+        query('h3, li', [
           style({opacity: 0, transform: 'translateY(-100%)'}),
           stagger(833, [
             animate('833ms', style({ opacity: 1, transform: 'none' }))
@@ -47,7 +33,7 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
     ]),
     trigger('pageAnimation2', [
       transition(':enter', [
-        query('.animated2', [
+        query('h3, li', [
           style({opacity: 0, transform: 'translateY(-100%)'}),
           stagger(833, [
             animate('833ms', style({ opacity: 1, transform: 'none' }))
@@ -57,7 +43,7 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
     ]),
     trigger('pageAnimation3', [
       transition(':enter', [
-        query('.animated3', [
+        query('li', [
           style({opacity: 0, transform: 'translateY(-100%)'}),
           stagger(833, [
             animate('833ms', style({ opacity: 1, transform: 'none' }))
@@ -67,7 +53,7 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
     ]),
     trigger('pageAnimation4', [
       transition(':enter', [
-        query('.animated4', [
+        query('h3, li', [
           style({opacity: 0, transform: 'translateY(-100%)'}),
           stagger(833, [
             animate('833ms', style({ opacity: 1, transform: 'none' }))
@@ -80,10 +66,9 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
 export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  @HostBinding('@pageAnimations')
-  public animatePage = true;
-
   private signupState: SignupState;
+
+  private step = 0;
 
   constructor(public activeModal: NgbActiveModal,
               private store: Store<AppState>) { }
@@ -101,7 +86,10 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-  @HostListener('@pageAnimation4.done', ['$event']) onClick(evt) {
-    console.log('animation finished');
+  onAnimationStart (evt) {
+  }
+
+  onAnimationDone (evt) {
+    this.step++;
   }
 }
