@@ -13,9 +13,6 @@ export class SafePipe implements PipeTransform {
   public transform(value: any, type: string = '', fromEmail): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
-        if (fromEmail === 'support@ctemplar.com') {
-          return this.sanitizer.bypassSecurityTrustHtml(value);
-        }
         const cssFilter = new cssfilter.FilterCSS({
           onIgnoreAttr: (styleName, styleValue, opts) => {
             const blackList = {
