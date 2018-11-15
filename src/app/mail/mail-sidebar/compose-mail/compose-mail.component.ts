@@ -507,8 +507,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     receivers.forEach(receiver => {
       if (receiver.toLowerCase().indexOf('@ctemplar.com') === -1 && receiver.toLowerCase().indexOf('@dev.ctemplar.com') === -1) {
         nonCTemplarReceivers.push(receiver);
-      }
-      else {
+      } else {
         cTemplarReceivers.push(receiver);
       }
     });
@@ -516,13 +515,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
       if (cTemplarReceivers.length === 0) {
         this.setMailData(true, false);
-      }
-      else {
+      } else {
         this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
         this.setMailData(true, false, true);
       }
-    }
-    else {
+    } else {
       if (nonCTemplarReceivers.length === 0) {
         this.setMailData(true, false, true);
         this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
@@ -893,6 +890,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onKeydownHandler(event: KeyboardEvent) {
     if (event.keyCode === ESCAPE_KEYCODE) {
       this.closeOSK();
+    }
+  }
+
+  onFilesDrop(event) {
+    if (!this.draftMail || !this.draftMail.id) {
+      this.updateEmail();
+    }
+    const files = event.dataTransfer.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files.item(i);
+      if (!/^image\//.test(file.type)) {
+        this.uploadAttachment(file, false);
+      }
     }
   }
 }

@@ -106,7 +106,7 @@
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box">
-          <div #editor></div>
+          <div #editor (drop)="onFilesDrop($event)"></div>
         </div>
         <input type="file"
                #imageInput
