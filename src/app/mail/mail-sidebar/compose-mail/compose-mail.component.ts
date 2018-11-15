@@ -894,16 +894,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onFilesDrop(event) {
-    if (!this.draftMail || !this.draftMail.id) {
-      this.updateEmail();
-    }
-    const files = event.dataTransfer.files;
-    for (let i = 0; i < files.length; i++) {
-      const file = files.item(i);
-      if (!/^image\//.test(file.type)) {
-        this.uploadAttachment(file, false);
-      }
-    }
+    event.preventDefault();
+    event.stopPropagation();
+    this.onFilesSelected(event.dataTransfer.files);
   }
 
   onDragover(event) {
