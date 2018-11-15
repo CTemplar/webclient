@@ -898,9 +898,4 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     event.stopPropagation();
     this.onFilesSelected(event.dataTransfer.files);
   }
-
-  onDragover(event) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
 }
