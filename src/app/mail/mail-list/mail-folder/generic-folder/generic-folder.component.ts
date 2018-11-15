@@ -216,6 +216,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         allowUndo: folder === MailFolderType.TRASH
       }));
     }
+    setTimeout(() => {
+      this.refresh(true);
+    }, 2000);
   }
 
   markReadMails() {
