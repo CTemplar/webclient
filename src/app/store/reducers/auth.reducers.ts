@@ -64,8 +64,8 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SIGNUP_FAILURE: {
 
       let error = '';
-      if (action.payload && action.payload.error && action.payload.error.length > 0) {
-        error = action.payload.error[0];
+      if (action.payload && action.payload.error && action.payload.error.error && action.payload.error.error.length > 0) {
+        error = action.payload.error.error[0];
       }
 
       return {
