@@ -179,6 +179,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   pgpKeyGenerationCompleted() {
+    if (this.modalRef) {
+      this.modalRef.componentInstance.isPgpGenerationComplete = true;
+    }
     this.data = {
       ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
