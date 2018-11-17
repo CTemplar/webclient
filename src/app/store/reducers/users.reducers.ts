@@ -234,7 +234,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FILTER_FAILURE:
     case UsersActionTypes.UPDATE_FILTER_FAILURE:
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
-      const error = Object.keys(action.payload).map(key => `${key}: ${action.payload[key]}`).join(', ');
+      const error = Object.keys(action.payload.error.error).map(key => `${key}: ${action.payload[key]}`).join(', ');
       return { ...state, inProgress: false, filtersError: error };
     }
 

@@ -26,7 +26,7 @@
         </li>
         <li class="px-0">
           <a (click)="refresh(true)" ngbTooltip="Refresh" placement="top" class="border-right-0 border-radius-0">
-            <i class="icon-self-timer"></i>
+            <i class="material-icons">refresh</i>
           </a>
         </li>
         <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE">
@@ -45,7 +45,7 @@
           <i class="icon icon-warning"></i>
           </a>
         </li>
-        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.TRASH">
+        <li class="px-0">
           <a (click)="moveToTrash()" class="border-radius-left-0" placement="top"
              [ngbTooltip]="(mailFolder !== mailFolderTypes.TRASH) ? ('mail_list.move_to_trash' | translate) : ('mail_list.permanently_delete' | translate)"
              [ngClass]="{'disabled': noEmailSelected}">
@@ -152,7 +152,7 @@
     <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
       <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="mails?.length>0">
         <div class="mail-result-text text-muted">
-          <small>{{ OFFSET }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : LIMIT }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+          <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>
         <div class="mail-nav-control">
           <button role="button" class="mail-nav-control-prev" (click)="prevPage()">
@@ -301,8 +301,8 @@
                               *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
-                      <div class="mail-content" [innerHTML]="mail.subject">
-                          <!-- Subject Goes Here -->
+                      <div class="mail-content">
+                          {{mail.subject}}
                       </div>
                     </span>
                   </a>

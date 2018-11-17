@@ -82,7 +82,7 @@ export class AuthEffects {
             new SignUpSuccess(user),
             new LogInSuccess(user)
           ]),
-          catchError((error) => [new SignUpFailure(error),
+          catchError((errorResponse) => [new SignUpFailure(errorResponse.error),
             new SnackErrorPush({ message: 'Failed to signup, please try again.' })])
         );
     });
