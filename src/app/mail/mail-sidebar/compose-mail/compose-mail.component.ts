@@ -77,6 +77,7 @@ Quill.register(ImageBlot);
 class SignatureBlot extends BlockEmbed {
   static create(value) {
     const node: any = super.create(value);
+    value = value.replace(/<br>/g, '\n');
     node.innerText = value;
     return node;
   }
@@ -754,7 +755,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    if (shouldSend) {
+    if (!shouldSave) {
       this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
     }
     this.draftMail.is_encrypted = isEncrypted;
