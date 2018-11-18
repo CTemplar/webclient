@@ -77,6 +77,7 @@ Quill.register(ImageBlot);
 class SignatureBlot extends BlockEmbed {
   static create(value) {
     const node: any = super.create(value);
+    value = value.replace(/<br>/g, '\n');
     node.innerText = value;
     return node;
   }
