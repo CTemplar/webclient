@@ -78,18 +78,13 @@ export class AuthEffects {
 
       return this.authService.signUp(payload)
         .pipe(
-          map((user) => new LogInSuccess(user)),
+          switchMap((user) => [
+            new SignUpSuccess(user),
+            new LogInSuccess(user)
+          ]),
           catchError((errorResponse) => [new SignUpFailure(errorResponse.error),
             new SnackErrorPush({ message: 'Failed to signup, please try again.' })])
         );
-    });
-
-  @Effect({ dispatch: false })
-  SignUpSuccess: Observable<any> = this.actions
-    .ofType(AuthActionTypes.SIGNUP_SUCCESS)
-    .map((action: SignUpSuccess) => action.payload)
-    .map(payload => {
-      this.router.navigateByUrl('/mail');
     });
 
   @Effect({ dispatch: false })

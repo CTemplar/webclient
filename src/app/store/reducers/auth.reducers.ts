@@ -55,10 +55,10 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SIGNUP_SUCCESS: {
       return {
         ...state,
-        isAuthenticated: true,
         user: action.payload,
         errorMessage: null,
         inProgress: false,
+        signupState: { ...state.signupState, inProgress: false }
       };
     }
     case AuthActionTypes.SIGNUP_FAILURE: {
@@ -71,12 +71,13 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         errorMessage: error,
-        inProgress: false
+        inProgress: false,
+        signupState: { ...state.signupState, inProgress: false }
       };
     }
     case AuthActionTypes.SIGNUP: {
       return {
-        ...state, inProgress: true
+        ...state, inProgress: true, signupState: { ...state.signupState, inProgress: true }
       };
     }
     case AuthActionTypes.UPDATE_SIGNUP_DATA: {
