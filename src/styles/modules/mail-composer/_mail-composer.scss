@@ -92,7 +92,14 @@ a {
 	}
     @include media(">=ipad") {
       width: 40rem;
-    }
+	}
+
+	.mail-composer-body {
+		max-height: calc(100vh - 48px);
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
 }
 
 .shadow {
@@ -135,8 +142,6 @@ a {
 	.mail-composer-footer {
 		display: block;
 	}
-
-
 }
 
 // == Is full screen
@@ -285,6 +290,8 @@ a {
 .mail-compose-editable-body {
 	overflow-y: hidden;
 	max-height: 667px;
+	display: flex;
+	flex-direction: column;
 
 	@include media("<=sm") {
 		margin-top: 49px;
