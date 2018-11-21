@@ -186,6 +186,16 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         inProgress: false
       };
     }
+    case AuthActionTypes.CLEAR_SIGNUP_STATE: {
+      return {
+        ...state, signupState: initialState.signupState
+      };
+    }
+    case AuthActionTypes.CLEAR_AUTH_ERROR_MESSAGE: {
+      return {
+        ...state, errorMessage: null
+      };
+    }
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }
