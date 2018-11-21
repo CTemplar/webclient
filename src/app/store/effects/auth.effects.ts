@@ -118,7 +118,7 @@ export class AuthEffects {
     .switchMap(payload => {
       return this.authService.recoverPassword(payload)
         .pipe(
-          map((res) => new RecoverPasswordSuccess(res)),
+          switchMap((res) => [new RecoverPasswordSuccess(res)]),
           catchError((error) => [new RecoverPasswordFailure(error)])
         );
     });
@@ -130,7 +130,7 @@ export class AuthEffects {
     .switchMap(payload => {
       return this.authService.resetPassword(payload)
         .pipe(
-          map((user) => [
+          switchMap((user) => [
             new LogInSuccess(user),
             new ResetPasswordSuccess(user)
           ]),
