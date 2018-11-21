@@ -63,7 +63,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     }
     case AuthActionTypes.SIGNUP_FAILURE: {
 
-      let error = '';
+      let error = 'Failed to signup, please try again.';
       if (action.payload && action.payload.error && action.payload.error.error && action.payload.error.error.length > 0) {
         error = action.payload.error.error[0];
       }
