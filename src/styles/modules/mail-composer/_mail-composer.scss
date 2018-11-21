@@ -136,9 +136,15 @@ a {
         max-height: 100%;
         overflow-y: auto;
       }
+
+	  .mail-composer-body {
+		  max-height: calc(100vh - 48px - 3rem);
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: flex-end;
+	  }
     }
   
-	.mail-composer-body,
 	.mail-composer-footer {
 		display: block;
 	}
@@ -289,7 +295,6 @@ a {
 
 .mail-compose-editable-body {
 	overflow-y: hidden;
-	max-height: 667px;
 	display: flex;
 	flex-direction: column;
 
@@ -299,7 +304,6 @@ a {
 }
 
 .mail-compose-box {
-	max-height: 667px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	line-height: 1.67rem;
