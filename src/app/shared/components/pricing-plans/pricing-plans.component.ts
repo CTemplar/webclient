@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { FinalLoading, MembershipUpdate } from '../../../store/actions';
+import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading, MembershipUpdate } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
 import { PaymentMethod, PaymentType } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
@@ -93,6 +93,8 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
         windowClass: 'modal-lg users-action-modal'
       });
     } else {
+      this.store.dispatch(new ClearSignUpState());
+      this.store.dispatch(new ClearAuthErrorMessage());
       // Add payment type for prime plan only
       if (id === 1) {
         this.loadStripeScripts();

@@ -336,7 +336,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   openAccountInitModal() {
-    this.modalRef = this.modalService.open(UserAccountInitDialogComponent, { centered: true, windowClass: 'modal-sm' });
+    this.modalRef = this.modalService.open(UserAccountInitDialogComponent, {
+      centered: true,
+      windowClass: 'modal-sm',
+      backdrop: 'static',
+      keyboard: false
+    });
   }
 
   ngOnDestroy() {

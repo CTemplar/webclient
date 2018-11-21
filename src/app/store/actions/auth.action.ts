@@ -25,7 +25,9 @@ export enum AuthActionTypes {
   CHANGE_PASSWORD = '[Auth] Change Password',
   DELETE_ACCOUNT = '[Auth] Delete Account',
   DELETE_ACCOUNT_SUCCESS = '[Auth] Delete Account Success',
-  DELETE_ACCOUNT_FAILURE = '[Auth] Delete Account Failure'
+  DELETE_ACCOUNT_FAILURE = '[Auth] Delete Account Failure',
+  CLEAR_SIGNUP_STATE = '[Auth] Clear Signup State',
+  CLEAR_AUTH_ERROR_MESSAGE = '[Auth] Clear Auth Error',
 }
 
 export class LogIn implements Action {
@@ -181,6 +183,20 @@ export class DeleteAccountFailure {
   }
 }
 
+export class ClearSignUpState {
+  readonly type = AuthActionTypes.CLEAR_SIGNUP_STATE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class ClearAuthErrorMessage {
+  readonly type = AuthActionTypes.CLEAR_AUTH_ERROR_MESSAGE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type AuthActionAll =
   | LogIn
   | LogInSuccess
@@ -205,4 +221,6 @@ export type AuthActionAll =
   | ChangePassword
   | DeleteAccount
   | DeleteAccountSuccess
-  | DeleteAccountFailure;
+  | DeleteAccountFailure
+  | ClearSignUpState
+  | ClearAuthErrorMessage;
