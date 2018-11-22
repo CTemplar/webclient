@@ -28,7 +28,8 @@ import {
   Settings,
   Timezone,
   TimezonesState,
-  UserState
+  UserState,
+  Domain
 } from '../../store/datatypes';
 import { Mailbox } from '../../store/models';
 import { OpenPgpService, UsersService } from '../../store/services';
@@ -76,6 +77,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedMailboxPublicKey: any;
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
+  domains: Domain[] = [];
 
   private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;

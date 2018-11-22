@@ -267,6 +267,10 @@ export interface CheckTransactionResponse {
   status: TransactionStatus;
 }
 
+export interface Domain {
+
+}
+
 export enum TransactionStatus {
   WAITING = 'Waiting',
   PENDING = 'Pending',

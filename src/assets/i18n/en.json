@@ -121,7 +121,8 @@
     "add": "Add",
     "type": "Type:",
     "features_added_soon": "Added later to this package",
-    "create_domain": "Create Domain"
+    "create_domain": "Create Domain",
+    "add_domain": "Add Domain"
   },
   "mail_sidebar": {
     "inbox": "Inbox",

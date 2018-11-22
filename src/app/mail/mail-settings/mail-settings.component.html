@@ -922,7 +922,10 @@
                                         </div>
                                         <div class="desc-card-body">
                                             <div class="top-action-pane">
-                                                <button class="btn btn-secondary"><span translate="settings.create_domain">Create Domain</span></button>
+                                                <button class="btn btn-secondary">
+                                                    <span translate="settings.add_domain" *ngIf="domains && domains.length > 0; else domainsEmpty">Add Domain</span>
+                                                    <ng-template #domainsEmpty><span translate="settings.create_domain">Create Domain</span></ng-template>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
