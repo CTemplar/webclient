@@ -242,7 +242,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.EMAIL_DOMAINS_GET_SUCCESS: {
       return {
         ...state,
-        emailDomains: action.payload.results,
+        emailDomains: action.payload,
       };
     }
 
