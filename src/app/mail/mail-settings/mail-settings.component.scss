@@ -446,3 +446,18 @@ $error-red: #e94e4c;
   white-space: nowrap;
   padding-bottom: 1px;
 }
+
+.top-action-pane {
+  background: $brand-faded;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 35px;
+  
+  @include media("<=sm") {
+    padding-left: 28px;
+  }
+
+  @include media("<sm") {
+    padding-left: 12px;
+  }
+}
