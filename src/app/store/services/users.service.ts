@@ -163,7 +163,8 @@ export class UsersService {
       'emails/keys',
       'auth/upgrade',
       'auth/change-password',
-      'auth/delete'
+      'auth/delete',
+      'emails/domains'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -285,6 +286,12 @@ export class UsersService {
     requestData.password = this.hashPassword(requestData);
     delete requestData['username'];
     return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
+  }
+
+  getEmailDomains(limit = 0, offset = 0) {
+    const url = `${apiUrl}emails/domains/?limit=${limit}&offset=${offset}`;
+    const body = {};
+    return this.http.get<any>(url, body);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
