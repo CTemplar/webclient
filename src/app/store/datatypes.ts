@@ -267,8 +267,22 @@ export interface CheckTransactionResponse {
   status: TransactionStatus;
 }
 
-export interface Domain {
+export interface DomainRecord {
+  type: string;
+  host: string;
+  value: string;
+  priority?: number;
+}
 
+export interface Domain {
+  domain: string;
+  is_domain_verified: boolean;
+  is_mx_verified: boolean;
+  is_spf_verified: boolean;
+  is_dkim_verified: boolean;
+  is_dmarc_verified: boolean;
+  created: string;
+  verified_at?: string;
 }
 
 export enum TransactionStatus {
