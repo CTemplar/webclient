@@ -409,7 +409,7 @@ export class EmailDomainsGet implements Action {
 }
 
 export class EmailDomainsGetSuccess implements Action {
-  readonly type = UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS;
+  readonly type = UsersActionTypes.EMAIL_DOMAINS_GET_SUCCESS;
 
   constructor(public payload?: any) {
   }
