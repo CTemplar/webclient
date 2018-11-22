@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Folder, MailFolderType } from '../../store/models';
 import { Observable } from 'rxjs/Observable';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppState, MailBoxesState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { SearchState } from '../../store/reducers/search.reducers';
@@ -23,6 +23,7 @@ export class MailListComponent implements OnInit, OnDestroy {
   searchText: string;
 
   constructor(public route: ActivatedRoute,
+              private router: Router,
               private store: Store<AppState>) {
   }
 
@@ -43,8 +44,10 @@ export class MailListComponent implements OnInit, OnDestroy {
         if (this.searchText) {
           this.backFromSearchFolder = this.mailFolder;
           this.mailFolder = MailFolderType.SEARCH;
+          this.router.navigateByUrl(`/mail/search`);
         } else {
           this.mailFolder = this.backFromSearchFolder;
+          this.router.navigateByUrl(`/mail/${this.mailFolder}`);
         }
       });
   }
