@@ -50,7 +50,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
       });
 
     this.searchInput.valueChanges.takeUntil(this.destroyed$)
-      .pipe(debounceTime(500))
+      .pipe(debounceTime(1000))
       .subscribe((value) => {
         this.store.dispatch(new UpdateSearch(value));
       });

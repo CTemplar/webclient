@@ -5,6 +5,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ActivatedRoute } from '@angular/router';
 import { AppState, MailBoxesState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
+import { SearchState } from '../../store/reducers/search.reducers';
 
 @TakeUntilDestroy()
 @Component({
@@ -16,8 +17,10 @@ export class MailListComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   mailFolder: string = MailFolderType.INBOX;
+  backFromSearchFolder: string = MailFolderType.INBOX;
   mailFolderTypes = MailFolderType;
   customFolders: Folder[] = [];
+  searchText: string;
 
   constructor(public route: ActivatedRoute,
               private store: Store<AppState>) {
@@ -25,12 +28,24 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.takeUntil(this.destroyed$).subscribe(params => {
-      this.mailFolder = params['folder'] as MailFolderType;
+      if (!this.searchText) {
+        this.mailFolder = params['folder'] as MailFolderType;
+      }
     });
 
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
+      });
+    this.store.select(state => state.search).takeUntil(this.destroyed$)
+      .subscribe((search: SearchState) => {
+        this.searchText = search.searchText;
+        if (this.searchText) {
+          this.backFromSearchFolder = this.mailFolder;
+          this.mailFolder = MailFolderType.SEARCH;
+        } else {
+          this.mailFolder = this.backFromSearchFolder;
+        }
       });
   }
 

@@ -70,7 +70,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         this.customFolders = user.customFolders;
         if (this.fetchMails && this.userState.settings) {
           this.LIMIT = user.settings.emails_per_page;
-          if (this.LIMIT) {
+          if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH) {
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
             this.initializeAutoRefresh();
           }
@@ -79,7 +79,16 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
     this.store.select(state => state.search).takeUntil(this.destroyed$)
       .subscribe((searchState: SearchState) => {
-        // TODO: apply search
+        if (searchState.searchText) {
+          this.store.dispatch(new GetMails({
+            forceReload: true,
+            searchText: searchState.searchText,
+            limit: this.LIMIT,
+            offset: this.OFFSET,
+            folder: this.mailFolder
+          }));
+          return;
+        }
       });
 
   }
