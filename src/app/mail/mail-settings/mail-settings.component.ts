@@ -105,6 +105,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.settings = user.settings;
         this.payment = user.payment_transaction;
+        this.domains = user.emailDomains;
         this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
         if (user.settings.language) {
