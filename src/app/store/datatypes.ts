@@ -66,6 +66,7 @@ export interface UserState {
   customFolders: Folder[];
   filters: Filter[];
   filtersError?: any;
+  emailDomains: Domain[];
 }
 
 export interface Settings {

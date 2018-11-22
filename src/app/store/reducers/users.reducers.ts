@@ -16,7 +16,8 @@ export const initialState: UserState = {
   mailboxes: [],
   payment_transaction: {},
   customFolders: [],
-  filters: []
+  filters: [],
+  emailDomains: []
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -236,6 +237,13 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
       const error = Object.keys(action.payload.error.error).map(key => `${key}: ${action.payload[key]}`).join(', ');
       return { ...state, inProgress: false, filtersError: error };
+    }
+
+    case UsersActionTypes.EMAIL_DOMAINS_GET_SUCCESS: {
+      return {
+        ...state,
+        emailDomains: action.payload.results,
+      };
     }
 
     default: {
