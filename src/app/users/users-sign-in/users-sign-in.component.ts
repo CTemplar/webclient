@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
 
 // Store
 import { AppState, AuthState } from '../../store/datatypes';
-import { LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
+import { ClearAuthErrorMessage, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { FinalLoading } from '../../store/actions';
 
 // Service
@@ -73,6 +73,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
               private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
+    this.store.dispatch(new ClearAuthErrorMessage());
     setTimeout(() => {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
     });
@@ -119,6 +120,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new ClearAuthErrorMessage());
     this.sharedService.hideFooter.emit(false);
     this.closeKeyboard();
   }
