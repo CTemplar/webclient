@@ -62,7 +62,9 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess
+  WhiteListsReadSuccess,
+  EmailDomainsGet,
+  EmailDomainsGetSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -423,6 +425,20 @@ export class UsersEffects {
             new SnackErrorPush({ message: 'Failed to delete filter.' }),
             new DeleteFilterFailure(errorResponse.error)
           ])
+        );
+    });
+
+  @Effect()
+  EmailDomains: Observable<any> = this.actions
+    .ofType(UsersActionTypes.EMAIL_DOMAINS_GET)
+    .map((action: EmailDomainsGet) => action.payload)
+    .switchMap(payload => {
+      return this.userService.getEmailDomains()
+        .pipe(
+          map(emailDomains => {
+            return new EmailDomainsGetSuccess(emailDomains.results);
+          }),
+          catchError((error) => [])
         );
     });
 
