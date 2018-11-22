@@ -53,6 +53,8 @@ export enum UsersActionTypes {
   DELETE_FILTER = '[USER] DELETE FILTER',
   DELETE_FILTER_SUCCESS = '[USER] DELETE FILTER SUCCESS',
   DELETE_FILTER_FAILURE = '[USER] DELETE FILTER FAILURE',
+  EMAIL_DOMAINS_GET = '[Users] EMAIL_DOMAINS_GET',
+  EMAIL_DOMAINS_GET_SUCCESS = '[Users] EMAIL_DOMAINS_GET_SUCCESS',
 }
 
 export class Accounts implements Action {
@@ -399,6 +401,20 @@ export class DeleteFilterFailure implements Action {
   }
 }
 
+export class EmailDomainsGet implements Action {
+  readonly type = UsersActionTypes.EMAIL_DOMAINS_GET;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class EmailDomainsGetSuccess implements Action {
+  readonly type = UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -449,4 +465,6 @@ export type UsersActionAll =
   | UpdateFilterFailure
   | DeleteFilter
   | DeleteFilterSuccess
-  | DeleteFilterFailure;
+  | DeleteFilterFailure
+  | EmailDomainsGet
+  | EmailDomainsGetSuccess;
