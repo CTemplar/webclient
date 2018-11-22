@@ -275,6 +275,12 @@ export interface DomainRecord {
 }
 
 export interface Domain {
+  id: number;
+  verification_record: DomainRecord;
+  mx_record: DomainRecord;
+  spf_record: DomainRecord;
+  dkim_record: DomainRecord;
+  dmarc_record: DomainRecord;
   domain: string;
   is_domain_verified: boolean;
   is_mx_verified: boolean;
