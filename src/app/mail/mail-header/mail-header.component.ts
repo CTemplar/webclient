@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
-import { NgbModal, NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { Logout } from '../../store/actions';
@@ -9,10 +9,11 @@ import { Language, LANGUAGES } from '../../shared/config';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
 import { UpdateSearch } from '../../store/actions/search.action';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
+import { MailFolderType } from '../../store/models';
+import { ActivatedRoute } from '@angular/router';
 
 @TakeUntilDestroy()
 @Component({
@@ -28,9 +29,12 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   selectedLanguage: Language = { name: 'English', locale: 'en' };
   languages = LANGUAGES;
   searchInput = new FormControl();
+  mailFolderTypes = MailFolderType;
+  mailFolder: MailFolderType;
 
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
+              private route: ActivatedRoute,
               private translate: TranslateService,
               @Inject(DOCUMENT) private document: Document,
               private composeMailService: ComposeMailService) {
@@ -48,12 +52,13 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
           this.selectedLanguage = language;
         }
       });
+    this.route.params.takeUntil(this.destroyed$).subscribe(params => {
+      this.mailFolder = params['folder'] as MailFolderType;
+    });
+  }
 
-    this.searchInput.valueChanges.takeUntil(this.destroyed$)
-      .pipe(debounceTime(1000))
-      .subscribe((value) => {
-        this.store.dispatch(new UpdateSearch(value));
-      });
+  search() {
+    this.store.dispatch(new UpdateSearch(this.searchInput.value));
   }
 
   // == Setup click event to toggle mobile menu

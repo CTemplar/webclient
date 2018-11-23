@@ -12,8 +12,11 @@
                     <div class="form-group mb-0 position-relative">
                         <input class="form-control form-control-sm" type="text"
                                [formControl]="searchInput"
+                               (keyup.enter)="search()"
                                [placeholder]="'common.search' | translate"/>
-                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i
+                        <button class="btn btn-sm btn-secondary search-btn"
+                                (click)="search()"
+                                role="button"><i
                                 class="icon icon-search"></i></button>
                     </div>
                 </form>
@@ -82,7 +85,7 @@
                 href=""><u>Undo</u></a></div>
     </div>
 </div>
-<div class="d-sm-inline-block l-alert l-alert-custom">
+<div class="d-sm-inline-block l-alert l-alert-custom" *ngIf="mailFolder !== mailFolderTypes.SEARCH">
     <div class="l-alert-inner text-secondary">
         <div> <i class="icon icon-secured position-left"></i>We are in <b>open beta</b>. Please report all bugs to
             <a class="cursor-pointer" (click)="openComposeMailDialog(['support@ctemplar.com'])">support@ctemplar.com</a></div>

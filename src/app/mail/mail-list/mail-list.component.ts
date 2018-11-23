@@ -29,9 +29,7 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.takeUntil(this.destroyed$).subscribe(params => {
-      if (!this.searchText) {
-        this.mailFolder = params['folder'] as MailFolderType;
-      }
+      this.mailFolder = params['folder'] as MailFolderType;
     });
 
     this.store.select(state => state.user).takeUntil(this.destroyed$)
