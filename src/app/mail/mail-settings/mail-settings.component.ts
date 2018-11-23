@@ -29,7 +29,8 @@ import {
   Timezone,
   TimezonesState,
   UserState,
-  Domain
+  Domain,
+  DomainRecord
 } from '../../store/datatypes';
 import { Mailbox } from '../../store/models';
 import { OpenPgpService, UsersService } from '../../store/services';
@@ -425,4 +426,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
+  checkStatus(domainRecord: DomainRecord, is_verified: boolean): string {
+    if (is_verified) {
+      return 'verified';
+    } else if (domainRecord.value === '') {
+      return '';
+    }
+    return 'failed';
+  }
 }

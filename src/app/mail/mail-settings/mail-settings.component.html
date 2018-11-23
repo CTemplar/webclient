@@ -943,11 +943,11 @@
                                                 <div class="row bg-white align-items-start" *ngFor="let domain of domains">
                                                     <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
                                                     <div class="col-8 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
-                                                        <div><span translate="settings.status_verification">Verification</span></div>
-                                                        <div><span translate="settings.status_mx">MX</span></div>
-                                                        <div><span translate="settings.status_spf">SPF</span></div>
-                                                        <div><span translate="settings.status_dkim">DKIM</span></div>
-                                                        <div><span translate="settings.status_dmarc">DMARC</span></div>
+                                                        <div [ngClass]="checkStatus(domain.verification_record, domain.is_domain_verified)"><span translate="settings.status_verification">Verification</span></div>
+                                                        <div [ngClass]="checkStatus(domain.mx_record, domain.is_mx_verified)"><span translate="settings.status_mx">MX</span></div>
+                                                        <div [ngClass]="checkStatus(domain.spf_record, domain.is_spf_verified)"><span translate="settings.status_spf">SPF</span></div>
+                                                        <div [ngClass]="checkStatus(domain.dkim_record, domain.is_dkim_verified)"><span translate="settings.status_dkim">DKIM</span></div>
+                                                        <div [ngClass]="checkStatus(domain.dmarc_record, domain.is_dmarc_verified)"><span translate="settings.status_dmarc">DMARC</span></div>
                                                         <div><span translate="settings.status_addresses">Addresses</span></div>
                                                     </div>
                                                     <div class="col-1"></div>

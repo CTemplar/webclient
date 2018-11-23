@@ -498,10 +498,37 @@ $error-red: #e94e4c;
           line-height: 1;
           margin-right: 5px;
           margin-bottom: 10px;
+          cursor: pointer;
 
           border: 1px solid;
           border-color: #2c3e50;
           color: $brand-secondary;
+
+          &:hover {
+            background-color: #ebebeb;
+          }
+
+          &.verified {
+            border: none;
+            background-color: #3ab05d;
+            color: white;
+            opacity: 0.6;
+
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+
+          &.failed {
+            border: none;
+            background-color: #e74c3c;
+            color: white;
+            opacity: 0.6;
+
+            &:hover {
+              opacity: 0.8;
+            }
+          }
         }
       }
     }
