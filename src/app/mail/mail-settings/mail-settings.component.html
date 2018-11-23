@@ -921,14 +921,38 @@
                                             </h5>
                                         </div>
                                         <div class="desc-card-body bg-faded domain-body">
-                                            <button class="btn btn-secondary btn-add-domain font-size-sm" *ngIf="domains && domains.length > 0; else domainsEmpty">
+                                            <button class="btn btn-secondary btn-add-domain text-small" *ngIf="domains && domains.length > 0; else domainsEmpty">
                                                 <span translate="settings.add_domain">Add Domain</span>
                                             </button>
                                             <ng-template #domainsEmpty>
-                                                <button class="btn btn-secondary btn-create-domain font-size-sm">
+                                                <button class="btn btn-secondary btn-create-domain text-small">
                                                     <span translate="settings.create_domain">Create Domain</span>
                                                 </button>
                                             </ng-template>
+
+                                            <div class="domains-list">
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <span class="text-uppercase text-small" translate="settings.current_status">Current Status</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row bg-white align-items-start" *ngFor="let domain of domains">
+                                                    <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
+                                                    <div class="col-8 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
+                                                        <div><span translate="settings.status_verification">Verification</span></div>
+                                                        <div><span translate="settings.status_mx">MX</span></div>
+                                                        <div><span translate="settings.status_spf">SPF</span></div>
+                                                        <div><span translate="settings.status_dkim">DKIM</span></div>
+                                                        <div><span translate="settings.status_dmarc">DMARC</span></div>
+                                                        <div><span translate="settings.status_addresses">Addresses</span></div>
+                                                    </div>
+                                                    <div class="col-1"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -122,7 +122,15 @@
     "type": "Type:",
     "features_added_soon": "Added later to this package",
     "create_domain": "Create Domain",
-    "add_domain": "Add Domain"
+    "add_domain": "Add Domain",
+    "domain": "Domain",
+    "current_status": "Current Status",
+    "status_verification": "Verification",
+    "status_mx": "MX",
+    "status_spf": "SPF",
+    "status_dkim": "DKIM",
+    "status_dmarc": "DMARC",
+    "status_addresses": "Addresses"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
