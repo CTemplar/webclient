@@ -45,6 +45,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   LIMIT: number;
   OFFSET: number = 0;
   PAGE: number = 0;
+  private searchText: string;
 
   constructor(public store: Store<AppState>,
               private router: Router,
@@ -79,10 +80,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
     this.store.select(state => state.search).takeUntil(this.destroyed$)
       .subscribe((searchState: SearchState) => {
-        if (searchState.searchText) {
+        this.searchText = searchState.searchText;
+        if (this.searchText) {
           this.store.dispatch(new GetMails({
             forceReload: true,
-            searchText: searchState.searchText,
+            searchText: this.searchText,
             limit: this.LIMIT,
             offset: this.OFFSET,
             folder: this.mailFolder
@@ -278,7 +280,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (this.PAGE > 0) {
       this.PAGE--;
       this.OFFSET = this.PAGE * this.LIMIT;
-      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
+      this.store.dispatch(new GetMails({
+        limit: this.LIMIT,
+        searchText: this.searchText,
+        offset: this.OFFSET,
+        folder: this.mailFolder
+      }));
     }
   }
 
@@ -286,7 +293,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
-      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
+      this.store.dispatch(new GetMails({
+        limit: this.LIMIT,
+        searchText: this.searchText,
+        offset: this.OFFSET,
+        folder: this.mailFolder
+      }));
     }
   }
 

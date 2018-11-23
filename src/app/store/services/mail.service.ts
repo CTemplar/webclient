@@ -22,7 +22,7 @@ export class MailService {
       limit: number, offset: number, folder: MailFolderType,
       read: null, seconds?: number, searchText?: string
     }): Observable<any> {
-    if (payload.searchText) {
+    if (payload.searchText && payload.folder === MailFolderType.SEARCH) {
       return this.searchMessages(payload);
     }
     let url = `${apiUrl}emails/messages/?limit=${payload.limit}&offset=${payload.offset}`;
