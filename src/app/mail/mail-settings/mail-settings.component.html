@@ -920,13 +920,15 @@
                                             <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
                                             </h5>
                                         </div>
-                                        <div class="desc-card-body">
-                                            <div class="top-action-pane">
-                                                <button class="btn btn-secondary">
-                                                    <span translate="settings.add_domain" *ngIf="domains && domains.length > 0; else domainsEmpty">Add Domain</span>
-                                                    <ng-template #domainsEmpty><span translate="settings.create_domain">Create Domain</span></ng-template>
+                                        <div class="desc-card-body bg-faded domain-body">
+                                            <button class="btn btn-secondary btn-add-domain font-size-sm" *ngIf="domains && domains.length > 0; else domainsEmpty">
+                                                <span translate="settings.add_domain">Add Domain</span>
+                                            </button>
+                                            <ng-template #domainsEmpty>
+                                                <button class="btn btn-secondary btn-create-domain font-size-sm">
+                                                    <span translate="settings.create_domain">Create Domain</span>
                                                 </button>
-                                            </div>
+                                            </ng-template>
                                         </div>
                                     </div>
                                 </div>

@@ -447,17 +447,31 @@ $error-red: #e94e4c;
   padding-bottom: 1px;
 }
 
-.top-action-pane {
-  background: $brand-faded;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  padding-left: 35px;
-  
-  @include media("<=sm") {
-    padding-left: 28px;
+.font-size-sm {
+  font-size: $font-size-sm;
+}
+
+.domain-body {
+  padding-left: 1.563rem;
+  padding-right: 1.563rem;
+  @include media("<ipad") {
+    padding-left: 0.938rem;
+    padding-right: 0.938rem;
   }
 
-  @include media("<sm") {
-    padding-left: 12px;
+  .btn-create-domain {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    @include media("<=sm") {
+      margin-top: 1.875rem;
+      margin-bottom: 1.875rem;
+    }
+  }
+
+  .btn-add-domain {
+    margin-top: 1.5rem;
+    @include media("<=sm") {
+      margin-top: 1.25rem;
+    }
   }
 }
