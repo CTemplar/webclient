@@ -8,18 +8,23 @@
     <div class="row align-items-center mailbox-navbar-row">
         <div class="col-sm-6 mailbox-navbar-col hidden-xs-down">
             <div class="form search-form">
-                <form>
+                <div>
                     <div class="form-group mb-0 position-relative">
                         <input class="form-control form-control-sm" type="text"
                                [formControl]="searchInput"
                                (keyup.enter)="search()"
                                [placeholder]="'common.search' | translate"/>
+                        <button class="clear-btn"
+                                *ngIf="searchInput.value?.length>0"
+                                (click)="searchInput.setValue('')">
+                            <i class="material-icons">close</i>
+                        </button>
                         <button class="btn btn-sm btn-secondary search-btn"
                                 (click)="search()"
                                 role="button"><i
                                 class="icon icon-search"></i></button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <div class="col-sm-6 mailbox-navbar-col">

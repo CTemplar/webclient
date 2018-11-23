@@ -109,13 +109,13 @@
     > a {
       display: block;
       text-align: center;
-      
+
       @include media("<=sm") {
         color: #a1abb5 !important;
         font-size: 1rem;
         padding: .6rem 0.4rem;
       }
-      
+
       @include media(">sm") {
         padding: 0.438rem 0.813rem;
         background: $brand-white;
@@ -131,7 +131,7 @@
       }
     }
 
-    .dropdown{
+    .dropdown {
       background: $brand-white;
       @include media("<=sm") {
         padding: .6rem 0.4rem;
@@ -162,7 +162,7 @@
 
     .border-right-no-color {
       border-right-color: transparent;
-    }    
+    }
 
   }
 
@@ -213,6 +213,26 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     min-width: 55px;
+  }
+
+  .clear-btn {
+    position: absolute;
+    top: 5px;
+    right: 58px;
+    min-width: 40px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+
+    i {
+      font-size: 20px !important;
+      &:hover {
+        color: $brand-secondary;
+      }
+      &:active {
+        color: $brand-black;
+      }
+    }
   }
 }
 

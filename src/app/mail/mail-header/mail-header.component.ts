@@ -55,6 +55,12 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     this.route.params.takeUntil(this.destroyed$).subscribe(params => {
       this.mailFolder = params['folder'] as MailFolderType;
     });
+    this.searchInput.valueChanges.takeUntil(this.destroyed$)
+      .subscribe((value) => {
+        if (!value) {
+          this.store.dispatch(new UpdateSearch(value));
+        }
+      });
   }
 
   search() {
