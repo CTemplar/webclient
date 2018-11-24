@@ -493,7 +493,7 @@ $error-red: #e94e4c;
 
       .domain-status {
         div {
-          padding: 6px 12px;
+          padding: 7px 12px;
           border-radius: 14px;
           line-height: 1;
           margin-right: 5px;
@@ -508,6 +508,12 @@ $error-red: #e94e4c;
             background-color: #ebebeb;
           }
 
+          .fa-check,
+          .fa-exclamation {
+            display: none;
+            margin-right: 5.3px;
+          }
+
           &.verified {
             border: none;
             background-color: #3ab05d;
@@ -516,6 +522,10 @@ $error-red: #e94e4c;
 
             &:hover {
               opacity: 0.8;
+            }
+
+            .fa-check {
+              display: inline-block;
             }
           }
 
@@ -527,6 +537,10 @@ $error-red: #e94e4c;
 
             &:hover {
               opacity: 0.8;
+            }
+
+            .fa-exclamation {
+              display: inline-block;
             }
           }
         }
