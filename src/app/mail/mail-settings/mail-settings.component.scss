@@ -545,6 +545,24 @@ $error-red: #e94e4c;
           }
         }
       }
+
+      .actions {
+        margin-top: -9px;
+        
+        .action {
+          width: 44px;
+          height: 44px;
+          cursor: pointer;
+          color: $gray-9e9e9e;
+          opacity: 0.6;
+
+          &:hover {
+            background-color: $brand-faded;
+            border: 1px solid #8a9095;
+            color: #8a9095;
+          }
+        }
+      }
     }
   }
 }

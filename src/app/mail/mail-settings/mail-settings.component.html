@@ -942,7 +942,7 @@
 
                                                 <div class="row bg-white align-items-start" *ngFor="let domain of domains">
                                                     <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
-                                                    <div class="col-8 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
+                                                    <div class="col-7 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
                                                         <div [ngClass]="checkStatus(domain.verification_record, domain.is_domain_verified)"><span translate="settings.status_verification">Verification</span></div>
                                                         <div [ngClass]="checkStatus(domain.mx_record, domain.is_mx_verified)"><span translate="settings.status_mx"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>MX</span></div>
                                                         <div [ngClass]="checkStatus(domain.spf_record, domain.is_spf_verified)"><span translate="settings.status_spf"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>SPF</span></div>
@@ -950,7 +950,17 @@
                                                         <div [ngClass]="checkStatus(domain.dmarc_record, domain.is_dmarc_verified)"><span translate="settings.status_dmarc"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>DMARC</span></div>
                                                         <div><span translate="settings.status_addresses">Addresses</span></div>
                                                     </div>
-                                                    <div class="col-1"></div>
+                                                    <div class="col-2 d-flex justify-content-end actions">
+                                                        <div class="action d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                                                            <i class="icon icon-edit"></i>
+                                                        </div>
+                                                        <div class="action d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                                                            <i class="icon icon-garbage"></i>
+                                                        </div>
+                                                        <div class="action d-flex d-md-none justify-content-center align-items-center">
+                                                            <i class="fa fa-ellipsis-h"></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
