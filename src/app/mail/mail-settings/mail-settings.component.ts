@@ -427,11 +427,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   checkStatus(domainRecord: DomainRecord, is_verified: boolean): string {
-    if (is_verified) {
+    if (is_verified === true) {
       return 'verified';
-    } else if (domainRecord.value === '') {
-      return '';
+    } else if (is_verified === false) {
+      return 'failed';
     }
-    return 'failed';
+    return '';
   }
 }
