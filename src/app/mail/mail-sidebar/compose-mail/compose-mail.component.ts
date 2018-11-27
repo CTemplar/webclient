@@ -77,6 +77,7 @@ Quill.register(ImageBlot);
 class SignatureBlot extends BlockEmbed {
   static create(value) {
     const node: any = super.create(value);
+    value = value.replace(/<br>/g, '\n');
     node.innerText = value;
     return node;
   }
@@ -396,8 +397,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.userState.isPrime && sizeInMBs > 25) {
       this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 25MB.' }));
-    } else if (!this.userState.isPrime && sizeInMBs > 10) {
-      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 10MB.' }));
+    } else if (!this.userState.isPrime && sizeInMBs > 5) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 5MB. Please upgrade your account to prime to send larger attachments.' }));
     } else {
       const attachment: Attachment = {
         draftId: this.draftId,
@@ -476,14 +477,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
     } else {
-      if (this.mailData.receiver.length > 5) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "TO" addresses are allowed.' }));
+      if (this.mailData.receiver.length > 20) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "TO" addresses are allowed.' }));
         return;
-      } else if (this.mailData.cc.length > 5) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "CC" addresses are allowed.' }));
+      } else if (this.mailData.cc.length > 20) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "CC" addresses are allowed.' }));
         return;
-      } else if (this.mailData.bcc.length > 5) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 5 "BCC" addresses are allowed.' }));
+      } else if (this.mailData.bcc.length > 1) {
+        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 1 "BCC" address is allowed. Please upgrade your account to prime to add more addresses.' }));
         return;
       }
     }
@@ -507,8 +508,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     receivers.forEach(receiver => {
       if (receiver.toLowerCase().indexOf('@ctemplar.com') === -1 && receiver.toLowerCase().indexOf('@dev.ctemplar.com') === -1) {
         nonCTemplarReceivers.push(receiver);
-      }
-      else {
+      } else {
         cTemplarReceivers.push(receiver);
       }
     });
@@ -516,13 +516,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
       if (cTemplarReceivers.length === 0) {
         this.setMailData(true, false);
-      }
-      else {
+      } else {
         this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
         this.setMailData(true, false, true);
       }
-    }
-    else {
+    } else {
       if (nonCTemplarReceivers.length === 0) {
         this.setMailData(true, false, true);
         this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
@@ -757,7 +755,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    if (shouldSend) {
+    if (!shouldSave) {
       this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
     }
     this.draftMail.is_encrypted = isEncrypted;
@@ -894,5 +892,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (event.keyCode === ESCAPE_KEYCODE) {
       this.closeOSK();
     }
+  }
+
+  onFilesDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.onFilesSelected(event.dataTransfer.files);
   }
 }

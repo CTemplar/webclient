@@ -13,9 +13,6 @@ export class SafePipe implements PipeTransform {
   public transform(value: any, type: string = '', fromEmail): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
-        if (fromEmail === 'support@ctemplar.com') {
-          return this.sanitizer.bypassSecurityTrustHtml(value);
-        }
         const cssFilter = new cssfilter.FilterCSS({
           onIgnoreAttr: (styleName, styleValue, opts) => {
             const blackList = {
@@ -94,20 +91,10 @@ export class SafePipe implements PipeTransform {
             }
           },
           onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
-            let safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
-            if (attrName !== 'style') {
-              // Encode chars '(' and ')' to prevent function calls in scripts.
-              // Encode char '.' to prevent access to members or properties in scripts.
-              // Encode char '=' to prevent changing members or properties in scripts.
-              // Encode char '&' to prevent further decoding of the above encoded characters.
-              safeAttrValue = safeAttrValue
-                .replace(/\(/g, '&lpar;')
-                .replace(/\)/g, '&rpar;')
-                .replace(/\./g, '&period;')
-                .replace(/=/g, '&equals;')
-                .replace(/&/g, '&amp;');
+            if (attrName === 'style') {
+              const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
+              return attrName + '="' + safeAttrValue + '"';
             }
-            return attrName + '="' + safeAttrValue + '"';
           }
         });
         return this.sanitizer.bypassSecurityTrustHtml(xssValue);

@@ -23,6 +23,9 @@
   <app-generic-folder *ngSwitchCase="mailFolderTypes.OUTBOX"
                       [fetchMails]="true"
                       [mailFolder]="mailFolderTypes.OUTBOX"></app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.SEARCH"
+                      [fetchMails]="true"
+                      [mailFolder]="mailFolderTypes.SEARCH"></app-generic-folder>
   <ng-container *ngFor="let folder of customFolders">
     <app-generic-folder *ngSwitchCase="folder.name"
                       [fetchMails]="true"

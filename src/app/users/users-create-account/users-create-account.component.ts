@@ -16,6 +16,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime, tap } from 'rxjs/operators';
 import { apiUrl, VALID_EMAIL_REGEX } from '../../shared/config';
+import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
 export class PasswordValidation {
 
@@ -54,6 +56,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   submitted = false;
   userKeys: any;
   generatingKeys: boolean;
+  modalRef: NgbModalRef;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -128,23 +131,22 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
     this.isFormCompleted = true;
 
-    const signupFormValue = this.signupForm.value;
-    this.openPgpService.generateUserKeys(signupFormValue.username, signupFormValue.password);
     if (this.selectedPlan === 1) {
       this.navigateToBillingPage();
     }
   }
 
+  openAccountInitModal() {
+    this.modalRef = this.modalService.open(UserAccountInitDialogComponent, {
+      centered: true,
+      windowClass: 'modal-sm',
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
+
   private navigateToBillingPage() {
-    this.userKeys = this.openPgpService.getUserKeys();
-    if (!this.userKeys) {
-      this.generatingKeys = true;
-      this.waitForPGPKeys('navigateToBillingPage');
-      return;
-    }
-    this.generatingKeys = false;
     this.store.dispatch(new UpdateSignupData({
-      ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
@@ -153,15 +155,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/billing-info');
   }
 
-  waitForPGPKeys(callback) {
-    setTimeout(() => {
-      if (this.openPgpService.getUserKeys()) {
-        this[callback]();
-        return;
-      }
-      this.waitForPGPKeys(callback);
-    }, 1000);
-  }
 
   recaptchaResolved(captchaResponse: string) {
     this.signupForm.value.captchaResponse = captchaResponse;
@@ -171,13 +164,28 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   signupFormCompleted() {
     if (this.selectedPlan === 1 && this.signupForm.value.captchaResponse) {
       this.navigateToBillingPage();
-      return;
+    } else {
+      this.signupInProgress = true;
+      this.openAccountInitModal();
+      this.openPgpService.generateUserKeys(this.signupForm.get('username').value, this.signupForm.get('password').value);
+      this.waitForPGPKeys();
     }
-    this.signupInProgress = true;
-    this.userKeys = this.openPgpService.getUserKeys();
-    if (!this.userKeys) {
-      this.waitForPGPKeys('signupFormCompleted');
-      return;
+  }
+
+  waitForPGPKeys() {
+    setTimeout(() => {
+      this.userKeys = this.openPgpService.getUserKeys();
+      if (this.userKeys) {
+        this.pgpKeyGenerationCompleted();
+        return;
+      }
+      this.waitForPGPKeys();
+    }, 1000);
+  }
+
+  pgpKeyGenerationCompleted() {
+    if (this.modalRef) {
+      this.modalRef.componentInstance.isPgpGenerationComplete = true;
     }
     this.data = {
       ...this.userKeys,
@@ -192,9 +200,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   private handleUserState(): void {
     this.store.select(state => state.auth).takeUntil(this.destroyed$).subscribe((authState: AuthState) => {
       if (this.signupInProgress && !authState.inProgress) {
-        if (!authState.errorMessage) {
-          this.notificationService.showSnackBar(`Account created successfully.`);
-        } else {
+        if (authState.errorMessage) {
           this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);
         }
         this.signupInProgress = false;

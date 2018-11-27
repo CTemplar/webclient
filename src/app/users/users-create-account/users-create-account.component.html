@@ -18,7 +18,6 @@
             <span [innerHTML]="'create_account.class_encrypted_email' | translate">Best in class encrypted email <br/> Account creation in only minutes</span>
           </p>
         </div>
-
         <div class="form">
           <form class="signup-form" [formGroup]="signupForm" #form="ngForm" (ngSubmit)="signup()">
             <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
@@ -246,6 +245,12 @@
     </div>
   </div>
   <div *ngIf="isCaptchaCompleted" class="text-center form-group mt-4">
+    <div class="col-sm col-sm-6 mx-auto">
+      <div *ngIf="errorMessage" class="reset-form__failed  l-alert l-alert-danger mb-3">
+        {{ errorMessage }}
+      </div>
+    </div>
+
     <button class="btn btn-secondary btn-lg" role="button"
             (click)="signupFormCompleted()"
             translate="billing_info.submit"

@@ -31,6 +31,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
+                   [separatorKeyCodes]="[32, 9]"
                    (onAdd)="valueChanged$.next(mailData.receiver)"
                    (onRemove)="valueChanged$.next(mailData.receiver)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
@@ -59,6 +60,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
+                   [separatorKeyCodes]="[32, 9]"
                    (onAdd)="valueChanged$.next(mailData.cc)"
                    (onRemove)="valueChanged$.next(mailData.cc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
@@ -81,6 +83,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
+                   [separatorKeyCodes]="[32, 9]"
                    (onAdd)="valueChanged$.next(mailData.bcc)"
                    (onRemove)="valueChanged$.next(mailData.bcc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
@@ -105,7 +108,7 @@
   <div class="mail-compose-editable-body">
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
-        <div class="mail-compose-editable-box">
+        <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
           <div #editor></div>
         </div>
         <input type="file"

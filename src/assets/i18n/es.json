@@ -23,7 +23,7 @@
     "email": "Email",
     "phone": "Teléfono",
     "edit": "EDITAR",
-    "search": "Buscar",
+    "search": "Buscar (solo se admiten búsquedas de temas y direcciones de correo electrónico)",
     "upgrade_account": "Actualizar cuenta",
     "terms_and_privacy": "Términos de servicio",
     "report_bug": "Reportar un error",

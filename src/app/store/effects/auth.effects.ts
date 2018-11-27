@@ -78,18 +78,13 @@ export class AuthEffects {
 
       return this.authService.signUp(payload)
         .pipe(
-          map((user) => new LogInSuccess(user)),
-          catchError((error) => [new SignUpFailure(error),
+          switchMap((user) => [
+            new SignUpSuccess(user),
+            new LogInSuccess(user)
+          ]),
+          catchError((errorResponse) => [new SignUpFailure(errorResponse.error),
             new SnackErrorPush({ message: 'Failed to signup, please try again.' })])
         );
-    });
-
-  @Effect({ dispatch: false })
-  SignUpSuccess: Observable<any> = this.actions
-    .ofType(AuthActionTypes.SIGNUP_SUCCESS)
-    .map((action: SignUpSuccess) => action.payload)
-    .map(payload => {
-      this.router.navigateByUrl('/mail');
     });
 
   @Effect({ dispatch: false })
@@ -123,7 +118,7 @@ export class AuthEffects {
     .switchMap(payload => {
       return this.authService.recoverPassword(payload)
         .pipe(
-          map((res) => new RecoverPasswordSuccess(res)),
+          switchMap((res) => [new RecoverPasswordSuccess(res)]),
           catchError((error) => [new RecoverPasswordFailure(error)])
         );
     });
@@ -135,7 +130,7 @@ export class AuthEffects {
     .switchMap(payload => {
       return this.authService.resetPassword(payload)
         .pipe(
-          map((user) => [
+          switchMap((user) => [
             new LogInSuccess(user),
             new ResetPasswordSuccess(user)
           ]),
