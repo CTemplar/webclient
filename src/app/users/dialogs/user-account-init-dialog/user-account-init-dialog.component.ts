@@ -107,9 +107,11 @@ export class UserAccountInitDialogComponent implements OnInit, OnChanges, OnDest
         if (this.isAccountCreationComplete) {
           this.close();
         }
-      }, 1000);
+      }, 3000);
     } else {
-      this.step++;
+      setTimeout(() => {
+        this.step++;
+      }, 3000);
     }
   }
 
