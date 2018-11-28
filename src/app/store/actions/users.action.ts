@@ -53,6 +53,7 @@ export enum UsersActionTypes {
   DELETE_FILTER = '[USER] DELETE FILTER',
   DELETE_FILTER_SUCCESS = '[USER] DELETE FILTER SUCCESS',
   DELETE_FILTER_FAILURE = '[USER] DELETE FILTER FAILURE',
+  PAYMENT_FAILURE = '[USER] PAYMENT FAILURE'
 }
 
 export class Accounts implements Action {
@@ -399,6 +400,13 @@ export class DeleteFilterFailure implements Action {
   }
 }
 
+export class PaymentFailure implements Action {
+  readonly type = UsersActionTypes.PAYMENT_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -449,4 +457,5 @@ export type UsersActionAll =
   | UpdateFilterFailure
   | DeleteFilter
   | DeleteFilterSuccess
-  | DeleteFilterFailure;
+  | DeleteFilterFailure
+  | PaymentFailure;
