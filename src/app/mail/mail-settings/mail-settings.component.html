@@ -915,13 +915,13 @@
                         <div class="desc-card-holder mt-sm-3 mt-md-0">
                             <div class="row">
                                 <div class="col-md-12 mb-4 mb-md-0">
-                                    <div class="desc-card">
+                                    <div class="desc-card" *ngIf="!isAddingNewDomain">
                                         <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                                             <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
                                             </h5>
                                         </div>
                                         <div class="desc-card-body bg-faded domain-body">
-                                            <button class="btn btn-secondary btn-add-domain text-small" *ngIf="domains && domains.length > 0; else domainsEmpty">
+                                            <button class="btn btn-secondary btn-add-domain text-small" *ngIf="domains && domains.length > 0; else domainsEmpty" (click)="isAddingNewDomain=true">
                                                 <span translate="settings.add_domain">Add Domain</span>
                                             </button>
                                             <ng-template #domainsEmpty>
@@ -963,6 +963,35 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="desc-card" *ngIf="isAddingNewDomain">
+                                        <div class="create-domain-header">
+                                            <h4 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.create_domain">Create Domain</strong>
+                                            </h4>
+                                        </div>
+                                        <div class="desc-card-body bg-faded">
+                                            <mat-vertical-stepper [linear]="true" #stepper>
+                                                <mat-step [stepControl]="domainNameForm">
+                                                    <form [formGroup]="domainNameForm">
+                                                        <ng-template translate="settings.add_domain_step.name" matStepLabel>Domain name</ng-template>
+                                                        <div class="stepper-form">
+                                                            <div class="description-label">
+                                                                <span translate="settings.add_domain_step.info">Add a domain that you own to your CTemplar acctount.</span>
+                                                            </div>
+                                                            <div>
+                                                                <input class="domain-input description-label" id="domainInput" type="text"
+                                                                formControlName="domainNameCtrl"/>
+                                                            </div>
+                                                            <div>
+                                                                <button class="btn btn-sm btn-secondary btn-next" matStepperNext>
+                                                                    <span translate="settings.next">Next</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </mat-step>
+                                            </mat-vertical-stepper>
                                         </div>
                                     </div>
                                 </div>

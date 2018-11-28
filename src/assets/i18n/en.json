@@ -130,7 +130,12 @@
     "status_spf": "SPF",
     "status_dkim": "DKIM",
     "status_dmarc": "DMARC",
-    "status_addresses": "Addresses"
+    "status_addresses": "Addresses",
+    "next": "Next",
+    "add_domain_step": {
+      "name": "Domain name",
+      "info": "Add a domain that you own to your CTemplar acctount."
+    }
   },
   "mail_sidebar": {
     "inbox": "Inbox",

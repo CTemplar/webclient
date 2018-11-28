@@ -80,6 +80,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   deleteAccountOptions: any = {};
   domains: Domain[] = [];
 
+  isAddingNewDomain = false;
+  domainNameForm: FormGroup;
+
   private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -161,6 +164,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
 
     this.handleUsernameAvailability();
+
+    this.domainNameForm = this.formBuilder.group({
+      domainNameCtrl: ['', Validators.required]
+    });
   }
 
   calculatePrices() {

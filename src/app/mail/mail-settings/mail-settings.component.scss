@@ -566,3 +566,54 @@ $error-red: #e94e4c;
     }
   }
 }
+
+.create-domain-header {
+  padding-bottom: 1.875rem;
+}
+
+.stepper-form {
+  padding: 1.5625rem 1.875rem 2.5rem 1.875rem;
+  background-color: #fafafa;
+
+  .description-label {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .domain-input {
+    margin-top: 1.25rem;
+    width: 28.125rem;
+    padding: 0.75rem 0.8125rem 0.75rem 0.8125rem;
+  }
+
+  .btn-next {
+    margin-top: 1.875rem;
+    @include media("<=sm") {
+      margin-top: 1.875rem;
+    }
+  }
+}
+
+/deep/ .mat-step-header .mat-step-icon {
+  width: 1.875rem;
+  height: 1.875rem;
+  background-color: #e74c3c;
+}
+
+/deep/ .mat-step-header .mat-step-icon-not-touched {
+  width: 1.875rem;
+  height: 1.875rem;
+  background-color: #cccccc
+}
+
+/deep/ .mat-step-header .mat-step-label-selected {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 1.125rem;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  -webkit-text-fill-color: #e74c3c;
+  color: #e74c3c;
+}
