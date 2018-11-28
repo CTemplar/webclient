@@ -191,9 +191,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       }
       if (this.payment) {
         if (this.payment.payment_type === PaymentType.ANNUALLY) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
+          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10)) * 12).toFixed(2);
         } else if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 3)) * 12).toFixed(2);
+          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10)) * 12).toFixed(2);
           this.annualDiscountedPrice = +(this.annualTotalPrice * 0.75).toFixed(2);
         }
       }
