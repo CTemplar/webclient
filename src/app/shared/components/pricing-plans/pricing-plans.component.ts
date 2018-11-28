@@ -67,9 +67,9 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: any) {
     if (changes.selectedStorage || changes.selectedEmailAddress) {
       this.selectedStorage = changes.selectedStorage && changes.selectedStorage.currentValue > 0 ?
-        changes.selectedStorage.currentValue : this.defaultStorage;
+        changes.selectedStorage.currentValue : this.selectedStorage || this.defaultStorage;
       this.selectedEmailAddress = changes.selectedEmailAddress && changes.selectedEmailAddress.currentValue > 0 ?
-        changes.selectedEmailAddress.currentValue : this.defaultEmailAddress;
+        changes.selectedEmailAddress.currentValue : this.selectedEmailAddress || this.defaultEmailAddress;
       this.calculatePrices();
     }
   }
