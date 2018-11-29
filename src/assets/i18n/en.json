@@ -142,6 +142,14 @@
       "type": "Type",
       "host_name": "Host Name",
       "value_data_points_to": "Value / Data / Points To"
+    },
+    "mx_step": {
+      "name": "MX",
+      "info": "Before you can receive emails for your custom domain addresses at Ctemplar, you need to add the following MX record to your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following MX record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To",
+      "priority": "Priority"
     }
   },
   "mail_sidebar": {

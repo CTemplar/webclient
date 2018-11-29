@@ -83,6 +83,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   isAddingNewDomain = false;
   domainNameForm: FormGroup;
   verifyForm: FormGroup;
+  mxForm: FormGroup;
 
   private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;
@@ -171,6 +172,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
 
     this.verifyForm = this.formBuilder.group({
+    });
+
+    this.mxForm = this.formBuilder.group({
     });
   }
 
