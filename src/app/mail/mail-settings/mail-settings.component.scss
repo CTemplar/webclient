@@ -600,6 +600,7 @@ $error-red: #e94e4c;
 
 /deep/ .mat-stepper-vertical, .mat-stepper-horizontal {
   font-family: "Lato", Helvetica, Arial, sans-serif;
+  word-break: break-all;
 }
 
 /deep/ .mat-step-header .mat-step-icon {
