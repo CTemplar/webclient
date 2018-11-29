@@ -3,7 +3,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // Helpers
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { NotificationService } from './notification.service';
 import { Folder } from '../models';
 
@@ -17,6 +18,7 @@ export class SharedService {
   isMail: EventEmitter<boolean> = new EventEmitter();
   isExternalPage: EventEmitter<boolean> = new EventEmitter();
 
+  private paymentFailureModalRef: NgbModalRef;
   //
   constructor(
     private http: HttpClient,
@@ -42,6 +44,18 @@ export class SharedService {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
     } else {
       this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
+    }
+  }
+
+  showPaymentFailureDialog() {
+    if (!this.paymentFailureModalRef) {
+      this.paymentFailureModalRef = this.modalService.open(PaymentFailureNoticeComponent, {
+        centered: true,
+        windowClass: 'modal-sm',
+        backdrop: 'static',
+        keyboard: false
+      });
+      this.paymentFailureModalRef.result.then(() => this.paymentFailureModalRef = null);
     }
   }
 

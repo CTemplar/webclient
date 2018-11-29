@@ -75,7 +75,7 @@
                           </a>
                           <a *ngFor="let address of availableEmailAddress"
                              class="dropdown-item" (click)="selectedEmailAddress = address; calculatePrices(); isValueChanged = true;">
-                            {{address}} <span translate="page_pricing.email_aliases">Email Address Aliases</span> + {{(address - defaultEmailAddress) / 3 | currency:selectedCurrency}}/mo</a>
+                            {{address}} <span translate="page_pricing.email_aliases">Email Address Aliases</span> + {{(address - defaultEmailAddress) / 10 | currency:selectedCurrency}}/mo</a>
                         </div>
                       </div>
                     </div>

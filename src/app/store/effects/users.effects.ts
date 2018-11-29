@@ -10,9 +10,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 // Service
-import { MailService, UsersService } from '../../store/services';
+import { MailService, SharedService, UsersService } from '../../store/services';
 // Custom Actions
 import {
   AccountDetailsGet,
@@ -45,7 +45,7 @@ import {
   DeleteFolder,
   DeleteFolderSuccess,
   GetFilters,
-  GetFiltersSuccess,
+  GetFiltersSuccess, PaymentFailure,
   SettingsUpdate,
   SettingsUpdateSuccess,
   SnackErrorPush,
@@ -74,6 +74,7 @@ export class UsersEffects {
     private userService: UsersService,
     private notificationService: NotificationService,
     private mailService: MailService,
+    private sharedService: SharedService
   ) {
   }
 
@@ -426,4 +427,13 @@ export class UsersEffects {
         );
     });
 
+  @Effect({ dispatch: false })
+  paymentFailureEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.PAYMENT_FAILURE)
+    .map((action: PaymentFailure) => action.payload)
+    .pipe(
+      tap(payload => {
+        this.sharedService.showPaymentFailureDialog();
+      })
+    );
 }
