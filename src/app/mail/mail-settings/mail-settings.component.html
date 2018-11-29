@@ -1085,6 +1085,49 @@
                                                         </div>
                                                     </form>
                                                 </mat-step>
+                                                <mat-step [stepControl]="spfForm">
+                                                    <form [formGroup]="spfForm">
+                                                        <ng-template translate="settings.spf_step.name" matStepLabel>SPF</ng-template>
+                                                        <div class="stepper-form">
+                                                            <div class="description-label pb-4">
+                                                                <span [innerHTML]="'settings.spf_step.info' | translate">SPF is used to specify who is allowed to send email for the domain so we strongly recommend including Ctemplar in your SPF record. Please add the following TXT record into your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record. Note, DNS records can take several hours to update.</span>
+                                                            </div>
+                                                            <div class="domains-list">
+                                                                <div class="row">
+                                                                    <div class="col-md-1 col-sm-12">
+                                                                        <div class="pl-3">
+                                                                            <span class="text-uppercase text-small" translate="settings.spf_step.type">Type</span>
+                                                                        </div>
+                                                                        <div class="bg-white px-3 py-3">
+                                                                            <span class="text-dark text-small">TXT</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-sm-12">
+                                                                        <div class="pl-3">
+                                                                            <span class="text-uppercase text-small" translate="settings.spf_step.host_name">Host Name</span>
+                                                                        </div>
+                                                                        <div class="bg-white px-3 py-3">
+                                                                            <span class="text-dark text-small">@</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-7 col-sm-12">
+                                                                        <div class="pl-3">
+                                                                            <span class="text-uppercase text-small" translate="settings.spf_step.value_data_points_to">Value / Data / Points To</span>
+                                                                        </div>
+                                                                        <div class="bg-white px-3 py-3">
+                                                                            <span class="text-dark text-small">mail.ctemplar.com</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <button class="btn btn-sm btn-secondary btn-next" matStepperNext>
+                                                                    <span translate="settings.next">Next</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </mat-step>
                                             </mat-vertical-stepper>
                                         </div>
                                     </div>

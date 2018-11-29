@@ -598,6 +598,10 @@ $error-red: #e94e4c;
   }
 }
 
+/deep/ .mat-stepper-vertical, .mat-stepper-horizontal {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+}
+
 /deep/ .mat-step-header .mat-step-icon {
   width: 1.875rem;
   height: 1.875rem;

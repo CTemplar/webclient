@@ -150,6 +150,13 @@
       "host_name": "Host Name",
       "value_data_points_to": "Value / Data / Points To",
       "priority": "Priority"
+    },
+    "spf_step": {
+      "name": "SPF",
+      "info": "SPF is used to specify who is allowed to send email for the domain so we strongly recommend including Ctemplar in your SPF record. Please add the following TXT record into your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
     }
   },
   "mail_sidebar": {
