@@ -583,7 +583,7 @@ $error-red: #e94e4c;
   .domain-input {
     margin-top: 1.25rem;
     width: 28.125rem;
-    padding: 0.75rem 0.8125rem 0.75rem 0.8125rem;
+    padding: 0.75rem 0.8125rem;
   }
 
   .btn-next {
@@ -592,18 +592,29 @@ $error-red: #e94e4c;
       margin-top: 1.875rem;
     }
   }
+  
+  @include media("<=sm") {
+    padding: 0;
+  }
 }
 
 /deep/ .mat-step-header .mat-step-icon {
   width: 1.875rem;
   height: 1.875rem;
   background-color: #e74c3c;
+  @include media("<=sm") {
+    width: 1.5625rem;
+    height: 1.5625rem;
+  }
 }
 
 /deep/ .mat-step-header .mat-step-icon-not-touched {
   width: 1.875rem;
   height: 1.875rem;
-  background-color: #cccccc
+  @include media("<=sm") {
+    width: 1.5625rem;
+    height: 1.5625rem;
+  }
 }
 
 /deep/ .mat-step-header .mat-step-label-selected {

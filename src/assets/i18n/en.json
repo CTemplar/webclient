@@ -135,6 +135,13 @@
     "add_domain_step": {
       "name": "Domain name",
       "info": "Add a domain that you own to your CTemplar acctount."
+    },
+    "verify_step": {
+      "name": "Verify",
+      "info": "For security reasons, we need to verify that you are the owner of your domain. Please add the following code into your DNS. Do not remove it even after successful verification. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record:",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
     }
   },
   "mail_sidebar": {
