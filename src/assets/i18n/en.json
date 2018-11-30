@@ -164,6 +164,13 @@
       "type": "Type",
       "host_name": "Host Name",
       "value_data_points_to": "Value / Data / Points To"
+    },
+    "dmarc_step": {
+      "name": "DMARC",
+      "info": "Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
     }
   },
   "mail_sidebar": {

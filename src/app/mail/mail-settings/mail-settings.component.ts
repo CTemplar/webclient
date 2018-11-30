@@ -86,6 +86,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   mxForm: FormGroup;
   spfForm: FormGroup;
   dkimForm: FormGroup;
+  dmarcForm: FormGroup;
 
   private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;
@@ -183,6 +184,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
 
     this.dkimForm = this.formBuilder.group({
+    });
+
+    this.dmarcForm = this.formBuilder.group({
     });
   }
 

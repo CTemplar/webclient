@@ -1171,6 +1171,49 @@
                                                         </div>
                                                     </form>
                                                 </mat-step>
+                                                <mat-step [stepControl]="dmarc_form">
+                                                    <form [formGroup]="dmarc_form">
+                                                        <ng-template translate="settings.dmarc_step.name" matStepLabel>DMARC</ng-template>
+                                                        <div class="stepper-form">
+                                                            <div class="description-label pb-4">
+                                                                <span [innerHTML]="'settings.dmarc_step.info' | translate">Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.</span>
+                                                            </div>
+                                                            <div class="domains-list">
+                                                                <div class="row">
+                                                                    <div class="col-md-1 col-sm-12">
+                                                                        <div class="pl-3">
+                                                                            <span class="text-uppercase text-small" translate="settings.dmarc_step.type">Type</span>
+                                                                        </div>
+                                                                        <div class="bg-white px-3 py-3">
+                                                                            <span class="text-dark text-small">TXT</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-sm-12">
+                                                                        <div class="pl-3">
+                                                                            <span class="text-uppercase text-small" translate="settings.dmarc_step.host_name">Host Name</span>
+                                                                        </div>
+                                                                        <div class="bg-white px-3 py-3">
+                                                                            <span class="text-dark text-small">@</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-7 col-sm-12">
+                                                                        <div class="pl-3">
+                                                                            <span class="text-uppercase text-small" translate="settings.dmarc_step.value_data_points_to">Value / Data / Points To</span>
+                                                                        </div>
+                                                                        <div class="bg-white px-3 py-3">
+                                                                            <span class="text-dark text-small">v=spf1 include:_spf.ctemplar.com mx ~all</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <button class="btn btn-sm btn-secondary btn-next" matStepperNext>
+                                                                    <span translate="settings.next">Next</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </mat-step>
                                             </mat-vertical-stepper>
                                         </div>
                                     </div>
