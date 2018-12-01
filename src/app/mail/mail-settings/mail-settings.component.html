@@ -966,11 +966,18 @@
                                         </div>
                                     </div>
                                     <div class="desc-card" *ngIf="isAddingNewDomain">
-                                        <div class="create-domain-header">
-                                            <h4 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.create_domain">Create Domain</strong>
-                                            </h4>
+                                        <div class="ml-3 my-3 my-sm-4">
+                                            <h3 class="ui-header-subtitle text-dark mb-0">
+                                                <strong translate="settings.create_domain">Create domain</strong>
+                                                <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+                                            </h3>
                                         </div>
                                         <div class="desc-card-body bg-faded">
+                                            <div *ngIf="userState.isError">
+                                                <div *ngFor="let message of newDomainError" class="l-alert l-alert-danger mt-3">
+                                                    {{ message }}
+                                                </div>
+                                            </div>
                                             <mat-vertical-stepper [linear]="true" #stepper>
                                                 <ng-template matStepperIcon="edit"><mat-icon>check</mat-icon></ng-template>
                                                 <mat-step [stepControl]="domainNameForm">
