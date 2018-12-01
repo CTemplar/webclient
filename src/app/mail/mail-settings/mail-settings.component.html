@@ -1003,27 +1003,27 @@
                                                             <div class="domains-list">
                                                                 <div class="row">
                                                                     <div class="col-md-1 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.verify_step.type">Type</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">TXT</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.verification_record.type }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-2 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.verify_step.host_name">Host Name</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">@</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.verification_record.host }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-7 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.verify_step.value_data_points_to">Value / Data / Points To</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">ctemplar-verification=0bdb63542653r762238cef1e78c639262823839</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.verification_record.value }}</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
