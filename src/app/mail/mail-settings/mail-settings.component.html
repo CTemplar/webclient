@@ -972,9 +972,12 @@
                                         </div>
                                         <div class="desc-card-body bg-faded">
                                             <mat-vertical-stepper [linear]="true" #stepper>
+                                                <ng-template matStepperIcon="edit"><mat-icon>check</mat-icon></ng-template>
                                                 <mat-step [stepControl]="domainNameForm">
                                                     <form [formGroup]="domainNameForm">
-                                                        <ng-template translate="settings.add_domain_step.name" matStepLabel>Domain name</ng-template>
+                                                        <ng-template matStepLabel>
+                                                            <span class="font-weight-bold" translate="settings.add_domain_step.name">Domain name</span>
+                                                        </ng-template>
                                                         <div class="stepper-form">
                                                             <div class="pb-3">
                                                                 <span class="text-dark" translate="settings.add_domain_step.info">
@@ -982,11 +985,11 @@
                                                                 </span>
                                                             </div>
                                                             <div>
-                                                                <input class="domain-input description-label" id="domainInput" type="text"
+                                                                <input class="domain-input text-dark" id="domainInput" type="text"
                                                                 formControlName="domainNameCtrl"/>
                                                             </div>
                                                             <div>
-                                                                <button class="btn btn-sm btn-secondary btn-next" matStepperNext>
+                                                                <button class="btn btn-sm btn-secondary mt-2 mt-sm-4" (click)="createDomain()" matStepperNext>
                                                                     <span translate="settings.next">Next</span>
                                                                 </button>
                                                             </div>
