@@ -567,34 +567,43 @@ $error-red: #e94e4c;
   }
 }
 
-.create-domain-header {
-  padding-bottom: 1.875rem;
-}
-
 .stepper-form {
   padding: 1.5625rem 1.875rem 2.5rem 1.875rem;
+  font-size: 0.875rem;
   background-color: #fafafa;
-
-  .description-label {
-    font-size: 0.875rem;
-    color: rgba(0, 0, 0, 0.87);
-  }
 
   .domain-input {
     margin-top: 1.25rem;
     width: 28.125rem;
     padding: 0.75rem 0.8125rem;
+    @include media("<=sm") {
+      margin-top: 0.9375rem;
+      width: 100%;
+    }
   }
 
   .btn-next {
     margin-top: 1.875rem;
     @include media("<=sm") {
-      margin-top: 1.875rem;
+      margin-top: 1rem;
     }
   }
   
   @include media("<=sm") {
     padding: 0;
+  }
+}
+
+.btn-group-controls {
+  display: flex;
+  justify-content: flex-end;
+
+  @include media("<ipad", ">sm") {
+    justify-content: flex-start;
+  }
+
+  @include media("<=sm") {
+    justify-content: center;
   }
 }
 
@@ -607,9 +616,24 @@ $error-red: #e94e4c;
   width: 1.875rem;
   height: 1.875rem;
   background-color: #e74c3c;
+
   @include media("<=sm") {
     width: 1.5625rem;
     height: 1.5625rem;
+  }
+}
+
+/deep/ .mat-vertical-content-container.mat-stepper-vertical-line {
+  margin-left: 36px;
+  @include media("<=sm") {
+    margin-left: 0;
+  }
+}
+
+/deep/ div.mat-vertical-content-container {
+  margin-left: 36px;
+  @include media("<=sm") {
+    margin-left: 0;
   }
 }
 
@@ -622,14 +646,21 @@ $error-red: #e94e4c;
   }
 }
 
-/deep/ .mat-step-header .mat-step-label-selected {
-  font-family: "Lato", Helvetica, Arial, sans-serif;
+/deep/ .mat-step-header .mat-step-label {
   font-size: 1.125rem;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
-  -webkit-text-fill-color: #e74c3c;
-  color: #e74c3c;
+  @include media("<=sm") {
+    font-size: 1rem;
+  }
+}
+
+/deep/ .mat-step-header .mat-step-label {
+  color: rgba(0, 0, 0, 0.87);
+
+  &.mat-step-label-active {
+    color: #3ab05d;
+
+    &.mat-step-label-selected {
+      color: #e74c3c;
+    }
+  }
 }
