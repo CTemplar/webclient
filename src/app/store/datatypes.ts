@@ -67,6 +67,8 @@ export interface UserState {
   filters: Filter[];
   filtersError?: any;
   emailDomains: Domain[];
+  emailNewDomain?: Domain;
+  emailNewDomainError?: string[];
 }
 
 export interface Settings {
