@@ -246,6 +246,32 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.EMAIL_CREATE_DOMAIN: {
+      return {
+        ...state,
+        inProgress: true,
+        isError: false,
+      };
+    }
+
+    case UsersActionTypes.EMAIL_CREATE_DOMAIN_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: false,
+        emailNewDomain: action.payload,
+      };
+    }
+
+    case UsersActionTypes.EMAIL_CREATE_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: true,
+        emailNewDomainError: action.payload.doamin,
+      };
+    }
+
     default: {
       return state;
     }

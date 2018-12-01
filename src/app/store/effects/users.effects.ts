@@ -64,7 +64,10 @@ import {
   WhiteListDeleteSuccess,
   WhiteListsReadSuccess,
   EmailDomainsGet,
-  EmailDomainsGetSuccess
+  EmailDomainsGetSuccess,
+  EmailCreateDomain,
+  EmailCreateDomainSuccess,
+  EmailCreateDomainFailure
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -442,4 +445,19 @@ export class UsersEffects {
         );
     });
 
+  @Effect()
+  EmailDomainCreate: Observable<any> = this.actions
+    .ofType(UsersActionTypes.EMAIL_CREATE_DOMAIN)
+    .map((action: EmailCreateDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.createEmailDomain(payload)
+        .pipe(
+          switchMap(res => {
+            return [new EmailCreateDomainSuccess(res)];
+          }),
+          catchError(err => [
+            new EmailCreateDomainFailure(err.error)
+          ]),
+        );
+    });
 }
