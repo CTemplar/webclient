@@ -121,7 +121,7 @@
     "add": "Add",
     "type": "Type:",
     "features_added_soon": "Added later to this package",
-    "create_domain": "Create Domain",
+    "create_domain": "Create domain",
     "add_domain": "Add Domain",
     "domain": "Domain",
     "current_status": "Current Status",
@@ -134,7 +134,7 @@
     "next": "Next",
     "add_domain_step": {
       "name": "Domain name",
-      "info": "Add a domain that you own to your CTemplar acctount."
+      "info": "Add a domain that you own to your Ctemplar acctount."
     },
     "verify_step": {
       "name": "Verify",
@@ -171,7 +171,10 @@
       "type": "Type",
       "host_name": "Host Name",
       "value_data_points_to": "Value / Data / Points To"
-    }
+    },
+    "required": "Required",
+    "recommended": "Recommended",
+    "optional_advanced": "Optional, advanced"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
