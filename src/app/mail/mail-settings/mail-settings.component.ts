@@ -16,7 +16,8 @@ import {
   SettingsUpdate,
   SnackErrorPush,
   SnackPush,
-  WhiteListDelete
+  WhiteListDelete,
+  EmailCreateDomain
 } from '../../store/actions';
 import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
@@ -79,6 +80,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
   domains: Domain[] = [];
+  newDomain: Domain;
+  newDomainError: string[];
 
   isAddingNewDomain = false;
   domainNameForm: FormGroup;
@@ -115,6 +118,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.settings = user.settings;
         this.payment = user.payment_transaction;
         this.domains = user.emailDomains;
+        this.newDomain = user.emailNewDomain;
+        this.newDomainError = user.emailNewDomainError;
         this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
         if (user.settings.language) {
@@ -460,5 +465,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       return 'failed';
     }
     return '';
+  }
+
+  createDomain() {
+    this.store.dispatch(new EmailCreateDomain(this.domainNameForm.value.domainNameCtrl));
   }
 }
