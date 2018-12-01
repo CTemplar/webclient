@@ -573,19 +573,10 @@ $error-red: #e94e4c;
   background-color: #fafafa;
 
   .domain-input {
-    margin-top: 1.25rem;
     width: 28.125rem;
     padding: 0.75rem 0.8125rem;
     @include media("<=sm") {
-      margin-top: 0.9375rem;
       width: 100%;
-    }
-  }
-
-  .btn-next {
-    margin-top: 1.875rem;
-    @include media("<=sm") {
-      margin-top: 1rem;
     }
   }
   
