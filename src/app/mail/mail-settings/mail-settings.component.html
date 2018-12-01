@@ -1157,35 +1157,42 @@
                                                 </mat-step>
                                                 <mat-step [stepControl]="dkimForm">
                                                     <form [formGroup]="dkimForm">
-                                                        <ng-template translate="settings.dkim_step.name" matStepLabel>DKIM</ng-template>
+                                                        <ng-template matStepLabel>
+                                                            <span class="font-weight-bold" translate="settings.dkim_step.name">DKIM</span>
+                                                            <span class="text-muted ml-2" translate="settings.recommended">Recommended</span>
+                                                        </ng-template>
                                                         <div class="stepper-form">
-                                                            <div class="description-label pb-4">
-                                                                <span [innerHTML]="'settings.dkim_step.info' | translate">Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.</span>
+                                                            <div class="pb-3">
+                                                                <span class="text-dark" [innerHTML]="'settings.dkim_step.info' | translate">
+                                                                    Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain.
+                                                                    This can typically be done in the control panel of your domain name registrar.<br/><br/>
+                                                                    Please add the follow TXT record. Note, DNS records can take several hours to update.
+                                                                </span>
                                                             </div>
                                                             <div class="domains-list">
                                                                 <div class="row">
                                                                     <div class="col-md-1 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.dkim_step.type">Type</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">TXT</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.dkim_record.type }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-2 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.dkim_step.host_name">Host Name</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">ctemplar._domainkey</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.dkim_record.host }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-7 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.dkim_step.value_data_points_to">Value / Data / Points To</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHa1okJ8Powg/tF17Tt3eNSL9Vvm3AHZ+VNAYNR1fR/eF/5oWK5bX0kSY8o1QWo5CHh1D5lJhYjjx8hE8Qv5QJsmrHmMNHOT2nKewZT7kZ/nyd3xKOWJ8vsdfHeTh+lJFpS6e4dmSPPFhPNo9s841UnzSqQ33TjjX/Wyj414S2AqwIDAQAB</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.dkim_record.value }}</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
