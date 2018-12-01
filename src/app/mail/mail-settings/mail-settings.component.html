@@ -998,10 +998,18 @@
                                                 </mat-step>
                                                 <mat-step [stepControl]="verifyForm">
                                                     <form [formGroup]="verifyForm">
-                                                        <ng-template translate="settings.verify_step.name" matStepLabel>Verify</ng-template>
+                                                        <ng-template matStepLabel>
+                                                            <span class="font-weight-bold" translate="settings.verify_step.name">Verify</span>
+                                                            <span class="text-muted ml-2" translate="settings.required">Required</span>
+                                                        </ng-template>
                                                         <div class="stepper-form">
-                                                            <div class="description-label pb-4">
-                                                                <span [innerHTML]="'settings.verify_step.info' | translate">For security reasons, we need to verify that you are the owner of your domain. Please add the following code into your DNS. Do not remove it even after successful verification. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record:</span>
+                                                            <div class="pb-3">
+                                                                <span class="text-dark" [innerHTML]="'settings.verify_step.info' | translate">
+                                                                    For security reasons, we need to verify that you are the owner of your domain.
+                                                                    Please add the following code into your DNS. Do not remove it even after successful verification.
+                                                                    This can typically be done in the control panel of your domain name registrar.<br/><br/>
+                                                                    Please add the following TXT record:
+                                                                </span>
                                                             </div>
                                                             <div class="domains-list">
                                                                 <div class="row">
