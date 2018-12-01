@@ -925,7 +925,7 @@
                                                 <span translate="settings.add_domain">Add Domain</span>
                                             </button>
                                             <ng-template #domainsEmpty>
-                                                <button class="btn btn-secondary btn-create-domain text-small">
+                                                <button class="btn btn-secondary btn-create-domain text-small" (click)="isAddingNewDomain=true">
                                                     <span translate="settings.create_domain">Create Domain</span>
                                                 </button>
                                             </ng-template>
