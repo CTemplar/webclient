@@ -976,8 +976,10 @@
                                                     <form [formGroup]="domainNameForm">
                                                         <ng-template translate="settings.add_domain_step.name" matStepLabel>Domain name</ng-template>
                                                         <div class="stepper-form">
-                                                            <div class="description-label">
-                                                                <span translate="settings.add_domain_step.info">Add a domain that you own to your CTemplar acctount.</span>
+                                                            <div class="pb-3">
+                                                                <span class="text-dark" translate="settings.add_domain_step.info">
+                                                                    Add a domain that you own to your Ctemplar acctount.
+                                                                </span>
                                                             </div>
                                                             <div>
                                                                 <input class="domain-input description-label" id="domainInput" type="text"
@@ -1181,27 +1183,27 @@
                                                             <div class="domains-list">
                                                                 <div class="row">
                                                                     <div class="col-md-1 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.dmarc_step.type">Type</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">TXT</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.dmarc_record.type }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-2 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.dmarc_step.host_name">Host Name</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">@</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.dmarc_record.host }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-7 col-sm-12">
-                                                                        <div class="pl-3">
+                                                                        <div class="pl-sm-3">
                                                                             <span class="text-uppercase text-small" translate="settings.dmarc_step.value_data_points_to">Value / Data / Points To</span>
                                                                         </div>
                                                                         <div class="bg-white px-3 py-3">
-                                                                            <span class="text-dark text-small">v=spf1 include:_spf.ctemplar.com mx ~all</span>
+                                                                            <span class="text-dark text-small">{{ newDomain?.dmarc_record.value }}</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
