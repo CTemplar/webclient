@@ -1205,12 +1205,18 @@
                                                         </div>
                                                     </form>
                                                 </mat-step>
-                                                <mat-step [stepControl]="dmarc_form">
-                                                    <form [formGroup]="dmarc_form">
-                                                        <ng-template translate="settings.dmarc_step.name" matStepLabel>DMARC</ng-template>
+                                                <mat-step [stepControl]="dmarcForm">
+                                                    <form [formGroup]="dmarcForm">
+                                                        <ng-template matStepLabel>
+                                                            <span class="font-weight-bold" translate="settings.dmarc_step.name">DMARC</span>
+                                                            <span class="text-muted ml-2" translate="settings.optional_advanced">Optional, advanced</span>
+                                                        </ng-template>
                                                         <div class="stepper-form">
-                                                            <div class="description-label pb-4">
-                                                                <span [innerHTML]="'settings.dmarc_step.info' | translate">Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.</span>
+                                                            <div class="pb-3">
+                                                                <span class="text-dark" [innerHTML]="'settings.dmarc_step.info' | translate">
+                                                                    Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain.
+                                                                    This can typically be done in the control panel of your domain name registrar.<br/><br/>
+                                                                    Please add the follow TXT record. Note, DNS records can take several hours to update.</span>
                                                             </div>
                                                             <div class="domains-list">
                                                                 <div class="row">
@@ -1241,7 +1247,7 @@
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <button class="btn btn-sm btn-secondary btn-next" matStepperNext>
+                                                                <button class="btn btn-sm btn-secondary btn-next">
                                                                     <span translate="settings.next">Next</span>
                                                                 </button>
                                                             </div>
