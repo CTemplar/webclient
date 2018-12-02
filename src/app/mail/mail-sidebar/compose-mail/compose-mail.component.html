@@ -514,7 +514,19 @@
       </div>
       <div class="form-group">
         <label class="form-inline">Select Time</label>
-        <ngb-timepicker [(ngModel)]="selfDestruct.time"></ngb-timepicker>
+        <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
+          <div ngbDropdown class="dropdown-sm">
+            <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
+                    id="selfDestructMeridianDropdownMenuButton" role="button">
+              {{selfDestruct.meridian ? '12 Hour' : '24 Hour'}}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
+              <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 Hour</a>
+              <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 Hour</a>
+            </div>
+          </div>
+        </div>
+        <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian"></ngb-timepicker>
       </div>
       <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">
         {{selfDestruct.error}}
@@ -553,7 +565,19 @@
       </div>
       <div class="form-group">
         <label class="form-inline">Select Time</label>
-        <ngb-timepicker [(ngModel)]="delayedDelivery.time"></ngb-timepicker>
+        <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
+          <div ngbDropdown class="dropdown-sm">
+            <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
+                    id="delayedDeliveryMeridianDropdownMenuButton" role="button">
+              {{delayedDelivery.meridian ? '12 Hour': '24 Hour'}}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="delayedDeliveryMeridianDropdownMenuButton">
+              <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true">12 Hour</a>
+              <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false">24 Hour</a>
+            </div>
+          </div>
+        </div>
+        <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian"></ngb-timepicker>
       </div>
       <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">
         {{delayedDelivery.error}}
