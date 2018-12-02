@@ -176,43 +176,9 @@
                                aria-labelledby="typoFamilyDropdownMenu">
                             <div class="typo-holder">
                               <ul class="typo-list list-styled">
-                                <li>
-                                  <button value="hiragino-sans"
-                                          class="ql-font typo-select-link">Hiragino
-                                    Sans
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="lato"
-                                          class="ql-font typo-select-link">Lato
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="roboto"
-                                          class="ql-font typo-select-link">Roboto
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="abril-fatface"
-                                          class="ql-font typo-select-link">Abril
-                                    Fatface
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="andale-mono"
-                                          class="ql-font typo-select-link">Andale Mono
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="arial"
-                                          class="ql-font typo-select-link">Arial
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="times-new-roman"
-                                          class="ql-font typo-select-link">Times New
-                                    Roman
-                                  </button>
+                                <li *ngFor="let font of fonts">
+                                  <button [value]="font" class="ql-font typo-select-link text-capitalize">
+                                    {{font}}</button>
                                 </li>
                               </ul>
                             </div>
