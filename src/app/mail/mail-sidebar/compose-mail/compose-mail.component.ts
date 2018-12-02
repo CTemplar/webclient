@@ -321,6 +321,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         toolbar: this.toolbar.nativeElement
       }
     });
+    this.quill.format('font', this.userState.settings.default_font);
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });
