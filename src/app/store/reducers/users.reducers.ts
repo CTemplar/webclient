@@ -246,6 +246,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.EMAIL_READ_DOMAIN:
     case UsersActionTypes.EMAIL_CREATE_DOMAIN: {
       return {
         ...state,
@@ -254,7 +255,9 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.EMAIL_READ_DOMAIN_SUCCESS:
     case UsersActionTypes.EMAIL_CREATE_DOMAIN_SUCCESS: {
+      console.log(action.payload);
       return {
         ...state,
         inProgress: false,
@@ -269,6 +272,15 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: false,
         isError: true,
         emailNewDomainError: action.payload.doamin,
+      };
+    }
+
+    case UsersActionTypes.EMAIL_READ_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: true,
+        error: action.payload.detail,
       };
     }
 

@@ -299,6 +299,13 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}emails/domains/`, body);
   }
 
+  readEmailDomain(id: number) {
+    console.log("service : " + id);
+    const url = `${apiUrl}emails/domains/${id}/`;
+    const body = {};
+    return this.http.get<any>(url, body);
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

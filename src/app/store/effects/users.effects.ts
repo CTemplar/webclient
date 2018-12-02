@@ -67,7 +67,10 @@ import {
   EmailDomainsGetSuccess,
   EmailCreateDomain,
   EmailCreateDomainSuccess,
-  EmailCreateDomainFailure
+  EmailCreateDomainFailure,
+  EmailReadDomain,
+  EmailReadDomainSuccess,
+  EmailReadDomainFailure,
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -446,7 +449,7 @@ export class UsersEffects {
     });
 
   @Effect()
-  EmailDomainCreate: Observable<any> = this.actions
+  EmailCreateDomainEffect: Observable<any> = this.actions
     .ofType(UsersActionTypes.EMAIL_CREATE_DOMAIN)
     .map((action: EmailCreateDomain) => action.payload)
     .switchMap(payload => {
@@ -457,6 +460,22 @@ export class UsersEffects {
           }),
           catchError(err => [
             new EmailCreateDomainFailure(err.error)
+          ]),
+        );
+    });
+
+  @Effect()
+  EmailReadDomainEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.EMAIL_READ_DOMAIN)
+    .map((action: EmailReadDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.readEmailDomain(payload)
+        .pipe(
+          switchMap(res => {
+            return [new EmailReadDomainSuccess(res)];
+          }),
+          catchError(err => [
+            new EmailReadDomainFailure(err.error)
           ]),
         );
     });

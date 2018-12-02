@@ -17,7 +17,8 @@ import {
   SnackErrorPush,
   SnackPush,
   WhiteListDelete,
-  EmailCreateDomain
+  EmailCreateDomain,
+  EmailReadDomain
 } from '../../store/actions';
 import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
@@ -469,5 +470,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   createDomain() {
     this.store.dispatch(new EmailCreateDomain(this.domainNameForm.value.domainNameCtrl));
+  }
+
+  readDomain(id: number) {
+    if (id !== null) {
+      this.store.dispatch(new EmailReadDomain(id));
+    }
   }
 }

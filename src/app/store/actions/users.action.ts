@@ -58,6 +58,9 @@ export enum UsersActionTypes {
   EMAIL_CREATE_DOMAIN = '[Users] EMAIL_CREATE_DOMAIN',
   EMAIL_CREATE_DOMAIN_SUCCESS = '[Users] EMAIL_CREATE_DOMAIN_SUCCESS',
   EMAIL_CREATE_DOMAIN_FAILURE = '[Users] EMAIL_CREATE_DOMAIN_FAILURE',
+  EMAIL_READ_DOMAIN = '[Users] EMAIL_READ_DOMAIN',
+  EMAIL_READ_DOMAIN_SUCCESS = '[Users] EMAIL_READ_DOMAIN_SUCCESS',
+  EMAIL_READ_DOMAIN_FAILURE = '[Users] EMAIL_READ_DOMAIN_FAILURE',
 }
 
 export class Accounts implements Action {
@@ -421,7 +424,7 @@ export class EmailDomainsGetSuccess implements Action {
 export class EmailCreateDomain implements Action {
   readonly type = UsersActionTypes.EMAIL_CREATE_DOMAIN;
 
-  constructor(public payload: any) {
+  constructor(public payload: string) {
   }
 }
 
@@ -434,6 +437,27 @@ export class EmailCreateDomainSuccess implements Action {
 
 export class EmailCreateDomainFailure implements Action {
   readonly type = UsersActionTypes.EMAIL_CREATE_DOMAIN_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class EmailReadDomain implements Action {
+  readonly type = UsersActionTypes.EMAIL_READ_DOMAIN;
+
+  constructor(public payload: number) {
+  }
+}
+
+export class EmailReadDomainSuccess implements Action {
+  readonly type = UsersActionTypes.EMAIL_READ_DOMAIN_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class EmailReadDomainFailure implements Action {
+  readonly type = UsersActionTypes.EMAIL_READ_DOMAIN_FAILURE;
 
   constructor(public payload: any) {
   }
@@ -494,4 +518,7 @@ export type UsersActionAll =
   | EmailDomainsGetSuccess
   | EmailCreateDomain
   | EmailCreateDomainSuccess
-  | EmailCreateDomainFailure;
+  | EmailCreateDomainFailure
+  | EmailReadDomain
+  | EmailReadDomainSuccess
+  | EmailReadDomainFailure;
