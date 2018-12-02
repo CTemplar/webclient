@@ -450,31 +450,34 @@ $error-red: #e94e4c;
 .domain-body {
   padding-left: 1.563rem;
   padding-right: 1.563rem;
-  @include media("<ipad") {
+  @include media("<ipad", ">sm") {
     padding-left: 0.938rem;
     padding-right: 0.938rem;
+  }
+  @include media("<=sm") {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .btn-create-domain {
     margin-top: 2rem;
     margin-bottom: 2rem;
     @include media("<=sm") {
-      margin-top: 1.875rem;
-      margin-bottom: 1.875rem;
+      margin: 1.875rem 0.75rem;
     }
   }
 
   .btn-add-domain {
     margin-top: 1.5rem;
     @include media("<=sm") {
-      margin-top: 1.25rem;
+      margin: 1.25rem 0.75rem;
     }
   }
 
   .domains-list {
     margin-top: 1.875rem;
     @include media("<=sm") {
-      margin-top: 1.25rem;
+      margin-top: 0;
     }
 
     .row {

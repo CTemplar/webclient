@@ -931,7 +931,7 @@
                                             </ng-template>
 
                                             <div class="domains-list">
-                                                <div class="row">
+                                                <div class="row d-none d-sm-flex">
                                                     <div class="col-3">
                                                         <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
                                                     </div>
@@ -959,6 +959,34 @@
                                                         </div>
                                                         <div class="action d-flex d-md-none justify-content-center align-items-center">
                                                             <i class="fa fa-ellipsis-h"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row d-block d-sm-none bg-white align-items-start mb-2" *ngFor="let domain of domains">
+                                                    <div class="pb-3 px-2">
+                                                        <div class="d-flex">
+                                                            <div class="align-items-center mr-auto">
+                                                                <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
+                                                            </div>
+                                                            <div class="d-flex actions">
+                                                                <div class="action d-flex justify-content-center align-items-center">
+                                                                    <i class="fa fa-ellipsis-h"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <span class="text-dark text-domain font-weight-bold">{{ domain.domain }}</span>
+                                                        </div>
+                                                        <div class="my-2">
+                                                            <span class="text-uppercase text-small" translate="settings.current_status">Current Status</span>
+                                                        </div>
+                                                        <div class="text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
+                                                            <div [ngClass]="checkStatus(domain.verification_record, domain.is_domain_verified)"><span translate="settings.status_verification">Verification</span></div>
+                                                            <div [ngClass]="checkStatus(domain.mx_record, domain.is_mx_verified)"><span translate="settings.status_mx"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>MX</span></div>
+                                                            <div [ngClass]="checkStatus(domain.spf_record, domain.is_spf_verified)"><span translate="settings.status_spf"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>SPF</span></div>
+                                                            <div [ngClass]="checkStatus(domain.dkim_record, domain.is_dkim_verified)"><span translate="settings.status_dkim"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>DKIM</span></div>
+                                                            <div [ngClass]="checkStatus(domain.dmarc_record, domain.is_dmarc_verified)"><span translate="settings.status_dmarc"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>DMARC</span></div>
+                                                            <div><span translate="settings.status_addresses">Addresses</span></div>
                                                         </div>
                                                     </div>
                                                 </div>
