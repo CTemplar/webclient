@@ -940,7 +940,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row bg-white align-items-start" *ngFor="let domain of domains">
+                                                <div class="row d-none d-sm-flex bg-white align-items-start" *ngFor="let domain of domains">
                                                     <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
                                                     <div class="col-7 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
                                                         <div [ngClass]="checkStatus(domain.verification_record, domain.is_domain_verified)"><span translate="settings.status_verification">Verification</span></div>
@@ -1037,7 +1037,7 @@
                                                             <span class="font-weight-bold" translate="settings.verify_step.name">Verify</span>
                                                             <span class="text-muted ml-2" translate="settings.required">Required</span>
                                                         </ng-template>
-                                                        <div class="stepper-form">
+                                                        <div class="stepper-form" *ngIf="newDomain?.id">
                                                             <div class="pb-3">
                                                                 <span class="text-dark" [innerHTML]="'settings.verify_step.info' | translate">
                                                                     For security reasons, we need to verify that you are the owner of your domain.
@@ -1088,7 +1088,7 @@
                                                             <span class="font-weight-bold" translate="settings.mx_step.name">MX</span>
                                                             <span class="text-muted ml-2" translate="settings.required">Required</span>
                                                         </ng-template>
-                                                        <div class="stepper-form">
+                                                        <div class="stepper-form" *ngIf="newDomain?.id">
                                                             <div class="pb-3">
                                                                 <span class="text-dark" [innerHTML]="'settings.mx_step.info' | translate">
                                                                     Before you can receive emails for your custom domain addresses at Ctemplar, you need to add the following MX record to your DNS.
@@ -1146,7 +1146,7 @@
                                                             <span class="font-weight-bold" translate="settings.spf_step.name">SPF</span>
                                                             <span class="text-muted ml-2" translate="settings.recommended">Recommended</span>
                                                         </ng-template>
-                                                        <div class="stepper-form">
+                                                        <div class="stepper-form" *ngIf="newDomain?.id">
                                                             <div class="pb-3">
                                                                 <span class="text-dark" [innerHTML]="'settings.spf_step.info' | translate">
                                                                     SPF is used to specify who is allowed to send email for the domain so we strongly recommend including Ctemplar in your SPF record.
@@ -1196,7 +1196,7 @@
                                                             <span class="font-weight-bold" translate="settings.dkim_step.name">DKIM</span>
                                                             <span class="text-muted ml-2" translate="settings.recommended">Recommended</span>
                                                         </ng-template>
-                                                        <div class="stepper-form">
+                                                        <div class="stepper-form" *ngIf="newDomain?.id">
                                                             <div class="pb-3">
                                                                 <span class="text-dark" [innerHTML]="'settings.dkim_step.info' | translate">
                                                                     Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain.
@@ -1246,7 +1246,7 @@
                                                             <span class="font-weight-bold" translate="settings.dmarc_step.name">DMARC</span>
                                                             <span class="text-muted ml-2" translate="settings.optional_advanced">Optional, advanced</span>
                                                         </ng-template>
-                                                        <div class="stepper-form">
+                                                        <div class="stepper-form" *ngIf="newDomain?.id">
                                                             <div class="pb-3">
                                                                 <span class="text-dark" [innerHTML]="'settings.dmarc_step.info' | translate">
                                                                     Ctemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain.

@@ -257,7 +257,6 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.EMAIL_READ_DOMAIN_SUCCESS:
     case UsersActionTypes.EMAIL_CREATE_DOMAIN_SUCCESS: {
-      console.log(action.payload);
       return {
         ...state,
         inProgress: false,

@@ -469,7 +469,10 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   createDomain() {
-    this.store.dispatch(new EmailCreateDomain(this.domainNameForm.value.domainNameCtrl));
+    const domain = this.domainNameForm.value.domainNameCtrl;
+    if (domain !== ""){
+      this.store.dispatch(new EmailCreateDomain(domain));
+    }
   }
 
   readDomain(id: number) {
