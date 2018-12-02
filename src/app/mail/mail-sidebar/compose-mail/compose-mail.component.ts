@@ -834,6 +834,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private resetMailData() {
+    this.resetSelfDestructValues();
+    this.resetDelayedDeliveryValues();
+    this.resetDeadManTimerValues();
     this.mailData = {
       receiver: this.receivers ?
         this.receivers.map(receiver => ({ display: receiver, value: receiver })) :
@@ -867,6 +870,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       minute: 0,
       second: 0
     };
+    this.selfDestruct.meridian = true;
     this.selfDestruct.error = null;
   }
 
@@ -878,6 +882,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       minute: 0,
       second: 0
     };
+    this.delayedDelivery.meridian = true;
     this.delayedDelivery.error = null;
   }
 
