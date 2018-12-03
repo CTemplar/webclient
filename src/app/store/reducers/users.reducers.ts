@@ -247,11 +247,13 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.EMAIL_READ_DOMAIN:
-    case UsersActionTypes.EMAIL_CREATE_DOMAIN: {
+    case UsersActionTypes.EMAIL_CREATE_DOMAIN:
+    case UsersActionTypes.EMAIL_DELETE_DOMAIN: {
       return {
         ...state,
         inProgress: true,
         isError: false,
+        error: ''
       };
     }
 
@@ -275,6 +277,23 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.EMAIL_READ_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: true,
+        error: action.payload.detail,
+      };
+    }
+
+    case UsersActionTypes.EMAIL_DELETE_DOMAIN_SUCCESS: {
+      state.emailDomains = state.emailDomains.filter(domain => domain.id !== action.payload);
+      return {
+        ...state,
+        inProgress: false,
+      };
+    }
+
+    case UsersActionTypes.EMAIL_DELETE_DOMAIN_FAILURE: {
       return {
         ...state,
         inProgress: false,
