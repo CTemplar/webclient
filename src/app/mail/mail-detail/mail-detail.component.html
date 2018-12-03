@@ -156,30 +156,24 @@
                 <span class="text-secondary"> </span>
                 <a class="text-gray-dark text-muted">&lt;{{mail.sender}}&gt;</a>
               </li>
-              <li *ngIf="parentMailCollapsed && decryptedContents[mail.id]">
-                <p class="clipped-content" [innerHTML]="decryptedContents[mail.id] | safe: 'html': mail.sender"> </p>
+              <li id="{{mail.id}}-mail-to">
+                To:
+                <ng-container *ngFor="let receiver of mail.receiver; let i = index;">
+                  <span class="text-secondary"> </span>
+                  <a class="text-muted">&lt;{{receiver}}&gt;</a>
+                  <!--Comma as a separator-->
+                  <span *ngIf=" i < mail.receiver?.length-1">, </span>
+                </ng-container>
               </li>
-              <ng-container *ngIf="!parentMailCollapsed">
-                <li id="{{mail.id}}-mail-to">
-                  To:
-                  <ng-container *ngFor="let receiver of mail.receiver; let i = index;">
-                    <span class="text-secondary"> </span>
-                    <a class="text-muted">&lt;{{receiver}}&gt;</a>
-                    <!--Comma as a separator-->
-                    <span *ngIf=" i < mail.receiver?.length-1">, </span>
-                  </ng-container>
-                </li>
-                <li *ngIf="mail.cc?.length>0" id="{{mail.id}}-mail-cc">
-                  CC:
-                  <ng-container *ngFor="let cc of mail.cc; let i = index;">
-                    <span class="text-secondary"> </span>
-                    <a class="text-muted">&lt;{{cc}}&gt;</a>
-                    <!--Comma as a separator-->
-                    <span *ngIf=" i < mail.cc?.length-1">, </span>
-                  </ng-container>
-                </li>
-              </ng-container>
-
+              <li *ngIf="mail.cc?.length>0" id="{{mail.id}}-mail-cc">
+                CC:
+                <ng-container *ngFor="let cc of mail.cc; let i = index;">
+                  <span class="text-secondary"> </span>
+                  <a class="text-muted">&lt;{{cc}}&gt;</a>
+                  <!--Comma as a separator-->
+                  <span *ngIf=" i < mail.cc?.length-1">, </span>
+                </ng-container>
+              </li>
             </ul>
           </div>
         </div>
@@ -275,29 +269,24 @@
                           <span class="text-secondary"> </span>
                           <a class="text-muted text-gray-dark">&lt;{{childMail.sender}}&gt;</a>
                         </li>
-                        <li *ngIf="childMailCollapsed[childIndex] && decryptedContents[childMail.id]">
-                          <p class="clipped-content" [innerHTML]="decryptedContents[childMail.id] | safe: 'html': childMail.sender"> </p>
+                        <li id="{{childMail.id}}-mail-to">
+                          To:
+                          <ng-container *ngFor="let receiver of childMail.receiver; let i = index;">
+                            <span class="text-secondary"> </span>
+                            <a class="text-muted">&lt;{{receiver}}&gt;</a>
+                            <!--Comma as a separator-->
+                            <span *ngIf=" i < childMail.receiver?.length-1">, </span>
+                          </ng-container>
                         </li>
-                        <ng-container *ngIf="!childMailCollapsed[childIndex]">
-                          <li id="{{childMail.id}}-mail-to">
-                            To:
-                            <ng-container *ngFor="let receiver of childMail.receiver; let i = index;">
-                              <span class="text-secondary"> </span>
-                              <a class="text-muted">&lt;{{receiver}}&gt;</a>
-                              <!--Comma as a separator-->
-                              <span *ngIf=" i < childMail.receiver?.length-1">, </span>
-                            </ng-container>
-                          </li>
-                          <li *ngIf="childMail.cc?.length>0" id="{{childMail.id}}-mail-cc">
-                              CC:
-                            <ng-container *ngFor="let cc of childMail.cc; let i = index;">
-                              <span class="text-secondary"> </span>
-                              <a class="text-muted">&lt;{{cc}}&gt;</a>
-                              <!--Comma as a separator-->
-                              <span *ngIf=" i < childMail.cc?.length-1">, </span>
-                            </ng-container>
-                          </li>
-                        </ng-container>
+                        <li *ngIf="childMail.cc?.length>0" id="{{childMail.id}}-mail-cc">
+                          CC:
+                          <ng-container *ngFor="let cc of childMail.cc; let i = index;">
+                            <span class="text-secondary"> </span>
+                            <a class="text-muted">&lt;{{cc}}&gt;</a>
+                            <!--Comma as a separator-->
+                            <span *ngIf=" i < childMail.cc?.length-1">, </span>
+                          </ng-container>
+                        </li>
                       </ul>
                     </div>
                   </div>
