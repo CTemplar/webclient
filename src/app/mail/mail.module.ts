@@ -27,6 +27,7 @@ import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/c
 import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
 import { CreateFolderComponent } from './dialogs/create-folder/create-folder.component';
 import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.component';
+import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.
     ComposeMailComponent,
     GenericFolderComponent,
     CreateFolderComponent,
-    MailFiltersComponent
+    MailFiltersComponent,
+    CustomDomainsComponent
   ],
   exports: [
     MailFooterComponent
