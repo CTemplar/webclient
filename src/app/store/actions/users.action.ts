@@ -61,6 +61,9 @@ export enum UsersActionTypes {
   EMAIL_READ_DOMAIN = '[Users] EMAIL_READ_DOMAIN',
   EMAIL_READ_DOMAIN_SUCCESS = '[Users] EMAIL_READ_DOMAIN_SUCCESS',
   EMAIL_READ_DOMAIN_FAILURE = '[Users] EMAIL_READ_DOMAIN_FAILURE',
+  EMAIL_DELETE_DOMAIN = '[Users] EMAIL_DELETE_DOMAIN',
+  EMAIL_DELETE_DOMAIN_SUCCESS = '[Users] EMAIL_DELETE_DOMAIN_SUCCESS',
+  EMAIL_DELETE_DOMAIN_FAILURE = '[Users] EMAIL_DELETE_DOMAIN_FAILURE',
 }
 
 export class Accounts implements Action {
@@ -463,6 +466,27 @@ export class EmailReadDomainFailure implements Action {
   }
 }
 
+export class EmailDeleteDomain implements Action {
+  readonly type = UsersActionTypes.EMAIL_DELETE_DOMAIN;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class EmailDeleteDomainSuccess implements Action {
+  readonly type = UsersActionTypes.EMAIL_DELETE_DOMAIN_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class EmailDeleteDomainFailure implements Action {
+  readonly type = UsersActionTypes.EMAIL_DELETE_DOMAIN_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -521,4 +545,7 @@ export type UsersActionAll =
   | EmailCreateDomainFailure
   | EmailReadDomain
   | EmailReadDomainSuccess
-  | EmailReadDomainFailure;
+  | EmailReadDomainFailure
+  | EmailDeleteDomain
+  | EmailDeleteDomainSuccess
+  | EmailDeleteDomainFailure;
