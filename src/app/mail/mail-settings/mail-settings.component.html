@@ -279,6 +279,29 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5">
+                                        <label class="form-label mb-0">Default Mail Compose Font</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="btn-dropdown btn-dropdown-select">
+                                            <div ngbDropdown class="dropdown-sm">
+                                                <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultFontDropdownMenuButton">
+                                                    {{settings.default_font}}
+                                                </button>
+                                                <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
+                                                    <a class="dropdown-item text-capitalize" *ngFor="let font of fonts"
+                                                       (click)="updateSettings('default_font', font)">
+                                                        {{font}}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <!-- Will be used later -->
                             <div class="form-content-row" *ngIf="false">
