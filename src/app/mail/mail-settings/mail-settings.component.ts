@@ -16,9 +16,7 @@ import {
   SettingsUpdate,
   SnackErrorPush,
   SnackPush,
-  WhiteListDelete,
-  EmailCreateDomain,
-  EmailReadDomain
+  WhiteListDelete
 } from '../../store/actions';
 import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
@@ -30,9 +28,7 @@ import {
   Settings,
   Timezone,
   TimezonesState,
-  UserState,
-  Domain,
-  DomainRecord
+  UserState
 } from '../../store/datatypes';
 import { Mailbox } from '../../store/models';
 import { OpenPgpService, UsersService } from '../../store/services';
@@ -80,17 +76,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedMailboxPublicKey: any;
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
-  domains: Domain[] = [];
-  newDomain: Domain;
-  newDomainError: string[];
-
-  isAddingNewDomain = false;
-  domainNameForm: FormGroup;
-  verifyForm: FormGroup;
-  mxForm: FormGroup;
-  spfForm: FormGroup;
-  dkimForm: FormGroup;
-  dmarcForm: FormGroup;
 
   private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;
@@ -118,9 +103,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.settings = user.settings;
         this.payment = user.payment_transaction;
-        this.domains = user.emailDomains;
-        this.newDomain = user.emailNewDomain;
-        this.newDomainError = user.emailNewDomainError;
         this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
         if (user.settings.language) {
@@ -175,25 +157,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
 
     this.handleUsernameAvailability();
-
-    this.domainNameForm = this.formBuilder.group({
-      domainNameCtrl: ['', Validators.required]
-    });
-
-    this.verifyForm = this.formBuilder.group({
-    });
-
-    this.mxForm = this.formBuilder.group({
-    });
-
-    this.spfForm = this.formBuilder.group({
-    });
-
-    this.dkimForm = this.formBuilder.group({
-    });
-
-    this.dmarcForm = this.formBuilder.group({
-    });
   }
 
   calculatePrices() {
@@ -457,27 +420,5 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
               });
         }
       });
-  }
-
-  checkStatus(domainRecord: DomainRecord, is_verified: boolean): string {
-    if (is_verified === true) {
-      return 'verified';
-    } else if (is_verified === false) {
-      return 'failed';
-    }
-    return '';
-  }
-
-  createDomain() {
-    const domain = this.domainNameForm.value.domainNameCtrl;
-    if (domain !== ""){
-      this.store.dispatch(new EmailCreateDomain(domain));
-    }
-  }
-
-  readDomain(id: number) {
-    if (id !== null) {
-      this.store.dispatch(new EmailReadDomain(id));
-    }
   }
 }
