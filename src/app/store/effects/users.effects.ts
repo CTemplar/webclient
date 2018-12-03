@@ -71,6 +71,9 @@ import {
   EmailReadDomain,
   EmailReadDomainSuccess,
   EmailReadDomainFailure,
+  EmailDeleteDomain,
+  EmailDeleteDomainSuccess,
+  EmailDeleteDomainFailure
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -476,6 +479,22 @@ export class UsersEffects {
           }),
           catchError(err => [
             new EmailReadDomainFailure(err.error)
+          ]),
+        );
+    });
+
+    @Effect()
+  EmailDeleteDomainEffect: Observable<any> = this.actions
+    .ofType(UsersActionTypes.EMAIL_DELETE_DOMAIN)
+    .map((action: EmailDeleteDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.deleteEmailDomain(payload)
+        .pipe(
+          switchMap(res => {
+            return [new EmailDeleteDomainSuccess(payload)];
+          }),
+          catchError(err => [
+            new EmailDeleteDomainFailure(err.error)
           ]),
         );
     });
