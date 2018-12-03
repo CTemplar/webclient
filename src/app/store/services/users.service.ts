@@ -300,10 +300,13 @@ export class UsersService {
   }
 
   readEmailDomain(id: number) {
-    console.log("service : " + id);
     const url = `${apiUrl}emails/domains/${id}/`;
     const body = {};
     return this.http.get<any>(url, body);
+  }
+
+  deleteEmailDomain(id: number) {
+    return this.http.delete<any>(`${apiUrl}emails/domains/${id}`);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
