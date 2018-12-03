@@ -321,6 +321,29 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         toolbar: this.toolbar.nativeElement
       }
     });
+    this.quill.clipboard.addMatcher(Node.TEXT_NODE, (node, delta) => {
+      const regex = /https?:\/\/[^\s]+/g;
+      if (typeof (node.data) !== 'string') {
+        return;
+      }
+      const matches = node.data.match(regex);
+
+      if (matches && matches.length > 0) {
+        const ops = [];
+        let str = node.data;
+        matches.forEach((match) => {
+          const split = str.split(match);
+          const beforeLink = split.shift();
+          ops.push({ insert: beforeLink });
+          ops.push({ insert: match, attributes: { link: match } });
+          str = split.join(match);
+        });
+        ops.push({ insert: str });
+        delta.ops = ops;
+      }
+      return delta;
+    });
+
     this.quill.format('font', this.userState.settings.default_font);
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
