@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { COLORS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, FONTS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -32,9 +32,7 @@ import { OpenPgpService } from '../../../store/services/openpgp.service';
 const Quill: any = QuillNamespace;
 
 const FontAttributor = Quill.import('attributors/style/font');
-FontAttributor.whitelist = [
-  'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
-];
+FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
@@ -136,6 +134,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   draftId: number;
   colors = COLORS;
+  fonts = FONTS;
   mailData: any = {};
   options: any = {};
   selfDestruct: any = {};
@@ -322,6 +321,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         toolbar: this.toolbar.nativeElement
       }
     });
+    this.quill.format('font', this.userState.settings.default_font);
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });
