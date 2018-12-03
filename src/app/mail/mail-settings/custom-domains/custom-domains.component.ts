@@ -8,7 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 import {
   EmailCreateDomain,
-  EmailReadDomain
+  EmailReadDomain,
+  EmailDeleteDomain
 } from '../../../store/actions';
 
 import {
@@ -109,5 +110,9 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     if (id !== null) {
       this.store.dispatch(new EmailReadDomain(id));
     }
+  }
+
+  deleteDomain(id: number) {
+    this.store.dispatch(new EmailDeleteDomain(id));
   }
 }

@@ -6,6 +6,7 @@
                     <div class="desc-card" *ngIf="!isAddingNewDomain">
                         <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                             <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
+                                <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
                             </h5>
                         </div>
                         <div class="desc-card-body bg-faded domain-body">
@@ -40,10 +41,10 @@
                                     </div>
                                     <div class="col-2 d-flex justify-content-end actions">
                                         <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                                            <i class="icon icon-edit"></i>
+                                            <a class="text-muted"><i class="icon icon-edit"></i></a>
                                         </div>
                                         <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                                            <i class="icon icon-garbage"></i>
+                                            <a class="text-muted" (click)="deleteDomain(domain.id)"><i class="icon icon-garbage"></i></a>
                                         </div>
                                         <div class="d-flex d-md-none justify-content-center align-items-center">
                                             <div ngbDropdown class="d-inline-block">
@@ -55,7 +56,7 @@
                                                       <i class="icon icon-edit"></i>
                                                       <span translate="settings.edit_details">Edit Details</span>
                                                     </button>
-                                                  <button class="dropdown-item text-muted">
+                                                  <button class="dropdown-item text-muted" (click)="deleteDomain(domain.id)">
                                                       <i class="icon icon-garbage"></i>
                                                       <span translate="settings.remove">Remove</span>
                                                     </button>
@@ -80,7 +81,7 @@
                                                         <i class="icon icon-edit"></i>
                                                         <span translate="settings.edit_details">Edit Details</span>
                                                         </button>
-                                                    <button class="dropdown-item text-muted text-small">
+                                                    <button class="dropdown-item text-muted text-small" (click)="deleteDomain(domain.id)">
                                                         <i class="icon icon-garbage"></i>
                                                         <span translate="settings.remove">Remove</span>
                                                         </button>
