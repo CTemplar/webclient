@@ -174,7 +174,9 @@
     },
     "required": "Required",
     "recommended": "Recommended",
-    "optional_advanced": "Optional, advanced"
+    "optional_advanced": "Optional, advanced",
+    "edit_details": "Edit Details",
+    "remove": "Remove"
   },
   "mail_sidebar": {
     "inbox": "Inbox",

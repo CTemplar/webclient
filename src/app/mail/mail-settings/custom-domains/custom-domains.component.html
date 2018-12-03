@@ -39,14 +39,28 @@
                                         <div><span translate="settings.status_addresses">Addresses</span></div>
                                     </div>
                                     <div class="col-2 d-flex justify-content-end actions">
-                                        <div class="action d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                                        <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
                                             <i class="icon icon-edit"></i>
                                         </div>
-                                        <div class="action d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                                        <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
                                             <i class="icon icon-garbage"></i>
                                         </div>
-                                        <div class="action d-flex d-md-none justify-content-center align-items-center">
-                                            <i class="fa fa-ellipsis-h"></i>
+                                        <div class="d-flex d-md-none justify-content-center align-items-center">
+                                            <div ngbDropdown class="d-inline-block">
+                                                <button class="btn bg-white action" ngbDropdownToggle>
+                                                    <i class="fa fa-ellipsis-h"></i>
+                                                </button>
+                                                <div ngbDropdownMenu class="dropdown-menu-right">
+                                                  <button class="dropdown-item text-muted">
+                                                      <i class="icon icon-edit"></i>
+                                                      <span translate="settings.edit_details">Edit Details</span>
+                                                    </button>
+                                                  <button class="dropdown-item text-muted">
+                                                      <i class="icon icon-garbage"></i>
+                                                      <span translate="settings.remove">Remove</span>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
