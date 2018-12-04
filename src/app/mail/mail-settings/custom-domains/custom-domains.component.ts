@@ -9,7 +9,8 @@ import { Observable } from 'rxjs/Observable';
 import {
   CreateDomain,
   ReadDomain,
-  DeleteDomain
+  DeleteDomain,
+  VerifyDomain
 } from '../../../store/actions';
 
 import {
@@ -121,6 +122,12 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   readDomain(id: number) {
     if (id !== null) {
       this.store.dispatch(new ReadDomain(id));
+    }
+  }
+
+  verifyDomain(id: number) {
+    if (id !== null) {
+      this.store.dispatch(new VerifyDomain(id));
     }
   }
 
