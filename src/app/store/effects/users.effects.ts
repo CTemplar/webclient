@@ -63,17 +63,17 @@ import {
   WhiteListDelete,
   WhiteListDeleteSuccess,
   WhiteListsReadSuccess,
-  EmailDomainsGet,
-  EmailDomainsGetSuccess,
-  EmailCreateDomain,
-  EmailCreateDomainSuccess,
-  EmailCreateDomainFailure,
-  EmailReadDomain,
-  EmailReadDomainSuccess,
-  EmailReadDomainFailure,
-  EmailDeleteDomain,
-  EmailDeleteDomainSuccess,
-  EmailDeleteDomainFailure
+  GetDomains,
+  GetDomainsSuccess,
+  CreateDomain,
+  CreateDomainSuccess,
+  CreateDomainFailure,
+  ReadDomain,
+  ReadDomainSuccess,
+  ReadDomainFailure,
+  DeleteDomain,
+  DeleteDomainSuccess,
+  DeleteDomainFailure
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -439,63 +439,63 @@ export class UsersEffects {
     });
 
   @Effect()
-  EmailDomains: Observable<any> = this.actions
-    .ofType(UsersActionTypes.EMAIL_DOMAINS_GET)
-    .map((action: EmailDomainsGet) => action.payload)
+  Domains: Observable<any> = this.actions
+    .ofType(UsersActionTypes.GET_DOMAINS)
+    .map((action: GetDomains) => action.payload)
     .switchMap(payload => {
-      return this.userService.getEmailDomains()
+      return this.userService.getDomains()
         .pipe(
           map(emailDomains => {
-            return new EmailDomainsGetSuccess(emailDomains.results);
+            return new GetDomainsSuccess(emailDomains.results);
           }),
           catchError((error) => [])
         );
     });
 
   @Effect()
-  EmailCreateDomainEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.EMAIL_CREATE_DOMAIN)
-    .map((action: EmailCreateDomain) => action.payload)
+  DomainCreate: Observable<any> = this.actions
+    .ofType(UsersActionTypes.CREATE_DOMAIN)
+    .map((action: CreateDomain) => action.payload)
     .switchMap(payload => {
-      return this.userService.createEmailDomain(payload)
+      return this.userService.createDomain(payload)
         .pipe(
           switchMap(res => {
-            return [new EmailCreateDomainSuccess(res)];
+            return [new CreateDomainSuccess(res)];
           }),
           catchError(err => [
-            new EmailCreateDomainFailure(err.error)
+            new CreateDomainFailure(err.error)
           ]),
         );
     });
 
   @Effect()
-  EmailReadDomainEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.EMAIL_READ_DOMAIN)
-    .map((action: EmailReadDomain) => action.payload)
+  DomainRead: Observable<any> = this.actions
+    .ofType(UsersActionTypes.READ_DOMAIN)
+    .map((action: ReadDomain) => action.payload)
     .switchMap(payload => {
-      return this.userService.readEmailDomain(payload)
+      return this.userService.readDomain(payload)
         .pipe(
           switchMap(res => {
-            return [new EmailReadDomainSuccess(res)];
+            return [new ReadDomainSuccess(res)];
           }),
           catchError(err => [
-            new EmailReadDomainFailure(err.error)
+            new ReadDomainFailure(err.error)
           ]),
         );
     });
 
-    @Effect()
-  EmailDeleteDomainEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.EMAIL_DELETE_DOMAIN)
-    .map((action: EmailDeleteDomain) => action.payload)
+  @Effect()
+  DomainDelete: Observable<any> = this.actions
+    .ofType(UsersActionTypes.DELETE_DOMAIN)
+    .map((action: DeleteDomain) => action.payload)
     .switchMap(payload => {
-      return this.userService.deleteEmailDomain(payload)
+      return this.userService.deleteDomain(payload)
         .pipe(
           switchMap(res => {
-            return [new EmailDeleteDomainSuccess(payload)];
+            return [new DeleteDomainSuccess(payload)];
           }),
           catchError(err => [
-            new EmailDeleteDomainFailure(err.error)
+            new DeleteDomainFailure(err.error)
           ]),
         );
     });
