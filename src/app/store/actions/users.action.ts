@@ -64,6 +64,7 @@ export enum UsersActionTypes {
   EMAIL_DELETE_DOMAIN = '[Users] EMAIL_DELETE_DOMAIN',
   EMAIL_DELETE_DOMAIN_SUCCESS = '[Users] EMAIL_DELETE_DOMAIN_SUCCESS',
   EMAIL_DELETE_DOMAIN_FAILURE = '[Users] EMAIL_DELETE_DOMAIN_FAILURE',
+  PAYMENT_FAILURE = '[USER] PAYMENT FAILURE'
 }
 
 export class Accounts implements Action {
@@ -487,6 +488,13 @@ export class EmailDeleteDomainFailure implements Action {
   }
 }
 
+export class PaymentFailure implements Action {
+  readonly type = UsersActionTypes.PAYMENT_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -548,4 +556,5 @@ export type UsersActionAll =
   | EmailReadDomainFailure
   | EmailDeleteDomain
   | EmailDeleteDomainSuccess
-  | EmailDeleteDomainFailure;
+  | EmailDeleteDomainFailure
+  | PaymentFailure;

@@ -164,7 +164,8 @@ export class UsersService {
       'auth/upgrade',
       'auth/change-password',
       'auth/delete',
-      'emails/domains'
+      'emails/domains',
+      'search/messages'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

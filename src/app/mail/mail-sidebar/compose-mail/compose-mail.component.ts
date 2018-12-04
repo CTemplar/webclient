@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { COLORS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, FONTS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -32,9 +32,7 @@ import { OpenPgpService } from '../../../store/services/openpgp.service';
 const Quill: any = QuillNamespace;
 
 const FontAttributor = Quill.import('attributors/style/font');
-FontAttributor.whitelist = [
-  'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
-];
+FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
@@ -136,6 +134,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   draftId: number;
   colors = COLORS;
+  fonts = FONTS;
   mailData: any = {};
   options: any = {};
   selfDestruct: any = {};
@@ -322,6 +321,30 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         toolbar: this.toolbar.nativeElement
       }
     });
+    this.quill.clipboard.addMatcher(Node.TEXT_NODE, (node, delta) => {
+      const regex = /https?:\/\/[^\s]+/g;
+      if (typeof (node.data) !== 'string') {
+        return;
+      }
+      const matches = node.data.match(regex);
+
+      if (matches && matches.length > 0) {
+        const ops = [];
+        let str = node.data;
+        matches.forEach((match) => {
+          const split = str.split(match);
+          const beforeLink = split.shift();
+          ops.push({ insert: beforeLink });
+          ops.push({ insert: match, attributes: { link: match } });
+          str = split.join(match);
+        });
+        ops.push({ insert: str });
+        delta.ops = ops;
+      }
+      return delta;
+    });
+
+    this.quill.format('font', this.userState.settings.default_font);
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });
@@ -834,6 +857,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private resetMailData() {
+    this.resetSelfDestructValues();
+    this.resetDelayedDeliveryValues();
+    this.resetDeadManTimerValues();
     this.mailData = {
       receiver: this.receivers ?
         this.receivers.map(receiver => ({ display: receiver, value: receiver })) :
@@ -867,6 +893,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       minute: 0,
       second: 0
     };
+    this.selfDestruct.meridian = true;
     this.selfDestruct.error = null;
   }
 
@@ -878,6 +905,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       minute: 0,
       second: 0
     };
+    this.delayedDelivery.meridian = true;
     this.delayedDelivery.error = null;
   }
 

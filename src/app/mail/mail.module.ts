@@ -28,6 +28,7 @@ import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/g
 import { CreateFolderComponent } from './dialogs/create-folder/create-folder.component';
 import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.component';
 import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
+import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/payment-failure-notice.component';
 
 @NgModule({
   imports: [
@@ -58,14 +59,16 @@ import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-do
     GenericFolderComponent,
     CreateFolderComponent,
     MailFiltersComponent,
-    CustomDomainsComponent
+    CustomDomainsComponent,
+    PaymentFailureNoticeComponent
   ],
   exports: [
     MailFooterComponent
   ],
   entryComponents: [
     CreateFolderComponent,
-    ComposeMailDialogComponent
+    ComposeMailDialogComponent,
+    PaymentFailureNoticeComponent
   ]
 })
 export class MailModule { }

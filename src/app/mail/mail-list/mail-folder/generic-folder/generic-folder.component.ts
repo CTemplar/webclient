@@ -45,6 +45,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   LIMIT: number;
   OFFSET: number = 0;
   PAGE: number = 0;
+  private searchText: string;
 
   constructor(public store: Store<AppState>,
               private router: Router,
@@ -70,7 +71,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         this.customFolders = user.customFolders;
         if (this.fetchMails && this.userState.settings) {
           this.LIMIT = user.settings.emails_per_page;
-          if (this.LIMIT) {
+          if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH) {
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
             this.initializeAutoRefresh();
           }
@@ -79,7 +80,17 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
     this.store.select(state => state.search).takeUntil(this.destroyed$)
       .subscribe((searchState: SearchState) => {
-        // TODO: apply search
+        this.searchText = searchState.searchText;
+        if (this.searchText) {
+          this.store.dispatch(new GetMails({
+            forceReload: true,
+            searchText: this.searchText,
+            limit: this.LIMIT,
+            offset: this.OFFSET,
+            folder: this.mailFolder
+          }));
+          return;
+        }
       });
 
   }
@@ -269,7 +280,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (this.PAGE > 0) {
       this.PAGE--;
       this.OFFSET = this.PAGE * this.LIMIT;
-      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
+      this.store.dispatch(new GetMails({
+        limit: this.LIMIT,
+        searchText: this.searchText,
+        offset: this.OFFSET,
+        folder: this.mailFolder
+      }));
     }
   }
 
@@ -277,7 +293,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
-      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
+      this.store.dispatch(new GetMails({
+        limit: this.LIMIT,
+        searchText: this.searchText,
+        offset: this.OFFSET,
+        folder: this.mailFolder
+      }));
     }
   }
 
