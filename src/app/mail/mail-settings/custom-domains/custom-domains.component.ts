@@ -115,4 +115,10 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   deleteDomain(id: number) {
     this.store.dispatch(new EmailDeleteDomain(id));
   }
+
+  finishAddingNewDomain() {
+    this.isAddingNewDomain = false;
+    this.newDomain = null;
+    this.domainNameForm.setValue({domainNameCtrl: ''});
+  }
 }

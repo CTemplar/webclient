@@ -403,7 +403,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="readDomain(newDomain?.id)">
+                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="finishAddingNewDomain()">
                                                     <span translate="settings.next">Next</span>
                                                 </button>
                                             </div>
@@ -412,10 +412,10 @@
                                 </mat-step>
                             </mat-vertical-stepper>
                             <div class="btn-group-controls mt-3">
-                                <button class="btn btn-outline-secondary mr-3">
+                                <button class="btn btn-outline-secondary mr-3" (click)="finishAddingNewDomain()">
                                     <span class="text-small" translate="common.cancel">Cancel</span>
                                 </button>
-                                <button class="btn btn-secondary">   
+                                <button class="btn btn-secondary" (click)="finishAddingNewDomain()">   
                                     <span class="text-small" translate="common.save">Save</span>
                                 </button>
                             </div>
