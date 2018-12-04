@@ -84,6 +84,7 @@ export interface Settings {
   used_storage?: number;
   display_name?: string;
   email_count?: number;
+  default_font?: string;
 }
 
 export interface Payment {

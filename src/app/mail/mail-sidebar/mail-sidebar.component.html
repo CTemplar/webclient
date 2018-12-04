@@ -47,49 +47,52 @@
                     <a routerLink="/mail/draft" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.draft>0">{{mailState?.unreadMailsCount?.draft}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/sent" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-paper-plane"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.sent">Sent</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.sent>0">{{mailState?.unreadMailsCount?.sent}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/outbox" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.outbox">Outbox</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.outbox>0">{{mailState?.unreadMailsCount?.outbox}}</span>
+                        <span class="badge outbox">
+                              <span class="badge-square hidden-sm-down badge-counter badge-success"
+                                    *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter>0">
+                            {{mailState?.unreadMailsCount?.outbox_delayed_delivery_counter}}
+                            </span>
+                            <span class="badge-square hidden-sm-down badge-counter badge-danger"
+                                    *ngIf="mailState?.unreadMailsCount?.outbox_dead_man_counter>0">
+                            {{mailState?.unreadMailsCount?.outbox_dead_man_counter}}
+                            </span>
+                        </span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/starred" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-star"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.starred">Starred</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.starred>0">{{mailState?.unreadMailsCount?.starred}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/archive" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-archive"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.archive">Archive</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.archive>0">{{mailState?.unreadMailsCount?.archive}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/spam" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-warning"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.spam">Spam</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.spam>0">{{mailState?.unreadMailsCount?.spam}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
                     <a routerLink="/mail/trash" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-garbage"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.trash">Trash</span>
-                        <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount?.trash>0">{{mailState?.unreadMailsCount?.trash}}</span>
                     </a>
                 </li>
 

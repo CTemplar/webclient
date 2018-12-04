@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators';
-import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
+import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAIL_REGEX, FONTS } from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -44,6 +44,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   readonly defaultStorage = DEFAULT_STORAGE;
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
+  readonly fonts = FONTS;
 
   @ViewChild('changePasswordModal') changePasswordModal;
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
