@@ -59,6 +59,16 @@
                     <a routerLink="/mail/outbox" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.outbox">Outbox</span>
+                        <span class="badge outbox">
+                              <span class="badge-square hidden-sm-down badge-counter badge-success"
+                                    *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter>0">
+                            {{mailState?.unreadMailsCount?.outbox_delayed_delivery_counter}}
+                            </span>
+                            <span class="badge-square hidden-sm-down badge-counter badge-danger"
+                                    *ngIf="mailState?.unreadMailsCount?.outbox_dead_man_counter>0">
+                            {{mailState?.unreadMailsCount?.outbox_dead_man_counter}}
+                            </span>
+                        </span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  routerLinkActive="active">
