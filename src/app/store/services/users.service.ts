@@ -165,7 +165,8 @@ export class UsersService {
       'auth/change-password',
       'auth/delete',
       'emails/domains',
-      'search/messages'
+      'search/messages',
+      'domains/verify'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -308,6 +309,12 @@ export class UsersService {
 
   deleteDomain(id: number) {
     return this.http.delete<any>(`${apiUrl}emails/domains/${id}`);
+  }
+
+  verifyDomain(id: number) {
+    const url = `${apiUrl}domains/verify/${id}/`;
+    const body = {};
+    return this.http.get<any>(url, body);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

@@ -73,7 +73,10 @@ import {
   ReadDomainFailure,
   DeleteDomain,
   DeleteDomainSuccess,
-  DeleteDomainFailure
+  DeleteDomainFailure,
+  VerifyDomain,
+  VerifyDomainSuccess,
+  VerifyDomainFailure
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -496,6 +499,22 @@ export class UsersEffects {
           }),
           catchError(err => [
             new DeleteDomainFailure(err.error)
+          ]),
+        );
+    });
+
+  @Effect()
+  DomainVerify: Observable<any> = this.actions
+    .ofType(UsersActionTypes.VERIFY_DOMAIN)
+    .map((action: VerifyDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.verifyDomain(payload)
+        .pipe(
+          switchMap(res => {
+            return [new VerifyDomainSuccess(res)];
+          }),
+          catchError(err => [
+            new VerifyDomainFailure(err.error)
           ]),
         );
     });

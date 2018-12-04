@@ -248,7 +248,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.READ_DOMAIN:
     case UsersActionTypes.CREATE_DOMAIN:
-    case UsersActionTypes.DELETE_DOMAIN: {
+    case UsersActionTypes.DELETE_DOMAIN:
+    case UsersActionTypes.VERIFY_DOMAIN: {
       return {
         ...state,
         inProgress: true,
@@ -257,7 +258,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.READ_DOMAIN_SUCCESS: {
+    case UsersActionTypes.READ_DOMAIN_SUCCESS:
+    case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
       return {
         ...state,
         inProgress: false,
@@ -285,7 +287,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.READ_DOMAIN_FAILURE: {
+    case UsersActionTypes.READ_DOMAIN_FAILURE:
+    case UsersActionTypes.VERIFY_DOMAIN_FAILURE: {
       return {
         ...state,
         inProgress: false,

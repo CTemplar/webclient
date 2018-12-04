@@ -64,6 +64,9 @@ export enum UsersActionTypes {
   DELETE_DOMAIN = '[Users] DELETE_DOMAIN',
   DELETE_DOMAIN_SUCCESS = '[Users] DELETE_DOMAIN_SUCCESS',
   DELETE_DOMAIN_FAILURE = '[Users] DELETE_DOMAIN_FAILURE',
+  VERIFY_DOMAIN = '[Users] VERIFY_DOMAIN',
+  VERIFY_DOMAIN_SUCCESS = '[Users] VERIFY_DOMAIN_SUCCESS',
+  VERIFY_DOMAIN_FAILURE = '[Users] VERIFY_DOMAIN_FAILURE',
   PAYMENT_FAILURE = '[USER] PAYMENT FAILURE'
 }
 
@@ -488,6 +491,27 @@ export class DeleteDomainFailure implements Action {
   }
 }
 
+export class VerifyDomain implements Action {
+  readonly type = UsersActionTypes.VERIFY_DOMAIN;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VerifyDomainSuccess implements Action {
+  readonly type = UsersActionTypes.VERIFY_DOMAIN_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class VerifyDomainFailure implements Action {
+  readonly type = UsersActionTypes.VERIFY_DOMAIN_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export class PaymentFailure implements Action {
   readonly type = UsersActionTypes.PAYMENT_FAILURE;
 
@@ -557,4 +581,7 @@ export type UsersActionAll =
   | DeleteDomain
   | DeleteDomainSuccess
   | DeleteDomainFailure
-  | PaymentFailure;
+  | PaymentFailure
+  | VerifyDomain
+  | VerifyDomainSuccess
+  | VerifyDomainFailure;
