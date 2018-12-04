@@ -53,17 +53,17 @@ export enum UsersActionTypes {
   DELETE_FILTER = '[USER] DELETE FILTER',
   DELETE_FILTER_SUCCESS = '[USER] DELETE FILTER SUCCESS',
   DELETE_FILTER_FAILURE = '[USER] DELETE FILTER FAILURE',
-  EMAIL_DOMAINS_GET = '[Users] EMAIL_DOMAINS_GET',
-  EMAIL_DOMAINS_GET_SUCCESS = '[Users] EMAIL_DOMAINS_GET_SUCCESS',
-  EMAIL_CREATE_DOMAIN = '[Users] EMAIL_CREATE_DOMAIN',
-  EMAIL_CREATE_DOMAIN_SUCCESS = '[Users] EMAIL_CREATE_DOMAIN_SUCCESS',
-  EMAIL_CREATE_DOMAIN_FAILURE = '[Users] EMAIL_CREATE_DOMAIN_FAILURE',
-  EMAIL_READ_DOMAIN = '[Users] EMAIL_READ_DOMAIN',
-  EMAIL_READ_DOMAIN_SUCCESS = '[Users] EMAIL_READ_DOMAIN_SUCCESS',
-  EMAIL_READ_DOMAIN_FAILURE = '[Users] EMAIL_READ_DOMAIN_FAILURE',
-  EMAIL_DELETE_DOMAIN = '[Users] EMAIL_DELETE_DOMAIN',
-  EMAIL_DELETE_DOMAIN_SUCCESS = '[Users] EMAIL_DELETE_DOMAIN_SUCCESS',
-  EMAIL_DELETE_DOMAIN_FAILURE = '[Users] EMAIL_DELETE_DOMAIN_FAILURE',
+  GET_DOMAINS = '[Users] GET_DOMAINS',
+  GET_DOMAINS_SUCCESS = '[Users] GET_DOMAINS_SUCCESS',
+  CREATE_DOMAIN = '[Users] CREATE_DOMAIN',
+  CREATE_DOMAIN_SUCCESS = '[Users] CREATE_DOMAIN_SUCCESS',
+  CREATE_DOMAIN_FAILURE = '[Users] CREATE_DOMAIN_FAILURE',
+  READ_DOMAIN = '[Users] READ_DOMAIN',
+  READ_DOMAIN_SUCCESS = '[Users] READ_DOMAIN_SUCCESS',
+  READ_DOMAIN_FAILURE = '[Users] READ_DOMAIN_FAILURE',
+  DELETE_DOMAIN = '[Users] DELETE_DOMAIN',
+  DELETE_DOMAIN_SUCCESS = '[Users] DELETE_DOMAIN_SUCCESS',
+  DELETE_DOMAIN_FAILURE = '[Users] DELETE_DOMAIN_FAILURE',
   PAYMENT_FAILURE = '[USER] PAYMENT FAILURE'
 }
 
@@ -411,78 +411,78 @@ export class DeleteFilterFailure implements Action {
   }
 }
 
-export class EmailDomainsGet implements Action {
-  readonly type = UsersActionTypes.EMAIL_DOMAINS_GET;
+export class GetDomains implements Action {
+  readonly type = UsersActionTypes.GET_DOMAINS;
 
   constructor(public payload?: any) {
   }
 }
 
-export class EmailDomainsGetSuccess implements Action {
-  readonly type = UsersActionTypes.EMAIL_DOMAINS_GET_SUCCESS;
+export class GetDomainsSuccess implements Action {
+  readonly type = UsersActionTypes.GET_DOMAINS_SUCCESS;
 
   constructor(public payload?: any) {
   }
 }
 
-export class EmailCreateDomain implements Action {
-  readonly type = UsersActionTypes.EMAIL_CREATE_DOMAIN;
+export class CreateDomain implements Action {
+  readonly type = UsersActionTypes.CREATE_DOMAIN;
 
   constructor(public payload: string) {
   }
 }
 
-export class EmailCreateDomainSuccess implements Action {
-  readonly type = UsersActionTypes.EMAIL_CREATE_DOMAIN_SUCCESS;
+export class CreateDomainSuccess implements Action {
+  readonly type = UsersActionTypes.CREATE_DOMAIN_SUCCESS;
 
   constructor(public payload: any) {
   }
 }
 
-export class EmailCreateDomainFailure implements Action {
-  readonly type = UsersActionTypes.EMAIL_CREATE_DOMAIN_FAILURE;
+export class CreateDomainFailure implements Action {
+  readonly type = UsersActionTypes.CREATE_DOMAIN_FAILURE;
 
   constructor(public payload: any) {
   }
 }
 
-export class EmailReadDomain implements Action {
-  readonly type = UsersActionTypes.EMAIL_READ_DOMAIN;
+export class ReadDomain implements Action {
+  readonly type = UsersActionTypes.READ_DOMAIN;
 
   constructor(public payload: number) {
   }
 }
 
-export class EmailReadDomainSuccess implements Action {
-  readonly type = UsersActionTypes.EMAIL_READ_DOMAIN_SUCCESS;
+export class ReadDomainSuccess implements Action {
+  readonly type = UsersActionTypes.READ_DOMAIN_SUCCESS;
 
   constructor(public payload: any) {
   }
 }
 
-export class EmailReadDomainFailure implements Action {
-  readonly type = UsersActionTypes.EMAIL_READ_DOMAIN_FAILURE;
+export class ReadDomainFailure implements Action {
+  readonly type = UsersActionTypes.READ_DOMAIN_FAILURE;
 
   constructor(public payload: any) {
   }
 }
 
-export class EmailDeleteDomain implements Action {
-  readonly type = UsersActionTypes.EMAIL_DELETE_DOMAIN;
+export class DeleteDomain implements Action {
+  readonly type = UsersActionTypes.DELETE_DOMAIN;
 
   constructor(public payload: any) {
   }
 }
 
-export class EmailDeleteDomainSuccess implements Action {
-  readonly type = UsersActionTypes.EMAIL_DELETE_DOMAIN_SUCCESS;
+export class DeleteDomainSuccess implements Action {
+  readonly type = UsersActionTypes.DELETE_DOMAIN_SUCCESS;
 
   constructor(public payload?: any) {
   }
 }
 
-export class EmailDeleteDomainFailure implements Action {
-  readonly type = UsersActionTypes.EMAIL_DELETE_DOMAIN_FAILURE;
+export class DeleteDomainFailure implements Action {
+  readonly type = UsersActionTypes.DELETE_DOMAIN_FAILURE;
 
   constructor(public payload?: any) {
   }
@@ -546,15 +546,15 @@ export type UsersActionAll =
   | DeleteFilter
   | DeleteFilterSuccess
   | DeleteFilterFailure
-  | EmailDomainsGet
-  | EmailDomainsGetSuccess
-  | EmailCreateDomain
-  | EmailCreateDomainSuccess
-  | EmailCreateDomainFailure
-  | EmailReadDomain
-  | EmailReadDomainSuccess
-  | EmailReadDomainFailure
-  | EmailDeleteDomain
-  | EmailDeleteDomainSuccess
-  | EmailDeleteDomainFailure
+  | GetDomains
+  | GetDomainsSuccess
+  | CreateDomain
+  | CreateDomainSuccess
+  | CreateDomainFailure
+  | ReadDomain
+  | ReadDomainSuccess
+  | ReadDomainFailure
+  | DeleteDomain
+  | DeleteDomainSuccess
+  | DeleteDomainFailure
   | PaymentFailure;
