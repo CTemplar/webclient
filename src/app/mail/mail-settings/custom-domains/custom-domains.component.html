@@ -10,11 +10,11 @@
                             </h5>
                         </div>
                         <div class="desc-card-body bg-faded domain-body">
-                            <button class="btn btn-secondary btn-add-domain text-small" *ngIf="domains && domains.length > 0; else domainsEmpty" (click)="isAddingNewDomain=true">
+                            <button class="btn btn-secondary btn-add-domain text-small" *ngIf="domains && domains.length > 0; else domainsEmpty" (click)="startAddingNewDomain()">
                                 <span translate="settings.add_domain">Add Domain</span>
                             </button>
                             <ng-template #domainsEmpty>
-                                <button class="btn btn-secondary btn-create-domain text-small" (click)="isAddingNewDomain=true">
+                                <button class="btn btn-secondary btn-create-domain text-small" (click)="startAddingNewDomain()">
                                     <span translate="settings.create_domain">Create Domain</span>
                                 </button>
                             </ng-template>
@@ -44,7 +44,7 @@
                                             <a class="text-muted" [ngbTooltip]="'settings.edit_tooltip' | translate"><i class="icon icon-edit"></i></a>
                                         </div>
                                         <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                                            <a class="text-muted" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="deleteDomain(domain.id)"><i class="icon icon-garbage"></i></a>
+                                            <a class="text-muted" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="openConfirmDeleteModal(domain)"><i class="icon icon-garbage"></i></a>
                                         </div>
                                         <div class="d-flex d-md-none justify-content-center align-items-center">
                                             <div ngbDropdown class="d-inline-block">
@@ -56,7 +56,7 @@
                                                       <i class="icon icon-edit"></i>
                                                       <span translate="settings.edit_details">Edit Details</span>
                                                     </button>
-                                                  <button class="dropdown-item text-muted" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="deleteDomain(domain.id)">
+                                                  <button class="dropdown-item text-muted" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="openConfirmDeleteModal(domain)">
                                                       <i class="icon icon-garbage"></i>
                                                       <span translate="settings.remove">Remove</span>
                                                     </button>
@@ -81,7 +81,7 @@
                                                         <i class="icon icon-edit"></i>
                                                         <span translate="settings.edit_details">Edit Details</span>
                                                         </button>
-                                                    <button class="dropdown-item text-muted text-small" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="deleteDomain(domain.id)">
+                                                    <button class="dropdown-item text-muted text-small" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="openConfirmDeleteModal(domain)">
                                                         <i class="icon icon-garbage"></i>
                                                         <span translate="settings.remove">Remove</span>
                                                         </button>
@@ -426,3 +426,31 @@
         </div>
     </div>
 </section>
+
+<!-- Confirm domain delete modal -->
+<ng-template #confirmDeleteModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="form-group">
+                <span translate="contacts.delete.message">Are you sure, you want to delete</span>
+                <strong>{{ newDomain?.domain }}</strong>?
+            </div>
+            <div class="form-group text-right mb-0">
+                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm"
+                        translate="common.cancel"
+                        role="button">Cancel
+                </button>
+                <button (click)="deleteDomain()" class="btn btn-danger btn-sm"
+                        translate="common.delete"
+                        role="button">Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.Confirm contact delete modal ends -->

@@ -179,7 +179,9 @@
     "remove": "Remove",
     "set": "Set",
     "good": "Good",
-    "on": "On"
+    "on": "On",
+    "edit_tooltip": "Edit",
+    "delete_tooltip": "Delete"
   },
   "mail_sidebar": {
     "inbox": "Inbox",

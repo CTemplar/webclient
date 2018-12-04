@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -28,6 +28,8 @@ import {
 })
 export class CustomDomainsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
+
+  @ViewChild('confirmDeleteModal') confirmDeleteModal;
   
   userState: UserState;
   authState: AuthState;
@@ -44,8 +46,11 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   dkimForm: FormGroup;
   dmarcForm: FormGroup;
 
+  private confirmModalRef: NgbModalRef;
+
   constructor(
     config: NgbDropdownConfig,
+    private modalService: NgbModal,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
   ) {
@@ -99,6 +104,13 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     return '';
   }
 
+  startAddingNewDomain() {
+    if (!this.userState.inProgress) {
+      this.newDomain = null;
+      this.isAddingNewDomain = true;
+    }
+  }
+
   createDomain() {
     const domain = this.domainNameForm.value.domainNameCtrl;
     if (domain !== ""){
@@ -112,13 +124,28 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteDomain(id: number) {
-    this.store.dispatch(new EmailDeleteDomain(id));
-  }
-
   finishAddingNewDomain() {
     this.isAddingNewDomain = false;
     this.newDomain = null;
     this.domainNameForm.setValue({domainNameCtrl: ''});
+  }
+
+  openConfirmDeleteModal(domain: Domain) {
+    if (!this.userState.inProgress) {
+      this.newDomain = domain;
+      this.confirmModalRef = this.modalService.open(this.confirmDeleteModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal'
+      });
+    }
+  }
+
+  cancelDelete() {
+    this.confirmModalRef.close();
+  }
+
+  deleteDomain() {
+    this.confirmModalRef.close();
+    this.store.dispatch(new EmailDeleteDomain(this.newDomain.id));
   }
 }
