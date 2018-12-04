@@ -41,10 +41,10 @@
                                     </div>
                                     <div class="col-2 d-flex justify-content-end actions">
                                         <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                                            <a class="text-muted"><i class="icon icon-edit"></i></a>
+                                            <a class="text-muted" [ngbTooltip]="'settings.edit_tooltip' | translate"><i class="icon icon-edit"></i></a>
                                         </div>
                                         <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                                            <a class="text-muted" (click)="deleteDomain(domain.id)"><i class="icon icon-garbage"></i></a>
+                                            <a class="text-muted" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="deleteDomain(domain.id)"><i class="icon icon-garbage"></i></a>
                                         </div>
                                         <div class="d-flex d-md-none justify-content-center align-items-center">
                                             <div ngbDropdown class="d-inline-block">
@@ -52,11 +52,11 @@
                                                     <i class="fa fa-ellipsis-h"></i>
                                                 </button>
                                                 <div ngbDropdownMenu class="dropdown-menu-right">
-                                                  <button class="dropdown-item text-muted">
+                                                  <button class="dropdown-item text-muted" [ngbTooltip]="'settings.edit_tooltip' | translate">
                                                       <i class="icon icon-edit"></i>
                                                       <span translate="settings.edit_details">Edit Details</span>
                                                     </button>
-                                                  <button class="dropdown-item text-muted" (click)="deleteDomain(domain.id)">
+                                                  <button class="dropdown-item text-muted" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="deleteDomain(domain.id)">
                                                       <i class="icon icon-garbage"></i>
                                                       <span translate="settings.remove">Remove</span>
                                                     </button>
@@ -77,11 +77,11 @@
                                                         <i class="fa fa-ellipsis-h"></i>
                                                     </button>
                                                     <div ngbDropdownMenu class="dropdown-menu-right">
-                                                    <button class="dropdown-item text-muted text-small">
+                                                    <button class="dropdown-item text-muted text-small" [ngbTooltip]="'settings.edit_tooltip' | translate">
                                                         <i class="icon icon-edit"></i>
                                                         <span translate="settings.edit_details">Edit Details</span>
                                                         </button>
-                                                    <button class="dropdown-item text-muted text-small" (click)="deleteDomain(domain.id)">
+                                                    <button class="dropdown-item text-muted text-small" [ngbTooltip]="'settings.delete_tooltip' | translate" (click)="deleteDomain(domain.id)">
                                                         <i class="icon icon-garbage"></i>
                                                         <span translate="settings.remove">Remove</span>
                                                         </button>
