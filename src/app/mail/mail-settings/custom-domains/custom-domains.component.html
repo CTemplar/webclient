@@ -127,6 +127,7 @@
                                     <form [formGroup]="domainNameForm">
                                         <ng-template matStepLabel>
                                             <span class="font-weight-bold" translate="settings.add_domain_step.name">Domain name</span>
+                                            <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" translate="settings.set" *ngIf="newDomain?.id">Set</span>
                                         </ng-template>
                                         <div class="stepper-form">
                                             <div class="pb-3">
@@ -151,6 +152,7 @@
                                         <ng-template matStepLabel>
                                             <span class="font-weight-bold" translate="settings.verify_step.name">Verify</span>
                                             <span class="text-muted ml-2" translate="settings.required">Required</span>
+                                            <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" translate="settings.good" *ngIf="newDomain?.is_domain_verified">Good</span>
                                         </ng-template>
                                         <div class="stepper-form" *ngIf="newDomain?.id">
                                             <div class="pb-3">
@@ -202,6 +204,7 @@
                                         <ng-template matStepLabel>
                                             <span class="font-weight-bold" translate="settings.mx_step.name">MX</span>
                                             <span class="text-muted ml-2" translate="settings.required">Required</span>
+                                            <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" translate="settings.good" *ngIf="newDomain?.is_mx_verified">Good</span>
                                         </ng-template>
                                         <div class="stepper-form" *ngIf="newDomain?.id">
                                             <div class="pb-3">
@@ -260,6 +263,7 @@
                                         <ng-template matStepLabel>
                                             <span class="font-weight-bold" translate="settings.spf_step.name">SPF</span>
                                             <span class="text-muted ml-2" translate="settings.recommended">Recommended</span>
+                                            <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" translate="settings.good" *ngIf="newDomain?.is_spf_verified">Good</span>
                                         </ng-template>
                                         <div class="stepper-form" *ngIf="newDomain?.id">
                                             <div class="pb-3">
@@ -310,6 +314,7 @@
                                         <ng-template matStepLabel>
                                             <span class="font-weight-bold" translate="settings.dkim_step.name">DKIM</span>
                                             <span class="text-muted ml-2" translate="settings.recommended">Recommended</span>
+                                            <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" translate="settings.on" *ngIf="newDomain?.is_dkim_verified">On</span>
                                         </ng-template>
                                         <div class="stepper-form" *ngIf="newDomain?.id">
                                             <div class="pb-3">

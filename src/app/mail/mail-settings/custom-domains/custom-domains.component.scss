@@ -165,6 +165,11 @@
   }
 }
 
+.record-status {
+  border-radius: 14px;
+  background-color: #3ab05d
+}
+
 /deep/ .mat-stepper-vertical, .mat-stepper-horizontal {
   font-family: "Lato", Helvetica, Arial, sans-serif;
   word-break: break-all;
@@ -206,6 +211,7 @@
 
 /deep/ .mat-step-header .mat-step-label {
   font-size: 1.125rem;
+  width: 100%;
   @include media("<=sm") {
     font-size: 1rem;
   }

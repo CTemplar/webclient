@@ -176,7 +176,10 @@
     "recommended": "Recommended",
     "optional_advanced": "Optional, advanced",
     "edit_details": "Edit Details",
-    "remove": "Remove"
+    "remove": "Remove",
+    "set": "Set",
+    "good": "Good",
+    "on": "On"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
