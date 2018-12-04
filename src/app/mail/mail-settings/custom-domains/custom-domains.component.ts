@@ -7,9 +7,9 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  EmailCreateDomain,
-  EmailReadDomain,
-  EmailDeleteDomain
+  CreateDomain,
+  ReadDomain,
+  DeleteDomain
 } from '../../../store/actions';
 
 import {
@@ -114,13 +114,13 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   createDomain() {
     const domain = this.domainNameForm.value.domainNameCtrl;
     if (domain !== ""){
-      this.store.dispatch(new EmailCreateDomain(domain));
+      this.store.dispatch(new CreateDomain(domain));
     }
   }
 
   readDomain(id: number) {
     if (id !== null) {
-      this.store.dispatch(new EmailReadDomain(id));
+      this.store.dispatch(new ReadDomain(id));
     }
   }
 
@@ -146,6 +146,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
 
   deleteDomain() {
     this.confirmModalRef.close();
-    this.store.dispatch(new EmailDeleteDomain(this.newDomain.id));
+    this.store.dispatch(new DeleteDomain(this.newDomain.id));
   }
 }
