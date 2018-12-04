@@ -149,3 +149,19 @@
     }
   }
 }
+
+.badge.outbox {
+  background: unset;
+  width: auto;
+
+  .badge-counter {
+    float: right;
+    width: 1.563rem;
+    margin-left: 5px;
+    border-radius: 3px;
+  }
+
+  .badge-success {
+    background-color: green;
+  }
+}
