@@ -289,24 +289,24 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
   }
 
-  getEmailDomains(limit = 0, offset = 0) {
+  getDomains(limit = 0, offset = 0) {
     const url = `${apiUrl}emails/domains/?limit=${limit}&offset=${offset}`;
     const body = {};
     return this.http.get<any>(url, body);
   }
 
-  createEmailDomain(domain) {
+  createDomain(domain) {
     const body = { domain };
     return this.http.post<any>(`${apiUrl}emails/domains/`, body);
   }
 
-  readEmailDomain(id: number) {
+  readDomain(id: number) {
     const url = `${apiUrl}emails/domains/${id}/`;
     const body = {};
     return this.http.get<any>(url, body);
   }
 
-  deleteEmailDomain(id: number) {
+  deleteDomain(id: number) {
     return this.http.delete<any>(`${apiUrl}emails/domains/${id}`);
   }
 
