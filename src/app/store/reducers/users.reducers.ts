@@ -239,16 +239,16 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false, filtersError: error };
     }
 
-    case UsersActionTypes.EMAIL_DOMAINS_GET_SUCCESS: {
+    case UsersActionTypes.GET_DOMAINS_SUCCESS: {
       return {
         ...state,
         emailDomains: action.payload,
       };
     }
 
-    case UsersActionTypes.EMAIL_READ_DOMAIN:
-    case UsersActionTypes.EMAIL_CREATE_DOMAIN:
-    case UsersActionTypes.EMAIL_DELETE_DOMAIN: {
+    case UsersActionTypes.READ_DOMAIN:
+    case UsersActionTypes.CREATE_DOMAIN:
+    case UsersActionTypes.DELETE_DOMAIN: {
       return {
         ...state,
         inProgress: true,
@@ -257,7 +257,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.EMAIL_READ_DOMAIN_SUCCESS: {
+    case UsersActionTypes.READ_DOMAIN_SUCCESS: {
       return {
         ...state,
         inProgress: false,
@@ -266,7 +266,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.EMAIL_CREATE_DOMAIN_SUCCESS: {
+    case UsersActionTypes.CREATE_DOMAIN_SUCCESS: {
       state.emailDomains.push(action.payload);
       return {
         ...state,
@@ -276,7 +276,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.EMAIL_CREATE_DOMAIN_FAILURE: {
+    case UsersActionTypes.CREATE_DOMAIN_FAILURE: {
       return {
         ...state,
         inProgress: false,
@@ -285,7 +285,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.EMAIL_READ_DOMAIN_FAILURE: {
+    case UsersActionTypes.READ_DOMAIN_FAILURE: {
       return {
         ...state,
         inProgress: false,
@@ -294,7 +294,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.EMAIL_DELETE_DOMAIN_SUCCESS: {
+    case UsersActionTypes.DELETE_DOMAIN_SUCCESS: {
       state.emailDomains = state.emailDomains.filter(domain => domain.id !== action.payload);
       return {
         ...state,
@@ -302,7 +302,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.EMAIL_DELETE_DOMAIN_FAILURE: {
+    case UsersActionTypes.DELETE_DOMAIN_FAILURE: {
       return {
         ...state,
         inProgress: false,
