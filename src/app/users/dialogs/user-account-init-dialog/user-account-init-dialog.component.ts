@@ -25,7 +25,7 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
     ]),
     trigger('pageAnimation2', [
       transition(':enter', [
-        query('h3, li', [
+        query('li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
           stagger(833, [
             animate('833ms', style({ opacity: 1, transform: 'none' }))
@@ -35,7 +35,7 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
     ]),
     trigger('pageAnimation3', [
       transition(':enter', [
-        query('li', [
+        query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
           stagger(833, [
             animate('833ms', style({ opacity: 1, transform: 'none' }))
