@@ -85,8 +85,8 @@ export class UserAccountInitDialogComponent implements OnInit, OnChanges, OnDest
 
   ngOnChanges(changes: any) {
     if (changes.isPgpGenerationComplete && changes.isPgpGenerationComplete.currentValue === true) {
-      if (this.step === 1) {
-        // move animation to page 3
+      if (this.step === 2) {
+        // move animation to page 4
         this.step++;
       }
     }
@@ -99,7 +99,7 @@ export class UserAccountInitDialogComponent implements OnInit, OnChanges, OnDest
   }
 
   onAnimationDone(evt) {
-    if (this.step === 1 && !this.isPgpGenerationComplete) {
+    if (this.step === 2 && !this.isPgpGenerationComplete) {
       // pause animation because pgp key generation is not complete
     } else if (this.step === 3) {
       setTimeout(() => {
