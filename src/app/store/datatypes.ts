@@ -69,6 +69,7 @@ export interface UserState {
   emailDomains: Domain[];
   emailNewDomain?: Domain;
   emailNewDomainError?: string[];
+  currentCreationStep: number;
 }
 
 export interface Settings {

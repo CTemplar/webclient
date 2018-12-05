@@ -121,7 +121,7 @@
                                     {{ message }}
                                 </div>
                             </div>
-                            <mat-vertical-stepper [linear]="true" #stepper>
+                            <mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
                                 <ng-template matStepperIcon="edit"><mat-icon>check</mat-icon></ng-template>
                                 <mat-step [stepControl]="domainNameForm">
                                     <form [formGroup]="domainNameForm">
@@ -141,7 +141,7 @@
                                                 formControlName="domainNameCtrl"/>
                                             </div>
                                             <div>
-                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="createDomain()" matStepperNext>
+                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="createDomain()">
                                                     <span translate="settings.next">Next</span>
                                                 </button>
                                             </div>

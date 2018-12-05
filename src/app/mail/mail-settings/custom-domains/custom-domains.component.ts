@@ -31,7 +31,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
-  
+
   userState: UserState;
   authState: AuthState;
   settings: Settings;
@@ -40,6 +40,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   newDomainError: string[];
 
   isAddingNewDomain = false;
+  currentStep: number = 0;
   domainNameForm: FormGroup;
   verifyForm: FormGroup;
   mxForm: FormGroup;
@@ -71,6 +72,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
         this.domains = user.emailDomains;
         this.newDomain = user.emailNewDomain;
         this.newDomainError = user.emailNewDomainError;
+        this.currentStep = user.currentCreationStep;
       });
 
     this.domainNameForm = this.formBuilder.group({
@@ -108,13 +110,14 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   startAddingNewDomain() {
     if (!this.userState.inProgress) {
       this.newDomain = null;
+      this.newDomainError = [];
       this.isAddingNewDomain = true;
     }
   }
 
   createDomain() {
     const domain = this.domainNameForm.value.domainNameCtrl;
-    if (domain !== ""){
+    if (domain !== '') {
       this.store.dispatch(new CreateDomain(domain));
     }
   }

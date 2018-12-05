@@ -17,7 +17,8 @@ export const initialState: UserState = {
   payment_transaction: {},
   customFolders: [],
   filters: [],
-  emailDomains: []
+  emailDomains: [],
+  currentCreationStep: 0
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -275,6 +276,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: false,
         isError: false,
         emailNewDomain: action.payload,
+        currentCreationStep: 1
       };
     }
 
