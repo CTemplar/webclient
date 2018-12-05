@@ -508,17 +508,17 @@ export class UsersEffects {
     .ofType(UsersActionTypes.VERIFY_DOMAIN)
     .map((action: VerifyDomain) => action.payload)
     .switchMap(payload => {
-      return this.userService.verifyDomain(payload)
+      return this.userService.verifyDomain(payload.id)
         .pipe(
           switchMap(res => {
-            return [new VerifyDomainSuccess(res)];
+            return [new VerifyDomainSuccess({res, step: payload.currentStep})];
           }),
           catchError(err => [
-            new VerifyDomainFailure(err.error)
+            new VerifyDomainFailure({err: err.error, step: payload.currentStep})
           ]),
         );
     });
-    
+
   @Effect({ dispatch: false })
   paymentFailureEffect: Observable<any> = this.actions
     .ofType(UsersActionTypes.PAYMENT_FAILURE)

@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                             <mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
-                                <ng-template matStepperIcon="edit"><mat-icon>check</mat-icon></ng-template>
+                                <ng-template matStepperIcon="edit"><mat-icon>check<span>dadf</span></mat-icon></ng-template>
                                 <mat-step [stepControl]="domainNameForm">
                                     <form [formGroup]="domainNameForm">
                                         <ng-template matStepLabel>
@@ -193,7 +193,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)" matStepperNext>
+                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
                                                     <span translate="settings.next">Next</span>
                                                 </button>
                                             </div>
@@ -252,7 +252,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)" matStepperNext>
+                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
                                                     <span translate="settings.next">Next</span>
                                                 </button>
                                             </div>
@@ -303,7 +303,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)" matStepperNext>
+                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
                                                     <span translate="settings.next">Next</span>
                                                 </button>
                                             </div>
@@ -354,7 +354,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)" matStepperNext>
+                                                <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
                                                     <span translate="settings.next">Next</span>
                                                 </button>
                                             </div>

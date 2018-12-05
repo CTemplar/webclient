@@ -248,24 +248,51 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.READ_DOMAIN:
-    case UsersActionTypes.CREATE_DOMAIN:
     case UsersActionTypes.DELETE_DOMAIN:
     case UsersActionTypes.VERIFY_DOMAIN: {
       return {
         ...state,
         inProgress: true,
         isError: false,
-        error: ''
+        error: '',
+        emailNewDomainError: []
       };
     }
 
-    case UsersActionTypes.READ_DOMAIN_SUCCESS:
-    case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
+    case UsersActionTypes.CREATE_DOMAIN: {
+      return {
+        ...state,
+        inProgress: true,
+        isError: false,
+        error: '',
+        emailNewDomainError: [],
+        currentCreationStep: 0
+      };
+    }
+
+    case UsersActionTypes.READ_DOMAIN_SUCCESS: {
       return {
         ...state,
         inProgress: false,
         isError: false,
         emailNewDomain: action.payload,
+      };
+    }
+
+    case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
+      const domain = action.payload.res;
+      let step = action.payload.step;
+      if (step === 1 && domain.is_domain_verified
+        || step === 2 && domain.is_mx_verified
+        || step >= 3) {
+        step++;
+      }
+      return {
+        ...state,
+        inProgress: false,
+        isError: false,
+        emailNewDomain: action.payload.res,
+        currentCreationStep: step
       };
     }
 
@@ -286,6 +313,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: false,
         isError: true,
         emailNewDomainError: action.payload.doamin,
+        currentCreationStep: 0
       };
     }
 
@@ -295,7 +323,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: action.payload.detail,
+        error: action.payload.err.detail,
+        currentCreationStep: action.payload.step
       };
     }
 

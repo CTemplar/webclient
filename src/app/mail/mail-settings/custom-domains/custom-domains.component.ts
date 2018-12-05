@@ -109,6 +109,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
 
   startAddingNewDomain() {
     if (!this.userState.inProgress) {
+      this.currentStep = 0;
       this.newDomain = null;
       this.newDomainError = [];
       this.isAddingNewDomain = true;
@@ -130,12 +131,13 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
 
   verifyDomain(id: number) {
     if (id !== null) {
-      this.store.dispatch(new VerifyDomain(id));
+      this.store.dispatch(new VerifyDomain({id, currentStep: this.currentStep}));
     }
   }
 
   finishAddingNewDomain() {
     this.isAddingNewDomain = false;
+    this.currentStep = 0;
     this.newDomain = null;
     this.domainNameForm.setValue({domainNameCtrl: ''});
   }
