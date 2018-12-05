@@ -185,7 +185,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   pgpKeyGenerationCompleted() {
     if (this.modalRef) {
-      this.modalRef.componentInstance.isPgpGenerationComplete = true;
+      this.modalRef.componentInstance.pgpGenerationCompleted();
     }
     this.data = {
       ...this.userKeys,
