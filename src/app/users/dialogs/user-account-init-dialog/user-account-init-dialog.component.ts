@@ -1,5 +1,5 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -55,7 +55,7 @@ import { AppState, AuthState, SignupState } from '../../../store/datatypes';
     ])
   ]
 })
-export class UserAccountInitDialogComponent implements OnInit, OnChanges, OnDestroy {
+export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   @Input() isPgpGenerationComplete: boolean;
@@ -83,12 +83,14 @@ export class UserAccountInitDialogComponent implements OnInit, OnChanges, OnDest
       });
   }
 
-  ngOnChanges(changes: any) {
-    if (changes.isPgpGenerationComplete && changes.isPgpGenerationComplete.currentValue === true) {
-      if (this.step === 1) {
-        // move animation to page 3
+  pgpGenerationCompleted() {
+    this.isPgpGenerationComplete = true;
+    if (this.step === 2) {
+      // move animation to page 4
+      setTimeout(() => {
         this.step++;
-      }
+      }, 1000);
+
     }
   }
 
@@ -99,7 +101,7 @@ export class UserAccountInitDialogComponent implements OnInit, OnChanges, OnDest
   }
 
   onAnimationDone(evt) {
-    if (this.step === 1 && !this.isPgpGenerationComplete) {
+    if (this.step === 2 && !this.isPgpGenerationComplete) {
       // pause animation because pgp key generation is not complete
     } else if (this.step === 3) {
       setTimeout(() => {

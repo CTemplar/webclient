@@ -253,7 +253,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   pgpKeyGenerationCompleted(data: any) {
     if (this.modalRef) {
-      this.modalRef.componentInstance.isPgpGenerationComplete = true;
+      this.modalRef.componentInstance.pgpGenerationCompleted();
     }
     this.store.dispatch(new SignUp(data));
   }
