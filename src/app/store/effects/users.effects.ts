@@ -449,7 +449,7 @@ export class UsersEffects {
       return this.userService.getDomains()
         .pipe(
           map(emailDomains => {
-            return new GetDomainsSuccess(emailDomains.results);
+            return new GetDomainsSuccess(emailDomains.results.sort((a, b) => a.id - b.id));
           }),
           catchError((error) => [])
         );
