@@ -232,6 +232,10 @@
                           </div>
                         </div>
                       </div>
+                      <div *ngIf="userState?.isError" class="l-alert l-alert-danger mt-3">
+                        Domain verification failed, please add above TXT record in your host DNS and try again.
+                        DNS records can take several hours to update. Once domain is verified, you can proceed to next step.
+                      </div>
                       <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
                   </form>
@@ -290,6 +294,10 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div *ngIf="userState?.isError" class="l-alert l-alert-danger mt-3">
+                        MX Record verification failed, please add above MX record in your host DNS and try again.
+                        DNS records can take several hours to update. Once MX record is verified, you can proceed to next step.
                       </div>
                       <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
