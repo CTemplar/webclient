@@ -180,8 +180,8 @@
     "set": "Set",
     "good": "Good",
     "on": "On",
-    "edit_tooltip": "Edit",
-    "delete_tooltip": "Delete"
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "mail_sidebar": {
     "inbox": "Inbox",

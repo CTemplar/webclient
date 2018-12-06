@@ -10,7 +10,7 @@ import {
   CreateDomain,
   ReadDomain,
   DeleteDomain,
-  VerifyDomain
+  VerifyDomain, GetDomains
 } from '../../../store/actions';
 
 import {
@@ -47,6 +47,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   spfForm: FormGroup;
   dkimForm: FormGroup;
   dmarcForm: FormGroup;
+  isEditing: boolean;
 
   private confirmModalRef: NgbModalRef;
 
@@ -68,11 +69,13 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.settings = user.settings;
-        this.domains = user.emailDomains;
-        this.newDomain = user.emailNewDomain;
-        this.newDomainError = user.emailNewDomainError;
-        this.currentStep = user.currentCreationStep;
+        if (!user.inProgress) {
+          this.settings = user.settings;
+          this.domains = user.emailDomains;
+          this.newDomain = user.emailNewDomain;
+          this.newDomainError = user.emailNewDomainError;
+          this.currentStep = user.currentCreationStep;
+        }
       });
 
     this.domainNameForm = this.formBuilder.group({
@@ -102,12 +105,21 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  startAddingNewDomain() {
-    if (!this.userState.inProgress) {
-      this.currentStep = 0;
-      this.newDomain = null;
+  startAddingNewDomain(domain: any = null) {
+    if (domain) {
+      this.currentStep = 1;
+      this.isEditing = true;
+      this.newDomain = domain;
       this.newDomainError = [];
       this.isAddingNewDomain = true;
+
+    } else if (!this.userState.inProgress) {
+      this.currentStep = 0;
+      domain = {};
+      this.newDomain = domain;
+      this.newDomainError = [];
+      this.isAddingNewDomain = true;
+      this.isEditing = false;
     }
   }
 
@@ -135,6 +147,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     this.currentStep = 0;
     this.newDomain = null;
     this.domainNameForm.setValue({ domainNameCtrl: '' });
+    this.store.dispatch(new GetDomains());
   }
 
   openConfirmDeleteModal(domain: Domain) {

@@ -51,11 +51,13 @@
                   </div>
                   <div class="col-2 d-flex justify-content-end actions">
                     <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                      <a class="text-muted" [ngbTooltip]="'settings.edit_tooltip' | translate"><i
+                      <a class="text-muted"
+                         (click)="startAddingNewDomain(domain)"
+                         [ngbTooltip]="'settings.edit' | translate"><i
                               class="icon icon-edit"></i></a>
                     </div>
                     <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                      <a class="text-muted" [ngbTooltip]="'settings.delete_tooltip' | translate"
+                      <a class="text-muted" [ngbTooltip]="'settings.delete' | translate"
                          (click)="openConfirmDeleteModal(domain)"><i class="icon icon-garbage"></i></a>
                     </div>
                     <div class="d-flex d-md-none justify-content-center align-items-center">
@@ -64,12 +66,14 @@
                           <i class="fa fa-ellipsis-h"></i>
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right">
-                          <button class="dropdown-item text-muted" [ngbTooltip]="'settings.edit_tooltip' | translate">
+                          <button class="dropdown-item text-muted"
+                                  (click)="startAddingNewDomain(domain)"
+                                  [ngbTooltip]="'settings.edit' | translate">
                             <i class="icon icon-edit"></i>
                             <span translate="settings.edit_details">Edit Details</span>
                           </button>
                           <button class="dropdown-item text-muted"
-                                  [ngbTooltip]="'settings.delete_tooltip' | translate"
+                                  [ngbTooltip]="'settings.delete' | translate"
                                   (click)="openConfirmDeleteModal(domain)">
                             <i class="icon icon-garbage"></i>
                             <span translate="settings.remove">Remove</span>
@@ -92,12 +96,13 @@
                           </button>
                           <div ngbDropdownMenu class="dropdown-menu-right">
                             <button class="dropdown-item text-muted text-small"
-                                    [ngbTooltip]="'settings.edit_tooltip' | translate">
+                                    (click)="startAddingNewDomain(domain)"
+                                    [ngbTooltip]="'settings.edit' | translate">
                               <i class="icon icon-edit"></i>
                               <span translate="settings.edit_details">Edit Details</span>
                             </button>
                             <button class="dropdown-item text-muted text-small"
-                                    [ngbTooltip]="'settings.delete_tooltip' | translate"
+                                    [ngbTooltip]="'settings.delete' | translate"
                                     (click)="openConfirmDeleteModal(domain)">
                               <i class="icon icon-garbage"></i>
                               <span translate="settings.remove">Remove</span>
@@ -136,9 +141,11 @@
           </div>
           <div class="desc-card" *ngIf="isAddingNewDomain">
             <div class="ml-3 my-3 my-sm-4">
-              <h3 class="ui-header-subtitle text-dark mb-0">
-                <strong translate="settings.create_domain">Create domain</strong>
-                <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+              <h3 class="ui-header-subtitle mb-0">
+                <strong translate="settings.create_domain" *ngIf="!isEditing">Create domain</strong>
+                <strong *ngIf="isEditing">
+                  <span translate="settings.domain">Domain</span>: {{newDomain?.domain}}
+                </strong>
               </h3>
             </div>
             <div class="desc-card-body bg-faded">
@@ -169,10 +176,11 @@
                                placeholder="mydomain.com"
                                formControlName="domainNameCtrl"/>
                       </div>
-                      <div>
-                        <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="createDomain()">
+                      <div class="mt-3 mt-sm-4">
+                        <button class="btn btn-sm btn-secondary" (click)="createDomain()">
                           <span translate="settings.next">Next</span>
                         </button>
+                        <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
                       </div>
                     </div>
                   </form>
@@ -224,11 +232,7 @@
                           </div>
                         </div>
                       </div>
-                      <div>
-                        <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
-                          <span translate="settings.next">Next</span>
-                        </button>
-                      </div>
+                      <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
                   </form>
                 </mat-step>
@@ -287,11 +291,7 @@
                           </div>
                         </div>
                       </div>
-                      <div>
-                        <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
-                          <span translate="settings.next">Next</span>
-                        </button>
-                      </div>
+                      <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
                   </form>
                 </mat-step>
@@ -342,11 +342,7 @@
                           </div>
                         </div>
                       </div>
-                      <div>
-                        <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
-                          <span translate="settings.next">Next</span>
-                        </button>
-                      </div>
+                      <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
                   </form>
                 </mat-step>
@@ -397,11 +393,7 @@
                           </div>
                         </div>
                       </div>
-                      <div>
-                        <button class="btn btn-sm btn-secondary mt-3 mt-sm-4" (click)="verifyDomain(newDomain?.id)">
-                          <span translate="settings.next">Next</span>
-                        </button>
-                      </div>
+                      <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
                   </form>
                 </mat-step>
@@ -500,3 +492,12 @@
     </div>
   </div>
 </ng-template><!-- /.Confirm contact delete modal ends -->
+
+<ng-template #nextButton>
+  <div class="mt-3 mt-sm-4">
+    <button class="btn btn-sm btn-secondary" (click)="verifyDomain(newDomain?.id)">
+      <span translate="settings.next">Next</span>
+    </button>
+    <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+  </div>
+</ng-template>

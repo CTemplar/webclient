@@ -255,7 +255,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: true,
         isError: false,
         error: '',
-        emailNewDomainError: []
+        emailNewDomainError: [],
+        currentCreationStep: action.payload.currentStep,
       };
     }
 
@@ -282,8 +283,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
       const domain = action.payload.res;
       let step = action.payload.step;
-      if (step === 1 && domain.is_domain_verified
-        || step === 2 && domain.is_mx_verified
+      if ((step === 1 && domain.is_domain_verified)
+        || (step === 2 && domain.is_mx_verified)
         || step >= 3) {
         step++;
       }
