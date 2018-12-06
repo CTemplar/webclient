@@ -107,7 +107,7 @@
 
       .actions {
         margin-top: -9px;
-        
+
         .action {
           width: 44px;
           height: 44px;
@@ -142,7 +142,7 @@
       width: 100%;
     }
   }
-  
+
   @include media("<=sm") {
     padding: 0;
   }

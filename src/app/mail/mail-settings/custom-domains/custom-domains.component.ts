@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbDropdownConfig, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -79,20 +79,15 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       domainNameCtrl: ['', Validators.required]
     });
 
-    this.verifyForm = this.formBuilder.group({
-    });
+    this.verifyForm = this.formBuilder.group({});
 
-    this.mxForm = this.formBuilder.group({
-    });
+    this.mxForm = this.formBuilder.group({});
 
-    this.spfForm = this.formBuilder.group({
-    });
+    this.spfForm = this.formBuilder.group({});
 
-    this.dkimForm = this.formBuilder.group({
-    });
+    this.dkimForm = this.formBuilder.group({});
 
-    this.dmarcForm = this.formBuilder.group({
-    });
+    this.dmarcForm = this.formBuilder.group({});
   }
 
   ngOnDestroy(): void {
@@ -131,7 +126,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
 
   verifyDomain(id: number) {
     if (id !== null) {
-      this.store.dispatch(new VerifyDomain({id, currentStep: this.currentStep}));
+      this.store.dispatch(new VerifyDomain({ id, currentStep: this.currentStep }));
     }
   }
 
@@ -139,7 +134,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     this.isAddingNewDomain = false;
     this.currentStep = 0;
     this.newDomain = null;
-    this.domainNameForm.setValue({domainNameCtrl: ''});
+    this.domainNameForm.setValue({ domainNameCtrl: '' });
   }
 
   openConfirmDeleteModal(domain: Domain) {
