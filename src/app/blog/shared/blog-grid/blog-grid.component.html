@@ -14,7 +14,7 @@
                         <img alt="News thumbnail" class="img news-img" (load)="post.isLoaded = true" [hidden]="!post.isLoaded" src="{{ post.image_card }}"/>
                     </figure>
                     <h4 class="news-card-title">{{post.name}}</h4>
-                    <p>{{post.text}}</p>
+                    <div [innerHtml]="post.text"></div>
                 </div>
                 <footer class="news-card-footer">
                     <ul class="news-meta-list">
