@@ -255,7 +255,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: true,
         isError: false,
         error: '',
-        emailNewDomainError: [],
+        emailNewDomainError: null,
         currentCreationStep: action.payload.currentStep,
       };
     }
@@ -266,7 +266,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: true,
         isError: false,
         error: '',
-        emailNewDomainError: [],
+        emailNewDomainError: null,
         currentCreationStep: 0
       };
     }
@@ -316,7 +316,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        emailNewDomainError: action.payload.doamin,
+        emailNewDomainError: action.payload.domain.domain,
         currentCreationStep: 0
       };
     }

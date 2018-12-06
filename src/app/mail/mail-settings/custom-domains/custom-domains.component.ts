@@ -37,7 +37,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   settings: Settings;
   domains: Domain[] = [];
   newDomain: Domain;
-  newDomainError: string[];
+  newDomainError: string;
 
   isAddingNewDomain = false;
   currentStep: number = 0;
@@ -106,18 +106,17 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   startAddingNewDomain(domain: any = null) {
+    this.newDomainError = null;
     if (domain) {
       this.currentStep = 1;
       this.isEditing = true;
       this.newDomain = domain;
-      this.newDomainError = [];
       this.isAddingNewDomain = true;
 
     } else if (!this.userState.inProgress) {
       this.currentStep = 0;
       domain = {};
       this.newDomain = domain;
-      this.newDomainError = [];
       this.isAddingNewDomain = true;
       this.isEditing = false;
     }

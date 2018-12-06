@@ -68,7 +68,7 @@ export interface UserState {
   filtersError?: any;
   emailDomains: Domain[];
   emailNewDomain?: Domain;
-  emailNewDomainError?: string[];
+  emailNewDomainError?: string;
   currentCreationStep: number;
 }
 

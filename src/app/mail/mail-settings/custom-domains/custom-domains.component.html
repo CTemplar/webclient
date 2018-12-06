@@ -149,11 +149,6 @@
               </h3>
             </div>
             <div class="desc-card-body bg-faded">
-              <div *ngIf="userState.isError">
-                <div *ngFor="let message of newDomainError" class="l-alert l-alert-danger mt-3">
-                  {{ message }}
-                </div>
-              </div>
               <mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
                 <ng-template matStepperIcon="edit">
                   <mat-icon>check</mat-icon>
@@ -175,6 +170,9 @@
                         <input class="domain-input text-dark" id="domainInput" type="text"
                                placeholder="mydomain.com"
                                formControlName="domainNameCtrl"/>
+                      </div>
+                      <div *ngIf="userState.isError && newDomainError" class="l-alert l-alert-danger mt-3">
+                        {{newDomainError}}
                       </div>
                       <div class="mt-3 mt-sm-4">
                         <button class="btn btn-sm btn-secondary" (click)="createDomain()">
