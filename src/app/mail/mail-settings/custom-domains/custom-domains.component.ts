@@ -129,12 +129,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     }
   }
 
-  readDomain(id: number) {
-    if (id !== null) {
-      this.store.dispatch(new ReadDomain(id));
-    }
-  }
-
   verifyDomain(id: number) {
     if (id !== null) {
       this.store.dispatch(new VerifyDomain({ id, currentStep: this.currentStep }));
