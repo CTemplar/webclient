@@ -8,9 +8,9 @@
          (@pageAnimation1.done)="onAnimationDone($event)">
       <h3>Account Creation Initiated</h3>
       <ul>
-        <li>Encrypted connection between user and website verified</li>
-        <li>Account creation in user&apos;s browser complete</li>
-        <li>Mailbox creation in user&apos;s browser complete</li>
+        <li>Encrypted connection between user and website being verified</li>
+        <li>Account creation in user&apos;s browser initiated</li>
+        <li>Mailbox creation in user&apos;s browser initiated</li>
       </ul>
     </div>
     <div class="info-box2"
@@ -18,7 +18,7 @@
          (@pageAnimation2.start)="onAnimationStart($event)"
          (@pageAnimation2.done)="onAnimationDone($event)"
          *ngIf="step >= 1">
-      <h3>Account Creation Initiated</h3>
+      <h3>Account Creation in User's Browser Completed</h3>
       <ul>
         <li><i class="fas fa-check"></i>Encrypted connection between user and website verified</li>
         <li><i class="fas fa-check"></i>Account creation in user&apos;s browser complete</li>

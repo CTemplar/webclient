@@ -109,11 +109,11 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
         if (this.isAccountCreationComplete) {
           this.close();
         }
-      }, 3000);
+      }, 2000);
     } else {
       setTimeout(() => {
         this.step++;
-      }, 3000);
+      }, 2000);
     }
   }
 
