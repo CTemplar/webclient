@@ -204,6 +204,10 @@
   }
 }
 
+.green {
+  color: #3ab05d !important;
+}
+
 /deep/ .mat-vertical-content-container.mat-stepper-vertical-line {
   margin-left: 36px;
   @include media("<=sm") {
@@ -243,8 +247,6 @@
   color: rgba(0, 0, 0, 0.87);
 
   &.mat-step-label-active {
-    color: #3ab05d;
-
     &.mat-step-label-selected {
       color: #e74c3c;
     }

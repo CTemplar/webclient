@@ -240,10 +240,19 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false, filtersError: error };
     }
 
+    case UsersActionTypes.GET_DOMAINS: {
+      return {
+        ...state,
+        inProgress: true,
+        isError: false,
+        emailNewDomainError: null,
+      };
+    }
     case UsersActionTypes.GET_DOMAINS_SUCCESS: {
       return {
         ...state,
         emailDomains: action.payload,
+        inProgress: false,
       };
     }
 
