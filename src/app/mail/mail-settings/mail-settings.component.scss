@@ -331,9 +331,13 @@ $error-red: #e94e4c;
 .fab-bottom {
   position: fixed;
   z-index: 10;
-  bottom: 6rem;
+  bottom: 2rem;
   right: 0.8rem;
   background-color: $brand-blue;
+
+  @include media("<=sm"){
+    bottom: 6rem;
+  }
 }
 
 .userame-field-group {

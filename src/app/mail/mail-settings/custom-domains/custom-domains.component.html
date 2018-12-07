@@ -34,18 +34,18 @@
                 <div class="row d-none d-sm-flex bg-white align-items-start" *ngFor="let domain of domains">
                   <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
                   <div class="col-7 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
-                    <div [ngClass]="checkStatus(domain.verification_record, domain.is_domain_verified)"><span
+                    <div class="failed" [class.verified]="domain.is_domain_verified"><span
                             translate="settings.status_verification">Verification</span></div>
-                    <div [ngClass]="checkStatus(domain.mx_record, domain.is_mx_verified)"><span
+                    <div class="failed" [class.verified]="domain.is_mx_verified"><span
                             translate="settings.status_mx"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>MX</span>
                     </div>
-                    <div [ngClass]="checkStatus(domain.spf_record, domain.is_spf_verified)"><span
+                    <div [class.verified]="domain.is_spf_verified"><span
                             translate="settings.status_spf"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>SPF</span>
                     </div>
-                    <div [ngClass]="checkStatus(domain.dkim_record, domain.is_dkim_verified)"><span
+                    <div [class.verified]="domain.is_dkim_verified"><span
                             translate="settings.status_dkim"><i class="fa fa-check"></i><i
                             class="fa fa-exclamation"></i>DKIM</span></div>
-                    <div [ngClass]="checkStatus(domain.dmarc_record, domain.is_dmarc_verified)"><span
+                    <div [class.verified]="domain.is_dmarc_verified"><span
                             translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                             class="fa fa-exclamation"></i>DMARC</span></div>
                     <div><span translate="settings.status_addresses">Addresses</span></div>
@@ -119,18 +119,18 @@
                       <span class="text-uppercase text-small" translate="settings.current_status">Current Status</span>
                     </div>
                     <div class="text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
-                      <div [ngClass]="checkStatus(domain.verification_record, domain.is_domain_verified)"><span
+                      <div class="failed" [class.verified]="domain.is_domain_verified"><span
                               translate="settings.status_verification">Verification</span></div>
-                      <div [ngClass]="checkStatus(domain.mx_record, domain.is_mx_verified)"><span
+                      <div class="failed" [class.verified]="domain.is_mx_verified"><span
                               translate="settings.status_mx"><i class="fa fa-check"></i><i
                               class="fa fa-exclamation"></i>MX</span></div>
-                      <div [ngClass]="checkStatus(domain.spf_record, domain.is_spf_verified)"><span
+                      <div [class.verified]="domain.is_spf_verified"><span
                               translate="settings.status_spf"><i class="fa fa-check"></i><i
                               class="fa fa-exclamation"></i>SPF</span></div>
-                      <div [ngClass]="checkStatus(domain.dkim_record, domain.is_dkim_verified)"><span
+                      <div [class.verified]="domain.is_dkim_verified"><span
                               translate="settings.status_dkim"><i class="fa fa-check"></i><i
                               class="fa fa-exclamation"></i>DKIM</span></div>
-                      <div [ngClass]="checkStatus(domain.dmarc_record, domain.is_dmarc_verified)"><span
+                      <div [class.verified]="domain.is_dmarc_verified"><span
                               translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                               class="fa fa-exclamation"></i>DMARC</span></div>
                       <div><span translate="settings.status_addresses">Addresses</span></div>

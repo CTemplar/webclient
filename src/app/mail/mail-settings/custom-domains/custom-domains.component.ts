@@ -6,20 +6,9 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 
-import {
-  CreateDomain,
-  ReadDomain,
-  DeleteDomain,
-  VerifyDomain, GetDomains
-} from '../../../store/actions';
+import { CreateDomain, DeleteDomain, GetDomains, VerifyDomain } from '../../../store/actions';
 
-import {
-  AppState, AuthState,
-  Settings,
-  UserState,
-  Domain,
-  DomainRecord
-} from '../../../store/datatypes';
+import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 
 @TakeUntilDestroy()
 @Component({
@@ -94,15 +83,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-  }
-
-  checkStatus(domainRecord: DomainRecord, is_verified: boolean): string {
-    if (is_verified === true) {
-      return 'verified';
-    } else if (is_verified === false) {
-      return 'failed';
-    }
-    return '';
   }
 
   startAddingNewDomain(domain: any = null) {
