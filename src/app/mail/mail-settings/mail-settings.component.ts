@@ -422,5 +422,4 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         }
       });
   }
-
 }

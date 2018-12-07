@@ -164,7 +164,9 @@ export class UsersService {
       'auth/upgrade',
       'auth/change-password',
       'auth/delete',
-      'search/messages'
+      'emails/domains',
+      'search/messages',
+      'domains/verify'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -286,6 +288,33 @@ export class UsersService {
     requestData.password = this.hashPassword(requestData);
     delete requestData['username'];
     return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
+  }
+
+  getDomains(limit = 0, offset = 0) {
+    const url = `${apiUrl}emails/domains/?limit=${limit}&offset=${offset}`;
+    const body = {};
+    return this.http.get<any>(url, body);
+  }
+
+  createDomain(domain) {
+    const body = { domain };
+    return this.http.post<any>(`${apiUrl}emails/domains/`, body);
+  }
+
+  readDomain(id: number) {
+    const url = `${apiUrl}emails/domains/${id}/`;
+    const body = {};
+    return this.http.get<any>(url, body);
+  }
+
+  deleteDomain(id: number) {
+    return this.http.delete<any>(`${apiUrl}emails/domains/${id}`);
+  }
+
+  verifyDomain(id: number) {
+    const url = `${apiUrl}domains/verify/${id}/`;
+    const body = {};
+    return this.http.get<any>(url, body);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

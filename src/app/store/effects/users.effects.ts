@@ -62,7 +62,21 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess
+  WhiteListsReadSuccess,
+  GetDomains,
+  GetDomainsSuccess,
+  CreateDomain,
+  CreateDomainSuccess,
+  CreateDomainFailure,
+  ReadDomain,
+  ReadDomainSuccess,
+  ReadDomainFailure,
+  DeleteDomain,
+  DeleteDomainSuccess,
+  DeleteDomainFailure,
+  VerifyDomain,
+  VerifyDomainSuccess,
+  VerifyDomainFailure
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -424,6 +438,84 @@ export class UsersEffects {
             new SnackErrorPush({ message: 'Failed to delete filter.' }),
             new DeleteFilterFailure(errorResponse.error)
           ])
+        );
+    });
+
+  @Effect()
+  Domains: Observable<any> = this.actions
+    .ofType(UsersActionTypes.GET_DOMAINS)
+    .map((action: GetDomains) => action.payload)
+    .switchMap(payload => {
+      return this.userService.getDomains()
+        .pipe(
+          map(emailDomains => {
+            return new GetDomainsSuccess(emailDomains.results.sort((a, b) => a.id - b.id));
+          }),
+          catchError((error) => [])
+        );
+    });
+
+  @Effect()
+  DomainCreate: Observable<any> = this.actions
+    .ofType(UsersActionTypes.CREATE_DOMAIN)
+    .map((action: CreateDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.createDomain(payload)
+        .pipe(
+          switchMap(res => {
+            return [new CreateDomainSuccess(res)];
+          }),
+          catchError(err => [
+            new CreateDomainFailure(err.error)
+          ]),
+        );
+    });
+
+  @Effect()
+  DomainRead: Observable<any> = this.actions
+    .ofType(UsersActionTypes.READ_DOMAIN)
+    .map((action: ReadDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.readDomain(payload)
+        .pipe(
+          switchMap(res => {
+            return [new ReadDomainSuccess(res)];
+          }),
+          catchError(err => [
+            new ReadDomainFailure(err.error)
+          ]),
+        );
+    });
+
+  @Effect()
+  DomainDelete: Observable<any> = this.actions
+    .ofType(UsersActionTypes.DELETE_DOMAIN)
+    .map((action: DeleteDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.deleteDomain(payload)
+        .pipe(
+          switchMap(res => {
+            return [new DeleteDomainSuccess(payload)];
+          }),
+          catchError(err => [
+            new DeleteDomainFailure(err.error)
+          ]),
+        );
+    });
+
+  @Effect()
+  DomainVerify: Observable<any> = this.actions
+    .ofType(UsersActionTypes.VERIFY_DOMAIN)
+    .map((action: VerifyDomain) => action.payload)
+    .switchMap(payload => {
+      return this.userService.verifyDomain(payload.id)
+        .pipe(
+          switchMap(res => {
+            return [new VerifyDomainSuccess({res, step: payload.currentStep})];
+          }),
+          catchError(err => [
+            new VerifyDomainFailure({err: err.error, step: payload.currentStep})
+          ]),
         );
     });
 

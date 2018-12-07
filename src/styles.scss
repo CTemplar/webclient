@@ -447,3 +447,7 @@ app-mail-detail {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.mat-simple-snackbar-action {
+  color: $brand-primary !important;
+}

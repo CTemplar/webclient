@@ -120,7 +120,68 @@
     },
     "add": "Add",
     "type": "Type:",
-    "features_added_soon": "Added later to this package"
+    "features_added_soon": "Added later to this package",
+    "create_domain": "Create domain",
+    "add_domain": "Add Domain",
+    "domain": "Domain",
+    "current_status": "Current Status",
+    "status_verification": "Verification",
+    "status_mx": "MX",
+    "status_spf": "SPF",
+    "status_dkim": "DKIM",
+    "status_dmarc": "DMARC",
+    "status_addresses": "Addresses",
+    "next": "Next",
+    "add_domain_step": {
+      "name": "Domain name",
+      "info": "Add a domain that you own to your CTemplar account."
+    },
+    "verify_step": {
+      "name": "Verify",
+      "info": "For security reasons, we need to verify that you are the owner of your domain. Please add the following code into your DNS. Do not remove it even after successful verification. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record:",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "mx_step": {
+      "name": "MX",
+      "info": "Before you can receive emails for your custom domain addresses at CTemplar, you need to add the following MX record to your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following MX record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To",
+      "priority": "Priority"
+    },
+    "spf_step": {
+      "name": "SPF",
+      "info": "SPF is used to specify who is allowed to send email for the domain so we strongly recommend including CTemplar in your SPF record. Please add the following TXT record into your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "dkim_step": {
+      "name": "DKIM",
+      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "dmarc_step": {
+      "name": "DMARC",
+      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "required": "Required",
+    "recommended": "Recommended",
+    "optional_advanced": "Optional, advanced",
+    "edit_details": "Edit Details",
+    "remove": "Remove",
+    "set": "Set",
+    "good": "Good",
+    "on": "On",
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "mail_sidebar": {
     "inbox": "Inbox",

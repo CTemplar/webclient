@@ -66,6 +66,10 @@ export interface UserState {
   customFolders: Folder[];
   filters: Filter[];
   filtersError?: any;
+  emailDomains: Domain[];
+  emailNewDomain?: Domain;
+  emailNewDomainError?: string;
+  currentCreationStep: number;
 }
 
 export interface Settings {
@@ -266,6 +270,30 @@ export interface CheckTransactionResponse {
   paid_out?: number;
   confirmed?: boolean;
   status: TransactionStatus;
+}
+
+export interface DomainRecord {
+  type: string;
+  host: string;
+  value: string;
+  priority?: number;
+}
+
+export interface Domain {
+  id: number;
+  verification_record: DomainRecord;
+  mx_record: DomainRecord;
+  spf_record: DomainRecord;
+  dkim_record: DomainRecord;
+  dmarc_record: DomainRecord;
+  domain: string;
+  is_domain_verified: boolean;
+  is_mx_verified: boolean;
+  is_spf_verified: boolean;
+  is_dkim_verified: boolean;
+  is_dmarc_verified: boolean;
+  created: string;
+  verified_at?: string;
 }
 
 export enum TransactionStatus {

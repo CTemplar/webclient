@@ -53,6 +53,20 @@ export enum UsersActionTypes {
   DELETE_FILTER = '[USER] DELETE FILTER',
   DELETE_FILTER_SUCCESS = '[USER] DELETE FILTER SUCCESS',
   DELETE_FILTER_FAILURE = '[USER] DELETE FILTER FAILURE',
+  GET_DOMAINS = '[Users] GET_DOMAINS',
+  GET_DOMAINS_SUCCESS = '[Users] GET_DOMAINS_SUCCESS',
+  CREATE_DOMAIN = '[Users] CREATE_DOMAIN',
+  CREATE_DOMAIN_SUCCESS = '[Users] CREATE_DOMAIN_SUCCESS',
+  CREATE_DOMAIN_FAILURE = '[Users] CREATE_DOMAIN_FAILURE',
+  READ_DOMAIN = '[Users] READ_DOMAIN',
+  READ_DOMAIN_SUCCESS = '[Users] READ_DOMAIN_SUCCESS',
+  READ_DOMAIN_FAILURE = '[Users] READ_DOMAIN_FAILURE',
+  DELETE_DOMAIN = '[Users] DELETE_DOMAIN',
+  DELETE_DOMAIN_SUCCESS = '[Users] DELETE_DOMAIN_SUCCESS',
+  DELETE_DOMAIN_FAILURE = '[Users] DELETE_DOMAIN_FAILURE',
+  VERIFY_DOMAIN = '[Users] VERIFY_DOMAIN',
+  VERIFY_DOMAIN_SUCCESS = '[Users] VERIFY_DOMAIN_SUCCESS',
+  VERIFY_DOMAIN_FAILURE = '[Users] VERIFY_DOMAIN_FAILURE',
   PAYMENT_FAILURE = '[USER] PAYMENT FAILURE'
 }
 
@@ -400,6 +414,104 @@ export class DeleteFilterFailure implements Action {
   }
 }
 
+export class GetDomains implements Action {
+  readonly type = UsersActionTypes.GET_DOMAINS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GetDomainsSuccess implements Action {
+  readonly type = UsersActionTypes.GET_DOMAINS_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class CreateDomain implements Action {
+  readonly type = UsersActionTypes.CREATE_DOMAIN;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class CreateDomainSuccess implements Action {
+  readonly type = UsersActionTypes.CREATE_DOMAIN_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CreateDomainFailure implements Action {
+  readonly type = UsersActionTypes.CREATE_DOMAIN_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ReadDomain implements Action {
+  readonly type = UsersActionTypes.READ_DOMAIN;
+
+  constructor(public payload: number) {
+  }
+}
+
+export class ReadDomainSuccess implements Action {
+  readonly type = UsersActionTypes.READ_DOMAIN_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ReadDomainFailure implements Action {
+  readonly type = UsersActionTypes.READ_DOMAIN_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteDomain implements Action {
+  readonly type = UsersActionTypes.DELETE_DOMAIN;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteDomainSuccess implements Action {
+  readonly type = UsersActionTypes.DELETE_DOMAIN_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class DeleteDomainFailure implements Action {
+  readonly type = UsersActionTypes.DELETE_DOMAIN_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class VerifyDomain implements Action {
+  readonly type = UsersActionTypes.VERIFY_DOMAIN;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VerifyDomainSuccess implements Action {
+  readonly type = UsersActionTypes.VERIFY_DOMAIN_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class VerifyDomainFailure implements Action {
+  readonly type = UsersActionTypes.VERIFY_DOMAIN_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export class PaymentFailure implements Action {
   readonly type = UsersActionTypes.PAYMENT_FAILURE;
 
@@ -458,4 +570,18 @@ export type UsersActionAll =
   | DeleteFilter
   | DeleteFilterSuccess
   | DeleteFilterFailure
-  | PaymentFailure;
+  | GetDomains
+  | GetDomainsSuccess
+  | CreateDomain
+  | CreateDomainSuccess
+  | CreateDomainFailure
+  | ReadDomain
+  | ReadDomainSuccess
+  | ReadDomainFailure
+  | DeleteDomain
+  | DeleteDomainSuccess
+  | DeleteDomainFailure
+  | PaymentFailure
+  | VerifyDomain
+  | VerifyDomainSuccess
+  | VerifyDomainFailure;
