@@ -233,6 +233,9 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.verification_record.value }}</span>
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.verification_record.value)" class="copy-btn">
+                                <i class="material-icons">file_copy</i>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -291,6 +294,9 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.mx_record.value }}</span>
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.mx_record.value)" class="copy-btn">
+                                <i class="material-icons">file_copy</i>
+                              </button>
                             </div>
                           </div>
                           <div class="col-md-4 col-sm-12">
@@ -359,6 +365,9 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.spf_record.value }}</span>
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.spf_record.value)" class="copy-btn">
+                                <i class="material-icons">file_copy</i>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -414,6 +423,9 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dkim_record.value }}</span>
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dkim_record.value)" class="copy-btn">
+                                <i class="material-icons">file_copy</i>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -465,6 +477,9 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dmarc_record.value }}</span>
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dmarc_record.value)" class="copy-btn">
+                                <i class="material-icons">file_copy</i>
+                              </button>
                             </div>
                           </div>
                         </div>

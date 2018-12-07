@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { CreateDomain, DeleteDomain, GetDomains, VerifyDomain } from '../../../store/actions';
 
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
+import { SharedService } from '../../../store/services';
 
 @TakeUntilDestroy()
 @Component({
@@ -45,6 +46,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
+    private sharedService: SharedService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -107,6 +109,10 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     if (domain !== '') {
       this.store.dispatch(new CreateDomain(domain));
     }
+  }
+
+  copyToClipboard(text: string) {
+    this.sharedService.copyToClipboard(text);
   }
 
   verifyDomain(id: number) {
