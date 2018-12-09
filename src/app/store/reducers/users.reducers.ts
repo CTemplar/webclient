@@ -17,7 +17,7 @@ export const initialState: UserState = {
   payment_transaction: {},
   customFolders: [],
   filters: [],
-  emailDomains: [],
+  customDomains: [],
   currentCreationStep: 0
 };
 
@@ -245,13 +245,13 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: true,
         isError: false,
-        emailNewDomainError: null,
+        newCustomDomainError: null,
       };
     }
     case UsersActionTypes.GET_DOMAINS_SUCCESS: {
       return {
         ...state,
-        emailDomains: action.payload,
+        customDomains: action.payload,
         inProgress: false,
       };
     }
@@ -264,7 +264,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: true,
         isError: false,
         error: '',
-        emailNewDomainError: null,
+        newCustomDomainError: null,
         currentCreationStep: action.payload.currentStep,
       };
     }
@@ -275,7 +275,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: true,
         isError: false,
         error: '',
-        emailNewDomainError: null,
+        newCustomDomainError: null,
         currentCreationStep: 0
       };
     }
@@ -285,7 +285,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: false,
-        emailNewDomain: action.payload,
+        newCustomDomain: action.payload,
       };
     }
 
@@ -304,18 +304,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         isError,
         inProgress: false,
-        emailNewDomain: action.payload.res,
+        newCustomDomain: action.payload.res,
         currentCreationStep: step
       };
     }
 
     case UsersActionTypes.CREATE_DOMAIN_SUCCESS: {
-      state.emailDomains.push(action.payload);
+      state.customDomains.push(action.payload);
       return {
         ...state,
         inProgress: false,
         isError: false,
-        emailNewDomain: action.payload,
+        newCustomDomain: action.payload,
         currentCreationStep: 1
       };
     }
@@ -325,7 +325,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        emailNewDomainError: action.payload.domain.domain,
+        newCustomDomainError: action.payload.domain.domain,
         currentCreationStep: 0
       };
     }
@@ -342,7 +342,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.DELETE_DOMAIN_SUCCESS: {
-      state.emailDomains = state.emailDomains.filter(domain => domain.id !== action.payload);
+      state.customDomains = state.customDomains.filter(domain => domain.id !== action.payload);
       return {
         ...state,
         inProgress: false,

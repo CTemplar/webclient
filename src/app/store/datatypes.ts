@@ -66,9 +66,9 @@ export interface UserState {
   customFolders: Folder[];
   filters: Filter[];
   filtersError?: any;
-  emailDomains: Domain[];
-  emailNewDomain?: Domain;
-  emailNewDomainError?: string;
+  customDomains: Domain[];
+  newCustomDomain?: Domain;
+  newCustomDomainError?: string;
   currentCreationStep: number;
 }
 
