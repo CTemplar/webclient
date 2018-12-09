@@ -62,9 +62,9 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
         this.userState = user;
         if (!user.inProgress) {
           this.settings = user.settings;
-          this.domains = user.emailDomains;
-          this.newDomain = user.emailNewDomain;
-          this.newDomainError = user.emailNewDomainError;
+          this.domains = user.customDomains;
+          this.newDomain = user.newCustomDomain;
+          this.newDomainError = user.newCustomDomainError;
           this.currentStep = user.currentCreationStep;
         }
       });
