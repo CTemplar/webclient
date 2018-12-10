@@ -31,7 +31,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
-                   [separatorKeyCodes]="[32, 9]"
+                   [separatorKeyCodes]="[32]"
                    (onAdd)="valueChanged$.next(mailData.receiver)"
                    (onRemove)="valueChanged$.next(mailData.receiver)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
@@ -60,7 +60,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
-                   [separatorKeyCodes]="[32, 9]"
+                   [separatorKeyCodes]="[32]"
                    (onAdd)="valueChanged$.next(mailData.cc)"
                    (onRemove)="valueChanged$.next(mailData.cc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
@@ -83,7 +83,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
-                   [separatorKeyCodes]="[32, 9]"
+                   [separatorKeyCodes]="[32]"
                    (onAdd)="valueChanged$.next(mailData.bcc)"
                    (onRemove)="valueChanged$.next(mailData.bcc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
