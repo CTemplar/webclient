@@ -4,7 +4,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs/Observable';
-import { COLORS } from '../../shared/config';
+import { COLORS, FONTS } from '../../shared/config';
 import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/actions';
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
@@ -13,9 +13,7 @@ import { OpenPgpService } from '../../store/services';
 const Quill: any = QuillNamespace;
 
 const FontAttributor = Quill.import('attributors/style/font');
-FontAttributor.whitelist = [
-  'hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'
-];
+FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
@@ -76,6 +74,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   @ViewChild('toolbar') toolbar;
 
   colors = COLORS;
+  fonts = FONTS;
   attachments: Attachment[] = [];
   inProgress: boolean;
 
