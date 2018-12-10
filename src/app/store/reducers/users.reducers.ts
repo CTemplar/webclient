@@ -236,7 +236,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FILTER_FAILURE:
     case UsersActionTypes.UPDATE_FILTER_FAILURE:
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
-      const error = Object.keys(action.payload.error.error).map(key => `${key}: ${action.payload[key]}`).join(', ');
+      const error = Object.keys(action.payload.error.error).map(key => `${key}: ${action.payload.error.error[key]}`).join(', ');
       return { ...state, inProgress: false, filtersError: error };
     }
 
@@ -325,7 +325,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        newCustomDomainError: action.payload.domain.domain,
+        newCustomDomainError: action.payload.domain,
         currentCreationStep: 0
       };
     }
@@ -336,7 +336,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: action.payload.err.detail,
+        error: Object.keys(action.payload.err).map(key => `${key}: ${action.payload.err[key]}`).join(', '),
         currentCreationStep: action.payload.step
       };
     }
