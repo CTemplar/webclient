@@ -37,6 +37,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
   private userState: UserState;
+  private mailboxes: Mailbox[];
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -110,6 +111,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailBoxesState: MailBoxesState) => {
         this.currentMailbox = mailBoxesState.currentMailbox;
+        this.mailboxes = mailBoxesState.mailboxes;
       });
 
     this.route.params.subscribe(params => {
@@ -165,7 +167,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: mail.subject,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails)
+      messageHistory: this.getMessageHistory(previousMails),
+      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -183,7 +186,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails)
+      messageHistory: this.getMessageHistory(previousMails),
+      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
@@ -202,7 +206,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
       messageHistory: this.getMessageHistory(previousMails),
-      subject: this.mail.subject
+      subject: this.mail.subject,
+      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     this.selectedMailToForward = mail;
     if (mail.attachments.length > 0) {
