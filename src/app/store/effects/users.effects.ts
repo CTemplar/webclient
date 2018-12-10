@@ -465,8 +465,8 @@ export class UsersEffects {
           switchMap(res => {
             return [new CreateDomainSuccess(res)];
           }),
-          catchError(err => [
-            new CreateDomainFailure(err.error)
+          catchError(errorResponse => [
+            new CreateDomainFailure(errorResponse.error.error.error)
           ]),
         );
     });
@@ -481,8 +481,8 @@ export class UsersEffects {
           switchMap(res => {
             return [new ReadDomainSuccess(res)];
           }),
-          catchError(err => [
-            new ReadDomainFailure(err.error)
+          catchError(errorResponse => [
+            new ReadDomainFailure({err: errorResponse.error.error.error})
           ]),
         );
     });
@@ -497,8 +497,8 @@ export class UsersEffects {
           switchMap(res => {
             return [new DeleteDomainSuccess(payload)];
           }),
-          catchError(err => [
-            new DeleteDomainFailure(err.error)
+          catchError(errorResponse => [
+            new DeleteDomainFailure(errorResponse.error.error.error)
           ]),
         );
     });
@@ -513,8 +513,8 @@ export class UsersEffects {
           switchMap(res => {
             return [new VerifyDomainSuccess({res, step: payload.currentStep})];
           }),
-          catchError(err => [
-            new VerifyDomainFailure({err: err.error, step: payload.currentStep})
+          catchError(errorResponse => [
+            new VerifyDomainFailure({err: errorResponse.error.error.error, step: payload.currentStep})
           ]),
         );
     });
