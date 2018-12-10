@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Angular Material
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatStepperModule } from '@angular/material';
 
 import { MailRoutingModule } from './mail-routing.module';
 // component
@@ -27,6 +27,7 @@ import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/c
 import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
 import { CreateFolderComponent } from './dialogs/create-folder/create-folder.component';
 import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.component';
+import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
 import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/payment-failure-notice.component';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/
     ReactiveFormsModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatStepperModule,
   ],
   declarations: [
     MailComponent,
@@ -57,6 +59,7 @@ import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/
     GenericFolderComponent,
     CreateFolderComponent,
     MailFiltersComponent,
+    CustomDomainsComponent,
     PaymentFailureNoticeComponent
   ],
   exports: [

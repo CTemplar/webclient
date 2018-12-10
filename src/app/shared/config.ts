@@ -10,6 +10,7 @@ export function apiHeaders() {
 
 export const apiUrl = getApiUrl();
 export const bitcoinApiUrl = environment.bitcoinServerUrl;
+export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
 
 export function getApiUrl() {
   if (window.location && window.location.hostname === environment.onionDomain) {
@@ -70,4 +71,4 @@ export const DEFAULT_EMAIL_ADDRESS = 10;
 
 export const VALID_EMAIL_REGEX = /^([a-zA-Z0-9_\.\-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/m;
 
-export const FONTS = ['hiragino-sans', 'lato', 'roboto', 'abril-fatface', 'andale-mono', 'arial', 'times-new-roman'];
+export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];

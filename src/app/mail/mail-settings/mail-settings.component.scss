@@ -331,9 +331,13 @@ $error-red: #e94e4c;
 .fab-bottom {
   position: fixed;
   z-index: 10;
-  bottom: 6rem;
+  bottom: 2rem;
   right: 0.8rem;
   background-color: $brand-blue;
+
+  @include media("<=sm"){
+    bottom: 6rem;
+  }
 }
 
 .userame-field-group {
@@ -445,4 +449,21 @@ $error-red: #e94e4c;
   overflow: hidden;
   white-space: nowrap;
   padding-bottom: 1px;
+}
+
+.custom-domains-dropdown {
+  width: 140px !important;
+  height: 45px !important;
+  padding: 0.813rem 0.5rem !important;
+  border-radius: 4px !important;
+
+  div {
+    overflow: hidden;
+    margin-right: 10px;
+    text-overflow: ellipsis;
+  }
+}
+
+.addresses-list {
+  min-width: 55vw;
 }

@@ -119,28 +119,12 @@
   cursor: pointer;
 }
 
-// TODO: add src of this font
-.ql-font-hiragino-sans {
-  font-family: 'Hiragino Sans', sans-serif;
-}
-
 .ql-font-lato {
   font-family: 'Lato', sans-serif;
 }
 
 .ql-font-roboto {
   font-family: Roboto, sans-serif;
-}
-
-// TODO: add src of this font
-
-.ql-font-abril-fatface {
-  font-family: 'Abril Fatface', sans-serif;
-}
-
-// TODO: add src of this font
-.ql-font-andale-mono {
-  font-family: 'Andale Mono', sans-serif;
 }
 
 .ql-font-arial {
@@ -446,4 +430,8 @@ app-mail-detail {
 .show-ellipses {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.mat-simple-snackbar-action {
+  color: $brand-primary !important;
 }

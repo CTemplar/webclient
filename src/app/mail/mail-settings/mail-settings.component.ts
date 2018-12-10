@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators';
-import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAIL_REGEX, FONTS } from '../../shared/config';
+import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAIL_REGEX, FONTS, PRIMARY_DOMAIN } from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -20,7 +20,7 @@ import {
 } from '../../store/actions';
 import { MailboxSettingsUpdate } from '../../store/actions/mail.actions';
 import {
-  AppState, AuthState,
+  AppState, AuthState, Domain,
   MailBoxesState,
   Payment,
   PaymentMethod,
@@ -77,6 +77,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedMailboxPublicKey: any;
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
+  customDomains: string[];
 
   private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;
@@ -104,6 +105,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.settings = user.settings;
         this.payment = user.payment_transaction;
+        this.customDomains = user.customDomains.filter((item) => item.is_domain_verified && item.is_mx_verified)
+          .map((item) => item.domain);
+        this.customDomains = [PRIMARY_DOMAIN, ...this.customDomains];
         this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
         if (user.settings.language) {
@@ -149,7 +153,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
         Validators.minLength(4),
         Validators.maxLength(64)
-      ]]
+      ]],
+      'domain': [
+        '',
+        Validators.required
+      ]
     });
 
     this.deleteAccountInfoForm = this.formBuilder.group({
@@ -329,7 +337,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   onAddNewAddress() {
     if (!this.newAddressOptions.isAddingNew) {
-      this.newAddressForm.reset('username');
+      this.newAddressForm.reset();
+      this.newAddressForm.get('domain').setValue(PRIMARY_DOMAIN);
       this.newAddressOptions = {
         isAddingNew: true
       };
@@ -337,7 +346,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   onDiscardNewAddress() {
-    this.newAddressForm.reset('username');
+    this.newAddressForm.reset();
     this.newAddressOptions = {
       isAddingNew: false
     };
@@ -358,7 +367,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   addNewAddress() {
     const requestData = {
-      email: this.newAddressForm.value.username, // backend appends domain in username to create `email`
+      email: this.getEmail(),
       ...this.openPgpService.getUserKeys()
     };
     this.store.dispatch(new CreateMailbox(requestData));
@@ -410,7 +419,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       .subscribe((username) => {
         if (!this.newAddressForm.controls['username'].errors) {
           this.newAddressOptions.isBusy = true;
-          this.usersService.checkUsernameAvailability(this.newAddressForm.controls['username'].value)
+          this.usersService.checkUsernameAvailability(this.getEmail())
             .subscribe(response => {
                 this.newAddressOptions.usernameExists = response.exists;
                 this.newAddressOptions.isBusy = false;
@@ -423,4 +432,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
+  private getEmail() {
+    return this.newAddressForm.controls['username'].value +
+      (this.newAddressForm.controls['domain'].value === PRIMARY_DOMAIN ? '' : '@' + this.newAddressForm.controls['domain'].value);
+  }
 }

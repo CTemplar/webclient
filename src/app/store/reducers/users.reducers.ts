@@ -16,7 +16,9 @@ export const initialState: UserState = {
   mailboxes: [],
   payment_transaction: {},
   customFolders: [],
-  filters: []
+  filters: [],
+  customDomains: [],
+  currentCreationStep: 0
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -236,6 +238,124 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
       const error = Object.keys(action.payload.error.error).map(key => `${key}: ${action.payload[key]}`).join(', ');
       return { ...state, inProgress: false, filtersError: error };
+    }
+
+    case UsersActionTypes.GET_DOMAINS: {
+      return {
+        ...state,
+        inProgress: true,
+        isError: false,
+        newCustomDomainError: null,
+      };
+    }
+    case UsersActionTypes.GET_DOMAINS_SUCCESS: {
+      return {
+        ...state,
+        customDomains: action.payload,
+        inProgress: false,
+      };
+    }
+
+    case UsersActionTypes.READ_DOMAIN:
+    case UsersActionTypes.DELETE_DOMAIN:
+    case UsersActionTypes.VERIFY_DOMAIN: {
+      return {
+        ...state,
+        inProgress: true,
+        isError: false,
+        error: '',
+        newCustomDomainError: null,
+        currentCreationStep: action.payload.currentStep,
+      };
+    }
+
+    case UsersActionTypes.CREATE_DOMAIN: {
+      return {
+        ...state,
+        inProgress: true,
+        isError: false,
+        error: '',
+        newCustomDomainError: null,
+        currentCreationStep: 0
+      };
+    }
+
+    case UsersActionTypes.READ_DOMAIN_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: false,
+        newCustomDomain: action.payload,
+      };
+    }
+
+    case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
+      const domain = action.payload.res;
+      let isError: boolean = false;
+      let step = action.payload.step;
+      if ((step === 1 && domain.is_domain_verified)
+        || (step === 2 && domain.is_mx_verified)
+        || step >= 3) {
+        step++;
+      } else {
+        isError = true;
+      }
+      return {
+        ...state,
+        isError,
+        inProgress: false,
+        newCustomDomain: action.payload.res,
+        currentCreationStep: step
+      };
+    }
+
+    case UsersActionTypes.CREATE_DOMAIN_SUCCESS: {
+      state.customDomains.push(action.payload);
+      return {
+        ...state,
+        inProgress: false,
+        isError: false,
+        newCustomDomain: action.payload,
+        currentCreationStep: 1
+      };
+    }
+
+    case UsersActionTypes.CREATE_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: true,
+        newCustomDomainError: action.payload.domain.domain,
+        currentCreationStep: 0
+      };
+    }
+
+    case UsersActionTypes.READ_DOMAIN_FAILURE:
+    case UsersActionTypes.VERIFY_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: true,
+        error: action.payload.err.detail,
+        currentCreationStep: action.payload.step
+      };
+    }
+
+    case UsersActionTypes.DELETE_DOMAIN_SUCCESS: {
+      state.customDomains = state.customDomains.filter(domain => domain.id !== action.payload);
+      return {
+        ...state,
+        inProgress: false,
+      };
+    }
+
+    case UsersActionTypes.DELETE_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+        isError: true,
+        error: action.payload.detail,
+      };
     }
 
     default: {
