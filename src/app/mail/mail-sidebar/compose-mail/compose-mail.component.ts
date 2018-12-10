@@ -365,7 +365,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
     }
 
-    this.quill.setSelection(0);
+    setTimeout(() => {
+      this.quill.setSelection(0, 0, 'silent');
+    }, 100);
   }
 
   initializeAutoSave() {
