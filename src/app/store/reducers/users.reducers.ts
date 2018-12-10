@@ -310,7 +310,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.CREATE_DOMAIN_SUCCESS: {
-      state.customDomains.push(action.payload);
+      state.customDomains = [...state.customDomains, action.payload];
       return {
         ...state,
         inProgress: false,
