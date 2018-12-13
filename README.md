@@ -81,6 +81,10 @@ CTemplar encrypts and decrypts contents of every email using user's public/priva
   openpgp.decrypt(options);
   ```
 
+## Transparent build code
+We host our build code publicly on github and we also provide the details on how to match checksum of code on github and the one we serve
+on our website. Find the details of build and how to calculate checksum here : [https://github.com/CTemplar/webclient/tree/master/dist](https://github.com/CTemplar/webclient/tree/master/dist) 
+
 ## Contribution
 
 This project is still in early phase so bug reports via Issues and Pull Requests are welcome.
