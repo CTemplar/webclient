@@ -9,6 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
+        "README.md",
         "favicon.ico",
         { "glob": "openpgp.min.js", "input": "../node_modules/openpgp/dist", "output": "."}
       ],
