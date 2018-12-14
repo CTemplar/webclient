@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "category": 1,
+      "comments_count": 10,
+      "date": "August 08, 2018",
+      "name": "Swiss Privacy is Dead. Icelandic Privacy is Most Secure",
+      "slug": "swiss-privacy-is-dead-icelandic-privacy-is-most-secure",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/11/Iceland.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/11/Iceland.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/11/Iceland.jpg",
+      "text": "The battle between Iceland and Switzerland over the most secure location to store private users data has been over for several years.   Currently Swiss privacy laws are arguably some of the worst in the world.    While Iceland has risen as one of the most premiere locations  CTemplar chose to locate their servers in Iceland in order for our users to benefit from Icelandic data protection"
+    },
+    {
+      "id": 2,
+      "category": 1,
+      "comments_count": 10,
+      "date": "August 08, 2018",
+      "name": "CTemplar's 4 Wall Protection",
+      "slug": "ctemplar-4-wall-protection",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/08/4WallProtection.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/08/4WallProtection.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/08/4WallProtection.jpg",
+      "text": "Protection was created by the CTemplar team after seeing other email services knowingly offer vulnerable services under the illusion of complete security.   For example, they may provide good encryption, but they have access to your username and password and can legally be required to turn them over without your knowledge or consent.  The 4 walls of protection include \"Company Protection, Encryption Protection, Legal Protection, and Technology Protection\"."
+    },
+    {
+      "id": 3,
+      "category": 1,
+      "comments_count": 10,
+      "date": "August 08, 2018",
+      "name": "CTemplar’s GoFundMe Campaign",
+      "slug": "gofundme-ctemplars-campaign",
+      "image_card": "assets/images/blog/go-fund-me.jpg",
+      "image_featured": "assets/images/blog/go-fund-me.jpg",
+      "image": "assets/images/blog/go-fund-me.jpg",
+      "text": "Today we have started accepting donations to create the first backdoor free encrypted email service.  You can read about it below and visit the campaign using the link: <a href='https://www.gofundme.com/vqta3-honest-encrypted-email' target='_blank'>https://www.gofundme.com/vqta3-honest-encrypted-email</a>.<br>CTemplar servers reside in Iceland, the strongest country for privacy.  This provides users with the best privacy protection in the world. This is in stark contrast to a country like Switzerland that is legally required to send all users’ decrypted data to the USA."
+    }
+  ]
+}
