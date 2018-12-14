@@ -88,14 +88,10 @@
   left: 0;
   overflow-x: hidden;
   overflow-y: hidden;
-  padding-bottom: 60px;
-
-  @include media("<=sm") {
-    padding-bottom: 60px;
-  }
+  padding-bottom: 33px;
 }
 
-.mailbox-sidebar-navbar{
+.mailbox-sidebar-navbar {
   overflow-y: auto;
   max-height: calc(100% - 140px);
   @include media("<=sm") {

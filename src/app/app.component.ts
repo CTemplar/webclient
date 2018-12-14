@@ -1,6 +1,6 @@
 // Angular
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 // Services
 import { BlogService, SharedService } from './store/services';
@@ -15,6 +15,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { FinalLoading } from './store/actions';
 import { ZendeskWebWidgetService } from './shared/services/zendesk-web-widget.service';
+import { REFFERAL_CODE_KEY } from './shared/config';
 
 @TakeUntilDestroy()
 @Component({
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(public router: Router,
               private sharedService: SharedService,
+              private activatedRoute: ActivatedRoute,
               private store: Store<AppState>,
               private translate: TranslateService,
               private _zendeskWebwidgetService: ZendeskWebWidgetService) {
@@ -54,6 +56,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.updateLoadingStatus();
       this.store.dispatch(new FinalLoading({ loadingState: false }));
     }, 2000);
+
+    this.activatedRoute.queryParams.takeUntil(this.destroyed$)
+      .subscribe((params: any) => {
+        if (params && params.referral_code) {
+          localStorage.setItem(REFFERAL_CODE_KEY, params.referral_code);
+        }
+      });
 
   }
 

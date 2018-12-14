@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -6,11 +6,11 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
-import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
+import { Folder, Mailbox } from '../../store/models/mail.model';
 import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DeleteFolder, GetUnreadMailsCount } from '../../store/actions';
 
 @TakeUntilDestroy()
@@ -21,7 +21,7 @@ import { DeleteFolder, GetUnreadMailsCount } from '../../store/actions';
 })
 export class MailSidebarComponent implements OnInit, OnDestroy {
 
-  LIMIT = 2;
+  LIMIT = 3;
 
   readonly destroyed$: Observable<boolean>;
 
@@ -71,6 +71,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.customFolders = user.customFolders;
+        if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
+          this.LIMIT = this.customFolders.length;
+        }
       });
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
@@ -116,7 +119,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   toggleDisplayLimit(totalItems) {
     if (this.LIMIT === totalItems) {
-      this.LIMIT = 2;
+      this.LIMIT = 3;
     } else {
       this.LIMIT = totalItems;
     }

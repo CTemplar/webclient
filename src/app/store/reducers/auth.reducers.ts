@@ -2,6 +2,7 @@
 import { AuthActionAll, AuthActionTypes } from '../actions';
 // Model
 import { AuthState, PaymentMethod, PaymentType } from '../datatypes';
+import { REFFERAL_CODE_KEY } from '../../shared/config';
 
 export const initialState: AuthState = {
   isAuthenticated: false,
@@ -37,6 +38,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     }
     case AuthActionTypes.LOGIN_SUCCESS: {
       sessionStorage.setItem('token', action.payload.token);
+      localStorage.removeItem(REFFERAL_CODE_KEY);
       return {
         ...state,
         isAuthenticated: true,

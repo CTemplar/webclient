@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
-import { apiUrl } from '../../shared/config';
+import { apiUrl, REFFERAL_CODE_KEY } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable } from 'rxjs/Observable';
@@ -99,6 +99,10 @@ export class UsersService {
 
   signUp(user): Observable<any> {
     const requestData = { ...user };
+    const referralCode = localStorage.getItem(REFFERAL_CODE_KEY);
+    if (referralCode) {
+      requestData[REFFERAL_CODE_KEY] = referralCode;
+    }
     requestData.password = this.hashPassword(requestData);
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
       tap(data => {
