@@ -1,30 +1,20 @@
 // Angular
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef, HostListener
-} from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 // Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 import { Observable } from 'rxjs/Observable';
-
 // Store
 import { AppState, AuthState } from '../../store/datatypes';
-import { ClearAuthErrorMessage, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
-import { FinalLoading } from '../../store/actions';
-
+import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
-import { TakeUntilDestroy, OnDestroy } from 'ngx-take-until-destroy';
+import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
-import ReCaptcha = ReCaptchaV2.ReCaptcha;
 
 @TakeUntilDestroy()
 @Component({
@@ -45,15 +35,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   isLoading: boolean = false;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
-  focusedInput: string = '';
   username: string = '';
   password: string = 'password';
   layout: any = 'alphanumeric';
   isKeyboardOpened: boolean;
   isRecoverFormSubmitted: boolean;
-  isCaptchaCompleted: boolean = true;
-  loginErrorCount: number = 0;
-  recaptcha: ReCaptcha;
   isGeneratingKeys: boolean;
   isRecoveryCodeSent: boolean;
 
@@ -107,10 +93,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
         this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;
         if (authState.errorMessage) {
-          this.loginErrorCount++;
-          if (this.loginErrorCount >= 2) {
-            this.isCaptchaCompleted = false;
-          }
         }
         if (this.isRecoverFormSubmitted && this.authState.inProgress && !authState.inProgress && !authState.resetPasswordErrorMessage) {
           this.resetModalRef.dismiss();
@@ -279,14 +261,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (event.target.id === 'close-mat-keyboard' || event.target.id === 'close-mat-keyboard-icon') {
       this.isKeyboardOpened = false;
       this.closeKeyboard();
-    }
-  }
-
-  recaptchaResolved(recaptchResponse) {
-    if (recaptchResponse) {
-      this.isCaptchaCompleted = true;
-      this.loginErrorCount = 0;
-      this.recaptcha.reset();
     }
   }
 
