@@ -19,7 +19,6 @@ import { PagesPrivacyComponent } from './pages-privacy/pages-privacy.component';
 import { PagesSecurityComponent } from './pages-security/pages-security.component';
 import { PagesTermsComponent } from './pages-terms/pages-terms.component';
 import { PagesTorOnionComponent } from './pages-tor-onion/pages-tor-onion.component';
-import { PagesSupportComponent } from './pages-support/pages-support.component';
 import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-options.component';
 
 @NgModule({
@@ -39,7 +38,6 @@ import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-
     PagesTorOnionComponent,
     PagesPrivacyComponent,
     PagesTermsComponent,
-    PagesSupportComponent,
     PaymentOptionsComponent
   ]
 })
