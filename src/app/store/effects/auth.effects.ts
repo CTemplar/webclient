@@ -49,7 +49,7 @@ export class AuthEffects {
       return this.authService.signIn(payload)
         .pipe(
           map((user) => new LogInSuccess(user)),
-          catchError((error) => [new LogInFailure({ error })])
+          catchError((errorResponse) => [new LogInFailure( errorResponse.error.error)])
         );
     });
 

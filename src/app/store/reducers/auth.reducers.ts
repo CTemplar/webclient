@@ -50,8 +50,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
-        errorMessage: (action.payload.error.error && action.payload.error.error.non_field_errors) ?
-          action.payload.error.error.non_field_errors[0] : 'Incorrect username or password.',
+        errorMessage: action.payload ? action.payload.error : 'Incorrect username or password.',
         inProgress: false
       };
     }
