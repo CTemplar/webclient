@@ -72,7 +72,7 @@ export class MailboxEffects {
             return [new CreateMailboxSuccess(res)];
           }),
           catchError(err => [
-            new CreateMailboxFailure(err),
+            new CreateMailboxFailure(err.error),
             new SnackErrorPush({message: 'Failed to create new email address.'})
             ]),
         );
