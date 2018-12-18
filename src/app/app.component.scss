@@ -5,7 +5,7 @@
 }
 
 #btn-zendesk {
-    background-color: #78A300 !important;
+    background-color: #78A300;
     color: white !important;
     fill: white !important;
     padding: 10px 20px;
@@ -15,6 +15,11 @@
     align-items: center;
     font-weight: 700;
     cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        background-color: #6b8e04 !important;
+    }
 
     .help-icon {
         display: inherit;

@@ -41,7 +41,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
 import { ComposeMailService } from './store/services/compose-mail.service';
-import { ZendeskWebWidgetService } from './shared/services/zendesk-web-widget.service';
 import { DonationService } from './store/services/donation.service';
 
 // AoT requires an exported function for factories
@@ -96,8 +95,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    },
-    ZendeskWebWidgetService
+    }
   ],
   bootstrap: [AppComponent]
 })
