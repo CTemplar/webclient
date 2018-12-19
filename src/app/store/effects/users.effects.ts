@@ -141,7 +141,7 @@ export class UsersEffects {
             contact.isUpdating = payload.id;
             return [new WhiteListAddSuccess(contact), new AccountDetailsGet()];
           }),
-          catchError(err => [new WhiteListAddError(err)]),
+          catchError(err => [new WhiteListAddError(err.error)]),
         );
     });
 
@@ -295,7 +295,7 @@ export class UsersEffects {
           catchError(error => {
             return [
               new SnackErrorPush({ message: 'Failed to import contacts' }),
-              new ContactImportFailure(error)
+              new ContactImportFailure(error.error)
             ];
           })
         );
@@ -466,7 +466,7 @@ export class UsersEffects {
             return [new CreateDomainSuccess(res)];
           }),
           catchError(errorResponse => [
-            new CreateDomainFailure(errorResponse.error.error.error)
+            new CreateDomainFailure(errorResponse.error)
           ]),
         );
     });
@@ -482,7 +482,7 @@ export class UsersEffects {
             return [new ReadDomainSuccess(res)];
           }),
           catchError(errorResponse => [
-            new ReadDomainFailure({err: errorResponse.error.error.error})
+            new ReadDomainFailure({err: errorResponse.error})
           ]),
         );
     });
@@ -498,7 +498,7 @@ export class UsersEffects {
             return [new DeleteDomainSuccess(payload)];
           }),
           catchError(errorResponse => [
-            new DeleteDomainFailure(errorResponse.error.error.error)
+            new DeleteDomainFailure(errorResponse.error)
           ]),
         );
     });
@@ -514,7 +514,7 @@ export class UsersEffects {
             return [new VerifyDomainSuccess({res, step: payload.currentStep})];
           }),
           catchError(errorResponse => [
-            new VerifyDomainFailure({err: errorResponse.error.error.error, step: payload.currentStep})
+            new VerifyDomainFailure({err: errorResponse.error, step: payload.currentStep})
           ]),
         );
     });
