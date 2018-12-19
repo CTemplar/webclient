@@ -1,9 +1,8 @@
 // Angular
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
 // Services
-import { BlogService, SharedService } from './store/services';
+import { SharedService } from './store/services';
 // import { UsersService } from './users/shared/users.service';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -14,7 +13,6 @@ import 'rxjs/add/operator/filter';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { FinalLoading } from './store/actions';
-import { ZendeskWebWidgetService } from './shared/services/zendesk-web-widget.service';
 import { REFFERAL_CODE_KEY } from './shared/config';
 
 @TakeUntilDestroy()
@@ -34,17 +32,13 @@ export class AppComponent implements OnInit, OnDestroy {
   public isMail: boolean = false;
   public isHomepage: boolean;
   quote: object;
-
-  isZendeskWebWidgetShown: boolean;
-  isZendeskWebWidgetLoading: boolean;
   isAuthenticated: boolean;
 
   constructor(public router: Router,
               private sharedService: SharedService,
               private activatedRoute: ActivatedRoute,
               private store: Store<AppState>,
-              private translate: TranslateService,
-              private _zendeskWebwidgetService: ZendeskWebWidgetService) {
+              private translate: TranslateService) {
     this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
     this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
@@ -79,12 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
       .subscribe((authState: AuthState) => {
-        if (authState.isAuthenticated) {
-          this.isAuthenticated = true;
-          this.hideZendeskWebWidget();
-        } else {
-          this.isAuthenticated = false;
-        }
+        this.isAuthenticated = authState.isAuthenticated;
       });
   }
 
@@ -109,22 +98,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((loadingState: LoadingState) => {
         this.isLoading = loadingState.Loading;
       });
-  }
-
-  showZendeskWebWidget() {
-    this.isZendeskWebWidgetLoading = true;
-    if (!this.isZendeskWebWidgetShown) {
-      this._zendeskWebwidgetService.loadZendeskWebWidget().then(loaded => {
-        this.isZendeskWebWidgetShown = true;
-        this.isZendeskWebWidgetLoading = false;
-        this._zendeskWebwidgetService.show();
-      });
-    }
-  }
-
-  hideZendeskWebWidget() {
-    this._zendeskWebwidgetService.hide();
-    this.isZendeskWebWidgetShown = false;
   }
 
   ngOnDestroy(): void {
