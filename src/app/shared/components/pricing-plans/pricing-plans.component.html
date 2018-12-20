@@ -81,7 +81,27 @@
                     </div>
                   </li>
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 <span translate="page_pricing.custom_domain">Custom</span>
+                    <i class="fa fa-check text-green"></i>
+                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                      <div ngbDropdown class="storage-select-dropdown">
+                        <button class="dropdown-toggle" type="button" id="customDomainDropdownMenuButton"
+                                ngbDropdownToggle>{{selectedCustomDomain}}
+                          <span>Custom Domain{{selectedCustomDomain !== 1 ? 's' : ''}}</span>
+                        </button>
+                        <div ngbDropdownMenu class="dropdown-menu-right"
+                             aria-labelledby="customDomainDropdownMenuButton">
+                          <a class="dropdown-item"
+                             (click)="selectedCustomDomain = defaultCustomDomain; calculatePrices(); isValueChanged = true;">
+                            {{defaultCustomDomain}} <span>Custom Domain</span>
+                          </a>
+                          <a *ngFor="let customDomain of availableCustomDomain"
+                             class="dropdown-item"
+                             (click)="selectedCustomDomain = customDomain; calculatePrices();isValueChanged = true;">
+                            {{customDomain}} <span>Custom Domains</span>
+                            + {{(customDomain - defaultCustomDomain) | currency:selectedCurrency}}/mo</a>
+                        </div>
+                      </div>
+                    </div>
                   </li>
                   <li class="package-list-item">
                     <i class="fa fa-check text-green"></i>1000 <span translate="page_pricing.messages_per_day">Messages per Day</span>
@@ -274,6 +294,7 @@
                             [currency]="selectedCurrency"
                             [storage]="selectedStorage"
                             [emailAddressAliases]="selectedEmailAddress"
+                            [customDomains]="selectedCustomDomain"
                             [monthlyPrice]="monthlyPrice"
                             [annualPricePerMonth]="annualPricePerMonth"
                             [annualPriceTotal]="annualPriceTotal"

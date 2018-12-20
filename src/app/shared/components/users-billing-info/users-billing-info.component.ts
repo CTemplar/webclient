@@ -45,6 +45,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() currency;
   @Input() storage: number;
   @Input() emailAddressAliases: number;
+  @Input() customDomains: number;
   @Input() monthlyPrice: number;
   @Input() annualPricePerMonth: number;
   @Input() annualPriceTotal: number;
@@ -122,6 +123,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.currency = this.signupState.currency || 'USD';
           this.storage = this.storage || this.signupState.memory;
           this.emailAddressAliases = this.emailAddressAliases || this.signupState.email_count;
+          this.customDomains = this.customDomains || this.signupState.domain_count;
           this.monthlyPrice = this.monthlyPrice || this.signupState.monthlyPrice;
           this.annualPricePerMonth = this.annualPricePerMonth || this.signupState.annualPricePerMonth;
           this.annualPriceTotal = this.annualPriceTotal || this.signupState.annualPriceTotal;
@@ -202,7 +204,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           stripe_token: token,
           payment_type: this.paymentType,
           memory: this.storage,
-          email_count: this.emailAddressAliases
+          email_count: this.emailAddressAliases,
+          domain_count: this.customDomains,
         }));
       } else {
         this.inProgress = true;
@@ -223,7 +226,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           redeem_code: this.bitcoinState.redeemCode,
           payment_type: this.paymentType,
           memory: this.storage,
-          email_count: this.emailAddressAliases
+          email_count: this.emailAddressAliases,
+          domain_count: this.customDomains
         }));
       } else {
         this.inProgress = true;
@@ -301,7 +305,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.dispatch(new CreateNewWallet({
       payment_type: this.paymentType,
       memory: this.storage,
-      email_count: this.emailAddressAliases
+      email_count: this.emailAddressAliases,
+      domain_count: this.customDomains
     }));
   }
 
