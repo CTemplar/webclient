@@ -6,7 +6,16 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators';
-import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE, Language, LANGUAGES, VALID_EMAIL_REGEX, FONTS, PRIMARY_DOMAIN } from '../../shared/config';
+import {
+  DEFAULT_EMAIL_ADDRESS,
+  DEFAULT_STORAGE,
+  Language,
+  LANGUAGES,
+  VALID_EMAIL_REGEX,
+  FONTS,
+  PRIMARY_DOMAIN,
+  DEFAULT_CUSTOM_DOMAIN
+} from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -44,6 +53,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   readonly defaultStorage = DEFAULT_STORAGE;
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
+  readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
   readonly fonts = FONTS;
 
   @ViewChild('changePasswordModal') changePasswordModal;
@@ -67,6 +77,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   annualDiscountedPrice: number;
   extraStorage: number = 0; // storage extra than the default 5GB
   extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
+  extraCustomDomain: number = 0;
   mailBoxesState: MailBoxesState;
   currentMailBox: Mailbox;
   mailboxes: Mailbox[];
@@ -198,11 +209,14 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       if (this.settings.email_count) {
         this.extraEmailAddress = this.settings.email_count - this.defaultEmailAddress;
       }
+      if (this.settings.domain_count) {
+        this.extraCustomDomain = this.settings.domain_count - this.defaultCustomDomain;
+      }
       if (this.payment) {
         if (this.payment.payment_type === PaymentType.ANNUALLY) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10)) * 12).toFixed(2);
+          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10) + this.extraCustomDomain) * 12).toFixed(2);
         } else if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10)) * 12).toFixed(2);
+          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10) + this.extraCustomDomain) * 12).toFixed(2);
           this.annualDiscountedPrice = +(this.annualTotalPrice * 0.75).toFixed(2);
         }
       }
