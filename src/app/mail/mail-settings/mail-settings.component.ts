@@ -354,7 +354,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   submitNewAddress() {
     this.newAddressOptions.isSubmitted = true;
-    if (this.newAddressForm.valid && !this.newAddressOptions.usernameExists) {
+    if (this.newAddressForm.valid && !this.newAddressOptions.usernameExists && this.newAddressForm.controls['username'].value) {
       this.newAddressOptions.isBusy = true;
       this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
       if (this.openPgpService.getUserKeys()) {
@@ -417,6 +417,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         debounceTime(500)
       )
       .subscribe((username) => {
+        if (!username) {
+          return;
+        }
         if (!this.newAddressForm.controls['username'].errors) {
           this.newAddressOptions.isBusy = true;
           this.usersService.checkUsernameAvailability(this.getEmail())

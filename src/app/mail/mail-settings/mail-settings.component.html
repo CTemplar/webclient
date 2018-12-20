@@ -692,7 +692,7 @@
                                   (click)="onAddNewAddress()" class="btn btn-link right">Add Address</button>
                             <ul class="ui-list ui-list-styled list-styled addresses-list">
                               <li *ngIf="newAddressOptions.isAddingNew" class="ui-list-item ui-list-item-xs-full">
-                                <form class="signup-form" [formGroup]="newAddressForm" #form="ngForm" (ngSubmit)="submitNewAddress()">
+                                <form class="signup-form" [formGroup]="newAddressForm" #form="ngForm">
                                   <div class="row row-xs align-items-center">
                                     <div class="col-sm-10">
                                       <div class="form-group mb-0">
@@ -767,7 +767,8 @@
                                     </div>
                                     <div class="col-sm-2">
                                       <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                        <li><button type="submit" class="btn-link cursor-pointer"
+                                        <li><button class="btn-link cursor-pointer"
+                                                    (click)="submitNewAddress()"
                                                     [disabled]="newAddressOptions.isBusy">Add</button></li>
                                         <li>
                                             <button type="button" class="btn-link p-0" (click)="onDiscardNewAddress()"
