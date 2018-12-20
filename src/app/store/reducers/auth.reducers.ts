@@ -37,7 +37,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
     case AuthActionTypes.LOGIN_SUCCESS: {
-      sessionStorage.setItem('token', action.payload.token);
+      localStorage.setItem('token', action.payload.token);
       localStorage.removeItem(REFFERAL_CODE_KEY);
       return {
         ...state,

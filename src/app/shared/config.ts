@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 
 export function apiHeaders() {
   return {
-    headers: new HttpHeaders({ 'Authorization': `JWT ${sessionStorage.getItem('token')}` })
+    headers: new HttpHeaders({ 'Authorization': `JWT ${localStorage.getItem('token')}` })
   };
 }
 
