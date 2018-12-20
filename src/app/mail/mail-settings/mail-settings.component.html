@@ -117,6 +117,15 @@
                                                                 +{{extraEmailAddress / 10|currency:'USD'}}/month
                                                             </div>
                                                         </div>
+                                                        <div *ngIf="extraCustomDomain > 0" class="info-list-item-row">
+                                                            <div class="info-list-text info-list-label">
+                                                                <span class="info-list-label-text text-muted ml-6">
+                                                                    +{{extraCustomDomain}} Domain{{extraCustomDomain !== 1 ? 's' : ''}}</span>
+                                                            </div>
+                                                            <div class="info-list-text info-list-val">
+                                                                +{{extraCustomDomain|currency:'USD'}}/month
+                                                            </div>
+                                                        </div>
                                                     </ng-container>
 
                                                 </li>
@@ -187,6 +196,7 @@
                                                         payment.payment_method"
                                        [selectedStorage]="defaultStorage + extraStorage"
                                        [selectedEmailAddress]="defaultEmailAddress + extraEmailAddress"
+                                       [selectedCustomDomain]="defaultCustomDomain + extraCustomDomain"
                                        [openBillingInfoInModal]="true"></app-pricing-plans>
 
                 </section>

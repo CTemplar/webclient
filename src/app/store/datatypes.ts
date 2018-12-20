@@ -43,6 +43,7 @@ export interface SignupState {
   currency?: string;
   memory?: number;
   email_count?: number;
+  domain_count?: number;
   monthlyPrice?: number;
   annualPricePerMonth?: number;
   annualPriceTotal?: number;
@@ -88,6 +89,7 @@ export interface Settings {
   used_storage?: number;
   display_name?: string;
   email_count?: number;
+  domain_count?: number;
   default_font?: string;
 }
 
