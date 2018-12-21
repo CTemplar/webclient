@@ -31,9 +31,9 @@
   }
 
   .domains-list {
-    margin-top: 1.875rem;
+    padding: 1.875rem 0;
     @include media("<=sm") {
-      margin-top: 0;
+      padding: 0;
     }
 
     .row {

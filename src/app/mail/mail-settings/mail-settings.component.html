@@ -32,7 +32,7 @@
                                                         Domains
                                                     </div>
                                                     <div class="info-list-text info-list-val">
-                                                        <span *ngIf="userState.isPrime">1</span>
+                                                        <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
                                                         <span *ngIf="!userState.isPrime" translate="settings.none">None</span>
                                                     </div>
                                                 </li>
