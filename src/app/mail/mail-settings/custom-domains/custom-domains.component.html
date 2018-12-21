@@ -21,7 +21,7 @@
                 </button>
               </ng-template>
 
-              <div class="domains-list">
+              <div class="domains-list" *ngIf="domains?.length>0">
                 <div class="row d-none d-sm-flex">
                   <div class="col-3">
                     <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
