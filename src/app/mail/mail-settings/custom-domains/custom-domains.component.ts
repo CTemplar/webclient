@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
@@ -19,6 +19,8 @@ import { SharedService } from '../../../store/services';
 })
 export class CustomDomainsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
+
+  @Output() onGotoAddresses = new EventEmitter<any>();
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
@@ -146,5 +148,9 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   deleteDomain() {
     this.confirmModalRef.close();
     this.store.dispatch(new DeleteDomain(this.newDomain.id));
+  }
+
+  gotoAddresses() {
+    this.onGotoAddresses.emit();
   }
 }

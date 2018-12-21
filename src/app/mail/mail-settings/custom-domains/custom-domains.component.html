@@ -48,7 +48,7 @@
                     <div [class.verified]="domain.is_dmarc_verified"><span
                             translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                             class="fa fa-exclamation"></i>DMARC</span></div>
-                    <div><span translate="settings.status_addresses">Addresses</span></div>
+                    <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
                   </div>
                   <div class="col-2 d-flex justify-content-end actions">
                     <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">

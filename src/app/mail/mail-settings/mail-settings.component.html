@@ -1,6 +1,6 @@
 <div class="mailbox-sub-content">
 
-    <ngb-tabset>
+    <ngb-tabset #tabSet="ngbTabset">
 
         <!-- Dashboard and Plans -->
         <ngb-tab>
@@ -553,7 +553,7 @@
         </ngb-tab>
 
         <!-- Addresses and Signatures -->
-        <ngb-tab>
+        <ngb-tab id="addresses-signatures">
             <ng-template ngbTabTitle>Addresses and signatures</ng-template>
             <ng-template ngbTabContent>
                 <section class="mailbox-section">
@@ -959,7 +959,7 @@
             <ng-template ngbTabTitle>Domains</ng-template>
             <ng-template ngbTabContent>
 
-                <app-custom-domains></app-custom-domains>
+                <app-custom-domains (onGotoAddresses)="tabSet.select('addresses-signatures')"></app-custom-domains>
                 
             </ng-template>
         </ngb-tab>
