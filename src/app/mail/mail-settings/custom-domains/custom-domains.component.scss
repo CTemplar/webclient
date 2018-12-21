@@ -257,3 +257,10 @@
   float: right !important;
   margin-top: -10px;
 }
+
+.warning {
+  font-size: 0.75rem;
+  .warning-text {
+    color: #e55747;
+  }
+}
