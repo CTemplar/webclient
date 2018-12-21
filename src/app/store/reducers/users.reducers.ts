@@ -325,7 +325,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        newCustomDomainError: action.payload.domain,
+        newCustomDomainError: action.payload.domain.domain,
         currentCreationStep: 0
       };
     }
