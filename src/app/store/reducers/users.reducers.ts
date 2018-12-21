@@ -294,9 +294,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       let isError: boolean = false;
       let step = action.payload.step;
       if ((step === 1 && domain.is_domain_verified)
-        || (step === 2 && domain.is_mx_verified)
-        || step >= 3) {
-        step++;
+        || step >= 2) {
+        if (action.payload.gotoNextStep) {
+          step++;
+        }
       } else {
         isError = true;
       }

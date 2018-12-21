@@ -133,7 +133,7 @@
                       <div [class.verified]="domain.is_dmarc_verified"><span
                               translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                               class="fa fa-exclamation"></i>DMARC</span></div>
-                      <div><span translate="settings.status_addresses">Addresses</span></div>
+                      <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
                     </div>
                   </div>
                 </div>
@@ -540,7 +540,13 @@
 
 <ng-template #nextButton>
   <div class="mt-3 mt-sm-4">
-    <button class="btn btn-sm btn-secondary" (click)="verifyDomain(newDomain?.id)">
+    <button class="btn btn-sm btn-secondary mr2"
+            *ngIf="currentStep>1"
+            (click)="verifyDomain(newDomain?.id)">
+      <span translate="settings.verify">Verify</span>
+    </button>
+
+    <button class="btn btn-sm btn-secondary" (click)="verifyDomain(newDomain?.id, true)">
       <span translate="settings.next">Next</span>
     </button>
     <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>

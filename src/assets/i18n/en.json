@@ -132,6 +132,7 @@
     "status_dmarc": "DMARC",
     "status_addresses": "Addresses",
     "next": "Next",
+    "verify": "Verify",
     "add_domain_step": {
       "name": "Domain name",
       "info": "Add a domain that you own to your CTemplar account."
