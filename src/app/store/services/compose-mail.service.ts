@@ -33,7 +33,7 @@ export class ComposeMailService {
               } else if (this.drafts[key].isSshInProgress && !draftMail.isSshInProgress) {
                 if (!draftMail.getUserKeyInProgress) {
                   let keys = [];
-                  if (draftMail.usersKeys && draftMail.usersKeys.encrypt) {
+                  if (draftMail.usersKeys) {
                     keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
                   }
                   keys.push(draftMail.draft.encryption.public_key);
@@ -42,12 +42,14 @@ export class ComposeMailService {
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 if (!draftMail.isSshInProgress) {
                   let keys = [];
-                  if (draftMail.usersKeys.encrypt) {
-                    draftMail.draft.is_encrypted = true;
-                    keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
-                  }
+                  let hasSshEncryption = false;
                   if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
+                    hasSshEncryption = true;
                     keys.push(draftMail.draft.encryption.public_key);
+                  }
+                  if (draftMail.usersKeys.encrypt || hasSshEncryption) {
+                    draftMail.draft.is_encrypted = true;
+                    keys = [...keys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
                   if (keys.length > 0) {
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, draftMail.draft.content, keys);
