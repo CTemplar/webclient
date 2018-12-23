@@ -310,7 +310,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachment.attachmentId = performance.now();
         return attachment;
       }) : [],
-      usersKeys: []
+      usersKeys: null
     };
     this.store.dispatch(new NewDraft({ ...draft }));
   }
@@ -528,31 +528,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
       return;
     }
-    const cTemplarReceivers = [];
-    const nonCTemplarReceivers = [];
-    receivers.forEach(receiver => {
-      if (receiver.toLowerCase().indexOf('@ctemplar.com') === -1 && receiver.toLowerCase().indexOf('@dev.ctemplar.com') === -1) {
-        nonCTemplarReceivers.push(receiver);
-      } else {
-        cTemplarReceivers.push(receiver);
-      }
-    });
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
-      if (cTemplarReceivers.length === 0) {
-        this.setMailData(true, false);
-      } else {
-        this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
-        this.setMailData(true, false, true);
-      }
+      this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: receivers }));
+      this.setMailData(true, false);
     } else {
-      if (nonCTemplarReceivers.length === 0) {
-        this.setMailData(true, false, true);
-        this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: cTemplarReceivers.join(',') }));
-      } else {
-        this.setMailData(false, false);
-        this.store.dispatch(new SendMail({ ...this.draft, draft: { ...this.draftMail } }));
-      }
+      this.setMailData(true, false);
+      this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: receivers }));
     }
     this.resetValues();
     this.hide.emit();
@@ -762,11 +744,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
-    this.setMailData(false, true, true);
+    this.setMailData(false, true);
     this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, this.draftMail.content);
   }
 
-  setMailData(shouldSend: boolean, shouldSave: boolean, isEncrypted: boolean = false) {
+  setMailData(shouldSend: boolean, shouldSave: boolean) {
     if (!this.draftMail) {
       this.draftMail = { content: null, folder: 'draft' };
     }
@@ -783,7 +765,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!shouldSave) {
       this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
     }
-    this.draftMail.is_encrypted = isEncrypted;
     if (this.forwardAttachmentsMessageId) {
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
     }

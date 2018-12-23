@@ -93,8 +93,8 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
         if (this.secureMessageState) {
           if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {
             const keys = [
-              ...state.usersKeys
-                .filter(item => this.message.receiver.indexOf(item.email) > -1)
+              ...state.usersKeys.keys
+                .filter(item => this.message.receiver.indexOf(item.email) > -1 && item.is_enabled)
                 .map(item => item.public_key),
               this.sourceMessage.encryption.public_key
             ];

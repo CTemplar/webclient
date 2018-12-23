@@ -32,17 +32,28 @@ export class ComposeMailService {
                 }
               } else if (this.drafts[key].isSshInProgress && !draftMail.isSshInProgress) {
                 if (!draftMail.getUserKeyInProgress) {
-                  const keys = draftMail.usersKeys ? draftMail.usersKeys.map(item => item.public_key) : [];
+                  let keys = [];
+                  if (draftMail.usersKeys && draftMail.usersKeys.encrypt) {
+                    keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
+                  }
                   keys.push(draftMail.draft.encryption.public_key);
                   this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, draftMail.draft.content, keys);
                 }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 if (!draftMail.isSshInProgress) {
-                  const keys = draftMail.usersKeys.map(item => item.public_key);
+                  let keys = [];
+                  if (draftMail.usersKeys.encrypt) {
+                    draftMail.draft.is_encrypted = true;
+                    keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
+                  }
                   if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
                     keys.push(draftMail.draft.encryption.public_key);
                   }
-                  this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, draftMail.draft.content, keys);
+                  if (keys.length > 0) {
+                    this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, draftMail.draft.content, keys);
+                  } else {
+                    this.store.dispatch(new SendMail({ ...draftMail }));
+                  }
                 }
               }
             }
