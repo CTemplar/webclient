@@ -187,7 +187,7 @@ export interface SecureMessageState {
   inProgress?: boolean;
   errorMessage?: string;
   getUserKeyInProgress?: boolean;
-  usersKeys?: UserKey;
+  usersKeys?: PublicKey[];
 }
 
 export interface UserKey {
