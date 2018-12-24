@@ -70,8 +70,9 @@ export class MailService {
     });
   }
 
-  getUsersPublicKeys(emails: string): Observable<any> {
-    return this.http.get<any>(`${apiUrl}emails/keys/?email__in=${emails}`).map(data => data['results']);
+  getUsersPublicKeys(emails: Array<string>): Observable<any> {
+    const body = {emails};
+    return this.http.post<any>(`${apiUrl}emails/keys/`, body);
   }
 
   getSecureMessage(hash: string, secret: string): Observable<any> {

@@ -150,7 +150,7 @@ export interface Draft {
   shouldSend?: boolean;
   shouldSave?: boolean;
   getUserKeyInProgress?: boolean;
-  usersKeys?: PublicKey[];
+  usersKeys?: UserKey;
 
   /**
    * @var isClosed
@@ -190,8 +190,14 @@ export interface SecureMessageState {
   usersKeys?: PublicKey[];
 }
 
+export interface UserKey {
+  encrypt: boolean;
+  keys: PublicKey[];
+}
+
 export interface PublicKey {
   email: string;
+  is_enabled: boolean;
   public_key: string;
 }
 
