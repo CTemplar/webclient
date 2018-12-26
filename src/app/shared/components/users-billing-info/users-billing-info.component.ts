@@ -31,6 +31,7 @@ import {
 import { OpenPgpService, SharedService } from '../../../store/services/index';
 import { takeUntil } from 'rxjs/operators';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -73,6 +74,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   paymentSuccess: boolean;
   errorMessage: string;
   authState: AuthState;
+  isScriptsLoaded: boolean;
+  isScriptsLoading: boolean;
 
   readonly destroyed$: Observable<boolean>;
   private checkTransactionResponse: CheckTransactionResponse;
@@ -84,6 +87,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
               private router: Router,
               private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
+              private dynamicScriptLoader: DynamicScriptLoaderService,
               private modalService: NgbModal,
               private _zone: NgZone) {
   }
@@ -130,6 +134,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod();
+        } else {
+          this.loadStripeScripts();
         }
         this.inProgress = authState.inProgress;
       });
@@ -150,6 +156,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.seconds = ((3600 - t) % 60);
       this.minutes = ((3600 - t - this.seconds) / 60);
     });
+  }
+
+  private loadStripeScripts() {
+    if (this.isScriptsLoading || this.isScriptsLoaded) {
+      return;
+    }
+    this.isScriptsLoading = true;
+    this.dynamicScriptLoader.load('stripe').then(data => {
+      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
+        this.isScriptsLoaded = true;
+        this.isScriptsLoading = false;
+      });
+    }).catch(error => console.log(error));
   }
 
   getToken() {
@@ -355,5 +374,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();
     }
+
+    this.dynamicScriptLoader.removeStripeFromDOM();
   }
 }

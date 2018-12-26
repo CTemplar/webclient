@@ -43,6 +43,7 @@ export class DynamicScriptLoaderService {
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = this.scripts[name].src;
+        script.id = name;
 
         script.onload = () => {
           this.scripts[name].loaded = true;
@@ -54,6 +55,23 @@ export class DynamicScriptLoaderService {
         resolve({ script: name, loaded: true, status: 'Already Loaded' });
       }
     });
+  }
+
+  removeStripeFromDOM() {
+    if (document.getElementsByTagName('iframe')[0]) {
+      document.getElementsByTagName('body')[0].removeChild(document.getElementsByTagName('iframe')[0]);
+      this.removeStripeFromDOM();
+    } else {
+
+      if (this.scripts['stripe'].loaded && document.getElementById('stripe')) {
+        document.getElementsByTagName('head')[0].removeChild(document.getElementById('stripe'));
+        this.scripts['stripe'].loaded = false;
+      }
+      if (this.scripts['stripe-key'].loaded && document.getElementById('stripe-key')) {
+        document.getElementsByTagName('head')[0].removeChild(document.getElementById('stripe-key'));
+        this.scripts['stripe-key'].loaded = false;
+      }
+    }
   }
 
 }

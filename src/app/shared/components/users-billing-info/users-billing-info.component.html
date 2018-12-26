@@ -96,8 +96,11 @@
                 </strong>
               </div>
 
+              <app-loading-spinner *ngIf="paymentMethod === paymentMethodType.STRIPE"
+                                   [showSpinner]="isScriptsLoading"></app-loading-spinner>
 
-              <div class="form-step-card" [class]="stripePaymentValidation.param" *ngIf="paymentMethod === paymentMethodType.STRIPE">
+              <div class="form-step-card" [class]="stripePaymentValidation.param"
+                   *ngIf="paymentMethod === paymentMethodType.STRIPE && isScriptsLoaded">
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong translate="billing_info.payment_information">Billing Information</strong>
                 </h3>

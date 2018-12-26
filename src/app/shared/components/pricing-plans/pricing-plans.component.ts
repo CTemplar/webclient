@@ -95,7 +95,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.store.dispatch(new MembershipUpdate({ id }));
 
     if (this.openBillingInfoInModal) {
-      this.loadStripeScripts();
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
         windowClass: 'modal-lg users-action-modal'
@@ -105,7 +104,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
       this.store.dispatch(new ClearAuthErrorMessage());
       // Add payment type for prime plan only
       if (id === 1) {
-        this.loadStripeScripts();
         this.store.dispatch(new UpdateSignupData({
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
@@ -134,14 +132,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.monthlyPrice = monthlyPrice;
     this.annualPricePerMonth = +(this.monthlyPrice * 0.75).toFixed(2);
     this.annualPriceTotal = +(this.annualPricePerMonth * 12).toFixed(2);
-  }
-
-  private loadStripeScripts() {
-    this.dynamicScriptLoader.load('stripe').then(data => {
-      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
-        // Script Loaded Successfully
-      });
-    }).catch(error => console.log(error));
   }
 
   ngOnDestroy() {
