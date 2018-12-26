@@ -30,6 +30,7 @@ import {
   SnackErrorPush, SnackPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
+import { NotificationService } from '../services/notification.service';
 
 
 @Injectable()
@@ -38,6 +39,7 @@ export class AuthEffects {
   constructor(
     private actions: Actions,
     private authService: UsersService,
+    private notificationService: NotificationService,
     private router: Router,
   ) {}
 
@@ -90,7 +92,10 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   public LogOut: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGOUT),
-    tap((user) => {
+    tap((action) => {
+      if (action.payload.session_expired) {
+        this.notificationService.showSnackBar('Session expired, login again.');
+      }
       this.authService.signOut();
     })
   );

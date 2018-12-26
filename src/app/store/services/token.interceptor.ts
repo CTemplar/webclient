@@ -33,7 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
       .catch((error: any) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
-            this.store.dispatch(new Logout());
+            this.store.dispatch(new Logout({ session_expired: true }));
           } else if (error.status === 423) {
             this.store.dispatch(new PaymentFailure());
           }
