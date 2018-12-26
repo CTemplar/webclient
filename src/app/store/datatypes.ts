@@ -126,6 +126,7 @@ export interface MailState {
   decryptedContents: DecryptedContentState;
   unreadMailsCount: any;
   noUnreadCountChange: boolean;
+  canGetUnreadCount: boolean;
 }
 
 export interface DecryptedContent {

@@ -7,6 +7,7 @@ export enum MailActionTypes {
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
   GET_UNREAD_MAILS_COUNT = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT',
   GET_UNREAD_MAILS_COUNT_SUCCESS = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT_SUCCESS',
+  STOP_GETTING_UNREAD_MAILS_COUNT = '[STOP getting unread mails] STOP_GETTING_UNREAD_MAILS_COUNT',
   GET_MAILBOXES = '[Mail] GET_MAILBOXES',
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
   GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
@@ -60,6 +61,12 @@ export class GetUnreadMailsCountSuccess implements Action {
   readonly type = MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS;
 
   constructor(public payload: any) {}
+}
+
+export class StopGettingUnreadMailsCount implements Action {
+  readonly type = MailActionTypes.STOP_GETTING_UNREAD_MAILS_COUNT;
+
+  constructor(public payload?: any) {}
 }
 
 export class GetMailboxes implements Action {
@@ -244,6 +251,7 @@ export type MailActions =
   | GetMailsSuccess
   | GetUnreadMailsCount
   | GetUnreadMailsCountSuccess
+  | StopGettingUnreadMailsCount
   | GetMailboxes
   | GetMailboxesSuccess
   | GetMailDetail

@@ -5,7 +5,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
-import { Logout, PaymentFailure } from '../actions';
+import { Logout, PaymentFailure, StopGettingUnreadMailsCount } from '../actions';
 import { AppState } from '../datatypes';
 
 import { UsersService } from './users.service';
@@ -35,6 +35,7 @@ export class TokenInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             this.store.dispatch(new Logout({ session_expired: true }));
           } else if (error.status === 423) {
+            this.store.dispatch(new StopGettingUnreadMailsCount());
             this.store.dispatch(new PaymentFailure());
           }
         }

@@ -14,6 +14,7 @@ export function reducer(
     decryptedContents: {},
     unreadMailsCount: {},
     noUnreadCountChange: true,
+    canGetUnreadCount: true,
   }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -40,6 +41,13 @@ export function reducer(
         mails,
         loaded: true,
         noUnreadCountChange: true,
+      };
+    }
+
+    case MailActionTypes.STOP_GETTING_UNREAD_MAILS_COUNT: {
+      return {
+        ...state,
+        canGetUnreadCount: false,
       };
     }
 

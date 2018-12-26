@@ -11,7 +11,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { DeleteFolder, GetUnreadMailsCount } from '../../store/actions';
+import { DeleteFolder, GetUnreadMailsCount, StopGettingUnreadMailsCount } from '../../store/actions';
 
 @TakeUntilDestroy()
 @Component({
@@ -62,7 +62,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   initializeAutoRefresh() {
     Observable.timer(0, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
       .subscribe(event => {
-        this.store.dispatch(new GetUnreadMailsCount());
+        if (this.mailState && this.mailState.canGetUnreadCount) {
+          this.store.dispatch(new GetUnreadMailsCount());
+        }
       });
   }
 
