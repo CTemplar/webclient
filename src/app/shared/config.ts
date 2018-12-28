@@ -9,7 +9,6 @@ export function apiHeaders() {
 }
 
 export const apiUrl = getApiUrl();
-export const bitcoinApiUrl = environment.bitcoinServerUrl;
 export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
 
 export function getApiUrl() {

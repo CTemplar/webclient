@@ -75,7 +75,14 @@
                 <div class="card mb-3">
                   <div class="card-header text-center">
                     <h6 [innerHTML]="'billing_info.send_exactly'| translate">SEND <strong>EXACTLY</strong></h6>
-                    <h5><strong *ngIf="bitcoinState?.loaded">{{bitcoinState.serviceValue}}</strong></h5>
+                    <h5><strong *ngIf="bitcoinState?.loaded">
+                      <ng-container *ngIf="paymentType === 'annually'">
+                        {{(annualPriceTotal/bitcoinState.bitcoinUSD) | number: '1.5-5'}}
+                      </ng-container>
+                      <ng-container *ngIf="paymentType === 'monthly'">
+                        {{(monthlyPrice/bitcoinState.bitcoinUSD) | number: '1.5-5'}}
+                      </ng-container>
+                    </strong></h5>
                     <app-loading-spinner [showSpinner]="!bitcoinState?.loaded"></app-loading-spinner>
                   </div>
                   <div class="card-body text-center">

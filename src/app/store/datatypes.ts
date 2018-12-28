@@ -265,9 +265,9 @@ export interface Timezone {
 
 export interface BitcoinState {
   serviceValue: number;
+  bitcoinUSD: number,
   newWalletAddress: string;
   loaded: boolean;
-  redeemCode: string;
   checkTransactionResponse: CheckTransactionResponse;
 }
 
@@ -321,4 +321,10 @@ export enum PaymentMethod {
 export enum PaymentType {
   MONTHLY = 'monthly',
   ANNUALLY = 'annually',
+}
+
+export enum PlanType {
+  FREE = 'FREE',
+  PRIME = 'PRIME',
+  CHAMPION = 'CHAMPION',
 }

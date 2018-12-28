@@ -3,9 +3,9 @@ import { BitcoinActionAll, BitcoinActionTypes } from '../actions/bitcoin.action'
 
 export const initialState: BitcoinState = {
   serviceValue: 0,
+  bitcoinUSD: 3663.5,
   newWalletAddress: null,
   loaded: false,
-  redeemCode: null,
   checkTransactionResponse: { status: TransactionStatus.WAITING }
 };
 
@@ -17,7 +17,7 @@ export function reducer(state = initialState, action: BitcoinActionAll): Bitcoin
       };
     }
     case BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE_SUCCESS: {
-      return { ...state, serviceValue: action.payload.required_balance, loaded: true };
+      return { ...state, bitcoinUSD: action.payload.USD, loaded: true };
     }
     case BitcoinActionTypes.CREATE_NEW_WALLET : {
       return {
@@ -30,7 +30,6 @@ export function reducer(state = initialState, action: BitcoinActionAll): Bitcoin
         ...state,
         loaded: true,
         newWalletAddress: action.payload.address,
-        redeemCode: action.payload.redeem_code
       };
     }
     case BitcoinActionTypes.CHECK_TRANSACTION_SUCCESS: {
