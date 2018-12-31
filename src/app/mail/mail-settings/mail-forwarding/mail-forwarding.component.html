@@ -15,7 +15,7 @@
             <div class="col-2 col-sm-4">
               <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li><a (click)="onEditAddress()" role="button"><i class="icon icon-edit"></i></a></li>
-                <li><a (click)="confirmDeleteAddress()" role="button"><i class="icon icon-garbage"></i></a></li>
+                <li><a (click)="onDeleteAddress()" role="button"><i class="icon icon-garbage"></i></a></li>
               </ul>
             </div>
           </div>
@@ -23,8 +23,7 @@
       </ul>
       <ng-template #addForwardingAddress>
         <div class="info-card">
-          <p>You can automatically forward your messages to another address. You can choose to forward all new messages,
-            or just certain ones.</p>
+          <p>You can automatically forward your messages to another address.</p>
           <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
              (click)="onAddAddress()"><strong><u>Add a forwarding address</u></strong></a>
         </div>
@@ -73,3 +72,23 @@
   </form>
 
 </ng-template><!-- /. Add forwarding address modal ends -->
+
+<!-- Confirm delete forwarding address modal -->
+<ng-template #confirmDeleteAddressModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <p>Are you sure you want to delete forwarding address?</p>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center justify-content-sm-end">
+    <button (click)="d()" class="btn btn-default btn-sm" role="button">Cancel</button>
+    <button (click)="deleteAddress()" class="btn btn-danger btn-sm" role="button">Delete</button>
+  </div>
+
+</ng-template><!-- /.Confirm delete forwarding address modal ends -->

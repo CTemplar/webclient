@@ -18,6 +18,7 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   @ViewChild('addAddressModal') addAddressModal;
+  @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal;
 
   userState: UserState;
   settings: Settings;
@@ -25,6 +26,7 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   isFormSubmitted: boolean;
 
   private addAddressModalRef: NgbModalRef;
+  private confirmDeleteAddressModalRef: NgbModalRef;
 
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
@@ -56,8 +58,8 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
     this.addAddressForm.get('address').setValue(this.settings.forwarding_address);
   }
 
-  confirmDeleteAddress() {
-
+  onDeleteAddress() {
+    this.confirmDeleteAddressModalRef = this.modalService.open(this.confirmDeleteAddressModal, { centered: true, windowClass: 'modal-sm' });
   }
 
   onAddAddressSubmit() {
@@ -68,5 +70,12 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
       this.store.dispatch(new SettingsUpdate(this.settings));
       this.addAddressModalRef.dismiss();
     }
+  }
+
+  deleteAddress() {
+    this.settings.enable_forwarding = false;
+    this.settings.forwarding_address = '';
+    this.store.dispatch(new SettingsUpdate(this.settings));
+    this.confirmDeleteAddressModalRef.dismiss();
   }
 }
