@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
+import { VALID_EMAIL_REGEX } from '../../../shared/config';
 import { SettingsUpdate } from '../../../store/actions';
 import { AppState, Settings, UserState } from '../../../store/datatypes';
 
@@ -16,8 +17,14 @@ import { AppState, Settings, UserState } from '../../../store/datatypes';
 export class MailForwardingComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
+  @ViewChild('addAddressModal') addAddressModal;
+
   userState: UserState;
   settings: Settings;
+  addAddressForm: FormGroup;
+  isFormSubmitted: boolean;
+
+  private addAddressModalRef: NgbModalRef;
 
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
@@ -30,31 +37,36 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.settings = user.settings;
       });
+    this.addAddressForm = this.formBuilder.group({
+      address: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]]
+    });
   }
 
   ngOnDestroy(): void {
   }
 
-  updateSettings(key?: string, value?: any) {
-    if (key) {
-      if (this.settings[key] !== value) {
-        this.settings[key] = value;
-        this.store.dispatch(new SettingsUpdate(this.settings));
-      }
-    } else {
-      this.store.dispatch(new SettingsUpdate(this.settings));
-    }
+  onAddAddress() {
+    this.isFormSubmitted = false;
+    this.addAddressForm.reset();
+    this.addAddressModalRef = this.modalService.open(this.addAddressModal, { centered: true, windowClass: 'modal-sm' });
   }
 
   onEditAddress() {
-
+    this.onAddAddress();
+    this.addAddressForm.get('address').setValue(this.settings.forwarding_address);
   }
 
   confirmDeleteAddress() {
 
   }
 
-  onAddAddress() {
-
+  onAddAddressSubmit() {
+    this.isFormSubmitted = true;
+    if (this.addAddressForm.valid) {
+      this.settings.enable_forwarding = true;
+      this.settings.forwarding_address = this.addAddressForm.value.address;
+      this.store.dispatch(new SettingsUpdate(this.settings));
+      this.addAddressModalRef.dismiss();
+    }
   }
 }

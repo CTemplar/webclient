@@ -32,3 +32,44 @@
     </div>
   </div>
 </section>
+
+<!-- Add forwarding address modal -->
+<ng-template #addAddressModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Add a forwarding address</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="addAddressForm" (submit)="onAddAddressSubmit()">
+    <div class="modal-body bg-faded">
+      <div class="text-holder text-dark text-medium">
+        <p>Please enter a forwarding email address.</p>
+        <div class="mx-auto mt-2 pt-sm-2">
+          <div class="form">
+            <div class="form-group form-group-sm">
+              <label for="forwardingAddress" class="d-block text-muted text-left hidden-sm-up">Forwarding Address
+              </label>
+              <input class="form-control text-dark" id="forwardingAddress" autocomplete="off"
+                     placeholder="Forwarding address" type="email" name="forwardingAddress" formControlName="address"
+                     required/>
+              <ng-container *ngIf="addAddressForm.controls['address'].errors && isFormSubmitted">
+                <span *ngIf="addAddressForm.controls['address'].errors.required" class="validate-message">
+                  The address is required.
+                </span>
+                <span *ngIf="addAddressForm.controls['address'].errors.pattern" class="validate-message">
+                  The address is invalid.
+                </span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-center justify-content-sm-end">
+      <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
+      <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
+    </div>
+  </form>
+
+</ng-template><!-- /. Add forwarding address modal ends -->
