@@ -1,0 +1,34 @@
+<section class="mailbox-section">
+  <header class="ui-header ui-header-bordered">
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Forwarding</strong>
+      <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+    </h5>
+  </header>
+  <div class="mailbox-section-body mailbox-section-body-sm">
+    <div class="form-content-holder">
+      <ul class="ui-list ui-list-styled list-styled" *ngIf="settings?.enable_forwarding; else addForwardingAddress;">
+        <li class="ui-list-item ui-list-item-xs-full">
+          <div class="row row-xs align-items-center">
+            <div class="col-10 col-sm-8 show-ellipses">
+              {{settings.forwarding_address}}
+            </div>
+            <div class="col-2 col-sm-4">
+              <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                <li><a (click)="onEditAddress()" role="button"><i class="icon icon-edit"></i></a></li>
+                <li><a (click)="confirmDeleteAddress()" role="button"><i class="icon icon-garbage"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ng-template #addForwardingAddress>
+        <div class="info-card">
+          <p>You can automatically forward your messages to another address. You can choose to forward all new messages,
+            or just certain ones.</p>
+          <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+             (click)="onAddAddress()"><strong><u>Add a forwarding address</u></strong></a>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</section>
