@@ -16,7 +16,10 @@ export function reducer(
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
       return {
         ...state,
-        mailboxes: action.payload,
+        mailboxes: action.payload.map((item, index) => {
+          item.sort_order = item.sort_order ? item.sort_order : index;
+          return item;
+        }),
         currentMailbox: action.payload.find(mailbox => mailbox.is_default)
       };
     }

@@ -156,7 +156,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isPrime: action.payload.is_prime,
         joinedDate: action.payload.joined_date,
         settings: action.payload.settings,
-        mailboxes: action.payload.mailboxes,
+        mailboxes: action.payload.mailboxes.map((item, index) => {
+          item.sort_order = item.sort_order ? item.sort_order : index;
+          return item;
+        }),
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
         customFolders: action.payload.custom_folders,
       };
