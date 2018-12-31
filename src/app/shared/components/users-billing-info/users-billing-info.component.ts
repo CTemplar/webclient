@@ -13,7 +13,6 @@ import {
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
-  GetBitcoinServiceValue,
   SignUp,
   SnackErrorPush, UpgradeAccount
 } from '../../../store/actions/index';
@@ -25,7 +24,7 @@ import {
   PaymentMethod,
   SignupState,
   TransactionStatus,
-  PaymentType
+  PaymentType, PlanType
 } from '../../../store/datatypes';
 // Service
 import { OpenPgpService, SharedService } from '../../../store/services/index';
@@ -81,6 +80,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
   private modalRef: NgbModalRef;
+  private planType: PlanType = PlanType.PRIME;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
@@ -225,6 +225,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           memory: this.storage,
           email_count: this.emailAddressAliases,
           domain_count: this.customDomains,
+          plan_type: this.planType
         }));
       } else {
         this.inProgress = true;
@@ -238,15 +239,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   bitcoinSignup() {
-    if (this.bitcoinState.newWalletAddress && this.bitcoinState.redeemCode) {
+    if (this.bitcoinState.newWalletAddress) {
       if (this.isUpgradeAccount) {
         this.store.dispatch(new UpgradeAccount({
           from_address: this.bitcoinState.newWalletAddress,
-          redeem_code: this.bitcoinState.redeemCode,
           payment_type: this.paymentType,
           memory: this.storage,
           email_count: this.emailAddressAliases,
-          domain_count: this.customDomains
+          domain_count: this.customDomains,
+          plan_type: this.planType,
         }));
       } else {
         this.inProgress = true;
@@ -254,8 +255,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
         this.waitForPGPKeys({
           ...this.signupState,
-          from_address: this.bitcoinState.newWalletAddress,
-          redeem_code: this.bitcoinState.redeemCode
+          from_address: this.bitcoinState.newWalletAddress
         });
       }
     } else {
@@ -278,7 +278,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    this.store.dispatch(new SignUp(data));
+    this.store.dispatch(new SignUp({...data, plan_type: this.planType}));
   }
 
   checkTransaction() {
@@ -290,7 +290,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     // check after every one minute
     this.store.dispatch(new CheckTransaction({
-      'redeem_code': this.bitcoinState.redeemCode,
       'from_address': this.bitcoinState.newWalletAddress
     }));
   }
@@ -325,7 +324,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       payment_type: this.paymentType,
       memory: this.storage,
       email_count: this.emailAddressAliases,
-      domain_count: this.customDomains
+      domain_count: this.customDomains,
+      plan_type: this.planType
     }));
   }
 
