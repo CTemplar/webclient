@@ -29,6 +29,7 @@ import { CreateFolderComponent } from './dialogs/create-folder/create-folder.com
 import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.component';
 import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
 import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/payment-failure-notice.component';
+import { AddressesSignatureComponent } from './mail-settings/addresses-signature/addresses-signature.component';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/
     CreateFolderComponent,
     MailFiltersComponent,
     CustomDomainsComponent,
-    PaymentFailureNoticeComponent
+    PaymentFailureNoticeComponent,
+    AddressesSignatureComponent
   ],
   exports: [
     MailFooterComponent
