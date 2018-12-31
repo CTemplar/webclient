@@ -27,7 +27,7 @@ import {
   TimezonesState,
   UserState
 } from '../../store/datatypes';
-import { OpenPgpService, UsersService } from '../../store/services';
+import { OpenPgpService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
 
 @TakeUntilDestroy()
@@ -67,7 +67,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   extraCustomDomain: number = 0;
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
-  customDomains: string[];
 
   private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;
@@ -79,7 +78,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private openPgpService: OpenPgpService,
-    private usersService: UsersService
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -241,19 +239,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       if (this.openPgpService.getUserKeys()) {
         this.changePasswordConfirmed();
       } else {
-        this.waitForPGPKeys('changePasswordConfirmed');
+        this.openPgpService.waitForPGPKeys(this, 'changePasswordConfirmed');
       }
     }
-  }
-
-  waitForPGPKeys(callback) {
-    setTimeout(() => {
-      if (this.openPgpService.getUserKeys()) {
-        this[callback]();
-        return;
-      }
-      this.waitForPGPKeys(callback);
-    }, 500);
   }
 
   changePasswordConfirmed() {

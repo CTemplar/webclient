@@ -71,7 +71,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       'username': ['', [
         Validators.required,
         Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
-        Validators.minLength(4),
+        Validators.minLength(2),
         Validators.maxLength(64)
       ]],
       'domain': [
@@ -108,7 +108,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       if (this.openPgpService.getUserKeys()) {
         this.addNewAddress();
       } else {
-        this.waitForPGPKeys('addNewAddress');
+        this.openPgpService.waitForPGPKeys(this, 'addNewAddress');
       }
     }
   }
@@ -128,16 +128,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
     this.selectedMailboxForKey = mailbox;
     this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
-  }
-
-  waitForPGPKeys(callback) {
-    setTimeout(() => {
-      if (this.openPgpService.getUserKeys()) {
-        this[callback]();
-        return;
-      }
-      this.waitForPGPKeys(callback);
-    }, 500);
   }
 
   updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {

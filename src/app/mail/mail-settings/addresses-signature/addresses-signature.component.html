@@ -198,13 +198,13 @@
                                             <ng-container
                                                     *ngIf="newAddressForm.controls['username'].errors.pattern; else usernameLengthBlock">
                                                 The username must start with a letter or a number and end with a letter or number.It may only
-                                                contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters, and minimum length is 4 characters.
+                                                contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters, and minimum length is 2 characters.
                                             </ng-container>
                                             <ng-template #usernameLengthBlock>
                                               <ng-container
                                                       *ngIf="newAddressForm.controls['username'].errors.minlength ||
                                                       newAddressForm.controls['username'].errors.maxlength">
-                                                The username must be between 4 and 64 characters.
+                                                The username must be between 2 and 64 characters.
                                               </ng-container>
                                             </ng-template>
                                           </span>
