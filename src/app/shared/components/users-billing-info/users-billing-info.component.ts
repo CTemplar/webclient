@@ -13,7 +13,6 @@ import {
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
-  GetBitcoinServiceValue,
   SignUp,
   SnackErrorPush, UpgradeAccount
 } from '../../../store/actions/index';

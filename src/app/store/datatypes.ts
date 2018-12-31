@@ -264,8 +264,7 @@ export interface Timezone {
 }
 
 export interface BitcoinState {
-  serviceValue: number;
-  bitcoinUSD: number,
+  bitcoinRequired: number,
   newWalletAddress: string;
   loaded: boolean;
   checkTransactionResponse: CheckTransactionResponse;
