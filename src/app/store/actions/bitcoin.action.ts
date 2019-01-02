@@ -1,27 +1,11 @@
 import { Action } from '@ngrx/store';
 
 export enum BitcoinActionTypes {
-  GET_BITCOIN_SERVICE_VALUE = '[BITCOIN] GET BITCOIN SERVICE VALUE',
-  GET_BITCOIN_SERVICE_VALUE_SUCCESS = '[BITCOIN] GET BITCOIN SERVICE VALUE SUCCESS',
   CREATE_NEW_WALLET = '[BITCOIN ] CREATE NEW WALLET',
   CREATE_NEW_WALLET_SUCCESS = '[BITCOIN] CREATE NEW WALLET',
   CHECK__TRANSACTION = '[BITCOIN] CHECK TRANSACTION',
   CHECK_TRANSACTION_SUCCESS = '[BITCOIN] CHECK TRANSACTION SUCCESS',
   CLEAR_WALLET = '[BITCOIN] CLEAR WALLET',
-}
-
-export class GetBitcoinServiceValue implements Action {
-  readonly type = BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE;
-
-  constructor(public payload?: any) {
-  }
-}
-
-export class GetBitcoinServiceValueSuccess implements Action {
-  readonly type = BitcoinActionTypes.GET_BITCOIN_SERVICE_VALUE_SUCCESS;
-
-  constructor(public payload: any) {
-  }
 }
 
 export class CreateNewWallet implements Action {
@@ -60,8 +44,6 @@ export class ClearWallet implements Action {
 }
 
 export type BitcoinActionAll =
-  | GetBitcoinServiceValue
-  | GetBitcoinServiceValueSuccess
   | CreateNewWallet
   | CreateNewWalletSuccess
   | CheckTransaction

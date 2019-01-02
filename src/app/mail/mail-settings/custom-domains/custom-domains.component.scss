@@ -31,9 +31,9 @@
   }
 
   .domains-list {
-    margin-top: 1.875rem;
+    padding: 1.875rem 0;
     @include media("<=sm") {
-      margin-top: 0;
+      padding: 0;
     }
 
     .row {
@@ -256,4 +256,11 @@
 .copy-btn {
   float: right !important;
   margin-top: -10px;
+}
+
+.warning {
+  font-size: 0.75rem;
+  .warning-text {
+    color: #e55747;
+  }
 }

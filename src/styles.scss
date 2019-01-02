@@ -245,6 +245,8 @@ tag-input {
 
 app-compose-mail {
   .mail-compose-field tag-input {
+    max-height: 75px;
+    overflow-y: auto;
     max-width: calc(100% - 4rem);
   }
 

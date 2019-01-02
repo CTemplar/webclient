@@ -6,7 +6,7 @@ import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading, MembershipUpdate
 import { UpdateSignupData } from '../../../store/actions/auth.action';
 import { PaymentMethod, PaymentType } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
-import { DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE } from '../../config';
+import { DEFAULT_CUSTOM_DOMAIN, DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE } from '../../config';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly defaultMonthlyPrice = 8;
   readonly defaultStorage = DEFAULT_STORAGE;
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
+  readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
 
   @Input() hideHeader: boolean;
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
@@ -29,6 +30,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() paymentMethod: PaymentMethod;
   @Input() selectedStorage: number = this.defaultStorage;
   @Input() selectedEmailAddress: number = this.defaultEmailAddress;
+  @Input() selectedCustomDomain: number = this.defaultCustomDomain;
 
   @ViewChild('billingInfoModal') billingInfoModal;
 
@@ -37,6 +39,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   selectedIndex: number = -1; // Assuming no element are selected initially
   availableStorage = [];
   availableEmailAddress = [];
+  availableCustomDomain = [];
   monthlyPrice: number;
   annualPricePerMonth: number;
   annualPriceTotal: number;
@@ -57,6 +60,9 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     for (let i = 20; i <= 100; i += 10) {
       this.availableEmailAddress.push(i);
     }
+    for (let i = 2; i <= 10; i++) {
+      this.availableCustomDomain.push(i);
+    }
     this.paymentType = this.paymentType || PaymentType.MONTHLY;
     this.paymentMethod = this.paymentMethod || PaymentMethod.STRIPE;
     this.selectedCurrency = this.selectedCurrency || 'USD';
@@ -65,11 +71,13 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: any) {
-    if (changes.selectedStorage || changes.selectedEmailAddress) {
+    if (changes.selectedStorage || changes.selectedEmailAddress || changes.selectedCustomDomain) {
       this.selectedStorage = changes.selectedStorage && changes.selectedStorage.currentValue > 0 ?
         changes.selectedStorage.currentValue : this.selectedStorage || this.defaultStorage;
       this.selectedEmailAddress = changes.selectedEmailAddress && changes.selectedEmailAddress.currentValue > 0 ?
         changes.selectedEmailAddress.currentValue : this.selectedEmailAddress || this.defaultEmailAddress;
+      this.selectedCustomDomain = changes.selectedCustomDomain && changes.selectedCustomDomain.currentValue > 0 ?
+        changes.selectedCustomDomain.currentValue : this.selectedCustomDomain || this.defaultCustomDomain;
       this.calculatePrices();
     }
   }
@@ -87,7 +95,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.store.dispatch(new MembershipUpdate({ id }));
 
     if (this.openBillingInfoInModal) {
-      this.loadStripeScripts();
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
         windowClass: 'modal-lg users-action-modal'
@@ -97,13 +104,13 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
       this.store.dispatch(new ClearAuthErrorMessage());
       // Add payment type for prime plan only
       if (id === 1) {
-        this.loadStripeScripts();
         this.store.dispatch(new UpdateSignupData({
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
           currency: this.selectedCurrency,
           memory: this.selectedStorage,
           email_count: this.selectedEmailAddress,
+          domain_count: this.selectedCustomDomain,
           monthlyPrice: this.monthlyPrice,
           annualPricePerMonth: this.annualPricePerMonth,
           annualPriceTotal: this.annualPriceTotal
@@ -121,17 +128,10 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     let monthlyPrice = this.defaultMonthlyPrice;
     monthlyPrice += (this.selectedStorage - this.defaultStorage);
     monthlyPrice += ((this.selectedEmailAddress - this.defaultEmailAddress) / 10);
+    monthlyPrice += (this.selectedCustomDomain - this.defaultCustomDomain);
     this.monthlyPrice = monthlyPrice;
     this.annualPricePerMonth = +(this.monthlyPrice * 0.75).toFixed(2);
     this.annualPriceTotal = +(this.annualPricePerMonth * 12).toFixed(2);
-  }
-
-  private loadStripeScripts() {
-    this.dynamicScriptLoader.load('stripe').then(data => {
-      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
-        // Script Loaded Successfully
-      });
-    }).catch(error => console.log(error));
   }
 
   ngOnDestroy() {

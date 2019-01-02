@@ -43,6 +43,7 @@ export interface SignupState {
   currency?: string;
   memory?: number;
   email_count?: number;
+  domain_count?: number;
   monthlyPrice?: number;
   annualPricePerMonth?: number;
   annualPriceTotal?: number;
@@ -88,6 +89,7 @@ export interface Settings {
   used_storage?: number;
   display_name?: string;
   email_count?: number;
+  domain_count?: number;
   default_font?: string;
 }
 
@@ -124,6 +126,7 @@ export interface MailState {
   decryptedContents: DecryptedContentState;
   unreadMailsCount: any;
   noUnreadCountChange: boolean;
+  canGetUnreadCount: boolean;
 }
 
 export interface DecryptedContent {
@@ -148,7 +151,7 @@ export interface Draft {
   shouldSend?: boolean;
   shouldSave?: boolean;
   getUserKeyInProgress?: boolean;
-  usersKeys?: PublicKey[];
+  usersKeys?: UserKey;
 
   /**
    * @var isClosed
@@ -188,8 +191,14 @@ export interface SecureMessageState {
   usersKeys?: PublicKey[];
 }
 
+export interface UserKey {
+  encrypt: boolean;
+  keys: PublicKey[];
+}
+
 export interface PublicKey {
   email: string;
+  is_enabled: boolean;
   public_key: string;
 }
 
@@ -255,10 +264,9 @@ export interface Timezone {
 }
 
 export interface BitcoinState {
-  serviceValue: number;
+  bitcoinRequired: number,
   newWalletAddress: string;
   loaded: boolean;
-  redeemCode: string;
   checkTransactionResponse: CheckTransactionResponse;
 }
 
@@ -312,4 +320,10 @@ export enum PaymentMethod {
 export enum PaymentType {
   MONTHLY = 'monthly',
   ANNUALLY = 'annually',
+}
+
+export enum PlanType {
+  FREE = 'FREE',
+  PRIME = 'PRIME',
+  CHAMPION = 'CHAMPION',
 }

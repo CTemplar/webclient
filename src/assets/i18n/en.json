@@ -132,6 +132,7 @@
     "status_dmarc": "DMARC",
     "status_addresses": "Addresses",
     "next": "Next",
+    "verify": "Verify",
     "add_domain_step": {
       "name": "Domain name",
       "info": "Add a domain that you own to your CTemplar account."
@@ -246,7 +247,8 @@
     "upgrade_to_prime": "upgrade to prime",
     "media_kit": "Media Kit",
     "onion_site": "Onion site",
-    "support": "Support",
+    "support": "Contact us",
+    "faq": "FAQ",
     "company": "Company",
     "social": "Social",
     "legal": "Legal",

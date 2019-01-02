@@ -37,7 +37,7 @@ export class SecureMessageEffects {
           switchMap(res => {
             return [new GetMessageSuccess(res)];
           }),
-          catchError(error => [new GetMessageFailure({ error })])
+          catchError(error => [new GetMessageFailure({ error: error.error })])
         );
     });
 

@@ -68,6 +68,8 @@ export class SignUpFailure implements Action {
 
 export class Logout implements Action {
   readonly type = AuthActionTypes.LOGOUT;
+
+  constructor(public payload: any = {}) {}
 }
 
 export class GetStatus implements Action {

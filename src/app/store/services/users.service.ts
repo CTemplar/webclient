@@ -32,22 +32,22 @@ export class UsersService {
 
   setTokenExpiration() {
     const expiration = new Date().getTime() + (1000 * 60 * 60 * 3);  // set 3 hours expiration token time.
-    sessionStorage.setItem('token_expiration', expiration.toString());
+    localStorage.setItem('token_expiration', expiration.toString());
   }
 
   refreshToken(): Observable<any> {
-    const body = { token: sessionStorage.getItem('token') };
+    const body = { token: localStorage.getItem('token') };
     const url = `${apiUrl}auth/refresh/`;
     return this.http.post<any>(url, body).pipe(
       tap(data => {
-        sessionStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.token);
         this.setTokenExpiration();
       })
     );
   }
 
   isTokenExpired() {
-    return +sessionStorage.getItem('token_expiration') < new Date().getTime();
+    return +localStorage.getItem('token_expiration') < new Date().getTime();
   }
 
   signIn(body): Observable<any> {
@@ -82,18 +82,18 @@ export class UsersService {
   private setLoginData(tokenResponse: any, requestData) {
     this.token = tokenResponse.token;
     this.userKey = btoa(requestData.password);
-    sessionStorage.setItem('token', tokenResponse.token);
+    localStorage.setItem('token', tokenResponse.token);
     this.setTokenExpiration();
     if (requestData.rememberMe) {
-      sessionStorage.setItem('user_key', this.userKey);
+      localStorage.setItem('user_key', this.userKey);
     }
   }
 
   signOut() {
     this.userKey = this.token = null;
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('token_expiration');
-    sessionStorage.removeItem('user_key');
+    localStorage.removeItem('token');
+    localStorage.removeItem('token_expiration');
+    localStorage.removeItem('user_key');
     this.router.navigateByUrl('/signin');
   }
 
@@ -135,17 +135,17 @@ export class UsersService {
   }
 
   verifyToken(): Observable<any> {
-    const body = { token: sessionStorage.getItem('token') };
+    const body = { token: localStorage.getItem('token') };
     const url = `${apiUrl}auth/verify/`;
     return this.http.post<any>(url, body);
   }
 
   getToken(): string {
-    return this.token || sessionStorage.getItem('token');
+    return this.token || localStorage.getItem('token');
   }
 
   getUserKey(): string {
-    return this.userKey || sessionStorage.getItem('user_key');
+    return this.userKey || localStorage.getItem('user_key');
   }
 
   getNecessaryTokenUrl(url) {

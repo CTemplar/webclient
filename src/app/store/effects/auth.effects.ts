@@ -30,6 +30,7 @@ import {
   SnackErrorPush, SnackPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
+import { NotificationService } from '../services/notification.service';
 
 
 @Injectable()
@@ -38,6 +39,7 @@ export class AuthEffects {
   constructor(
     private actions: Actions,
     private authService: UsersService,
+    private notificationService: NotificationService,
     private router: Router,
   ) {}
 
@@ -49,7 +51,7 @@ export class AuthEffects {
       return this.authService.signIn(payload)
         .pipe(
           map((user) => new LogInSuccess(user)),
-          catchError((error) => [new LogInFailure({ error })])
+          catchError((errorResponse) => [new LogInFailure( errorResponse.error)])
         );
     });
 
@@ -90,7 +92,10 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   public LogOut: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGOUT),
-    tap((user) => {
+    tap((action) => {
+      if (action.payload.session_expired) {
+        this.notificationService.showSnackBar('Session expired, login again.');
+      }
       this.authService.signOut();
     })
   );
@@ -119,7 +124,7 @@ export class AuthEffects {
       return this.authService.recoverPassword(payload)
         .pipe(
           switchMap((res) => [new RecoverPasswordSuccess(res)]),
-          catchError((error) => [new RecoverPasswordFailure(error)])
+          catchError((error) => [new RecoverPasswordFailure(error.error)])
         );
     });
 
@@ -134,7 +139,7 @@ export class AuthEffects {
             new LogInSuccess(user),
             new ResetPasswordSuccess(user)
           ]),
-          catchError((error) => [new ResetPasswordFailure(error)])
+          catchError((error) => [new ResetPasswordFailure(error.error)])
         );
     });
 
@@ -148,7 +153,7 @@ export class AuthEffects {
           switchMap((res) => {
             return [new UpgradeAccountSuccess(res), new AccountDetailsGet()];
           }),
-          catchError((error) => [new UpgradeAccountFailure(error),
+          catchError((error) => [new UpgradeAccountFailure(error.error),
             new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })])
         );
     });
@@ -182,7 +187,7 @@ export class AuthEffects {
             new Logout()
           ]),
           catchError((errorResponse) => [
-            new DeleteAccountFailure(errorResponse),
+            new DeleteAccountFailure(errorResponse.error),
             new SnackErrorPush({ message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
                 'Failed to delete account, please try again.' })])
         );

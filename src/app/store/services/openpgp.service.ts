@@ -198,4 +198,14 @@ export class OpenPgpService {
     return this.userKeys;
   }
 
+  waitForPGPKeys(self: any, callbackFn: string) {
+    setTimeout(() => {
+      if (this.getUserKeys()) {
+        self[callbackFn]();
+        return;
+      }
+      this.waitForPGPKeys(self, callbackFn);
+    }, 500);
+  }
+
 }

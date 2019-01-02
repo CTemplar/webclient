@@ -92,7 +92,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: action.payload.error && action.payload.error.non_field_errors ? action.payload.error.non_field_errors[0] : '',
+        error: action.payload.non_field_errors ? action.payload.non_field_errors[0] : '',
       };
     }
 
@@ -236,7 +236,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FILTER_FAILURE:
     case UsersActionTypes.UPDATE_FILTER_FAILURE:
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
-      const error = Object.keys(action.payload.error.error).map(key => `${key}: ${action.payload.error.error[key]}`).join(', ');
+      const error = Object.keys(action.payload).map(key => `${key}: ${action.payload[key]}`).join(', ');
       return { ...state, inProgress: false, filtersError: error };
     }
 
@@ -294,9 +294,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       let isError: boolean = false;
       let step = action.payload.step;
       if ((step === 1 && domain.is_domain_verified)
-        || (step === 2 && domain.is_mx_verified)
-        || step >= 3) {
-        step++;
+        || step >= 2) {
+        if (action.payload.gotoNextStep) {
+          step++;
+        }
       } else {
         isError = true;
       }
@@ -325,7 +326,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        newCustomDomainError: action.payload.domain,
+        newCustomDomainError: action.payload,
         currentCreationStep: 0
       };
     }

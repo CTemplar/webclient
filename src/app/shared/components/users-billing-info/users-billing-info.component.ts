@@ -13,7 +13,6 @@ import {
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
-  GetBitcoinServiceValue,
   SignUp,
   SnackErrorPush, UpgradeAccount
 } from '../../../store/actions/index';
@@ -25,12 +24,13 @@ import {
   PaymentMethod,
   SignupState,
   TransactionStatus,
-  PaymentType
+  PaymentType, PlanType
 } from '../../../store/datatypes';
 // Service
 import { OpenPgpService, SharedService } from '../../../store/services/index';
 import { takeUntil } from 'rxjs/operators';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -45,6 +45,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() currency;
   @Input() storage: number;
   @Input() emailAddressAliases: number;
+  @Input() customDomains: number;
   @Input() monthlyPrice: number;
   @Input() annualPricePerMonth: number;
   @Input() annualPriceTotal: number;
@@ -72,17 +73,21 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   paymentSuccess: boolean;
   errorMessage: string;
   authState: AuthState;
+  isScriptsLoaded: boolean;
+  isScriptsLoading: boolean;
 
   readonly destroyed$: Observable<boolean>;
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
   private modalRef: NgbModalRef;
+  private planType: PlanType = PlanType.PRIME;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
               private router: Router,
               private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
+              private dynamicScriptLoader: DynamicScriptLoaderService,
               private modalService: NgbModal,
               private _zone: NgZone) {
   }
@@ -122,12 +127,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.currency = this.signupState.currency || 'USD';
           this.storage = this.storage || this.signupState.memory;
           this.emailAddressAliases = this.emailAddressAliases || this.signupState.email_count;
+          this.customDomains = this.customDomains || this.signupState.domain_count;
           this.monthlyPrice = this.monthlyPrice || this.signupState.monthlyPrice;
           this.annualPricePerMonth = this.annualPricePerMonth || this.signupState.annualPricePerMonth;
           this.annualPriceTotal = this.annualPriceTotal || this.signupState.annualPriceTotal;
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod();
+        } else {
+          this.loadStripeScripts();
         }
         this.inProgress = authState.inProgress;
       });
@@ -148,6 +156,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.seconds = ((3600 - t) % 60);
       this.minutes = ((3600 - t - this.seconds) / 60);
     });
+  }
+
+  private loadStripeScripts() {
+    if (this.isScriptsLoading || this.isScriptsLoaded) {
+      return;
+    }
+    this.isScriptsLoading = true;
+    this.dynamicScriptLoader.load('stripe').then(data => {
+      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
+        this.isScriptsLoaded = true;
+        this.isScriptsLoading = false;
+      });
+    }).catch(error => console.log(error));
   }
 
   getToken() {
@@ -202,7 +223,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           stripe_token: token,
           payment_type: this.paymentType,
           memory: this.storage,
-          email_count: this.emailAddressAliases
+          email_count: this.emailAddressAliases,
+          domain_count: this.customDomains,
+          plan_type: this.planType
         }));
       } else {
         this.inProgress = true;
@@ -216,14 +239,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   bitcoinSignup() {
-    if (this.bitcoinState.newWalletAddress && this.bitcoinState.redeemCode) {
+    if (this.bitcoinState.newWalletAddress) {
       if (this.isUpgradeAccount) {
         this.store.dispatch(new UpgradeAccount({
           from_address: this.bitcoinState.newWalletAddress,
-          redeem_code: this.bitcoinState.redeemCode,
           payment_type: this.paymentType,
           memory: this.storage,
-          email_count: this.emailAddressAliases
+          email_count: this.emailAddressAliases,
+          domain_count: this.customDomains,
+          plan_type: this.planType,
         }));
       } else {
         this.inProgress = true;
@@ -231,8 +255,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
         this.waitForPGPKeys({
           ...this.signupState,
-          from_address: this.bitcoinState.newWalletAddress,
-          redeem_code: this.bitcoinState.redeemCode
+          from_address: this.bitcoinState.newWalletAddress
         });
       }
     } else {
@@ -255,7 +278,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    this.store.dispatch(new SignUp(data));
+    this.store.dispatch(new SignUp({...data, plan_type: this.planType}));
   }
 
   checkTransaction() {
@@ -267,7 +290,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     // check after every one minute
     this.store.dispatch(new CheckTransaction({
-      'redeem_code': this.bitcoinState.redeemCode,
       'from_address': this.bitcoinState.newWalletAddress
     }));
   }
@@ -301,7 +323,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.dispatch(new CreateNewWallet({
       payment_type: this.paymentType,
       memory: this.storage,
-      email_count: this.emailAddressAliases
+      email_count: this.emailAddressAliases,
+      domain_count: this.customDomains,
+      plan_type: this.planType
     }));
   }
 
@@ -350,5 +374,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();
     }
+
+    this.dynamicScriptLoader.removeStripeFromDOM();
   }
 }

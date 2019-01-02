@@ -4,12 +4,11 @@ import { environment } from '../../environments/environment';
 
 export function apiHeaders() {
   return {
-    headers: new HttpHeaders({ 'Authorization': `JWT ${sessionStorage.getItem('token')}` })
+    headers: new HttpHeaders({ 'Authorization': `JWT ${localStorage.getItem('token')}` })
   };
 }
 
 export const apiUrl = getApiUrl();
-export const bitcoinApiUrl = environment.bitcoinServerUrl;
 export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
 
 export function getApiUrl() {
@@ -68,8 +67,9 @@ export const ESCAPE_KEYCODE = 27;
 
 export const DEFAULT_STORAGE = 5; // storage in GB
 export const DEFAULT_EMAIL_ADDRESS = 10;
+export const DEFAULT_CUSTOM_DOMAIN = 1;
 
-export const VALID_EMAIL_REGEX = /^([a-zA-Z0-9_\.\-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/m;
+export const VALID_EMAIL_REGEX = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)$/m;
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 

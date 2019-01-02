@@ -37,7 +37,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
     case AuthActionTypes.LOGIN_SUCCESS: {
-      sessionStorage.setItem('token', action.payload.token);
+      localStorage.setItem('token', action.payload.token);
       localStorage.removeItem(REFFERAL_CODE_KEY);
       return {
         ...state,
@@ -50,7 +50,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
-        errorMessage: 'Incorrect username or password.',
+        errorMessage: action.payload || 'Incorrect username or password.',
         inProgress: false
       };
     }
@@ -66,8 +66,8 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SIGNUP_FAILURE: {
 
       let error = 'Failed to signup, please try again.';
-      if (action.payload && action.payload.error && action.payload.error.error && action.payload.error.error.length > 0) {
-        error = action.payload.error.error[0];
+      if (action.payload.length > 0) {
+        error = action.payload[0];
       }
 
       return {

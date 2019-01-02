@@ -46,6 +46,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   OFFSET: number = 0;
   PAGE: number = 0;
   private searchText: string;
+  private mailState: MailState;
 
   constructor(public store: Store<AppState>,
               private router: Router,
@@ -58,6 +59,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
     this.store.select(state => state.mail).takeUntil(this.destroyed$)
       .subscribe((mailState: MailState) => {
+        this.mailState = mailState;
         this.showProgress = !mailState.loaded || mailState.inProgress;
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
@@ -109,7 +111,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (this.mailFolder === MailFolderType.INBOX) {
       Observable.timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
         .subscribe(event => {
-          this.refresh();
+          if (this.mailState && this.mailState.canGetUnreadCount) {
+            this.refresh();
+          }
         });
     }
   }

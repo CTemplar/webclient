@@ -21,7 +21,7 @@
                 </button>
               </ng-template>
 
-              <div class="domains-list">
+              <div class="domains-list" *ngIf="domains?.length>0">
                 <div class="row d-none d-sm-flex">
                   <div class="col-3">
                     <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
@@ -48,7 +48,7 @@
                     <div [class.verified]="domain.is_dmarc_verified"><span
                             translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                             class="fa fa-exclamation"></i>DMARC</span></div>
-                    <div><span translate="settings.status_addresses">Addresses</span></div>
+                    <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
                   </div>
                   <div class="col-2 d-flex justify-content-end actions">
                     <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
@@ -133,7 +133,7 @@
                       <div [class.verified]="domain.is_dmarc_verified"><span
                               translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                               class="fa fa-exclamation"></i>DMARC</span></div>
-                      <div><span translate="settings.status_addresses">Addresses</span></div>
+                      <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
                     </div>
                   </div>
                 </div>
@@ -521,7 +521,8 @@
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
         <span translate="contacts.delete.message">Are you sure, you want to delete</span>
-        <strong>{{ newDomain?.domain }}</strong>?
+        <strong>{{ newDomain?.domain }}</strong>?<br>
+        <span class="warning"><span class="warning-text">Warning</span>: All the associated email addresses(if any) of this domain will also be deleted.</span>
       </div>
       <div class="form-group text-right mb-0">
         <button (click)="cancelDelete()" class="btn btn-secondary btn-sm"
@@ -539,7 +540,13 @@
 
 <ng-template #nextButton>
   <div class="mt-3 mt-sm-4">
-    <button class="btn btn-sm btn-secondary" (click)="verifyDomain(newDomain?.id)">
+    <button class="btn btn-sm btn-secondary mr2"
+            *ngIf="currentStep>1"
+            (click)="verifyDomain(newDomain?.id)">
+      <span translate="settings.verify">Verify</span>
+    </button>
+
+    <button class="btn btn-sm btn-secondary" (click)="verifyDomain(newDomain?.id, true)">
       <span translate="settings.next">Next</span>
     </button>
     <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
