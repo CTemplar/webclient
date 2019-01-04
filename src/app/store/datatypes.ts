@@ -91,6 +91,8 @@ export interface Settings {
   email_count?: number;
   domain_count?: number;
   default_font?: string;
+  enable_forwarding?: boolean;
+  forwarding_address?: string;
 }
 
 export interface Payment {

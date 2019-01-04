@@ -30,6 +30,7 @@ import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.
 import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
 import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/payment-failure-notice.component';
 import { AddressesSignatureComponent } from './mail-settings/addresses-signature/addresses-signature.component';
+import { MailForwardingComponent } from './mail-settings/mail-forwarding/mail-forwarding.component';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { AddressesSignatureComponent } from './mail-settings/addresses-signature
     MailFiltersComponent,
     CustomDomainsComponent,
     PaymentFailureNoticeComponent,
-    AddressesSignatureComponent
+    AddressesSignatureComponent,
+    MailForwardingComponent
   ],
   exports: [
     MailFooterComponent
