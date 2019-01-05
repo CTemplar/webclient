@@ -153,6 +153,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isTrialPrimeFeaturesAvailable: boolean;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
+  displayName: string;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -227,6 +228,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.contacts = user.contact;
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
+        this.displayName = user.settings.display_name;
       });
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
@@ -487,7 +489,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sendEmail() {
     if (!this.selectedMailbox.is_enabled) {
-      this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.'}));
+      this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }));
       return;
     }
     if (this.userState.isPrime) {
@@ -750,7 +752,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail = { content: null, folder: 'draft' };
     }
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
-    this.draftMail.sender = this.selectedMailbox.email;
+    this.draftMail.sender = this.displayName ? `${this.displayName} <${this.selectedMailbox.email}>` : this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);

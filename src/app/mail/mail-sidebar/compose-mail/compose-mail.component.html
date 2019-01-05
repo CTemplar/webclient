@@ -8,7 +8,7 @@
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
                       id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
-                {{selectedMailbox?.email}}
+                {{displayName}} <{{selectedMailbox?.email}}>
               </button>
               <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu
                    aria-labelledby="fromEmailDropdownMenuButton">
