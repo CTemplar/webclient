@@ -648,81 +648,10 @@
         </ngb-tab>
 
         <!-- Forwarding and auto responder -->
-        <ngb-tab *ngIf="false">
+        <ngb-tab>
             <ng-template ngbTabTitle>Forwarding and autoresponder</ng-template>
             <ng-template ngbTabContent>
-
-                <!--This section is hidden for now, will be used in dev pack 1.-->
-                <section class="mailbox-section" *ngIf="false">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <ul class="ui-list ui-list-styled list-styled">
-                                <li class="ui-list-item ui-list-item-xs-full">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="toggle-switcher">
-                                                <input class="d-none toggle-switcher-control" id="switcherField1" name=""
-                                                    type="checkbox" checked />
-                                                <label for="switcherField1"></label>
-                                                <span class="toggle-switcher-text">My spam filter</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="ui-list-item ui-list-item-xs-full">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="toggle-switcher">
-                                                <input class="d-none toggle-switcher-control" id="switcherField3" name=""
-                                                    type="checkbox" checked />
-                                                <label for="switcherField3"></label>
-                                                <span class="toggle-switcher-text">Important messages filter</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="ui-list-item ui-list-item-xs-full">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="toggle-switcher">
-                                                <input class="d-none toggle-switcher-control" id="switcherField2" name=""
-                                                    type="checkbox" />
-                                                <label for="switcherField2"></label>
-                                                <span class="toggle-switcher-text">Auto-labeling test</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="info-card">
-                                <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
-                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
-                                            custom filter</u></strong></a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <app-mail-forwarding></app-mail-forwarding>
             </ng-template>
         </ngb-tab>
     </ngb-tabset>
@@ -732,6 +661,79 @@
         <i class="icon icon-save-disk"></i>
     </button>
 
+
+    <!--This section is hidden for now, will be used in dev pack 1.-->
+    <section class="mailbox-section" *ngIf="false">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <ul class="ui-list ui-list-styled list-styled">
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField1" name=""
+                                           type="checkbox" checked/>
+                                    <label for="switcherField1"></label>
+                                    <span class="toggle-switcher-text">My spam filter</span>
+                                </div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField3" name=""
+                                           type="checkbox" checked/>
+                                    <label for="switcherField3"></label>
+                                    <span class="toggle-switcher-text">Important messages filter</span>
+                                </div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField2" name=""
+                                           type="checkbox"/>
+                                    <label for="switcherField2"></label>
+                                    <span class="toggle-switcher-text">Auto-labeling test</span>
+                                </div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-card">
+                    <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                       (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
+                        custom filter</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!--This section is hidden for now, will be used in dev pack 1.-->
