@@ -291,7 +291,7 @@
       </ul>
       <div align="right" *ngIf="reorder">
         <app-loading-spinner [showSpinner]="reorderInProgress"></app-loading-spinner>
-        <button class="btn btn-sm btn-primary " [disabled]="reorderInProgress" (click)="reorder=!reorder">Cancel</button>
+        <button class="btn btn-sm btn-primary " [disabled]="reorderInProgress" (click)="cancelOrder()">Cancel</button>
         <button class="btn btn-sm btn-secondary" [disabled]="reorderInProgress" (click)="saveOrder()">Save order</button>
       </div>
     </div>
