@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PRIMARY_DOMAIN } from '../../../shared/config';
 import { Mailbox } from '../../../store/models';
-import { CreateMailbox, SetDefaultMailbox, SettingsUpdate, SnackErrorPush } from '../../../store/actions';
+import { CreateMailbox, SetDefaultMailbox, SettingsUpdate, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -15,12 +15,13 @@ import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 @Component({
   selector: 'app-addresses-signature',
   templateUrl: './addresses-signature.component.html',
-  styleUrls: ['./addresses-signature.component.scss', './../mail-settings.component.scss']
+  styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss']
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   public mailBoxesState: MailBoxesState;
   public mailboxes: Mailbox[];
+  public unmodifiedMailboxes: Mailbox[];
   public currentMailBox: Mailbox;
   public userState: UserState;
   public selectedMailboxPublicKey: string;
@@ -30,6 +31,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   selectedMailboxForKey: Mailbox;
   settings: Settings;
   customDomains: string[];
+  reorder: boolean;
+  reorderInProgress: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
@@ -40,6 +43,15 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
       .subscribe((mailboxesState: MailBoxesState) => {
+        if (mailboxesState.isUpdatingOrder) {
+          this.reorderInProgress = true;
+          return;
+        }
+        if (this.reorderInProgress) {
+          this.reorderInProgress = false;
+          this.reorder = false;
+        }
+
         if (this.mailBoxesState && this.mailBoxesState.inProgress && !mailboxesState.inProgress && this.newAddressOptions.isBusy) {
           this.onDiscardNewAddress();
         }
@@ -135,6 +147,45 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       selectedMailbox[key] = value;
       this.store.dispatch(new MailboxSettingsUpdate(selectedMailbox));
     }
+  }
+
+  sortDown(index: number) {
+    this.mailboxes[index].sort_order++;
+    this.mailboxes[index + 1].sort_order--;
+    this.mailboxes.sort((a, b) => {
+      return a.sort_order - b.sort_order;
+    });
+  }
+
+  sortUp(index: number) {
+    this.mailboxes[index].sort_order--;
+    this.mailboxes[index - 1].sort_order++;
+    this.mailboxes.sort((a, b) => {
+      return a.sort_order - b.sort_order;
+    });
+  }
+
+  startReorder() {
+    this.reorder = true;
+    this.unmodifiedMailboxes = this.mailboxes.map(x => Object.assign({}, x));
+  }
+
+  saveOrder() {
+    this.reorderInProgress = true;
+    const payload: any = {
+      mailboxes: this.mailboxes,
+      data: {
+        mailbox_list: this.mailboxes.map(item => {
+          return { mailbox_id: item.id, sort_order: item.sort_order };
+        }),
+      }
+    };
+    this.store.dispatch(new UpdateMailboxOrder(payload));
+  }
+
+  cancelOrder() {
+    this.reorder = false;
+    this.mailboxes = this.unmodifiedMailboxes;
   }
 
   private getEmail() {

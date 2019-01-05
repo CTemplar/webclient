@@ -170,7 +170,8 @@ export class UsersService {
       'auth/delete',
       'emails/domains',
       'search/messages',
-      'domains/verify'
+      'domains/verify',
+      'emails/mailbox-order'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

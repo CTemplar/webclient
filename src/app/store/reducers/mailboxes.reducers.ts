@@ -16,8 +16,11 @@ export function reducer(
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
       return {
         ...state,
-        mailboxes: action.payload,
-        currentMailbox: action.payload.find(mailbox => mailbox.is_default)
+        mailboxes: action.payload.map((item, index) => {
+          item.sort_order = item.sort_order ? item.sort_order : index;
+          return item;
+        }),
+        currentMailbox: action.payload[0]
       };
     }
 
@@ -100,6 +103,19 @@ export function reducer(
       return {
         ...state,
         mailboxes: mailboxes
+      };
+    }
+
+    case MailActionTypes.UPDATE_MAILBOX_ORDER: {
+      return { ...state, isUpdatingOrder: true };
+    }
+
+    case MailActionTypes.UPDATE_MAILBOX_ORDER_SUCCESS: {
+      return {
+        ...state,
+        mailboxes: action.payload.mailboxes,
+        currentMailbox: action.payload.mailboxes[0],
+        isUpdatingOrder: false,
       };
     }
 

@@ -177,6 +177,7 @@ export interface MailBoxesState {
   decryptedKey?: any;
   encryptionInProgress: boolean;
   inProgress?: boolean;
+  isUpdatingOrder?: boolean;
 }
 
 export interface SecureMessageState {
