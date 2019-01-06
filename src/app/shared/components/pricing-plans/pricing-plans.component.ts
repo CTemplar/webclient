@@ -24,6 +24,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
   @Input() showCurrentPlan: boolean;
   @Input() isPrime: boolean;
+  @Input() isChampion: boolean;
   @Input() openBillingInfoInModal: boolean;
   @Input() selectedCurrency: string;
   @Input() paymentType: PaymentType;

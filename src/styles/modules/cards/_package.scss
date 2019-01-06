@@ -41,9 +41,6 @@
 }
 
 .package-card-basic {
-    @include media(">sm") {
-        margin-top: 0.938rem;
-    }
     .package-card-header {
         background: linear-gradient(259deg, #f1c20f, #f49315) !important;
     }
@@ -52,10 +49,12 @@
 .package-card-prime {
     .package-card-header {
         background: linear-gradient(259deg, #e74c3c, #c0392b) !important;
-        
-        @include media(">sm") {
-            padding: 2.2188rem 1.25rem;
-        }
+    }
+}
+
+.package-card-champion {
+    .package-card-header {
+        background: linear-gradient(259deg, #2c4ac2, #3977e0) !important;
     }
 }
 
