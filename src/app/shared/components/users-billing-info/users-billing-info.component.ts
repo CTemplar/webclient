@@ -46,6 +46,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() storage: number;
   @Input() emailAddressAliases: number;
   @Input() customDomains: number;
+  @Input() planType: PlanType = PlanType.PRIME;
   @Input() monthlyPrice: number;
   @Input() annualPricePerMonth: number;
   @Input() annualPriceTotal: number;
@@ -57,7 +58,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   expiryYear = 'Year';
   cvc;
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-  years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+  years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
   paymentMethodType = PaymentMethod;
   seconds: number = 60;
   minutes: number = 60;
@@ -80,7 +81,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
   private modalRef: NgbModalRef;
-  private planType: PlanType = PlanType.PRIME;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
@@ -122,6 +122,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           }
         }
         if (!this.paymentType && !this.paymentMethod) {
+          this.planType = this.signupState.plan_type || this.planType;
           this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
           this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
           this.currency = this.signupState.currency || 'USD';

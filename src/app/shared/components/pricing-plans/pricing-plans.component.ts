@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading, MembershipUpdate } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
-import { PaymentMethod, PaymentType } from '../../../store/datatypes';
+import { PaymentMethod, PaymentType, PlanType } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
 import { DEFAULT_CUSTOM_DOMAIN, DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE } from '../../config';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
@@ -16,14 +16,19 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
 })
 export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly defaultMonthlyPrice = 8;
+  readonly championMonthlyPrice = 50;
+  readonly championAnnualPricePerMonth = 37.5; // 25% discount on `championMonthlyPrice`
+  readonly championAnnualPriceTotal = 450;
   readonly defaultStorage = DEFAULT_STORAGE;
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
   readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
+  readonly planType = PlanType;
 
   @Input() hideHeader: boolean;
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
   @Input() showCurrentPlan: boolean;
   @Input() isPrime: boolean;
+  @Input() isChampion: boolean;
   @Input() openBillingInfoInModal: boolean;
   @Input() selectedCurrency: string;
   @Input() paymentType: PaymentType;
@@ -37,6 +42,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   private billingInfoModalRef: NgbModalRef;
 
   selectedIndex: number = -1; // Assuming no element are selected initially
+  selectedPlan: PlanType;
   availableStorage = [];
   availableEmailAddress = [];
   availableCustomDomain = [];
@@ -93,6 +99,13 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
 
   selectPlan(id) {
     this.store.dispatch(new MembershipUpdate({ id }));
+    if (id === 1) {
+      this.selectedPlan = PlanType.PRIME;
+    } else if (id === 2) {
+      this.selectedPlan = PlanType.CHAMPION;
+    } else {
+      this.selectedPlan = PlanType.FREE;
+    }
 
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
@@ -102,9 +115,9 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.store.dispatch(new ClearSignUpState());
       this.store.dispatch(new ClearAuthErrorMessage());
-      // Add payment type for prime plan only
       if (id === 1) {
         this.store.dispatch(new UpdateSignupData({
+          plan_type: PlanType.PRIME,
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
           currency: this.selectedCurrency,
@@ -115,6 +128,18 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
           annualPricePerMonth: this.annualPricePerMonth,
           annualPriceTotal: this.annualPriceTotal
         }));
+      } else if (id === 2) {
+        this.store.dispatch(new UpdateSignupData({
+          plan_type: PlanType.CHAMPION,
+          payment_type: this.paymentType,
+          payment_method: this.paymentMethod,
+          currency: this.selectedCurrency,
+          monthlyPrice: this.championMonthlyPrice,
+          annualPricePerMonth: this.championAnnualPricePerMonth,
+          annualPriceTotal: this.championAnnualPriceTotal
+        }));
+      } else {
+        this.selectedPlan = PlanType.FREE;
       }
       this.router.navigateByUrl('/create-account');
     }
