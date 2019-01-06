@@ -317,7 +317,7 @@
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>{{50 | currency:selectedCurrency}}</strong>
+                            <strong>{{championMonthlyPrice | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
                         </div>
@@ -336,11 +336,11 @@
                         </div>
                         <div class="col-4 text-right">
                           <div class="pay-price">
-                            <strong>{{37.5 | currency:selectedCurrency}}</strong>
+                            <strong>{{championAnnualPricePerMonth | currency:selectedCurrency}}</strong>
                             <span class="text-muted">/mo</span>
                           </div>
                           <div class="small text-muted"><span
-                                  translate="page_pricing.billed_as">Billed as </span>&nbsp; {{450 | currency:selectedCurrency}}
+                                  translate="page_pricing.billed_as">Billed as </span>&nbsp; {{championAnnualPriceTotal | currency:selectedCurrency}}
                             /yr
                           </div>
                         </div>
@@ -435,15 +435,16 @@
   </div>
   <div class="modal-body bg-faded p-3">
     <app-users-billing-info [isUpgradeAccount]="true"
+                            [planType]="selectedPlan"
                             [paymentType]="paymentType"
                             [paymentMethod]="paymentMethod"
                             [currency]="selectedCurrency"
                             [storage]="selectedStorage"
                             [emailAddressAliases]="selectedEmailAddress"
                             [customDomains]="selectedCustomDomain"
-                            [monthlyPrice]="monthlyPrice"
-                            [annualPricePerMonth]="annualPricePerMonth"
-                            [annualPriceTotal]="annualPriceTotal"
+                            [monthlyPrice]="selectedPlan === planType.CHAMPION ? championMonthlyPrice : monthlyPrice"
+                            [annualPricePerMonth]="selectedPlan === planType.CHAMPION ? championAnnualPricePerMonth : annualPricePerMonth"
+                            [annualPriceTotal]="selectedPlan === planType.CHAMPION ? championAnnualPriceTotal : annualPriceTotal"
                             (close)="d()"></app-users-billing-info>
   </div>
 </ng-template><!-- /.billing info modal ends -->

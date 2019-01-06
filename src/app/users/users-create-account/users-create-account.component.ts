@@ -131,7 +131,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
     this.isFormCompleted = true;
 
-    if (this.selectedPlan === 1) {
+    if (this.selectedPlan === 1 || this.selectedPlan === 2) {
       this.navigateToBillingPage();
     }
   }
@@ -162,7 +162,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signupFormCompleted() {
-    if (this.selectedPlan === 1 && this.signupForm.value.captchaResponse) {
+    if ((this.selectedPlan === 1 || this.selectedPlan === 2) && this.signupForm.value.captchaResponse) {
       this.navigateToBillingPage();
     } else {
       this.signupInProgress = true;

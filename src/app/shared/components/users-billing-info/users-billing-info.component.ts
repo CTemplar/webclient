@@ -46,6 +46,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() storage: number;
   @Input() emailAddressAliases: number;
   @Input() customDomains: number;
+  @Input() planType: PlanType = PlanType.PRIME;
   @Input() monthlyPrice: number;
   @Input() annualPricePerMonth: number;
   @Input() annualPriceTotal: number;
@@ -80,7 +81,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
   private modalRef: NgbModalRef;
-  private planType: PlanType = PlanType.PRIME;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
@@ -122,6 +122,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           }
         }
         if (!this.paymentType && !this.paymentMethod) {
+          this.planType = this.signupState.plan_type || this.planType;
           this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
           this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
           this.currency = this.signupState.currency || 'USD';
