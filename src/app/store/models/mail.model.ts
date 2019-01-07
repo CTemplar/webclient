@@ -15,6 +15,7 @@ export interface Mail {
   encryption?: any;
   attachments?: Array<any>;
   receiver?: Array<string>;
+  reply_to?: Array<string>;
   cc?: Array<string>;
   bcc?: Array<string>;
   destruct_date?: string;
