@@ -81,10 +81,6 @@
     &.has-border {
         padding: 0.5rem 0 0.5rem 1.875rem;
         border-bottom: 1px solid $border-gray;
-        
-        @include media(">=ipad") {
-            padding: 0.5rem 0 0.5rem 2.5rem;
-        }
 
         .fa {
             position: absolute;
