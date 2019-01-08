@@ -38,6 +38,7 @@ export interface SignupState {
   public_key?: string;
   private_key?: string;
   fingerprint?: string;
+  plan_type?: PlanType;
   payment_type?: PaymentType;
   payment_method?: PaymentMethod;
   currency?: string;
@@ -177,6 +178,7 @@ export interface MailBoxesState {
   decryptedKey?: any;
   encryptionInProgress: boolean;
   inProgress?: boolean;
+  isUpdatingOrder?: boolean;
 }
 
 export interface SecureMessageState {

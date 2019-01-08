@@ -148,6 +148,10 @@ export class MailService {
     return this.http.post<any>(`${apiUrl}emails/mailboxes/`, data);
   }
 
+  updateMailboxOrder(data: any) {
+    return this.http.post<any>(`${apiUrl}emails/mailbox-order/`, data);
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

@@ -15,6 +15,7 @@ export interface Mail {
   encryption?: any;
   attachments?: Array<any>;
   receiver?: Array<string>;
+  reply_to?: Array<string>;
   cc?: Array<string>;
   bcc?: Array<string>;
   destruct_date?: string;
@@ -45,6 +46,7 @@ export interface Mailbox {
   display_name?: string;
   is_default?: boolean;
   is_enabled?: boolean;
+  sort_order: number;
 }
 
 export interface Folder {

@@ -239,7 +239,7 @@
     </div>
     <div class="l-block-body px-md" *ngIf="isFormCompleted">
       <div class="form-recaptcha-holder mx-auto">
-        <re-captcha *ngIf="selectedPlan !== 1" (resolved)="recaptchaResolved($event)"></re-captcha>
+        <re-captcha *ngIf="selectedPlan !== 1 && selectedPlan !== 2" (resolved)="recaptchaResolved($event)"></re-captcha>
         <app-loading-spinner [showSpinner]="generatingKeys"></app-loading-spinner>
       </div>
     </div>

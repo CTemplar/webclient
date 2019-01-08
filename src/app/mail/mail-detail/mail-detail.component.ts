@@ -170,7 +170,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       messageHistory: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
-    if (mail.sender !== this.currentMailbox.email) {
+    if (mail.reply_to && mail.reply_to.length > 0) {
+      this.composeMailData[mail.id].receivers = mail.reply_to;
+    } else if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
     } else if (this.mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [this.mail.sender];

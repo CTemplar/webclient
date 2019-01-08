@@ -1,6 +1,6 @@
 <!-- PAGE SECTION -->
 <section class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
-  <div class="container container-sm">
+  <div class="container">
     <header class="l-block-header position-relative text-center mb-4 mb-sm-5 mb-md-8" [hidden]="hideHeader">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
@@ -23,9 +23,13 @@
           </li>
           <li [class.is-active]="2 === selectedIndex"><a role="button" (click)="toggleSlides(2);" translate="settings.free">Free</a>
           </li>
+          <li [class.is-active]="3 === selectedIndex"><a role="button"
+                                                                        (click)="toggleSlides(3);"
+                                                                        translate="settings.champion">Champion</a>
+          </li>
         </ul>
         <div class="row flex-nowrap row-lg mb-4">
-          <div class="col-sm-6 flex-sm-last package-prime-col active-slide"
+          <div class="col-sm-4 flex-sm-last package-prime-col active-slide"
                [class.is-active-slide]="1 === selectedIndex">
             <div class="package-card package-card-prime is-shadowed bg-faded text-dark">
               <header class="package-card-header text-center">
@@ -201,11 +205,12 @@
                         </div>
                       </div>
                     </li>
-                  
+
                   </ul>
                 </div>
                 <div class="package-actions text-center">
-                  <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && !isPrime) || !showCurrentPlan"  class="btn btn-lg btn-gradient-primary cursor-pointer">
+                  <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && !isPrime) || !showCurrentPlan"
+                     class="btn btn-gradient-primary cursor-pointer">
                     <span translate="settings.select_prime">Select Prime </span>
                     {{(paymentType === 'annually' ? annualPricePerMonth : monthlyPrice) | currency:selectedCurrency}}/<span class="text-normal">mo</span>
                   </a>
@@ -217,7 +222,148 @@
               </footer>
             </div>
           </div>
-          <div class="col-sm-6 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
+          <div class="col-sm-4 flex-sm-last package-prime-col"
+               [class.is-active-slide]="3 === selectedIndex">
+            <div class="package-card package-card-champion is-shadowed bg-faded text-dark">
+              <header class="package-card-header text-center">
+                <h2 class="text-white m-0">
+                  <strong translate="settings.champion">Champion</strong>
+                </h2>
+              </header>
+              <div class="package-card-body">
+                <ul class="package-list mb-0 list-style-none pl-0">
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>1 <span translate="page_pricing.user">User</span>
+                  </li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>50 GB <span translate="settings.storage">Storage</span>
+                  </li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>100 <span
+                          translate="settings.keys.email_address">Email Address Aliases</span>
+                  </li>
+                  <li class="package-list-item has-border">
+                    <i class="fa fa-check text-green"></i>10 <span>Custom Domains</span>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>1000 <span translate="page_pricing.messages_per_day">Messages per Day</span>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i>200 <span translate="page_pricing.folders">Folders</span>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.self_destruct">Self Destruct Timer</span>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.encryption">Encryption for non-CTemplar Users</span>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.dead_mans_timer">Dead Mans Timer</span>
+                  </li>
+                  <li class="package-list-item">
+                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.delayed_delivery">Delayed Delivery Timer</span>
+                  </li>
+                </ul>
+              </div>
+              <footer class="package-card-footer">
+                <div class="package-divider package-divider-sm">
+                  <ul class="pay-type-list list-style-none mb-0 pl-0">
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group">
+                            <input [(ngModel)]="paymentMethod" value="Stripe" (change)="isValueChanged = true"
+                                   class="d-none fancy-field-control" name="champion-currency" type="radio"/>
+                            <label for="currency" translate="page_pricing.currency">Currency</label>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">
+                            <div ngbDropdown class="currency-select-dropdown" id="champion-pay-currency">
+                              <button class="dropdown-toggle" type="button" id="championCurrencyDropdownMenuButton"
+                                      ngbDropdownToggle>
+                                <strong>{{selectedCurrency}}</strong>
+                              </button>
+                              <div ngbDropdownMenu class="ext-center" aria-labelledby="championCurrencyDropdownMenuButton">
+                                <a class="dropdown-item" (click)="changeCurrency('USD'); isValueChanged = true;">USD</a>
+                                <a class="dropdown-item" (click)="changeCurrency('EUR'); isValueChanged = true;">EUR</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-12">
+                          <div class="fancy-field-group">
+                            <input [(ngModel)]="paymentMethod" value="Bitcoin" class="d-none fancy-field-control"
+                                   (change)="isValueChanged = true" name="champion-currency" type="radio"/>
+                            <label for="btc-currency" translate="page_pricing.btc_currency">BTC Currency</label>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8 pb-1">
+                          <div class="fancy-field-group mb-2">
+                            <input class="d-none fancy-field-control" name="champion-payment_type"
+                                   value="monthly" type="radio" checked [(ngModel)]="paymentType"
+                                   (change)="isValueChanged = true"/>
+                            <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="pay-price">
+                            <strong>{{championMonthlyPrice | currency:selectedCurrency}}</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="row row-xs">
+                        <div class="col-8">
+                          <div class="fancy-field-group">
+                            <input class="d-none fancy-field-control" name="champion-payment_type"
+                                   value="annually" type="radio" [(ngModel)]="paymentType"
+                                   (change)="isValueChanged = true"/>
+                            <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
+                            <span class="badge">-25%</span>
+                          </div>
+                        </div>
+                        <div class="col-4 text-right">
+                          <div class="pay-price">
+                            <strong>{{championAnnualPricePerMonth | currency:selectedCurrency}}</strong>
+                            <span class="text-muted">/mo</span>
+                          </div>
+                          <div class="small text-muted"><span
+                                  translate="page_pricing.billed_as">Billed as </span>&nbsp; {{championAnnualPriceTotal | currency:selectedCurrency}}
+                            /yr
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                  </ul>
+                </div>
+                <div class="package-actions text-center">
+                  <a (click)="selectPlan(2)" *ngIf="(showCurrentPlan && !isChampion) || !showCurrentPlan"
+                     class="btn btn-gradient-primary cursor-pointer">
+                    <span translate="settings.select_champion">Select Champion </span>
+                    {{(paymentType === 'annually' ? 37.5 : 50) | currency:selectedCurrency}}
+                    /<span class="text-normal">mo</span>
+                  </a>
+                  <div *ngIf="showCurrentPlan && isChampion">
+                    <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </div>
+          <div class="col-sm-4 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
             <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
               <header class="package-card-header text-center">
                 <h2 class="text-white m-0">
@@ -289,15 +435,16 @@
   </div>
   <div class="modal-body bg-faded p-3">
     <app-users-billing-info [isUpgradeAccount]="true"
+                            [planType]="selectedPlan"
                             [paymentType]="paymentType"
                             [paymentMethod]="paymentMethod"
                             [currency]="selectedCurrency"
                             [storage]="selectedStorage"
                             [emailAddressAliases]="selectedEmailAddress"
                             [customDomains]="selectedCustomDomain"
-                            [monthlyPrice]="monthlyPrice"
-                            [annualPricePerMonth]="annualPricePerMonth"
-                            [annualPriceTotal]="annualPriceTotal"
+                            [monthlyPrice]="selectedPlan === planType.CHAMPION ? championMonthlyPrice : monthlyPrice"
+                            [annualPricePerMonth]="selectedPlan === planType.CHAMPION ? championAnnualPricePerMonth : annualPricePerMonth"
+                            [annualPriceTotal]="selectedPlan === planType.CHAMPION ? championAnnualPriceTotal : annualPriceTotal"
                             (close)="d()"></app-users-billing-info>
   </div>
 </ng-template><!-- /.billing info modal ends -->
