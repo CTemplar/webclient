@@ -28,7 +28,7 @@
         </div>
       </div>
       <ng-container *ngIf="selectedMailboxForSignature">
-        <div class="form-content-row" *ngIf="false">
+        <div class="form-content-row">
           <div class="row align-items-center">
             <div class="col-sm-3">
               <label for="displayName" class="form-label mb-sm-0"
@@ -38,7 +38,7 @@
               <input class="form-control form-control-sm" id="displayName" type="text"
                      [value]="selectedMailboxForSignature.display_name"
                      (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
-                     placeholder="John Simpson"/>
+                     placeholder="Display name"/>
             </div>
           </div>
         </div>
