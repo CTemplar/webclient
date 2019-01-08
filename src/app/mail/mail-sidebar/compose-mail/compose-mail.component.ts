@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { COLORS, FONTS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, ESCAPE_KEYCODE, FONTS, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -19,8 +19,8 @@ import {
   GetUsersKeys,
   MoveMail,
   NewDraft,
-  SendMail,
-  SnackErrorPush, SnackPush,
+  SnackErrorPush,
+  SnackPush,
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
@@ -153,7 +153,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isTrialPrimeFeaturesAvailable: boolean;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
-  displayName: string;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -228,7 +227,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.contacts = user.contact;
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
-        this.displayName = user.settings.display_name;
       });
 
     this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
@@ -752,7 +750,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail = { content: null, folder: 'draft' };
     }
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
-    this.draftMail.sender = this.displayName ? `${this.displayName} <${this.selectedMailbox.email}>` : this.selectedMailbox.email;
+    this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
