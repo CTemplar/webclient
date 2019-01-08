@@ -201,7 +201,7 @@
                     </div>
                     <app-pricing-plans hideHeader="true" blockGapsZero="true"
                                        [showCurrentPlan]="true"
-                                       [isPrime]="userState.isPrime"
+                                       [userPlanType]="userPlanType"
                                        [selectedCurrency]="payment.currency"
                                        [paymentType]="payment.payment_type"
                                        [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :

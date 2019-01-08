@@ -209,12 +209,12 @@
                   </ul>
                 </div>
                 <div class="package-actions text-center">
-                  <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && !isPrime) || !showCurrentPlan"
+                  <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && userPlanType !== planType.PRIME) || !showCurrentPlan"
                      class="btn btn-gradient-primary cursor-pointer">
                     <span translate="settings.select_prime">Select Prime </span>
                     {{(paymentType === 'annually' ? annualPricePerMonth : monthlyPrice) | currency:selectedCurrency}}/<span class="text-normal">mo</span>
                   </a>
-                  <div *ngIf="showCurrentPlan && isPrime">
+                  <div *ngIf="showCurrentPlan && userPlanType === planType.PRIME">
                     <a *ngIf="isValueChanged" (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer"><strong>Upgrade Plan</strong></a>
                     <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
@@ -350,13 +350,13 @@
                   </ul>
                 </div>
                 <div class="package-actions text-center">
-                  <a (click)="selectPlan(2)" *ngIf="(showCurrentPlan && !isChampion) || !showCurrentPlan"
+                  <a (click)="selectPlan(2)" *ngIf="(showCurrentPlan && userPlanType !== planType.CHAMPION) || !showCurrentPlan"
                      class="btn btn-gradient-primary cursor-pointer">
                     <span translate="settings.select_champion">Select Champion </span>
                     {{(paymentType === 'annually' ? 37.5 : 50) | currency:selectedCurrency}}
                     /<span class="text-normal">mo</span>
                   </a>
-                  <div *ngIf="showCurrentPlan && isChampion">
+                  <div *ngIf="showCurrentPlan && userPlanType === planType.CHAMPION">
                     <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
@@ -405,12 +405,12 @@
                   </li>
                 </ul>
               </div>
-              <footer class="package-card-footer text-center"  *ngIf="!isPrime">
+              <footer class="package-card-footer text-center"  *ngIf="userPlanType === planType.FREE">
                 <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
                 <div class="package-actions">
 
-                  <a (click)="selectPlan(0)" *ngIf="(showCurrentPlan && isPrime) || !showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
-                  <div *ngIf="showCurrentPlan && !isPrime">
+                  <a (click)="selectPlan(0)" *ngIf="!showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
+                  <div *ngIf="showCurrentPlan">
                     <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
