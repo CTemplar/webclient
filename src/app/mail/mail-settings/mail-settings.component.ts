@@ -22,6 +22,7 @@ import {
   Payment,
   PaymentMethod,
   PaymentType,
+  PlanType,
   Settings,
   Timezone,
   TimezonesState,
@@ -42,6 +43,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
   readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
   readonly fonts = FONTS;
+  readonly championMonthlyPrice = 50;
+  readonly championAnnualPriceTotal = 450;
+  readonly planType = PlanType;
 
   @ViewChild('changePasswordModal') changePasswordModal;
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
@@ -54,6 +58,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   payment: Payment;
   paymentType = PaymentType;
   paymentMethod = PaymentMethod;
+  userPlanType: PlanType = PlanType.FREE;
   newListContact = { show: false, type: 'Whitelist' };
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
@@ -95,6 +100,13 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.payment = user.payment_transaction;
         this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
+        if (user.settings.plan_type) {
+          this.userPlanType = user.settings.plan_type;
+        } else if (user.isPrime) {
+          this.userPlanType = PlanType.PRIME;
+        } else {
+          this.userPlanType = PlanType.FREE;
+        }
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }

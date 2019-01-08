@@ -88,17 +88,23 @@
                                                     <div class="info-list-item-row">
                                                         <div class="info-list-text info-list-label">
                                                             <span class="info-list-label-text" translate="settings.plans">Plans</span>
-                                                            <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime
+                                                            <span *ngIf="userPlanType === planType.PRIME" translate="settings.prime_plan">Prime
                                                                 Plan</span>
-                                                            <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free
+                                                            <span *ngIf="userPlanType === planType.FREE" translate="settings.free_plan">Free
                                                                 Plan</span>
+                                                            <span *ngIf="userPlanType === planType.CHAMPION" translate="settings.champion_plan">
+                                                                Champion Plan</span>
                                                         </div>
-                                                        <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
+                                                        <div *ngIf="userPlanType === planType.PRIME" class="info-list-text info-list-val">
                                                             <strong>{{8|currency:'USD'}}</strong>
                                                             <span class="text-muted">/month</span>
                                                         </div>
+                                                        <div *ngIf="userPlanType === planType.CHAMPION" class="info-list-text info-list-val">
+                                                            <strong>{{championMonthlyPrice|currency:'USD'}}</strong>
+                                                            <span class="text-muted">/month</span>
+                                                        </div>
                                                     </div>
-                                                    <ng-container *ngIf="userState.isPrime">
+                                                    <ng-container *ngIf="userPlanType === planType.PRIME">
                                                         <div *ngIf="extraStorage > 0" class="info-list-item-row">
                                                             <div class="info-list-text info-list-label">
                                                                 <span class="info-list-label-text text-muted ml-6">+{{extraStorage}} GB</span>
@@ -129,7 +135,7 @@
                                                     </ng-container>
 
                                                 </li>
-                                                <ng-container *ngIf="userState.isPrime">
+                                                <ng-container *ngIf="userPlanType === planType.PRIME || userPlanType === planType.CHAMPION">
                                                     <li class="info-list-item">
                                                         <div class="info-list-text info-list-label">Billing</div>
                                                         <div class="info-list-text info-list-val">
@@ -141,14 +147,21 @@
                                                              translate="settings.total_price">Total Price
                                                         </div>
                                                         <div class="info-list-text info-list-val">
-                                                            {{annualTotalPrice|currency:'USD'}}/annually
+                                                            <ng-container *ngIf="userPlanType === planType.CHAMPION; else primeTotalPrice">
+                                                                {{championMonthlyPrice * 12|currency:'USD'}}/annually
+                                                            </ng-container>
+                                                            <ng-template #primeTotalPrice>
+                                                                {{annualTotalPrice|currency:'USD'}}/annually
+                                                            </ng-template>
                                                         </div>
                                                     </li>
                                                     <li class="info-list-item" *ngIf="payment.payment_type === paymentType.ANNUALLY">
                                                         <div class="info-list-text info-list-label">Discounted Price
                                                         </div>
                                                         <div class="info-list-text info-list-val">
-                                                            {{annualDiscountedPrice|currency:'USD'}}/annually
+                                                            {{(userPlanType === planType.CHAMPION ?
+                                                                championAnnualPriceTotal :
+                                                                annualDiscountedPrice) | currency:'USD'}}/annually
                                                             <span class="text-primary">&nbsp;(-25%)</span>
                                                         </div>
                                                     </li>
@@ -188,7 +201,7 @@
                     </div>
                     <app-pricing-plans hideHeader="true" blockGapsZero="true"
                                        [showCurrentPlan]="true"
-                                       [isPrime]="userState.isPrime"
+                                       [userPlanType]="userPlanType"
                                        [selectedCurrency]="payment.currency"
                                        [paymentType]="payment.payment_type"
                                        [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :
