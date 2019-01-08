@@ -94,6 +94,7 @@ export interface Settings {
   default_font?: string;
   enable_forwarding?: boolean;
   forwarding_address?: string;
+  plan_type?: PlanType;
 }
 
 export interface Payment {
