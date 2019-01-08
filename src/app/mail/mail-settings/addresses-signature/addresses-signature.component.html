@@ -6,11 +6,11 @@
     <div class="form-content-holder">
       <div class="form-content-row">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.keys.email_address">
               E-mail address</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
                 <button ngbDropdownToggle class="dropdown-toggle"
@@ -30,11 +30,11 @@
       <ng-container *ngIf="selectedMailboxForSignature">
         <div class="form-content-row" *ngIf="false">
           <div class="row align-items-center">
-            <div class="col-sm-5">
+            <div class="col-sm-3">
               <label for="displayName" class="form-label mb-sm-0"
                      translate="settings.display_name">Display name</label>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-5">
               <input class="form-control form-control-sm" id="displayName" type="text"
                      [value]="selectedMailboxForSignature.display_name"
                      (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
@@ -44,11 +44,11 @@
         </div>
         <div class="form-content-row">
           <div class="row align-items-center">
-            <div class="col-sm-5">
+            <div class="col-sm-3">
               <label for="signature" class="form-label mb-sm-0" translate="settings.signature">
                 Signature</label>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-5">
                                   <textarea class="form-control form-control-sm form-control-contenteditable"
                                             id="signature"
                                             [value]="selectedMailboxForSignature.signature"
@@ -64,12 +64,12 @@
       <!-- Will be used later -->
       <div class="form-content-row" *ngIf="false">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load
               embedded
               content</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
@@ -103,11 +103,11 @@
       <!-- Will be used later -->
       <div class="form-content-row" *ngIf="false">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.show_snippets">Show
               snippets</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
@@ -305,11 +305,11 @@
     <div class="form-content-holder">
       <div class="form-content-row">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.keys.email_address">
               Email address</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
                 <button ngbDropdownToggle class="dropdown-toggle"
@@ -328,11 +328,11 @@
 
       <div class="form-content-row">
         <div class="row label-align">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label for="fingerPrint" class="form-label mb-sm-0"
                    translate="settings.keys.fingerprint">Fingerprint</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                    [value]="selectedMailboxForKey?.fingerprint" readonly=""/>
             <span *ngIf="selectedMailboxPublicKey" class="form-label-text mt-1">

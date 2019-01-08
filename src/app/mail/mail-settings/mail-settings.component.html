@@ -220,10 +220,10 @@
                         <div class="form-content-holder">
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.language">Language</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
                                                 <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
@@ -241,11 +241,11 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.current_time_zone">Current
                                             time zone</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
                                                 <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
@@ -262,11 +262,11 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically
                                             save contacts</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
@@ -290,10 +290,10 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0">Default Mail Compose Font</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
                                                 <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultFontDropdownMenuButton">
@@ -315,11 +315,11 @@
                             <!-- Will be used later -->
                             <div class="form-content-row" *ngIf="false">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.vacation_responder">Vacation
                                             responder</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
@@ -358,7 +358,7 @@
                                         <label for="displayName" class="form-label mb-sm-0"
                                                translate="settings.display_name">Display name</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <input class="form-control form-control-sm"
                                                id="displayName" type="text"
                                                [value]="settings?.display_name"
@@ -371,7 +371,7 @@
                                     <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
                                         per page</label>
                                 </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-7 col-md-5">
                                     <div class="row row-sm">
                                         <div class="col-6 flex-auto-col">
                                             <div class="fancy-field-group">
@@ -423,10 +423,10 @@
                         <div class="form-content-holder">
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0">Reoccurring Billing</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
@@ -587,10 +587,10 @@
                         <div class="form-content-holder">
                             <div class="form-content-row">
                                 <div class="row label-align">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <input class="form-control form-control-sm" id="securityPassword" type="password"
                                             placeholder="********" />
                                         <span class="form-label-text mt-1">
@@ -603,11 +603,11 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
                                             email</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <input class="form-control form-control-sm" id="recoveryMail" type="email"
                                             autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur'}"
                                             (change)="updateSettings('recovery_email', $event.target.value)"
@@ -619,11 +619,11 @@
                             <!-- Will be used later -->
                             <div class="form-content-row" *ngIf="false">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-sm-0" translate="settings.security_alerts">Security
                                             alerts</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
