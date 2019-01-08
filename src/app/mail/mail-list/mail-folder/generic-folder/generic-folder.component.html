@@ -207,7 +207,7 @@
                 <span [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</span>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                <ng-container *ngIf="mail.sender_display?.name; senderEmail">{{mail.sender_display.name}}</ng-container>
+                <ng-container *ngIf="mail.sender_display?.name;else senderEmail">{{mail.sender_display.name}}</ng-container>
                 <ng-template #senderEmail>{{mail.sender}}</ng-template>
               </ng-container>
             </ng-container>
