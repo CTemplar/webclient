@@ -207,7 +207,8 @@
                 <span [ngbTooltip]="mail.receiver.join(', ')">{{mail.receiver.join(', ')}}</span>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                {{mail.sender}}
+                <ng-container *ngIf="mail.sender_display?.name; senderEmail">{{mail.sender_display.name}}</ng-container>
+                <ng-template #senderEmail>{{mail.sender}}</ng-template>
               </ng-container>
             </ng-container>
           </a>

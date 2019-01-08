@@ -11,10 +11,12 @@ export interface Mail {
   from?: string;
   checked?: boolean;
   sender?: string;
+  sender_display?: EmailDisplay;
   subject?: string;
   encryption?: any;
   attachments?: Array<any>;
   receiver?: Array<string>;
+  receiver_display?: Array<EmailDisplay>;
   reply_to?: Array<string>;
   cc?: Array<string>;
   bcc?: Array<string>;
@@ -83,4 +85,9 @@ export interface Attachment {
   content_id?: string;
   request?: Subscription;
   isRemoved?: boolean;
+}
+
+export interface EmailDisplay {
+  name?: string;
+  email: string;
 }
