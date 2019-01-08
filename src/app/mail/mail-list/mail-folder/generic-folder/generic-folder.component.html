@@ -204,7 +204,7 @@
             <ng-container [ngSwitch]="mailFolder">
               <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
               <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-                <span [ngbTooltip]="mail.receiver.join(', ')">{{mail.receiver.join(', ')}}</span>
+                <span [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</span>
               </ng-container>
               <ng-container *ngSwitchDefault>
                 <ng-container *ngIf="mail.sender_display?.name; senderEmail">{{mail.sender_display.name}}</ng-container>

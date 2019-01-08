@@ -2,7 +2,7 @@
 import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailState } from '../datatypes';
-import { MailFolderType } from '../models';
+import { EmailDisplay, Mail, MailFolderType } from '../models';
 
 export function reducer(
   state: MailState = {
@@ -36,6 +36,10 @@ export function reducer(
         mails = [...mails, ...action.payload.mails];
       }
       state.folders.set(action.payload.folder, mails);
+      mails = mails.map((mail: Mail) => {
+        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+        return mail;
+      });
       return {
         ...state,
         mails,
@@ -116,7 +120,7 @@ export function reducer(
         return mail;
       });
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
-        state.mailDetail = {...state.mailDetail, read: action.payload.read};
+        state.mailDetail = { ...state.mailDetail, read: action.payload.read };
       }
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
