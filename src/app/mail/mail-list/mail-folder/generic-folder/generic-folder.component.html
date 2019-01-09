@@ -177,6 +177,7 @@
         <p class="py-2 mb-0">There are no conversations with this label.</p>
         <hr class="mt-0">
       </tr>
+      <!--Desktop view html -->
       <tr class="mail-list-row hide-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
@@ -207,8 +208,7 @@
                 <span [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</span>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                <ng-container *ngIf="mail.sender_display?.name;else senderEmail">{{mail.sender_display.name}}</ng-container>
-                <ng-template #senderEmail>{{mail.sender}}</ng-template>
+                <span [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</span>
               </ng-container>
             </ng-container>
           </a>
@@ -263,6 +263,8 @@
         </td>
 
       </tr>
+
+      <!--Mobile view html -->
       <tr class="hidden-sm-up mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
@@ -274,18 +276,20 @@
               </div>
           </td>
           <td class="mail-from-name">
+            <!-- Sender Name -->
               <a (click)="openMail(mail)" class="text-danger"
                  [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
                   <ng-container [ngSwitch]="mailFolder">
                       <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
                       <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-                          <span [ngbTooltip]="mail.receiver.join(', ')">{{mail.receiver.join(', ')}}</span>
+                        <span [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</span>
                       </ng-container>
                       <ng-container *ngSwitchDefault>
-                          {{mail.sender}}
+                          {{mail.sender_display.name}}
                       </ng-container>
                   </ng-container>
               </a>
+
               <span class="mail-inbox-message d-md-block">
                   <a (click)="openMail(mail)" class="text-dark">
                     <span class="mail-subject">
