@@ -4,7 +4,7 @@ import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteFolder } from '../../../store/actions';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';
 import { NotificationService } from '../../../store/services/notification.service';
@@ -49,11 +49,15 @@ export class FoldersComponent implements OnInit, OnDestroy {
    * Free Users - Only allow a maximum of 3 folders per account
    */
   // == Open NgbModal
-  addFolder() {
-    if (this.userState.isPrime) {
-      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
-    } else if (this.userState.customFolders === null || this.userState.customFolders.length < 3) {
-      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+  addFolder(folder: Folder = { id: null, name: '', color: '' }) {
+    const options: any = {
+      centered: true,
+      windowClass: 'modal-sm mailbox-modal',
+    };
+
+    if (this.userState.isPrime || (this.userState.customFolders === null || this.userState.customFolders.length < 3)) {
+      const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
+      component.folder = folder;
     } else {
       this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
     }

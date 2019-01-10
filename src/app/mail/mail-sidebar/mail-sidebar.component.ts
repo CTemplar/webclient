@@ -30,7 +30,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   public userState: UserState;
 
   mailState: MailState;
-  selectedFolder: Folder;
   currentRoute: string;
 
   isMenuOpened: boolean;

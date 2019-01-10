@@ -184,7 +184,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.CREATE_FOLDER_SUCCESS: {
-      state.customFolders = [...state.customFolders, action.payload];
+      let index = -1;
+      state.customFolders.forEach((folder, i) => {
+        if (folder.id === action.payload.id) {
+          index = i;
+        }
+      });
+      if (index > -1) {
+        state.customFolders[index] = action.payload;
+      } else {
+        state.customFolders = [...state.customFolders, action.payload];
+      }
       return {
         ...state,
         inProgress: false,
