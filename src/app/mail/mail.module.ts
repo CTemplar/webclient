@@ -31,6 +31,7 @@ import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-do
 import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/payment-failure-notice.component';
 import { AddressesSignatureComponent } from './mail-settings/addresses-signature/addresses-signature.component';
 import { MailForwardingComponent } from './mail-settings/mail-forwarding/mail-forwarding.component';
+import { FoldersComponent } from './mail-settings/folders/folders.component';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { MailForwardingComponent } from './mail-settings/mail-forwarding/mail-fo
     CustomDomainsComponent,
     PaymentFailureNoticeComponent,
     AddressesSignatureComponent,
-    MailForwardingComponent
+    MailForwardingComponent,
+    FoldersComponent
   ],
   exports: [
     MailFooterComponent

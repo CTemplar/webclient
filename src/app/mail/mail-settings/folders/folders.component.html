@@ -1,0 +1,56 @@
+<section class="mailbox-section">
+  <header class="ui-header ui-header-bordered">
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Folders</strong>
+      <app-loading-spinner [showSpinner]="userState?.inProgress && folders.length === 0"></app-loading-spinner>
+    </h5>
+  </header>
+  <div class="mailbox-section-body mailbox-section-body-sm">
+    <div class="form-content-holder">
+      <button class="btn btn-secondary text-small mb-2" (click)="addFolder()">
+        <span translate="mail_sidebar.add_folder">Add Folder</span>
+      </button>
+      <ul class="ui-list ui-list-styled list-styled">
+        <li *ngFor="let folder of folders" class="ui-list-item ui-list-item-xs-full">
+          <div class="row row-xs align-items-center folder-item">
+            <div class="col-10 col-sm-8 show-ellipses">
+              <span>
+                <i class="folder-color-box icon" [style.background]="folder.color"></i>
+              </span>
+              <span class="folder-name">{{folder.name}}</span>
+            </div>
+            <div class="col-2 col-sm-4">
+              <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                <li><a role="button" (click)="showConfirmationModal(folder)"><i class="icon icon-garbage"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- TODO: refactor to stand alone component: LATER -->
+<!-- Confirm delete folder modal -->
+<ng-template #confirmationModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        Are you sure, you want to delete folder <b>"{{selectedFolder?.name}}"</b>?
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
+        <button (click)="deleteFolder()" class="btn btn-danger btn-sm" role="button" [disabled]="userState?.inProgress">Delete</button>
+        <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm delete folder modal ends -->

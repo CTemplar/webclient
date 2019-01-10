@@ -371,7 +371,8 @@ export class UsersEffects {
         .pipe(
           switchMap(res => {
             return [
-              new DeleteFolderSuccess(folder)
+              new DeleteFolderSuccess(folder),
+              new SnackErrorPush({ message: `'${folder.name}' folder deleted successfully.` })
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])

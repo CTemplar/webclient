@@ -28,8 +28,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
   public userState: UserState;
-  @ViewChild('confirmationModal') confirmationModal;
-  confirmModalRef: NgbModalRef;
 
   mailState: MailState;
   selectedFolder: Folder;
@@ -111,28 +109,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.composeMailService.openComposeMailDialog();
   }
 
-  showConfirmationModal(folder) {
-    this.confirmModalRef = this.modalService.open(this.confirmationModal, {
-      centered: true,
-      windowClass: 'modal-sm users-action-modal'
-    });
-    this.selectedFolder = folder;
-  }
-
   toggleDisplayLimit(totalItems) {
     if (this.LIMIT === totalItems) {
       this.LIMIT = 3;
     } else {
       this.LIMIT = totalItems;
     }
-  }
-
-  deleteFolder() {
-    this.store.dispatch(new DeleteFolder(this.selectedFolder));
-    if (decodeURIComponent(this.currentRoute).indexOf(this.selectedFolder.name) > -1) {
-      this.router.navigateByUrl('/mail/inbox');
-    }
-    this.confirmModalRef.dismiss();
   }
 
   toggleMenu(event?: any) { // click handler
