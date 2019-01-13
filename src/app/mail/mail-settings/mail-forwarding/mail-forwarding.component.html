@@ -40,7 +40,8 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form [formGroup]="addAddressForm" (submit)="onAddAddressSubmit()">
+  <form *ngIf="!isVerificationCodeSent; else codeSent" [formGroup]="emailForm"
+        (submit)="onAddAddressSubmit()">
     <div class="modal-body bg-faded">
       <div class="text-holder text-dark text-medium">
         <p>Please enter a forwarding email address.</p>
@@ -50,13 +51,13 @@
               <label for="forwardingAddress" class="d-block text-muted text-left hidden-sm-up">Forwarding Address
               </label>
               <input class="form-control text-dark" id="forwardingAddress" autocomplete="off"
-                     placeholder="Forwarding address" type="email" name="forwardingAddress" formControlName="address"
+                     placeholder="Forwarding address" type="email" name="forwardingAddress" formControlName="email"
                      required/>
-              <ng-container *ngIf="addAddressForm.controls['address'].errors && isFormSubmitted">
-                <span *ngIf="addAddressForm.controls['address'].errors.required" class="validate-message">
+              <ng-container *ngIf="emailForm.controls['email'].errors && showFormErrorMessages">
+                <span *ngIf="emailForm.controls['email'].errors.required" class="validate-message">
                   The address is required.
                 </span>
-                <span *ngIf="addAddressForm.controls['address'].errors.pattern" class="validate-message">
+                <span *ngIf="emailForm.controls['email'].errors.pattern" class="validate-message">
                   The address is invalid.
                 </span>
               </ng-container>
@@ -64,12 +65,58 @@
           </div>
         </div>
       </div>
+      <div class="text-center mt-2">
+        <a (click)="isVerificationCodeSent = true; showFormErrorMessages = false; errorMessage = null;" role="button">
+          <small>
+            <u>Already have the code</u>
+          </small>
+        </a>
+      </div>
+      <div *ngIf="errorMessage" class="l-alert l-alert-danger mb-3">
+        {{ errorMessage }}
+      </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
       <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
-      <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
+      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress">Submit</button>
+      <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
     </div>
   </form>
+
+  <ng-template #codeSent>
+    <form [formGroup]="codeForm" (submit)="onVerifyCodeSubmit()">
+      <div class="modal-body bg-faded">
+        <div class="text-holder text-dark text-medium">
+          <p>Please enter the verification code sent to provided email address.</p>
+          <div class="mx-auto mt-2 pt-sm-2">
+            <div class="form">
+              <div class="form-group form-group-sm">
+                <label for="verificationCode" class="d-block text-muted text-left hidden-sm-up">Verification Code
+                </label>
+                <input class="form-control text-dark" id="verificationCode" autocomplete="off"
+                       placeholder="Verification code" type="number" name="forwardingAddress" formControlName="code"
+                       required/>
+                <ng-container *ngIf="codeForm.controls['code'].errors && showFormErrorMessages">
+                <span *ngIf="codeForm.controls['code'].errors.required" class="validate-message">
+                  The verification code is required.
+                </span>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="errorMessage" class="l-alert l-alert-danger mb-3">
+          {{ errorMessage }}
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center justify-content-sm-end">
+        <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
+        <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress">Submit</button>
+        <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
+      </div>
+    </form>
+  </ng-template>
+
 
 </ng-template><!-- /. Add forwarding address modal ends -->
 
