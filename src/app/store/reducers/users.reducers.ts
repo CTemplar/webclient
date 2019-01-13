@@ -372,9 +372,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
-    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE:
-    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE: {
-      return { ...state, inProgress: true, emailForwardingErrorMessage: null };
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE: {
+      return { ...state, inProgress: true, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: false };
     }
 
     case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_SUCCESS: {
@@ -384,6 +383,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_FAILURE:
     case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_FAILURE: {
       return { ...state, inProgress: false, emailForwardingErrorMessage: action.payload };
+    }
+
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE: {
+      return { ...state, inProgress: true, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: true };
+    }
+
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_SUCCESS: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: null };
     }
 
     default: {

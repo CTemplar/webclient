@@ -561,7 +561,10 @@ export class UsersEffects {
       return this.userService.verifyEmailForwardingCode(payload.code)
         .pipe(
           switchMap(res => {
-            return [new VerifyEmailForwardingCodeSuccess(res)];
+            return [
+              new AccountDetailsGet(),
+              new VerifyEmailForwardingCodeSuccess(res)
+            ];
           }),
           catchError(errorResponse => [
             new VerifyEmailForwardingCodeFailure(errorResponse.error)
