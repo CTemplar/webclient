@@ -171,7 +171,9 @@ export class UsersService {
       'emails/domains',
       'search/messages',
       'domains/verify',
-      'emails/mailbox-order'
+      'emails/mailbox-order',
+      'emails-forward/send-verification-code',
+      'emails-forward/verify-verification-code',
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
