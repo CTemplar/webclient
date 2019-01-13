@@ -322,6 +322,16 @@ export class UsersService {
     return this.http.get<any>(url, body);
   }
 
+  sendEmailForwardingCode(email: string): Observable<any> {
+    const body = {email};
+    return this.http.post(`${apiUrl}/emails-forward/send-verification-code/`, body);
+  }
+
+  verifyEmailForwardingCode(code: number): Observable<any> {
+    const body = {code};
+    return this.http.post(`${apiUrl}/emails-forward/verify-verification-code/`, body);
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

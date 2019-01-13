@@ -372,6 +372,20 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE:
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE: {
+      return { ...state, inProgress: true, emailForwardingErrorMessage: null };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_SUCCESS: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: true };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_FAILURE:
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_FAILURE: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: action.payload };
+    }
+
     default: {
       return state;
     }
