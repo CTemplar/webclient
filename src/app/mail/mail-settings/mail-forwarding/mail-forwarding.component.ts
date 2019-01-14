@@ -53,6 +53,7 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]]
     });
     this.codeForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]],
       code: ['', [Validators.required]]
     });
   }
@@ -84,13 +85,14 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
     if (this.emailForm.valid) {
       this.store.dispatch(new SendEmailForwardingCode({ email: this.emailForm.value.email }));
       this.showFormErrorMessages = false;
+      this.codeForm.controls['email'].setValue(this.emailForm.value.email);
     }
   }
 
   onVerifyCodeSubmit() {
     this.showFormErrorMessages = true;
     if (this.codeForm.valid) {
-      this.store.dispatch(new VerifyEmailForwardingCode({ code: this.codeForm.value.code }));
+      this.store.dispatch(new VerifyEmailForwardingCode({ ...this.codeForm.value }));
       this.isCodeFormSubmitted = true;
       this.showFormErrorMessages = false;
     }

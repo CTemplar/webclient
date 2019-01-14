@@ -91,6 +91,21 @@
           <div class="mx-auto mt-2 pt-sm-2">
             <div class="form">
               <div class="form-group form-group-sm">
+                <label for="verifyForwardingAddress" class="d-block text-muted text-left hidden-sm-up">Forwarding Address
+                </label>
+                <input class="form-control text-dark" id="verifyForwardingAddress" autocomplete="off"
+                       placeholder="Forwarding address" type="email" name="verifyForwardingAddress" formControlName="email"
+                       required/>
+                <ng-container *ngIf="codeForm.controls['email'].errors && showFormErrorMessages">
+                <span *ngIf="codeForm.controls['email'].errors.required" class="validate-message">
+                  The address is required.
+                </span>
+                  <span *ngIf="codeForm.controls['email'].errors.pattern" class="validate-message">
+                  The address is invalid.
+                </span>
+                </ng-container>
+              </div>
+              <div class="form-group form-group-sm">
                 <label for="verificationCode" class="d-block text-muted text-left hidden-sm-up">Verification Code
                 </label>
                 <input class="form-control text-dark" id="verificationCode" autocomplete="off"

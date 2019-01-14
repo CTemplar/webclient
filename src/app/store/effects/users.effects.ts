@@ -558,7 +558,7 @@ export class UsersEffects {
     .ofType(UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE)
     .map((action: VerifyEmailForwardingCode) => action.payload)
     .switchMap(payload => {
-      return this.userService.verifyEmailForwardingCode(payload.code)
+      return this.userService.verifyEmailForwardingCode(payload.email, payload.code)
         .pipe(
           switchMap(res => {
             return [
