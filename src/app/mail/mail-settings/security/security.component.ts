@@ -18,13 +18,15 @@ import { PasswordValidation } from '../../../users/users-create-account/users-cr
 })
 export class SecurityComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
-  settings: any;
   private changePasswordModalRef: NgbModalRef;
   @ViewChild('changePasswordModal') changePasswordModal;
+
+  settings: any;
   changePasswordForm: FormGroup;
   showChangePasswordFormErrors = false;
   userState: UserState;
   inProgress: boolean;
+  isEncryptingMessages: boolean = false;
 
   constructor(private store: Store<AppState>,
               private settingsService: MailSettingsService,
