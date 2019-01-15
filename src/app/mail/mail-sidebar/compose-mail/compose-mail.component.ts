@@ -244,7 +244,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.updateSignature();
           }
         }
-        if (this.selectedMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
+        if (this.selectedMailbox && mailBoxesState.currentMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
           this.updateSignature();
         }
