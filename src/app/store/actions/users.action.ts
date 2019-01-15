@@ -67,7 +67,13 @@ export enum UsersActionTypes {
   VERIFY_DOMAIN = '[Users] VERIFY_DOMAIN',
   VERIFY_DOMAIN_SUCCESS = '[Users] VERIFY_DOMAIN_SUCCESS',
   VERIFY_DOMAIN_FAILURE = '[Users] VERIFY_DOMAIN_FAILURE',
-  PAYMENT_FAILURE = '[USER] PAYMENT FAILURE'
+  PAYMENT_FAILURE = '[USER] PAYMENT FAILURE',
+  SEND_EMAIL_FORWARDING_CODE = '[USER] SEND EMAIL FORWARDING CODE',
+  SEND_EMAIL_FORWARDING_CODE_SUCCESS = '[USER] SEND EMAIL FORWARDING CODE SUCCESS',
+  SEND_EMAIL_FORWARDING_CODE_FAILURE = '[USER] SEND EMAIL FORWARDING CODE FAILURE',
+  VERIFY_EMAIL_FORWARDING_CODE = '[USER] VERIFY EMAIL FORWARDING CODE',
+  VERIFY_EMAIL_FORWARDING_CODE_SUCCESS = '[USER] VERIFY EMAIL FORWARDING CODE SUCCESS',
+  VERIFY_EMAIL_FORWARDING_CODE_FAILURE = '[USER] VERIFY EMAIL FORWARDING CODE FAILURE',
 }
 
 export class Accounts implements Action {
@@ -519,6 +525,48 @@ export class PaymentFailure implements Action {
   }
 }
 
+export class SendEmailForwardingCode implements Action {
+  readonly type = UsersActionTypes.SEND_EMAIL_FORWARDING_CODE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class SendEmailForwardingCodeSuccess implements Action {
+  readonly type = UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class SendEmailForwardingCodeFailure implements Action {
+  readonly type = UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class VerifyEmailForwardingCode implements Action {
+  readonly type = UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class VerifyEmailForwardingCodeSuccess implements Action {
+  readonly type = UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class VerifyEmailForwardingCodeFailure implements Action {
+  readonly type = UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -584,4 +632,10 @@ export type UsersActionAll =
   | PaymentFailure
   | VerifyDomain
   | VerifyDomainSuccess
-  | VerifyDomainFailure;
+  | VerifyDomainFailure
+  | SendEmailForwardingCode
+  | SendEmailForwardingCodeSuccess
+  | SendEmailForwardingCodeFailure
+  | VerifyEmailForwardingCode
+  | VerifyEmailForwardingCodeSuccess
+  | VerifyEmailForwardingCodeFailure;

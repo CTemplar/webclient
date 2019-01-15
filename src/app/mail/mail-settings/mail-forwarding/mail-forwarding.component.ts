@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { VALID_EMAIL_REGEX } from '../../../shared/config';
-import { SettingsUpdate } from '../../../store/actions';
+import { SendEmailForwardingCode, SettingsUpdate, VerifyEmailForwardingCode } from '../../../store/actions';
 import { AppState, Settings, UserState } from '../../../store/datatypes';
 
 @TakeUntilDestroy()
@@ -22,8 +22,12 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
 
   userState: UserState;
   settings: Settings;
-  addAddressForm: FormGroup;
-  isFormSubmitted: boolean;
+  emailForm: FormGroup;
+  codeForm: FormGroup;
+  showFormErrorMessages: boolean;
+  errorMessage: string;
+  isVerificationCodeSent: boolean;
+  isCodeFormSubmitted: boolean;
 
   private addAddressModalRef: NgbModalRef;
   private confirmDeleteAddressModalRef: NgbModalRef;
@@ -36,11 +40,21 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
+        this.isVerificationCodeSent = user.isForwardingVerificationCodeSent;
+        this.errorMessage = user.emailForwardingErrorMessage;
+        if (this.isCodeFormSubmitted && this.userState.inProgress && !user.inProgress && !user.emailForwardingErrorMessage) {
+          this.addAddressModalRef.dismiss();
+          this.isCodeFormSubmitted = false;
+        }
         this.userState = user;
         this.settings = user.settings;
       });
-    this.addAddressForm = this.formBuilder.group({
-      address: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]]
+    this.emailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]]
+    });
+    this.codeForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]],
+      code: ['', [Validators.required]]
     });
   }
 
@@ -48,14 +62,18 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   }
 
   onAddAddress() {
-    this.isFormSubmitted = false;
-    this.addAddressForm.reset();
+    this.showFormErrorMessages = false;
+    this.isCodeFormSubmitted = false;
+    this.isVerificationCodeSent = false;
+    this.errorMessage = null;
+    this.emailForm.reset();
+    this.codeForm.reset();
     this.addAddressModalRef = this.modalService.open(this.addAddressModal, { centered: true, windowClass: 'modal-sm' });
   }
 
   onEditAddress() {
     this.onAddAddress();
-    this.addAddressForm.get('address').setValue(this.settings.forwarding_address);
+    this.emailForm.get('email').setValue(this.settings.forwarding_address);
   }
 
   onDeleteAddress() {
@@ -63,12 +81,20 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   }
 
   onAddAddressSubmit() {
-    this.isFormSubmitted = true;
-    if (this.addAddressForm.valid) {
-      this.settings.enable_forwarding = true;
-      this.settings.forwarding_address = this.addAddressForm.value.address;
-      this.store.dispatch(new SettingsUpdate(this.settings));
-      this.addAddressModalRef.dismiss();
+    this.showFormErrorMessages = true;
+    if (this.emailForm.valid) {
+      this.store.dispatch(new SendEmailForwardingCode({ email: this.emailForm.value.email }));
+      this.showFormErrorMessages = false;
+      this.codeForm.controls['email'].setValue(this.emailForm.value.email);
+    }
+  }
+
+  onVerifyCodeSubmit() {
+    this.showFormErrorMessages = true;
+    if (this.codeForm.valid) {
+      this.store.dispatch(new VerifyEmailForwardingCode({ ...this.codeForm.value }));
+      this.isCodeFormSubmitted = true;
+      this.showFormErrorMessages = false;
     }
   }
 
