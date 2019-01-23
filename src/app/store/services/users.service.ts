@@ -174,6 +174,7 @@ export class UsersService {
       'emails/mailbox-order',
       'emails-forward/send-verification-code',
       'emails-forward/verify-verification-code',
+      'emails/folder-order',
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

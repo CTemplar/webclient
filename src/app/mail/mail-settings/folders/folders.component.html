@@ -9,8 +9,15 @@
       <button class="btn btn-secondary text-small mb-2" (click)="addFolder()">
         <span translate="mail_sidebar.add_folder">Add Folder</span>
       </button>
+      <button class="btn btn-sm btn-secondary float-right"
+              (click)="startReorder()"
+              *ngIf="!reorder"
+              ngbTooltip="Reorder addresses">Reorder
+      </button>
+
+      <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
       <ul class="ui-list ui-list-styled list-styled folders-list">
-        <li *ngFor="let folder of folders" class="ui-list-item ui-list-item-xs-full">
+        <li *ngFor="let folder of folders; let i=index" class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center folder-item">
             <div class="col-10 col-sm-8 show-ellipses">
               <span>
@@ -19,7 +26,24 @@
               <span class="folder-name">{{folder.name}}</span>
             </div>
             <div class="col-2 col-sm-4">
-              <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+              <div align="right" *ngIf="reorder">
+                <i class="material-icons cursor-pointer"
+                   [class.hidden]="i===0"
+                   ngbTooltip="Move up"
+                   (click)="sortUp(i)">
+                  keyboard_arrow_up
+                </i>
+
+                <i class="material-icons cursor-pointer"
+                   [class.hidden]="i===folders.length-1"
+                   ngbTooltip="Move down"
+                   (click)="sortDown(i)">
+                  keyboard_arrow_down
+                </i>
+              </div>
+
+              <ul *ngIf="!reorder"
+                  class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li><a role="button" (click)="addFolder(folder)"><i class="icon icon-edit"></i></a></li>
                 <li><a role="button" (click)="showConfirmationModal(folder)"><i class="icon icon-garbage"></i></a></li>
               </ul>
@@ -27,9 +51,18 @@
           </div>
         </li>
       </ul>
+      <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
     </div>
   </div>
 </section>
+
+<ng-template #reorderButtons>
+  <div align="right" *ngIf="reorder" class="float-right">
+    <app-loading-spinner [showSpinner]="reorderInProgress"></app-loading-spinner>
+    <button class="btn btn-sm btn-primary " [disabled]="reorderInProgress" (click)="cancelOrder()">Cancel</button>
+    <button class="btn btn-sm btn-secondary" [disabled]="reorderInProgress" (click)="saveOrder()">Save order</button>
+  </div>
+</ng-template>
 
 
 <!-- TODO: refactor to stand alone component: LATER -->
@@ -48,7 +81,9 @@
       </div>
       <div class="form-group text-right mb-0">
         <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
-        <button (click)="deleteFolder()" class="btn btn-danger btn-sm" role="button" [disabled]="userState?.inProgress">Delete</button>
+        <button (click)="deleteFolder()" class="btn btn-danger btn-sm" role="button" [disabled]="userState?.inProgress">
+          Delete
+        </button>
         <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
       </div>
     </div>

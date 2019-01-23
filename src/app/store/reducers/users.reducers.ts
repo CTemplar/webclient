@@ -216,6 +216,21 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.UPDATE_FOLDER_ORDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+
+    case UsersActionTypes.UPDATE_FOLDER_ORDER_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        customFolders: action.payload.folders,
+      };
+    }
+
     case UsersActionTypes.GET_FILTERS_SUCCESS: {
       return { ...state, filters: action.payload };
     }

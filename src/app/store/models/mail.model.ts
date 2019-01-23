@@ -56,6 +56,7 @@ export interface Folder {
   id?: number;
   name: string;
   color: string;
+  sort_order?: number;
 }
 
 
