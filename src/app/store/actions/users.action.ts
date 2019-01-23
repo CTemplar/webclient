@@ -74,6 +74,8 @@ export enum UsersActionTypes {
   VERIFY_EMAIL_FORWARDING_CODE = '[USER] VERIFY EMAIL FORWARDING CODE',
   VERIFY_EMAIL_FORWARDING_CODE_SUCCESS = '[USER] VERIFY EMAIL FORWARDING CODE SUCCESS',
   VERIFY_EMAIL_FORWARDING_CODE_FAILURE = '[USER] VERIFY EMAIL FORWARDING CODE FAILURE',
+  UPDATE_FOLDER_ORDER = '[USER] UPDATE FOLDER ORDER',
+  UPDATE_FOLDER_ORDER_SUCCESS = '[USER] UPDATE FOLDER ORDER SUCCESS',
 }
 
 export class Accounts implements Action {
@@ -567,6 +569,20 @@ export class VerifyEmailForwardingCodeFailure implements Action {
   }
 }
 
+export class UpdateFolderOrder implements Action {
+  readonly type = UsersActionTypes.UPDATE_FOLDER_ORDER;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateFolderOrderSuccess implements Action {
+  readonly type = UsersActionTypes.UPDATE_FOLDER_ORDER_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -638,4 +654,6 @@ export type UsersActionAll =
   | SendEmailForwardingCodeFailure
   | VerifyEmailForwardingCode
   | VerifyEmailForwardingCodeSuccess
-  | VerifyEmailForwardingCodeFailure;
+  | VerifyEmailForwardingCodeFailure
+  | UpdateFolderOrder
+  | UpdateFolderOrderSuccess;

@@ -34,19 +34,33 @@ import {
   ContactImport,
   ContactImportFailure,
   ContactImportSuccess,
+  CreateDomain,
+  CreateDomainFailure,
+  CreateDomainSuccess,
   CreateFilter,
   CreateFilterFailure,
   CreateFilterSuccess,
   CreateFolder,
   CreateFolderSuccess,
+  DeleteDomain,
+  DeleteDomainFailure,
+  DeleteDomainSuccess,
   DeleteFilter,
   DeleteFilterFailure,
   DeleteFilterSuccess,
   DeleteFolder,
   DeleteFolderSuccess,
+  GetDomains,
+  GetDomainsSuccess,
   GetFilters,
   GetFiltersSuccess,
   PaymentFailure,
+  ReadDomain,
+  ReadDomainFailure,
+  ReadDomainSuccess,
+  SendEmailForwardingCode,
+  SendEmailForwardingCodeFailure,
+  SendEmailForwardingCodeSuccess,
   SettingsUpdate,
   SettingsUpdateSuccess,
   SnackErrorPush,
@@ -56,33 +70,22 @@ import {
   UpdateFilter,
   UpdateFilterFailure,
   UpdateFilterSuccess,
+  UpdateFolderOrder,
+  UpdateFolderOrderSuccess,
   UsersActionTypes,
+  VerifyDomain,
+  VerifyDomainFailure,
+  VerifyDomainSuccess,
+  VerifyEmailForwardingCode,
+  VerifyEmailForwardingCodeFailure,
+  VerifyEmailForwardingCodeSuccess,
   WhiteList,
   WhiteListAdd,
   WhiteListAddError,
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess,
-  GetDomains,
-  GetDomainsSuccess,
-  CreateDomain,
-  CreateDomainSuccess,
-  CreateDomainFailure,
-  ReadDomain,
-  ReadDomainSuccess,
-  ReadDomainFailure,
-  DeleteDomain,
-  DeleteDomainSuccess,
-  DeleteDomainFailure,
-  VerifyDomain,
-  VerifyDomainSuccess,
-  VerifyDomainFailure,
-  SendEmailForwardingCode,
-  SendEmailForwardingCodeSuccess,
-  SendEmailForwardingCodeFailure,
-  VerifyEmailForwardingCode,
-  VerifyEmailForwardingCodeSuccess, VerifyEmailForwardingCodeFailure
+  WhiteListsReadSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -383,6 +386,23 @@ export class UsersEffects {
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
+        );
+    });
+
+  @Effect()
+  updateFoldersOrder: Observable<any> = this.actions
+    .ofType(UsersActionTypes.UPDATE_FOLDER_ORDER)
+    .map((action: UpdateFolderOrder) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.updateFoldersOrder(payload.data)
+        .pipe(
+          switchMap(res => {
+            return [
+              new UpdateFolderOrderSuccess({ folders: payload.folders }),
+              new SnackErrorPush({ message: 'Sort order saved successfully.' }),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to update folders sort order.' })])
         );
     });
 
