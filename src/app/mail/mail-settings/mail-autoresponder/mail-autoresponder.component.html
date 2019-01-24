@@ -5,7 +5,76 @@
     </h5>
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
-    <div class="form-content-holder col-sm col-sm-8">
+    <div class="form-content-holder col-md-8">
+      <div class="form-group">
+        <div class="toggle-switcher">
+          <input class="d-none toggle-switcher-control" id="autoresponder" name="autoresponder"
+                 type="checkbox" checked/>
+          <label for="autoresponder"></label>
+          <span class="toggle-switcher-text">Autoresponder</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="fancy-field-group">
+          <input type="checkbox" id="timeRestricted" name="timeRestricted"
+                 class="d-none fancy-field-control fancy-field-control-sm"/>
+          <label for="timeRestricted">Restrict to time range</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-12 row">
+          <div class="form-group col-sm col-sm-6">
+            <label class="form-inline">Start Time</label>
+            <ngb-timepicker [(ngModel)]="startTime" [meridian]="true"></ngb-timepicker>
+          </div>
+          <div class="form-group col-sm col-sm-6">
+            <label class="form-inline">End Time</label>
+            <ngb-timepicker [(ngModel)]="endTime" [meridian]="true"></ngb-timepicker>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group">
+          <label for="autoresponseMessage" class="form-inline">Email autoresponse message</label>
+          <textarea id="autoresponseMessage" class="form-control" rows="4" placeholder="Message"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="toggle-switcher">
+          <input class="d-none toggle-switcher-control" id="vacationAutoresponder" name="vacationAutoresponder"
+                 type="checkbox" checked/>
+          <label for="vacationAutoresponder"></label>
+          <span class="toggle-switcher-text">Vacation Autoresponder</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-12 row">
+          <div class="form-group col-sm col-sm-6">
+            <label class="form-inline">Start Date</label>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"></ngb-datepicker>
+          </div>
+          <div class="form-group col-sm col-sm-6">
+            <label class="form-inline">End Date</label>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"></ngb-datepicker>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group">
+          <label for="vacationAutoresponseMessage" class="form-inline">Email autoresponse message</label>
+          <textarea id="vacationAutoresponseMessage" class="form-control" rows="4" placeholder="Message"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="fancy-field-group">
+          <input type="checkbox" id="onlyContacts" name="onlyContacts"
+                 class="d-none fancy-field-control fancy-field-control-sm"/>
+          <label for="onlyContacts">Only send a response to people in my contacts</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-secondary btn-sm">Save</button>
+      </div>
     </div>
   </div>
 </section>
