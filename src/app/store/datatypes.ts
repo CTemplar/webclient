@@ -78,7 +78,7 @@ export interface UserState {
 
 export interface Settings {
   id?: number;
-  autoresponder?: boolean;
+  autoresponder?: AutoResponder;
   emails_per_page?: number;
   embed_content?: boolean;
   newsletter?: boolean;
@@ -97,6 +97,20 @@ export interface Settings {
   enable_forwarding?: boolean;
   forwarding_address?: string;
   plan_type?: PlanType;
+}
+
+export interface AutoResponder {
+  id: number;
+  is_time_range_restricted?: boolean;
+  start_time?: string;
+  end_time?: string;
+  autoresponder_message?: string;
+  autoresponder_active: boolean;
+  start_date?: string;
+  end_date?: string;
+  vacationautoresponder_message?: string;
+  vacationautoresponder_active: boolean;
+  only_contacts?: boolean;
 }
 
 export interface Payment {
