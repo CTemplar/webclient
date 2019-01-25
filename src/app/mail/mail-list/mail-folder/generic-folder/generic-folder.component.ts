@@ -200,7 +200,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (this.mailFolder === MailFolderType.DRAFT) {
       this.composeMailService.openComposeMailDialog({ draft: mail });
     } else {
-      this.store.dispatch(new GetMailDetailSuccess(mail));
+      // change sender display before to open mail detail, because this sender display was for last child.
+      this.store.dispatch(new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }));
       this.router.navigate([`/mail/${this.mailFolder}/message/`, mail.id]);
     }
   }

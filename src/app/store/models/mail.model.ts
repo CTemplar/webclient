@@ -11,10 +11,14 @@ export interface Mail {
   from?: string;
   checked?: boolean;
   sender?: string;
+  sender_display?: EmailDisplay;
   subject?: string;
   encryption?: any;
   attachments?: Array<any>;
   receiver?: Array<string>;
+  receiver_list?: string;
+  receiver_display?: Array<EmailDisplay>;
+  reply_to?: Array<string>;
   cc?: Array<string>;
   bcc?: Array<string>;
   destruct_date?: string;
@@ -45,13 +49,14 @@ export interface Mailbox {
   display_name?: string;
   is_default?: boolean;
   is_enabled?: boolean;
+  sort_order: number;
 }
 
 export interface Folder {
   id?: number;
   name: string;
   color: string;
-  mailbox: number;
+  sort_order?: number;
 }
 
 
@@ -81,4 +86,9 @@ export interface Attachment {
   content_id?: string;
   request?: Subscription;
   isRemoved?: boolean;
+}
+
+export interface EmailDisplay {
+  name?: string;
+  email: string;
 }

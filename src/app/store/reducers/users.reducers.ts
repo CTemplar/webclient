@@ -156,7 +156,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isPrime: action.payload.is_prime,
         joinedDate: action.payload.joined_date,
         settings: action.payload.settings,
-        mailboxes: action.payload.mailboxes,
+        mailboxes: action.payload.mailboxes.map((item, index) => {
+          item.sort_order = item.sort_order ? item.sort_order : index;
+          return item;
+        }),
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
         customFolders: action.payload.custom_folders,
       };
@@ -181,7 +184,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.CREATE_FOLDER_SUCCESS: {
-      state.customFolders = [...state.customFolders, action.payload];
+      let index = -1;
+      state.customFolders.forEach((folder, i) => {
+        if (folder.id === action.payload.id) {
+          index = i;
+        }
+      });
+      if (index > -1) {
+        state.customFolders[index] = action.payload;
+      } else {
+        state.customFolders = [...state.customFolders, action.payload];
+      }
       return {
         ...state,
         inProgress: false,
@@ -200,6 +213,21 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {
         ...state,
         inProgress: false,
+      };
+    }
+
+    case UsersActionTypes.UPDATE_FOLDER_ORDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+
+    case UsersActionTypes.UPDATE_FOLDER_ORDER_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        customFolders: action.payload.folders,
       };
     }
 
@@ -357,6 +385,27 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isError: true,
         error: action.payload.detail,
       };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE: {
+      return { ...state, inProgress: true, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: false };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_SUCCESS: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: true };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_FAILURE:
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_FAILURE: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: action.payload };
+    }
+
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE: {
+      return { ...state, inProgress: true, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: true };
+    }
+
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_SUCCESS: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: null };
     }
 
     default: {

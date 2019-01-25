@@ -19,7 +19,7 @@ import {
   GetMailboxes,
   GetMailboxesSuccess,
   MailActionTypes,
-  SetDefaultMailbox, SetDefaultMailboxSuccess
+  SetDefaultMailbox, SetDefaultMailboxSuccess, UpdateMailboxOrder, UpdateMailboxOrderSuccess
 } from '../actions';
 import { Mailbox } from '../models';
 import { UserMailbox } from '../models/users.model';
@@ -57,7 +57,7 @@ export class MailboxEffects {
           switchMap(res => {
             return [new MailboxSettingsUpdateSuccess(res)];
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to update email address settings.'})]),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to update email address settings.' })]),
         );
     });
 
@@ -73,8 +73,8 @@ export class MailboxEffects {
           }),
           catchError(err => [
             new CreateMailboxFailure(err.error),
-            new SnackErrorPush({message: 'Failed to create new email address.'})
-            ]),
+            new SnackErrorPush({ message: 'Failed to create new email address.' })
+          ]),
         );
     });
 
@@ -90,6 +90,26 @@ export class MailboxEffects {
           }),
           catchError(err => [
             new SnackErrorPush({ message: 'Failed to set email address as default.' })
+          ]),
+        );
+    });
+
+
+  @Effect()
+  updateMailboxOrder: Observable<any> = this.actions
+    .ofType(MailActionTypes.UPDATE_MAILBOX_ORDER)
+    .map((action: UpdateMailboxOrder) => action.payload)
+    .switchMap((payload: any) => {
+      return this.mailService.updateMailboxOrder(payload.data)
+        .pipe(
+          switchMap(res => {
+            return [
+              new SnackErrorPush({ message: 'Sort order saved successfully.' }),
+              new UpdateMailboxOrderSuccess({ mailboxes: payload.mailboxes })
+            ];
+          }),
+          catchError(err => [
+            new SnackErrorPush({ message: 'Failed to update emails sort order.' })
           ]),
         );
     });

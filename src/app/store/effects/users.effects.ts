@@ -34,18 +34,33 @@ import {
   ContactImport,
   ContactImportFailure,
   ContactImportSuccess,
+  CreateDomain,
+  CreateDomainFailure,
+  CreateDomainSuccess,
   CreateFilter,
   CreateFilterFailure,
   CreateFilterSuccess,
   CreateFolder,
   CreateFolderSuccess,
+  DeleteDomain,
+  DeleteDomainFailure,
+  DeleteDomainSuccess,
   DeleteFilter,
   DeleteFilterFailure,
   DeleteFilterSuccess,
   DeleteFolder,
   DeleteFolderSuccess,
+  GetDomains,
+  GetDomainsSuccess,
   GetFilters,
-  GetFiltersSuccess, PaymentFailure,
+  GetFiltersSuccess,
+  PaymentFailure,
+  ReadDomain,
+  ReadDomainFailure,
+  ReadDomainSuccess,
+  SendEmailForwardingCode,
+  SendEmailForwardingCodeFailure,
+  SendEmailForwardingCodeSuccess,
   SettingsUpdate,
   SettingsUpdateSuccess,
   SnackErrorPush,
@@ -55,28 +70,22 @@ import {
   UpdateFilter,
   UpdateFilterFailure,
   UpdateFilterSuccess,
+  UpdateFolderOrder,
+  UpdateFolderOrderSuccess,
   UsersActionTypes,
+  VerifyDomain,
+  VerifyDomainFailure,
+  VerifyDomainSuccess,
+  VerifyEmailForwardingCode,
+  VerifyEmailForwardingCodeFailure,
+  VerifyEmailForwardingCodeSuccess,
   WhiteList,
   WhiteListAdd,
   WhiteListAddError,
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess,
-  GetDomains,
-  GetDomainsSuccess,
-  CreateDomain,
-  CreateDomainSuccess,
-  CreateDomainFailure,
-  ReadDomain,
-  ReadDomainSuccess,
-  ReadDomainFailure,
-  DeleteDomain,
-  DeleteDomainSuccess,
-  DeleteDomainFailure,
-  VerifyDomain,
-  VerifyDomainSuccess,
-  VerifyDomainFailure
+  WhiteListsReadSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -334,7 +343,7 @@ export class UsersEffects {
       map((snackPushAction: SnackErrorPush) => {
         if (snackPushAction.payload && snackPushAction.payload.message) {
           this.notificationService.showSnackBar(snackPushAction.payload.message, snackPushAction.payload.action || 'CLOSE',
-            {duration: snackPushAction.payload.duration || 5000});
+            { duration: snackPushAction.payload.duration || 5000 });
         } else {
           let message = 'An error has occured';
           if (snackPushAction.payload && snackPushAction.payload.type) {
@@ -350,12 +359,13 @@ export class UsersEffects {
   createFolderEffect: Observable<any> = this.actions
     .ofType(UsersActionTypes.CREATE_FOLDER)
     .map((action: CreateFolder) => action.payload)
-    .switchMap(payload => {
-      return this.mailService.createFolder(payload)
+    .switchMap(folder => {
+      return this.mailService.createFolder(folder)
         .pipe(
           switchMap(res => {
             return [
-              new CreateFolderSuccess(res)
+              new CreateFolderSuccess(res),
+              new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created' } successfully.` })
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to create folder.' })])
@@ -371,10 +381,28 @@ export class UsersEffects {
         .pipe(
           switchMap(res => {
             return [
-              new DeleteFolderSuccess(folder)
+              new DeleteFolderSuccess(folder),
+              new SnackErrorPush({ message: `'${folder.name}' folder deleted successfully.` })
             ];
           }),
           catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
+        );
+    });
+
+  @Effect()
+  updateFoldersOrder: Observable<any> = this.actions
+    .ofType(UsersActionTypes.UPDATE_FOLDER_ORDER)
+    .map((action: UpdateFolderOrder) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.updateFoldersOrder(payload.data)
+        .pipe(
+          switchMap(res => {
+            return [
+              new UpdateFolderOrderSuccess({ folders: payload.folders }),
+              new SnackErrorPush({ message: 'Sort order saved successfully.' }),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to update folders sort order.' })])
         );
     });
 
@@ -482,7 +510,7 @@ export class UsersEffects {
             return [new ReadDomainSuccess(res)];
           }),
           catchError(errorResponse => [
-            new ReadDomainFailure({err: errorResponse.error})
+            new ReadDomainFailure({ err: errorResponse.error })
           ]),
         );
     });
@@ -511,10 +539,10 @@ export class UsersEffects {
       return this.userService.verifyDomain(payload.id)
         .pipe(
           switchMap(res => {
-            return [new VerifyDomainSuccess({res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep })];
+            return [new VerifyDomainSuccess({ res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep })];
           }),
           catchError(errorResponse => [
-            new VerifyDomainFailure({err: errorResponse.error, step: payload.currentStep})
+            new VerifyDomainFailure({ err: errorResponse.error, step: payload.currentStep })
           ]),
         );
     });
@@ -528,4 +556,40 @@ export class UsersEffects {
         this.sharedService.showPaymentFailureDialog();
       })
     );
+
+  @Effect()
+  SendEmailForwardingCode: Observable<any> = this.actions
+    .ofType(UsersActionTypes.SEND_EMAIL_FORWARDING_CODE)
+    .map((action: SendEmailForwardingCode) => action.payload)
+    .switchMap(payload => {
+      return this.userService.sendEmailForwardingCode(payload.email)
+        .pipe(
+          switchMap(res => {
+            return [new SendEmailForwardingCodeSuccess(res)];
+          }),
+          catchError(errorResponse => [
+            new SendEmailForwardingCodeFailure(errorResponse.error)
+          ]),
+        );
+    });
+
+  @Effect()
+  VerifyEmailForwardingCode: Observable<any> = this.actions
+    .ofType(UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE)
+    .map((action: VerifyEmailForwardingCode) => action.payload)
+    .switchMap(payload => {
+      return this.userService.verifyEmailForwardingCode(payload.email, payload.code)
+        .pipe(
+          switchMap(res => {
+            return [
+              new AccountDetailsGet(),
+              new VerifyEmailForwardingCodeSuccess(res)
+            ];
+          }),
+          catchError(errorResponse => [
+            new VerifyEmailForwardingCodeFailure(errorResponse.error)
+          ]),
+        );
+    });
+
 }

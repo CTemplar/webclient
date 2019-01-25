@@ -51,7 +51,8 @@
       </div>
       <div class="modal-footer justify-content-center justify-content-sm-end">
         <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
-        <button type="submit" [disabled]="userState?.inProgress" class="btn btn-secondary btn-sm">Create</button>
+        <button type="submit" [disabled]="userState?.inProgress"
+                class="btn btn-secondary btn-sm">{{folder.id ? 'Update' : 'Create'}}</button>
       </div>
     </form>
   </div>

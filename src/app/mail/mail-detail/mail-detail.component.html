@@ -154,13 +154,23 @@
               <li id="{{mail.id}}-mail-from" class="font-weight-bold">
                 From:
                 <span class="text-secondary"> </span>
-                <a class="text-gray-dark text-muted">&lt;{{mail.sender}}&gt;</a>
+                <a class="text-gray-dark text-muted">
+                  <ng-container *ngIf="mail.sender_display.name!==mail.sender_display.email && mail.sender_display.name!==mail.sender_display.email.split('@')[0]">
+                    {{mail.sender_display?.name}}
+                  </ng-container>
+                  <{{mail.sender_display.email}}>
+                </a>
               </li>
               <li id="{{mail.id}}-mail-to">
                 To:
-                <ng-container *ngFor="let receiver of mail.receiver; let i = index;">
+                <ng-container *ngFor="let receiver of mail.receiver_display; let i = index;">
                   <span class="text-secondary"> </span>
-                  <a class="text-muted">&lt;{{receiver}}&gt;</a>
+                  <a class="text-muted">
+                    <ng-container *ngIf="receiver.name!==receiver.email && receiver.name!==receiver.email.split('@')[0]">
+                      {{receiver.name}}
+                    </ng-container>
+                    <{{receiver.email}}>
+                  </a>
                   <!--Comma as a separator-->
                   <span *ngIf=" i < mail.receiver?.length-1">, </span>
                 </ng-container>
@@ -267,13 +277,23 @@
                         <li id="{{childMail.id}}-mail-from" class="font-weight-bold">
                           From:
                           <span class="text-secondary"> </span>
-                          <a class="text-muted text-gray-dark">&lt;{{childMail.sender}}&gt;</a>
+                          <a class="text-muted text-gray-dark">
+                            <ng-container *ngIf="childMail.sender_display.name!==childMail.sender_display.email && childMail.sender_display.name!==childMail.sender_display.email.split('@')[0]">
+                              {{childMail.sender_display?.name}}
+                            </ng-container>
+                            <{{childMail.sender_display.email}}>
+                          </a>
                         </li>
                         <li id="{{childMail.id}}-mail-to">
                           To:
-                          <ng-container *ngFor="let receiver of childMail.receiver; let i = index;">
+                          <ng-container *ngFor="let receiver of childMail.receiver_display; let i = index;">
                             <span class="text-secondary"> </span>
-                            <a class="text-muted">&lt;{{receiver}}&gt;</a>
+                            <a class="text-muted">
+                              <ng-container *ngIf="receiver.name!==receiver.email && receiver.name!==receiver.email.split('@')[0]">
+                                {{receiver.name}}
+                              </ng-container>
+                              <{{receiver.email}}>
+                            </a>
                             <!--Comma as a separator-->
                             <span *ngIf=" i < childMail.receiver?.length-1">, </span>
                           </ng-container>

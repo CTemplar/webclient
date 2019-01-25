@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 // Helpers
 import { apiUrl } from '../../shared/config';
 // Models
-import { Attachment, Mail, Mailbox } from '../models';
+import { Attachment, Folder, Mail, Mailbox } from '../models';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -85,8 +85,15 @@ export class MailService {
     return this.http.get<any>(url);
   }
 
-  createFolder(data: Mailbox): Observable<any> {
-    return this.http.post<any>(`${apiUrl}emails/custom-folder/`, data);
+  createFolder(folder: Folder): Observable<any> {
+    if (folder.id) {
+      return this.http.patch<any>(`${apiUrl}emails/custom-folder/${folder.id}/`, folder);
+    }
+    return this.http.post<any>(`${apiUrl}emails/custom-folder/`, folder);
+  }
+
+  updateFoldersOrder(data: any) {
+    return this.http.post<any>(`${apiUrl}emails/folder-order/`, data);
   }
 
   createMail(data: any): Observable<any[]> {
@@ -146,6 +153,10 @@ export class MailService {
 
   createMailbox(data: any) {
     return this.http.post<any>(`${apiUrl}emails/mailboxes/`, data);
+  }
+
+  updateMailboxOrder(data: any) {
+    return this.http.post<any>(`${apiUrl}emails/mailbox-order/`, data);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

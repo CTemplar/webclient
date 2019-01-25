@@ -113,9 +113,6 @@
                             </span>
                             <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name]>0">{{mailState?.unreadMailsCount[folder.name]}}</span>
                         </a>
-                        <button class="btn btn-link btn-sm float-right hover-icon px-1 py-0 text-white" (click)="$event.preventDefault();showConfirmationModal(folder)">
-                            <i class="icon icon-cross icon-sm"></i>
-                        </button>
                     </div>
                 </li>
                 <li class="mailbox-sidebar-nav-item">
@@ -161,26 +158,3 @@
 <div class="compose-mail-container">
     <ng-template #composeMailContainer></ng-template>
 </div>
-
-
-<!-- TODO: refactor to stand alone component: LATER -->
-<!-- Confirm discard email modal -->
-<ng-template #confirmationModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-        <div class="form-group">
-            Are you sure, you want to delete folder <b>"{{selectedFolder?.name}}"</b>?
-        </div>
-        <div class="form-group text-right mb-0">
-            <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
-            <button (click)="deleteFolder()" class="btn btn-danger btn-sm" role="button" [disabled]="!mailState.loaded">Delete</button>
-        </div>
-        </div>
-    </div>
-</ng-template><!-- /.Confirm discard email modal ends -->

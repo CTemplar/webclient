@@ -88,17 +88,23 @@
                                                     <div class="info-list-item-row">
                                                         <div class="info-list-text info-list-label">
                                                             <span class="info-list-label-text" translate="settings.plans">Plans</span>
-                                                            <span *ngIf="userState.isPrime" translate="settings.prime_plan">Prime
+                                                            <span *ngIf="userPlanType === planType.PRIME" translate="settings.prime_plan">Prime
                                                                 Plan</span>
-                                                            <span *ngIf="!userState.isPrime" translate="settings.free_plan">Free
+                                                            <span *ngIf="userPlanType === planType.FREE" translate="settings.free_plan">Free
                                                                 Plan</span>
+                                                            <span *ngIf="userPlanType === planType.CHAMPION" translate="settings.champion_plan">
+                                                                Champion Plan</span>
                                                         </div>
-                                                        <div *ngIf="userState.isPrime" class="info-list-text info-list-val">
+                                                        <div *ngIf="userPlanType === planType.PRIME" class="info-list-text info-list-val">
                                                             <strong>{{8|currency:'USD'}}</strong>
                                                             <span class="text-muted">/month</span>
                                                         </div>
+                                                        <div *ngIf="userPlanType === planType.CHAMPION" class="info-list-text info-list-val">
+                                                            <strong>{{championMonthlyPrice|currency:'USD'}}</strong>
+                                                            <span class="text-muted">/month</span>
+                                                        </div>
                                                     </div>
-                                                    <ng-container *ngIf="userState.isPrime">
+                                                    <ng-container *ngIf="userPlanType === planType.PRIME">
                                                         <div *ngIf="extraStorage > 0" class="info-list-item-row">
                                                             <div class="info-list-text info-list-label">
                                                                 <span class="info-list-label-text text-muted ml-6">+{{extraStorage}} GB</span>
@@ -129,7 +135,7 @@
                                                     </ng-container>
 
                                                 </li>
-                                                <ng-container *ngIf="userState.isPrime">
+                                                <ng-container *ngIf="userPlanType === planType.PRIME || userPlanType === planType.CHAMPION">
                                                     <li class="info-list-item">
                                                         <div class="info-list-text info-list-label">Billing</div>
                                                         <div class="info-list-text info-list-val">
@@ -141,14 +147,21 @@
                                                              translate="settings.total_price">Total Price
                                                         </div>
                                                         <div class="info-list-text info-list-val">
-                                                            {{annualTotalPrice|currency:'USD'}}/annually
+                                                            <ng-container *ngIf="userPlanType === planType.CHAMPION; else primeTotalPrice">
+                                                                {{championMonthlyPrice * 12|currency:'USD'}}/annually
+                                                            </ng-container>
+                                                            <ng-template #primeTotalPrice>
+                                                                {{annualTotalPrice|currency:'USD'}}/annually
+                                                            </ng-template>
                                                         </div>
                                                     </li>
                                                     <li class="info-list-item" *ngIf="payment.payment_type === paymentType.ANNUALLY">
                                                         <div class="info-list-text info-list-label">Discounted Price
                                                         </div>
                                                         <div class="info-list-text info-list-val">
-                                                            {{annualDiscountedPrice|currency:'USD'}}/annually
+                                                            {{(userPlanType === planType.CHAMPION ?
+                                                                championAnnualPriceTotal :
+                                                                annualDiscountedPrice) | currency:'USD'}}/annually
                                                             <span class="text-primary">&nbsp;(-25%)</span>
                                                         </div>
                                                     </li>
@@ -188,7 +201,7 @@
                     </div>
                     <app-pricing-plans hideHeader="true" blockGapsZero="true"
                                        [showCurrentPlan]="true"
-                                       [isPrime]="userState.isPrime"
+                                       [userPlanType]="userPlanType"
                                        [selectedCurrency]="payment.currency"
                                        [paymentType]="payment.payment_type"
                                        [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :
@@ -220,10 +233,10 @@
                         <div class="form-content-holder">
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.language">Language</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
                                                 <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
@@ -241,11 +254,11 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.current_time_zone">Current
                                             time zone</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
                                                 <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
@@ -262,11 +275,11 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically
                                             save contacts</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
@@ -290,10 +303,10 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0">Default Mail Compose Font</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
                                             <div ngbDropdown class="dropdown-sm">
                                                 <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultFontDropdownMenuButton">
@@ -315,11 +328,11 @@
                             <!-- Will be used later -->
                             <div class="form-content-row" *ngIf="false">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0" translate="settings.vacation_responder">Vacation
                                             responder</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
@@ -353,11 +366,11 @@
                     <div class="mailbox-section-body mailbox-section-body-sm">
                         <div class="form-content-row">
                             <div class="row align-items-center">
-                                <div class="col-sm-5">
+                                <div class="col-sm-3">
                                     <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
                                         per page</label>
                                 </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-7 col-md-5">
                                     <div class="row row-sm">
                                         <div class="col-6 flex-auto-col">
                                             <div class="fancy-field-group">
@@ -409,10 +422,10 @@
                         <div class="form-content-holder">
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-0">Reoccurring Billing</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
@@ -560,6 +573,14 @@
             </ng-template>
         </ngb-tab>
 
+        <!-- Folders -->
+        <ngb-tab id="folders">
+            <ng-template ngbTabTitle>Folders</ng-template>
+            <ng-template ngbTabContent>
+                <app-folders></app-folders>
+            </ng-template>
+        </ngb-tab>
+
         <!-- Security -->
         <ngb-tab>
             <ng-template ngbTabTitle>Security</ng-template>
@@ -573,10 +594,10 @@
                         <div class="form-content-holder">
                             <div class="form-content-row">
                                 <div class="row label-align">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <input class="form-control form-control-sm" id="securityPassword" type="password"
                                             placeholder="********" />
                                         <span class="form-label-text mt-1">
@@ -589,11 +610,11 @@
                             </div>
                             <div class="form-content-row">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
                                             email</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <input class="form-control form-control-sm" id="recoveryMail" type="email"
                                             autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur'}"
                                             (change)="updateSettings('recovery_email', $event.target.value)"
@@ -605,11 +626,11 @@
                             <!-- Will be used later -->
                             <div class="form-content-row" *ngIf="false">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-3">
                                         <label class="form-label mb-sm-0" translate="settings.security_alerts">Security
                                             alerts</label>
                                     </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-7 col-md-5">
                                         <div class="row row-sm">
                                             <div class="col-6 flex-auto-col">
                                                 <div class="fancy-field-group">
@@ -648,81 +669,10 @@
         </ngb-tab>
 
         <!-- Forwarding and auto responder -->
-        <ngb-tab *ngIf="false">
+        <ngb-tab>
             <ng-template ngbTabTitle>Forwarding and autoresponder</ng-template>
             <ng-template ngbTabContent>
-
-                <!--This section is hidden for now, will be used in dev pack 1.-->
-                <section class="mailbox-section" *ngIf="false">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <ul class="ui-list ui-list-styled list-styled">
-                                <li class="ui-list-item ui-list-item-xs-full">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="toggle-switcher">
-                                                <input class="d-none toggle-switcher-control" id="switcherField1" name=""
-                                                    type="checkbox" checked />
-                                                <label for="switcherField1"></label>
-                                                <span class="toggle-switcher-text">My spam filter</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="ui-list-item ui-list-item-xs-full">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="toggle-switcher">
-                                                <input class="d-none toggle-switcher-control" id="switcherField3" name=""
-                                                    type="checkbox" checked />
-                                                <label for="switcherField3"></label>
-                                                <span class="toggle-switcher-text">Important messages filter</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="ui-list-item ui-list-item-xs-full">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="toggle-switcher">
-                                                <input class="d-none toggle-switcher-control" id="switcherField2" name=""
-                                                    type="checkbox" />
-                                                <label for="switcherField2"></label>
-                                                <span class="toggle-switcher-text">Auto-labeling test</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                                <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="info-card">
-                                <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
-                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
-                                            custom filter</u></strong></a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <app-mail-forwarding></app-mail-forwarding>
             </ng-template>
         </ngb-tab>
     </ngb-tabset>
@@ -732,6 +682,79 @@
         <i class="icon icon-save-disk"></i>
     </button>
 
+
+    <!--This section is hidden for now, will be used in dev pack 1.-->
+    <section class="mailbox-section" *ngIf="false">
+        <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
+        </header>
+        <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+                <ul class="ui-list ui-list-styled list-styled">
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField1" name=""
+                                           type="checkbox" checked/>
+                                    <label for="switcherField1"></label>
+                                    <span class="toggle-switcher-text">My spam filter</span>
+                                </div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField3" name=""
+                                           type="checkbox" checked/>
+                                    <label for="switcherField3"></label>
+                                    <span class="toggle-switcher-text">Important messages filter</span>
+                                </div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-list-item ui-list-item-xs-full">
+                        <div class="row row-xs align-items-center">
+                            <div class="col-10 col-sm-8">
+                                <div class="toggle-switcher">
+                                    <input class="d-none toggle-switcher-control" id="switcherField2" name=""
+                                           type="checkbox"/>
+                                    <label for="switcherField2"></label>
+                                    <span class="toggle-switcher-text">Auto-labeling test</span>
+                                </div>
+                            </div>
+                            <div class="col-2 col-sm-4">
+                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
+                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-card">
+                    <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                       (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
+                        custom filter</u></strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!--This section is hidden for now, will be used in dev pack 1.-->

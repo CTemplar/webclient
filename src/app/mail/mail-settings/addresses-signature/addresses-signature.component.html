@@ -6,11 +6,11 @@
     <div class="form-content-holder">
       <div class="form-content-row">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.keys.email_address">
               E-mail address</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
                 <button ngbDropdownToggle class="dropdown-toggle"
@@ -28,27 +28,27 @@
         </div>
       </div>
       <ng-container *ngIf="selectedMailboxForSignature">
-        <div class="form-content-row" *ngIf="false">
+        <div class="form-content-row">
           <div class="row align-items-center">
-            <div class="col-sm-5">
+            <div class="col-sm-3">
               <label for="displayName" class="form-label mb-sm-0"
                      translate="settings.display_name">Display name</label>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-5">
               <input class="form-control form-control-sm" id="displayName" type="text"
                      [value]="selectedMailboxForSignature.display_name"
                      (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
-                     placeholder="John Simpson"/>
+                     placeholder="Display name"/>
             </div>
           </div>
         </div>
         <div class="form-content-row">
           <div class="row align-items-center">
-            <div class="col-sm-5">
+            <div class="col-sm-3">
               <label for="signature" class="form-label mb-sm-0" translate="settings.signature">
                 Signature</label>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-7 col-md-5">
                                   <textarea class="form-control form-control-sm form-control-contenteditable"
                                             id="signature"
                                             [value]="selectedMailboxForSignature.signature"
@@ -64,12 +64,12 @@
       <!-- Will be used later -->
       <div class="form-content-row" *ngIf="false">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.load_embedded_content">Load
               embedded
               content</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
@@ -103,11 +103,11 @@
       <!-- Will be used later -->
       <div class="form-content-row" *ngIf="false">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.show_snippets">Show
               snippets</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
@@ -140,9 +140,15 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <button type="button" *ngIf="mailboxes?.length < settings?.email_count"
-              (click)="onAddNewAddress()" class="btn btn-link right">Add Address
-      </button>
+      <div>
+        <button type="button" *ngIf="mailboxes?.length < settings?.email_count"
+                (click)="onAddNewAddress()" class="btn btn-link right">Add Address
+        </button>
+        <button class="btn btn-sm btn-secondary float-right"
+                (click)="startReorder()"
+                *ngIf="!reorder"
+                ngbTooltip="Reorder addresses">Reorder</button>
+      </div>
       <ul class="ui-list ui-list-styled list-styled addresses-list">
         <li *ngIf="newAddressOptions.isAddingNew" class="ui-list-item ui-list-item-xs-full">
           <form class="signup-form" [formGroup]="newAddressForm" #form="ngForm">
@@ -237,7 +243,7 @@
             </div>
           </form>
         </li>
-        <li class="ui-list-item ui-list-item-xs-full" *ngFor="let mailbox of mailboxes">
+        <li class="ui-list-item ui-list-item-xs-full" *ngFor="let mailbox of mailboxes;let i=index;">
           <div class="row row-xs align-items-center">
             <div class="col-10 col-sm-8">
               <div class="form-label text-dark mb-0">
@@ -246,8 +252,23 @@
                 <span *ngIf="!mailbox.is_enabled" class="badge badge-danger">Disabled</span>
               </div>
             </div>
-            <div class="col-2 col-sm-4">
-              <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+            <div class="col-2 col-sm-4 row">
+              <div class="col" align="right" *ngIf="reorder">
+                <i class="material-icons cursor-pointer"
+                   [class.hidden]="i===0"
+                   ngbTooltip="Move up"
+                   (click)="sortUp(i)">
+                  keyboard_arrow_up
+                </i>
+
+                <i class="material-icons cursor-pointer"
+                   [class.hidden]="i===mailboxes.length-1"
+                   ngbTooltip="Move down"
+                   (click)="sortDown(i)">
+                  keyboard_arrow_down
+                </i>
+              </div>
+              <ul *ngIf="!reorder" class="col setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li *ngIf="false">
                   <button type="button" role="button" class="btn-link"
                           (click)="updateDefaultEmailAddress(mailbox)">Make Default
@@ -268,6 +289,11 @@
           </div>
         </li>
       </ul>
+      <div align="right" *ngIf="reorder">
+        <app-loading-spinner [showSpinner]="reorderInProgress"></app-loading-spinner>
+        <button class="btn btn-sm btn-primary " [disabled]="reorderInProgress" (click)="cancelOrder()">Cancel</button>
+        <button class="btn btn-sm btn-secondary" [disabled]="reorderInProgress" (click)="saveOrder()">Save order</button>
+      </div>
     </div>
   </div>
 </section>
@@ -279,11 +305,11 @@
     <div class="form-content-holder">
       <div class="form-content-row">
         <div class="row align-items-center">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0" translate="settings.keys.email_address">
               Email address</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
                 <button ngbDropdownToggle class="dropdown-toggle"
@@ -302,11 +328,11 @@
 
       <div class="form-content-row">
         <div class="row label-align">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <label for="fingerPrint" class="form-label mb-sm-0"
                    translate="settings.keys.fingerprint">Fingerprint</label>
           </div>
-          <div class="col-sm-7">
+          <div class="col-sm-7 col-md-5">
             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                    [value]="selectedMailboxForKey?.fingerprint" readonly=""/>
             <span *ngIf="selectedMailboxPublicKey" class="form-label-text mt-1">

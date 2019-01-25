@@ -38,6 +38,7 @@ export interface SignupState {
   public_key?: string;
   private_key?: string;
   fingerprint?: string;
+  plan_type?: PlanType;
   payment_type?: PaymentType;
   payment_method?: PaymentMethod;
   currency?: string;
@@ -71,6 +72,8 @@ export interface UserState {
   newCustomDomain?: Domain;
   newCustomDomainError?: string;
   currentCreationStep: number;
+  isForwardingVerificationCodeSent?: boolean;
+  emailForwardingErrorMessage?: string;
 }
 
 export interface Settings {
@@ -91,6 +94,9 @@ export interface Settings {
   email_count?: number;
   domain_count?: number;
   default_font?: string;
+  enable_forwarding?: boolean;
+  forwarding_address?: string;
+  plan_type?: PlanType;
 }
 
 export interface Payment {
@@ -175,6 +181,7 @@ export interface MailBoxesState {
   decryptedKey?: any;
   encryptionInProgress: boolean;
   inProgress?: boolean;
+  isUpdatingOrder?: boolean;
 }
 
 export interface SecureMessageState {

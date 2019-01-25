@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
-import { AppState, MailBoxesState, UserState } from '../../../store/datatypes';
+import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateFolder } from '../../../store/actions';
 import { FOLDER_COLORS } from '../../../shared/config';
-import { Folder, Mailbox } from '../../../store/models';
+import { Folder } from '../../../store/models';
 
 @TakeUntilDestroy()
 @Component({
@@ -16,13 +16,13 @@ import { Folder, Mailbox } from '../../../store/models';
   styleUrls: ['./create-folder.component.scss']
 })
 export class CreateFolderComponent implements OnInit, OnDestroy {
-
   readonly destroyed$: Observable<boolean>;
+
+  @Input() folder: Folder = { id: null, name: '', color: '' };
 
   customFolderForm: FormGroup;
   folderColors: string[] = FOLDER_COLORS;
   selectedColorIndex: number = 0;
-  currentMailbox: Mailbox;
   userState: UserState;
   submitted: boolean;
   duplicateFoldername: boolean;
@@ -34,7 +34,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
-      folderName: ['',
+      folderName: [this.folder.name,
         [
           Validators.required,
           Validators.pattern(/^[a-z]+[a-z0-9. _-]+$/i),
@@ -42,13 +42,11 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
           Validators.maxLength(30),
         ]
       ],
-      color: ''
+      color: this.folder.color
     });
-
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
-      .subscribe((mailboxes: MailBoxesState) => {
-        this.currentMailbox = mailboxes.currentMailbox;
-      });
+    if (this.folder.color) {
+      this.selectedColorIndex = this.folderColors.indexOf(this.folder.color);
+    }
     this.store.select(state => state.user).takeUntil(this.destroyed$)
       .subscribe((user: UserState) => {
         if (this.userState && this.userState.inProgress && !user.inProgress) {
@@ -68,9 +66,9 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
       return;
     }
     const customFolder: Folder = {
+      id: this.folder.id,
       name: this.customFolderForm.value.folderName,
-      color: this.folderColors[this.selectedColorIndex],
-      mailbox: this.currentMailbox.id
+      color: this.folderColors[this.selectedColorIndex]
     };
     if (this.checkFolderExist(customFolder.name)) {
       return;
@@ -81,7 +79,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   checkFolderExist(folderName: string) {
     if (this.userState.customFolders
-      .filter(folder => folder.name.toLowerCase() === folderName.toLowerCase()).length > 0) {
+      .filter(folder => folder.name.toLowerCase() === folderName.toLowerCase() && folder.id !== this.folder.id).length > 0) {
       this.duplicateFoldername = true;
       return true;
     }

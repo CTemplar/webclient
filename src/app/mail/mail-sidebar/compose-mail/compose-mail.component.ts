@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { COLORS, FONTS, ESCAPE_KEYCODE, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, ESCAPE_KEYCODE, FONTS, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -19,8 +19,8 @@ import {
   GetUsersKeys,
   MoveMail,
   NewDraft,
-  SendMail,
-  SnackErrorPush, SnackPush,
+  SnackErrorPush,
+  SnackPush,
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
@@ -244,7 +244,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.updateSignature();
           }
         }
-        if (this.selectedMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
+        if (this.selectedMailbox && mailBoxesState.currentMailbox && this.selectedMailbox.id === mailBoxesState.currentMailbox.id) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
           this.updateSignature();
         }
@@ -487,7 +487,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sendEmail() {
     if (!this.selectedMailbox.is_enabled) {
-      this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.'}));
+      this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }));
       return;
     }
     if (this.userState.isPrime) {

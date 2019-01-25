@@ -37,6 +37,8 @@ export enum MailActionTypes {
   CREATE_MAILBOX_FAILURE = '[MAILBOX] CREATE MAILBOX FAILURE',
   SET_DEFAULT_MAILBOX = '[MAILBOX] SET DEFAULT MAILBOX',
   SET_DEFAULT_MAILBOX_SUCCESS = '[MAILBOX] SET DEFAULT MAILBOX SUCCESS',
+  UPDATE_MAILBOX_ORDER = '[MAILBOX] UPDATE ORDER',
+  UPDATE_MAILBOX_ORDER_SUCCESS = '[MAILBOX] UPDATE ORDER SUCCESS',
 }
 
 export class GetMails implements Action {
@@ -246,6 +248,20 @@ export class SetDefaultMailboxSuccess implements Action {
   }
 }
 
+export class UpdateMailboxOrder implements Action {
+  readonly type = MailActionTypes.UPDATE_MAILBOX_ORDER;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateMailboxOrderSuccess implements Action {
+  readonly type = MailActionTypes.UPDATE_MAILBOX_ORDER_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -280,4 +296,6 @@ export type MailActions =
   | CreateMailboxSuccess
   | CreateMailboxFailure
   | SetDefaultMailbox
-  | SetDefaultMailboxSuccess;
+  | SetDefaultMailboxSuccess
+  | UpdateMailboxOrder
+  | UpdateMailboxOrderSuccess;

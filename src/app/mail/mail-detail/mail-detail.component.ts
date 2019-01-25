@@ -38,6 +38,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private forwardAttachmentsModalRef: NgbModalRef;
   private userState: UserState;
   private mailboxes: Mailbox[];
+  private canScroll: boolean = true;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -66,7 +67,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
               // Automatically scrolls to last element in the list
               // Class name .last-child is set inside the template
-              if (this.mail.children && this.mail.children.length > 0) {
+              if (this.canScroll && this.mail.children && this.mail.children.length > 0) {
+                setTimeout(() => {
+                  this.canScroll = false;
+                }, 5000);
                 this.scrollTo(document.querySelector('.last-child'));
               }
 
@@ -170,7 +174,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       messageHistory: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
-    if (mail.sender !== this.currentMailbox.email) {
+    if (mail.reply_to && mail.reply_to.length > 0) {
+      this.composeMailData[mail.id].receivers = mail.reply_to;
+    } else if (mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [mail.sender];
     } else if (this.mail.sender !== this.currentMailbox.email) {
       this.composeMailData[mail.id].receivers = [this.mail.sender];

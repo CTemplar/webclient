@@ -170,7 +170,11 @@ export class UsersService {
       'auth/delete',
       'emails/domains',
       'search/messages',
-      'domains/verify'
+      'domains/verify',
+      'emails/mailbox-order',
+      'emails-forward/send-verification-code',
+      'emails-forward/verify-verification-code',
+      'emails/folder-order',
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -319,6 +323,16 @@ export class UsersService {
     const url = `${apiUrl}domains/verify/${id}/`;
     const body = {};
     return this.http.get<any>(url, body);
+  }
+
+  sendEmailForwardingCode(email: string): Observable<any> {
+    const body = {email};
+    return this.http.post(`${apiUrl}/emails-forward/send-verification-code/`, body);
+  }
+
+  verifyEmailForwardingCode(email: string, code: number): Observable<any> {
+    const body = {email, code};
+    return this.http.post(`${apiUrl}/emails-forward/verify-verification-code/`, body);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

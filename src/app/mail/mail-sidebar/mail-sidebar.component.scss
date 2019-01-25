@@ -3,40 +3,6 @@
 @import '../../../styles/config/include-media-config';
 @import '../../../styles/vendors/ceaser/ceaser-easing';
 
-// == Folder list
-.folders-list {
-  margin: 0 0;
-  padding-right: 1.563rem;
-  padding-left: 3.25rem;
-  list-style: none;
-
-  @include media("<ipad") {
-    display: none;
-
-    .is-sidebar-expanded & {
-      display: block;
-      padding-left: 2.75rem;
-    }
-  }
-
-  >li:first-child {
-    padding-top: 0.938rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  >li:not(:last-of-type) {
-    margin-bottom: 0.8rem;
-  }
-
-  >li>a {
-    color: $menu-link;
-
-    @include media("<=sm") {
-      font-size: 0.625rem;
-    }
-  }
-}
-
 // == Folder color boxes
 .folder-color-box {
   display: inline-block;

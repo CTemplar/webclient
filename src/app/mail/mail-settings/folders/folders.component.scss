@@ -1,0 +1,19 @@
+@import "~styles/base/variables";
+
+.folder-item {
+  .folder-color-box {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .folder-name {
+    vertical-align: sub;
+  }
+}
+
+.folders-list {
+  height: 500px;
+  overflow: auto;
+  border-top: 1px solid $dropdown-border-color;
+  border-bottom: 1px solid $dropdown-border-color;
+}
