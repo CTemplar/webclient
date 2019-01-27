@@ -34,18 +34,33 @@ import {
   ContactImport,
   ContactImportFailure,
   ContactImportSuccess,
+  CreateDomain,
+  CreateDomainFailure,
+  CreateDomainSuccess,
   CreateFilter,
   CreateFilterFailure,
   CreateFilterSuccess,
   CreateFolder,
   CreateFolderSuccess,
+  DeleteDomain,
+  DeleteDomainFailure,
+  DeleteDomainSuccess,
   DeleteFilter,
   DeleteFilterFailure,
   DeleteFilterSuccess,
   DeleteFolder,
   DeleteFolderSuccess,
+  GetDomains,
+  GetDomainsSuccess,
   GetFilters,
-  GetFiltersSuccess, PaymentFailure,
+  GetFiltersSuccess,
+  PaymentFailure,
+  ReadDomain,
+  ReadDomainFailure,
+  ReadDomainSuccess,
+  SendEmailForwardingCode,
+  SendEmailForwardingCodeFailure,
+  SendEmailForwardingCodeSuccess,
   SettingsUpdate,
   SettingsUpdateSuccess,
   SnackErrorPush,
@@ -55,28 +70,22 @@ import {
   UpdateFilter,
   UpdateFilterFailure,
   UpdateFilterSuccess,
+  UpdateFolderOrder,
+  UpdateFolderOrderSuccess,
   UsersActionTypes,
+  VerifyDomain,
+  VerifyDomainFailure,
+  VerifyDomainSuccess,
+  VerifyEmailForwardingCode,
+  VerifyEmailForwardingCodeFailure,
+  VerifyEmailForwardingCodeSuccess,
   WhiteList,
   WhiteListAdd,
   WhiteListAddError,
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess,
-  GetDomains,
-  GetDomainsSuccess,
-  CreateDomain,
-  CreateDomainSuccess,
-  CreateDomainFailure,
-  ReadDomain,
-  ReadDomainSuccess,
-  ReadDomainFailure,
-  DeleteDomain,
-  DeleteDomainSuccess,
-  DeleteDomainFailure,
-  VerifyDomain,
-  VerifyDomainSuccess,
-  VerifyDomainFailure
+  WhiteListsReadSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -381,6 +390,23 @@ export class UsersEffects {
     });
 
   @Effect()
+  updateFoldersOrder: Observable<any> = this.actions
+    .ofType(UsersActionTypes.UPDATE_FOLDER_ORDER)
+    .map((action: UpdateFolderOrder) => action.payload)
+    .switchMap(payload => {
+      return this.mailService.updateFoldersOrder(payload.data)
+        .pipe(
+          switchMap(res => {
+            return [
+              new UpdateFolderOrderSuccess({ folders: payload.folders }),
+              new SnackErrorPush({ message: 'Sort order saved successfully.' }),
+            ];
+          }),
+          catchError(err => [new SnackErrorPush({ message: 'Failed to update folders sort order.' })])
+        );
+    });
+
+  @Effect()
   getFiltersEffect: Observable<any> = this.actions
     .ofType(UsersActionTypes.GET_FILTERS)
     .map((action: GetFilters) => action.payload)
@@ -530,4 +556,40 @@ export class UsersEffects {
         this.sharedService.showPaymentFailureDialog();
       })
     );
+
+  @Effect()
+  SendEmailForwardingCode: Observable<any> = this.actions
+    .ofType(UsersActionTypes.SEND_EMAIL_FORWARDING_CODE)
+    .map((action: SendEmailForwardingCode) => action.payload)
+    .switchMap(payload => {
+      return this.userService.sendEmailForwardingCode(payload.email)
+        .pipe(
+          switchMap(res => {
+            return [new SendEmailForwardingCodeSuccess(res)];
+          }),
+          catchError(errorResponse => [
+            new SendEmailForwardingCodeFailure(errorResponse.error)
+          ]),
+        );
+    });
+
+  @Effect()
+  VerifyEmailForwardingCode: Observable<any> = this.actions
+    .ofType(UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE)
+    .map((action: VerifyEmailForwardingCode) => action.payload)
+    .switchMap(payload => {
+      return this.userService.verifyEmailForwardingCode(payload.email, payload.code)
+        .pipe(
+          switchMap(res => {
+            return [
+              new AccountDetailsGet(),
+              new VerifyEmailForwardingCodeSuccess(res)
+            ];
+          }),
+          catchError(errorResponse => [
+            new VerifyEmailForwardingCodeFailure(errorResponse.error)
+          ]),
+        );
+    });
+
 }

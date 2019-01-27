@@ -92,6 +92,10 @@ export class MailService {
     return this.http.post<any>(`${apiUrl}emails/custom-folder/`, folder);
   }
 
+  updateFoldersOrder(data: any) {
+    return this.http.post<any>(`${apiUrl}emails/folder-order/`, data);
+  }
+
   createMail(data: any): Observable<any[]> {
     let url = `${apiUrl}emails/messages/`;
     if (data.id) {

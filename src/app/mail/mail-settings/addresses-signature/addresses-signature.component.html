@@ -252,8 +252,8 @@
                 <span *ngIf="!mailbox.is_enabled" class="badge badge-danger">Disabled</span>
               </div>
             </div>
-            <div class="col-2 col-sm-4 row" [class.hidden]="!reorder">
-              <div class="col-6" align="right">
+            <div class="col-2 col-sm-4 row">
+              <div class="col" align="right" *ngIf="reorder">
                 <i class="material-icons cursor-pointer"
                    [class.hidden]="i===0"
                    ngbTooltip="Move up"
@@ -268,7 +268,7 @@
                   keyboard_arrow_down
                 </i>
               </div>
-              <ul class="col-6 setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+              <ul *ngIf="!reorder" class="col setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li *ngIf="false">
                   <button type="button" role="button" class="btn-link"
                           (click)="updateDefaultEmailAddress(mailbox)">Make Default

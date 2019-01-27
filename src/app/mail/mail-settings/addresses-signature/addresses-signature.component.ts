@@ -152,16 +152,18 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   }
 
   sortDown(index: number) {
-    this.mailboxes[index].sort_order++;
-    this.mailboxes[index + 1].sort_order--;
+    const sortOrder = this.mailboxes[index].sort_order;
+    this.mailboxes[index].sort_order = this.mailboxes[index + 1].sort_order;
+    this.mailboxes[index + 1].sort_order = sortOrder;
     this.mailboxes.sort((a, b) => {
       return a.sort_order - b.sort_order;
     });
   }
 
   sortUp(index: number) {
-    this.mailboxes[index].sort_order--;
-    this.mailboxes[index - 1].sort_order++;
+    const sortOrder = this.mailboxes[index].sort_order;
+    this.mailboxes[index].sort_order = this.mailboxes[index - 1].sort_order;
+    this.mailboxes[index - 1].sort_order = sortOrder;
     this.mailboxes.sort((a, b) => {
       return a.sort_order - b.sort_order;
     });

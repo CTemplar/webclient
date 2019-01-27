@@ -72,6 +72,8 @@ export interface UserState {
   newCustomDomain?: Domain;
   newCustomDomainError?: string;
   currentCreationStep: number;
+  isForwardingVerificationCodeSent?: boolean;
+  emailForwardingErrorMessage?: string;
 }
 
 export interface Settings {

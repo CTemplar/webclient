@@ -216,6 +216,21 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.UPDATE_FOLDER_ORDER: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+
+    case UsersActionTypes.UPDATE_FOLDER_ORDER_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        customFolders: action.payload.folders,
+      };
+    }
+
     case UsersActionTypes.GET_FILTERS_SUCCESS: {
       return { ...state, filters: action.payload };
     }
@@ -370,6 +385,27 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isError: true,
         error: action.payload.detail,
       };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE: {
+      return { ...state, inProgress: true, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: false };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_SUCCESS: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: true };
+    }
+
+    case UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_FAILURE:
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_FAILURE: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: action.payload };
+    }
+
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE: {
+      return { ...state, inProgress: true, emailForwardingErrorMessage: null, isForwardingVerificationCodeSent: true };
+    }
+
+    case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_SUCCESS: {
+      return { ...state, inProgress: false, emailForwardingErrorMessage: null };
     }
 
     default: {
