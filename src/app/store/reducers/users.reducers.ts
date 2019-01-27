@@ -162,6 +162,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         }),
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
         customFolders: action.payload.custom_folders,
+        autoresponder: action.payload.autoresponder
       };
     }
 

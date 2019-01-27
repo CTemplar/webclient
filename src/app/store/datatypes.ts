@@ -68,6 +68,7 @@ export interface UserState {
   customFolders: Folder[];
   filters: Filter[];
   filtersError?: any;
+  autoresponder?: AutoResponder;
   customDomains: Domain[];
   newCustomDomain?: Domain;
   newCustomDomainError?: string;
@@ -78,7 +79,6 @@ export interface UserState {
 
 export interface Settings {
   id?: number;
-  autoresponder?: AutoResponder;
   emails_per_page?: number;
   embed_content?: boolean;
   newsletter?: boolean;
