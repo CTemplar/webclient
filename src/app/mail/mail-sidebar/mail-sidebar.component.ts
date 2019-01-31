@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Folder, Mailbox } from '../../store/models/mail.model';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';

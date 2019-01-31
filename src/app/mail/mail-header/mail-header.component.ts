@@ -10,7 +10,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { UpdateSearch } from '../../store/actions/search.action';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { MailFolderType } from '../../store/models';
 import { ActivatedRoute } from '@angular/router';

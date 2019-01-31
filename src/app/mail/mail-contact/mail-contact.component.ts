@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { AppState, Contact, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, SnackErrorPush } from '../../store';

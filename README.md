@@ -8,8 +8,7 @@ Official Angular cross-platform client for the CTemplar secure email service.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
-* Node (`v6.9.0` or higher)
-* npm (`v3.0` or higher)
+* Node (`v8.11.1` or higher)
 * Angular CLI
   ```
   npm install -g @angular/cli@1.7.3
