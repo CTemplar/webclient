@@ -34,6 +34,7 @@ export interface Mail {
   has_children?: boolean;
   children?: Array<Mail>;
   forward_attachments_of_message?: number;
+  incoming_headers?: string;
 }
 
 export interface Mailbox {

@@ -21,11 +21,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
+  @ViewChild('incomingHeadersModal') incomingHeadersModal;
 
   mail: Mail;
   composeMailData: any = {};
   mailFolderTypes = MailFolderType;
   decryptedContents: any = {};
+  decryptedHeaders: any = {};
+  selectedHeaders: string;
   mailOptions: any = {};
   selectedMailToForward: Mail;
 
@@ -60,10 +63,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           } else {
             const decryptedContent = mailState.decryptedContents[this.mail.id];
             if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
-              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content);
+              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
+              this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
 
               // Automatically scrolls to last element in the list
               // Class name .last-child is set inside the template
@@ -96,10 +100,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               } else {
                 const childDecryptedContent = mailState.decryptedContents[child.id];
                 if (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content)) {
-                  this.pgpService.decrypt(child.mailbox, child.id, child.content);
+                  this.pgpService.decrypt(child.mailbox, child.id, child.content, child.incoming_headers);
                 }
                 if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
                   this.decryptedContents[child.id] = childDecryptedContent.content;
+                  this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
                 }
               }
               if (!this.mailOptions[child.id]) {
@@ -137,6 +142,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  parseHeaders(headers: any) {
+    if (!headers) {
+      return [];
+    }
+    headers = JSON.parse(headers);
+    const headersArray = [];
+    for (const key in headers) {
+      if (headers.hasOwnProperty(key)) {
+        headersArray.push({ key, value: headers[key] });
+      }
+    }
+    return headersArray;
+  }
+
   getMailDetail(messageId: number) {
     this.store.dispatch(new GetMailDetail(messageId));
   }
@@ -164,6 +183,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new ClearMailDetail(this.mail || {}));
+  }
+
+  showIncomingHeaders(mail: Mail) {
+    this.selectedHeaders = this.decryptedHeaders[mail.id];
+    this.modalService.open(this.incomingHeadersModal, {
+      centered: true,
+      windowClass: this.selectedHeaders.length === 0 ? 'modal-sm' : '',
+    });
   }
 
   onReply(mail: Mail, index: number = 0, isChildMail?: boolean) {

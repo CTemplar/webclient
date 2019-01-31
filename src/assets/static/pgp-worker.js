@@ -49,9 +49,17 @@ onmessage = function (event) {
         if (!event.data.content || !event.data.mailboxId) {
             postMessage({decryptedContent: event.data.content, decrypted: true, callerId: event.data.callerId});
         } else {
-            decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId]).then((data) => {
-                postMessage({decryptedContent: data, decrypted: true, callerId: event.data.callerId});
-            })
+            decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId])
+                .then((data) => {
+                    if (event.data.incomingHeaders) {
+                        decryptContent(event.data.incomingHeaders, decryptedPrivKeys[event.data.mailboxId])
+                            .then((incomingHeaders) => {
+                                postMessage({incomingHeaders, decryptedContent: data, decrypted: true, callerId: event.data.callerId});
+                            });
+                    } else {
+                        postMessage({decryptedContent: data, decrypted: true, callerId: event.data.callerId});
+                    }
+                });
         }
     }
     else if (event.data.changePassphrase) {

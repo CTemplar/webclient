@@ -140,6 +140,7 @@ export interface MailState {
 export interface DecryptedContent {
   id: number;
   content: string;
+  incomingHeaders?: string;
   inProgress: boolean;
 }
 

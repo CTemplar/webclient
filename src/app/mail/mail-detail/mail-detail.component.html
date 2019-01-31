@@ -226,6 +226,7 @@
           <a class="dropdown-item" (click)="onReplyAll(mail); scrollTo(replyActions);">Reply All</a>
           <a class="dropdown-item" (click)="onPrint(mail)">Print</a>
           <a class="dropdown-item" (click)="onDelete(mail)">Delete this Message</a>
+          <a class="dropdown-item" (click)="showIncomingHeaders(mail)">Show headers</a>
           <a class="dropdown-item" *ngIf="mail.folder !== mailFolderTypes.DRAFT" (click)="onMarkAsSpam(mail)">Mark as
             Spam</a>
         </div>
@@ -475,3 +476,23 @@
     </div>
   </div>
 </ng-template><!-- /.Confirm forward attachments modal ends -->
+
+
+<!-- Incoming Headers modal -->
+<ng-template #incomingHeadersModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Incoming Headers</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder incoming-headers">
+      <div *ngFor="let item of selectedHeaders; let i=index" class="row" [class.last-row]="i===(selectedHeaders.length-1)">
+        <div class="col-3">{{item.key}}</div>
+        <div class="col-9">{{item.value}}</div>
+      </div>
+      <div *ngIf="selectedHeaders?.length===0">No headers available</div>
+    </div>
+  </div>
+</ng-template><!-- /.Incoming Headers modal ends -->
