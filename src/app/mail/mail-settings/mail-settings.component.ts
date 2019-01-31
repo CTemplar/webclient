@@ -30,6 +30,7 @@ import {
 } from '../../store/datatypes';
 import { OpenPgpService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
+import { MailSettingsService } from '../../store/services/mail-settings.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -47,7 +48,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly championAnnualPriceTotal = 450;
   readonly planType = PlanType;
 
-  @ViewChild('changePasswordModal') changePasswordModal;
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
   @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
 
@@ -63,8 +63,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
   timezones: Timezone[];
-  changePasswordForm: FormGroup;
-  showChangePasswordFormErrors = false;
   annualTotalPrice: number;
   annualDiscountedPrice: number;
   extraStorage: number = 0; // storage extra than the default 5GB
@@ -73,7 +71,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
 
-  private changePasswordModalRef: NgbModalRef;
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
 
@@ -83,6 +80,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private openPgpService: OpenPgpService,
+    private settingsService: MailSettingsService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -114,15 +112,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.store.select(state => state.timezone).takeUntil(this.destroyed$)
       .subscribe((timezonesState: TimezonesState) => {
         this.timezones = timezonesState.timezones;
-      });
-
-    this.changePasswordForm = this.formBuilder.group({
-        oldPassword: ['', [Validators.required]],
-        password: ['', [Validators.required]],
-        confirmPwd: ['', [Validators.required]]
-      },
-      {
-        validator: PasswordValidation.MatchPassword
       });
 
     this.deleteAccountInfoForm = this.formBuilder.group({
@@ -186,15 +175,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 
   // == Methods related to ngbModal
 
-  // == Open change password NgbModal
-  openChangePasswordModal() {
-    this.showChangePasswordFormErrors = false;
-    this.changePasswordForm.reset();
-    this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
-      centered: true,
-      windowClass: 'modal-md'
-    });
-  }
 
   // == Open billing information NgbModal
   billingInfoModalOpen(billingInfoContent) {
@@ -234,47 +214,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   updateSettings(key?: string, value?: any) {
-    if (key) {
-      if (this.settings[key] !== value) {
-        this.settings[key] = value;
-        this.store.dispatch(new SettingsUpdate(this.settings));
-      }
-    } else {
-      this.store.dispatch(new SettingsUpdate(this.settings));
-    }
-  }
-
-  changePassword() {
-    this.showChangePasswordFormErrors = true;
-    if (this.changePasswordForm.valid) {
-      this.openPgpService.generateUserKeys(this.userState.username, this.changePasswordForm.value.password);
-      if (this.openPgpService.getUserKeys()) {
-        this.changePasswordConfirmed();
-      } else {
-        this.openPgpService.waitForPGPKeys(this, 'changePasswordConfirmed');
-      }
-    }
-  }
-
-  changePasswordConfirmed() {
-    const data = this.changePasswordForm.value;
-    const requestData = {
-      username: this.userState.username,
-      old_password: data.oldPassword,
-      password: data.password,
-      confirm_password: data.confirmPwd,
-      ...this.openPgpService.getUserKeys()
-    };
-    this.store.dispatch(new ChangePassword(requestData));
-    this.changePasswordModalRef.dismiss();
-  }
-
-  // == Toggle password visibility
-  togglePassword(input: any): any {
-    if (!input.value) {
-      return;
-    }
-    input.type = input.type === 'password' ? 'text' : 'password';
+    this.settingsService.updateSettings(this.settings, key, value);
   }
 
   ngOnDestroy(): void {

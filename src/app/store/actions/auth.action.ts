@@ -23,6 +23,9 @@ export enum AuthActionTypes {
   UPGRADE_ACCOUNT_SUCCESS = '[Auth] Upgrade Account Success',
   UPGRADE_ACCOUNT_FAILURE = '[Auth] Upgrade Account Failure',
   CHANGE_PASSWORD = '[Auth] Change Password',
+  CHANGE_PASSWORD_SUCCESS = '[Auth] Change Password Success',
+  CHANGE_PASSWORD_FAILED = '[Auth] Change Password Failed',
+  CHANGE_PASSPHRASE_SUCCESS = '[Auth] Change Passphrase in keys Success',
   DELETE_ACCOUNT = '[Auth] Delete Account',
   DELETE_ACCOUNT_SUCCESS = '[Auth] Delete Account Success',
   DELETE_ACCOUNT_FAILURE = '[Auth] Delete Account Failure',
@@ -164,6 +167,27 @@ export class ChangePassword {
   }
 }
 
+export class ChangePasswordSuccess {
+  readonly type = AuthActionTypes.CHANGE_PASSWORD_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ChangePasswordFailed {
+  readonly type = AuthActionTypes.CHANGE_PASSWORD_FAILED;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class ChangePassphraseSuccess {
+  readonly type = AuthActionTypes.CHANGE_PASSPHRASE_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class DeleteAccount {
   readonly type = AuthActionTypes.DELETE_ACCOUNT;
 
@@ -221,6 +245,9 @@ export type AuthActionAll =
   | UpgradeAccountSuccess
   | UpgradeAccountFailure
   | ChangePassword
+  | ChangePasswordSuccess
+  | ChangePasswordFailed
+  | ChangePassphraseSuccess
   | DeleteAccount
   | DeleteAccountSuccess
   | DeleteAccountFailure

@@ -54,6 +54,15 @@ onmessage = function (event) {
             })
         }
     }
+    else if (event.data.changePassphrase) {
+        changePassphrase(event.data.passphrase).then((data) => {
+            postMessage(data);
+        });
+    }
+    else if (event.data.revertPassphrase) {
+        changePassphrase(event.data.passphrase).then((data) => {
+        });
+    }
 }
 
 function decryptContent(data, privKeyObj) {
@@ -75,4 +84,20 @@ function generateKeys(options) {
             fingerprint: openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint()
         };
     });
+}
+
+
+async function changePassphrase(passphrase) {
+    var privkeys = [];
+    for (var key in decryptedPrivKeys) {
+        if (decryptedPrivKeys.hasOwnProperty(key)) {
+            await decryptedPrivKeys[key].encrypt(passphrase);
+            privkeys.push({
+                mailbox_id: key,
+                private_key: decryptedPrivKeys[key].armor().replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
+            });
+            decryptedPrivKeys[key].decrypt(passphrase);
+        }
+    }
+    return {privkeys, changePassphrase: true};
 }
