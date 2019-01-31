@@ -74,23 +74,17 @@
 <ng-template #changePasswordModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
     <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
-    <button *ngIf="isEncryptingMessages" type="button" class="close" data-dismiss="modal" aria-label="Close"
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
             (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
-    <div *ngIf="isEncryptingMessages">
+    <div>
       <p class="text-holder text-dark text-medium">
-        Your encryption key is connected to your password. Encrypting messages with the new key,
-        please wait for it to complete, don't close the browser, otherwise you will loose your data.
+        Your encryption key is connected to your password. Enter your password carefully
+        and don't forget it.
       </p>
-      <ngb-progressbar type="success"
-                       [animated]="true"
-                       [striped]="true"
-                       [value]="50">
-        <b>5 of 2344</b>
-      </ngb-progressbar>
     </div>
     <div class="text-holder text-dark text-medium">
       <div class="login-content-holder mx-auto mt-2 pt-sm-2">

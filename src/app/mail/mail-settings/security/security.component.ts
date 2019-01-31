@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AppState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/Observable';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { ChangePassword } from '../../../store/actions';
+import { ChangePassphraseSuccess, ChangePassword } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -26,7 +26,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showChangePasswordFormErrors = false;
   userState: UserState;
   inProgress: boolean;
-  isEncryptingMessages: boolean = false;
+  private updatedPrivateKeys: Array<any>;
 
   constructor(private store: Store<AppState>,
               private settingsService: MailSettingsService,
@@ -39,6 +39,21 @@ export class SecurityComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+      });
+    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+      .subscribe((authState: AuthState) => {
+        if (authState.updatedPrivateKeys) {
+          this.updatedPrivateKeys = [...authState.updatedPrivateKeys];
+          this.changePasswordConfirmed();
+          this.store.dispatch(new ChangePassphraseSuccess(null));
+        }
+        if (this.inProgress && !authState.inProgress) {
+          this.changePasswordModalRef.dismiss();
+          if (authState.isChangePasswordError) {
+            this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword);
+          }
+          this.inProgress = false;
+        }
       });
 
 
@@ -71,12 +86,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
       this.inProgress = true;
-      this.openPgpService.generateUserKeys(this.userState.username, this.changePasswordForm.value.password);
-      if (this.openPgpService.getUserKeys()) {
-        this.changePasswordConfirmed();
-      } else {
-        this.openPgpService.waitForPGPKeys(this, 'changePasswordConfirmed');
-      }
+      this.openPgpService.changePassphrase(this.changePasswordForm.value.password);
     }
   }
 
@@ -87,10 +97,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
       old_password: data.oldPassword,
       password: data.password,
       confirm_password: data.confirmPwd,
-      ...this.openPgpService.getUserKeys()
+      new_keys: this.updatedPrivateKeys
     };
     this.store.dispatch(new ChangePassword(requestData));
-    this.changePasswordModalRef.dismiss();
+    this.inProgress = true;
   }
 
   // == Toggle password visibility

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  ChangePassphraseSuccess,
   Logout,
   SetDecryptedKey,
   SetDecryptInProgress,
@@ -113,6 +114,8 @@ export class OpenPgpService {
         }));
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.decryptedContent, inProgress: false }));
+      } else if (event.data.changePassphrase) {
+        this.store.dispatch(new ChangePassphraseSuccess(event.data.privkeys));
       }
     });
     this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
@@ -206,6 +209,14 @@ export class OpenPgpService {
       }
       this.waitForPGPKeys(self, callbackFn);
     }, 500);
+  }
+
+  changePassphrase(passphrase: string) {
+    this.pgpWorker.postMessage({ passphrase, changePassphrase: true });
+  }
+
+  revertChangedPassphrase(passphrase: string) {
+    this.pgpWorker.postMessage({ passphrase, revertPassphrase: true });
   }
 
 }

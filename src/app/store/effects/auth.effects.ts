@@ -15,7 +15,7 @@ import { UsersService } from '../../store/services';
 // Custom Actions
 import {
   AccountDetailsGet,
-  AuthActionTypes, ChangePassword,
+  AuthActionTypes, ChangePassword, ChangePasswordFailed, ChangePasswordSuccess,
   CheckUsernameAvailability, CheckUsernameAvailabilitySuccess, DeleteAccount, DeleteAccountFailure, DeleteAccountSuccess,
   LogIn,
   LogInFailure,
@@ -166,11 +166,13 @@ export class AuthEffects {
       return this.authService.changePassword(payload)
         .pipe(
           switchMap((user) => [
-            new Logout(),
-            new SnackPush({ message: 'Password changed successfully, please sign in with new password.' })
+            new ChangePasswordSuccess(payload),
+            new SnackPush({ message: 'Password changed successfully.' })
           ]),
           catchError((error) => [
-            new SnackErrorPush({ message: 'Failed to change password, please try again.' })])
+            new SnackErrorPush({ message: 'Failed to change password, please try again.' }),
+            new ChangePasswordFailed(error),
+          ])
         );
     });
 
