@@ -27,12 +27,12 @@
             <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
               email</label>
           </div>
-          <div class="col-sm-7 col-md-5">
-            <input class="form-control form-control-sm" id="recoveryMail" type="email"
+          <form class="col-sm-7 col-md-5" autocomplete="off">
+            <input class="form-control form-control-sm" id="recoveryMail" type="email" name="email"
                    autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur'}"
                    (change)="updateSettings('recovery_email', $event.target.value)"
                    placeholder="johnsimpson@gmail.com"/>
-          </div>
+          </form>
         </div>
       </div>
 
