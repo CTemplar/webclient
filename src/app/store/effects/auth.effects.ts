@@ -169,9 +169,9 @@ export class AuthEffects {
             new ChangePasswordSuccess(payload),
             new SnackPush({ message: 'Password changed successfully.' })
           ]),
-          catchError((error) => [
-            new SnackErrorPush({ message: 'Failed to change password, please try again.' }),
-            new ChangePasswordFailed(error),
+          catchError((response: any) => [
+            new SnackErrorPush({ message: `Failed to change password, ${response.error}` }),
+            new ChangePasswordFailed(response),
           ])
         );
     });
