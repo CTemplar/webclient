@@ -12,6 +12,7 @@ import { Mail } from '../../store/models';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -52,15 +53,15 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required]]
     });
 
-    this.route.params.takeUntil(this.destroyed$).subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe(params => {
       this.hash = params['hash'];
       this.secret = params['secret'];
       this.senderId = decodeURIComponent(params['senderId']);
       this.store.dispatch(new GetMessage({ hash: this.hash, secret: this.secret }));
     });
 
-    this.store.select(state => state.secureMessage).takeUntil(this.destroyed$)
-      .subscribe(state => {
+    this.store.select(state => state.secureMessage).pipe(takeUntil(this.destroyed$))
+      .subscribe((state: SecureMessageState) => {
         this.isLoading = state.inProgress || state.isContentDecryptionInProgress;
         this.errorMessage = state.errorMessage;
         if (!this.message && state.message) {

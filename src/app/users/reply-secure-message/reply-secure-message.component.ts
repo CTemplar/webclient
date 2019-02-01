@@ -9,6 +9,7 @@ import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/ac
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
+import { takeUntil } from 'rxjs/operators';
 
 const Quill: any = QuillNamespace;
 
@@ -87,8 +88,8 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngOnInit() {
-    this.store.select(state => state.secureMessage).takeUntil(this.destroyed$)
-      .subscribe(state => {
+    this.store.select(state => state.secureMessage).pipe(takeUntil(this.destroyed$))
+      .subscribe((state: SecureMessageState) => {
         this.inProgress = state.inProgress || state.isEncryptionInProgress;
         if (this.secureMessageState) {
           if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {

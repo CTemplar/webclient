@@ -7,6 +7,7 @@ import { BlackListAdd, WhiteListAdd } from '../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../../../store/services/notification.service';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -51,7 +52,7 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
 
   private handleUserState(): void {
     this.store.select((state) => state.user)
-      .takeUntil(this.destroyed$).subscribe((state: UserState) => {
+      .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
       if (this.inProgress && !state.inProgress) {
         this.inProgress = false;
         if (!state.isError) {

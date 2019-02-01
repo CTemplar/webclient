@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, UserState } from '../../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -47,7 +48,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
 
   private handleUserState(): void {
     this.store.select(state => state.user)
-      .takeUntil(this.destroyed$).subscribe((state: UserState) => {
+      .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
       if (this.inProgress && !state.inProgress) {
         this.inProgress = false;
         if (!state.isError) {

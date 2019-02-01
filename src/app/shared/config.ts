@@ -69,7 +69,7 @@ export const DEFAULT_STORAGE = 5; // storage in GB
 export const DEFAULT_EMAIL_ADDRESS = 10;
 export const DEFAULT_CUSTOM_DOMAIN = 1;
 
-export const VALID_EMAIL_REGEX = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)$/m;
+export const VALID_EMAIL_REGEX: any = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)$/m;
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 

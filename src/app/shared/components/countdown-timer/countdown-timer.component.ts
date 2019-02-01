@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { takeUntil, takeWhile } from 'rxjs/operators';
+import { timer } from 'rxjs/internal/observable/timer';
 
 @TakeUntilDestroy()
 @Component({
@@ -25,8 +26,8 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    Observable.timer(0, 1000)
-      .takeUntil(this.destroyed$)
+    timer(0, 1000)
+      .pipe(takeUntil(this.destroyed$))
       .pipe(
         takeWhile(() => this.duration > 0)
       )

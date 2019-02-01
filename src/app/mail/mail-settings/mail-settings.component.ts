@@ -31,6 +31,7 @@ import {
 import { OpenPgpService } from '../../store/services';
 import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -87,11 +88,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
@@ -109,7 +110,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
       });
-    this.store.select(state => state.timezone).takeUntil(this.destroyed$)
+    this.store.select(state => state.timezone).pipe(takeUntil(this.destroyed$))
       .subscribe((timezonesState: TimezonesState) => {
         this.timezones = timezonesState.timezones;
       });

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 // Ngrx
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 // Custom Action
 import * as RouterActions from '../actions';
@@ -21,7 +21,8 @@ export class RouterEffects {
   ) {}
 
   @Effect({ dispatch: false })
-  navigate$ = this.actions$.ofType(RouterActions.GO).pipe(
+  navigate$ = this.actions$.pipe(
+    ofType(RouterActions.GO),
     map((action: RouterActions.Go) => action.payload),
     tap(({ path, query: queryParams, extras }) => {
       this.router.navigate(path, { queryParams, ...extras });
@@ -30,11 +31,15 @@ export class RouterEffects {
 
   @Effect({ dispatch: false })
   navigateBack$ = this.actions$
-    .ofType(RouterActions.BACK)
-    .pipe(tap(() => this.location.back()));
+    .pipe(
+      ofType(RouterActions.BACK),
+      tap(() => this.location.back())
+    );
 
   @Effect({ dispatch: false })
   navigateForward$ = this.actions$
-    .ofType(RouterActions.FORWARD)
-    .pipe(tap(() => this.location.forward()));
+    .pipe(
+      ofType(RouterActions.FORWARD),
+      tap(() => this.location.forward())
+    );
 }

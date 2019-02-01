@@ -8,6 +8,7 @@ import { CreateFilter, DeleteFilter, UpdateFilter } from '../../../store/actions
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
 import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -48,7 +49,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((userState: UserState) => {
         this.filters = userState.filters;
         this.customFolders = userState.customFolders;
@@ -65,11 +66,11 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       markAsRead: [false],
       markAsStarred: [false]
     });
-    this.createFilterForm.get('name').valueChanges.takeUntil(this.destroyed$)
-      .subscribe((value) => {
+    this.createFilterForm.get('name').valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe((value: string) => {
         this.checkFilterExist(value);
       });
-    this.createFilterForm.get('moveTo').valueChanges.takeUntil(this.destroyed$)
+    this.createFilterForm.get('moveTo').valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((value) => {
         if (!value && this.createFilterData) {
           this.createFilterData.folder = null;

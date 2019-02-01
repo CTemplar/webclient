@@ -43,7 +43,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
       .subscribe((mailboxesState: MailBoxesState) => {
         if (mailboxesState.isUpdatingOrder) {
           this.reorderInProgress = true;
@@ -72,7 +72,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;

@@ -7,7 +7,7 @@ import { apiUrl, REFFERAL_CODE_KEY } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
@@ -193,7 +193,7 @@ export class UsersService {
   }
 
   getAccountDetails() {
-    return this.http.get<any>(`${apiUrl}users/myself/`).map(data => data['results']);
+    return this.http.get<any>(`${apiUrl}users/myself/`).pipe(map(data => data['results']));
   }
 
   getWhiteList(limit = 0, offset = 0) {
@@ -325,12 +325,12 @@ export class UsersService {
   }
 
   sendEmailForwardingCode(email: string): Observable<any> {
-    const body = {email};
+    const body = { email };
     return this.http.post(`${apiUrl}/emails-forward/send-verification-code/`, body);
   }
 
   verifyEmailForwardingCode(email: string, code: number): Observable<any> {
-    const body = {email, code};
+    const body = { email, code };
     return this.http.post(`${apiUrl}/emails-forward/verify-verification-code/`, body);
   }
 

@@ -7,6 +7,7 @@ import { Logout, PaymentFailure, StopGettingUnreadMailsCount } from '../actions'
 import { AppState } from '../datatypes';
 
 import { UsersService } from './users.service';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable()
@@ -28,7 +29,7 @@ export class TokenInterceptor implements HttpInterceptor {
       });
     }
     return next.handle(request)
-      .catch((error: any) => {
+      .pipe(catchError((error: any) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
             this.store.dispatch(new Logout({ session_expired: true }));
@@ -43,6 +44,6 @@ export class TokenInterceptor implements HttpInterceptor {
           error.error = error.error.detail;
         }
         return observableThrowError(error);
-      });
+      }));
   }
 }

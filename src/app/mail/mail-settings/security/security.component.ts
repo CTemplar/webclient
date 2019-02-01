@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -35,12 +36,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
       });
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
         if (authState.updatedPrivateKeys) {
           this.updatedPrivateKeys = [...authState.updatedPrivateKeys];

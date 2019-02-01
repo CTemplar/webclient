@@ -10,6 +10,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
+import { takeUntil } from 'rxjs/operators';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -64,7 +65,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   private updateUsersStatus(): void {
     this.store.select(state => state.user)
-      .takeUntil(this.destroyed$).subscribe((state: UserState) => {
+      .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
       this.userState = state;
       this.inProgress = this.userState.inProgress;
       if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {

@@ -8,6 +8,7 @@ import { Attachment, Folder, Mail, Mailbox } from '../models';
 // Rxjs
 import { Observable, of } from 'rxjs';
 import { MailFolderType } from '../models/mail.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MailService {
@@ -37,19 +38,19 @@ export class MailService {
     if (payload.seconds) {
       url = `${url}&seconds=${payload.seconds}`;
     }
-    return this.http.get<Mail[]>(url).map(data => data);
+    return this.http.get<Mail[]>(url);
   }
 
   searchMessages(payload: any): Observable<any> {
     const url = `${apiUrl}search/messages/?q=${payload.searchText}&limit=${payload.limit}&offset=${payload.offset}`;
-    return this.http.get<Mail[]>(url).map(data => data);
+    return this.http.get<Mail[]>(url);
   }
 
   getMessage(messageId: number): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${messageId}`;
-    return this.http.get<Mail>(url).map(data => {
+    return this.http.get<Mail>(url).pipe(map(data => {
       return data['results'] ? data['results'][0] : null;
-    });
+    }));
   }
 
   getUnreadMailsCount(): Observable<any> {
@@ -58,17 +59,17 @@ export class MailService {
 
   getMailboxes(limit: number = 50, offset: number = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
-    return this.http.get<any>(url).map(data => {
+    return this.http.get<any>(url).pipe(map(data => {
       const newData = data['results'].map(mailbox => {
         mailbox.customFolders = mailbox.custom_folders;
         return mailbox;
       });
       return newData;
-    });
+    }));
   }
 
   getUsersPublicKeys(emails: Array<string>): Observable<any> {
-    const body = {emails};
+    const body = { emails };
     return this.http.post<any>(`${apiUrl}emails/keys/`, body);
   }
 

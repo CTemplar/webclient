@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState, UserState } from '../../store/datatypes';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -19,7 +20,7 @@ export class MailFooterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store
       .select(state => state.user)
-      .takeUntil(this.destroyed$)
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
       });

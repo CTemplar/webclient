@@ -10,6 +10,7 @@ import { AppState, MailBoxesState, MailState, UserState } from '../../store/data
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -54,7 +55,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
@@ -117,7 +118,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
       .subscribe((mailBoxesState: MailBoxesState) => {
         this.currentMailbox = mailBoxesState.currentMailbox;
         this.mailboxes = mailBoxesState.mailboxes;
@@ -133,7 +134,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
       this.mailFolder = params['folder'] as MailFolderType;
 
-      this.store.select(state => state.user).takeUntil(this.destroyed$)
+      this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
         .subscribe((user: UserState) => {
           this.customFolders = user.customFolders;
           this.userState = user;

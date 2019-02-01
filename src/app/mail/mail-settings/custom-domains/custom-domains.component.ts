@@ -10,6 +10,7 @@ import { CreateDomain, DeleteDomain, GetDomains, VerifyDomain } from '../../../s
 
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -55,11 +56,11 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         if (!user.inProgress) {

@@ -13,6 +13,7 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../shared/config';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -47,7 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoggedIn = this.usersService.getUserKey() ? true : false;
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((data: AuthState) => this.isLoggedIn = data.isAuthenticated);
   }
 

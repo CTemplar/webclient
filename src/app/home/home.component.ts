@@ -13,6 +13,7 @@ import { FinalLoading, GetCategories, GetPosts, GetRelatedPosts, RecentBlogLoadi
 // Services
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
 
 interface ModeInterface {
   Recent: number;
@@ -49,7 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {
     this.getNewBlogState$ = this.store.select(getNewBlogs);
     this.getCategories$ = this.store.select(getCategories);
-    this.getCategories$.takeUntil(this.destroyed$).subscribe(categories => {
+    this.getCategories$.pipe(takeUntil(this.destroyed$)).subscribe(categories => {
       this.categories = categories;
     });
   }
@@ -58,7 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getCategories();
     this.numberOfColumns = NumberOfColumns.Three;
     this.mode = Mode.Recent;
-    this.store.select(state => state.loading).takeUntil(this.destroyed$).subscribe((loadingState: LoadingState) => {
+    this.store.select(state => state.loading).pipe(takeUntil(this.destroyed$)).subscribe((loadingState: LoadingState) => {
       if (loadingState.RecentBlogLoading === false) {
         if (
           this.router.url === '/' &&
@@ -73,7 +74,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   updateRecentState() {
-    this.getNewBlogState$.takeUntil(this.destroyed$).subscribe(blogs => {
+    this.getNewBlogState$.pipe(takeUntil(this.destroyed$)).subscribe((blogs: Post[]) => {
       if (blogs.length) {
         blogs.map((post: Post) => {
           post.isLoaded = false;

@@ -15,6 +15,7 @@ import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -86,8 +87,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
         validator: PasswordValidation.MatchPassword
       });
 
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
-      .subscribe(authState => {
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+      .subscribe((authState: AuthState) => {
         this.isLoading = authState.inProgress;
         this.errorMessage = authState.errorMessage;
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
