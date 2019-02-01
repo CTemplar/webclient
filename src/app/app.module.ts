@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatKeyboardModule } from '@ngx-material-keyboard/core';
+import { MatKeyboardModule } from 'ngx7-material-keyboard';
 
 // Components
 import { AppComponent } from './app.component';
