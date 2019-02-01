@@ -6,10 +6,8 @@ import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-m
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
-import { Observable } from 'rxjs/Observable';
-import { debounceTime } from 'rxjs/operators/debounceTime';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { COLORS, ESCAPE_KEYCODE, FONTS, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';

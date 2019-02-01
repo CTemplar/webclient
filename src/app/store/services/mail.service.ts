@@ -6,11 +6,8 @@ import { apiUrl } from '../../shared/config';
 // Models
 import { Attachment, Folder, Mail, Mailbox } from '../models';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { MailFolderType } from '../models/mail.model';
-import { map } from 'rxjs/operators';
-import { UserMailbox } from '../models/users.model';
 
 @Injectable()
 export class MailService {

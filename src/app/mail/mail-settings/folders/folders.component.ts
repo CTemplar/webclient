@@ -3,7 +3,7 @@ import { Folder } from '../../../store/models';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteFolder, UpdateFolderOrder } from '../../../store/actions';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';

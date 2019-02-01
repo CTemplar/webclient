@@ -1,32 +1,26 @@
 // Angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 // Ngrx
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
+import { Actions, Effect } from '@ngrx/effects';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
-import { tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-
+import { Observable, of } from 'rxjs';
 // Service
 import { BlogService } from '../../store/services';
-
 // Custom Actions
 import {
   BlogActionTypes,
-  GetPosts,
-  PutPosts,
+  GetCategories,
   GetPostDetail,
-  PutPostDetail,
+  GetPosts,
+  GetRelatedPosts,
   PostComment,
-  PostCommentSuccess, PostCommentFailure, GetRelatedPosts, PutRelatedPosts, GetCategories, PutCategories
+  PostCommentFailure,
+  PostCommentSuccess,
+  PutCategories,
+  PutPostDetail,
+  PutPosts,
+  PutRelatedPosts
 } from '../actions';
 
 

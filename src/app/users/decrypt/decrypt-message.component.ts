@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 // Store
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { GetMessage } from '../../store/actions';
 // Store
 import { AppState, SecureMessageState } from '../../store/datatypes';

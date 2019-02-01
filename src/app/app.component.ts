@@ -4,12 +4,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 // Services
 import { SharedService } from './store/services';
 // import { UsersService } from './users/shared/users.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes } from './store/quotes';
 
-import 'rxjs/add/operator/filter';
+
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { FinalLoading } from './store/actions';

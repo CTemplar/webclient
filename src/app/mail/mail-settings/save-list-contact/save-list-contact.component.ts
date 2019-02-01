@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState, BlackList, UserState, WhiteList } from '../../../store/datatypes';
 import { BlackListAdd, WhiteListAdd } from '../../../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { NotificationService } from '../../../store/services/notification.service';
 
 @TakeUntilDestroy()

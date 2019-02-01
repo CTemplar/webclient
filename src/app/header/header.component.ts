@@ -10,7 +10,7 @@ import { AppState, AuthState } from '../store/datatypes';
 import { Store } from '@ngrx/store';
 import { Logout } from '../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../shared/config';
 

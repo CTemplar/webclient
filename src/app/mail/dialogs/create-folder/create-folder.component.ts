@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

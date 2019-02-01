@@ -7,7 +7,7 @@ import { Logout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../../shared/config';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UpdateSearch } from '../../store/actions/search.action';
 import { DOCUMENT } from '@angular/common';

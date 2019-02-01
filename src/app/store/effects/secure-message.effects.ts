@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
+
+
+
+
+import { Observable } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import {
   GetMessage,

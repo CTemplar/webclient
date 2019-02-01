@@ -3,16 +3,10 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 // Ngrx
 import { Actions, Effect } from '@ngrx/effects';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/finally';
+import { Observable, Subscription } from 'rxjs';
+
 import { catchError, switchMap } from 'rxjs/operators';
-import { Subscription } from 'rxjs/Subscription';
 // Services
 import { MailService } from '../../store/services';
 // Custom Actions
@@ -29,7 +23,8 @@ import {
   SendMailSuccess,
   SnackErrorPush,
   SnackPush,
-  UpdateCurrentFolder, UpdateMailDetailChildren,
+  UpdateCurrentFolder,
+  UpdateMailDetailChildren,
   UploadAttachment,
   UploadAttachmentFailure,
   UploadAttachmentProgress,

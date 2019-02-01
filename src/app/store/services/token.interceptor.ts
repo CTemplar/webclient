@@ -1,10 +1,8 @@
+import { Observable, throwError as observableThrowError } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
-import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
+
 import { Logout, PaymentFailure, StopGettingUnreadMailsCount } from '../actions';
 import { AppState } from '../datatypes';
 
@@ -44,7 +42,7 @@ export class TokenInterceptor implements HttpInterceptor {
         } else if (error.error.detail) {
           error.error = error.error.detail;
         }
-        return Observable.throw(error);
+        return observableThrowError(error);
       });
   }
 }

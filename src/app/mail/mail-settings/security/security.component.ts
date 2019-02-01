@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppState, AuthState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import { ChangePassphraseSuccess, ChangePassword } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

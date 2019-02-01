@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 // Ngrx
 import { Actions, Effect } from '@ngrx/effects';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs';
+
+
+
+
 import { switchMap, catchError } from 'rxjs/operators';
 // Services
 import { MailService } from '../../store/services';

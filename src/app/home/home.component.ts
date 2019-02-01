@@ -6,7 +6,7 @@ import { getCategories, getNewBlogs } from '../store/selectors';
 // Store
 import { Store } from '@ngrx/store';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AppState, LoadingState } from '../store/datatypes';
 // Actions
 import { FinalLoading, GetCategories, GetPosts, GetRelatedPosts, RecentBlogLoading } from '../store/actions';

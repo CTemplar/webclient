@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 import { catchError, switchMap } from 'rxjs/operators';
 import {
@@ -10,7 +10,7 @@ import {
   CreateNewWalletSuccess,
 } from '../actions/bitcoin.action';
 import { BitcoinService } from '../services/bitcoin.service';
-import 'rxjs/add/operator/switchMap';
+
 
 @Injectable()
 export class BitcoinEffects {

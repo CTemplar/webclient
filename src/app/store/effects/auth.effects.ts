@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 // Ngrx
 import { Actions, Effect, ofType } from '@ngrx/effects';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs';
+
+
+
+
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 // Service
 import { UsersService } from '../../store/services';

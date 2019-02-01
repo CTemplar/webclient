@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ContactAdd } from '../../../store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, UserState } from '../../../store/datatypes';

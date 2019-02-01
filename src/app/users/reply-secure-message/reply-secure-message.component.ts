@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { COLORS, FONTS } from '../../shared/config';
 import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/actions';
 import { AppState, SecureMessageState } from '../../store/datatypes';

@@ -6,8 +6,7 @@ import { Router } from '@angular/router';
 import { apiUrl, REFFERAL_CODE_KEY } from '../../shared/config';
 // Models
 // Rxjs
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState, Settings } from '../datatypes';

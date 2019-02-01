@@ -5,16 +5,16 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import 'rxjs/add/observable/timer';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+
+import { Observable, Subscription } from 'rxjs';
 import {
   CheckTransaction,
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
   SignUp,
-  SnackErrorPush, UpgradeAccount
+  SnackErrorPush,
+  UpgradeAccount
 } from '../../../store/actions/index';
 import {
   AppState,
@@ -22,9 +22,10 @@ import {
   BitcoinState,
   CheckTransactionResponse,
   PaymentMethod,
+  PaymentType,
+  PlanType,
   SignupState,
-  TransactionStatus,
-  PaymentType, PlanType
+  TransactionStatus
 } from '../../../store/datatypes';
 // Service
 import { OpenPgpService, SharedService } from '../../../store/services/index';

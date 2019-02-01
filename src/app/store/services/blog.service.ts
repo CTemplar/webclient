@@ -9,7 +9,7 @@ import { apiHeaders, apiUrl } from '../../shared/config';
 import { Comment, Post, Category } from '../models';
 
 // Rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // Services

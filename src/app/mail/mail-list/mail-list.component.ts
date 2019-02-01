@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Folder, MailFolderType } from '../../store/models';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppState, MailBoxesState, UserState } from '../../store/datatypes';
