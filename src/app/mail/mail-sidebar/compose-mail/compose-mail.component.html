@@ -449,7 +449,7 @@
       </div>
       <div class="form-group text-right mb-0">
         <button type="button" (click)="imageInput.value = ''; imageInput.click(); d();"
-                class="btn btn-success btn-sm" role="button">Attach Files
+                class="btn btn-success btn-sm mr-1" role="button">Attach Files
         </button>
         <button type="button" (click)="onAttachImageURL(imageURL.value)" class="btn btn-success btn-sm"
                 role="button">Attach URL
@@ -498,10 +498,10 @@
         {{selfDestruct.error}}
       </div>
       <div class="form-group text-center btns-xs-3 mb-0">
-        <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm" role="button">
+        <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm mr-1" role="button">
           Confirm
         </button>
-        <button type="button" (click)="clearSelfDestructValue()" class="btn btn-primary btn-sm" role="button">
+        <button type="button" (click)="clearSelfDestructValue()" class="btn btn-primary btn-sm mr-1" role="button">
           Clear
         </button>
         <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
@@ -549,10 +549,10 @@
         {{delayedDelivery.error}}
       </div>
       <div class="form-group text-center btns-xs-3 mb-0">
-        <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm" role="button">
+        <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm mr-1" role="button">
           Confirm
         </button>
-        <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm"
+        <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm mr-1"
                 role="button">Clear
         </button>
         <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
@@ -588,10 +588,10 @@
                  [(ngModel)]="deadManTimer.hours">
         </div>
         <div class="form-group text-center btns-xs-3 mb-0">
-          <button type="submit" class="btn btn-success btn-sm" role="button">
+          <button type="submit" class="btn btn-success btn-sm mr-1" role="button">
             Confirm
           </button>
-          <button type="reset" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm" role="button">
+          <button type="reset" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm mr-1" role="button">
             Clear
           </button>
           <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
@@ -652,8 +652,8 @@
           Encrypted messages to non-Ctemplar recipients will expire in 5 days.
         </div>
         <div class="form-group text-center mb-0">
-          <button type="submit" class="btn btn-success btn-sm" role="button">Confirm</button>
-          <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm"
+          <button type="submit" class="btn btn-success btn-sm mr-1" role="button">Confirm</button>
+          <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm mr-1"
                   role="button">Clear
           </button>
           <button (click)="d()" class="btn btn-secondary btn-sm" role="button">Cancel</button>
