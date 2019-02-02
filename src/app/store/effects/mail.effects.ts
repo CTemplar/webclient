@@ -99,8 +99,7 @@ export class MailEffects {
             if (payload.folder === MailFolderType.SPAM) {
               updateFolderActions.push(new AccountDetailsGet());
             }
-
-            return of(updateFolderActions);
+            return of(...updateFolderActions);
 
           }),
           catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })))
