@@ -146,7 +146,7 @@
         </button>
         <button class="btn btn-sm btn-secondary float-right"
                 (click)="startReorder()"
-                *ngIf="!reorder"
+                *ngIf="!reorder && mailboxes?.length>1"
                 ngbTooltip="Reorder addresses">Reorder</button>
       </div>
       <ul class="ui-list ui-list-styled list-styled addresses-list">
