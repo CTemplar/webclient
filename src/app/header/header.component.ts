@@ -1,7 +1,7 @@
 // Angular
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 // Service
 import { SharedService } from '../store/services';
@@ -10,9 +10,10 @@ import { AppState, AuthState } from '../store/datatypes';
 import { Store } from '@ngrx/store';
 import { Logout } from '../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../shared/config';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -47,7 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoggedIn = this.usersService.getUserKey() ? true : false;
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((data: AuthState) => this.isLoggedIn = data.isAuthenticated);
   }
 

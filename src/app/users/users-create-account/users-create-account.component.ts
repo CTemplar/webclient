@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 // Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
@@ -14,7 +14,7 @@ import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateS
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
-import { debounceTime, tap } from 'rxjs/operators';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { apiUrl, VALID_EMAIL_REGEX } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
@@ -86,13 +86,13 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     });
 
     this.store.select(state => state.auth)
-      .takeUntil(this.destroyed$)
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((state: AuthState) => {
         this.errorMessage = state.errorMessage;
       });
 
     this.store.select(state => state.user)
-      .takeUntil(this.destroyed$)
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((state: UserState) => {
         this.selectedPlan = state.membership.id;
       });
@@ -198,7 +198,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private handleUserState(): void {
-    this.store.select(state => state.auth).takeUntil(this.destroyed$).subscribe((authState: AuthState) => {
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$)).subscribe((authState: AuthState) => {
       if (this.signupInProgress && !authState.inProgress) {
         if (authState.errorMessage) {
           this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);

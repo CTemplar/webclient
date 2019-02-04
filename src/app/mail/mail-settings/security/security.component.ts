@@ -2,13 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppState, AuthState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import { ChangePassphraseSuccess, ChangePassword } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -27,6 +28,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   userState: UserState;
   inProgress: boolean;
   private updatedPrivateKeys: Array<any>;
+  private canDispatchChangePassphrase: boolean;
 
   constructor(private store: Store<AppState>,
               private settingsService: MailSettingsService,
@@ -35,14 +37,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
       });
-    this.store.select(state => state.auth).takeUntil(this.destroyed$)
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
-        if (authState.updatedPrivateKeys) {
+        if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
+          this.canDispatchChangePassphrase = false;
           this.updatedPrivateKeys = [...authState.updatedPrivateKeys];
           this.changePasswordConfirmed();
           this.store.dispatch(new ChangePassphraseSuccess(null));
@@ -86,6 +89,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
       this.inProgress = true;
+      this.canDispatchChangePassphrase = true;
       this.openPgpService.changePassphrase(this.changePasswordForm.value.password);
     }
   }

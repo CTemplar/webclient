@@ -7,13 +7,14 @@ import { Logout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../../shared/config';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UpdateSearch } from '../../store/actions/search.action';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { MailFolderType } from '../../store/models';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -42,7 +43,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         if (user.settings.language) {
           const language = this.languages.filter(item => item.name === user.settings.language)[0];
@@ -52,10 +53,10 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
           this.selectedLanguage = language;
         }
       });
-    this.route.params.takeUntil(this.destroyed$).subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe(params => {
       this.mailFolder = params['folder'] as MailFolderType;
     });
-    this.searchInput.valueChanges.takeUntil(this.destroyed$)
+    this.searchInput.valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((value) => {
         if (!value) {
           this.store.dispatch(new UpdateSearch(value));

@@ -3,15 +3,17 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Folder, Mailbox } from '../../store/models/mail.model';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { DeleteFolder, GetUnreadMailsCount, StopGettingUnreadMailsCount } from '../../store/actions';
+import { timer } from 'rxjs/internal/observable/timer';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -57,7 +59,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   initializeAutoRefresh() {
-    Observable.timer(0, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
+    timer(0, this.AUTO_REFRESH_DURATION).pipe(takeUntil(this.destroyed$))
       .subscribe(event => {
         if (this.mailState && this.mailState.canGetUnreadCount) {
           this.store.dispatch(new GetUnreadMailsCount());
@@ -66,7 +68,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.customFolders = user.customFolders;
@@ -75,12 +77,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
       .subscribe((mailboxes: MailBoxesState) => {
         this.currentMailbox = mailboxes.currentMailbox;
       });
 
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
       });

@@ -2,14 +2,12 @@ import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Ou
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
+import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
-import { Observable } from 'rxjs/Observable';
-import { debounceTime } from 'rxjs/operators/debounceTime';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { COLORS, ESCAPE_KEYCODE, FONTS, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
@@ -199,7 +197,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initializeAutoSave();
     this.resetMailData();
 
-    this.store.select((state: AppState) => state.composeMail).takeUntil(this.destroyed$)
+    this.store.select((state: AppState) => state.composeMail).pipe(takeUntil(this.destroyed$))
       .subscribe((response: ComposeMailState) => {
         const draft = response.drafts[this.draftId];
         if (draft) {
@@ -222,19 +220,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.draft = draft;
       });
 
-    this.store.select((state: AppState) => state.user).takeUntil(this.destroyed$)
+    this.store.select((state: AppState) => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.contacts = user.contact;
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
       });
 
-    this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
+    this.store.select((state: AppState) => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
       });
 
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
       .subscribe((mailBoxesState: MailBoxesState) => {
         if (!this.selectedMailbox) {
           if (this.draftMail && this.draftMail.mailbox) {
@@ -252,7 +250,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     if (this.draftMail) {
-      this.store.select(state => state.mail).takeUntil(this.destroyed$)
+      this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
         .subscribe((mailState: MailState) => {
           if (!this.decryptedContent) {
             const decryptedContent = mailState.decryptedContents[this.draftMail.id];

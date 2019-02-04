@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef, ViewEnca
 // Store
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 // Actions
 import { AccountDetailsGet, GetFilters, GetMailboxes, GetDomains } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';

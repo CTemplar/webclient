@@ -4,16 +4,18 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 // Services
 import { SharedService } from './store/services';
 // import { UsersService } from './users/shared/users.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes } from './store/quotes';
 
-import 'rxjs/add/operator/filter';
+
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { TranslateService } from '@ngx-translate/core';
 import { FinalLoading } from './store/actions';
 import { REFFERAL_CODE_KEY } from './shared/config';
+import { filter, takeUntil } from 'rxjs/operators';
+import Timer = NodeJS.Timer;
 
 @TakeUntilDestroy()
 @Component({
@@ -27,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public hideFooter: boolean = false;
   public hideHeader: boolean = false;
   public windowIsResized: boolean = false;
-  public resizeTimeout: number = null;
+  public resizeTimeout: Timer = null;
   public isLoading: boolean = true;
   public isMail: boolean = false;
   public isHomepage: boolean;
@@ -51,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
     }, 2000);
 
-    this.activatedRoute.queryParams.takeUntil(this.destroyed$)
+    this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$))
       .subscribe((params: any) => {
         if (params && params.referral_code) {
           localStorage.setItem(REFFERAL_CODE_KEY, params.referral_code);
@@ -63,7 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.router.events
-      .filter((event) => event instanceof NavigationEnd)
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((routeEvent: NavigationEnd) => {
         this.isHomepage = routeEvent.url === '/';
         window.scrollTo(0, 0);
@@ -71,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.quote = quotes[Math.floor(Math.random() * 5)];
 
-    this.store.select((state: AppState) => state.auth).takeUntil(this.destroyed$)
+    this.store.select((state: AppState) => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
       });
@@ -94,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private updateLoadingStatus(): void {
-    this.store.select(state => state.loading).takeUntil(this.destroyed$)
+    this.store.select(state => state.loading).pipe(takeUntil(this.destroyed$))
       .subscribe((loadingState: LoadingState) => {
         this.isLoading = loadingState.Loading;
       });
