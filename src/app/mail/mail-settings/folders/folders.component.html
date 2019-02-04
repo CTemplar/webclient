@@ -11,7 +11,7 @@
       </button>
       <button class="btn btn-sm btn-secondary float-right"
               (click)="startReorder()"
-              *ngIf="!reorder"
+              *ngIf="!reorder && folders?.length>1"
               ngbTooltip="Reorder addresses">Reorder
       </button>
 

@@ -34,8 +34,11 @@ export class OpenPgpService {
               private usersService: UsersService) {
 
     this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
-    this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
     this.listenWorkerPostMessages();
+    setTimeout(() => {
+      this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
+      this.listenEncryptWorkerPostMessages();
+    }, 2000);
 
     this.store.select(state => state.mailboxes)
       .subscribe((mailBoxesState: MailBoxesState) => {
@@ -118,6 +121,9 @@ export class OpenPgpService {
         this.store.dispatch(new ChangePassphraseSuccess(event.data.privkeys));
       }
     });
+  }
+
+  listenEncryptWorkerPostMessages() {
     this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
       if (event.data.encrypted) {
         this.store.dispatch(new UpdatePGPEncryptedContent({

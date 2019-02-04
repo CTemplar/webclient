@@ -28,6 +28,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   userState: UserState;
   inProgress: boolean;
   private updatedPrivateKeys: Array<any>;
+  private canDispatchChangePassphrase: boolean;
 
   constructor(private store: Store<AppState>,
               private settingsService: MailSettingsService,
@@ -43,7 +44,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
       });
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
-        if (authState.updatedPrivateKeys) {
+        if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
+          this.canDispatchChangePassphrase = false;
           this.updatedPrivateKeys = [...authState.updatedPrivateKeys];
           this.changePasswordConfirmed();
           this.store.dispatch(new ChangePassphraseSuccess(null));
@@ -87,6 +89,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
       this.inProgress = true;
+      this.canDispatchChangePassphrase = true;
       this.openPgpService.changePassphrase(this.changePasswordForm.value.password);
     }
   }
