@@ -1,15 +1,16 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
+import { DOCUMENT } from '@angular/common';
+import { Observable } from 'rxjs';
 import { AppState, Contact, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import 'rxjs/add/operator/takeUntil';
+
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
+import { takeUntil } from 'rxjs/operators';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -64,7 +65,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   private updateUsersStatus(): void {
     this.store.select(state => state.user)
-      .takeUntil(this.destroyed$).subscribe((state: UserState) => {
+      .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
       this.userState = state;
       this.inProgress = this.userState.inProgress;
       if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {

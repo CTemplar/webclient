@@ -6,10 +6,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { OpenPgpService, UsersService } from '../../../store/services';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
+import { MailSettingsService } from '../../../store/services/mail-settings.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -37,11 +38,12 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
               private usersService: UsersService,
+              private settingsService: MailSettingsService,
               private store: Store<AppState>) { }
 
   ngOnInit() {
 
-    this.store.select(state => state.mailboxes).takeUntil(this.destroyed$)
+    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
       .subscribe((mailboxesState: MailBoxesState) => {
         if (mailboxesState.isUpdatingOrder) {
           this.reorderInProgress = true;
@@ -70,7 +72,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
@@ -222,14 +224,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   }
 
   updateSettings(key?: string, value?: any) {
-    if (key) {
-      if (this.settings[key] !== value) {
-        this.settings[key] = value;
-        this.store.dispatch(new SettingsUpdate(this.settings));
-      }
-    } else {
-      this.store.dispatch(new SettingsUpdate(this.settings));
-    }
+    this.settingsService.updateSettings(this.settings, key, value);
   }
 
   ngOnDestroy(): void {

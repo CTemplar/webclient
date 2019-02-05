@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Folder, MailFolderType } from '../../store/models';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppState, MailBoxesState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { SearchState } from '../../store/reducers/search.reducers';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -28,15 +29,15 @@ export class MailListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.params.takeUntil(this.destroyed$).subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe(params => {
       this.mailFolder = params['folder'] as MailFolderType;
     });
 
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
       });
-    this.store.select(state => state.search).takeUntil(this.destroyed$)
+    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
       .subscribe((search: SearchState) => {
         this.searchText = search.searchText;
         if (this.searchText) {

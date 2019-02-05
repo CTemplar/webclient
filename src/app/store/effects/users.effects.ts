@@ -1,15 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
 // Angular
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 // Ngrx
 import { Action } from '@ngrx/store';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
 // Rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 // Service
 import { MailService, SharedService, UsersService } from '../../store/services';
@@ -89,6 +85,8 @@ import {
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class UsersEffects {
@@ -102,218 +100,220 @@ export class UsersEffects {
   }
 
   @Effect()
-  Accounts: Observable<any> = this.actions
-    .ofType(UsersActionTypes.ACCOUNTS)
-    .map((action: Accounts) => action.payload)
-    .switchMap(payload => {
-      return this.userService.getAccounts('34324').map(user => {
-        return new AccountsReadSuccess(user);
-      });
-    });
+  Accounts: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.ACCOUNTS),
+    map((action: Accounts) => action.payload),
+    switchMap(payload => {
+      return this.userService.getAccounts('34324')
+        .pipe(map(user => {
+          return new AccountsReadSuccess(user);
+        }));
+    }));
 
   @Effect()
-  AccountDetails: Observable<any> = this.actions
-    .ofType(UsersActionTypes.ACCOUNT_DETAILS_GET)
-    .map((action: Accounts) => action.payload)
-    .switchMap(payload => {
+  AccountDetails: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.ACCOUNT_DETAILS_GET),
+    map((action: Accounts) => action.payload),
+    switchMap(payload => {
       return this.userService.getAccountDetails()
         .pipe(
           map(user => {
             return new AccountDetailsGetSuccess(user[0]);
           }),
-          catchError((error) => [])
+          catchError((error) => EMPTY)
         );
-    });
+    }));
 
   @Effect()
-  WhiteLists: Observable<any> = this.actions
-    .ofType(UsersActionTypes.WHITELIST)
-    .map((action: WhiteList) => action.payload)
-    .switchMap(payload => {
+  WhiteLists: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.WHITELIST),
+    map((action: WhiteList) => action.payload),
+    switchMap(payload => {
       return this.userService.getWhiteList()
         .pipe(
           map(whiteList => {
             return new WhiteListsReadSuccess(whiteList.results);
           }),
-          catchError((error) => [])
+          catchError((error) => EMPTY)
         );
-    });
+    }));
 
   @Effect()
-  WhiteListAdd: Observable<any> = this.actions
-    .ofType(UsersActionTypes.WHITELIST_ADD)
-    .map((action: WhiteListAdd) => action.payload)
-    .switchMap(payload => {
+  WhiteListAdd: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.WHITELIST_ADD),
+    map((action: WhiteListAdd) => action.payload),
+    switchMap(payload => {
       return this.userService.addWhiteList(payload.email, payload.name)
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return [new WhiteListAddSuccess(contact), new AccountDetailsGet()];
+            return of(new WhiteListAddSuccess(contact), new AccountDetailsGet());
           }),
-          catchError(err => [new WhiteListAddError(err.error)]),
+          catchError(err => of(new WhiteListAddError(err.error))),
         );
-    });
+    }));
 
   @Effect()
-  WhiteListDelete: Observable<any> = this.actions
-    .ofType(UsersActionTypes.WHITELIST_DELETE)
-    .map((action: WhiteListDelete) => action.payload)
-    .switchMap(payload => {
+  WhiteListDelete: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.WHITELIST_DELETE),
+    map((action: WhiteListDelete) => action.payload),
+    switchMap(payload => {
       return this.userService.deleteWhiteList(payload)
         .pipe(
           switchMap(res => {
-            return [
+            return of(
               new WhiteListDeleteSuccess(payload),
               new SnackPush({ message: 'Whitelist contact deleted successfully.' })
-            ];
+            );
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to delete whitelist contact' })]),
+          catchError(err => of(new SnackErrorPush({ message: 'Failed to delete whitelist contact' }))),
         );
-    });
+    }));
 
   @Effect()
-  BlackLists: Observable<any> = this.actions
-    .ofType(UsersActionTypes.BLACKLIST)
-    .map((action: BlackList) => action.payload)
-    .switchMap(payload => {
+  BlackLists: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.BLACKLIST),
+    map((action: BlackList) => action.payload),
+    switchMap(payload => {
       return this.userService.getBlackList()
         .pipe(
           map(blackList => {
             return new BlackListsReadSuccess(blackList.results);
           }),
-          catchError((error) => [])
+          catchError((error) => EMPTY)
         );
-    });
+    }));
 
   @Effect()
-  BlackListAdd: Observable<any> = this.actions
-    .ofType(UsersActionTypes.BLACKLIST_ADD)
-    .map((action: BlackListAdd) => action.payload)
-    .switchMap(payload => {
+  BlackListAdd: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.BLACKLIST_ADD),
+    map((action: BlackListAdd) => action.payload),
+    switchMap(payload => {
       return this.userService.addBlackList(payload.email, payload.name)
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return [new BlackListAddSuccess(contact), new AccountDetailsGet()];
+            return of(new BlackListAddSuccess(contact), new AccountDetailsGet());
           }),
-          catchError(err => [new BlackListAddError(err)]),
+          catchError(err => of(new BlackListAddError(err))),
         );
-    });
+    }));
 
   @Effect()
-  BlackListDelete: Observable<any> = this.actions
-    .ofType(UsersActionTypes.BLACKLIST_DELETE)
-    .map((action: BlackListDelete) => action.payload)
-    .switchMap(payload => {
+  BlackListDelete: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.BLACKLIST_DELETE),
+    map((action: BlackListDelete) => action.payload),
+    switchMap(payload => {
       return this.userService.deleteBlackList(payload)
         .pipe(
           switchMap(res => {
-            return [
+            return of(
               new BlackListDeleteSuccess(payload),
               new SnackPush({ message: 'Blacklist contact deleted successfully.' })
-            ];
+            );
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to delete blacklist contact' })]),
+          catchError(err => of(new SnackErrorPush({ message: 'Failed to delete blacklist contact' }))),
         );
-    });
+    }));
 
   @Effect()
-  settingsUpdate: Observable<any> = this.actions
-    .ofType(UsersActionTypes.SETTINGS_UPDATE)
-    .map((action: SettingsUpdate) => action.payload)
-    .switchMap((payload: Settings) => {
+  settingsUpdate: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.SETTINGS_UPDATE),
+    map((action: SettingsUpdate) => action.payload),
+    switchMap((payload: Settings) => {
       return this.userService.updateSettings(payload)
         .pipe(
           switchMap(res => {
-            return [new SettingsUpdateSuccess(payload)];
+            return of(new SettingsUpdateSuccess(payload));
           }),
-          catchError(err => [new SnackErrorPush(err)]),
+          catchError(err => of(new SnackErrorPush(err))),
         );
-    });
+    }));
 
   @Effect()
-  Contact: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CONTACT_GET)
-    .map((action: ContactGet) => action.payload)
-    .switchMap(payload => {
+  Contact: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CONTACT_GET),
+    map((action: ContactGet) => action.payload),
+    switchMap(payload => {
       return this.userService.getContact()
         .pipe(
           map(contact => {
             return new ContactGetSuccess(contact.results);
           }),
-          catchError((error) => [])
+          catchError((error) => EMPTY)
         );
-    });
+    }));
 
 
   @Effect()
-  ContactAdd: Observable<any> = this.actions.ofType(UsersActionTypes.CONTACT_ADD)
+  ContactAdd: Observable<any> = this.actions
     .pipe(
+      ofType(UsersActionTypes.CONTACT_ADD),
       switchMap((action: Accounts) =>
         this.userService.addContact(action.payload)
           .pipe(
             switchMap(contact => {
               contact.isUpdating = action.payload.id;
-              return [
+              return of(
                 new ContactAddSuccess(contact),
                 new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` })
-              ];
+              );
             }),
-            catchError(err => [
+            catchError(err => of(
               new ContactAddError(),
               new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` })
-            ]),
+            )),
           ))
     );
 
   @Effect()
-  ContactDelete: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CONTACT_DELETE)
-    .map((action: Accounts) => action.payload)
-    .switchMap(payload => {
+  ContactDelete: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CONTACT_DELETE),
+    map((action: Accounts) => action.payload),
+    switchMap(payload => {
       return this.userService.deleteContact(payload)
         .pipe(
           switchMap(contact => {
-            return [
+            return of(
               new ContactDeleteSuccess(payload),
               new SnackPush({ message: 'Contacts deleted successfully.' })
-            ];
+            );
           }),
-          catchError((error) => [])
+          catchError((error) => EMPTY)
         );
-    });
+    }));
 
   @Effect()
-  ContactImport: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CONTACT_IMPORT)
-    .map((action: ContactImport) => action.payload)
-    .switchMap(payload => {
+  ContactImport: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CONTACT_IMPORT),
+    map((action: ContactImport) => action.payload),
+    switchMap(payload => {
       return this.userService.importContacts(payload)
         .pipe(
           mergeMap(event => {
             if (event instanceof HttpResponse) {
-              return [
+              return of(
                 new ContactImportSuccess(event.body),
                 new ContactGet({}),
                 new SnackPush({ message: 'Contacts imported successfully' })
-              ];
+              );
             } else {
-              return [];
+              return EMPTY;
             }
           }),
           catchError(error => {
-            return [
+            return of(
               new SnackErrorPush({ message: 'Failed to import contacts' }),
               new ContactImportFailure(error.error)
-            ];
+            );
           })
         );
-    });
+    }));
 
   @Effect()
   requestSnacks$: Observable<Action> = this.actions
-    .ofType(UsersActionTypes.SNACK_PUSH)
     .pipe(
+      ofType(UsersActionTypes.SNACK_PUSH),
       map((action: SnackPush) => {
         if (action.payload) {
           if (action.payload.message) {
@@ -338,8 +338,8 @@ export class UsersEffects {
 
   @Effect()
   requestErrorSnacks$: Observable<Action> = this.actions
-    .ofType(UsersActionTypes.SNACK_ERROR_PUSH)
     .pipe(
+      ofType(UsersActionTypes.SNACK_ERROR_PUSH),
       map((snackPushAction: SnackErrorPush) => {
         if (snackPushAction.payload && snackPushAction.payload.message) {
           this.notificationService.showSnackBar(snackPushAction.payload.message, snackPushAction.payload.action || 'CLOSE',
@@ -356,240 +356,209 @@ export class UsersEffects {
     );
 
   @Effect()
-  createFolderEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CREATE_FOLDER)
-    .map((action: CreateFolder) => action.payload)
-    .switchMap(folder => {
+  createFolderEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CREATE_FOLDER),
+    map((action: CreateFolder) => action.payload),
+    switchMap(folder => {
       return this.mailService.createFolder(folder)
         .pipe(
           switchMap(res => {
-            return [
+            return of(
               new CreateFolderSuccess(res),
               new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created' } successfully.` })
-            ];
+            );
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to create folder.' })])
+          catchError(err => of(new SnackErrorPush({ message: 'Failed to create folder.' })))
         );
-    });
+    }));
 
   @Effect()
-  deleteFolderEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.DELETE_FOLDER)
-    .map((action: DeleteFolder) => action.payload)
-    .switchMap(folder => {
+  deleteFolderEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.DELETE_FOLDER),
+    map((action: DeleteFolder) => action.payload),
+    switchMap(folder => {
       return this.mailService.deleteFolder(folder.id)
         .pipe(
           switchMap(res => {
-            return [
+            return of(
               new DeleteFolderSuccess(folder),
               new SnackErrorPush({ message: `'${folder.name}' folder deleted successfully.` })
-            ];
+            );
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to delete folder.' })])
+          catchError(err => of(new SnackErrorPush({ message: 'Failed to delete folder.' })))
         );
-    });
+    }));
 
   @Effect()
-  updateFoldersOrder: Observable<any> = this.actions
-    .ofType(UsersActionTypes.UPDATE_FOLDER_ORDER)
-    .map((action: UpdateFolderOrder) => action.payload)
-    .switchMap(payload => {
+  updateFoldersOrder: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.UPDATE_FOLDER_ORDER),
+    map((action: UpdateFolderOrder) => action.payload),
+    switchMap(payload => {
       return this.mailService.updateFoldersOrder(payload.data)
         .pipe(
           switchMap(res => {
-            return [
+            return of(
               new UpdateFolderOrderSuccess({ folders: payload.folders }),
               new SnackErrorPush({ message: 'Sort order saved successfully.' }),
-            ];
+            );
           }),
-          catchError(err => [new SnackErrorPush({ message: 'Failed to update folders sort order.' })])
+          catchError(err => of(new SnackErrorPush({ message: 'Failed to update folders sort order.' })))
         );
-    });
+    }));
 
   @Effect()
-  getFiltersEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.GET_FILTERS)
-    .map((action: GetFilters) => action.payload)
-    .switchMap(payload => {
+  getFiltersEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_FILTERS),
+    map((action: GetFilters) => action.payload),
+    switchMap(payload => {
       return this.userService.getFilters(payload)
         .pipe(
-          switchMap(res => {
-            return [new GetFiltersSuccess(res.results)];
-          }),
-          catchError(err => [])
+          switchMap(res => of(new GetFiltersSuccess(res.results))),
+          catchError(err => EMPTY)
         );
-    });
+    }));
 
   @Effect()
-  createFilterEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CREATE_FILTER)
-    .map((action: CreateFilter) => action.payload)
-    .switchMap(payload => {
+  createFilterEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CREATE_FILTER),
+    map((action: CreateFilter) => action.payload),
+    switchMap(payload => {
       return this.userService.createFilter(payload)
         .pipe(
-          switchMap(res => {
-            return [new CreateFilterSuccess(res)];
-          }),
-          catchError(errorResponse => [
-            new CreateFilterFailure(errorResponse.error)
-          ])
+          switchMap(res => of(new CreateFilterSuccess(res))),
+          catchError(errorResponse => of(new CreateFilterFailure(errorResponse.error)))
         );
-    });
+    }));
 
   @Effect()
-  updateFilterEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.UPDATE_FILTER)
-    .map((action: UpdateFilter) => action.payload)
-    .switchMap(payload => {
+  updateFilterEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.UPDATE_FILTER),
+    map((action: UpdateFilter) => action.payload),
+    switchMap(payload => {
       return this.userService.createFilter(payload)
         .pipe(
-          switchMap(res => {
-            return [new UpdateFilterSuccess(res)];
-          }),
-          catchError(errorResponse => [
-            new UpdateFilterFailure(errorResponse.error)
-          ])
+          switchMap(res => of(new UpdateFilterSuccess(res))),
+          catchError(errorResponse => of(new UpdateFilterFailure(errorResponse.error)))
         );
-    });
+    }));
 
   @Effect()
-  deleteFilterEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.DELETE_FILTER)
-    .map((action: DeleteFilter) => action.payload)
-    .switchMap(filter => {
+  deleteFilterEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.DELETE_FILTER),
+    map((action: DeleteFilter) => action.payload),
+    switchMap(filter => {
       return this.userService.deleteFilter(filter.id)
         .pipe(
-          switchMap(res => {
-            return [new DeleteFilterSuccess(filter)];
-          }),
-          catchError(errorResponse => [
+          switchMap(res => of(new DeleteFilterSuccess(filter))),
+          catchError(errorResponse => of(
             new SnackErrorPush({ message: 'Failed to delete filter.' }),
             new DeleteFilterFailure(errorResponse.error)
-          ])
+          ))
         );
-    });
+    }));
 
   @Effect()
-  Domains: Observable<any> = this.actions
-    .ofType(UsersActionTypes.GET_DOMAINS)
-    .map((action: GetDomains) => action.payload)
-    .switchMap(payload => {
+  Domains: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_DOMAINS),
+    map((action: GetDomains) => action.payload),
+    switchMap(payload => {
       return this.userService.getDomains()
         .pipe(
           map(emailDomains => {
             return new GetDomainsSuccess(emailDomains.results.sort((a, b) => a.id - b.id));
           }),
-          catchError((error) => [])
+          catchError((error) => EMPTY)
         );
-    });
+    }));
 
   @Effect()
-  DomainCreate: Observable<any> = this.actions
-    .ofType(UsersActionTypes.CREATE_DOMAIN)
-    .map((action: CreateDomain) => action.payload)
-    .switchMap(payload => {
+  DomainCreate: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CREATE_DOMAIN),
+    map((action: CreateDomain) => action.payload),
+    switchMap(payload => {
       return this.userService.createDomain(payload)
         .pipe(
-          switchMap(res => {
-            return [new CreateDomainSuccess(res)];
-          }),
-          catchError(errorResponse => [
-            new CreateDomainFailure(errorResponse.error)
-          ]),
+          switchMap(res => of(new CreateDomainSuccess(res))),
+          catchError(errorResponse => of(new CreateDomainFailure(errorResponse.error))),
         );
-    });
+    }));
 
   @Effect()
-  DomainRead: Observable<any> = this.actions
-    .ofType(UsersActionTypes.READ_DOMAIN)
-    .map((action: ReadDomain) => action.payload)
-    .switchMap(payload => {
+  DomainRead: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.READ_DOMAIN),
+    map((action: ReadDomain) => action.payload),
+    switchMap(payload => {
       return this.userService.readDomain(payload)
         .pipe(
-          switchMap(res => {
-            return [new ReadDomainSuccess(res)];
-          }),
-          catchError(errorResponse => [
-            new ReadDomainFailure({ err: errorResponse.error })
-          ]),
+          switchMap(res => of(new ReadDomainSuccess(res))),
+          catchError(errorResponse => of(new ReadDomainFailure({ err: errorResponse.error }))),
         );
-    });
+    }));
 
   @Effect()
-  DomainDelete: Observable<any> = this.actions
-    .ofType(UsersActionTypes.DELETE_DOMAIN)
-    .map((action: DeleteDomain) => action.payload)
-    .switchMap(payload => {
+  DomainDelete: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.DELETE_DOMAIN),
+    map((action: DeleteDomain) => action.payload),
+    switchMap(payload => {
       return this.userService.deleteDomain(payload)
         .pipe(
-          switchMap(res => {
-            return [new DeleteDomainSuccess(payload)];
-          }),
-          catchError(errorResponse => [
-            new DeleteDomainFailure(errorResponse.error)
-          ]),
+          switchMap(res => of(new DeleteDomainSuccess(payload))),
+          catchError(errorResponse => of(new DeleteDomainFailure(errorResponse.error))),
         );
-    });
+    }));
 
   @Effect()
-  DomainVerify: Observable<any> = this.actions
-    .ofType(UsersActionTypes.VERIFY_DOMAIN)
-    .map((action: VerifyDomain) => action.payload)
-    .switchMap(payload => {
+  DomainVerify: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.VERIFY_DOMAIN),
+    map((action: VerifyDomain) => action.payload),
+    switchMap(payload => {
       return this.userService.verifyDomain(payload.id)
         .pipe(
           switchMap(res => {
-            return [new VerifyDomainSuccess({ res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep })];
+            return of(new VerifyDomainSuccess({ res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep }));
           }),
-          catchError(errorResponse => [
+          catchError(errorResponse => of(
             new VerifyDomainFailure({ err: errorResponse.error, step: payload.currentStep })
-          ]),
+          )),
         );
-    });
+    }));
 
   @Effect({ dispatch: false })
-  paymentFailureEffect: Observable<any> = this.actions
-    .ofType(UsersActionTypes.PAYMENT_FAILURE)
-    .map((action: PaymentFailure) => action.payload)
-    .pipe(
-      tap(payload => {
-        this.sharedService.showPaymentFailureDialog();
-      })
-    );
+  paymentFailureEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.PAYMENT_FAILURE),
+    map((action: PaymentFailure) => action.payload),
+    tap(payload => {
+      this.sharedService.showPaymentFailureDialog();
+    })
+  );
 
   @Effect()
-  SendEmailForwardingCode: Observable<any> = this.actions
-    .ofType(UsersActionTypes.SEND_EMAIL_FORWARDING_CODE)
-    .map((action: SendEmailForwardingCode) => action.payload)
-    .switchMap(payload => {
+  SendEmailForwardingCode: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.SEND_EMAIL_FORWARDING_CODE),
+    map((action: SendEmailForwardingCode) => action.payload),
+    switchMap(payload => {
       return this.userService.sendEmailForwardingCode(payload.email)
         .pipe(
-          switchMap(res => {
-            return [new SendEmailForwardingCodeSuccess(res)];
-          }),
-          catchError(errorResponse => [
-            new SendEmailForwardingCodeFailure(errorResponse.error)
-          ]),
+          switchMap(res => of(new SendEmailForwardingCodeSuccess(res))),
+          catchError(errorResponse => of(new SendEmailForwardingCodeFailure(errorResponse.error))),
         );
-    });
+    }));
 
   @Effect()
-  VerifyEmailForwardingCode: Observable<any> = this.actions
-    .ofType(UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE)
-    .map((action: VerifyEmailForwardingCode) => action.payload)
-    .switchMap(payload => {
+  VerifyEmailForwardingCode: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE),
+    map((action: VerifyEmailForwardingCode) => action.payload),
+    switchMap(payload => {
       return this.userService.verifyEmailForwardingCode(payload.email, payload.code)
         .pipe(
           switchMap(res => {
-            return [
+            return of(
               new AccountDetailsGet(),
               new VerifyEmailForwardingCodeSuccess(res)
-            ];
+            );
           }),
-          catchError(errorResponse => [
-            new VerifyEmailForwardingCodeFailure(errorResponse.error)
-          ]),
+          catchError(errorResponse => of(new VerifyEmailForwardingCodeFailure(errorResponse.error))),
         );
-    });
+    }));
 
 }

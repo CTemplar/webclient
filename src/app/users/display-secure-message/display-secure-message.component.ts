@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Mail } from '../../store/models';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 

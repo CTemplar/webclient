@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 export interface Mail {
   id?: number;
@@ -34,6 +34,7 @@ export interface Mail {
   has_children?: boolean;
   children?: Array<Mail>;
   forward_attachments_of_message?: number;
+  incoming_headers?: string;
 }
 
 export interface Mailbox {

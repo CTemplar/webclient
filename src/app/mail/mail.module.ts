@@ -32,6 +32,7 @@ import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/
 import { AddressesSignatureComponent } from './mail-settings/addresses-signature/addresses-signature.component';
 import { MailForwardingComponent } from './mail-settings/mail-forwarding/mail-forwarding.component';
 import { FoldersComponent } from './mail-settings/folders/folders.component';
+import { SecurityComponent } from './mail-settings/security/security.component';
 
 @NgModule({
   imports: [
@@ -66,7 +67,8 @@ import { FoldersComponent } from './mail-settings/folders/folders.component';
     PaymentFailureNoticeComponent,
     AddressesSignatureComponent,
     MailForwardingComponent,
-    FoldersComponent
+    FoldersComponent,
+    SecurityComponent,
   ],
   exports: [
     MailFooterComponent

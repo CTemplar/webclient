@@ -26,6 +26,8 @@ export interface AuthState {
   signupState: SignupState;
   isRecoveryCodeSent: boolean;
   resetPasswordErrorMessage: string | null;
+  updatedPrivateKeys?: any;
+  isChangePasswordError?: boolean;
 }
 
 export interface SignupState {
@@ -138,6 +140,7 @@ export interface MailState {
 export interface DecryptedContent {
   id: number;
   content: string;
+  incomingHeaders?: string;
   inProgress: boolean;
 }
 

@@ -192,13 +192,14 @@ export function reducer(
         state.decryptedContents[action.payload.id] = {
           id: action.payload.id,
           content: action.payload.decryptedContent,
-          inProgress: action.payload.isPGPInProgress
+          inProgress: action.payload.isPGPInProgress,
         };
       } else {
         state.decryptedContents[action.payload.id] = {
           ...state.decryptedContents[action.payload.id],
           content: action.payload.decryptedContent,
-          inProgress: action.payload.isPGPInProgress
+          inProgress: action.payload.isPGPInProgress,
+          incomingHeaders: action.payload.incomingHeaders,
         };
       }
       return { ...state, decryptedContents: { ...state.decryptedContents }, noUnreadCountChange: true };

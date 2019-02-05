@@ -441,3 +441,20 @@ app-mail-detail {
 .hidden {
   visibility: hidden;
 }
+
+.incoming-headers {
+  .col-3, .col-9 {
+    border: 1px solid $brand-secondary;
+    border-bottom: 0;
+  }
+
+  .col-9 {
+    border-left: 0;
+  }
+
+  .last-row {
+    .col-3, .col-9 {
+      border-bottom: 1px solid $brand-secondary;
+    }
+  }
+}

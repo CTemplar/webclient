@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { VALID_EMAIL_REGEX } from '../../../shared/config';
 import { SendEmailForwardingCode, SettingsUpdate, VerifyEmailForwardingCode } from '../../../store/actions';
 import { AppState, Settings, UserState } from '../../../store/datatypes';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -38,7 +39,7 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.isVerificationCodeSent = user.isForwardingVerificationCodeSent;
         this.errorMessage = user.emailForwardingErrorMessage;
