@@ -29,6 +29,11 @@
         </div>
         <div class="col-sm-6 mailbox-navbar-col">
             <ul class="mailbox-actions-menu d-flex justify-content-end">
+                <div class="help-icon" ngbTooltip="Need help? Contact support!" placement="bottom">
+                    <a (click)="openComposeMailDialog(['support@ctemplar.com'])">
+                        <i class="material-icons">help_outline</i>
+                    </a>
+                </div>
                 <li class=""><a routerLink="/mail/contact" placement="bottom"
                                 routerLinkActive="active"
                                 [ngbTooltip]="'mail_header.contacts' | translate"><i
