@@ -584,78 +584,9 @@
         <!-- Security -->
         <ngb-tab>
             <ng-template ngbTabTitle>Security</ng-template>
-            <ng-template ngbTabContent>
-                <section class="mailbox-section">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.security_settings">Security
-                                settings</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <div class="form-content-row">
-                                <div class="row label-align">
-                                    <div class="col-sm-3">
-                                        <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <input class="form-control form-control-sm" id="securityPassword" type="password"
-                                            placeholder="********" />
-                                        <span class="form-label-text mt-1">
-                                            <a href="javascript:void(0);" role="button" class="text-uppercase btn-link"
-                                                (click)="openChangePasswordModal()"><strong>
-                                                    <u translate="settings.change_now">Change now</u></strong></a></span>
-                                        <input style="visibility: hidden;" id="username" type="text" name="username" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
-                                            email</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <input class="form-control form-control-sm" id="recoveryMail" type="email"
-                                            autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur'}"
-                                            (change)="updateSettings('recovery_email', $event.target.value)"
-                                            placeholder="johnsimpson@gmail.com" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Will be used later -->
-                            <div class="form-content-row" *ngIf="false">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-sm-0" translate="settings.security_alerts">Security
-                                            alerts</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="row row-sm">
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField1"
-                                                        name="[4]" type="radio" (click)="updateSettings('newsletter', true)"
-                                                        [checked]="settings.newsletter" />
-                                                    <label for="securityField1" translate="common.enabled">Enabled</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField2"
-                                                        name="[4]" type="radio" (click)="updateSettings('newsletter', false)"
-                                                        [checked]="!settings.newsletter" />
-                                                    <label for="securityField2" translate="common.disabled">Disabled</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </ng-template>
+           <ng-template ngbTabContent>
+               <app-settings-security></app-settings-security>
+           </ng-template>
         </ngb-tab>
 
         <!-- Domains -->
@@ -870,81 +801,6 @@
 </div>
 
 <!-- Modal groups -->
-
-<!-- Change password Modal -->
-<ng-template #changePasswordModal let-c="close" let-d="dismiss">
-    <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-        <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="text-holder text-dark text-medium">
-            <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt old
-                emails if you reset your password.</p>
-
-            <div class="login-content-holder mx-auto mt-2 pt-sm-2">
-                <div class="form">
-                    <form [formGroup]="changePasswordForm" (submit)="changePassword()">
-                        <div class="form-group form-group-sm">
-                            <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
-                                Password</label>
-                            <div class="input-group">
-                                <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
-                                    formControlName="oldPassword" placeholder="Old Password" type="password" />
-                                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword(oldPasswordInput)">
-                                    <i class="fa fa-eye"></i>
-                                </span>
-                            </div>
-                            <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
-                                class="validate-message">
-                                <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required">Old password
-                                    is required.</span>
-                            </span>
-                        </div>
-                        <div class="form-group form-group-sm">
-                            <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
-                                Password</label>
-                            <div class="input-group">
-                                <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
-                                    formControlName="password" placeholder="New Password" type="password" />
-                                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword(newPasswordInput)">
-                                    <i class="fa fa-eye"></i>
-                                </span>
-                            </div>
-                            <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
-                                class="validate-message">
-                                <span *ngIf="changePasswordForm.controls['password'].errors.required">New password is
-                                    required.</span>
-                            </span>
-                        </div>
-                        <div class="form-group form-group-sm">
-                            <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
-                                New Password</label>
-                            <div class="input-group">
-                                <input #confirmNewPasswordInput class="form-control form-control-lg" id="confirmNewPassword"
-                                    formControlName="confirmPwd" placeholder="Confirm New Password" type="password" />
-                                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword(confirmNewPasswordInput)">
-                                    <i class="fa fa-eye"></i>
-                                </span>
-                            </div>
-                            <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"
-                                class="validate-message">
-                                <span translate="create_account.passwords_not_match">Passwords do not match.</span>
-                            </span>
-                        </div>
-                        <div class="form-group form-user-actions text-center mb-0">
-                            <button class="btn btn-gradient-primary btn-sm reset-btn" role="button" type="submit">
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template><!-- /.Change password Modal ends -->
 
 <app-save-list-contact *ngIf="newListContact.show" [contactType]="newListContact.type" (closed)="newListContact.show=false;"></app-save-list-contact>
 

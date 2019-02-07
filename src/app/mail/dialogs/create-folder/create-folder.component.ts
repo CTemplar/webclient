@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateFolder } from '../../../store/actions';
 import { FOLDER_COLORS } from '../../../shared/config';
 import { Folder } from '../../../store/models';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -47,14 +48,14 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     if (this.folder.color) {
       this.selectedColorIndex = this.folderColors.indexOf(this.folder.color);
     }
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         if (this.userState && this.userState.inProgress && !user.inProgress) {
           this.activeModal.close();
         }
         this.userState = user;
       });
-    this.customFolderForm.get('folderName').valueChanges.takeUntil(this.destroyed$)
+    this.customFolderForm.get('folderName').valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((value) => {
         this.checkFolderExist(value);
       });

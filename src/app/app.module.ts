@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatKeyboardModule } from '@ngx-material-keyboard/core';
+import { MatKeyboardModule } from 'ngx7-material-keyboard';
 
 // Components
 import { AppComponent } from './app.component';
@@ -42,6 +42,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
 import { ComposeMailService } from './store/services/compose-mail.service';
 import { DonationService } from './store/services/donation.service';
+import { MailSettingsService } from './store/services/mail-settings.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -88,6 +89,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BreakpointsService,
     TimezoneService,
     MailService,
+    MailSettingsService,
     ComposeMailService,
     DateTimeUtilService,
     DonationService,

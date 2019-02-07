@@ -198,6 +198,37 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         ...state, errorMessage: null
       };
     }
+    case AuthActionTypes.CHANGE_PASSPHRASE_SUCCESS: {
+      return {
+        ...state,
+        updatedPrivateKeys: action.payload,
+      };
+    }
+    case AuthActionTypes.CHANGE_PASSWORD: {
+      return {
+        ...state,
+        inProgress: true,
+        isChangePasswordError: false,
+      };
+
+    }
+    case AuthActionTypes.CHANGE_PASSWORD_SUCCESS: {
+      if (localStorage.getItem('user_key')) {
+        localStorage.setItem('user_key', btoa(action.payload.password));
+      }
+      return {
+        ...state,
+        inProgress: false,
+        isChangePasswordError: false,
+      };
+    }
+    case AuthActionTypes.CHANGE_PASSWORD_FAILED: {
+      return {
+        ...state,
+        inProgress: false,
+        isChangePasswordError: true,
+      };
+    }
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }

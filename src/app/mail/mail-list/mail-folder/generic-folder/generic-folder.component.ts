@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import {
   DeleteMail,
   GetMailDetailSuccess,
@@ -18,6 +18,8 @@ import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
 import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
+import { takeUntil } from 'rxjs/operators';
+import { timer } from 'rxjs/internal/observable/timer';
 
 @TakeUntilDestroy()
 @Component({
@@ -57,7 +59,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.store.dispatch(new SetCurrentFolder(this.mailFolder));
 
-    this.store.select(state => state.mail).takeUntil(this.destroyed$)
+    this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
         this.showProgress = !mailState.loaded || mailState.inProgress;
@@ -67,7 +69,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-    this.store.select(state => state.user).takeUntil(this.destroyed$)
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.customFolders = user.customFolders;
@@ -80,7 +82,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-    this.store.select(state => state.search).takeUntil(this.destroyed$)
+    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
       .subscribe((searchState: SearchState) => {
         this.searchText = searchState.searchText;
         if (this.searchText) {
@@ -109,7 +111,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   initializeAutoRefresh() {
     if (this.mailFolder === MailFolderType.INBOX) {
-      Observable.timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).takeUntil(this.destroyed$)
+      timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).pipe(takeUntil(this.destroyed$))
         .subscribe(event => {
           if (this.mailState && this.mailState.canGetUnreadCount) {
             this.refresh();

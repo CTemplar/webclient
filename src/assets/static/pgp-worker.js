@@ -49,10 +49,27 @@ onmessage = function (event) {
         if (!event.data.content || !event.data.mailboxId) {
             postMessage({decryptedContent: event.data.content, decrypted: true, callerId: event.data.callerId});
         } else {
-            decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId]).then((data) => {
-                postMessage({decryptedContent: data, decrypted: true, callerId: event.data.callerId});
-            })
+            decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId])
+                .then((data) => {
+                    if (event.data.incomingHeaders) {
+                        decryptContent(event.data.incomingHeaders, decryptedPrivKeys[event.data.mailboxId])
+                            .then((incomingHeaders) => {
+                                postMessage({incomingHeaders, decryptedContent: data, decrypted: true, callerId: event.data.callerId});
+                            });
+                    } else {
+                        postMessage({decryptedContent: data, decrypted: true, callerId: event.data.callerId});
+                    }
+                });
         }
+    }
+    else if (event.data.changePassphrase) {
+        changePassphrase(event.data.passphrase).then((data) => {
+            postMessage(data);
+        });
+    }
+    else if (event.data.revertPassphrase) {
+        changePassphrase(event.data.passphrase).then((data) => {
+        });
     }
 }
 
@@ -75,4 +92,20 @@ function generateKeys(options) {
             fingerprint: openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint()
         };
     });
+}
+
+
+async function changePassphrase(passphrase) {
+    var privkeys = [];
+    for (var key in decryptedPrivKeys) {
+        if (decryptedPrivKeys.hasOwnProperty(key)) {
+            await decryptedPrivKeys[key].encrypt(passphrase);
+            privkeys.push({
+                mailbox_id: key,
+                private_key: decryptedPrivKeys[key].armor().replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
+            });
+            decryptedPrivKeys[key].decrypt(passphrase);
+        }
+    }
+    return {privkeys, changePassphrase: true};
 }

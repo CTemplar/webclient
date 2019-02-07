@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  ChangePassphraseSuccess,
   Logout,
   SetDecryptedKey,
   SetDecryptInProgress,
@@ -33,8 +34,11 @@ export class OpenPgpService {
               private usersService: UsersService) {
 
     this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
-    this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
     this.listenWorkerPostMessages();
+    setTimeout(() => {
+      this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
+      this.listenEncryptWorkerPostMessages();
+    }, 2000);
 
     this.store.select(state => state.mailboxes)
       .subscribe((mailBoxesState: MailBoxesState) => {
@@ -92,8 +96,7 @@ export class OpenPgpService {
             keys: event.data.keys,
             draftId: event.data.callerId
           }));
-        }
-        else {
+        } else {
           this.userKeys = event.data.keys;
         }
       } else if (event.data.decryptPrivateKeys) {
@@ -103,7 +106,8 @@ export class OpenPgpService {
         this.store.dispatch(new UpdatePGPDecryptedContent({
           id: event.data.callerId,
           isPGPInProgress: false,
-          decryptedContent: event.data.decryptedContent
+          decryptedContent: event.data.decryptedContent,
+          incomingHeaders: event.data.incomingHeaders,
         }));
       } else if (event.data.decryptSecureMessageKey) {
         this.store.dispatch(new UpdateSecureMessageKey({
@@ -113,8 +117,13 @@ export class OpenPgpService {
         }));
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.decryptedContent, inProgress: false }));
+      } else if (event.data.changePassphrase) {
+        this.store.dispatch(new ChangePassphraseSuccess(event.data.privkeys));
       }
     });
+  }
+
+  listenEncryptWorkerPostMessages() {
     this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
       if (event.data.encrypted) {
         this.store.dispatch(new UpdatePGPEncryptedContent({
@@ -135,22 +144,22 @@ export class OpenPgpService {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
 
     publicKeys.push(this.pubkeys[mailboxId]);
-    this.pgpEncryptWorker.postMessage({ content: content, encrypt: true, publicKeys: publicKeys, callerId: draftId });
+    this.pgpEncryptWorker.postMessage({ content, publicKeys, encrypt: true, callerId: draftId });
   }
 
   encryptSecureMessageContent(content, publicKeys: any[]) {
     this.store.dispatch(new UpdateSecureMessageEncryptedContent({ inProgress: true, encryptedContent: null }));
 
-    this.pgpEncryptWorker.postMessage({ content: content, encryptSecureMessageReply: true, publicKeys: publicKeys });
+    this.pgpEncryptWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }
 
-  decrypt(mailboxId, mailId, content) {
+  decrypt(mailboxId, mailId, content, incomingHeaders?: string) {
     if (this.decryptedPrivKeys) {
       this.store.dispatch(new UpdatePGPDecryptedContent({ id: mailId, isPGPInProgress: true, decryptedContent: null }));
-      this.pgpWorker.postMessage({ mailboxId: mailboxId, content: content, decrypt: true, callerId: mailId });
+      this.pgpWorker.postMessage({ mailboxId, content, incomingHeaders, decrypt: true, callerId: mailId });
     } else {
       setTimeout(() => {
-        this.decrypt(mailboxId, mailId, content);
+        this.decrypt(mailboxId, mailId, content, incomingHeaders);
       }, 1000);
     }
   }
@@ -206,6 +215,14 @@ export class OpenPgpService {
       }
       this.waitForPGPKeys(self, callbackFn);
     }, 500);
+  }
+
+  changePassphrase(passphrase: string) {
+    this.pgpWorker.postMessage({ passphrase, changePassphrase: true });
+  }
+
+  revertChangedPassphrase(passphrase: string) {
+    this.pgpWorker.postMessage({ passphrase, revertPassphrase: true });
   }
 
 }
