@@ -9,7 +9,7 @@ import { apiUrl, REFFERAL_CODE_KEY } from '../../shared/config';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState, Settings } from '../datatypes';
+import { AppState, AutoResponder, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
 import { Filter } from '../models/filter.model';
@@ -174,6 +174,7 @@ export class UsersService {
       'emails-forward/send-verification-code',
       'emails-forward/verify-verification-code',
       'emails/folder-order',
+      'users/autoresponder'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -332,6 +333,13 @@ export class UsersService {
   verifyEmailForwardingCode(email: string, code: number): Observable<any> {
     const body = { email, code };
     return this.http.post(`${apiUrl}/emails-forward/verify-verification-code/`, body);
+  }
+
+  saveAutoResponder(autoResponder: AutoResponder): Observable<any> {
+    if (autoResponder.id) {
+      return this.http.patch<any>(`${apiUrl}users/autoresponder/${autoResponder.id}/`, autoResponder);
+    }
+    return this.http.post<any>(`${apiUrl}users/autoresponder/`, autoResponder);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

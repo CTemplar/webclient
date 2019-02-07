@@ -77,6 +77,7 @@ export interface UserState {
   currentCreationStep: number;
   isForwardingVerificationCodeSent?: boolean;
   emailForwardingErrorMessage?: string;
+  autoResponderErrorMessage?: string;
 }
 
 export interface Settings {
@@ -102,16 +103,16 @@ export interface Settings {
 }
 
 export interface AutoResponder {
-  id: number;
+  id?: number;
   is_time_range_restricted?: boolean;
   start_time?: string;
   end_time?: string;
   autoresponder_message?: string;
-  autoresponder_active: boolean;
+  autoresponder_active?: boolean;
   start_date?: string;
   end_date?: string;
   vacationautoresponder_message?: string;
-  vacationautoresponder_active: boolean;
+  vacationautoresponder_active?: boolean;
   only_contacts?: boolean;
 }
 

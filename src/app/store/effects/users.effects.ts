@@ -6,6 +6,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 // Rxjs
 import { Observable } from 'rxjs';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+import { of } from 'rxjs/internal/observable/of';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 // Service
 import { MailService, SharedService, UsersService } from '../../store/services';
@@ -54,6 +56,9 @@ import {
   ReadDomain,
   ReadDomainFailure,
   ReadDomainSuccess,
+  SaveAutoResponder,
+  SaveAutoResponderFailure,
+  SaveAutoResponderSuccess,
   SendEmailForwardingCode,
   SendEmailForwardingCodeFailure,
   SendEmailForwardingCodeSuccess,
@@ -85,8 +90,6 @@ import {
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
-import { EMPTY } from 'rxjs/internal/observable/empty';
-import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class UsersEffects {
@@ -558,6 +561,26 @@ export class UsersEffects {
             );
           }),
           catchError(errorResponse => of(new VerifyEmailForwardingCodeFailure(errorResponse.error))),
+        );
+    }));
+
+  @Effect()
+  SaveAutoResponder: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.SAVE_AUTORESPONDER),
+    map((action: SaveAutoResponder) => action.payload),
+    switchMap(payload => {
+      return this.userService.saveAutoResponder(payload)
+        .pipe(
+          switchMap(res => {
+            return of(
+              new SnackPush({message: `Saved successfully`}),
+              new SaveAutoResponderSuccess(res)
+            );
+          }),
+          catchError(errorResponse => of(
+            new SnackErrorPush({message: 'Failed to save autoresponder. Please try again.'}),
+            new SaveAutoResponderFailure(errorResponse.error)
+          ))
         );
     }));
 

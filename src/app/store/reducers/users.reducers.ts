@@ -409,6 +409,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false, emailForwardingErrorMessage: null };
     }
 
+    case UsersActionTypes.SAVE_AUTORESPONDER: {
+      return {...state, inProgress: true, autoresponder: action.payload, autoResponderErrorMessage: null};
+    }
+
+    case UsersActionTypes.SAVE_AUTORESPONDER_SUCCESS: {
+      return {...state, inProgress: false, autoresponder: action.payload, autoResponderErrorMessage: null};
+    }
+
+    case UsersActionTypes.SAVE_AUTORESPONDER_FAILURE: {
+      return {...state, inProgress: false, autoResponderErrorMessage: action.payload};
+    }
+
     default: {
       return state;
     }
