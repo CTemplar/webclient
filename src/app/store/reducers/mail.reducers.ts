@@ -22,6 +22,7 @@ export function reducer(
       return {
         ...state,
         loaded: (mails && !action.payload.forceReload) ? true : false,
+        inProgress: action.payload.inProgress ? true : false,
         mails: mails ? mails : [],
         noUnreadCountChange: true,
       };
@@ -44,6 +45,7 @@ export function reducer(
         ...state,
         mails,
         loaded: true,
+        inProgress: false,
         noUnreadCountChange: true,
       };
     }
