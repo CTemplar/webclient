@@ -22,6 +22,7 @@ export class MailListComponent implements OnInit, OnDestroy {
   mailFolderTypes = MailFolderType;
   customFolders: Folder[] = [];
   searchText: string;
+  private page: number = 1;
 
   constructor(public route: ActivatedRoute,
               private router: Router,
@@ -31,6 +32,7 @@ export class MailListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.pipe(takeUntil(this.destroyed$)).subscribe(params => {
       this.mailFolder = params['folder'] as MailFolderType;
+      this.page = +params['page'];
     });
 
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
@@ -46,7 +48,7 @@ export class MailListComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl(`/mail/search`);
         } else {
           this.mailFolder = this.backFromSearchFolder;
-          this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+          this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
         }
       });
   }
