@@ -69,8 +69,38 @@ export class DateTimeUtilService {
     }
   }
 
+  getNgbDateStructFromDateStr(dateStr: string, format: string): NgbDateStruct {
+    const datetime = moment(dateStr, format);
+    if (datetime) {
+      return {year: datetime.year(), month: datetime.month() + 1, day: datetime.date()};
+    } else {
+      return null;
+    }
+  }
+
+  getNgbTimeStructFromTimeStr(timeStr: string, format: string): NgbTimeStruct {
+    const datetime = moment(timeStr, format);
+    if (datetime) {
+      return {hour: datetime.hour(), minute: datetime.minute(), second: datetime.second()};
+    } else {
+      return null;
+    }
+  }
+
+  createDateStrFromNgbDateStruct(date: NgbDateStruct, format: string): string {
+    return moment({year: date.year, month: date.month - 1, day: date.day}).format(format);
+  }
+
+  createTimeStrFromNgbTimeStruct(time: NgbTimeStruct, format: string): string {
+    return moment({hour: time.hour, minute: time.minute, second: time.second}).format(format);
+  }
+
   isDateTimeInPast(dateTimeStr: string): boolean {
     return moment().diff(moment(dateTimeStr)) >= 0;
+  }
+
+  isBefore(start: string, end: string, format?: string): boolean {
+    return moment(start, format).isBefore(moment(end, format));
   }
 
   getDiffFromCurrentDateTime(dateTimeStr: string, unit?: any): number {
