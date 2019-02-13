@@ -32,6 +32,7 @@ export interface Mail {
   created_at?: string;
   parent?: number;
   has_children?: boolean;
+  children_count?: number;
   children?: Array<Mail>;
   forward_attachments_of_message?: number;
   incoming_headers?: string;
