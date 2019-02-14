@@ -198,11 +198,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onReply(mail: Mail, index: number = 0, isChildMail?: boolean) {
     const previousMails = this.getPreviousMails(index, isChildMail);
+    const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
     this.composeMailData[mail.id] = {
       subject: mail.subject,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
-      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
+      selectedMailbox: this.mailboxes.find(mailbox => allRecipients.includes(mailbox.email))
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
       this.composeMailData[mail.id].receivers = mail.reply_to;
