@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, SecurityContext } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import * as xss from 'xss';
 import * as cssfilter from 'cssfilter';
@@ -57,6 +57,7 @@ export class SafePipe implements PipeTransform {
                 // call `onTagAttr()`
                 const whiteList = xss.getDefaultWhiteList();
                 const whiteAttrList = whiteList[tag] || [];
+                whiteAttrList.push('style');
                 const isWhiteAttr = whiteAttrList.indexOf(attrName) !== -1;
                 const ret1 = xss.onTagAttr(tag, attrName, attrValue, isWhiteAttr) || '';
                 if (ret1 !== '') {
@@ -91,7 +92,7 @@ export class SafePipe implements PipeTransform {
             }
           },
           onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
-            if (attrName === 'style') {
+            if (attrName === 'style' || attrName === 'bgcolor') {
               const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
               return attrName + '="' + safeAttrValue + '"';
             }

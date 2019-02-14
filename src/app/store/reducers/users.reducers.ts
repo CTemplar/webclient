@@ -162,6 +162,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         }),
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
         customFolders: action.payload.custom_folders,
+        autoresponder: action.payload.autoresponder
       };
     }
 
@@ -406,6 +407,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_SUCCESS: {
       return { ...state, inProgress: false, emailForwardingErrorMessage: null };
+    }
+
+    case UsersActionTypes.SAVE_AUTORESPONDER: {
+      return {...state, inProgress: true, autoresponder: action.payload, autoResponderErrorMessage: null};
+    }
+
+    case UsersActionTypes.SAVE_AUTORESPONDER_SUCCESS: {
+      return {...state, inProgress: false, autoresponder: action.payload, autoResponderErrorMessage: null};
+    }
+
+    case UsersActionTypes.SAVE_AUTORESPONDER_FAILURE: {
+      return {...state, inProgress: false, autoResponderErrorMessage: action.payload};
     }
 
     default: {

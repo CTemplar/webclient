@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
@@ -44,21 +44,21 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   readonly destroyed$: Observable<boolean>;
 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
-  LIMIT: number;
+  LIMIT: number = 20;
   OFFSET: number = 0;
   PAGE: number = 0;
   private searchText: string;
   private mailState: MailState;
+  private isAutoRefreshPaused: boolean;
 
   constructor(public store: Store<AppState>,
               private router: Router,
+              private activatedRoute: ActivatedRoute,
               private sharedService: SharedService,
               private composeMailService: ComposeMailService) {
   }
 
   ngOnInit() {
-    this.store.dispatch(new SetCurrentFolder(this.mailFolder));
-
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
@@ -74,7 +74,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         this.userState = user;
         this.customFolders = user.customFolders;
         if (this.fetchMails && this.userState.settings) {
-          this.LIMIT = user.settings.emails_per_page;
+          this.LIMIT = user.settings.emails_per_page || 20;
           if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH) {
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
             this.initializeAutoRefresh();
@@ -97,6 +97,25 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
+    this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$))
+      .subscribe((paramsMap: any) => {
+        const params: any = paramsMap.params;
+        if (params) {
+          if (params.page) {
+            const page = +params.page;
+            if (page !== this.PAGE + 1) {
+              this.PAGE = page > 0 ? page - 1 : 0;
+              this.OFFSET = this.PAGE * this.LIMIT;
+              this.refresh(true);
+            }
+          }
+          if (params.folder) {
+            this.mailFolder = params.folder as MailFolderType;
+            this.store.dispatch(new SetCurrentFolder(this.mailFolder));
+          }
+        }
+      });
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -113,7 +132,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (this.mailFolder === MailFolderType.INBOX) {
       timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).pipe(takeUntil(this.destroyed$))
         .subscribe(event => {
-          if (this.mailState && this.mailState.canGetUnreadCount) {
+          if (this.mailState && this.mailState.canGetUnreadCount && !this.isAutoRefreshPaused) {
             this.refresh();
           }
         });
@@ -204,7 +223,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
       this.store.dispatch(new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }));
-      this.router.navigate([`/mail/${this.mailFolder}/message/`, mail.id]);
+      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id]);
     }
   }
 
@@ -287,12 +306,15 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (this.PAGE > 0) {
       this.PAGE--;
       this.OFFSET = this.PAGE * this.LIMIT;
+      this.pauseAutoRefresh(20);
       this.store.dispatch(new GetMails({
+        inProgress: true,
         limit: this.LIMIT,
         searchText: this.searchText,
         offset: this.OFFSET,
         folder: this.mailFolder
       }));
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.PAGE + 1}`);
     }
   }
 
@@ -300,13 +322,23 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
+      this.pauseAutoRefresh(20);
       this.store.dispatch(new GetMails({
+        inProgress: true,
         limit: this.LIMIT,
         searchText: this.searchText,
         offset: this.OFFSET,
         folder: this.mailFolder
       }));
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.PAGE + 1}`);
     }
+  }
+
+  pauseAutoRefresh(seconds: number) {
+    this.isAutoRefreshPaused = true;
+    setTimeout(() => {
+      this.isAutoRefreshPaused = false;
+    }, seconds * 1000);
   }
 
 

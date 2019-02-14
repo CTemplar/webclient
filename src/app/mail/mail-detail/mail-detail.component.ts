@@ -43,6 +43,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private userState: UserState;
   private mailboxes: Mailbox[];
   private canScroll: boolean = true;
+  private page: number;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -133,6 +134,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
 
       this.mailFolder = params['folder'] as MailFolderType;
+      this.page = +params['page'];
 
       this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
         .subscribe((user: UserState) => {
@@ -174,7 +176,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   markAsRead(mailID: number, read: boolean = true) {
     this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
     if (!read) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     } else {
       setTimeout(() => {
         this.store.dispatch(new GetUnreadMailsCount());
@@ -196,11 +198,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onReply(mail: Mail, index: number = 0, isChildMail?: boolean) {
     const previousMails = this.getPreviousMails(index, isChildMail);
+    const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
     this.composeMailData[mail.id] = {
       subject: mail.subject,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
-      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
+      selectedMailbox: this.mailboxes.find(mailbox => allRecipients.includes(mailbox.email))
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
       this.composeMailData[mail.id].receivers = mail.reply_to;
@@ -295,7 +298,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       mail: mail
     }));
     if (mail.id === this.mail.id) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     }
   }
 
@@ -317,7 +320,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
   }
 
   openCreateFolderDialog() {

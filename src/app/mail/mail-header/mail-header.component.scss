@@ -284,3 +284,17 @@
     transition: none;
   }
 }
+
+.help-icon {
+  a {
+    color: #a7a7a7;
+    &:hover {
+      color: #8a9095;
+    }
+    i {
+      line-height: 48px;
+      font-size: 35px;
+    }
+  }
+}
+
