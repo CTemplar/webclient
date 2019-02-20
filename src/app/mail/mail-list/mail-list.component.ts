@@ -45,7 +45,7 @@ export class MailListComponent implements OnInit, OnDestroy {
         if (this.searchText) {
           this.backFromSearchFolder = this.mailFolder;
           this.mailFolder = MailFolderType.SEARCH;
-          this.router.navigateByUrl(`/mail/search`);
+          this.router.navigateByUrl(`/mail/search/page/1`);
         } else {
           this.mailFolder = this.backFromSearchFolder;
           this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
