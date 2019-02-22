@@ -76,7 +76,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               if (this.canScroll && this.mail.children && this.mail.children.length > 0) {
                 setTimeout(() => {
                   this.canScroll = false;
-                }, 5000);
+                }, 3000);
                 this.scrollTo(document.querySelector('.last-child'));
               }
 
@@ -91,26 +91,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
           if (this.mail.children && this.mail.children.length > 0) {
             this.parentMailCollapsed = true;
-            // Collapse all emails by default
-            this.childMailCollapsed.fill(true, 0, this.mail.children.length);
-            // Do not collapse the last email in the list
-            this.childMailCollapsed[this.mail.children.length - 1] = false;
+            if (this.childMailCollapsed.length !== this.mail.children.length) {
+              // Collapse all emails by default
+              this.childMailCollapsed = this.makeArrayOf(true, this.mail.children.length);
+              // Do not collapse the last email in the list
+              this.childMailCollapsed[this.mail.children.length - 1] = false;
+            }
 
-            this.mail.children.forEach(child => {
-              if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
-                this.decryptedContents[child.id] = child.content;
+            this.mail.children.forEach((child, index) => {
+              if (index === this.mail.children.length - 1) {
+                this.decryptChildEmails(child, mailState);
               } else {
-                const childDecryptedContent = mailState.decryptedContents[child.id];
-                if (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content)) {
-                  this.pgpService.decrypt(child.mailbox, child.id, child.content, child.incoming_headers);
-                }
-                if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
-                  this.decryptedContents[child.id] = childDecryptedContent.content;
-                  this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
-                }
-              }
-              if (!this.mailOptions[child.id]) {
-                this.mailOptions[child.id] = {};
+                setTimeout(() => {
+                  this.decryptChildEmails(child, mailState);
+                }, 3000);
               }
             });
           } else {
@@ -143,6 +137,34 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         });
 
     });
+  }
+
+  makeArrayOf(value, length) {
+    const arr = [];
+    let i = length;
+    while (i--) {
+      arr[i] = value;
+    }
+    return arr;
+  }
+
+
+  decryptChildEmails(child: Mail, mailState: MailState) {
+    if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
+      this.decryptedContents[child.id] = child.content;
+    } else {
+      const childDecryptedContent = mailState.decryptedContents[child.id];
+      if (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content)) {
+        this.pgpService.decrypt(child.mailbox, child.id, child.content, child.incoming_headers);
+      }
+      if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
+        this.decryptedContents[child.id] = childDecryptedContent.content;
+        this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
+      }
+    }
+    if (!this.mailOptions[child.id]) {
+      this.mailOptions[child.id] = {};
+    }
   }
 
   parseHeaders(headers: any) {
