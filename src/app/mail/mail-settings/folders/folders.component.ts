@@ -60,7 +60,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   /**
    * @description
    * Prime Users - Can create as many folders as they want
-   * Free Users - Only allow a maximum of 3 folders per account
+   * Free Users - Only allow a maximum of 5 folders per account
    */
   // == Open NgbModal
   addFolder(folder: Folder = { id: null, name: '', color: '' }) {
@@ -69,11 +69,11 @@ export class FoldersComponent implements OnInit, OnDestroy {
       windowClass: 'modal-sm mailbox-modal',
     };
 
-    if (this.userState.isPrime || (this.userState.customFolders === null || this.userState.customFolders.length < 3)) {
+    if (this.userState.isPrime || (this.userState.customFolders === null || this.userState.customFolders.length < 5)) {
       const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
       component.folder = folder;
     } else {
-      this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
+      this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
     }
   }
 
