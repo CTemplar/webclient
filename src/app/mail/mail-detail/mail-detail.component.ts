@@ -60,12 +60,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
+          const decryptedContent = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
-            const decryptedContent = mailState.decryptedContents[this.mail.id];
-            if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
+            if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)
+              && !this.mail.has_children) {
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
+              decryptedContent.inProgress = true;
+              console.log('decrypt parent email');
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
@@ -98,15 +101,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.childMailCollapsed[this.mail.children.length - 1] = false;
             }
 
-            this.mail.children.forEach((child, index) => {
-              if (index === this.mail.children.length - 1) {
-                this.decryptChildEmails(child, mailState);
-              } else {
-                setTimeout(() => {
-                  this.decryptChildEmails(child, mailState);
-                }, 3000);
+            this.decryptChildEmails(this.mail.children[this.mail.children.length - 1], mailState);
+            console.log('decrypt first email ');
+            setTimeout(() => {
+              if (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content)) {
+                console.log('decrypt parent email after first child');
+                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
               }
-            });
+              this.mail.children.forEach((child, index) => {
+                if (index !== this.mail.children.length - 1) {
+                  this.decryptChildEmails(child, mailState);
+                  console.log('decrypt email at index: ' + index);
+                }
+              });
+            }, 3000);
           } else {
             this.parentMailCollapsed = false;
           }
