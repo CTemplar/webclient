@@ -80,7 +80,6 @@ function decryptContent(data, privKeyObj) {
     };
 
     return openpgp.decrypt(options).then(plaintext => {
-        console.log('decrypted data');
         return plaintext.data;
     })
 }
