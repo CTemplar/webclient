@@ -5,36 +5,36 @@
       "category": 1,
       "comments_count": 10,
       "date": "August 08, 2018",
-      "name": "Swiss Privacy is Dead. Icelandic Privacy is Most Secure",
-      "slug": "swiss-privacy-is-dead-icelandic-privacy-is-most-secure",
-      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/11/Iceland.jpg",
-      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/11/Iceland.jpg",
-      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/11/Iceland.jpg",
-      "text": "The battle between Iceland and Switzerland over the most secure location to store private users data has been over for several years.   Currently Swiss privacy laws are arguably some of the worst in the world.    While Iceland has risen as one of the most premiere locations  CTemplar chose to locate their servers in Iceland in order for our users to benefit from Icelandic data protection"
+      "name": "World Leading Icelandic Privacy Laws",
+      "slug": "icelandic-privacy-laws",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/12/Scales.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/12/Scales.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/12/Scales.jpg",
+      "text": "We feel Iceland is the best location for users privacy and data storage. This is because Iceland designed it’s privacy laws to protect journalists and whistleblowers like Edward Snowden."
     },
     {
       "id": 2,
       "category": 1,
       "comments_count": 10,
       "date": "August 08, 2018",
-      "name": "CTemplar's 4 Wall Protection",
-      "slug": "ctemplar-4-wall-protection",
-      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/08/4WallProtection.jpg",
-      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/08/4WallProtection.jpg",
-      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/08/4WallProtection.jpg",
-      "text": "Protection was created by the CTemplar team after seeing other email services knowingly offer vulnerable services under the illusion of complete security.   For example, they may provide good encryption, but they have access to your username and password and can legally be required to turn them over without your knowledge or consent.  The 4 walls of protection include \"Company Protection, Encryption Protection, Legal Protection, and Technology Protection\"."
+      "name": "CTemplar Checksum Implementation",
+      "slug": "ctemplar-checksum-implementation",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/09/hacker-1944688_1280.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/09/hacker-1944688_1280.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/09/hacker-1944688_1280.jpg",
+      "text": "We implemented SRI (Subresource Integrity), which is a checksum-like verification integrated most common browsers. This is a tool you can use to give yourself assurance you do not receive malicious javascripts or backdoors. We are the only email service that provides this."
     },
     {
       "id": 3,
       "category": 1,
       "comments_count": 10,
       "date": "August 08, 2018",
-      "name": "Government Spying: Is It Worse Than You Think?",
-      "slug": "government-spying-is-it-worse-than-you-think",
-      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/09/blog10.jpg",
-      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/09/blog10.jpg",
-      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/09/blog10.jpg",
-      "text": "It would seem the Orwellian prophecies were right—the big brother of our own nation now can spy on anyone, at any time. The notion of privacy has been whittled away to nothing more than a splinter, able to be broken with very little effort. There are those of us who understand the magnitude of this shift and how it will likely affect the future. We can see the truth behind the deception and, despite the temptation, refuse to avert our eyes from what’s happening."
+      "name": "Email Comparison Table",
+      "slug": "ctemplar-comparison-table",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2019/02/Worksheet.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2019/02/Worksheet.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2019/02/Worksheet.jpg",
+      "text": "CTemplar may or may not be the right email service for you. We made this table so you can see our positives and negatives. If we do not meet your qualifications in some categories then this will help you find the right email service for you."
     }
   ]
 }
