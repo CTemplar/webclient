@@ -93,8 +93,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
           if (this.mail.children && this.mail.children.length > 0) {
-            this.parentMailCollapsed = true;
             if (this.childMailCollapsed.length !== this.mail.children.length) {
+              this.parentMailCollapsed = true;
               // Collapse all emails by default
               this.childMailCollapsed = this.makeArrayOf(true, this.mail.children.length);
               // Do not collapse the last email in the list
