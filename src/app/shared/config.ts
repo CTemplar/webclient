@@ -82,12 +82,11 @@ export function isTORBrowser() {
     date.getTimezoneOffset() === 0 &&
     (navigator.plugins && navigator.plugins.length === 0)) {
     if (window.location.hostname === 'ctemplar.com') {
-      const confirmRef = confirm('Would you like to switch to our TOR website?');
-      if (confirmRef === true) {
-        window.location.href = 'http://ctemplar42u6fulx.onion/';
-      }
+      window.location.href = 'http://ctemplar42u6fulx.onion/';
     }
+    return true;
   }
+  return false;
 }
 
 isTORBrowser();
