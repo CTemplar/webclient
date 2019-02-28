@@ -15,7 +15,7 @@
         </div>
       </div>
     </header>
-    <div class="l-block-body px-xs">
+    <div class="l-block-body px-xs pricing-plans">
       <div class="package-card-holder mt-3 mt-sm-0 mt-md-5">
         <ul class="package-xs-tab list-style-none hidden-sm-up">
           <li class="active" [class.is-active]="1 === selectedIndex"><a role="button"
@@ -28,7 +28,7 @@
                                                                         translate="settings.champion">Champion</a>
           </li>
         </ul>
-        <div class="row flex-nowrap row-lg mb-4">
+        <div class="row flex-nowrap row-lg mb-4 plan-item">
           <div class="col-sm-4 flex-sm-last package-prime-col active-slide"
                [class.is-active-slide]="1 === selectedIndex">
             <div class="package-card package-card-prime is-shadowed bg-faded text-dark">
@@ -69,7 +69,7 @@
                         <button class="dropdown-toggle" type="button" id="emailAddressDropdownMenuButton"
                                 ngbDropdownToggle>
                           {{selectedEmailAddress}}
-                          <span translate="page_pricing.email_aliases">Email Address Aliases</span>
+                          <span translate="settings.keys.email_address">Email Address</span>
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right"
                              aria-labelledby="emailAddressDropdownMenuButton">
@@ -215,7 +215,8 @@
                     {{(paymentType === 'annually' ? annualPricePerMonth : monthlyPrice) | currency:selectedCurrency}}/<span class="text-normal">mo</span>
                   </a>
                   <div *ngIf="showCurrentPlan && userPlanType === planType.PRIME">
-                    <a *ngIf="isValueChanged" (click)="selectPlan(1)" class="btn btn-lg btn-gradient-primary cursor-pointer"><strong>Upgrade Plan</strong></a>
+                    <a *ngIf="isValueChanged" (click)="selectPlan(1)"
+                       class="btn btn-lg btn-gradient-primary cursor-pointer upgrade-button"><strong>Upgrade Plan</strong></a>
                     <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
                   </div>
                 </div>
@@ -240,7 +241,7 @@
                   </li>
                   <li class="package-list-item has-border">
                     <i class="fa fa-check text-green"></i>100 <span
-                          translate="settings.keys.email_address">Email Address Aliases</span>
+                          translate="settings.keys.email_address">Email Address</span>
                   </li>
                   <li class="package-list-item has-border">
                     <i class="fa fa-check text-green"></i>10 <span>Custom Domains</span>
@@ -351,10 +352,10 @@
                 </div>
                 <div class="package-actions text-center">
                   <a (click)="selectPlan(2)" *ngIf="(showCurrentPlan && userPlanType !== planType.CHAMPION) || !showCurrentPlan"
-                     class="btn btn-gradient-primary cursor-pointer">
+                     class="btn btn-gradient-primary cursor-pointer upgrade-button">
                     <span translate="settings.select_champion">Select Champion </span>
-                    {{(paymentType === 'annually' ? 37.5 : 50) | currency:selectedCurrency}}
-                    /<span class="text-normal">mo</span>
+                    <span class="champion-price">{{(paymentType === 'annually' ? 37.5 : 50) | currency:selectedCurrency}}
+                      /<span class="text-normal">mo</span></span>
                   </a>
                   <div *ngIf="showCurrentPlan && userPlanType === planType.CHAMPION">
                     <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>

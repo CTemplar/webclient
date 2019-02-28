@@ -16,12 +16,13 @@
   // margin-left: 60px;
   padding-bottom: 3.75rem;
   min-height: 100vh;
+  margin-left: 220px;
 
   @include media("<ipad", ">sm") {
     margin-left: 68px;
   }
 
-  @include media(">=ipad") {
+  @media (min-width: 1024px) {
     margin-left: 290px;
   }
 }
@@ -56,7 +57,7 @@
     }
   }
 
-  @include media(">=ipad") {
+  @media (min-width: 1024px) {
     width: 290px;
   }
 
@@ -148,6 +149,13 @@
 
   @include media(">=ipad") {
     right: 1.563rem;
+    @media (max-width: 1024px) {
+      position: unset;
+      margin: 10px 0 -15px 0;
+      width: 100%;
+      display: block;
+      text-align: center;
+    }
   }
 
   .prime-account-text {
@@ -385,7 +393,9 @@
   padding: .5rem 3.43066rem; //~.5633rem 3.43066rem;
   font-size: 0.875rem;
   letter-spacing: 0.7px;
-  min-width: 240px;
+  min-width: 90%;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .btn-primary.mailbox-btn {

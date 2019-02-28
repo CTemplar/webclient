@@ -131,3 +131,11 @@
     background-color: green;
   }
 }
+
+.sidebar-opened {
+  .display-unset {
+    .mailbox-btn-text {
+      display: unset !important;
+    }
+  }
+}

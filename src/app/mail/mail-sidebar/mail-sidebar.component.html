@@ -1,7 +1,7 @@
 <aside id="mailbox-sidebar"
        (clickOutside)="toggleMenu($event)"
        class="mailbox-sidebar is-sidebar-expandedx" role="complementary" [ngClass]="{'is-sidebar-expanded': isSidebarOpened}">
-    <div class="mailbox-sidebar-inner">
+    <div class="mailbox-sidebar-inner" [class.sidebar-opened]="isSidebarOpened">
 
         <div class="mailbox-brand">
             <button class="navbar-toggler hidden-md-up" role="button" (click)="toggleMenu()">
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="mail-compose-section hidden-xs-down">
+        <div class="mail-compose-section display-unset hidden-xs-down">
             <button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon" role="button"
                     (click)="openComposeMailDialog();">
                 <i class="icon icon-plus text-white hidden-md-up"></i>

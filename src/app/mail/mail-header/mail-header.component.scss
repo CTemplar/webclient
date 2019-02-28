@@ -194,6 +194,9 @@
 
 // == Search form
 .search-form {
+  @include media("<ipad"){
+    width: 90%;
+  }
   .form-control {
     padding-right: 3.438rem + 0.938rem;
     height: 32px;

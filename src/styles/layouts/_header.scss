@@ -85,6 +85,7 @@
 .navbar-brand-logo {
     margin-right: 5px;
     max-width: 20px;
+    height: 32px;
 
     @include media(">sm") {
         margin-right: 10px;
