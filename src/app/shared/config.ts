@@ -74,3 +74,19 @@ export const VALID_EMAIL_REGEX: any = /^([a-zA-Z0-9_\.\-]+)@([a-zA-Z0-9_\.\-]+)$
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 
 export const REFFERAL_CODE_KEY = 'referral_code';
+
+export function isTORBrowser() {
+  const date = new Date();
+  if (window.innerWidth === 1000 &&
+    navigator.userAgent.indexOf('Gecko/20100101 Firefox') > -1 &&
+    date.getTimezoneOffset() === 0 &&
+    (navigator.plugins && navigator.plugins.length === 0)) {
+    if (window.location.hostname === 'ctemplar.com') {
+      window.location.href = 'http://ctemplar42u6fulx.onion/';
+    }
+    return true;
+  }
+  return false;
+}
+
+isTORBrowser();
