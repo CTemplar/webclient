@@ -118,6 +118,9 @@ export class OpenPgpService {
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.decryptedContent, inProgress: false }));
       } else if (event.data.changePassphrase) {
+        event.data.privkeys.forEach(item => {
+          item.public_key = this.pubkeys[item.mailbox_id];
+        });
         this.store.dispatch(new ChangePassphraseSuccess(event.data.privkeys));
       }
     });

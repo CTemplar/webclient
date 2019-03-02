@@ -101,7 +101,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
       old_password: data.oldPassword,
       password: data.password,
       confirm_password: data.confirmPwd,
-      new_keys: this.updatedPrivateKeys
+      new_keys: this.updatedPrivateKeys,
+      delete_data: false,
     };
     this.store.dispatch(new ChangePassword(requestData));
     this.inProgress = true;
