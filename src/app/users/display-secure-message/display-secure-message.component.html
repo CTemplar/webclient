@@ -30,6 +30,23 @@
         </div>
         <div class="msg-reply-card-body">
           <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'"></div>
+          <div>
+            <ul class="list-style-none mt-3">
+              <ng-container *ngFor="let attachment of message.attachments">
+                <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
+                  <a class="download-attachment" [href]="attachment.document" placement="top"
+                     [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
+                    <div class="attachment-icon">
+                      <i class="icon icon-attachment"></i>
+                    </div>
+                    <div class="attachment-name">
+                      {{attachment.document | filename}}
+                    </div>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
