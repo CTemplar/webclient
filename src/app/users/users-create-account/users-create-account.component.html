@@ -104,7 +104,7 @@
                                     (signupForm.controls['password'].touched || submitted)"
                        class="validate-message">
                     <ng-container *ngIf="signupForm.controls['password'].errors.required">The password is required.</ng-container>
-                    <ng-container *ngIf="signupForm.controls['password'].errors.maxlength">The password must be between 0 and 128 characters.</ng-container>
+                    <ng-container *ngIf="signupForm.controls['password'].errors.maxlength">The password must be between 1 and 128 characters.</ng-container>
                   </div>
                 </div>
                 <div class="form-group">
