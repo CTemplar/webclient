@@ -27,6 +27,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   showChangePasswordFormErrors = false;
   userState: UserState;
   inProgress: boolean;
+  deleteData: boolean;
   private updatedPrivateKeys: Array<any>;
   private canDispatchChangePassphrase: boolean;
 
@@ -53,7 +54,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         if (this.inProgress && !authState.inProgress) {
           this.changePasswordModalRef.dismiss();
           if (authState.isChangePasswordError) {
-            this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword);
+            this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
           }
           this.inProgress = false;
         }
@@ -90,7 +91,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     if (this.changePasswordForm.valid) {
       this.inProgress = true;
       this.canDispatchChangePassphrase = true;
-      this.openPgpService.changePassphrase(this.changePasswordForm.value.password);
+      this.openPgpService.changePassphrase(this.changePasswordForm.value.password, this.deleteData, this.userState.username);
     }
   }
 
@@ -102,7 +103,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       password: data.password,
       confirm_password: data.confirmPwd,
       new_keys: this.updatedPrivateKeys,
-      delete_data: false,
+      delete_data: this.deleteData,
     };
     this.store.dispatch(new ChangePassword(requestData));
     this.inProgress = true;
