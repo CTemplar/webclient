@@ -82,7 +82,8 @@
   <div class="modal-body bg-faded">
     <div>
       <p class="text-holder text-dark text-medium">
-        Your encryption key is connected to your password. You have the option to either keep all the data and encryption
+        Your encryption key is connected to your password. You have the option to either keep all the data and
+        encryption
         keys and just change the password or you can delete all the data and generate new encryption keys. Choose your
         option carefully.
       </p>
@@ -91,83 +92,84 @@
       <div class="password-content-holder mx-auto mt-2 pt-sm-2">
         <div class="form">
           <form [formGroup]="changePasswordForm" (submit)="changePassword()">
-            <div class="form-group form-group-sm">
-              <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
-                Password</label>
-              <div class="input-group">
-                <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
-                       formControlName="oldPassword" placeholder="Old Password" type="password"/>
-                <span class="input-group-addon password-toggle bg-white text-muted"
-                      (click)="togglePassword(oldPasswordInput)">
+            <div [class.disabled]="inProgress">
+              <div class="form-group form-group-sm">
+                <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
+                  Password</label>
+                <div class="input-group">
+                  <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
+                         formControlName="oldPassword" placeholder="Old Password" type="password"/>
+                  <span class="input-group-addon password-toggle bg-white text-muted"
+                        (click)="togglePassword(oldPasswordInput)">
                                     <i class="fa fa-eye"></i>
                                 </span>
-              </div>
-              <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
-                    class="validate-message">
+                </div>
+                <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
+                      class="validate-message">
                                 <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required">Old password
                                     is required.</span>
                             </span>
-            </div>
-            <div class="form-group form-group-sm">
-              <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
-                Password</label>
-              <div class="input-group">
-                <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
-                       formControlName="password" placeholder="New Password" type="password"/>
-                <span class="input-group-addon password-toggle bg-white text-muted"
-                      (click)="togglePassword(newPasswordInput)">
+              </div>
+              <div class="form-group form-group-sm">
+                <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
+                  Password</label>
+                <div class="input-group">
+                  <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
+                         formControlName="password" placeholder="New Password" type="password"/>
+                  <span class="input-group-addon password-toggle bg-white text-muted"
+                        (click)="togglePassword(newPasswordInput)">
                                     <i class="fa fa-eye"></i>
                                 </span>
-              </div>
-              <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
-                    class="validate-message">
+                </div>
+                <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
+                      class="validate-message">
                                 <span *ngIf="changePasswordForm.controls['password'].errors.required">New password is
                                     required.</span>
                             </span>
-            </div>
-            <div class="form-group form-group-sm">
-              <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
-                New Password</label>
-              <div class="input-group">
-                <input #confirmNewPasswordInput class="form-control form-control-lg" id="confirmNewPassword"
-                       formControlName="confirmPwd" placeholder="Confirm New Password" type="password"/>
-                <span class="input-group-addon password-toggle bg-white text-muted"
-                      (click)="togglePassword(confirmNewPasswordInput)">
+              </div>
+              <div class="form-group form-group-sm">
+                <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
+                  New Password</label>
+                <div class="input-group">
+                  <input #confirmNewPasswordInput class="form-control form-control-lg" id="confirmNewPassword"
+                         formControlName="confirmPwd" placeholder="Confirm New Password" type="password"/>
+                  <span class="input-group-addon password-toggle bg-white text-muted"
+                        (click)="togglePassword(confirmNewPasswordInput)">
                                     <i class="fa fa-eye"></i>
                                 </span>
-              </div>
-              <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"
-                    class="validate-message">
+                </div>
+                <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"
+                      class="validate-message">
                                 <span translate="create_account.passwords_not_match">Passwords do not match.</span>
                             </span>
-            </div>
+              </div>
 
-            <div class="form-content-row">
-              <label class="font-weight-bold notice">Data Preference</label><br>
-              <div class="row align-items-center">
-                <div class="col-sm-7 col-md-5">
-                  <div class="row row-sm">
-                    <div class="col-6 flex-auto-col" (click)="deleteData=false;">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data1"
-                               [checked]="!deleteData"
-                               name="[1]" type="radio" />
-                        <label for="keep_data1">Keep data</label>
+              <div class="form-content-row">
+                <label class="font-weight-bold notice">Data Preference</label><br>
+                <div class="row align-items-center">
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col" (click)="deleteData=false;">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data1"
+                                 [checked]="!deleteData"
+                                 name="[1]" type="radio"/>
+                          <label for="keep_data1">Keep data</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-6 flex-auto-col" (click)="deleteData=true;">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data2"
-                               [checked]="deleteData"
-                               name="[1]" type="radio"/>
-                        <label for="keep_data2">Delete all data and generate new encryption keys</label>
+                      <div class="col-6 flex-auto-col" (click)="deleteData=true;">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data2"
+                                 [checked]="deleteData"
+                                 name="[1]" type="radio"/>
+                          <label for="keep_data2">Delete all data and generate new encryption keys</label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="form-group form-user-actions text-center mb-0">
               <button class="btn btn-gradient-primary btn-sm reset-btn"
                       [disabled]="inProgress"

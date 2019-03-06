@@ -74,13 +74,13 @@ export class OpenPgpService {
       });
   }
 
-  decryptPrivateKeys() {
-    const userKey = this.usersService.getUserKey();
+  decryptPrivateKeys(privKeys?: any, password?: string) {
+    const userKey = password ? btoa(password) : this.usersService.getUserKey();
     if (!userKey) {
       this.store.dispatch(new Logout());
       return;
     }
-
+    this.privkeys = privKeys ? privKeys : this.privkeys;
     this.store.dispatch(new SetDecryptInProgress(true));
 
     this.pgpWorker.postMessage({
@@ -228,7 +228,9 @@ export class OpenPgpService {
   }
 
   revertChangedPassphrase(passphrase: string, deleteData: boolean) {
-    this.pgpWorker.postMessage({ passphrase, deleteData, revertPassphrase: true });
+    if (!deleteData) {
+      this.pgpWorker.postMessage({ passphrase, revertPassphrase: true });
+    }
   }
 
 }

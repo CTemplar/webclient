@@ -113,7 +113,7 @@ async function generateNewKeys(mailboxes, password, username) {
             passphrase: password
         };
         const keys = await generateKeys(options);
-        newKeys.push(keys);
+        newKeys.push({...keys, mailbox_id: mailboxes[i].id});
     }
     return {keys: newKeys, changePassphrase: true};
 }
@@ -130,5 +130,5 @@ async function changePassphrase(passphrase) {
             decryptedPrivKeys[key].decrypt(passphrase);
         }
     }
-    return {keys, changePassphrase: true};
+    return {keys: privkeys, changePassphrase: true};
 }

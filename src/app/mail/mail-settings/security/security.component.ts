@@ -55,6 +55,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.changePasswordModalRef.dismiss();
           if (authState.isChangePasswordError) {
             this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
+          } else {
+            const privKeys: any = {};
+            this.updatedPrivateKeys.forEach(item => {
+              privKeys[item.mailbox_id] = item.private_key;
+            });
+            this.openPgpService.decryptPrivateKeys(privKeys, this.changePasswordForm.value.password);
           }
           this.inProgress = false;
         }
@@ -78,6 +84,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   // == Open change password NgbModal
   openChangePasswordModal() {
+    this.deleteData = false;
+    this.inProgress = false;
     this.showChangePasswordFormErrors = false;
     this.changePasswordForm.reset();
     this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
