@@ -130,7 +130,11 @@ export class UsersService {
     requestData.password = this.hashPassword(requestData, 'password');
     requestData.confirm_password = this.hashPassword(requestData, 'confirm_password');
     delete requestData['username'];
-    return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData);
+    return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
+      tap(response => {
+        this.setLoginData(response, data);
+      })
+    );
   }
 
   verifyToken(): Observable<any> {
