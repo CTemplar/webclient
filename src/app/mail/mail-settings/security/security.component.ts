@@ -93,7 +93,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.changePasswordForm.reset();
     this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
       centered: true,
-      windowClass: 'modal-md'
+      windowClass: 'modal-md change-password-modal'
     });
   }
 

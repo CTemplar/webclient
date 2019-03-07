@@ -68,6 +68,9 @@
 */
 @import "styles/modules/mail-composer/mail-composer";
 
+// Components global styles
+@import "styles/components.styles";
+
 .loading-icon {
   position: absolute;
   top: 28vh;
