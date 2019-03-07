@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  ChangePassphraseSuccess,
+  ChangePassphraseSuccess, GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
   SetDecryptInProgress,
@@ -54,9 +54,7 @@ export class OpenPgpService {
               this.privkeys[mailbox.id] = mailbox.private_key;
               hasNewPrivateKey = true;
             }
-            if (!this.pubkeys[mailbox.id]) {
-              this.pubkeys[mailbox.id] = mailbox.public_key;
-            }
+            this.pubkeys[mailbox.id] = mailbox.public_key;
           });
           if (hasNewPrivateKey) {
             this.decryptPrivateKeys();
@@ -180,13 +178,20 @@ export class OpenPgpService {
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
   }
 
-  clearData() {
+  clearData(publicKeys?: any) {
     this.decryptedPrivKeys = null;
     this.pubkeys = null;
     this.privkeys = null;
     this.userKeys = null;
     this.store.dispatch(new SetDecryptedKey({ decryptedKey: null }));
     this.pgpWorker.postMessage({ clear: true });
+
+    if (publicKeys) {
+      this.mailboxes.forEach(item => {
+        item.public_key = publicKeys[item.id];
+      });
+      this.store.dispatch(new GetMailboxesSuccess(this.mailboxes));
+    }
   }
 
   generateUserKeys(username: string, password: string) {

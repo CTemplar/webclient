@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { ChangePassphraseSuccess, ChangePassword } from '../../../store/actions';
+import { ChangePassphraseSuccess, ChangePassword, GetMailboxes } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -57,9 +57,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
             this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
           } else {
             const privKeys: any = {};
+            const pubKeys: any = {};
             this.updatedPrivateKeys.forEach(item => {
               privKeys[item.mailbox_id] = item.private_key;
+              pubKeys[item.mailbox_id] = item.public_key;
             });
+            this.openPgpService.clearData(pubKeys);
             this.openPgpService.decryptPrivateKeys(privKeys, this.changePasswordForm.value.password);
           }
           this.inProgress = false;
