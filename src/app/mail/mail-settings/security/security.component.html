@@ -102,6 +102,7 @@
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         (click)="togglePassword(oldPasswordInput)">
                                     <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
                                 </span>
                 </div>
                 <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
@@ -119,6 +120,7 @@
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         (click)="togglePassword(newPasswordInput)">
                                     <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
                                 </span>
                 </div>
                 <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
@@ -136,6 +138,7 @@
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         (click)="togglePassword(confirmNewPasswordInput)">
                                     <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
                                 </span>
                 </div>
                 <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"

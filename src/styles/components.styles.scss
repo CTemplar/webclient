@@ -7,3 +7,17 @@
 }
 
 //end change password
+
+.form-control {
+  &[type="text"] {
+    + span .fa-eye {
+      display: none;
+    }
+  }
+
+  &[type="password"] {
+    + span .fa-eye-slash {
+      display: none;
+    }
+  }
+}
