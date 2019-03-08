@@ -3,7 +3,7 @@ import { MailBoxesState } from './datatypes';
 import { Params } from '@angular/router';
 // Ngrx
 // Models
-import { Category, Comment, Mail, Membership, Post, User, Mailbox, UserMailbox, Attachment, MailFolderType } from '../store/models';
+import { Attachment, Mail, Mailbox, MailFolderType, Membership, User, UserMailbox } from '../store/models';
 import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
@@ -125,17 +125,6 @@ export interface Payment {
   billing_cycle_ends?: string;
   payment_method?: PaymentMethod;
   payment_type?: PaymentType;
-}
-
-export interface BlogState {
-  posts: Post[];
-  comments: Comment[];
-  categories: Category[];
-  newPosts?: Post[];
-  selectedPost?: Post;
-  errorMessage: string | null;
-  newComment?: Comment;
-  relatedPosts?: Post[];
 }
 
 export interface MailState {
