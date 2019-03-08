@@ -266,7 +266,6 @@ export interface Contact {
 
 export interface AppState {
   auth: AuthState;
-  blog: BlogState;
   mail: MailState;
   mailboxes: MailBoxesState;
   loading: LoadingState;
