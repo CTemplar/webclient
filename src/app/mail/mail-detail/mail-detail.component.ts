@@ -155,7 +155,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const anchorElements = document.getElementsByTagName('a');
       for (const i in anchorElements) {
         if (anchorElements.hasOwnProperty(i) && anchorElements[i].href.indexOf('mailto:') === 0) {
-          const receivers = [anchorElements[96].href.split('mailto:')[1]];
+          const receivers = [anchorElements[i].href.split('mailto:')[1]];
           anchorElements[i].onclick = (event) => {
             event.preventDefault();
             self.composeMailService.openComposeMailDialog({ receivers });
