@@ -32,7 +32,7 @@ export class SafePipe implements PipeTransform {
             return '';
           }
         });
-        const xssValue = xss(value, {
+        let xssValue = xss(value, {
           stripIgnoreTag: true,
           stripIgnoreTagBody: ['script', 'style'],
           onTag: (tag, html, options) => {
@@ -98,12 +98,32 @@ export class SafePipe implements PipeTransform {
             }
           }
         });
+        xssValue = this.replaceLinksInText(xssValue);
         return this.sanitizer.bypassSecurityTrustHtml(xssValue);
       case 'url':
         return this.sanitizer.bypassSecurityTrustUrl(value);
       default:
         throw new Error(`Invalid safe type specified: ${type}`);
     }
+  }
+
+  replaceLinksInText(textData) {
+    if (!(/<[a-z][\s\S]*>/i.test(textData))) {
+      let regex = /https?:\/\/[^\s]+/g;
+      if (typeof (textData) === 'string') {
+        let matches = textData.match(regex);
+        matches.forEach((match) => {
+          textData = textData.split(match).join(`<a href="${match}" target="_blank">${match}</a>`);
+        });
+        regex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
+        matches = textData.match(regex);
+        matches.forEach((match) => {
+          textData = textData.split(match).join(`<a href="mailto:${match}" target="_blank">${match}</a>`);
+        });
+      }
+      textData = textData.replace(/\n/g, '<br>');
+    }
+    return textData;
   }
 
 }
