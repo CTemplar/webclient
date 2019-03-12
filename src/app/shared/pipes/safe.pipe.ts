@@ -113,12 +113,12 @@ export class SafePipe implements PipeTransform {
       if (typeof (textData) === 'string') {
         let matches = textData.match(regex);
         matches.forEach((match) => {
-          textData = textData.split(match).join(`<a href="${match}" target="_blank">${match}</a>`);
+          textData = textData.split(match).join(`<a href="${match}" target="_blank" rel="noopener">${match}</a>`);
         });
         regex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
         matches = textData.match(regex);
         matches.forEach((match) => {
-          textData = textData.split(match).join(`<a href="mailto:${match}" target="_blank">${match}</a>`);
+          textData = textData.split(match).join(`<a href="mailto:${match}" target="_blank" rel="noopener">${match}</a>`);
         });
       }
       textData = textData.replace(/\n/g, '<br>');
