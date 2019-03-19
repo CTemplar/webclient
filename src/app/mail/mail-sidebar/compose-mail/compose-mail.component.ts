@@ -317,7 +317,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.quill = new Quill(this.editor.nativeElement, {
       modules: {
         toolbar: this.toolbar.nativeElement
-      }
+      },
+      clipboard: {
+        matchVisual: false
+      },
     });
     this.quill.clipboard.addMatcher(Node.TEXT_NODE, (node, delta) => {
       const regex = /https?:\/\/[^\s]+/g;
@@ -760,6 +763,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!shouldSave) {
       this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
     }
+
+    if (shouldSend) {
+      this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
+      this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
+    }
+
     if (this.forwardAttachmentsMessageId) {
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
     }
