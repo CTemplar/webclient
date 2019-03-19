@@ -192,6 +192,12 @@
   }
 }
 
+.mailbox-lang.mailbox-dropdown {
+  .dropdown-menu {
+    min-width: 130px !important;
+  }
+}
+
 // == Search form
 .search-form {
   @include media("<ipad"){

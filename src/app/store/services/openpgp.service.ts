@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  ChangePassphraseSuccess,
+  ChangePassphraseSuccess, GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
   SetDecryptInProgress,
@@ -14,6 +14,7 @@ import {
 } from '../actions';
 import { AppState, AuthState, MailBoxesState } from '../datatypes';
 import { UsersService } from './users.service';
+import { Mailbox } from '../models';
 
 declare var openpgp;
 
@@ -29,6 +30,7 @@ export class OpenPgpService {
   private pgpEncryptWorker: Worker;
   private isAuthenticated: boolean;
   private userKeys: any;
+  private mailboxes: Mailbox[];
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
@@ -43,6 +45,7 @@ export class OpenPgpService {
     this.store.select(state => state.mailboxes)
       .subscribe((mailBoxesState: MailBoxesState) => {
         if (mailBoxesState.mailboxes.length > 0) {
+          this.mailboxes = mailBoxesState.mailboxes;
           this.privkeys = this.privkeys || {};
           this.pubkeys = this.pubkeys || {};
           let hasNewPrivateKey = false;
@@ -51,9 +54,7 @@ export class OpenPgpService {
               this.privkeys[mailbox.id] = mailbox.private_key;
               hasNewPrivateKey = true;
             }
-            if (!this.pubkeys[mailbox.id]) {
-              this.pubkeys[mailbox.id] = mailbox.public_key;
-            }
+            this.pubkeys[mailbox.id] = mailbox.public_key;
           });
           if (hasNewPrivateKey) {
             this.decryptPrivateKeys();
@@ -71,13 +72,13 @@ export class OpenPgpService {
       });
   }
 
-  decryptPrivateKeys() {
-    const userKey = this.usersService.getUserKey();
+  decryptPrivateKeys(privKeys?: any, password?: string) {
+    const userKey = password ? btoa(password) : this.usersService.getUserKey();
     if (!userKey) {
       this.store.dispatch(new Logout());
       return;
     }
-
+    this.privkeys = privKeys ? privKeys : this.privkeys;
     this.store.dispatch(new SetDecryptInProgress(true));
 
     this.pgpWorker.postMessage({
@@ -118,10 +119,10 @@ export class OpenPgpService {
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.decryptedContent, inProgress: false }));
       } else if (event.data.changePassphrase) {
-        event.data.privkeys.forEach(item => {
-          item.public_key = this.pubkeys[item.mailbox_id];
+        event.data.keys.forEach(item => {
+          item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
         });
-        this.store.dispatch(new ChangePassphraseSuccess(event.data.privkeys));
+        this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
       }
     });
   }
@@ -177,13 +178,20 @@ export class OpenPgpService {
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
   }
 
-  clearData() {
+  clearData(publicKeys?: any) {
     this.decryptedPrivKeys = null;
     this.pubkeys = null;
     this.privkeys = null;
     this.userKeys = null;
     this.store.dispatch(new SetDecryptedKey({ decryptedKey: null }));
     this.pgpWorker.postMessage({ clear: true });
+
+    if (publicKeys) {
+      this.mailboxes.forEach(item => {
+        item.public_key = publicKeys[item.id];
+      });
+      this.store.dispatch(new GetMailboxesSuccess(this.mailboxes));
+    }
   }
 
   generateUserKeys(username: string, password: string) {
@@ -220,12 +228,14 @@ export class OpenPgpService {
     }, 500);
   }
 
-  changePassphrase(passphrase: string) {
-    this.pgpWorker.postMessage({ passphrase, changePassphrase: true });
+  changePassphrase(passphrase: string, deleteData: boolean, username: string) {
+    this.pgpWorker.postMessage({ passphrase, deleteData, username, mailboxes: this.mailboxes, changePassphrase: true });
   }
 
-  revertChangedPassphrase(passphrase: string) {
-    this.pgpWorker.postMessage({ passphrase, revertPassphrase: true });
+  revertChangedPassphrase(passphrase: string, deleteData: boolean) {
+    if (!deleteData) {
+      this.pgpWorker.postMessage({ passphrase, revertPassphrase: true });
+    }
   }
 
 }

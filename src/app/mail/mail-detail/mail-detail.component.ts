@@ -11,6 +11,7 @@ import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.m
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { takeUntil } from 'rxjs/operators';
+import { ComposeMailService } from '../../store/services/compose-mail.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -51,6 +52,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               private pgpService: OpenPgpService,
               private shareService: SharedService,
               private router: Router,
+              private composeMailService: ComposeMailService,
               private dateTimeUtilService: DateTimeUtilService,
               private modalService: NgbModal) {
   }
@@ -73,6 +75,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
+              this.handleEmailLinks();
 
               // Automatically scrolls to last element in the list
               // Class name .last-child is set inside the template
@@ -146,6 +149,24 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  handleEmailLinks() {
+    setTimeout(() => {
+      const self = this;
+      const anchorElements = document.getElementsByTagName('a');
+      for (const i in anchorElements) {
+        if (anchorElements.hasOwnProperty(i) && anchorElements[i].href.indexOf('mailto:') === 0) {
+          const receivers = [anchorElements[i].href.split('mailto:')[1]];
+          anchorElements[i].onclick = (event) => {
+            event.preventDefault();
+            self.composeMailService.openComposeMailDialog({ receivers });
+          };
+          anchorElements[i].href = '';
+        }
+      }
+    }, 1000);
+
+  }
+
   makeArrayOf(value, length) {
     const arr = [];
     let i = length;
@@ -169,6 +190,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         this.decryptedContents[child.id] = childDecryptedContent.content;
         this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
+        this.handleEmailLinks();
       }
     }
     if (!this.mailOptions[child.id]) {

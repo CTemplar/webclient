@@ -1,0 +1,23 @@
+// start change password
+
+.change-password-modal {
+  .modal-body {
+    padding: 1.125rem 0.938rem 1.5rem 0.938rem !important;
+  }
+}
+
+//end change password
+
+.form-control {
+  &[type="text"] {
+    + span .fa-eye {
+      display: none;
+    }
+  }
+
+  &[type="password"] {
+    + span .fa-eye-slash {
+      display: none;
+    }
+  }
+}
