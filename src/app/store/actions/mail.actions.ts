@@ -39,6 +39,9 @@ export enum MailActionTypes {
   SET_DEFAULT_MAILBOX_SUCCESS = '[MAILBOX] SET DEFAULT MAILBOX SUCCESS',
   UPDATE_MAILBOX_ORDER = '[MAILBOX] UPDATE ORDER',
   UPDATE_MAILBOX_ORDER_SUCCESS = '[MAILBOX] UPDATE ORDER SUCCESS',
+  EMPTY_TRASH = '[Mail] EMPTY TRASH',
+  EMPTY_TRASH_SUCCESS = '[Mail] EMPTY TRASH SUCCESS',
+  EMPTY_TRASH_FAILURE = '[Mail] EMPTY TRASH FAILURE',
 }
 
 export class GetMails implements Action {
@@ -262,6 +265,27 @@ export class UpdateMailboxOrderSuccess implements Action {
   }
 }
 
+export class EmptyTrash implements Action {
+  readonly type = MailActionTypes.EMPTY_TRASH;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class EmptyTrashSuccess implements Action {
+  readonly type = MailActionTypes.EMPTY_TRASH_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class EmptyTrashFailure implements Action {
+  readonly type = MailActionTypes.EMPTY_TRASH_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -298,4 +322,7 @@ export type MailActions =
   | SetDefaultMailbox
   | SetDefaultMailboxSuccess
   | UpdateMailboxOrder
-  | UpdateMailboxOrderSuccess;
+  | UpdateMailboxOrderSuccess
+  | EmptyTrash
+  | EmptyTrashSuccess
+  | EmptyTrashFailure;

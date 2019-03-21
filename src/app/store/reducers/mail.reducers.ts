@@ -221,6 +221,19 @@ export function reducer(
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 
+    case MailActionTypes.EMPTY_TRASH: {
+      return { ...state, inProgress: true, noUnreadCountChange: true };
+    }
+
+    case MailActionTypes.EMPTY_TRASH_SUCCESS: {
+      state.folders.set(MailFolderType.TRASH, []);
+      return { ...state, mails: [], inProgress: false };
+    }
+
+    case MailActionTypes.EMPTY_TRASH_FAILURE: {
+      return { ...state, inProgress: false };
+    }
+
     default: {
       return state;
     }
