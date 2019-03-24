@@ -12,7 +12,7 @@ import {
   AccountDetailsGet,
   CreateMail,
   DeleteFolder,
-  DeleteMailSuccess,
+  DeleteMailSuccess, EmptyTrash, EmptyTrashFailure, EmptyTrashSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   GetMails,
@@ -162,6 +162,21 @@ export class MailEffects {
         .pipe(
           switchMap(res => of(new UndoDeleteMailSuccess(payload))),
           catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })))
+        );
+    }));
+
+  @Effect()
+  emptyTrashEffect: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.EMPTY_TRASH),
+    map((action: EmptyTrash) => action.payload),
+    switchMap(payload => {
+      return this.mailService.emptyTrash()
+        .pipe(
+          switchMap(res => of(new EmptyTrashSuccess(res))),
+          catchError(err => of(
+            new SnackErrorPush({message: `Failed to delete all messages.`}),
+            new EmptyTrashFailure(err.error)
+          ))
         );
     }));
 
