@@ -1,10 +1,14 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
+import { timer } from 'rxjs/internal/observable/timer';
+import { takeUntil } from 'rxjs/operators';
 import {
   DeleteMail,
+  EmptyTrash,
   GetMailDetailSuccess,
   GetMails,
   GetUnreadMailsCount,
@@ -18,8 +22,6 @@ import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
 import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
-import { takeUntil } from 'rxjs/operators';
-import { timer } from 'rxjs/internal/observable/timer';
 
 @TakeUntilDestroy()
 @Component({
@@ -32,6 +34,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
   @Input() fetchMails: boolean;
+
+  @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
+
   customFolders: Folder[];
 
   mailFolderTypes = MailFolderType;
@@ -50,12 +55,14 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   private searchText: string;
   private mailState: MailState;
   private isAutoRefreshPaused: boolean;
+  private confirmEmptyTrashModalRef: NgbModalRef;
 
   constructor(public store: Store<AppState>,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private sharedService: SharedService,
-              private composeMailService: ComposeMailService) {
+              private composeMailService: ComposeMailService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -215,6 +222,18 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.moveToFolder(MailFolderType.TRASH);
     }
+  }
+
+  confirmEmptyTrash() {
+    this.confirmEmptyTrashModalRef = this.modalService.open(this.confirmEmptyTrashModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  emptyTrashConfirmed() {
+    this.store.dispatch(new EmptyTrash());
+    this.confirmEmptyTrashModalRef.dismiss();
   }
 
   openMail(mail: Mail) {

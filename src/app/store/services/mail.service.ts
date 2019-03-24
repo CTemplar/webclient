@@ -157,6 +157,10 @@ export class MailService {
     return this.http.post<any>(`${apiUrl}emails/mailbox-order/`, data);
   }
 
+  emptyTrash() {
+    return this.http.post<any>(`${apiUrl}emails/empty-trash/`, null);
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

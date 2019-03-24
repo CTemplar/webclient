@@ -33,6 +33,7 @@ import { takeUntil } from 'rxjs/operators';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 import { timer } from 'rxjs/internal/observable/timer';
+import { apiUrl } from '../../config';
 
 @TakeUntilDestroy()
 @Component({
@@ -78,6 +79,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   authState: AuthState;
   isScriptsLoaded: boolean;
   isScriptsLoading: boolean;
+  apiUrl: string = apiUrl;
 
   readonly destroyed$: Observable<boolean>;
   private checkTransactionResponse: CheckTransactionResponse;

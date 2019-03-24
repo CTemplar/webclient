@@ -178,6 +178,7 @@ export class UsersService {
       'emails-forward/send-verification-code',
       'emails-forward/verify-verification-code',
       'emails/folder-order',
+      'emails/empty-trash',
       'users/autoresponder'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {

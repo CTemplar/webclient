@@ -85,7 +85,7 @@
                        *ngIf="bitcoinState?.loaded">{{bitcoinState.newWalletAddress}}</p>
                     <img *ngIf="bitcoinState?.loaded"
                          class="mb-3"
-                         src="https://api.qrserver.com/v1/create-qr-code/?size=225x225&data=bitcoin:{{bitcoinState.newWalletAddress}}?amount={{bitcoinState.bitcoinRequired}}"
+                         src="{{apiUrl}}qr-code/?size=225x225&data=bitcoin:{{bitcoinState.newWalletAddress}}?amount={{bitcoinState.bitcoinRequired}}"
                          alt="captcha">
                     <app-loading-spinner [showSpinner]="!bitcoinState?.loaded"></app-loading-spinner>
                   </div>
