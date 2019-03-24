@@ -451,6 +451,40 @@
                 </section>
                 <!-- Payments Section Ends -->
 
+                <!-- Notification Section -->
+                <section class="mailbox-section">
+                    <header class="ui-header ui-header-bordered">
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong
+                                translate="settings.notifications">Notifications</strong></h5>
+                    </header>
+                    <div class="mailbox-section-body mailbox-section-body-sm">
+                        <div class="form-content-holder">
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-3">
+                                        <label for="notificationEmail" class="form-label mb-sm-0" translate="settings.notification_email">
+                                            Notification email</label>
+                                    </div>
+                                    <form class="col-sm-7 col-md-5" autocomplete="off">
+                                        <input class="form-control form-control-sm" id="notificationEmail" type="email" name="notificationEmail"
+                                               autocomplete="off" [(ngModel)]="settings.notification_email" [ngModelOptions]="{ updateOn: 'blur'}"
+                                               (change)="updateSettings('notification_email', $event.target.value)"
+                                               placeholder="johnsimpson@gmail.com"/>
+                                    </form>
+                                    <div class="info-card mx-3 mt-2 full-width">
+                                        <p>
+                                            Enter a notification email on which you would like to receive notification
+                                            each day when you have new emails.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+                <!-- Payments Section Ends -->
+
                 <!-- Delete account settings -->
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
