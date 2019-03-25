@@ -59,13 +59,13 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     this.searchInput.valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((value) => {
         if (!value) {
-          this.store.dispatch(new UpdateSearch(value));
+          this.store.dispatch(new UpdateSearch({ searchText: value, clearSearch: true }));
         }
       });
   }
 
   search() {
-    this.store.dispatch(new UpdateSearch(this.searchInput.value));
+    this.store.dispatch(new UpdateSearch({ searchText: this.searchInput.value }));
   }
 
   // == Setup click event to toggle mobile menu
