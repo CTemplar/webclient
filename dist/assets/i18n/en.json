@@ -185,7 +185,9 @@
     "good": "Good",
     "on": "On",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "notifications": "Notifications",
+    "notification_email": "Notification email"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
