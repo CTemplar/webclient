@@ -7,6 +7,7 @@ import { AppState, MailBoxesState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { SearchState } from '../../store/reducers/search.reducers';
 import { takeUntil } from 'rxjs/operators';
+import { UpdateSearch } from '../../store/actions/search.action';
 
 @TakeUntilDestroy()
 @Component({
@@ -43,12 +44,13 @@ export class MailListComponent implements OnInit, OnDestroy {
       .subscribe((search: SearchState) => {
         this.searchText = search.searchText;
         if (this.searchText) {
-          this.backFromSearchFolder = this.mailFolder;
+          this.backFromSearchFolder = this.mailFolder === MailFolderType.SEARCH ? this.backFromSearchFolder : this.mailFolder;
           this.mailFolder = MailFolderType.SEARCH;
           this.router.navigateByUrl(`/mail/search/page/1`);
-        } else {
+        } else if (search.clearSearch) {
           this.mailFolder = this.backFromSearchFolder;
           this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+          this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
         }
       });
   }

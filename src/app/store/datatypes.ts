@@ -100,6 +100,7 @@ export interface Settings {
   enable_forwarding?: boolean;
   forwarding_address?: string;
   plan_type?: PlanType;
+  notification_email?: string;
 }
 
 export interface AutoResponder {
