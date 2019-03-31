@@ -193,10 +193,10 @@ export class BlackListDeleteSuccess implements Action {
   }
 }
 
-export class ContactGet implements Action {
+export class ContactsGet implements Action {
   readonly type = UsersActionTypes.CONTACT_GET;
 
-  constructor(public payload: any) {
+  constructor(public payload: any = {}) {
   }
 }
 
@@ -624,7 +624,7 @@ export type UsersActionAll =
   | BlackListAddError
   | BlackListDelete
   | BlackListDeleteSuccess
-  | ContactGet
+  | ContactsGet
   | ContactGetSuccess
   | ContactAdd
   | ContactAddSuccess

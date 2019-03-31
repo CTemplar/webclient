@@ -27,7 +27,7 @@ import {
   ContactAddError,
   ContactAddSuccess,
   ContactDeleteSuccess,
-  ContactGet,
+  ContactsGet,
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
@@ -236,7 +236,7 @@ export class UsersEffects {
   @Effect()
   Contact: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.CONTACT_GET),
-    map((action: ContactGet) => action.payload),
+    map((action: ContactsGet) => action.payload),
     switchMap(payload => {
       return this.userService.getContact()
         .pipe(
@@ -297,7 +297,7 @@ export class UsersEffects {
             if (event instanceof HttpResponse) {
               return of(
                 new ContactImportSuccess(event.body),
-                new ContactGet({}),
+                new ContactsGet({}),
                 new SnackPush({ message: 'Contacts imported successfully' })
               );
             } else {
