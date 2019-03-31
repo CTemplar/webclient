@@ -17,7 +17,7 @@ import {
   AccountDetailsGetSuccess,
   Accounts,
   AccountsReadSuccess,
-  BlackList,
+  BlackListGet,
   BlackListAdd,
   BlackListAddError,
   BlackListAddSuccess,
@@ -80,7 +80,7 @@ import {
   VerifyEmailForwardingCode,
   VerifyEmailForwardingCodeFailure,
   VerifyEmailForwardingCodeSuccess,
-  WhiteList,
+  WhiteListGet,
   WhiteListAdd,
   WhiteListAddError,
   WhiteListAddSuccess,
@@ -129,8 +129,8 @@ export class UsersEffects {
 
   @Effect()
   WhiteLists: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.WHITELIST),
-    map((action: WhiteList) => action.payload),
+    ofType(UsersActionTypes.WHITELIST_GET),
+    map((action: WhiteListGet) => action.payload),
     switchMap(payload => {
       return this.userService.getWhiteList()
         .pipe(
@@ -175,8 +175,8 @@ export class UsersEffects {
 
   @Effect()
   BlackLists: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.BLACKLIST),
-    map((action: BlackList) => action.payload),
+    ofType(UsersActionTypes.BLACKLIST_GET),
+    map((action: BlackListGet) => action.payload),
     switchMap(payload => {
       return this.userService.getBlackList()
         .pipe(
