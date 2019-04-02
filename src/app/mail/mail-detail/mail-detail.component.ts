@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
-import { DeleteMail, GetUnreadMailsCount, MoveMail, StarMail } from '../../store/actions';
+import { DeleteMail, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -353,6 +353,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.id === this.mail.id) {
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     }
+  }
+
+  markNotSpam(mail: Mail) {
+    this.store.dispatch(new MoveMail({
+      ids: mail.id,
+      folder: MailFolderType.INBOX,
+      sourceFolder: mail.folder,
+      mail: mail
+    }));
+    setTimeout(() => {
+      this.store.dispatch(new WhiteListAdd({ name: mail.sender, email: mail.sender }));
+    }, 2000);
+    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
   }
 
   ontoggleStarred(mail: Mail) {

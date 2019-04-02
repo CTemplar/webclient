@@ -36,6 +36,7 @@ export interface Mail {
   children?: Array<Mail>;
   forward_attachments_of_message?: number;
   incoming_headers?: string;
+  spam_reason?: string;
 }
 
 export interface Mailbox {

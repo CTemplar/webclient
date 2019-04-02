@@ -150,7 +150,12 @@ export class UsersEffects {
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return of(new WhiteListAddSuccess(contact), new AccountDetailsGet());
+            return of(
+              new WhiteListAddSuccess(contact),
+              new WhiteListGet(),
+              new BlackListGet(),
+              new SnackPush({ message: 'Email added to whitelist successfully.' })
+              );
           }),
           catchError(err => of(new WhiteListAddError(err.error))),
         );
@@ -196,7 +201,7 @@ export class UsersEffects {
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return of(new BlackListAddSuccess(contact), new AccountDetailsGet());
+            return of(new BlackListAddSuccess(contact), new BlackListGet());
           }),
           catchError(err => of(new BlackListAddError(err))),
         );
