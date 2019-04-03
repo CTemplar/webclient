@@ -132,13 +132,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       const id = +params['id'];
 
+      this.mailFolder = params['folder'] as MailFolderType;
+      this.page = +params['page'];
+
       // Check if email is already available in state
       if (!this.mail || this.mail.has_children) {
         this.getMailDetail(id);
       }
-
-      this.mailFolder = params['folder'] as MailFolderType;
-      this.page = +params['page'];
 
       this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
         .subscribe((user: UserState) => {
@@ -213,7 +213,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   getMailDetail(messageId: number) {
-    this.store.dispatch(new GetMailDetail(messageId));
+    this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
   }
 
   // getAttachementFileName(filepath: string) {
