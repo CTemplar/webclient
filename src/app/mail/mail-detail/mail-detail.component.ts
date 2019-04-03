@@ -339,7 +339,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }));
     }
     if (mail.id === this.mail.id) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     }
   }
 
@@ -383,6 +383,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   moveToFolder(folder: MailFolderType) {
     this.store.dispatch(new MoveMail({ ids: this.mail.id, folder }));
+    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
   }
 
   goBack() {
