@@ -20,6 +20,7 @@ export class MailService {
       limit: number, offset: number, folder: MailFolderType,
       read: null, seconds?: number, searchText?: string
     }): Observable<any> {
+    payload.limit = payload.limit ? payload.limit : 20;
     if (payload.searchText && payload.folder === MailFolderType.SEARCH) {
       return this.searchMessages(payload);
     }
