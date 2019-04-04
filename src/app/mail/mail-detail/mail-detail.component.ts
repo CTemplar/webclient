@@ -67,7 +67,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
-            if (!this.mail.has_children && !this.isDecrypting[this.mail.id] &&
+            if (!this.mail.has_children && this.mail.content && !this.isDecrypting[this.mail.id] &&
               (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
@@ -106,7 +106,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
             this.decryptChildEmails(this.mail.children[this.mail.children.length - 1], mailState);
             setTimeout(() => {
-              if (!this.isDecrypting[this.mail.id] &&
+              if (!this.isDecrypting[this.mail.id] && this.mail.content &&
                 (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
                 this.isDecrypting[this.mail.id] = true;
                 this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
@@ -129,24 +129,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mailboxes = mailBoxesState.mailboxes;
       });
 
-    this.route.params.subscribe(params => {
-      const id = +params['id'];
+    this.route.params.pipe(takeUntil(this.destroyed$))
+      .subscribe(params => {
+        const id = +params['id'];
 
-      this.mailFolder = params['folder'] as MailFolderType;
-      this.page = +params['page'];
-
-      // Check if email is already available in state
-      if (!this.mail || this.mail.has_children) {
+        this.mailFolder = params['folder'] as MailFolderType;
+        this.page = +params['page'];
         this.getMailDetail(id);
-      }
+      });
 
-      this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
-        .subscribe((user: UserState) => {
-          this.customFolders = user.customFolders;
-          this.userState = user;
-        });
-
-    });
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+      .subscribe((user: UserState) => {
+        this.customFolders = user.customFolders;
+        this.userState = user;
+      });
   }
 
   handleEmailLinks() {
