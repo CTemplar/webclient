@@ -120,9 +120,9 @@ export class SafePipe implements PipeTransform {
         const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
 
         inputText = inputText
-          .replace(urlPattern, '<a href="$&">$&</a>')
-          .replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
-          .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
+          .replace(urlPattern, '<a target="_blank" rel="noopener" href="$&">$&</a>')
+          .replace(pseudoUrlPattern, '$1<a target="_blank" rel="noopener" href="http://$2">$2</a>')
+          .replace(emailAddressPattern, '<a target="_blank" rel="noopener" href="mailto:$&">$&</a>');
       }
       inputText = inputText.replace(/\n/g, '<br>');
     }
