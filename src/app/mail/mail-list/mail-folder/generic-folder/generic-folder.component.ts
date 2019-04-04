@@ -45,7 +45,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   userState: UserState;
 
-  readonly AUTO_REFRESH_DURATION: number = 10000; // duration in milliseconds
+  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
