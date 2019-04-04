@@ -15,7 +15,7 @@ import {
   VALID_EMAIL_REGEX
 } from '../../shared/config';
 
-import { BlackListDelete, ChangePassword, DeleteAccount, SettingsUpdate, SnackPush, WhiteListDelete } from '../../store/actions';
+import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
   AppState,
   AuthState,
@@ -29,7 +29,6 @@ import {
   UserState
 } from '../../store/datatypes';
 import { OpenPgpService } from '../../store/services';
-import { PasswordValidation } from '../../users/users-create-account/users-create-account.component';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { takeUntil } from 'rxjs/operators';
 

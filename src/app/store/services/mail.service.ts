@@ -46,8 +46,8 @@ export class MailService {
     return this.http.get<Mail[]>(url);
   }
 
-  getMessage(messageId: number): Observable<Mail> {
-    const url = `${apiUrl}emails/messages/?id__in=${messageId}`;
+  getMessage(payload: {messageId: number, folder: string}): Observable<Mail> {
+    const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
     return this.http.get<Mail>(url).pipe(map(data => {
       return data['results'] ? data['results'][0] : null;
     }));

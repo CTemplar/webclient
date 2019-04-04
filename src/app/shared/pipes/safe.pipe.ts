@@ -107,27 +107,26 @@ export class SafePipe implements PipeTransform {
     }
   }
 
-  replaceLinksInText(textData) {
-    if (!(/<[a-z][\s\S]*>/i.test(textData))) {
-      let regex = /https?:\/\/[^\s]+/g;
-      if (typeof (textData) === 'string') {
-        let matches = textData.match(regex);
-        if (matches) {
-          matches.forEach((match) => {
-            textData = textData.split(match).join(`<a href="${match}" target="_blank" rel="noopener">${match}</a>`);
-          });
-        }
-        regex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
-        matches = textData.match(regex);
-        if (matches) {
-          matches.forEach((match) => {
-            textData = textData.split(match).join(`<a href="mailto:${match}" target="_blank" rel="noopener">${match}</a>`);
-          });
-        }
+  replaceLinksInText(inputText: string) {
+    if (!(/<[a-z][\s\S]*>/i.test(inputText))) {
+      if (typeof (inputText) === 'string') {
+        // http://, https://, ftp://
+        const urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+
+        // www. sans http:// or https://
+        const pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+
+        // Email addresses
+        const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+
+        inputText = inputText
+          .replace(urlPattern, '<a target="_blank" rel="noopener" href="$&">$&</a>')
+          .replace(pseudoUrlPattern, '$1<a target="_blank" rel="noopener" href="http://$2">$2</a>')
+          .replace(emailAddressPattern, '<a target="_blank" rel="noopener" href="mailto:$&">$&</a>');
       }
-      textData = textData.replace(/\n/g, '<br>');
+      inputText = inputText.replace(/\n/g, '<br>');
     }
-    return textData;
+    return inputText;
   }
 
 }

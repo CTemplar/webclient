@@ -38,7 +38,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
-  readonly AUTO_REFRESH_DURATION: number = 10000; // duration in milliseconds
+  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,

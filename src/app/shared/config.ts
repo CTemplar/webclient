@@ -81,8 +81,8 @@ export function isTORBrowser() {
     navigator.userAgent.indexOf('Gecko/20100101 Firefox') > -1 &&
     date.getTimezoneOffset() === 0 &&
     (navigator.plugins && navigator.plugins.length === 0)) {
-    if (window.location.hostname === 'ctemplar.com') {
-      window.location.href = 'http://ctemplar42u6fulx.onion/';
+    if (window.location.hostname === 'ctemplar.com' || window.location.hostname === 'dev.ctemplar.com') {
+      window.location.href = `http://ctemplar42u6fulx.onion${window.location.pathname}`;
     }
     return true;
   }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  ChangePassphraseSuccess, GetMailboxesSuccess,
+  ChangePassphraseSuccess,
+  GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
   SetDecryptInProgress,
@@ -27,7 +28,6 @@ export class OpenPgpService {
   private decryptedPrivKeys: any;
   private decryptInProgress: boolean;
   private pgpWorker: Worker;
-  private pgpEncryptWorker: Worker;
   private isAuthenticated: boolean;
   private userKeys: any;
   private mailboxes: Mailbox[];
@@ -37,10 +37,6 @@ export class OpenPgpService {
 
     this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
     this.listenWorkerPostMessages();
-    setTimeout(() => {
-      this.pgpEncryptWorker = new Worker('/assets/static/pgp-worker-encrypt.js');
-      this.listenEncryptWorkerPostMessages();
-    }, 2000);
 
     this.store.select(state => state.mailboxes)
       .subscribe((mailBoxesState: MailBoxesState) => {
@@ -123,13 +119,7 @@ export class OpenPgpService {
           item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
         });
         this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
-      }
-    });
-  }
-
-  listenEncryptWorkerPostMessages() {
-    this.pgpEncryptWorker.onmessage = ((event: MessageEvent) => {
-      if (event.data.encrypted) {
+      } else if (event.data.encrypted) {
         this.store.dispatch(new UpdatePGPEncryptedContent({
           isPGPInProgress: false,
           encryptedContent: event.data.encryptedContent,
@@ -148,13 +138,13 @@ export class OpenPgpService {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
 
     publicKeys.push(this.pubkeys[mailboxId]);
-    this.pgpEncryptWorker.postMessage({ content, publicKeys, encrypt: true, callerId: draftId });
+    this.pgpWorker.postMessage({ content, publicKeys, encrypt: true, callerId: draftId });
   }
 
   encryptSecureMessageContent(content, publicKeys: any[]) {
     this.store.dispatch(new UpdateSecureMessageEncryptedContent({ inProgress: true, encryptedContent: null }));
 
-    this.pgpEncryptWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
+    this.pgpWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }
 
   decrypt(mailboxId, mailId, content, incomingHeaders?: string) {

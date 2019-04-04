@@ -5,14 +5,14 @@ import { Settings } from '../datatypes';
 export enum UsersActionTypes {
   ACCOUNTS = '[Users] Accounts',
   ACCOUNTS_READ_SUCCESS = '[Users] Accounts_Read_Success',
-  WHITELIST = '[Users] WhiteLists',
+  WHITELIST_GET = '[Users] WhiteLists',
   WHITELIST_READ_SUCCESS = '[Users] WhiteList_Read_Success',
   WHITELIST_ADD = '[Users] WhiteList_Add',
   WHITELIST_ADD_SUCCESS = '[Users] WhiteList_Add_Success',
   WHITELIST_ADD_ERROR = '[Users] WhiteList_Add_Error',
   WHITELIST_DELETE = '[Users] WhiteList_Delete',
   WHITELIST_DELETE_SUCCESS = '[Users] WhiteList_Delete_Success',
-  BLACKLIST = '[Users] BlackLists',
+  BLACKLIST_GET = '[Users] BlackLists',
   BLACKLIST_READ_SUCCESS = '[Users] BlackList_Read_Success',
   BLACKLIST_ADD = '[Users] BlackList_Add',
   BLACKLIST_ADD_SUCCESS = '[Users] BlackList_Add_Success',
@@ -95,8 +95,8 @@ export class AccountsReadSuccess implements Action {
   }
 }
 
-export class WhiteList implements Action {
-  readonly type = UsersActionTypes.WHITELIST;
+export class WhiteListGet implements Action {
+  readonly type = UsersActionTypes.WHITELIST_GET;
 
   constructor(public payload?: any) {
   }
@@ -144,8 +144,8 @@ export class WhiteListDeleteSuccess implements Action {
   }
 }
 
-export class BlackList implements Action {
-  readonly type = UsersActionTypes.BLACKLIST;
+export class BlackListGet implements Action {
+  readonly type = UsersActionTypes.BLACKLIST_GET;
 
   constructor(public payload?: any) {
   }
@@ -193,10 +193,10 @@ export class BlackListDeleteSuccess implements Action {
   }
 }
 
-export class ContactGet implements Action {
+export class ContactsGet implements Action {
   readonly type = UsersActionTypes.CONTACT_GET;
 
-  constructor(public payload: any) {
+  constructor(public payload: any = {}) {
   }
 }
 
@@ -610,21 +610,21 @@ export class SaveAutoResponderFailure implements Action {
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
-  | WhiteList
+  | WhiteListGet
   | WhiteListsReadSuccess
   | WhiteListAdd
   | WhiteListAddSuccess
   | WhiteListAddError
   | WhiteListDelete
   | WhiteListDeleteSuccess
-  | BlackList
+  | BlackListGet
   | BlackListsReadSuccess
   | BlackListAdd
   | BlackListAddSuccess
   | BlackListAddError
   | BlackListDelete
   | BlackListDeleteSuccess
-  | ContactGet
+  | ContactsGet
   | ContactGetSuccess
   | ContactAdd
   | ContactAddSuccess
