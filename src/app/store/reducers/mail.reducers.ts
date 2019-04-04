@@ -39,6 +39,11 @@ export function reducer(
       state.folders.set(action.payload.folder, mails);
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+        mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+          || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
+        mail.cc = mail.cc ? mail.cc : [];
+        mail.bcc = mail.bcc ? mail.bcc : [];
+        mail.receiver = mail.receiver ? mail.receiver : [];
         return mail;
       });
       return {
@@ -91,8 +96,7 @@ export function reducer(
       if (action.payload.sourceFolder === state.currentFolder) {
         if (Array.isArray(action.payload.mail)) {
           mails = [...state.mails, ...action.payload.mail];
-        }
-        else {
+        } else {
           mails = [...state.mails, action.payload.mail];
         }
         state.folders.set(action.payload.sourceFolder, [...mails]);

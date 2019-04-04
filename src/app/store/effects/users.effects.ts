@@ -17,7 +17,7 @@ import {
   AccountDetailsGetSuccess,
   Accounts,
   AccountsReadSuccess,
-  BlackList,
+  BlackListGet,
   BlackListAdd,
   BlackListAddError,
   BlackListAddSuccess,
@@ -27,7 +27,7 @@ import {
   ContactAddError,
   ContactAddSuccess,
   ContactDeleteSuccess,
-  ContactGet,
+  ContactsGet,
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
@@ -80,7 +80,7 @@ import {
   VerifyEmailForwardingCode,
   VerifyEmailForwardingCodeFailure,
   VerifyEmailForwardingCodeSuccess,
-  WhiteList,
+  WhiteListGet,
   WhiteListAdd,
   WhiteListAddError,
   WhiteListAddSuccess,
@@ -129,8 +129,8 @@ export class UsersEffects {
 
   @Effect()
   WhiteLists: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.WHITELIST),
-    map((action: WhiteList) => action.payload),
+    ofType(UsersActionTypes.WHITELIST_GET),
+    map((action: WhiteListGet) => action.payload),
     switchMap(payload => {
       return this.userService.getWhiteList()
         .pipe(
@@ -150,7 +150,12 @@ export class UsersEffects {
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return of(new WhiteListAddSuccess(contact), new AccountDetailsGet());
+            return of(
+              new WhiteListAddSuccess(contact),
+              new WhiteListGet(),
+              new BlackListGet(),
+              new SnackPush({ message: 'Email added to whitelist successfully.' })
+              );
           }),
           catchError(err => of(new WhiteListAddError(err.error))),
         );
@@ -175,8 +180,8 @@ export class UsersEffects {
 
   @Effect()
   BlackLists: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.BLACKLIST),
-    map((action: BlackList) => action.payload),
+    ofType(UsersActionTypes.BLACKLIST_GET),
+    map((action: BlackListGet) => action.payload),
     switchMap(payload => {
       return this.userService.getBlackList()
         .pipe(
@@ -196,7 +201,7 @@ export class UsersEffects {
         .pipe(
           switchMap(contact => {
             contact.isUpdating = payload.id;
-            return of(new BlackListAddSuccess(contact), new AccountDetailsGet());
+            return of(new BlackListAddSuccess(contact), new BlackListGet());
           }),
           catchError(err => of(new BlackListAddError(err))),
         );
@@ -236,7 +241,7 @@ export class UsersEffects {
   @Effect()
   Contact: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.CONTACT_GET),
-    map((action: ContactGet) => action.payload),
+    map((action: ContactsGet) => action.payload),
     switchMap(payload => {
       return this.userService.getContact()
         .pipe(
@@ -297,7 +302,7 @@ export class UsersEffects {
             if (event instanceof HttpResponse) {
               return of(
                 new ContactImportSuccess(event.body),
-                new ContactGet({}),
+                new ContactsGet({}),
                 new SnackPush({ message: 'Contacts imported successfully' })
               );
             } else {

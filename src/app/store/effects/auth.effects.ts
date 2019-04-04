@@ -94,9 +94,6 @@ export class AuthEffects {
   public LogOut: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGOUT),
     tap((action) => {
-      if (action.payload.session_expired) {
-        this.notificationService.showSnackBar('Session expired, login again.');
-      }
       this.authService.signOut();
     })
   );

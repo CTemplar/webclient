@@ -75,3 +75,28 @@
     z-index: 1;
   }
 }
+
+.spam_reason {
+  margin: 0 5px;
+  padding: 1rem;
+  background: #2e4960;
+  color: white;
+
+  .spam_why {
+    font-weight: bold;
+  }
+
+  .mark_not_spam {
+    padding: 10px;
+    margin-top: 5px;
+    text-transform: none;
+    color: white;
+    border-color: white;
+    background: transparent;
+
+    &:hover {
+      background: transparent;
+      opacity: 0.8;
+    }
+  }
+}

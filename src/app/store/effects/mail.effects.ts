@@ -45,7 +45,7 @@ export class MailEffects {
   getMailsEffect: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.GET_MAILS),
     map((action: GetMails) => action.payload),
-    switchMap(payload => {
+    mergeMap(payload => {
       return this.mailService.getMessages(payload)
         .pipe(
           map((response) => {
@@ -60,7 +60,7 @@ export class MailEffects {
   getUnreadMailsCountEffect: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.GET_UNREAD_MAILS_COUNT),
     map((action: GetUnreadMailsCount) => action.payload),
-    switchMap(payload => {
+    mergeMap(payload => {
       return this.mailService.getUnreadMailsCount()
         .pipe(
           map((response) => {

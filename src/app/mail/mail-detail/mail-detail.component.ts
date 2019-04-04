@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
-import { DeleteMail, GetUnreadMailsCount, MoveMail, StarMail } from '../../store/actions';
+import { DeleteMail, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -67,7 +67,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
-            if (!this.mail.has_children && !this.isDecrypting[this.mail.id] &&
+            if (!this.mail.has_children && this.mail.content && !this.isDecrypting[this.mail.id] &&
               (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
@@ -106,7 +106,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
             this.decryptChildEmails(this.mail.children[this.mail.children.length - 1], mailState);
             setTimeout(() => {
-              if (!this.isDecrypting[this.mail.id] &&
+              if (!this.isDecrypting[this.mail.id] && this.mail.content &&
                 (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
                 this.isDecrypting[this.mail.id] = true;
                 this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
@@ -129,24 +129,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mailboxes = mailBoxesState.mailboxes;
       });
 
-    this.route.params.subscribe(params => {
-      const id = +params['id'];
+    this.route.params.pipe(takeUntil(this.destroyed$))
+      .subscribe(params => {
+        const id = +params['id'];
 
-      // Check if email is already available in state
-      if (!this.mail || this.mail.has_children) {
+        this.mailFolder = params['folder'] as MailFolderType;
+        this.page = +params['page'];
         this.getMailDetail(id);
-      }
+      });
 
-      this.mailFolder = params['folder'] as MailFolderType;
-      this.page = +params['page'];
-
-      this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
-        .subscribe((user: UserState) => {
-          this.customFolders = user.customFolders;
-          this.userState = user;
-        });
-
-    });
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+      .subscribe((user: UserState) => {
+        this.customFolders = user.customFolders;
+        this.userState = user;
+      });
   }
 
   handleEmailLinks() {
@@ -213,7 +209,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   getMailDetail(messageId: number) {
-    this.store.dispatch(new GetMailDetail(messageId));
+    this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
   }
 
   // getAttachementFileName(filepath: string) {
@@ -339,7 +335,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }));
     }
     if (mail.id === this.mail.id) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}`);
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     }
   }
 
@@ -353,6 +349,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.id === this.mail.id) {
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     }
+  }
+
+  markNotSpam(mail: Mail) {
+    this.store.dispatch(new MoveMail({
+      ids: mail.id,
+      folder: MailFolderType.INBOX,
+      sourceFolder: mail.folder,
+      mail: mail
+    }));
+    setTimeout(() => {
+      this.store.dispatch(new WhiteListAdd({ name: mail.sender, email: mail.sender }));
+    }, 2000);
+    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
   }
 
   ontoggleStarred(mail: Mail) {
@@ -370,6 +379,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   moveToFolder(folder: MailFolderType) {
     this.store.dispatch(new MoveMail({ ids: this.mail.id, folder }));
+    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
   }
 
   goBack() {

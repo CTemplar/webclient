@@ -146,7 +146,19 @@
       </div>
     </div>
 
-    <div class="ui-body is-xs bg-faded cursor-pointer p-3 mail-header"  (click)="parentMailCollapsed = !parentMailCollapsed">
+    <div class="spam_reason" *ngIf="mail.folder === mailFolderTypes.SPAM && mail.spam_reason">
+      <span class="spam_why">Why is this message in spam? </span>
+      <span>{{mail.spam_reason}}</span>
+      <div>
+        <button class="mark_not_spam btn btn-outline-warning"
+                (click)="markNotSpam(mail)"
+                ngbTooltip="Mark email as not spam(whitelist) and move this email to inbox.">Mark not spam</button>
+      </div>
+    </div>
+
+    <div class="ui-body is-xs bg-faded cursor-pointer p-3 mail-header"
+         *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
+         (click)="parentMailCollapsed = !parentMailCollapsed">
       <div class="row">
         <div class="col-8">
           <div class="mailbox-sender-content">
@@ -214,8 +226,9 @@
   </section>
 
   <!--Mail Content-->
-  <section class="mailbox-section" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
-
+  <section class="mailbox-section"
+           *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
+           id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">
       <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
@@ -255,7 +268,7 @@
   </section>
 
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
-    <ng-container *ngIf="childMail.folder !== mailFolderTypes.TRASH">
+    <ng-container>
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
           <div class="ui-body">
