@@ -55,6 +55,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   private searchText: string;
   private mailState: MailState;
   private isAutoRefreshPaused: boolean;
+  private isAutoRefreshInitialized: boolean;
   private confirmEmptyTrashModalRef: NgbModalRef;
 
   constructor(public store: Store<AppState>,
@@ -82,7 +83,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         this.customFolders = user.customFolders;
         if (this.fetchMails && this.userState.settings) {
           this.LIMIT = user.settings.emails_per_page || 20;
-          if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH) {
+          if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isAutoRefreshInitialized) {
+            this.isAutoRefreshInitialized = true;
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
             this.initializeAutoRefresh();
           }
@@ -146,11 +148,14 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  refresh(forceReload: boolean = false) {
+  refresh(forceReload: boolean = false, isForcedByUser?: boolean) {
     if (!forceReload && this.mailFolder === MailFolderType.INBOX) {
       this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: this.mailFolder, read: false, seconds: 30 }));
     } else {
       this.store.dispatch(new GetMails({ forceReload, limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
+      if (isForcedByUser) {
+        this.store.dispatch(new GetUnreadMailsCount());
+      }
     }
   }
 
