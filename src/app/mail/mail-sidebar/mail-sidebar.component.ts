@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Inject, OnInit } from '@angular/core';
+import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -11,7 +11,7 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { DeleteFolder, GetUnreadMailsCount, StopGettingUnreadMailsCount } from '../../store/actions';
+import { GetUnreadMailsCount } from '../../store/actions';
 import { timer } from 'rxjs/internal/observable/timer';
 import { takeUntil } from 'rxjs/operators';
 
