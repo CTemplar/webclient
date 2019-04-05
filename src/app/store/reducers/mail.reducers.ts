@@ -23,6 +23,7 @@ export function reducer(
         ...state,
         loaded: (mails && !action.payload.forceReload) ? true : false,
         inProgress: action.payload.inProgress ? true : false,
+        currentFolder: action.payload.folder as MailFolderType,
         mails: mails ? mails : [],
         noUnreadCountChange: true,
       };
@@ -36,19 +37,19 @@ export function reducer(
         mails = state.mails.filter(item => mailIDs.indexOf(item.id) < 0);
         mails = [...mails, ...action.payload.mails];
       }
-      state.folders.set(action.payload.folder, mails);
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
           || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
-        mail.cc = mail.cc ? mail.cc : [];
-        mail.bcc = mail.bcc ? mail.bcc : [];
-        mail.receiver = mail.receiver ? mail.receiver : [];
         return mail;
       });
+      state.folders.set(action.payload.folder, mails);
+      if (state.currentFolder !== action.payload.folder) {
+        mails = state.folders.get(state.currentFolder);
+      }
       return {
         ...state,
-        mails,
+        mails: mails ? mails : [],
         loaded: true,
         inProgress: false,
         noUnreadCountChange: true,
