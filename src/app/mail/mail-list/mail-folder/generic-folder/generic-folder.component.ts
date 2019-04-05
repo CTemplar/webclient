@@ -4,7 +4,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
-import { timer } from 'rxjs/internal/observable/timer';
 import { takeUntil } from 'rxjs/operators';
 import {
   DeleteMail,
@@ -45,7 +44,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   userState: UserState;
 
-  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
   readonly destroyed$: Observable<boolean>;
 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
@@ -54,8 +52,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   PAGE: number = 0;
   private searchText: string;
   private mailState: MailState;
-  private isAutoRefreshPaused: boolean;
-  private isAutoRefreshInitialized: boolean;
+  private isInitialized: boolean;
   private confirmEmptyTrashModalRef: NgbModalRef;
 
   constructor(public store: Store<AppState>,
@@ -69,6 +66,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
+        if (this.mailFolder === MailFolderType.INBOX && mailState.unreadMailsCount && this.mailState &&
+          this.mailState.unreadMailsCount &&
+          mailState.unreadMailsCount.inbox > this.mailState.unreadMailsCount.inbox) {
+          this.mailState = mailState;
+          this.refresh();
+        }
         this.mailState = mailState;
         this.showProgress = !mailState.loaded || mailState.inProgress;
         if (this.fetchMails) {
@@ -81,12 +84,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.customFolders = user.customFolders;
-        if (this.fetchMails && this.userState.settings) {
-          this.LIMIT = user.settings.emails_per_page || 20;
-          if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isAutoRefreshInitialized) {
-            this.isAutoRefreshInitialized = true;
+        if (this.fetchMails && this.userState.settings && user.settings.emails_per_page) {
+          this.LIMIT = user.settings.emails_per_page;
+          if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isInitialized) {
+            this.isInitialized = true;
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
-            this.initializeAutoRefresh();
           }
         }
       });
@@ -137,20 +139,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  initializeAutoRefresh() {
-    if (this.mailFolder === MailFolderType.INBOX) {
-      timer(this.AUTO_REFRESH_DURATION, this.AUTO_REFRESH_DURATION).pipe(takeUntil(this.destroyed$))
-        .subscribe(event => {
-          if (this.mailState && this.mailState.canGetUnreadCount && !this.isAutoRefreshPaused) {
-            this.refresh();
-          }
-        });
-    }
-  }
-
   refresh(forceReload: boolean = false, isForcedByUser?: boolean) {
     if (!forceReload && this.mailFolder === MailFolderType.INBOX) {
-      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: this.mailFolder, read: false, seconds: 30 }));
+      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: this.mailFolder, read: false, seconds: 300 }));
     } else {
       this.store.dispatch(new GetMails({ forceReload, limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
       if (isForcedByUser) {
@@ -330,7 +321,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (this.PAGE > 0) {
       this.PAGE--;
       this.OFFSET = this.PAGE * this.LIMIT;
-      this.pauseAutoRefresh(20);
       this.store.dispatch(new GetMails({
         inProgress: true,
         limit: this.LIMIT,
@@ -346,7 +336,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
-      this.pauseAutoRefresh(20);
       this.store.dispatch(new GetMails({
         inProgress: true,
         limit: this.LIMIT,
@@ -356,13 +345,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       }));
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.PAGE + 1}`);
     }
-  }
-
-  pauseAutoRefresh(seconds: number) {
-    this.isAutoRefreshPaused = true;
-    setTimeout(() => {
-      this.isAutoRefreshPaused = false;
-    }, seconds * 1000);
   }
 
 

@@ -45,7 +45,7 @@ export class MailEffects {
   getMailsEffect: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.GET_MAILS),
     map((action: GetMails) => action.payload),
-    mergeMap(payload => {
+    switchMap(payload => {
       return this.mailService.getMessages(payload)
         .pipe(
           map((response) => {
