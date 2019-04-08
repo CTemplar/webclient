@@ -147,6 +147,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false };
     }
 
+    case UsersActionTypes.GET_EMAIL_CONTACTS: {
+      return { ...state, emailContacts: [] };
+    }
+
+    case UsersActionTypes.GET_EMAIL_CONTACTS_SUCCESS: {
+      return { ...state, emailContacts: action.payload };
+    }
+
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
       return {
         ...state,

@@ -243,9 +243,11 @@ export class UsersService {
   }
 
   getContact(limit = 0, offset = 0) {
-    const url = `${apiUrl}users/contacts/?limit=${limit}&offset=${offset}`;
-    const body = {};
-    return this.http.get<any>(url, body);
+    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${limit}&offset=${offset}`);
+  }
+
+  getEmailContacts() {
+    return this.http.get<any>(`${apiUrl}users/contacts-v1/`);
   }
 
   addContact(payload) {

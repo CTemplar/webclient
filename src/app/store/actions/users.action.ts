@@ -79,6 +79,8 @@ export enum UsersActionTypes {
   SAVE_AUTORESPONDER = '[USER] SAVE AUTORESPONDER',
   SAVE_AUTORESPONDER_SUCCESS = '[USER] SAVE AUTORESPONDER SUCCESS',
   SAVE_AUTORESPONDER_FAILURE = '[USER] SAVE AUTORESPONDER FAILURE',
+  GET_EMAIL_CONTACTS = '[USER] GET EMAIL CONTACTS',
+  GET_EMAIL_CONTACTS_SUCCESS = '[USER] GET EMAIL CONTACTS SUCCESS',
 }
 
 export class Accounts implements Action {
@@ -607,6 +609,20 @@ export class SaveAutoResponderFailure implements Action {
   }
 }
 
+export class GetEmailContacts implements Action {
+  readonly type = UsersActionTypes.GET_EMAIL_CONTACTS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GetEmailContactsSuccess implements Action {
+  readonly type = UsersActionTypes.GET_EMAIL_CONTACTS_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -683,4 +699,6 @@ export type UsersActionAll =
   | UpdateFolderOrderSuccess
   | SaveAutoResponder
   | SaveAutoResponderSuccess
-  | SaveAutoResponderFailure;
+  | SaveAutoResponderFailure
+  | GetEmailContacts
+  | GetEmailContactsSuccess;

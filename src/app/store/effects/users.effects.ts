@@ -86,7 +86,7 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess
+  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -586,6 +586,19 @@ export class UsersEffects {
             new SnackErrorPush({message: 'Failed to save autoresponder. Please try again.'}),
             new SaveAutoResponderFailure(errorResponse.error)
           ))
+        );
+    }));
+
+
+  @Effect()
+  getEmailsContactsEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_EMAIL_CONTACTS),
+    map((action: GetEmailContacts) => action.payload),
+    switchMap(payload => {
+      return this.userService.getEmailContacts()
+        .pipe(
+          switchMap(res => of(new GetEmailContactsSuccess(res.results))),
+          catchError(err => EMPTY)
         );
     }));
 

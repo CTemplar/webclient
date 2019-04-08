@@ -79,6 +79,12 @@ export interface UserState {
   isForwardingVerificationCodeSent?: boolean;
   emailForwardingErrorMessage?: string;
   autoResponderErrorMessage?: string;
+  emailContacts?: EmailContact[];
+}
+
+export interface EmailContact {
+  name: string;
+  email: string;
 }
 
 export interface Settings {

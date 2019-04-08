@@ -13,7 +13,7 @@ import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
   CloseMailbox,
-  DeleteAttachment,
+  DeleteAttachment, GetEmailContacts,
   GetUsersKeys,
   MoveMail,
   NewDraft,
@@ -22,7 +22,17 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, AuthState, ComposeMailState, Contact, Draft, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
+import {
+  AppState,
+  AuthState,
+  ComposeMailState,
+  Contact,
+  Draft,
+  EmailContact,
+  MailBoxesState,
+  MailState,
+  UserState
+} from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
@@ -142,7 +152,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   attachments: Attachment[] = [];
   isKeyboardOpened: boolean;
   encryptForm: FormGroup;
-  contacts: Contact[];
+  contacts: EmailContact[];
   datePickerMinDate: NgbDateStruct;
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
@@ -222,7 +232,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select((state: AppState) => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
-        this.contacts = user.contact;
+        this.contacts = user.emailContacts;
+        if(!this.contacts){
+          this.store.dispatch(new GetEmailContacts());
+        }
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
       });
