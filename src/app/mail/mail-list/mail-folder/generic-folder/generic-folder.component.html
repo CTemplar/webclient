@@ -216,9 +216,6 @@
               <ng-container *ngSwitchDefault>
                 <span [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</span>
               </ng-container>
-              <ng-container *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)">
-
-              </ng-container>
               <span *ngIf="mail?.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
           </a>

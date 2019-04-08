@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 // Actions
-import { AccountDetailsGet, GetFilters, GetMailboxes, GetDomains, ContactsGet, WhiteListGet, BlackListGet } from '../store/actions';
+import { AccountDetailsGet, BlackListGet, GetDomains, GetFilters, GetMailboxes, WhiteListGet } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState } from '../store/datatypes';
 import { SharedService } from '../store/services';
@@ -35,11 +35,10 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     setTimeout(() => {
       this.store.dispatch(new GetFilters());
       this.store.dispatch(new GetDomains());
-      this.store.dispatch(new ContactsGet());
       this.store.dispatch(new WhiteListGet());
       this.store.dispatch(new BlackListGet());
     }, 1000);
-    
+
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
     this.sharedService.hideEntireFooter.emit(true);

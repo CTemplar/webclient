@@ -58,6 +58,7 @@ export interface UserState {
   whiteList: WhiteList[];
   blackList: BlackList[];
   contact: Contact[];
+  totalContacts: number;
   settings: Settings;
   payment_transaction?: Payment;
   isPrime?: boolean;

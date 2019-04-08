@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable } from 'rxjs';
 import { AppState, Contact, UserState } from '../../store/datatypes';
-import { ContactDelete, ContactImport, SnackErrorPush } from '../../store';
+import { ContactDelete, ContactImport, ContactsGet, GetMails, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -42,6 +42,11 @@ export class MailContactComponent implements OnInit, OnDestroy {
   isLayoutSplitted: boolean = false;
   isMenuOpened: boolean;
 
+  MAX_EMAIL_PAGE_LIMIT: number = 1;
+  LIMIT: number = 20;
+  OFFSET: number = 0;
+  PAGE: number = 0;
+
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;
   private importContactsModalRef: NgbModalRef;
@@ -58,6 +63,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateUsersStatus();
+    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0 }));
   }
 
   ngOnDestroy(): void {
@@ -68,6 +74,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
       this.userState = state;
       this.inProgress = this.userState.inProgress;
+      this.MAX_EMAIL_PAGE_LIMIT = this.userState.totalContacts;
       if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {
         this.selectedContacts = [];
         this.contactsCount = null;
@@ -152,7 +159,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
       }));
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
-      this.composeMailService.openComposeMailDialog({receivers: receiverEmails});
+      this.composeMailService.openComposeMailDialog({ receivers: receiverEmails });
     }
   }
 
@@ -185,6 +192,22 @@ export class MailContactComponent implements OnInit, OnDestroy {
       this.closeImportContactsModal();
     } else if (files.length > 1) {
       this.importContactsError = 'Multiple files are not allowed.';
+    }
+  }
+
+  prevPage() {
+    if (this.PAGE > 0) {
+      this.PAGE--;
+      this.OFFSET = this.PAGE * this.LIMIT;
+      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET }));
+    }
+  }
+
+  nextPage() {
+    if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
+      this.OFFSET = (this.PAGE + 1) * this.LIMIT;
+      this.PAGE++;
+      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET }));
     }
   }
 }
