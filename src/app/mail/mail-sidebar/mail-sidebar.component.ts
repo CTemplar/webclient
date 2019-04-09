@@ -14,6 +14,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { GetUnreadMailsCount } from '../../store/actions';
 import { timer } from 'rxjs/internal/observable/timer';
 import { takeUntil } from 'rxjs/operators';
+import { WebsocketService } from '../../shared/services/websocket.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -47,6 +48,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private composeMailService: ComposeMailService,
               private notificationService: NotificationService,
               private router: Router,
+              private websocketService: WebsocketService,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -56,6 +58,22 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         this.currentRoute = event.url;
       }
     });
+
+    // listen to web sockets events of new emails from server.
+    websocketService.messages.subscribe(msg => {
+      console.log('Response from websocket: ', msg);
+    });
+  }
+
+
+  sendMsg() {
+    const data: any = {
+      user_id: 34123,
+      token: 'tokenxyz1234tokenxyz1234',
+      message_id: 13443
+    };
+    console.log('new message from client to websocket: ', data);
+    this.websocketService.messages.next(data);
   }
 
   initializeAutoRefresh() {
