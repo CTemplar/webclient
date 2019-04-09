@@ -229,6 +229,18 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         isChangePasswordError: true,
       };
     }
+    case AuthActionTypes.GET_CAPTCHA: {
+      return {
+        ...state,
+        captcha: null,
+      };
+    }
+    case AuthActionTypes.GET_CAPTCHA_SUCCESS: {
+      return {
+        ...state,
+        captcha: action.payload,
+      };
+    }
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }

@@ -13,19 +13,35 @@ import { UsersService } from '../../store/services';
 // Custom Actions
 import {
   AccountDetailsGet,
-  AuthActionTypes, ChangePassword, ChangePasswordFailed, ChangePasswordSuccess,
-  CheckUsernameAvailability, CheckUsernameAvailabilitySuccess, DeleteAccount, DeleteAccountFailure, DeleteAccountSuccess,
+  AuthActionTypes,
+  ChangePassword,
+  ChangePasswordFailed,
+  ChangePasswordSuccess,
+  CheckUsernameAvailability,
+  CheckUsernameAvailabilitySuccess,
+  DeleteAccount,
+  DeleteAccountFailure,
+  DeleteAccountSuccess,
+  GetCaptcha,
+  GetCaptchaSuccess,
   LogIn,
   LogInFailure,
-  LogInSuccess, Logout,
-  RecoverPassword, RecoverPasswordFailure,
+  LogInSuccess,
+  Logout,
+  RecoverPassword,
+  RecoverPasswordFailure,
   RecoverPasswordSuccess,
   ResetPassword,
-  ResetPasswordFailure, ResetPasswordSuccess,
+  ResetPasswordFailure,
+  ResetPasswordSuccess,
   SignUp,
   SignUpFailure,
   SignUpSuccess,
-  SnackErrorPush, SnackPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
+  SnackErrorPush,
+  SnackPush,
+  UpgradeAccount,
+  UpgradeAccountFailure,
+  UpgradeAccountSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -200,6 +216,25 @@ export class AuthEffects {
               new SnackErrorPush({
                 message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
                   'Failed to delete account, please try again.'
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  getCaptcha: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.GET_CAPTCHA),
+      map((action: GetCaptcha) => action.payload),
+      switchMap(payload => {
+        return this.authService.getCaptcha()
+          .pipe(
+            switchMap((response: any) => of(new GetCaptchaSuccess(response))),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
+                  'Failed to load Captcha.'
               })
             ))
           );

@@ -349,6 +349,11 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}users/autoresponder/`, autoResponder);
   }
 
+  getCaptcha(): Observable<any> {
+    return this.http.get<any>(`${apiUrl}auth/captcha/`);
+  }
+
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

@@ -31,6 +31,11 @@ export enum AuthActionTypes {
   DELETE_ACCOUNT_FAILURE = '[Auth] Delete Account Failure',
   CLEAR_SIGNUP_STATE = '[Auth] Clear Signup State',
   CLEAR_AUTH_ERROR_MESSAGE = '[Auth] Clear Auth Error',
+  GET_CAPTCHA = '[Auth] Get Captcha',
+  GET_CAPTCHA_SUCCESS = '[Auth] Get Captcha',
+  VERIFY_CAPTCHA = '[Auth] Verify Captcha',
+  VERIFY_CAPTCHA_SUCCESS = '[Auth] Verify Captcha',
+  VERIFY_CAPTCHA_FAILURE = '[Auth] Verify Captcha',
 }
 
 export class LogIn implements Action {
@@ -223,6 +228,41 @@ export class ClearAuthErrorMessage {
   }
 }
 
+export class GetCaptcha {
+  readonly type = AuthActionTypes.GET_CAPTCHA;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GetCaptchaSuccess {
+  readonly type = AuthActionTypes.GET_CAPTCHA_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VerifyCaptcha {
+  readonly type = AuthActionTypes.VERIFY_CAPTCHA;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VerifyCaptchaSuccess {
+  readonly type = AuthActionTypes.VERIFY_CAPTCHA_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VerifyCaptchaFailure {
+  readonly type = AuthActionTypes.VERIFY_CAPTCHA_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type AuthActionAll =
   | LogIn
   | LogInSuccess
@@ -252,4 +292,9 @@ export type AuthActionAll =
   | DeleteAccountSuccess
   | DeleteAccountFailure
   | ClearSignUpState
-  | ClearAuthErrorMessage;
+  | ClearAuthErrorMessage
+  | GetCaptcha
+  | GetCaptchaSuccess
+  | VerifyCaptcha
+  | VerifyCaptchaSuccess
+  | VerifyCaptchaFailure;

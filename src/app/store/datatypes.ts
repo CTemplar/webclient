@@ -28,6 +28,7 @@ export interface AuthState {
   resetPasswordErrorMessage: string | null;
   updatedPrivateKeys?: any;
   isChangePasswordError?: boolean;
+  captcha?: any;
 }
 
 export interface SignupState {
