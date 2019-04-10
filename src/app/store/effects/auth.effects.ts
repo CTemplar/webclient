@@ -41,7 +41,7 @@ import {
   SnackPush,
   UpgradeAccount,
   UpgradeAccountFailure,
-  UpgradeAccountSuccess
+  UpgradeAccountSuccess, VerifyCaptcha, VerifyCaptchaFailure, VerifyCaptchaSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -235,6 +235,31 @@ export class AuthEffects {
               new SnackErrorPush({
                 message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
                   'Failed to load Captcha.'
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  verifyCaptcha: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.VERIFY_CAPTCHA),
+      map((action: VerifyCaptcha) => action.payload),
+      switchMap(payload => {
+        return this.authService.verifyCaptcha(payload)
+          .pipe(
+            switchMap((response: any) => {
+              const events: any[] = [new VerifyCaptchaSuccess(response)];
+              if (response.status === false) {
+                events.push(new GetCaptcha());
+              }
+              return of(...events);
+            }),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
+                  'Failed to verify Captcha.'
               })
             ))
           );

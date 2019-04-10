@@ -353,6 +353,10 @@ export class UsersService {
     return this.http.get<any>(`${apiUrl}auth/captcha/`);
   }
 
+  verifyCaptcha(data: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/captcha-verify/`, data);
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

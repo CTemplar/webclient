@@ -32,10 +32,10 @@ export enum AuthActionTypes {
   CLEAR_SIGNUP_STATE = '[Auth] Clear Signup State',
   CLEAR_AUTH_ERROR_MESSAGE = '[Auth] Clear Auth Error',
   GET_CAPTCHA = '[Auth] Get Captcha',
-  GET_CAPTCHA_SUCCESS = '[Auth] Get Captcha',
+  GET_CAPTCHA_SUCCESS = '[Auth] Get Captcha Success',
   VERIFY_CAPTCHA = '[Auth] Verify Captcha',
-  VERIFY_CAPTCHA_SUCCESS = '[Auth] Verify Captcha',
-  VERIFY_CAPTCHA_FAILURE = '[Auth] Verify Captcha',
+  VERIFY_CAPTCHA_SUCCESS = '[Auth] Verify Captcha Success',
+  VERIFY_CAPTCHA_FAILURE = '[Auth] Verify Captcha Failure',
 }
 
 export class LogIn implements Action {

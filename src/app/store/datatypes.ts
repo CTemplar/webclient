@@ -28,7 +28,16 @@ export interface AuthState {
   resetPasswordErrorMessage: string | null;
   updatedPrivateKeys?: any;
   isChangePasswordError?: boolean;
-  captcha?: any;
+  captcha?: Captcha;
+}
+
+export interface Captcha {
+  captcha_image?: string;
+  captcha_key?: string;
+  value?: string;
+  inProgress?: boolean;
+  isInvalid?: boolean;
+  verified?: boolean;
 }
 
 export interface SignupState {

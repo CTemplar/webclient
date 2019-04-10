@@ -16,7 +16,8 @@ export const initialState: AuthState = {
     currency: 'USD'
   },
   resetPasswordErrorMessage: null,
-  isRecoveryCodeSent: false
+  isRecoveryCodeSent: false,
+  captcha: {},
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -232,13 +233,31 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.GET_CAPTCHA: {
       return {
         ...state,
-        captcha: null,
+        captcha: { ...state.captcha, inProgress: true },
       };
     }
     case AuthActionTypes.GET_CAPTCHA_SUCCESS: {
       return {
         ...state,
-        captcha: action.payload,
+        captcha: { ...state.captcha, ...action.payload, inProgress: false },
+      };
+    }
+
+    case AuthActionTypes.VERIFY_CAPTCHA: {
+      return {
+        ...state,
+        captcha: { ...state.captcha, isInvalid: null, inProgress: true },
+      };
+    }
+    case AuthActionTypes.VERIFY_CAPTCHA_SUCCESS: {
+      return {
+        ...state,
+        captcha: {
+          ...state.captcha, inProgress: false,
+          isInvalid: !action.payload.status,
+          verified: action.payload.status,
+          value: action.payload.status ? state.captcha.value : '',
+        },
       };
     }
     case AuthActionTypes.LOGOUT: {
