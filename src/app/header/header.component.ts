@@ -8,7 +8,7 @@ import { SharedService } from '../store/services';
 import { UsersService } from '../store/services/users.service';
 import { AppState, AuthState } from '../store/datatypes';
 import { Store } from '@ngrx/store';
-import { Logout } from '../store/actions';
+import { ExpireSession, Logout } from '../store/actions';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -80,7 +80,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.store.dispatch(new Logout());
+    this.store.dispatch(new ExpireSession());
+    setTimeout(() => {
+      this.store.dispatch(new Logout());
+    }, 500);
   }
 
   ngOnDestroy(): void {

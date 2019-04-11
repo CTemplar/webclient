@@ -89,11 +89,16 @@ export class UsersService {
   }
 
   signOut() {
+    this.router.navigateByUrl('/');
     this.userKey = this.token = null;
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
-    this.router.navigateByUrl('/signin');
+  }
+
+  expireSession() {
+    this.router.navigateByUrl('/');
+    return this.http.get(`${apiUrl}auth/sign-out/`);
   }
 
   signUp(user): Observable<any> {
@@ -179,7 +184,8 @@ export class UsersService {
       'emails-forward/verify-verification-code',
       'emails/folder-order',
       'emails/empty-trash',
-      'users/autoresponder'
+      'users/autoresponder',
+      'auth/sign-out/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

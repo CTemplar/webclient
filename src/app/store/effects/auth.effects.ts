@@ -22,6 +22,7 @@ import {
   DeleteAccount,
   DeleteAccountFailure,
   DeleteAccountSuccess,
+  ExpireSession,
   GetCaptcha,
   GetCaptchaSuccess,
   LogIn,
@@ -41,11 +42,14 @@ import {
   SnackPush,
   UpgradeAccount,
   UpgradeAccountFailure,
-  UpgradeAccountSuccess, VerifyCaptcha, VerifyCaptchaFailure, VerifyCaptchaSuccess
+  UpgradeAccountSuccess,
+  VerifyCaptcha,
+  VerifyCaptchaSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { of } from 'rxjs/internal/observable/of';
+import { EMPTY } from 'rxjs/internal/observable/empty';
 
 
 @Injectable()
@@ -111,6 +115,19 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGOUT),
     tap((action) => {
       this.authService.signOut();
+    })
+  );
+
+  @Effect()
+  expireSession: Observable<any> = this.actions.pipe(
+    ofType(AuthActionTypes.EXPIRE_SESSION),
+    map((action: ExpireSession) => action.payload),
+    switchMap(payload => {
+      return this.authService.expireSession()
+        .pipe(
+          switchMap((res) => EMPTY),
+          catchError((error) => of(new SnackErrorPush({ message: 'Failed to expire user session.' })))
+        );
     })
   );
 
