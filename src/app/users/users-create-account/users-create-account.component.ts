@@ -98,6 +98,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((state: AuthState) => {
         this.captcha = state.captcha;
+        if (this.captcha.isInvalid) {
+          this.captchaValue = '';
+        }
         this.errorMessage = state.errorMessage;
       });
 
@@ -119,7 +122,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   verifyCaptcha() {
-    this.store.dispatch(new VerifyCaptcha({ key: this.captcha.captcha_key, value: this.captchaValue }));
+    if (this.captchaValue) {
+      this.store.dispatch(new VerifyCaptcha({ key: this.captcha.captcha_key, value: this.captchaValue }));
+    }
   }
 
   // == Toggle password visibility
@@ -146,11 +151,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.isRecoveryEmail = false;
     }
 
-    if (!this.captchaValue) {
+    if (!this.captchaValue && this.selectedPlan === 0) {
       this.captcha.isInvalid = true;
     }
 
-    if (this.signupState.usernameExists || this.signupForm.invalid || !this.isConfirmedPrivacy || !this.captchaValue ||
+    if (this.signupState.usernameExists || this.signupForm.invalid || !this.isConfirmedPrivacy ||
+      (!this.captchaValue && this.selectedPlan === 0) ||
       (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
       return false;
     }
