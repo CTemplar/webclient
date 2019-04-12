@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
@@ -53,27 +53,25 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.url;
-      }
-    });
+    this.router.events.pipe(takeUntil(this.destroyed$))
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.currentRoute = event.url;
+        }
+      });
 
+    this.websocketService.connect();
     // listen to web sockets events of new emails from server.
-    websocketService.messages.subscribe(msg => {
-      console.log('Response from websocket: ', msg);
-    });
-  }
-
-
-  sendMsg() {
-    const data: any = {
-      user_id: 34123,
-      token: 'tokenxyz1234tokenxyz1234',
-      message_id: 13443
-    };
-    console.log('new message from client to websocket: ', data);
-    this.websocketService.messages.next(data);
+    websocketService.messages.pipe(takeUntil(this.destroyed$))
+      .subscribe(msg => {
+        console.log('Response from websocket: ', msg);
+      });
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+      .subscribe((authState: AuthState) => {
+        if (!authState.isAuthenticated) {
+          this.websocketService.disconnect();
+        }
+      });
   }
 
   initializeAutoRefresh() {

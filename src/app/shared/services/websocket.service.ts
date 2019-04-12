@@ -2,15 +2,20 @@ import { Injectable } from '@angular/core';
 import * as Rx from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { UsersService } from '../../store/services';
 
 
 @Injectable()
 export class WebsocketService {
   public messages: Rx.Subject<any>;
   private subject: Rx.Subject<MessageEvent>;
+  private webSocket: WebSocket;
 
-  constructor() {
-    this.messages = <Rx.Subject<any>>this.connect(environment.webSocketUrl)
+  constructor(private authService: UsersService) {
+  }
+
+  public connect() {
+    this.messages = <Rx.Subject<any>>this.connectSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}`)
       .pipe(
         map(
           (response: MessageEvent): any => {
@@ -19,7 +24,7 @@ export class WebsocketService {
       );
   }
 
-  public connect(url): Rx.Subject<MessageEvent> {
+  private connectSocket(url): Rx.Subject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
       console.log('Web socket successfully connected: ' + url);
@@ -43,6 +48,16 @@ export class WebsocketService {
         }
       }
     };
+    this.webSocket = ws;
     return Rx.Subject.create(observer, observable);
+  }
+
+  public disconnect() {
+    if (this.messages) {
+      this.messages.unsubscribe();
+      this.webSocket.close();
+      this.subject = null;
+      console.log('Web socket successfully disconnected');
+    }
   }
 }
