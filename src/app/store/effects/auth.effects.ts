@@ -13,23 +13,43 @@ import { UsersService } from '../../store/services';
 // Custom Actions
 import {
   AccountDetailsGet,
-  AuthActionTypes, ChangePassword, ChangePasswordFailed, ChangePasswordSuccess,
-  CheckUsernameAvailability, CheckUsernameAvailabilitySuccess, DeleteAccount, DeleteAccountFailure, DeleteAccountSuccess,
+  AuthActionTypes,
+  ChangePassword,
+  ChangePasswordFailed,
+  ChangePasswordSuccess,
+  CheckUsernameAvailability,
+  CheckUsernameAvailabilitySuccess,
+  DeleteAccount,
+  DeleteAccountFailure,
+  DeleteAccountSuccess,
+  ExpireSession,
+  GetCaptcha,
+  GetCaptchaSuccess,
   LogIn,
   LogInFailure,
-  LogInSuccess, Logout,
-  RecoverPassword, RecoverPasswordFailure,
+  LogInSuccess,
+  Logout,
+  RecoverPassword,
+  RecoverPasswordFailure,
   RecoverPasswordSuccess,
   ResetPassword,
-  ResetPasswordFailure, ResetPasswordSuccess,
+  ResetPasswordFailure,
+  ResetPasswordSuccess,
   SignUp,
   SignUpFailure,
   SignUpSuccess,
-  SnackErrorPush, SnackPush, UpgradeAccount, UpgradeAccountFailure, UpgradeAccountSuccess
+  SnackErrorPush,
+  SnackPush,
+  UpgradeAccount,
+  UpgradeAccountFailure,
+  UpgradeAccountSuccess,
+  VerifyCaptcha,
+  VerifyCaptchaSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { of } from 'rxjs/internal/observable/of';
+import { EMPTY } from 'rxjs/internal/observable/empty';
 
 
 @Injectable()
@@ -95,6 +115,19 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGOUT),
     tap((action) => {
       this.authService.signOut();
+    })
+  );
+
+  @Effect()
+  expireSession: Observable<any> = this.actions.pipe(
+    ofType(AuthActionTypes.EXPIRE_SESSION),
+    map((action: ExpireSession) => action.payload),
+    switchMap(payload => {
+      return this.authService.expireSession()
+        .pipe(
+          switchMap((res) => EMPTY),
+          catchError((error) => of(new SnackErrorPush({ message: 'Failed to expire user session.' })))
+        );
     })
   );
 
@@ -200,6 +233,50 @@ export class AuthEffects {
               new SnackErrorPush({
                 message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
                   'Failed to delete account, please try again.'
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  getCaptcha: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.GET_CAPTCHA),
+      map((action: GetCaptcha) => action.payload),
+      switchMap(payload => {
+        return this.authService.getCaptcha()
+          .pipe(
+            switchMap((response: any) => of(new GetCaptchaSuccess(response))),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
+                  'Failed to load Captcha.'
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  verifyCaptcha: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.VERIFY_CAPTCHA),
+      map((action: VerifyCaptcha) => action.payload),
+      switchMap(payload => {
+        return this.authService.verifyCaptcha(payload)
+          .pipe(
+            switchMap((response: any) => {
+              const events: any[] = [new VerifyCaptchaSuccess(response)];
+              if (response.status === false) {
+                events.push(new GetCaptcha());
+              }
+              return of(...events);
+            }),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
+                  'Failed to verify Captcha.'
               })
             ))
           );
