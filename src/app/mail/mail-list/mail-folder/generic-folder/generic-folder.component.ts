@@ -66,7 +66,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
-        if (this.mailFolder === MailFolderType.INBOX && mailState.unreadMailsCount && this.mailState &&
+        if (mailState.unreadMailsCount && this.mailState &&
           this.mailState.unreadMailsCount &&
           mailState.unreadMailsCount.inbox > this.mailState.unreadMailsCount.inbox) {
           this.mailState = mailState;

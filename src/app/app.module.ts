@@ -1,18 +1,14 @@
 import { MatButtonModule } from '@angular/material';
-
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatKeyboardModule } from 'ngx7-material-keyboard';
-
 // Components
 import { AppComponent } from './app.component';
-
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { BlogModule } from './blog/blog.module';
@@ -27,14 +23,8 @@ import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-
 // Services
-import {AuthGuard, BitcoinService, BlogService} from './store/services';
-import { MailService } from './store/services';
-import { SharedService } from './store/services';
-import { OpenPgpService } from './store/services';
-
-import { TokenInterceptor } from './store/services';
+import { AuthGuard, BitcoinService, BlogService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
 import { NotificationService } from './store/services/notification.service';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -43,6 +33,7 @@ import { TimezoneService } from './store/services/timezone.service';
 import { ComposeMailService } from './store/services/compose-mail.service';
 import { DonationService } from './store/services/donation.service';
 import { MailSettingsService } from './store/services/mail-settings.service';
+import { WebsocketService } from './shared/services/websocket.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -91,6 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MailService,
     MailSettingsService,
     ComposeMailService,
+    WebsocketService,
     DateTimeUtilService,
     DonationService,
     {
