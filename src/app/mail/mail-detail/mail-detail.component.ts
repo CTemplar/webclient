@@ -12,6 +12,7 @@ import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { takeUntil } from 'rxjs/operators';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
+import { Message, WebsocketService } from '../../shared/services/websocket.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -54,7 +55,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private composeMailService: ComposeMailService,
               private dateTimeUtilService: DateTimeUtilService,
+              private websocketService: WebsocketService,
               private modalService: NgbModal) {
+    websocketService.messages.pipe(takeUntil(this.destroyed$))
+      .subscribe((response: Message) => {
+        if (this.mail && (response.id === this.mail.id || response.parent_id === this.mail.id)) {
+          this.getMailDetail(this.mail.id);
+        }
+      });
   }
 
   ngOnInit() {
