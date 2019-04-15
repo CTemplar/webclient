@@ -27,7 +27,6 @@ export class WebsocketService {
   private connectSocket(url): Rx.Subject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
-      console.log('Web socket successfully connected: ' + url);
     }
     return this.subject;
   }
@@ -57,7 +56,12 @@ export class WebsocketService {
       this.messages.unsubscribe();
       this.webSocket.close();
       this.subject = null;
-      console.log('Web socket successfully disconnected');
     }
   }
+}
+
+export interface Message {
+  id: number;
+  folder: string;
+  parent_id?: number;
 }

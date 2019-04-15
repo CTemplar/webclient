@@ -12,7 +12,7 @@ export function reducer(
     folders: new Map(),
     loaded: false,
     decryptedContents: {},
-    unreadMailsCount: {},
+    unreadMailsCount: { inbox: 0 },
     noUnreadCountChange: true,
     canGetUnreadCount: true,
   }, action: MailActions): MailState {

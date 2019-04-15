@@ -14,7 +14,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { GetUnreadMailsCount } from '../../store/actions';
 import { timer } from 'rxjs/internal/observable/timer';
 import { takeUntil } from 'rxjs/operators';
-import { WebsocketService } from '../../shared/services/websocket.service';
+import { Message, WebsocketService } from '../../shared/services/websocket.service';
 
 @TakeUntilDestroy()
 @Component({
@@ -39,7 +39,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
-  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -63,22 +62,13 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.websocketService.connect();
     // listen to web sockets events of new emails from server.
     websocketService.messages.pipe(takeUntil(this.destroyed$))
-      .subscribe(msg => {
-        console.log('Response from websocket: ', msg);
+      .subscribe((response: Message) => {
+        this.store.dispatch(new GetUnreadMailsCount());
       });
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
         if (!authState.isAuthenticated) {
           this.websocketService.disconnect();
-        }
-      });
-  }
-
-  initializeAutoRefresh() {
-    timer(0, this.AUTO_REFRESH_DURATION).pipe(takeUntil(this.destroyed$))
-      .subscribe(event => {
-        if (this.mailState && this.mailState.canGetUnreadCount) {
-          this.store.dispatch(new GetUnreadMailsCount());
         }
       });
   }
@@ -102,7 +92,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
       });
-    this.initializeAutoRefresh();
   }
 
   /**
