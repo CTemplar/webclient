@@ -89,7 +89,7 @@ export class UsersService {
   }
 
   signOut() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/signin');
     this.userKey = this.token = null;
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
@@ -97,7 +97,9 @@ export class UsersService {
   }
 
   expireSession() {
-    this.router.navigateByUrl('/');
+    this.userKey = null;
+    localStorage.removeItem('user_key');
+    this.router.navigateByUrl('/signin');
     return this.http.get(`${apiUrl}auth/sign-out/`);
   }
 
