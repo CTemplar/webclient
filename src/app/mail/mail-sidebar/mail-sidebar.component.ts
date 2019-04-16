@@ -59,6 +59,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.store.dispatch(new GetUnreadMailsCount());
     this.websocketService.connect();
     // listen to web sockets events of new emails from server.
     websocketService.messages.pipe(takeUntil(this.destroyed$))
