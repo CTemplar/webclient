@@ -32,7 +32,7 @@
         </div>
 
         <nav class="mailbox-sidebar-navbar">
-            <ul class="mailbox-sidebar-nav">
+            <ul class="mailbox-sidebar-nav folders-list">
                 <li class="mailbox-sidebar-nav-item" routerLinkActive="active">
                     <a routerLink="/mail/inbox/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
@@ -115,7 +115,7 @@
                         </a>
                     </div>
                 </li>
-                <li class="mailbox-sidebar-nav-item">
+                <li class="mailbox-sidebar-nav-item" *ngIf="customFolders.length > 3">
                     <a (click)="toggleDisplayLimit(customFolders.length)"
                        class="mailbox-sidebar-nav-link">
                         <i class="icon icon-more ml-1"></i>
