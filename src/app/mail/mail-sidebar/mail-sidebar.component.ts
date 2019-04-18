@@ -11,8 +11,7 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { GetUnreadMailsCount } from '../../store/actions';
-import { timer } from 'rxjs/internal/observable/timer';
+import { GetMails, GetUnreadMailsCount } from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
 import { Message, WebsocketService } from '../../shared/services/websocket.service';
 
@@ -25,6 +24,7 @@ import { Message, WebsocketService } from '../../shared/services/websocket.servi
 export class MailSidebarComponent implements OnInit, OnDestroy {
 
   LIMIT = 3;
+  EMAIL_LIMIT = 20;
 
   readonly destroyed$: Observable<boolean>;
 
@@ -61,10 +61,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new GetUnreadMailsCount());
     this.websocketService.connect();
+
     // listen to web sockets events of new emails from server.
     websocketService.messages.pipe(takeUntil(this.destroyed$))
       .subscribe((response: Message) => {
         this.store.dispatch(new GetUnreadMailsCount());
+        this.store.dispatch(new GetMails({ limit: this.EMAIL_LIMIT, offset: 0, folder: response.folder, read: false, seconds: 300 }));
       });
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
@@ -78,6 +80,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.EMAIL_LIMIT = this.userState.settings.emails_per_page ? this.userState.settings.emails_per_page : 20;
         this.customFolders = user.customFolders;
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
