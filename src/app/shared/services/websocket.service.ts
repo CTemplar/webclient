@@ -41,7 +41,10 @@ export class WebsocketService {
   }
 
   public disconnect() {
-    this.webSocket.close();
+    if (this.webSocket) {
+      this.webSocket.close();
+      this.webSocket = null;
+    }
   }
 }
 
