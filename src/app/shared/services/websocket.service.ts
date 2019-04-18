@@ -1,62 +1,47 @@
 import { Injectable } from '@angular/core';
-import * as Rx from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { UsersService } from '../../store/services';
+import { AppState } from '../../store/datatypes';
+import { Store } from '@ngrx/store';
+import { WebSocketNewMessage } from '../../store/websocket.store';
+import { LoggerService } from './logger.service';
 
 
 @Injectable()
 export class WebsocketService {
-  public messages: Rx.Subject<any>;
-  private subject: Rx.Subject<MessageEvent>;
   private webSocket: WebSocket;
 
-  constructor(private authService: UsersService) {
+  constructor(private authService: UsersService,
+              private store: Store<AppState>) {
   }
 
   public connect() {
-    this.messages = <Rx.Subject<any>>this.connectSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}`)
-      .pipe(
-        map(
-          (response: MessageEvent): any => {
-            return JSON.parse(response.data);
-          })
-      );
-  }
+    this.webSocket = new WebSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}`);
+    this.webSocket.onmessage = (response) => {
+      const data = JSON.parse(response.data);
+      LoggerService.log('Web socket event:', data);
+      this.store.dispatch(new WebSocketNewMessage(data));
+    };
 
-  private connectSocket(url): Rx.Subject<MessageEvent> {
-    if (!this.subject) {
-      this.subject = this.create(url);
-    }
-    return this.subject;
-  }
-
-  private create(url): Rx.Subject<MessageEvent> {
-    const ws = new WebSocket(url);
-
-    const observable = Rx.Observable.create((obs: Rx.Observer<MessageEvent>) => {
-      ws.onmessage = obs.next.bind(obs);
-      ws.onerror = obs.error.bind(obs);
-      ws.onclose = obs.complete.bind(obs);
-      return ws.close.bind(ws);
-    });
-    const observer = {
-      next: (data: Object) => {
-        if (ws.readyState === WebSocket.OPEN) {
-          ws.send(JSON.stringify(data));
-        }
+    this.webSocket.onclose = (e) => {
+      if (this.authService.getToken()) {
+        LoggerService.log('Socket is closed. Reconnect will be attempted in 3 second.', e.reason);
+        setTimeout(() => {
+          this.connect();
+        }, 3000);
+      } else {
+        LoggerService.log('Socket is closed.');
       }
     };
-    this.webSocket = ws;
-    return Rx.Subject.create(observer, observable);
+
+    this.webSocket.onerror = (err: any) => {
+      LoggerService.error('Socket encountered error: ', err.message, 'Closing socket');
+      this.webSocket.close();
+    };
   }
 
   public disconnect() {
-    if (this.messages) {
-      this.messages.unsubscribe();
-      this.webSocket.close();
-      this.subject = null;
-    }
+    this.webSocket.close();
   }
 }
 

@@ -12,7 +12,7 @@ import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { takeUntil } from 'rxjs/operators';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { Message, WebsocketService } from '../../shared/services/websocket.service';
+import { WebSocketState } from '../../store';
 
 @TakeUntilDestroy()
 @Component({
@@ -55,17 +55,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private composeMailService: ComposeMailService,
               private dateTimeUtilService: DateTimeUtilService,
-              private websocketService: WebsocketService,
               private modalService: NgbModal) {
-    websocketService.messages.pipe(takeUntil(this.destroyed$))
-      .subscribe((response: Message) => {
-        if (this.mail && (response.id === this.mail.id || response.parent_id === this.mail.id)) {
-          this.getMailDetail(this.mail.id);
-        }
-      });
   }
 
   ngOnInit() {
+
+    this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
+      .subscribe((webSocketState: WebSocketState) => {
+        if (webSocketState.message && !webSocketState.isClosed) {
+          if (this.mail && (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)) {
+            this.getMailDetail(this.mail.id);
+          }
+        }
+      });
 
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
@@ -234,10 +236,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
     if (!read) {
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
-    } else {
-      setTimeout(() => {
-        this.store.dispatch(new GetUnreadMailsCount());
-      }, 1000);
     }
   }
 

@@ -7,6 +7,7 @@ import { Attachment, Mail, Mailbox, MailFolderType, Membership, User, UserMailbo
 import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
+import { WebSocketState } from './websocket.store';
 
 export interface RouterStateUrl {
   url: string;
@@ -283,6 +284,7 @@ export interface AppState {
   composeMail: ComposeMailState;
   secureMessage: SecureMessageState;
   search: SearchState;
+  webSocket: WebSocketState;
 }
 
 export interface TimezonesState {

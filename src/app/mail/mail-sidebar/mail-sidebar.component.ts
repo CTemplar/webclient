@@ -13,7 +13,8 @@ import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { GetMails, GetUnreadMailsCount } from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
-import { Message, WebsocketService } from '../../shared/services/websocket.service';
+import { WebsocketService } from '../../shared/services/websocket.service';
+import { WebSocketState } from '../../store';
 
 @TakeUntilDestroy()
 @Component({
@@ -63,10 +64,20 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.websocketService.connect();
 
     // listen to web sockets events of new emails from server.
-    websocketService.messages.pipe(takeUntil(this.destroyed$))
-      .subscribe((response: Message) => {
-        this.store.dispatch(new GetUnreadMailsCount());
-        this.store.dispatch(new GetMails({ limit: this.EMAIL_LIMIT, offset: 0, folder: response.folder, read: false, seconds: 300 }));
+    this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
+      .subscribe((webSocketState: WebSocketState) => {
+        if (webSocketState.message && !webSocketState.isClosed) {
+          this.store.dispatch(new GetUnreadMailsCount());
+          if (this.currentRoute.indexOf('/message/') < 0) {
+            this.store.dispatch(new GetMails({
+              limit: this.EMAIL_LIMIT,
+              offset: 0,
+              folder: webSocketState.message.folder,
+              read: false,
+              seconds: 300
+            }));
+          }
+        }
       });
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {

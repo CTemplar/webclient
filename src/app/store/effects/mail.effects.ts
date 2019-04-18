@@ -125,7 +125,7 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.markAsRead(payload.ids, payload.read)
         .pipe(
-          switchMap(res => of(new ReadMailSuccess(payload))),
+          switchMap(res => of(new ReadMailSuccess(payload), new GetUnreadMailsCount())),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to mark mail as read.' })))
         );
     }));

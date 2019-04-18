@@ -168,10 +168,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (ids) {
       // Dispatch mark as read event to store
       this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
-
-      setTimeout(() => {
-        this.store.dispatch(new GetUnreadMailsCount());
-      }, 1000);
     }
   }
 
