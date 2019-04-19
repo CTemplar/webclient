@@ -5,30 +5,38 @@ import { AppState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
+import { Logout } from '../../store/actions';
 
 
 @Injectable()
 export class WebsocketService {
   private webSocket: WebSocket;
+  private retryCount = 1;
 
   constructor(private authService: UsersService,
               private store: Store<AppState>) {
   }
 
   public connect() {
-    this.webSocket = new WebSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}`);
+    this.webSocket = new WebSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}x`);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
       LoggerService.log('Web socket event:', data);
-      this.store.dispatch(new WebSocketNewMessage(data));
+      if (data.logout === true) {
+        this.disconnect();
+        this.store.dispatch(new Logout(data));
+      } else {
+        this.store.dispatch(new WebSocketNewMessage(data));
+      }
     };
 
     this.webSocket.onclose = (e) => {
       if (this.authService.getToken()) {
-        LoggerService.log('Socket is closed. Reconnect will be attempted in 3 second.', e.reason);
+        LoggerService.log(`Socket is closed. Reconnect will be attempted in ${(1000 + (this.retryCount * 1000))} second. ${e.reason}`);
         setTimeout(() => {
           this.connect();
-        }, 3000);
+          this.retryCount = this.retryCount + 1;
+        }, (1000 + (this.retryCount * 1000)));
       } else {
         LoggerService.log('Socket is closed.');
       }
