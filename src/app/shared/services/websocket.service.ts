@@ -5,7 +5,7 @@ import { AppState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
-import { Logout } from '../../store/actions';
+import { GetUnreadMailsCountSuccess, Logout } from '../../store/actions';
 
 
 @Injectable()
@@ -27,6 +27,7 @@ export class WebsocketService {
         this.store.dispatch(new Logout(data));
       } else {
         this.store.dispatch(new WebSocketNewMessage(data));
+        this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: data.unread_count_inbox }));
       }
     };
 

@@ -67,7 +67,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
-          this.store.dispatch(new GetUnreadMailsCount());
           if (this.currentRoute.indexOf('/message/') < 0) {
             this.store.dispatch(new GetMails({
               limit: this.EMAIL_LIMIT,
