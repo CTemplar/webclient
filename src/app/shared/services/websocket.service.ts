@@ -18,7 +18,7 @@ export class WebsocketService {
   }
 
   public connect() {
-    this.webSocket = new WebSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}x`);
+    this.webSocket = new WebSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}`);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
       LoggerService.log('Web socket event:', data);
