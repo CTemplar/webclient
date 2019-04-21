@@ -89,11 +89,18 @@ export class UsersService {
   }
 
   signOut() {
+    this.router.navigateByUrl('/signin');
     this.userKey = this.token = null;
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
+  }
+
+  expireSession() {
+    this.userKey = null;
+    localStorage.removeItem('user_key');
     this.router.navigateByUrl('/signin');
+    return this.http.get(`${apiUrl}auth/sign-out/`);
   }
 
   signUp(user): Observable<any> {
@@ -179,7 +186,8 @@ export class UsersService {
       'emails-forward/verify-verification-code',
       'emails/folder-order',
       'emails/empty-trash',
-      'users/autoresponder'
+      'users/autoresponder',
+      'auth/sign-out/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -243,9 +251,11 @@ export class UsersService {
   }
 
   getContact(limit = 0, offset = 0) {
-    const url = `${apiUrl}users/contacts/?limit=${limit}&offset=${offset}`;
-    const body = {};
-    return this.http.get<any>(url, body);
+    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${limit}&offset=${offset}`);
+  }
+
+  getEmailContacts() {
+    return this.http.get<any>(`${apiUrl}users/contacts-v1/`);
   }
 
   addContact(payload) {
@@ -346,6 +356,15 @@ export class UsersService {
     }
     return this.http.post<any>(`${apiUrl}users/autoresponder/`, autoResponder);
   }
+
+  getCaptcha(): Observable<any> {
+    return this.http.get<any>(`${apiUrl}auth/captcha/`);
+  }
+
+  verifyCaptcha(data: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/captcha-verify/`, data);
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

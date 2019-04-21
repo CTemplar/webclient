@@ -86,7 +86,7 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess
+  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -243,10 +243,10 @@ export class UsersEffects {
     ofType(UsersActionTypes.CONTACT_GET),
     map((action: ContactsGet) => action.payload),
     switchMap(payload => {
-      return this.userService.getContact()
+      return this.userService.getContact(payload.limit, payload.offset)
         .pipe(
           map(contact => {
-            return new ContactGetSuccess(contact.results);
+            return new ContactGetSuccess(contact);
           }),
           catchError((error) => EMPTY)
         );
@@ -302,7 +302,7 @@ export class UsersEffects {
             if (event instanceof HttpResponse) {
               return of(
                 new ContactImportSuccess(event.body),
-                new ContactsGet({}),
+                new ContactsGet({ limit: 50, offset: 0 }),
                 new SnackPush({ message: 'Contacts imported successfully' })
               );
             } else {
@@ -586,6 +586,19 @@ export class UsersEffects {
             new SnackErrorPush({message: 'Failed to save autoresponder. Please try again.'}),
             new SaveAutoResponderFailure(errorResponse.error)
           ))
+        );
+    }));
+
+
+  @Effect()
+  getEmailsContactsEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_EMAIL_CONTACTS),
+    map((action: GetEmailContacts) => action.payload),
+    switchMap(payload => {
+      return this.userService.getEmailContacts()
+        .pipe(
+          switchMap(res => of(new GetEmailContactsSuccess(res.results))),
+          catchError(err => EMPTY)
         );
     }));
 

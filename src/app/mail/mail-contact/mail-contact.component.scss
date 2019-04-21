@@ -279,3 +279,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.page-item {
+  min-height: 30px;
+  min-width: 230px;
+
+  .pager {
+    position: absolute;
+    right: 35px;
+    top: 0;
+    z-index: 1;
+
+    @include media("<sm") {
+      right: 15px;
+      top: 39px;
+    }
+  }
+}

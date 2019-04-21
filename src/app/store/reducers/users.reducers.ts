@@ -11,6 +11,7 @@ export const initialState: UserState = {
   whiteList: [],
   blackList: [],
   contact: [],
+  totalContacts: 0,
   settings: {},
   membership: {},
   mailboxes: [],
@@ -101,7 +102,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.CONTACT_GET_SUCCESS: {
-      return { ...state, contact: action.payload };
+      return { ...state, contact: action.payload.results, totalContacts: action.payload.total_count };
     }
     case UsersActionTypes.CONTACT_DELETE:
     case UsersActionTypes.CONTACT_ADD: {
@@ -146,12 +147,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false };
     }
 
+    case UsersActionTypes.GET_EMAIL_CONTACTS: {
+      return { ...state, emailContacts: [] };
+    }
+
+    case UsersActionTypes.GET_EMAIL_CONTACTS_SUCCESS: {
+      return { ...state, emailContacts: action.payload };
+    }
+
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
       return {
         ...state,
-        contact: action.payload.contacts,
-        blackList: action.payload.blacklist,
-        whiteList: action.payload.whitelist,
         username: action.payload.username,
         isPrime: action.payload.is_prime,
         joinedDate: action.payload.joined_date,
