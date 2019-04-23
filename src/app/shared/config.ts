@@ -18,6 +18,13 @@ export function getApiUrl() {
   return environment.apiServerUrl;
 }
 
+export function getWebsocketUrl() {
+  if (window.location && window.location.hostname === environment.onionDomain) {
+    return environment.webSocketOnionUrl;
+  }
+  return environment.webSocketUrl;
+}
+
 
 export const COLORS: string[] = [
   '#000000', '#616161', '#828282', '#adadad',

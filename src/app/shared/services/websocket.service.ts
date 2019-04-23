@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { UsersService } from '../../store/services';
 import { AppState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
 import { GetUnreadMailsCountSuccess, Logout } from '../../store/actions';
+import { getWebsocketUrl } from '../config';
 
 
 @Injectable()
@@ -18,7 +18,7 @@ export class WebsocketService {
   }
 
   public connect() {
-    this.webSocket = new WebSocket(`${environment.webSocketUrl}?token=${this.authService.getToken()}`);
+    this.webSocket = new WebSocket(`${getWebsocketUrl()}?token=${this.authService.getToken()}`);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
       LoggerService.log('Web socket event:', data);
