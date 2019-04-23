@@ -31,7 +31,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(catchError((error: any) => {
         if (error instanceof HttpErrorResponse) {
-          if (error.status === 401) {
+          if (error.status === 401 && error.url.indexOf('auth/sign-out') < 0) {
             this.store.dispatch(new Logout({ session_expired: true }));
           } else if (error.status === 423) {
             this.store.dispatch(new StopGettingUnreadMailsCount());

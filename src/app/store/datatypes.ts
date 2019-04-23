@@ -7,6 +7,7 @@ import { Attachment, Mail, Mailbox, MailFolderType, Membership, User, UserMailbo
 import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
+import { WebSocketState } from './websocket.store';
 
 export interface RouterStateUrl {
   url: string;
@@ -28,6 +29,16 @@ export interface AuthState {
   resetPasswordErrorMessage: string | null;
   updatedPrivateKeys?: any;
   isChangePasswordError?: boolean;
+  captcha?: Captcha;
+}
+
+export interface Captcha {
+  captcha_image?: string;
+  captcha_key?: string;
+  value?: string;
+  inProgress?: boolean;
+  isInvalid?: boolean;
+  verified?: boolean;
 }
 
 export interface SignupState {
@@ -58,6 +69,7 @@ export interface UserState {
   whiteList: WhiteList[];
   blackList: BlackList[];
   contact: Contact[];
+  totalContacts: number;
   settings: Settings;
   payment_transaction?: Payment;
   isPrime?: boolean;
@@ -78,6 +90,12 @@ export interface UserState {
   isForwardingVerificationCodeSent?: boolean;
   emailForwardingErrorMessage?: string;
   autoResponderErrorMessage?: string;
+  emailContacts?: EmailContact[];
+}
+
+export interface EmailContact {
+  name: string;
+  email: string;
 }
 
 export interface Settings {
@@ -266,6 +284,7 @@ export interface AppState {
   composeMail: ComposeMailState;
   secureMessage: SecureMessageState;
   search: SearchState;
+  webSocket: WebSocketState;
 }
 
 export interface TimezonesState {

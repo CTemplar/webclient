@@ -34,7 +34,7 @@
                 <li class="mailbox-sidebar-nav-item active">
                     <a class="mailbox-sidebar-nav-link no-icon"><span
                             class="mailbox-sidebar-nav-label" [translate]="'contacts.all_contacts'">All Contacts</span>
-                        <span class="badge badge-square">{{userState?.contact?.length}}</span></a>
+                        <span class="badge badge-square">{{userState?.totalContacts}}</span></a>
                 </li>
             </ul>
         </nav>
@@ -101,6 +101,23 @@
                 </li>
                 <li *ngIf="inProgress">
                     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+                </li>
+                <li class="page-item">
+                    <div class="pager">
+                        <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="userState?.contact?.length>0">
+                            <div class="mail-result-text text-muted">
+                                <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+                            </div>
+                            <div class="mail-nav-control">
+                                <button role="button" class="mail-nav-control-prev" (click)="prevPage()">
+                                    <i class="icon icon-chevron-left"></i>
+                                </button>
+                                <button role="button" class="mail-nav-control-next" (click)="nextPage()">
+                                    <i class="icon icon-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -242,7 +259,7 @@
                 {{selectedContacts?.length}} <span translate="common.contact">contact</span>?
             </div>
             <div class="form-group text-right mb-0">
-                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm"
+                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2"
                         translate="common.cancel"
                         role="button">Cancel
                 </button>

@@ -66,12 +66,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
-        if (this.mailFolder === MailFolderType.INBOX && mailState.unreadMailsCount && this.mailState &&
-          this.mailState.unreadMailsCount &&
-          mailState.unreadMailsCount.inbox > this.mailState.unreadMailsCount.inbox) {
-          this.mailState = mailState;
-          this.refresh();
-        }
         this.mailState = mailState;
         this.showProgress = !mailState.loaded || mailState.inProgress;
         if (this.fetchMails) {
@@ -174,10 +168,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (ids) {
       // Dispatch mark as read event to store
       this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
-
-      setTimeout(() => {
-        this.store.dispatch(new GetUnreadMailsCount());
-      }, 1000);
     }
   }
 

@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { Logout } from '../../store/actions';
+import { ExpireSession, Logout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../../shared/config';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -76,7 +76,10 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.store.dispatch(new Logout());
+    this.store.dispatch(new ExpireSession());
+    setTimeout(() => {
+      this.store.dispatch(new Logout());
+    }, 500);
   }
 
   changeLanguage(lang: Language) {

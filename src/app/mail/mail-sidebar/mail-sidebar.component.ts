@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
@@ -11,9 +11,10 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { GetUnreadMailsCount } from '../../store/actions';
-import { timer } from 'rxjs/internal/observable/timer';
+import { GetMails, GetUnreadMailsCount } from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
+import { WebsocketService } from '../../shared/services/websocket.service';
+import { WebSocketState } from '../../store';
 
 @TakeUntilDestroy()
 @Component({
@@ -24,6 +25,7 @@ import { takeUntil } from 'rxjs/operators';
 export class MailSidebarComponent implements OnInit, OnDestroy {
 
   LIMIT = 3;
+  EMAIL_LIMIT = 20;
 
   readonly destroyed$: Observable<boolean>;
 
@@ -38,7 +40,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
-  readonly AUTO_REFRESH_DURATION: number = 30000; // duration in milliseconds
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -47,22 +48,40 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private composeMailService: ComposeMailService,
               private notificationService: NotificationService,
               private router: Router,
+              private websocketService: WebsocketService,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.url;
-      }
-    });
-  }
+    this.router.events.pipe(takeUntil(this.destroyed$))
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.currentRoute = event.url;
+        }
+      });
 
-  initializeAutoRefresh() {
-    timer(0, this.AUTO_REFRESH_DURATION).pipe(takeUntil(this.destroyed$))
-      .subscribe(event => {
-        if (this.mailState && this.mailState.canGetUnreadCount) {
-          this.store.dispatch(new GetUnreadMailsCount());
+    this.store.dispatch(new GetUnreadMailsCount());
+    this.websocketService.connect();
+
+    // listen to web sockets events of new emails from server.
+    this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
+      .subscribe((webSocketState: WebSocketState) => {
+        if (webSocketState.message && !webSocketState.isClosed) {
+          if (this.currentRoute.indexOf('/message/') < 0) {
+            this.store.dispatch(new GetMails({
+              limit: this.EMAIL_LIMIT,
+              offset: 0,
+              folder: webSocketState.message.folder,
+              read: false,
+              seconds: 300
+            }));
+          }
+        }
+      });
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+      .subscribe((authState: AuthState) => {
+        if (!authState.isAuthenticated) {
+          this.websocketService.disconnect();
         }
       });
   }
@@ -71,6 +90,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.EMAIL_LIMIT = this.userState.settings.emails_per_page ? this.userState.settings.emails_per_page : 20;
         this.customFolders = user.customFolders;
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
@@ -86,7 +106,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
       });
-    this.initializeAutoRefresh();
   }
 
   /**

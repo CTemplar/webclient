@@ -5,6 +5,10 @@
 
 $error-red: #e94e4c;
 
+.main-container {
+  min-height: 500px;
+}
+
 .userame-field-group {
   .form-control {
     @include media(">sm") {
@@ -102,6 +106,11 @@ $error-red: #e94e4c;
   margin-top: -30px;
 }
 
+.captcha_ok {
+  margin-top: 22px !important;
+  margin-left: 6px !important;
+}
+
 .password-toggle, .confirmpasswordToggle {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 
@@ -110,4 +119,26 @@ $error-red: #e94e4c;
 .username-availability-spinner {
   position: absolute;
   right: -18px;
+}
+
+.refresh-icon {
+  color: black;
+  margin-left: 5px;
+  vertical-align: bottom;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(107, 107, 107, 0.79);
+  }
+}
+
+.captcha_image {
+  height: 79px;
+  width: 307px;
+  display: inline-block;
+
+  img {
+    height: 79px;
+    width: 307px;
+  }
 }

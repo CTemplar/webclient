@@ -216,9 +216,6 @@
               <ng-container *ngSwitchDefault>
                 <span [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</span>
               </ng-container>
-              <ng-container *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)">
-
-              </ng-container>
               <span *ngIf="mail?.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
           </a>
@@ -383,7 +380,7 @@
         Are you sure, you want to delete all messages in trash?
       </div>
       <div class="form-group text-right mb-0">
-        <button (click)="d()" class="btn btn-secondary btn-sm mr-1" role="button">Cancel</button>
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button">Cancel</button>
         <button (click)="emptyTrashConfirmed()" class="btn btn-danger btn-sm" role="button">
           Delete
         </button>

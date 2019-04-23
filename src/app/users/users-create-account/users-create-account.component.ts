@@ -8,8 +8,16 @@ import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, SignupState, UserState } from '../../store/datatypes';
-import { CheckUsernameAvailability, FinalLoading, SignUp, SignUpFailure, UpdateSignupData } from '../../store/actions';
+import { AppState, AuthState, Captcha, SignupState, UserState } from '../../store/datatypes';
+import {
+  CheckUsernameAvailability,
+  FinalLoading,
+  GetCaptcha,
+  SignUp,
+  SignUpFailure,
+  UpdateSignupData,
+  VerifyCaptcha
+} from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
@@ -46,17 +54,18 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   isRecoveryEmail: boolean = null;
   isConfirmedPrivacy: boolean = null;
-  isFormCompleted: boolean = false;
   errorMessage: string = '';
   selectedPlan: any;
   data: any = null;
-  isCaptchaCompleted: boolean = false;
   signupInProgress: boolean = false;
   signupState: SignupState;
   submitted = false;
   userKeys: any;
   generatingKeys: boolean;
   modalRef: NgbModalRef;
+  captcha: Captcha;
+  captchaValue: string;
+  private isCaptchaRetrieved: boolean;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -68,6 +77,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.handleUserState();
     this.sharedService.hideFooter.emit(true);
 
@@ -85,9 +95,12 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       validator: PasswordValidation.MatchPassword
     });
 
-    this.store.select(state => state.auth)
-      .pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((state: AuthState) => {
+        this.captcha = state.captcha;
+        if (this.captcha.isInvalid) {
+          this.captchaValue = '';
+        }
         this.errorMessage = state.errorMessage;
       });
 
@@ -95,9 +108,23 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((state: UserState) => {
         this.selectedPlan = state.membership.id;
+        if (this.selectedPlan !== 1 && this.selectedPlan !== 2 && !this.isCaptchaRetrieved) {
+          this.isCaptchaRetrieved = true;
+          this.store.dispatch(new GetCaptcha());
+        }
       });
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     this.handleUsernameAvailability();
+  }
+
+  reloadCaptcha() {
+    this.store.dispatch(new GetCaptcha());
+  }
+
+  verifyCaptcha() {
+    if (this.captchaValue) {
+      this.store.dispatch(new VerifyCaptcha({ key: this.captcha.captcha_key, value: this.captchaValue }));
+    }
   }
 
   // == Toggle password visibility
@@ -124,15 +151,20 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.isRecoveryEmail = false;
     }
 
+    if (!this.captchaValue && this.selectedPlan === 0) {
+      this.captcha.isInvalid = true;
+    }
+
     if (this.signupState.usernameExists || this.signupForm.invalid || !this.isConfirmedPrivacy ||
+      (!this.captchaValue && this.selectedPlan === 0) ||
       (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
       return false;
     }
 
-    this.isFormCompleted = true;
-
     if (this.selectedPlan === 1 || this.selectedPlan === 2) {
       this.navigateToBillingPage();
+    } else if (this.captcha.verified === true) {
+      this.signupFormCompleted();
     }
   }
 
@@ -155,14 +187,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/billing-info');
   }
 
-
-  recaptchaResolved(captchaResponse: string) {
-    this.signupForm.value.captchaResponse = captchaResponse;
-    this.isCaptchaCompleted = true;
-  }
-
   signupFormCompleted() {
-    if ((this.selectedPlan === 1 || this.selectedPlan === 2) && this.signupForm.value.captchaResponse) {
+    if (this.selectedPlan === 1 || this.selectedPlan === 2) {
       this.navigateToBillingPage();
     } else {
       this.signupInProgress = true;
@@ -192,7 +218,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
-      recaptcha: this.signupForm.value.captchaResponse
+      captcha_key: this.captcha.captcha_key,
+      captcha_value: this.captchaValue,
     };
     this.store.dispatch(new SignUp(this.data));
   }
