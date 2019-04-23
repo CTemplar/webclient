@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Post, Category } from '../../../store/models';
-import { BlogService } from '../../../store/services/blog.service';
+import { Category, Post } from '../../store/models';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-blog-grid',
@@ -15,18 +16,27 @@ export class BlogGridComponent implements OnInit {
     id: 1,
     name: 'NEWS',
     color: '#ffcc00'
-    },{
+  }, {
     id: 2,
     name: 'ARTICLE',
     color: '#ffcc00'
   }];
 
-  constructor(private blogService: BlogService) { }
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit() {
-    this.blogService.getBlogPosts().subscribe((posts: Post[]) => {
+    this.getBlogPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
     });
+  }
+
+  getBlogPosts() {
+    const url = `/assets/blogs.json`;
+    return this.http.get<Post[]>(url)
+      .pipe(
+        map(data => data['results'])
+      );
   }
 
 }

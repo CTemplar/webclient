@@ -11,7 +11,6 @@ import { MatKeyboardModule } from 'ngx7-material-keyboard';
 import { AppComponent } from './app.component';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
-import { BlogModule } from './blog/blog.module';
 import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
@@ -24,7 +23,7 @@ import { AppStoreModule } from './store/store.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 // Services
-import { AuthGuard, BitcoinService, BlogService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
+import { AuthGuard, BitcoinService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
 import { NotificationService } from './store/services/notification.service';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -50,7 +49,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgbModule.forRoot(),
     AppStoreModule,
     AppRoutingModule,
-    BlogModule,
     FooterModule,
     HeaderModule,
     HomeModule,
@@ -72,7 +70,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     AuthGuard,
-    BlogService,
     SharedService,
     OpenPgpService,
     BitcoinService,
@@ -89,7 +86,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })
