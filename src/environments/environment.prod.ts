@@ -5,5 +5,5 @@ export const environment = {
   onionDomain: 'ctemplar42u6fulx.onion',
   onionApiServerUrl: 'http://api.ctemplar42u6fulx.onion/',
   webSocketUrl: 'wss://api.ctemplar.com/connect/',
-  webSocketOnionUrl: 'ws://api.ctemplar42u6fulx.onion/connect/',
+  webSocketOnionUrl: 'wss://api.ctemplar42u6fulx.onion/connect/',
 };
