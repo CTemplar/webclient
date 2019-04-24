@@ -10,11 +10,9 @@ import { MatKeyboardModule } from 'ngx7-material-keyboard';
 // Components
 import { AppComponent } from './app.component';
 // Modules
-import { AppRoutingModule } from './app-routing.module';
 import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
-import { MailModule } from './mail/mail.module';
 import { PagesModule } from './pages/pages.module';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { UsersModule } from './users/users.module';
@@ -33,6 +31,7 @@ import { ComposeMailService } from './store/services/compose-mail.service';
 import { DonationService } from './store/services/donation.service';
 import { MailSettingsService } from './store/services/mail-settings.service';
 import { WebsocketService } from './shared/services/websocket.service';
+import { AppRoutingModule } from './app-routing.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -43,16 +42,15 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [AppComponent],
   imports: [
     SharedModule,
+    AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule.forRoot(),
     AppStoreModule,
-    AppRoutingModule,
     FooterModule,
     HeaderModule,
     HomeModule,
-    MailModule,
     PagesModule,
     UsersModule,
     TranslateModule.forRoot({

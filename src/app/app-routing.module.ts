@@ -1,13 +1,19 @@
 // Angular
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes, Router } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   {
-    path: '',
-    loadChildren: 'app/home/home.module#HomeModule'
-  },
+    path: 'mail',
+    loadChildren: 'app/mail/mail.module#MailModule'
+  }
 ];
-
-export const AppRoutingModule: ModuleWithProviders = RouterModule.forRoot(routes);
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {
+}
