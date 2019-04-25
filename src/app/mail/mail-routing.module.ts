@@ -19,8 +19,7 @@ const routes: Routes = [
       { path: ':folder/page/:page', component: MailListComponent },
       { path: ':folder/page/:page/message/:id', component: MailDetailComponent },
     ]
-  },
-  { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' }
+  }
 ];
 
 @NgModule({
