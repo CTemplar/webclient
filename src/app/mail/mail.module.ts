@@ -2,8 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // Bootstrap
-import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // Angular Material
 import { MatButtonModule, MatCheckboxModule, MatStepperModule } from '@angular/material';
 
@@ -34,6 +33,9 @@ import { MailForwardingComponent } from './mail-settings/mail-forwarding/mail-fo
 import { FoldersComponent } from './mail-settings/folders/folders.component';
 import { MailAutoresponderComponent } from './mail-settings/mail-autoresponder/mail-autoresponder.component';
 import { SecurityComponent } from './mail-settings/security/security.component';
+import { MailSettingsService } from '../store/services/mail-settings.service';
+import { ComposeMailService } from '../store/services/compose-mail.service';
+import { WebsocketService } from '../shared/services/websocket.service';
 
 @NgModule({
   imports: [
@@ -75,10 +77,16 @@ import { SecurityComponent } from './mail-settings/security/security.component';
   exports: [
     MailFooterComponent
   ],
+  providers: [
+    MailSettingsService,
+    ComposeMailService,
+    WebsocketService,
+  ],
   entryComponents: [
     CreateFolderComponent,
     ComposeMailDialogComponent,
     PaymentFailureNoticeComponent
   ]
 })
-export class MailModule { }
+export class MailModule {
+}

@@ -27,10 +27,7 @@ import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
-import { ComposeMailService } from './store/services/compose-mail.service';
 import { DonationService } from './store/services/donation.service';
-import { MailSettingsService } from './store/services/mail-settings.service';
-import { WebsocketService } from './shared/services/websocket.service';
 import { AppRoutingModule } from './app-routing.module';
 
 // AoT requires an exported function for factories
@@ -75,9 +72,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BreakpointsService,
     TimezoneService,
     MailService,
-    MailSettingsService,
-    ComposeMailService,
-    WebsocketService,
     DateTimeUtilService,
     DonationService,
     {
