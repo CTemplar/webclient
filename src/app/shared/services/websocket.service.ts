@@ -9,6 +9,7 @@ import { getWebsocketUrl } from '../config';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/internal/Observable';
 import { takeUntil } from 'rxjs/operators';
+import { Mail } from '../../store/models';
 
 @TakeUntilDestroy()
 @Injectable()
@@ -73,4 +74,6 @@ export interface Message {
   id: number;
   folder: string;
   parent_id?: number;
+  mail: Mail;
+  total_count?: number;
 }

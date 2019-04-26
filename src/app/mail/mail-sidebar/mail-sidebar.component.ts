@@ -11,7 +11,7 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { GetMails, GetUnreadMailsCount } from '../../store/actions';
+import { GetMails, GetMailsSuccess, GetUnreadMailsCount } from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
@@ -68,12 +68,13 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
           if (this.currentRoute.indexOf('/message/') < 0) {
-            this.store.dispatch(new GetMails({
+            this.store.dispatch(new GetMailsSuccess({
               limit: this.EMAIL_LIMIT,
               offset: 0,
               folder: webSocketState.message.folder,
               read: false,
-              seconds: 300
+              mails: [webSocketState.message.mail],
+              total_mail_count: webSocketState.message.total_count,
             }));
           }
         }

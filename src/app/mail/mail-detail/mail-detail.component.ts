@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
-import { DeleteMail, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -64,7 +64,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
           if (this.mail && (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)) {
-            this.getMailDetail(this.mail.id);
+            this.store.dispatch(new GetMailDetailSuccess(webSocketState.message.mail));
           }
         }
       });
