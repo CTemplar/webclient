@@ -235,7 +235,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   markAsRead(mailID: number, read: boolean = true) {
     this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
     if (!read) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+      this.goBack();
     }
   }
 
@@ -331,6 +331,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onDelete(mail: Mail) {
     if (mail.folder === MailFolderType.TRASH) {
       this.store.dispatch(new DeleteMail({ ids: mail.id.toString() }));
+      if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
+        .some(child => child.folder === MailFolderType.TRASH))) {
+        this.goBack();
+      }
     } else {
       this.store.dispatch(new MoveMail({
         ids: mail.id,
@@ -341,7 +345,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }));
     }
     if (mail.id === this.mail.id) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+      this.goBack();
     }
   }
 
@@ -353,7 +357,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       mail: mail
     }));
     if (mail.id === this.mail.id) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+      this.goBack();
     }
   }
 
@@ -367,7 +371,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.store.dispatch(new WhiteListAdd({ name: mail.sender, email: mail.sender }));
     }, 2000);
-    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+    this.goBack();
   }
 
   ontoggleStarred(mail: Mail) {
@@ -385,7 +389,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   moveToFolder(folder: MailFolderType) {
     this.store.dispatch(new MoveMail({ ids: this.mail.id, folder }));
-    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+    this.goBack();
   }
 
   goBack() {
