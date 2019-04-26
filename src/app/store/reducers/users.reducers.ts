@@ -158,6 +158,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
       return {
         ...state,
+        id: action.payload.id,
         username: action.payload.username,
         isPrime: action.payload.is_prime,
         joinedDate: action.payload.joined_date,
