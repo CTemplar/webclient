@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
+import { Title } from '@angular/platform-browser';
 
 @TakeUntilDestroy()
 @Component({
@@ -51,6 +52,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private router: Router,
               private websocketService: WebsocketService,
               private pushNotificationService: PushNotificationService,
+              private titleService: Title,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -115,7 +117,26 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
+
+        // Set tab title
+        let title = `${mailState.currentFolder ? this.capitalize(mailState.currentFolder) : ''} `;
+        if (mailState.currentFolder && mailState.unreadMailsCount[mailState.currentFolder] &&
+          (mailState.currentFolder === 'inbox' || this.customFolders.some(folder => mailState.currentFolder === folder.name))) {
+          title += `(${mailState.unreadMailsCount[mailState.currentFolder]}) - `;
+        } else if (mailState.currentFolder) {
+          title += ' - ';
+        }
+        title += 'CTemplar: Armored Email';
+        this.titleService.setTitle(title);
+
       });
+  }
+
+  capitalize(s) {
+    if (typeof s !== 'string') {
+      return '';
+    }
+    return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
   /**
