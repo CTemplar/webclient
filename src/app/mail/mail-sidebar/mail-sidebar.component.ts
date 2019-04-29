@@ -6,15 +6,16 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
-import { Folder, Mailbox } from '../../store/models/mail.model';
+import { Folder, Mail, Mailbox } from '../../store/models/mail.model';
 import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { GetMails, GetMailsSuccess, GetUnreadMailsCount } from '../../store/actions';
+import { GetMailDetailSuccess, GetMailsSuccess, GetUnreadMailsCount } from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
+import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
 
 @TakeUntilDestroy()
 @Component({
@@ -49,6 +50,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               private router: Router,
               private websocketService: WebsocketService,
+              private pushNotificationService: PushNotificationService,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -77,6 +79,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               total_mail_count: webSocketState.message.total_count,
             }));
           }
+          this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
         }
       });
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
@@ -88,6 +91,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    const isGranted: any = this.pushNotificationService.isPermissionGranted;
+    if (!isGranted()) {
+      this.pushNotificationService.requestPermission();
+    }
+
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
@@ -154,6 +163,23 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         this.isSidebarOpened = !this.isSidebarOpened;
       }
     }
+  }
+
+  showNotification(mail: Mail, folder: string) {
+    const title = mail.sender_display.name;
+    const options = new PushNotificationOptions();
+    options.body = 'You have received a new email';
+    options.icon = 'https://ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
+
+    this.pushNotificationService.create(title, options).subscribe((notif) => {
+        if (notif.event.type === 'click') {
+          notif.notification.close();
+          window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
+        }
+      },
+      (err) => {
+        console.log(err);
+      });
   }
 
 
