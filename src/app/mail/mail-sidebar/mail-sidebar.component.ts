@@ -6,13 +6,13 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
-import { Folder, Mail, Mailbox } from '../../store/models/mail.model';
+import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { GetMailDetailSuccess, GetMailsSuccess, GetUnreadMailsCount } from '../../store/actions';
-import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { GetMailDetailSuccess, GetMailsSuccess, GetUnreadMailsCount, SetCurrentFolder } from '../../store/actions';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
@@ -53,6 +53,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private websocketService: WebsocketService,
               private pushNotificationService: PushNotificationService,
               private titleService: Title,
+              private activatedRoute: ActivatedRoute,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -117,19 +118,30 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-
-        // Set tab title
-        let title = `${mailState.currentFolder ? this.capitalize(mailState.currentFolder) : ''} `;
-        if (mailState.currentFolder && mailState.unreadMailsCount[mailState.currentFolder] &&
-          (mailState.currentFolder === 'inbox' || this.customFolders.some(folder => mailState.currentFolder === folder.name))) {
-          title += `(${mailState.unreadMailsCount[mailState.currentFolder]}) - `;
-        } else if (mailState.currentFolder) {
-          title += ' - ';
-        }
-        title += 'CTemplar: Armored Email';
-        this.titleService.setTitle(title);
+        this.updateTitle();
 
       });
+    this.router.events.pipe(takeUntil(this.destroyed$), filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/mail/settings' || event.url === '/mail/contact') {
+          this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);
+        }
+      });
+  }
+
+  updateTitle(title: string = null) {
+    // Set tab title
+    if (!title) {
+      title = `${this.mailState.currentFolder ? this.capitalize(this.mailState.currentFolder) : ''} `;
+      if (this.mailState.currentFolder && this.mailState.unreadMailsCount[this.mailState.currentFolder] &&
+        (this.mailState.currentFolder === 'inbox' || this.customFolders.some(folder => this.mailState.currentFolder === folder.name))) {
+        title += `(${this.mailState.unreadMailsCount[this.mailState.currentFolder]}) - `;
+      } else if (this.mailState.currentFolder) {
+        title += ' - ';
+      }
+      title += 'CTemplar: Armored Email';
+    }
+    this.titleService.setTitle(title);
   }
 
   capitalize(s) {
@@ -205,5 +217,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
+    this.titleService.setTitle('CTemplar: Armored Email');
   }
 }

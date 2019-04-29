@@ -366,6 +366,5 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new SetCurrentFolder(''));
   }
 }
