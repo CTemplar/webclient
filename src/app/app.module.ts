@@ -10,12 +10,9 @@ import { MatKeyboardModule } from 'ngx7-material-keyboard';
 // Components
 import { AppComponent } from './app.component';
 // Modules
-import { AppRoutingModule } from './app-routing.module';
-import { BlogModule } from './blog/blog.module';
 import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
-import { MailModule } from './mail/mail.module';
 import { PagesModule } from './pages/pages.module';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { UsersModule } from './users/users.module';
@@ -24,16 +21,14 @@ import { AppStoreModule } from './store/store.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 // Services
-import { AuthGuard, BitcoinService, BlogService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
+import { AuthGuard, BitcoinService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
 import { NotificationService } from './store/services/notification.service';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
-import { ComposeMailService } from './store/services/compose-mail.service';
 import { DonationService } from './store/services/donation.service';
-import { MailSettingsService } from './store/services/mail-settings.service';
-import { WebsocketService } from './shared/services/websocket.service';
+import { AppRoutingModule } from './app-routing.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -44,17 +39,15 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [AppComponent],
   imports: [
     SharedModule,
+    AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule.forRoot(),
     AppStoreModule,
-    AppRoutingModule,
-    BlogModule,
     FooterModule,
     HeaderModule,
     HomeModule,
-    MailModule,
     PagesModule,
     UsersModule,
     TranslateModule.forRoot({
@@ -72,7 +65,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     AuthGuard,
-    BlogService,
     SharedService,
     OpenPgpService,
     BitcoinService,
@@ -80,16 +72,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     BreakpointsService,
     TimezoneService,
     MailService,
-    MailSettingsService,
-    ComposeMailService,
-    WebsocketService,
     DateTimeUtilService,
     DonationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

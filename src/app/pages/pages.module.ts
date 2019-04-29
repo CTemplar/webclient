@@ -1,16 +1,11 @@
 // Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 // Modules
 import { PagesRoutingModule } from './pages-routing.module';
-import { BlogModule } from '../blog/blog.module';
-import { MailModule } from '../mail/mail.module';
 import { SharedModule } from '../shared/shared.module';
-
 // Components
 import { PagesAboutComponent } from './pages-about/pages-about.component';
 import { PagesDonateComponent } from './pages-donate/pages-donate.component';
@@ -26,8 +21,6 @@ import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-
     CommonModule,
     NgbModule,
     PagesRoutingModule,
-    BlogModule,
-    MailModule,
     SharedModule
   ],
   declarations: [

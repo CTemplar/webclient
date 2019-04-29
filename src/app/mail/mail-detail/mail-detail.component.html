@@ -268,7 +268,7 @@
   </section>
 
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
-    <ng-container>
+    <ng-container *ngIf="mailFolder === mailFolderTypes.TRASH || childMail.folder !== mailFolderTypes.TRASH">
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
           <div class="ui-body">

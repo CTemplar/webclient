@@ -153,6 +153,10 @@ export function reducer(
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
       state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
+      if (state.mailDetail && state.mailDetail.children &&
+        state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
+        state.mailDetail.children = state.mailDetail.children.filter(child => !listOfIDs.includes(child.id.toString()));
+      }
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
