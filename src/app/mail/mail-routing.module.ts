@@ -15,7 +15,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
       { path: 'settings', component: MailSettingsComponent },
-      { path: 'contact', component: MailContactComponent },
+      { path: 'contacts', component: MailContactComponent },
       { path: ':folder/page/:page', component: MailListComponent },
       { path: ':folder/page/:page/message/:id', component: MailDetailComponent },
     ]
