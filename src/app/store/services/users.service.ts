@@ -342,12 +342,12 @@ export class UsersService {
 
   sendEmailForwardingCode(email: string): Observable<any> {
     const body = { email };
-    return this.http.post(`${apiUrl}/emails-forward/send-verification-code/`, body);
+    return this.http.post(`${apiUrl}emails-forward/send-verification-code/`, body);
   }
 
   verifyEmailForwardingCode(email: string, code: number): Observable<any> {
     const body = { email, code };
-    return this.http.post(`${apiUrl}/emails-forward/verify-verification-code/`, body);
+    return this.http.post(`${apiUrl}emails-forward/verify-verification-code/`, body);
   }
 
   saveAutoResponder(autoResponder: AutoResponder): Observable<any> {
