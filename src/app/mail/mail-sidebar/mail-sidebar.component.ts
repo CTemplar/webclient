@@ -11,7 +11,13 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { GetMailDetailSuccess, GetMailsSuccess, GetUnreadMailsCount, SetCurrentFolder } from '../../store/actions';
+import {
+  GetMailDetailSuccess,
+  GetMailsSuccess,
+  GetUnreadMailsCount,
+  GetUnreadMailsCountSuccess,
+  SetCurrentFolder
+} from '../../store/actions';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
@@ -72,17 +78,21 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
-          if (this.currentRoute.indexOf('/message/') < 0) {
-            this.store.dispatch(new GetMailsSuccess({
-              limit: this.EMAIL_LIMIT,
-              offset: 0,
-              folder: webSocketState.message.folder,
-              read: false,
-              mails: [webSocketState.message.mail],
-              total_mail_count: webSocketState.message.total_count,
-            }));
+          if (webSocketState.message.mail) {
+            if (this.currentRoute.indexOf('/message/') < 0) {
+              this.store.dispatch(new GetMailsSuccess({
+                limit: this.EMAIL_LIMIT,
+                offset: 0,
+                folder: webSocketState.message.folder,
+                read: false,
+                mails: [webSocketState.message.mail],
+                total_mail_count: webSocketState.message.total_count,
+              }));
+            }
+            this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
+          } else if (webSocketState.message.marked_as_read !== null) {
+            this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: webSocketState.message.unread_count_inbox }));
           }
-          this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
         }
       });
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))

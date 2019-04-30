@@ -76,4 +76,6 @@ export interface Message {
   parent_id?: number;
   mail: Mail;
   total_count?: number;
+  marked_as_read?: boolean;
+  unread_count_inbox?: number;
 }
