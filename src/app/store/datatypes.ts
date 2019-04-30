@@ -360,3 +360,9 @@ export enum PlanType {
   PRIME = 'PRIME',
   CHAMPION = 'CHAMPION',
 }
+
+export enum NotificationPermission {
+  DEFAULT = 'default',
+  GRANTED = 'granted',
+  DENIED = 'denied',
+}

@@ -478,6 +478,27 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="row align-items-center">
+                                    <div class="col-sm-3">
+                                        <label class="form-label mb-sm-0">
+                                            Desktop notifications</label>
+                                    </div>
+                                    <div class="col-sm-7 col-md-5">
+                                      <div class="info-card mt-3 full-width">
+                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED">
+                                          Desktop Notifications are disabled.
+                                          Please go to your browser settings in order to enable them.
+                                        </p>
+                                        <p *ngIf="notificationsPermission === notificationPermissionType.DEFAULT">
+                                          <a (click)="requestNotificationPermission()">Click here</a> in order to enable desktop notifications.
+                                        </p>
+                                        <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
+                                          Desktop notifications are enabled.
+                                          <a (click)="testNotification()">Click here to Test</a>
+                                        </p>
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -621,7 +642,7 @@
             <ng-template ngbTabContent>
 
                 <app-custom-domains (onGotoAddresses)="tabSet.select('addresses-signatures')"></app-custom-domains>
-                
+
             </ng-template>
         </ngb-tab>
 

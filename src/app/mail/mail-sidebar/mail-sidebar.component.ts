@@ -97,7 +97,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
     const isGranted: any = this.pushNotificationService.isPermissionGranted;
     if (!isGranted()) {
-      this.pushNotificationService.requestPermission();
+      setTimeout(() => {
+        this.pushNotificationService.requestPermission();
+      }, 3000);
     }
 
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
