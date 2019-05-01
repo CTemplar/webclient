@@ -79,7 +79,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
           if (webSocketState.message.mail) {
-            if (this.currentRoute.indexOf('/message/') < 0) {
+            if (this.currentRoute && this.currentRoute.indexOf('/message/') < 0) {
               this.store.dispatch(new GetMailsSuccess({
                 limit: this.EMAIL_LIMIT,
                 offset: 0,
