@@ -17,7 +17,7 @@ import {
   ChangePassword,
   ChangePasswordFailed,
   ChangePasswordSuccess,
-  CheckUsernameAvailability,
+  CheckUsernameAvailability, CheckUsernameAvailabilityError,
   CheckUsernameAvailabilitySuccess,
   DeleteAccount,
   DeleteAccountFailure,
@@ -144,7 +144,10 @@ export class AuthEffects {
         return this.authService.checkUsernameAvailability(payload)
           .pipe(
             map((response) => new CheckUsernameAvailabilitySuccess(response)),
-            catchError((error) => of(new SnackErrorPush({ message: 'Failed to check username availability.' })))
+            catchError((error) => of(
+              new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }),
+              new CheckUsernameAvailabilityError(),
+            ))
           );
       }));
 

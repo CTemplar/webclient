@@ -216,7 +216,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
                 this.newAddressOptions.isBusy = false;
               },
               error => {
-                this.store.dispatch(new SnackErrorPush({ message: 'Failed to check username availability.' }));
+                this.store.dispatch(new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }));
                 this.newAddressOptions.isBusy = false;
               });
         }
