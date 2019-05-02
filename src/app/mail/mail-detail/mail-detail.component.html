@@ -416,17 +416,17 @@
     <div class="row">
       <div class="col-12">
 
-        <button class="btn btn-gmail" (click)="onReply(mail)">
+        <button class="btn btn-gmail" (click)="onReply(mail, 0, false, true)">
           <i class="icon icon-reply position-left"></i> Reply
           <img src="assets/images/icon-reply.svg" class="hidden-sm-up">
         </button>
 
-        <button class="btn btn-gmail" (click)="onReplyAll(mail)">
+        <button class="btn btn-gmail" (click)="onReplyAll(mail, 0, false, true)">
           <i class="icon icon-reply position-left"></i> Reply All
           <img src="assets/images/icon-reply-all.svg" class="hidden-sm-up">
         </button>
 
-        <button class="btn btn-gmail" (click)="onForward(mail)">
+        <button class="btn btn-gmail" (click)="onForward(mail, 0, false, true)">
           <i class="icon icon-mail icon-lg position-left"></i> Forward
           <img src="assets/images/icon-mail.svg" class="hidden-sm-up">
         </button>

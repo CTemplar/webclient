@@ -73,6 +73,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
+          this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
           const decryptedContent = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
@@ -251,8 +252,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  onReply(mail: Mail, index: number = 0, isChildMail?: boolean) {
-    const previousMails = this.getPreviousMails(index, isChildMail);
+  onReply(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+    const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
     this.composeMailData[mail.id] = {
       subject: mail.subject,
@@ -272,8 +273,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onReplyAll(mail: Mail, index: number = 0, isChildMail?: boolean) {
-    const previousMails = this.getPreviousMails(index, isChildMail);
+  onReplyAll(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+    const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
       cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
@@ -293,8 +294,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onForward(mail: Mail, index: number = 0, isChildMail?: boolean) {
-    const previousMails = this.getPreviousMails(index, isChildMail);
+  onForward(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+    const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
       messageHistory: this.getMessageHistory(previousMails),
@@ -508,19 +509,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getPreviousMails(index: number, isChildMail: boolean) {
-    const previousMails = [];
-    if (isChildMail && index >= 0) {
-      // previous mails in order of most recent first to parent last (including the mail at given index)
-      for (let i = index; i >= 0; i--) {
-        previousMails.push(this.mail.children[i]);
-      }
+  private getPreviousMail(index: number, isChildMail: boolean, mainReply: boolean = false) {
+    const previousMail = [];
+    if (isChildMail) {
+      previousMail.push(this.mail.children[index]);
+    } else if (mainReply === true && this.mail.has_children) {
+      previousMail.push(this.mail.children[this.mail.children.length - 1]);
     } else {
-      previousMails.push(...this.mail.children);
-      previousMails.reverse();
+      previousMail.push(this.mail);
     }
-    previousMails.push(this.mail);
-    return previousMails;
+    return previousMail;
   }
 
   private getMessageHistory(previousMails: Mail[]): string {
