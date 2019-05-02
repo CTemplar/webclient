@@ -18,3 +18,12 @@ a.disabled {
   padding-left: 3px;
   color: #757575;
 }
+
+.display-emails {
+  label {
+    max-width: 78%;
+    margin-bottom: -2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
