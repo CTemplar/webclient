@@ -40,6 +40,7 @@
     "ng-recaptcha": "^4.2.1",
     "ngrx-store-freeze": "^0.2.2",
     "ngx-chips": "^1.8.2",
+    "ngx-push-notifications": "^7.0.2",
     "ngx-take-until-destroy": "^3.0.0",
     "ngx-virtual-keyboard": "^1.0.56",
     "ngx7-material-keyboard": "^0.1.2",

@@ -155,7 +155,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.captcha.isInvalid = true;
     }
 
-    if (this.signupState.usernameExists || this.signupForm.invalid || !this.isConfirmedPrivacy ||
+    if (this.signupState.usernameExists !== false || this.signupForm.invalid || !this.isConfirmedPrivacy ||
       (!this.captchaValue && this.selectedPlan === 0) ||
       (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
       return false;

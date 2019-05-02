@@ -76,4 +76,11 @@ export interface Message {
   parent_id?: number;
   mail: Mail;
   total_count?: number;
+  marked_as_read?: boolean;
+  unread_count_inbox?: number;
+
+  /**
+   * Id's list when a messsage is marked as read/unread.
+   */
+  ids?: Array<number>;
 }

@@ -97,3 +97,5 @@ export function isTORBrowser() {
 }
 
 isTORBrowser();
+
+export const SummarySeparator = '-----------------------------------------------------------------------------------------------';

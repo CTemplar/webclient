@@ -8,7 +8,7 @@ import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { COLORS, ESCAPE_KEYCODE, FONTS, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, ESCAPE_KEYCODE, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -233,7 +233,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select((state: AppState) => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.contacts = user.emailContacts;
-        if(!this.contacts){
+        if (!this.contacts) {
           this.store.dispatch(new GetEmailContacts());
         }
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
@@ -773,6 +773,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+    const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
+    if (tokens.length > 1) {
+      tokens[0] += `</br><div class="gmail_quote ctemplar_quote">`;
+      tokens[tokens.length - 1] += `</div>`;
+      this.draftMail.content = tokens.join(SummarySeparator);
+    }
     if (!shouldSave) {
       this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
     }

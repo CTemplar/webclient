@@ -6,15 +6,23 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
-import { Folder, Mailbox } from '../../store/models/mail.model';
+import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { GetMails, GetMailsSuccess, GetUnreadMailsCount } from '../../store/actions';
-import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  GetMailDetailSuccess,
+  GetMailsSuccess,
+  GetUnreadMailsCount,
+  GetUnreadMailsCountSuccess, ReadMailSuccess,
+  SetCurrentFolder
+} from '../../store/actions';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
+import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
+import { Title } from '@angular/platform-browser';
 
 @TakeUntilDestroy()
 @Component({
@@ -49,6 +57,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               private router: Router,
               private websocketService: WebsocketService,
+              private pushNotificationService: PushNotificationService,
+              private titleService: Title,
+              private activatedRoute: ActivatedRoute,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -67,14 +78,23 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
-          if (this.currentRoute.indexOf('/message/') < 0) {
-            this.store.dispatch(new GetMailsSuccess({
-              limit: this.EMAIL_LIMIT,
-              offset: 0,
-              folder: webSocketState.message.folder,
-              read: false,
-              mails: [webSocketState.message.mail],
-              total_mail_count: webSocketState.message.total_count,
+          if (webSocketState.message.mail) {
+            if (this.currentRoute && this.currentRoute.indexOf('/message/') < 0) {
+              this.store.dispatch(new GetMailsSuccess({
+                limit: this.EMAIL_LIMIT,
+                offset: 0,
+                folder: webSocketState.message.folder,
+                read: false,
+                mails: [webSocketState.message.mail],
+                total_mail_count: webSocketState.message.total_count,
+              }));
+            }
+            this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
+          } else if (webSocketState.message.marked_as_read !== null) {
+            this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: webSocketState.message.unread_count_inbox }));
+            this.store.dispatch(new ReadMailSuccess({
+              ids: webSocketState.message.ids.join(','),
+              read: webSocketState.message.marked_as_read,
             }));
           }
         }
@@ -88,6 +108,14 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    const isGranted: any = this.pushNotificationService.isPermissionGranted;
+    if (!isGranted()) {
+      setTimeout(() => {
+        this.pushNotificationService.requestPermission();
+      }, 3000);
+    }
+
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         this.userState = user;
@@ -106,7 +134,37 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
+        this.updateTitle();
+
       });
+    this.router.events.pipe(takeUntil(this.destroyed$), filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/mail/settings' || event.url === '/mail/contacts') {
+          this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);
+        }
+      });
+  }
+
+  updateTitle(title: string = null) {
+    // Set tab title
+    if (!title) {
+      title = `${this.mailState.currentFolder ? this.capitalize(this.mailState.currentFolder) : ''} `;
+      if (this.mailState.currentFolder && this.mailState.unreadMailsCount[this.mailState.currentFolder] &&
+        (this.mailState.currentFolder === 'inbox' || this.customFolders.some(folder => this.mailState.currentFolder === folder.name))) {
+        title += `(${this.mailState.unreadMailsCount[this.mailState.currentFolder]}) - `;
+      } else if (this.mailState.currentFolder) {
+        title += ' - ';
+      }
+      title += 'CTemplar: Armored Email';
+    }
+    this.titleService.setTitle(title);
+  }
+
+  capitalize(s) {
+    if (typeof s !== 'string') {
+      return '';
+    }
+    return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
   /**
@@ -156,7 +214,25 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     }
   }
 
+  showNotification(mail: Mail, folder: string) {
+    const title = mail.sender_display.name;
+    const options = new PushNotificationOptions();
+    options.body = 'You have received a new email';
+    options.icon = 'https://ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
+
+    this.pushNotificationService.create(title, options).subscribe((notif) => {
+        if (notif.event.type === 'click') {
+          notif.notification.close();
+          window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
+        }
+      },
+      (err) => {
+        console.log(err);
+      });
+  }
+
 
   ngOnDestroy(): void {
+    this.titleService.setTitle('CTemplar: Armored Email');
   }
 }

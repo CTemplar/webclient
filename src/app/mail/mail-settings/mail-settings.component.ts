@@ -18,7 +18,7 @@ import {
 import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
   AppState,
-  AuthState,
+  AuthState, NotificationPermission,
   Payment,
   PaymentMethod,
   PaymentType,
@@ -31,6 +31,7 @@ import {
 import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { takeUntil } from 'rxjs/operators';
+import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
 
 @TakeUntilDestroy()
 @Component({
@@ -70,6 +71,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   extraCustomDomain: number = 0;
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
+  notificationsPermission: string;
+  notificationPermissionType = NotificationPermission;
 
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -81,12 +84,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private openPgpService: OpenPgpService,
     private settingsService: MailSettingsService,
+    private pushNotificationService: PushNotificationService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
   }
 
   ngOnInit() {
+    this.notificationsPermission = Notification.permission;
+
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
@@ -251,5 +257,24 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     };
     this.store.dispatch(new DeleteAccount(data));
     this.confirmDeleteAccountModalRef.dismiss();
+  }
+
+  requestNotificationPermission() {
+    this.pushNotificationService.requestPermission();
+  }
+
+  testNotification() {
+    const options = new PushNotificationOptions();
+    options.body = 'You have received a new email';
+    options.icon = 'https://ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
+
+    this.pushNotificationService.create('Test Notification', options).subscribe((notif) => {
+        if (notif.event.type === 'click') {
+          notif.notification.close();
+        }
+      },
+      (err) => {
+        console.log(err);
+      });
   }
 }
