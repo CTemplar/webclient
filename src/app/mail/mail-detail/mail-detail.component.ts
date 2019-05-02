@@ -13,6 +13,7 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
 import { takeUntil } from 'rxjs/operators';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { WebSocketState } from '../../store';
+import { SummarySeparator } from '../../shared/config';
 
 @TakeUntilDestroy()
 @Component({
@@ -40,6 +41,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   childMailCollapsed: boolean[] = [];
   mailFolder: MailFolderType;
   customFolders: Folder[] = [];
+  showGmailExtraContent: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -172,6 +174,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
     }, 1000);
 
+  }
+
+  toggleGmailExtra(mail: Mail) {
+    if (!this.mailOptions[mail.id]) {
+      this.mailOptions[mail.id] = {};
+    }
+    this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
   }
 
   makeArrayOf(value, length) {
@@ -522,7 +531,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   private getMessageHistory(previousMails: Mail[]): string {
-    let history = '';
+    let history = SummarySeparator;
     previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
     return `<div class="gmail_quote">${history}</div>`;
   }
