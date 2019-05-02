@@ -96,6 +96,9 @@ export class SafePipe implements PipeTransform {
               const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
               return attrName + '="' + safeAttrValue + '"';
             }
+            if (attrName === 'class' && (attrValue === 'gmail_quote ctemplar_quote' || attrValue === 'gmail_quote')) {
+              return `${attrName}="${attrValue}"`;
+            }
           }
         });
         xssValue = this.replaceLinksInText(xssValue);

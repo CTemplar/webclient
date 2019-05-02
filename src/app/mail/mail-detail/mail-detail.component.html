@@ -368,12 +368,24 @@
                       <a class="dropdown-item" (click)="showIncomingHeaders(childMail)">Show headers</a>
                     </div>
                   </div>
-                <div class="show_gmail_extra">
+
+                <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
                   <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
                        [innerHTML]="decryptedContents[childMail.id] | safe: 'html': childMail.sender"></div>
+
+                  <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
+                     *ngIf="decryptedContents[childMail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[childMail.id]?.indexOf('gmail_quote') > -1">
+                    <div class="ellipsis-wrapper" placement="top"
+                         [ngbTooltip]="mailOptions[childMail.id]?.showGmailExtraContent ? 'Hide extra content' : 'Show trimmed content'">
+                      <div class="gmail-ellipsis"></div>
+                    </div>
+                  </a>
                 </div>
+
+
+
               </div>
-              <ul class="list-style-none mt-3">
+              <ul class="list-style-none mt-3" *ngIf="childMail.attachments?.length>0">
                 <ng-container *ngFor="let attachment of childMail.attachments">
                   <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
                     <a class="download-attachment" [href]="attachment.document" placement="top"
@@ -416,17 +428,17 @@
     <div class="row">
       <div class="col-12">
 
-        <button class="btn btn-gmail" (click)="onReply(mail)">
+        <button class="btn btn-gmail" (click)="onReply(mail, 0, false, true)">
           <i class="icon icon-reply position-left"></i> Reply
           <img src="assets/images/icon-reply.svg" class="hidden-sm-up">
         </button>
 
-        <button class="btn btn-gmail" (click)="onReplyAll(mail)">
+        <button class="btn btn-gmail" (click)="onReplyAll(mail, 0, false, true)">
           <i class="icon icon-reply position-left"></i> Reply All
           <img src="assets/images/icon-reply-all.svg" class="hidden-sm-up">
         </button>
 
-        <button class="btn btn-gmail" (click)="onForward(mail)">
+        <button class="btn btn-gmail" (click)="onForward(mail, 0, false, true)">
           <i class="icon icon-mail icon-lg position-left"></i> Forward
           <img src="assets/images/icon-mail.svg" class="hidden-sm-up">
         </button>
