@@ -15,7 +15,7 @@ import {
   GetMailDetailSuccess,
   GetMailsSuccess,
   GetUnreadMailsCount,
-  GetUnreadMailsCountSuccess,
+  GetUnreadMailsCountSuccess, ReadMailSuccess,
   SetCurrentFolder
 } from '../../store/actions';
 import { filter, take, takeUntil } from 'rxjs/operators';
@@ -92,6 +92,10 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
             this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
           } else if (webSocketState.message.marked_as_read !== null) {
             this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: webSocketState.message.unread_count_inbox }));
+            this.store.dispatch(new ReadMailSuccess({
+              ids: webSocketState.message.ids.join(','),
+              read: webSocketState.message.marked_as_read,
+            }));
           }
         }
       });

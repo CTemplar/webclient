@@ -116,7 +116,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   submitNewAddress() {
     this.newAddressOptions.isSubmitted = true;
-    if (this.newAddressForm.valid && !this.newAddressOptions.usernameExists && this.newAddressForm.controls['username'].value) {
+    if (this.newAddressForm.valid && this.newAddressOptions.usernameExists === false && this.newAddressForm.controls['username'].value) {
       this.newAddressOptions.isBusy = true;
       this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
       if (this.openPgpService.getUserKeys()) {
@@ -218,6 +218,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
               error => {
                 this.store.dispatch(new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }));
                 this.newAddressOptions.isBusy = false;
+                this.newAddressOptions.usernameExists = null;
               });
         }
       });

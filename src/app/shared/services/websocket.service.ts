@@ -78,4 +78,9 @@ export interface Message {
   total_count?: number;
   marked_as_read?: boolean;
   unread_count_inbox?: number;
+
+  /**
+   * Id's list when a messsage is marked as read/unread.
+   */
+  ids?: Array<number>;
 }
