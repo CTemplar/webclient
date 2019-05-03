@@ -22,6 +22,9 @@ export class AuthGuard implements CanActivate {
     } else if (state.url === '/signin') {
       return true;
     } else {
+      if (state.url.indexOf('/mail/') > -1) {
+        localStorage.setItem('nextPage', state.url);
+      }
       this.router.navigateByUrl('/signin');
       return false;
     }

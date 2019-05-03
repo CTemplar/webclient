@@ -70,6 +70,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.currentRoute = event.url;
         }
       });
+    const nextPage = localStorage.getItem('nextPage');
+    if (nextPage) {
+      localStorage.setItem('nextPage', '');
+      this.router.navigateByUrl(nextPage);
+    }
 
     this.store.dispatch(new GetUnreadMailsCount());
     this.websocketService.connect();

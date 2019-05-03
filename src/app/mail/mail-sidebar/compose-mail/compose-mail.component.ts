@@ -775,9 +775,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
     if (tokens.length > 1) {
-      tokens[0] += `</br><div class="gmail_quote ctemplar_quote">`;
-      tokens[tokens.length - 1] += `</div>`;
-      this.draftMail.content = tokens.join(SummarySeparator);
+      tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
+      tokens[tokens.length - 1] += `</span>`;
+      this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
     }
     if (!shouldSave) {
       this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
