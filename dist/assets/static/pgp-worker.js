@@ -9,18 +9,15 @@ var decryptedSecureMsgPrivKeyObj;
 onmessage = function (event) {
     if (event.data.clear) {
         decryptedPrivKeys = {};
-    }
-    else if (event.data.encrypt) {
+    } else if (event.data.encrypt) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
             postMessage({encryptedContent: data, encrypted: true, callerId: event.data.callerId});
         })
-    }
-    else if (event.data.encryptSecureMessageReply) {
+    } else if (event.data.encryptSecureMessageReply) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
             postMessage({encryptedContent: data, encryptSecureMessageReply: true});
         })
-    }
-    else if (event.data.generateKeys) {
+    } else if (event.data.generateKeys) {
         generateKeys(event.data.options).then((data) => {
             postMessage({
                 generateKeys: true,
@@ -94,14 +91,19 @@ onmessage = function (event) {
 }
 
 function decryptContent(data, privKeyObj) {
-    const options = {
-        message: openpgp.message.readArmored(data),
-        privateKeys: [privKeyObj]
-    };
+    try {
+        const options = {
+            message: openpgp.message.readArmored(data),
+            privateKeys: [privKeyObj]
+        };
 
-    return openpgp.decrypt(options).then(plaintext => {
-        return plaintext.data;
-    })
+        return openpgp.decrypt(options).then(plaintext => {
+            return plaintext.data;
+        })
+    } catch (e) {
+        console.error(e);
+        return Promise.resolve(data);
+    }
 }
 
 function generateKeys(options) {

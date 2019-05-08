@@ -206,15 +206,15 @@
 
         <!-- Sender Name -->
         <td class="mail-from-name">
-          <a (click)="openMail(mail)" class="text-danger"
+          <a (click)="openMail(mail)" class="text-danger display-emails"
              [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
             <ng-container [ngSwitch]="mailFolder">
               <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
               <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-                <span [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</span>
+                <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                <span [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</span>
+                <label [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</label>
               </ng-container>
               <span *ngIf="mail?.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
@@ -284,12 +284,12 @@
           </td>
           <td class="mail-from-name">
             <!-- Sender Name -->
-              <a (click)="openMail(mail)" class="text-danger"
+              <a (click)="openMail(mail)" class="text-danger display-emails"
                  [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
                   <ng-container [ngSwitch]="mailFolder">
                       <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
                       <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-                        <span [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</span>
+                        <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
                       </ng-container>
                       <ng-container *ngSwitchDefault>
                           {{mail.sender_display.name}}

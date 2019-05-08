@@ -102,6 +102,13 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
 
+    case AuthActionTypes.CHECK_USERNAME_AVAILABILITY_ERROR: {
+      return {
+        ...state,
+        signupState: { ...state.signupState, usernameExists: null, inProgress: false },
+      };
+    }
+
     case AuthActionTypes.RECOVER_PASSWORD: {
       return {
         ...state,

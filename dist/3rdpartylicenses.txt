@@ -868,6 +868,9 @@ MIT
 ngx-chips
 MIT
 
+ngx-push-notifications
+MIT
+
 ngx-take-until-destroy
 MIT
 
