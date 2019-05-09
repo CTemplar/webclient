@@ -1565,3 +1565,8 @@
 .label-align label{
   margin-top: 10px;
 }
+
+.folder-dropdown {
+  max-height: 430px;
+  overflow-y: auto;
+}
