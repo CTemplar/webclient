@@ -108,7 +108,7 @@
                     <div>
                         <a routerLink="/mail/{{folder.name}}/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                             <i class="folder-color-box icon" [style.background]="folder.color"></i>
-                            <span class="mailbox-sidebar-nav-label text-capitalize">
+                            <span class="mailbox-sidebar-nav-label">
                                 {{folder.name}}
                             </span>
                             <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name]>0">{{mailState?.unreadMailsCount[folder.name]}}</span>
