@@ -89,7 +89,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
     this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
       .subscribe((authState: AuthState) => {
-        this.isLoading = authState.inProgress;
+        if (!authState.isAuthenticated) {
+          this.isLoading = authState.inProgress;
+        }
         this.errorMessage = authState.errorMessage;
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
         this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;

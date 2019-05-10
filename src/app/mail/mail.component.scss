@@ -1388,7 +1388,7 @@
 .msg-reply-content {
   line-height: 1.43;
   margin-right: 50px;
-  word-break: break-all;
+  word-break: normal;
 }
 
 /* ==================================== */
@@ -1564,4 +1564,9 @@
 ===========================*/
 .label-align label{
   margin-top: 10px;
+}
+
+.folder-dropdown {
+  max-height: 430px;
+  overflow-y: auto;
 }
