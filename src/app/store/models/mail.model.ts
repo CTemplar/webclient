@@ -21,6 +21,7 @@ export interface Mail {
   reply_to?: Array<string>;
   cc?: Array<string>;
   bcc?: Array<string>;
+  bcc_display?: Array<EmailDisplay>;
   destruct_date?: string;
   delayed_delivery?: string;
   dead_man_duration?: string;
