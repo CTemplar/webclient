@@ -24,7 +24,6 @@ import { SaveListContactComponent } from './mail-settings/save-list-contact/save
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
-import { CreateFolderComponent } from './dialogs/create-folder/create-folder.component';
 import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.component';
 import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
 import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/payment-failure-notice.component';
@@ -64,7 +63,6 @@ import { WebsocketService } from '../shared/services/websocket.service';
     SaveListContactComponent,
     ComposeMailComponent,
     GenericFolderComponent,
-    CreateFolderComponent,
     MailFiltersComponent,
     CustomDomainsComponent,
     PaymentFailureNoticeComponent,
@@ -83,7 +81,6 @@ import { WebsocketService } from '../shared/services/websocket.service';
     WebsocketService,
   ],
   entryComponents: [
-    CreateFolderComponent,
     ComposeMailDialogComponent,
     PaymentFailureNoticeComponent
   ]
