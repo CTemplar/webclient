@@ -27,6 +27,7 @@ import { IsIeDirective } from './directives/is-ie.directive';
 import { MomentDatePipe } from './pipes/moment-date.pipe';
 import { StripeFormComponent } from './components/stripe-form/stripe-form.component';
 import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.component';
+import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-folder.component';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.com
     MomentDatePipe,
     StripeFormComponent,
     BitcoinFormComponent,
+    CreateFolderComponent,
   ],
   exports: [
     TranslateModule,
@@ -79,6 +81,7 @@ import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.com
     IsIeDirective,
     MomentDatePipe,
     StripeFormComponent,
+    CreateFolderComponent,
   ],
   providers: [
     SpinnerService,
@@ -86,6 +89,9 @@ import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.com
     BrowserDetectorService,
     FilesizePipe,
     FilenamePipe
+  ],
+  entryComponents: [
+    CreateFolderComponent
   ]
 })
 export class SharedModule {

@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
-import { DeleteMail, GetMailDetailSuccess, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -519,12 +519,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   private getPreviousMail(index: number, isChildMail: boolean, mainReply: boolean = false) {
+    let children: Mail[] = this.mail.children || [];
+    if (this.mailFolder !== MailFolderType.TRASH && this.mail.children) {
+      children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
+    }
     const previousMail = [];
     if (isChildMail) {
-      previousMail.push(this.mail.children[index]);
-    } else if (mainReply === true && this.mail.has_children) {
-      previousMail.push(this.mail.children[this.mail.children.length - 1]);
-    } else {
+      previousMail.push(children[index]);
+    } else if (mainReply === true && children.length > 0) {
+      previousMail.push(children[children.length - 1]);
+    } else if (this.mail.folder !== MailFolderType.TRASH) {
       previousMail.push(this.mail);
     }
     return previousMail;
