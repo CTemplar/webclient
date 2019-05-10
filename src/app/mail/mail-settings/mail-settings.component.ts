@@ -151,10 +151,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     if (this.settings) {
       if (this.settings.allocated_storage) {
         const storageInGB = +(this.settings.allocated_storage / 1048576).toFixed(0);
-        this.extraStorage = storageInGB - this.defaultStorage;
+        this.extraStorage = this.defaultStorage < storageInGB ? storageInGB - this.defaultStorage : 0;
       }
       if (this.settings.email_count) {
-        this.extraEmailAddress = this.settings.email_count - this.defaultEmailAddress;
+        this.extraEmailAddress = this.defaultEmailAddress < this.settings.email_count
+          ? this.settings.email_count - this.defaultEmailAddress : 0;
       }
       if (this.settings.domain_count) {
         this.extraCustomDomain = this.settings.domain_count - this.defaultCustomDomain;
