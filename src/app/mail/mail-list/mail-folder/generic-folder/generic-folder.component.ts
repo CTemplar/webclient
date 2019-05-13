@@ -21,6 +21,7 @@ import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
 import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
+import { UpdateSearch } from '../../../../store/actions/search.action';
 
 @TakeUntilDestroy()
 @Component({
@@ -117,6 +118,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
           if (params.folder) {
             this.mailFolder = params.folder as MailFolderType;
             this.store.dispatch(new SetCurrentFolder(this.mailFolder));
+            if (this.mailFolder !== MailFolderType.SEARCH) {
+              this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
+            }
           }
         }
       });

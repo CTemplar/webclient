@@ -15,6 +15,7 @@ import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { MailFolderType } from '../../store/models';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
+import { SearchState } from '../../store/reducers/search.reducers';
 
 @TakeUntilDestroy()
 @Component({
@@ -60,6 +61,13 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if (!value) {
           this.store.dispatch(new UpdateSearch({ searchText: value, clearSearch: true }));
+        }
+      });
+    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
+      .subscribe((searchState: SearchState) => {
+        console.log(searchState);
+        if (!searchState.searchText) {
+          this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
         }
       });
   }
