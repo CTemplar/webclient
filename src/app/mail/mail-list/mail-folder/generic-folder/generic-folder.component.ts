@@ -227,7 +227,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openMail(mail: Mail) {
-    if (this.mailFolder === MailFolderType.DRAFT) {
+    if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
       this.composeMailService.openComposeMailDialog({ draft: mail });
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
