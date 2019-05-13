@@ -146,8 +146,8 @@
       </div>
     </div>
 
-    <div class="spam_reason" *ngIf="mail.folder === mailFolderTypes.SPAM && mail.spam_reason">
-      <span class="spam_why">Why is this message in spam? </span>
+    <div class="spam_reason" *ngIf="mail.folder === mailFolderTypes.SPAM">
+      <span class="spam_why" *ngIf="mail.spam_reason">Why is this message in spam? </span>
       <span>{{mail.spam_reason}}</span>
       <div>
         <button class="mark_not_spam btn btn-outline-warning"
