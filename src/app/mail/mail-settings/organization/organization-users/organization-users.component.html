@@ -1,0 +1,32 @@
+<div class="desc-card">
+  <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Users</strong>
+      <app-loading-spinner [showSpinner]="false"
+                           optionalClasses="custom-domains-spinner"></app-loading-spinner>
+    </h5>
+  </div>
+  <div class="desc-card-body bg-faded users-body">
+    <button class="btn btn-secondary users-add-button text-small">
+      <span>Add User</span>
+    </button>
+
+
+    <div>
+      <ul class="ui-list ui-list-styled list-styled users-list">
+        <li class="ui-list-item ui-list-item-xs-full" *ngFor="let user of users;">
+          <div class="row row-xs align-items-center">
+            <div class="col-8">
+              <div class="form-label text-dark mb-0">
+                {{user.username}}
+              </div>
+            </div>
+            <div class="col-4 row">
+              {{user.domain}}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>

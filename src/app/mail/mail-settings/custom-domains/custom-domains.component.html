@@ -3,106 +3,80 @@
     <div class="desc-card-holder mt-sm-3 mt-md-0">
       <div class="row">
         <div class="col-md-12 mb-4 mb-md-0">
-          <div class="desc-card" *ngIf="!isAddingNewDomain">
-            <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-              <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
-                <app-loading-spinner [showSpinner]="userState?.inProgress"
-                                     optionalClasses="custom-domains-spinner"></app-loading-spinner>
-              </h5>
-            </div>
-            <div class="desc-card-body bg-faded domain-body">
-              <button class="btn btn-secondary btn-add-domain text-small"
-                      *ngIf="domains && domains.length > 0; else domainsEmpty" (click)="startAddingNewDomain()">
-                <span translate="settings.add_domain">Add Domain</span>
-              </button>
-              <ng-template #domainsEmpty>
-                <button class="btn btn-secondary btn-create-domain text-small" (click)="startAddingNewDomain()">
-                  <span translate="settings.create_domain">Create Domain</span>
+          <div *ngIf="!isAddingNewDomain">
+            <div class="desc-card">
+              <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
+                  <app-loading-spinner [showSpinner]="userState?.inProgress"
+                                       optionalClasses="custom-domains-spinner"></app-loading-spinner>
+                </h5>
+              </div>
+              <div class="desc-card-body bg-faded domain-body">
+                <button class="btn btn-secondary btn-add-domain text-small"
+                        *ngIf="domains && domains.length > 0; else domainsEmpty" (click)="startAddingNewDomain()">
+                  <span translate="settings.add_domain">Add Domain</span>
                 </button>
-              </ng-template>
+                <ng-template #domainsEmpty>
+                  <button class="btn btn-secondary btn-create-domain text-small" (click)="startAddingNewDomain()">
+                    <span translate="settings.create_domain">Create Domain</span>
+                  </button>
+                </ng-template>
 
-              <div class="domains-list" *ngIf="domains?.length>0">
-                <div class="row d-none d-sm-flex">
-                  <div class="col-3">
-                    <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
+                <div class="domains-list" *ngIf="domains?.length>0">
+                  <div class="row d-none d-sm-flex">
+                    <div class="col-3">
+                      <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
+                    </div>
+                    <div class="col-9">
+                      <span class="text-uppercase text-small" translate="settings.current_status">Current Status</span>
+                    </div>
                   </div>
-                  <div class="col-9">
-                    <span class="text-uppercase text-small" translate="settings.current_status">Current Status</span>
-                  </div>
-                </div>
 
-                <div class="row d-none d-sm-flex bg-white align-items-start" *ngFor="let domain of domains">
-                  <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
-                  <div class="col-7 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
-                    <div class="failed" [class.verified]="domain.is_domain_verified"><span
-                            translate="settings.status_verification">Verification</span></div>
-                    <div class="failed" [class.verified]="domain.is_mx_verified"><span
-                            translate="settings.status_mx"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>MX</span>
-                    </div>
-                    <div [class.verified]="domain.is_spf_verified"><span
-                            translate="settings.status_spf"><i class="fa fa-check"></i><i class="fa fa-exclamation"></i>SPF</span>
-                    </div>
-                    <div [class.verified]="domain.is_dkim_verified"><span
-                            translate="settings.status_dkim"><i class="fa fa-check"></i><i
-                            class="fa fa-exclamation"></i>DKIM</span></div>
-                    <div [class.verified]="domain.is_dmarc_verified"><span
-                            translate="settings.status_dmarc"><i class="fa fa-check"></i><i
-                            class="fa fa-exclamation"></i>DMARC</span></div>
-                    <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
-                  </div>
-                  <div class="col-2 d-flex justify-content-end actions">
-                    <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                      <a class="text-muted"
-                         (click)="startAddingNewDomain(domain)"
-                         [ngbTooltip]="'settings.edit' | translate"><i
-                              class="icon icon-edit"></i></a>
-                    </div>
-                    <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
-                      <a class="text-muted" [ngbTooltip]="'settings.delete' | translate"
-                         (click)="openConfirmDeleteModal(domain)"><i class="icon icon-garbage"></i></a>
-                    </div>
-                    <div class="d-flex d-md-none justify-content-center align-items-center">
-                      <div ngbDropdown class="d-inline-block">
-                        <button class="btn bg-white action" ngbDropdownToggle>
-                          <i class="fa fa-ellipsis-h"></i>
-                        </button>
-                        <div ngbDropdownMenu class="dropdown-menu-right">
-                          <button class="dropdown-item text-muted"
-                                  (click)="startAddingNewDomain(domain)"
-                                  [ngbTooltip]="'settings.edit' | translate">
-                            <i class="icon icon-edit"></i>
-                            <span translate="settings.edit_details">Edit Details</span>
-                          </button>
-                          <button class="dropdown-item text-muted"
-                                  [ngbTooltip]="'settings.delete' | translate"
-                                  (click)="openConfirmDeleteModal(domain)">
-                            <i class="icon icon-garbage"></i>
-                            <span translate="settings.remove">Remove</span>
-                          </button>
-                        </div>
+                  <div class="row d-none d-sm-flex bg-white align-items-start" *ngFor="let domain of domains">
+                    <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
+                    <div class="col-7 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
+                      <div class="failed" [class.verified]="domain.is_domain_verified"><span
+                              translate="settings.status_verification">Verification</span></div>
+                      <div class="failed" [class.verified]="domain.is_mx_verified"><span
+                              translate="settings.status_mx"><i class="fa fa-check"></i><i
+                              class="fa fa-exclamation"></i>MX</span>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row d-block d-sm-none bg-white align-items-start mb-2" *ngFor="let domain of domains">
-                  <div class="pb-3 px-2">
-                    <div class="d-flex">
-                      <div class="align-items-center mr-auto">
-                        <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
+                      <div [class.verified]="domain.is_spf_verified"><span
+                              translate="settings.status_spf"><i class="fa fa-check"></i><i
+                              class="fa fa-exclamation"></i>SPF</span>
                       </div>
-                      <div class="d-flex actions">
+                      <div [class.verified]="domain.is_dkim_verified"><span
+                              translate="settings.status_dkim"><i class="fa fa-check"></i><i
+                              class="fa fa-exclamation"></i>DKIM</span></div>
+                      <div [class.verified]="domain.is_dmarc_verified"><span
+                              translate="settings.status_dmarc"><i class="fa fa-check"></i><i
+                              class="fa fa-exclamation"></i>DMARC</span></div>
+                      <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
+                    </div>
+                    <div class="col-2 d-flex justify-content-end actions">
+                      <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                        <a class="text-muted"
+                           (click)="startAddingNewDomain(domain)"
+                           [ngbTooltip]="'settings.edit' | translate"><i
+                                class="icon icon-edit"></i></a>
+                      </div>
+                      <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                        <a class="text-muted" [ngbTooltip]="'settings.delete' | translate"
+                           (click)="openConfirmDeleteModal(domain)"><i class="icon icon-garbage"></i></a>
+                      </div>
+                      <div class="d-flex d-md-none justify-content-center align-items-center">
                         <div ngbDropdown class="d-inline-block">
-                          <button class="btn bg-white action text-right p-0" ngbDropdownToggle>
+                          <button class="btn bg-white action" ngbDropdownToggle>
                             <i class="fa fa-ellipsis-h"></i>
                           </button>
                           <div ngbDropdownMenu class="dropdown-menu-right">
-                            <button class="dropdown-item text-muted text-small"
+                            <button class="dropdown-item text-muted"
                                     (click)="startAddingNewDomain(domain)"
                                     [ngbTooltip]="'settings.edit' | translate">
                               <i class="icon icon-edit"></i>
                               <span translate="settings.edit_details">Edit Details</span>
                             </button>
-                            <button class="dropdown-item text-muted text-small"
+                            <button class="dropdown-item text-muted"
                                     [ngbTooltip]="'settings.delete' | translate"
                                     (click)="openConfirmDeleteModal(domain)">
                               <i class="icon icon-garbage"></i>
@@ -112,32 +86,67 @@
                         </div>
                       </div>
                     </div>
-                    <div class="mb-3">
-                      <span class="text-dark text-domain font-weight-bold">{{ domain.domain }}</span>
-                    </div>
-                    <div class="my-2">
-                      <span class="text-uppercase text-small" translate="settings.current_status">Current Status</span>
-                    </div>
-                    <div class="text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
-                      <div class="failed" [class.verified]="domain.is_domain_verified"><span
-                              translate="settings.status_verification">Verification</span></div>
-                      <div class="failed" [class.verified]="domain.is_mx_verified"><span
-                              translate="settings.status_mx"><i class="fa fa-check"></i><i
-                              class="fa fa-exclamation"></i>MX</span></div>
-                      <div [class.verified]="domain.is_spf_verified"><span
-                              translate="settings.status_spf"><i class="fa fa-check"></i><i
-                              class="fa fa-exclamation"></i>SPF</span></div>
-                      <div [class.verified]="domain.is_dkim_verified"><span
-                              translate="settings.status_dkim"><i class="fa fa-check"></i><i
-                              class="fa fa-exclamation"></i>DKIM</span></div>
-                      <div [class.verified]="domain.is_dmarc_verified"><span
-                              translate="settings.status_dmarc"><i class="fa fa-check"></i><i
-                              class="fa fa-exclamation"></i>DMARC</span></div>
-                      <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
+                  </div>
+                  <div class="row d-block d-sm-none bg-white align-items-start mb-2" *ngFor="let domain of domains">
+                    <div class="pb-3 px-2">
+                      <div class="d-flex">
+                        <div class="align-items-center mr-auto">
+                          <span class="text-uppercase text-small" translate="settings.domain">Domain</span>
+                        </div>
+                        <div class="d-flex actions">
+                          <div ngbDropdown class="d-inline-block">
+                            <button class="btn bg-white action text-right p-0" ngbDropdownToggle>
+                              <i class="fa fa-ellipsis-h"></i>
+                            </button>
+                            <div ngbDropdownMenu class="dropdown-menu-right">
+                              <button class="dropdown-item text-muted text-small"
+                                      (click)="startAddingNewDomain(domain)"
+                                      [ngbTooltip]="'settings.edit' | translate">
+                                <i class="icon icon-edit"></i>
+                                <span translate="settings.edit_details">Edit Details</span>
+                              </button>
+                              <button class="dropdown-item text-muted text-small"
+                                      [ngbTooltip]="'settings.delete' | translate"
+                                      (click)="openConfirmDeleteModal(domain)">
+                                <i class="icon icon-garbage"></i>
+                                <span translate="settings.remove">Remove</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <span class="text-dark text-domain font-weight-bold">{{ domain.domain }}</span>
+                      </div>
+                      <div class="my-2">
+                        <span class="text-uppercase text-small"
+                              translate="settings.current_status">Current Status</span>
+                      </div>
+                      <div class="text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
+                        <div class="failed" [class.verified]="domain.is_domain_verified"><span
+                                translate="settings.status_verification">Verification</span></div>
+                        <div class="failed" [class.verified]="domain.is_mx_verified"><span
+                                translate="settings.status_mx"><i class="fa fa-check"></i><i
+                                class="fa fa-exclamation"></i>MX</span></div>
+                        <div [class.verified]="domain.is_spf_verified"><span
+                                translate="settings.status_spf"><i class="fa fa-check"></i><i
+                                class="fa fa-exclamation"></i>SPF</span></div>
+                        <div [class.verified]="domain.is_dkim_verified"><span
+                                translate="settings.status_dkim"><i class="fa fa-check"></i><i
+                                class="fa fa-exclamation"></i>DKIM</span></div>
+                        <div [class.verified]="domain.is_dmarc_verified"><span
+                                translate="settings.status_dmarc"><i class="fa fa-check"></i><i
+                                class="fa fa-exclamation"></i>DMARC</span></div>
+                        <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="mt-4">
+              <app-organization-users></app-organization-users>
             </div>
           </div>
           <div class="desc-card" *ngIf="isAddingNewDomain">
@@ -233,7 +242,8 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.verification_record.value }}</span>
-                              <button mat-icon-button (click)="copyToClipboard(newDomain?.verification_record.value)" class="copy-btn">
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.verification_record.value)"
+                                      class="copy-btn">
                                 <i class="material-icons">file_copy</i>
                               </button>
                             </div>
@@ -242,7 +252,8 @@
                       </div>
                       <div *ngIf="userState?.isError" class="l-alert l-alert-danger mt-3">
                         Domain verification failed, please add above TXT record in your host DNS and try again.
-                        DNS records can take several hours to update. Once domain is verified, you can proceed to next step.
+                        DNS records can take several hours to update. Once domain is verified, you can proceed to next
+                        step.
                       </div>
                       <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
@@ -294,7 +305,8 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.mx_record.value }}</span>
-                              <button mat-icon-button (click)="copyToClipboard(newDomain?.mx_record.value)" class="copy-btn">
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.mx_record.value)"
+                                      class="copy-btn">
                                 <i class="material-icons">file_copy</i>
                               </button>
                             </div>
@@ -312,7 +324,8 @@
                       </div>
                       <div *ngIf="userState?.isError" class="l-alert l-alert-danger mt-3">
                         MX Record verification failed, please add above MX record in your host DNS and try again.
-                        DNS records can take several hours to update. Once MX record is verified, you can proceed to next step.
+                        DNS records can take several hours to update. Once MX record is verified, you can proceed to
+                        next step.
                       </div>
                       <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
@@ -365,7 +378,8 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.spf_record.value }}</span>
-                              <button mat-icon-button (click)="copyToClipboard(newDomain?.spf_record.value)" class="copy-btn">
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.spf_record.value)"
+                                      class="copy-btn">
                                 <i class="material-icons">file_copy</i>
                               </button>
                             </div>
@@ -423,7 +437,8 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dkim_record.value }}</span>
-                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dkim_record.value)" class="copy-btn">
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dkim_record.value)"
+                                      class="copy-btn">
                                 <i class="material-icons">file_copy</i>
                               </button>
                             </div>
@@ -477,7 +492,8 @@
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dmarc_record.value }}</span>
-                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dmarc_record.value)" class="copy-btn">
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dmarc_record.value)"
+                                      class="copy-btn">
                                 <i class="material-icons">file_copy</i>
                               </button>
                             </div>

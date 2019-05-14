@@ -23,6 +23,17 @@ export class User {
   privkey?: string;
 }
 
+export interface OrganizationUser {
+  id?: number;
+  username: string;
+  domain: string;
+  password?: string;
+  recovery_email?: string;
+  private_key?: string;
+  public_key?: string;
+  fingerprint?: string;
+}
+
 export interface Storage {
   id: number;
   type: string;
