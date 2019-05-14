@@ -18,3 +18,19 @@
 .users-list {
   padding-bottom: 1.5rem;
 }
+
+.beta-users {
+  position: absolute;
+  right: 27px;
+  top: 16px;
+  background: red;
+  color: white;
+  padding: 0 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.info-icon {
+  font-size: 20px;
+  vertical-align: text-top;
+}

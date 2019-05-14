@@ -1,9 +1,15 @@
 <div class="desc-card">
-  <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+  <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0 position-relative">
     <h5 class="ui-header-subtitle text-dark mb-0"><strong>Users</strong>
       <app-loading-spinner [showSpinner]="false"
                            optionalClasses="custom-domains-spinner"></app-loading-spinner>
     </h5>
+    <div class="beta-users"
+         placement="left"
+         ngbTooltip="This is beta feature and free for all as long as it is in beta, once it is fully released, you will be charged for it.">
+      Beta
+      <i class="material-icons info-icon">info_outline</i>
+    </div>
   </div>
   <div class="desc-card-body bg-faded users-body">
     <button class="btn btn-secondary users-add-button text-small">
@@ -13,15 +19,26 @@
 
     <div>
       <ul class="ui-list ui-list-styled list-styled users-list">
-        <li class="ui-list-item ui-list-item-xs-full" *ngFor="let user of users;">
+        <li class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
-            <div class="col-8">
-              <div class="form-label text-dark mb-0">
-                {{user.username}}
+            <div class="col-4">
+              <div class="form-label mb-0 font-weight-bold">
+                Domain
               </div>
             </div>
-            <div class="col-4 row">
-              {{user.domain}}
+            <div class="col-8 row font-weight-bold ">
+              User
+            </div>
+          </div>
+        <li class="ui-list-item ui-list-item-xs-full" *ngFor="let user of users;">
+          <div class="row row-xs align-items-center">
+            <div class="col-4">
+              <div class="form-label text-dark mb-0">
+                {{user.domain}}
+              </div>
+            </div>
+            <div class="col-8 row text-dark">
+              {{user.username}}
             </div>
           </div>
         </li>
