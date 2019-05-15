@@ -28,9 +28,23 @@
   padding: 0 10px;
   font-weight: bold;
   text-transform: uppercase;
+  border-radius: 2px;
 }
 
 .info-icon {
   font-size: 20px;
   vertical-align: text-top;
+}
+
+.custom-domains-dropdown {
+  height: 48px;
+  width: 100%;
+}
+
+.domain-separator {
+  width: 20px;
+}
+
+.username-container {
+  width: calc(50% - 10px);
 }

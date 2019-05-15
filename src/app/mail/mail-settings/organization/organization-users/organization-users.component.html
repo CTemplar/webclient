@@ -12,7 +12,8 @@
     </div>
   </div>
   <div class="desc-card-body bg-faded users-body">
-    <button class="btn btn-secondary users-add-button text-small">
+    <button class="btn btn-secondary users-add-button text-small"
+            (click)="openAddUserModal()">
       <span>Add User</span>
     </button>
 
@@ -47,3 +48,185 @@
 
   </div>
 </div>
+
+
+<!-- Add user modal -->
+<ng-template #addUserModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong>Add User</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeAddUserModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+
+
+        <!--User Add form-->
+        <div class="form">
+          <form class="signup-form" [formGroup]="addUserForm" #form="ngForm" (ngSubmit)="submitAddUser()">
+            <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
+            <div>
+              <div class="form-step-card">
+                <label class="text-dark mb-0">
+                  <strong translate="create_account.username_and_domain">Username and domain</strong>
+                </label>
+                <div class="form-group">
+                  <div class="form-inline userame-field-group"
+                       [ngClass]="{'is-validate': addUserForm.controls.username.invalid && (addUserForm.controls.username.touched || submitted)}">
+                    <label for="username" class="d-block text-muted text-left hidden-sm-up"
+                           translate="create_account.choose_username">Choose
+                      username</label>
+                    <input class="form-control text-dark mb-3 mb-sm-0 username-container" id="username"
+                           [placeholder]="'create_account.choose_username' | translate" type="text" name="username"
+                           formControlName="username"/>
+                    <span class="domain-separator text-center text-dark">@</span>
+                    <div class="btn-dropdown btn-dropdown-select username-container">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle
+                                class="dropdown-toggle custom-domains-dropdown"
+                                id="custom-domains"
+                                role="button">
+                          <div>{{addUserForm.get('domain').value}}</div>
+                        </button>
+                        <div ngbDropdownMenu
+                             aria-labelledby="signatureEmailAddressDropdownMenuButton">
+                          <a class="dropdown-item"
+                             *ngFor="let customDomain of customDomains"
+                             (click)="addUserForm.get('domain').setValue(customDomain);addUserForm.get('username').reset()">
+                            {{customDomain}}</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ng-container *ngIf="orgUserState?.inProgress; else showIcons">
+                      <app-loading-spinner class="username-availability-spinner"
+                                           [showSpinner]="true"></app-loading-spinner>
+                    </ng-container>
+                    <ng-template #showIcons>
+                      <i class="fas fa-check green"
+                         *ngIf="orgUserState.usernameExists === false && !addUserForm.controls['username'].errors"></i>
+                      <i class="fas fa-times text-danger"
+                         *ngIf="orgUserState.usernameExists === true || (addUserForm.controls['username'].errors &&
+                         (addUserForm.controls['username'].touched || submitted))"></i>
+                    </ng-template>
+                  </div>
+                  <ng-container *ngIf="addUserForm.controls['username'].errors &&
+                                    (addUserForm.controls['username'].touched || submitted); else usernameExistsBlock">
+
+                    <span class="validate-message"
+                          *ngIf="addUserForm.controls['username'].errors; else usernameRequiredError">
+                      <ng-container *ngIf="addUserForm.controls['username'].errors.pattern; else usernameLengthBlock">
+                        The username must start with a letter or a number and end with a letter or number.It may only
+                        contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters.
+                      </ng-container>
+                      <ng-template #usernameLengthBlock>
+                        <ng-container
+                                *ngIf="addUserForm.controls['username'].errors.maxlength">
+                          The username must be less than 128 characters.
+                        </ng-container>
+                      </ng-template>
+                    </span>
+                    <ng-template #usernameRequiredError>
+                      <span class="validate-message">The username is required.</span>
+                    </ng-template>
+                  </ng-container>
+                  <ng-template #usernameExistsBlock>
+                      <span *ngIf="orgUserState.usernameExists === true"
+                            class="validate-message">Username already exists.
+                        </span>
+                  </ng-template>
+                </div>
+              </div>
+              <div>
+                <label class="text-dark mb-0">
+                  <strong translate="settings.password">Password</strong>
+                </label>
+                <div class="form-group">
+                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose
+                    Password</label>
+                  <div class="input-group">
+                    <input #input class="form-control border-right-0" id="choosePassword"
+                           [placeholder]="'create_account.choose_password' | translate" type="password"
+                           aria-describedby="passwordToggle" name="password"
+                           formControlName="password">
+                    <span class="input-group-addon password-toggle bg-white text-muted"
+                          id="passwordToggle" (click)="togglePassword(input)">
+                      <i class="fa fa-eye"></i>
+                      <i class="fa fa-eye-slash"></i>
+                    </span>
+                  </div>
+                  <i class="fas fa-check green password-ok"
+                     *ngIf="addUserForm.controls['password']?.value?.length>0 && addUserForm.controls['password']?.value?.length<=128"></i>
+                  <div *ngIf="addUserForm.controls['password'].errors &&
+                                    (addUserForm.controls['password'].touched || submitted)"
+                       class="validate-message">
+                    <ng-container *ngIf="addUserForm.controls['password'].errors.required">The password is required.
+                    </ng-container>
+                    <ng-container *ngIf="addUserForm.controls['password'].errors.maxlength">The password must be less
+                      than 128 characters.
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
+                    Password</label>
+                  <div class="input-group"
+                       [ngClass]="{'is-validate': addUserForm.controls.confirmPwd.invalid && !addUserForm.controls.confirmPwd.pristine}">
+                    <input #input2 class="form-control border-right-0" id="confirmPassword"
+                           [placeholder]="'create_account.confirm_password' | translate " type="password"
+                           aria-describedby="cofirmpasswordToggle" name="confirmPwd"
+                           formControlName="confirmPwd">
+                    <span class="input-group-addon password-toggle bg-white text-muted"
+                          id="cofirmpasswordToggle" (click)="togglePassword(input2)">
+                      <i class="fa fa-eye"></i>
+                      <i class="fa fa-eye-slash"></i>
+                    </span>
+                  </div>
+                  <i class="fas fa-check green password-ok"
+                     *ngIf="!addUserForm.controls['confirmPwd'].errors"></i>
+                  <span *ngIf="addUserForm.controls['confirmPwd'].errors &&
+                                    (!addUserForm.controls.confirmPwd.pristine || submitted)"
+                        class="validate-message">
+                    <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+                  </span>
+                </div>
+              </div>
+
+              <div [ngClass]="{'is-validate': addUserForm.get('recoveryEmail').invalid && addUserForm.controls['recoveryEmail'].touched}">
+                <label class="text-dark mb-0">
+                  <strong translate="create_account.recovery_email_optional">Recovery email (optional)</strong>
+                </label>
+                <div class="form-group">
+                  <label for="recoveryEmail" class="d-block text-muted text-left hidden-sm-up"
+                         translate="settings.recovery_email">Recovery email
+                  </label>
+                  <input class="form-control text-dark" id="recoveryEmail"
+                         [placeholder]="'settings.recovery_email' | translate " type="email" name="recoveryEmail"
+                         formControlName="recoveryEmail"/>
+                  <span *ngIf="addUserForm.controls['recoveryEmail'].errors && addUserForm.controls['recoveryEmail'].touched"
+                        id="email-valid1"
+                        class="validate-message">The email is invalid.
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="form-group text-center">
+                <button class="btn btn-lg btn-secondary"
+                        [disabled]="orgUserState.inProgress"
+                        type="submit" role="button">
+                  <span>Add User</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!--User Add form END-->
+
+
+      </div>
+    </div>
+  </div>
+</ng-template><!-- Add User modal ends -->
