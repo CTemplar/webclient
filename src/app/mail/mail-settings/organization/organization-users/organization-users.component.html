@@ -58,7 +58,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body bg-faded">
+  <div class="modal-body bg-faded" *ngIf="isAddingUserInProgress">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
 
@@ -100,40 +100,45 @@
                       </div>
                     </div>
 
-                    <ng-container *ngIf="orgUserState?.inProgress; else showIcons">
+                    <ng-container *ngIf="newAddressOptions.inProgress; else showIcons">
                       <app-loading-spinner class="username-availability-spinner"
                                            [showSpinner]="true"></app-loading-spinner>
                     </ng-container>
                     <ng-template #showIcons>
                       <i class="fas fa-check green"
-                         *ngIf="orgUserState.usernameExists === false && !addUserForm.controls['username'].errors"></i>
+                         *ngIf="newAddressOptions.usernameExists === false && !addUserForm.controls['username'].errors"></i>
                       <i class="fas fa-times text-danger"
-                         *ngIf="orgUserState.usernameExists === true || (addUserForm.controls['username'].errors &&
+                         *ngIf="newAddressOptions.usernameExists === true || (addUserForm.controls['username'].errors &&
                          (addUserForm.controls['username'].touched || submitted))"></i>
                     </ng-template>
                   </div>
+                  <span *ngIf="errorMessage"
+                        class="validate-message">{{errorMessage}}</span>
                   <ng-container *ngIf="addUserForm.controls['username'].errors &&
                                     (addUserForm.controls['username'].touched || submitted); else usernameExistsBlock">
 
                     <span class="validate-message"
-                          *ngIf="addUserForm.controls['username'].errors; else usernameRequiredError">
+                          *ngIf="addUserForm.controls['username'].errors;">
                       <ng-container *ngIf="addUserForm.controls['username'].errors.pattern; else usernameLengthBlock">
                         The username must start with a letter or a number and end with a letter or number.It may only
-                        contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters.
+                        contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters and
+                        it must be between 2 and 128 characters.
+
                       </ng-container>
                       <ng-template #usernameLengthBlock>
                         <ng-container
                                 *ngIf="addUserForm.controls['username'].errors.maxlength">
-                          The username must be less than 128 characters.
+                          The username must be between 2 and 128 characters.
                         </ng-container>
                       </ng-template>
                     </span>
-                    <ng-template #usernameRequiredError>
-                      <span class="validate-message">The username is required.</span>
-                    </ng-template>
+
+                    <span *ngIf="addUserForm.controls['username'].errors.required"
+                          class="validate-message">The username is required.</span>
+
                   </ng-container>
                   <ng-template #usernameExistsBlock>
-                      <span *ngIf="orgUserState.usernameExists === true"
+                      <span *ngIf="newAddressOptions.usernameExists === true"
                             class="validate-message">Username already exists.
                         </span>
                   </ng-template>
@@ -215,10 +220,12 @@
 
               <div class="form-group text-center">
                 <button class="btn btn-lg btn-secondary"
-                        [disabled]="orgUserState.inProgress"
+                        [disabled]="newAddressOptions.inProgress"
                         type="submit" role="button">
                   <span>Add User</span>
                 </button>
+                <app-loading-spinner class="user-add-inprogress"
+                                     [showSpinner]="true"></app-loading-spinner>
               </div>
             </div>
           </form>

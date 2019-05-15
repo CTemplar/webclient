@@ -23,7 +23,7 @@ export class User {
   privkey?: string;
 }
 
-export interface OrganizationUser {
+export class OrganizationUser {
   id?: number;
   username: string;
   domain: string;
@@ -32,6 +32,17 @@ export interface OrganizationUser {
   private_key?: string;
   public_key?: string;
   fingerprint?: string;
+
+  constructor(data: any = {}) {
+    this.id = data.id;
+    this.username = data.username;
+    this.domain = data.domain;
+    this.password = data.password;
+    this.recovery_email = data.recovery_email || data.recoveryEmail;
+    this.private_key = data.private_key;
+    this.public_key = data.public_key;
+    this.fingerprint = data.fingerprint;
+  }
 }
 
 export interface Storage {

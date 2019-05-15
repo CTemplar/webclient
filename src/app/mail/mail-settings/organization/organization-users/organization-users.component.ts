@@ -4,11 +4,12 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs/internal/Observable';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PRIMARY_DOMAIN, VALID_EMAIL_REGEX } from '../../../../shared/config';
+import { VALID_EMAIL_REGEX } from '../../../../shared/config';
 import { PasswordValidation } from '../../../../users/users-create-account/users-create-account.component';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
 import { Store } from '@ngrx/store';
+import { UsersService } from '../../../../store/services';
 
 @TakeUntilDestroy()
 @Component({
@@ -29,12 +30,15 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   submitted: boolean;
   orgUserState: any = {};
   customDomains: string[];
+  newAddressOptions = { usernameExists: false, inProgress: false };
+  isAddingUserInProgress: boolean;
 
   private addUserModalRef: NgbModalRef;
 
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
+              private usersService: UsersService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -61,21 +65,70 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
           this.addUserForm.get('domain').setValue(this.customDomains[0]);
         }
       });
+    this.handleUsernameAvailability();
   }
 
   openAddUserModal() {
+    this.isAddingUserInProgress = true;
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal org-user-add-modal',
+      backdrop: 'static',
+    });
+    this.addUserModalRef.result.then((result) => {
+      this.addUserForm.reset();
+      this.isAddingUserInProgress = false;
+    }, (reason) => {
+      this.addUserForm.reset();
+      this.isAddingUserInProgress = false;
     });
   }
 
   closeAddUserModal() {
-    this.addUserModalRef.dismiss();
+    this.addUserForm.reset();
+    this.addUserModalRef.close();
   }
 
   submitAddUser() {
     this.submitted = true;
+    if (this.addUserForm.invalid || this.newAddressOptions.usernameExists === true) {
+      return false;
+    }
+    console.log(this.addUserForm.value);
+    const user = new OrganizationUser(this.addUserForm.value);
+    this.closeAddUserModal();
+  }
+
+  private getEmail() {
+    return this.addUserForm.controls['username'].value + '@' + this.addUserForm.controls['domain'].value;
+  }
+
+
+  private handleUsernameAvailability() {
+    this.addUserForm.get('username').valueChanges
+      .pipe(
+        debounceTime(500),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe((username) => {
+        this.errorMessage = '';
+        if (!username) {
+          return;
+        }
+        if (!this.addUserForm.controls['username'].errors) {
+          this.newAddressOptions.inProgress = true;
+          this.usersService.checkUsernameAvailability(this.getEmail())
+            .subscribe(response => {
+                this.newAddressOptions.usernameExists = response.exists;
+                this.newAddressOptions.inProgress = false;
+              },
+              error => {
+                this.errorMessage = error.error;
+                this.newAddressOptions.inProgress = false;
+                this.newAddressOptions.usernameExists = null;
+              });
+        }
+      });
   }
 
   // == Toggle password visibility
