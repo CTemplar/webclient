@@ -1,3 +1,5 @@
+@import '~styles/base/variables';
+
 .users-body {
   padding-left: 1.563rem;
   padding-right: 1.563rem;
@@ -30,7 +32,7 @@
   position: absolute;
   right: 27px;
   top: 16px;
-  background: red;
+  background: $brand-primary;
   color: white;
   padding: 0 10px;
   font-weight: bold;
@@ -54,4 +56,9 @@
 
 .username-container {
   width: calc(50% - 10px);
+}
+
+.error-message {
+  font-size: 16px;
+  color: $brand-danger;
 }

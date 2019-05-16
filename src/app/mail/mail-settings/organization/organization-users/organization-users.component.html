@@ -13,9 +13,16 @@
   </div>
   <div class="desc-card-body bg-faded users-body">
     <button class="btn btn-secondary users-add-button text-small"
+            *ngIf="customDomains?.length>0;else noCustomDomain"
             (click)="openAddUserModal()">
       <span>Add User</span>
     </button>
+
+    <ng-template #noCustomDomain>
+      <div class="py-4 error-message">
+        Please add a custom domain first in order to add users.
+      </div>
+    </ng-template>
 
     <app-loading-spinner class="loading-spinner" [showSpinner]="organizationState?.inProgress"></app-loading-spinner>
 
@@ -28,8 +35,11 @@
                 Domain
               </div>
             </div>
-            <div class="col-8 row font-weight-bold ">
+            <div class="col-4 font-weight-bold ">
               User
+            </div>
+            <div class="col-4 font-weight-bold ">
+              Recovery Email
             </div>
           </div>
         <li class="ui-list-item ui-list-item-xs-full" *ngFor="let user of users;">
@@ -39,8 +49,12 @@
                 {{user.domain}}
               </div>
             </div>
-            <div class="col-8 row text-dark">
+            <div class="col-4 text-dark">
               {{user.username}}
+            </div>
+
+            <div class="col-4 text-dark">
+              {{user.recovery_email}}
             </div>
           </div>
         </li>
