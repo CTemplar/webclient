@@ -17,8 +17,9 @@
       <span>Add User</span>
     </button>
 
+    <app-loading-spinner class="loading-spinner" [showSpinner]="organizationState?.inProgress"></app-loading-spinner>
 
-    <div>
+    <div *ngIf="users?.length>0">
       <ul class="ui-list ui-list-styled list-styled users-list">
         <li class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
@@ -58,7 +59,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body bg-faded" *ngIf="isAddingUserInProgress">
+  <div class="modal-body bg-faded" *ngIf="isAddingUser">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
 
@@ -220,12 +221,11 @@
 
               <div class="form-group text-center">
                 <button class="btn btn-lg btn-secondary"
-                        [disabled]="newAddressOptions.inProgress"
+                        [disabled]="organizationState?.isAddingUserInProgress"
                         type="submit" role="button">
                   <span>Add User</span>
                 </button>
-                <app-loading-spinner class="user-add-inprogress"
-                                     [showSpinner]="true"></app-loading-spinner>
+                <app-loading-spinner [showSpinner]="organizationState?.isAddingUserInProgress"></app-loading-spinner>
               </div>
             </div>
           </form>

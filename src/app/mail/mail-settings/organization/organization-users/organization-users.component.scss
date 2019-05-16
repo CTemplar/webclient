@@ -1,6 +1,13 @@
 .users-body {
   padding-left: 1.563rem;
   padding-right: 1.563rem;
+  position: relative;
+}
+
+.loading-spinner {
+  position: absolute;
+  right: 25px;
+  top: 25px;
 }
 
 .users-add-button {

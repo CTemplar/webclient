@@ -7,8 +7,6 @@
             <div class="desc-card">
               <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                 <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
-                  <app-loading-spinner [showSpinner]="userState?.inProgress"
-                                       optionalClasses="custom-domains-spinner"></app-loading-spinner>
                 </h5>
               </div>
               <div class="desc-card-body bg-faded domain-body">
@@ -21,6 +19,9 @@
                     <span translate="settings.create_domain">Create Domain</span>
                   </button>
                 </ng-template>
+
+                <app-loading-spinner [showSpinner]="userState?.inProgress"
+                                     class="loading-spinner"></app-loading-spinner>
 
                 <div class="domains-list" *ngIf="domains?.length>0">
                   <div class="row d-none d-sm-flex bg-white heading">

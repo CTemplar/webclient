@@ -6,6 +6,7 @@
 .domain-body {
   padding-left: 1.563rem;
   padding-right: 1.563rem;
+  position: relative;
   @include media("<ipad", ">sm") {
     padding-left: 0.938rem;
     padding-right: 0.938rem;
@@ -268,4 +269,10 @@
   .warning-text {
     color: #e55747;
   }
+}
+
+.loading-spinner {
+  position: absolute;
+  right: 25px;
+  top: 25px;
 }

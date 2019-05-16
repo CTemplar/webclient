@@ -9,7 +9,8 @@ import { PasswordValidation } from '../../../../users/users-create-account/users
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { UsersService } from '../../../../store/services';
+import { OpenPgpService, UsersService } from '../../../../store/services';
+import { GetOrganizationUsers, OrganizationState } from '../../../../store/organization.store';
 
 @TakeUntilDestroy()
 @Component({
@@ -21,17 +22,14 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   @ViewChild('addUserModal') addUserModal;
 
-  users: OrganizationUser[] = [
-    { username: 'atif@aretesol.com', domain: 'aretesol.com' },
-    { username: 'nitish@aretesol.com', domain: 'aretesol.com' }
-  ];
+  users: OrganizationUser[];
   addUserForm: FormGroup;
   errorMessage: any;
   submitted: boolean;
-  orgUserState: any = {};
+  organizationState: OrganizationState;
   customDomains: string[];
   newAddressOptions = { usernameExists: false, inProgress: false };
-  isAddingUserInProgress: boolean;
+  isAddingUser: boolean;
 
   private addUserModalRef: NgbModalRef;
 
@@ -39,6 +37,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
               private usersService: UsersService,
+              private openPgpService: OpenPgpService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -65,11 +64,18 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
           this.addUserForm.get('domain').setValue(this.customDomains[0]);
         }
       });
+
+    this.store.select(state => state.organization).pipe(takeUntil(this.destroyed$))
+      .subscribe((organizationState: OrganizationState) => {
+        this.organizationState = organizationState;
+        this.users = organizationState.users;
+      });
+
     this.handleUsernameAvailability();
   }
 
   openAddUserModal() {
-    this.isAddingUserInProgress = true;
+    this.isAddingUser = true;
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal org-user-add-modal',
@@ -77,10 +83,10 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     });
     this.addUserModalRef.result.then((result) => {
       this.addUserForm.reset();
-      this.isAddingUserInProgress = false;
+      this.isAddingUser = false;
     }, (reason) => {
       this.addUserForm.reset();
-      this.isAddingUserInProgress = false;
+      this.isAddingUser = false;
     });
   }
 
@@ -94,9 +100,19 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     if (this.addUserForm.invalid || this.newAddressOptions.usernameExists === true) {
       return false;
     }
-    console.log(this.addUserForm.value);
-    const user = new OrganizationUser(this.addUserForm.value);
-    this.closeAddUserModal();
+
+    // const user = new OrganizationUser(this.addUserForm.value);
+    // this.closeAddUserModal();
+    this.openPgpService.generateUserKeys(this.addUserForm.value.username, atob(this.usersService.getUserKey()));
+    if (this.openPgpService.getUserKeys()) {
+      this.addNewUser();
+    } else {
+      this.openPgpService.waitForPGPKeys(this, 'addNewUser');
+    }
+  }
+
+  addNewUser() {
+    const user = new OrganizationUser({ ...this.addUserForm.value, ...this.openPgpService.getUserKeys() });
   }
 
   private getEmail() {

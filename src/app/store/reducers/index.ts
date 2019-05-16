@@ -13,6 +13,7 @@ import * as composeMail from './compose-mail.reducers';
 import * as search from './search.reducers';
 import * as secureMessage from './secure-message.reducers';
 import * as webSocket from '../websocket.store';
+import * as organization from '../organization.store';
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: auth.reducer,
@@ -26,6 +27,7 @@ export const reducers: ActionReducerMap<AppState> = {
   composeMail: composeMail.reducer,
   search: search.reducer,
   secureMessage: secureMessage.reducer,
-  webSocket: webSocket.reducer
+  webSocket: webSocket.reducer,
+  organization: organization.reducer,
 };
 

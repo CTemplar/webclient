@@ -8,6 +8,7 @@ import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
 import { WebSocketState } from './websocket.store';
+import { OrganizationState } from './organization.store';
 
 export interface RouterStateUrl {
   url: string;
@@ -285,6 +286,7 @@ export interface AppState {
   secureMessage: SecureMessageState;
   search: SearchState;
   webSocket: WebSocketState;
+  organization: OrganizationState;
 }
 
 export interface TimezonesState {
