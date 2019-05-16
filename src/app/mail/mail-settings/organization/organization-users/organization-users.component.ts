@@ -116,7 +116,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     }
 
     this.isAddingUserInProgress = true;
-    this.openPgpService.generateUserKeys(this.addUserForm.value.username, atob(this.usersService.getUserKey()));
+    this.openPgpService.generateUserKeys(this.addUserForm.value.username, this.addUserForm.value.password);
     if (this.openPgpService.getUserKeys()) {
       this.addNewUser();
     } else {

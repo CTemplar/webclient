@@ -51,8 +51,6 @@ export class UsersService {
 
   signIn(body): Observable<any> {
     const requestData: any = { ...body };
-    const index = requestData.username.indexOf('@');
-    requestData.username = index > -1 ? requestData.username.toLowerCase().substring(0, index) : requestData.username.toLowerCase();
     requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
