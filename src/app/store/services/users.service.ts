@@ -51,8 +51,6 @@ export class UsersService {
 
   signIn(body): Observable<any> {
     const requestData: any = { ...body };
-    const index = requestData.username.indexOf('@');
-    requestData.username = index > -1 ? requestData.username.toLowerCase().substring(0, index) : requestData.username.toLowerCase();
     requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
@@ -187,7 +185,9 @@ export class UsersService {
       'emails/folder-order',
       'emails/empty-trash',
       'users/autoresponder',
-      'auth/sign-out/'
+      'auth/sign-out/',
+      'auth/add-user/',
+      'emails/domain-users/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -283,6 +283,16 @@ export class UsersService {
 
   checkUsernameAvailability(username): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/check-username/`, { username });
+  }
+
+  addOrganizationUser(data: any): Observable<any> {
+    data.password = this.hashPassword(data, 'password');
+    return this.http.post<any>(`${apiUrl}auth/add-user/`, data);
+  }
+
+  getOrganizationUsers(limit = 0, offset = 0) {
+    const url = `${apiUrl}emails/domain-users/?limit=${limit}&offset=${offset}`;
+    return this.http.get<any>(url);
   }
 
   upgradeAccount(data) {

@@ -9,6 +9,7 @@ import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
+import { GetOrganizationUsers } from '../store/organization.store';
 
 @TakeUntilDestroy()
 @Component({
@@ -37,7 +38,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
       this.store.dispatch(new GetDomains());
       this.store.dispatch(new WhiteListGet());
       this.store.dispatch(new BlackListGet());
-    }, 1000);
+      this.store.dispatch(new GetOrganizationUsers());
+    }, 2000);
 
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);

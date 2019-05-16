@@ -65,7 +65,6 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
       });
     this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
       .subscribe((searchState: SearchState) => {
-        console.log(searchState);
         if (!searchState.searchText) {
           this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
         }
