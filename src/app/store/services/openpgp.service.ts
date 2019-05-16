@@ -184,10 +184,10 @@ export class OpenPgpService {
     }
   }
 
-  generateUserKeys(username: string, password: string) {
+  generateUserKeys(username: string, password: string, domain: string = 'ctemplar.com') {
     this.userKeys = null;
     const options = {
-      userIds: [{ name: username, email: `${username}@ctemplar.com` }],
+      userIds: [{ name: username, email: `${username}@${domain}` }],
       numBits: 4096,
       passphrase: password
     };
