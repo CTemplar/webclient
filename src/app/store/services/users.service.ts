@@ -288,6 +288,7 @@ export class UsersService {
   }
 
   addOrganizationUser(data: any): Observable<any> {
+    data.password = this.hashPassword(data, 'password');
     return this.http.post<any>(`${apiUrl}auth/add-user/`, data);
   }
 

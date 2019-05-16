@@ -10,7 +10,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OpenPgpService, UsersService } from '../../../../store/services';
-import { GetOrganizationUsers, OrganizationState } from '../../../../store/organization.store';
+import { AddOrganizationUser, GetOrganizationUsers, OrganizationState } from '../../../../store/organization.store';
 
 @TakeUntilDestroy()
 @Component({
@@ -25,11 +25,13 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   users: OrganizationUser[];
   addUserForm: FormGroup;
   errorMessage: any;
+  userExistError: string;
   submitted: boolean;
   organizationState: OrganizationState;
   customDomains: string[];
   newAddressOptions = { usernameExists: false, inProgress: false };
   isAddingUser: boolean;
+  isAddingUserInProgress: boolean;
 
   private addUserModalRef: NgbModalRef;
 
@@ -69,6 +71,13 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
       .subscribe((organizationState: OrganizationState) => {
         this.organizationState = organizationState;
         this.users = organizationState.users;
+        if (this.isAddingUserInProgress && !this.organizationState.isAddingUserInProgress) {
+          if (this.organizationState.isError) {
+            this.errorMessage = this.organizationState.error;
+          } else {
+            this.closeAddUserModal();
+          }
+        }
       });
 
     this.handleUsernameAvailability();
@@ -82,16 +91,21 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
       backdrop: 'static',
     });
     this.addUserModalRef.result.then((result) => {
-      this.addUserForm.reset();
-      this.isAddingUser = false;
+      this.addUserModalClosed();
     }, (reason) => {
-      this.addUserForm.reset();
-      this.isAddingUser = false;
+      this.addUserModalClosed();
     });
   }
 
-  closeAddUserModal() {
+  addUserModalClosed() {
     this.addUserForm.reset();
+    this.isAddingUserInProgress = false;
+    this.isAddingUser = false;
+    this.newAddressOptions = { usernameExists: false, inProgress: false };
+    this.submitted = false;
+  }
+
+  closeAddUserModal() {
     this.addUserModalRef.close();
   }
 
@@ -101,8 +115,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    // const user = new OrganizationUser(this.addUserForm.value);
-    // this.closeAddUserModal();
+    this.isAddingUserInProgress = true;
     this.openPgpService.generateUserKeys(this.addUserForm.value.username, atob(this.usersService.getUserKey()));
     if (this.openPgpService.getUserKeys()) {
       this.addNewUser();
@@ -112,7 +125,8 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   }
 
   addNewUser() {
-    const user = new OrganizationUser({ ...this.addUserForm.value, ...this.openPgpService.getUserKeys() });
+    const user = new OrganizationUser({ ...this.addUserForm.value, ...this.openPgpService.getUserKeys(), username: this.getEmail() });
+    this.store.dispatch(new AddOrganizationUser(user));
   }
 
   private getEmail() {
@@ -127,7 +141,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$)
       )
       .subscribe((username) => {
-        this.errorMessage = '';
+        this.userExistError = null;
         if (!username) {
           return;
         }
@@ -139,7 +153,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
                 this.newAddressOptions.inProgress = false;
               },
               error => {
-                this.errorMessage = error.error;
+                this.userExistError = error.error;
                 this.newAddressOptions.inProgress = false;
                 this.newAddressOptions.usernameExists = null;
               });

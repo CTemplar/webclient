@@ -98,7 +98,10 @@ export class OrganizationEffects {
         return this.userService.addOrganizationUser(payload)
           .pipe(
             switchMap((response: any) => {
-              return of(new AddOrganizationUserSuccess(response.results));
+              return of(
+                new AddOrganizationUserSuccess({ ...payload, ...response }),
+                new SnackErrorPush({ message: `User '${payload.username}' added successfully.` }),
+              );
             }),
             catchError((response) => of(new AddOrganizationUserFailure(response.error)))
           );
@@ -110,6 +113,7 @@ export interface OrganizationState {
   users: OrganizationUser[];
   inProgress?: boolean;
   isAddingUserInProgress?: boolean;
+  isError?: boolean;
   error?: string;
 }
 
@@ -128,15 +132,15 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
     }
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER: {
-      return { ...state, isAddingUserInProgress: true, error: '' };
+      return { ...state, isAddingUserInProgress: true, isError: false };
     }
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER_SUCCESS: {
-      return { ...state, isAddingUserInProgress: false, users: [...state.users, action.payload], error: '' };
+      return { ...state, isAddingUserInProgress: false, users: [...state.users, action.payload], isError: false };
     }
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER_FAILURE: {
-      return { ...state, isAddingUserInProgress: false, error: action.payload };
+      return { ...state, isAddingUserInProgress: false, error: action.payload, isError: true };
     }
 
     default: {

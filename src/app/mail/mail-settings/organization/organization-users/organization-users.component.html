@@ -113,8 +113,8 @@
                          (addUserForm.controls['username'].touched || submitted))"></i>
                     </ng-template>
                   </div>
-                  <span *ngIf="errorMessage"
-                        class="validate-message">{{errorMessage}}</span>
+                  <span *ngIf="userExistError"
+                        class="validate-message">{{userExistError}}</span>
                   <ng-container *ngIf="addUserForm.controls['username'].errors &&
                                     (addUserForm.controls['username'].touched || submitted); else usernameExistsBlock">
 
@@ -221,11 +221,11 @@
 
               <div class="form-group text-center">
                 <button class="btn btn-lg btn-secondary"
-                        [disabled]="organizationState?.isAddingUserInProgress"
+                        [disabled]="isAddingUserInProgress"
                         type="submit" role="button">
                   <span>Add User</span>
                 </button>
-                <app-loading-spinner [showSpinner]="organizationState?.isAddingUserInProgress"></app-loading-spinner>
+                <app-loading-spinner [showSpinner]="isAddingUserInProgress"></app-loading-spinner>
               </div>
             </div>
           </form>
