@@ -85,6 +85,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
 
   openAddUserModal() {
     this.isAddingUser = true;
+    this.addUserForm.get('domain').setValue(this.customDomains[0]);
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal org-user-add-modal',

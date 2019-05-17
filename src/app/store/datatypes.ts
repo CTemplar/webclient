@@ -92,6 +92,7 @@ export interface UserState {
   emailForwardingErrorMessage?: string;
   autoResponderErrorMessage?: string;
   emailContacts?: EmailContact[];
+  isLoaded?: boolean;
 }
 
 export interface EmailContact {
