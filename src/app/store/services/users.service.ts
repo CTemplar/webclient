@@ -51,10 +51,7 @@ export class UsersService {
 
   signIn(body): Observable<any> {
     const requestData: any = { ...body };
-    requestData.username = requestData.username.toLowerCase();
-    if (requestData.username.split('@')[1] === 'ctemplar.com') {
-      requestData.username = requestData.username.split('@')[0];
-    }
+    requestData.username = this.trimUsername(requestData.username);
     requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
@@ -62,6 +59,14 @@ export class UsersService {
         this.setLoginData(data, body);
       })
     );
+  }
+
+  trimUsername(username: string) {
+    username = username.toLowerCase();
+    if (username.split('@')[1] === 'ctemplar.com') {
+      username = username.split('@')[0];
+    }
+    return username;
   }
 
   private hashPassword(requestData: any, field = 'password'): string {
