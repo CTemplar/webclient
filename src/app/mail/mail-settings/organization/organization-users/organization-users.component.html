@@ -80,14 +80,14 @@
 
         <!--User Add form-->
         <div class="form">
-          <form class="signup-form" [formGroup]="addUserForm" #form="ngForm" (ngSubmit)="submitAddUser()">
+          <form class="user-add-form" [formGroup]="addUserForm" #form="ngForm" (ngSubmit)="submitAddUser()">
             <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
             <div>
               <div class="form-step-card">
                 <label class="text-dark mb-0">
                   <strong translate="create_account.username_and_domain">Username and domain</strong>
                 </label>
-                <div class="form-group">
+                <div class="form-group position-relative">
                   <div class="form-inline userame-field-group"
                        [ngClass]="{'is-validate': addUserForm.controls.username.invalid && (addUserForm.controls.username.touched || submitted)}">
                     <label for="username" class="d-block text-muted text-left hidden-sm-up"
@@ -120,9 +120,9 @@
                                            [showSpinner]="true"></app-loading-spinner>
                     </ng-container>
                     <ng-template #showIcons>
-                      <i class="fas fa-check green"
+                      <i class="fas fa-check green input-icon"
                          *ngIf="newAddressOptions.usernameExists === false && !addUserForm.controls['username'].errors"></i>
-                      <i class="fas fa-times text-danger"
+                      <i class="fas fa-times text-danger input-icon"
                          *ngIf="newAddressOptions.usernameExists === true || (addUserForm.controls['username'].errors &&
                          (addUserForm.controls['username'].touched || submitted))"></i>
                     </ng-template>
@@ -163,7 +163,7 @@
                 <label class="text-dark mb-0">
                   <strong translate="settings.password">Password</strong>
                 </label>
-                <div class="form-group">
+                <div class="form-group position-relative">
                   <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose
                     Password</label>
                   <div class="input-group">
@@ -177,7 +177,7 @@
                       <i class="fa fa-eye-slash"></i>
                     </span>
                   </div>
-                  <i class="fas fa-check green password-ok"
+                  <i class="fas fa-check green password-ok input-icon"
                      *ngIf="addUserForm.controls['password']?.value?.length>0 && addUserForm.controls['password']?.value?.length<=128"></i>
                   <div *ngIf="addUserForm.controls['password'].errors &&
                                     (addUserForm.controls['password'].touched || submitted)"
@@ -189,7 +189,7 @@
                     </ng-container>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group position-relative">
                   <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
                     Password</label>
                   <div class="input-group"
@@ -204,7 +204,7 @@
                       <i class="fa fa-eye-slash"></i>
                     </span>
                   </div>
-                  <i class="fas fa-check green password-ok"
+                  <i class="fas fa-check green password-ok input-icon"
                      *ngIf="!addUserForm.controls['confirmPwd'].errors"></i>
                   <span *ngIf="addUserForm.controls['confirmPwd'].errors &&
                                     (!addUserForm.controls.confirmPwd.pristine || submitted)"
