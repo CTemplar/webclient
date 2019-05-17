@@ -85,6 +85,7 @@ export interface UserState {
   filtersError?: any;
   autoresponder?: AutoResponder;
   customDomains: Domain[];
+  customDomainsLoaded?: boolean;
   newCustomDomain?: Domain;
   newCustomDomainError?: string;
   currentCreationStep: number;

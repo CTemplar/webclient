@@ -285,6 +285,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: true,
         isError: false,
+        customDomainsLoaded: false,
         newCustomDomainError: null,
       };
     }
@@ -292,6 +293,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {
         ...state,
         customDomains: action.payload,
+        customDomainsLoaded: true,
         inProgress: false,
       };
     }

@@ -32,6 +32,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   newAddressOptions = { usernameExists: false, inProgress: false };
   isAddingUser: boolean;
   isAddingUserInProgress: boolean;
+  userState: UserState;
 
   private addUserModalRef: NgbModalRef;
 
@@ -60,6 +61,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
+        this.userState = user;
         this.customDomains = user.customDomains.filter((item) => item.is_domain_verified && item.is_mx_verified)
           .map((item) => item.domain);
         if (this.customDomains.length > 0) {
@@ -70,7 +72,15 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     this.store.select(state => state.organization).pipe(takeUntil(this.destroyed$))
       .subscribe((organizationState: OrganizationState) => {
         this.organizationState = organizationState;
-        this.users = organizationState.users;
+        this.users = organizationState.users.sort((a, b) => {
+          if (a.username < b.username) {
+            return -1;
+          }
+          if (a.username > b.username) {
+            return 1;
+          }
+          return 0;
+        });
         if (this.isAddingUserInProgress && !this.organizationState.isAddingUserInProgress) {
           if (this.organizationState.isError) {
             this.errorMessage = this.organizationState.error;

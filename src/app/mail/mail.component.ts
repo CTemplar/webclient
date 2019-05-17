@@ -40,10 +40,12 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
           this.store.dispatch(new GetMailboxes());
           this.store.dispatch(new TimezoneGet());
           this.store.dispatch(new GetFilters());
-          this.store.dispatch(new GetDomains());
           this.store.dispatch(new WhiteListGet());
           this.store.dispatch(new BlackListGet());
-          this.store.dispatch(new GetOrganizationUsers());
+          if (userState.isPrime) {
+            this.store.dispatch(new GetDomains());
+            this.store.dispatch(new GetOrganizationUsers());
+          }
         }
       });
 

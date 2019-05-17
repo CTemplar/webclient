@@ -19,7 +19,7 @@
     </button>
 
     <ng-template #noCustomDomain>
-      <div class="py-4 error-message">
+      <div class="py-4 error-message" *ngIf="userState?.customDomainsLoaded">
         Please add a custom domain first in order to add users.
       </div>
     </ng-template>
