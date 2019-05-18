@@ -11,14 +11,21 @@
               </div>
               <div class="desc-card-body bg-faded domain-body">
                 <button class="btn btn-secondary btn-add-domain text-small"
-                        *ngIf="domains && domains.length > 0; else domainsEmpty" (click)="startAddingNewDomain()">
+                        *ngIf="userState?.isPrime && domains?.length > 0; else domainsEmpty"
+                        (click)="startAddingNewDomain()">
                   <span translate="settings.add_domain">Add Domain</span>
                 </button>
                 <ng-template #domainsEmpty>
-                  <button class="btn btn-secondary btn-create-domain text-small" (click)="startAddingNewDomain()">
+                  <button class="btn btn-secondary btn-create-domain text-small"
+                          *ngIf="userState?.isPrime"
+                          (click)="startAddingNewDomain()">
                     <span translate="settings.create_domain">Create Domain</span>
                   </button>
                 </ng-template>
+                <div class="py-4 error-message" *ngIf="!userState?.isPrime && userState?.customDomainsLoaded">
+                  This is a premium feature, please <a class="cursor-pointer" (click)="gotoPricingPlans()">upgrade</a>
+                  in order to use this feature.
+                </div>
 
                 <app-loading-spinner [showSpinner]="userState?.inProgress"
                                      class="loading-spinner"></app-loading-spinner>
@@ -29,7 +36,8 @@
                       <span class="text-capitalize font-weight-bold" translate="settings.domain">Domain</span>
                     </div>
                     <div class="col-9">
-                      <span class="text-capitalize font-weight-bold" translate="settings.current_status">Current Status</span>
+                      <span class="text-capitalize font-weight-bold"
+                            translate="settings.current_status">Current Status</span>
                     </div>
                   </div>
 

@@ -21,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 export class CustomDomainsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  @Output() onGotoAddresses = new EventEmitter<any>();
+  @Output() onGotoTab = new EventEmitter<string>();
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
@@ -152,6 +152,10 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   gotoAddresses() {
-    this.onGotoAddresses.emit();
+    this.onGotoTab.emit('addresses-signatures');
+  }
+
+  gotoPricingPlans() {
+    this.onGotoTab.emit('dashboard-plans');
   }
 }
