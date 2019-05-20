@@ -44,17 +44,22 @@
           </div>
         <li class="ui-list-item ui-list-item-xs-full" *ngFor="let user of users;">
           <div class="row row-xs align-items-center">
-            <div class="col-4">
+            <div class="col-3">
               <div class="form-label text-dark mb-0">
                 {{user.domain}}
               </div>
             </div>
-            <div class="col-4 text-dark">
+            <div class="col-3 text-dark">
               {{user.username}}
             </div>
 
-            <div class="col-4 text-dark">
+            <div class="col-3 text-dark">
               {{user.recovery_email}}
+            </div>
+
+            <div class="col-3 text-right">
+              <a class="text-muted" [ngbTooltip]="'settings.delete' | translate"
+                 (click)="openConfirmDeleteModal(user)"><i class="icon icon-garbage"></i></a>
             </div>
           </div>
         </li>
@@ -255,3 +260,36 @@
     </div>
   </div>
 </ng-template><!-- Add User modal ends -->
+
+<!-- Confirm user delete modal -->
+<ng-template #confirmDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        <span translate="contacts.delete.message">Are you sure, you want to delete</span>
+        <strong>{{ selectedUser?.domain }}</strong>?<br>
+        <span class="warning"><span class="warning-text">Warning</span>: All the associated data (if any) of this user will also be deleted.</span>
+      </div>
+      <div class="form-group text-right mb-0">
+        <app-loading-spinner [showSpinner]="organizationState.isDeleteInProgress"></app-loading-spinner>
+        <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2"
+                [disabled]="organizationState.isDeleteInProgress"
+                translate="common.cancel"
+                role="button">Cancel
+        </button>
+        <button (click)="confirmDelete()" class="btn btn-danger btn-sm"
+                translate="common.delete"
+                [disabled]="organizationState.isDeleteInProgress"
+                role="button">Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm delete modal ends -->
+

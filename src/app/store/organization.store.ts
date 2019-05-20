@@ -16,6 +16,9 @@ export enum OrganizationActionTypes {
   ADD_ORGANIZATION_USER = '[ORGANIZATION] ADD USER',
   ADD_ORGANIZATION_USER_SUCCESS = '[ORGANIZATION] ADD USER SUCCESS',
   ADD_ORGANIZATION_USER_FAILURE = '[ORGANIZATION] ADD USER FAILURE',
+  DELETE_ORGANIZATION_USER = '[ORGANIZATION] DELETE USER',
+  DELETE_ORGANIZATION_USER_SUCCESS = '[ORGANIZATION] DELETE USER SUCCESS',
+  DELETE_ORGANIZATION_USER_FAILURE = '[ORGANIZATION] DELETE USER FAILURE',
 }
 
 export class GetOrganizationUsers implements Action {
@@ -54,13 +57,35 @@ export class AddOrganizationUserFailure implements Action {
   constructor(public payload: any) {}
 }
 
+
+export class DeleteOrganizationUser implements Action {
+  readonly type = OrganizationActionTypes.DELETE_ORGANIZATION_USER;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteOrganizationUserSuccess implements Action {
+  readonly type = OrganizationActionTypes.DELETE_ORGANIZATION_USER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteOrganizationUserFailure implements Action {
+  readonly type = OrganizationActionTypes.DELETE_ORGANIZATION_USER_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
 export type OrganizationActionAll =
   | GetOrganizationUsers
   | GetOrganizationUsersSuccess
   | GetOrganizationUsersFailure
   | AddOrganizationUser
   | AddOrganizationUserSuccess
-  | AddOrganizationUserFailure;
+  | AddOrganizationUserFailure
+  | DeleteOrganizationUser
+  | DeleteOrganizationUserSuccess
+  | DeleteOrganizationUserFailure;
 
 
 @Injectable()
@@ -107,12 +132,33 @@ export class OrganizationEffects {
           );
       })
     );
+
+
+  @Effect()
+  deleteOrganizationUser: Observable<any> = this.actions
+    .pipe(
+      ofType(OrganizationActionTypes.DELETE_ORGANIZATION_USER),
+      map((action: DeleteOrganizationUser) => action.payload),
+      switchMap(payload => {
+        return this.userService.deleteOrganizationUser(payload)
+          .pipe(
+            switchMap((response: any) => {
+              return of(
+                new DeleteOrganizationUserSuccess(payload),
+                new SnackErrorPush({ message: `User '${payload.username}' deleted successfully.` }),
+              );
+            }),
+            catchError((response) => of(new DeleteOrganizationUserFailure(response.error)))
+          );
+      })
+    );
 }
 
 export interface OrganizationState {
   users: OrganizationUser[];
   inProgress?: boolean;
   isAddingUserInProgress?: boolean;
+  isDeleteInProgress?: boolean;
   isError?: boolean;
   error?: string;
 }
@@ -141,6 +187,18 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER_FAILURE: {
       return { ...state, isAddingUserInProgress: false, error: action.payload, isError: true };
+    }
+
+    case OrganizationActionTypes.DELETE_ORGANIZATION_USER: {
+      return { ...state, isDeleteInProgress: true };
+    }
+
+    case OrganizationActionTypes.DELETE_ORGANIZATION_USER_SUCCESS: {
+      return { ...state, isDeleteInProgress: false, users: state.users.filter(user => user.username !== action.payload.username) };
+    }
+
+    case OrganizationActionTypes.DELETE_ORGANIZATION_USER: {
+      return { ...state, isDeleteInProgress: false };
     }
 
     default: {

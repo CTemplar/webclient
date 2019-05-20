@@ -10,7 +10,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OpenPgpService, UsersService } from '../../../../store/services';
-import { AddOrganizationUser, GetOrganizationUsers, OrganizationState } from '../../../../store/organization.store';
+import { AddOrganizationUser, DeleteOrganizationUser, GetOrganizationUsers, OrganizationState } from '../../../../store/organization.store';
 
 @TakeUntilDestroy()
 @Component({
@@ -21,6 +21,7 @@ import { AddOrganizationUser, GetOrganizationUsers, OrganizationState } from '..
 export class OrganizationUsersComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   @ViewChild('addUserModal') addUserModal;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
   users: OrganizationUser[];
   addUserForm: FormGroup;
@@ -33,8 +34,11 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   isAddingUser: boolean;
   isAddingUserInProgress: boolean;
   userState: UserState;
+  selectedUser: OrganizationUser;
 
   private addUserModalRef: NgbModalRef;
+  private confirmDeleteModalRef: NgbModalRef;
+  private isDeleteInProgress: boolean;
 
 
   constructor(private modalService: NgbModal,
@@ -89,6 +93,10 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
             this.closeAddUserModal();
           }
         }
+        if (this.isDeleteInProgress && !this.organizationState.isDeleteInProgress) {
+          this.isDeleteInProgress = false;
+          this.cancelDelete();
+        }
       });
 
     this.handleUsernameAvailability();
@@ -139,6 +147,27 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   addNewUser() {
     const user = new OrganizationUser({ ...this.addUserForm.value, ...this.openPgpService.getUserKeys(), username: this.getEmail() });
     this.store.dispatch(new AddOrganizationUser(user));
+  }
+
+  openConfirmDeleteModal(user: OrganizationUser) {
+    if (!this.organizationState.inProgress) {
+      this.selectedUser = user;
+      this.confirmDeleteModalRef = this.modalService.open(this.confirmDeleteModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+        backdrop: 'static'
+      });
+    }
+  }
+
+  confirmDelete() {
+    this.isDeleteInProgress = true;
+    this.store.dispatch(new DeleteOrganizationUser(this.selectedUser));
+  }
+
+  cancelDelete() {
+    this.selectedUser = null;
+    this.confirmDeleteModalRef.close();
   }
 
   private getEmail() {

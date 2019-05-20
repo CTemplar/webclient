@@ -137,7 +137,8 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       this.newDomain = domain;
       this.confirmModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,
-        windowClass: 'modal-sm users-action-modal'
+        windowClass: 'modal-sm users-action-modal',
+        backdrop: 'static'
       });
     }
   }

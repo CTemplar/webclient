@@ -299,6 +299,10 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/add-user/`, data);
   }
 
+  deleteOrganizationUser(data: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/delete-user/`, { username: data.username });
+  }
+
   getOrganizationUsers(limit = 0, offset = 0) {
     const url = `${apiUrl}emails/domain-users/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url);
