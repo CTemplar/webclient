@@ -81,7 +81,6 @@
         <!--User Add form-->
         <div class="form">
           <form class="user-add-form" [formGroup]="addUserForm" #form="ngForm" (ngSubmit)="submitAddUser()">
-            <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
             <div>
               <div class="form-step-card">
                 <label class="text-dark mb-0">
@@ -240,6 +239,11 @@
                   <span>Add User</span>
                 </button>
                 <app-loading-spinner [showSpinner]="isAddingUserInProgress"></app-loading-spinner>
+              </div>
+              <div *ngIf="errorMessage" class="validate-message">
+                {{ errorMessage }}
+              <br>
+                Note: We only allow 5 users per domain until the feature is in beta.
               </div>
             </div>
           </form>

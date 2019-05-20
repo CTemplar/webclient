@@ -82,6 +82,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
           return 0;
         });
         if (this.isAddingUserInProgress && !this.organizationState.isAddingUserInProgress) {
+          this.isAddingUserInProgress = false;
           if (this.organizationState.isError) {
             this.errorMessage = this.organizationState.error;
           } else {
