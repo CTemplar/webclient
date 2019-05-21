@@ -103,6 +103,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   }
 
   openAddUserModal() {
+    this.errorMessage = '';
     this.isAddingUser = true;
     this.addUserForm.get('domain').setValue(this.customDomains[0]);
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
@@ -178,7 +179,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   private handleUsernameAvailability() {
     this.addUserForm.get('username').valueChanges
       .pipe(
-        debounceTime(500),
+        debounceTime(1000),
         takeUntil(this.destroyed$)
       )
       .subscribe((username) => {

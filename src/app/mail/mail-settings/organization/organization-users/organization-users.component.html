@@ -113,7 +113,7 @@
                              aria-labelledby="signatureEmailAddressDropdownMenuButton">
                           <a class="dropdown-item"
                              *ngFor="let customDomain of customDomains"
-                             (click)="addUserForm.get('domain').setValue(customDomain);addUserForm.get('username').reset()">
+                             (click)="addUserForm.get('domain').setValue(customDomain);addUserForm.get('username').reset(); errorMessage='';">
                             {{customDomain}}</a>
                         </div>
                       </div>
