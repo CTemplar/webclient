@@ -30,35 +30,54 @@
       <ul class="ui-list ui-list-styled list-styled users-list">
         <li class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
-            <div class="col-3">
+            <div class="col-4 font-weight-bold col-item">
+              User
+            </div>
+            <div class="col-2 col-item">
               <div class="form-label mb-0 font-weight-bold">
                 Domain
               </div>
             </div>
-            <div class="col-3 font-weight-bold ">
-              User
-            </div>
-            <div class="col-3 font-weight-bold ">
+            <div class="col-3 font-weight-bold col-item">
               Recovery Email
             </div>
           </div>
         <li class="ui-list-item ui-list-item-xs-full" *ngFor="let user of users;">
           <div class="row row-xs align-items-center">
-            <div class="col-3">
+            <div class="col-4 text-dark col-item" [ngbTooltip]="user.username">
+              {{user.username}}
+            </div>
+            <div class="col-2 col-item">
               <div class="form-label text-dark mb-0">
                 {{user.domain}}
               </div>
             </div>
-            <div class="col-3 text-dark">
-              {{user.username}}
+
+            <div class="col-3 text-dark col-item">
+              <div *ngIf="!user.isEditing">
+                {{user.recovery_email}}
+              </div>
+              <div  *ngIf="user.isEditing">
+                <input class="form-control text-dark"
+                       [(ngModel)]="user.recovery_email"
+                       [placeholder]="'settings.recovery_email' | translate "
+                       autofocus="autofocus"
+                       type="email" name="recovery_email"/>
+              </div>
             </div>
 
-            <div class="col-3 text-dark">
-              {{user.recovery_email}}
-            </div>
-
-            <div class="col-3 text-right actions">
-              <a class="text-muted" [ngbTooltip]="'settings.delete' | translate"
+            <div class="col-3 text-right">
+              <a class="text-muted actions"
+                 *ngIf="!user.isEditing"
+                 (click)="user.isEditing = true; startUpdatingUser(user)"
+                 [ngbTooltip]="'settings.edit' | translate"><i
+                      class="icon icon-edit"></i></a>
+              <a class="text-muted actions"
+                 *ngIf="user.isEditing"
+                 (click)="user.isEditing = false; updateUser(user)"
+                 [ngbTooltip]="'common.save' | translate"><i
+                      class="icon icon-save-disk"></i></a>
+              <a class="text-muted actions" [ngbTooltip]="'settings.delete' | translate"
                  (click)="openConfirmDeleteModal(user)"><i class="icon icon-garbage"></i></a>
             </div>
           </div>

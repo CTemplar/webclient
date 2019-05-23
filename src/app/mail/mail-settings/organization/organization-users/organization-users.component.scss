@@ -72,5 +72,15 @@
 }
 
 .actions {
-  padding: 0 15px;
+  padding: 10px 15px;
+
+  &:hover {
+    background-color: $brand-faded;
+  }
+}
+
+.col-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 20px;
 }

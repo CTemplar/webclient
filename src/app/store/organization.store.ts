@@ -19,6 +19,9 @@ export enum OrganizationActionTypes {
   DELETE_ORGANIZATION_USER = '[ORGANIZATION] DELETE USER',
   DELETE_ORGANIZATION_USER_SUCCESS = '[ORGANIZATION] DELETE USER SUCCESS',
   DELETE_ORGANIZATION_USER_FAILURE = '[ORGANIZATION] DELETE USER FAILURE',
+  UPDATE_ORGANIZATION_USER = '[ORGANIZATION] UPDATE USER',
+  UPDATE_ORGANIZATION_USER_SUCCESS = '[ORGANIZATION] UPDATE USER SUCCESS',
+  UPDATE_ORGANIZATION_USER_FAILURE = '[ORGANIZATION] UPDATE USER FAILURE',
 }
 
 export class GetOrganizationUsers implements Action {
@@ -76,6 +79,25 @@ export class DeleteOrganizationUserFailure implements Action {
   constructor(public payload: any) {}
 }
 
+
+export class UpdateOrganizationUser implements Action {
+  readonly type = OrganizationActionTypes.UPDATE_ORGANIZATION_USER;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateOrganizationUserSuccess implements Action {
+  readonly type = OrganizationActionTypes.UPDATE_ORGANIZATION_USER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateOrganizationUserFailure implements Action {
+  readonly type = OrganizationActionTypes.UPDATE_ORGANIZATION_USER_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
 export type OrganizationActionAll =
   | GetOrganizationUsers
   | GetOrganizationUsersSuccess
@@ -85,7 +107,10 @@ export type OrganizationActionAll =
   | AddOrganizationUserFailure
   | DeleteOrganizationUser
   | DeleteOrganizationUserSuccess
-  | DeleteOrganizationUserFailure;
+  | DeleteOrganizationUserFailure
+  | UpdateOrganizationUser
+  | UpdateOrganizationUserSuccess
+  | UpdateOrganizationUserFailure;
 
 
 @Injectable()
@@ -152,6 +177,29 @@ export class OrganizationEffects {
           );
       })
     );
+
+
+  @Effect()
+  updateOrganizationUser: Observable<any> = this.actions
+    .pipe(
+      ofType(OrganizationActionTypes.UPDATE_ORGANIZATION_USER),
+      map((action: UpdateOrganizationUser) => action.payload),
+      switchMap(payload => {
+        return this.userService.updateOrganizationUser(payload)
+          .pipe(
+            switchMap((response: any) => {
+              return of(
+                new UpdateOrganizationUserSuccess(payload),
+                new SnackErrorPush({ message: `Recovery email for user: '${payload.username}', updated successfully.` }),
+              );
+            }),
+            catchError((response) => of(
+              new UpdateOrganizationUserFailure({ user: payload, error: response.error }),
+              new SnackErrorPush({ message: `Failed to update recovery email. ${response.error}` }),
+            ))
+          );
+      })
+    );
 }
 
 export interface OrganizationState {
@@ -197,8 +245,34 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
       return { ...state, isDeleteInProgress: false, users: state.users.filter(user => user.username !== action.payload.username) };
     }
 
-    case OrganizationActionTypes.DELETE_ORGANIZATION_USER: {
-      return { ...state, isDeleteInProgress: false };
+    case OrganizationActionTypes.UPDATE_ORGANIZATION_USER: {
+      return { ...state, isAddingUserInProgress: true, isError: false };
+    }
+
+    case OrganizationActionTypes.UPDATE_ORGANIZATION_USER_SUCCESS: {
+      return {
+        ...state, isAddingUserInProgress: false,
+        users: state.users.map(user => {
+          if (user.user_id === action.payload.user_id) {
+            user = action.payload;
+          }
+          return user;
+        }),
+        isError: false
+      };
+    }
+
+    case OrganizationActionTypes.UPDATE_ORGANIZATION_USER_FAILURE: {
+      return {
+        ...state, isAddingUserInProgress: false,
+        users: state.users.map(user => {
+          if (user.user_id === action.payload.user.user_id) {
+            user = action.payload.user.unmodifiedUser;
+          }
+          return user;
+        }),
+        error: action.payload.error, isError: true
+      };
     }
 
     default: {

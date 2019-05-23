@@ -10,7 +10,13 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OpenPgpService, UsersService } from '../../../../store/services';
-import { AddOrganizationUser, DeleteOrganizationUser, GetOrganizationUsers, OrganizationState } from '../../../../store/organization.store';
+import {
+  AddOrganizationUser,
+  DeleteOrganizationUser,
+  GetOrganizationUsers,
+  OrganizationState,
+  UpdateOrganizationUser
+} from '../../../../store/organization.store';
 
 @TakeUntilDestroy()
 @Component({
@@ -103,7 +109,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   }
 
   openAddUserModal() {
-    this.errorMessage = '';
+    this.errorMessage = null;
     this.isAddingUser = true;
     this.addUserForm.get('domain').setValue(this.customDomains[0]);
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
@@ -132,6 +138,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
 
   submitAddUser() {
     this.submitted = true;
+    this.errorMessage = null;
     if (this.addUserForm.invalid || this.newAddressOptions.usernameExists === true) {
       return false;
     }
@@ -148,6 +155,14 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   addNewUser() {
     const user = new OrganizationUser({ ...this.addUserForm.value, ...this.openPgpService.getUserKeys(), username: this.getEmail() });
     this.store.dispatch(new AddOrganizationUser(user));
+  }
+
+  startUpdatingUser(user: OrganizationUser) {
+    user.unmodifiedUser = new OrganizationUser(user);
+  }
+
+  updateUser(user: OrganizationUser) {
+    this.store.dispatch(new UpdateOrganizationUser(user));
   }
 
   openConfirmDeleteModal(user: OrganizationUser) {

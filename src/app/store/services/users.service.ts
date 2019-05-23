@@ -196,6 +196,7 @@ export class UsersService {
       'users/autoresponder',
       'auth/sign-out/',
       'auth/add-user/',
+      'auth/update-user/',
       'emails/domain-users/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
@@ -297,6 +298,10 @@ export class UsersService {
   addOrganizationUser(data: any): Observable<any> {
     data.password = this.hashPassword(data, 'password');
     return this.http.post<any>(`${apiUrl}auth/add-user/`, data);
+  }
+
+  updateOrganizationUser(data: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/update-user/`, { user_id: data.user_id, recovery_email: data.recovery_email });
   }
 
   deleteOrganizationUser(data: any): Observable<any> {

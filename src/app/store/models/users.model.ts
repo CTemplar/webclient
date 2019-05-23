@@ -24,7 +24,7 @@ export class User {
 }
 
 export class OrganizationUser {
-  id?: number;
+  user_id?: number;
   username: string;
   domain: string;
   password?: string;
@@ -32,9 +32,11 @@ export class OrganizationUser {
   private_key?: string;
   public_key?: string;
   fingerprint?: string;
+  isEditing?: boolean;
+  unmodifiedUser?: OrganizationUser;
 
   constructor(data: any = {}) {
-    this.id = data.id;
+    this.user_id = data.user_id || data.id;
     this.username = data.username;
     this.domain = data.domain;
     this.password = data.password;
