@@ -82,15 +82,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     this.store.select(state => state.organization).pipe(takeUntil(this.destroyed$))
       .subscribe((organizationState: OrganizationState) => {
         this.organizationState = organizationState;
-        this.users = organizationState.users.sort((a, b) => {
-          if (a.username < b.username) {
-            return -1;
-          }
-          if (a.username > b.username) {
-            return 1;
-          }
-          return 0;
-        });
+        this.users = organizationState.users;
         if (this.isAddingUserInProgress && !this.organizationState.isAddingUserInProgress) {
           this.isAddingUserInProgress = false;
           if (this.organizationState.isError) {

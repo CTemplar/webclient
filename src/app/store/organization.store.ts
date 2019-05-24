@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { OrganizationUser } from './models';
-import { UsersService } from './services';
+import { sortByString, UsersService } from './services';
 import { SnackErrorPush } from './actions';
 
 export enum OrganizationActionTypes {
@@ -218,7 +218,11 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
     }
 
     case OrganizationActionTypes.GET_ORGANIZATION_USERS_SUCCESS: {
-      return { ...state, inProgress: false, users: action.payload };
+      return {
+        ...state,
+        inProgress: false,
+        users: sortByString(action.payload, 'username'),
+      };
     }
 
     case OrganizationActionTypes.GET_ORGANIZATION_USERS_FAILURE: {
@@ -230,7 +234,12 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
     }
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER_SUCCESS: {
-      return { ...state, isAddingUserInProgress: false, users: [...state.users, new OrganizationUser(action.payload)], isError: false };
+      return {
+        ...state,
+        isAddingUserInProgress: false,
+        users: sortByString([...state.users, new OrganizationUser(action.payload)], 'username'),
+        isError: false
+      };
     }
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER_FAILURE: {
