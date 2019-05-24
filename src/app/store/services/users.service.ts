@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
-import { apiUrl, REFFERAL_CODE_KEY } from '../../shared/config';
+import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
@@ -63,7 +63,7 @@ export class UsersService {
 
   trimUsername(username: string) {
     username = username.toLowerCase();
-    if (username.split('@')[1] === 'ctemplar.com') {
+    if (username.split('@')[1] === PRIMARY_DOMAIN) {
       username = username.split('@')[0];
     }
     return username;
