@@ -230,7 +230,7 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
     }
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER_SUCCESS: {
-      return { ...state, isAddingUserInProgress: false, users: [...state.users, action.payload], isError: false };
+      return { ...state, isAddingUserInProgress: false, users: [...state.users, new OrganizationUser(action.payload)], isError: false };
     }
 
     case OrganizationActionTypes.ADD_ORGANIZATION_USER_FAILURE: {
