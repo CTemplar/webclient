@@ -90,6 +90,7 @@ import {
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
+import { GetOrganizationUsers } from '../organization.store';
 
 @Injectable()
 export class UsersEffects {
@@ -510,7 +511,10 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.deleteDomain(payload)
         .pipe(
-          switchMap(res => of(new DeleteDomainSuccess(payload))),
+          switchMap(res => of(
+            new DeleteDomainSuccess(payload),
+            new GetOrganizationUsers(),
+            )),
           catchError(errorResponse => of(new DeleteDomainFailure(errorResponse.error))),
         );
     }));

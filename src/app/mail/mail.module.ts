@@ -35,6 +35,7 @@ import { SecurityComponent } from './mail-settings/security/security.component';
 import { MailSettingsService } from '../store/services/mail-settings.service';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { WebsocketService } from '../shared/services/websocket.service';
+import { OrganizationUsersComponent } from './mail-settings/organization/organization-users/organization-users.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { WebsocketService } from '../shared/services/websocket.service';
     FoldersComponent,
     MailAutoresponderComponent,
     SecurityComponent,
+    OrganizationUsersComponent,
   ],
   exports: [
     MailFooterComponent

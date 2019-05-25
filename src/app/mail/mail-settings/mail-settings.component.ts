@@ -264,6 +264,12 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     this.pushNotificationService.requestPermission();
   }
 
+  scrollTo(x: number, y: number) {
+    setTimeout(() => {
+      window.scroll(x, y);
+    }, 500);
+  }
+
   testNotification() {
     const options = new PushNotificationOptions();
     options.body = 'You have received a new email';

@@ -343,7 +343,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.store.dispatch(new DeleteMail({ ids: mail.id.toString() }));
       if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
         .some(child => child.folder === MailFolderType.TRASH))) {
-        this.goBack();
+        this.goBack(500);
       }
     } else {
       this.store.dispatch(new MoveMail({
@@ -355,7 +355,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }));
     }
     if (mail.id === this.mail.id) {
-      this.goBack();
+      this.goBack(500);
     }
   }
 
@@ -399,11 +399,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   moveToFolder(folder: MailFolderType) {
     this.store.dispatch(new MoveMail({ ids: this.mail.id, folder }));
-    this.goBack();
+    this.goBack(500);
   }
 
-  goBack() {
-    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+  goBack(wait: number = 1) {
+    setTimeout(() => {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
+    }, wait);
   }
 
   openCreateFolderDialog() {

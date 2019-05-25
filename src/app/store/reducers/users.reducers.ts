@@ -155,6 +155,9 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, emailContacts: action.payload };
     }
 
+    case UsersActionTypes.ACCOUNT_DETAILS_GET: {
+      return { ...state, isLoaded: false };
+    }
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
       return {
         ...state,
@@ -164,12 +167,16 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         joinedDate: action.payload.joined_date,
         settings: action.payload.settings,
         mailboxes: action.payload.mailboxes.map((item, index) => {
-          item.sort_order = item.sort_order ? item.sort_order : index;
+          item.sort_order = item.sort_order || index + 1;
           return item;
         }),
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
-        customFolders: action.payload.custom_folders,
-        autoresponder: action.payload.autoresponder
+        customFolders: action.payload.custom_folders.map((item, index) => {
+          item.sort_order = item.sort_order || index + 1;
+          return item;
+        }),
+        autoresponder: action.payload.autoresponder,
+        isLoaded: true,
       };
     }
 
@@ -193,6 +200,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CREATE_FOLDER_SUCCESS: {
       let index = -1;
+      action.payload.sort_order = action.payload.sort_order || state.customDomains.length;
       state.customFolders.forEach((folder, i) => {
         if (folder.id === action.payload.id) {
           index = i;
@@ -281,6 +289,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: true,
         isError: false,
+        customDomainsLoaded: false,
         newCustomDomainError: null,
       };
     }
@@ -288,6 +297,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {
         ...state,
         customDomains: action.payload,
+        customDomainsLoaded: true,
         inProgress: false,
       };
     }
@@ -417,15 +427,15 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.SAVE_AUTORESPONDER: {
-      return {...state, inProgress: true, autoresponder: action.payload, autoResponderErrorMessage: null};
+      return { ...state, inProgress: true, autoresponder: action.payload, autoResponderErrorMessage: null };
     }
 
     case UsersActionTypes.SAVE_AUTORESPONDER_SUCCESS: {
-      return {...state, inProgress: false, autoresponder: action.payload, autoResponderErrorMessage: null};
+      return { ...state, inProgress: false, autoresponder: action.payload, autoResponderErrorMessage: null };
     }
 
     case UsersActionTypes.SAVE_AUTORESPONDER_FAILURE: {
-      return {...state, inProgress: false, autoResponderErrorMessage: action.payload};
+      return { ...state, inProgress: false, autoResponderErrorMessage: action.payload };
     }
 
     default: {

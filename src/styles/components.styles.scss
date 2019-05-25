@@ -21,3 +21,17 @@
     }
   }
 }
+
+//START Organization create component
+
+.org-user-add-modal .modal-dialog {
+  max-width: 600px;
+}
+
+//END Organization create component
+
+
+.error-message {
+  font-size: 16px;
+  color: $brand-danger;
+}

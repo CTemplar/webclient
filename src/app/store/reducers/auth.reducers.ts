@@ -132,7 +132,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         inProgress: false,
-        resetPasswordErrorMessage: 'Failed to send recovery email, please try again.',
+        resetPasswordErrorMessage: action.payload || 'Failed to send recovery email, please try again.',
         isRecoveryCodeSent: false
       };
     }

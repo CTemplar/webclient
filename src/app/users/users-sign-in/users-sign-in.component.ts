@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 // Service
-import { OpenPgpService, SharedService } from '../../store/services';
+import { OpenPgpService, SharedService, UsersService } from '../../store/services';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
@@ -57,6 +57,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
               private store: Store<AppState>,
               private sharedService: SharedService,
               private _keyboardService: MatKeyboardService,
+              private userService: UsersService,
               private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
@@ -119,7 +120,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.resetPasswordForm.reset();
     this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
-      windowClass: 'modal-md'
+      windowClass: 'modal-md',
+      backdrop: 'static',
     });
   }
 
@@ -141,8 +143,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   recoverPassword(data) {
     this.showResetPasswordFormErrors = true;
     if (this.recoverPasswordForm.valid) {
-      const index = data.username.indexOf('@');
-      data.username = index > -1 ? data.username.substring(0, index) : data.username;
+      data.username = this.userService.trimUsername(data.username);
       this.store.dispatch(new RecoverPassword(data));
       this.resetPasswordForm.get('username').setValue(data.username);
       this.showResetPasswordFormErrors = false;
@@ -152,8 +153,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   resetPassword(data) {
     this.showResetPasswordFormErrors = true;
     if (this.resetPasswordForm.valid) {
-      const index = data.username.indexOf('@');
-      data.username = index > -1 ? data.username.substring(0, index) : data.username;
+      data.username = this.userService.trimUsername(data.username);
       this.isGeneratingKeys = true;
       this.openPgpService.generateUserKeys(data.username, data.password);
       if (this.openPgpService.getUserKeys()) {

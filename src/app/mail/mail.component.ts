@@ -4,11 +4,13 @@ import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { Observable } from 'rxjs';
 // Actions
-import { AccountDetailsGet, BlackListGet, GetDomains, GetFilters, GetMailboxes, WhiteListGet } from '../store/actions';
+import { AccountDetailsGet, BlackListGet, GetDomains, GetDomainsSuccess, GetFilters, GetMailboxes, WhiteListGet } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
-import { AppState } from '../store/datatypes';
+import { AppState, AuthState, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
+import { GetOrganizationUsers } from '../store/organization.store';
+import { takeUntil } from 'rxjs/operators';
 
 @TakeUntilDestroy()
 @Component({
@@ -21,6 +23,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   readonly destroyed$: Observable<boolean>;
 
   @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+  private isLoadedData: boolean;
 
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
@@ -29,15 +32,24 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnInit() {
     this.store.dispatch(new AccountDetailsGet());
-    this.store.dispatch(new GetMailboxes());
-    this.store.dispatch(new TimezoneGet());
 
-    setTimeout(() => {
-      this.store.dispatch(new GetFilters());
-      this.store.dispatch(new GetDomains());
-      this.store.dispatch(new WhiteListGet());
-      this.store.dispatch(new BlackListGet());
-    }, 1000);
+    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+      .subscribe((userState: UserState) => {
+        if (userState.isLoaded && !this.isLoadedData) {
+          this.isLoadedData = true;
+          this.store.dispatch(new GetMailboxes());
+          this.store.dispatch(new TimezoneGet());
+          this.store.dispatch(new GetFilters());
+          this.store.dispatch(new WhiteListGet());
+          this.store.dispatch(new BlackListGet());
+          if (userState.isPrime) {
+            this.store.dispatch(new GetDomains());
+            this.store.dispatch(new GetOrganizationUsers());
+          } else {
+            this.store.dispatch(new GetDomainsSuccess([]));
+          }
+        }
+      });
 
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
