@@ -16,6 +16,7 @@ import {
 import { AppState, AuthState, MailBoxesState } from '../datatypes';
 import { UsersService } from './users.service';
 import { Mailbox } from '../models';
+import { PRIMARY_DOMAIN } from '../../shared/config';
 
 declare var openpgp;
 
@@ -184,10 +185,14 @@ export class OpenPgpService {
     }
   }
 
-  generateUserKeys(username: string, password: string) {
+  generateUserKeys(username: string, password: string, domain: string = PRIMARY_DOMAIN) {
+    if (username.split('@').length > 1) {
+      domain = username.split('@')[1];
+      username = username.split('@')[0];
+    }
     this.userKeys = null;
     const options = {
-      userIds: [{ name: username, email: `${username}@ctemplar.com` }],
+      userIds: [{ name: `${username}_${domain}`, email: `${username}@${domain}` }],
       numBits: 4096,
       passphrase: password
     };

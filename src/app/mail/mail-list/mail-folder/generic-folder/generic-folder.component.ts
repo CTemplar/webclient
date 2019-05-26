@@ -21,6 +21,7 @@ import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
 import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
+import { UpdateSearch } from '../../../../store/actions/search.action';
 
 @TakeUntilDestroy()
 @Component({
@@ -117,6 +118,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
           if (params.folder) {
             this.mailFolder = params.folder as MailFolderType;
             this.store.dispatch(new SetCurrentFolder(this.mailFolder));
+            if (this.mailFolder !== MailFolderType.SEARCH) {
+              this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
+            }
           }
         }
       });
@@ -223,7 +227,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openMail(mail: Mail) {
-    if (this.mailFolder === MailFolderType.DRAFT) {
+    if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
       this.composeMailService.openComposeMailDialog({ draft: mail });
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.

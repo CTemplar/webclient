@@ -19,6 +19,7 @@ export class SharedService {
   isExternalPage: EventEmitter<boolean> = new EventEmitter();
 
   private paymentFailureModalRef: NgbModalRef;
+
   //
   constructor(
     private http: HttpClient,
@@ -74,4 +75,16 @@ export class SharedService {
     this.notificationService.showSnackBar('Copied to clipboard successfully.');
   }
 
+}
+
+export function sortByString(data: any[], field: string) {
+  return data.sort((a, b) => {
+    if (a[field] < b[field]) {
+      return -1;
+    }
+    if (a[field] > b[field]) {
+      return 1;
+    }
+    return 0;
+  });
 }

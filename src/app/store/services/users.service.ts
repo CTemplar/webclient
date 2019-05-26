@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
-import { apiUrl, REFFERAL_CODE_KEY } from '../../shared/config';
+import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
@@ -51,8 +51,7 @@ export class UsersService {
 
   signIn(body): Observable<any> {
     const requestData: any = { ...body };
-    const index = requestData.username.indexOf('@');
-    requestData.username = index > -1 ? requestData.username.toLowerCase().substring(0, index) : requestData.username.toLowerCase();
+    requestData.username = this.trimUsername(requestData.username);
     requestData.password = this.hashPassword(requestData);
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
@@ -60,6 +59,14 @@ export class UsersService {
         this.setLoginData(data, body);
       })
     );
+  }
+
+  trimUsername(username: string) {
+    username = username.toLowerCase();
+    if (username.split('@')[1] === PRIMARY_DOMAIN) {
+      username = username.split('@')[0];
+    }
+    return username;
   }
 
   private hashPassword(requestData: any, field = 'password'): string {
@@ -187,7 +194,10 @@ export class UsersService {
       'emails/folder-order',
       'emails/empty-trash',
       'users/autoresponder',
-      'auth/sign-out/'
+      'auth/sign-out/',
+      'auth/add-user/',
+      'auth/update-user/',
+      'emails/domain-users/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -283,6 +293,24 @@ export class UsersService {
 
   checkUsernameAvailability(username): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/check-username/`, { username });
+  }
+
+  addOrganizationUser(data: any): Observable<any> {
+    data.password = this.hashPassword(data, 'password');
+    return this.http.post<any>(`${apiUrl}auth/add-user/`, data);
+  }
+
+  updateOrganizationUser(data: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/update-user/`, { user_id: data.user_id, recovery_email: data.recovery_email });
+  }
+
+  deleteOrganizationUser(data: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}auth/delete-user/`, { username: data.username });
+  }
+
+  getOrganizationUsers(limit = 0, offset = 0) {
+    const url = `${apiUrl}emails/domain-users/?limit=${limit}&offset=${offset}`;
+    return this.http.get<any>(url);
   }
 
   upgradeAccount(data) {

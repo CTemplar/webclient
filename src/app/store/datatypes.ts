@@ -8,6 +8,7 @@ import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
 import { WebSocketState } from './websocket.store';
+import { OrganizationState } from './organization.store';
 
 export interface RouterStateUrl {
   url: string;
@@ -84,6 +85,7 @@ export interface UserState {
   filtersError?: any;
   autoresponder?: AutoResponder;
   customDomains: Domain[];
+  customDomainsLoaded?: boolean;
   newCustomDomain?: Domain;
   newCustomDomainError?: string;
   currentCreationStep: number;
@@ -91,6 +93,7 @@ export interface UserState {
   emailForwardingErrorMessage?: string;
   autoResponderErrorMessage?: string;
   emailContacts?: EmailContact[];
+  isLoaded?: boolean;
 }
 
 export interface EmailContact {
@@ -285,6 +288,7 @@ export interface AppState {
   secureMessage: SecureMessageState;
   search: SearchState;
   webSocket: WebSocketState;
+  organization: OrganizationState;
 }
 
 export interface TimezonesState {

@@ -21,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 export class CustomDomainsComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  @Output() onGotoAddresses = new EventEmitter<any>();
+  @Output() onGotoTab = new EventEmitter<string>();
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
@@ -137,7 +137,8 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       this.newDomain = domain;
       this.confirmModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,
-        windowClass: 'modal-sm users-action-modal'
+        windowClass: 'modal-sm users-action-modal',
+        backdrop: 'static'
       });
     }
   }
@@ -152,6 +153,10 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   gotoAddresses() {
-    this.onGotoAddresses.emit();
+    this.onGotoTab.emit('addresses-signatures');
+  }
+
+  gotoPricingPlans() {
+    this.onGotoTab.emit('dashboard-plans');
   }
 }
