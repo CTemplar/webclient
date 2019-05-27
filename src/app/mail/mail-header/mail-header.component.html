@@ -29,11 +29,24 @@
         </div>
         <div class="col-sm-6 mailbox-navbar-col">
             <ul class="mailbox-actions-menu d-flex justify-content-end">
-                <div class="help-icon" ngbTooltip="Need help? Contact support!" placement="bottom">
-                    <a (click)="openComposeMailDialog(['support@ctemplar.com'])">
-                        <i class="material-icons">help_outline</i>
-                    </a>
+
+              <li class="btn-dropdown help-icon">
+                <div ngbDropdown>
+                  <button type="button" id="helpDropdownMenuButton"
+                          ngbTooltip="Need help?"
+                          class="icon-button"
+                          ngbDropdownToggle placement="bottom">
+                    <i class="material-icons">help_outline</i>
+                  </button>
+                  <div ngbDropdownMenu class="dropdown-menu-right text-center"
+                       aria-labelledby="helpDropdownMenuButton">
+                    <a class="dropdown-item text-left" target="_blank"
+                       href="https://blog.ctemplar.com/faqs/">FAQs</a>
+                    <a class="dropdown-item text-left"
+                       (click)="openComposeMailDialog(['support@ctemplar.com'])">Contact support</a>
+                  </div>
                 </div>
+              </li>
                 <li class=""><a routerLink="/mail/contacts" placement="bottom"
                                 routerLinkActive="active"
                                 [ngbTooltip]="'mail_header.contacts' | translate"><i
