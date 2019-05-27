@@ -211,15 +211,17 @@
         <div class="col-4">
           <div class="msg-reply-type-holder">
             <div class="d-flex align-items-center justify-content-end">
-              <span class="badge badge-warning mr-2 p-1"
-                    *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
-              </span>
-              <span class="badge badge-success mr-2 p-1"
-                    *ngIf="mail.delayed_delivery">Dalay delivery in {{mail.delayed_delivery | remainingTime}}
-              </span>
-              <span class="badge badge-danger mr-2 p-1"
-                    *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
-              </span>
+              <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
+                <span class="badge badge-warning mr-2 p-1"
+                      *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
+                </span>
+                  <span class="badge badge-success mr-2 p-1"
+                        *ngIf="mail.delayed_delivery">Dalay delivery in {{mail.delayed_delivery | remainingTime}}
+                </span>
+                  <span class="badge badge-danger mr-2 p-1"
+                        *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
+                </span>
+              </ng-container>
               <span *ngIf="mail.attachments?.length > 0" class="mr-3"><i class="icon icon-attachment"></i></span>
               <label class="msg-received-time mb-0" id="{{mail.id}}-mail-date">
                 <ng-container *ngIf="mail.sent_at; else createdAt">{{mail.sent_at | momentDate:'medium'}}</ng-container>
@@ -344,6 +346,7 @@
                   <div class="col-4">
                     <div class="msg-reply-type-holder">
                       <div class="d-flex align-items-center justify-content-end">
+                      <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                         <span class="badge badge-warning mr-2 p-1"
                               *ngIf="childMail.destruct_date">Delete in {{childMail.destruct_date | remainingTime}}
                         </span>
@@ -353,6 +356,7 @@
                         <span class="badge badge-danger mr-2 p-1"
                               *ngIf="childMail.dead_man_duration">Dead mans timer {{childMail.dead_man_duration | remainingTime:true}}
                         </span>
+                      </ng-container>
                         <span *ngIf="childMail.attachments?.length > 0" class="mr-3"><i class="icon icon-attachment"></i></span>
                         <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
                           <ng-container *ngIf="childMail.sent_at; else createdAt">
