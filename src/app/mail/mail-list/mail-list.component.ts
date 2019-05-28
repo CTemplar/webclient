@@ -3,7 +3,7 @@ import { Folder, MailFolderType } from '../../store/models';
 import { Observable } from 'rxjs';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AppState, MailBoxesState, UserState } from '../../store/datatypes';
+import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { SearchState } from '../../store/reducers/search.reducers';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -66,5 +66,9 @@ export class MailListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.searchText) {
+      this.isContactsPage = true;
+      this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
+    }
   }
 }

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable } from 'rxjs';
 import { AppState, Contact, UserState } from '../../store/datatypes';
-import { ContactDelete, ContactImport, ContactsGet, GetMails, SnackErrorPush } from '../../store';
+import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { takeUntil } from 'rxjs/operators';
 import { SearchState } from '../../store/reducers/search.reducers';
+import { UpdateSearch } from '../../store/actions/search.action';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -65,7 +66,6 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateUsersStatus();
-    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0 }));
 
     this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
       .subscribe((search: SearchState) => {
@@ -75,6 +75,9 @@ export class MailContactComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.searchText) {
+      this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
+    }
   }
 
   private updateUsersStatus(): void {
