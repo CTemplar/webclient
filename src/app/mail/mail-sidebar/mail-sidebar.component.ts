@@ -11,14 +11,8 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import {
-  GetMailDetailSuccess,
-  GetMailsSuccess,
-  GetUnreadMailsCount,
-  GetUnreadMailsCountSuccess, ReadMailSuccess,
-  SetCurrentFolder
-} from '../../store/actions';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { GetMails, GetMailsSuccess, GetUnreadMailsCount, GetUnreadMailsCountSuccess, ReadMailSuccess } from '../../store/actions';
+import { filter, takeUntil } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
@@ -76,7 +70,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(nextPage);
     }
 
-    this.store.dispatch(new GetUnreadMailsCount());
     this.websocketService.connect();
 
     // listen to web sockets events of new emails from server.
@@ -97,6 +90,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
             if (webSocketState.message.folder !== MailFolderType.SPAM) {
               this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
             }
+          } else if (webSocketState.message.is_outbox_mail_sent) {
+            this.store.dispatch(new GetUnreadMailsCount());
+            if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
+              this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
+            }
+
           } else if (webSocketState.message.marked_as_read !== null) {
             this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: webSocketState.message.unread_count_inbox }));
             this.store.dispatch(new ReadMailSuccess({

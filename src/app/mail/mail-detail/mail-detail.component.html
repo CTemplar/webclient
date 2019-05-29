@@ -216,7 +216,7 @@
                       *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
                 </span>
                   <span class="badge badge-success mr-2 p-1"
-                        *ngIf="mail.delayed_delivery">Dalay delivery in {{mail.delayed_delivery | remainingTime}}
+                        *ngIf="mail.delayed_delivery">Delay delivery in {{mail.delayed_delivery | remainingTime}}
                 </span>
                   <span class="badge badge-danger mr-2 p-1"
                         *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
@@ -351,7 +351,7 @@
                               *ngIf="childMail.destruct_date">Delete in {{childMail.destruct_date | remainingTime}}
                         </span>
                         <span class="badge badge-success mr-2 p-1"
-                              *ngIf="childMail.delayed_delivery">Dalay delivery in {{childMail.delayed_delivery | remainingTime}}
+                              *ngIf="childMail.delayed_delivery">Delay delivery in {{childMail.delayed_delivery | remainingTime}}
                         </span>
                         <span class="badge badge-danger mr-2 p-1"
                               *ngIf="childMail.dead_man_duration">Dead mans timer {{childMail.dead_man_duration | remainingTime:true}}

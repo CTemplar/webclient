@@ -77,6 +77,7 @@ export interface Message {
   mail: Mail;
   total_count?: number;
   marked_as_read?: boolean;
+  is_outbox_mail_sent?: boolean;
   unread_count_inbox?: number;
 
   /**
