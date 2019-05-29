@@ -84,7 +84,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
           if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isInitialized) {
             this.isInitialized = true;
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
-            this.store.dispatch(new GetUnreadMailsCount());
+            if (this.mailFolder === MailFolderType.OUTBOX) {
+              this.store.dispatch(new GetUnreadMailsCount());
+            }
           }
         }
       });
