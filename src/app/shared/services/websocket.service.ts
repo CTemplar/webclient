@@ -79,6 +79,7 @@ export interface Message {
   marked_as_read?: boolean;
   is_outbox_mail_sent?: boolean;
   unread_count_inbox?: number;
+  unread_count_outbox?: number;
 
   /**
    * Id's list when a messsage is marked as read/unread.

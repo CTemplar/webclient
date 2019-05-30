@@ -92,13 +92,15 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
             }
           } else if (webSocketState.message.is_outbox_mail_sent) {
-            this.store.dispatch(new GetUnreadMailsCount());
+            this.store.dispatch(new GetUnreadMailsCountSuccess(
+              { unread_count_outbox: webSocketState.message.unread_count_outbox, updateOutboxCount: true, }));
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
 
           } else if (webSocketState.message.marked_as_read !== null) {
-            this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: webSocketState.message.unread_count_inbox }));
+            this.store.dispatch(new GetUnreadMailsCountSuccess(
+              { unread_count_inbox: webSocketState.message.unread_count_inbox, updateInboxCount: true }));
             this.store.dispatch(new ReadMailSuccess({
               ids: webSocketState.message.ids.join(','),
               read: webSocketState.message.marked_as_read,
