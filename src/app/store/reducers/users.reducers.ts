@@ -3,6 +3,7 @@
 import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
 import { UserState } from '../datatypes';
+import { sortByString } from '../services';
 
 export const initialState: UserState = {
   username: null,
@@ -119,7 +120,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         contact.name = action.payload.name;
         return { ...state, inProgress: false, isError: false };
       }
-      return { ...state, contact: state.contact.concat([action.payload]), inProgress: false, isError: false };
+      return { ...state, contact: sortByString(state.contact.concat([action.payload]), 'name'), inProgress: false, isError: false };
     }
     case UsersActionTypes.CONTACT_ADD_ERROR: {
       return { ...state, inProgress: false, isError: true };
