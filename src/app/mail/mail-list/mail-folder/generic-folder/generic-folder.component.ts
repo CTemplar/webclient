@@ -141,7 +141,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   refresh() {
-    this.store.dispatch(new GetMails({ forceReload: true, limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
+    this.store.dispatch(new GetMails({
+      forceReload: true, limit: this.LIMIT,
+      offset: this.OFFSET, folder: this.mailFolder,
+      searchText: this.searchText,
+    }));
     this.store.dispatch(new GetUnreadMailsCount());
   }
 
