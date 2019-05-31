@@ -69,7 +69,7 @@ export class WebsocketService implements OnDestroy {
   }
 }
 
-export interface Message {
+export interface Message extends Object{
   id: number;
   folder: string;
   parent_id?: number;

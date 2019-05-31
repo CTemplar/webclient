@@ -100,8 +100,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
             }
 
           } else if (webSocketState.message.marked_as_read !== null) {
-            this.store.dispatch(new GetUnreadMailsCountSuccess(
-              { inbox: webSocketState.message.unread_count_inbox, updateUnreadCount: true }));
+            this.updateUnreadCount(webSocketState);
             this.store.dispatch(new ReadMailSuccess({
               ids: webSocketState.message.ids.join(','),
               read: webSocketState.message.marked_as_read,
@@ -157,7 +156,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   private updateUnreadCount(webSocketState: WebSocketState) {
     const data = { updateUnreadCount: true };
-    data[webSocketState.message.folder] = webSocketState.message['unread_count_' + webSocketState.message.folder];
+    for (const key in webSocketState.message) {
+      if (webSocketState.message.hasOwnProperty(key) && key.indexOf('unread_count_') === 0) {
+        data[key.split('unread_count_')[1]] = webSocketState.message[key];
+      }
+    }
     this.store.dispatch(new GetUnreadMailsCountSuccess(data));
   }
 
