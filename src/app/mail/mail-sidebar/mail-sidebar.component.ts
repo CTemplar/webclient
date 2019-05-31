@@ -90,17 +90,18 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
             }
             if (webSocketState.message.folder !== MailFolderType.SPAM) {
               this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
+              this.updateUnreadCount(webSocketState);
             }
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
-              { unread_count_outbox: webSocketState.message.unread_count_outbox, updateOutboxCount: true, }));
+              { outbox: webSocketState.message.unread_count_outbox, updateUnreadCount: true, }));
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
 
           } else if (webSocketState.message.marked_as_read !== null) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
-              { unread_count_inbox: webSocketState.message.unread_count_inbox, updateInboxCount: true }));
+              { inbox: webSocketState.message.unread_count_inbox, updateUnreadCount: true }));
             this.store.dispatch(new ReadMailSuccess({
               ids: webSocketState.message.ids.join(','),
               read: webSocketState.message.marked_as_read,
@@ -152,6 +153,12 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);
         }
       });
+  }
+
+  private updateUnreadCount(webSocketState: WebSocketState) {
+    const data = { updateUnreadCount: true };
+    data[webSocketState.message.folder] = webSocketState.message['unread_count_' + webSocketState.message.folder];
+    this.store.dispatch(new GetUnreadMailsCountSuccess(data));
   }
 
   updateTitle(title: string = null) {

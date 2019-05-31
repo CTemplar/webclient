@@ -37,7 +37,6 @@ export class WebsocketService implements OnDestroy {
         this.store.dispatch(new Logout(data));
       } else {
         this.store.dispatch(new WebSocketNewMessage(data));
-        this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: data.unread_count_inbox }));
       }
     };
 
