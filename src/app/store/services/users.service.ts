@@ -111,7 +111,7 @@ export class UsersService {
   }
 
   signUp(user): Observable<any> {
-    const requestData = { ...user };
+    const requestData = { ...user, timezone_offset: new Date().getTimezoneOffset() };
     const referralCode = localStorage.getItem(REFFERAL_CODE_KEY);
     if (referralCode) {
       requestData[REFFERAL_CODE_KEY] = referralCode;
