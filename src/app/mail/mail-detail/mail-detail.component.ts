@@ -409,7 +409,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   openCreateFolderDialog() {
-    this.shareService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
+    this.shareService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, { self: this, method: 'moveToFolder' });
   }
 
   onPrint(mail: Mail) {
