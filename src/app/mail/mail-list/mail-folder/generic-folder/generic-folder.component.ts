@@ -243,7 +243,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
    * Free Users - Only allow a maximum of 3 folders per account
    */
   openCreateFolderDialog() {
-    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
+    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, { self: this, method: 'moveToFolder' });
   }
 
   /**
@@ -262,10 +262,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         mail: this.getMarkedMails(),
         allowUndo: folder === MailFolderType.TRASH
       }));
+
+      setTimeout(() => {
+        this.refresh();
+      }, 2000);
     }
-    setTimeout(() => {
-      this.refresh();
-    }, 2000);
   }
 
   markReadMails() {
