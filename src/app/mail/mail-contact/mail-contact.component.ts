@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable } from 'rxjs';
 import { AppState, Contact, UserState } from '../../store/datatypes';
-import { ContactDelete, ContactImport, ContactsGet, GetMails, SnackErrorPush } from '../../store';
+import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,8 @@ import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { takeUntil } from 'rxjs/operators';
+import { SearchState } from '../../store/reducers/search.reducers';
+import { UpdateSearch } from '../../store/actions/search.action';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -50,6 +52,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;
   private importContactsModalRef: NgbModalRef;
+  private searchText: string;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -63,10 +66,18 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateUsersStatus();
-    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0 }));
+
+    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
+      .subscribe((search: SearchState) => {
+        this.searchText = search.searchText;
+        this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
+      });
   }
 
   ngOnDestroy(): void {
+    if (this.searchText) {
+      this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
+    }
   }
 
   private updateUsersStatus(): void {
@@ -199,7 +210,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
     if (this.PAGE > 0) {
       this.PAGE--;
       this.OFFSET = this.PAGE * this.LIMIT;
-      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET }));
+      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET, q: this.searchText }));
     }
   }
 
@@ -207,7 +218,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
     if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
-      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET }));
+      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET, q: this.searchText }));
     }
   }
 }

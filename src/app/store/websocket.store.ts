@@ -65,11 +65,11 @@ export interface WebSocketState {
 export function reducer(state: WebSocketState = {}, action: WebSocketActionAll) {
   switch (action.type) {
     case WebSocketActionTypes.WEB_SOCKET_NEW_MESSAGE: {
-      return { ...state, message: action.payload };
+      return { message: action.payload, isClosed: false };
     }
 
     case WebSocketActionTypes.WEB_SOCKET_CLOSE: {
-      return { ...state, isClosed: true, message: null };
+      return { isClosed: true, message: null };
     }
 
     default: {

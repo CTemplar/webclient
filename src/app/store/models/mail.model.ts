@@ -30,6 +30,7 @@ export interface Mail {
   is_encrypted?: boolean;
   is_protected?: boolean;
   sent_at?: string;
+  has_attachments?: boolean;
   created_at?: string;
   parent?: number;
   has_children?: boolean;

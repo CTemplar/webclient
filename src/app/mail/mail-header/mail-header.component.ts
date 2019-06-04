@@ -12,9 +12,8 @@ import { FormControl } from '@angular/forms';
 import { UpdateSearch } from '../../store/actions/search.action';
 import { DOCUMENT } from '@angular/common';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { MailFolderType } from '../../store/models';
-import { ActivatedRoute } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, takeUntil } from 'rxjs/operators';
 import { SearchState } from '../../store/reducers/search.reducers';
 
 @TakeUntilDestroy()
@@ -31,12 +30,12 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   selectedLanguage: Language = { name: 'English', locale: 'en' };
   languages = LANGUAGES;
   searchInput = new FormControl();
-  mailFolderTypes = MailFolderType;
-  mailFolder: MailFolderType;
+  searchPlaceholder: string = 'common.search';
+  private isContactsPage: boolean;
 
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
-              private route: ActivatedRoute,
+              private router: Router,
               private translate: TranslateService,
               @Inject(DOCUMENT) private document: Document,
               private composeMailService: ComposeMailService) {
@@ -54,9 +53,13 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
           this.selectedLanguage = language;
         }
       });
-    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe(params => {
-      this.mailFolder = params['folder'] as MailFolderType;
-    });
+
+    this.setSearchPlaceholder(this.router.url);
+    this.router.events.pipe(takeUntil(this.destroyed$), filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.setSearchPlaceholder(event.url);
+      });
+
     this.searchInput.valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((value) => {
         if (!value) {
@@ -69,6 +72,11 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
           this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
         }
       });
+  }
+
+  setSearchPlaceholder(url) {
+    this.isContactsPage = url === '/mail/contacts';
+    this.searchPlaceholder = this.isContactsPage ? 'common.search_contacts' : 'common.search';
   }
 
   search() {

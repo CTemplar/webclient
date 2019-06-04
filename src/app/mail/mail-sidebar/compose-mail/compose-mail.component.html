@@ -381,7 +381,8 @@
                       placement="top" ngbTooltip="Delayed delivery"><i class="icon icon-self-timer"></i>
               </button>
               <ng-template #disabledDelayedDeliveryBtn>
-                <button type="button" role="button" class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
+                <button type="button" role="button"
+                        class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                         disabled><i class="icon icon-self-timer"></i>
                 </button>
               </ng-template>
@@ -405,7 +406,7 @@
         <div class="mail-composer-actions-col mail-composer-actions-col-sm">
           <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
             <li class="pr-1" *ngIf="inProgress || draftMail?.id">
-              <span>{{inProgress ? 'Saving...': 'Saved'}}</span>
+              <span>{{inProgress ? 'Saving...' : 'Saved'}}</span>
             </li>
             <li class="pr-0" *ngIf="showSaveButton">
               <button role="button"
@@ -472,28 +473,31 @@
       <div class="form-group">
         Email will be deleted on selected datetime
       </div>
-      <div class="form-group">
-        <label class="form-inline">Select Date</label>
-        <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
-                        [(ngModel)]="selfDestruct.date"
-                        [minDate]="datePickerMinDate"></ngb-datepicker>
-      </div>
-      <div class="form-group">
-        <label class="form-inline">Select Time</label>
-        <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
-          <div ngbDropdown class="dropdown-sm">
-            <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
-                    id="selfDestructMeridianDropdownMenuButton" role="button">
-              {{selfDestruct.meridian ? '12 Hour' : '24 Hour'}}
-            </button>
-            <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
-              <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 Hour</a>
-              <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 Hour</a>
+      <div class="row">
+        <div class="col-7 form-group">
+          <label class="form-inline">Select Date</label>
+          <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
+                          [(ngModel)]="selfDestruct.date"
+                          [minDate]="datePickerMinDate"></ngb-datepicker>
+        </div>
+        <div class="col-5 form-group">
+          <label class="form-inline">Select Time</label>
+          <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
+            <div ngbDropdown class="dropdown-sm">
+              <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
+                      id="selfDestructMeridianDropdownMenuButton" role="button">
+                {{selfDestruct.meridian ? '12 Hour' : '24 Hour'}}
+              </button>
+              <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
+                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 Hour</a>
+                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 Hour</a>
+              </div>
             </div>
           </div>
+          <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian"></ngb-timepicker>
         </div>
-        <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian"></ngb-timepicker>
       </div>
+
       <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">
         {{selfDestruct.error}}
       </div>
@@ -523,27 +527,29 @@
       <div class="form-group">
         Email will be sent on selected datetime
       </div>
-      <div class="form-group">
-        <label class="form-inline">Select Date</label>
-        <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
-                        [(ngModel)]="delayedDelivery.date"
-                        [minDate]="datePickerMinDate"></ngb-datepicker>
-      </div>
-      <div class="form-group">
-        <label class="form-inline">Select Time</label>
-        <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
-          <div ngbDropdown class="dropdown-sm">
-            <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
-                    id="delayedDeliveryMeridianDropdownMenuButton" role="button">
-              {{delayedDelivery.meridian ? '12 Hour': '24 Hour'}}
-            </button>
-            <div ngbDropdownMenu aria-labelledby="delayedDeliveryMeridianDropdownMenuButton">
-              <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true">12 Hour</a>
-              <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false">24 Hour</a>
+      <div class="row">
+        <div class="col-7 form-group">
+          <label class="form-inline">Select Date</label>
+          <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
+                          [(ngModel)]="delayedDelivery.date"
+                          [minDate]="datePickerMinDate"></ngb-datepicker>
+        </div>
+        <div class="col-5 form-group">
+          <label class="form-inline">Select Time</label>
+          <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
+            <div ngbDropdown class="dropdown-sm">
+              <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
+                      id="delayedDeliveryMeridianDropdownMenuButton" role="button">
+                {{delayedDelivery.meridian ? '12 Hour' : '24 Hour'}}
+              </button>
+              <div ngbDropdownMenu aria-labelledby="delayedDeliveryMeridianDropdownMenuButton">
+                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true">12 Hour</a>
+                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false">24 Hour</a>
+              </div>
             </div>
           </div>
+          <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian"></ngb-timepicker>
         </div>
-        <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian"></ngb-timepicker>
       </div>
       <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">
         {{delayedDelivery.error}}

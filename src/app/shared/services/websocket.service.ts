@@ -37,7 +37,6 @@ export class WebsocketService implements OnDestroy {
         this.store.dispatch(new Logout(data));
       } else {
         this.store.dispatch(new WebSocketNewMessage(data));
-        this.store.dispatch(new GetUnreadMailsCountSuccess({ unread_count_inbox: data.unread_count_inbox }));
       }
     };
 
@@ -70,14 +69,16 @@ export class WebsocketService implements OnDestroy {
   }
 }
 
-export interface Message {
+export interface Message extends Object{
   id: number;
   folder: string;
   parent_id?: number;
   mail: Mail;
   total_count?: number;
   marked_as_read?: boolean;
+  is_outbox_mail_sent?: boolean;
   unread_count_inbox?: number;
+  unread_count_outbox?: number;
 
   /**
    * Id's list when a messsage is marked as read/unread.

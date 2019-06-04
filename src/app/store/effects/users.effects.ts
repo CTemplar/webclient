@@ -244,7 +244,7 @@ export class UsersEffects {
     ofType(UsersActionTypes.CONTACT_GET),
     map((action: ContactsGet) => action.payload),
     switchMap(payload => {
-      return this.userService.getContact(payload.limit, payload.offset)
+      return this.userService.getContact(payload)
         .pipe(
           map(contact => {
             return new ContactGetSuccess(contact);

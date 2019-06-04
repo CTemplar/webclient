@@ -84,6 +84,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
           if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isInitialized) {
             this.isInitialized = true;
             this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
+            if (this.mailFolder === MailFolderType.OUTBOX) {
+              this.store.dispatch(new GetUnreadMailsCount());
+            }
           }
         }
       });
@@ -112,7 +115,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
             if (page !== this.PAGE + 1) {
               this.PAGE = page > 0 ? page - 1 : 0;
               this.OFFSET = this.PAGE * this.LIMIT;
-              this.refresh(true);
+              this.refresh();
             }
           }
           if (params.folder) {
@@ -137,15 +140,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  refresh(forceReload: boolean = false, isForcedByUser?: boolean) {
-    if (!forceReload && this.mailFolder === MailFolderType.INBOX) {
-      this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: this.mailFolder, read: false, seconds: 300 }));
-    } else {
-      this.store.dispatch(new GetMails({ forceReload, limit: this.LIMIT, offset: this.OFFSET, folder: this.mailFolder }));
-      if (isForcedByUser) {
-        this.store.dispatch(new GetUnreadMailsCount());
-      }
-    }
+  refresh() {
+    this.store.dispatch(new GetMails({
+      forceReload: true, limit: this.LIMIT,
+      offset: this.OFFSET, folder: this.mailFolder,
+      searchText: this.searchText,
+    }));
+    this.store.dispatch(new GetUnreadMailsCount());
   }
 
   markAllMails(checkAll) {
@@ -242,7 +243,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
    * Free Users - Only allow a maximum of 3 folders per account
    */
   openCreateFolderDialog() {
-    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
+    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, { self: this, method: 'moveToFolder' });
   }
 
   /**
@@ -261,10 +262,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         mail: this.getMarkedMails(),
         allowUndo: folder === MailFolderType.TRASH
       }));
+
+      setTimeout(() => {
+        this.refresh();
+      }, 2000);
     }
-    setTimeout(() => {
-      this.refresh(true);
-    }, 2000);
   }
 
   markReadMails() {
