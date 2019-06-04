@@ -27,6 +27,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   userState: UserState;
   submitted: boolean;
   duplicateFoldername: boolean;
+  callback: { self: any, method: string };
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
@@ -51,6 +52,9 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
       .subscribe((user: UserState) => {
         if (this.userState && this.userState.inProgress && !user.inProgress) {
+          if (this.callback) {
+            this.callback.self[this.callback.method](this.customFolderForm.value.folderName);
+          }
           this.activeModal.close();
         }
         this.userState = user;

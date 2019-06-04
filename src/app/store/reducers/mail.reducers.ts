@@ -67,10 +67,13 @@ export function reducer(
       return { ...state, noUnreadCountChange: false };
     }
     case MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS: {
-      if (action.payload.unread_count_inbox || action.payload.unread_count_inbox === 0) {
+      if (action.payload.updateUnreadCount) {
         return {
           ...state,
-          unreadMailsCount: { ...state.unreadMailsCount, inbox: action.payload.unread_count_inbox },
+          unreadMailsCount: {
+            ...state.unreadMailsCount,
+            ...action.payload,
+          },
           noUnreadCountChange: false,
         };
       }

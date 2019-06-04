@@ -178,6 +178,7 @@
 
   .show.lang-dropdown .dropdown-toggle {
     color: $brand-secondary;
+
     &::before {
       margin-top: 0.1rem;
       border-color: $brand-secondary;
@@ -200,9 +201,10 @@
 
 // == Search form
 .search-form {
-  @include media("<ipad"){
+  @include media("<ipad") {
     width: 90%;
   }
+
   .form-control {
     padding-right: 3.438rem + 0.938rem;
     height: 32px;
@@ -235,9 +237,11 @@
 
     i {
       font-size: 20px !important;
+
       &:hover {
         color: $brand-secondary;
       }
+
       &:active {
         color: $brand-black;
       }
@@ -249,6 +253,7 @@
 .mailbox-xs-search-item {
   .dropdown-toggle {
     color: $brand-white;
+
     &::before {
       display: none;
     }
@@ -295,15 +300,33 @@
 }
 
 .help-icon {
-  a {
-    color: #a7a7a7;
-    &:hover {
-      color: #8a9095;
-    }
+  a.dropdown-item {
+    position: relative;
+    padding: 0.625rem 0.938rem;
+    border-bottom: 0;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    white-space: normal;
+    width: 130px;
+  }
+
+  .icon-button {
+    width: 56px;
+
     i {
-      line-height: 48px;
-      font-size: 35px;
+      margin-top: -4px
     }
   }
 }
 
+.faq-dropdown {
+  padding: .5rem 0;
+}
+
+.dropdown-menu {
+  opacity: 0;
+}
+
+.show > .dropdown-menu {
+  opacity: 1 !important;
+}

@@ -38,14 +38,19 @@ export class SharedService {
    * Prime Users - Can create as many folders as they want
    * Free Users - Only allow a maximum of 3 folders per account
    */
-  openCreateFolderDialog(isPrime, customFolders: Folder[]) {
+  openCreateFolderDialog(isPrime, customFolders: Folder[], callback: { self: any, method: string } = null) {
     if (isPrime) {
-      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+      this.openModal(callback);
     } else if (customFolders === null || customFolders.length < 3) {
-      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+      this.openModal(callback);
     } else {
       this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
     }
+  }
+
+  private openModal(callback: { self: any, method: string } = null) {
+    const modal: NgbModalRef = this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    (<CreateFolderComponent>modal.componentInstance).callback = callback;
   }
 
   showPaymentFailureDialog() {

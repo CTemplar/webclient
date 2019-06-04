@@ -16,7 +16,7 @@ import {
   CreateMailSuccess,
   DeleteAttachment,
   DeleteAttachmentFailure,
-  DeleteAttachmentSuccess,
+  DeleteAttachmentSuccess, GetUnreadMailsCount,
   GetUsersKeys,
   GetUsersKeysSuccess,
   SendMail,
@@ -121,14 +121,17 @@ export class ComposeMailEffects {
         return this.mailService.createMail(payload.draft)
           .pipe(
             switchMap(res => {
-              return of(
+              const events: any [] = [
                 new SendMailSuccess(payload),
                 new UpdateCurrentFolder(res),
                 new UpdateMailDetailChildren(res),
                 new SnackPush({
                   message: `Mail sent successfully`
-                })
-              );
+                })];
+              if (payload.draft.folder === MailFolderType.OUTBOX) {
+                events.push(new GetUnreadMailsCount());
+              }
+              return events;
             }),
             catchError(errorResponse => of(new SnackErrorPush({
               message: errorResponse.error && errorResponse.error.detail ?

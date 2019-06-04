@@ -111,7 +111,7 @@ export class UsersService {
   }
 
   signUp(user): Observable<any> {
-    const requestData = { ...user };
+    const requestData = { ...user, timezone_offset: new Date().getTimezoneOffset() };
     const referralCode = localStorage.getItem(REFFERAL_CODE_KEY);
     if (referralCode) {
       requestData[REFFERAL_CODE_KEY] = referralCode;
@@ -260,8 +260,8 @@ export class UsersService {
     return this.http.delete<any>(url, body);
   }
 
-  getContact(limit = 0, offset = 0) {
-    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${limit}&offset=${offset}`);
+  getContact(data = { limit: 0, offset: 0, q: '' }) {
+    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${data.limit}&offset=${data.offset}&q=${data.q}`);
   }
 
   getEmailContacts() {
