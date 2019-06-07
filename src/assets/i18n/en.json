@@ -235,16 +235,23 @@
     "signup": "Sign up"
   },
   "home_page": {
+    "title": "Armored Email<br>Anonymous<br> Encrypted",
     "signup_for_free": "Sign up for free",
     "latest_from_our_blog": "Latest From <strong>Our Blog</strong>",
     "related_post": "Related <strong>Post</strong>",
     "read_more_from_our_blog": "Read more from our blog"
   },
   "home_feature": {
-    "end_to_end_PKI_encryption": "4096 bit end-to-end encryption keeps your private information safe from governments, corporations, and hackers-for-hire.",
-    "safely_send_your_financial": "Securely send your financial records, contracts, lab results, investigative journalism and more, even to non-CTemplar email accounts, with anonymous email signup, no IP logging, and unmatched password security.",
-    "iceland_based_server": "Iceland has the world’s strongest data privacy laws, so by using our Icelandic servers, your data has the strongest legal protection in the world.",
-    "easy_to_use_responsive": "CTemplar’s exclusive 4 Wall Watch guarantees complete wall-to-wall protection of your data.",
+    "encrypted": "Encrypted",
+    "anonymous": "Anonymous",
+    "view_code": "view code",
+    "legal_protection": "World's Strongest Legal Protection",
+    "read_more": "read more",
+    "4_Wall_Protection": "4 Wall Protection",
+    "end_to_end_PKI_encryption": "We use 4096 bit encryption. This protects users from current cryptography cracking techniques and future hypothetical attacks.",
+    "track_your_ip": "We never track your IP address, keep logs on your usage or record any identifying information at any time. We prove this by making our code readily available ",
+    "iceland_based_server": "Iceland has the world’s strongest data privacy laws, so by using our Icelandic servers,your data has the strongest legal protection in the world.Drop your Swiss data plans now",
+    "exclusive_4_wall": "CTemplar’s exclusive 4 Wall Protection guarantees complete wall-to-wall protection of your data.",
     "learn_more_about_ctempler": "Learn more about the security features of CTemplar"
   },
   "footer": {
