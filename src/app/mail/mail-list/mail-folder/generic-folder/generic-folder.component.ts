@@ -71,6 +71,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         this.showProgress = !mailState.loaded || mailState.inProgress;
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
+          this.mails = [...mailState.mails];
         }
       });
 
