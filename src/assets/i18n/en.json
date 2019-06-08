@@ -41,6 +41,9 @@
   },
   "settings": {
     "dashboard": "Dashboard",
+    "dashboard_plans": "Dashboard and plans",
+    "general": "General",
+    "compose_font": "Default Mail Compose Font",
     "overview": "Overview",
     "username": "Username",
     "domains": "Domains",
@@ -188,7 +191,25 @@
     "edit": "Edit",
     "delete": "Delete",
     "notifications": "Notifications",
-    "notification_email": "Notification email"
+    "notification_email": "Notification email",
+    "desktop_notification_title": "Desktop notifications",
+    "desktop_notifications_en": "Desktop notifications are enabled.",
+    "click_to_test": "Click here to Test",
+    "enter_notification_email": "Enter a notification email on which you would like to receive notification each day when you have new emails.",
+    "desktop_notifications_dis": "Desktop Notifications are disabled.Please go to your browser settings in order to enable them.",
+    "click_here": "Click here",
+    "enable_notifications": "in order to enable desktop notifications.",
+    "delete_account": "Delete Account",
+    "delete_account_perm": "Permanently Delete Account",
+    "delete_account_guide": "If you permanently delete your account you will lose all the data in your mailbox. In 2 months this username will be available for re-use by anyone who selects it."
+    "filters": {
+      "name": "Filters",
+      "add_filter": "Add a filter to perform actions such as automatically labeling or archiving.",
+      "spam_filter": "My spam filter",
+      "imp_messages": "Important messages filter",
+      "auto_labeling": "Auto-labeling test",
+      "custom_filter": "Add custom filter"
+    }
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -204,7 +225,8 @@
   },
   "mail_header": {
     "contacts": "Contacts",
-    "settings": "Settings"
+    "settings": "Settings",
+    "need_help": "Need Help"
   },
   "mail_list": {
     "select_messages": "Select messages",
@@ -222,7 +244,8 @@
     "more": "More",
     "add_star": "Add star",
     "mark_as_read": "Mark as read",
-    "mark_as_unread": "Mark as unread"
+    "mark_as_unread": "Mark as unread",
+    "refresh": "Refresh"
   },
   "home_header": {
     "home": "Home",

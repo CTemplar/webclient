@@ -33,7 +33,7 @@
               <li class="btn-dropdown help-icon">
                 <div ngbDropdown>
                   <button type="button" id="helpDropdownMenuButton"
-                          ngbTooltip="Need help?"
+                          [ngbTooltip]="'mail_header.need_help'| translate"
                           class="icon-button"
                           ngbDropdownToggle placement="bottom">
                     <i class="material-icons">help_outline</i>

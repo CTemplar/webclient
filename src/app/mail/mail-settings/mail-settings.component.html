@@ -4,7 +4,7 @@
 
         <!-- Dashboard and Plans -->
         <ngb-tab id="dashboard-plans">
-            <ng-template ngbTabTitle>Dashboard and plans</ng-template>
+            <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard and plans</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- Overview Section -->
@@ -220,7 +220,7 @@
 
         <!-- General -->
         <ngb-tab>
-            <ng-template ngbTabTitle>General</ng-template>
+            <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- General Settings -->
@@ -304,7 +304,7 @@
                             <div class="form-content-row">
                                 <div class="row align-items-center">
                                     <div class="col-sm-3">
-                                        <label class="form-label mb-0">Default Mail Compose Font</label>
+                                        <label class="form-label mb-0" translate="settings.compose_font">Default Mail Compose Font</label>
                                     </div>
                                     <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
@@ -472,7 +472,7 @@
                                                placeholder="johnsimpson@gmail.com"/>
                                     </form>
                                     <div class="info-card mx-3 mt-2 full-width">
-                                        <p>
+                                        <p translate="settings.enter_notification_email">
                                             Enter a notification email on which you would like to receive notification
                                             each day when you have new emails.
                                         </p>
@@ -480,12 +480,13 @@
                                 </div>
                                 <div class="row align-items-center">
                                     <div class="col-sm-3">
-                                        <label class="form-label mb-sm-0">
+                                        <label class="form-label mb-sm-0" translate="settings.desktop_notification_title">
                                             Desktop notifications</label>
                                     </div>
                                     <div class="col-sm-7 col-md-5">
                                       <div class="info-card mt-3 full-width">
-                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED">
+                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED"
+                                        translate="settings.desktop_notifications_dis">
                                           Desktop Notifications are disabled.
                                           Please go to your browser settings in order to enable them.
                                         </p>
@@ -493,8 +494,8 @@
                                           <a (click)="requestNotificationPermission()">Click here</a> in order to enable desktop notifications.
                                         </p>
                                         <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
-                                          Desktop notifications are enabled.
-                                          <a (click)="testNotification()">Click here to Test</a>
+                                          <span translate="settings.desktop_notifications_en">Desktop notifications are enabled.</span>
+                                          <a (click)="testNotification()"> <span translate="settings.click_to_test">Click here to Test</span></a>
                                         </p>
                                       </div>
                                     </div>
@@ -509,18 +510,18 @@
                 <!-- Delete account settings -->
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Delete Account</strong>
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="delete_account">Delete Account</strong>
                         </h5>
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
                         <div class="form-content-holder">
                             <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
                             <div class="info-card">
-                                <p>If you permanently delete your account you will lose all the data in your mailbox.
+                                <p translate="settings.delete_account_guide">If you permanently delete your account you will lose all the data in your mailbox.
                                     In 2 months this username will be available for re-use by anyone who selects it.</p>
                                 <button type="button" class="text-uppercase btn-link" role="button"
                                         [disabled]="authState?.inProgress"
-                                        (click)="onDeleteAccount()"><strong><u>Permanently Delete Account</u></strong>
+                                        (click)="onDeleteAccount()"><strong><u translate="settings.delete_account_perm">Permanently Delete Account</u></strong>
                                 </button>
                             </div>
                         </div>
@@ -665,7 +666,7 @@
     <!--This section is hidden for now, will be used in dev pack 1.-->
     <section class="mailbox-section" *ngIf="false">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.filters.name">Filters</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
@@ -677,7 +678,7 @@
                                     <input class="d-none toggle-switcher-control" id="switcherField1" name=""
                                            type="checkbox" checked/>
                                     <label for="switcherField1"></label>
-                                    <span class="toggle-switcher-text">My spam filter</span>
+                                    <span class="toggle-switcher-text" translate="settings.filters.spam_filter">My spam filter</span>
                                 </div>
                             </div>
                             <div class="col-2 col-sm-4">
@@ -695,7 +696,7 @@
                                     <input class="d-none toggle-switcher-control" id="switcherField3" name=""
                                            type="checkbox" checked/>
                                     <label for="switcherField3"></label>
-                                    <span class="toggle-switcher-text">Important messages filter</span>
+                                    <span class="toggle-switcher-text" translate="settings.filters.imp_messages">Important messages filter</span>
                                 </div>
                             </div>
                             <div class="col-2 col-sm-4">
@@ -713,7 +714,7 @@
                                     <input class="d-none toggle-switcher-control" id="switcherField2" name=""
                                            type="checkbox"/>
                                     <label for="switcherField2"></label>
-                                    <span class="toggle-switcher-text">Auto-labeling test</span>
+                                    <span class="toggle-switcher-text" translate="settings.filters.auto_labeling">Auto-labeling test</span>
                                 </div>
                             </div>
                             <div class="col-2 col-sm-4">
@@ -728,8 +729,8 @@
                 <div class="info-card">
                     <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
                     <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
-                        custom filter</u></strong></a>
+                       (click)="openCustomFilterModal(customFilterContent)"><strong>
+                        <u translate="settings.filters.custom_filter">Add custom filter</u></strong></a>
                 </div>
             </div>
         </div>
