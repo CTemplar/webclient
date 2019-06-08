@@ -43,12 +43,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 
-class BlockEmbed extends Parchment.default.Embed {
-}
-
-BlockEmbed.prototype = QuillBlockEmbed.prototype;
-
-class ImageBlot extends BlockEmbed {
+class ImageBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
@@ -71,7 +66,7 @@ ImageBlot.tagName = 'img';
 
 Quill.register(ImageBlot);
 
-class SignatureBlot extends BlockEmbed {
+class SignatureBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     value = value.replace(/<br>/g, '\n');
