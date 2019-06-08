@@ -1,22 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbDatepicker, NgbDateStruct, NgbModal, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { SaveAutoResponder, SnackErrorPush } from '../../../store/actions';
 import { AppState, AutoResponder, Settings, UserState } from '../../../store/datatypes';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-autoresponder',
   templateUrl: './mail-autoresponder.component.html',
   styleUrls: ['./mail-autoresponder.component.scss', '../mail-settings.component.scss']
 })
 export class MailAutoresponderComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   @ViewChild('startDatePicker', { static: false }) startDatePicker: NgbDatepicker;
   @ViewChild('endDatePicker', { static: false }) endDatePicker: NgbDatepicker;
@@ -37,7 +33,7 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;

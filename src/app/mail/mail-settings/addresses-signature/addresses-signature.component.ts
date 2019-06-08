@@ -1,25 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PRIMARY_DOMAIN } from '../../../shared/config';
 import { Mailbox } from '../../../store/models';
-import { CreateMailbox, SetDefaultMailbox, SettingsUpdate, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
+import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { OpenPgpService, UsersService } from '../../../store/services';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-addresses-signature',
   templateUrl: './addresses-signature.component.html',
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss']
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
   public mailBoxesState: MailBoxesState;
   public mailboxes: Mailbox[];
   public unmodifiedMailboxes: Mailbox[];
@@ -43,7 +40,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
       .subscribe((mailboxesState: MailBoxesState) => {
         if (mailboxesState.isUpdatingOrder) {
           this.reorderInProgress = true;
@@ -72,7 +69,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
@@ -202,7 +199,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     this.newAddressForm.get('username').valueChanges
       .pipe(
         debounceTime(500),
-        takeUntil(this.destroyed$)
+        untilDestroyed(this)
       )
       .subscribe((username) => {
         if (!username) {

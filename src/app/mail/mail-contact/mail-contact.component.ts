@@ -1,18 +1,16 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Observable } from 'rxjs';
 import { AppState, Contact, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { takeUntil } from 'rxjs/operators';
 import { SearchState } from '../../store/reducers/search.reducers';
 import { UpdateSearch } from '../../store/actions/search.action';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -21,15 +19,12 @@ export enum ContactsProviderType {
   OTHER = <any>'OTHER'
 }
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-contact',
   templateUrl: './mail-contact.component.html',
   styleUrls: ['./mail-contact.component.scss']
 })
 export class MailContactComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
-
   @ViewChild('importContactsModal', { static: false }) importContactsModal;
 
   contactsProviderType = ContactsProviderType;
@@ -67,7 +62,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updateUsersStatus();
 
-    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.search).pipe(untilDestroyed(this))
       .subscribe((search: SearchState) => {
         this.searchText = search.searchText;
         this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
@@ -82,7 +77,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   private updateUsersStatus(): void {
     this.store.select(state => state.user)
-      .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
+      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
       this.userState = state;
       this.inProgress = this.userState.inProgress;
       this.MAX_EMAIL_PAGE_LIMIT = this.userState.totalContacts;

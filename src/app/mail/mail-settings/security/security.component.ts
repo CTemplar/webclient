@@ -1,24 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AppState, AuthState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { ChangePassphraseSuccess, ChangePassword, GetMailboxes } from '../../../store/actions';
+import { ChangePassphraseSuccess, ChangePassword } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-settings-security',
   templateUrl: './security.component.html',
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss']
 })
 export class SecurityComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
   private changePasswordModalRef: NgbModalRef;
   @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
 
@@ -38,12 +34,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
       });
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
           this.canDispatchChangePassphrase = false;

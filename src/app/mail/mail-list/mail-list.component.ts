@@ -1,22 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Folder, MailFolderType } from '../../store/models';
-import { Observable } from 'rxjs';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { SearchState } from '../../store/reducers/search.reducers';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { UpdateSearch } from '../../store/actions/search.action';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-list',
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.scss']
 })
 export class MailListComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   mailFolder: string = MailFolderType.INBOX;
   backFromSearchFolder: string = MailFolderType.INBOX;
@@ -32,21 +29,21 @@ export class MailListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe(params => {
+    this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
       this.mailFolder = params['folder'] as MailFolderType;
       this.page = +params['page'];
     });
 
-    this.router.events.pipe(takeUntil(this.destroyed$), filter(event => event instanceof NavigationEnd))
+    this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.isContactsPage = event.url === '/mail/contacts';
       });
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
       });
-    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.search).pipe(untilDestroyed(this))
       .subscribe((search: SearchState) => {
         this.searchText = search.searchText;
         if (!this.isContactsPage) {

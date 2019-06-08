@@ -1,18 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 // Store
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 // Actions
 import { AccountDetailsGet, BlackListGet, GetDomains, GetDomainsSuccess, GetFilters, GetMailboxes, WhiteListGet } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
-import { AppState, AuthState, UserState } from '../store/datatypes';
+import { AppState, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail',
   templateUrl: './mail.component.html',
@@ -20,7 +17,6 @@ import { takeUntil } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
-  readonly destroyed$: Observable<boolean>;
 
   @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
@@ -33,7 +29,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   ngOnInit() {
     this.store.dispatch(new AccountDetailsGet());
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         if (userState.isLoaded && !this.isLoadedData) {
           this.isLoadedData = true;

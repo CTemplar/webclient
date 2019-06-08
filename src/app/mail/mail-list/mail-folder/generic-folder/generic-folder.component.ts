@@ -1,10 +1,7 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import {
   DeleteMail,
   EmptyTrash,
@@ -22,8 +19,8 @@ import { SearchState } from '../../../../store/reducers/search.reducers';
 import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { UpdateSearch } from '../../../../store/actions/search.action';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-generic-folder',
   templateUrl: './generic-folder.component.html',
@@ -45,8 +42,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   userState: UserState;
 
-  readonly destroyed$: Observable<boolean>;
-
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   LIMIT: number = 20;
   OFFSET: number = 0;
@@ -65,7 +60,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
         this.showProgress = !mailState.loaded || mailState.inProgress;
@@ -75,7 +70,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.customFolders = user.customFolders;
@@ -91,7 +86,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.search).pipe(untilDestroyed(this))
       .subscribe((searchState: SearchState) => {
         this.searchText = searchState.searchText;
         if (this.searchText) {
@@ -106,7 +101,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-    this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$))
+    this.activatedRoute.paramMap.pipe(untilDestroyed(this))
       .subscribe((paramsMap: any) => {
         const params: any = paramsMap.params;
         if (params) {

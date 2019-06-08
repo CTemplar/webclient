@@ -1,17 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
-import { takeUntil, takeWhile } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { takeWhile } from 'rxjs/operators';
 import { timer } from 'rxjs/internal/observable/timer';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-countdown-timer',
   templateUrl: './countdown-timer.component.html',
   styleUrls: ['./countdown-timer.component.scss']
 })
 export class CountdownTimerComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   @Input() duration: number; // duration in seconds
 
@@ -27,7 +24,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     timer(0, 1000)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(untilDestroyed(this))
       .pipe(
         takeWhile(() => this.duration > 0)
       )

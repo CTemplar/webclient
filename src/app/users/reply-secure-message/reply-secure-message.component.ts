@@ -1,14 +1,12 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as QuillNamespace from 'quill';
-import { Observable } from 'rxjs';
 import { COLORS, FONTS } from '../../shared/config';
 import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/actions';
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 const Quill: any = QuillNamespace;
 
@@ -48,14 +46,12 @@ ImageBlot.tagName = 'img';
 
 Quill.register(ImageBlot);
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-reply-secure-message',
   templateUrl: './reply-secure-message.component.html',
   styleUrls: ['./reply-secure-message.component.scss']
 })
 export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   @Input() sourceMessage: Mail;
   @Input() hash: string;
@@ -82,7 +78,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngOnInit() {
-    this.store.select(state => state.secureMessage).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.secureMessage).pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
         this.inProgress = state.inProgress || state.isEncryptionInProgress;
         if (this.secureMessageState) {

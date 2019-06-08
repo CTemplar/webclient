@@ -1,23 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Folder } from '../../../store/models';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteFolder, UpdateFolderOrder } from '../../../store/actions';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';
 import { NotificationService } from '../../../store/services/notification.service';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-folders',
   templateUrl: './folders.component.html',
   styleUrls: ['../mail-settings.component.scss', './folders.component.scss']
 })
 export class FoldersComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
   folders: Array<Folder> = [];
   userState: UserState;
   @ViewChild('confirmationModal', { static: false }) confirmationModal;
@@ -34,7 +30,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         if (user.inProgress) {
