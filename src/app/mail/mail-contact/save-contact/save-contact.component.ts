@@ -1,13 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ContactAdd } from '../../../store';
-import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, UserState } from '../../../store/datatypes';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
@@ -17,7 +14,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedContact: Contact;
   @Output() userSaved = new EventEmitter<boolean>();
 
-  @ViewChild('newContactForm') newContactForm: NgForm;
+  @ViewChild('newContactForm', { static: false }) newContactForm: NgForm;
   newContactModel: Contact = {
     name: '',
     email: '',
@@ -26,8 +23,6 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
     phone: ''
   };
   public inProgress: boolean;
-
-  readonly destroyed$: Observable<boolean>;
 
 
   constructor(private store: Store<AppState>) {
@@ -48,7 +43,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
 
   private handleUserState(): void {
     this.store.select(state => state.user)
-      .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
+      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
       if (this.inProgress && !state.inProgress) {
         this.inProgress = false;
         if (!state.isError) {

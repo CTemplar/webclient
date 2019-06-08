@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import {
   DEFAULT_CUSTOM_DOMAIN,
   DEFAULT_EMAIL_ADDRESS,
@@ -18,7 +16,8 @@ import {
 import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
   AppState,
-  AuthState, NotificationPermission,
+  AuthState,
+  NotificationPermission,
   Payment,
   PaymentMethod,
   PaymentType,
@@ -30,17 +29,15 @@ import {
 } from '../../store/datatypes';
 import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
-import { takeUntil } from 'rxjs/operators';
-import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
+import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
   styleUrls: ['./mail-settings.component.scss']
 })
 export class MailSettingsComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
   readonly defaultStorage = DEFAULT_STORAGE;
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
   readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
@@ -49,8 +46,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly championAnnualPriceTotal = 450;
   readonly planType = PlanType;
 
-  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
-  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
+  @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
+  @ViewChild('confirmDeleteAccountModal', { static: false }) confirmDeleteAccountModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
@@ -93,11 +90,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.notificationsPermission = Notification.permission;
 
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
@@ -115,7 +112,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
       });
-    this.store.select(state => state.timezone).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.timezone).pipe(untilDestroyed(this))
       .subscribe((timezonesState: TimezonesState) => {
         this.timezones = timezonesState.timezones;
       });

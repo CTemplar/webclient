@@ -1,33 +1,29 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OrganizationUser } from '../../../../store/models';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs/internal/Observable';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VALID_EMAIL_REGEX } from '../../../../shared/config';
 import { PasswordValidation } from '../../../../users/users-create-account/users-create-account.component';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OpenPgpService, UsersService } from '../../../../store/services';
 import {
   AddOrganizationUser,
   DeleteOrganizationUser,
-  GetOrganizationUsers,
   OrganizationState,
   UpdateOrganizationUser
 } from '../../../../store/organization.store';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-organization-users',
   templateUrl: './organization-users.component.html',
   styleUrls: ['./organization-users.component.scss']
 })
 export class OrganizationUsersComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
-  @ViewChild('addUserModal') addUserModal;
-  @ViewChild('confirmDeleteModal') confirmDeleteModal;
+  @ViewChild('addUserModal', { static: false }) addUserModal;
+  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
 
   users: OrganizationUser[];
   addUserForm: FormGroup;
@@ -69,7 +65,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
       validator: PasswordValidation.MatchPassword
     });
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.customDomains = user.customDomains.filter((item) => item.is_domain_verified && item.is_mx_verified)
@@ -79,7 +75,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.organization).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.organization).pipe(untilDestroyed(this))
       .subscribe((organizationState: OrganizationState) => {
         this.organizationState = organizationState;
         this.users = organizationState.users;
@@ -187,7 +183,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     this.addUserForm.get('username').valueChanges
       .pipe(
         debounceTime(1000),
-        takeUntil(this.destroyed$)
+        untilDestroyed(this)
       )
       .subscribe((username) => {
         this.userExistError = null;

@@ -1,13 +1,10 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { AppState, AuthState, SignupState } from '../../../store/datatypes';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-user-account-init-dialog',
   templateUrl: './user-account-init-dialog.component.html',
@@ -57,7 +54,6 @@ import { takeUntil } from 'rxjs/operators';
   ]
 })
 export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   @Input() isPgpGenerationComplete: boolean;
 
@@ -71,7 +67,7 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (this.signupState && this.signupState.inProgress && !authState.signupState.inProgress) {
           if (authState.errorMessage || this.step === 4) {
