@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
 import { Observable } from 'rxjs';
 import { COLORS, FONTS } from '../../shared/config';
@@ -26,12 +25,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 
-class BlockEmbed extends Parchment.default.Embed {
-}
-
-BlockEmbed.prototype = QuillBlockEmbed.prototype;
-
-class ImageBlot extends BlockEmbed {
+class ImageBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
