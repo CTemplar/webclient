@@ -133,13 +133,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild('editor') editor;
-  @ViewChild('toolbar') toolbar;
-  @ViewChild('attachImagesModal') attachImagesModal;
-  @ViewChild('selfDestructModal') selfDestructModal;
-  @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
-  @ViewChild('deadManTimerModal') deadManTimerModal;
-  @ViewChild('encryptionModal') encryptionModal;
+  @ViewChild('editor', { static: false }) editor;
+  @ViewChild('toolbar', { static: false }) toolbar;
+  @ViewChild('attachImagesModal', { static: false }) attachImagesModal;
+  @ViewChild('selfDestructModal', { static: false }) selfDestructModal;
+  @ViewChild('delayedDeliveryModal', { static: false }) delayedDeliveryModal;
+  @ViewChild('deadManTimerModal', { static: false }) deadManTimerModal;
+  @ViewChild('encryptionModal', { static: false }) encryptionModal;
 
   draftId: number;
   colors = COLORS;

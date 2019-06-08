@@ -17,7 +17,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedContact: Contact;
   @Output() userSaved = new EventEmitter<boolean>();
 
-  @ViewChild('newContactForm') newContactForm: NgForm;
+  @ViewChild('newContactForm', { static: false }) newContactForm: NgForm;
   newContactModel: Contact = {
     name: '',
     email: '',

@@ -22,7 +22,7 @@ import { takeUntil } from 'rxjs/operators';
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+  @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
 
   constructor(private store: Store<AppState>,

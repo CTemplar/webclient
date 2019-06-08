@@ -24,8 +24,8 @@ import { SummarySeparator } from '../../shared/config';
 export class MailDetailComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
-  @ViewChild('incomingHeadersModal') incomingHeadersModal;
+  @ViewChild('forwardAttachmentsModal', { static: false }) forwardAttachmentsModal;
+  @ViewChild('incomingHeadersModal', { static: false }) incomingHeadersModal;
 
   mail: Mail;
   composeMailData: any = {};

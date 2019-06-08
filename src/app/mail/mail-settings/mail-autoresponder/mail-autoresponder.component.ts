@@ -18,8 +18,8 @@ import { DateTimeUtilService } from '../../../store/services/datetime-util.servi
 export class MailAutoresponderComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('startDatePicker') startDatePicker: NgbDatepicker;
-  @ViewChild('endDatePicker') endDatePicker: NgbDatepicker;
+  @ViewChild('startDatePicker', { static: false }) startDatePicker: NgbDatepicker;
+  @ViewChild('endDatePicker', { static: false }) endDatePicker: NgbDatepicker;
 
   userState: UserState;
   settings: Settings;

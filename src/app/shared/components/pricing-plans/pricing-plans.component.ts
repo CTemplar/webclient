@@ -36,7 +36,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedEmailAddress: number = this.defaultEmailAddress;
   @Input() selectedCustomDomain: number = this.defaultCustomDomain;
 
-  @ViewChild('billingInfoModal') billingInfoModal;
+  @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
 
   private billingInfoModalRef: NgbModalRef;
 

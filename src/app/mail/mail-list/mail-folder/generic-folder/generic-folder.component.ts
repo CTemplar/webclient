@@ -35,7 +35,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showProgress: boolean;
   @Input() fetchMails: boolean;
 
-  @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
+  @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
 
   customFolders: Folder[];
 

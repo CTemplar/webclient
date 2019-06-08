@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';

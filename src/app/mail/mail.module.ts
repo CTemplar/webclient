@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 // Bootstrap
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // Angular Material
-import { MatButtonModule, MatCheckboxModule, MatStepperModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { MailRoutingModule } from './mail-routing.module';
 // component

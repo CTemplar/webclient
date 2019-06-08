@@ -30,7 +30,7 @@ export enum ContactsProviderType {
 export class MailContactComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('importContactsModal') importContactsModal;
+  @ViewChild('importContactsModal', { static: false }) importContactsModal;
 
   contactsProviderType = ContactsProviderType;
   public userState: UserState;

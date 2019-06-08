@@ -25,8 +25,8 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     [MailFolderType.SPAM]: 'icon-warning'
   };
 
-  @ViewChild('customFilterModal') customFilterModal;
-  @ViewChild('deleteFilterModal') deleteFilterModal;
+  @ViewChild('customFilterModal', { static: false }) customFilterModal;
+  @ViewChild('deleteFilterModal', { static: false }) deleteFilterModal;
 
   mailFolderType = MailFolderType;
   filterCondition = FilterCondition;

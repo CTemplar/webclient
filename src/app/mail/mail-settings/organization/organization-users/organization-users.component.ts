@@ -26,8 +26,8 @@ import {
 })
 export class OrganizationUsersComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
-  @ViewChild('addUserModal') addUserModal;
-  @ViewChild('confirmDeleteModal') confirmDeleteModal;
+  @ViewChild('addUserModal', { static: false }) addUserModal;
+  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
 
   users: OrganizationUser[];
   addUserForm: FormGroup;

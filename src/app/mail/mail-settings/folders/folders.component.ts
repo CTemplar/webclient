@@ -20,7 +20,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   folders: Array<Folder> = [];
   userState: UserState;
-  @ViewChild('confirmationModal') confirmationModal;
+  @ViewChild('confirmationModal', { static: false }) confirmationModal;
   confirmModalRef: NgbModalRef;
   selectedFolder: Folder;
 

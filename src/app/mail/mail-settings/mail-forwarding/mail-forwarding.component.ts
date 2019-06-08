@@ -18,8 +18,8 @@ import { takeUntil } from 'rxjs/operators';
 export class MailForwardingComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('addAddressModal') addAddressModal;
-  @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal;
+  @ViewChild('addAddressModal', { static: false }) addAddressModal;
+  @ViewChild('confirmDeleteAddressModal', { static: false }) confirmDeleteAddressModal;
 
   userState: UserState;
   settings: Settings;

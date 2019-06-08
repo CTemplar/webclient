@@ -20,7 +20,7 @@ import { takeUntil } from 'rxjs/operators';
 export class SecurityComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   private changePasswordModalRef: NgbModalRef;
-  @ViewChild('changePasswordModal') changePasswordModal;
+  @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
 
   settings: any;
   changePasswordForm: FormGroup;

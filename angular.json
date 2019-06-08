@@ -4,18 +4,25 @@
   "newProjectRoot": "projects",
   "projects": {
     "CTemplar": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
-      "projectType": "application",
+      "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "aot": false,
             "assets": [
               "src/assets",
               "src/README.md",
@@ -41,6 +48,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -50,17 +63,18 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "fileReplacements": [
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 }
               ]
             }
           }
         },
         "serve": {
-          "builder": "@angular-builders/dev-server:generic",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "CTemplar:build"
           },
@@ -80,21 +94,9 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/openpgp/dist/openpgp.min.js",
-              "node_modules/quill/dist/quill.min.js",
-              "node_modules/moment/min/moment.min.js",
-              "node_modules/moment-timezone/builds/moment-timezone.min.js",
-              "node_modules/bcryptjs/dist/bcrypt.js"
-            ],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/quill/dist/quill.snow.css",
-              "src/styles/material-theme.scss"
-            ],
+            "karmaConfig": "./karma.conf.js",
             "assets": [
               "src/assets",
               "src/README.md",
@@ -104,6 +106,18 @@
                 "input": "node_modules/openpgp/dist",
                 "output": "/"
               }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/quill/dist/quill.snow.css",
+              "src/styles/material-theme.scss"
+            ],
+            "scripts": [
+              "node_modules/openpgp/dist/openpgp.min.js",
+              "node_modules/quill/dist/quill.min.js",
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/moment-timezone/builds/moment-timezone.min.js",
+              "node_modules/bcryptjs/dist/bcrypt.js"
             ]
           }
         },
@@ -118,43 +132,20 @@
               "**/node_modules/**"
             ]
           }
-        }
-      }
-    },
-    "CTemplar-e2e": {
-      "root": "e2e",
-      "sourceRoot": "e2e",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
+        },
+        "CTemplar-e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "./protractor.conf.js",
+            "protractorConfig": "e2e/protractor.conf.js",
             "devServerTarget": "CTemplar:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "CTemplar:serve:production"
+            }
           }
         }
       }
-    }
-  },
-  "defaultProject": "CTemplar",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "scss"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "app"
-    }
-  }
+    }},
+  "defaultProject": "CTemplar"
 }

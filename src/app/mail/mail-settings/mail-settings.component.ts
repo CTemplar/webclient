@@ -49,8 +49,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly championAnnualPriceTotal = 450;
   readonly planType = PlanType;
 
-  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
-  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
+  @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
+  @ViewChild('confirmDeleteAccountModal', { static: false }) confirmDeleteAccountModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
