@@ -109,7 +109,8 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
-        windowClass: 'modal-lg users-action-modal'
+        windowClass: 'modal-lg users-action-modal',
+        backdrop: 'static',
       });
     } else {
       this.store.dispatch(new ClearSignUpState());
