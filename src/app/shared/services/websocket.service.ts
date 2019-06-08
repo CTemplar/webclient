@@ -6,7 +6,6 @@ import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { getWebsocketUrl } from '../config';
-import { Observable } from 'rxjs/internal/Observable';
 import { Mail } from '../../store/models';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 

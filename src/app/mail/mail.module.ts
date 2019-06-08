@@ -38,6 +38,7 @@ import { MailSettingsService } from '../store/services/mail-settings.service';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { WebsocketService } from '../shared/services/websocket.service';
 import { OrganizationUsersComponent } from './mail-settings/organization/organization-users/organization-users.component';
+import { PushNotificationService } from '../shared/services/push-notification.service';
 
 @NgModule({
   imports: [
@@ -83,6 +84,7 @@ import { OrganizationUsersComponent } from './mail-settings/organization/organiz
     MailSettingsService,
     ComposeMailService,
     WebsocketService,
+    PushNotificationService,
   ],
   entryComponents: [
     ComposeMailDialogComponent,

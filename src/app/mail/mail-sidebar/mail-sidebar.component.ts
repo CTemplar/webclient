@@ -13,9 +13,9 @@ import { GetMails, GetMailsSuccess, GetUnreadMailsCount, GetUnreadMailsCountSucc
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
-import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -114,8 +114,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    const isGranted: any = this.pushNotificationService.isPermissionGranted;
-    if (!isGranted()) {
+    const isGranted: any = this.pushNotificationService.permission;
+    if (!this.pushNotificationService.isGranted()) {
       setTimeout(() => {
         this.pushNotificationService.requestPermission();
       }, 3000);

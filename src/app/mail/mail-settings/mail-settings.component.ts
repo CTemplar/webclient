@@ -29,7 +29,7 @@ import {
 } from '../../store/datatypes';
 import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
-import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
+import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
