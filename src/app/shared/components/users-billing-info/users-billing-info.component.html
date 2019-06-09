@@ -20,21 +20,21 @@
                   <strong>Overview</strong>
                 </h3>
                 <div class="billing-overview">
-                  <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0" translate="billing_info.plan">Plan</label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.plan">Plan</label>
+                    <div class="billing-overview-val text-secondary col">
                       <strong>CTemplar {{planType}}</strong>
                     </div>
                   </div>
-                  <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0" translate="billing_info.billing">Billing</label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.billing">Billing</label>
+                    <div class="billing-overview-val text-secondary col">
                       <strong class="text-capitalize">{{paymentType === 'annually' ? 'Annually' : 'Recurring'}}</strong>
                     </div>
                   </div>
-                  <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.price">Price</label>
+                    <div class="billing-overview-val text-secondary col">
                       <strong *ngIf="paymentType === 'annually'">
                         {{annualPriceTotal|currency:currency}}/Yearly({{annualPricePerMonth|currency:currency}}/month)
                       </strong>
@@ -44,9 +44,9 @@
                       <!-- {{payment.payment_method === 'stripe' ? payment.currency : payment.payment_method}} -->
                     </div>
                   </div>
-                  <div class="billing-overview-row payment-method-row">
-                    <label class="billing-overview-label" translate="billing_info.payment_method">Payment Method: </label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row payment-method-row row">
+                    <label class="billing-overview-label col-3" translate="billing_info.payment_method">Payment Method: </label>
+                    <div class="billing-overview-val text-secondary col">
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="payment-select-dropdown">
                           <button ngbDropdownToggle role="button"

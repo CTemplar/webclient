@@ -45,7 +45,8 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
         if (user.settings.language) {
           const language = this.languages.filter(item => item.name === user.settings.language)[0];
           if (this.selectedLanguage.name !== language.name) {
-            this.changeLanguage(language);
+            this.translate.use(language.locale);
+            this.selectedLanguage = language;
           }
           this.selectedLanguage = language;
         }
@@ -92,12 +93,6 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.store.dispatch(new Logout());
     }, 500);
-  }
-
-  changeLanguage(lang: Language) {
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    this.translate.use(lang.locale);
-    this.selectedLanguage = lang;
   }
 
   openComposeMailDialog(receivers) {
