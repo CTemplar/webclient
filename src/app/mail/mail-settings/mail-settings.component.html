@@ -510,7 +510,7 @@
                 <!-- Delete account settings -->
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="delete_account">Delete Account</strong>
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.delete_account">Delete Account</strong>
                         </h5>
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
@@ -727,10 +727,10 @@
                     </li>
                 </ul>
                 <div class="info-card">
-                    <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
+                    <p translate="settings.filters.add_filter">Add a filter to perform actions such as automatically labeling or archiving.</p>
                     <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
                        (click)="openCustomFilterModal(customFilterContent)"><strong>
-                        <u translate="settings.filters.custom_filter">Add custom filter</u></strong></a>
+                        <u translate="settings.filters.add_custom_filter">Add custom filter</u></strong></a>
                 </div>
             </div>
         </div>
@@ -855,7 +855,7 @@
 <!-- Delete account info modal -->
 <ng-template #deleteAccountInfoModal let-c="close" let-d="dismiss">
     <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-        <h3 class="modal-title w-100 text-dark"><strong>Permanently Delete Account</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="settings.delete_account_perm" >Permanently Delete Account</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -863,17 +863,17 @@
     <form [formGroup]="deleteAccountInfoForm" (submit)="onDeleteAccountInfoSubmit()">
         <div class="modal-body bg-faded">
             <div class="text-holder text-dark text-medium">
-                <p class="text-danger">You have selected to permanently delete your account. If you proceed you will
+                <p class="text-danger" translate="settings.delete_account_guide">You have selected to permanently delete your account. If you proceed you will
                     lose all the data in your
                     mailbox.In 2 months this username will be available for re-use by anyone who selects it.</p>
-                <p>Please provide an email address in case we need to contact you.</p>
+                <p translate="settings.provide_email">Please provide an email address in case we need to contact you.</p>
                 <div class="login-content-holder mx-auto mt-2 pt-sm-2">
                     <div class="form">
                         <div class="form-group form-group-sm">
                             <label for="deleteAccountEmail" class="d-block text-muted text-left hidden-sm-up">Email
                             </label>
                             <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off"
-                                   placeholder="Email" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
+                                   [placeholder]="'common.email'| translate" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
                             <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
                                   class="validate-message">The email is invalid.
                             </span>
@@ -884,7 +884,7 @@
                             <div class="input-group">
                                 <input #deleteAccountPasswordInput class="form-control form-control-lg"
                                        id="deleteAccountPassword" autocomplete="new-password" name="deleteAccountPassword"
-                                       formControlName="password" placeholder="Your Current Password" type="password"/>
+                                       formControlName="password" [placeholder]="'settings.current_password'| translate" type="password"/>
                                 <span class="input-group-addon password-toggle bg-white text-muted"
                                       (click)="togglePassword(deleteAccountPasswordInput)">
                                     <i class="fa fa-eye"></i>
@@ -892,8 +892,8 @@
                             </div>
                             <span *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors"
                                   class="validate-message">
-                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required">Your current password
-                                    is required.</span>
+                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required" translate="settings.password_req" >
+                                    Your current password is required.</span>
                             </span>
                         </div>
                     </div>
@@ -901,8 +901,8 @@
             </div>
         </div>
         <div class="modal-footer justify-content-center justify-content-sm-end">
-            <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
-            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+            <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span></button>
+            <button class="btn btn-danger btn-sm" type="submit" translate="common.delete">Delete</button>
         </div>
     </form>
 
