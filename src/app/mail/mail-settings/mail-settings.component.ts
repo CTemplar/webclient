@@ -31,6 +31,7 @@ import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Mail } from '../../store/models';
 
 @Component({
   selector: 'app-mail-settings',
@@ -281,4 +282,153 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         console.log(err);
       });
   }
+
+  onPrint() {
+    let popupWin;
+
+    const data: any = {
+      invoice: 1233423, invoice_date: new Date().toDateString(), status: 'PAID',
+      total: 28, membership: 'Yearly',
+      transactions: [
+        { date: '12-02-2019', type: 'Credit', description: 'Credit added to account', quantity: 1, amount: 18 },
+        { date: '12-02-2019', type: 'Bitcoin', description: 'Bitcoin payment', quantity: 1, amount: 10 }
+      ]
+    };
+
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(`
+         <html>
+<head>
+    <title>Invoice : 20102019</title>
+    <style>
+        body {
+            font-family: "Roboto", Helvetica, Arial, sans-serif;
+        }
+        .container {
+            padding: 15px;
+            margin: auto;
+            color: #757675;
+            border: 1px solid #757675;
+            width: 21cm;
+            min-height: 29.7cm;
+        }
+
+        .row {
+            padding-left: -15px;
+            padding-right: -15px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-4 {
+            flex: 0 0 33.3333333333%;
+            max-width: 33.3333333333%;
+        }
+
+        .col-8 {
+            flex: 0 0 66.6666666667%;
+            max-width: 66.6666666667%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .color-primary {
+            color: #2f4254;
+        }
+
+        .page-title {
+            font-weight: 300;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 20px;
+        }
+
+        th {
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.54);
+            font-weight: normal;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body onload="window.print();window.close()">
+    <div class="container">
+        <div class="row" style="margin-top: 1rem;">
+            <div class="col-8">
+                <img src="https://ctemplar.com/assets/images/media-kit/mediakit-logo4.png"
+                    style="height: 7rem;margin-left: 2rem;">
+                <div style="margin-left: 1.5rem;
+                            margin-top: 1rem;
+                            font-size: 1.5rem;
+                            font-weight: bold;
+                            color: #2f4254;">CTEMPLAR</div>
+            </div>
+            <div class="col-4 color-primary">
+                <div style="text-align: right;padding-right: 35px; line-height: 1.5;">
+                    <div><b>Invoice : </b>20102019</div>
+                    <div><b>Invoice date : </b>20-10-2019</div>
+                    <div style="margin-top:20px;"><b>Membership : </b>Yearly</div>
+                    <br>
+                    <div style="margin-top: 10px; font-size: 20px;"><b>Status : <label style="color: green;">PAID<label></label></b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 7rem;">
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>QTY</th>
+                    <th>Amount (USD)</th>
+                </tr>
+                <tr>
+                    <td>6/3/2018</td>
+                    <td>Credit</td>
+                    <td>Credit to account</td>
+                    <td>1</td>
+                    <td><b>$18.00</b></td>
+                </tr>
+                <tr>
+                    <td>6/4/2018</td>
+                    <td>Bitcoin</td>
+                    <td>Bitcoin payment</td>
+                    <td>1</td>
+                    <td><b>$18.00</b></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>TOTAL</td>
+                    <td><b> $36.00</b></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</body>
+
+</html>
+         `);
+    popupWin.document.close();
+  }
+
+
 }
