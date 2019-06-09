@@ -227,7 +227,56 @@
       "delete_message": " Are you sure, you want to delete filter",
       "text_or_pattern": "text or pattern",
       "select_folder": "Select folder",
-      "select_condition": "Select condition",
+      "select_condition": "Select condition"
+    },
+    "save_order": "Save order",
+    "delete_folder_message": "Are you sure, you want to delete folder",
+    "select_color": "Select color:",
+    "folder_name": "Folder name:",
+    "update": "Update",
+    "create": "Create",
+    "create_folder": "Create new folder",
+    "folder_messages": {
+      "name_exist": "Folder name already exists.",
+      "name_required": "Folder name is required",
+      "name_start": " Folder name must start with an alphabet and can only contain",
+      "character_len": " characters or space, and minimum length should be 4 characters.",
+      "name_len": "Folder name must be between 4 and 30 characters."
+    },
+    "security": {
+      "change_password": "Change Password",
+      "message": "Your encryption key is connected to your password. You have the option to either keep all the data and encryption keys and just change the password or you can delete all the data and generate new encryption keys. Choose your option carefully.",
+      "old_password": "Old Password",
+      "old_password_req": "Old password is required.",
+      "new_password_req": "New password is required.",
+      "data_message": "Select option to keep/delete data!",
+      "keep_data": "Keep data",
+      "encryption_key_message": "Delete all data and generate new encryption keys",
+      "encryption_key_progress": "Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!"
+    },
+    "addresses_and_signs": "Addresses and signatures",
+    "forwarding_and_autores": "Forwarding and autoresponder",
+    "domains_and_users": {
+      "title": "Domains & Users",
+      "premium_feature": "This is a premium feature, please",
+      "upgrade": "upgrade",
+      "users": "Users",
+      "use_feature": "in order to use this feature.",
+      "custom_domain": "Please add a custom domain first in order to add users."
+    },
+    "forwarding": {
+      "title": "Forwarding",
+      "auto_forward": "You can automatically forward your messages to another address.",
+      "add_address": "Add a forwarding address",
+      "enter_email": "Please enter a forwarding email address.",
+      "address": "Forwarding Address",
+      "address_req": "The address is required.",
+      "address_invalid": "The address is invalid.",
+      "code_message": "Already have the code",
+      "enter_code": "Please enter the verification code sent to provided email address.",
+      "verif_code": "Verification Code",
+      "code_req": "The verification code is required.",
+      "delete_message": "Are you sure you want to delete forwarding address?"
     }
   },
   "mail_sidebar": {

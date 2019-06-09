@@ -13,7 +13,7 @@
       "error": "Veuillez remplir les champs obligatoires."
     },
     "delete": {
-      "title": "Confirmez Supprimer",
+      "title": "Confirmer la suppression",
       "message": "Êtes-vous sûr de vouloir supprimer?"
     }
   },
@@ -40,6 +40,9 @@
   },
   "settings": {
     "dashboard": "Tableau de bord",
+    "dashboard_plans": "Tableau de bord et plans",
+    "general": "Général",
+    "compose_font": "Police d’écriture par défaut",
     "overview": "Aperçu",
     "username": " Nom d'utilisateur",
     "domains": "Domaines",
@@ -120,7 +123,143 @@
     },
     "add": "Ajoutez",
     "type": "Type:",
-    "features_added_soon": "Ajouté plus tard à ce forfait"
+    "features_added_soon": "Ajouté plus tard à ce forfait",
+    "create_domain": "Create domain",
+    "add_domain": "Add Domain",
+    "domain": "Domain",
+    "current_status": "Current Status",
+    "status_verification": "Verification",
+    "status_mx": "MX",
+    "status_spf": "SPF",
+    "status_dkim": "DKIM",
+    "status_dmarc": "DMARC",
+    "status_addresses": "Addresses",
+    "next": "Next",
+    "verify": "Verify",
+    "add_domain_step": {
+      "name": "Domain name",
+      "info": "Add a domain that you own to your CTemplar account."
+    },
+    "verify_step": {
+      "name": "Verify",
+      "info": "For security reasons, we need to verify that you are the owner of your domain. Please add the following code into your DNS. Do not remove it even after successful verification. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record:",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "mx_step": {
+      "name": "MX",
+      "info": "Before you can receive emails for your custom domain addresses at CTemplar, you need to add the following MX record to your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following MX record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To",
+      "priority": "Priority"
+    },
+    "spf_step": {
+      "name": "SPF",
+      "info": "SPF is used to specify who is allowed to send email for the domain so we strongly recommend including CTemplar in your SPF record. Please add the following TXT record into your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "dkim_step": {
+      "name": "DKIM",
+      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "dmarc_step": {
+      "name": "DMARC",
+      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "required": "Requis",
+    "recommended": "Recommandé",
+    "optional_advanced": "Facultatif, avancé",
+    "edit_details": "Modifier les détails",
+    "remove": "Retirer",
+    "set": "Paramétré",
+    "good": "Bien",
+    "on": "Sur",
+    "edit": "modifier",
+    "delete": "Effacer",
+    "notifications": "Les notifications",
+    "notification_email": "Email de notification",
+    "desktop_notification_title": "Notification bureau",
+    "desktop_notifications_en": " Les notifications de bureau sont activées.",
+    "click_to_test": "Cliquez ici pour tester.",
+    "enter_notification_email": "Indiquer l’adresse email sur laquelle vous souhaitez recevoir une notification quotidienne quand vous avez de nouveaux emails.",
+    "desktop_notifications_dis": "Desktop Notifications are disabled.Please go to your browser settings in order to enable them.",
+    "click_here": "Cliquez ici",
+    "enable_notifications": "afin d'activer les notifications de bureau.",
+    "delete_account": "Supprimer mon compte",
+    "delete_account_perm": "SUPPRIMER MON COMPTE DEFINITIVEMENT",
+    "delete_account_guide": "Si vous supprimez définitivement votre compte, toutes vos données seront perdues. Dans 2 mois, le nom d’utilisateur sera à nouveau disponible pour un nouvel utilisateur.",
+    "current_password": "Votre mot de passe actuel",
+    "password_req": "Votre mot de passe actuel est requis.",
+    "provide_email": "Indiquer une adresse mail au cas où nous aurions besoin de vous contacter.",
+    "filters": {
+      "name": "Filtres",
+      "add_filter": "Ajouter un filtre pour automatiser les actions telles que les labels ou l’archive.",
+      "spam_filter": "Mon filtre anti-spam",
+      "imp_messages": "Filtre des messages importants",
+      "auto_labeling": "Test d'auto-étiquetage",
+      "add_custom_filter": "Ajouter un filtre personnalisé",
+      "custom_filter": "Filtre personnalisé",
+      "filter_name": "Nom du filtre",
+      "filter_name_exist": "Le nom du filtre existe déjà.",
+      "filter_name_req": "Le nom du filtre est requis.",
+      "filter_name_char": "Le nom du filtre doit comporter moins de 64 caractères.",
+      "conditions": "Conditions:",
+      "if_subject": "Si l’objet",
+      "if_sender": "Si l’émetteur",
+      "starts_with": "Commence par",
+      "actions": "Actes:",
+      "move_to": "déménager à",
+      "mark_as_starred": "marquer comme étoilé",
+      "delete_message": "Êtes-vous sûr de vouloir supprimer le filtre?",
+      "text_or_pattern": "Texte ou structure",
+      "select_folder": "Sélectionner le dossier",
+      "select_condition": "Sélectionnez la condition"
+    },
+    "save_order": " Sauvegarder",
+    "delete_folder_message": "Êtes-vous sûr de vouloir supprimer un dossier?",
+    "select_color": "Sélectionner :",
+    "folder_name": "Nom du dossier :",
+    "update": "Mettre à jour",
+    "create": "Créernew",
+    "create_folder": "Créer un nouveau dossier",
+    "folder_messages": {
+      "name_exist": "Le nom du dossier existe déjà.",
+      "name_required": "Le nom du dossier est requis",
+      "name_start": "Le nom du dossier doit commencer par un alphabet et ne peut contenir que",
+      "character_len": "caractères ou espace, et la longueur minimale doit être de 4 caractères.",
+      "name_len": "Le nom du dossier doit comporter entre 4 et 30 caractères."
+    },
+    "security": {
+      "change_password": "Changer le mot de passe",
+      "message": "Votre clé de cryptage est connectée à votre mot de passe. Vous avez le choix entre conserver toutes les données et les clés de cryptage et simplement modifier le mot de passe ou vous pouvez supprimer toutes les données et générer de nouvelles clés de cryptage. Choisissez votre option avec soin.",
+      "old_password": "ancien mot de passe",
+      "old_password_req": "Ancien mot de passe est requis.",
+      "new_password_req": "Un nouveau mot de passe est requis.",
+      "data_message": "Sélectionnez l'option pour conserver / supprimer les données!",
+      "keep_data": "Conserver les données",
+      "encryption_key_message": "Supprimer toutes les données et générer de nouvelles clés de cryptage",
+      "encryption_key_progress": "La génération de nouvelles clés de chiffrement est en cours et peut prendre plusieurs minutes. Attendez la fin!"
+    },
+    "addresses_and_signs": "Adresses et signatures",
+    "forwarding_and_autores": "Transfert et réponse automatique",
+    "domains_and_users": {
+      "title": "Domaines et utilisateurs",
+      "premium_feature": "Ceci est une fonctionnalité premium, s'il vous plaît",
+      "upgrade": "améliorer",
+      "users": "Utilisateurs",
+      "use_feature": "afin d'utiliser cette fonctionnalité.",
+      "custom_domain": "Veuillez ajouter un domaine pour pouvoir ajouter des utilisateurs."
+    }
   },
   "mail_sidebar": {
     "inbox": "Boîte de réception",
@@ -136,7 +275,8 @@
   },
   "mail_header": {
     "contacts": "Contacts",
-    "settings": "Réglages"
+    "settings": "Réglages",
+    "need_help": "Besoin d’aide"
   },
   "mail_list": {
     "select_messages": "Sélectionnez les messages",
@@ -154,7 +294,8 @@
     "more": "Plus",
     "add_star": "Ajouter une étoile",
     "mark_as_read": "Marquez comme lu",
-    "mark_as_unread": "Marquez comme non lu"
+    "mark_as_unread": "Marquez comme non lu",
+    "refresh": "Rafraîchir"
   },
   "home_header": {
     "home": "Accueil",
@@ -167,16 +308,23 @@
     "signup": "S'inscrire"
   },
   "home_page": {
+    "title": "Email sécurisé <br> Anonyme <br> Crypté",
     "signup_for_free": "Inscrivez-vous gratuitement",
     "latest_from_our_blog": "Dernières Nouvelles De<strong>Notre Blog</strong>",
     "related_post": "Message<strong>associé</strong>",
     "read_more_from_our_blog": "En savoir plus sur notre blog"
   },
   "home_feature": {
-    "end_to_end_PKI_encryption": "Le cryptage de bout en bout 4096 bits protège vos informations privées contre les gouvernements, les entreprises et les pirates informatiques.",
-    "safely_send_your_financial": "Envoyez en toute sécurité vos dossiers financiers, contrats, résultats de laboratoire et de journalisme d'investigation, et plus encore, même à des comptes de courriel hors CTemplar, par courriel anonyme sans signature , sans enregistrement d'adresse IP et une sécurité de votre mot de passe inégalée.",
-    "iceland_based_server": "L'Islande possède les lois les plus strictes au monde en matière de confidentialité des données, donc en utilisant nos serveurs islandais, vos données bénéficient de la protection juridique la plus forte au monde.",
-    "easy_to_use_responsive": "La sécurité exclusive 4 Wall Watch de CTemplar garantit une protection complète de vos données mur à mur.",
+    "encrypted": "Crypté",
+    "anonymous": "anonyme",
+    "view_code": "voir le code",
+    "legal_protection": "La plus grande protection juridique au monde",
+    "read_more": "Lire la suite",
+    "4_Wall_Protection": "4 Wall Protection",
+    "end_to_end_PKI_encryption": "Nous utilisons un cryptage de 4096 bits. Cela protège les utilisateurs contre les techniques de piratage cryptographique actuelles et les futures attaques hypothétiques",
+    "track_your_ip": "Nous ne traquons jamais votre adresse IP, ne conservons pas des journaux de votre utilisation ou n'enregistrons aucune information d'identification, à aucun moment. Nous le prouvons en rendant notre code disponible",
+    "iceland_based_server": "L’Islande possède les lois les plus strictes au monde en matière de confidentialité des données. Ainsi, en utilisant nos serveurs islandais, vos données bénéficient de la protection juridique la plus solide au monde. Déposez maintenant vos forfaits de données suisses ",
+    "exclusive_4_wall": "4 Wall Protection, une exclusivité CTemplar, garantit une protection complète de vos données en continu.",
     "learn_more_about_ctempler": "En savoir plus sur les fonctions de sécurité de CTemplar"
   },
   "footer": {
@@ -185,13 +333,14 @@
     "upgrade_to_prime": "Passer à la version supérieure",
     "media_kit": "Kit Media",
     "onion_site": "site Onion",
-    "support": "Support",
+    "support": "Contacter le support",
     "company": "Entreprise",
     "social": "Social",
     "legal": "Légal",
     "privacy_policy": "Politique de Confidentialité",
     "our_address": "Notre Adresse",
-    "all_rights_reserved": "Tous Droits Réservés"
+    "all_rights_reserved": "Tous Droits Réservés",
+    "help": "Aide"
   },
   "page_about": {
     "as_the_govt_continues": "Alors que les gouvernements continuent de recueillir des données à un rythme croissant, une plus grande confidentialité et protection des données est nécessaire. L'utilisation du courrier électronique crypté est une étape importante pour obtenir une meilleure protection. CTemplar s'engage à fournir le plus haut niveau de protection des données.",

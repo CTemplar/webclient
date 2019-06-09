@@ -38,7 +38,7 @@
               <input class="form-control form-control-sm" id="displayName" type="text"
                      [value]="selectedMailboxForSignature.display_name"
                      (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
-                     placeholder="Display name"/>
+                     [placeholder]="'settings.display_name'| translate"/>
             </div>
           </div>
         </div>
