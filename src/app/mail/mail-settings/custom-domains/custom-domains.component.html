@@ -6,8 +6,14 @@
           <div *ngIf="!isAddingNewDomain">
             <div class="desc-card">
               <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
+                <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block"><strong translate="settings.domains">Domains</strong>
                 </h5>
+                <a href="https://blog.ctemplar.com/faq/add-a-domain/"
+                   ngbTooltip="Learn more"
+                   class="domains-info-icon"
+                   target="_blank">
+                  <i class="material-icons">info_outline</i>
+                </a>
               </div>
               <div class="desc-card-body bg-faded domain-body">
                 <button class="btn btn-secondary btn-add-domain text-small"
