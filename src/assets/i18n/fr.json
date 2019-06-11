@@ -124,57 +124,57 @@
     "add": "Ajoutez",
     "type": "Type:",
     "features_added_soon": "Ajouté plus tard à ce forfait",
-    "create_domain": "Create domain",
-    "add_domain": "Add Domain",
-    "domain": "Domain",
-    "current_status": "Current Status",
-    "status_verification": "Verification",
+    "create_domain": "Créer un domaine",
+    "add_domain": "Ajouter un domaine",
+    "domain": "Domaine",
+    "current_status": "Statut actuel",
+    "status_verification": "VÉRIFICATION ",
     "status_mx": "MX",
     "status_spf": "SPF",
     "status_dkim": "DKIM",
     "status_dmarc": "DMARC",
-    "status_addresses": "Addresses",
-    "next": "Next",
-    "verify": "Verify",
+    "status_addresses": "ADRESSES",
+    "next": "Suivant",
+    "verify": "Vérifier",
     "add_domain_step": {
-      "name": "Domain name",
-      "info": "Add a domain that you own to your CTemplar account."
+      "name": "Nom de domaine",
+      "info": "Ajouter votre nom de domaine à votre compte CTemplar."
     },
     "verify_step": {
-      "name": "Verify",
-      "info": "For security reasons, we need to verify that you are the owner of your domain. Please add the following code into your DNS. Do not remove it even after successful verification. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record:",
+      "name": "Vérifier",
+      "info": "Pour des raisons de sécurité, nous devons vérifier que vous êtes le propriétaire de votre domaine. S'il vous plaît ajouter le code suivant dans votre DNS. Ne l'enlevez pas même après une vérification réussie. Cela peut généralement être effectué dans le panneau de configuration de votre registraire de noms de domaine. <br/> <br/> Ajoutez l'enregistrement TXT suivant:",
       "type": "Type",
-      "host_name": "Host Name",
-      "value_data_points_to": "Value / Data / Points To"
+      "host_name": "Nom host",
+      "value_data_points_to": "Valeur / Donnée / Points"
     },
     "mx_step": {
       "name": "MX",
-      "info": "Before you can receive emails for your custom domain addresses at CTemplar, you need to add the following MX record to your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following MX record. Note, DNS records can take several hours to update.",
+      "info": "Avant de pouvoir recevoir des courriers électroniques pour vos adresses de domaine personnalisées sur CTemplar, vous devez ajouter l’enregistrement MX suivant à votre DNS. Cela peut généralement être effectué dans le panneau de configuration de votre fournisseur de nom de domaine.<br/><br/> Veuillez ajouter l'enregistrement MX suivant. Notez que la mise à jour des enregistrements DNS peut prendre plusieurs heures.",
       "type": "Type",
-      "host_name": "Host Name",
-      "value_data_points_to": "Value / Data / Points To",
+      "host_name": "Nom host",
+      "value_data_points_to": "Valeur / Donnée / Points",
       "priority": "Priority"
     },
     "spf_step": {
       "name": "SPF",
-      "info": "SPF is used to specify who is allowed to send email for the domain so we strongly recommend including CTemplar in your SPF record. Please add the following TXT record into your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record. Note, DNS records can take several hours to update.",
+      "info": " SPF est utilisé pour spécifier qui est autorisé à envoyer un courrier électronique pour le domaine. Nous vous recommandons donc fortement d'inclure CTemplar dans votre enregistrement SPF.<br/><br/> Veuillez ajouter l'enregistrement TXT suivant dans votre DNS. Cela peut généralement être effectué dans le panneau de configuration de votre fournisseur de nom de domaine.",
       "type": "Type",
-      "host_name": "Host Name",
-      "value_data_points_to": "Value / Data / Points To"
+      "host_name": "Nom d'hôte",
+      "value_data_points_to": "Valeur / Données / Points à"
     },
     "dkim_step": {
       "name": "DKIM",
-      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "info": "CTemplar prend en charge la signature DKIM pour les domaines personnalisés. Pour utiliser l'authentification DKIM, veuillez ajouter l'enregistrement TXT suivant dans votre DNS pour ce domaine. Cela peut généralement être effectué dans le panneau de configuration de votre registraire de noms de domaine. <br/> <br/> Ajoutez l'enregistrement TXT suivant. Notez que la mise à jour des enregistrements DNS peut prendre plusieurs heures.",
       "type": "Type",
-      "host_name": "Host Name",
-      "value_data_points_to": "Value / Data / Points To"
+      "host_name": "Nom d'hôte",
+      "value_data_points_to": "Valeur / Données / Points à"
     },
     "dmarc_step": {
       "name": "DMARC",
-      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "info": "CTemplar prend en charge la signature DKIM pour les domaines personnalisés. Pour utiliser l'authentification DKIM, veuillez ajouter l'enregistrement TXT suivant dans votre DNS pour ce domaine. Cela peut généralement être effectué dans le panneau de configuration de votre registraire de noms de domaine. </br> </br> Ajoutez l'enregistrement TXT suivant. Notez que la mise à jour des enregistrements DNS peut prendre plusieurs heures.",
       "type": "Type",
-      "host_name": "Host Name",
-      "value_data_points_to": "Value / Data / Points To"
+      "host_name": "Nom d'hôte",
+      "value_data_points_to": "Valeur / Données / Points à"
     },
     "required": "Requis",
     "recommended": "Recommandé",
@@ -259,6 +259,28 @@
       "users": "Utilisateurs",
       "use_feature": "afin d'utiliser cette fonctionnalité.",
       "custom_domain": "Veuillez ajouter un domaine pour pouvoir ajouter des utilisateurs."
+    },
+    "forwarding": {
+      "title": "Transfert",
+      "auto_forward": "Vous pouvez transférer automatiquement vos email vers une autre adresse email.",
+      "add_address": "AJOUTER UNE ADRESSE DE TRANSFERT",
+      "enter_email": "Veuillez indiquer une adresse de transfert",
+      "address": "Adresse de transfert",
+      "address_req": "L'adresse est obligatoire.",
+      "address_invalid": "L'adresse est invalide.",
+      "code_message": "J’ai déjà un code",
+      "enter_code": "Veuillez saisir le code de vérification envoyé à l'adresse e-mail fournie.",
+      "verif_code": "Code de vérification",
+      "code_req": "Le code de vérification est requis.",
+      "delete_message": "Êtes vous certain de vouloir supprimer l’adresse de transfert?",
+      "autoresponder": "Réponse automatique",
+      "restrict": "Limiter à cet intervalle de temps",
+      "start_time": "Date de début",
+      "end_time": "Date de fin",
+      "auto_message": "Message automatique",
+      "message": "Message",
+      "vac_autoresponder": "Message d’absence",
+      "send_response": "Envoyer une réponse automatique seulement à mes contacts"
     }
   },
   "mail_sidebar": {

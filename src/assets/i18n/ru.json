@@ -36,9 +36,16 @@
     "disabled": "Отключено",
     "yes": "Да",
     "no": "Нет",
-    "logout": "Выход"
+    "logout": "Выход",
+    "search_contacts": "Search contacts"
   },
   "settings": {
+    "compose_font": "Default Mail Compose Font",
+    "champion_plan": "Champion Plan",
+    "champion": "Champion",
+    "select_champion": "Select Champion",
+    "dashboard_plans": "Dashboard and plans",
+    "general": "General",
     "dashboard": "Панель управления",
     "overview": "Обзор",
     "username": "Имя пользователя",
@@ -120,7 +127,165 @@
     },
     "add": "Добавить",
     "type": "Тип:",
-    "features_added_soon": "Функция будет добавлена в ближайшее время"
+    "features_added_soon": "Функция будет добавлена в ближайшее время",
+    "create_domain": "Create domain",
+    "add_domain": "Add Domain",
+    "domain": "Domain",
+    "current_status": "Current Status",
+    "status_verification": "Verification",
+    "status_mx": "MX",
+    "status_spf": "SPF",
+    "status_dkim": "DKIM",
+    "status_dmarc": "DMARC",
+    "status_addresses": "Addresses",
+    "next": "Next",
+    "verify": "Verify",
+    "add_domain_step": {
+      "name": "Domain name",
+      "info": "Add a domain that you own to your CTemplar account."
+    },
+    "verify_step": {
+      "name": "Verify",
+      "info": "For security reasons, we need to verify that you are the owner of your domain. Please add the following code into your DNS. Do not remove it even after successful verification. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record:",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "mx_step": {
+      "name": "MX",
+      "info": "Before you can receive emails for your custom domain addresses at CTemplar, you need to add the following MX record to your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following MX record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To",
+      "priority": "Priority"
+    },
+    "spf_step": {
+      "name": "SPF",
+      "info": "SPF is used to specify who is allowed to send email for the domain so we strongly recommend including CTemplar in your SPF record. Please add the following TXT record into your DNS. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the following TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "dkim_step": {
+      "name": "DKIM",
+      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "dmarc_step": {
+      "name": "DMARC",
+      "info": "CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br/><br/>Please add the follow TXT record. Note, DNS records can take several hours to update.",
+      "type": "Type",
+      "host_name": "Host Name",
+      "value_data_points_to": "Value / Data / Points To"
+    },
+    "required": "Required",
+    "recommended": "Recommended",
+    "optional_advanced": "Optional, advanced",
+    "edit_details": "Edit Details",
+    "remove": "Remove",
+    "set": "Set",
+    "good": "Good",
+    "on": "On",
+    "edit": "Edit",
+    "delete": "Delete",
+    "notifications": "Notifications",
+    "notification_email": "Notification email",
+    "desktop_notification_title": "Desktop notifications",
+    "desktop_notifications_en": "Desktop notifications are enabled.",
+    "click_to_test": "Click here to Test",
+    "enter_notification_email": "Enter a notification email on which you would like to receive notification each day when you have new emails.",
+    "desktop_notifications_dis": "Desktop Notifications are disabled.Please go to your browser settings in order to enable them.",
+    "click_here": "Click here",
+    "enable_notifications": "in order to enable desktop notifications.",
+    "delete_account": "Delete Account",
+    "delete_account_perm": "Permanently Delete Account",
+    "delete_account_guide": "If you permanently delete your account you will lose all the data in your mailbox. In 2 months this username will be available for re-use by anyone who selects it.",
+    "current_password": "Your Current Password",
+    "password_req": "Your current password is required.",
+    "provide_email": "Please provide an email address in case we need to contact you.",
+    "filters": {
+      "name": "Filters",
+      "add_filter": "Add a filter to perform actions such as automatically labeling or archiving.",
+      "spam_filter": "My spam filter",
+      "imp_messages": "Important messages filter",
+      "auto_labeling": "Auto-labeling test",
+      "add_custom_filter": "Add custom filter",
+      "custom_filter": "custom filter",
+      "filter_name": "Filter name",
+      "filter_name_exist": "Filter name already exists.",
+      "filter_name_req": "Filter name is required.",
+      "filter_name_char": "Filter name must be less than 64 characters.",
+      "conditions": "Conditions:",
+      "if_subject": "If the subject",
+      "if_sender": "If the sender",
+      "starts_with": "starts with",
+      "actions": "Actions:",
+      "move_to": "move to",
+      "mark_as_starred": "mark as starred",
+      "delete_message": " Are you sure, you want to delete filter",
+      "text_or_pattern": "text or pattern",
+      "select_folder": "Select folder",
+      "select_condition": "Select condition"
+    },
+    "save_order": "Save order",
+    "delete_folder_message": "Are you sure, you want to delete folder",
+    "select_color": "Select color:",
+    "folder_name": "Folder name:",
+    "update": "Update",
+    "create": "Create",
+    "create_folder": "Create new folder",
+    "folder_messages": {
+      "name_exist": "Folder name already exists.",
+      "name_required": "Folder name is required",
+      "name_start": " Folder name must start with an alphabet and can only contain",
+      "character_len": " characters or space, and minimum length should be 4 characters.",
+      "name_len": "Folder name must be between 4 and 30 characters."
+    },
+    "security": {
+      "change_password": "Change Password",
+      "message": "Your encryption key is connected to your password. You have the option to either keep all the data and encryption keys and just change the password or you can delete all the data and generate new encryption keys. Choose your option carefully.",
+      "old_password": "Old Password",
+      "old_password_req": "Old password is required.",
+      "new_password_req": "New password is required.",
+      "data_message": "Select option to keep/delete data!",
+      "keep_data": "Keep data",
+      "encryption_key_message": "Delete all data and generate new encryption keys",
+      "encryption_key_progress": "Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!"
+    },
+    "addresses_and_signs": "Addresses and signatures",
+    "forwarding_and_autores": "Forwarding and autoresponder",
+    "domains_and_users": {
+      "title": "Domains & Users",
+      "premium_feature": "This is a premium feature, please",
+      "upgrade": "upgrade",
+      "users": "Users",
+      "use_feature": "in order to use this feature.",
+      "custom_domain": "Please add a custom domain first in order to add users."
+    },
+    "forwarding": {
+      "title": "Forwarding",
+      "auto_forward": "You can automatically forward your messages to another address.",
+      "add_address": "Add a forwarding address",
+      "enter_email": "Please enter a forwarding email address.",
+      "address": "Forwarding Address",
+      "address_req": "The address is required.",
+      "address_invalid": "The address is invalid.",
+      "code_message": "Already have the code",
+      "enter_code": "Please enter the verification code sent to provided email address.",
+      "verif_code": "Verification Code",
+      "code_req": "The verification code is required.",
+      "delete_message": "Are you sure you want to delete forwarding address?",
+      "autoresponder": "Autoresponder",
+      "restrict": "Restrict to time range",
+      "start_time": "Start Time",
+      "end_time": "End Time",
+      "auto_message": "Email autoresponse message",
+      "message": "Message",
+      "vac_autoresponder": "Vacation Autoresponder",
+      "send_response": "Only send a response to people in my contacts"
+    }
   },
   "mail_sidebar": {
     "inbox": "Входящие",
@@ -136,7 +301,8 @@
   },
   "mail_header": {
     "contacts": "Контакты",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "need_help": "Need Help"
   },
   "mail_list": {
     "select_messages": "Выбрать сообщения",
@@ -154,7 +320,8 @@
     "more": "Больше",
     "add_star": "Добавить пометку",
     "mark_as_read": "Отметить как прочитанное",
-    "mark_as_unread": "Отметить как непрочитанное"
+    "mark_as_unread": "Отметить как непрочитанное",
+    "refresh": "Refresh"
   },
   "home_header": {
     "home": "Главная страница",
@@ -167,16 +334,23 @@
     "signup": "Регистрация"
   },
   "home_page": {
+    "title": "Armored Email<br>Anonymous<br> Encrypted",
     "signup_for_free": "Бесплатная регистрация",
     "latest_from_our_blog": "Последние новости из <strong>нашего Блога</strong>",
     "related_post": "Похожий <strong>Пост</strong>",
     "read_more_from_our_blog": "Узнайте больше в нашем блоге"
   },
   "home_feature": {
-    "end_to_end_PKI_encryption": "Сквозное 4096-битное шифрование обеспечивает защиту вашей личной информации от государственных структур, корпораций и наемных хакеров.",
-    "safely_send_your_financial": "Безопасно пересылайте вашу финансовую документацию, контракты, результаты анализов, журналистские расследования и многое другое — даже на почтовые аккаунты, не использующие сервис CTemplar — без регистрации почты, без логирования IP-адресов и с непревзойденной защитой с помощью пароля.",
-    "iceland_based_server": "В Исландии действуют самые эффективные законы о защите информации, поэтому ваши данные, размещённые на наших исландских серверах, находятся под самой надежной юридической защитой в мире.",
-    "easy_to_use_responsive": "4 Wall Watch, эксклюзивная технология CTemplar, гарантирует полную всестороннюю защиту ваших данных.",
+    "encrypted": "Encrypted",
+    "anonymous": "Anonymous",
+    "view_code": "view code",
+    "legal_protection": "World's Strongest Legal Protection",
+    "read_more": "read more",
+    "4_Wall_Protection": "4 Wall Protection",
+    "end_to_end_PKI_encryption": "We use 4096 bit encryption. This protects users from current cryptography cracking techniques and future hypothetical attacks.",
+    "track_your_ip": "We never track your IP address, keep logs on your usage or record any identifying information at any time. We prove this by making our code readily available ",
+    "iceland_based_server": "Iceland has the world’s strongest data privacy laws, so by using our Icelandic servers,your data has the strongest legal protection in the world.Drop your Swiss data plans now",
+    "exclusive_4_wall": "CTemplar’s exclusive 4 Wall Protection guarantees complete wall-to-wall protection of your data.",
     "learn_more_about_ctempler": "Больше о функциях защиты CTemplar"
   },
   "footer": {
@@ -191,7 +365,9 @@
     "legal": "Правовые аспекты",
     "privacy_policy": "Политика конфиденциальности",
     "our_address": "Наш адрес",
-    "all_rights_reserved": "Все права защищены"
+    "all_rights_reserved": "Все права защищены",
+    "faq": "FAQ",
+    "help": "Help"
   },
   "page_about": {
     "as_the_govt_continues": "По мере того, как различные госструктуры продолжают собирать данные частных лиц во все больших объемах, возникает необходимость в более надежном хранении и более мощной защите данных. Шифрование электронной почты — важный шаг в достижении более высокой степени защиты. Компания CTemplar стремится обеспечить наивысший уровень защиты данных для вас.",
@@ -279,7 +455,8 @@
     "month": "Месяц",
     "year": "Год",
     "submit": "Отправить",
-    "send_exactly": "ОТПРАВИТЬ ЧАСТИЧНУЮ СУММУ"
+    "send_exactly": "ОТПРАВИТЬ ЧАСТИЧНУЮ СУММУ",
+    "donation_amount": "Amount"
   },
   "page_terms": {
     "the_terms": "Условия",
