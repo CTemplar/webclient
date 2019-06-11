@@ -276,7 +276,15 @@
       "enter_code": "Please enter the verification code sent to provided email address.",
       "verif_code": "Verification Code",
       "code_req": "The verification code is required.",
-      "delete_message": "Are you sure you want to delete forwarding address?"
+      "delete_message": "Are you sure you want to delete forwarding address?",
+      "autoresponder": "Autoresponder",
+      "restrict": "Restrict to time range",
+      "start_time": "Start Time",
+      "end_time": "End Time",
+      "auto_message": "Email autoresponse message",
+      "message": "Message",
+      "vac_autoresponder": "Vacation Autoresponder",
+      "send_response": "Only send a response to people in my contacts"
     }
   },
   "mail_sidebar": {
