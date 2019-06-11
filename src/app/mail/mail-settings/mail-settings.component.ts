@@ -298,7 +298,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
-         <html>
+<html>
 <head>
     <title>Invoice : 20102019</title>
     <style>
@@ -370,13 +370,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     <div class="container">
         <div class="row" style="margin-top: 1rem;">
             <div class="col-8">
-                <img src="https://ctemplar.com/assets/images/media-kit/mediakit-logo4.png"
-                    style="height: 7rem;margin-left: 2rem;">
-                <div style="margin-left: 1.5rem;
-                            margin-top: 1rem;
-                            font-size: 1.5rem;
-                            font-weight: bold;
-                            color: #2f4254;">CTEMPLAR</div>
+                <img src="https://dev.ctemplar.com/assets/images/media-kit/mediakit-logo-sec.png"
+                    style="height: 9rem;margin-left: 2rem;">
             </div>
             <div class="col-4 color-primary">
                 <div style="text-align: right;padding-right: 35px; line-height: 1.5;">
