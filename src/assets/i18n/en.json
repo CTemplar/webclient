@@ -577,5 +577,25 @@
     "address": "Address",
     "questions": "Questions?",
     "any_questions": "If you have any questions on our Privacy Policy, or complaints about our handling of your Personal and/or Financial Information, you can contact us at 1 (800) 319-5820 or"
+  },
+  "account_init": {
+    "creation_init": "Account Creation Initiated",
+    "encrypted_conn_being": "Encrypted connection between user and website being verified",
+    "account_creation": "Account creation in user&apos;s browser initiated",
+    "mailbox_creation": "Mailbox creation in user&apos;s browser initiated",
+    "encrypted_conn": "Encrypted connection between user and website verified",
+    "acc_creation_complete": "Account creation in user&apos;s browser complete",
+    "mail_creation_comp": "Mailbox creation in user&apos;s browser complete",
+    "crypto_protect": "Cryptographic Protection Initiated",
+    "gen_pgp_key": "Generate 4096 bit PGP Encryption Key",
+    "crypto_hash_pass": "Apply Cryptographic hash to password",
+    "rec_hash_value": "Receive “hash value” from cryptographic hash",
+    "crypto_salt": "Apply cryptographic salt to \"hash value\"",
+    "mailbox_encrypted": "Your mailbox is now encrypted and password protected",
+    "creation_finished": "Account Creation Finished",
+    "mailbox_saved": "Mailbox sent and saved to Icelandic server",
+    "secured_with_hash": "Mailbox secured with user&apos;s hash & Salted value.",
+    "encypt_secure":"Encrypted, Secure & Anonymous",
+    "max_strength": "Welcome to your Maximum strength mailbox"
   }
 }
