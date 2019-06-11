@@ -359,7 +359,7 @@
                       </ng-container>
                         <span *ngIf="childMail.attachments?.length > 0" class="mr-3"><i class="icon icon-attachment"></i></span>
                         <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
-                          <ng-container *ngIf="childMail.sent_at; else createdAt">
+                          <ng-container *ngIf="childMail.folder === mailFolderTypes.SENT && childMail.sent_at; else createdAt">
                             {{childMail.sent_at | momentDate:'medium'}}
                           </ng-container>
                           <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
