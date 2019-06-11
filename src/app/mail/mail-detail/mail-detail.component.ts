@@ -1,31 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { DeleteMail, GetMailDetailSuccess, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { takeUntil } from 'rxjs/operators';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { WebSocketState } from '../../store';
 import { SummarySeparator } from '../../shared/config';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-detail',
   templateUrl: './mail-detail.component.html',
   styleUrls: ['./mail-detail.component.scss']
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
-  @ViewChild('incomingHeadersModal') incomingHeadersModal;
+  @ViewChild('forwardAttachmentsModal', { static: false }) forwardAttachmentsModal;
+  @ViewChild('incomingHeadersModal', { static: false }) incomingHeadersModal;
 
   mail: Mail;
   composeMailData: any = {};
@@ -62,7 +58,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.webSocket).pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
           if (this.mail && (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)) {
@@ -71,7 +67,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
@@ -136,13 +132,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
         this.currentMailbox = mailBoxesState.currentMailbox;
         this.mailboxes = mailBoxesState.mailboxes;
       });
 
-    this.route.params.pipe(takeUntil(this.destroyed$))
+    this.route.params.pipe(untilDestroyed(this))
       .subscribe(params => {
         const id = +params['id'];
 
@@ -151,7 +147,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.getMailDetail(id);
       });
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
         this.userState = user;

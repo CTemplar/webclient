@@ -235,7 +235,12 @@ export function reducer(
         }
       });
       if (newEntry && state.currentFolder === action.payload.folder) {
-        state.mails = [...state.mails, action.payload];
+        const mail = action.payload;
+        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+        mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+          || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
+
+        state.mails = [mail, ...state.mails];
       }
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }

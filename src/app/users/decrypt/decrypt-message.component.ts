@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 // Store
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { GetMessage } from '../../store/actions';
 // Store
 import { AppState, SecureMessageState } from '../../store/datatypes';
@@ -12,16 +10,14 @@ import { Mail } from '../../store/models';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-decrypt-message',
   templateUrl: './decrypt-message.component.html',
   styleUrls: ['./decrypt-message.component.scss']
 })
 export class DecryptMessageComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   decryptForm: FormGroup;
   hash: string;
@@ -53,14 +49,14 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required]]
     });
 
-    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe(params => {
+    this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
       this.hash = params['hash'];
       this.secret = params['secret'];
       this.senderId = decodeURIComponent(params['senderId']);
       this.store.dispatch(new GetMessage({ hash: this.hash, secret: this.secret }));
     });
 
-    this.store.select(state => state.secureMessage).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.secureMessage).pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
         this.isLoading = state.inProgress || state.isContentDecryptionInProgress;
         this.errorMessage = state.errorMessage;

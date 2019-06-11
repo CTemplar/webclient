@@ -1,31 +1,22 @@
 // Angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Rxjs
-import { Observable } from 'rxjs';
 // Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, Captcha, SignupState, UserState } from '../../store/datatypes';
-import {
-  CheckUsernameAvailability,
-  FinalLoading,
-  GetCaptcha,
-  SignUp,
-  SignUpFailure,
-  UpdateSignupData,
-  VerifyCaptcha
-} from '../../store/actions';
+import { CheckUsernameAvailability, FinalLoading, GetCaptcha, SignUp, UpdateSignupData, VerifyCaptcha } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { NotificationService } from '../../store/services/notification.service';
-import { debounceTime, takeUntil, tap } from 'rxjs/operators';
-import { apiUrl, VALID_EMAIL_REGEX } from '../../shared/config';
+import { debounceTime } from 'rxjs/operators';
+import { VALID_EMAIL_REGEX } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 export class PasswordValidation {
 
@@ -40,15 +31,12 @@ export class PasswordValidation {
   }
 }
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-users-create-account',
   templateUrl: './users-create-account.component.html',
   styleUrls: ['./users-create-account.component.scss']
 })
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
-
-  readonly destroyed$: Observable<boolean>;
 
   isTextToggled: boolean = false;
   signupForm: FormGroup;
@@ -95,7 +83,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       validator: PasswordValidation.MatchPassword
     });
 
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((state: AuthState) => {
         this.captcha = state.captcha;
         if (this.captcha.isInvalid) {
@@ -105,7 +93,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       });
 
     this.store.select(state => state.user)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(untilDestroyed(this))
       .subscribe((state: UserState) => {
         this.selectedPlan = state.membership.id;
         if (this.selectedPlan !== 1 && this.selectedPlan !== 2 && !this.isCaptchaRetrieved) {
@@ -225,7 +213,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private handleUserState(): void {
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$)).subscribe((authState: AuthState) => {
+    this.store.select(state => state.auth).pipe(untilDestroyed(this)).subscribe((authState: AuthState) => {
       if (this.signupInProgress && !authState.inProgress) {
         if (authState.errorMessage) {
           this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);

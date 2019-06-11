@@ -17,8 +17,8 @@ export class ComposeMailDialogComponent {
   @Output() public minimize = new EventEmitter<boolean>();
   @Output() public fullScreen = new EventEmitter<boolean>();
 
-  @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
-  @ViewChild('confirmDiscardModal') confirmDiscardModal;
+  @ViewChild(ComposeMailComponent, { static: false }) composeMail: ComposeMailComponent;
+  @ViewChild('confirmDiscardModal', { static: false }) confirmDiscardModal;
 
   isMinimized: boolean;
   isFullScreen: boolean;

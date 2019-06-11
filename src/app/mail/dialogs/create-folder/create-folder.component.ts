@@ -1,6 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,17 +6,14 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateFolder } from '../../../store/actions';
 import { FOLDER_COLORS } from '../../../shared/config';
 import { Folder } from '../../../store/models';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-create-folder',
   templateUrl: './create-folder.component.html',
   styleUrls: ['./create-folder.component.scss']
 })
 export class CreateFolderComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
-
   @Input() folder: Folder = { id: null, name: '', color: '' };
 
   customFolderForm: FormGroup;
@@ -49,7 +44,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     if (this.folder.color) {
       this.selectedColorIndex = this.folderColors.indexOf(this.folder.color);
     }
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         if (this.userState && this.userState.inProgress && !user.inProgress) {
           if (this.callback) {
@@ -59,7 +54,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
         }
         this.userState = user;
       });
-    this.customFolderForm.get('folderName').valueChanges.pipe(takeUntil(this.destroyed$))
+    this.customFolderForm.get('folderName').valueChanges.pipe(untilDestroyed(this))
       .subscribe((value) => {
         this.checkFolderExist(value);
       });

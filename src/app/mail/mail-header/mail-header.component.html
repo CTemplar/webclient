@@ -59,20 +59,6 @@
                     <a (click)="logout()"
                         placement="bottom" [ngbTooltip]="'common.logout' | translate"><i
                         class="icon icon-logout cursor-pointer"></i></a></li>
-                <li class="mailbox-lang mailbox-dropdown btn-dropdown">
-                    <div ngbDropdown class="lang-dropdown">
-                        <button type="button" id="langDropdownMenuButton" ngbDropdownToggle placement="bottom"
-                                [ngbTooltip]="'settings.language' |translate"><i class="icon icon-earth-globe hidden-xs-down"></i>
-                            {{selectedLanguage?.locale?.toUpperCase()}}
-                        </button>
-                        <div ngbDropdownMenu class="dropdown-menu-right text-center"
-                             aria-labelledby="langDropdownMenuButton">
-                            <a class="dropdown-item text-left"
-                               *ngFor="let language of languages"
-                               (click)="changeLanguage(language)">{{language.name}} ({{language.locale}})</a>
-                        </div>
-                    </div>
-                </li>
                 <li class="mailbox-xs-search-item hidden-sm-up">
                     <div ngbDropdown>
                         <a ngbDropdownToggle role="button"><i class="icon icon-search"></i></a>

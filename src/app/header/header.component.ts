@@ -1,29 +1,23 @@
 // Angular
-import { Component, OnInit, HostListener, Inject } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-
 // Service
 import { SharedService } from '../store/services';
 import { UsersService } from '../store/services/users.service';
 import { AppState, AuthState } from '../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ExpireSession, Logout } from '../store/actions';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../shared/config';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
-
   // Public property of boolean type set false by default
   public navIsFixed: boolean = false;
   public menuIsOpened: boolean = false;
@@ -48,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoggedIn = this.usersService.getUserKey() ? true : false;
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((data: AuthState) => this.isLoggedIn = data.isAuthenticated);
   }
 

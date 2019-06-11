@@ -1,9 +1,15 @@
 <div class="desc-card">
   <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0 position-relative">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains_and_users.users">Users</strong>
+    <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block"><strong translate="settings.domains_and_users.users">Users</strong>
       <app-loading-spinner [showSpinner]="false"
                            optionalClasses="custom-domains-spinner"></app-loading-spinner>
     </h5>
+    <a href="https://blog.ctemplar.com/faq/add-users/"
+       ngbTooltip="Learn more"
+       class="users-info-icon"
+       target="_blank">
+      <i class="material-icons">info_outline</i>
+    </a>
     <div class="beta-users"
          placement="left"
          ngbTooltip="This is beta feature and free for all as long as it is in beta, once it is fully released, you will be charged for it.">

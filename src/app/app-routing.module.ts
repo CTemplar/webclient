@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'mail',
-    loadChildren: 'app/mail/mail.module#MailModule'
+    loadChildren: () => import('app/mail/mail.module').then(m => m.MailModule)
   }
 ];
 @NgModule({

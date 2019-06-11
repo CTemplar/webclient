@@ -1,9 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -12,13 +10,13 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { GetMails, GetMailsSuccess, GetUnreadMailsCount, GetUnreadMailsCountSuccess, ReadMailSuccess } from '../../store/actions';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
-import { PushNotificationOptions, PushNotificationService } from 'ngx-push-notifications';
 import { Title } from '@angular/platform-browser';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-sidebar',
   templateUrl: './mail-sidebar.component.html',
@@ -28,8 +26,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   LIMIT = 3;
   EMAIL_LIMIT = 20;
-
-  readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
@@ -58,7 +54,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
 
-    this.router.events.pipe(takeUntil(this.destroyed$))
+    this.router.events.pipe(untilDestroyed(this))
       .subscribe((event) => {
         if (event instanceof NavigationEnd) {
           this.currentRoute = event.url;
@@ -74,7 +70,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.websocketService.connect();
 
     // listen to web sockets events of new emails from server.
-    this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.webSocket).pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
           if (webSocketState.message.mail) {
@@ -108,7 +104,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           }
         }
       });
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (!authState.isAuthenticated) {
           this.websocketService.disconnect();
@@ -118,14 +114,14 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    const isGranted: any = this.pushNotificationService.isPermissionGranted;
-    if (!isGranted()) {
+    const isGranted: any = this.pushNotificationService.permission;
+    if (!this.pushNotificationService.isGranted()) {
       setTimeout(() => {
         this.pushNotificationService.requestPermission();
       }, 3000);
     }
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.EMAIL_LIMIT = this.userState.settings.emails_per_page ? this.userState.settings.emails_per_page : 20;
@@ -135,18 +131,18 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
       .subscribe((mailboxes: MailBoxesState) => {
         this.currentMailbox = mailboxes.currentMailbox;
       });
 
-    this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
         this.updateTitle();
 
       });
-    this.router.events.pipe(takeUntil(this.destroyed$), filter(event => event instanceof NavigationEnd))
+    this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         if (event.url === '/mail/settings' || event.url === '/mail/contacts') {
           this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);

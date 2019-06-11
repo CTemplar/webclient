@@ -1,15 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, BlackList, UserState, WhiteList } from '../../../store/datatypes';
 import { BlackListAdd, WhiteListAdd } from '../../../store/actions';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { NotificationService } from '../../../store/services/notification.service';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-save-list-contact',
   templateUrl: './save-list-contact.component.html',
@@ -23,13 +20,12 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
 
   @Output() public closed = new EventEmitter();
 
-  @ViewChild('modalContent') modalContent: any;
+  @ViewChild('modalContent', { static: false }) modalContent: any;
 
   public contactForm: FormGroup;
   public showFormErrors: boolean;
   private modalRef: NgbModalRef;
 
-  readonly destroyed$: Observable<boolean>;
   public inProgress: boolean;
 
   constructor(private modalService: NgbModal,
@@ -52,7 +48,7 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
 
   private handleUserState(): void {
     this.store.select((state) => state.user)
-      .pipe(takeUntil(this.destroyed$)).subscribe((state: UserState) => {
+      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
       if (this.inProgress && !state.inProgress) {
         this.inProgress = false;
         if (!state.isError) {

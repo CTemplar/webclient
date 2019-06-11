@@ -1,19 +1,19 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { COLORS, ESCAPE_KEYCODE, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
   CloseMailbox,
-  DeleteAttachment, GetEmailContacts,
+  DeleteAttachment,
+  GetEmailContacts,
   GetUsersKeys,
   MoveMail,
   NewDraft,
@@ -22,20 +22,11 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import {
-  AppState,
-  AuthState,
-  ComposeMailState,
-  Contact,
-  Draft,
-  EmailContact,
-  MailBoxesState,
-  MailState,
-  UserState
-} from '../../../store/datatypes';
+import { AppState, AuthState, ComposeMailState, Draft, EmailContact, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 const Quill: any = QuillNamespace;
 
@@ -52,12 +43,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 
-class BlockEmbed extends Parchment.default.Embed {
-}
-
-BlockEmbed.prototype = QuillBlockEmbed.prototype;
-
-class ImageBlot extends BlockEmbed {
+class ImageBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
@@ -80,7 +66,7 @@ ImageBlot.tagName = 'img';
 
 Quill.register(ImageBlot);
 
-class SignatureBlot extends BlockEmbed {
+class SignatureBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     value = value.replace(/<br>/g, '\n');
@@ -112,7 +98,6 @@ export class PasswordValidation {
   }
 }
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
@@ -133,13 +118,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild('editor') editor;
-  @ViewChild('toolbar') toolbar;
-  @ViewChild('attachImagesModal') attachImagesModal;
-  @ViewChild('selfDestructModal') selfDestructModal;
-  @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
-  @ViewChild('deadManTimerModal') deadManTimerModal;
-  @ViewChild('encryptionModal') encryptionModal;
+  @ViewChild('editor', { static: false }) editor;
+  @ViewChild('toolbar', { static: false }) toolbar;
+  @ViewChild('attachImagesModal', { static: false }) attachImagesModal;
+  @ViewChild('selfDestructModal', { static: false }) selfDestructModal;
+  @ViewChild('delayedDeliveryModal', { static: false }) delayedDeliveryModal;
+  @ViewChild('deadManTimerModal', { static: false }) deadManTimerModal;
+  @ViewChild('encryptionModal', { static: false }) encryptionModal;
 
   draftId: number;
   colors = COLORS;
@@ -173,7 +158,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
 
-  readonly destroyed$: Observable<boolean>;
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
   private inlineAttachmentContentIds: Array<string> = [];
@@ -207,7 +191,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initializeAutoSave();
     this.resetMailData();
 
-    this.store.select((state: AppState) => state.composeMail).pipe(takeUntil(this.destroyed$))
+    this.store.select((state: AppState) => state.composeMail).pipe(untilDestroyed(this))
       .subscribe((response: ComposeMailState) => {
         const draft = response.drafts[this.draftId];
         if (draft) {
@@ -230,7 +214,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.draft = draft;
       });
 
-    this.store.select((state: AppState) => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select((state: AppState) => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.contacts = user.emailContacts;
         if (!this.contacts) {
@@ -240,12 +224,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userState = user;
       });
 
-    this.store.select((state: AppState) => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
       });
 
-    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
         if (!this.selectedMailbox) {
           if (this.draftMail && this.draftMail.mailbox) {
@@ -263,7 +247,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     if (this.draftMail) {
-      this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
+      this.store.select(state => state.mail).pipe(untilDestroyed(this))
         .subscribe((mailState: MailState) => {
           if (!this.decryptedContent) {
             const decryptedContent = mailState.decryptedContents[this.draftMail.id];
