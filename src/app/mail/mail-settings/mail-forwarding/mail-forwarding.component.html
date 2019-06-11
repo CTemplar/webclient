@@ -1,6 +1,6 @@
 <section class="mailbox-section">
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Forwarding</strong>
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.forwarding.title">Forwarding</strong>
       <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </h5>
   </header>
@@ -23,9 +23,9 @@
       </ul>
       <ng-template #addForwardingAddress>
         <div class="info-card">
-          <p>You can automatically forward your messages to another address.</p>
+          <p translate="settings.forwarding.auto_forward">You can automatically forward your messages to another address.</p>
           <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-             (click)="onAddAddress()"><strong><u>Add a forwarding address</u></strong></a>
+             (click)="onAddAddress()"><strong><u translate="settings.forwarding.add_address">Add a forwarding address</u></strong></a>
         </div>
       </ng-template>
     </div>
@@ -35,7 +35,7 @@
 <!-- Add forwarding address modal -->
 <ng-template #addAddressModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Add a forwarding address</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.forwarding.add_address">Add a forwarding address</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -44,21 +44,21 @@
         (submit)="onAddAddressSubmit()">
     <div class="modal-body bg-faded">
       <div class="text-holder text-dark text-medium">
-        <p>Please enter a forwarding email address.</p>
+        <p translate="settings.forwarding.enter_email">Please enter a forwarding email address.</p>
         <div class="mx-auto mt-2 pt-sm-2">
           <div class="form">
             <div class="form-group form-group-sm">
-              <label for="forwardingAddress" class="d-block text-muted text-left hidden-sm-up">Forwarding Address
-              </label>
+              <label for="forwardingAddress" class="d-block text-muted text-left hidden-sm-up"
+              translate="settings.forwarding.address">Forwarding Address</label>
               <input class="form-control text-dark" id="forwardingAddress" autocomplete="off"
-                     placeholder="Forwarding address" type="email" name="forwardingAddress" formControlName="email"
+                     [placeholder]="'settings.forwarding.address'| translate" type="email" name="forwardingAddress" formControlName="email"
                      required/>
               <ng-container *ngIf="emailForm.controls['email'].errors && showFormErrorMessages">
-                <span *ngIf="emailForm.controls['email'].errors.required" class="validate-message">
-                  The address is required.
+                <span *ngIf="emailForm.controls['email'].errors.required" class="validate-message"
+                translate="settings.forwarding.address_req">The address is required.
                 </span>
-                <span *ngIf="emailForm.controls['email'].errors.pattern" class="validate-message">
-                  The address is invalid.
+                <span *ngIf="emailForm.controls['email'].errors.pattern" class="validate-message"
+                translate="settings.forwarding.address_invalid">The address is invalid.
                 </span>
               </ng-container>
             </div>
@@ -68,7 +68,7 @@
       <div class="text-center mt-2">
         <a (click)="isVerificationCodeSent = true; showFormErrorMessages = false; errorMessage = null;" role="button">
           <small>
-            <u>Already have the code</u>
+            <u translate="settings.forwarding.code_message">Already have the code</u>
           </small>
         </a>
       </div>
@@ -77,8 +77,8 @@
       </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-      <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
-      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress">Submit</button>
+      <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span></button>
+      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress"><span translate="billing_info.submit">Submit</span></button>
       <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
     </div>
   </form>
@@ -87,33 +87,33 @@
     <form [formGroup]="codeForm" (submit)="onVerifyCodeSubmit()">
       <div class="modal-body bg-faded">
         <div class="text-holder text-dark text-medium">
-          <p>Please enter the verification code sent to provided email address.</p>
+          <p translate="settings.forwarding.enter_code">Please enter the verification code sent to provided email address.</p>
           <div class="mx-auto mt-2 pt-sm-2">
             <div class="form">
               <div class="form-group form-group-sm">
-                <label for="verifyForwardingAddress" class="d-block text-muted text-left hidden-sm-up">Forwarding Address
-                </label>
+                <label for="verifyForwardingAddress" class="d-block text-muted text-left hidden-sm-up"
+                translate="settings.forwarding.address">Forwarding Address</label>
                 <input class="form-control text-dark" id="verifyForwardingAddress" autocomplete="off"
-                       placeholder="Forwarding address" type="email" name="verifyForwardingAddress" formControlName="email"
+                       [placeholder]="'settings.forwarding.address'| translate" type="email" name="verifyForwardingAddress" formControlName="email"
                        required/>
                 <ng-container *ngIf="codeForm.controls['email'].errors && showFormErrorMessages">
-                <span *ngIf="codeForm.controls['email'].errors.required" class="validate-message">
-                  The address is required.
+                <span *ngIf="codeForm.controls['email'].errors.required" class="validate-message"
+                translate="settings.forwarding.address_req">The address is required.
                 </span>
-                  <span *ngIf="codeForm.controls['email'].errors.pattern" class="validate-message">
-                  The address is invalid.
+                  <span *ngIf="codeForm.controls['email'].errors.pattern" class="validate-message"
+                  translate="settings.forwarding.address_invalid">The address is invalid.
                 </span>
                 </ng-container>
               </div>
               <div class="form-group form-group-sm">
-                <label for="verificationCode" class="d-block text-muted text-left hidden-sm-up">Verification Code
-                </label>
+                <label for="verificationCode" class="d-block text-muted text-left hidden-sm-up"
+                translate="settings.forwarding.verif_code">Verification Code</label>
                 <input class="form-control text-dark" id="verificationCode" autocomplete="off"
-                       placeholder="Verification code" type="number" name="forwardingAddress" formControlName="code"
+                       [placeholder]="'settings.forwarding.verif_code'| translate" type="number" name="forwardingAddress" formControlName="code"
                        required/>
                 <ng-container *ngIf="codeForm.controls['code'].errors && showFormErrorMessages">
-                <span *ngIf="codeForm.controls['code'].errors.required" class="validate-message">
-                  The verification code is required.
+                <span *ngIf="codeForm.controls['code'].errors.required" class="validate-message"
+                translate="settings.forwarding.code_req">The verification code is required.
                 </span>
                 </ng-container>
               </div>
@@ -125,8 +125,8 @@
         </div>
       </div>
       <div class="modal-footer justify-content-center justify-content-sm-end">
-        <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
-        <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress">Submit</button>
+        <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span></button>
+        <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress" translate="billing_info.submit">Submit</button>
         <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
       </div>
     </form>
@@ -138,19 +138,19 @@
 <!-- Confirm delete forwarding address modal -->
 <ng-template #confirmDeleteAddressModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="text-holder text-dark text-medium">
-      <p>Are you sure you want to delete forwarding address?</p>
+      <p translate="settings.forwarding.delete_message">Are you sure you want to delete forwarding address?</p>
     </div>
   </div>
   <div class="modal-footer justify-content-center justify-content-sm-end">
-    <button (click)="d()" class="btn btn-default btn-sm" role="button">Cancel</button>
-    <button (click)="deleteAddress()" class="btn btn-danger btn-sm" role="button">Delete</button>
+    <button (click)="d()" class="btn btn-default btn-sm" role="button"><span translate="common.cancel">Cancel</span></button>
+    <button (click)="deleteAddress()" class="btn btn-danger btn-sm" role="button"><span translate="common.delete">Delete</span></button>
   </div>
 
 </ng-template><!-- /.Confirm delete forwarding address modal ends -->

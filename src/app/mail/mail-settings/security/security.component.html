@@ -74,7 +74,7 @@
 <!-- Change password Modal -->
 <ng-template #changePasswordModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-    <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong>Change Password</strong></h3>
+    <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong translate="settings.security.change_password">Change Password</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
             (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -82,7 +82,7 @@
   </div>
   <div class="modal-body bg-faded">
     <div>
-      <p class="text-holder text-dark text-medium">
+      <p class="text-holder text-dark text-medium" translate="settings.security.message">
         Your encryption key is connected to your password. You have the option to either keep all the data and
         encryption
         keys and just change the password or you can delete all the data and generate new encryption keys. Choose your
@@ -95,11 +95,11 @@
           <form [formGroup]="changePasswordForm" (submit)="changePassword()">
             <div [class.disabled]="inProgress">
               <div class="form-group form-group-sm">
-                <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up">Old
-                  Password</label>
+                <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up" translate="settings.security.old_password">
+                  Old Password</label>
                 <div class="input-group">
                   <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
-                         formControlName="oldPassword" placeholder="Old Password" type="password"/>
+                         formControlName="oldPassword" [placeholder]="'settings.security.old_password'| translate" type="password"/>
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         (click)="togglePassword(oldPasswordInput)">
                                     <i class="fa fa-eye"></i>
@@ -108,16 +108,16 @@
                 </div>
                 <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
                       class="validate-message">
-                                <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required">Old password
-                                    is required.</span>
+                                <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required"
+                              translate="settings.security.old_password_req"  >Old password is required.</span>
                             </span>
               </div>
               <div class="form-group form-group-sm">
-                <label for="newPassword" class="d-block text-muted text-left hidden-sm-up">New
-                  Password</label>
+                <label for="newPassword" class="d-block text-muted text-left hidden-sm-up"
+                translate="settings.new_password">New Password</label>
                 <div class="input-group">
                   <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
-                         formControlName="password" placeholder="New Password" type="password"/>
+                         formControlName="password" [placeholder]="'settings.new_password'| translate" type="password"/>
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         (click)="togglePassword(newPasswordInput)">
                                     <i class="fa fa-eye"></i>
@@ -126,16 +126,16 @@
                 </div>
                 <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
                       class="validate-message">
-                                <span *ngIf="changePasswordForm.controls['password'].errors.required">New password is
-                                    required.</span>
+                                <span *ngIf="changePasswordForm.controls['password'].errors.required"
+                               translate="settings.security.new_password_req">New password is required.</span>
                             </span>
               </div>
               <div class="form-group form-group-sm">
-                <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
-                  New Password</label>
+                <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up"
+                translate="settings.confirm_new_password">Confirm New Password</label>
                 <div class="input-group">
                   <input #confirmNewPasswordInput class="form-control form-control-lg" id="confirmNewPassword"
-                         formControlName="confirmPwd" placeholder="Confirm New Password" type="password"/>
+                         formControlName="confirmPwd" [placeholder]="'settings.confirm_new_password'| translate" type="password"/>
                   <span class="input-group-addon password-toggle bg-white text-muted"
                         (click)="togglePassword(confirmNewPasswordInput)">
                                     <i class="fa fa-eye"></i>
@@ -149,7 +149,7 @@
               </div>
 
               <div class="form-content-row">
-                <label class="font-weight-bold notice">Select option to keep/delete data!</label><br>
+                <label class="font-weight-bold notice" translate="settings.security.data_message">Select option to keep/delete data!</label><br>
                 <div class="row align-items-center">
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -158,7 +158,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data1"
                                  [checked]="!deleteData"
                                  name="[1]" type="radio"/>
-                          <label for="keep_data1">Keep data</label>
+                          <label for="keep_data1" translate="settings.security.keep_data">Keep data</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col" (click)="deleteData=true;">
@@ -166,7 +166,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data2"
                                  [checked]="deleteData"
                                  name="[1]" type="radio"/>
-                          <label for="keep_data2">Delete all data and generate new encryption keys</label>
+                          <label for="keep_data2" translate="settings.security.encryption_key_message">Delete all data and generate new encryption keys</label>
                         </div>
                       </div>
                     </div>
@@ -176,13 +176,13 @@
             </div>
             <div class="mt-3" *ngIf="inProgress && deleteData">
               <span class="notice">Note : </span>
-              Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!
+<span translate="settings.security.encryption_key_progress"> Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!</span>
             </div>
             <div class="form-group form-user-actions text-center mb-0 mt-3">
               <button class="btn btn-gradient-primary btn-sm reset-btn"
                       [disabled]="inProgress"
                       role="button" type="submit">
-                Submit
+                <span translate="billing_info.submit">Submit</span>
               </button>
               <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
             </div>
