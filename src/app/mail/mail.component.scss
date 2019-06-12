@@ -9,6 +9,19 @@
     font-size: 0.75rem;
   }
 }
+.autoresponder-banner{
+  font-size: smaller;
+  background-color: #fff1a8;
+  z-index: 1;
+  text-align: center;
+  position: static;
+  width: 100%;
+  padding: 2px 4px;
+  justify-content: center;
+}
+a:hover {
+  text-decoration: underline;
+}
 
 // == Mailbox content
 .mailbox-main-content {
@@ -965,7 +978,7 @@
   line-height: 1;
   background-color: #fafaf9;
   cursor: pointer;
-  
+
   @include media(">=ipad") {
     padding: 1.032rem 1.563rem;
   }
