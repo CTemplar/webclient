@@ -41,6 +41,9 @@
   },
   "settings": {
     "dashboard": "Dashboard",
+    "dashboard_plans": "Dashboard and plans",
+    "general": "General",
+    "compose_font": "Default Mail Compose Font",
     "overview": "Overview",
     "username": "Username",
     "domains": "Domains",
@@ -188,7 +191,101 @@
     "edit": "Edit",
     "delete": "Delete",
     "notifications": "Notifications",
-    "notification_email": "Notification email"
+    "notification_email": "Notification email",
+    "desktop_notification_title": "Desktop notifications",
+    "desktop_notifications_en": "Desktop notifications are enabled.",
+    "click_to_test": "Click here to Test",
+    "enter_notification_email": "Enter a notification email on which you would like to receive notification each day when you have new emails.",
+    "desktop_notifications_dis": "Desktop Notifications are disabled.Please go to your browser settings in order to enable them.",
+    "click_here": "Click here",
+    "enable_notifications": "in order to enable desktop notifications.",
+    "delete_account": "Delete Account",
+    "delete_account_perm": "Permanently Delete Account",
+    "delete_account_guide": "If you permanently delete your account you will lose all the data in your mailbox. In 2 months this username will be available for re-use by anyone who selects it.",
+    "current_password": "Your Current Password",
+    "password_req": "Your current password is required.",
+    "provide_email": "Please provide an email address in case we need to contact you.",
+    "filters": {
+      "name": "Filters",
+      "add_filter": "Add a filter to perform actions such as automatically labeling or archiving.",
+      "spam_filter": "My spam filter",
+      "imp_messages": "Important messages filter",
+      "auto_labeling": "Auto-labeling test",
+      "add_custom_filter": "Add custom filter",
+      "custom_filter": "custom filter",
+      "filter_name": "Filter name",
+      "filter_name_exist": "Filter name already exists.",
+      "filter_name_req": "Filter name is required.",
+      "filter_name_char": "Filter name must be less than 64 characters.",
+      "conditions": "Conditions:",
+      "if_subject": "If the subject",
+      "if_sender": "If the sender",
+      "starts_with": "starts with",
+      "actions": "Actions:",
+      "move_to": "move to",
+      "mark_as_starred": "mark as starred",
+      "delete_message": " Are you sure, you want to delete filter",
+      "text_or_pattern": "text or pattern",
+      "select_folder": "Select folder",
+      "select_condition": "Select condition"
+    },
+    "save_order": "Save order",
+    "delete_folder_message": "Are you sure, you want to delete folder",
+    "select_color": "Select color:",
+    "folder_name": "Folder name:",
+    "update": "Update",
+    "create": "Create",
+    "create_folder": "Create new folder",
+    "folder_messages": {
+      "name_exist": "Folder name already exists.",
+      "name_required": "Folder name is required",
+      "name_start": " Folder name must start with an alphabet and can only contain",
+      "character_len": " characters or space, and minimum length should be 4 characters.",
+      "name_len": "Folder name must be between 4 and 30 characters."
+    },
+    "security": {
+      "change_password": "Change Password",
+      "message": "Your encryption key is connected to your password. You have the option to either keep all the data and encryption keys and just change the password or you can delete all the data and generate new encryption keys. Choose your option carefully.",
+      "old_password": "Old Password",
+      "old_password_req": "Old password is required.",
+      "new_password_req": "New password is required.",
+      "data_message": "Select option to keep/delete data!",
+      "keep_data": "Keep data",
+      "encryption_key_message": "Delete all data and generate new encryption keys",
+      "encryption_key_progress": "Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!"
+    },
+    "addresses_and_signs": "Addresses and signatures",
+    "forwarding_and_autores": "Forwarding and autoresponder",
+    "domains_and_users": {
+      "title": "Domains & Users",
+      "premium_feature": "This is a premium feature, please",
+      "upgrade": "upgrade",
+      "users": "Users",
+      "use_feature": "in order to use this feature.",
+      "custom_domain": "Please add a custom domain first in order to add users."
+    },
+    "forwarding": {
+      "title": "Forwarding",
+      "auto_forward": "You can automatically forward your messages to another address.",
+      "add_address": "Add a forwarding address",
+      "enter_email": "Please enter a forwarding email address.",
+      "address": "Forwarding Address",
+      "address_req": "The address is required.",
+      "address_invalid": "The address is invalid.",
+      "code_message": "Already have the code",
+      "enter_code": "Please enter the verification code sent to provided email address.",
+      "verif_code": "Verification Code",
+      "code_req": "The verification code is required.",
+      "delete_message": "Are you sure you want to delete forwarding address?",
+      "autoresponder": "Autoresponder",
+      "restrict": "Restrict to time range",
+      "start_time": "Start Time",
+      "end_time": "End Time",
+      "auto_message": "Email autoresponse message",
+      "message": "Message",
+      "vac_autoresponder": "Vacation Autoresponder",
+      "send_response": "Only send a response to people in my contacts"
+    }
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -204,7 +301,8 @@
   },
   "mail_header": {
     "contacts": "Contacts",
-    "settings": "Settings"
+    "settings": "Settings",
+    "need_help": "Need Help"
   },
   "mail_list": {
     "select_messages": "Select messages",
@@ -222,7 +320,8 @@
     "more": "More",
     "add_star": "Add star",
     "mark_as_read": "Mark as read",
-    "mark_as_unread": "Mark as unread"
+    "mark_as_unread": "Mark as unread",
+    "refresh": "Refresh"
   },
   "home_header": {
     "home": "Home",
@@ -235,16 +334,23 @@
     "signup": "Sign up"
   },
   "home_page": {
+    "title": "Armored Email<br>Anonymous<br> Encrypted",
     "signup_for_free": "Sign up for free",
     "latest_from_our_blog": "Latest From <strong>Our Blog</strong>",
     "related_post": "Related <strong>Post</strong>",
     "read_more_from_our_blog": "Read more from our blog"
   },
   "home_feature": {
-    "end_to_end_PKI_encryption": "4096 bit end-to-end encryption keeps your private information safe from governments, corporations, and hackers-for-hire.",
-    "safely_send_your_financial": "Securely send your financial records, contracts, lab results, investigative journalism and more, even to non-CTemplar email accounts, with anonymous email signup, no IP logging, and unmatched password security.",
-    "iceland_based_server": "Iceland has the world’s strongest data privacy laws, so by using our Icelandic servers, your data has the strongest legal protection in the world.",
-    "easy_to_use_responsive": "CTemplar’s exclusive 4 Wall Watch guarantees complete wall-to-wall protection of your data.",
+    "encrypted": "Encrypted",
+    "anonymous": "Anonymous",
+    "view_code": "view code",
+    "legal_protection": "World's Strongest Legal Protection",
+    "read_more": "read more",
+    "4_Wall_Protection": "4 Wall Protection",
+    "end_to_end_PKI_encryption": "We use 4096 bit encryption. This protects users from current cryptography cracking techniques and future hypothetical attacks.",
+    "track_your_ip": "We never track your IP address, keep logs on your usage or record any identifying information at any time. We prove this by making our code readily available ",
+    "iceland_based_server": "Iceland has the world’s strongest data privacy laws, so by using our Icelandic servers,your data has the strongest legal protection in the world.Drop your Swiss data plans now",
+    "exclusive_4_wall": "CTemplar’s exclusive 4 Wall Protection guarantees complete wall-to-wall protection of your data.",
     "learn_more_about_ctempler": "Learn more about the security features of CTemplar"
   },
   "footer": {
@@ -471,5 +577,25 @@
     "address": "Address",
     "questions": "Questions?",
     "any_questions": "If you have any questions on our Privacy Policy, or complaints about our handling of your Personal and/or Financial Information, you can contact us at 1 (800) 319-5820 or"
+  },
+  "account_init": {
+    "creation_init": "Account Creation Initiated",
+    "encrypted_conn_being": "Encrypted connection between user and website being verified",
+    "account_creation": "Account creation in user&apos;s browser initiated",
+    "mailbox_creation": "Mailbox creation in user&apos;s browser initiated",
+    "encrypted_conn": "Encrypted connection between user and website verified",
+    "acc_creation_complete": "Account creation in user&apos;s browser complete",
+    "mail_creation_comp": "Mailbox creation in user&apos;s browser complete",
+    "crypto_protect": "Cryptographic Protection Initiated",
+    "gen_pgp_key": "Generate 4096 bit PGP Encryption Key",
+    "crypto_hash_pass": "Apply Cryptographic hash to password",
+    "rec_hash_value": "Receive “hash value” from cryptographic hash",
+    "crypto_salt": "Apply cryptographic salt to \"hash value\"",
+    "mailbox_encrypted": "Your mailbox is now encrypted and password protected",
+    "creation_finished": "Account Creation Finished",
+    "mailbox_saved": "Mailbox sent and saved to Icelandic server",
+    "secured_with_hash": "Mailbox secured with user&apos;s hash & Salted value.",
+    "encypt_secure":"Encrypted, Secure & Anonymous",
+    "max_strength": "Welcome to your Maximum strength mailbox"
   }
 }
