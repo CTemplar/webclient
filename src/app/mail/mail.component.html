@@ -1,8 +1,8 @@
 <div class="mailbox-content-outer">
     <app-mail-sidebar></app-mail-sidebar>
-<div class="autoresponder-banner row" *ngIf="autoresponder_status">
+<div class="autoresponder-banner row ml-lg-5" *ngIf="autoresponder_status">
     <p>Autoresponder is active:
-        <a (click)="endAutoResponder()">End now</a>-
+        <a (click)="endAutoResponder()">End now</a>&nbsp;-
         <a [routerLink]="'./settings'"> Settings</a>
     </p>
 </div>

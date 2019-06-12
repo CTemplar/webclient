@@ -2,9 +2,18 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRe
 // Store
 import { Store } from '@ngrx/store';
 // Actions
-import { AccountDetailsGet, BlackListGet, GetDomains, GetDomainsSuccess, GetFilters, GetMailboxes, WhiteListGet } from '../store/actions';
+import {
+    AccountDetailsGet,
+    BlackListGet,
+    GetDomains,
+    GetDomainsSuccess,
+    GetFilters,
+    GetMailboxes,
+    SaveAutoResponder,
+    WhiteListGet
+} from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
-import { AppState, UserState } from '../store/datatypes';
+import {AppState, AutoResponder, UserState} from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
@@ -18,8 +27,8 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
-    @ViewChild('composeMailContainer', {static: false, read: ViewContainerRef}) composeMailContainer: ViewContainerRef;
-    private isLoadedData: boolean;
+  @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+  private isLoadedData: boolean;
     autoresponder: AutoResponder = {};
     autoresponder_status = false;
 
@@ -47,13 +56,15 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
             this.store.dispatch(new GetDomainsSuccess([]));
           }
         }
-          if (userState.autoresponder) {
-              this.autoresponder = userState.autoresponder;
-              if (this.autoresponder.autoresponder_active || this.autoresponder.vacationautoresponder_active) {
-                  this.autoresponder_status = true;
-              }
-          }
-      });
+                if (userState.autoresponder) {
+                    this.autoresponder = userState.autoresponder;
+                    if (this.autoresponder.autoresponder_active || this.autoresponder.vacationautoresponder_active) {
+                        this.autoresponder_status = true;
+                    } else {
+                        this.autoresponder_status = false;
+                    }
+                }
+            });
 
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
