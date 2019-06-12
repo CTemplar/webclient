@@ -2,7 +2,7 @@
     <app-mail-sidebar></app-mail-sidebar>
 <div class="autoresponder-banner row" *ngIf="autoresponder_status">
     <p>Autoresponder is active:
-        <a>End now</a>-
+        <a (click)="endAutoResponder()">End now</a>-
         <a [routerLink]="'./settings'"> Settings</a>
     </p>
 </div>

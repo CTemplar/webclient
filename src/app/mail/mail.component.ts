@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 // Actions
 import { AccountDetailsGet, BlackListGet, GetDomains, GetDomainsSuccess, GetFilters, GetMailboxes, WhiteListGet } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
-import {AppState, AutoResponder, UserState} from '../store/datatypes';
+import { AppState, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
@@ -18,8 +18,8 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
-  @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
-  private isLoadedData: boolean;
+    @ViewChild('composeMailContainer', {static: false, read: ViewContainerRef}) composeMailContainer: ViewContainerRef;
+    private isLoadedData: boolean;
     autoresponder: AutoResponder = {};
     autoresponder_status = false;
 
@@ -46,13 +46,13 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
           } else {
             this.store.dispatch(new GetDomainsSuccess([]));
           }
-            if (userState.autoresponder) {
-                this.autoresponder = userState.autoresponder;
-                if (this.autoresponder.autoresponder_active || this. autoresponder.vacationautoresponder_active) {
-                    this.autoresponder_status = true;
-                }
-            }
         }
+          if (userState.autoresponder) {
+              this.autoresponder = userState.autoresponder;
+              if (this.autoresponder.autoresponder_active || this.autoresponder.vacationautoresponder_active) {
+                  this.autoresponder_status = true;
+              }
+          }
       });
 
     this.sharedService.hideFooter.emit(true);
@@ -61,9 +61,16 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.isMail.emit(true);
   }
 
-  ngAfterViewInit() {
-    this.composeMailService.initComposeMailContainer(this.composeMailContainer);
-  }
+    endAutoResponder() {
+        this.autoresponder.autoresponder_active = false;
+        this.autoresponder.vacationautoresponder_active = false;
+        this.store.dispatch(new SaveAutoResponder(this.autoresponder));
+        this.autoresponder_status = false;
+    }
+
+    ngAfterViewInit() {
+        this.composeMailService.initComposeMailContainer(this.composeMailContainer);
+    }
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
