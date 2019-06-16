@@ -17,7 +17,7 @@
             <div class="form-card-holder billing-form-card-holder form-card-holder-top-border mt-md-3">
               <div class="form-step-card">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong>Overview</strong>
+                  <strong translate="settings.overview">Overview</strong>
                 </h3>
                 <div class="billing-overview">
                   <div class="billing-overview-row row">
@@ -36,10 +36,10 @@
                     <label class="billing-overview-label mb-0 col-3" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary col">
                       <strong *ngIf="paymentType === 'annually'">
-                        {{annualPriceTotal|currency:currency}}/Yearly({{annualPricePerMonth|currency:currency}}/month)
-                      </strong>
+                        {{annualPriceTotal|currency:currency}}/<span translate="billing_information.annually">Yearly</span> ({{annualPricePerMonth|currency:currency}}/
+                        <span translate="billing_info.month">month</span>) </strong>
                       <strong *ngIf="paymentType === 'monthly'">
-                        {{monthlyPrice|currency:currency}}/month
+                        {{monthlyPrice|currency:currency}}/  <span translate="billing_info.month">month</span>
                       </strong>
                       <!-- {{payment.payment_method === 'stripe' ? payment.currency : payment.payment_method}} -->
                     </div>
@@ -113,7 +113,7 @@
                          type="text">
                 </div>
                 <div class="form-group">
-                  <span class="d-block text-right error-msg">Required field <sup class="font-weight-bold error-msg">*</sup></span>
+                  <span class="d-block text-right error-msg" translate="billing_information.required_field">Required field <sup class="font-weight-bold error-msg">*</sup></span>
                   <label for="cardName" class="d-block text-left hidden-sm-up label-error"
                          translate="settings.donate.card_number">Card Number
                   </label>
@@ -153,7 +153,7 @@
                           </button>
                           <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                             <a class="dropdown-item text-muted" href="">
-                              <em>Year</em>
+                              <em translate="billing_info.year">Year</em>
                             </a>
                             <a class="dropdown-item text-muted" *ngFor="let year of years"
                                (click)="selectYear(year)">
@@ -165,8 +165,7 @@
                     </div>
                     <div class="form-group-col">
                         <span class="d-block text-right error-msg font-weight-bold">&nbsp;</span>
-                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" translate="home_header.security">Security
-                        Code</label>
+                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" translate="home_header.security">Security Code</label>
                       <input class="form-control stripe-error cvc p-2" id="securityCode" [placeholder]="'home_header.security'| translate"
                              type="text" [(ngModel)]="cvc" name="securityCode"
                              [ngModelOptions]="{standalone: true}" (change)="checkStripeValidation()">

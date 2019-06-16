@@ -3,7 +3,9 @@ import { SettingsUpdate } from '../actions';
 import { AppState } from '../datatypes';
 import { Store } from '@ngrx/store';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MailSettingsService {
 
   constructor(private store: Store<AppState>) { }

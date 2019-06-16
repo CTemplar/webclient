@@ -12,7 +12,7 @@
       <button class="btn btn-sm btn-secondary float-right"
               (click)="startReorder()"
               *ngIf="!reorder && folders?.length>1"
-              ngbTooltip="Reorder addresses">Reorder
+              [ngbTooltip]="'settings.reorder_addresses'| translate"> <span translate="settings.reorder"></span>Reorder
       </button>
 
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
@@ -29,14 +29,14 @@
               <div align="right" *ngIf="reorder">
                 <i class="material-icons cursor-pointer"
                    [class.hidden]="i===0"
-                   ngbTooltip="Move up"
+                   [ngbTooltip]="'settings.move_up'| translate"
                    (click)="sortUp(i)">
                   keyboard_arrow_up
                 </i>
 
                 <i class="material-icons cursor-pointer"
                    [class.hidden]="i===folders.length-1"
-                   ngbTooltip="Move down"
+                   [ngbTooltip]="'settings.move_down'| translate"
                    (click)="sortDown(i)">
                   keyboard_arrow_down
                 </i>
