@@ -9,7 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggle-text">Menu</span>
+                <span class="navbar-toggle-text" translate="mail_sidebar.menu">Menu</span>
             </button>
             <figure class="navbar-brand-holder hidden-sm-down">
                 <a class="navbar-brand ff-roboto text-uppercase" routerLink="/mail">
@@ -19,7 +19,7 @@
             </figure>
             <div class="prime-account-content" *ngIf="userState.isPrime">
                 <i class="icon icon-secure-shield"></i>
-                <span class="prime-account-text">Prime</span>
+                <span class="prime-account-text" translate="settings.prime">Prime</span>
             </div>
         </div>
 
@@ -120,7 +120,7 @@
                        class="mailbox-sidebar-nav-link">
                         <i class="icon icon-more ml-1"></i>
                         <span class="mailbox-sidebar-nav-label text-capitalize">
-                            {{LIMIT === customFolders.length? 'Less' : 'More'}}
+                            {{LIMIT === customFolders.length? ('create_account.less'| translate) : ('mail_list.more'| translate)}}
                         </span>
                     </a>
                 </li>
