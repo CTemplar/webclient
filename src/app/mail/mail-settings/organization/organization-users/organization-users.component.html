@@ -172,18 +172,18 @@
                       <ng-template #usernameLengthBlock>
                         <ng-container
                                 *ngIf="addUserForm.controls['username'].errors.maxlength">
-                          The username must be between 2 and 128 characters.
+                          <span translate="settings.org_username_len">The username must be between 2 and 128 characters.</span>
                         </ng-container>
                       </ng-template>
                     </span>
 
                     <span *ngIf="addUserForm.controls['username'].errors.required"
-                          class="validate-message">The username is required.</span>
+                          class="validate-message" translate="settings.username_required">The username is required.</span>
 
                   </ng-container>
                   <ng-template #usernameExistsBlock>
                       <span *ngIf="newAddressOptions.usernameExists === true"
-                            class="validate-message">Username already exists.
+                            class="validate-message" translate="settings.username_exist">Username already exists.
                         </span>
                   </ng-template>
                 </div>
@@ -193,8 +193,8 @@
                   <strong translate="settings.password">Password</strong>
                 </label>
                 <div class="form-group position-relative">
-                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose
-                    Password</label>
+                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up"
+                  translate="create_account.choose_password">Choose Password</label>
                   <div class="input-group">
                     <input #input class="form-control border-right-0" id="choosePassword"
                            [placeholder]="'create_account.choose_password' | translate" type="password"
@@ -211,10 +211,10 @@
                   <div *ngIf="addUserForm.controls['password'].errors &&
                                     (addUserForm.controls['password'].touched || submitted)"
                        class="validate-message">
-                    <ng-container *ngIf="addUserForm.controls['password'].errors.required">The password is required.
+                    <ng-container *ngIf="addUserForm.controls['password'].errors.required"><span translate="login.password_required">The password is required.</span>
                     </ng-container>
-                    <ng-container *ngIf="addUserForm.controls['password'].errors.maxlength">The password must be less
-                      than 128 characters.
+                    <ng-container *ngIf="addUserForm.controls['password'].errors.maxlength">
+                      <span translate="settings.password_length">The password must be less than 128 characters.</span>
                     </ng-container>
                   </div>
                 </div>
@@ -256,7 +256,7 @@
                          formControlName="recoveryEmail"/>
                   <span *ngIf="addUserForm.controls['recoveryEmail'].errors && addUserForm.controls['recoveryEmail'].touched"
                         id="email-valid1"
-                        class="validate-message">The email is invalid.
+                        class="validate-message" translate="settings.email_invalid">The email is invalid.
                   </span>
                 </div>
               </div>
@@ -267,14 +267,14 @@
                         [disabled]="isAddingUserInProgress"
                         (click)="submitAddUser()"
                         type="submit" role="button">
-                  <span>Add User</span>
+                  <span translate="settings.add_user">Add User</span>
                 </button>
                 <app-loading-spinner [showSpinner]="isAddingUserInProgress"></app-loading-spinner>
               </div>
               <div *ngIf="errorMessage" class="validate-message">
                 {{ errorMessage }}
               <br>
-                Note: We only allow 5 users per domain until the feature is in beta.
+               <span translate="settings.only_allow_5"> Note: We only allow 5 users per domain until the feature is in beta.</span>
               </div>
             </div>
           </form>
@@ -300,19 +300,19 @@
       <div class="form-group">
         <span translate="contacts.delete.message">Are you sure, you want to delete</span>
         <strong>{{ selectedUser?.username }}</strong>?<br>
-        <span class="warning"><span class="warning-text">Warning</span>: All the associated data (if any) of this user will also be deleted.</span>
+        <span class="warning"><span class="warning-text" translate="settins.warning">Warning</span>: <span translate="settings.associated_data">All the associated data (if any) of this user will also be deleted.</span> </span>
       </div>
       <div class="form-group text-right mb-0">
         <app-loading-spinner [showSpinner]="organizationState.isDeleteInProgress"></app-loading-spinner>
         <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2"
                 [disabled]="organizationState.isDeleteInProgress"
                 translate="common.cancel"
-                role="button">Cancel
+                role="button"><span translate="common.cancel">Cancel</span>
         </button>
         <button (click)="confirmDelete()" class="btn btn-danger btn-sm"
                 translate="common.delete"
                 [disabled]="organizationState.isDeleteInProgress"
-                role="button">Delete
+                role="button"><span translate="common.delete">Delete</span>
         </button>
       </div>
     </div>
