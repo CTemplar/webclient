@@ -701,6 +701,20 @@
     "encrypted": "End-to-End Encrypted",
     "message_in_span": "Why is this message in spam?",
     "mail_not_spam": "Mark email as not spam(whitelist) and move this email to inbox.",
-    "mark_not_spam": "Mark not spam"
+    "mark_not_spam": "Mark not spam",
+    "delete_in": "Delete in",
+    "delay_delivery": "Delay delivery in",
+    "forward": "Forward",
+    "reply": "Reply",
+    "reply_all": "Reply All",
+    "print": "Print",
+    "delete_message": "Delete this Message",
+    "show_headers": "Show headers",
+    "mark_as_spam": "Mark as Spam",
+    "hide_extra": "Hide extra content",
+    "show_trimmed": "Show trimmed content",
+    "attachment_message": "Do you want to forward attachments of this message?",
+    "no_header": "No headers available",
+    "incoming_head": "Incoming Headers"
   }
 }
