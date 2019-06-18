@@ -97,7 +97,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .subscribe((state: UserState) => {
         this.selectedPlan = state.membership.id;
         if (this.selectedPlan !== 1 && this.selectedPlan !== 2 && !this.isCaptchaRetrieved) {
-          this.isCaptchaRetrieved = true;
+          this.isCaptchaRetrienullved = true;
           this.store.dispatch(new GetCaptcha());
         }
       });
