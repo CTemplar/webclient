@@ -133,7 +133,7 @@
                     <div class="text-white mt-1">{{(userState.settings?.used_storage * 1024) | filesize}}</div>
                 </div>
             <div class="mailbox-sidebar-footer-text hidden-in-sm">
-                <span translate="common.used_storage">Used storage</span>: {{(userState.settings?.used_storage * 1024) | filesize}} of {{(userState.settings.allocated_storage  * 1024) | filesize}}</div>
+                <span translate="common.used_storage">Used storage</span>: {{(userState.settings?.used_storage * 1024) | filesize}} <span translate="settings.of">of</span> {{(userState.settings.allocated_storage  * 1024) | filesize}}</div>
             <a routerLink="/mail/settings" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
                 <small>
                     <u translate="common.upgrade_account">Upgrade account</u>

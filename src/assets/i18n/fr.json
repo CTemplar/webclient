@@ -379,7 +379,8 @@
       "clear": "Réinitialiser",
       "email_on_datetime": "L’email sera envoyé à la date et l’heure sélectionnées"
     },
-    "of": "de"
+    "of": "de",
+    "not_with_free_acc": "Fonction non disponible avec un compte gratuit"
   },
   "mail_sidebar": {
     "inbox": "Boîte de réception",

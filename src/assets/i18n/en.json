@@ -379,7 +379,8 @@
       "clear": "Clear",
       "email_on_datetime": "Email will be sent on selected datetime"
     },
-    "of": "of"
+    "of": "of",
+    "not_with_free_acc": "Feature not available with Free Account"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -462,7 +463,8 @@
     "legal": "Legal",
     "privacy_policy": "Privacy Policy",
     "our_address": "Our Address",
-    "all_rights_reserved": "All Rights Reserved"
+    "all_rights_reserved": "All Rights Reserved",
+    "software_systems": "Templar Software Systems Ltd., a Seychelles Limited Liability Company"
   },
   "page_about": {
     "as_the_govt_continues": "As governments continues to gather data at an increasing pace, greater data privacy and protection is needed. Use of encrypted email is an important step in achieving greater protection. CTemplar is committed to providing the greatest level of data protection.",
