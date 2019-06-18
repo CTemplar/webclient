@@ -343,11 +343,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     mail.marked = event;
     if (event) {
       this.noEmailSelected = false;
+      this.selectAll = true;
     } else {
       if (this.mails.filter(m => m.marked === true).length > 0) {
         this.noEmailSelected = false;
       } else {
         this.noEmailSelected = true;
+        this.selectAll = false;
       }
     }
   }
