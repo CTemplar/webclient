@@ -380,7 +380,11 @@
       "email_on_datetime": "Email will be sent on selected datetime"
     },
     "of": "of",
-    "not_with_free_acc": "Feature not available with Free Account"
+    "not_with_free_acc": "Feature not available with Free Account",
+    "username_constraint": "characters and it must be between 2 and 128 characters.",
+    "permanently_delete": "Confirm Permanently Account Delete",
+    "permanently_delete_alert": "Are you sure you want to permanently delete your account? No one will be able to undo this.",
+    "end_now": "End now"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -398,7 +402,13 @@
   "mail_header": {
     "contacts": "Contacts",
     "settings": "Settings",
-    "need_help": "Need Help"
+    "need_help": "Need Help",
+    "search": "Search",
+    "not_sent_message": "Your message hasn't been sent because of Internet connection.",
+    "try_to_connect": "Try to connect",
+    "moved_to_trash": "The conversation has been moved to the Trash. ",
+    "learn_more": "Learn more",
+    "undo": "Undo"
   },
   "mail_list": {
     "select_messages": "Select messages",
@@ -417,7 +427,12 @@
     "add_star": "Add star",
     "mark_as_read": "Mark as read",
     "mark_as_unread": "Mark as unread",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "delete_messages": "Delete all messages",
+    "delete_all": "Delete All",
+    "no_conversations": "There are no conversations with this label.",
+    "remove_start": "Remove Star",
+    "start_message": "Star Message"
   },
   "home_header": {
     "home": "Home",
@@ -720,5 +735,10 @@
     "attachment_message": "Do you want to forward attachments of this message?",
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers"
+  },
+  "mail_dialogs": {
+    "payment_failed": "Payment Failed",
+    "payment_message": "Your payment could not be processed. Please pay your invoice to continue to use CTemplar's prime service.",
+    "update_payment": "Update Payment"
   }
 }

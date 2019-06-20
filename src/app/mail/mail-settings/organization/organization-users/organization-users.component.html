@@ -21,7 +21,7 @@
     <button class="btn btn-secondary users-add-button text-small"
             *ngIf="customDomains?.length>0;else noCustomDomain"
             (click)="openAddUserModal()">
-      <span>Add User</span>
+      <span translate="settings.add_user">Add User</span>
     </button>
 
     <ng-template #noCustomDomain>
@@ -36,15 +36,15 @@
       <ul class="ui-list ui-list-styled list-styled users-list">
         <li class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
-            <div class="col-4 font-weight-bold col-item">
+            <div class="col-4 font-weight-bold col-item" translate="page_pricing.user">
               User
             </div>
             <div class="col-2 col-item">
-              <div class="form-label mb-0 font-weight-bold">
+              <div class="form-label mb-0 font-weight-bold" translate="settings.domain">
                 Domain
               </div>
             </div>
-            <div class="col-3 font-weight-bold col-item">
+            <div class="col-3 font-weight-bold col-item" translate="settings.recovery_email">
               Recovery Email
             </div>
           </div>
@@ -98,7 +98,7 @@
 <!-- Add user modal -->
 <ng-template #addUserModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Add User</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.add_user">Add User</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeAddUserModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -164,9 +164,10 @@
                     <span class="validate-message"
                           *ngIf="addUserForm.controls['username'].errors;">
                       <ng-container *ngIf="addUserForm.controls['username'].errors.pattern; else usernameLengthBlock">
-                        The username must start with a letter or a number and end with a letter or number.It may only
-                        contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters and
-                        it must be between 2 and 128 characters.
+
+                        <span translate="settings.username_allowed_chars">The username must start with a letter or a number and end with a letter or number.It may only
+                        contain</span> &nbsp;<em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> &nbsp;
+                        <span translate="settings.username_constraint">‌characters and it must be between 2 and 128 characters.</span>
 
                       </ng-container>
                       <ng-template #usernameLengthBlock>
@@ -219,8 +220,8 @@
                   </div>
                 </div>
                 <div class="form-group position-relative">
-                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
-                    Password</label>
+                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up"
+                  translate="create_account.confirm_password">Confirm Password</label>
                   <div class="input-group"
                        [ngClass]="{'is-validate': addUserForm.controls.confirmPwd.invalid && !addUserForm.controls.confirmPwd.pristine}">
                     <input #input2 class="form-control border-right-0" id="confirmPassword"
