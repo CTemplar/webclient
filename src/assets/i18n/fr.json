@@ -380,7 +380,11 @@
       "email_on_datetime": "L’email sera envoyé à la date et l’heure sélectionnées"
     },
     "of": "de",
-    "not_with_free_acc": "Fonction non disponible avec un compte gratuit"
+    "not_with_free_acc": "Fonction non disponible avec un compte gratuit",
+    "username_constraint": "characters and it must be between 2 and 128 characters.",
+    "permanently_delete": "Confirm Permanently Account Delete",
+    "permanently_delete_alert": "Are you sure you want to permanently delete your account? No one will be able to undo this.",
+    "end_now": "End now"
   },
   "mail_sidebar": {
     "inbox": "Boîte de réception",
@@ -398,7 +402,13 @@
   "mail_header": {
     "contacts": "Contacts",
     "settings": "Réglages",
-    "need_help": "Besoin d’aide"
+    "need_help": "Besoin d’aide",
+    "search": "Search",
+    "not_sent_message": "Your message hasn't been sent because of Internet connection.",
+    "try_to_connect": "Try to connect",
+    "moved_to_trash": "The conversation has been moved to the Trash. ",
+    "learn_more": "Learn more",
+    "undo": "Undo"
   },
   "mail_list": {
     "select_messages": "Sélectionner les messages",
@@ -417,7 +427,12 @@
     "add_star": "Ajouter aux favoris",
     "mark_as_read": "Marquer comme lu",
     "mark_as_unread": "Marquer comme non lu",
-    "refresh": "Rafraîchir"
+    "refresh": "Rafraîchir",
+    "delete_messages": "Delete all messages",
+    "delete_all": "Delete All",
+    "no_conversations": "There are no conversations with this label.",
+    "remove_start": "Remove Star",
+    "start_message": "Star Message"
   },
   "home_header": {
     "home": "Accueil",
@@ -717,5 +732,10 @@
     "attachment_message": "Do you want to forward attachments of this message?",
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers"
+  },
+  "mail_dialogs": {
+    "payment_failed": "Payment Failed",
+    "payment_message": "Your payment could not be processed. Please pay your invoice to continue to use CTemplar's prime service.",
+    "update_payment": "Update Payment"
   }
 }
