@@ -9,8 +9,8 @@
       <h3 translate="account_init.creation_init">Account Creation Initiated</h3>
       <ul>
         <li translate="account_init.encrypted_conn_being">Encrypted connection between user and website being verified</li>
-        <li translate="account_init.account_creation">Account creation in user&apos;s browser initiated</li>
-        <li translate="account_init.mailbox_creation">Mailbox creation in user&apos;s browser initiated</li>
+        <li [innerHTML]="'account_init.account_creation'| translate">Account creation in user&apos;s browser initiated</li>
+        <li [innerHTML]="'account_init.mailbox_creation'| translate">Mailbox creation in user&apos;s browser initiated</li>
       </ul>
     </div>
     <div class="info-box2"
@@ -21,8 +21,8 @@
       <h3>Account Creation in User's Browser Completed</h3>
       <ul>
         <li><i class="fas fa-check"></i><span translate="account_init.encrypted_conn">Encrypted connection between user and website verified</span></li>
-        <li><i class="fas fa-check"></i><span translate="account_init.acc_creation_complete">Account creation in user&apos;s browser complete</span></li>
-        <li><i class="fas fa-check"></i><span translate="account_init.mail_creation_comp">Mailbox creation in user&apos;s browser complete</span></li>
+        <li><i class="fas fa-check"></i><span [innerHTML]="'account_init.acc_creation_complete'| translate">Account creation in user&apos;s browser complete</span></li>
+        <li><i class="fas fa-check"></i><span [innerHTML]="'account_init.mail_creation_comp'| translate">Mailbox creation in user&apos;s browser complete</span></li>
       </ul>
     </div>
     <div class="info-box3"
@@ -48,10 +48,43 @@
       <h3 translate="account_init.creation_finished">Account Creation Finished</h3>
       <ul>
         <li translate="account_init.mailbox_saved">Mailbox sent and saved to Icelandic server</li>
-        <li translate="account_init.secured_with_hash">Mailbox secured with user&apos;s hash & Salted value.</li>
+        <li [innerHTML]="'account_init.secured_with_hash'| translate">Mailbox secured with user&apos;s hash & Salted value.</li>
         <li translate="account_init.encypt_secure">Encrypted, Secure & Anonymous</li>
         <li translate="account_init.max_strength">Welcome to your Maximum strength mailbox</li>
       </ul>
     </div>
   </div>
 </div>
+
+
+<!-- Change display name modal -->
+<ng-template #changeDisplayNameModal let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-sm-center align-items-center">
+    <h3 class="modal-title w-100 text-dark change-Your-Display"><strong translate="create_account.change_display_name" >Change Your Display Name</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="changeDisplayNameForm" (submit)="submitDispalyNameForm()">
+    <div class="modal-body bg-faded">
+      <div class="text-holder text-dark text-medium">
+        <p>This is the “From” and “To” display name that will be shown with your email address. </p>
+          <div class="form">
+            <div class="form-group form-group">
+              <input class="form-control text-dark display-name-input" id="displayName" autocomplete="off"
+                     [placeholder]="'create_account.enter_display_name'| translate" type="text" name="displayName" formControlName="username"/>
+              <span *ngIf="changeDisplayNameForm.controls['username'].errors && changeDisplayNameForm.controls['username'].touched"
+                    class="validate-message">The display name is required.
+                </span>
+            </div>
+          </div>
+        <p>Adjust this based on input above &lt;Username@Ctemplar.com&gt;. You can change this in the settings page later.</p>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button class="btn btn-danger submit-display-name-btn" type="submit" [disabled]="!changeDisplayNameForm.valid || displayNameFormSubmitted">Confirm</button>
+    </div>
+  </form>
+
+</ng-template>
+<!-- /. change Display Name modal ends -->

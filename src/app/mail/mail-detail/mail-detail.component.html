@@ -136,7 +136,7 @@
         <strong id="{{mail.id}}-mail-subject">{{mail.subject}}</strong>
         <i class="icon icon-secured icon-md text-muted ml-2"
            [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}"
-           [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : 'End-to-End Encrypted'">
+           [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)">
         </i>
       </h5>
 
@@ -147,12 +147,12 @@
     </div>
 
     <div class="spam_reason" *ngIf="mail.folder === mailFolderTypes.SPAM">
-      <span class="spam_why" *ngIf="mail.spam_reason">Why is this message in spam? </span>
+      <span class="spam_why" *ngIf="mail.spam_reason" translate="mail_detail.message_in_span">Why is this message in spam? </span>
       <span>{{mail.spam_reason}}</span>
       <div>
         <button class="mark_not_spam btn btn-outline-warning"
                 (click)="markNotSpam(mail)"
-                ngbTooltip="Mark email as not spam(whitelist) and move this email to inbox.">Mark not spam</button>
+                [ngbTooltip]="'mail_detail.mail_not_spam'| translate" translate="mail_detail.mark_not_spam">Mark not spam</button>
       </div>
     </div>
 
@@ -163,7 +163,7 @@
         <div class="col-8">
           <div class="mailbox-sender-content">
             <ul class="sender-content-list list-styled">
-              <li id="{{mail.id}}-mail-from" class="font-weight-bold">
+              <li id="{{mail.id}}-mail-from" class="font-weight-bold" translate="settings.compose.from">
                 From:
                 <span class="text-secondary"> </span>
                 <a class="text-gray-dark text-muted">
@@ -173,7 +173,7 @@
                   <{{mail.sender_display.email}}>
                 </a>
               </li>
-              <li id="{{mail.id}}-mail-to">
+              <li id="{{mail.id}}-mail-to" translate="settings.compose.to">
                 To:
                 <ng-container *ngFor="let receiver of mail.receiver_display; let i = index;">
                   <span class="text-secondary"> </span>
@@ -208,7 +208,10 @@
             </ul>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-4 row">
+          <div class="col">
+            <label class="folder-batch">{{mail.folder}}</label>
+          </div>
           <div class="msg-reply-type-holder">
             <div class="d-flex align-items-center justify-content-end">
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
@@ -245,7 +248,7 @@
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
                 id="messageReplyDropdownMenuButton"></button>
         <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
-          <a class="dropdown-item" (click)="onForward(mail); scrollTo(replyActions);">Forward</a>
+          <a class="dropdown-item" (click)="onForward(mail); scrollTo(replyActions);" translate="">Forward</a>
           <a class="dropdown-item" (click)="onReply(mail); scrollTo(replyActions);">Reply</a>
           <a class="dropdown-item" (click)="onReplyAll(mail); scrollTo(replyActions);">Reply All</a>
           <a class="dropdown-item" (click)="onPrint(mail)">Print</a>
@@ -343,7 +346,10 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-4 row">
+                    <div class="col">
+                      <label class="folder-batch">{{childMail.folder}}</label>
+                    </div>
                     <div class="msg-reply-type-holder">
                       <div class="d-flex align-items-center justify-content-end">
                       <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
