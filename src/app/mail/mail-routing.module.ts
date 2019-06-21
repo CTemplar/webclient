@@ -8,6 +8,7 @@ import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailListComponent } from './mail-list/mail-list.component';
 import { MailContactComponent } from './mail-contact/mail-contact.component';
 import { AuthGuard } from '../store/services';
+import { MailAutoresponderComponent } from './mail-settings/mail-autoresponder/mail-autoresponder.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
       { path: 'settings', component: MailSettingsComponent },
+      { path: 'settings/autoresponder', component: MailAutoresponderComponent },
       { path: 'contacts', component: MailContactComponent },
       { path: ':folder/page/:page', component: MailListComponent },
       { path: ':folder/page/:page/message/:id', component: MailDetailComponent },
