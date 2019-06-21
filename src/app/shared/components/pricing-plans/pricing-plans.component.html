@@ -353,7 +353,7 @@
                 <div class="package-actions text-center">
                   <a (click)="selectPlan(2)" *ngIf="(showCurrentPlan && userPlanType !== planType.CHAMPION) || !showCurrentPlan"
                      class="btn btn-gradient-primary cursor-pointer upgrade-button">
-                    <span translate="settings.select_champion">Select Champion </span>
+                    <span translate="settings.select_champion">Select Champion </span> &nbsp;
                     <span class="champion-price">{{(paymentType === 'annually' ? 37.5 : 50) | currency:selectedCurrency}}
                       /<span class="text-normal">mo</span></span>
                   </a>
