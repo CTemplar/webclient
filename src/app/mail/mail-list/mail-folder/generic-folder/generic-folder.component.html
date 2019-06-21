@@ -11,7 +11,8 @@
             <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
                     placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
                             <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
+                                <input class="d-none fancy-field-control" id="mailboxBulkActions"
+                                       [ngClass]="{'checked-type-minus': selectedSomeMails}"
                                        type="checkbox" (change)="markAllMails($event.target.checked)"
                                        [(ngModel)]="selectAll"/>
                                 <label for="mailboxBulkActions" class="fancy-field-empty"></label>

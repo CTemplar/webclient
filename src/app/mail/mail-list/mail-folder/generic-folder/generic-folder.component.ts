@@ -38,6 +38,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
+  selectedSomeMails: boolean;
   noEmailSelected: boolean = true;
 
   userState: UserState;
@@ -148,10 +149,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (checkAll) {
       this.mails.map(mail => {
         mail.marked = true;
+        this.selectAll = true;
         return mail;
       });
-      this.selectAll = true;
       this.noEmailSelected = false;
+      this.selectedSomeMails = false;
     } else {
       this.mails.map(mail => {
         mail.marked = false;
@@ -341,15 +343,19 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleEmailSelection(mail, event) {
     mail.marked = event;
+    this.selectedSomeMails = true;
     if (event) {
       this.noEmailSelected = false;
+      this.selectedSomeMails = true;
       this.selectAll = true;
     } else {
       if (this.mails.filter(m => m.marked === true).length > 0) {
         this.noEmailSelected = false;
-      } else {
         this.noEmailSelected = true;
+      } else {
         this.selectAll = false;
+        this.noEmailSelected = true;
+        this.selectedSomeMails = false;
       }
     }
   }
