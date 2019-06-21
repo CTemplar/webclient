@@ -478,7 +478,8 @@
     "our_address": "Notre Adresse",
     "all_rights_reserved": "Tous Droits Réservés",
     "help": "Aide",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "software_systems": "Templar Software Systems Ltd., a Seychelles Limited Liability Company"
   },
   "page_about": {
     "as_the_govt_continues": "Alors que les gouvernements continuent de recueillir des données à un rythme croissant, une plus grande confidentialité et protection des données est nécessaire. L'utilisation du courrier électronique crypté est une étape importante pour obtenir une meilleure protection. CTemplar s'engage à fournir le plus haut niveau de protection des données.",
@@ -556,7 +557,9 @@
     "security_check": "Vérification de sécurité",
     "try_another_one": "Essayer à nouveau",
     "text_from_image": "Saisir le texte de l’image",
-    "invalid_captcha": "Captcha invalide, essayez à nouveau."
+    "invalid_captcha": "Captcha invalide, essayez à nouveau.",
+    "change_display_name": "Change Your Display Name",
+    "enter_display_name": "Enter Your Display Name"
   },
   "billing_info": {
     "pending_payment_alert": "Votre paiement est en attente, mais vous pouvez quand même créer un compte gratuit et votre compte sera mis à jour vers un compte Premium après vérification du paiement.",
