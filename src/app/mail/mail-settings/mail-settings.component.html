@@ -911,19 +911,19 @@
 <!-- Confirm delete account modal -->
 <ng-template #confirmDeleteAccountModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>Confirm Permanently Account Delete</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="settings.permanently_delete">Confirm Permanently Account Delete</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body bg-faded">
         <div class="text-holder text-dark text-medium">
-            <p>Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
+            <p translate="settings.permanently_delete_alert">Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <button (click)="d()" class="btn btn-default btn-sm" role="button">Cancel</button>
-        <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button">Delete</button>
+        <button (click)="d()" class="btn btn-default btn-sm" role="button" translate="common.cancel">Cancel</button>
+        <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" translate="common.delete">Delete</button>
     </div>
 
 </ng-template><!-- /.Confirm delete account modal ends -->
@@ -992,8 +992,8 @@
                             </div>
                             <div class="form-group has-error">
                                 <span class="d-block text-right error-msg" translate="settings.required_field">Required field</span>
-                                <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card
-                                    Number</label>
+                                <label for="cardName" class="d-block text-muted text-left hidden-sm-up"
+                                translate="settings.donate.card_number">Card Number</label>
                                 <input class="form-control error" id="cardName" [placeholder]="'settings.donate.card_number'" type="text">
                             </div>
                             <div class="form-group form-group-3-col">
@@ -1002,7 +1002,7 @@
                                         <label class="d-block text-muted text-left hidden-sm-up" translate="settings.date">Date</label>
                                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                             <div ngbDropdown class="date-select-dropdown">
-                                                <button ngbDropdownToggle id="dateDropdownMenuButton" role="button">
+                                                <button ngbDropdownToggle id="dateDropdownMenuButton" role="button" translate="settings.date">
                                                     Date
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">

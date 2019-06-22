@@ -66,7 +66,7 @@
                             <div class="form search-form">
                                 <form>
                                     <div class="form-group mb-0 position-relative">
-                                        <input class="form-control form-control-sm" type="text" placeholder="Search"/>
+                                        <input class="form-control form-control-sm" type="text" [placeholder]="'mail_header.search'| translate"/>
                                         <button class="btn btn-sm btn-secondary search-btn" role="button"><i
                                                 class="icon icon-search"></i></button>
                                     </div>
@@ -83,14 +83,14 @@
 <div class="l-alert l-alert-danger l-alert-is-floated d-sm-inline-block text-center d-none"
      style="display: none !important;">
     <div class="l-alert-inner">
-        <div>Your message hasn't been sent because of Internet connection. &nbsp;&nbsp;&nbsp;<a href=""><u>Try to
-            connect</u></a></div>
+        <div><span translate="mail_header.not_sent_message">Your message hasn't been sent because of Internet connection.</span> &nbsp;&nbsp;&nbsp;<a href="">
+          <u translate="mail_header.try_to_connect">Try to connect</u></a></div>
     </div>
 </div>
 <div class="l-alert l-alert-warning l-alert-is-floated d-sm-inline-block text-center d-none"
      style="display: none !important;">
     <div class="l-alert-inner">
-        <div>The conversation has been moved to the Trash. &nbsp;&nbsp;&nbsp;<a href=""><u>Learn more</u></a> &nbsp;&nbsp;&nbsp;<a
-                href=""><u>Undo</u></a></div>
+        <div><span translate="mail_header.moved_to_trash">The conversation has been moved to the Trash. </span>&nbsp;&nbsp;&nbsp;<a href=""><u translate="mail_header.learn_more">Learn more</u></a> &nbsp;&nbsp;&nbsp;<a
+                href=""><u translate="mail_header.undo">Undo</u></a></div>
     </div>
 </div>

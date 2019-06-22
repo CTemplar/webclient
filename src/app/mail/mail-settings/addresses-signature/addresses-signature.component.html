@@ -147,7 +147,7 @@
         <button class="btn btn-sm btn-secondary float-right"
                 (click)="startReorder()"
                 *ngIf="!reorder && mailboxes?.length>1"
-                [ngbTooltip]="'settings.reorder_addresses'| translate" translate="settins.reorder">Reorder</button>
+                [ngbTooltip]="'settings.reorder_addresses'| translate" translate="settings.reorder">Reorder</button>
       </div>
       <ul class="ui-list ui-list-styled list-styled addresses-list">
         <li *ngIf="newAddressOptions.isAddingNew" class="ui-list-item ui-list-item-xs-full">
@@ -204,7 +204,7 @@
                                             <ng-container
                                                     *ngIf="newAddressForm.controls['username'].errors.pattern; else usernameLengthBlock">
                                               <span translate="settings.username_allowed_chars"> The username must start with a letter or a number and end with a letter or number.It may only
-                                                contain </span> <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> <span translate="settins.username_minlen">‌characters, and minimum length is 2 characters.</span>
+                                                contain </span> <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> <span translate="settings.username_minlen">‌characters, and minimum length is 2 characters.</span>
                                             </ng-container>
                                             <ng-template #usernameLengthBlock>
                                               <ng-container
