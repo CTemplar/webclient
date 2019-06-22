@@ -357,7 +357,7 @@
                       class="actions-btn mail-attach-btn" placement="top"
                       [ngbTooltip]="'settings.compose.attachments'| translate"><i class="icon icon-attachment"></i></button>
             </li>
-            <li class="pr-0" ngbTooltip="Encryption for non CTemplar users">
+            <li class="pr-0" [ngbTooltip]="'page_pricing.encryption'| translate">
               <button role="button" type="button"
                       class="actions-btn mail-envelop-btn border-radius-r-0"
                       [ngClass]="{'text-primary': draftMail?.encryption?.password}"
@@ -373,7 +373,7 @@
               </button>
             </li>
             <li class="px-0"
-                [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? 'Feature not available with Free Account' : ''">
+                [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? ('settings.not_with_free_acc'| translate) : ''">
               <button *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn"
                       type="button" role="button" (click)="openDelayedDeliveryModal()"
                       class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
@@ -386,9 +386,9 @@
                         disabled><i class="icon icon-self-timer"></i>
                 </button>
               </ng-template>
-            </li>
+            </li>('settings.not_with_free_acc'| translate)
             <li class="px-0"
-                [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? 'Feature not available with Free Account' : ''">
+                [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? ('settings.not_with_free_acc'| translate) : ''">
               <button *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn"
                       type="button" role="button" (click)="openDeadManTimerModal()"
                       class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
@@ -441,7 +441,7 @@
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" translate="settins.compose.select_file">
+      <div class="form-group" translate="settings.compose.select_file">
         Select files from your computer or enter a URL
       </div>
       <div class="form-group">

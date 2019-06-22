@@ -11,23 +11,23 @@
     "note": "Note",
     "save": {
       "error": "Veuillez remplir les champs obligatoires.",
-      "name_required": "Name is required",
-      "email_req": "Email address is required",
-      "email_not_valid": "Email address is not valid"
+      "name_required": "Nom requis",
+      "email_req": "Email requis",
+      "email_not_valid": "Email invalide"
     },
     "delete": {
       "title": "Confirmer la suppression",
       "message": "Êtes-vous sûr de vouloir supprimer ?"
     },
-    "import_contacts": "Import Contacts",
-    "select_csv": "Select a CSV file from one of the following providers.",
-    "import_f_google": "Import from Google",
-    "import_f_yahoo": "Import from Yahoo",
-    "import_f_outlook": "Import from Outlook",
-    "import_f_other": "Import from Other",
-    "contact_name": "Contact Name",
+    "import_contacts": "Importer des contacts",
+    "select_csv": "Pour importer des contacts, sélectionnez un fichier CSV parmi les choix suivants :",
+    "import_f_google": "Importer depuis Google",
+    "import_f_yahoo": "Importer depuis Yahoo",
+    "import_f_outlook": "Importer depuis Outlook",
+    "import_f_other": "Importer (Autre)",
+    "contact_name": "Nom du contact",
     "type_email": "Type E-mail",
-    "a_note": "A note"
+    "a_note": "A noter"
   },
   "common": {
     "name": "Nom",
@@ -339,7 +339,7 @@
       "save_to_drafts": "Enregistrer dans les brouillons",
       "attach_images": "Joindre des images",
       "select_file": "Sélectionnez les fichiers de votre ordinateur ou entrez une URL",
-      "image_url":"Entrer l'URL de l'image",
+      "image_url": "Entrer l'URL de l'image",
       "attach_files": "Joindre des fichiers",
       "attach_url": "Joindre une URL",
       "self_dest_email": "Courriel d'auto-destruction",
@@ -357,29 +357,34 @@
       "text_format": "Mise en forme du texte",
       "small": "petit",
       "to": "Destinataire:",
-      "delete_draft": "Delete draft",
+      "delete_draft": "Supprimer le brouillon",
       "normal": "Normal",
-      "large": "Large",
-      "huge": "Huge",
-      "background_color": "Background Color",
-      "text_color": "Text Color",
-      "saving": "Saving...",
-      "saved": "Saved",
-      "wait_to_save": "Wait for the changes to save",
-      "send_mail": "Send Mail",
-      "encrypt_email": "Encrypt Email",
-      "encrypt_for_non": "Encrypt for non-Ctemplar mail users",
-      "message_password": "Message Password",
-      "message_password_req": "Message password is required.",
-      "password_hint": "Password Hint",
-      "encrypt_message_expire": "Encrypted messages to non-Ctemplar recipients will expire in 5 days.",
-      "email_sent_timer": " Email will be sent when timer expires. Logging into your account resets the timer. This email can be watched in the \"Outbox\" page.",
-      "days": "Days",
-      "hours": "Hours",
-      "clear": "Clear",
-      "email_on_datetime": "Email will be sent on selected datetime"
+      "large": "Grand",
+      "huge": "Très grand",
+      "background_color": "Couleur de l’arrière-plan",
+      "text_color": "Couleur du texte",
+      "saving": "Enregistrer...",
+      "saved": "Enregistré",
+      "wait_to_save": "Veuillez patienter pendant l’enregistrement des données",
+      "send_mail": "Envoyer",
+      "encrypt_email": "Mail crypté",
+      "encrypt_for_non": "Crypté à destination de contacts non-CTemplar",
+      "message_password": "Mot de passe du message",
+      "message_password_req": "Le mot de passe du message est requis",
+      "password_hint": "Indice du mot de passe",
+      "encrypt_message_expire": "Les messages cryptés à destination de contact non-CTemplar expirent après 5 jours.",
+      "email_sent_timer": "L’email sera envoyé à l’expiration du délai. En vous connectant à votre compte, le minuteur est réinitialisé. Cet email peut être visualisé dans la \"Boîte d’envoi\".",
+      "days": "Jours",
+      "hours": "Heures",
+      "clear": "Réinitialiser",
+      "email_on_datetime": "L’email sera envoyé à la date et l’heure sélectionnées"
     },
-    "of": "of"
+    "of": "de",
+    "not_with_free_acc": "Fonction non disponible avec un compte gratuit",
+    "username_constraint": "characters and it must be between 2 and 128 characters.",
+    "permanently_delete": "Confirm Permanently Account Delete",
+    "permanently_delete_alert": "Are you sure you want to permanently delete your account? No one will be able to undo this.",
+    "end_now": "End now"
   },
   "mail_sidebar": {
     "inbox": "Boîte de réception",
@@ -397,7 +402,13 @@
   "mail_header": {
     "contacts": "Contacts",
     "settings": "Réglages",
-    "need_help": "Besoin d’aide"
+    "need_help": "Besoin d’aide",
+    "search": "Search",
+    "not_sent_message": "Your message hasn't been sent because of Internet connection.",
+    "try_to_connect": "Try to connect",
+    "moved_to_trash": "The conversation has been moved to the Trash. ",
+    "learn_more": "Learn more",
+    "undo": "Undo"
   },
   "mail_list": {
     "select_messages": "Sélectionner les messages",
@@ -416,7 +427,12 @@
     "add_star": "Ajouter aux favoris",
     "mark_as_read": "Marquer comme lu",
     "mark_as_unread": "Marquer comme non lu",
-    "refresh": "Rafraîchir"
+    "refresh": "Rafraîchir",
+    "delete_messages": "Delete all messages",
+    "delete_all": "Delete All",
+    "no_conversations": "There are no conversations with this label.",
+    "remove_start": "Remove Star",
+    "start_message": "Star Message"
   },
   "home_header": {
     "home": "Accueil",
@@ -462,7 +478,8 @@
     "our_address": "Notre Adresse",
     "all_rights_reserved": "Tous Droits Réservés",
     "help": "Aide",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "software_systems": "Templar Software Systems Ltd., a Seychelles Limited Liability Company"
   },
   "page_about": {
     "as_the_govt_continues": "Alors que les gouvernements continuent de recueillir des données à un rythme croissant, une plus grande confidentialité et protection des données est nécessaire. L'utilisation du courrier électronique crypté est une étape importante pour obtenir une meilleure protection. CTemplar s'engage à fournir le plus haut niveau de protection des données.",
@@ -537,10 +554,12 @@
     "terms_and_conditions": "Conditions générales de vente",
     "already_have_account": "Vous avez déjà un Compte ?",
     "generate_key": "Générer la Clé",
-    "security_check": "Security check",
-    "try_another_one": "Try another one",
-    "text_from_image": "Write text from image",
-    "invalid_captcha": "Invalid captcha, please try again."
+    "security_check": "Vérification de sécurité",
+    "try_another_one": "Essayer à nouveau",
+    "text_from_image": "Saisir le texte de l’image",
+    "invalid_captcha": "Captcha invalide, essayez à nouveau.",
+    "change_display_name": "Change Your Display Name",
+    "enter_display_name": "Enter Your Display Name"
   },
   "billing_info": {
     "pending_payment_alert": "Votre paiement est en attente, mais vous pouvez quand même créer un compte gratuit et votre compte sera mis à jour vers un compte Premium après vérification du paiement.",
@@ -678,29 +697,48 @@
     "any_questions": "Si vous avez des questions sur notre politique de confidentialité, ou des plaintes concernant le traitement de vos informations personnelles et / ou financières, vous pouvez nous contacter au 1 (800) 319-5820 ou"
   },
   "account_init": {
-    "creation_init": "Account Creation Initiated",
-    "encrypted_conn_being": "Encrypted connection between user and website being verified",
-    "account_creation": "Account creation in user&apos;s browser initiated",
-    "mailbox_creation": "Mailbox creation in user&apos;s browser initiated",
-    "encrypted_conn": "Encrypted connection between user and website verified",
-    "acc_creation_complete": "Account creation in user&apos;s browser complete",
-    "mail_creation_comp": "Mailbox creation in user&apos;s browser complete",
-    "crypto_protect": "Cryptographic Protection Initiated",
-    "gen_pgp_key": "Generate 4096 bit PGP Encryption Key",
-    "crypto_hash_pass": "Apply Cryptographic hash to password",
-    "rec_hash_value": "Receive “hash value” from cryptographic hash",
-    "crypto_salt": "Apply cryptographic salt to \"hash value\"",
-    "mailbox_encrypted": "Your mailbox is now encrypted and password protected",
-    "creation_finished": "Account Creation Finished",
-    "mailbox_saved": "Mailbox sent and saved to Icelandic server",
-    "secured_with_hash": "Mailbox secured with user&apos;s hash & Salted value.",
-    "encypt_secure": "Encrypted, Secure & Anonymous",
-    "max_strength": "Welcome to your Maximum strength mailbox"
+    "creation_init": "Création de compte lancée",
+    "encrypted_conn_being": "Connexion cryptée entre l'utilisateur et le site Web en cours de vérification",
+    "account_creation": "Création du compte dans le navigateur de l'utilisateur lancé",
+    "mailbox_creation": "Création du compte de messagerie dans le navigateur de l'utilisateur",
+    "encrypted_conn": "Connexion chiffrée entre l'utilisateur et le site Web vérifiée",
+    "acc_creation_complete": "La création du compte dans le navigateur de l'utilisateur est terminée",
+    "mail_creation_comp": "La création du compte de messagerie dans le navigateur de l'utilisateur est terminée",
+    "crypto_protect": "Protection cryptographique initiée",
+    "gen_pgp_key": "Génération d’une clé de cryptage PGP de 4096 bits",
+    "crypto_hash_pass": "Application du hachage cryptographique du mot de passe",
+    "rec_hash_value": "Réception de la «valeur de hachage» du hachage cryptographique",
+    "crypto_salt": "Application du sel cryptographique à la \"valeur de hachage\"",
+    "mailbox_encrypted": "Votre compte de messagerie est maintenant cryptée et protégée par un mot de passe",
+    "creation_finished": "Création du compte terminée",
+    "mailbox_saved": "Compte de messagerie envoyé et enregistré sur le serveur islandais",
+    "secured_with_hash": "Compte de messagerie sécurisée avec le hachage et la valeur salée de l'utilisateur.",
+    "encypt_secure": "Crypté, sécurisé et anonyme",
+    "max_strength": "Bienvenue dans votre compte de messagerie à sécurité maximale"
   },
   "mail_detail": {
-    "encrypted": "End-to-End Encrypted",
-    "message_in_span": "Why is this message in spam?",
-    "mail_not_spam": "Mark email as not spam(whitelist) and move this email to inbox.",
-    "mark_not_spam": "Mark not spam"
+    "encrypted": "Crypté de bout-en-bout",
+    "message_in_span": "Pourquoi ce message est-il dans les spams ?",
+    "mail_not_spam": "Marqué comme non spam (liste blanche) et déplacer cet email dans la boîte de réception.",
+    "mark_not_spam": "Marqué comme non spam",
+    "delete_in": "Delete in",
+    "delay_delivery": "Delay delivery in",
+    "forward": "Forward",
+    "reply": "Reply",
+    "reply_all": "Reply All",
+    "print": "Print",
+    "delete_message": "Delete this Message",
+    "show_headers": "Show headers",
+    "mark_as_spam": "Mark as Spam",
+    "hide_extra": "Hide extra content",
+    "show_trimmed": "Show trimmed content",
+    "attachment_message": "Do you want to forward attachments of this message?",
+    "no_header": "No headers available",
+    "incoming_head": "Incoming Headers"
+  },
+  "mail_dialogs": {
+    "payment_failed": "Payment Failed",
+    "payment_message": "Your payment could not be processed. Please pay your invoice to continue to use CTemplar's prime service.",
+    "update_payment": "Update Payment"
   }
 }
