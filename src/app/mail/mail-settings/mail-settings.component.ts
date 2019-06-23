@@ -133,7 +133,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (this.forwardingQueryParams === 'autorespoder') {
+    if (this.forwardingQueryParams === 'auto') {
       this.tabSet.select('forwardingAndAuto');
       this.cdr.detectChanges();
     }
