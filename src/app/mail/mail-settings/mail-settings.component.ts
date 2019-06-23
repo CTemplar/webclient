@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
@@ -31,13 +31,14 @@ import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
   styleUrls: ['./mail-settings.component.scss']
 })
-export class MailSettingsComponent implements OnInit, OnDestroy {
+export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly defaultStorage = DEFAULT_STORAGE;
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
   readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
@@ -45,7 +46,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   readonly championMonthlyPrice = 50;
   readonly championAnnualPriceTotal = 450;
   readonly planType = PlanType;
-
+  @ViewChild('tabSet', { static: false }) tabSet;
   @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
   @ViewChild('confirmDeleteAccountModal', { static: false }) confirmDeleteAccountModal;
 
@@ -70,6 +71,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   deleteAccountOptions: any = {};
   notificationsPermission: string;
   notificationPermissionType = NotificationPermission;
+  forwardingQueryParams: any;
 
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -82,6 +84,8 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     private openPgpService: OpenPgpService,
     private settingsService: MailSettingsService,
     private pushNotificationService: PushNotificationService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -121,6 +125,18 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       'contact_email': ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       'password': ['', [Validators.required]]
     });
+    this.route.params.subscribe(
+      params => {
+        this.forwardingQueryParams = params['id'];
+      }
+    );
+  }
+
+  ngAfterViewInit() {
+    if (this.forwardingQueryParams === 'autorespoder') {
+      this.tabSet.select('forwardingAndAuto');
+      this.cdr.detectChanges();
+    }
   }
 
   calculatePrices() {
