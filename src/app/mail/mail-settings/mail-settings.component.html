@@ -4,7 +4,7 @@
 
         <!-- Dashboard and Plans -->
         <ngb-tab id="dashboard-plans">
-            <ng-template ngbTabTitle>Dashboard and plans</ng-template>
+            <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard and plans</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- Overview Section -->
@@ -227,7 +227,7 @@
 
         <!-- General -->
         <ngb-tab>
-            <ng-template ngbTabTitle>General</ng-template>
+            <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- General Settings -->
@@ -271,7 +271,7 @@
                                                 <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     {{settings.timezone}}
-                                                </button>
+                                                </button>list
                                                 <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
                                                     <a class="dropdown-item" *ngFor="let timezone of timezones" (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
                                                 </div>
@@ -311,7 +311,7 @@
                             <div class="form-content-row">
                                 <div class="row align-items-center">
                                     <div class="col-sm-3">
-                                        <label class="form-label mb-0">Default Mail Compose Font</label>
+                                        <label class="form-label mb-0" translate="settings.compose_font">Default Mail Compose Font</label>
                                     </div>
                                     <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
@@ -479,7 +479,7 @@
                                                placeholder="johnsimpson@gmail.com"/>
                                     </form>
                                     <div class="info-card mx-3 mt-2 full-width">
-                                        <p>
+                                        <p translate="settings.enter_notification_email">
                                             Enter a notification email on which you would like to receive notification
                                             each day when you have new emails.
                                         </p>
@@ -487,12 +487,13 @@
                                 </div>
                                 <div class="row align-items-center">
                                     <div class="col-sm-3">
-                                        <label class="form-label mb-sm-0">
+                                        <label class="form-label mb-sm-0" translate="settings.desktop_notification_title">
                                             Desktop notifications</label>
                                     </div>
                                     <div class="col-sm-7 col-md-5">
                                       <div class="info-card mt-3 full-width">
-                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED">
+                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED"
+                                        translate="settings.desktop_notifications_dis">
                                           Desktop Notifications are disabled.
                                           Please go to your browser settings in order to enable them.
                                         </p>
@@ -500,8 +501,8 @@
                                           <a (click)="requestNotificationPermission()">Click here</a> in order to enable desktop notifications.
                                         </p>
                                         <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
-                                          Desktop notifications are enabled.
-                                          <a (click)="testNotification()">Click here to Test</a>
+                                          <span translate="settings.desktop_notifications_en">Desktop notifications are enabled.</span>
+                                          <a (click)="testNotification()"> <span translate="settings.click_to_test">Click here to Test</span></a>
                                         </p>
                                       </div>
                                     </div>
@@ -516,18 +517,18 @@
                 <!-- Delete account settings -->
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Delete Account</strong>
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.delete_account">Delete Account</strong>
                         </h5>
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
                         <div class="form-content-holder">
                             <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
                             <div class="info-card">
-                                <p>If you permanently delete your account you will lose all the data in your mailbox.
+                                <p translate="settings.delete_account_guide">If you permanently delete your account you will lose all the data in your mailbox.
                                     In 2 months this username will be available for re-use by anyone who selects it.</p>
                                 <button type="button" class="text-uppercase btn-link" role="button"
                                         [disabled]="authState?.inProgress"
-                                        (click)="onDeleteAccount()"><strong><u>Permanently Delete Account</u></strong>
+                                        (click)="onDeleteAccount()"><strong><u translate="settings.delete_account_perm">Permanently Delete Account</u></strong>
                                 </button>
                             </div>
                         </div>
@@ -539,7 +540,7 @@
 
         <!-- Filters and blocked addresses -->
         <ngb-tab>
-            <ng-template ngbTabTitle>Filters and blocked addresses</ng-template>
+            <ng-template ngbTabTitle> <span translate="settings.filters.title">Filters and blocked addresses</span></ng-template>
             <ng-template ngbTabContent>
 
               <!-- Custom filters -->
@@ -621,7 +622,7 @@
 
         <!-- Addresses and Signatures -->
         <ngb-tab id="addresses-signatures">
-            <ng-template ngbTabTitle>Addresses and signatures</ng-template>
+            <ng-template ngbTabTitle><span translate="settings.addresses_and_signs">Addresses and signatures</span></ng-template>
             <ng-template ngbTabContent>
                 <app-addresses-signature></app-addresses-signature>
             </ng-template>
@@ -629,7 +630,7 @@
 
         <!-- Folders -->
         <ngb-tab id="folders">
-            <ng-template ngbTabTitle>Folders</ng-template>
+            <ng-template ngbTabTitle><span translate="page_pricing.folders">Folders</span></ng-template>
             <ng-template ngbTabContent>
                 <app-folders></app-folders>
             </ng-template>
@@ -637,7 +638,7 @@
 
         <!-- Security -->
         <ngb-tab>
-            <ng-template ngbTabTitle>Security</ng-template>
+            <ng-template ngbTabTitle><span translate="home_header.security">Security</span></ng-template>
            <ng-template ngbTabContent>
                <app-settings-security></app-settings-security>
            </ng-template>
@@ -645,7 +646,7 @@
 
         <!-- Domains -->
         <ngb-tab>
-            <ng-template ngbTabTitle>Domains & Users</ng-template>
+            <ng-template ngbTabTitle><span translate="settings.domains_and_users.title">Domains & Users</span></ng-template>
             <ng-template ngbTabContent>
 
                 <app-custom-domains (onGotoTab)="tabSet.select($event);scrollTo(0, 630)"></app-custom-domains>
@@ -655,7 +656,7 @@
 
         <!-- Forwarding and auto responder -->
         <ngb-tab>
-            <ng-template ngbTabTitle>Forwarding and autoresponder</ng-template>
+            <ng-template ngbTabTitle> <span translate="settings.forwarding_and_autores">Forwarding and autoresponder</span></ng-template>
             <ng-template ngbTabContent>
                 <app-mail-forwarding></app-mail-forwarding>
                 <app-mail-autoresponder></app-mail-autoresponder>
@@ -672,7 +673,7 @@
     <!--This section is hidden for now, will be used in dev pack 1.-->
     <section class="mailbox-section" *ngIf="false">
         <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.filters.name">Filters</strong></h5>
         </header>
         <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
@@ -684,7 +685,7 @@
                                     <input class="d-none toggle-switcher-control" id="switcherField1" name=""
                                            type="checkbox" checked/>
                                     <label for="switcherField1"></label>
-                                    <span class="toggle-switcher-text">My spam filter</span>
+                                    <span class="toggle-switcher-text" translate="settings.filters.spam_filter">My spam filter</span>
                                 </div>
                             </div>
                             <div class="col-2 col-sm-4">
@@ -702,7 +703,7 @@
                                     <input class="d-none toggle-switcher-control" id="switcherField3" name=""
                                            type="checkbox" checked/>
                                     <label for="switcherField3"></label>
-                                    <span class="toggle-switcher-text">Important messages filter</span>
+                                    <span class="toggle-switcher-text" translate="settings.filters.imp_messages">Important messages filter</span>
                                 </div>
                             </div>
                             <div class="col-2 col-sm-4">
@@ -720,7 +721,7 @@
                                     <input class="d-none toggle-switcher-control" id="switcherField2" name=""
                                            type="checkbox"/>
                                     <label for="switcherField2"></label>
-                                    <span class="toggle-switcher-text">Auto-labeling test</span>
+                                    <span class="toggle-switcher-text" translate="settings.filters.auto_labeling">Auto-labeling test</span>
                                 </div>
                             </div>
                             <div class="col-2 col-sm-4">
@@ -733,10 +734,10 @@
                     </li>
                 </ul>
                 <div class="info-card">
-                    <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
+                    <p translate="settings.filters.add_filter">Add a filter to perform actions such as automatically labeling or archiving.</p>
                     <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
-                        custom filter</u></strong></a>
+                       (click)="openCustomFilterModal(customFilterContent)"><strong>
+                        <u translate="settings.filters.add_custom_filter">Add custom filter</u></strong></a>
                 </div>
             </div>
         </div>
@@ -753,8 +754,8 @@
                 <div class="info-card">
                     <p>Create and administer sub-accounts and assign them email addresses on your custom domain. To
                         enable this feature, upgrade your account.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="billingInfoModalOpen(billingInfoContent)"><strong><u>Upgrade
-                                account</u></strong></a>
+                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="billingInfoModalOpen(billingInfoContent)"><strong>
+                        <u translate="common.upgrade_account">Upgrade account</u></strong></a>
                 </div>
             </div>
         </div>
@@ -861,7 +862,7 @@
 <!-- Delete account info modal -->
 <ng-template #deleteAccountInfoModal let-c="close" let-d="dismiss">
     <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-        <h3 class="modal-title w-100 text-dark"><strong>Permanently Delete Account</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="settings.delete_account_perm" >Permanently Delete Account</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -869,17 +870,17 @@
     <form [formGroup]="deleteAccountInfoForm" (submit)="onDeleteAccountInfoSubmit()">
         <div class="modal-body bg-faded">
             <div class="text-holder text-dark text-medium">
-                <p class="text-danger">You have selected to permanently delete your account. If you proceed you will
+                <p class="text-danger" translate="settings.delete_account_guide">You have selected to permanently delete your account. If you proceed you will
                     lose all the data in your
                     mailbox.In 2 months this username will be available for re-use by anyone who selects it.</p>
-                <p>Please provide an email address in case we need to contact you.</p>
+                <p translate="settings.provide_email">Please provide an email address in case we need to contact you.</p>
                 <div class="login-content-holder mx-auto mt-2 pt-sm-2">
                     <div class="form">
                         <div class="form-group form-group-sm">
                             <label for="deleteAccountEmail" class="d-block text-muted text-left hidden-sm-up">Email
                             </label>
                             <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off"
-                                   placeholder="Email" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
+                                   [placeholder]="'common.email'| translate" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
                             <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
                                   class="validate-message">The email is invalid.
                             </span>
@@ -890,7 +891,7 @@
                             <div class="input-group">
                                 <input #deleteAccountPasswordInput class="form-control form-control-lg"
                                        id="deleteAccountPassword" autocomplete="new-password" name="deleteAccountPassword"
-                                       formControlName="password" placeholder="Your Current Password" type="password"/>
+                                       formControlName="password" [placeholder]="'settings.current_password'| translate" type="password"/>
                                 <span class="input-group-addon password-toggle bg-white text-muted"
                                       (click)="togglePassword(deleteAccountPasswordInput)">
                                     <i class="fa fa-eye"></i>
@@ -898,8 +899,8 @@
                             </div>
                             <span *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors"
                                   class="validate-message">
-                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required">Your current password
-                                    is required.</span>
+                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required" translate="settings.password_req" >
+                                    Your current password is required.</span>
                             </span>
                         </div>
                     </div>
@@ -907,8 +908,8 @@
             </div>
         </div>
         <div class="modal-footer justify-content-center justify-content-sm-end">
-            <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
-            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+            <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span></button>
+            <button class="btn btn-danger btn-sm" type="submit" translate="common.delete">Delete</button>
         </div>
     </form>
 
@@ -917,19 +918,19 @@
 <!-- Confirm delete account modal -->
 <ng-template #confirmDeleteAccountModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>Confirm Permanently Account Delete</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="settings.permanently_delete">Confirm Permanently Account Delete</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body bg-faded">
         <div class="text-holder text-dark text-medium">
-            <p>Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
+            <p translate="settings.permanently_delete_alert">Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <button (click)="d()" class="btn btn-default btn-sm" role="button">Cancel</button>
-        <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button">Delete</button>
+        <button (click)="d()" class="btn btn-default btn-sm" role="button" translate="common.cancel">Cancel</button>
+        <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" translate="common.delete">Delete</button>
     </div>
 
 </ng-template><!-- /.Confirm delete account modal ends -->
@@ -938,7 +939,7 @@
 <!-- Billing Information Modal -->
 <ng-template #billingInfoContent let-c="close" let-d="dismiss">
     <div class="modal-header text-sm-center justify-content-sm-center">
-        <h3 class="modal-title w-100 text-dark" id="billingInformationModalLabel"><strong>Billing Information</strong>
+        <h3 class="modal-title w-100 text-dark" id="billingInformationModalLabel"><strong translate="settings.billing_information">Billing Information</strong>
         </h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
@@ -950,24 +951,24 @@
                 <form>
                     <div class="form-card-holder billing-form-card-holder">
                         <div class="form-step-card">
-                            <h3 class="form-step-card-title text-dark mb-3"><strong>Overview</strong></h3>
+                            <h3 class="form-step-card-title text-dark mb-3"><strong translate="settings.overview">Overview</strong></h3>
                             <div class="billing-overview">
                                 <div class="billing-overview-row">
-                                    <label class="billing-overview-label mb-0">Plan</label>
-                                    <div class="billing-overview-val text-secondary"><strong>Ctemplar PRIME</strong>
+                                    <label class="billing-overview-label mb-0" translate="billing_info.plan">Plan</label>
+                                    <div class="billing-overview-val text-secondary"><strong>Ctemplar <span translate="settings.prime">PRIME</span></strong>
                                     </div>
                                 </div>
                                 <div class="billing-overview-row">
-                                    <label class="billing-overview-label mb-0">Billing</label>
-                                    <div class="billing-overview-val text-secondary"><strong>Annually</strong></div>
+                                    <label class="billing-overview-label mb-0" translate="billing_info.billing">Billing</label>
+                                    <div class="billing-overview-val text-secondary"><strong translate="settings.annually">Annually</strong></div>
                                 </div>
                                 <div class="billing-overview-row">
-                                    <label class="billing-overview-label mb-0">Price</label>
+                                    <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
                                     <div class="billing-overview-val text-secondary"><strong>48.00 € </strong>(4.00€/month)
                                     </div>
                                 </div>
                                 <div class="billing-overview-row payment-method-row">
-                                    <label class="billing-overview-label">Payment Method: </label>
+                                    <label class="billing-overview-label" translate="billing_info.payment_method">Payment Method: </label>
                                     <div class="billing-overview-val text-secondary">
                                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                             <div ngbDropdown class="payment-select-dropdown">
@@ -989,26 +990,26 @@
                             </div>
                         </div>
                         <div class="form-step-card">
-                            <h3 class="form-step-card-title text-dark mb-3"><strong>Payment Information</strong></h3>
+                            <h3 class="form-step-card-title text-dark mb-3"><strong translate="billing_info.payment_information">Payment Information</strong></h3>
                             <div class="form-group">
                                 <label for="personName" class="d-block text-muted text-left hidden-sm-up" translate="settings.donate.name_on_card">Name
                                     on Card</label>
-                                <input class="form-control" id="personName" placeholder="Name on Card" value="John"
+                                <input class="form-control" id="personName" [placeholder]="'billing_info.name_on_card'| translate" value="John"
                                     type="text">
                             </div>
                             <div class="form-group has-error">
-                                <span class="d-block text-right error-msg">Required field</span>
-                                <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card
-                                    Number</label>
-                                <input class="form-control error" id="cardName" placeholder="Card Number" type="text">
+                                <span class="d-block text-right error-msg" translate="settings.required_field">Required field</span>
+                                <label for="cardName" class="d-block text-muted text-left hidden-sm-up"
+                                translate="settings.donate.card_number">Card Number</label>
+                                <input class="form-control error" id="cardName" [placeholder]="'settings.donate.card_number'" type="text">
                             </div>
                             <div class="form-group form-group-3-col">
                                 <div class="form-group-row">
                                     <div class="form-group-col">
-                                        <label class="d-block text-muted text-left hidden-sm-up">Date</label>
+                                        <label class="d-block text-muted text-left hidden-sm-up" translate="settings.date">Date</label>
                                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                             <div ngbDropdown class="date-select-dropdown">
-                                                <button ngbDropdownToggle id="dateDropdownMenuButton" role="button">
+                                                <button ngbDropdownToggle id="dateDropdownMenuButton" role="button" translate="settings.date">
                                                     Date
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
@@ -1026,11 +1027,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group-col">
-                                        <label class="d-block text-muted text-left hidden-sm-up">Year</label>
+                                        <label class="d-block text-muted text-left hidden-sm-up" translate="billing_info.year">Year</label>
                                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                             <div ngbDropdown class="year-select-dropdown">
                                                 <button ngbDropdownToggle id="yearDropdownMenuButton" role="button">
-                                                    Year
+                                                    <span translate="billing_info.year">Year</span>
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                                                     <a class="dropdown-item text-muted"><em>Year</em></a>
@@ -1047,29 +1048,29 @@
                                         </div>
                                     </div>
                                     <div class="form-group-col">
-                                        <label for="securityCode" class="d-block text-muted text-left hidden-sm-up">Security
-                                            Code</label>
-                                        <input class="form-control" id="securityCode" placeholder="Security Code" type="text">
+                                        <label for="securityCode" class="d-block text-muted text-left hidden-sm-up"
+                                        translate="settings.donate.security_code">Security  Code</label>
+                                        <input class="form-control" id="securityCode" [placeholder]="'settings.donate.security_code'| translate" type="text">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group form-group-2-col">
                                 <div class="form-group-row">
                                     <div class="form-group-col">
-                                        <label for="zipCode" class="d-block text-muted text-left hidden-sm-up">ZIP /
-                                            Postal Code</label>
-                                        <input class="form-control" id="zipCode" placeholder="ZIP / Postal Code" value="ZIP / Postal Code"
+                                        <label for="zipCode" class="d-block text-muted text-left hidden-sm-up"
+                                        translate="settings.zip_postal">ZIP / Postal Code</label>
+                                        <input class="form-control" id="zipCode" [placeholder]="'settings.zip_postal'| translate" value="ZIP / Postal Code"
                                             type="text">
                                     </div>
                                     <div class="form-group-col">
-                                        <label class="d-block text-muted text-left hidden-sm-up">Country</label>
+                                        <label class="d-block text-muted text-left hidden-sm-up" translate="settings.country">Country</label>
                                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                                             <div ngbDropdown class="country-select-dropdown">
                                                 <button ngbDropdownToggle id="countryDropdownMenuButton" role="button">
-                                                    Country
+                                                   <span translate="settings.country"> Country</span>
                                                 </button>
                                                 <div ngbDropdownMenu aria-labelledby="countryDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted"><em>Country</em></a>
+                                                    <a class="dropdown-item text-muted"><em translate="settings.country">Country</em></a>
                                                     <a class="dropdown-item text-muted"><em>Afghanistan</em></a>
                                                     <a class="dropdown-item text-muted"><em>Belgium</em></a>
                                                     <a class="dropdown-item text-muted"><em>Canada</em></a>
@@ -1087,21 +1088,21 @@
                             </div>
                         </div>
                         <div class="form-step-card mt-4 mt-sm-5">
-                            <h3 class="form-step-card-title text-dark mb-3"><strong>Promo Code</strong></h3>
+                            <h3 class="form-step-card-title text-dark mb-3"><strong translate="settings.promo_code">Promo Code</strong></h3>
                             <div class="form-group position-relative type-code-holder">
-                                <label for="promoCode" class="d-block text-muted text-left hidden-sm-up">Promo
-                                    Code</label>
-                                <input class="form-control" id="promoCode" placeholder="Type Your Code" type="text">
-                                <button class="btn code-apply-btn" role="button" disabled>Apply</button>
+                                <label for="promoCode" class="d-block text-muted text-left hidden-sm-up"
+                                translate="settings.promo_code">Promo Code</label>
+                                <input class="form-control" id="promoCode" [placeholder]="'settings.type_code'| translate" type="text">
+                                <button class="btn code-apply-btn" role="button" disabled><span translate="settings.apply">Apply</span></button>
                             </div>
                         </div>
                         <div class="form-group text-center mt-3 mt-sm-4 mb-0">
                             <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button">
-                                Submit
+                               <span translate="billing_info.submit">Submit</span>
                             </button>
                         </div>
 
-                        <div class="text-holder mt-2 text-center"><a>Cancel</a></div>
+                        <div class="text-holder mt-2 text-center"><a translate="common.cancel">Cancel</a></div>
                     </div>
                 </form>
             </div>

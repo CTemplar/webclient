@@ -38,7 +38,7 @@
               <input class="form-control form-control-sm" id="displayName" type="text"
                      [value]="selectedMailboxForSignature.display_name"
                      (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
-                     placeholder="Display name"/>
+                     [placeholder]="'settings.display_name'| translate"/>
             </div>
           </div>
         </div>
@@ -142,12 +142,12 @@
     <div class="form-content-holder">
       <div>
         <button type="button" *ngIf="mailboxes?.length < settings?.email_count"
-                (click)="onAddNewAddress()" class="btn btn-link right">Add Address
+                (click)="onAddNewAddress()" class="btn btn-link right"><span translate="settings.add_address">Add Address</span>
         </button>
         <button class="btn btn-sm btn-secondary float-right"
                 (click)="startReorder()"
                 *ngIf="!reorder && mailboxes?.length>1"
-                ngbTooltip="Reorder addresses">Reorder</button>
+                [ngbTooltip]="'settings.reorder_addresses'| translate" translate="settings.reorder">Reorder</button>
       </div>
       <ul class="ui-list ui-list-styled list-styled addresses-list">
         <li *ngIf="newAddressOptions.isAddingNew" class="ui-list-item ui-list-item-xs-full">
@@ -203,24 +203,24 @@
                                                 *ngIf="newAddressForm.controls['username'].errors; else usernameRequiredError">
                                             <ng-container
                                                     *ngIf="newAddressForm.controls['username'].errors.pattern; else usernameLengthBlock">
-                                                The username must start with a letter or a number and end with a letter or number.It may only
-                                                contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters, and minimum length is 2 characters.
+                                              <span translate="settings.username_allowed_chars"> The username must start with a letter or a number and end with a letter or number.It may only
+                                                contain </span> <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> <span translate="settings.username_minlen">‌characters, and minimum length is 2 characters.</span>
                                             </ng-container>
                                             <ng-template #usernameLengthBlock>
                                               <ng-container
                                                       *ngIf="newAddressForm.controls['username'].errors.minlength ||
                                                       newAddressForm.controls['username'].errors.maxlength">
-                                                The username must be between 2 and 64 characters.
+                                                <span translate="settings.username_chars">The username must be between 2 and 64 characters.</span>
                                               </ng-container>
                                             </ng-template>
                                           </span>
                     <ng-template #usernameRequiredError>
-                      <span class="validate-message">The username is required.</span>
+                      <span class="validate-message" translate="settings.username_required">The username is required.</span>
                     </ng-template>
                   </ng-container>
                   <ng-template #usernameExistsBlock>
                                           <span *ngIf="newAddressOptions.usernameExists === true"
-                                                class="validate-message">Email alias already exists.
+                                                class="validate-message" translate="settings.alias_exist">Email alias already exists.
                                           </span>
                   </ng-template>
                 </div>
@@ -230,7 +230,7 @@
                   <li>
                     <button class="btn-link cursor-pointer"
                             (click)="submitNewAddress()"
-                            [disabled]="newAddressOptions.isBusy">Add
+                            [disabled]="newAddressOptions.isBusy"> <span translate="settings.add">Add</span>
                     </button>
                   </li>
                   <li>
@@ -248,22 +248,22 @@
             <div class="col-10 col-sm-8">
               <div class="form-label text-dark mb-0">
                 {{mailbox.email}}
-                <span *ngIf="mailbox.is_default" class="badge badge-default">Primary</span>
-                <span *ngIf="!mailbox.is_enabled" class="badge badge-danger">Disabled</span>
+                <span *ngIf="mailbox.is_default" class="badge badge-default" translate="settings.primary">Primary</span>
+                <span *ngIf="!mailbox.is_enabled" class="badge badge-danger" translate="common.disabled">Disabled</span>
               </div>
             </div>
             <div class="col-2 col-sm-4 row">
               <div class="col" align="right" *ngIf="reorder">
                 <i class="material-icons cursor-pointer"
                    [class.hidden]="i===0"
-                   ngbTooltip="Move up"
+                   [ngbTooltip]="'settings.move_up'| translate"
                    (click)="sortUp(i)">
                   keyboard_arrow_up
                 </i>
 
                 <i class="material-icons cursor-pointer"
                    [class.hidden]="i===mailboxes.length-1"
-                   ngbTooltip="Move down"
+                   [ngbTooltip]="'settings.move_down'| translate"
                    (click)="sortDown(i)">
                   keyboard_arrow_down
                 </i>
@@ -271,17 +271,17 @@
               <ul *ngIf="!reorder" class="col setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li *ngIf="false">
                   <button type="button" role="button" class="btn-link"
-                          (click)="updateDefaultEmailAddress(mailbox)">Make Default
+                          (click)="updateDefaultEmailAddress(mailbox)"> <span translate="settings.make_default">Make Default</span>
                   </button>
                 </li>
                 <li *ngIf="mailbox.is_enabled && !mailbox.is_default">
                   <button type="button" role="button" class="btn-link"
-                          (click)="updateMailboxSettings(mailbox, 'is_enabled', false)">Disable
+                          (click)="updateMailboxSettings(mailbox, 'is_enabled', false)"> <span translate="settings.disable">Disable</span>
                   </button>
                 </li>
                 <li *ngIf="!mailbox.is_enabled">
                   <button type="button" role="button" class="btn-link"
-                          (click)="updateMailboxSettings(mailbox, 'is_enabled', true)">Enable
+                          (click)="updateMailboxSettings(mailbox, 'is_enabled', true)"> <span translate="settings.enable">Enable</span>
                   </button>
                 </li>
               </ul>
@@ -291,8 +291,8 @@
       </ul>
       <div align="right" *ngIf="reorder">
         <app-loading-spinner [showSpinner]="reorderInProgress"></app-loading-spinner>
-        <button class="btn btn-sm btn-primary mr-1" [disabled]="reorderInProgress" (click)="cancelOrder()">Cancel</button>
-        <button class="btn btn-sm btn-secondary" [disabled]="reorderInProgress" (click)="saveOrder()">Save order</button>
+        <button class="btn btn-sm btn-primary mr-1" [disabled]="reorderInProgress" (click)="cancelOrder()"><span translate="common.cancel">Cancel</span></button>
+        <button class="btn btn-sm btn-secondary" [disabled]="reorderInProgress" (click)="saveOrder()"><span translate="settings.save_order">Save order</span></button>
       </div>
     </div>
   </div>
