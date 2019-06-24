@@ -7,11 +7,110 @@
             <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard and plans</span></ng-template>
             <ng-template ngbTabContent>
 
+
                 <!-- Overview Section -->
                 <section class="mailbox-section mt-4">
 
                     <div class="mailbox-section-body pt-0">
                         <div class="desc-card-holder mt-sm-3 mt-md-0">
+                          <!--START Plan details -->
+                          <div class="mb-4 row plan-details">
+                            <div class="col-12">
+                              <div class="desc-card">
+                                <div
+                                        class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                                  <h5 class="ui-header-subtitle text-dark mb-0"><strong
+                                          translate="settings.overview"
+                                          ng-reflect-translate="settings.overview">Plan Details</strong></h5>
+                                </div>
+                                <div class="desc-card-body">
+                                  <div class="row">
+                                    <div class="col-5">
+                                      <div align="center" class="subscription">
+                                        <div class="subscription-tag">
+                                             <span *ngIf="userPlanType === planType.FREE; else primePlan"
+                                                   translate="settings.free">Free</span>
+                                            <ng-template #primePlan>
+                                                <span translate="settings.prime">PRIME</span>
+                                            </ng-template>
+                                        </div>
+                                        <div><i class="material-icons">card_membership</i></div>
+                                        <div>
+                                          <a (click)="scrollTo(0, 850, 0)" class="btn btn-gradient-primary cursor-pointer">Upgrade</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-7">
+                                      <ul class="info-list list-styled text-dark">
+                                        <li class="info-list-item">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.username">
+                                            Username
+                                          </div>
+                                          <div class="info-list-text info-list-val">{{userState.username}}</div>
+                                        </li>
+                                        <li class="info-list-item">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.domains">
+                                            Domains
+                                          </div>
+                                          <div class="info-list-text info-list-val">
+                                            <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
+                                            <span *ngIf="!userState.isPrime"
+                                                  translate="settings.none">None</span>
+                                          </div>
+                                        </li>
+                                        <li class="info-list-item align-items-start">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.addresses">
+                                            Addresses
+                                          </div>
+                                          <div class="info-list-text info-list-val">
+                                            <div *ngIf="userState.isPrime"
+                                                 class="ng-tooltips-holder d-inline-block"
+                                                 placement="top">
+                                              <div class="info-list-val-text"
+                                                   translate="settings.address_tooltip">
+                                                {{settings?.email_count}}
+                                              </div>
+                                            </div>
+                                            <div *ngIf="!userState.isPrime" class="d-inline-block">
+                                              <div class="info-list-val-text"
+                                                   translate="settings.address_one">
+                                                One
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </li>
+                                        <li class="info-list-item">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.storage">
+                                            Storage
+                                          </div>
+
+                                          <div class="info-list-text info-list-val">
+                                            <div class="info-list-val-text"> {{(settings?.used_storage *
+                                                1024) | filesize}} of {{(settings?.allocated_storage *
+                                                1024) | filesize}}</div>
+                                            <div class="progress progress-secondary progress-lg">
+                                              <div class="progress-bar" role="progressbar"
+                                                   [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
+                                                   [attr.aria-valuenow]="settings.used_storage"
+                                                   aria-valuemin="0"
+                                                   [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--END Plan details -->
+
                             <div class="row">
                                 <div class="col-md-6 mb-4 mb-md-0">
                                     <div class="desc-card">
@@ -649,7 +748,7 @@
             <ng-template ngbTabTitle><span translate="settings.domains_and_users.title">Domains & Users</span></ng-template>
             <ng-template ngbTabContent>
 
-                <app-custom-domains (onGotoTab)="tabSet.select($event);scrollTo(0, 630)"></app-custom-domains>
+                <app-custom-domains (onGotoTab)="tabSet.select($event);scrollTo(0, 550)"></app-custom-domains>
 
             </ng-template>
         </ngb-tab>
