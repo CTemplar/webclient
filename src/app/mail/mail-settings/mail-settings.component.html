@@ -216,13 +216,6 @@
                                                             {{payment.payment_method}}
                                                         </div>
                                                     </li>
-                                                    <li class="info-list-item">
-                                                        <div class="info-list-text info-list-label">Receipt
-                                                        </div>
-                                                        <div class="info-list-text info-list-val text-capitalize">
-                                                            <a (click)="onPrint()">Print</a>
-                                                        </div>
-                                                    </li>
                                                 </ng-container>
                                             </ul>
                                         </div>
@@ -236,6 +229,41 @@
                                         </div>
                                         <div class="plan-details">
                                             <div class="desc-card-body invoices">
+
+                                                <div>
+                                                    <ul class="ui-list ui-list-styled list-styled invoices-list">
+                                                        <li class="ui-list-item ui-list-item-xs-full">
+                                                            <div class="row row-xs align-items-center">
+                                                                <div class="col-4 font-weight-bold col-item">
+                                                                    # Invoice
+                                                                </div>
+                                                                <div class="col-4 col-item">
+                                                                    <div class="form-label mb-0 font-weight-bold">
+                                                                        Date
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4 font-weight-bold col-item">
+                                                                    Amount
+                                                                </div>
+                                                            </div>
+                                                        <li class="ui-list-item ui-list-item-xs-full">
+                                                            <div class="row row-xs align-items-center">
+                                                                <div class="col-4 text-dark col-item">
+                                                                    <a class="cursor-pointer" (click)="onPrint()">123343</a>
+                                                                </div>
+                                                                <div class="col-4 col-item">
+                                                                    <div class="form-label text-dark mb-0">
+                                                                        10-06-2019
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-4 text-dark col-item">
+                                                                   $8.00
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
 
                                             </div>
                                         </div>

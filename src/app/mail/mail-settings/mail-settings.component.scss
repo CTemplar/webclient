@@ -509,5 +509,19 @@ $error-red: #e94e4c;
 
   .invoices {
     height: 331px;
+
+    .invoices-list {
+      padding: 1.5rem;
+
+      li {
+        background: white;
+        border: 1px solid #f5f5f5;
+
+        &:first-child {
+          border: 1px solid #fafafa;
+          border-bottom: 0;
+        }
+      }
+    }
   }
 }

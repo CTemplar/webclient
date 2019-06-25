@@ -122,6 +122,7 @@ export interface Settings {
   forwarding_address?: string;
   plan_type?: PlanType;
   notification_email?: string;
+  recurrence_billing?: boolean;
 }
 
 export interface AutoResponder {
