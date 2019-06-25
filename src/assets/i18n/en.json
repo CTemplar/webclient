@@ -429,7 +429,7 @@
     "mark_as_unread": "Mark as unread",
     "refresh": "Refresh",
     "delete_messages": "Delete all messages",
-    "delete_all": "Delete All",
+    "delete_all": "Delete all permanently",
     "no_conversations": "There are no conversations with this label.",
     "remove_start": "Remove Star",
     "start_message": "Star Message"
@@ -727,7 +727,7 @@
     "reply": "Reply",
     "reply_all": "Reply All",
     "print": "Print",
-    "delete_message": "Delete this Message",
+    "delete_message": "Delete permanently",
     "show_headers": "Show headers",
     "mark_as_spam": "Mark as Spam",
     "hide_extra": "Hide extra content",

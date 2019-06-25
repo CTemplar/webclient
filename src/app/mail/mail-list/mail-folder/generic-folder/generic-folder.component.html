@@ -149,9 +149,9 @@
           </div>
         </li>
         <li *ngIf="mailFolder === mailFolderTypes.TRASH && mails?.length > 0">
-          <a (click)="confirmEmptyTrash()" class="btn btn-sm" placement="top"
+          <a (click)="confirmEmptyTrash()" class="btn btn-sm delete-permanently-btn" placement="top"
              [ngbTooltip]="'mail_list.delete_messages'| translate">
-            <i class="icon icon-garbage position-left"></i> <span translate="mail_list.delete_all"> Delete All</span>
+            <i class="icon icon-garbage position-left"></i> <span translate="mail_list.delete_all"> Delete all permanently</span>
           </a>
         </li>
       </ul>
