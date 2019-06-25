@@ -19,9 +19,7 @@
                               <div class="desc-card">
                                 <div
                                         class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                  <h5 class="ui-header-subtitle text-dark mb-0"><strong
-                                          translate="settings.overview"
-                                          ng-reflect-translate="settings.overview">Plan Details</strong></h5>
+                                  <h5 class="ui-header-subtitle text-dark mb-0"><strong>Plan Details</strong></h5>
                                 </div>
                                 <div class="desc-card-body">
                                   <div class="row">
@@ -112,69 +110,6 @@
                           <!--END Plan details -->
 
                             <div class="row">
-                                <div class="col-md-6 mb-4 mb-md-0">
-                                    <div class="desc-card">
-                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.overview">Overview</strong>
-                                            </h5>
-                                        </div>
-                                        <div class="desc-card-body">
-                                            <ul class="info-list list-styled text-dark">
-                                                <li class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.username">
-                                                        Username
-                                                    </div>
-                                                    <div class="info-list-text info-list-val">{{userState.username}}</div>
-                                                </li>
-                                                <li class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.domains">
-                                                        Domains
-                                                    </div>
-                                                    <div class="info-list-text info-list-val">
-                                                        <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
-                                                        <span *ngIf="!userState.isPrime" translate="settings.none">None</span>
-                                                    </div>
-                                                </li>
-                                                <li class="info-list-item align-items-start">
-                                                    <div class="info-list-text info-list-label" translate="settings.addresses">
-                                                        Addresses
-                                                    </div>
-                                                    <div class="info-list-text info-list-val">
-                                                        <div *ngIf="userState.isPrime" class="ng-tooltips-holder d-inline-block"
-                                                            placement="top">
-                                                            <div class="info-list-val-text" translate="settings.address_tooltip">
-                                                                {{settings?.email_count}}
-                                                            </div>
-                                                        </div>
-                                                        <div *ngIf="!userState.isPrime" class="d-inline-block">
-                                                            <div class="info-list-val-text" translate="settings.address_one">
-                                                                One
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </li>
-                                                <li class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.storage">
-                                                        Storage
-                                                    </div>
-
-                                                    <div class="info-list-text info-list-val">
-                                                        <div class="info-list-val-text"> {{(settings?.used_storage *
-                                                            1024) | filesize}} of {{(settings?.allocated_storage *
-                                                            1024) | filesize}}</div>
-                                                        <div class="progress progress-secondary progress-lg">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
-                                                                [attr.aria-valuenow]="settings.used_storage"
-                                                                aria-valuemin="0" [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="desc-card">
                                         <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
@@ -290,6 +225,19 @@
                                                     </li>
                                                 </ng-container>
                                             </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <div class="desc-card">
+                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Bills</strong>
+                                            </h5>
+                                        </div>
+                                        <div class="plan-details">
+                                            <div class="desc-card-body invoices">
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
