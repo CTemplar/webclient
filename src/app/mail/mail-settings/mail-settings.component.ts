@@ -189,22 +189,6 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // == Open add new payment NgbModal
-  newPaymentMethodModalOpen(newPaymentMethodContent) {
-    this.modalService.open(newPaymentMethodContent, {
-      centered: true,
-      windowClass: 'modal-sm'
-    });
-  }
-
-  // == Open make a donation NgbModal
-  makeDonationModalOpen(makeDonationContent) {
-    this.modalService.open(makeDonationContent, {
-      centered: true,
-      windowClass: 'modal-sm'
-    });
-  }
-
   public deleteWhiteList(id) {
     this.store.dispatch(new WhiteListDelete(id));
   }
@@ -247,6 +231,14 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         windowClass: 'modal-sm'
       });
     }
+  }
+
+  // == Toggle password visibility
+  togglePassword(input: any): any {
+    if (!input.value) {
+      return;
+    }
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   confirmDeleteAccount() {
