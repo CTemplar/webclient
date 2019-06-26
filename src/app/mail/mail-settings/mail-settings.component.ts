@@ -312,6 +312,14 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         body {
             font-family: "Roboto", Helvetica, Arial, sans-serif;
         }
+
+        div.divFooter {
+            position: fixed;
+            bottom: 75px;
+            width: 100%;
+            text-align: center;
+        }
+
         .container {
             padding: 15px;
             margin: auto;
@@ -416,6 +424,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
             <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${invoice.email_addresses}</div>
             <div><b class="color-primary" style="padding-right: 75px;">Domains</b>${invoice.custom_domains}</div>
         </div>
+    </div>
+    <div class="color-primary divFooter">
+        <div><b>Orange Project ehf | Armula 4 &amp; 6 | Reykjavík, 108 | Iceland</b></div>
     </div>
 </body>
 
