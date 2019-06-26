@@ -133,6 +133,7 @@ export interface Invoice {
   invoice_date: Date;
   plan_type: PlanType,
   payment_type: PaymentType;
+  payment_method: PaymentMethod;
   total_amount: number;
   total_amount_btc?: number;
   custom_domains: number;

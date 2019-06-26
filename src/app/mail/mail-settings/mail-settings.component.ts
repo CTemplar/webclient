@@ -31,7 +31,7 @@ import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { Mail } from '../../store/models';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-mail-settings',
@@ -277,7 +277,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onPrint() {
+  onPrint(invoice: Invoice) {
     let popupWin;
 
     const data: any = {
@@ -289,12 +289,25 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       ]
     };
 
+    let invoiceItems: string = '';
+    invoice.items.forEach(item => {
+      invoiceItems += `
+                   <tr>
+                    <td>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</td>
+                    <td>${invoice.payment_method ? invoice.payment_method : ''}</td>
+                    <td>${item.description}</td>
+                    <td>${item.quantity}</td>
+                    <td><b>$${item.amount / 100}</b></td>
+                </tr>
+      `;
+    });
+
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
 <html>
 <head>
-    <title>Invoice : 20102019</title>
+    <title>Invoice : ${invoice.invoice_id}</title>
     <style>
         body {
             font-family: "Roboto", Helvetica, Arial, sans-serif;
@@ -369,9 +382,9 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
             </div>
             <div class="col-4 color-primary">
                 <div style="text-align: right;padding-right: 35px; line-height: 1.5;">
-                    <div><b>Invoice : </b>20102019</div>
-                    <div><b>Invoice date : </b>20-10-2019</div>
-                    <div style="margin-top:20px;"><b>Membership : </b>Yearly</div>
+                    <div><b>Invoice : </b>${invoice.invoice_id}</div>
+                    <div><b>Invoice date : </b>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</div>
+                    <div style="margin-top:20px;"><b>Membership : </b>${invoice.payment_type}</div>
                     <br>
                     <div style="margin-top: 10px; font-size: 20px;"><b>Status : <label style="color: green;">PAID<label></label></b>
                     </div>
@@ -387,29 +400,21 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
                     <th>QTY</th>
                     <th>Amount (USD)</th>
                 </tr>
-                <tr>
-                    <td>6/3/2018</td>
-                    <td>Credit</td>
-                    <td>Credit to account</td>
-                    <td>1</td>
-                    <td><b>$18.00</b></td>
-                </tr>
-                <tr>
-                    <td>6/4/2018</td>
-                    <td>Bitcoin</td>
-                    <td>Bitcoin payment</td>
-                    <td>1</td>
-                    <td><b>$18.00</b></td>
-                </tr>
+                ${invoiceItems}
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td>TOTAL</td>
-                    <td><b> $36.00</b></td>
+                    <td><b> $${invoice.total_amount / 100}</b></td>
                 </tr>
             </table>
 
+        </div>
+         <div style="margin-top:5rem">
+            <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${invoice.storage / (1024 * 1024)}GB</div>
+            <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${invoice.email_addresses}</div>
+            <div><b class="color-primary" style="padding-right: 75px;">Domains</b>${invoice.custom_domains}</div>
         </div>
     </div>
 </body>

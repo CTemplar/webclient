@@ -249,8 +249,8 @@
                                                         <li class="ui-list-item ui-list-item-xs-full"
                                                             *ngFor="let invoice of invoices">
                                                             <div class="row row-xs align-items-center">
-                                                                <div class="col-6 text-dark col-item">
-                                                                    <a class="cursor-pointer" (click)="onPrint()">
+                                                                <div class="col-6 text-dark col-item" ngbTooltip="Print invoice">
+                                                                    <a class="cursor-pointer" (click)="onPrint(invoice)">
                                                                         {{invoice.invoice_id}}
                                                                     </a>
                                                                 </div>
