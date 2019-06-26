@@ -297,7 +297,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
                     <td>${invoice.payment_method ? invoice.payment_method : ''}</td>
                     <td>${item.description}</td>
                     <td>${item.quantity}</td>
-                    <td><b>$${item.amount / 100}</b></td>
+                    <td><b>$${(item.amount / 100).toFixed(2)}</b></td>
                 </tr>
       `;
     });
@@ -390,7 +390,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
             </div>
             <div class="col-4 color-primary">
                 <div style="text-align: right;padding-right: 35px; line-height: 1.5;">
-                    <div><b>Invoice : </b>${invoice.invoice_id}</div>
+                    <div><b>Invoice # </b>${invoice.invoice_id}</div>
                     <div><b>Invoice date : </b>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</div>
                     <div style="margin-top:20px;"><b>Membership : </b>${invoice.payment_type}</div>
                     <br>
@@ -414,7 +414,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
                     <td></td>
                     <td></td>
                     <td>TOTAL</td>
-                    <td><b> $${invoice.total_amount / 100}</b></td>
+                    <td><b> $${(invoice.total_amount / 100).toFixed(2)}</b></td>
                 </tr>
             </table>
 
