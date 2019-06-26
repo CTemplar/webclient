@@ -510,6 +510,7 @@ $error-red: #e94e4c;
   .invoices {
     height: 331px;
     position: relative;
+    overflow-y: auto;
 
     .loader {
       position: absolute;
