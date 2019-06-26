@@ -81,6 +81,8 @@ export enum UsersActionTypes {
   SAVE_AUTORESPONDER_FAILURE = '[USER] SAVE AUTORESPONDER FAILURE',
   GET_EMAIL_CONTACTS = '[USER] GET EMAIL CONTACTS',
   GET_EMAIL_CONTACTS_SUCCESS = '[USER] GET EMAIL CONTACTS SUCCESS',
+  GET_INVOICES = '[USER] GET INVOICES',
+  GET_INVOICES_SUCCESS = '[USER] GET INVOICES SUCCESS',
 }
 
 export class Accounts implements Action {
@@ -623,6 +625,21 @@ export class GetEmailContactsSuccess implements Action {
   }
 }
 
+
+export class GetInvoices implements Action {
+  readonly type = UsersActionTypes.GET_INVOICES;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GetInvoicesSuccess implements Action {
+  readonly type = UsersActionTypes.GET_INVOICES_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -701,4 +718,6 @@ export type UsersActionAll =
   | SaveAutoResponderSuccess
   | SaveAutoResponderFailure
   | GetEmailContacts
-  | GetEmailContactsSuccess;
+  | GetEmailContactsSuccess
+  | GetInvoices
+  | GetInvoicesSuccess;
