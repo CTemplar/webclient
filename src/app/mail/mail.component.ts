@@ -3,17 +3,17 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRe
 import { Store } from '@ngrx/store';
 // Actions
 import {
-    AccountDetailsGet,
-    BlackListGet,
-    GetDomains,
-    GetDomainsSuccess,
-    GetFilters,
-    GetMailboxes,
-    SaveAutoResponder,
-    WhiteListGet
+  AccountDetailsGet,
+  BlackListGet,
+  GetDomains,
+  GetDomainsSuccess,
+  GetFilters, GetInvoices,
+  GetMailboxes,
+  SaveAutoResponder,
+  WhiteListGet
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
-import {AppState, AutoResponder, UserState} from '../store/datatypes';
+import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
@@ -29,8 +29,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
-    autoresponder: AutoResponder = {};
-    autoresponder_status = false;
+  autoresponder: AutoResponder = {};
+  autoresponder_status = false;
 
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
@@ -46,25 +46,32 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
           this.isLoadedData = true;
           this.store.dispatch(new GetMailboxes());
           this.store.dispatch(new TimezoneGet());
-          this.store.dispatch(new GetFilters());
-          this.store.dispatch(new WhiteListGet());
-          this.store.dispatch(new BlackListGet());
+
+          setTimeout(() => {
+            this.store.dispatch(new GetFilters());
+            this.store.dispatch(new WhiteListGet());
+            this.store.dispatch(new BlackListGet());
+            this.store.dispatch(new GetInvoices());
+          }, 500);
+
           if (userState.isPrime) {
-            this.store.dispatch(new GetDomains());
-            this.store.dispatch(new GetOrganizationUsers());
+            setTimeout(() => {
+              this.store.dispatch(new GetDomains());
+              this.store.dispatch(new GetOrganizationUsers());
+            }, 1000);
           } else {
             this.store.dispatch(new GetDomainsSuccess([]));
           }
         }
-                if (userState.autoresponder) {
-                    this.autoresponder = userState.autoresponder;
-                    if (this.autoresponder.autoresponder_active || this.autoresponder.vacationautoresponder_active) {
-                        this.autoresponder_status = true;
-                    } else {
-                        this.autoresponder_status = false;
-                    }
-                }
-            });
+        if (userState.autoresponder) {
+          this.autoresponder = userState.autoresponder;
+          if (this.autoresponder.autoresponder_active || this.autoresponder.vacationautoresponder_active) {
+            this.autoresponder_status = true;
+          } else {
+            this.autoresponder_status = false;
+          }
+        }
+      });
 
     this.sharedService.hideFooter.emit(true);
     this.sharedService.hideHeader.emit(true);
@@ -72,16 +79,16 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.isMail.emit(true);
   }
 
-    endAutoResponder() {
-        this.autoresponder.autoresponder_active = false;
-        this.autoresponder.vacationautoresponder_active = false;
-        this.store.dispatch(new SaveAutoResponder(this.autoresponder));
-        this.autoresponder_status = false;
-    }
+  endAutoResponder() {
+    this.autoresponder.autoresponder_active = false;
+    this.autoresponder.vacationautoresponder_active = false;
+    this.store.dispatch(new SaveAutoResponder(this.autoresponder));
+    this.autoresponder_status = false;
+  }
 
-    ngAfterViewInit() {
-        this.composeMailService.initComposeMailContainer(this.composeMailContainer);
-    }
+  ngAfterViewInit() {
+    this.composeMailService.initComposeMailContainer(this.composeMailContainer);
+  }
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);

@@ -16,7 +16,7 @@ import {
 import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
   AppState,
-  AuthState,
+  AuthState, Invoice,
   NotificationPermission,
   Payment,
   PaymentMethod,
@@ -71,6 +71,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
   deleteAccountOptions: any = {};
   notificationsPermission: string;
   notificationPermissionType = NotificationPermission;
+  invoices: Invoice[];
 
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -100,6 +101,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.settings = user.settings;
         this.payment = user.payment_transaction;
+        this.invoices = user.invoices;
         this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
         if (user.settings.plan_type) {

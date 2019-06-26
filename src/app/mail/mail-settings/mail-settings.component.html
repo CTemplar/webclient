@@ -228,13 +228,13 @@
                                             </h5>
                                         </div>
                                         <div class="plan-details">
-                                            <div class="desc-card-body invoices">
-
-                                                <div>
+                                            <div class="desc-card-body invoices"
+                                                 [ngClass]="{'no-invoice' : userState?.isInvoiceLoaded && invoices.length===0}">
+                                                <div *ngIf="userState?.isInvoiceLoaded && invoices.length>0">
                                                     <ul class="ui-list ui-list-styled list-styled invoices-list">
                                                         <li class="ui-list-item ui-list-item-xs-full">
                                                             <div class="row row-xs align-items-center">
-                                                                <div class="col-4 font-weight-bold col-item">
+                                                                <div class="col-6 font-weight-bold col-item">
                                                                     # Invoice
                                                                 </div>
                                                                 <div class="col-4 col-item">
@@ -242,27 +242,38 @@
                                                                         Date
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-4 font-weight-bold col-item">
+                                                                <div class="col-2 font-weight-bold col-item">
                                                                     Amount
                                                                 </div>
                                                             </div>
-                                                        <li class="ui-list-item ui-list-item-xs-full">
+                                                        <li class="ui-list-item ui-list-item-xs-full"
+                                                            *ngFor="let invoice of invoices">
                                                             <div class="row row-xs align-items-center">
-                                                                <div class="col-4 text-dark col-item">
-                                                                    <a class="cursor-pointer" (click)="onPrint()">123343</a>
+                                                                <div class="col-6 text-dark col-item">
+                                                                    <a class="cursor-pointer" (click)="onPrint()">
+                                                                        {{invoice.invoice_id}}
+                                                                    </a>
                                                                 </div>
                                                                 <div class="col-4 col-item">
                                                                     <div class="form-label text-dark mb-0">
-                                                                        10-06-2019
+                                                                        {{invoice.invoice_date | date: 'dd/MM/yyyy'}}
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-4 text-dark col-item">
-                                                                   $8.00
+                                                                <div class="col-2 text-dark col-item">
+                                                                  ${{invoice.total_amount/100}}
                                                                 </div>
                                                             </div>
                                                         </li>
                                                     </ul>
+                                                </div>
+
+                                                <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices.length===0">
+                                                    No bills available
+                                                </div>
+
+                                                <div class="loader" *ngIf="!userState?.isInvoiceLoaded">
+                                                    <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
                                                 </div>
 
                                             </div>

@@ -509,6 +509,13 @@ $error-red: #e94e4c;
 
   .invoices {
     height: 331px;
+    position: relative;
+
+    .loader {
+      position: absolute;
+      left: 45%;
+      top: 43%;
+    }
 
     .invoices-list {
       padding: 1.5rem;
@@ -523,5 +530,19 @@ $error-red: #e94e4c;
         }
       }
     }
+
+    .col-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .no-invoice {
+    height: auto;
+  }
+
+  .no-data {
+    color: black;
+    padding: 14px 1.5rem;
   }
 }
