@@ -38,6 +38,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailFolder: MailFolderType;
   customFolders: Folder[] = [];
   showGmailExtraContent: boolean;
+  folderColors: any = {};
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -150,6 +151,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
+       user.customFolders.forEach(folder => {
+         this.folderColors[folder.name] = folder.color;
+         console.log(this.folderColors);
+       });
         this.userState = user;
       });
   }
