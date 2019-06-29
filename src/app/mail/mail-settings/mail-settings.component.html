@@ -3,7 +3,7 @@
     <ngb-tabset #tabSet="ngbTabset">
 
         <!-- Dashboard and Plans -->
-        <ngb-tab id="dashboard-plans">
+        <ngb-tab id="dashboard-and-plans">
             <ng-template ngbTabTitle><span translate="settings.dashboard_plans" (click)="navigateToTab('dashboard-and-plans')">Dashboard & plans</span></ng-template>
             <ng-template ngbTabContent>
 
@@ -603,7 +603,7 @@
         </ngb-tab>
 
         <!-- Filters and blocked addresses -->
-        <ngb-tab id="filters-blocked-addresses">
+        <ngb-tab id="filters-and-blocked-addresses">
             <ng-template ngbTabTitle> <span translate="settings.filters.title" (click)="navigateToTab('filters-and-blocked-addresses')">Filters & blocked addresses</span></ng-template>
             <ng-template ngbTabContent>
 
@@ -685,7 +685,7 @@
         </ngb-tab>
 
         <!-- Addresses and Signatures -->
-        <ngb-tab id="addresses-signatures">
+        <ngb-tab id="addresses-and-signatures">
             <ng-template ngbTabTitle><span translate="settings.addresses_and_signs" (click)="navigateToTab('addresses-and-signatures')">Addresses & signatures</span></ng-template>
             <ng-template ngbTabContent>
                 <app-addresses-signature></app-addresses-signature>
@@ -709,7 +709,7 @@
         </ngb-tab>
 
         <!-- Domains -->
-        <ngb-tab id="domainsAndUsersID">
+        <ngb-tab id="domains-and-users">
             <ng-template ngbTabTitle><span translate="settings.domains_and_users.title" (click)="navigateToTab('domains-and-users')">Domains & Users</span></ng-template>
             <ng-template ngbTabContent>
 
@@ -719,7 +719,7 @@
         </ngb-tab>
 
         <!-- Forwarding and auto responder -->
-        <ngb-tab id="forwardingAndAuto">
+        <ngb-tab id="forwarding-and-auto-responder">
             <ng-template ngbTabTitle> <span translate="settings.forwarding_and_autores" (click)="navigateToTab('forwarding-and-auto-responder')">Forwarding & autoresponder</span></ng-template>
             <ng-template ngbTabContent>
                 <app-mail-forwarding></app-mail-forwarding>

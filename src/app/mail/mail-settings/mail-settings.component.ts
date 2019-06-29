@@ -138,23 +138,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-   if (this.selectedTabQueryParams === 'dashboard-and-plans') {
-      this.tabSet.select('dashboard-plans');
-    } else if (this.selectedTabQueryParams === 'general') {
-      this.tabSet.select('general');
-    } else if (this.selectedTabQueryParams === 'forwarding-and-auto-responder') {
-      this.tabSet.select('forwardingAndAuto');
-    } else if (this.selectedTabQueryParams === 'domains-and-users') {
-      this.tabSet.select('domainsAndUsersID');
-    } else if (this.selectedTabQueryParams === 'security') {
-      this.tabSet.select('security');
-    } else if (this.selectedTabQueryParams === 'folders') {
-      this.tabSet.select('folders');
-    } else if (this.selectedTabQueryParams === 'addresses-and-signatures') {
-      this.tabSet.select('addresses-signatures');
-    } else if (this.selectedTabQueryParams === 'filters-and-blocked-addresses') {
-      this.tabSet.select('filters-blocked-addresses');
-    }
+    this.tabSet.select(this.selectedTabQueryParams);
     this.cdr.detectChanges();
   }
 
