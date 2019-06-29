@@ -26,11 +26,12 @@
                                     <div class="col-5">
                                       <div align="center" class="subscription">
                                         <div class="subscription-tag">
-                                             <span *ngIf="userPlanType === planType.FREE; else primePlan"
+                                             <span *ngIf="userPlanType === planType.FREE"
                                                    translate="settings.free">Free</span>
-                                            <ng-template #primePlan>
-                                                <span translate="settings.prime">PRIME</span>
-                                            </ng-template>
+                                            <span *ngIf="userPlanType === planType.PRIME"
+                                                  translate="settings.prime">PRIME</span>
+                                            <span *ngIf="userPlanType === planType.CHAMPION"
+                                                  translate="settings.champion">CHAMPION</span>
                                         </div>
                                         <div><i class="material-icons">card_membership</i></div>
                                         <div>
