@@ -94,6 +94,8 @@ export interface UserState {
   autoResponderErrorMessage?: string;
   emailContacts?: EmailContact[];
   isLoaded?: boolean;
+  invoices: Invoice[];
+  isInvoiceLoaded?: boolean;
 }
 
 export interface EmailContact {
@@ -122,6 +124,29 @@ export interface Settings {
   forwarding_address?: string;
   plan_type?: PlanType;
   notification_email?: string;
+  recurrence_billing?: boolean;
+}
+
+export interface Invoice {
+  id: number;
+  invoice_id: number;
+  invoice_date: Date;
+  plan_type: PlanType,
+  payment_type: PaymentType;
+  payment_method: PaymentMethod;
+  total_amount: number;
+  total_amount_btc?: number;
+  custom_domains: number;
+  email_addresses: number;
+  storage: number;
+  items: InvoiceItem[];
+}
+
+export interface InvoiceItem {
+  description?: string;
+  quantity: number;
+  amount: number;
+  amount_btc?: number;
 }
 
 export interface AutoResponder {

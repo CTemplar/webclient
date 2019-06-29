@@ -20,7 +20,8 @@ export const initialState: UserState = {
   customFolders: [],
   filters: [],
   customDomains: [],
-  currentCreationStep: 0
+  currentCreationStep: 0,
+  invoices: []
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -437,6 +438,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.SAVE_AUTORESPONDER_FAILURE: {
       return { ...state, inProgress: false, autoResponderErrorMessage: action.payload };
+    }
+
+    case UsersActionTypes.GET_INVOICES: {
+      return { ...state, invoices: [], isInvoiceLoaded: false };
+    }
+
+    case UsersActionTypes.GET_INVOICES_SUCCESS: {
+      return { ...state, invoices: action.payload, isInvoiceLoaded: true };
     }
 
     default: {

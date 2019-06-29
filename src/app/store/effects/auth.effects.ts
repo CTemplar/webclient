@@ -24,7 +24,7 @@ import {
   DeleteAccountSuccess,
   ExpireSession,
   GetCaptcha,
-  GetCaptchaSuccess,
+  GetCaptchaSuccess, GetInvoices,
   LogIn,
   LogInFailure,
   LogInSuccess,
@@ -190,7 +190,7 @@ export class AuthEffects {
         return this.authService.upgradeAccount(payload)
           .pipe(
             switchMap((res) => {
-              return of(new UpgradeAccountSuccess(res), new AccountDetailsGet());
+              return of(new UpgradeAccountSuccess(res), new AccountDetailsGet(), new GetInvoices());
             }),
             catchError((error) => of(new UpgradeAccountFailure(error.error),
               new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })))

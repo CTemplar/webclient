@@ -208,10 +208,7 @@
             </ul>
           </div>
         </div>
-        <div class="col-4 row">
-          <div class="col">
-            <label class="folder-batch">{{mail.folder}}</label>
-          </div>
+        <div class="col-4">
           <div class="msg-reply-type-holder">
             <div class="d-flex align-items-center justify-content-end">
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
@@ -231,6 +228,9 @@
                 <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
               </label>
 
+            </div>
+            <div class="position-relative">
+              <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{mail.folder}}</label>
             </div>
           </div>
         </div>
@@ -346,10 +346,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="col-4 row">
-                    <div class="col">
-                      <label class="folder-batch">{{childMail.folder}}</label>
-                    </div>
+                  <div class="col-4">
                     <div class="msg-reply-type-holder">
                       <div class="d-flex align-items-center justify-content-end">
                       <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
@@ -370,6 +367,9 @@
                           </ng-container>
                           <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
                         </label>
+                      </div>
+                      <div class="position-relative">
+                        <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{childMail.folder}}</label>
                       </div>
                     </div>
                   </div>

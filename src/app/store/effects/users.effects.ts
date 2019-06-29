@@ -86,7 +86,7 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess
+  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess, GetInvoices, GetInvoicesSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -156,7 +156,7 @@ export class UsersEffects {
               new WhiteListGet(),
               new BlackListGet(),
               new SnackPush({ message: 'Email added to whitelist successfully.' })
-              );
+            );
           }),
           catchError(err => of(new WhiteListAddError(err.error))),
         );
@@ -374,7 +374,7 @@ export class UsersEffects {
           switchMap(res => {
             return of(
               new CreateFolderSuccess(res),
-              new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created' } successfully.` })
+              new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created'} successfully.` })
             );
           }),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to create folder.' })))
@@ -514,7 +514,7 @@ export class UsersEffects {
           switchMap(res => of(
             new DeleteDomainSuccess(payload),
             new GetOrganizationUsers(),
-            )),
+          )),
           catchError(errorResponse => of(new DeleteDomainFailure(errorResponse.error))),
         );
     }));
@@ -582,12 +582,12 @@ export class UsersEffects {
         .pipe(
           switchMap(res => {
             return of(
-              new SnackPush({message: `Saved successfully`}),
+              new SnackPush({ message: `Saved successfully` }),
               new SaveAutoResponderSuccess(res)
             );
           }),
           catchError(errorResponse => of(
-            new SnackErrorPush({message: 'Failed to save autoresponder. Please try again.'}),
+            new SnackErrorPush({ message: 'Failed to save autoresponder. Please try again.' }),
             new SaveAutoResponderFailure(errorResponse.error)
           ))
         );
@@ -602,6 +602,18 @@ export class UsersEffects {
       return this.userService.getEmailContacts()
         .pipe(
           switchMap(res => of(new GetEmailContactsSuccess(res.results))),
+          catchError(err => EMPTY)
+        );
+    }));
+
+  @Effect()
+  getInvoicesEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_INVOICES),
+    map((action: GetInvoices) => action.payload),
+    switchMap(payload => {
+      return this.userService.getInvoices()
+        .pipe(
+          switchMap(res => of(new GetInvoicesSuccess(res.results))),
           catchError(err => EMPTY)
         );
     }));

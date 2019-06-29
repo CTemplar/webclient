@@ -194,6 +194,7 @@ export class UsersService {
       'emails/folder-order',
       'emails/empty-trash',
       'users/autoresponder',
+      'users/invoices',
       'auth/sign-out/',
       'auth/add-user/',
       'auth/update-user/',
@@ -266,6 +267,11 @@ export class UsersService {
 
   getEmailContacts() {
     return this.http.get<any>(`${apiUrl}users/contacts-v1/`);
+  }
+
+
+  getInvoices() {
+    return this.http.get<any>(`${apiUrl}users/invoices/`);
   }
 
   addContact(payload) {

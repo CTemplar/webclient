@@ -16,7 +16,7 @@ import {
 import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
   AppState,
-  AuthState,
+  AuthState, Invoice,
   NotificationPermission,
   Payment,
   PaymentMethod,
@@ -31,6 +31,7 @@ import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import * as moment from 'moment-timezone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -72,6 +73,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   notificationsPermission: string;
   notificationPermissionType = NotificationPermission;
   selectedTabQueryParams: string;
+  invoices: Invoice[];
 
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -104,6 +106,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userState = user;
         this.settings = user.settings;
         this.payment = user.payment_transaction;
+        this.invoices = user.invoices;
         this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
         if (user.settings.plan_type) {
@@ -228,22 +231,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  // == Open add new payment NgbModal
-  newPaymentMethodModalOpen(newPaymentMethodContent) {
-    this.modalService.open(newPaymentMethodContent, {
-      centered: true,
-      windowClass: 'modal-sm'
-    });
-  }
-
-  // == Open make a donation NgbModal
-  makeDonationModalOpen(makeDonationContent) {
-    this.modalService.open(makeDonationContent, {
-      centered: true,
-      windowClass: 'modal-sm'
-    });
-  }
-
   public deleteWhiteList(id) {
     this.store.dispatch(new WhiteListDelete(id));
   }
@@ -288,6 +275,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // == Toggle password visibility
+  togglePassword(input: any): any {
+    if (!input.value) {
+      return;
+    }
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
   confirmDeleteAccount() {
     const data = {
       ...this.deleteAccountInfoForm.value,
@@ -301,10 +296,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pushNotificationService.requestPermission();
   }
 
-  scrollTo(x: number, y: number) {
+  scrollTo(x: number, y: number, wait: number = 500) {
     setTimeout(() => {
-      window.scroll(x, y);
-    }, 500);
+      window.scrollTo({ top: y, left: x, behavior: 'smooth' });
+    }, wait);
   }
 
   testNotification() {
@@ -321,4 +316,185 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(err);
       });
   }
+
+  onViewInvoice(invoice: Invoice) {
+    this.viewInvoice(invoice);
+  }
+
+  onPrintInvoice(invoice: Invoice) {
+    this.viewInvoice(invoice, true);
+  }
+
+  viewInvoice(invoice: Invoice, print: boolean = false) {
+    let popupWin;
+
+    const data: any = {
+      invoice: 1233423, invoice_date: new Date().toDateString(), status: 'PAID',
+      total: 28, membership: 'Yearly',
+      transactions: [
+        { date: '12-02-2019', type: 'Credit', description: 'Credit added to account', quantity: 1, amount: 18 },
+        { date: '12-02-2019', type: 'Bitcoin', description: 'Bitcoin payment', quantity: 1, amount: 10 }
+      ]
+    };
+
+    let invoiceItems: string = '';
+    invoice.items.forEach(item => {
+      invoiceItems += `
+                   <tr>
+                    <td>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</td>
+                    <td>${invoice.payment_method ? invoice.payment_method : ''}</td>
+                    <td>${item.description}</td>
+                    <td>${item.quantity}</td>
+                    <td><b>$${(item.amount / 100).toFixed(2)}</b></td>
+                </tr>
+      `;
+    });
+
+    let invoiceData = `
+<html>
+<head>
+    <title>Invoice : ${invoice.invoice_id}</title>
+    <style>
+        body {
+            font-family: "Roboto", Helvetica, Arial, sans-serif;
+        }
+
+        div.divFooter {
+            position: fixed;
+            bottom: 75px;
+            width: 100%;
+            text-align: center;
+            display: none;
+        }
+
+        @media print {
+           div.divFooter {
+             display: unset;
+           }
+        }
+
+        .container {
+            padding: 15px;
+            margin: auto;
+            color: #757675;
+            border: 1px solid #757675;
+            width: 21cm;
+            min-height: 29.7cm;
+        }
+
+        .row {
+            padding-left: -15px;
+            padding-right: -15px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-4 {
+            flex: 0 0 33.3333333333%;
+            max-width: 33.3333333333%;
+        }
+
+        .col-8 {
+            flex: 0 0 66.6666666667%;
+            max-width: 66.6666666667%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .color-primary {
+            color: #2f4254;
+        }
+
+        .page-title {
+            font-weight: 300;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 20px;
+        }
+
+        th {
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.54);
+            font-weight: normal;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>`;
+    if (print) {
+      invoiceData += `<body onload="window.print();window.close()">`;
+    } else {
+      invoiceData += `<body>`;
+    }
+    invoiceData += `
+    <div class="container">
+        <div class="row" style="margin-top: 1rem;">
+            <div class="col-8">
+                <img src="https://dev.ctemplar.com/assets/images/media-kit/mediakit-logo-sec.png"
+                    style="height: 9rem;margin-left: 2rem;">
+            </div>
+            <div class="col-4 color-primary">
+                <div style="text-align: right;padding-right: 35px; line-height: 1.5;">
+                    <div><b>Invoice # </b>${invoice.invoice_id}</div>
+                    <div><b>Invoice date : </b>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</div>
+                    <div style="margin-top:20px;"><b>Membership : </b>${invoice.payment_type}</div>
+                    <br>
+                    <div style="margin-top: 10px; font-size: 20px;"><b>Status : <label style="color: green;">PAID<label></label></b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 7rem;">
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>QTY</th>
+                    <th>Amount (USD)</th>
+                </tr>
+                ${invoiceItems}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>TOTAL</td>
+                    <td><b> $${(invoice.total_amount / 100).toFixed(2)}</b></td>
+                </tr>
+            </table>
+
+        </div>
+         <div style="margin-top:5rem">
+            <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${invoice.storage / (1024 * 1024)}GB</div>
+            <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${invoice.email_addresses}</div>
+            <div><b class="color-primary" style="padding-right: 75px;">Domains</b>${invoice.custom_domains}</div>
+        </div>
+    </div>
+    <div class="color-primary divFooter">
+        <div><b>Orange Project ehf | Armula 4 &amp; 6 | Reykjavík, 108 | Iceland</b></div>
+    </div>
+</body>
+
+</html>
+         `;
+
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(invoiceData);
+    popupWin.document.close();
+  }
+
+
 }
