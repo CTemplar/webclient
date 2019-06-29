@@ -524,6 +524,7 @@ $error-red: #e94e4c;
       li {
         background: white;
         border: 1px solid #f5f5f5;
+        font-size: 0.875rem;
 
         &:first-child {
           border: 1px solid #fafafa;
@@ -535,6 +536,12 @@ $error-red: #e94e4c;
     .col-item {
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+  }
+
+  .actions {
+    .material-icons {
+      width: 32px;
     }
   }
 

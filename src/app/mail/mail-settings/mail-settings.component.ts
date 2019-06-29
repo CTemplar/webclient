@@ -277,7 +277,15 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onPrint(invoice: Invoice) {
+  onViewInvoice(invoice: Invoice) {
+    this.viewInvoice(invoice);
+  }
+
+  onPrintInvoice(invoice: Invoice) {
+    this.viewInvoice(invoice, true);
+  }
+
+  viewInvoice(invoice: Invoice, print: boolean = false) {
     let popupWin;
 
     const data: any = {
@@ -302,9 +310,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
       `;
     });
 
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    popupWin.document.open();
-    popupWin.document.write(`
+    let invoiceData = `
 <html>
 <head>
     <title>Invoice : ${invoice.invoice_id}</title>
@@ -318,6 +324,13 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
             bottom: 75px;
             width: 100%;
             text-align: center;
+            display: none;
+        }
+
+        @media print {
+           div.divFooter {
+             display: unset;
+           }
         }
 
         .container {
@@ -379,9 +392,13 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
             background-color: #f2f2f2;
         }
     </style>
-</head>
-
-<body onload="window.print();window.close()">
+</head>`;
+    if (print) {
+      invoiceData += `<body onload="window.print();window.close()">`;
+    } else {
+      invoiceData += `<body>`;
+    }
+    invoiceData += `
     <div class="container">
         <div class="row" style="margin-top: 1rem;">
             <div class="col-8">
@@ -431,7 +448,11 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 </body>
 
 </html>
-         `);
+         `;
+
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(invoiceData);
     popupWin.document.close();
   }
 

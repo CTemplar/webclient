@@ -235,10 +235,10 @@
                                                     <ul class="ui-list ui-list-styled list-styled invoices-list">
                                                         <li class="ui-list-item ui-list-item-xs-full">
                                                             <div class="row row-xs align-items-center">
-                                                                <div class="col-6 font-weight-bold col-item">
+                                                                <div class="col-5 font-weight-bold col-item">
                                                                     # Invoice
                                                                 </div>
-                                                                <div class="col-4 col-item">
+                                                                <div class="col-3 col-item">
                                                                     <div class="form-label mb-0 font-weight-bold">
                                                                         Date
                                                                     </div>
@@ -250,12 +250,12 @@
                                                         <li class="ui-list-item ui-list-item-xs-full"
                                                             *ngFor="let invoice of invoices">
                                                             <div class="row row-xs align-items-center">
-                                                                <div class="col-6 text-dark col-item" ngbTooltip="Print invoice">
-                                                                    <a class="cursor-pointer" (click)="onPrint(invoice)">
+                                                                <div class="col-5 text-dark col-item" ngbTooltip="View invoice">
+                                                                    <a class="cursor-pointer" (click)="onViewInvoice(invoice)">
                                                                         {{invoice.invoice_id}}
                                                                     </a>
                                                                 </div>
-                                                                <div class="col-4 col-item">
+                                                                <div class="col-3 col-item">
                                                                     <div class="form-label text-dark mb-0">
                                                                         {{invoice.invoice_date | date: 'dd/MM/yyyy'}}
                                                                     </div>
@@ -263,6 +263,14 @@
 
                                                                 <div class="col-2 text-dark col-item">
                                                                   ${{(invoice.total_amount/100).toFixed(2)}}
+                                                                </div>
+                                                                <div class="col-2 display-inline-flex actions">
+                                                                    <i (click)="onViewInvoice(invoice)"
+                                                                       ngbTooltip="View"
+                                                                       class="material-icons pr-2 cursor-pointer">visibility</i>
+                                                                    <i (click)="onPrintInvoice(invoice)"
+                                                                       ngbTooltip="Print"
+                                                                       class="material-icons cursor-pointer">print_outline</i>
                                                                 </div>
                                                             </div>
                                                         </li>
