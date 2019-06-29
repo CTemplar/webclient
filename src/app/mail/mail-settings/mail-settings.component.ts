@@ -31,7 +31,7 @@ import { OpenPgpService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-mail-settings',
@@ -71,7 +71,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteAccountOptions: any = {};
   notificationsPermission: string;
   notificationPermissionType = NotificationPermission;
-  forwardingQueryParams: any;
+  selectedTabQueryParams: string;
 
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -85,7 +85,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private settingsService: MailSettingsService,
     private pushNotificationService: PushNotificationService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -127,16 +128,39 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.route.params.subscribe(
       params => {
-        this.forwardingQueryParams = params['id'];
+        this.selectedTabQueryParams = params['id'];
+        this.navigateToTab(this.selectedTabQueryParams);
       }
     );
   }
 
   ngAfterViewInit() {
-    if (this.forwardingQueryParams === 'auto') {
+   if (this.selectedTabQueryParams === 'dashboard-and-plans') {
+      this.tabSet.select('dashboard-plans');
+    } else if (this.selectedTabQueryParams === 'general') {
+      this.tabSet.select('general');
+    } else if (this.selectedTabQueryParams === 'forwarding-and-auto-responder') {
       this.tabSet.select('forwardingAndAuto');
-      this.cdr.detectChanges();
+    } else if (this.selectedTabQueryParams === 'domains-and-users') {
+      this.tabSet.select('domainsAndUsersID');
+    } else if (this.selectedTabQueryParams === 'security') {
+      this.tabSet.select('security');
+    } else if (this.selectedTabQueryParams === 'folders') {
+      this.tabSet.select('folders');
+    } else if (this.selectedTabQueryParams === 'addresses-and-signatures') {
+      this.tabSet.select('addresses-signatures');
+    } else if (this.selectedTabQueryParams === 'filters-and-blocked-addresses') {
+      this.tabSet.select('filters-blocked-addresses');
     }
+    this.cdr.detectChanges();
+  }
+
+  navigateToTab(tabSelected?) {
+    if (this.selectedTabQueryParams === tabSelected) {
+      return;
+    }
+    this.selectedTabQueryParams = tabSelected;
+    window.history.replaceState({}, '', `/mail/settings/` + this.selectedTabQueryParams);
   }
 
   calculatePrices() {

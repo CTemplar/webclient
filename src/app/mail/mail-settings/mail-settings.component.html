@@ -4,7 +4,7 @@
 
         <!-- Dashboard and Plans -->
         <ngb-tab id="dashboard-plans">
-            <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard & plans</span></ng-template>
+            <ng-template ngbTabTitle><span translate="settings.dashboard_plans" (click)="navigateToTab('dashboard-and-plans')">Dashboard & plans</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- Overview Section -->
@@ -219,8 +219,8 @@
         </ngb-tab>
 
         <!-- General -->
-        <ngb-tab>
-            <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
+        <ngb-tab id="general">
+            <ng-template ngbTabTitle><span translate="settings.general" (click)="navigateToTab('general')">General</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- General Settings -->
@@ -532,8 +532,8 @@
         </ngb-tab>
 
         <!-- Filters and blocked addresses -->
-        <ngb-tab>
-            <ng-template ngbTabTitle> <span translate="settings.filters.title">Filters & blocked addresses</span></ng-template>
+        <ngb-tab id="filters-blocked-addresses">
+            <ng-template ngbTabTitle> <span translate="settings.filters.title" (click)="navigateToTab('filters-and-blocked-addresses')">Filters & blocked addresses</span></ng-template>
             <ng-template ngbTabContent>
 
               <!-- Custom filters -->
@@ -615,7 +615,7 @@
 
         <!-- Addresses and Signatures -->
         <ngb-tab id="addresses-signatures">
-            <ng-template ngbTabTitle><span translate="settings.addresses_and_signs">Addresses & signatures</span></ng-template>
+            <ng-template ngbTabTitle><span translate="settings.addresses_and_signs" (click)="navigateToTab('addresses-and-signatures')">Addresses & signatures</span></ng-template>
             <ng-template ngbTabContent>
                 <app-addresses-signature></app-addresses-signature>
             </ng-template>
@@ -623,23 +623,23 @@
 
         <!-- Folders -->
         <ngb-tab id="folders">
-            <ng-template ngbTabTitle><span translate="page_pricing.folders">Folders</span></ng-template>
+            <ng-template ngbTabTitle><span translate="page_pricing.folders" (click)="navigateToTab('folders')">Folders</span></ng-template>
             <ng-template ngbTabContent>
                 <app-folders></app-folders>
             </ng-template>
         </ngb-tab>
 
         <!-- Security -->
-        <ngb-tab>
-            <ng-template ngbTabTitle><span translate="home_header.security">Security</span></ng-template>
+        <ngb-tab id="security">
+            <ng-template ngbTabTitle><span translate="home_header.security" (click)="navigateToTab('security')">Security</span></ng-template>
            <ng-template ngbTabContent>
                <app-settings-security></app-settings-security>
            </ng-template>
         </ngb-tab>
 
         <!-- Domains -->
-        <ngb-tab>
-            <ng-template ngbTabTitle><span translate="settings.domains_and_users.title">Domains & Users</span></ng-template>
+        <ngb-tab id="domainsAndUsersID">
+            <ng-template ngbTabTitle><span translate="settings.domains_and_users.title" (click)="navigateToTab('domains-and-users')">Domains & Users</span></ng-template>
             <ng-template ngbTabContent>
 
                 <app-custom-domains (onGotoTab)="tabSet.select($event);scrollTo(0, 630)"></app-custom-domains>
@@ -649,7 +649,7 @@
 
         <!-- Forwarding and auto responder -->
         <ngb-tab id="forwardingAndAuto">
-            <ng-template ngbTabTitle> <span translate="settings.forwarding_and_autores">Forwarding & autoresponder</span></ng-template>
+            <ng-template ngbTabTitle> <span translate="settings.forwarding_and_autores" (click)="navigateToTab('forwarding-and-auto-responder')">Forwarding & autoresponder</span></ng-template>
             <ng-template ngbTabContent>
                 <app-mail-forwarding></app-mail-forwarding>
                 <app-mail-autoresponder></app-mail-autoresponder>
