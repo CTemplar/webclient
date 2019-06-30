@@ -53,7 +53,7 @@
   },
   "settings": {
     "dashboard": "Dashboard",
-    "dashboard_plans": "Dashboard and plans",
+    "dashboard_plans": "Dashboard & plans",
     "general": "General",
     "compose_font": "Default Mail Compose Font",
     "overview": "Overview",
@@ -218,7 +218,7 @@
     "password_req": "Your current password is required.",
     "provide_email": "Please provide an email address in case we need to contact you.",
     "filters": {
-      "title": "Filters and blocked addresses",
+      "title": "Filters & blocked addresses",
       "name": "Filters",
       "add_filter": "Add a filter to perform actions such as automatically labeling or archiving.",
       "spam_filter": "My spam filter",
@@ -267,8 +267,8 @@
       "encryption_key_message": "Delete all data and generate new encryption keys",
       "encryption_key_progress": "Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!"
     },
-    "addresses_and_signs": "Addresses and signatures",
-    "forwarding_and_autores": "Forwarding and autoresponder",
+    "addresses_and_signs": "Addresses & signatures",
+    "forwarding_and_autores": "Forwarding & autoresponder",
     "domains_and_users": {
       "title": "Domains & Users",
       "premium_feature": "This is a premium feature, please",

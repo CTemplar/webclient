@@ -1,5 +1,5 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, MailBoxesState, Settings, SignupState, UserState } from '../../../store/datatypes';
@@ -61,6 +61,8 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
 
   @Input() isPgpGenerationComplete: boolean;
   @ViewChild('changeDisplayNameModal', { static: false }) changeDisplayNameModal;
+  @Output() public hide = new EventEmitter<boolean>();
+
   private changeDisplayNameModalRef: NgbModalRef;
   changeDisplayNameForm: FormGroup;
   displayNameFormSubmitted = false;
@@ -154,7 +156,14 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
       this.displayNameFormSubmitted = true;
       this.selectedMailboxForSignature.display_name = dispName;
       this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForSignature));
+      this.hideDispalyNameModel();
     }
+  }
+  private hideDispalyNameModel() {
+    if (this.changeDisplayNameModalRef) {
+      this.changeDisplayNameModalRef.dismiss();
+    }
+    this.hide.emit(true);
   }
 
 
