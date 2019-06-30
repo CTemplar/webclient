@@ -13,9 +13,10 @@
             </button>
 
             <span class="fancy-field-group select-all-checkbox">
-                                <mat-checkbox onclick="doNotTrack" type="checkbox" id="mailboxBulkActions"
-                                              (change)="markAllMails($event.checked)" [checked]="markedMailsLength()>0"
-                                              [(ngModel)]="selectAll" [indeterminate]="selectedSomeMails && markedMailsLength()>0">
+                                <mat-checkbox type="checkbox" id="mailboxBulkActions"
+                                              (change)="markAllMails($event.checked)"
+                                              [(ngModel)]="selectAll"
+                                              [indeterminate]="isSomeEmailsSelected()">
                                 </mat-checkbox>
                                 <label  for="mailboxBulkActions" class="fancy-field-empty"></label>
             </span>
@@ -23,7 +24,7 @@
             <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
               <a class="dropdown-item" translate="mail_list.all" (click)="markAllMails(true)">All</a>
               <a class="dropdown-item" translate="mail_list.read" (click)="markReadMails()">Read</a>
-              <a class="dropdown-item" translate="mail_list.unread" (click)="markUneadMails()">Unread</a>
+              <a class="dropdown-item" translate="mail_list.unread" (click)="markUnreadMails()">Unread</a>
               <a class="dropdown-item" translate="mail_list.starred" (click)="markStarredMails()">Starred</a>
               <a class="dropdown-item" translate="mail_list.unstarred" (click)="markUnstarredMails()">Unstarred</a>
             </div>
