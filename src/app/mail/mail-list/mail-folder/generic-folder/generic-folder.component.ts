@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -38,7 +38,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
-  selectedSomeMails: boolean;
   noEmailSelected: boolean = true;
 
   userState: UserState;
@@ -57,6 +56,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
               private activatedRoute: ActivatedRoute,
               private sharedService: SharedService,
               private composeMailService: ComposeMailService,
+              private cdr: ChangeDetectorRef,
               private modalService: NgbModal) {
   }
 
@@ -146,14 +146,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   markAllMails(checkAll) {
-    if (checkAll) {
+    if (checkAll && !this.isSomeEmailsSelected()) {
       this.mails.map(mail => {
         mail.marked = true;
-        this.selectAll = true;
         return mail;
       });
       this.noEmailSelected = false;
-      this.selectedSomeMails = false;
     } else {
       this.mails.map(mail => {
         mail.marked = false;
@@ -161,18 +159,15 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
       });
       this.noEmailSelected = true;
     }
+
+    setTimeout(() => {
+      this.setIsSelectAll();
+    }, 5);
   }
 
-  markedMailsLength() {
-    let marked = 0;
-    this.mails.map(mail => {
-      if (mail.marked) {
-        marked++;
-      } else {
-        marked--;
-      }
-    });
-    return marked;
+  isSomeEmailsSelected() {
+    const count = this.mails.filter(mail => mail.marked).length;
+    return count > 0 && count < this.mails.length;
   }
 
   markAsRead(isRead: boolean = true) {
@@ -279,52 +274,38 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   markReadMails() {
     this.mails.map(mail => {
-      if (mail.read) {
-        mail.marked = true;
-      } else {
-        mail.marked = false;
-      }
+      mail.marked = mail.read;
       return mail;
     });
+    this.setIsSelectAll();
   }
 
-  markUneadMails() {
-    this.selectAll = false;
+  markUnreadMails() {
     this.mails.map(mail => {
-      if (!mail.read) {
-        mail.marked = true;
-      } else {
-        mail.marked = false;
-      }
+      mail.marked = !mail.read;
       return mail;
     });
+    this.setIsSelectAll();
   }
 
   markStarredMails() {
     this.mails.map(mail => {
-      if (mail.starred) {
-        mail.marked = true;
-        this.selectAll = true;
-      } else {
-        mail.marked = false;
-        this.selectAll = false;
-      }
+      mail.marked = mail.starred;
       return mail;
     });
+    this.setIsSelectAll();
   }
 
   markUnstarredMails() {
     this.mails.map(mail => {
-      if (!mail.starred) {
-        mail.marked = true;
-        this.selectAll = true;
-      } else {
-        mail.marked = false;
-        this.selectAll = false;
-      }
-      this.selectAll = mail.marked;
+      mail.marked = !mail.starred;
       return mail;
     });
+    this.setIsSelectAll();
+  }
+
+  setIsSelectAll() {
+    this.selectAll = this.mails.filter(mail => mail.marked).length === this.mails.length;
   }
 
   prevPage() {
@@ -362,19 +343,14 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     mail.marked = event;
     if (event) {
       this.noEmailSelected = false;
-      this.selectedSomeMails = true;
-      this.selectAll = true;
     } else {
-      if (this.mails.filter(m => m.marked === true).length > 0) {
+      if (this.mails.filter(email => email.marked).length > 0) {
         this.noEmailSelected = false;
-        this.selectedSomeMails = true;
-        this.selectAll = true;
       } else {
-        this.selectAll = false;
         this.noEmailSelected = true;
-        this.selectedSomeMails = false;
       }
     }
+    this.setIsSelectAll();
   }
 
   /**
