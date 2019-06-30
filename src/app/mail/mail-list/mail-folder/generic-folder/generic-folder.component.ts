@@ -38,6 +38,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
+  selectedSomeMails: boolean;
   noEmailSelected: boolean = true;
 
   userState: UserState;
@@ -148,18 +149,30 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (checkAll) {
       this.mails.map(mail => {
         mail.marked = true;
+        this.selectAll = true;
         return mail;
       });
-      this.selectAll = true;
       this.noEmailSelected = false;
+      this.selectedSomeMails = false;
     } else {
       this.mails.map(mail => {
         mail.marked = false;
         return mail;
       });
-      this.selectAll = false;
       this.noEmailSelected = true;
     }
+  }
+
+  markedMailsLength() {
+    let marked = 0;
+    this.mails.map(mail => {
+      if (mail.marked) {
+        marked++;
+      } else {
+        marked--;
+      }
+    });
+    return marked;
   }
 
   markAsRead(isRead: boolean = true) {
@@ -276,6 +289,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   markUneadMails() {
+    this.selectAll = false;
     this.mails.map(mail => {
       if (!mail.read) {
         mail.marked = true;
@@ -290,8 +304,10 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     this.mails.map(mail => {
       if (mail.starred) {
         mail.marked = true;
+        this.selectAll = true;
       } else {
         mail.marked = false;
+        this.selectAll = false;
       }
       return mail;
     });
@@ -301,9 +317,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     this.mails.map(mail => {
       if (!mail.starred) {
         mail.marked = true;
+        this.selectAll = true;
       } else {
         mail.marked = false;
+        this.selectAll = false;
       }
+      this.selectAll = mail.marked;
       return mail;
     });
   }
@@ -343,11 +362,17 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     mail.marked = event;
     if (event) {
       this.noEmailSelected = false;
+      this.selectedSomeMails = true;
+      this.selectAll = true;
     } else {
       if (this.mails.filter(m => m.marked === true).length > 0) {
         this.noEmailSelected = false;
+        this.selectedSomeMails = true;
+        this.selectAll = true;
       } else {
+        this.selectAll = false;
         this.noEmailSelected = true;
+        this.selectedSomeMails = false;
       }
     }
   }

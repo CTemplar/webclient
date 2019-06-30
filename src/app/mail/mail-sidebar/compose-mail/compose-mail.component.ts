@@ -146,6 +146,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isTrialPrimeFeaturesAvailable: boolean;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
+  private isMailSent = false;
+  private isSavedInDraft = false;
 
   private quill: any;
   private autoSaveSubscription: Subscription;
@@ -272,6 +274,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft) {
+      this.saveInDrafts();
+      this.isSavedInDraft = true;
+    }
     if (this.isAuthenticated) {
       this.store.dispatch(new CloseMailbox(this.draft));
     }
@@ -464,12 +470,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveInDrafts() {
+    if (this.isSavedInDraft) {     // if email already saved in ngOnDestroy.
+      return;
+    }
+    this.isSavedInDraft = true;
     this.updateEmail();
     this.hide.emit();
     this.resetValues();
   }
 
   discardEmail() {
+    this.isSavedInDraft = true;
     if (this.draftMail && this.draftMail.id) {
       this.store.dispatch(new MoveMail({
         ids: this.draftMail.id,
@@ -529,6 +540,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
     }
+    this.isMailSent = true;
     this.setMailData(true, false);
     this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: receivers }));
     this.resetValues();
