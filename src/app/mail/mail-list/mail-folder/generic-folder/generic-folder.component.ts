@@ -159,9 +159,20 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         mail.marked = false;
         return mail;
       });
-      this.selectAll = false;
       this.noEmailSelected = true;
     }
+  }
+
+  markedMailsLength() {
+    let marked = 0;
+    this.mails.map(mail => {
+      if (mail.marked) {
+        marked++;
+      } else {
+        marked--;
+      }
+    });
+    return marked;
   }
 
   markAsRead(isRead: boolean = true) {
@@ -278,6 +289,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   markUneadMails() {
+    this.selectAll = false;
     this.mails.map(mail => {
       if (!mail.read) {
         mail.marked = true;
@@ -292,8 +304,10 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     this.mails.map(mail => {
       if (mail.starred) {
         mail.marked = true;
+        this.selectAll = true;
       } else {
         mail.marked = false;
+        this.selectAll = false;
       }
       return mail;
     });
@@ -303,9 +317,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     this.mails.map(mail => {
       if (!mail.starred) {
         mail.marked = true;
+        this.selectAll = true;
       } else {
         mail.marked = false;
+        this.selectAll = false;
       }
+      this.selectAll = mail.marked;
       return mail;
     });
   }
@@ -343,7 +360,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleEmailSelection(mail, event) {
     mail.marked = event;
-    this.selectedSomeMails = true;
     if (event) {
       this.noEmailSelected = false;
       this.selectedSomeMails = true;
@@ -351,7 +367,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       if (this.mails.filter(m => m.marked === true).length > 0) {
         this.noEmailSelected = false;
-        this.noEmailSelected = true;
+        this.selectedSomeMails = true;
+        this.selectAll = true;
       } else {
         this.selectAll = false;
         this.noEmailSelected = true;
