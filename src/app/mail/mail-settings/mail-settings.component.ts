@@ -439,7 +439,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
          <div style="margin-top:5rem">
             <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${invoice.storage / (1024 * 1024)}GB</div>
             <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${invoice.email_addresses}</div>
-            <div><b class="color-primary" style="padding-right: 75px;">Domains</b>${invoice.custom_domains}</div>
+            <div><b class="color-primary" style="padding-right: 76px;">Domains</b>${invoice.custom_domains}</div>
         </div>
     </div>
     <div class="color-primary divFooter">
@@ -450,7 +450,7 @@ export class MailSettingsComponent implements OnInit, OnDestroy {
 </html>
          `;
 
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
     popupWin.document.open();
     popupWin.document.write(invoiceData);
     popupWin.document.close();

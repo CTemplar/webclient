@@ -511,6 +511,7 @@ $error-red: #e94e4c;
     height: 331px;
     position: relative;
     overflow-y: auto;
+    overflow-x: hidden;
 
     .loader {
       position: absolute;
