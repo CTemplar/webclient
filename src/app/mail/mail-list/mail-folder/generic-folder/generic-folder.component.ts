@@ -68,6 +68,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = [...mailState.mails];
+          this.sortMails(this.mails);
         }
       });
 
@@ -128,12 +129,16 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['mails'] && changes['mails'].currentValue) {
-      let sortField = 'created_at';
-      if (this.mailFolder === MailFolderType.SENT) {
-        sortField = 'sent_at';
-      }
-      this.mails = this.sharedService.sortByDate(changes['mails'].currentValue, sortField);
+      this.sortMails(changes['mails'].currentValue);
     }
+  }
+
+  sortMails(mails: Mail[]) {
+    let sortField = 'created_at';
+    if (this.mailFolder === MailFolderType.SENT) {
+      sortField = 'sent_at';
+    }
+    this.mails = this.sharedService.sortByDate(mails, sortField);
   }
 
   refresh() {
