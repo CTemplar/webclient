@@ -188,7 +188,8 @@
         <hr class="mt-0">
       </tr>
       <!--Desktop view html -->
-      <tr class="mail-list-row hide-on-mobile" *ngFor="let mail of mails; let i=index"
+      <ng-container *ngFor="let mail of mails; let i=index">
+      <tr class="mail-list-row hide-on-mobile" *ngIf="mailFolder === mailFolderTypes.STARRED && mail.folder === mailFolderTypes.TRASH"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-selected':mail.marked}">
@@ -274,7 +275,7 @@
         </td>
 
       </tr>
-
+      </ng-container>
       <!--Mobile view html -->
       <tr class="hidden-sm-up mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
