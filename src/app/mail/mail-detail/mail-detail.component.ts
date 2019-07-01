@@ -153,7 +153,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.customFolders = user.customFolders;
        user.customFolders.forEach(folder => {
          this.folderColors[folder.name] = folder.color;
-         console.log(this.folderColors);
        });
         this.userState = user;
       });
