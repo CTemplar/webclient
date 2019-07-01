@@ -65,20 +65,23 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form [formGroup]="changeDisplayNameForm" (submit)="submitDispalyNameForm()">
+  <form [formGroup]="changeDisplayNameForm" (submit)="submitDisplayNameForm()">
     <div class="modal-body bg-faded">
       <div class="text-holder text-dark text-medium">
-        <p>This is the “From” and “To” display name that will be shown with your email address. </p>
+        <p>This is the display name that will be shown next to your email address. </p>
           <div class="form">
             <div class="form-group form-group">
               <input class="form-control text-dark display-name-input" id="displayName" autocomplete="off"
-                     [placeholder]="'create_account.enter_display_name'| translate" type="text" name="displayName" formControlName="username"/>
+                     maxlength="32"
+                     [placeholder]="'create_account.enter_display_name'| translate" type="text" name="displayName"
+                     formControlName="username"/>
               <span *ngIf="changeDisplayNameForm.controls['username'].errors && changeDisplayNameForm.controls['username'].touched"
-                    class="validate-message">The display name is required.
+                    class="validate-message">Enter a valid display name with maximum 32 characters.
                 </span>
             </div>
           </div>
-        <p>Adjust this based on input above &lt;Username@Ctemplar.com&gt;. You can change this in the settings page later.</p>
+        <p>Email: "{{changeDisplayNameForm.controls['username'].value}} &lt;{{emails}}&gt;".
+          <br>You can change this in the settings page later.</p>
       </div>
     </div>
     <div class="modal-footer justify-content-center">

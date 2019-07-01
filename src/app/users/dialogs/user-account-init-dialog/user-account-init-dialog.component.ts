@@ -2,11 +2,10 @@ import { animate, query, stagger, style, transition, trigger } from '@angular/an
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, MailBoxesState, Settings, SignupState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, MailBoxesState, SignupState } from '../../../store/datatypes';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { MailboxSettingsUpdate, SettingsUpdate } from '../../../store/actions';
+import { MailboxSettingsUpdate } from '../../../store/actions';
 import { Mailbox } from '../../../store/models';
 
 @Component({
@@ -68,10 +67,11 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   displayNameFormSubmitted = false;
   mailboxes: Mailbox[];
   step = 0;
+  emails: string;
 
   private signupState: SignupState;
   private isAccountCreationComplete: boolean;
-  selectedMailboxForSignature: Mailbox;
+  private selectedMailbox: Mailbox;
 
   constructor(public activeModal: NgbActiveModal,
               private modalService: NgbModal,
@@ -94,11 +94,17 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
       .subscribe((mailboxesState: MailBoxesState) => {
         this.mailboxes = mailboxesState.mailboxes;
-        this.selectedMailboxForSignature = mailboxesState.currentMailbox;
+        this.selectedMailbox = mailboxesState.currentMailbox;
+        if (this.selectedMailbox) {
+          this.emails = this.selectedMailbox.email;
+        }
       });
     this.changeDisplayNameForm = this.formBuilder.group({
       'username': ['', [Validators.required]]
     });
+    setTimeout(() => {
+      this.close();
+    }, 120000);
   }
 
   pgpGenerationCompleted() {
@@ -138,7 +144,9 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.activeModal.close();
+    if (this.activeModal) {
+      this.activeModal.close();
+    }
   }
 
   /*Display name*/
@@ -150,15 +158,16 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  submitDispalyNameForm() {
+  submitDisplayNameForm() {
     const dispName = this.changeDisplayNameForm.controls['username'].value;
     if (this.changeDisplayNameForm.valid && dispName !== '') {
       this.displayNameFormSubmitted = true;
-      this.selectedMailboxForSignature.display_name = dispName;
-      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForSignature));
+      this.selectedMailbox.display_name = dispName;
+      this.store.dispatch(new MailboxSettingsUpdate({ ...this.selectedMailbox, successMsg: 'Display name saved successfully.' }));
       this.hideDispalyNameModel();
     }
   }
+
   private hideDispalyNameModel() {
     if (this.changeDisplayNameModalRef) {
       this.changeDisplayNameModalRef.dismiss();

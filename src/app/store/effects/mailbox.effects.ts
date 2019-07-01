@@ -51,10 +51,16 @@ export class MailboxEffects {
   mailboxSettingsUpdate: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.MAILBOX_SETTINGS_UPDATE),
     map((action: MailboxSettingsUpdate) => action.payload),
-    switchMap((payload: Mailbox) => {
+    switchMap((payload: any) => {
       return this.mailService.updateMailBoxSettings(payload)
         .pipe(
-          switchMap(res => of(new MailboxSettingsUpdateSuccess(res))),
+          switchMap(res => {
+            const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
+            if (payload.successMsg) {
+              actions.push(new SnackErrorPush({ message: payload.successMsg }));
+            }
+            return of(...actions);
+          }),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to update email address settings.' }))),
         );
     }));
