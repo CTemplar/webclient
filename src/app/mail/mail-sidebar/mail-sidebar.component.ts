@@ -144,8 +144,10 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       });
     this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        if (event.url === '/mail/settings' || event.url === '/mail/contacts') {
+        if (event.url === '/mail/contacts') {
           this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);
+        } else if (event.url.indexOf('/mail/settings/') > -1) {
+          this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
   }
