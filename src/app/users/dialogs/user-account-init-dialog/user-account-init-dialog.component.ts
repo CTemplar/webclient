@@ -64,6 +64,7 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
 
   private signupState: SignupState;
   private isAccountCreationComplete: boolean;
+  private isDisplayNameOpened: boolean;
 
   constructor(public activeModal: NgbActiveModal,
               private modalService: NgbModal,
@@ -71,11 +72,19 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isDisplayNameOpened = false;
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (this.signupState && this.signupState.inProgress && !authState.signupState.inProgress) {
-          this.close();
-          this.isAccountCreationComplete = true;
+          if (authState.errorMessage || this.step === 4) {
+            this.isDisplayNameOpened = authState.errorMessage ? true : this.isDisplayNameOpened;
+            this.close();
+          } else {
+            this.isAccountCreationComplete = true;
+            setTimeout(() => {
+              this.close();
+            }, 5000);
+          }
         }
         this.signupState = { ...authState.signupState };
       });
@@ -110,7 +119,6 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
         this.step++;
         if (this.isAccountCreationComplete) {
           this.close();
-          // this.changeDisplayNameModel();
         }
       }, 2000);
     } else {
@@ -121,12 +129,17 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.activeModal.close();
-    this.modalService.open(DisplayNameDialogComponent, {
-      centered: true,
-      windowClass: 'modal-sm',
-      backdrop: 'static',
-    });
+    if (this.activeModal) {
+      this.activeModal.close();
+    }
+    if (!this.isDisplayNameOpened) {
+      this.isDisplayNameOpened = true;
+      this.modalService.open(DisplayNameDialogComponent, {
+        centered: true,
+        windowClass: 'modal-sm',
+        backdrop: 'static',
+      });
+    }
   }
 
 
