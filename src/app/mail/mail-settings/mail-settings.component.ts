@@ -72,7 +72,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteAccountOptions: any = {};
   notificationsPermission: string;
   notificationPermissionType = NotificationPermission;
-  selectedTabQueryParams: string;
+  selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
 
   private deleteAccountInfoModalRef: NgbModalRef;
@@ -131,8 +131,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.route.params.subscribe(
       params => {
-        this.selectedTabQueryParams = params['id'];
-        this.navigateToTab(this.selectedTabQueryParams);
+        if (params['id'] !== 'undefined') {
+          this.selectedTabQueryParams = params['id'];
+        }
+        this.changeUrlParams();
       }
     );
   }
@@ -142,11 +144,16 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  navigateToTab(tabSelected?) {
+  navigateToTab($event) {
+    const tabSelected = $event.nextId;
     if (this.selectedTabQueryParams === tabSelected) {
       return;
     }
     this.selectedTabQueryParams = tabSelected;
+    this.changeUrlParams();
+  }
+
+  changeUrlParams() {
     window.history.replaceState({}, '', `/mail/settings/` + this.selectedTabQueryParams);
   }
 

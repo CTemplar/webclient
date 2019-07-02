@@ -1,10 +1,10 @@
 <div class="mailbox-sub-content">
 
-    <ngb-tabset #tabSet="ngbTabset">
+    <ngb-tabset #tabSet="ngbTabset" (tabChange)="navigateToTab($event)" >
 
         <!-- Dashboard and Plans -->
         <ngb-tab id="dashboard-and-plans">
-            <ng-template ngbTabTitle><span translate="settings.dashboard_plans" (click)="navigateToTab('dashboard-and-plans')">Dashboard & plans</span></ng-template>
+            <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard & plans</span></ng-template>
             <ng-template ngbTabContent>
 
 
@@ -322,7 +322,7 @@
 
         <!-- General -->
         <ngb-tab id="general">
-            <ng-template ngbTabTitle><span translate="settings.general" (click)="navigateToTab('general')">General</span></ng-template>
+            <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- General Settings -->
@@ -604,7 +604,7 @@
 
         <!-- Filters and blocked addresses -->
         <ngb-tab id="filters-and-blocked-addresses">
-            <ng-template ngbTabTitle> <span translate="settings.filters.title" (click)="navigateToTab('filters-and-blocked-addresses')">Filters & blocked addresses</span></ng-template>
+            <ng-template ngbTabTitle> <span translate="settings.filters.title">Filters & blocked addresses</span></ng-template>
             <ng-template ngbTabContent>
 
               <!-- Custom filters -->
@@ -686,7 +686,7 @@
 
         <!-- Addresses and Signatures -->
         <ngb-tab id="addresses-and-signatures">
-            <ng-template ngbTabTitle><span translate="settings.addresses_and_signs" (click)="navigateToTab('addresses-and-signatures')">Addresses & signatures</span></ng-template>
+            <ng-template ngbTabTitle><span translate="settings.addresses_and_signs">Addresses & signatures</span></ng-template>
             <ng-template ngbTabContent>
                 <app-addresses-signature></app-addresses-signature>
             </ng-template>
@@ -694,7 +694,7 @@
 
         <!-- Folders -->
         <ngb-tab id="folders">
-            <ng-template ngbTabTitle><span translate="page_pricing.folders" (click)="navigateToTab('folders')">Folders</span></ng-template>
+            <ng-template ngbTabTitle><div translate="page_pricing.folders">Folders</div></ng-template>
             <ng-template ngbTabContent>
                 <app-folders></app-folders>
             </ng-template>
@@ -702,7 +702,7 @@
 
         <!-- Security -->
         <ngb-tab id="security">
-            <ng-template ngbTabTitle><span translate="home_header.security" (click)="navigateToTab('security')">Security</span></ng-template>
+            <ng-template ngbTabTitle><div translate="home_header.security">Security</div></ng-template>
            <ng-template ngbTabContent>
                <app-settings-security></app-settings-security>
            </ng-template>
@@ -710,7 +710,7 @@
 
         <!-- Domains -->
         <ngb-tab id="domains-and-users">
-            <ng-template ngbTabTitle><span translate="settings.domains_and_users.title" (click)="navigateToTab('domains-and-users')">Domains & Users</span></ng-template>
+            <ng-template ngbTabTitle><div translate="settings.domains_and_users.title">Domains & Users</div></ng-template>
             <ng-template ngbTabContent>
 
                 <app-custom-domains (onGotoTab)="tabSet.select($event);scrollTo(0, 550)"></app-custom-domains>
@@ -720,7 +720,7 @@
 
         <!-- Forwarding and auto responder -->
         <ngb-tab id="forwarding-and-auto-responder">
-            <ng-template ngbTabTitle> <span translate="settings.forwarding_and_autores" (click)="navigateToTab('forwarding-and-auto-responder')">Forwarding & autoresponder</span></ng-template>
+            <ng-template ngbTabTitle> <div translate="settings.forwarding_and_autores">Forwarding & autoresponder</div></ng-template>
             <ng-template ngbTabContent>
                 <app-mail-forwarding></app-mail-forwarding>
                 <app-mail-autoresponder></app-mail-autoresponder>
