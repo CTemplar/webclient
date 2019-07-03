@@ -1,13 +1,11 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, MailBoxesState, Settings, SignupState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, SignupState } from '../../../store/datatypes';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { MailboxSettingsUpdate, SettingsUpdate } from '../../../store/actions';
 import { Mailbox } from '../../../store/models';
+import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-dialog.component';
 
 @Component({
   selector: 'app-user-account-init-dialog',
@@ -58,47 +56,41 @@ import { Mailbox } from '../../../store/models';
   ]
 })
 export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
-
   @Input() isPgpGenerationComplete: boolean;
-  @ViewChild('changeDisplayNameModal', { static: false }) changeDisplayNameModal;
-  @Output() public hide = new EventEmitter<boolean>();
 
-  private changeDisplayNameModalRef: NgbModalRef;
-  changeDisplayNameForm: FormGroup;
-  displayNameFormSubmitted = false;
   mailboxes: Mailbox[];
   step = 0;
+  emails: string;
 
   private signupState: SignupState;
   private isAccountCreationComplete: boolean;
-  selectedMailboxForSignature: Mailbox;
+  private isDisplayNameOpened: boolean;
 
   constructor(public activeModal: NgbActiveModal,
               private modalService: NgbModal,
-              private store: Store<AppState>,
-              private formBuilder: FormBuilder) {
+              private store: Store<AppState>) {
   }
 
   ngOnInit() {
+    this.isDisplayNameOpened = false;
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (this.signupState && this.signupState.inProgress && !authState.signupState.inProgress) {
           if (authState.errorMessage || this.step === 4) {
+            this.isDisplayNameOpened = authState.errorMessage ? true : this.isDisplayNameOpened;
             this.close();
           } else {
             this.isAccountCreationComplete = true;
+            setTimeout(() => {
+              this.close();
+            }, 5000);
           }
         }
-        this.signupState = authState.signupState;
+        this.signupState = { ...authState.signupState };
       });
-    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
-      .subscribe((mailboxesState: MailBoxesState) => {
-        this.mailboxes = mailboxesState.mailboxes;
-        this.selectedMailboxForSignature = mailboxesState.currentMailbox;
-      });
-    this.changeDisplayNameForm = this.formBuilder.group({
-      'username': ['', [Validators.required]]
-    });
+    setTimeout(() => {
+      this.close();
+    }, 120000);
   }
 
   pgpGenerationCompleted() {
@@ -127,7 +119,6 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
         this.step++;
         if (this.isAccountCreationComplete) {
           this.close();
-          this.changeDisplayNameModel();
         }
       }, 2000);
     } else {
@@ -138,32 +129,17 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.activeModal.close();
-  }
-
-  /*Display name*/
-  changeDisplayNameModel() {
-    this.changeDisplayNameForm.reset();
-    this.changeDisplayNameModalRef = this.modalService.open(this.changeDisplayNameModal, {
-      centered: true,
-      windowClass: 'modal-sm'
-    });
-  }
-
-  submitDispalyNameForm() {
-    const dispName = this.changeDisplayNameForm.controls['username'].value;
-    if (this.changeDisplayNameForm.valid && dispName !== '') {
-      this.displayNameFormSubmitted = true;
-      this.selectedMailboxForSignature.display_name = dispName;
-      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForSignature));
-      this.hideDispalyNameModel();
+    if (this.activeModal) {
+      this.activeModal.close();
     }
-  }
-  private hideDispalyNameModel() {
-    if (this.changeDisplayNameModalRef) {
-      this.changeDisplayNameModalRef.dismiss();
+    if (!this.isDisplayNameOpened) {
+      this.isDisplayNameOpened = true;
+      this.modalService.open(DisplayNameDialogComponent, {
+        centered: true,
+        windowClass: 'modal-sm',
+        backdrop: 'static',
+      });
     }
-    this.hide.emit(true);
   }
 
 

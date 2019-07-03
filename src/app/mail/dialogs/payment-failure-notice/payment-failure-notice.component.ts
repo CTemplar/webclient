@@ -13,7 +13,7 @@ export class PaymentFailureNoticeComponent {
   }
 
   updatePayment() {
-    this.router.navigateByUrl('/mail/settings');
+    this.router.navigateByUrl('/mail/settings/dashboard-and-plans');
     this.activeModal.close();
   }
 

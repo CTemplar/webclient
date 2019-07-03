@@ -9,18 +9,22 @@
         <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
           <div ngbDropdown>
             <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
-                    placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
-                            <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
-                                       type="checkbox" (change)="markAllMails($event.target.checked)"
-                                       [(ngModel)]="selectAll"/>
-                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
-                            </span>
+                     placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
             </button>
+
+            <span class="fancy-field-group select-all-checkbox">
+                                <mat-checkbox type="checkbox" id="mailboxBulkActions"
+                                              (change)="markAllMails($event.checked)"
+                                              [(ngModel)]="selectAll"
+                                              [indeterminate]="isSomeEmailsSelected()">
+                                </mat-checkbox>
+                                <label  for="mailboxBulkActions" class="fancy-field-empty"></label>
+            </span>
+
             <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
               <a class="dropdown-item" translate="mail_list.all" (click)="markAllMails(true)">All</a>
               <a class="dropdown-item" translate="mail_list.read" (click)="markReadMails()">Read</a>
-              <a class="dropdown-item" translate="mail_list.unread" (click)="markUneadMails()">Unread</a>
+              <a class="dropdown-item" translate="mail_list.unread" (click)="markUnreadMails()">Unread</a>
               <a class="dropdown-item" translate="mail_list.starred" (click)="markStarredMails()">Starred</a>
               <a class="dropdown-item" translate="mail_list.unstarred" (click)="markUnstarredMails()">Unstarred</a>
             </div>
@@ -270,7 +274,6 @@
         </td>
 
       </tr>
-
       <!--Mobile view html -->
       <tr class="hidden-sm-up mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),

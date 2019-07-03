@@ -13,6 +13,12 @@ export function reducer(
   }, action: MailActions): MailBoxesState {
   switch (action.type) {
 
+    case MailActionTypes.GET_MAILBOXES: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
       return {
         ...state,
@@ -20,6 +26,7 @@ export function reducer(
           item.sort_order = item.sort_order ? item.sort_order : index;
           return item;
         }),
+        inProgress: false,
         currentMailbox: action.payload[0]
       };
     }
