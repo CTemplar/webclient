@@ -1,4 +1,15 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -26,7 +37,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss']
 })
-export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
+export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
@@ -50,6 +61,8 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   private mailState: MailState;
   private isInitialized: boolean;
   private confirmEmptyTrashModalRef: NgbModalRef;
+  private header: HTMLElement;
+  private stickyHeaderOffsetTop: number;
 
   constructor(public store: Store<AppState>,
               private router: Router,
@@ -131,6 +144,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
     if (changes['mails'] && changes['mails'].currentValue) {
       this.sortMails(changes['mails'].currentValue);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.header = document.getElementById('stickyHeader');
+    this.stickyHeaderOffsetTop = this.header.offsetTop;
   }
 
   sortMails(mails: Mail[]) {
@@ -370,6 +388,15 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   getMarkedMails() {
     return this.mails.filter(mail => mail.marked);
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (window.pageYOffset > this.stickyHeaderOffsetTop) {
+      this.header.classList.add('sticky');
+    } else {
+      this.header.classList.remove('sticky');
+    }
   }
 
   ngOnDestroy() {

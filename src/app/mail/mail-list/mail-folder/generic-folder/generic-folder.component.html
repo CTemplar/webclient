@@ -1,7 +1,7 @@
-<app-progress-bar [active]="showProgress"></app-progress-bar>
 <div *ngIf="mailFolder === mailFolderTypes.SEARCH" class="search-tilte">
   <b>Search Results</b>
 </div>
+<div id="stickyHeader" >
 <div class="mailbox-actionbar">
   <div class="row">
     <div class="col-12 col-sm-9 mailbox-actionbar-col">
@@ -178,7 +178,8 @@
     </div>
   </div>
 </div>
-
+<app-progress-bar [active]="showProgress"></app-progress-bar>
+</div>
 <div class="mail-listing">
   <div class="table-responsive table-hover table-fixed">
     <table class="table table-inbox">

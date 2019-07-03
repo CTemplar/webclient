@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   templateUrl: './mail-detail.component.html',
   styleUrls: ['./mail-detail.component.scss']
 })
-export class MailDetailComponent implements OnInit, OnDestroy {
+export class MailDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('forwardAttachmentsModal', { static: false }) forwardAttachmentsModal;
   @ViewChild('incomingHeadersModal', { static: false }) incomingHeadersModal;
@@ -46,6 +46,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private mailboxes: Mailbox[];
   private canScroll: boolean = true;
   private page: number;
+  private stickyHeaderOffsetTop: number;
+  private header: HTMLElement;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -156,6 +158,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
        });
         this.userState = user;
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.header = document.getElementById('stickyHeader');
+    this.stickyHeaderOffsetTop = this.header.offsetTop;
   }
 
   handleEmailLinks() {
@@ -566,6 +573,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
     return content;
 
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (window.pageYOffset > this.stickyHeaderOffsetTop) {
+      this.header.classList.add('sticky');
+    } else {
+      this.header.classList.remove('sticky');
+    }
   }
 
 }
