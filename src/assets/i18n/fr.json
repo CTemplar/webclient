@@ -570,9 +570,9 @@
     "invalid_captcha": "Captcha invalide, essayez à nouveau.",
     "change_display_name": "Change Your Display Name",
     "enter_display_name": "Enter Your Display Name",
-    "with_email_address": "This is the “From” and “To” display name that will be shown with your email address.",
-    "display_name_req": "The display name is required.",
-    "can_change_settings": "Adjust this based on input above &lt;Username@Ctemplar.com&gt;. You can change this in the settings page later."
+    "with_email_address": "This is the display name that will be shown next to your email address.",
+    "display_name_req": "Enter a valid display name with maximum 32 characters.",
+    "can_change_settings": "You can change this in the settings page later."
   },
   "billing_info": {
     "pending_payment_alert": "Votre paiement est en attente, mais vous pouvez quand même créer un compte gratuit et votre compte sera mis à jour vers un compte Premium après vérification du paiement.",
