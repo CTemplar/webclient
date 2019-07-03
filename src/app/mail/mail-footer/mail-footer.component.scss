@@ -14,7 +14,7 @@
   background: $brand-white;
 
   @include media(">=ipad") {
-    padding: 1.5rem 1.563rem;
+    padding: 0.5rem 1.563rem;
   }
 
   // @include media("<ipad", ">sm") {

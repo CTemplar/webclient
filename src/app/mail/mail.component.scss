@@ -536,7 +536,7 @@
 
 // == Actions bar
 .mailbox-actionbar {
-  padding: 1rem 0.938rem;
+  padding: 0.6rem 0.938rem;
   border-bottom: 1px solid $input-border-color;
 
   @include media(">=ipad") {
