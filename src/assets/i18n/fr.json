@@ -17,7 +17,7 @@
     },
     "delete": {
       "title": "Confirmer la suppression",
-      "message": "Êtes-vous sûr de vouloir supprimer ?"
+      "message": "Êtes-vous sûr de vouloir supprimer"
     },
     "import_contacts": "Importer des contacts",
     "select_csv": "Pour importer des contacts, sélectionnez un fichier CSV parmi les choix suivants :",
@@ -243,7 +243,7 @@
       "select_condition": "Sélectionner la condition"
     },
     "save_order": " Sauvegarder",
-    "delete_folder_message": "Êtes-vous sûr de vouloir supprimer un dossier ?",
+    "delete_folder_message": "Êtes-vous sûr de vouloir supprimer un dossier",
     "select_color": "Sélectionner :",
     "folder_name": "Nom du dossier :",
     "update": "Mettre à jour",
@@ -349,14 +349,14 @@
       "hour": "Heures",
       "confirm": "Confirmer",
       "send": "Envoyer",
-      "from": "Emetteur:",
+      "from": "Emetteur :",
       "recipient_email": "Entrer l'email du destinataire",
       "cc_email": "Entrez Cc email",
       "bcc_email": "Entrer email Cci",
-      "subject": "Objet:",
+      "subject": "Objet :",
       "text_format": "Mise en forme du texte",
       "small": "petit",
-      "to": "Destinataire:",
+      "to": "Destinataire :",
       "delete_draft": "Supprimer le brouillon",
       "normal": "Normal",
       "large": "Grand",
@@ -377,7 +377,17 @@
       "days": "Jours",
       "hours": "Heures",
       "clear": "Réinitialiser",
-      "email_on_datetime": "L’email sera envoyé à la date et l’heure sélectionnées"
+      "email_on_datetime": "L’email sera envoyé à la date et l’heure sélectionnées",
+      "confirm_discard": "Confirmer le rejet",
+      "want_to_discard": "Êtes-vous sûr de vouloir supprimer cet email?",
+      "save_in_drafts": "Enregistrer dans les brouillons",
+      "discard": "Jeter",
+      "new_message": "New message",
+      "exit_full_screen": "Exit full screen",
+      "full_screen": "Full screen",
+      "maximize": "Maximize",
+      "minimize": "Minimize",
+      "close": "Close"
     },
     "of": "de",
     "not_with_free_acc": "Fonction non disponible avec un compte gratuit",
@@ -559,7 +569,10 @@
     "text_from_image": "Saisir le texte de l’image",
     "invalid_captcha": "Captcha invalide, essayez à nouveau.",
     "change_display_name": "Change Your Display Name",
-    "enter_display_name": "Enter Your Display Name"
+    "enter_display_name": "Enter Your Display Name",
+    "with_email_address": "This is the display name that will be shown next to your email address.",
+    "display_name_req": "Enter a valid display name with maximum 32 characters.",
+    "can_change_settings": "You can change this in the settings page later."
   },
   "billing_info": {
     "pending_payment_alert": "Votre paiement est en attente, mais vous pouvez quand même créer un compte gratuit et votre compte sera mis à jour vers un compte Premium après vérification du paiement.",
