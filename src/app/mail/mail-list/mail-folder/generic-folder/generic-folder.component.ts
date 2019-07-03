@@ -61,8 +61,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   private mailState: MailState;
   private isInitialized: boolean;
   private confirmEmptyTrashModalRef: NgbModalRef;
-  private header: HTMLElement;
-  private stickyHeaderOffsetTop: number;
 
   constructor(public store: Store<AppState>,
               private router: Router,
@@ -383,18 +381,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
 
   getMarkedMails() {
     return this.mails.filter(mail => mail.marked);
-  }
-
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.header = document.getElementById('stickyHeader');
-    this.stickyHeaderOffsetTop = this.header.offsetTop;
-    if (window.pageYOffset > this.stickyHeaderOffsetTop) {
-      this.header.classList.add('sticky');
-    } else {
-      this.header.classList.remove('sticky');
-    }
-    console.log('scroll generic folder');
   }
 
   ngOnDestroy() {

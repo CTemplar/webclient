@@ -117,12 +117,7 @@ app-custom-domains {
   }
 }
 
-@media (min-width: 1000px) {
-  .sticky {
-    position: fixed;
-    top: 0;
-    background: white;
-    width: calc(100% - 220px);
-    z-index: 1;
-  }
+.mailbox-sub-content {
+  height: calc(100vh - 115px);
+  overflow-y: scroll;
 }

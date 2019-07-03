@@ -31,6 +31,7 @@
   // margin-left: 60px;
   padding-bottom: 3.75rem;
   min-height: 100vh;
+  height: 100vh;
 
   @include media("<ipad", ">sm") {
     margin-left: 68px;
