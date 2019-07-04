@@ -228,7 +228,7 @@
               </label>
 
             </div>
-            <div class="position-relative">
+            <div>
               <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{mail.folder}}</label>
             </div>
           </div>
@@ -367,7 +367,7 @@
                           <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
                         </label>
                       </div>
-                      <div class="position-relative">
+                      <div>
                         <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{childMail.folder}}</label>
                       </div>
                     </div>
