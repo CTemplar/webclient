@@ -35,7 +35,7 @@
                                         </div>
                                         <div><i class="material-icons">card_membership</i></div>
                                         <div>
-                                          <a (click)="scrollTo(0, 850, 0)" class="btn btn-gradient-primary cursor-pointer">Upgrade</a>
+                                          <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer">Upgrade</a>
                                         </div>
                                       </div>
                                     </div>
@@ -296,7 +296,7 @@
 
 
                 <!-- Account Type Section -->
-                <section class="mailbox-section">
+                <section class="mailbox-section" #targetUpgrade>
                     <div class="ui-header ui-header-bordered position-relative">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account
                                 Type</strong></h5>
@@ -713,7 +713,7 @@
             <ng-template ngbTabTitle><div translate="settings.domains_and_users.title">Domains & Users</div></ng-template>
             <ng-template ngbTabContent>
 
-                <app-custom-domains (onGotoTab)="tabSet.select($event);scrollTo(0, 550)"></app-custom-domains>
+                <app-custom-domains (onGotoTab)="tabSet.select($event);"></app-custom-domains>
 
             </ng-template>
         </ngb-tab>
