@@ -121,3 +121,21 @@ app-custom-domains {
   height: calc(100vh - 115px);
   overflow-y: scroll;
 }
+
+app-mail-settings {
+
+  @media (min-width: 1000px) {
+    ngb-tabset {
+      ul.nav-tabs.nav {
+        position: absolute;
+        z-index: 10;
+        background: white;
+        width: 100%;
+      }
+
+      div.tab-content {
+        padding-top: 77px;
+      }
+    }
+  }
+}
