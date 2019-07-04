@@ -7,6 +7,10 @@ $error-red: #e94e4c;
 
 // == Settigs page styles
 
+.mailbox-sub-content {
+  height: calc(100vh - 95px);
+}
+
 .desc-card-holder {
   @include media("<=sm") {
     margin: .75rem -.938rem 0;
