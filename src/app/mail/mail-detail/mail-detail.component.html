@@ -155,7 +155,7 @@
       </div>
     </div>
 
-    <div class="ui-body is-xs bg-faded cursor-pointer p-3 mail-header"
+    <div class="ui-body is-xs bg-faded cursor-pointer mail-header"
          *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
          (click)="parentMailCollapsed = !parentMailCollapsed">
       <div class="row">
@@ -296,7 +296,7 @@
           <div [ngClass]="{'last-child': childIndex === mail.children.length-1}">
             <section class="mailbox-section" id="{{childMail.id}}-print-section">
 
-              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer p-3 mail-header" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
+              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer mail-header" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
                 <div class="row">
                   <div class="col-8">
                     <div class="mailbox-sender-content">
