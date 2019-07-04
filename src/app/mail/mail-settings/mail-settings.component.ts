@@ -287,6 +287,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pushNotificationService.requestPermission();
   }
 
+  scrollTop(el: HTMLElement) {
+    el.scroll(0, 0);
+  }
+
   scroll(el: HTMLElement) {
     el.scrollIntoView({ behavior: 'smooth' });
   }

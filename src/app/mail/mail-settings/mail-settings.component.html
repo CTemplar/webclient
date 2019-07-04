@@ -1,6 +1,6 @@
-<div class="mailbox-sub-content">
+<div class="mailbox-sub-content" #settingsContent>
 
-    <ngb-tabset #tabSet="ngbTabset" (tabChange)="navigateToTab($event)" >
+    <ngb-tabset #tabSet="ngbTabset" (tabChange)="navigateToTab($event); scrollTop(settingsContent)" >
 
         <!-- Dashboard and Plans -->
         <ngb-tab id="dashboard-and-plans">
