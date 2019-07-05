@@ -106,10 +106,6 @@ a {
 	box-shadow: $shadow;
 }
 
-.mail-composer {
-	height: 480px;
-}
-
 // == Mail compose is-bordered
 .mail-composer.is-borderd {
 	border: 1px solid $dropdown-border-color;
@@ -345,6 +341,7 @@ a {
 	background: $brand-faded;
 	border-top: 1px solid $input-border-color;
 	border-bottom: 1px solid $input-border-color;
+	margin-bottom: -26px;
 
 	@include media("<=sm") {
 		position: absolute;
