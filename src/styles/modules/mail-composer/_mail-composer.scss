@@ -106,6 +106,10 @@ a {
 	box-shadow: $shadow;
 }
 
+.mail-composer {
+	height: 480px;
+}
+
 // == Mail compose is-bordered
 .mail-composer.is-borderd {
 	border: 1px solid $dropdown-border-color;
