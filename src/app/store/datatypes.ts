@@ -395,3 +395,9 @@ export enum NotificationPermission {
   GRANTED = 'granted',
   DENIED = 'denied',
 }
+
+export enum MailAction {
+  REPLY = 'REPLY',
+  REPLY_ALL = 'REPLY_ALL',
+  FORWARD = 'FORWARD'
+}

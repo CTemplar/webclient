@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
-import * as Parchment from 'parchment';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -22,7 +21,17 @@ import {
   UpdateLocalDraft,
   UploadAttachment
 } from '../../../store/actions';
-import { AppState, AuthState, ComposeMailState, Draft, EmailContact, MailBoxesState, MailState, UserState } from '../../../store/datatypes';
+import {
+  AppState,
+  AuthState,
+  ComposeMailState,
+  Draft,
+  EmailContact,
+  MailAction,
+  MailBoxesState,
+  MailState,
+  UserState
+} from '../../../store/datatypes';
 import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
@@ -115,6 +124,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() parentId: number;
   @Input() showSaveButton: boolean = true;
   @Input() forwardAttachmentsMessageId: number;
+  @Input() action: MailAction;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -782,6 +792,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (shouldSend) {
       this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
       this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
+    }
+
+    if (this.action) {
+      this.draftMail.last_action = this.action;
     }
 
     if (this.forwardAttachmentsMessageId) {

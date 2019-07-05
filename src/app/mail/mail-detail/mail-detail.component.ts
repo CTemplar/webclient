@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { DeleteMail, GetMailDetailSuccess, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
@@ -279,6 +279,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       this.composeMailData[mail.id].receivers = this.mail.receiver;
     }
+    this.composeMailData[mail.id].action = MailAction.REPLY;
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -300,6 +301,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
       .filter(email => email !== this.currentMailbox.email && !this.composeMailData[mail.id].receivers.includes(email));
+    this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -312,6 +314,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     this.selectedMailToForward = mail;
+    this.composeMailData[mail.id].action = MailAction.FORWARD;
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
         centered: true,

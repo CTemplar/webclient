@@ -209,7 +209,7 @@
 
         <!-- Sender Name -->
         <td class="mail-from-name">
-          <a (click)="openMail(mail)" class="text-danger display-emails"
+          <a (click)="openMail(mail)" class="text-danger display-emails position-relative"
              [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
             <ng-container [ngSwitch]="mailFolder">
               <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span translate="mail_sidebar.draft">Draft</span></ng-container>
@@ -219,8 +219,9 @@
               <ng-container *ngSwitchDefault>
                 <label [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</label>
               </ng-container>
-              <span *ngIf="mail?.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
+              <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
+            <i *ngIf="mail.last_action" class="material-icons last-action">{{mail.last_action | lowercase}}</i>
           </a>
         </td>
 
@@ -263,13 +264,13 @@
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
+        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
           <img src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'home_feature.'">
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-          <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
+        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+          <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
         </td>
 
       </tr>
@@ -296,7 +297,7 @@
                       <ng-container *ngSwitchDefault>
                           {{mail.sender_display.name}}
                       </ng-container>
-                    <span *ngIf="mail?.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
+                    <span *ngIf="mail.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
                   </ng-container>
               </a>
 
@@ -334,8 +335,8 @@
               </span>
           </td>
           <td class="mail-status">
-              <span class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-                <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
+              <span class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+                <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
               </span>
               <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
                   <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>

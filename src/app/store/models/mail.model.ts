@@ -1,4 +1,5 @@
 import { Subscription } from 'rxjs';
+import { MailAction } from '../datatypes';
 
 export interface Mail {
   id?: number;
@@ -40,6 +41,7 @@ export interface Mail {
   incoming_headers?: string;
   spam_reason?: string;
   thread_count?: number;
+  last_action?: MailAction;
 }
 
 export interface Mailbox {
