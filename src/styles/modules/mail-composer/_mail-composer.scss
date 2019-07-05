@@ -61,7 +61,9 @@ a {
 		overflow: inherit;
 		width: 100%;
 		&.is-minimized {
-
+			@include media(">=ipad") {
+				width: 16rem;
+			}
 		}
 	}
 
