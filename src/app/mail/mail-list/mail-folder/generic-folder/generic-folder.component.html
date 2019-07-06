@@ -253,7 +253,7 @@
 
         <!-- Attachment Size -->
         <td class="mail-file-size">
-          <i class="icon icon-attachment" *ngIf="mail.has_attachments"></i>
+          <i class="icon icon-attachment" *ngIf="mail.has_attachments || mail.attachments?.length>0"></i>
         </td>
 
         <!-- Inbox Date -->
