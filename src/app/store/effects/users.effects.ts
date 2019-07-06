@@ -86,7 +86,7 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess, GetInvoices, GetInvoicesSuccess
+  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess, GetInvoices, GetInvoicesSuccess, GetUnreadMailsCount
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -372,10 +372,14 @@ export class UsersEffects {
       return this.mailService.createFolder(folder)
         .pipe(
           switchMap(res => {
-            return of(
+            const actions: any[] = [
               new CreateFolderSuccess(res),
               new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created'} successfully.` })
-            );
+            ];
+            if (folder.id) {
+              actions.push(new GetUnreadMailsCount());
+            }
+            return of(...actions);
           }),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to create folder.' })))
         );
