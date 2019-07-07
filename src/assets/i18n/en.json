@@ -394,7 +394,11 @@
     "username_constraint": "characters and it must be between 2 and 128 characters.",
     "permanently_delete": "Confirm Permanently Account Delete",
     "permanently_delete_alert": "Are you sure you want to permanently delete your account? No one will be able to undo this.",
-    "end_now": "End now"
+    "end_now": "End now",
+    "upgrade": "Upgrade",
+    "contains": "contains",
+    "autoresponder_active": "Autoresponder is active:",
+    "delete_all_message": "Are you sure, you want to delete all messages in trash?"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -439,7 +443,7 @@
     "mark_as_unread": "Mark as unread",
     "refresh": "Refresh",
     "delete_messages": "Delete all messages",
-    "delete_all": "Delete All",
+    "delete_all": "Delete all permanently",
     "no_conversations": "There are no conversations with this label.",
     "remove_start": "Remove Star",
     "start_message": "Star Message"
@@ -587,7 +591,8 @@
     "year": "Year",
     "submit": "Submit",
     "send_exactly": "SEND EXACTLY",
-    "donation_amount": "Amount"
+    "donation_amount": "Amount",
+    "pay_to_proceed": "Please pay in order to proceed"
   },
   "page_terms": {
     "the_terms": "The Terms",
@@ -740,7 +745,7 @@
     "reply": "Reply",
     "reply_all": "Reply All",
     "print": "Print",
-    "delete_message": "Delete this Message",
+    "delete_message": "Delete permanently",
     "show_headers": "Show headers",
     "mark_as_spam": "Mark as Spam",
     "hide_extra": "Hide extra content",
