@@ -209,7 +209,7 @@
 
         <!-- Sender Name -->
         <td class="mail-from-name">
-          <a (click)="openMail(mail)" class="text-danger display-emails position-relative"
+          <a (click)="openMail(mail)" class="text-danger display-emails"
              [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
             <ng-container [ngSwitch]="mailFolder">
               <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span translate="mail_sidebar.draft">Draft</span></ng-container>
@@ -221,7 +221,9 @@
               </ng-container>
               <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
+            <span class="position-relative">
             <i *ngIf="mail.last_action" class="material-icons last-action">{{mail.last_action | lowercase}}</i>
+            </span>
           </a>
         </td>
 
