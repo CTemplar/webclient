@@ -28,7 +28,7 @@
   <div class="modal-footer justify-content-center">
     <button class="btn btn-danger submit-display-name-btn" type="submit"
             (click)="submitDisplayNameForm()"
-            [disabled]="!changeDisplayNameForm.valid || inProgress">Confirm
+            [disabled]="!changeDisplayNameForm.valid || inProgress" translate="settings.compose.confirm">Confirm
     </button>
     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
   </div>
