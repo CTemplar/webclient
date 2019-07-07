@@ -1,0 +1,36 @@
+<div class="modal-header justify-content-sm-center align-items-center">
+  <h3 class="modal-title w-100 text-dark title"><strong translate="create_account.change_display_name">Change
+    Your Display Name</strong></h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="changeDisplayNameForm">
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <p translate="create_account.with_email_address">This is the display name that will be shown next to your email address. </p>
+      <div class="form">
+        <div class="form-group form-group">
+          <input class="form-control text-dark display-name-input" id="displayName" autocomplete="off"
+                 maxlength="32"
+                 [placeholder]="'create_account.enter_display_name'| translate" type="text" name="displayName"
+                 formControlName="username"/>
+          <span *ngIf="changeDisplayNameForm.controls['username'].errors && changeDisplayNameForm.controls['username'].touched"
+                class="validate-message"
+          translate="create_account.display_name_req">Enter a valid display name with maximum 32 characters.
+                </span>
+        </div>
+      </div>
+      <p><span translate="common.email">Email</span>: "{{changeDisplayNameForm.controls['username'].value}} <{{email}}>".
+        <br><span translate="create_account.can_change_settings">You can change this in the settings page later.</span></p>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button class="btn btn-danger submit-display-name-btn" type="submit"
+            (click)="submitDisplayNameForm()"
+            [disabled]="!changeDisplayNameForm.valid || inProgress">Confirm
+    </button>
+    <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+  </div>
+</form>
+

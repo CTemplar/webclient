@@ -26,3 +26,20 @@ a.disabled {
 .delete-permanently-btn {
   width: auto;
 }
+.select-all-checkbox {
+  left: 8px;
+  position: absolute;
+  top: 8px;
+
+  ::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: rgba(0, 0, 0, 0.38);
+  }
+}
+
+.last-action {
+  font-size: 20px;
+  color: #989898;
+  position: absolute;
+  top: 0;
+  margin-left: 2px;
+}

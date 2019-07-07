@@ -211,7 +211,7 @@
                         <i class="material-icons refresh-icon"
                            *ngIf="!captcha?.inProgress"
                            (click)="reloadCaptcha()"
-                           [ngbTooltip]="'create_account.try_another_one'| translate" translate="mail_list.refresh">refresh</i>
+                           [ngbTooltip]="'create_account.try_another_one'| translate">refresh</i>
                         <app-loading-spinner [showSpinner]="captcha.inProgress"></app-loading-spinner>
                       </div>
                       <div class="input-group">

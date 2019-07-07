@@ -31,6 +31,7 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure-message.component';
 import { UserAccountInitDialogComponent } from './dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { DisplayNameDialogComponent } from './dialogs/display-name-dialog/display-name-dialog.component';
 
 @NgModule({
   imports: [
@@ -52,10 +53,12 @@ import { UserAccountInitDialogComponent } from './dialogs/user-account-init-dial
     DisplaySecureMessageComponent,
     DecryptMessageComponent,
     ReplySecureMessageComponent,
-    UserAccountInitDialogComponent
+    UserAccountInitDialogComponent,
+    DisplayNameDialogComponent
   ],
   entryComponents: [
-    UserAccountInitDialogComponent
+    UserAccountInitDialogComponent,
+    DisplayNameDialogComponent,
   ],
   providers: [UsersService,
     {

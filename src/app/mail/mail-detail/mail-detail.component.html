@@ -1,5 +1,4 @@
 <app-progress-bar [active]="!mail"></app-progress-bar>
-
 <div class="mailbox-actionbar">
   <div class="row">
     <div class="col-12 col-sm-9 mailbox-actionbar-col">
@@ -129,7 +128,7 @@
 </div>
 
 <!--Mail Info-->
-<ng-container *ngIf="mail">
+<div class="mailbox-sub-content mail-detail-content" *ngIf="mail">
   <section class="mailbox-section" id="{{mail.id}}-print-section">
     <div class="ui-header ui-header-bordered border-top-0 position-relative">
       <h5 class="ui-header-subtitle text-dark mb-0">
@@ -156,7 +155,7 @@
       </div>
     </div>
 
-    <div class="ui-body is-xs bg-faded cursor-pointer p-3 mail-header"
+    <div class="ui-body is-xs bg-faded cursor-pointer mail-header"
          *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
          (click)="parentMailCollapsed = !parentMailCollapsed">
       <div class="row">
@@ -208,10 +207,7 @@
             </ul>
           </div>
         </div>
-        <div class="col-4 row">
-          <div class="col">
-            <label class="folder-batch">{{mail.folder}}</label>
-          </div>
+        <div class="col-4">
           <div class="msg-reply-type-holder">
             <div class="d-flex align-items-center justify-content-end">
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
@@ -231,6 +227,9 @@
                 <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
               </label>
 
+            </div>
+            <div>
+              <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{mail.folder}}</label>
             </div>
           </div>
         </div>
@@ -297,7 +296,7 @@
           <div [ngClass]="{'last-child': childIndex === mail.children.length-1}">
             <section class="mailbox-section" id="{{childMail.id}}-print-section">
 
-              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer p-3 mail-header" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
+              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer mail-header" (click)="childMailCollapsed[childIndex] = !childMailCollapsed[childIndex]">
                 <div class="row">
                   <div class="col-8">
                     <div class="mailbox-sender-content">
@@ -346,10 +345,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="col-4 row">
-                    <div class="col">
-                      <label class="folder-batch">{{childMail.folder}}</label>
-                    </div>
+                  <div class="col-4">
                     <div class="msg-reply-type-holder">
                       <div class="d-flex align-items-center justify-content-end">
                       <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
@@ -370,6 +366,9 @@
                           </ng-container>
                           <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
                         </label>
+                      </div>
+                      <div>
+                        <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{childMail.folder}}</label>
                       </div>
                     </div>
                   </div>
@@ -434,6 +433,7 @@
                                   [cc]="composeMailData[childMail.id]?.cc"
                                   [content]="composeMailData[childMail.id]?.content"
                                   [messageHistory]="composeMailData[childMail.id]?.messageHistory"
+                                  [action]="composeMailData[mail.id]?.action"
                                   [subject]="composeMailData[childMail.id]?.subject"
                                   [selectedMailbox]="composeMailData[childMail.id]?.selectedMailbox"
                                   [parentId]="composeMailData[childMail.id]?.parentId"
@@ -476,6 +476,7 @@
                         [cc]="composeMailData[mail.id]?.cc"
                         [content]="composeMailData[mail.id]?.content"
                         [messageHistory]="composeMailData[mail.id]?.messageHistory"
+                        [action]="composeMailData[mail.id]?.action"
                         [subject]="composeMailData[mail.id]?.subject"
                         [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox"
                         [parentId]="composeMailData[mail.id]?.parentId"
@@ -505,7 +506,7 @@
     </div>
   </div>
 
-</ng-container>
+</div>
 
 <!-- Confirm forward attachments modal -->
 <ng-template #forwardAttachmentsModal let-c="close" let-d="dismiss">

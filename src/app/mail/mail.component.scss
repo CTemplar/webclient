@@ -16,7 +16,7 @@
   z-index: 1;
   text-align: center;
   position: static;
-  width: 1317px;
+  width: 100%;
   padding: 2px 4px;
   justify-content: center;
 
@@ -31,6 +31,7 @@
   // margin-left: 60px;
   padding-bottom: 3.75rem;
   min-height: 100vh;
+  height: 100vh;
 
   @include media("<ipad", ">sm") {
     margin-left: 68px;
@@ -535,7 +536,7 @@
 
 // == Actions bar
 .mailbox-actionbar {
-  padding: 1rem 0.938rem;
+  padding: 0.6rem 0.938rem;
   border-bottom: 1px solid $input-border-color;
 
   @include media(">=ipad") {
@@ -1356,10 +1357,6 @@
 .sender-content-list {
   > li {
     font-size: 14px;
-
-    &:not(:last-of-type) {
-      margin-bottom: 0.313rem;
-    }
   }
 }
 
@@ -1381,6 +1378,7 @@
 
 .msg-reply-type-holder {
   line-height: 1;
+  margin-top: 3px;
 }
 
 .msg-received-time {

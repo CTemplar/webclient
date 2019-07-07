@@ -98,7 +98,7 @@
         </tag-input>
       </div>
       <div class="mail-compose-field">
-        <span class="mail-label label-subject" translate="settings.compose.subject">Subject:</span>
+        <span class="mail-label label-subject mail-subject" translate="settings.compose.subject">Subject:</span>
         <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
                   (change)="valueChanged$.next(mailData.subject)"
                   id="subject" rows="1"></textarea>
@@ -386,7 +386,7 @@
                         disabled><i class="icon icon-self-timer"></i>
                 </button>
               </ng-template>
-            </li>('settings.not_with_free_acc'| translate)
+            </li>
             <li class="px-0"
                 [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? ('settings.not_with_free_acc'| translate) : ''">
               <button *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn"
@@ -460,7 +460,7 @@
   </div>
 </ng-template><!-- /.attach images modal ends -->
 
-<!-- self destruct datetime picker modal -->
+<!-- self destruct datetime picker modal -->`
 <ng-template #selfDestructModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.self_dest_email">Self Destruct Email</strong></h3>
@@ -486,11 +486,11 @@
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
                       id="selfDestructMeridianDropdownMenuButton" role="button">
-                {{selfDestruct.meridian ? '12 Hour' : '24 Hour'}}
+                {{selfDestruct.meridian ? '12 ' + ('settings.compose.hour' | translate) : '24 '+('settings.compose.hour'| translate)}}
               </button>
               <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
-                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 <span translate="settings.compose.hour">Hour</span></a>
-                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 <span translate="settings.compose.hour">Hour</span></a>
+                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 &nbsp;<span translate="settings.compose.hour">Hour</span></a>
+                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 &nbsp;<span translate="settings.compose.hour">Hour</span></a>
               </div>
             </div>
           </div>
@@ -660,7 +660,7 @@
         <div class="form-group text-center mb-0">
           <button type="submit" class="btn btn-success btn-sm mr-1" role="button" translate="settings.compose.confirm">Confirm</button>
           <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm mr-1"
-                  role="button">Clear
+                  role="button" translate="settings.compose.clear">Clear
           </button>
           <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
         </div>

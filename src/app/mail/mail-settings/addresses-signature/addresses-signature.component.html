@@ -36,6 +36,7 @@
             </div>
             <div class="col-sm-7 col-md-5">
               <input class="form-control form-control-sm" id="displayName" type="text"
+                     maxlength="32"
                      [value]="selectedMailboxForSignature.display_name"
                      (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
                      [placeholder]="'settings.display_name'| translate"/>
@@ -316,7 +317,7 @@
                         id="keyEmailAddressDropdownMenuButton" role="button">
                   {{selectedMailboxForKey?.email}}
                 </button>
-                <div ngbDropdownMenu aria-labelledby="keyEmailAddressDropdownMenuButton">
+                <div ngbDropdownMenu aria-labelledby="keyEmailAddressDropdownMenuButton" class="aliases-dropdown">
                   <a class="dropdown-item" *ngFor="let mailbox of mailboxes"
                      (click)="onSelectedMailboxForKeyChanged(mailbox)">{{mailbox.email}}</a>
                 </div>

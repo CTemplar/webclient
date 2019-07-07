@@ -1,4 +1,3 @@
-<app-progress-bar [active]="showProgress"></app-progress-bar>
 <div *ngIf="mailFolder === mailFolderTypes.SEARCH" class="search-tilte">
   <b>Search Results</b>
 </div>
@@ -9,18 +8,22 @@
         <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
           <div ngbDropdown>
             <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
-                    placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
-                            <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
-                                       type="checkbox" (change)="markAllMails($event.target.checked)"
-                                       [(ngModel)]="selectAll"/>
-                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
-                            </span>
+                     placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
             </button>
+
+            <span class="fancy-field-group select-all-checkbox">
+                                <mat-checkbox type="checkbox" id="mailboxBulkActions"
+                                              (change)="markAllMails($event.checked)"
+                                              [(ngModel)]="selectAll"
+                                              [indeterminate]="isSomeEmailsSelected()">
+                                </mat-checkbox>
+                                <label  for="mailboxBulkActions" class="fancy-field-empty"></label>
+            </span>
+
             <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
               <a class="dropdown-item" translate="mail_list.all" (click)="markAllMails(true)">All</a>
               <a class="dropdown-item" translate="mail_list.read" (click)="markReadMails()">Read</a>
-              <a class="dropdown-item" translate="mail_list.unread" (click)="markUneadMails()">Unread</a>
+              <a class="dropdown-item" translate="mail_list.unread" (click)="markUnreadMails()">Unread</a>
               <a class="dropdown-item" translate="mail_list.starred" (click)="markStarredMails()">Starred</a>
               <a class="dropdown-item" translate="mail_list.unstarred" (click)="markUnstarredMails()">Unstarred</a>
             </div>
@@ -174,8 +177,8 @@
     </div>
   </div>
 </div>
-
-<div class="mail-listing">
+<app-progress-bar [active]="showProgress"></app-progress-bar>
+<div class="mail-listing mailbox-sub-content">
   <div class="table-responsive table-hover table-fixed">
     <table class="table table-inbox">
       <tbody>
@@ -216,8 +219,11 @@
               <ng-container *ngSwitchDefault>
                 <label [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</label>
               </ng-container>
-              <span *ngIf="mail?.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
+              <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
+            <span class="position-relative">
+            <i *ngIf="mail.last_action" class="material-icons last-action">{{mail.last_action | lowercase}}</i>
+            </span>
           </a>
         </td>
 
@@ -249,7 +255,7 @@
 
         <!-- Attachment Size -->
         <td class="mail-file-size">
-          <i class="icon icon-attachment" *ngIf="mail.has_attachments"></i>
+          <i class="icon icon-attachment" *ngIf="mail.has_attachments || mail.attachments?.length>0"></i>
         </td>
 
         <!-- Inbox Date -->
@@ -260,17 +266,16 @@
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
+        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
           <img src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'home_feature.'">
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-          <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
+        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+          <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
         </td>
 
       </tr>
-
       <!--Mobile view html -->
       <tr class="hidden-sm-up mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
@@ -294,7 +299,7 @@
                       <ng-container *ngSwitchDefault>
                           {{mail.sender_display.name}}
                       </ng-container>
-                    <span *ngIf="mail?.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
+                    <span *ngIf="mail.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
                   </ng-container>
               </a>
 
@@ -332,8 +337,8 @@
               </span>
           </td>
           <td class="mail-status">
-              <span class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-                <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
+              <span class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+                <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
               </span>
               <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
                   <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
