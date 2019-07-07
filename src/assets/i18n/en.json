@@ -394,7 +394,10 @@
     "username_constraint": "characters and it must be between 2 and 128 characters.",
     "permanently_delete": "Confirm Permanently Account Delete",
     "permanently_delete_alert": "Are you sure you want to permanently delete your account? No one will be able to undo this.",
-    "end_now": "End now"
+    "end_now": "End now",
+    "upgrade": "Upgrade",
+    "contains": "contains",
+    "autoresponder_active": "Autoresponder is active:"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -587,7 +590,8 @@
     "year": "Year",
     "submit": "Submit",
     "send_exactly": "SEND EXACTLY",
-    "donation_amount": "Amount"
+    "donation_amount": "Amount",
+    "pay_to_proceed": "Please pay in order to proceed"
   },
   "page_terms": {
     "the_terms": "The Terms",

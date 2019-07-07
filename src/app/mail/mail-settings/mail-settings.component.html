@@ -35,7 +35,7 @@
                                         </div>
                                         <div><i class="material-icons">card_membership</i></div>
                                         <div>
-                                          <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer">Upgrade</a>
+                                          <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer" translate="settings.upgrade">Upgrade</a>
                                         </div>
                                       </div>
                                     </div>
@@ -763,7 +763,7 @@
                             <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off"
                                    [placeholder]="'common.email'| translate" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
                             <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
-                                  class="validate-message">The email is invalid.
+                                  class="validate-message" translate="settings.email_invalid">The email is invalid.
                             </span>
                         </div>
                         <div class="form-group form-group-sm">
