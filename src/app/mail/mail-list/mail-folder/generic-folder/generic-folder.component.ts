@@ -20,7 +20,6 @@ import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { UpdateSearch } from '../../../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { NotificationService } from '../../../../store/services/notification.service';
 
 @Component({
   selector: 'app-generic-folder',
@@ -58,8 +57,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
               private sharedService: SharedService,
               private composeMailService: ComposeMailService,
               private cdr: ChangeDetectorRef,
-              private modalService: NgbModal,
-              private notificationService: NotificationService) {
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -233,13 +231,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   emptyTrashConfirmed() {
-    const message = this.mails.length === 1 ? 'Mail deleted permanently.' : 'Mails deleted permanently.';
     this.store.dispatch(new EmptyTrash());
-    if (this.mails.length === 1) {
-      this.notificationService.showSnackBar(message);
-    } else {
-      this.notificationService.showSnackBar(message);
-    }
     this.confirmEmptyTrashModalRef.dismiss();
   }
 

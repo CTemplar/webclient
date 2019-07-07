@@ -172,9 +172,11 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.emptyTrash()
         .pipe(
-          switchMap(res => of(new EmptyTrashSuccess(res))),
+          switchMap(res => of(
+            new EmptyTrashSuccess(res),
+            new SnackErrorPush({ message: `Mails deleted permanently.` }))),
           catchError(err => of(
-            new SnackErrorPush({message: `Failed to delete all messages.`}),
+            new SnackErrorPush({ message: `Failed to delete mails, please try again.` }),
             new EmptyTrashFailure(err.error)
           ))
         );
