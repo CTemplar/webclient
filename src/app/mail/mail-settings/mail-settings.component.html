@@ -366,7 +366,7 @@
                                                 <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     {{settings.timezone}}
-                                                </button>list
+                                                </button>
                                                 <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
                                                     <a class="dropdown-item" *ngFor="let timezone of timezones" (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
                                                 </div>
