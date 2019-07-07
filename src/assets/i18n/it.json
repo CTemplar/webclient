@@ -397,7 +397,8 @@
     "end_now": "End now",
     "upgrade": "Upgrade",
     "contains": "contains",
-    "autoresponder_active": "Autoresponder is active:"
+    "autoresponder_active": "Autoresponder is active:",
+    "delete_all_message": "Are you sure, you want to delete all messages in trash?"
   },
   "mail_sidebar": {
     "inbox": "Posta in arrivo",

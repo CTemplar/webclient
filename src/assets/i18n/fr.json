@@ -397,7 +397,8 @@
     "end_now": "termine maintenant",
     "upgrade": "Améliorer",
     "contains": "contient",
-    "autoresponder_active": "Le répondeur automatique est actif:"
+    "autoresponder_active": "Le répondeur automatique est actif:",
+    "delete_all_message": "Êtes-vous sûr de vouloir supprimer tous les messages de la corbeille?"
   },
   "mail_sidebar": {
     "inbox": "Boîte de réception",
