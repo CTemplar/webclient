@@ -135,6 +135,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('delayedDeliveryModal', { static: false }) delayedDeliveryModal;
   @ViewChild('deadManTimerModal', { static: false }) deadManTimerModal;
   @ViewChild('encryptionModal', { static: false }) encryptionModal;
+  @ViewChild('insertLinkModal', { static: false }) insertLinkModal;
 
   draftId: number;
   colors = COLORS;
@@ -156,6 +157,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isTrialPrimeFeaturesAvailable: boolean;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
+  insertLinkData: any = {};
+
   private isMailSent = false;
   private isSavedInDraft = false;
 
@@ -382,6 +385,30 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.quill.setSelection(0, 0, 'silent');
     }, 100);
+  }
+
+  insertLink(text: string, link: string) {
+    this.insertLinkData.modalRef.close();
+    this.quill.focus();
+    this.quill.updateContents([
+      { retain: this.quill.getSelection().index || this.quill.getLength() },
+      {
+        // An image link
+        insert: text,
+        attributes: {
+          link: link,
+          target: '_blank'
+        }
+      }
+    ]);
+  }
+
+  openInsertLinkModal() {
+    this.insertLinkData = {};
+    this.insertLinkData.modalRef = this.modalService.open(this.insertLinkModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
   }
 
   initializeAutoSave() {
