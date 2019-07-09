@@ -752,7 +752,8 @@
     "show_trimmed": "Show trimmed content",
     "attachment_message": "Do you want to forward attachments of this message?",
     "no_header": "No headers available",
-    "incoming_head": "Incoming Headers"
+    "incoming_head": "Incoming Headers",
+    "delete_this_message": "Delete this Message"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

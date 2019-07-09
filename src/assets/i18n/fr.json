@@ -745,14 +745,15 @@
     "reply": "Répondre",
     "reply_all": "Répondre à tous",
     "print": "Imprimer",
-    "delete_message": "Supprimer ce message",
+    "delete_message": "Supprimer définitivement",
     "show_headers": "Afficher les en-têtes",
     "mark_as_spam": "Marquer comme spam",
     "hide_extra": "Masquer le contenu supplémentaire",
     "show_trimmed": "Afficher le contenu coupé",
     "attachment_message": "Voulez-vous inclure les pièces jointes de ce message ?",
     "no_header": "Aucun en-tête disponible",
-    "incoming_head": "En-têtes entrants"
+    "incoming_head": "En-têtes entrants",
+    "delete_this_message": "Supprimer ce message"
   },
   "mail_dialogs": {
     "payment_failed": "Paiement échoué",
