@@ -12,7 +12,7 @@
       <button class="btn btn-sm btn-secondary float-right"
               (click)="startReorder()"
               *ngIf="!reorder && folders?.length>1"
-              [ngbTooltip]="'settings.reorder_addresses'| translate"> <span translate="settings.reorder"></span>Reorder
+              [ngbTooltip]="'settings.reorder_addresses'| translate"> <span translate="settings.reorder">Reorder</span>
       </button>
 
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
