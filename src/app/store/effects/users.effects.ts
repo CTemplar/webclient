@@ -86,7 +86,14 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess, GetInvoices, GetInvoicesSuccess, GetUnreadMailsCount
+  WhiteListsReadSuccess,
+  GetEmailContacts,
+  GetEmailContactsSuccess,
+  GetInvoices,
+  GetInvoicesSuccess,
+  GetUnreadMailsCount,
+  UpdateDomain,
+  UpdateDomainSuccess, UpdateDomainFailure
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -493,6 +500,24 @@ export class UsersEffects {
         .pipe(
           switchMap(res => of(new CreateDomainSuccess(res))),
           catchError(errorResponse => of(new CreateDomainFailure(errorResponse.error))),
+        );
+    }));
+
+  @Effect()
+  updateDomain: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.UPDATE_DOMAIN),
+    map((action: UpdateDomain) => action.payload),
+    switchMap(payload => {
+      return this.userService.updateDomain(payload)
+        .pipe(
+          switchMap(res => of(
+            new UpdateDomainSuccess(res),
+            new SnackPush({ message: `Domain updated successfully` }),
+          )),
+          catchError(errorResponse => of(
+            new UpdateDomainFailure(errorResponse.error),
+            new SnackPush({ message: `Failed to update domain, please try again.` }),
+          )),
         );
     }));
 

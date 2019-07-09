@@ -431,6 +431,15 @@ a {
 		left: 0.375rem;
 		transform: translateY(-50%);	
 	}
+
+	&.insert-link-btn {
+		padding: 3px;
+		height: 2.11rem;
+
+		i {
+			font-size: 21px;
+		}
+	}
 }
 
 .mail-actions-form-title .actions-btn {

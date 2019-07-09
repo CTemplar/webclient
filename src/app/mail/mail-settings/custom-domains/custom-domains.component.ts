@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 // Store
 import { Store } from '@ngrx/store';
 
-import { CreateDomain, DeleteDomain, GetDomains, VerifyDomain } from '../../../store/actions';
+import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } from '../../../store/actions';
 
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
@@ -120,6 +120,10 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     }
   }
 
+  updateDomain(domain: Domain) {
+    this.store.dispatch(new UpdateDomain(domain));
+  }
+
   finishAddingNewDomain() {
     this.isAddingNewDomain = false;
     this.currentStep = 0;
@@ -146,10 +150,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   deleteDomain() {
     this.confirmModalRef.close();
     this.store.dispatch(new DeleteDomain(this.newDomain.id));
-  }
-
-  gotoAddresses() {
-    this.onGotoTab.emit('addresses-signatures');
   }
 
   gotoPricingPlans() {
