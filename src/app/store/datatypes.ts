@@ -364,6 +364,9 @@ export interface Domain {
   is_dmarc_verified: boolean;
   created: string;
   verified_at?: string;
+  number_of_users?: number;
+  number_of_aliases?: number;
+  catch_all?: boolean;
 }
 
 export enum TransactionStatus {

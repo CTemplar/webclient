@@ -328,6 +328,21 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.UPDATE_DOMAIN: {
+      return {
+        ...state,
+        inProgress: true
+      };
+    }
+
+    case UsersActionTypes.UPDATE_DOMAIN_SUCCESS:
+    case UsersActionTypes.UPDATE_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false
+      };
+    }
+
     case UsersActionTypes.READ_DOMAIN_SUCCESS: {
       return {
         ...state,

@@ -58,6 +58,9 @@ export enum UsersActionTypes {
   CREATE_DOMAIN = '[Users] CREATE_DOMAIN',
   CREATE_DOMAIN_SUCCESS = '[Users] CREATE_DOMAIN_SUCCESS',
   CREATE_DOMAIN_FAILURE = '[Users] CREATE_DOMAIN_FAILURE',
+  UPDATE_DOMAIN = '[Users] UPDATE_DOMAIN',
+  UPDATE_DOMAIN_SUCCESS = '[Users] UPDATE_DOMAIN_SUCCESS',
+  UPDATE_DOMAIN_FAILURE = '[Users] UPDATE_DOMAIN_FAILURE',
   READ_DOMAIN = '[Users] READ_DOMAIN',
   READ_DOMAIN_SUCCESS = '[Users] READ_DOMAIN_SUCCESS',
   READ_DOMAIN_FAILURE = '[Users] READ_DOMAIN_FAILURE',
@@ -464,6 +467,27 @@ export class CreateDomainFailure implements Action {
   }
 }
 
+export class UpdateDomain implements Action {
+  readonly type = UsersActionTypes.UPDATE_DOMAIN;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateDomainSuccess implements Action {
+  readonly type = UsersActionTypes.UPDATE_DOMAIN_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class UpdateDomainFailure implements Action {
+  readonly type = UsersActionTypes.UPDATE_DOMAIN_FAILURE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class ReadDomain implements Action {
   readonly type = UsersActionTypes.READ_DOMAIN;
 
@@ -696,6 +720,9 @@ export type UsersActionAll =
   | CreateDomain
   | CreateDomainSuccess
   | CreateDomainFailure
+  | UpdateDomain
+  | UpdateDomainSuccess
+  | UpdateDomainFailure
   | ReadDomain
   | ReadDomainSuccess
   | ReadDomainFailure
