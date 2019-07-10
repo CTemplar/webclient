@@ -171,6 +171,10 @@
                   </ng-container>
                   <{{mail.sender_display.email}}>
                 </a>
+                <span class="position-relative">
+                 <i *ngIf="mail.last_action"
+                    class="material-icons last-action">{{mail.last_action | lowercase}}</i>
+                </span>
               </li>
               <li id="{{mail.id}}-mail-to" translate="settings.compose.to">
                 To:
@@ -310,6 +314,10 @@
                             </ng-container>
                             <{{childMail.sender_display.email}}>
                           </a>
+                          <span class="position-relative">
+                             <i *ngIf="childMail.last_action"
+                                class="material-icons last-action">{{childMail.last_action | lowercase}}</i>
+                          </span>
                         </li>
                         <li id="{{childMail.id}}-mail-to">
                           <span translate="settings.compose.to">To:</span>
@@ -433,7 +441,8 @@
                                   [cc]="composeMailData[childMail.id]?.cc"
                                   [content]="composeMailData[childMail.id]?.content"
                                   [messageHistory]="composeMailData[childMail.id]?.messageHistory"
-                                  [action]="composeMailData[mail.id]?.action"
+                                  [action]="composeMailData[childMail.id]?.action"
+                                  [action_parent]="childMail.id"
                                   [subject]="composeMailData[childMail.id]?.subject"
                                   [selectedMailbox]="composeMailData[childMail.id]?.selectedMailbox"
                                   [parentId]="composeMailData[childMail.id]?.parentId"
@@ -477,6 +486,7 @@
                         [content]="composeMailData[mail.id]?.content"
                         [messageHistory]="composeMailData[mail.id]?.messageHistory"
                         [action]="composeMailData[mail.id]?.action"
+                        [action_parent]="mail.id"
                         [subject]="composeMailData[mail.id]?.subject"
                         [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox"
                         [parentId]="composeMailData[mail.id]?.parentId"

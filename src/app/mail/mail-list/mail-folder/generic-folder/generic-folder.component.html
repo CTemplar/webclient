@@ -222,7 +222,7 @@
               <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
             <span class="position-relative">
-            <i *ngIf="mail.last_action" class="material-icons last-action">{{mail.last_action | lowercase}}</i>
+            <i *ngIf="mail.last_action_thread" class="material-icons last-action">{{mail.last_action_thread | lowercase}}</i>
             </span>
           </a>
         </td>

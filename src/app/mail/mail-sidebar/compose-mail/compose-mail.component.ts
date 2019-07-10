@@ -125,6 +125,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showSaveButton: boolean = true;
   @Input() forwardAttachmentsMessageId: number;
   @Input() action: MailAction;
+  @Input() action_parent: number;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -823,6 +824,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.action) {
       this.draftMail.last_action = this.action;
+      this.draftMail.last_action_parent_id = this.action_parent;
     }
 
     if (this.forwardAttachmentsMessageId) {
