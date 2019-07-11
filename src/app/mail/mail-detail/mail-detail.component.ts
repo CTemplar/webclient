@@ -151,9 +151,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
-       user.customFolders.forEach(folder => {
-         this.folderColors[folder.name] = folder.color;
-       });
+        user.customFolders.forEach(folder => {
+          this.folderColors[folder.name] = folder.color;
+        });
         this.userState = user;
       });
   }
@@ -261,6 +261,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  setActionParent(mail: Mail, isChildMail: boolean, mainReply: boolean) {
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        this.composeMailData[mail.id].action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+      } else {
+        this.composeMailData[mail.id].action_parent_id = this.mail.id;
+      }
+
+    } else {
+      this.composeMailData[mail.id].action_parent_id = mail.id;
+    }
+  }
+
   onReply(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
@@ -280,6 +293,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.composeMailData[mail.id].receivers = this.mail.receiver;
     }
     this.composeMailData[mail.id].action = MailAction.REPLY;
+    this.setActionParent(mail, isChildMail, mainReply);
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -302,6 +316,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
       .filter(email => email !== this.currentMailbox.email && !this.composeMailData[mail.id].receivers.includes(email));
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
+    this.setActionParent(mail, isChildMail, mainReply);
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -315,6 +330,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     };
     this.selectedMailToForward = mail;
     this.composeMailData[mail.id].action = MailAction.FORWARD;
+    this.setActionParent(mail, isChildMail, mainReply);
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
         centered: true,

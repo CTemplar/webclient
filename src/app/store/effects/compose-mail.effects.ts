@@ -120,7 +120,8 @@ export class ComposeMailEffects {
         }
         return this.mailService.createMail(payload.draft)
           .pipe(
-            switchMap(res => {
+            switchMap((res: any) => {
+              res.last_action_data = { last_action: payload.draft.last_action, last_action_parent_id: payload.draft.last_action_parent_id };
               const events: any [] = [
                 new SendMailSuccess(payload),
                 new UpdateCurrentFolder(res),
