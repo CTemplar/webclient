@@ -17,7 +17,7 @@
     },
     "delete": {
       "title": "Confirmer la suppression",
-      "message": "Êtes-vous sûr de vouloir supprimer ?"
+      "message": "Êtes-vous sûr de vouloir supprimer"
     },
     "import_contacts": "Importer des contacts",
     "select_csv": "Pour importer des contacts, sélectionnez un fichier CSV parmi les choix suivants :",
@@ -335,7 +335,7 @@
       "encryption": "Cryptage",
       "self_destr_timer": "Envoi avec délai d'expiration",
       "delayed_delivery": "Envoi différé",
-      "dead_man_timer": "Envoi après délai d'inactivité",
+      "dead_man_timer": "Envoi programmé si inactivé de",
       "save_to_drafts": "Enregistrer dans les brouillons",
       "attach_images": "Joindre des images",
       "select_file": "Sélectionnez les fichiers de votre ordinateur ou entrez une URL",
@@ -402,8 +402,8 @@
   },
   "mail_sidebar": {
     "inbox": "Boîte de réception",
-    "draft": "Brouillon",
-    "sent": "Envoyé",
+    "draft": "Brouillons",
+    "sent": "Envoyés",
     "outbox": "Boîte d'envoi",
     "starred": "Favoris",
     "archive": "Archive",
