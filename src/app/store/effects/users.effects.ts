@@ -384,7 +384,7 @@ export class UsersEffects {
               new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created'} successfully.` })
             ];
             if (folder.id) {
-              actions.push(new GetUnreadMailsCount());
+              actions.push(new GetUnreadMailsCount(), new GetFilters());
             }
             return of(...actions);
           }),
