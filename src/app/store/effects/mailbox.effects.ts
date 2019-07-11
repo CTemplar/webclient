@@ -13,7 +13,7 @@ import { MailService } from '../../store/services';
 import {
   CreateMailbox,
   CreateMailboxFailure,
-  CreateMailboxSuccess,
+  CreateMailboxSuccess, GetDomains,
   GetMailboxes,
   GetMailboxesSuccess,
   MailActionTypes,
@@ -72,7 +72,7 @@ export class MailboxEffects {
     switchMap((payload: any) => {
       return this.mailService.createMailbox(payload)
         .pipe(
-          switchMap(res => of(new CreateMailboxSuccess(res))),
+          switchMap(res => of(new CreateMailboxSuccess(res), new GetDomains())),
           catchError(err => of(
             new CreateMailboxFailure(err.error),
             new SnackErrorPush({ message: 'Failed to create new email address.' })
