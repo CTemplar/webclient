@@ -398,7 +398,7 @@
                       <a class="dropdown-item" (click)="onReply(childMail, childIndex, true)" translate="mail_detail.reply">Reply</a>
                       <a class="dropdown-item" (click)="onReplyAll(childMail, childIndex, true)" translate="mail_detail.reply_all">Reply All</a>
                       <a class="dropdown-item" (click)="onPrint(childMail)" translate="mail_detail.print">Print</a>
-                      <a class="dropdown-item" (click)="onDelete(childMail)" [translate]= "(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)">Delete Permanently</a>
+                      <a class="dropdown-item" (click)="onDelete(childMail, childIndex)" [translate]= "(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)">Delete Permanently</a>
                       <a class="dropdown-item" (click)="showIncomingHeaders(childMail)" translate="mail_detail.show_headers">Show headers</a>
                     </div>
                   </div>
