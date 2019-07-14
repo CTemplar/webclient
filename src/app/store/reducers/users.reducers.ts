@@ -120,6 +120,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         contact.email = action.payload.email;
         contact.name = action.payload.name;
         return { ...state, inProgress: false, isError: false };
+      } else {
+        state.totalContacts = state.totalContacts + 1;
       }
       return { ...state, contact: sortByString(state.contact.concat([action.payload]), 'name'), inProgress: false, isError: false };
     }
@@ -133,7 +135,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       contacts.forEach(contact => {
         state.contact.splice(state.contact.indexOf(contact), 1);
       });
-
+      state.totalContacts = state.contact.length;
       return { ...state, inProgress: false, isError: false };
     }
 
