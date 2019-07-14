@@ -16,7 +16,7 @@ import {
   CreateMailSuccess,
   DeleteAttachment,
   DeleteAttachmentFailure,
-  DeleteAttachmentSuccess, GetUnreadMailsCount,
+  DeleteAttachmentSuccess, DeleteMailSuccess, GetUnreadMailsCount,
   GetUsersKeys,
   GetUsersKeysSuccess,
   SendMail,
@@ -126,6 +126,7 @@ export class ComposeMailEffects {
                 new SendMailSuccess(payload),
                 new UpdateCurrentFolder(res),
                 new UpdateMailDetailChildren(res),
+                new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true }),
                 new SnackPush({
                   message: `Mail sent successfully`
                 })];
