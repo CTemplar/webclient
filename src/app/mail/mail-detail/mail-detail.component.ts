@@ -357,7 +357,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = false;
   }
 
-  onDelete(mail: Mail) {
+  onDelete(mail: Mail, index?: number) {
     if (mail.folder === MailFolderType.TRASH) {
       this.store.dispatch(new DeleteMail({ ids: mail.id.toString() }));
       if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
@@ -365,6 +365,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.goBack(500);
       }
     } else {
+      this.onDeleteCollapseMail(index);
       this.store.dispatch(new MoveMail({
         ids: mail.id,
         folder: MailFolderType.TRASH,
@@ -375,6 +376,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     if (mail.id === this.mail.id) {
       this.goBack(500);
+    }
+  }
+
+  onDeleteCollapseMail(index?: number) {
+    if (index > 0) {
+      this.childMailCollapsed[index - 1] = false;
+    } else if (index === 0) {
+      this.parentMailCollapsed = false;
     }
   }
 
