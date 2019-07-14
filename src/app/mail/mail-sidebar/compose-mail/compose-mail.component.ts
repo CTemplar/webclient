@@ -796,6 +796,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   setMailData(shouldSend: boolean, shouldSave: boolean) {
     if (!this.draftMail) {
       this.draftMail = { content: null, folder: 'draft' };
+    } else {
+      this.draftMail = { content: null, folder: 'sent' };
     }
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
