@@ -365,7 +365,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.goBack(500);
       }
     } else {
-      this.onDeleteCollapseMail(index);
       this.store.dispatch(new MoveMail({
         ids: mail.id,
         folder: MailFolderType.TRASH,
@@ -373,6 +372,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         mail: mail,
         allowUndo: true
       }));
+      if (this.mail.children) {
+        this.mail.children  = this.mail.children.filter(child => child.id !== mail.id);
+      }
+      this.onDeleteCollapseMail(index);
     }
     if (mail.id === this.mail.id) {
       this.goBack(500);
@@ -382,6 +385,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onDeleteCollapseMail(index?: number) {
     if (index > 0) {
       this.childMailCollapsed[index - 1] = false;
+      this.childMailCollapsed.splice(index, 1);
     } else if (index === 0) {
       this.parentMailCollapsed = false;
     }
