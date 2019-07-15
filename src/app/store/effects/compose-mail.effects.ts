@@ -126,7 +126,7 @@ export class ComposeMailEffects {
                 new SendMailSuccess(payload),
                 new UpdateCurrentFolder(res),
                 new UpdateMailDetailChildren(res),
-                new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true }),
+                new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true, isMailDetailPage: payload.isMailDetailPage }),
                 new SnackPush({
                   message: `Mail sent successfully`
                 })];

@@ -126,6 +126,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() forwardAttachmentsMessageId: number;
   @Input() action: MailAction;
   @Input() action_parent: number;
+  @Input() isMailDetailPage: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
@@ -842,7 +843,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.checkInlineAttachments();
-    this.store.dispatch(new UpdateLocalDraft({ ...this.draft, shouldSave, shouldSend, draft: { ...this.draftMail } }));
+    this.store.dispatch(new UpdateLocalDraft({
+      ...this.draft, isMailDetailPage: this.isMailDetailPage,
+      shouldSave, shouldSend, draft: { ...this.draftMail }
+    }));
   }
 
   checkInlineAttachments() {

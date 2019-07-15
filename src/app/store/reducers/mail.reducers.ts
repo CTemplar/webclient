@@ -154,6 +154,9 @@ export function reducer(
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
+      if (action.payload.isMailDetailPage) {
+        return state;
+      }
       if ((state.currentFolder === MailFolderType.DRAFT && action.payload.isDraft) || !action.payload.isDraft) {
         const listOfIDs = action.payload.ids.split(',');
         state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));

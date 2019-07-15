@@ -212,6 +212,7 @@ export interface Draft {
   shouldSave?: boolean;
   getUserKeyInProgress?: boolean;
   usersKeys?: UserKey;
+  isMailDetailPage?: boolean;
 
   /**
    * @var isClosed

@@ -292,6 +292,7 @@
             <div class="mail-composer is-borderd border-bottom-0 mt-2">
               <app-compose-mail [draftMail]="childMail"
                                 [showSaveButton]="false"
+                                [isMailDetailPage]="true"
                                 (hide)="onComposeMailHide(childMail)"></app-compose-mail>
             </div>
           </div>
@@ -448,6 +449,7 @@
                                   [parentId]="composeMailData[childMail.id]?.parentId"
                                   [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId"
                                   [showSaveButton]="false"
+                                  [isMailDetailPage]="true"
                                   (hide)="onComposeMailHide(childMail)"></app-compose-mail>
               </div>
             </div>
@@ -492,6 +494,7 @@
                         [parentId]="composeMailData[mail.id]?.parentId"
                         [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId"
                         [showSaveButton]="false"
+                        [isMailDetailPage]="true"
                         (hide)="onComposeMailHide(mail)"></app-compose-mail>
     </div>
   </div>
