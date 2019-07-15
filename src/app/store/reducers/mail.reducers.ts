@@ -197,23 +197,25 @@ export function reducer(
     }
 
     case MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN: {
-      if (action.payload.last_action_data.last_action) {
-        if (state.mailDetail.id === action.payload.last_action_data.last_action_parent_id) {
-          state.mailDetail.last_action = action.payload.last_action_data.last_action;
-        } else {
-          state.mailDetail.children = state.mailDetail.children.map(mail => {
-            if (mail.id === action.payload.last_action_data.last_action_parent_id) {
-              mail.last_action = action.payload.last_action_data.last_action;
-            }
-            return mail;
-          });
+      if (state.mailDetail) {
+        if (action.payload.last_action_data.last_action) {
+          if (state.mailDetail.id === action.payload.last_action_data.last_action_parent_id) {
+            state.mailDetail.last_action = action.payload.last_action_data.last_action;
+          } else {
+            state.mailDetail.children = state.mailDetail.children.map(mail => {
+              if (mail.id === action.payload.last_action_data.last_action_parent_id) {
+                mail.last_action = action.payload.last_action_data.last_action;
+              }
+              return mail;
+            });
+          }
         }
-      }
-      if (state.mailDetail && action.payload.parent === state.mailDetail.id) {
-        state.mailDetail.children = state.mailDetail.children || [];
-        state.mailDetail.children = state.mailDetail.children
-          .filter(child => !(child.id === action.payload.id && child.folder === MailFolderType.DRAFT));
-        state.mailDetail.children = [...state.mailDetail.children, action.payload];
+        if (action.payload.parent === state.mailDetail.id) {
+          state.mailDetail.children = state.mailDetail.children || [];
+          state.mailDetail.children = state.mailDetail.children
+            .filter(child => !(child.id === action.payload.id && child.folder === MailFolderType.DRAFT));
+          state.mailDetail.children = [...state.mailDetail.children, action.payload];
+        }
       }
       return { ...state, noUnreadCountChange: true };
     }
