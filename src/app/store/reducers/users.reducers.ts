@@ -135,7 +135,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       contacts.forEach(contact => {
         state.contact.splice(state.contact.indexOf(contact), 1);
       });
-      state.totalContacts = state.totalContacts - 1;
+      state.totalContacts = state.totalContacts - ids.length;
       return { ...state, inProgress: false, isError: false };
     }
 
