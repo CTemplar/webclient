@@ -221,7 +221,7 @@
               </ng-container>
               <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
-            <span class="position-relative">
+            <span class="position-relative" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
             <i *ngIf="mail.last_action_thread" class="material-icons last-action">{{mail.last_action_thread | lowercase}}</i>
             </span>
           </a>
