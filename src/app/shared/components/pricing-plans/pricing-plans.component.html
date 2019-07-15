@@ -358,7 +358,9 @@
                       /<span class="text-normal">mo</span></span>
                   </a>
                   <div *ngIf="showCurrentPlan && userPlanType === planType.CHAMPION">
-                    <span class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
+                    <a *ngIf="isValueChanged" (click)="selectPlan(2)"
+                       class="btn btn-lg btn-gradient-primary cursor-pointer upgrade-button"><strong>Upgrade Plan</strong></a>
+                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
                   </div>
                 </div>
               </footer>
