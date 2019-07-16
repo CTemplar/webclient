@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, UserState } from '../../store/datatypes';
@@ -6,24 +6,21 @@ import { Store } from '@ngrx/store';
 import { ExpireSession, Logout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../../shared/config';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 import { FormControl } from '@angular/forms';
 import { UpdateSearch } from '../../store/actions/search.action';
 import { DOCUMENT } from '@angular/common';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { SearchState } from '../../store/reducers/search.reducers';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-header',
   templateUrl: './mail-header.component.html',
   styleUrls: ['./mail-header.component.scss']
 })
 export class MailHeaderComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   // Public property of boolean type set false by default
   menuIsOpened: boolean = false;
@@ -43,30 +40,31 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         if (user.settings.language) {
           const language = this.languages.filter(item => item.name === user.settings.language)[0];
           if (this.selectedLanguage.name !== language.name) {
-            this.changeLanguage(language);
+            this.translate.use(language.locale);
+            this.selectedLanguage = language;
           }
           this.selectedLanguage = language;
         }
       });
 
     this.setSearchPlaceholder(this.router.url);
-    this.router.events.pipe(takeUntil(this.destroyed$), filter(event => event instanceof NavigationEnd))
+    this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.setSearchPlaceholder(event.url);
       });
 
-    this.searchInput.valueChanges.pipe(takeUntil(this.destroyed$))
+    this.searchInput.valueChanges.pipe(untilDestroyed(this))
       .subscribe((value) => {
         if (!value) {
           this.store.dispatch(new UpdateSearch({ searchText: value, clearSearch: true }));
         }
       });
-    this.store.select(state => state.search).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.search).pipe(untilDestroyed(this))
       .subscribe((searchState: SearchState) => {
         if (!searchState.searchText) {
           this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
@@ -95,12 +93,6 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.store.dispatch(new Logout());
     }, 500);
-  }
-
-  changeLanguage(lang: Language) {
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    this.translate.use(lang.locale);
-    this.selectedLanguage = lang;
   }
 
   openComposeMailDialog(receivers) {

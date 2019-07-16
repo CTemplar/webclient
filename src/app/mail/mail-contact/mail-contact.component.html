@@ -7,7 +7,7 @@
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggle-text">Menu</span>
+                <span class="navbar-toggle-text" translate="mail_sidebar.menu">Menu</span>
             </button>
             <figure class="navbar-brand-holder hidden-sm-down">
                 <a class="navbar-brand ff-roboto text-uppercase" routerLink="/mail">
@@ -17,7 +17,7 @@
             </figure>
             <div class="prime-account-content" *ngIf="userState.isPrime">
                 <i class="icon icon-secure-shield"></i>
-                <span class="prime-account-text">Prime</span>
+                <span class="prime-account-text" translate="settings.prime">Prime</span>
             </div>
         </div>
 
@@ -45,9 +45,9 @@
                 <div class="text-white mt-1">{{(userState.settings?.used_storage * 1024) | filesize}}</div>
             </div>
             <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
-                <span translate="common.used_storage">Used storage</span>: {{(userState.settings?.used_storage * 1024) | filesize}} of {{(userState.settings.allocated_storage * 1024) | filesize}}
+                <span translate="common.used_storage">Used storage</span>: {{(userState.settings?.used_storage * 1024) | filesize}} <span translate="settings.of">of</span> {{(userState.settings.allocated_storage * 1024) | filesize}}
             </div>
-            <a routerLink="/mail/settings" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
+            <a routerLink="/mail/settings/dashboard-and-plans" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
                 <small>
                     <u translate="common.upgrade_account">Upgrade account</u>
                 </small>
@@ -60,7 +60,7 @@
 <!-- Add user button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
     <button class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon" role="button"
-            placement="top" ngbTooltip="Add User" (click)="selectedContact=null;initSplitContactLayout();"><i
+            placement="top" [ngbTooltip]="'settings.add_user'| translate" (click)="selectedContact=null;initSplitContactLayout();"><i
             class="icon icon-add-user text-white"></i></button>
 </div>
 
@@ -94,10 +94,10 @@
                 <li class="hidden-xs-down pr-0">
                     <a class="no-icon text-grey-dark-500" role="button"
                        [translate]="'contacts.new_contact'"
-                       (click)="editContact(null, addUserContent);">New Contact</a>
+                       (click)="editContact(null, addUserContent);" translate="contacts.new_contact">New Contact</a>
                 </li>
                 <li class="">
-                    <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()">Import Contacts</a>
+                    <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()" translate="contacts.import_contacts">Import Contacts</a>
                 </li>
                 <li *ngIf="inProgress">
                     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
@@ -106,7 +106,7 @@
                     <div class="pager">
                         <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="userState?.contact?.length>0">
                             <div class="mail-result-text text-muted">
-                                <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+                                <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
                             </div>
                             <div class="mail-nav-control">
                                 <button role="button" class="mail-nav-control-prev" (click)="prevPage()">
@@ -189,7 +189,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mail-contact-layout-col mail-contact-entry-col">
+            <div class="col-12 mail-contact mail-contact-layout-col mail-contact-entry-col">
                 <div class="mail-actions-form-holder">
                     <h5 class="mail-actions-form-title text-dark">
                         <button class="actions-btn" role="button"
@@ -276,14 +276,14 @@
 <!-- import contacts modal -->
 <ng-template #importContactsModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>Import Contacts</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="contacts.import_contacts">Import Contacts</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body bg-faded">
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <div class="form-group">
+            <div class="form-group" translate="contacts.select_csv">
                 Select a CSV file from one of the following providers.
             </div>
             <input type="file"
@@ -297,22 +297,22 @@
             <div class="form-group mb-0">
                 <button type="button"
                         (click)="selectedContactsProvider = contactsProviderType.GOOGLE;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7" role="button">Import from Google
+                        class="btn btn-success btn-sm col col-sm-7" role="button" translate="contacts.import_f_google">Import from Google
                 </button>
                 <br/>
                 <button type="button"
                         (click)="selectedContactsProvider = contactsProviderType.YAHOO;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">Import from Yahoo
+                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button" translate="contacts.import_f_yahoo">Import from Yahoo
                 </button>
                 <br/>
                 <button type="button"
                         (click)="selectedContactsProvider = contactsProviderType.OUTLOOK;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">Import from Outlook
+                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button" translate="contacts.import_f_outlook">Import from Outlook
                 </button>
                 <br/>
                 <button type="button"
                         (click)="selectedContactsProvider = contactsProviderType.OTHER;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">Import from Other
+                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button" translate="contacts.import_f_other">Import from Other
                 </button>
             </div>
         </div>

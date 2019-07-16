@@ -192,14 +192,14 @@
                          formControlName="recoveryEmail"/>
                   <span *ngIf="signupForm.controls['recoveryEmail'].errors && signupForm.controls['recoveryEmail'].touched"
                         id="email-valid1"
-                        class="validate-message">The email is invalid.
+                        class="validate-message" translate="settings.email_invalid">The email is invalid.
                   </span>
                 </div>
               </div>
 
               <div class="form-step-card" *ngIf="selectedPlan !== 1 && selectedPlan !== 2 && captcha">
                 <h3 class="form-step-card-title text-dark mb-2">
-                  <strong>Security check</strong>
+                  <strong translate="create_account.security_check">Security check</strong>
                 </h3>
                 <div class="l-block-body px-md">
                   <div class="">
@@ -211,12 +211,12 @@
                         <i class="material-icons refresh-icon"
                            *ngIf="!captcha?.inProgress"
                            (click)="reloadCaptcha()"
-                           ngbTooltip="Try another one">refresh</i>
+                           [ngbTooltip]="'create_account.try_another_one'| translate">refresh</i>
                         <app-loading-spinner [showSpinner]="captcha.inProgress"></app-loading-spinner>
                       </div>
                       <div class="input-group">
                         <input class="my-2 form-control text-dark" id="captcha" name="captcha"
-                               placeholder="Write text from image"
+                               [placeholder]="'create_account.text_from_image'| translate"
                                (blur)="verifyCaptcha()"
                                type="text" [(ngModel)]="captchaValue" [ngModelOptions]="{standalone: true}"/>
                         <i class="fas fa-check green password-ok captcha_ok"
@@ -224,7 +224,7 @@
                       </div>
                       <span *ngIf="captcha.isInvalid"
                             id="captcha_invalid"
-                            class="validate-message">Invalid captcha, please try again.
+                            class="validate-message" translate="create_account.invalid_captcha">Invalid captcha, please try again.
                       </span>
                     </div>
                   </div>

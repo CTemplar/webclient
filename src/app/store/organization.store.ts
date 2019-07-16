@@ -7,7 +7,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { OrganizationUser } from './models';
 import { sortByString, UsersService } from './services';
-import { SnackErrorPush } from './actions';
+import { GetDomains, SnackErrorPush } from './actions';
 
 export enum OrganizationActionTypes {
   GET_ORGANIZATION_USERS = '[ORGANIZATION] GET USERS',
@@ -151,6 +151,7 @@ export class OrganizationEffects {
               return of(
                 new AddOrganizationUserSuccess({ ...payload, ...response }),
                 new SnackErrorPush({ message: `User '${payload.username}' added successfully.` }),
+                new GetDomains(),
               );
             }),
             catchError((response) => of(new AddOrganizationUserFailure(response.error)))
@@ -171,6 +172,7 @@ export class OrganizationEffects {
               return of(
                 new DeleteOrganizationUserSuccess(payload),
                 new SnackErrorPush({ message: `User '${payload.username}' deleted successfully.` }),
+                new GetDomains(),
               );
             }),
             catchError((response) => of(new DeleteOrganizationUserFailure(response.error)))

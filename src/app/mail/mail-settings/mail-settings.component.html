@@ -1,81 +1,116 @@
-<div class="mailbox-sub-content">
+<div class="mailbox-sub-content" #settingsContent>
 
-    <ngb-tabset #tabSet="ngbTabset">
+    <ngb-tabset #tabSet="ngbTabset" (tabChange)="navigateToTab($event); scrollTop(settingsContent)" >
 
         <!-- Dashboard and Plans -->
-        <ngb-tab id="dashboard-plans">
-            <ng-template ngbTabTitle>Dashboard and plans</ng-template>
+        <ngb-tab id="dashboard-and-plans">
+            <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard & plans</span></ng-template>
             <ng-template ngbTabContent>
+
 
                 <!-- Overview Section -->
                 <section class="mailbox-section mt-4">
 
                     <div class="mailbox-section-body pt-0">
                         <div class="desc-card-holder mt-sm-3 mt-md-0">
-                            <div class="row">
-                                <div class="col-md-6 mb-4 mb-md-0">
-                                    <div class="desc-card">
-                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.overview">Overview</strong>
-                                            </h5>
-                                        </div>
-                                        <div class="desc-card-body">
-                                            <ul class="info-list list-styled text-dark">
-                                                <li class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.username">
-                                                        Username
-                                                    </div>
-                                                    <div class="info-list-text info-list-val">{{userState.username}}</div>
-                                                </li>
-                                                <li class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.domains">
-                                                        Domains
-                                                    </div>
-                                                    <div class="info-list-text info-list-val">
-                                                        <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
-                                                        <span *ngIf="!userState.isPrime" translate="settings.none">None</span>
-                                                    </div>
-                                                </li>
-                                                <li class="info-list-item align-items-start">
-                                                    <div class="info-list-text info-list-label" translate="settings.addresses">
-                                                        Addresses
-                                                    </div>
-                                                    <div class="info-list-text info-list-val">
-                                                        <div *ngIf="userState.isPrime" class="ng-tooltips-holder d-inline-block"
-                                                            placement="top">
-                                                            <div class="info-list-val-text" translate="settings.address_tooltip">
-                                                                {{settings?.email_count}}
-                                                            </div>
-                                                        </div>
-                                                        <div *ngIf="!userState.isPrime" class="d-inline-block">
-                                                            <div class="info-list-val-text" translate="settings.address_one">
-                                                                One
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </li>
-                                                <li class="info-list-item">
-                                                    <div class="info-list-text info-list-label" translate="settings.storage">
-                                                        Storage
-                                                    </div>
-
-                                                    <div class="info-list-text info-list-val">
-                                                        <div class="info-list-val-text"> {{(settings?.used_storage *
-                                                            1024) | filesize}} of {{(settings?.allocated_storage *
-                                                            1024) | filesize}}</div>
-                                                        <div class="progress progress-secondary progress-lg">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
-                                                                [attr.aria-valuenow]="settings.used_storage"
-                                                                aria-valuemin="0" [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                          <!--START Plan details -->
+                          <div class="mb-4 row plan-details">
+                            <div class="col-12">
+                              <div class="desc-card">
+                                <div
+                                        class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                                  <h5 class="ui-header-subtitle text-dark mb-0"><strong>Plan Details</strong></h5>
                                 </div>
+                                <div class="desc-card-body">
+                                  <div class="row">
+                                    <div class="col-5">
+                                      <div align="center" class="subscription">
+                                        <div class="subscription-tag">
+                                             <span *ngIf="userPlanType === planType.FREE"
+                                                   translate="settings.free">Free</span>
+                                            <span *ngIf="userPlanType === planType.PRIME"
+                                                  translate="settings.prime">PRIME</span>
+                                            <span *ngIf="userPlanType === planType.CHAMPION"
+                                                  translate="settings.champion">CHAMPION</span>
+                                        </div>
+                                        <div><i class="material-icons">card_membership</i></div>
+                                        <div>
+                                          <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer" translate="settings.upgrade">Upgrade</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-7">
+                                      <ul class="info-list list-styled text-dark">
+                                        <li class="info-list-item">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.username">
+                                            Username
+                                          </div>
+                                          <div class="info-list-text info-list-val">{{userState.username}}</div>
+                                        </li>
+                                        <li class="info-list-item">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.domains">
+                                            Domains
+                                          </div>
+                                          <div class="info-list-text info-list-val">
+                                            <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
+                                            <span *ngIf="!userState.isPrime"
+                                                  translate="settings.none">None</span>
+                                          </div>
+                                        </li>
+                                        <li class="info-list-item align-items-start">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.addresses">
+                                            Addresses
+                                          </div>
+                                          <div class="info-list-text info-list-val">
+                                            <div *ngIf="userState.isPrime"
+                                                 class="ng-tooltips-holder d-inline-block"
+                                                 placement="top">
+                                              <div class="info-list-val-text"
+                                                   translate="settings.address_tooltip">
+                                                {{settings?.email_count}}
+                                              </div>
+                                            </div>
+                                            <div *ngIf="!userState.isPrime" class="d-inline-block">
+                                              <div class="info-list-val-text"
+                                                   translate="settings.address_one">
+                                                One
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </li>
+                                        <li class="info-list-item">
+                                          <div class="info-list-text info-list-label"
+                                               translate="settings.storage">
+                                            Storage
+                                          </div>
+
+                                          <div class="info-list-text info-list-val">
+                                            <div class="info-list-val-text"> {{(settings?.used_storage *
+                                                1024) | filesize}} of {{(settings?.allocated_storage *
+                                                1024) | filesize}}</div>
+                                            <div class="progress progress-secondary progress-lg">
+                                              <div class="progress-bar" role="progressbar"
+                                                   [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
+                                                   [attr.aria-valuenow]="settings.used_storage"
+                                                   aria-valuemin="0"
+                                                   [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--END Plan details -->
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="desc-card">
                                         <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
@@ -187,6 +222,73 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <div class="desc-card">
+                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Bills</strong>
+                                            </h5>
+                                        </div>
+                                        <div class="plan-details">
+                                            <div class="desc-card-body invoices"
+                                                 [ngClass]="{'no-invoice' : userState?.isInvoiceLoaded && invoices.length===0}">
+                                                <div *ngIf="userState?.isInvoiceLoaded && invoices.length>0">
+                                                    <ul class="ui-list ui-list-styled list-styled invoices-list">
+                                                        <li class="ui-list-item ui-list-item-xs-full">
+                                                            <div class="row row-xs align-items-center">
+                                                                <div class="col-5 font-weight-bold col-item">
+                                                                    # Invoice
+                                                                </div>
+                                                                <div class="col-3 col-item">
+                                                                    <div class="form-label mb-0 font-weight-bold">
+                                                                        Date
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-2 font-weight-bold col-item">
+                                                                    Amount
+                                                                </div>
+                                                            </div>
+                                                        <li class="ui-list-item ui-list-item-xs-full"
+                                                            *ngFor="let invoice of invoices">
+                                                            <div class="row row-xs align-items-center">
+                                                                <div class="col-5 text-dark col-item" ngbTooltip="View invoice">
+                                                                    <a class="cursor-pointer" (click)="onViewInvoice(invoice)">
+                                                                        {{invoice.invoice_id}}
+                                                                    </a>
+                                                                </div>
+                                                                <div class="col-3 col-item">
+                                                                    <div class="form-label text-dark mb-0">
+                                                                        {{invoice.invoice_date | date: 'dd/MM/yyyy'}}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-2 text-dark col-item">
+                                                                  ${{(invoice.total_amount/100).toFixed(2)}}
+                                                                </div>
+                                                                <div class="col-2 display-inline-flex actions">
+                                                                    <i (click)="onViewInvoice(invoice)"
+                                                                       ngbTooltip="View"
+                                                                       class="material-icons pr-2 cursor-pointer">visibility</i>
+                                                                    <i (click)="onPrintInvoice(invoice)"
+                                                                       ngbTooltip="Print"
+                                                                       class="material-icons cursor-pointer">print_outline</i>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices.length===0">
+                                                    No bills available
+                                                </div>
+
+                                                <div class="loader" *ngIf="!userState?.isInvoiceLoaded">
+                                                    <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -194,7 +296,7 @@
 
 
                 <!-- Account Type Section -->
-                <section class="mailbox-section">
+                <section class="mailbox-section" #targetUpgrade>
                     <div class="ui-header ui-header-bordered position-relative">
                         <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account
                                 Type</strong></h5>
@@ -219,8 +321,8 @@
         </ngb-tab>
 
         <!-- General -->
-        <ngb-tab>
-            <ng-template ngbTabTitle>General</ng-template>
+        <ngb-tab id="general">
+            <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
             <ng-template ngbTabContent>
 
                 <!-- General Settings -->
@@ -304,7 +406,7 @@
                             <div class="form-content-row">
                                 <div class="row align-items-center">
                                     <div class="col-sm-3">
-                                        <label class="form-label mb-0">Default Mail Compose Font</label>
+                                        <label class="form-label mb-0" translate="settings.compose_font">Default Mail Compose Font</label>
                                     </div>
                                     <div class="col-sm-7 col-md-5">
                                         <div class="btn-dropdown btn-dropdown-select">
@@ -317,37 +419,6 @@
                                                        (click)="updateSettings('default_font', font)">
                                                         {{font}}
                                                     </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <!-- Will be used later -->
-                            <div class="form-content-row" *ngIf="false">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-0" translate="settings.vacation_responder">Vacation
-                                            responder</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="row row-sm">
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="responderField1"
-                                                        name="[2]" type="radio" (click)="updateSettings('autoresponder', true)"
-                                                        [checked]="settings.autoresponder" />
-                                                    <label for="responderField1" translate="common.enabled">Enabled</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="responderField2"
-                                                        name="[2]" type="radio" (click)="updateSettings('autoresponder', false)"
-                                                        [checked]="!settings.autoresponder" />
-                                                    <label for="responderField2" translate="common.disabled">Disabled</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -472,7 +543,7 @@
                                                placeholder="johnsimpson@gmail.com"/>
                                     </form>
                                     <div class="info-card mx-3 mt-2 full-width">
-                                        <p>
+                                        <p translate="settings.enter_notification_email">
                                             Enter a notification email on which you would like to receive notification
                                             each day when you have new emails.
                                         </p>
@@ -480,12 +551,13 @@
                                 </div>
                                 <div class="row align-items-center">
                                     <div class="col-sm-3">
-                                        <label class="form-label mb-sm-0">
+                                        <label class="form-label mb-sm-0" translate="settings.desktop_notification_title">
                                             Desktop notifications</label>
                                     </div>
                                     <div class="col-sm-7 col-md-5">
                                       <div class="info-card mt-3 full-width">
-                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED">
+                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED"
+                                        translate="settings.desktop_notifications_dis">
                                           Desktop Notifications are disabled.
                                           Please go to your browser settings in order to enable them.
                                         </p>
@@ -493,8 +565,8 @@
                                           <a (click)="requestNotificationPermission()">Click here</a> in order to enable desktop notifications.
                                         </p>
                                         <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
-                                          Desktop notifications are enabled.
-                                          <a (click)="testNotification()">Click here to Test</a>
+                                          <span translate="settings.desktop_notifications_en">Desktop notifications are enabled.</span>
+                                          <a (click)="testNotification()"> <span translate="settings.click_to_test">Click here to Test</span></a>
                                         </p>
                                       </div>
                                     </div>
@@ -509,18 +581,18 @@
                 <!-- Delete account settings -->
                 <section class="mailbox-section">
                     <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong>Delete Account</strong>
+                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.delete_account">Delete Account</strong>
                         </h5>
                     </header>
                     <div class="mailbox-section-body mailbox-section-body-sm">
                         <div class="form-content-holder">
                             <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
                             <div class="info-card">
-                                <p>If you permanently delete your account you will lose all the data in your mailbox.
+                                <p translate="settings.delete_account_guide">If you permanently delete your account you will lose all the data in your mailbox.
                                     In 2 months this username will be available for re-use by anyone who selects it.</p>
                                 <button type="button" class="text-uppercase btn-link" role="button"
                                         [disabled]="authState?.inProgress"
-                                        (click)="onDeleteAccount()"><strong><u>Permanently Delete Account</u></strong>
+                                        (click)="onDeleteAccount()"><strong><u translate="settings.delete_account_perm">Permanently Delete Account</u></strong>
                                 </button>
                             </div>
                         </div>
@@ -531,8 +603,8 @@
         </ngb-tab>
 
         <!-- Filters and blocked addresses -->
-        <ngb-tab>
-            <ng-template ngbTabTitle>Filters and blocked addresses</ng-template>
+        <ngb-tab id="filters-and-blocked-addresses">
+            <ng-template ngbTabTitle> <span translate="settings.filters.title">Filters & blocked addresses</span></ng-template>
             <ng-template ngbTabContent>
 
               <!-- Custom filters -->
@@ -613,8 +685,8 @@
         </ngb-tab>
 
         <!-- Addresses and Signatures -->
-        <ngb-tab id="addresses-signatures">
-            <ng-template ngbTabTitle>Addresses and signatures</ng-template>
+        <ngb-tab id="addresses-and-signatures">
+            <ng-template ngbTabTitle><span translate="settings.addresses_and_signs">Addresses & signatures</span></ng-template>
             <ng-template ngbTabContent>
                 <app-addresses-signature></app-addresses-signature>
             </ng-template>
@@ -622,33 +694,33 @@
 
         <!-- Folders -->
         <ngb-tab id="folders">
-            <ng-template ngbTabTitle>Folders</ng-template>
+            <ng-template ngbTabTitle><div translate="page_pricing.folders">Folders</div></ng-template>
             <ng-template ngbTabContent>
                 <app-folders></app-folders>
             </ng-template>
         </ngb-tab>
 
         <!-- Security -->
-        <ngb-tab>
-            <ng-template ngbTabTitle>Security</ng-template>
+        <ngb-tab id="security">
+            <ng-template ngbTabTitle><div translate="home_header.security">Security</div></ng-template>
            <ng-template ngbTabContent>
                <app-settings-security></app-settings-security>
            </ng-template>
         </ngb-tab>
 
         <!-- Domains -->
-        <ngb-tab>
-            <ng-template ngbTabTitle>Domains & Users</ng-template>
+        <ngb-tab id="domains-and-users">
+            <ng-template ngbTabTitle><div translate="settings.domains_and_users.title">Domains & Users</div></ng-template>
             <ng-template ngbTabContent>
 
-                <app-custom-domains (onGotoTab)="tabSet.select($event);scrollTo(0, 630)"></app-custom-domains>
+                <app-custom-domains (onGotoTab)="tabSet.select($event);"></app-custom-domains>
 
             </ng-template>
         </ngb-tab>
 
         <!-- Forwarding and auto responder -->
-        <ngb-tab>
-            <ng-template ngbTabTitle>Forwarding and autoresponder</ng-template>
+        <ngb-tab id="forwarding-and-auto-responder">
+            <ng-template ngbTabTitle> <div translate="settings.forwarding_and_autores">Forwarding & autoresponder</div></ng-template>
             <ng-template ngbTabContent>
                 <app-mail-forwarding></app-mail-forwarding>
                 <app-mail-autoresponder></app-mail-autoresponder>
@@ -661,190 +733,7 @@
         <i class="icon icon-save-disk"></i>
     </button>
 
-
-    <!--This section is hidden for now, will be used in dev pack 1.-->
-    <section class="mailbox-section" *ngIf="false">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Filters</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="toggle-switcher">
-                                    <input class="d-none toggle-switcher-control" id="switcherField1" name=""
-                                           type="checkbox" checked/>
-                                    <label for="switcherField1"></label>
-                                    <span class="toggle-switcher-text">My spam filter</span>
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="toggle-switcher">
-                                    <input class="d-none toggle-switcher-control" id="switcherField3" name=""
-                                           type="checkbox" checked/>
-                                    <label for="switcherField3"></label>
-                                    <span class="toggle-switcher-text">Important messages filter</span>
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="toggle-switcher">
-                                    <input class="d-none toggle-switcher-control" id="switcherField2" name=""
-                                           type="checkbox"/>
-                                    <label for="switcherField2"></label>
-                                    <span class="toggle-switcher-text">Auto-labeling test</span>
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-card">
-                    <p>Add a filter to perform actions such as automatically labeling or archiving.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-                       (click)="openCustomFilterModal(customFilterContent)"><strong><u>Add
-                        custom filter</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!--This section is hidden for now, will be used in dev pack 1.-->
-    <section class="mailbox-section" *ngIf="false">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Multi-users</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="info-card">
-                    <p>Create and administer sub-accounts and assign them email addresses on your custom domain. To
-                        enable this feature, upgrade your account.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="billingInfoModalOpen(billingInfoContent)"><strong><u>Upgrade
-                                account</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--This section is hidden for now, will be used in dev pack 1.-->
-    <section class="mailbox-section" *ngIf="false">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Domains</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">@demo.com</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">@example.com</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-card">
-                    <p>Use your own domain with CTemplar and use your own email address, e.g. name@domain.com.</p>
-                    <!-- <a  class="text-uppercase btn-link"><strong><u>Add custom domain</u></strong></a> -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Will be used later -->
-    <section class="mailbox-section" *ngIf="false">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.payment">Payments</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <ul class="ui-list ui-list-styled list-styled">
-                    <li class="ui-list-item ui-list-item-xs-full">
-                        <div class="row row-xs align-items-center">
-                            <div class="col-10 col-sm-8">
-                                <div class="form-label text-dark mb-0">xxxx xxxx xxxx 8634</div>
-                            </div>
-                            <div class="col-2 col-sm-4">
-                                <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                    <li><a role="button"><i class="icon icon-edit"></i></a></li>
-                                    <li><a role="button"><i class="icon icon-garbage"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-card">
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newPaymentMethodModalOpen(newPaymentMethodContent)"><strong><u
-                                translate="settings.add_new_method">Add new
-                                method</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Will be used later -->
-    <section class="mailbox-section" *ngIf="false">
-        <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.donate.name">Donate</strong></h5>
-        </header>
-        <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-holder">
-                <div class="info-card">
-                    <p translate="settings.donate.info">Your donation helps us support more users and continue to
-                        develop CTemplar as free and open
-                        source software.</p>
-                    <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="makeDonationModalOpen(makeDonationContent)"><strong><u
-                                translate="settings.donate.make_a_donation">Make a donation</u></strong></a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <app-mail-footer></app-mail-footer>
 </div>
 
 <!-- Modal groups -->
@@ -854,7 +743,7 @@
 <!-- Delete account info modal -->
 <ng-template #deleteAccountInfoModal let-c="close" let-d="dismiss">
     <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-        <h3 class="modal-title w-100 text-dark"><strong>Permanently Delete Account</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="settings.delete_account_perm" >Permanently Delete Account</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -862,19 +751,19 @@
     <form [formGroup]="deleteAccountInfoForm" (submit)="onDeleteAccountInfoSubmit()">
         <div class="modal-body bg-faded">
             <div class="text-holder text-dark text-medium">
-                <p class="text-danger">You have selected to permanently delete your account. If you proceed you will
+                <p class="text-danger" translate="settings.delete_account_guide">You have selected to permanently delete your account. If you proceed you will
                     lose all the data in your
                     mailbox.In 2 months this username will be available for re-use by anyone who selects it.</p>
-                <p>Please provide an email address in case we need to contact you.</p>
+                <p translate="settings.provide_email">Please provide an email address in case we need to contact you.</p>
                 <div class="login-content-holder mx-auto mt-2 pt-sm-2">
                     <div class="form">
                         <div class="form-group form-group-sm">
                             <label for="deleteAccountEmail" class="d-block text-muted text-left hidden-sm-up">Email
                             </label>
                             <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off"
-                                   placeholder="Email" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
+                                   [placeholder]="'common.email'| translate" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
                             <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
-                                  class="validate-message">The email is invalid.
+                                  class="validate-message" translate="settings.email_invalid">The email is invalid.
                             </span>
                         </div>
                         <div class="form-group form-group-sm">
@@ -883,7 +772,7 @@
                             <div class="input-group">
                                 <input #deleteAccountPasswordInput class="form-control form-control-lg"
                                        id="deleteAccountPassword" autocomplete="new-password" name="deleteAccountPassword"
-                                       formControlName="password" placeholder="Your Current Password" type="password"/>
+                                       formControlName="password" [placeholder]="'settings.current_password'| translate" type="password"/>
                                 <span class="input-group-addon password-toggle bg-white text-muted"
                                       (click)="togglePassword(deleteAccountPasswordInput)">
                                     <i class="fa fa-eye"></i>
@@ -891,8 +780,8 @@
                             </div>
                             <span *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors"
                                   class="validate-message">
-                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required">Your current password
-                                    is required.</span>
+                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required" translate="settings.password_req" >
+                                    Your current password is required.</span>
                             </span>
                         </div>
                     </div>
@@ -900,8 +789,8 @@
             </div>
         </div>
         <div class="modal-footer justify-content-center justify-content-sm-end">
-            <button class="btn btn-default btn-sm" type="reset" (click)="d()">Cancel</button>
-            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+            <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span></button>
+            <button class="btn btn-danger btn-sm" type="submit" translate="common.delete">Delete</button>
         </div>
     </form>
 
@@ -910,465 +799,20 @@
 <!-- Confirm delete account modal -->
 <ng-template #confirmDeleteAccountModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>Confirm Permanently Account Delete</strong></h3>
+        <h3 class="modal-title w-100 text-dark"><strong translate="settings.permanently_delete">Confirm Permanently Account Delete</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body bg-faded">
         <div class="text-holder text-dark text-medium">
-            <p>Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
+            <p translate="settings.permanently_delete_alert">Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
         </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-        <button (click)="d()" class="btn btn-default btn-sm" role="button">Cancel</button>
-        <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button">Delete</button>
+        <button (click)="d()" class="btn btn-default btn-sm" role="button" translate="common.cancel">Cancel</button>
+        <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" translate="common.delete">Delete</button>
     </div>
 
 </ng-template><!-- /.Confirm delete account modal ends -->
 
-
-<!-- Billing Information Modal -->
-<ng-template #billingInfoContent let-c="close" let-d="dismiss">
-    <div class="modal-header text-sm-center justify-content-sm-center">
-        <h3 class="modal-title w-100 text-dark" id="billingInformationModalLabel"><strong>Billing Information</strong>
-        </h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="form-card-holder mx-auto">
-            <div class="form">
-                <form>
-                    <div class="form-card-holder billing-form-card-holder">
-                        <div class="form-step-card">
-                            <h3 class="form-step-card-title text-dark mb-3"><strong>Overview</strong></h3>
-                            <div class="billing-overview">
-                                <div class="billing-overview-row">
-                                    <label class="billing-overview-label mb-0">Plan</label>
-                                    <div class="billing-overview-val text-secondary"><strong>Ctemplar PRIME</strong>
-                                    </div>
-                                </div>
-                                <div class="billing-overview-row">
-                                    <label class="billing-overview-label mb-0">Billing</label>
-                                    <div class="billing-overview-val text-secondary"><strong>Annually</strong></div>
-                                </div>
-                                <div class="billing-overview-row">
-                                    <label class="billing-overview-label mb-0">Price</label>
-                                    <div class="billing-overview-val text-secondary"><strong>48.00 € </strong>(4.00€/month)
-                                    </div>
-                                </div>
-                                <div class="billing-overview-row payment-method-row">
-                                    <label class="billing-overview-label">Payment Method: </label>
-                                    <div class="billing-overview-val text-secondary">
-                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                                            <div ngbDropdown class="payment-select-dropdown">
-                                                <button ngbDropdownToggle id="paymentDropdownMenuButton" role="button">
-                                                    Stripe
-                                                </button>
-                                                <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted"><em>Stripe</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Credit/Debit
-                                                            card</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Bitcoin</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Monero</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Ethereum</em></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-step-card">
-                            <h3 class="form-step-card-title text-dark mb-3"><strong>Payment Information</strong></h3>
-                            <div class="form-group">
-                                <label for="personName" class="d-block text-muted text-left hidden-sm-up" translate="settings.donate.name_on_card">Name
-                                    on Card</label>
-                                <input class="form-control" id="personName" placeholder="Name on Card" value="John"
-                                    type="text">
-                            </div>
-                            <div class="form-group has-error">
-                                <span class="d-block text-right error-msg">Required field</span>
-                                <label for="cardName" class="d-block text-muted text-left hidden-sm-up">Card
-                                    Number</label>
-                                <input class="form-control error" id="cardName" placeholder="Card Number" type="text">
-                            </div>
-                            <div class="form-group form-group-3-col">
-                                <div class="form-group-row">
-                                    <div class="form-group-col">
-                                        <label class="d-block text-muted text-left hidden-sm-up">Date</label>
-                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                                            <div ngbDropdown class="date-select-dropdown">
-                                                <button ngbDropdownToggle id="dateDropdownMenuButton" role="button">
-                                                    Date
-                                                </button>
-                                                <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted"><em>Date</em></a>
-                                                    <a class="dropdown-item text-muted"><em>01</em></a>
-                                                    <a class="dropdown-item text-muted"><em>02</em></a>
-                                                    <a class="dropdown-item text-muted"><em>03</em></a>
-                                                    <a class="dropdown-item text-muted"><em>04</em></a>
-                                                    <a class="dropdown-item text-muted"><em>05</em></a>
-                                                    <a class="dropdown-item text-muted"><em>06</em></a>
-                                                    <a class="dropdown-item text-muted"><em>07</em></a>
-                                                    <a class="dropdown-item text-muted"><em>08</em></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group-col">
-                                        <label class="d-block text-muted text-left hidden-sm-up">Year</label>
-                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                                            <div ngbDropdown class="year-select-dropdown">
-                                                <button ngbDropdownToggle id="yearDropdownMenuButton" role="button">
-                                                    Year
-                                                </button>
-                                                <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted"><em>Year</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                    <a class="dropdown-item text-muted"><em>2018</em></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group-col">
-                                        <label for="securityCode" class="d-block text-muted text-left hidden-sm-up">Security
-                                            Code</label>
-                                        <input class="form-control" id="securityCode" placeholder="Security Code" type="text">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-group-2-col">
-                                <div class="form-group-row">
-                                    <div class="form-group-col">
-                                        <label for="zipCode" class="d-block text-muted text-left hidden-sm-up">ZIP /
-                                            Postal Code</label>
-                                        <input class="form-control" id="zipCode" placeholder="ZIP / Postal Code" value="ZIP / Postal Code"
-                                            type="text">
-                                    </div>
-                                    <div class="form-group-col">
-                                        <label class="d-block text-muted text-left hidden-sm-up">Country</label>
-                                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                                            <div ngbDropdown class="country-select-dropdown">
-                                                <button ngbDropdownToggle id="countryDropdownMenuButton" role="button">
-                                                    Country
-                                                </button>
-                                                <div ngbDropdownMenu aria-labelledby="countryDropdownMenuButton">
-                                                    <a class="dropdown-item text-muted"><em>Country</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Afghanistan</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Belgium</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Canada</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Denmark</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Egypt</em></a>
-                                                    <a class="dropdown-item text-muted"><em>France</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Germany</em></a>
-                                                    <a class="dropdown-item text-muted"><em>Ireland</em></a>
-                                                    <a class="dropdown-item text-muted"><em>USA</em></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-step-card mt-4 mt-sm-5">
-                            <h3 class="form-step-card-title text-dark mb-3"><strong>Promo Code</strong></h3>
-                            <div class="form-group position-relative type-code-holder">
-                                <label for="promoCode" class="d-block text-muted text-left hidden-sm-up">Promo
-                                    Code</label>
-                                <input class="form-control" id="promoCode" placeholder="Type Your Code" type="text">
-                                <button class="btn code-apply-btn" role="button" disabled>Apply</button>
-                            </div>
-                        </div>
-                        <div class="form-group text-center mt-3 mt-sm-4 mb-0">
-                            <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button">
-                                Submit
-                            </button>
-                        </div>
-
-                        <div class="text-holder mt-2 text-center"><a>Cancel</a></div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</ng-template><!-- /.Billing Information Modal ends -->
-
-<!-- Add new payment method Modal -->
-<ng-template #newPaymentMethodContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="addPaymentMethodModalLabel"><strong translate="settings.add_new_method">Add
-                payment method</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="form-content-holder">
-            <div class="form-group">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" translate="settings.type">Type:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="btn-dropdown btn-dropdown-select">
-                            <div ngbDropdown class="dropdown-sm">
-                                <button ngbDropdownToggle id="paymentTypeDropdownMenuButton" role="button">credit card
-                                </button>
-                                <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
-                                    <a class="dropdown-item">credit card</a>
-                                    <a class="dropdown-item">debit card</a>
-                                    <a class="dropdown-item">credit card</a>
-                                    <a class="dropdown-item">debit card</a>
-                                    <a class="dropdown-item">credit card</a>
-                                    <a class="dropdown-item">debit card</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-sm">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name
-                            on card:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="nameoncardField" type="text" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-sm">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card
-                            number:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="cardNumberField" placeholder="0000-0000-0000-0000"
-                                type="text" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-sm">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry
-                            date:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="row row-xs-sm align-items-center">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <div class="btn-dropdown btn-dropdown-select">
-                                    <div ngbDropdown class="dropdown-sm">
-                                        <button ngbDropdownToggle id="expiryMonthDropdownMenuButton" role="button">01
-                                        </button>
-                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="expiryMonthDropdownMenuButton">
-                                            <a class="dropdown-item">01</a>
-                                            <a class="dropdown-item">02</a>
-                                            <a class="dropdown-item">03</a>
-                                            <a class="dropdown-item">04</a>
-                                            <a class="dropdown-item">05</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="btn-dropdown btn-dropdown-select">
-                                    <div ngbDropdown class="dropdown-sm">
-                                        <button ngbDropdownToggle id="expiryYearDropdownMenuButton" role="button">2018
-                                        </button>
-                                        <div ngbDropdownMenu aria-labelledby="expiryYearDropdownMenuButton">
-                                            <a class="dropdown-item">2018</a>
-                                            <a class="dropdown-item">2017</a>
-                                            <a class="dropdown-item">2016</a>
-                                            <a class="dropdown-item">2015</a>
-                                            <a class="dropdown-item">2014</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mb-0">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security
-                            code:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <div class="row row-xs-sm align-items-center">
-                                <div class="col-sm-6">
-                                    <div class="form-field-has-icon position-relative">
-                                        <input class="form-control form-control-sm" id="securityCardField" placeholder=""
-                                            type="text" />
-                                        <i class="icon icon-warning"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a class="btn btn-secondary btn-sm" role="button" translate="settings.add">Add</a>
-    </div>
-</ng-template><!-- /.Add new payment method Modal ends -->
-
-<!-- Make a donation Modal -->
-<ng-template #makeDonationContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong translate="settings.donate.make_a_donation">Make
-                a donation</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body bg-faded">
-        <div class="form-content-holder">
-            <div class="form-group">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" translate="settings.donate.select_amount">Select amount:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="btn-dropdown btn-dropdown-select">
-                            <div ngbDropdown class="dropdown-sm">
-                                <button ngbDropdownToggle id="paymentTypeDropdownMenuButton" role="button">10$</button>
-                                <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
-                                    <a class="dropdown-item">10$</a>
-                                    <a class="dropdown-item">10$</a>
-                                    <a class="dropdown-item">10$</a>
-                                    <a class="dropdown-item">10$</a>
-                                    <a class="dropdown-item">10$</a>
-                                    <a class="dropdown-item">10$</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-sm">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="nameoncardField" translate="settings.donate.name_on_card">Name
-                            on card:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="nameoncardField" type="text" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-sm">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="cardNumberField" translate="settings.donate.card_number">Card
-                            number:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <input class="form-control form-control-sm" id="cardNumberField" placeholder="0000-0000-0000-0000"
-                                type="text" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-sm">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="blacklistName" translate="settings.donate.expiry_date">Expiry
-                            date:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="row row-xs-sm align-items-center">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <div class="btn-dropdown btn-dropdown-select">
-                                    <div ngbDropdown class="dropdown-sm">
-                                        <button ngbDropdownToggle id="expiryMonthDropdownMenuButton2" role="button">01
-                                        </button>
-                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="expiryMonthDropdownMenuButton">
-                                            <a class="dropdown-item">01</a>
-                                            <a class="dropdown-item">02</a>
-                                            <a class="dropdown-item">03</a>
-                                            <a class="dropdown-item">04</a>
-                                            <a class="dropdown-item">05</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="btn-dropdown btn-dropdown-select">
-                                    <div ngbDropdown class="dropdown-sm">
-                                        <button ngbDropdownToggle id="expiryYearDropdownMenuButton" role="button">2018
-                                        </button>
-                                        <div ngbDropdownMenu aria-labelledby="expiryYearDropdownMenuButton">
-                                            <a class="dropdown-item">2018</a>
-                                            <a class="dropdown-item">2017</a>
-                                            <a class="dropdown-item">2016</a>
-                                            <a class="dropdown-item">2015</a>
-                                            <a class="dropdown-item">2014</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mb-0">
-                <div class="row align-items-center">
-                    <div class="col-sm-3">
-                        <label class="form-label mb-sm-0" for="securityCardField" translate="settings.donate.security_code">Security
-                            code:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-content-row mb-0">
-                            <div class="row row-xs-sm align-items-center">
-                                <div class="col-sm-6">
-                                    <div class="form-field-has-icon position-relative">
-                                        <input class="form-control form-control-sm" id="securityCardField" placeholder=""
-                                            type="text" />
-                                        <i class="icon icon-warning"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="modal-footer justify-content-center justify-content-sm-end">
-        <a class="btn btn-secondary btn-sm" role="button" translate="settings.add">Add</a>
-    </div>
-</ng-template><!-- /.Make a donation Modal ends -->

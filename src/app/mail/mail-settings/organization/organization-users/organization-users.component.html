@@ -1,9 +1,15 @@
 <div class="desc-card">
   <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0 position-relative">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Users</strong>
+    <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block"><strong translate="settings.domains_and_users.users">Users</strong>
       <app-loading-spinner [showSpinner]="false"
                            optionalClasses="custom-domains-spinner"></app-loading-spinner>
     </h5>
+    <a href="https://blog.ctemplar.com/faq/add-users/"
+       ngbTooltip="Learn more"
+       class="users-info-icon"
+       target="_blank">
+      <i class="material-icons">info_outline</i>
+    </a>
     <div class="beta-users"
          placement="left"
          ngbTooltip="This is beta feature and free for all as long as it is in beta, once it is fully released, you will be charged for it.">
@@ -15,11 +21,11 @@
     <button class="btn btn-secondary users-add-button text-small"
             *ngIf="customDomains?.length>0;else noCustomDomain"
             (click)="openAddUserModal()">
-      <span>Add User</span>
+      <span translate="settings.add_user">Add User</span>
     </button>
 
     <ng-template #noCustomDomain>
-      <div class="py-4 error-message" *ngIf="userState?.customDomainsLoaded">
+      <div class="py-4 error-message" *ngIf="userState?.customDomainsLoaded" translate="settings.domains_and_users.custom_domain">
         Please add a custom domain first in order to add users.
       </div>
     </ng-template>
@@ -30,15 +36,15 @@
       <ul class="ui-list ui-list-styled list-styled users-list">
         <li class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
-            <div class="col-4 font-weight-bold col-item">
+            <div class="col-4 font-weight-bold col-item" translate="page_pricing.user">
               User
             </div>
             <div class="col-2 col-item">
-              <div class="form-label mb-0 font-weight-bold">
+              <div class="form-label mb-0 font-weight-bold" translate="settings.domain">
                 Domain
               </div>
             </div>
-            <div class="col-3 font-weight-bold col-item">
+            <div class="col-3 font-weight-bold col-item" translate="settings.recovery_email">
               Recovery Email
             </div>
           </div>
@@ -92,7 +98,7 @@
 <!-- Add user modal -->
 <ng-template #addUserModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Add User</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.add_user">Add User</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeAddUserModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -158,26 +164,27 @@
                     <span class="validate-message"
                           *ngIf="addUserForm.controls['username'].errors;">
                       <ng-container *ngIf="addUserForm.controls['username'].errors.pattern; else usernameLengthBlock">
-                        The username must start with a letter or a number and end with a letter or number.It may only
-                        contain <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> ‌characters and
-                        it must be between 2 and 128 characters.
+
+                        <span translate="settings.username_allowed_chars">The username must start with a letter or a number and end with a letter or number.It may only
+                        contain</span> &nbsp;<em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> &nbsp;
+                        <span translate="settings.username_constraint">‌characters and it must be between 2 and 128 characters.</span>
 
                       </ng-container>
                       <ng-template #usernameLengthBlock>
                         <ng-container
                                 *ngIf="addUserForm.controls['username'].errors.maxlength">
-                          The username must be between 2 and 128 characters.
+                          <span translate="settings.org_username_len">The username must be between 2 and 128 characters.</span>
                         </ng-container>
                       </ng-template>
                     </span>
 
                     <span *ngIf="addUserForm.controls['username'].errors.required"
-                          class="validate-message">The username is required.</span>
+                          class="validate-message" translate="settings.username_required">The username is required.</span>
 
                   </ng-container>
                   <ng-template #usernameExistsBlock>
                       <span *ngIf="newAddressOptions.usernameExists === true"
-                            class="validate-message">Username already exists.
+                            class="validate-message" translate="settings.username_exist">Username already exists.
                         </span>
                   </ng-template>
                 </div>
@@ -187,8 +194,8 @@
                   <strong translate="settings.password">Password</strong>
                 </label>
                 <div class="form-group position-relative">
-                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose
-                    Password</label>
+                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up"
+                  translate="create_account.choose_password">Choose Password</label>
                   <div class="input-group">
                     <input #input class="form-control border-right-0" id="choosePassword"
                            [placeholder]="'create_account.choose_password' | translate" type="password"
@@ -205,16 +212,16 @@
                   <div *ngIf="addUserForm.controls['password'].errors &&
                                     (addUserForm.controls['password'].touched || submitted)"
                        class="validate-message">
-                    <ng-container *ngIf="addUserForm.controls['password'].errors.required">The password is required.
+                    <ng-container *ngIf="addUserForm.controls['password'].errors.required"><span translate="login.password_required">The password is required.</span>
                     </ng-container>
-                    <ng-container *ngIf="addUserForm.controls['password'].errors.maxlength">The password must be less
-                      than 128 characters.
+                    <ng-container *ngIf="addUserForm.controls['password'].errors.maxlength">
+                      <span translate="settings.password_length">The password must be less than 128 characters.</span>
                     </ng-container>
                   </div>
                 </div>
                 <div class="form-group position-relative">
-                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up">Confirm
-                    Password</label>
+                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up"
+                  translate="create_account.confirm_password">Confirm Password</label>
                   <div class="input-group"
                        [ngClass]="{'is-validate': addUserForm.controls.confirmPwd.invalid && !addUserForm.controls.confirmPwd.pristine}">
                     <input #input2 class="form-control border-right-0" id="confirmPassword"
@@ -250,7 +257,7 @@
                          formControlName="recoveryEmail"/>
                   <span *ngIf="addUserForm.controls['recoveryEmail'].errors && addUserForm.controls['recoveryEmail'].touched"
                         id="email-valid1"
-                        class="validate-message">The email is invalid.
+                        class="validate-message" translate="settings.email_invalid">The email is invalid.
                   </span>
                 </div>
               </div>
@@ -261,14 +268,14 @@
                         [disabled]="isAddingUserInProgress"
                         (click)="submitAddUser()"
                         type="submit" role="button">
-                  <span>Add User</span>
+                  <span translate="settings.add_user">Add User</span>
                 </button>
                 <app-loading-spinner [showSpinner]="isAddingUserInProgress"></app-loading-spinner>
               </div>
               <div *ngIf="errorMessage" class="validate-message">
                 {{ errorMessage }}
               <br>
-                Note: We only allow 5 users per domain until the feature is in beta.
+               <span translate="settings.only_allow_5"> Note: We only allow 5 users per domain until the feature is in beta.</span>
               </div>
             </div>
           </form>
@@ -294,19 +301,19 @@
       <div class="form-group">
         <span translate="contacts.delete.message">Are you sure, you want to delete</span>
         <strong>{{ selectedUser?.username }}</strong>?<br>
-        <span class="warning"><span class="warning-text">Warning</span>: All the associated data (if any) of this user will also be deleted.</span>
+        <span class="warning"><span class="warning-text" translate="settings.warning">Warning</span>: <span translate="settings.associated_data">All the associated data (if any) of this user will also be deleted.</span> </span>
       </div>
       <div class="form-group text-right mb-0">
         <app-loading-spinner [showSpinner]="organizationState.isDeleteInProgress"></app-loading-spinner>
         <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2"
                 [disabled]="organizationState.isDeleteInProgress"
                 translate="common.cancel"
-                role="button">Cancel
+                role="button"><span translate="common.cancel">Cancel</span>
         </button>
         <button (click)="confirmDelete()" class="btn btn-danger btn-sm"
                 translate="common.delete"
                 [disabled]="organizationState.isDeleteInProgress"
-                role="button">Delete
+                role="button"><span translate="common.delete">Delete</span>
         </button>
       </div>
     </div>

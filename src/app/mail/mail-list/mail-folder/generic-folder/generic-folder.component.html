@@ -1,4 +1,3 @@
-<app-progress-bar [active]="showProgress"></app-progress-bar>
 <div *ngIf="mailFolder === mailFolderTypes.SEARCH" class="search-tilte">
   <b>Search Results</b>
 </div>
@@ -9,25 +8,29 @@
         <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
           <div ngbDropdown>
             <button ngbDropdownToggle class="dropdown-toggle" role="button" id="actionsDropdownMenuButton"
-                    placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
-                            <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control checked-type-minus" id="mailboxBulkActions"
-                                       type="checkbox" (change)="markAllMails($event.target.checked)"
-                                       [(ngModel)]="selectAll"/>
-                                <label for="mailboxBulkActions" class="fancy-field-empty"></label>
-                            </span>
+                     placement="top" [ngbTooltip]="'mail_list.select_messages' | translate">
             </button>
+
+            <span class="fancy-field-group select-all-checkbox">
+                                <mat-checkbox type="checkbox" id="mailboxBulkActions"
+                                              (change)="markAllMails($event.checked)"
+                                              [(ngModel)]="selectAll"
+                                              [indeterminate]="isSomeEmailsSelected()">
+                                </mat-checkbox>
+                                <label  for="mailboxBulkActions" class="fancy-field-empty"></label>
+            </span>
+
             <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
               <a class="dropdown-item" translate="mail_list.all" (click)="markAllMails(true)">All</a>
               <a class="dropdown-item" translate="mail_list.read" (click)="markReadMails()">Read</a>
-              <a class="dropdown-item" translate="mail_list.unread" (click)="markUneadMails()">Unread</a>
+              <a class="dropdown-item" translate="mail_list.unread" (click)="markUnreadMails()">Unread</a>
               <a class="dropdown-item" translate="mail_list.starred" (click)="markStarredMails()">Starred</a>
               <a class="dropdown-item" translate="mail_list.unstarred" (click)="markUnstarredMails()">Unstarred</a>
             </div>
           </div>
         </li>
         <li class="px-0">
-          <a (click)="refresh()" ngbTooltip="Refresh" placement="top" class="border-right-0 border-radius-0">
+          <a (click)="refresh()" [ngbTooltip]="'mail_list.refresh'| translate" placement="top" class="border-right-0 border-radius-0">
             <i class="material-icons">refresh</i>
           </a>
         </li>
@@ -149,9 +152,9 @@
           </div>
         </li>
         <li *ngIf="mailFolder === mailFolderTypes.TRASH && mails?.length > 0">
-          <a (click)="confirmEmptyTrash()" class="btn btn-sm" placement="top"
-             [ngbTooltip]="'Delete all messages'">
-            <i class="icon icon-garbage position-left"></i> Delete All
+          <a (click)="confirmEmptyTrash()" class="btn btn-sm delete-permanently-btn" placement="top"
+             [ngbTooltip]="'mail_list.delete_messages'| translate">
+            <i class="icon icon-garbage position-left"></i> <span translate="mail_list.delete_all"> Delete all permanently</span>
           </a>
         </li>
       </ul>
@@ -160,7 +163,7 @@
     <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
       <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="mails?.length>0">
         <div class="mail-result-text text-muted">
-          <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} of {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+          <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>
         <div class="mail-nav-control">
           <button role="button" class="mail-nav-control-prev" (click)="prevPage()">
@@ -174,13 +177,13 @@
     </div>
   </div>
 </div>
-
-<div class="mail-listing">
+<app-progress-bar [active]="showProgress"></app-progress-bar>
+<div class="mail-listing mailbox-sub-content">
   <div class="table-responsive table-hover table-fixed">
     <table class="table table-inbox">
       <tbody>
       <tr class="bg-white text-center" *ngIf="mails?.length===0 && !showProgress">
-        <p class="py-2 mb-0">There are no conversations with this label.</p>
+        <p class="py-2 mb-0" translate="mail_list.no_conversations">There are no conversations with this label.</p>
         <hr class="mt-0">
       </tr>
       <!--Desktop view html -->
@@ -199,7 +202,7 @@
 
         <!-- Starred Message -->
         <td class="mail-status">
-          <a class="mail-status-type" [ngbTooltip]="mail.starred ? 'Remove Star' : 'Star Message'"  (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
+          <a class="mail-status-type" [ngbTooltip]="mail.starred ? ('mail_list.remove_start'| translate) : ('mail_list.start_message'| translate)"  (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
             <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
           </a>
         </td>
@@ -209,15 +212,18 @@
           <a (click)="openMail(mail)" class="text-danger display-emails"
              [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
             <ng-container [ngSwitch]="mailFolder">
-              <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
+              <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span translate="mail_sidebar.draft">Draft</span></ng-container>
               <ng-container *ngSwitchCase="mailFolderTypes.SENT">
                 <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
               </ng-container>
               <ng-container *ngSwitchDefault>
                 <label [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</label>
               </ng-container>
-              <span *ngIf="mail?.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
+              <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
+            <span class="position-relative" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
+            <i *ngIf="mail.last_action_thread" class="material-icons last-action">{{mail.last_action_thread | lowercase}}</i>
+            </span>
           </a>
         </td>
 
@@ -228,16 +234,16 @@
 
               <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
                 <span class="badge badge-warning mr-2 p-1"
-                      *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
+                      *ngIf="mail.destruct_date"><span translate="mail_detail.delete_in">Delete in</span> {{mail.destruct_date | remainingTime}}
                 </span>
               </ng-container>
 
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                 <span class="badge badge-success mr-2 p-1"
-                      *ngIf="mail.delayed_delivery">Delay delivery in {{mail.delayed_delivery | remainingTime}}
+                      *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
-                      *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
+                      *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
               <div class="mail-content">
@@ -249,7 +255,7 @@
 
         <!-- Attachment Size -->
         <td class="mail-file-size">
-          <i class="icon icon-attachment" *ngIf="mail.has_attachments"></i>
+          <i class="icon icon-attachment" *ngIf="mail.has_attachments || mail.attachments?.length>0"></i>
         </td>
 
         <!-- Inbox Date -->
@@ -260,17 +266,16 @@
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-          <img src="assets/images/features-icon/tower.svg" width="14px" ngbTooltip="4 Wall Protection">
+        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+          <img src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'home_feature.4_Wall_Protection'| translate">
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-          <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : 'End-to-End Encrypted'" placement="left"></i>
+        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+          <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
         </td>
 
       </tr>
-
       <!--Mobile view html -->
       <tr class="hidden-sm-up mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
@@ -287,14 +292,14 @@
               <a (click)="openMail(mail)" class="text-danger display-emails"
                  [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
                   <ng-container [ngSwitch]="mailFolder">
-                      <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">Draft</ng-container>
+                      <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span translate="mail_sidebar.draft">Draft</span></ng-container>
                       <ng-container *ngSwitchCase="mailFolderTypes.SENT">
                         <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
                       </ng-container>
                       <ng-container *ngSwitchDefault>
                           {{mail.sender_display.name}}
                       </ng-container>
-                    <span *ngIf="mail?.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
+                    <span *ngIf="mail.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
                   </ng-container>
               </a>
 
@@ -304,16 +309,16 @@
 
                       <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
                         <span class="badge badge-warning mr-2 p-1"
-                              *ngIf="mail.destruct_date">Delete in {{mail.destruct_date | remainingTime}}
+                              *ngIf="mail.destruct_date"><span translate="mail_detail.delete_in">Delete in</span> {{mail.destruct_date | remainingTime}}
                         </span>
                       </ng-container>
 
                       <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                         <span class="badge badge-success mr-2 p-1"
-                              *ngIf="mail.delayed_delivery">Delay delivery in {{mail.delayed_delivery | remainingTime}}
+                              *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                         </span>
                         <span class="badge badge-danger mr-2 p-1"
-                              *ngIf="mail.dead_man_duration">Dead mans timer {{mail.dead_man_duration | remainingTime:true}}
+                              *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
                       <div class="mail-content">
@@ -332,8 +337,8 @@
               </span>
           </td>
           <td class="mail-status">
-              <span class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}">
-                <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : 'End-to-End Encrypted'" placement="left"></i>
+              <span class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+                <i class="icon icon-secured" [ngbTooltip]="(!mail.is_protected && mail.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)" placement="left"></i>
               </span>
               <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
                   <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
@@ -369,19 +374,19 @@
 <!-- Confirm empty trash modal -->
 <ng-template #confirmEmptyTrashModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group">
+      <div class="form-group" translate="settings.delete_all_message">
         Are you sure, you want to delete all messages in trash?
       </div>
       <div class="form-group text-right mb-0">
-        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button">Cancel</button>
-        <button (click)="emptyTrashConfirmed()" class="btn btn-danger btn-sm" role="button">
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" translate="common.cancel">Cancel</button>
+        <button (click)="emptyTrashConfirmed()" class="btn btn-danger btn-sm" role="button" translate="common.delete">
           Delete
         </button>
       </div>

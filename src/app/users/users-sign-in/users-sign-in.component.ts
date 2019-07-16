@@ -1,30 +1,26 @@
 // Angular
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
-import { Observable } from 'rxjs';
 // Store
 import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService, UsersService } from '../../store/services';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-users-sign-in',
   templateUrl: './users-sign-in.component.html',
   styleUrls: ['./users-sign-in.component.scss']
 })
 export class UsersSignInComponent implements OnDestroy, OnInit {
-  readonly destroyed$: Observable<boolean>;
 
   loginForm: FormGroup;
   recoverPasswordForm: FormGroup;
@@ -44,9 +40,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   isGeneratingKeys: boolean;
   isRecoveryCodeSent: boolean;
 
-  @ViewChild('usernameVC') usernameVC: ElementRef;
-  @ViewChild('passwordVC') passwordVC: ElementRef;
-  @ViewChild('resetPasswordModal') resetPasswordModal;
+  @ViewChild('usernameVC', { static: false }) usernameVC: ElementRef;
+  @ViewChild('passwordVC', { static: false }) passwordVC: ElementRef;
+  @ViewChild('resetPasswordModal', { static: false }) resetPasswordModal;
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
@@ -88,7 +84,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
         validator: PasswordValidation.MatchPassword
       });
 
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (!authState.isAuthenticated) {
           this.isLoading = authState.inProgress;

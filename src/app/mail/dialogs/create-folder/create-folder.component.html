@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-    <strong>Create new folder</strong>
+    <strong translate="settings.create_folder">Create new folder</strong>
   </h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onHide()">
     <span aria-hidden="true">&times;</span>
@@ -13,7 +13,7 @@
         <div class="row align-items-center">
           <div class="col-sm-3">
             <label for="folderName" class="modal-form-label mb-2 mb-sm-0">
-              Folder name:
+              <span translate="settings.folder_name">Folder name:</span>
             </label>
           </div>
           <div class="col-sm-9">
@@ -32,7 +32,7 @@
         <div class="row">
           <div class="col-sm-3">
             <label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
-              Select color:
+              <span translate="settings.select_color">Select color:</span>
             </label>
           </div>
           <div class="col-sm-9">
@@ -52,28 +52,31 @@
       <div class="modal-footer justify-content-center justify-content-sm-end">
         <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
         <button type="submit" [disabled]="userState?.inProgress"
-                class="btn btn-secondary btn-sm">{{folder.id ? 'Update' : 'Create'}}</button>
+                class="btn btn-secondary btn-sm">
+          <span *ngIf="folder.id; else create" translate="settings.update">Update</span>
+          <ng-template #create><span translate="settings.create">Create</span></ng-template>
+        </button>
       </div>
     </form>
   </div>
 </div>
 
 <ng-template #folderNameErrors>
-  <span class="validate-message" *ngIf="duplicateFoldername">Folder name already exists.</span>
+  <span class="validate-message" *ngIf="duplicateFoldername" translate="settings.folder_messages.name_exist">Folder name already exists.</span>
   <ng-container *ngIf="customFolderForm.controls['folderName'].errors &&
                                     (customFolderForm.controls['folderName'].touched || submitted)">
     <span class="validate-message">
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.required">
-      Folder name is required
+     <span translate="settings.folder_messages.name_required"> Folder name is required </span>
       </ng-container>
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.pattern">
-    Folder name must start with an alphabet and can only contain
-    <em>a-z</em>, <em>A-Z</em>, <em>0-9</em>, <em>._-</em> characters or space, and minimum length should be 4
-    characters.
+   <span> Folder name must start with an alphabet and can only contain</span>
+    <em>a-z</em>, <em>A-Z</em>, <em>0-9</em>, <em>._-</em>
+       <span translate="settings.folder_messages.character_len"> characters or space, and minimum length should be 4 characters.</span>
      </ng-container>
     <ng-container
             *ngIf="customFolderForm.controls['folderName'].errors.minlength || customFolderForm.controls['folderName'].errors.maxlength">
-      Folder name must be between 4 and 30 characters.
+     <span translate="settings.folder_messages.name_len"> Folder name must be between 4 and 30 characters.</span>
     </ng-container>
   </span>
   </ng-container>

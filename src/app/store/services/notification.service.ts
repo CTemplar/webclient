@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AppState } from '../datatypes';
 import { Store } from '@ngrx/store';
 import { UndoDeleteMail } from '../actions';

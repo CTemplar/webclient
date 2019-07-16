@@ -6,11 +6,11 @@
          @pageAnimation1
          (@pageAnimation1.start)="onAnimationStart($event)"
          (@pageAnimation1.done)="onAnimationDone($event)">
-      <h3>Account Creation Initiated</h3>
+      <h3 translate="account_init.creation_init">Account Creation Initiated</h3>
       <ul>
-        <li>Encrypted connection between user and website being verified</li>
-        <li>Account creation in user&apos;s browser initiated</li>
-        <li>Mailbox creation in user&apos;s browser initiated</li>
+        <li translate="account_init.encrypted_conn_being">Encrypted connection between user and website being verified</li>
+        <li [innerHTML]="'account_init.account_creation'| translate">Account creation in user&apos;s browser initiated</li>
+        <li [innerHTML]="'account_init.mailbox_creation'| translate">Mailbox creation in user&apos;s browser initiated</li>
       </ul>
     </div>
     <div class="info-box2"
@@ -20,9 +20,9 @@
          *ngIf="step >= 1">
       <h3>Account Creation in User's Browser Completed</h3>
       <ul>
-        <li><i class="fas fa-check"></i>Encrypted connection between user and website verified</li>
-        <li><i class="fas fa-check"></i>Account creation in user&apos;s browser complete</li>
-        <li><i class="fas fa-check"></i>Mailbox creation in user&apos;s browser complete</li>
+        <li><i class="fas fa-check"></i><span translate="account_init.encrypted_conn">Encrypted connection between user and website verified</span></li>
+        <li><i class="fas fa-check"></i><span [innerHTML]="'account_init.acc_creation_complete'| translate">Account creation in user&apos;s browser complete</span></li>
+        <li><i class="fas fa-check"></i><span [innerHTML]="'account_init.mail_creation_comp'| translate">Mailbox creation in user&apos;s browser complete</span></li>
       </ul>
     </div>
     <div class="info-box3"
@@ -30,13 +30,13 @@
          (@pageAnimation3.start)="onAnimationStart($event)"
          (@pageAnimation3.done)="onAnimationDone($event)"
          *ngIf="step >= 2">
-      <h3>Cryptographic Protection Initiated</h3>
+      <h3 translate="account_init.crypto_protect">Cryptographic Protection Initiated</h3>
       <ul>
-        <li>Generate 4096 bit PGP Encryption Key</li>
-        <li>Apply Cryptographic hash to password</li>
-        <li>Receive “hash value” from cryptographic hash</li>
-        <li>Apply cryptographic salt to “hash value”</li>
-        <li>Your mailbox is now encrypted and password protected</li>
+        <li translate="account_init.gen_pgp_key">Generate 4096 bit PGP Encryption Key</li>
+        <li translate="account_init.crypto_hash_pass">Apply Cryptographic hash to password</li>
+        <li translate="account_init.rec_hash_value">Receive “hash value” from cryptographic hash</li>
+        <li translate="account_init.crypto_salt">Apply cryptographic salt to “hash value”</li>
+        <li translate="account_init.mailbox_encrypted">Your mailbox is now encrypted and password protected</li>
 
       </ul>
     </div>
@@ -45,12 +45,12 @@
          (@pageAnimation4.start)="onAnimationStart($event)"
          (@pageAnimation4.done)="onAnimationDone($event)"
          *ngIf="step >= 3">
-      <h3>Account Creation Finished</h3>
+      <h3 translate="account_init.creation_finished">Account Creation Finished</h3>
       <ul>
-        <li>Mailbox sent and saved to Icelandic server</li>
-        <li>Mailbox secured with user&apos;s hash & Salted value.</li>
-        <li>Encrypted, Secure & Anonymous</li>
-        <li>Welcome to your Maximum strength mailbox</li>
+        <li translate="account_init.mailbox_saved">Mailbox sent and saved to Icelandic server</li>
+        <li [innerHTML]="'account_init.secured_with_hash'| translate">Mailbox secured with user&apos;s hash & Salted value.</li>
+        <li translate="account_init.encypt_secure">Encrypted, Secure & Anonymous</li>
+        <li translate="account_init.max_strength">Welcome to your Maximum strength mailbox</li>
       </ul>
     </div>
   </div>

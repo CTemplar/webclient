@@ -1,25 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { VALID_EMAIL_REGEX } from '../../../shared/config';
 import { SendEmailForwardingCode, SettingsUpdate, VerifyEmailForwardingCode } from '../../../store/actions';
 import { AppState, Settings, UserState } from '../../../store/datatypes';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-forwarding',
   templateUrl: './mail-forwarding.component.html',
   styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss']
 })
 export class MailForwardingComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('addAddressModal') addAddressModal;
-  @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal;
+  @ViewChild('addAddressModal', { static: false }) addAddressModal;
+  @ViewChild('confirmDeleteAddressModal', { static: false }) confirmDeleteAddressModal;
 
   userState: UserState;
   settings: Settings;
@@ -39,7 +35,7 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.isVerificationCodeSent = user.isForwardingVerificationCodeSent;
         this.errorMessage = user.emailForwardingErrorMessage;

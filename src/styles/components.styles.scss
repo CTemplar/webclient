@@ -35,3 +35,114 @@
   font-size: 16px;
   color: $brand-danger;
 }
+
+app-custom-domains {
+  .mat-stepper-vertical, .mat-stepper-horizontal {
+    font-family: "Lato", Helvetica, Arial, sans-serif;
+    word-break: break-all;
+  }
+
+  .mat-step {
+    &:nth-of-type(1) {
+      .mat-step-header .mat-step-icon {
+        background-color: #e74c3c;
+      }
+    }
+    &:nth-of-type(2) {
+      .mat-step-header .mat-step-icon {
+        background-color: #e74c3c;
+      }
+    }
+    &:nth-of-type(3) {
+      .mat-step-header .mat-step-icon {
+        background-color: #e74c3c;
+      }
+    }
+  }
+  
+  .mat-step-header .mat-step-icon {
+    width: 1.875rem;
+    height: 1.875rem;
+    background-color: rgba(0, 0, 0, 0.38);
+
+    @include media("<=sm") {
+      width: 1.5625rem;
+      height: 1.5625rem;
+    }
+  }
+
+  .mat-vertical-content-container.mat-stepper-vertical-line {
+    margin-left: 36px;
+    @include media("<=sm") {
+      margin-left: 0;
+    }
+  }
+
+  div.mat-vertical-content-container {
+    margin-left: 36px;
+    @include media("<=sm") {
+      margin-left: 0;
+    }
+  }
+
+  .mat-vertical-stepper-header.mat-step-header {
+    pointer-events: none !important;
+  }
+
+  .mat-step-header .mat-step-icon-not-touched {
+    width: 1.875rem;
+    height: 1.875rem;
+    @include media("<=sm") {
+      width: 1.5625rem;
+      height: 1.5625rem;
+    }
+  }
+
+  .mat-step-header .mat-step-label {
+    font-size: 1.125rem;
+    width: 100%;
+    @include media("<=sm") {
+      font-size: 1rem;
+    }
+  }
+
+  .mat-step-header .mat-step-label {
+    color: rgba(0, 0, 0, 0.87);
+
+    &.mat-step-label-active {
+      &.mat-step-label-selected {
+        color: #e74c3c;
+      }
+    }
+  }
+}
+
+.mailbox-sub-content {
+  height: calc(100vh - 115px);
+  overflow-y: scroll;
+}
+
+app-mail-settings {
+
+  @media (min-width: 1000px) {
+    ngb-tabset {
+      ul.nav-tabs.nav {
+        position: absolute;
+        z-index: 10;
+        background: white;
+        width: 100%;
+      }
+
+      div.tab-content {
+        padding-top: 77px;
+      }
+    }
+  }
+}
+
+app-mail-detail {
+  blockquote, .blockquote {
+    font-size: 1rem;
+    line-height: 1.43;
+  }
+}

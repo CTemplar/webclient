@@ -94,6 +94,8 @@ export interface UserState {
   autoResponderErrorMessage?: string;
   emailContacts?: EmailContact[];
   isLoaded?: boolean;
+  invoices: Invoice[];
+  isInvoiceLoaded?: boolean;
 }
 
 export interface EmailContact {
@@ -122,6 +124,29 @@ export interface Settings {
   forwarding_address?: string;
   plan_type?: PlanType;
   notification_email?: string;
+  recurrence_billing?: boolean;
+}
+
+export interface Invoice {
+  id: number;
+  invoice_id: number;
+  invoice_date: Date;
+  plan_type: PlanType,
+  payment_type: PaymentType;
+  payment_method: PaymentMethod;
+  total_amount: number;
+  total_amount_btc?: number;
+  custom_domains: number;
+  email_addresses: number;
+  storage: number;
+  items: InvoiceItem[];
+}
+
+export interface InvoiceItem {
+  description?: string;
+  quantity: number;
+  amount: number;
+  amount_btc?: number;
 }
 
 export interface AutoResponder {
@@ -187,6 +212,7 @@ export interface Draft {
   shouldSave?: boolean;
   getUserKeyInProgress?: boolean;
   usersKeys?: UserKey;
+  isMailDetailPage?: boolean;
 
   /**
    * @var isClosed
@@ -339,6 +365,9 @@ export interface Domain {
   is_dmarc_verified: boolean;
   created: string;
   verified_at?: string;
+  number_of_users?: number;
+  number_of_aliases?: number;
+  catch_all?: boolean;
 }
 
 export enum TransactionStatus {
@@ -369,4 +398,10 @@ export enum NotificationPermission {
   DEFAULT = 'default',
   GRANTED = 'granted',
   DENIED = 'denied',
+}
+
+export enum MailAction {
+  REPLY = 'REPLY',
+  REPLY_ALL = 'REPLY_ALL',
+  FORWARD = 'FORWARD'
 }

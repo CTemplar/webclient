@@ -1,6 +1,6 @@
 <section class="mailbox-section">
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Autoresponder</strong>
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.forwarding.autoresponder">Autoresponder</strong>
       <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </h5>
   </header>
@@ -11,7 +11,7 @@
           <input class="d-none toggle-switcher-control" id="autoresponder" name="autoresponder"
                  type="checkbox" [(ngModel)]="autoresponder.autoresponder_active"/>
           <label for="autoresponder"></label>
-          <span class="toggle-switcher-text">Autoresponder</span>
+          <span class="toggle-switcher-text" translate="settings.forwarding.autoresponder">Autoresponder</span>
         </div>
       </div>
       <div class="form-group">
@@ -19,18 +19,18 @@
           <input type="checkbox" id="timeRestricted" name="timeRestricted"
                  [(ngModel)]="autoresponder.is_time_range_restricted"
                  class="d-none fancy-field-control fancy-field-control-sm"/>
-          <label for="timeRestricted">Restrict to time range</label>
+          <label for="timeRestricted" translate="settings.forwarding.restrict">Restrict to time range</label>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-md-12 row">
           <div class="form-group col-sm col-sm-6">
-            <label class="form-inline">Start Time</label>
+            <label class="form-inline" translate="settings.forwarding.start_time">Start Time</label>
             <ngb-timepicker [(ngModel)]="startTime" [meridian]="true"
                             [disabled]="!autoresponder.is_time_range_restricted"></ngb-timepicker>
           </div>
           <div class="form-group col-sm col-sm-6">
-            <label class="form-inline">End Time</label>
+            <label class="form-inline" translate="settings.forwarding.end_time">End Time</label>
             <ngb-timepicker [(ngModel)]="endTime" [meridian]="true"
                             [disabled]="!autoresponder.is_time_range_restricted"></ngb-timepicker>
           </div>
@@ -38,9 +38,9 @@
       </div>
       <div class="form-group">
         <div class="form-group">
-          <label for="autoresponseMessage" class="form-inline">Email autoresponse message</label>
+          <label for="autoresponseMessage" class="form-inline" translate="settings.forwarding.auto_message">Email autoresponse message</label>
           <textarea id="autoresponseMessage" [(ngModel)]="autoresponder.autoresponder_message" class="form-control"
-                    rows="4" placeholder="Message"></textarea>
+                    rows="4" [placeholder]="'settings.forwarding.message'| translate"></textarea>
         </div>
       </div>
       <div class="form-group">
@@ -48,19 +48,19 @@
           <input class="d-none toggle-switcher-control" id="vacationAutoresponder" name="vacationAutoresponder"
                  type="checkbox" [(ngModel)]="autoresponder.vacationautoresponder_active"/>
           <label for="vacationAutoresponder"></label>
-          <span class="toggle-switcher-text">Vacation Autoresponder</span>
+          <span class="toggle-switcher-text" translate="settings.forwarding.vac_autoresponder">Vacation Autoresponder</span>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-md-12 row">
           <div class="form-group col-sm col-sm-6">
-            <label class="form-inline">Start Date</label>
+            <label class="form-inline" translate="settings.forwarding.start_time">Start Date</label>
             <ngb-datepicker #startDatePicker [(ngModel)]="startDate"
                             [disabled]="!autoresponder.vacationautoresponder_active"
                             class="bg-white ng-datepicker ng-datepicker-265"></ngb-datepicker>
           </div>
           <div class="form-group col-sm col-sm-6">
-            <label class="form-inline">End Date</label>
+            <label class="form-inline" translate="settings.forwarding.end_time">End Date</label>
             <ngb-datepicker #endDatePicker [(ngModel)]="endDate"
                             [disabled]="!autoresponder.vacationautoresponder_active"
                             class="bg-white ng-datepicker ng-datepicker-265"></ngb-datepicker>
@@ -69,23 +69,23 @@
       </div>
       <div class="form-group">
         <div class="form-group">
-          <label for="vacationAutoresponseMessage" class="form-inline">Email autoresponse message</label>
+          <label for="vacationAutoresponseMessage" class="form-inline" translate="settings.forwarding.auto_message">Email autoresponse message</label>
           <textarea id="vacationAutoresponseMessage" [(ngModel)]="autoresponder.vacationautoresponder_message"
-                    class="form-control" rows="4" placeholder="Message"></textarea>
+                    class="form-control" rows="4" [placeholder]="'settings.forwarding.message'| translate"></textarea>
         </div>
       </div>
       <div class="form-group">
         <div class="fancy-field-group">
           <input type="checkbox" id="onlyContacts" name="onlyContacts" [(ngModel)]="autoresponder.only_contacts"
                  class="d-none fancy-field-control fancy-field-control-sm"/>
-          <label for="onlyContacts">Only send a response to people in my contacts</label>
+          <label for="onlyContacts" translate="settings.forwarding.send_response">Only send a response to people in my contacts</label>
         </div>
       </div>
       <div *ngIf="errorMessage" class="l-alert l-alert-danger mb-3">
         {{ errorMessage }}
       </div>
       <div class="form-group" (click)="save()">
-        <button class="btn btn-secondary btn-sm">Save</button>
+        <button class="btn btn-secondary btn-sm" translate="common.save">Save</button>
         <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
       </div>
     </div>

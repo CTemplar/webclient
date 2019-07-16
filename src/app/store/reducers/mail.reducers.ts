@@ -154,11 +154,16 @@ export function reducer(
     }
 
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
-      const listOfIDs = action.payload.ids.split(',');
-      state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
-      if (state.mailDetail && state.mailDetail.children &&
-        state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
-        state.mailDetail.children = state.mailDetail.children.filter(child => !listOfIDs.includes(child.id.toString()));
+      if (action.payload.isMailDetailPage) {
+        return state;
+      }
+      if ((state.currentFolder === MailFolderType.DRAFT && action.payload.isDraft) || !action.payload.isDraft) {
+        const listOfIDs = action.payload.ids.split(',');
+        state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
+        if (state.mailDetail && state.mailDetail.children &&
+          state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
+          state.mailDetail.children = state.mailDetail.children.filter(child => !listOfIDs.includes(child.id.toString()));
+        }
       }
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
@@ -195,11 +200,25 @@ export function reducer(
     }
 
     case MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN: {
-      if (state.mailDetail && action.payload.parent === state.mailDetail.id) {
-        state.mailDetail.children = state.mailDetail.children || [];
-        state.mailDetail.children = state.mailDetail.children
-          .filter(child => !(child.id === action.payload.id && child.folder === MailFolderType.DRAFT));
-        state.mailDetail.children = [...state.mailDetail.children, action.payload];
+      if (state.mailDetail) {
+        if (action.payload.last_action_data.last_action) {
+          if (state.mailDetail.id === action.payload.last_action_data.last_action_parent_id) {
+            state.mailDetail.last_action = action.payload.last_action_data.last_action;
+          } else {
+            state.mailDetail.children = state.mailDetail.children.map(mail => {
+              if (mail.id === action.payload.last_action_data.last_action_parent_id) {
+                mail.last_action = action.payload.last_action_data.last_action;
+              }
+              return mail;
+            });
+          }
+        }
+        if (action.payload.parent === state.mailDetail.id) {
+          state.mailDetail.children = state.mailDetail.children || [];
+          state.mailDetail.children = state.mailDetail.children
+            .filter(child => !(child.id === action.payload.id && child.folder === MailFolderType.DRAFT));
+          state.mailDetail.children = [...state.mailDetail.children, action.payload];
+        }
       }
       return { ...state, noUnreadCountChange: true };
     }
@@ -229,13 +248,18 @@ export function reducer(
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
       let newEntry: boolean = true;
       state.mails.map((mail, index) => {
-        if (mail.id === action.payload.id) {
+        if (mail.id === action.payload.id || mail.id === action.payload.parent) {
           state.mails[index] = action.payload;
           newEntry = false;
         }
       });
       if (newEntry && state.currentFolder === action.payload.folder) {
-        state.mails = [...state.mails, action.payload];
+        const mail = action.payload;
+        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+        mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+          || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
+
+        state.mails = [mail, ...state.mails];
       }
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }

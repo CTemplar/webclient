@@ -9,7 +9,7 @@ import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY } from '../../shared/config';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState, AutoResponder, Settings } from '../datatypes';
+import { AppState, AutoResponder, Domain, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
 import { Filter } from '../models/filter.model';
@@ -194,6 +194,7 @@ export class UsersService {
       'emails/folder-order',
       'emails/empty-trash',
       'users/autoresponder',
+      'users/invoices',
       'auth/sign-out/',
       'auth/add-user/',
       'auth/update-user/',
@@ -266,6 +267,11 @@ export class UsersService {
 
   getEmailContacts() {
     return this.http.get<any>(`${apiUrl}users/contacts-v1/`);
+  }
+
+
+  getInvoices() {
+    return this.http.get<any>(`${apiUrl}users/invoices/`);
   }
 
   addContact(payload) {
@@ -350,6 +356,10 @@ export class UsersService {
   createDomain(domain) {
     const body = { domain };
     return this.http.post<any>(`${apiUrl}emails/domains/`, body);
+  }
+
+  updateDomain(domain: any) {
+    return this.http.patch<any>(`${apiUrl}emails/domains/${domain.id}/`, domain);
   }
 
   readDomain(id: number) {

@@ -36,7 +36,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedEmailAddress: number = this.defaultEmailAddress;
   @Input() selectedCustomDomain: number = this.defaultCustomDomain;
 
-  @ViewChild('billingInfoModal') billingInfoModal;
+  @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
 
   private billingInfoModalRef: NgbModalRef;
 
@@ -109,7 +109,8 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
-        windowClass: 'modal-lg users-action-modal'
+        windowClass: 'modal-lg users-action-modal',
+        backdrop: 'static',
       });
     } else {
       this.store.dispatch(new ClearSignUpState());

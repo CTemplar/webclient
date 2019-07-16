@@ -86,7 +86,14 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess, GetEmailContacts, GetEmailContactsSuccess
+  WhiteListsReadSuccess,
+  GetEmailContacts,
+  GetEmailContactsSuccess,
+  GetInvoices,
+  GetInvoicesSuccess,
+  GetUnreadMailsCount,
+  UpdateDomain,
+  UpdateDomainSuccess, UpdateDomainFailure
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -156,7 +163,7 @@ export class UsersEffects {
               new WhiteListGet(),
               new BlackListGet(),
               new SnackPush({ message: 'Email added to whitelist successfully.' })
-              );
+            );
           }),
           catchError(err => of(new WhiteListAddError(err.error))),
         );
@@ -372,10 +379,14 @@ export class UsersEffects {
       return this.mailService.createFolder(folder)
         .pipe(
           switchMap(res => {
-            return of(
+            const actions: any[] = [
               new CreateFolderSuccess(res),
-              new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created' } successfully.` })
-            );
+              new SnackErrorPush({ message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created'} successfully.` })
+            ];
+            if (folder.id) {
+              actions.push(new GetUnreadMailsCount(), new GetFilters());
+            }
+            return of(...actions);
           }),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to create folder.' })))
         );
@@ -493,6 +504,24 @@ export class UsersEffects {
     }));
 
   @Effect()
+  updateDomain: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.UPDATE_DOMAIN),
+    map((action: UpdateDomain) => action.payload),
+    switchMap(payload => {
+      return this.userService.updateDomain(payload)
+        .pipe(
+          switchMap(res => of(
+            new UpdateDomainSuccess(res),
+            new SnackPush({ message: `Domain updated successfully` }),
+          )),
+          catchError(errorResponse => of(
+            new UpdateDomainFailure(errorResponse.error),
+            new SnackPush({ message: `Failed to update domain, please try again.` }),
+          )),
+        );
+    }));
+
+  @Effect()
   DomainRead: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.READ_DOMAIN),
     map((action: ReadDomain) => action.payload),
@@ -514,7 +543,7 @@ export class UsersEffects {
           switchMap(res => of(
             new DeleteDomainSuccess(payload),
             new GetOrganizationUsers(),
-            )),
+          )),
           catchError(errorResponse => of(new DeleteDomainFailure(errorResponse.error))),
         );
     }));
@@ -582,12 +611,12 @@ export class UsersEffects {
         .pipe(
           switchMap(res => {
             return of(
-              new SnackPush({message: `Saved successfully`}),
+              new SnackPush({ message: `Saved successfully` }),
               new SaveAutoResponderSuccess(res)
             );
           }),
           catchError(errorResponse => of(
-            new SnackErrorPush({message: 'Failed to save autoresponder. Please try again.'}),
+            new SnackErrorPush({ message: 'Failed to save autoresponder. Please try again.' }),
             new SaveAutoResponderFailure(errorResponse.error)
           ))
         );
@@ -602,6 +631,18 @@ export class UsersEffects {
       return this.userService.getEmailContacts()
         .pipe(
           switchMap(res => of(new GetEmailContactsSuccess(res.results))),
+          catchError(err => EMPTY)
+        );
+    }));
+
+  @Effect()
+  getInvoicesEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_INVOICES),
+    map((action: GetInvoices) => action.payload),
+    switchMap(payload => {
+      return this.userService.getInvoices()
+        .pipe(
+          switchMap(res => of(new GetInvoicesSuccess(res.results))),
           catchError(err => EMPTY)
         );
     }));

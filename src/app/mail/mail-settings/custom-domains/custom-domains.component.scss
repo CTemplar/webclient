@@ -1,7 +1,7 @@
-@import '../../../../styles/base/variables';
-@import '../../../../styles/vendors/include-media/include-media';
-@import '../../../../styles/config/include-media-config';
-@import '../../../../styles/vendors/ceaser/ceaser-easing';
+@import '~styles/base/variables';
+@import '~styles/vendors/include-media/include-media';
+@import '~styles/config/include-media-config';
+@import '~styles/vendors/ceaser/ceaser-easing';
 
 .domain-body {
   padding-left: 1.563rem;
@@ -176,88 +176,10 @@
   background-color: #3ab05d
 }
 
-/deep/ .mat-stepper-vertical, .mat-stepper-horizontal {
-  font-family: "Lato", Helvetica, Arial, sans-serif;
-  word-break: break-all;
-}
-
-/deep/ .mat-step {
-  &:nth-of-type(1) {
-    .mat-step-header .mat-step-icon {
-      background-color: #e74c3c;
-    }
-  }
-  &:nth-of-type(2) {
-    .mat-step-header .mat-step-icon {
-      background-color: #e74c3c;
-    }
-  }
-  &:nth-of-type(3) {
-    .mat-step-header .mat-step-icon {
-      background-color: #e74c3c;
-    }
-  }
-}
-
-/deep/ .mat-step-header .mat-step-icon {
-  width: 1.875rem;
-  height: 1.875rem;
-  background-color: rgba(0, 0, 0, 0.38);
-
-  @include media("<=sm") {
-    width: 1.5625rem;
-    height: 1.5625rem;
-  }
-}
-
 .green {
   color: #3ab05d !important;
 }
 
-/deep/ .mat-vertical-content-container.mat-stepper-vertical-line {
-  margin-left: 36px;
-  @include media("<=sm") {
-    margin-left: 0;
-  }
-}
-
-/deep/ div.mat-vertical-content-container {
-  margin-left: 36px;
-  @include media("<=sm") {
-    margin-left: 0;
-  }
-}
-
-/deep/ .mat-vertical-stepper-header.mat-step-header {
-  pointer-events: none !important;
-}
-
-/deep/ .mat-step-header .mat-step-icon-not-touched {
-  width: 1.875rem;
-  height: 1.875rem;
-  @include media("<=sm") {
-    width: 1.5625rem;
-    height: 1.5625rem;
-  }
-}
-
-/deep/ .mat-step-header .mat-step-label {
-  font-size: 1.125rem;
-  width: 100%;
-  @include media("<=sm") {
-    font-size: 1rem;
-  }
-}
-
-/deep/ .mat-step-header .mat-step-label {
-  color: rgba(0, 0, 0, 0.87);
-
-  &.mat-step-label-active {
-    &.mat-step-label-selected {
-      color: #e74c3c;
-    }
-  }
-}
 
 .copy-btn {
   float: right !important;
@@ -266,6 +188,7 @@
 
 .warning {
   font-size: 0.75rem;
+
   .warning-text {
     color: #e55747;
   }
@@ -275,4 +198,16 @@
   position: absolute;
   right: 25px;
   top: 25px;
+}
+
+.domains-info-icon {
+  color: $gray-9e9e9e;
+  display: inline-block;
+  position: absolute;
+  margin-left: 8px;
+
+  i {
+    font-size: 20px;
+    margin-top: 2px;
+  }
 }

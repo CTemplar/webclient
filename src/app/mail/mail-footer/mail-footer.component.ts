@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState, UserState } from '../../store/datatypes';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-footer',
   templateUrl: './mail-footer.component.html',
@@ -20,7 +18,7 @@ export class MailFooterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store
       .select(state => state.user)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
       });

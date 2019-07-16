@@ -5,7 +5,7 @@
          <!-- Email validation -->
          <div class="md-errors-spacer" *ngIf="contactName.errors || !contactName.untouched">
             <div *ngIf="contactName.errors && contactName.errors.required">
-                <span class="d-block text-right error-msg is-sm">Name is required</span>
+                <span class="d-block text-right error-msg is-sm" translate="contacts.save.name_required">Name is required</span>
             </div>
         </div>
         <div class="row align-items-center">
@@ -18,7 +18,7 @@
                        name="name" required
                        #contactName="ngModel"
                        [(ngModel)]="newContactModel.name"
-                       placeholder="Contact Name" type="text"/>
+                       [placeholder]="'contacts.contact_name'| translate" type="text"/>
             </div>
         </div>
     </div>
@@ -26,10 +26,10 @@
         <!-- Email validation -->
         <div class="md-errors-spacer" *ngIf="contactEmail.errors">
             <div *ngIf="contactEmail.errors.required">
-                <span class="d-block text-right error-msg is-sm">Email address is required</span>
+                <span class="d-block text-right error-msg is-sm" translate="contacts.save.email_req">Email address is required</span>
             </div>
             <div *ngIf="contactEmail.errors.pattern">
-                <span class="d-block text-right error-msg is-sm"> Email address is not valid</span>
+                <span class="d-block text-right error-msg is-sm" translate="contacts.save.email_not_valid"> Email address is not valid</span>
             </div>
         </div>
         <!-- Email -->
@@ -43,7 +43,7 @@
                        name="email" required
                        [(ngModel)]="newContactModel.email"
                        #contactEmail="ngModel"
-                       placeholder="Type E-mail" type="text"
+                       [placeholder]="'contacts.type_email'| translate" type="text"
                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
             </div>
             <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
@@ -59,7 +59,7 @@
                 <input class="form-control form-control-sm" id="contactPhone1"
                        name="phone"
                        [(ngModel)]="newContactModel.phone"
-                       placeholder="Phone" type="text"/>
+                       [placeholder]="'common.phone'| translate" type="text"/>
             </div>
             <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
         </div>
@@ -70,7 +70,7 @@
                 <label class="form-label mb-sm-0" for="contactPhone2" translate="contacts.phone2">Phone2</label>
             </div>
             <div class="col-sm-10">
-                <input class="form-control form-control-sm" id="contactPhone2" placeholder="Phone"
+                <input class="form-control form-control-sm" id="contactPhone2" [placeholder]="'common.phone'| translate"
                        name="phone2"
                        [(ngModel)]="newContactModel.phone2"
                        type="text"/>
@@ -84,7 +84,7 @@
                 <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress" translate="contacts.address">Address</label>
             </div>
             <div class="col-sm-10">
-                                    <textarea class="form-control form-control-sm resize-off" id="contactAddress" placeholder="Address"
+                                    <textarea class="form-control form-control-sm resize-off" id="contactAddress" [placeholder]="'contacts.address'| translate"
                                               name="address"
                                               [(ngModel)]="newContactModel.address"
                                               rows="3"></textarea>
@@ -99,7 +99,7 @@
                 <label class="form-label pt-sm-2 mb-sm-0" for="contactNote" translate="contacts.note">Note</label>
             </div>
             <div class="col-sm-10">
-                                    <textarea class="form-control form-control-sm resize-off" id="contactNote" placeholder="A note"
+                                    <textarea class="form-control form-control-sm resize-off" id="contactNote" [placeholder]="'a_note'| translate"
                                               name="note"
                                               [(ngModel)]="newContactModel.note"
                                               rows="3"></textarea>
@@ -110,7 +110,7 @@
     <div class="error-msg" *ngIf="newContactForm.submitted && newContactForm.invalid" translate="contacts.save.error">
         Please fill in required fields.
     </div>
-    <div class="form-group text-center mb-0">
+    <div class="form-group text-right mb-0">
         <input type="submit"
                [disabled]="inProgress"
                class="btn btn-secondary btn-sm" role="button"
