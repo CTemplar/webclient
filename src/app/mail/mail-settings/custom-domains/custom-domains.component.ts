@@ -1,29 +1,25 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 
-import { CreateDomain, DeleteDomain, GetDomains, VerifyDomain } from '../../../store/actions';
+import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } from '../../../store/actions';
 
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
-import { takeUntil } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-custom-domains',
   templateUrl: './custom-domains.component.html',
   styleUrls: ['./custom-domains.component.scss']
 })
 export class CustomDomainsComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
   @Output() onGotoTab = new EventEmitter<string>();
 
-  @ViewChild('confirmDeleteModal') confirmDeleteModal;
+  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
 
   userState: UserState;
   authState: AuthState;
@@ -56,11 +52,11 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         if (!user.inProgress) {
@@ -124,6 +120,10 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     }
   }
 
+  updateDomain(domain: Domain) {
+    this.store.dispatch(new UpdateDomain(domain));
+  }
+
   finishAddingNewDomain() {
     this.isAddingNewDomain = false;
     this.currentStep = 0;
@@ -150,10 +150,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   deleteDomain() {
     this.confirmModalRef.close();
     this.store.dispatch(new DeleteDomain(this.newDomain.id));
-  }
-
-  gotoAddresses() {
-    this.onGotoTab.emit('addresses-signatures');
   }
 
   gotoPricingPlans() {

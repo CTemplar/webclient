@@ -6,8 +6,14 @@
           <div *ngIf="!isAddingNewDomain">
             <div class="desc-card">
               <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.domains">Domains</strong>
+                <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block"><strong translate="settings.domains">Domains</strong>
                 </h5>
+                <a href="https://blog.ctemplar.com/faq/add-a-domain/"
+                   ngbTooltip="Learn more"
+                   class="domains-info-icon"
+                   target="_blank">
+                  <i class="material-icons">info_outline</i>
+                </a>
               </div>
               <div class="desc-card-body bg-faded domain-body">
                 <button class="btn btn-secondary btn-add-domain text-small"
@@ -23,8 +29,9 @@
                   </button>
                 </ng-template>
                 <div class="py-4 error-message" *ngIf="!userState?.isPrime && userState?.customDomainsLoaded">
-                  This is a premium feature, please <a class="cursor-pointer" (click)="gotoPricingPlans()">upgrade</a>
-                  in order to use this feature.
+                  <span translate="settings.domains_and_users.premium_feature">This is a premium feature, please</span> <a class="cursor-pointer" (click)="gotoPricingPlans()">
+                &nbsp;  <span translate="settings.domains_and_users.upgrade">upgrade</span></a> &nbsp;
+                  <span translate="settings.domains_and_users.use_feature">in order to use this feature.</span>
                 </div>
 
                 <app-loading-spinner [showSpinner]="userState?.inProgress"
@@ -32,18 +39,27 @@
 
                 <div class="domains-list" *ngIf="domains?.length>0">
                   <div class="row d-none d-sm-flex bg-white heading">
-                    <div class="col-3">
+                    <div class="col-2">
                       <span class="text-capitalize font-weight-bold" translate="settings.domain">Domain</span>
                     </div>
-                    <div class="col-9">
+                    <div class="col-5">
                       <span class="text-capitalize font-weight-bold"
                             translate="settings.current_status">Current Status</span>
+                    </div>
+                    <div class="col-1 text-center">
+                      <span class="text-capitalize font-weight-bold" translate="settings.addresses">Addresses</span>
+                    </div>
+                    <div class="col-1 text-center">
+                      <span class="text-capitalize font-weight-bold" translate="settings.domains_and_users.users">Users</span>
+                    </div>
+                    <div class="col-2 text-center">
+                      <span class="text-capitalize font-weight-bold">Catch all</span>
                     </div>
                   </div>
 
                   <div class="row d-none d-sm-flex bg-white align-items-start" *ngFor="let domain of domains">
-                    <div class="col-3 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
-                    <div class="col-7 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
+                    <div class="col-2 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
+                    <div class="col-5 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
                       <div class="failed" [class.verified]="domain.is_domain_verified"><span
                               translate="settings.status_verification">Verification</span></div>
                       <div class="failed" [class.verified]="domain.is_mx_verified"><span
@@ -60,9 +76,16 @@
                       <div [class.verified]="domain.is_dmarc_verified"><span
                               translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                               class="fa fa-exclamation"></i>DMARC</span></div>
-                      <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span></div>
                     </div>
-                    <div class="col-2 d-flex justify-content-end actions">
+                    <div class="col-1 text-dark text-domain text-center">{{ domain.number_of_aliases }}</div>
+                    <div class="col-1 text-dark text-domain text-center">{{ domain.number_of_users }}</div>
+                    <div class="col-2 text-dark text-domain text-center">
+                      <mat-checkbox type="checkbox"
+                                    [checked]="domain.catch_all"
+                                    (change)="domain.catch_all=$event.checked;updateDomain(domain)">
+                      </mat-checkbox>
+                    </div>
+                    <div class="col-1 d-flex justify-content-end actions">
                       <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
                         <a class="text-muted"
                            (click)="startAddingNewDomain(domain)"
@@ -146,9 +169,14 @@
                         <div [class.verified]="domain.is_dmarc_verified"><span
                                 translate="settings.status_dmarc"><i class="fa fa-check"></i><i
                                 class="fa fa-exclamation"></i>DMARC</span></div>
-                        <div (click)="gotoAddresses()"><span translate="settings.status_addresses">Addresses</span>
-                        </div>
                       </div>
+                      <div class="my-2">
+                        <span class="text-uppercase text-small">Catch all</span>
+                      </div>
+                      <mat-checkbox type="checkbox"
+                                    [checked]="domain.catch_all"
+                                    (change)="domain.catch_all=$event.checked;updateDomain(domain)">
+                      </mat-checkbox>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,8 @@
 
+.mail-detail-content {
+  padding-bottom: 3rem;
+}
+
 .mail-content {
   position: relative;
 
@@ -11,6 +15,7 @@
 .mail-header { 
   border: solid 1px #e5e5e5;
   margin: 5px;
+  padding: 5px 1rem;
 }
 
 
@@ -99,4 +104,23 @@
       opacity: 0.8;
     }
   }
+}
+
+.folder-batch {
+  background: #4d5f71;
+  color: white;
+  padding: 0 6px;
+  border-radius: 2px;
+  height: 20px;
+  line-height: 18px;
+  min-width: 55px;
+  text-align: center;
+  overflow: hidden;
+  max-width: 10rem;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  white-space: nowrap;
+  position: absolute;
+  right: 30px;
+  top: 23px;
 }

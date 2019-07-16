@@ -1,31 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
 import { DeleteMail, GetMailDetailSuccess, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { takeUntil } from 'rxjs/operators';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { WebSocketState } from '../../store';
 import { SummarySeparator } from '../../shared/config';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-mail-detail',
   templateUrl: './mail-detail.component.html',
   styleUrls: ['./mail-detail.component.scss']
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
-  readonly destroyed$: Observable<boolean>;
 
-  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
-  @ViewChild('incomingHeadersModal') incomingHeadersModal;
+  @ViewChild('forwardAttachmentsModal', { static: false }) forwardAttachmentsModal;
+  @ViewChild('incomingHeadersModal', { static: false }) incomingHeadersModal;
 
   mail: Mail;
   composeMailData: any = {};
@@ -42,6 +38,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailFolder: MailFolderType;
   customFolders: Folder[] = [];
   showGmailExtraContent: boolean;
+  folderColors: any = {};
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -62,7 +59,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.store.select(state => state.webSocket).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.webSocket).pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
           if (this.mail && (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)) {
@@ -71,7 +68,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.mail).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
@@ -136,13 +133,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.mailboxes).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
         this.currentMailbox = mailBoxesState.currentMailbox;
         this.mailboxes = mailBoxesState.mailboxes;
       });
 
-    this.route.params.pipe(takeUntil(this.destroyed$))
+    this.route.params.pipe(untilDestroyed(this))
       .subscribe(params => {
         const id = +params['id'];
 
@@ -151,9 +148,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.getMailDetail(id);
       });
 
-    this.store.select(state => state.user).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
+        user.customFolders.forEach(folder => {
+          this.folderColors[folder.name] = folder.color;
+        });
         this.userState = user;
       });
   }
@@ -261,6 +261,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  setActionParent(mail: Mail, isChildMail: boolean, mainReply: boolean) {
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        this.composeMailData[mail.id].action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+      } else {
+        this.composeMailData[mail.id].action_parent_id = this.mail.id;
+      }
+
+    } else {
+      this.composeMailData[mail.id].action_parent_id = mail.id;
+    }
+  }
+
   onReply(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
@@ -279,6 +292,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       this.composeMailData[mail.id].receivers = this.mail.receiver;
     }
+    this.composeMailData[mail.id].action = MailAction.REPLY;
+    this.setActionParent(mail, isChildMail, mainReply);
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -300,6 +315,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
       .filter(email => email !== this.currentMailbox.email && !this.composeMailData[mail.id].receivers.includes(email));
+    this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
+    this.setActionParent(mail, isChildMail, mainReply);
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
@@ -312,6 +329,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     this.selectedMailToForward = mail;
+    this.composeMailData[mail.id].action = MailAction.FORWARD;
+    this.setActionParent(mail, isChildMail, mainReply);
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
         centered: true,
@@ -338,7 +357,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = false;
   }
 
-  onDelete(mail: Mail) {
+  onDelete(mail: Mail, index?: number) {
     if (mail.folder === MailFolderType.TRASH) {
       this.store.dispatch(new DeleteMail({ ids: mail.id.toString() }));
       if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
@@ -353,9 +372,22 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         mail: mail,
         allowUndo: true
       }));
+      if (this.mail.children) {
+        this.mail.children  = this.mail.children.filter(child => child.id !== mail.id);
+      }
+      this.onDeleteCollapseMail(index);
     }
     if (mail.id === this.mail.id) {
       this.goBack(500);
+    }
+  }
+
+  onDeleteCollapseMail(index?: number) {
+    if (index > 0) {
+      this.childMailCollapsed[index - 1] = false;
+      this.childMailCollapsed.splice(index, 1);
+    } else if (index === 0) {
+      this.parentMailCollapsed = false;
     }
   }
 

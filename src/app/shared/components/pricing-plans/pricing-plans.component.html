@@ -90,18 +90,18 @@
                       <div ngbDropdown class="storage-select-dropdown">
                         <button class="dropdown-toggle" type="button" id="customDomainDropdownMenuButton"
                                 ngbDropdownToggle>{{selectedCustomDomain}}
-                          <span>Custom Domain{{selectedCustomDomain !== 1 ? 's' : ''}}</span>
+                          <span><span translate="page_pricing.custom_domain">Custom Domain</span>{{selectedCustomDomain !== 1 ? 's' : ''}}</span>
                         </button>
                         <div ngbDropdownMenu class="dropdown-menu-right"
                              aria-labelledby="customDomainDropdownMenuButton">
                           <a class="dropdown-item"
                              (click)="selectedCustomDomain = defaultCustomDomain; calculatePrices(); isValueChanged = true;">
-                            {{defaultCustomDomain}} <span>Custom Domain</span>
+                            {{defaultCustomDomain}} <span translate="page_pricing.custom_domain">Custom Domain</span>
                           </a>
                           <a *ngFor="let customDomain of availableCustomDomain"
                              class="dropdown-item"
                              (click)="selectedCustomDomain = customDomain; calculatePrices();isValueChanged = true;">
-                            {{customDomain}} <span>Custom Domains</span>
+                            {{customDomain}} <span translate="page_pricing.custom_domain">Custom Domains</span>
                             + {{(customDomain - defaultCustomDomain) | currency:selectedCurrency}}/mo</a>
                         </div>
                       </div>
@@ -217,7 +217,7 @@
                   <div *ngIf="showCurrentPlan && userPlanType === planType.PRIME">
                     <a *ngIf="isValueChanged" (click)="selectPlan(1)"
                        class="btn btn-lg btn-gradient-primary cursor-pointer upgrade-button"><strong>Upgrade Plan</strong></a>
-                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
+                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
                   </div>
                 </div>
               </footer>
@@ -244,7 +244,7 @@
                           translate="settings.keys.email_address">Email Address</span>
                   </li>
                   <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>10 <span>Custom Domains</span>
+                    <i class="fa fa-check text-green"></i>10 <span translate="page_pricing.custom_domain">Custom Domains</span>
                   </li>
                   <li class="package-list-item">
                     <i class="fa fa-check text-green"></i>Unlimited <span translate="page_pricing.messages_per_day">Messages per Day</span>
@@ -353,12 +353,14 @@
                 <div class="package-actions text-center">
                   <a (click)="selectPlan(2)" *ngIf="(showCurrentPlan && userPlanType !== planType.CHAMPION) || !showCurrentPlan"
                      class="btn btn-gradient-primary cursor-pointer upgrade-button">
-                    <span translate="settings.select_champion">Select Champion </span>
+                    <span translate="settings.select_champion">Select Champion </span> &nbsp;
                     <span class="champion-price">{{(paymentType === 'annually' ? 37.5 : 50) | currency:selectedCurrency}}
                       /<span class="text-normal">mo</span></span>
                   </a>
                   <div *ngIf="showCurrentPlan && userPlanType === planType.CHAMPION">
-                    <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
+                    <a *ngIf="isValueChanged" (click)="selectPlan(2)"
+                       class="btn btn-lg btn-gradient-primary cursor-pointer upgrade-button"><strong>Upgrade Plan</strong></a>
+                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
                   </div>
                 </div>
               </footer>
@@ -412,7 +414,7 @@
 
                   <a (click)="selectPlan(0)" *ngIf="!showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
                   <div *ngIf="showCurrentPlan">
-                    <span class="text-uppercase text-grey-dark"><strong>Current Plan</strong></span>
+                    <span class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
                   </div>
                 </div>
               </footer>
@@ -428,13 +430,12 @@
 
 <!-- billing info modal -->
 <ng-template #billingInfoModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Upgrade Account</strong></h3>
+  <div class="billing-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body bg-faded p-3">
+  <div class="modal-body bg-faded px-3 py-0 bg-white">
     <app-users-billing-info [isUpgradeAccount]="true"
                             [planType]="selectedPlan"
                             [paymentType]="paymentType"

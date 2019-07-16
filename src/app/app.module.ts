@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -29,7 +29,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
 import { DonationService } from './store/services/donation.service';
 import { AppRoutingModule } from './app-routing.module';
-import { PushNotificationService } from 'ngx-push-notifications';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -80,7 +79,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       useClass: TokenInterceptor,
       multi: true
     },
-    PushNotificationService,
   ],
   bootstrap: [AppComponent]
 })

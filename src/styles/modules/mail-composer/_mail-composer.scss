@@ -61,7 +61,9 @@ a {
 		overflow: inherit;
 		width: 100%;
 		&.is-minimized {
-
+			@include media(">=ipad") {
+				width: 16rem;
+			}
 		}
 	}
 
@@ -341,6 +343,7 @@ a {
 	background: $brand-faded;
 	border-top: 1px solid $input-border-color;
 	border-bottom: 1px solid $input-border-color;
+	margin-bottom: -26px;
 
 	@include media("<=sm") {
 		position: absolute;
@@ -427,6 +430,15 @@ a {
 	&.dropdown-toggle .icon {
 		left: 0.375rem;
 		transform: translateY(-50%);	
+	}
+
+	&.insert-link-btn {
+		padding: 3px;
+		height: 2.11rem;
+
+		i {
+			font-size: 21px;
+		}
 	}
 }
 

@@ -1,12 +1,11 @@
-import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { OnDestroy, TakeUntilDestroy } from 'ngx-take-until-destroy';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   CheckTransaction,
   ClearWallet,
@@ -29,13 +28,12 @@ import {
 } from '../../../store/datatypes';
 // Service
 import { OpenPgpService, SharedService } from '../../../store/services/index';
-import { takeUntil } from 'rxjs/operators';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 import { timer } from 'rxjs/internal/observable/timer';
 import { apiUrl } from '../../config';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-@TakeUntilDestroy()
 @Component({
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',
@@ -81,7 +79,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   isScriptsLoading: boolean;
   apiUrl: string = apiUrl;
 
-  readonly destroyed$: Observable<boolean>;
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
   private modalRef: NgbModalRef;
@@ -103,7 +100,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.billingForm = this.formBuilder.group({
       'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]]
     });
-    this.store.select(state => state.bitcoin).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.bitcoin).pipe(untilDestroyed(this))
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
@@ -114,7 +111,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           return;
         }
       });
-    this.store.select(state => state.auth).pipe(takeUntil(this.destroyed$))
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
         this.authState = authState;
@@ -157,7 +154,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.timerObservable.unsubscribe();
     }
     const timerRef: any = timer(1000, 1000);
-    this.timerObservable = timerRef.pipe(takeUntil(this.destroyed$)).subscribe(t => {
+    this.timerObservable = timerRef.pipe(untilDestroyed(this)).subscribe(t => {
       this.seconds = ((3600 - t) % 60);
       this.minutes = ((3600 - t - this.seconds) / 60);
     });
@@ -317,7 +314,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.createNewWallet();
     timer(15000, 5000)
       .pipe(
-        takeUntil(this.destroyed$),
+        untilDestroyed(this),
       )
       .subscribe(() => {
         this.checkTransaction();

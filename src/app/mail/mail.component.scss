@@ -10,12 +10,28 @@
   }
 }
 
+.autoresponder-banner {
+  font-size: smaller;
+  background-color: #fff1a8;
+  z-index: 1;
+  text-align: center;
+  position: static;
+  width: 100%;
+  padding: 2px 4px;
+  justify-content: center;
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
 // == Mailbox content
 .mailbox-main-content {
   position: relative;
   // margin-left: 60px;
   padding-bottom: 3.75rem;
   min-height: 100vh;
+  height: 100vh;
 
   @include media("<ipad", ">sm") {
     margin-left: 68px;
@@ -520,7 +536,7 @@
 
 // == Actions bar
 .mailbox-actionbar {
-  padding: 1rem 0.938rem;
+  padding: 0.6rem 0.938rem;
   border-bottom: 1px solid $input-border-color;
 
   @include media(">=ipad") {
@@ -965,7 +981,7 @@
   line-height: 1;
   background-color: #fafaf9;
   cursor: pointer;
-  
+
   @include media(">=ipad") {
     padding: 1.032rem 1.563rem;
   }
@@ -1341,10 +1357,6 @@
 .sender-content-list {
   > li {
     font-size: 14px;
-
-    &:not(:last-of-type) {
-      margin-bottom: 0.313rem;
-    }
   }
 }
 
@@ -1366,6 +1378,7 @@
 
 .msg-reply-type-holder {
   line-height: 1;
+  margin-top: 3px;
 }
 
 .msg-received-time {
@@ -1570,4 +1583,13 @@
 .folder-dropdown {
   max-height: 430px;
   overflow-y: auto;
+}
+
+
+.last-action {
+  font-size: 20px;
+  color: #989898;
+  position: absolute;
+  top: 0;
+  margin-left: 2px;
 }

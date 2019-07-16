@@ -20,7 +20,8 @@ export const initialState: UserState = {
   customFolders: [],
   filters: [],
   customDomains: [],
-  currentCreationStep: 0
+  currentCreationStep: 0,
+  invoices: []
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -119,6 +120,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         contact.email = action.payload.email;
         contact.name = action.payload.name;
         return { ...state, inProgress: false, isError: false };
+      } else {
+        state.totalContacts = state.totalContacts + 1;
       }
       return { ...state, contact: sortByString(state.contact.concat([action.payload]), 'name'), inProgress: false, isError: false };
     }
@@ -132,7 +135,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       contacts.forEach(contact => {
         state.contact.splice(state.contact.indexOf(contact), 1);
       });
-
+      state.totalContacts = state.totalContacts - ids.length;
       return { ...state, inProgress: false, isError: false };
     }
 
@@ -327,6 +330,21 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.UPDATE_DOMAIN: {
+      return {
+        ...state,
+        inProgress: true
+      };
+    }
+
+    case UsersActionTypes.UPDATE_DOMAIN_SUCCESS:
+    case UsersActionTypes.UPDATE_DOMAIN_FAILURE: {
+      return {
+        ...state,
+        inProgress: false
+      };
+    }
+
     case UsersActionTypes.READ_DOMAIN_SUCCESS: {
       return {
         ...state,
@@ -437,6 +455,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.SAVE_AUTORESPONDER_FAILURE: {
       return { ...state, inProgress: false, autoResponderErrorMessage: action.payload };
+    }
+
+    case UsersActionTypes.GET_INVOICES: {
+      return { ...state, invoices: [], isInvoiceLoaded: false };
+    }
+
+    case UsersActionTypes.GET_INVOICES_SUCCESS: {
+      return { ...state, invoices: action.payload, isInvoiceLoaded: true };
     }
 
     default: {

@@ -1,6 +1,6 @@
 <section class="mailbox-section">
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Folders</strong>
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="page_pricing.folders">Folders</strong>
       <app-loading-spinner [showSpinner]="userState?.inProgress && folders.length === 0"></app-loading-spinner>
     </h5>
   </header>
@@ -12,7 +12,7 @@
       <button class="btn btn-sm btn-secondary float-right"
               (click)="startReorder()"
               *ngIf="!reorder && folders?.length>1"
-              ngbTooltip="Reorder addresses">Reorder
+              [ngbTooltip]="'settings.reorder_addresses'| translate"> <span translate="settings.reorder">Reorder</span>
       </button>
 
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
@@ -29,14 +29,14 @@
               <div align="right" *ngIf="reorder">
                 <i class="material-icons cursor-pointer"
                    [class.hidden]="i===0"
-                   ngbTooltip="Move up"
+                   [ngbTooltip]="'settings.move_up'| translate"
                    (click)="sortUp(i)">
                   keyboard_arrow_up
                 </i>
 
                 <i class="material-icons cursor-pointer"
                    [class.hidden]="i===folders.length-1"
-                   ngbTooltip="Move down"
+                   [ngbTooltip]="'settings.move_down'| translate"
                    (click)="sortDown(i)">
                   keyboard_arrow_down
                 </i>
@@ -59,8 +59,8 @@
 <ng-template #reorderButtons>
   <div align="right" *ngIf="reorder" class="float-right">
     <app-loading-spinner [showSpinner]="reorderInProgress"></app-loading-spinner>
-    <button class="btn btn-sm btn-primary mr-1" [disabled]="reorderInProgress" (click)="cancelOrder()">Cancel</button>
-    <button class="btn btn-sm btn-secondary" [disabled]="reorderInProgress" (click)="saveOrder()">Save order</button>
+    <button class="btn btn-sm btn-primary mr-1" [disabled]="reorderInProgress" (click)="cancelOrder()"><span translate="common.cancel">Cancel</span></button>
+    <button class="btn btn-sm btn-secondary" [disabled]="reorderInProgress" (click)="saveOrder()"><span translate="settings.save_order">Save order</span></button>
   </div>
 </ng-template>
 
@@ -69,7 +69,7 @@
 <!-- Confirm delete folder modal -->
 <ng-template #confirmationModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Confirm Delete</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -77,12 +77,12 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
-        Are you sure, you want to delete folder <b>"{{selectedFolder?.name}}"</b>?
+        <span translate="settings.delete_folder_message">Are you sure, you want to delete folder</span> <b>"{{selectedFolder?.name}}"</b>?
       </div>
       <div class="form-group text-right mb-0">
-        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button">Cancel</button>
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button"><span translate="common.cancel">Cancel</span></button>
         <button (click)="deleteFolder()" class="btn btn-danger btn-sm" role="button" [disabled]="userState?.inProgress">
-          Delete
+          <span translate="settings.delete">Delete</span>
         </button>
         <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
       </div>

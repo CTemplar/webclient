@@ -22,3 +22,16 @@ a.disabled {
     text-overflow: ellipsis;
   }
 }
+
+.delete-permanently-btn {
+  width: auto;
+}
+.select-all-checkbox {
+  left: 8px;
+  position: absolute;
+  top: 8px;
+
+  ::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: rgba(0, 0, 0, 0.38);
+  }
+}

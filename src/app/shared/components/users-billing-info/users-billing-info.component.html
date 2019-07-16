@@ -17,36 +17,36 @@
             <div class="form-card-holder billing-form-card-holder form-card-holder-top-border mt-md-3">
               <div class="form-step-card">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong>Overview</strong>
+                  <strong translate="settings.overview">Overview</strong>
                 </h3>
                 <div class="billing-overview">
-                  <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0" translate="billing_info.plan">Plan</label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.plan">Plan</label>
+                    <div class="billing-overview-val text-secondary col">
                       <strong>CTemplar {{planType}}</strong>
                     </div>
                   </div>
-                  <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0" translate="billing_info.billing">Billing</label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.billing">Billing</label>
+                    <div class="billing-overview-val text-secondary col">
                       <strong class="text-capitalize">{{paymentType === 'annually' ? 'Annually' : 'Recurring'}}</strong>
                     </div>
                   </div>
-                  <div class="billing-overview-row">
-                    <label class="billing-overview-label mb-0" translate="billing_info.price">Price</label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.price">Price</label>
+                    <div class="billing-overview-val text-secondary col">
                       <strong *ngIf="paymentType === 'annually'">
-                        {{annualPriceTotal|currency:currency}}/Yearly({{annualPricePerMonth|currency:currency}}/month)
-                      </strong>
+                        {{annualPriceTotal|currency:currency}}/<span translate="billing_information.annually">Yearly</span> ({{annualPricePerMonth|currency:currency}}/
+                        <span translate="billing_info.month">month</span>) </strong>
                       <strong *ngIf="paymentType === 'monthly'">
-                        {{monthlyPrice|currency:currency}}/month
+                        {{monthlyPrice|currency:currency}}/  <span translate="billing_info.month">month</span>
                       </strong>
                       <!-- {{payment.payment_method === 'stripe' ? payment.currency : payment.payment_method}} -->
                     </div>
                   </div>
-                  <div class="billing-overview-row payment-method-row">
-                    <label class="billing-overview-label" translate="billing_info.payment_method">Payment Method: </label>
-                    <div class="billing-overview-val text-secondary">
+                  <div class="billing-overview-row payment-method-row row">
+                    <label class="billing-overview-label col-3" translate="billing_info.payment_method">Payment Method: </label>
+                    <div class="billing-overview-val text-secondary col">
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="payment-select-dropdown">
                           <button ngbDropdownToggle role="button"
@@ -113,7 +113,8 @@
                          type="text">
                 </div>
                 <div class="form-group">
-                  <span class="d-block text-right error-msg">Required field <sup class="font-weight-bold error-msg">*</sup></span>
+                  <span class="d-block text-right error-msg"><span translate="settings.required_field">Required field</span>
+                    <sup class="font-weight-bold error-msg">*</sup></span>
                   <label for="cardName" class="d-block text-left hidden-sm-up label-error"
                          translate="settings.donate.card_number">Card Number
                   </label>
@@ -153,7 +154,7 @@
                           </button>
                           <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                             <a class="dropdown-item text-muted" href="">
-                              <em>Year</em>
+                              <em translate="billing_info.year">Year</em>
                             </a>
                             <a class="dropdown-item text-muted" *ngFor="let year of years"
                                (click)="selectYear(year)">
@@ -165,8 +166,7 @@
                     </div>
                     <div class="form-group-col">
                         <span class="d-block text-right error-msg font-weight-bold">&nbsp;</span>
-                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" translate="home_header.security">Security
-                        Code</label>
+                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" translate="home_header.security">Security Code</label>
                       <input class="form-control stripe-error cvc p-2" id="securityCode" [placeholder]="'home_header.security'| translate"
                              type="text" [(ngModel)]="cvc" name="securityCode"
                              [ngModelOptions]="{standalone: true}" (change)="checkStripeValidation()">
@@ -179,7 +179,7 @@
               <div *ngIf="errorMessage" class="l-alert l-alert-danger">{{errorMessage}}</div>
 
               <div class="form-group text-center mt-3 mt-sm-4 mb-0"
-                   [ngbTooltip]="(paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) ? 'Please pay in order to proceed':''">
+                   [ngbTooltip]="(paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) ? ('billing_info.pay_to_proceed'| translate):''">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess)"
                           (click)="submitForm()">
