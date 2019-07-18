@@ -65,7 +65,7 @@ export class WebsocketService implements OnDestroy {
   }
 }
 
-export interface Message extends Object{
+export interface Message extends Object {
   id: number;
   folder: string;
   parent_id?: number;
@@ -73,8 +73,8 @@ export interface Message extends Object{
   total_count?: number;
   marked_as_read?: boolean;
   is_outbox_mail_sent?: boolean;
-  unread_count_inbox?: number;
-  unread_count_outbox?: number;
+  unread_count?: any;
+  folders: string[];
 
   /**
    * Id's list when a messsage is marked as read/unread.

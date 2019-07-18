@@ -79,6 +79,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
                 limit: this.EMAIL_LIMIT,
                 offset: 0,
                 folder: webSocketState.message.folder,
+                folders: webSocketState.message.folders,
                 read: false,
                 mails: [webSocketState.message.mail],
                 total_mail_count: webSocketState.message.total_count,
@@ -90,7 +91,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
             }
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
-              { outbox: webSocketState.message.unread_count_outbox, updateUnreadCount: true, }));
+              { outbox: webSocketState.message.unread_count.outbox, updateUnreadCount: true, }));
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
@@ -153,13 +154,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   private updateUnreadCount(webSocketState: WebSocketState) {
-    const data = { updateUnreadCount: true };
-    for (const key in webSocketState.message) {
-      if (webSocketState.message.hasOwnProperty(key) && key.indexOf('unread_count_') === 0) {
-        data[key.split('unread_count_')[1]] = webSocketState.message[key];
-      }
-    }
-    this.store.dispatch(new GetUnreadMailsCountSuccess(data));
+    this.store.dispatch(new GetUnreadMailsCountSuccess({ ...webSocketState.message.unread_count, updateUnreadCount: true }));
   }
 
   updateTitle(title: string = null) {
