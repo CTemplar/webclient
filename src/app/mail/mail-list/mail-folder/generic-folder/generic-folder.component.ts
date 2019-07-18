@@ -248,7 +248,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
   /**
    * @description
    * Prime Users - Can create as many folders as they want
-   * Free Users - Only allow a maximum of 3 folders per account
+   * Free Users - Only allow a maximum of 5 folders per account
    */
   openCreateFolderDialog() {
     this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, { self: this, method: 'moveToFolder' });
