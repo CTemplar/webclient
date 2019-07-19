@@ -260,9 +260,9 @@
 
         <!-- Inbox Date -->
         <td class="mail-sent-date">
-          <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'MMM D'}}
+          <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'mail-list'}}
           </ng-container>
-          <ng-template #createdAt>{{mail.created_at | momentDate:'MMM D'}}</ng-template>
+          <ng-template #createdAt>{{mail.created_at | momentDate:'mail-list'}}</ng-template>
         </td>
 
         <!-- Icon Secured -->
@@ -331,9 +331,9 @@
                 <i class="icon icon-attachment" *ngIf="mail.has_attachments"></i>
               </span>
               <span class="mail-sent-date">
-                  <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'MMM D'}}
+                  <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'mail-list'}}
                   </ng-container>
-                  <ng-template #createdAt>{{mail.created_at | momentDate:'MMM D'}}</ng-template>
+                  <ng-template #createdAt>{{mail.created_at | momentDate:'mail-list'}}</ng-template>
               </span>
           </td>
           <td class="mail-status">
