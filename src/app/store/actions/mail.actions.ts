@@ -11,6 +11,7 @@ export enum MailActionTypes {
   GET_MAILBOXES = '[Mail] GET_MAILBOXES',
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
   GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
+  CLEAR_MAILS_ON_LOGOUT = '[Mail] CLEAR_MAILS',
   CLEAR_MAIL_DETAIL = '[Mail] CLEAR_MAIL_DETAIL',
   GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
   UPDATE_MAIL_DETAIL_CHILDREN = '[Mail] UPDATE_MAIL_DETAIL_CHILDREN',
@@ -90,6 +91,12 @@ export class GetMailDetail implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL;
 
   constructor(public payload: any) {}
+}
+
+export class ClearMailsOnLogout implements Action {
+  readonly type = MailActionTypes.CLEAR_MAILS_ON_LOGOUT;
+
+  constructor(public payload?: any) {}
 }
 
 export class ClearMailDetail implements Action {
@@ -295,6 +302,7 @@ export type MailActions =
   | GetMailboxes
   | GetMailboxesSuccess
   | GetMailDetail
+  | ClearMailsOnLogout
   | ClearMailDetail
   | GetMailDetailSuccess
   | UpdateMailDetailChildren

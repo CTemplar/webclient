@@ -190,6 +190,20 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.CLEAR_MAILS_ON_LOGOUT: {
+      return {
+        mails: [],
+        total_mail_count: 0,
+        mailDetail: null,
+        folders: new Map(),
+        loaded: false,
+        decryptedContents: {},
+        unreadMailsCount: { inbox: 0 },
+        noUnreadCountChange: true,
+        canGetUnreadCount: true
+      };
+    }
+
     case MailActionTypes.CLEAR_MAIL_DETAIL: {
       delete state.decryptedContents[action.payload.id];
       if (action.payload.children && action.payload.children.length > 0) {

@@ -9,7 +9,14 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { GetMails, GetMailsSuccess, GetUnreadMailsCount, GetUnreadMailsCountSuccess, ReadMailSuccess } from '../../store/actions';
+import {
+  ClearMailsOnLogout,
+  GetMails,
+  GetMailsSuccess,
+  GetUnreadMailsCount,
+  GetUnreadMailsCountSuccess,
+  ReadMailSuccess
+} from '../../store/actions';
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
@@ -109,6 +116,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((authState: AuthState) => {
         if (!authState.isAuthenticated) {
           this.websocketService.disconnect();
+          this.store.dispatch(new ClearMailsOnLogout());
         }
       });
   }
