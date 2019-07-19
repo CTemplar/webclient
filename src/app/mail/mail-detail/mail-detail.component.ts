@@ -39,6 +39,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   customFolders: Folder[] = [];
   showGmailExtraContent: boolean;
   folderColors: any = {};
+  markedAsRead: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -97,7 +98,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
 
               // Mark mail as read
-              if (!this.mail.read) {
+              if (!this.mail.read && !this.markedAsRead) {
+                this.markedAsRead = true;
                 this.markAsRead(this.mail.id);
               }
             }
@@ -373,7 +375,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         allowUndo: true
       }));
       if (this.mail.children) {
-        this.mail.children  = this.mail.children.filter(child => child.id !== mail.id);
+        this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
       }
       this.onDeleteCollapseMail(index);
     }
