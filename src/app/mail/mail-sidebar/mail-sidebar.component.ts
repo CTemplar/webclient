@@ -182,16 +182,16 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   /**
    * @description
    * Prime Users - Can create as many folders as they want
-   * Free Users - Only allow a maximum of 3 folders per account
+   * Free Users - Only allow a maximum of 5 folders per account
    */
   // == Open NgbModal
   open() {
     if (this.userState.isPrime) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
-    } else if (this.userState.customFolders === null || this.userState.customFolders.length < 3) {
+    } else if (this.userState.customFolders === null || this.userState.customFolders.length < 5) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
     } else {
-      this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
+      this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
     }
   }
 
