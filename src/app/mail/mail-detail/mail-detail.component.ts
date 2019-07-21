@@ -188,9 +188,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   changeMail(index: number) {
-    if (this.mails[index]) {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/1/message/${this.mails[index].id}`);
+    if (index < 0 || index >= this.mails.length) {
+      return;
     }
+    this.router.navigateByUrl(`/mail/${this.mailFolder}/page/1/message/${this.mails[index].id}`);
   }
 
   handleEmailLinks() {

@@ -128,7 +128,7 @@
     <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
       <div class="mail-controls d-flex align-items-center justify-content-end">
         <div class="mail-result-text text-muted">
-          <small *ngIf="currentMailIndex">{{currentMailIndex}} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+          <small *ngIf="currentMailIndex+1">{{currentMailIndex+1}} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>
         <div class="mail-nav-control">
           <button role="button" class="mail-nav-control-prev" (click)="changeMail(currentMailIndex -1)">
