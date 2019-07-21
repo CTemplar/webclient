@@ -2,7 +2,7 @@ import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { DeleteMail, GetMailDetailSuccess, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, GetMails, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -40,6 +40,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   showGmailExtraContent: boolean;
   folderColors: any = {};
   markedAsRead: boolean;
+  currentMailIndex: number;
+  MAX_EMAIL_PAGE_LIMIT: number = 1;
+  OFFSET: number = 0;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -47,6 +50,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private mailboxes: Mailbox[];
   private canScroll: boolean = true;
   private page: number;
+  private mails: Mail[] = [];
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -55,7 +59,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private composeMailService: ComposeMailService,
               private dateTimeUtilService: DateTimeUtilService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private sharedService: SharedService) {
   }
 
   ngOnInit() {
@@ -71,6 +76,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
+        this.mails = [...mailState.mails];
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
@@ -133,6 +139,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.parentMailCollapsed = false;
           }
         }
+        if (this.mails.length > 0 && this.mail) {
+          this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
+          this.sortMails(this.mails);
+          this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
+        }
       });
 
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
@@ -157,7 +168,29 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         });
         this.userState = user;
+
+        const LIMIT = user.settings.emails_per_page;
+        if (LIMIT && this.mailFolder !== MailFolderType.SEARCH) {
+          this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
+          if (this.mailFolder === MailFolderType.OUTBOX) {
+            this.store.dispatch(new GetUnreadMailsCount());
+          }
+        }
       });
+  }
+
+  sortMails(mails: Mail[]) {
+    let sortField = 'created_at';
+    if (this.mailFolder === MailFolderType.SENT) {
+      sortField = 'sent_at';
+    }
+    this.mails = this.sharedService.sortByDate(mails, sortField);
+  }
+
+  changeMail(index: number) {
+    if (this.mails[index]) {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/1/message/${this.mails[index].id}`);
+    }
   }
 
   handleEmailLinks() {
