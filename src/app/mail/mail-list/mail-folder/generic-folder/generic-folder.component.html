@@ -259,7 +259,15 @@
         <td class="mail-sent-date">
           <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'mail-list'}}
           </ng-container>
-          <ng-template #createdAt>{{mail.created_at | momentDate:'mail-list'}}</ng-template>
+          <ng-template #createdAt>
+            <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">{{mail.created_at | momentDate:'mail-list'}}</ng-container>
+          </ng-template>
+          <ng-template #outboxTime>
+            <ng-container *ngIf="mail.delayed_delivery">{{ mail.delayed_delivery | momentDate:'mail-list'}}</ng-container>
+            <ng-container *ngIf="mail.dead_man_duration">
+              <i class="material-icons" style="font-size: 18px;">remove</i>
+            </ng-container>
+          </ng-template>
         </td>
 
         <!-- Icon Secured -->

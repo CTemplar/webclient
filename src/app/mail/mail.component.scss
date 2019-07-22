@@ -1175,10 +1175,10 @@
   .mail-sent-date {
     font-size: 0.75rem;
     width: 5rem;
+  }
 
-    @include media("<=sm") {
-      font-size: 0.75rem;
-    }
+  .mail-file-size {
+    width: 2.5rem;
   }
 
   .mail-security-status.is-disabled {
@@ -1384,6 +1384,8 @@
 .msg-received-time {
   margin-right: 0.938rem;
   font-size: 12px;
+  min-width: 4rem;
+  text-align: center;
 }
 
 // == Message reply dropdown

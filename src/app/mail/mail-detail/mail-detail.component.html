@@ -229,6 +229,15 @@
               <label class="msg-received-time mb-0" id="{{mail.id}}-mail-date">
                 <ng-container *ngIf="mail.folder === mailFolderTypes.SENT && mail.sent_at; else createdAt">{{mail.sent_at | momentDate:'medium'}}</ng-container>
                 <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
+                <ng-template #createdAt>
+                  <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">{{mail.created_at | momentDate:'medium'}}</ng-container>
+                </ng-template>
+                <ng-template #outboxTime>
+                  <ng-container *ngIf="mail.delayed_delivery">{{ mail.delayed_delivery | momentDate:'medium'}}</ng-container>
+                  <ng-container *ngIf="mail.dead_man_duration">
+                    <i class="material-icons" style="font-size: 18px;">remove</i>
+                  </ng-container>
+                </ng-template>
               </label>
 
             </div>
@@ -373,7 +382,15 @@
                           <ng-container *ngIf="childMail.folder === mailFolderTypes.SENT && childMail.sent_at; else createdAt">
                             {{childMail.sent_at | momentDate:'medium'}}
                           </ng-container>
-                          <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
+                          <ng-template #createdAt>
+                            <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">{{childMail.created_at | momentDate:'medium'}}</ng-container>
+                          </ng-template>
+                          <ng-template #outboxTime>
+                            <ng-container *ngIf="childMail.delayed_delivery">{{ childMail.delayed_delivery | momentDate:'medium'}}</ng-container>
+                            <ng-container *ngIf="childMail.dead_man_duration">
+                              <i class="material-icons" style="font-size: 18px;">remove</i>
+                            </ng-container>
+                          </ng-template>
                         </label>
                       </div>
                       <div>
