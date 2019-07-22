@@ -1,4 +1,3 @@
-<app-progress-bar [active]="!mail"></app-progress-bar>
 <div class="mailbox-actionbar">
   <div class="row">
     <div class="col-12 col-sm-9 mailbox-actionbar-col">
@@ -124,8 +123,29 @@
         </li>
       </ul>
     </div>
+
+    <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
+      <div class="mail-controls d-flex align-items-center justify-content-end">
+        <div class="mail-result-text text-muted">
+          <small *ngIf="currentMailIndex+1">{{currentMailIndex+1}} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+        </div>
+        <div class="mail-nav-control">
+          <button role="button" class="mail-nav-control-prev"
+                  ngbTooltip="Previous email"
+                  (click)="changeMail(currentMailIndex -1)">
+            <i class="icon icon-chevron-left"></i>
+          </button>
+          <button role="button" class="mail-nav-control-next"
+                  ngbTooltip="Next email"
+                  (click)="changeMail(currentMailIndex +1)">
+            <i class="icon icon-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<app-progress-bar [active]="!mail"></app-progress-bar>
 
 <!--Mail Info-->
 <div class="mailbox-sub-content mail-detail-content" *ngIf="mail">
