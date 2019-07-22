@@ -163,10 +163,10 @@
           <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>
         <div class="mail-nav-control">
-          <button role="button" class="mail-nav-control-prev" (click)="prevPage()">
+          <button role="button" class="mail-nav-control-prev" ngbTooltip="Previous page" (click)="prevPage()">
             <i class="icon icon-chevron-left"></i>
           </button>
-          <button role="button" class="mail-nav-control-next" (click)="nextPage()">
+          <button role="button" class="mail-nav-control-next" ngbTooltip="Next page" (click)="nextPage()">
             <i class="icon icon-chevron-right"></i>
           </button>
         </div>
