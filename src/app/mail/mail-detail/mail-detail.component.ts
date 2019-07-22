@@ -51,6 +51,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private canScroll: boolean = true;
   private page: number;
   private mails: Mail[] = [];
+  private EMAILS_PER_PAGE: number;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -144,6 +145,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.sortMails(this.mails);
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
         }
+        if (!mailState.loaded && this.mails.length === 0 && !mailState.inProgress &&
+          this.EMAILS_PER_PAGE && this.mailFolder !== MailFolderType.SEARCH) {
+          this.store.dispatch(new GetMails({
+            limit: this.EMAILS_PER_PAGE,
+            inProgress: true, offset: this.OFFSET, folder: this.mailFolder
+          }));
+        }
       });
 
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
@@ -168,14 +176,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         });
         this.userState = user;
-
-        const LIMIT = user.settings.emails_per_page;
-        if (LIMIT && this.mailFolder !== MailFolderType.SEARCH) {
-          this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
-          if (this.mailFolder === MailFolderType.OUTBOX) {
-            this.store.dispatch(new GetUnreadMailsCount());
-          }
-        }
+        this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
   }
 
