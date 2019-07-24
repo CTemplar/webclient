@@ -204,9 +204,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       validator: PasswordValidation.MatchPassword
     });
 
+    this.resetMailData();
     this.initializeDraft();
     this.initializeAutoSave();
-    this.resetMailData();
 
     this.store.select((state: AppState) => state.composeMail).pipe(untilDestroyed(this))
       .subscribe((response: ComposeMailState) => {
@@ -263,18 +263,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mailBoxesState = mailBoxesState;
       });
 
-    if (this.draftMail) {
-      this.store.select(state => state.mail).pipe(untilDestroyed(this))
-        .subscribe((mailState: MailState) => {
-          if (!this.decryptedContent) {
-            const decryptedContent = mailState.decryptedContents[this.draftMail.id];
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
-              this.decryptedContent = decryptedContent.content;
-              this.addDecryptedContent();
-            }
+    this.store.select(state => state.mail).pipe(untilDestroyed(this))
+      .subscribe((mailState: MailState) => {
+        if (this.draftMail && !this.decryptedContent) {
+          const decryptedContent = mailState.decryptedContents[this.draftMail.id];
+          if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
+            this.decryptedContent = decryptedContent.content;
+            this.addDecryptedContent();
           }
-        });
-    }
+        }
+      });
 
     const now = new Date();
     this.datePickerMinDate = {
@@ -286,6 +284,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.initializeQuillEditor();
+    if (this.forwardAttachmentsMessageId) {
+      if (this.editor) {
+        this.updateEmail();
+      } else {
+        setTimeout(() => {
+          this.updateEmail();
+        }, 1000);
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -830,6 +837,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.forwardAttachmentsMessageId) {
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
+      this.forwardAttachmentsMessageId = null;
     }
     if (this.parentId) {
       this.draftMail.parent = this.parentId;
