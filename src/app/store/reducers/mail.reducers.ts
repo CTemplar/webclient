@@ -47,7 +47,7 @@ export function reducer(
       if (state.currentFolder !== action.payload.folder) {
         if (action.payload.folders && action.payload.folders.indexOf(state.currentFolder) > -1) {
           mails = state.mails.filter(item => item.id !== action.payload.mails[0].id);
-          mails = [...mails, ...action.payload.mails];
+          mails = [...action.payload.mails, ...mails];
           state.folders.set(state.currentFolder, mails);
         } else {
           mails = state.folders.get(state.currentFolder);
