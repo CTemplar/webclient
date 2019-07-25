@@ -142,7 +142,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
         if (this.mails.length > 0 && this.mail) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
-          this.sortMails(this.mails);
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
         }
         if (!mailState.loaded && this.mails.length === 0 && !mailState.inProgress &&
@@ -178,14 +177,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
-  }
-
-  sortMails(mails: Mail[]) {
-    let sortField = 'created_at';
-    if (this.mailFolder === MailFolderType.SENT) {
-      sortField = 'sent_at';
-    }
-    this.mails = this.sharedService.sortByDate(mails, sortField);
   }
 
   changeMail(index: number) {

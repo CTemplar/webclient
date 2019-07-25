@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -26,7 +26,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss']
 })
-export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
+export class GenericFolderComponent implements OnInit, OnDestroy {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
@@ -68,7 +68,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = [...mailState.mails];
-          this.sortMails(this.mails);
         }
       });
 
@@ -125,20 +124,6 @@ export class GenericFolderComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['mails'] && changes['mails'].currentValue) {
-      this.sortMails(changes['mails'].currentValue);
-    }
-  }
-
-  sortMails(mails: Mail[]) {
-    let sortField = 'created_at';
-    if (this.mailFolder === MailFolderType.SENT) {
-      sortField = 'sent_at';
-    }
-    this.mails = this.sharedService.sortByDate(mails, sortField);
   }
 
   refresh() {
