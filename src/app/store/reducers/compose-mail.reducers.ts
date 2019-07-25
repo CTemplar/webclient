@@ -2,6 +2,7 @@
 import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
 // Model
 import { ComposeMailState } from '../datatypes';
+import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
 export function reducer(state: ComposeMailState = { drafts: {} }, action: ComposeMailActions): ComposeMailState {
   switch (action.type) {
@@ -13,16 +14,27 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     }
 
     case ComposeMailActionTypes.CREATE_MAIL_SUCCESS: {
+      const oldDraft = state.drafts[action.payload.draft.id];
+      const draftMail = action.payload.response;
+      if (action.payload.draft.draft.forward_attachments_of_message) {
+        oldDraft.attachments = draftMail.attachments.map(attachment => {
+          attachment.progress = 100;
+          attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+          attachment.draftId = oldDraft.id;
+          attachment.attachmentId = performance.now();
+          return attachment;
+        });
+      }
       state.drafts[action.payload.draft.id] = {
-        ...state.drafts[action.payload.draft.id],
+        ...oldDraft,
         inProgress: false,
-        draft: action.payload.response
+        draft: draftMail,
       };
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.UPDATE_LOCAL_DRAFT: {
-      state.drafts[action.payload.id] = { ... state.drafts[action.payload.id], ...action.payload };
+      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], ...action.payload };
       return { ...state, drafts: { ...state.drafts } };
     }
 
