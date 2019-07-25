@@ -48,18 +48,20 @@ app-custom-domains {
         background-color: #e74c3c;
       }
     }
+
     &:nth-of-type(2) {
       .mat-step-header .mat-step-icon {
         background-color: #e74c3c;
       }
     }
+
     &:nth-of-type(3) {
       .mat-step-header .mat-step-icon {
         background-color: #e74c3c;
       }
     }
   }
-  
+
   .mat-step-header .mat-step-icon {
     width: 1.875rem;
     height: 1.875rem;
@@ -144,5 +146,16 @@ app-mail-detail {
   blockquote, .blockquote {
     font-size: 1rem;
     line-height: 1.43;
+  }
+}
+
+// Modal styles for encryption to non CTemplar users
+.encrypt-non-ctemplar {
+  label {
+    margin-bottom: 0.25rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
   }
 }

@@ -32,7 +32,7 @@ import {
   MailState,
   UserState
 } from '../../../store/datatypes';
-import { Attachment, Mail, Mailbox, MailFolderType } from '../../../store/models';
+import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -199,7 +199,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.encryptForm = this.formBuilder.group({
       'password': ['', [Validators.required]],
       'confirmPwd': ['', [Validators.required]],
-      'passwordHint': ['']
+      'passwordHint': [''],
+      'days': [5, [Validators.required, Validators.min(0), Validators.max(5)]],
+      'hours': [0, [Validators.required, Validators.min(0), Validators.max(24)]]
     }, {
       validator: PasswordValidation.MatchPassword
     });
@@ -324,6 +326,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.draftMail && this.draftMail.encryption) {
       this.encryptionData.password = this.draftMail.encryption.password;
       this.encryptionData.password_hint = this.draftMail.encryption.password_hint;
+      this.encryptionData.expiryHours = this.draftMail.encryption.expiry_hours;
     }
 
     const draft: Draft = {
@@ -741,10 +744,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmitEncryption() {
     this.showEncryptFormErrors = true;
-    if (this.encryptForm.valid) {
+    const value = this.encryptForm.value;
+    const expiryHours = value.hours + (value.days * 24);
+    if (this.encryptForm.valid && expiryHours > 0 && expiryHours <= 120) {
       this.encryptionData = {
-        password: this.encryptForm.controls['password'].value,
-        passwordHint: this.encryptForm.controls['passwordHint'].value
+        expiryHours,
+        password: value.password,
+        passwordHint: value.passwordHint,
       };
       this.valueChanged$.next(true);
       this.closeEncryptionModal();
@@ -824,11 +830,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail.parent = this.parentId;
     }
     if (this.encryptionData.password) {
-      this.draftMail.encryption = this.draftMail.encryption || {};
-      this.draftMail.encryption.password = this.encryptForm.controls['password'].value || null;
-      this.draftMail.encryption.password_hint = this.encryptForm.controls['passwordHint'].value || null;
+      this.draftMail.encryption = this.draftMail.encryption || new EncryptionNonCTemplar();
+      this.draftMail.encryption.password = this.encryptionData.password;
+      this.draftMail.encryption.password_hint = this.encryptionData.passwordHint;
+      this.draftMail.encryption.expiry_hours = this.encryptionData.expiryHours;
     } else if (this.draftMail.encryption) {
-      this.draftMail.encryption = {};
+      this.draftMail.encryption = new EncryptionNonCTemplar();
     }
 
     this.checkInlineAttachments();

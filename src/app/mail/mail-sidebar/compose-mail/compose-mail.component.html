@@ -161,7 +161,8 @@
               <div ngbDropdown [autoClose]="'outside'" [placement]="['top-left', 'bottom-left']" class="dropdown">
                 <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow"
                         id="typoDropdownMenu" role="button" placement="top"
-                        [ngbTooltip]="'settings.compose.text_format'| translate"><i class="icon icon-text-color"></i></button>
+                        [ngbTooltip]="'settings.compose.text_format'| translate"><i class="icon icon-text-color"></i>
+                </button>
                 <div ngbDropdownMenu class="typo-actions-dropdown-menu"
                      aria-labelledby="typoDropdownMenu">
                   <div #toolbar class="mail-comopser-typo-actions-holder">
@@ -205,7 +206,8 @@
                                 </li>
                                 <li>
                                   <button value=""
-                                          class="ql-size typo-select-link is-normal" translate="settings.compose.normal">
+                                          class="ql-size typo-select-link is-normal"
+                                          translate="settings.compose.normal">
                                     Normal
                                   </button>
                                 </li>
@@ -288,7 +290,8 @@
                               <div class="row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                   <div class="color-picker">
-                                    <div class="color-picker-title"><strong translate="settings.compose.background_color">
+                                    <div class="color-picker-title"><strong
+                                            translate="settings.compose.background_color">
                                       Background Color</strong></div>
                                     <ul class="color-picker-list d-flex flex-wrap">
                                       <li *ngFor="let color of colors">
@@ -372,7 +375,8 @@
             <li>
               <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
                       class="actions-btn mail-attach-btn" placement="top"
-                      [ngbTooltip]="'settings.compose.attachments'| translate"><i class="icon icon-attachment"></i></button>
+                      [ngbTooltip]="'settings.compose.attachments'| translate"><i class="icon icon-attachment"></i>
+              </button>
             </li>
             <li>
               <button role="button" ngbTooltip="Insert link" (click)="openInsertLinkModal()"
@@ -384,7 +388,8 @@
                       class="actions-btn mail-envelop-btn border-radius-r-0"
                       [ngClass]="{'text-primary': draftMail?.encryption?.password}"
                       (click)="openEncryptionModal()"
-                      placement="top" [ngbTooltip]="'settings.compose.encryption'| translate"><i class="icon icon-mail"></i></button>
+                      placement="top" [ngbTooltip]="'settings.compose.encryption'| translate"><i
+                      class="icon icon-mail"></i></button>
             </li>
             <li class="px-0">
               <button role="button" type="button" (click)="openSelfDestructModal()"
@@ -400,7 +405,8 @@
                       type="button" role="button" (click)="openDelayedDeliveryModal()"
                       class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                       [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
-                      placement="top" [ngbTooltip]="'settings.compose.delayed_delivery'| translate"><i class="icon icon-self-timer"></i>
+                      placement="top" [ngbTooltip]="'settings.compose.delayed_delivery'| translate"><i
+                      class="icon icon-self-timer"></i>
               </button>
               <ng-template #disabledDelayedDeliveryBtn>
                 <button type="button" role="button"
@@ -415,7 +421,8 @@
                       type="button" role="button" (click)="openDeadManTimerModal()"
                       class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                       [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
-                      placement="top" [ngbTooltip]="'settings.compose.dead_man_timer'| translate"><i class="icon icon-dead"></i>
+                      placement="top" [ngbTooltip]="'settings.compose.dead_man_timer'| translate"><i
+                      class="icon icon-dead"></i>
               </button>
               <ng-template #disabledDeadManTimerBtn>
                 <button type="button" role="button" class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
@@ -428,7 +435,7 @@
         <div class="mail-composer-actions-col mail-composer-actions-col-sm">
           <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
             <li class="pr-1" *ngIf="inProgress || (draftMail && draftMail.id)">
-              <span>{{inProgress ? (draftMail.send ? ('settings.compose.sending'| translate): ('settings.compose.saving'| translate))
+              <span>{{inProgress ? (draftMail.send ? ('settings.compose.sending'| translate) : ('settings.compose.saving'| translate))
                   : ('settings.compose.saved'| translate)}}</span>
             </li>
             <li class="pr-0" *ngIf="showSaveButton">
@@ -436,7 +443,8 @@
                       (click)="saveInDrafts()"
                       [disabled]="inProgress || isUploadingAttachment"
                       class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
-                      placement="top" [ngbTooltip]="'settings.compose.save_to_drafts'| translate"><i class="icon icon-save-disk"></i>
+                      placement="top" [ngbTooltip]="'settings.compose.save_to_drafts'| translate"><i
+                      class="icon icon-save-disk"></i>
               </button>
             </li>
             <li class="pl-0">
@@ -444,7 +452,8 @@
                       (click)="discardEmail()"
                       [disabled]="inProgress || isUploadingAttachment"
                       class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
-                      [ngbTooltip]="'settings.compose.delete_draft'| translate"><i class="icon icon-garbage"></i></button>
+                      [ngbTooltip]="'settings.compose.delete_draft'| translate"><i class="icon icon-garbage"></i>
+              </button>
             </li>
           </ul>
         </div>
@@ -457,7 +466,8 @@
 <!-- attach images modal -->
 <ng-template #attachImagesModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.attach_images">Attach Images</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.attach_images">Attach Images</strong>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -469,7 +479,8 @@
       </div>
       <div class="form-group">
         <label for="imageURL">Image URL</label>
-        <input type="text" #imageURL id="imageURL" class="form-control" [placeholder]="'settings.compose.image_url'| translate">
+        <input type="text" #imageURL id="imageURL" class="form-control"
+               [placeholder]="'settings.compose.image_url'| translate">
       </div>
       <div class="form-group text-right mb-0">
         <button type="button" (click)="imageInput.value = ''; imageInput.click(); d();"
@@ -486,7 +497,8 @@
 <!-- self destruct datetime picker modal -->`
 <ng-template #selfDestructModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.self_dest_email">Self Destruct Email</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.self_dest_email">Self Destruct
+      Email</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -509,11 +521,13 @@
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
                       id="selfDestructMeridianDropdownMenuButton" role="button">
-                {{selfDestruct.meridian ? '12 ' + ('settings.compose.hour' | translate) : '24 '+('settings.compose.hour'| translate)}}
+                {{selfDestruct.meridian ? '12 ' + ('settings.compose.hour' | translate) : '24 ' + ('settings.compose.hour'| translate)}}
               </button>
               <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
-                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 &nbsp;<span translate="settings.compose.hour">Hour</span></a>
-                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 &nbsp;<span translate="settings.compose.hour">Hour</span></a>
+                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 &nbsp;<span
+                        translate="settings.compose.hour">Hour</span></a>
+                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 &nbsp;<span
+                        translate="settings.compose.hour">Hour</span></a>
               </div>
             </div>
           </div>
@@ -540,7 +554,8 @@
 <!-- delayed delivery datetime picker modal -->
 <ng-template #delayedDeliveryModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.delayed_delivery">Delayed Delivery</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.delayed_delivery">Delayed
+      Delivery</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -566,8 +581,10 @@
                 {{delayedDelivery.meridian ? '12 Hour' : '24 Hour'}}
               </button>
               <div ngbDropdownMenu aria-labelledby="delayedDeliveryMeridianDropdownMenuButton">
-                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true">12 <span translate="settings.compose.hour">Hour</span></a>
-                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false">24 <span translate="settings.compose.hour">Hour</span></a>
+                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true">12 <span
+                        translate="settings.compose.hour">Hour</span></a>
+                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false">24 <span
+                        translate="settings.compose.hour">Hour</span></a>
               </div>
             </div>
           </div>
@@ -579,7 +596,7 @@
       </div>
       <div class="form-group text-center btns-xs-3 mb-0">
         <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm mr-1" role="button"
-         translate="settings.compose.confirm">Confirm
+                translate="settings.compose.confirm">Confirm
         </button>
         <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm mr-1"
                 role="button" translate="settings.compose.clear">Clear
@@ -593,7 +610,8 @@
 <!-- dead man timer modal -->
 <ng-template #deadManTimerModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.dead_man_timer">Dead Man&apos;s Timer</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.dead_man_timer">Dead Man&apos;s
+      Timer</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -620,7 +638,8 @@
           <button type="submit" class="btn btn-success btn-sm mr-1" role="button" translate="settings.compose.confirm">
             Confirm
           </button>
-          <button type="reset" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm mr-1" role="button" translate="settings.compose.clear">
+          <button type="reset" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm mr-1" role="button"
+                  translate="settings.compose.clear">
             Clear
           </button>
           <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
@@ -655,7 +674,8 @@
           <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
           <button type="submit" class="btn btn-success btn-sm ml-2"
                   [disabled]="!insertLinkData.text || !insertLinkData.link"
-                  role="button">OK</button>
+                  role="button">OK
+          </button>
         </div>
       </form>
     </div>
@@ -665,14 +685,14 @@
 <!-- encryption modal -->
 <ng-template #encryptionModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.encrypt_email">Encrypt Email</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.encrypt_for_non">Encrypt email for non
+      CTemplar users</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body bg-faded">
+  <div class="modal-body bg-faded encrypt-non-ctemplar">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <h3 translate="settings.compose.encrypt_for_non">Encrypt for non-Ctemplar mail users</h3>
       <form [formGroup]="encryptForm" (submit)="onSubmitEncryption()">
         <div class="form-group">
           <label for="encrypt-password" translate="settings.compose.message_password">Message Password</label>
@@ -682,21 +702,25 @@
             <span class="input-group-addon password-toggle bg-white text-muted"
                   (click)="encryptPasswordInput.type = encryptPasswordInput.type === 'password' ? 'text' : 'password'">
               <i class="fa fa-eye"></i>
+              <i class="fa fa-eye-slash"></i>
             </span>
           </div>
           <span *ngIf="encryptForm.controls['password'].errors && showEncryptFormErrors"
                 class="validate-message">
-            <span *ngIf="encryptForm.controls['password'].errors.required" translate="settings.compose.message_password_req">Message password is required.</span>
+            <span *ngIf="encryptForm.controls['password'].errors.required"
+                  translate="settings.compose.message_password_req">Message password is required.</span>
           </span>
         </div>
         <div class="form-group">
           <label for="confirm-encrypt-password" translate="create_account.confirm_password">Confirm Password</label>
           <div class="input-group">
             <input #encryptConfirmPasswordInput type="password" class="form-control form-control-lg"
-                   id="confirm-encrypt-password" formControlName="confirmPwd" [placeholder]="'create_account.confirm_password'| translate"/>
+                   id="confirm-encrypt-password" formControlName="confirmPwd"
+                   [placeholder]="'create_account.confirm_password'| translate"/>
             <span class="input-group-addon password-toggle bg-white text-muted"
                   (click)="encryptConfirmPasswordInput.type = encryptConfirmPasswordInput.type === 'password' ? 'text' : 'password'">
               <i class="fa fa-eye"></i>
+              <i class="fa fa-eye-slash"></i>
             </span>
           </div>
           <span *ngIf="encryptForm.controls['confirmPwd'].errors && showEncryptFormErrors"
@@ -709,11 +733,36 @@
           <input type="text" id="password-hint" class="form-control" formControlName="passwordHint"
                  [placeholder]="'settings.compose.password_hint'| translate">
         </div>
-        <div class="form-group text-small" translate="settings.compose.encrypt_message_expire">
-          Encrypted messages to non-Ctemplar recipients will expire in 5 days.
+        <div class="form-group">
+          <label translate="settings.compose.encrypt_message_expire">Expiration Time</label>
+          <div class="row">
+            <div class="col-3">
+              <label class="form-inline" for="deadman-days" translate="settings.compose.days">Days</label>
+              <input type="number" class="form-control"
+                     formControlName="days" min="0" max="5"
+                     name="encrypt-non-ctemplar-days">
+            </div>
+            <div class="col-3">
+              <label class="form-inline" for="deadman-hours" translate="settings.compose.hours">Hours</label>
+              <input type="number" class="form-control"
+                     formControlName="hours" min="0" max="24"
+                     name="encrypt-non-ctemplar-hours">
+            </div>
+
+          </div>
+          <div>
+            <span *ngIf="showEncryptFormErrors &&
+             (encryptForm.controls['days'].errors || encryptForm.controls['hours'].errors ||
+             (encryptForm.controls['hours'].value+(encryptForm.controls['days'].value*24))===0 ||
+             (encryptForm.controls['hours'].value+(encryptForm.controls['days'].value*24)) > 120) "
+                  class="validate-message">Expiry time should be minimum 1 hour and maximum 5 days.
+          </span>
+          </div>
         </div>
         <div class="form-group text-center mb-0">
-          <button type="submit" class="btn btn-success btn-sm mr-1" role="button" translate="settings.compose.confirm">Confirm</button>
+          <button type="submit" class="btn btn-success btn-sm mr-1" role="button" translate="settings.compose.confirm">
+            Confirm
+          </button>
           <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm mr-1"
                   role="button" translate="settings.compose.clear">Clear
           </button>
