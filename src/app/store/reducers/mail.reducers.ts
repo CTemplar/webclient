@@ -35,7 +35,7 @@ export function reducer(
       if (action.payload.read === false || action.payload.read === true) {
         const mailIDs = mails.map(item => item.id);
         mails = state.mails.filter(item => mailIDs.indexOf(item.id) < 0);
-        mails = [...mails, ...action.payload.mails];
+        mails = [...action.payload.mails, ...mails];
       }
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
