@@ -226,6 +226,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           if (!this.inProgress) {
             this.handleAttachment(draft);
           }
+          if (draft.isSent) {
+            this.resetValues();
+            this.hide.emit();
+          }
         }
 
         this.draft = draft;
@@ -545,29 +549,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }));
       return;
     }
-    if (this.userState.isPrime) {
-      if (this.mailData.receiver.length > 20) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "TO" addresses are allowed.' }));
-        return;
-      } else if (this.mailData.cc.length > 20) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "CC" addresses are allowed.' }));
-        return;
-      } else if (this.mailData.bcc.length > 20) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "BCC" addresses are allowed.' }));
-        return;
-      }
-    } else {
-      if (this.mailData.receiver.length > 20) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "TO" addresses are allowed.' }));
-        return;
-      } else if (this.mailData.cc.length > 20) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 20 "CC" addresses are allowed.' }));
-        return;
-      } else if (this.mailData.bcc.length > 1) {
-        this.store.dispatch(new SnackErrorPush({ message: 'Maximum 1 "BCC" address is allowed. Please upgrade your account to prime to add more addresses.' }));
-        return;
-      }
-    }
     const receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
@@ -588,9 +569,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isMailSent = true;
     this.setMailData(true, false);
+    this.inProgress = true;
     this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: receivers }));
-    this.resetValues();
-    this.hide.emit();
   }
 
   removeAttachment(attachment: Attachment) {
@@ -826,6 +806,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (shouldSend) {
+      this.draftMail.send = true;
       this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
       this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
     }

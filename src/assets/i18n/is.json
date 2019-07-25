@@ -364,6 +364,7 @@
       "background_color": "Background Color",
       "text_color": "Text Color",
       "saving": "Saving...",
+      "sending": "Sending...",
       "saved": "Saved",
       "wait_to_save": "Wait for the changes to save",
       "send_mail": "Send Mail",

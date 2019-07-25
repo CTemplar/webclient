@@ -364,6 +364,7 @@
       "background_color": "Couleur de l’arrière-plan",
       "text_color": "Couleur du texte",
       "saving": "Enregistrement...",
+      "sending": "Envoi...",
       "saved": "Brouillon enregistré",
       "wait_to_save": "Veuillez patienter pendant l’enregistrement des données",
       "send_mail": "Envoyer",

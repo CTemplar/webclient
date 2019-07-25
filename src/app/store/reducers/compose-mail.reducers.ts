@@ -9,7 +9,10 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
 
     case ComposeMailActionTypes.SEND_MAIL:
     case ComposeMailActionTypes.CREATE_MAIL: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: true, shouldSend: false, shouldSave: false };
+      state.drafts[action.payload.id] = {
+        ...state.drafts[action.payload.id],
+        inProgress: true, shouldSend: false, shouldSave: false, isSent: false,
+      };
       return { ...state, drafts: { ...state.drafts } };
     }
 
@@ -28,13 +31,32 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       state.drafts[action.payload.draft.id] = {
         ...oldDraft,
         inProgress: false,
+        isSent: false,
         draft: draftMail,
       };
       return { ...state, drafts: { ...state.drafts } };
     }
 
+    case ComposeMailActionTypes.SEND_MAIL_SUCCESS: {
+      state.drafts[action.payload.id] = {
+        ...state.drafts[action.payload.id],
+        inProgress: false, isSent: true,
+      };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+
+    case ComposeMailActionTypes.SEND_MAIL_FAILURE: {
+      state.drafts[action.payload.id] = {
+        ...state.drafts[action.payload.id],
+        draft: { ...state.drafts[action.payload.id].draft, send: false },
+        inProgress: false, isSent: false,
+      };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
     case ComposeMailActionTypes.UPDATE_LOCAL_DRAFT: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], ...action.payload };
+      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], ...action.payload, inProgress: true };
       return { ...state, drafts: { ...state.drafts } };
     }
 
