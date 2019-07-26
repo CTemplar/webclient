@@ -141,14 +141,18 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <div class="mb-3 position-relative">
-        <button type="button" *ngIf="mailboxes?.length < settings?.email_count"
-                (click)="onAddNewAddress()" class="btn btn-sm btn-secondary"><span translate="settings.add_address">Add Address</span>
-        </button>
-        <button class="btn btn-sm btn-secondary reorder-btn"
-                (click)="startReorder()"
-                *ngIf="!reorder && mailboxes?.length>1"
-                [ngbTooltip]="'settings.reorder_addresses'| translate" translate="settings.reorder">Reorder</button>
+      <div class="mb-3 row">
+        <div class="col-6">
+          <button type="button" *ngIf="mailboxes?.length < settings?.email_count"
+                  (click)="onAddNewAddress()" class="btn btn-sm btn-secondary"><span translate="settings.add_address">Add Address</span>
+          </button>
+        </div>
+        <div class="col-6 text-right">
+          <button class="btn btn-sm btn-secondary"
+                  (click)="startReorder()"
+                  *ngIf="!reorder && mailboxes?.length>1"
+                  [ngbTooltip]="'settings.reorder_addresses'| translate" translate="settings.reorder">Reorder</button>
+        </div>
       </div>
       <ul class="ui-list ui-list-styled list-styled addresses-list">
         <li *ngIf="newAddressOptions.isAddingNew" class="ui-list-item ui-list-item-xs-full">
