@@ -151,8 +151,7 @@
                       (click)="sendEmail()"
                       [disabled]="inProgress || isUploadingAttachment"
                       role="button"
-                      placement="top"
-                      ngbTooltip="{{inProgress ? ('settings.compose.wait_to_save'| translate): ('settings.compose.send_mail'| translate)}}">
+                      placement="top">
                 <i class="hidden-sm-up icon icon-paper-plane"></i><span
                       class="hidden-xs-down" translate="settings.compose.send">Send</span>
               </button>

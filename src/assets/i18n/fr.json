@@ -366,8 +366,6 @@
       "saving": "Enregistrement...",
       "sending": "Envoi...",
       "saved": "Brouillon enregistré",
-      "wait_to_save": "Veuillez patienter pendant l’enregistrement des données",
-      "send_mail": "Envoyer",
       "encrypt_for_non": "Cryptage pour les destinataires non CTemplar",
       "message_password": "Mot de passe du message",
       "message_password_req": "Le mot de passe du message est requis",

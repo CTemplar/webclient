@@ -366,8 +366,6 @@
       "saving": "Saving...",
       "sending": "Sending...",
       "saved": "Saved",
-      "wait_to_save": "Wait for the changes to save",
-      "send_mail": "Send Mail",
       "encrypt_for_non": "Encrypt for non-CTemplar mail users",
       "message_password": "Message Password",
       "message_password_req": "Message password is required.",

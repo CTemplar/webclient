@@ -366,8 +366,6 @@
       "saving": "إنقاذ...",
       "sending": "Sending...",
       "saved": "تم الحفظ",
-      "wait_to_save": "انتظر التغييرات لحفظها",
-      "send_mail": "ارسل بريد",
       "encrypt_for_non": "تشفير لمستخدمي البريد غير CTemplar",
       "message_password": "رسالة كلمة المرور",
       "message_password_req": "لمة مرور الرسالة مطلوبة.",
