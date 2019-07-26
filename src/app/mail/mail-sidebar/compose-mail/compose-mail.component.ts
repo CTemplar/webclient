@@ -405,6 +405,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   insertLink(text: string, link: string) {
     this.insertLinkData.modalRef.close();
+    if (!/^https?:\/\//i.test(link)) {
+      link = 'http://' + link;
+    }
     this.quill.focus();
     this.quill.updateContents([
       { retain: this.quill.getSelection().index || this.quill.getLength() },
