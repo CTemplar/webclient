@@ -41,6 +41,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   folderColors: any = {};
   markedAsRead: boolean;
   currentMailIndex: number;
+  currentMailNumber: any;
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   OFFSET: number = 0;
 
@@ -143,6 +144,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (this.mails.length > 0 && this.mail) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
+          this.currentMailNumber = ((this.EMAILS_PER_PAGE * (this.page - 1)) + this.currentMailIndex + 1) || '-';
         }
         if (!mailState.loaded && this.mails.length === 0 && !mailState.inProgress &&
           this.EMAILS_PER_PAGE && this.mailFolder !== MailFolderType.SEARCH) {
