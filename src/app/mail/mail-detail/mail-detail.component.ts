@@ -185,7 +185,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     this.mail = null;
     setTimeout(() => {
-      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/1/message/${this.mails[index].id}`);
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}/message/${this.mails[index].id}`);
     }, 500);
   }
 
