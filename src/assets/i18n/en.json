@@ -249,6 +249,8 @@
     "update": "Update",
     "create": "Create",
     "create_folder": "Create new folder",
+    "edit_folder": "Edit Folder",
+    "delete_folder": "Delete Folder",
     "folder_messages": {
       "name_exist": "Folder name already exists.",
       "name_required": "Folder name is required",
