@@ -18,6 +18,7 @@ import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-mail',
@@ -31,10 +32,11 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
   autoresponder_status = false;
-
+  currentDate: string;
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
               private composeMailService: ComposeMailService) {
+    this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
   ngOnInit() {
@@ -65,7 +67,9 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
         }
         if (userState.autoresponder) {
           this.autoresponder = userState.autoresponder;
-          if (this.autoresponder.autoresponder_active || this.autoresponder.vacationautoresponder_active) {
+          if (this.autoresponder.autoresponder_active ||
+            (this.autoresponder.vacationautoresponder_active && this.autoresponder.vacationautoresponder_message &&
+            this.autoresponder.start_date && this.autoresponder.end_date && this.currentDate >= this.autoresponder.start_date)) {
             this.autoresponder_status = true;
           } else {
             this.autoresponder_status = false;
