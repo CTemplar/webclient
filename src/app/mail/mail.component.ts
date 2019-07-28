@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 // Store
 import { Store } from '@ngrx/store';
 // Actions
@@ -19,6 +19,8 @@ import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { formatDate } from '@angular/common';
+import { AllowIn, KeyboardShortcutsComponent, ShortcutEventOutput, ShortcutInput } from 'ng-keyboard-shortcuts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mail',
@@ -27,15 +29,19 @@ import { formatDate } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
-
+  shortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
   autoresponder_status = false;
   currentDate: string;
+
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
-              private composeMailService: ComposeMailService) {
+              private composeMailService: ComposeMailService,
+              private router: Router) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
@@ -83,6 +89,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.isMail.emit(true);
   }
 
+
   endAutoResponder() {
     this.autoresponder.autoresponder_active = false;
     this.autoresponder.vacationautoresponder_active = false;
@@ -92,6 +99,96 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
+    this.shortcuts.push(
+      {
+        key: ['g  i'],
+        label: 'Sequences',
+        preventDefault: true,
+        allowIn: [AllowIn.Textarea, AllowIn.Input],
+        command: e => {
+          console.log('ctrl+t , clicked ', e.key);
+          this.navigateToPage('/mail/inbox/page/1');
+        },
+        throttleTime: 250,
+        description: 'Goto Inbox -> g and i',
+      },
+      {
+        key: ['g d'],
+        label: 'Sequences',
+        description: 'Goto Draft -> g + d',
+        command: (output: ShortcutEventOutput) => {
+          console.log('? a', output);
+          this.navigateToPage('/mail/draft/page/1');
+        },
+        preventDefault: true,
+        throttleTime: 250
+      },
+      {
+        key: ['up up down down left right left right b a enter'],
+        label: 'Sequences',
+        description: 'Konami code!',
+        command: (output: ShortcutEventOutput) => console.log('Konami code!!!', output),
+        throttleTime: 250
+      },
+      {
+        key: 'cmd + shift + f',
+        label: 'Sequences',
+        command: (output: ShortcutEventOutput) => console.log(output),
+        preventDefault: true,
+        throttleTime: 250,
+        description: 'Sequence cmd then shift+f',
+        //  target: this.input.nativeElement
+      },
+      {
+        key: ['g s'],
+        command: (output: ShortcutEventOutput) => {
+          console.log(output);
+          this.navigateToPage('/mail/sent/page/1');
+        },
+        preventDefault: true,
+        throttleTime: 250,
+        description: 'Goto Sent -> g + d',
+      },
+      {
+        key: ['g .'],
+        label: 'Sequences',
+        command: (output: ShortcutEventOutput) => {
+          this.navigateToPage('/mail/starred/page/1');
+        },
+        preventDefault: true,
+        throttleTime: 250,
+        description: 'Goto Starred -> g + .',
+      },
+      {
+        key: '[g a]',
+        command: (output: ShortcutEventOutput) => {
+          this.navigateToPage('/mail/archive/page/1');
+        },
+        preventDefault: true,
+        throttleTime: 250,
+        description: 'Goto Archive -> g + a',
+      },
+      {
+        key: ['g x'],
+        label: 'Sequences',
+        command: (output: ShortcutEventOutput) => console.log(output),
+        preventDefault: true,
+        throttleTime: 250,
+        description: 'Goto Spam -> g + x',
+      },
+      {
+        key: ['g t'],
+        label: 'Sequences',
+        command: (output: ShortcutEventOutput) => {
+          this.navigateToPage('/mail/trash/page/1');
+        },
+        preventDefault: true,
+        throttleTime: 250,
+        description: 'Goto trash -> g + t',
+      }
+    );
+
+    this.keyboard.select('cmd + m').subscribe(e => console.log('cmd+f:   Ahsan SAddique' + e));
   }
 
   ngOnDestroy() {
@@ -100,5 +197,9 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.hideEntireFooter.emit(false);
     this.sharedService.isMail.emit(false);
     this.composeMailService.destroyAllComposeMailDialogs();
+  }
+
+  navigateToPage(path: string) {
+    this.router.navigateByUrl(path);
   }
 }
