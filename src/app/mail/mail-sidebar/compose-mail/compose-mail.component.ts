@@ -985,8 +985,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       data.forEach(item => {
         if (item.value === tag.value) {
           const tokens = tag.value.split(',');
-          emails.push(...tokens.map(token => ({ value: token, display: token, email: token, name: token })))
-          ;
+          emails.push(...tokens.map(token => {
+            token = token.trim();
+            return ({ value: token, display: token, email: token, name: token });
+          })
+        );
         } else {
           emails.push(item);
         }
