@@ -36,6 +36,9 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { TagModel } from 'ngx-chips/core/accessor';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
 
 const Quill: any = QuillNamespace;
 
@@ -974,5 +977,23 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     this.onFilesSelected(event.dataTransfer.files);
+  }
+
+  onAddingReceiver(tag: any, data: any[]) {
+    if (tag.value && tag.value.split(',').length > 1) {
+      const emails = [];
+      data.forEach(item => {
+        if (item.value === tag.value) {
+          const tokens = tag.value.split(',');
+          emails.push(...tokens.map(token => ({ value: token, display: token, email: token, name: token })))
+          ;
+        } else {
+          emails.push(item);
+        }
+      });
+      data.splice(0, this.mailData.receiver.length);
+      data.push(...emails);
+    }
+    this.valueChanged$.next(data);
   }
 }
