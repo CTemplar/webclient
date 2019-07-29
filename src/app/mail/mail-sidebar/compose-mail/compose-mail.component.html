@@ -31,6 +31,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
+                   [editable]='true'
                    [separatorKeyCodes]="[188,32,13]"
                    (onAdd)="onAddingReceiver($event, mailData.receiver)"
                    (onRemove)="valueChanged$.next(mailData.receiver)">
@@ -60,6 +61,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
+                   [editable]='true'
                    [separatorKeyCodes]="[188,32,13]"
                    (onAdd)="onAddingReceiver($event, mailData.cc)"
                    (onRemove)="valueChanged$.next(mailData.cc)">
@@ -83,6 +85,7 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
+                   [editable]='true'
                    [separatorKeyCodes]="[188,32,13]"
                    (onAdd)="onAddingReceiver($event, mailData.bcc)"
                    (onRemove)="valueChanged$.next(mailData.bcc)">
