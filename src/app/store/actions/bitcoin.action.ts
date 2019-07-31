@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 export enum BitcoinActionTypes {
   CREATE_NEW_WALLET = '[BITCOIN ] CREATE NEW WALLET',
   CREATE_NEW_WALLET_SUCCESS = '[BITCOIN] CREATE NEW WALLET',
-  CHECK__TRANSACTION = '[BITCOIN] CHECK TRANSACTION',
+  CHECK_TRANSACTION = '[BITCOIN] CHECK TRANSACTION',
   CHECK_TRANSACTION_SUCCESS = '[BITCOIN] CHECK TRANSACTION SUCCESS',
   CLEAR_WALLET = '[BITCOIN] CLEAR WALLET',
 }
@@ -16,7 +16,7 @@ export class CreateNewWallet implements Action {
 }
 
 export class CheckTransaction implements Action {
-  readonly type = BitcoinActionTypes.CHECK__TRANSACTION;
+  readonly type = BitcoinActionTypes.CHECK_TRANSACTION;
 
   constructor(public payload: any) {
   }

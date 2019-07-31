@@ -33,15 +33,17 @@ export class BitcoinEffects {
           );
       }));
 
-
   @Effect()
-  checkPendingBalance: Observable<any> = this.actions
+  checkPendingTransaction: Observable<any> = this.actions
     .pipe(
-      ofType(BitcoinActionTypes.CHECK__TRANSACTION),
+      ofType(BitcoinActionTypes.CHECK_TRANSACTION),
       map((action: CheckTransaction) => action.payload),
       switchMap(payload => {
         return this.bitcoinService.checkTransaction(payload)
-          .pipe(map((response) => new CheckTransactionSuccess(response)));
+          .pipe(
+            map((response) => new CheckTransactionSuccess(response)),
+            catchError((error) => EMPTY)
+          );
       }));
 }
 
