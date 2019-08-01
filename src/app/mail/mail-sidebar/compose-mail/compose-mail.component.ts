@@ -821,6 +821,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail.send = true;
       this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
       this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
+    } else {
+      this.draftMail.send = false;
     }
 
     if (this.action) {

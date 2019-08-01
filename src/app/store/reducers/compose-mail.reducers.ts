@@ -3,6 +3,7 @@ import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
 // Model
 import { ComposeMailState } from '../datatypes';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { MailFolderType } from '../models';
 
 export function reducer(state: ComposeMailState = { drafts: {} }, action: ComposeMailActions): ComposeMailState {
   switch (action.type) {
@@ -49,7 +50,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     case ComposeMailActionTypes.SEND_MAIL_FAILURE: {
       state.drafts[action.payload.id] = {
         ...state.drafts[action.payload.id],
-        draft: { ...state.drafts[action.payload.id].draft, send: false },
+        draft: { ...state.drafts[action.payload.id].draft, send: false, folder: MailFolderType.DRAFT },
         inProgress: false, isSent: false,
       };
       return { ...state, drafts: { ...state.drafts } };
