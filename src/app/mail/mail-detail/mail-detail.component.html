@@ -267,7 +267,7 @@
           </div>
         </div>
       </div>
-      <app-progress-bar [active]="!decryptedContents[mail.id]"></app-progress-bar>
+      <app-progress-bar [active]="decryptedContents[mail.id]==null"></app-progress-bar>
     </div>
   </section>
 
@@ -419,7 +419,7 @@
                     </div>
                   </div>
                 </div>
-                <app-progress-bar [active]="!decryptedContents[childMail.id]" *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
+                <app-progress-bar [active]="decryptedContents[childMail.id] == null" *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
               </div>
             </section>
 

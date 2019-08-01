@@ -87,11 +87,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
             if (!this.mail.has_children && this.mail.content && !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
+              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content == null && this.mail.content))) {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
             }
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != null) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
               this.handleEmailLinks();
