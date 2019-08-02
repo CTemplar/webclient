@@ -454,6 +454,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.SAVE_AUTORESPONDER_FAILURE: {
+      state.autoresponder.autoresponder_active = false;
       return { ...state, inProgress: false, autoResponderErrorMessage: action.payload };
     }
 

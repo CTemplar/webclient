@@ -1,6 +1,3 @@
-<div *ngIf="mailFolder === mailFolderTypes.SEARCH" class="search-tilte">
-  <b>Search Results</b>
-</div>
 <div class="mailbox-actionbar">
   <div class="row">
     <div class="col-12 col-sm-9 mailbox-actionbar-col">
@@ -166,10 +163,10 @@
           <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>
         <div class="mail-nav-control">
-          <button role="button" class="mail-nav-control-prev" (click)="prevPage()">
+          <button role="button" class="mail-nav-control-prev" ngbTooltip="Previous page" (click)="prevPage()">
             <i class="icon icon-chevron-left"></i>
           </button>
-          <button role="button" class="mail-nav-control-next" (click)="nextPage()">
+          <button role="button" class="mail-nav-control-next" ngbTooltip="Next page" (click)="nextPage()">
             <i class="icon icon-chevron-right"></i>
           </button>
         </div>
@@ -260,9 +257,17 @@
 
         <!-- Inbox Date -->
         <td class="mail-sent-date">
-          <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'MMM D'}}
+          <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'mail-list'}}
           </ng-container>
-          <ng-template #createdAt>{{mail.created_at | momentDate:'MMM D'}}</ng-template>
+          <ng-template #createdAt>
+            <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">{{mail.created_at | momentDate:'mail-list'}}</ng-container>
+          </ng-template>
+          <ng-template #outboxTime>
+            <ng-container *ngIf="mail.delayed_delivery">{{ mail.delayed_delivery | momentDate:'mail-list'}}</ng-container>
+            <ng-container *ngIf="mail.dead_man_duration">
+              <i class="material-icons" style="font-size: 18px;">remove</i>
+            </ng-container>
+          </ng-template>
         </td>
 
         <!-- Icon Secured -->
@@ -331,9 +336,9 @@
                 <i class="icon icon-attachment" *ngIf="mail.has_attachments"></i>
               </span>
               <span class="mail-sent-date">
-                  <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'MMM D'}}
+                  <ng-container *ngIf="mailFolder === mailFolderTypes.SENT; else createdAt">{{mail.sent_at | momentDate:'mail-list'}}
                   </ng-container>
-                  <ng-template #createdAt>{{mail.created_at | momentDate:'MMM D'}}</ng-template>
+                  <ng-template #createdAt>{{mail.created_at | momentDate:'mail-list'}}</ng-template>
               </span>
           </td>
           <td class="mail-status">

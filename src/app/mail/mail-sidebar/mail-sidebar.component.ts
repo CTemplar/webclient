@@ -9,7 +9,14 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { GetMails, GetMailsSuccess, GetUnreadMailsCount, GetUnreadMailsCountSuccess, ReadMailSuccess } from '../../store/actions';
+import {
+  ClearMailsOnLogout,
+  GetMails,
+  GetMailsSuccess,
+  GetUnreadMailsCount,
+  GetUnreadMailsCountSuccess,
+  ReadMailSuccess
+} from '../../store/actions';
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
@@ -79,6 +86,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
                 limit: this.EMAIL_LIMIT,
                 offset: 0,
                 folder: webSocketState.message.folder,
+                folders: webSocketState.message.folders,
                 read: false,
                 mails: [webSocketState.message.mail],
                 total_mail_count: webSocketState.message.total_count,
@@ -90,7 +98,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
             }
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
-              { outbox: webSocketState.message.unread_count_outbox, updateUnreadCount: true, }));
+              { outbox: webSocketState.message.unread_count.outbox, updateUnreadCount: true, }));
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
@@ -108,6 +116,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((authState: AuthState) => {
         if (!authState.isAuthenticated) {
           this.websocketService.disconnect();
+          this.store.dispatch(new ClearMailsOnLogout());
         }
       });
   }
@@ -153,13 +162,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   }
 
   private updateUnreadCount(webSocketState: WebSocketState) {
-    const data = { updateUnreadCount: true };
-    for (const key in webSocketState.message) {
-      if (webSocketState.message.hasOwnProperty(key) && key.indexOf('unread_count_') === 0) {
-        data[key.split('unread_count_')[1]] = webSocketState.message[key];
-      }
-    }
-    this.store.dispatch(new GetUnreadMailsCountSuccess(data));
+    this.store.dispatch(new GetUnreadMailsCountSuccess({ ...webSocketState.message.unread_count, updateUnreadCount: true }));
   }
 
   updateTitle(title: string = null) {
@@ -187,16 +190,16 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   /**
    * @description
    * Prime Users - Can create as many folders as they want
-   * Free Users - Only allow a maximum of 3 folders per account
+   * Free Users - Only allow a maximum of 5 folders per account
    */
   // == Open NgbModal
   open() {
     if (this.userState.isPrime) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
-    } else if (this.userState.customFolders === null || this.userState.customFolders.length < 3) {
+    } else if (this.userState.customFolders === null || this.userState.customFolders.length < 5) {
       this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
     } else {
-      this.notificationService.showSnackBar('Free users can only create a maximum of 3 folders.');
+      this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
     }
   }
 

@@ -2,27 +2,62 @@
 import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
 // Model
 import { ComposeMailState } from '../datatypes';
+import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { MailFolderType } from '../models';
 
 export function reducer(state: ComposeMailState = { drafts: {} }, action: ComposeMailActions): ComposeMailState {
   switch (action.type) {
 
     case ComposeMailActionTypes.SEND_MAIL:
     case ComposeMailActionTypes.CREATE_MAIL: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], inProgress: true, shouldSend: false, shouldSave: false };
+      state.drafts[action.payload.id] = {
+        ...state.drafts[action.payload.id],
+        inProgress: true, shouldSend: false, shouldSave: false, isSent: false,
+      };
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.CREATE_MAIL_SUCCESS: {
+      const oldDraft = state.drafts[action.payload.draft.id];
+      const draftMail = action.payload.response;
+      if (action.payload.draft.draft.forward_attachments_of_message) {
+        oldDraft.attachments = draftMail.attachments.map(attachment => {
+          attachment.progress = 100;
+          attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+          attachment.draftId = oldDraft.id;
+          attachment.attachmentId = performance.now();
+          return attachment;
+        });
+      }
       state.drafts[action.payload.draft.id] = {
-        ...state.drafts[action.payload.draft.id],
+        ...oldDraft,
         inProgress: false,
-        draft: action.payload.response
+        isSent: false,
+        draft: draftMail,
+      };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.SEND_MAIL_SUCCESS: {
+      state.drafts[action.payload.id] = {
+        ...state.drafts[action.payload.id],
+        inProgress: false, isSent: true,
+      };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+
+    case ComposeMailActionTypes.SEND_MAIL_FAILURE: {
+      state.drafts[action.payload.id] = {
+        ...state.drafts[action.payload.id],
+        draft: { ...state.drafts[action.payload.id].draft, send: false, folder: MailFolderType.DRAFT },
+        inProgress: false, isSent: false,
       };
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.UPDATE_LOCAL_DRAFT: {
-      state.drafts[action.payload.id] = { ... state.drafts[action.payload.id], ...action.payload };
+      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], ...action.payload, inProgress: true };
       return { ...state, drafts: { ...state.drafts } };
     }
 

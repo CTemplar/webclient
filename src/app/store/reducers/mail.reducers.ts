@@ -35,7 +35,7 @@ export function reducer(
       if (action.payload.read === false || action.payload.read === true) {
         const mailIDs = mails.map(item => item.id);
         mails = state.mails.filter(item => mailIDs.indexOf(item.id) < 0);
-        mails = [...mails, ...action.payload.mails];
+        mails = [...action.payload.mails, ...mails];
       }
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
@@ -45,7 +45,13 @@ export function reducer(
       });
       state.folders.set(action.payload.folder, mails);
       if (state.currentFolder !== action.payload.folder) {
-        mails = state.folders.get(state.currentFolder);
+        if (action.payload.folders && action.payload.folders.indexOf(state.currentFolder) > -1) {
+          mails = state.mails.filter(item => item.id !== action.payload.mails[0].id);
+          mails = [...action.payload.mails, ...mails];
+          state.folders.set(state.currentFolder, mails);
+        } else {
+          mails = state.folders.get(state.currentFolder);
+        }
       }
       return {
         ...state,
@@ -181,6 +187,20 @@ export function reducer(
         ...state,
         mailDetail: null,
         noUnreadCountChange: true,
+      };
+    }
+
+    case MailActionTypes.CLEAR_MAILS_ON_LOGOUT: {
+      return {
+        mails: [],
+        total_mail_count: 0,
+        mailDetail: null,
+        folders: new Map(),
+        loaded: false,
+        decryptedContents: {},
+        unreadMailsCount: { inbox: 0 },
+        noUnreadCountChange: true,
+        canGetUnreadCount: true
       };
     }
 

@@ -94,10 +94,10 @@
                                                 1024) | filesize}}</div>
                                             <div class="progress progress-secondary progress-lg">
                                               <div class="progress-bar" role="progressbar"
-                                                   [style.width.%]="(settings.used_storage/(settings.allocated_storage * 1024))*100"
+                                                   [style.width.%]="((settings.used_storage/settings.allocated_storage)*100)"
                                                    [attr.aria-valuenow]="settings.used_storage"
                                                    aria-valuemin="0"
-                                                   [attr.aria-valuemax]="settings.allocated_storage * 1024"></div>
+                                                   [attr.aria-valuemax]="settings.allocated_storage"></div>
                                             </div>
                                           </div>
                                         </li>

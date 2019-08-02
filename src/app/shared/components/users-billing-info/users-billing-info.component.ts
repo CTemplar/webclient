@@ -291,9 +291,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       return;
     }
     // check after every one minute
-    this.store.dispatch(new CheckTransaction({
-      'from_address': this.bitcoinState.newWalletAddress
-    }));
+    this.store.dispatch(new CheckTransaction({ 'from_address': this.bitcoinState.newWalletAddress }));
   }
 
   selectBitcoinMethod() {
@@ -312,7 +310,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.paymentMethod = PaymentMethod.BITCOIN;
     this.paymentSuccess = false;
     this.createNewWallet();
-    timer(15000, 5000)
+    timer(15000, 10000)
       .pipe(
         untilDestroyed(this),
       )

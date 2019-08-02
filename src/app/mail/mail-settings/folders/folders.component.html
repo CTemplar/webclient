@@ -6,7 +6,7 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <button class="btn btn-secondary text-small mb-2" (click)="addFolder()">
+      <button class="btn btn-secondary text-small mb-2" (click)="addFolder()" [ngbTooltip]="'mail_sidebar.add_folder'| translate">
         <span translate="mail_sidebar.add_folder">Add Folder</span>
       </button>
       <button class="btn btn-sm btn-secondary float-right"
@@ -44,8 +44,8 @@
 
               <ul *ngIf="!reorder"
                   class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                <li><a role="button" (click)="addFolder(folder)"><i class="icon icon-edit"></i></a></li>
-                <li><a role="button" (click)="showConfirmationModal(folder)"><i class="icon icon-garbage"></i></a></li>
+                <li><a role="button" (click)="addFolder(folder, true)" [ngbTooltip]="'settings.edit_folder'| translate"><i class="icon icon-edit"></i></a></li>
+                <li><a role="button" (click)="showConfirmationModal(folder)" [ngbTooltip]="'settings.delete_folder'| translate"><i class="icon icon-garbage"></i></a></li>
               </ul>
             </div>
           </div>
