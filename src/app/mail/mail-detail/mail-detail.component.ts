@@ -2,7 +2,7 @@ import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { DeleteMail, GetMailDetailSuccess, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, GetMails, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -39,6 +39,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   customFolders: Folder[] = [];
   showGmailExtraContent: boolean;
   folderColors: any = {};
+  markedAsRead: boolean;
+  currentMailIndex: number;
+  currentMailNumber: any;
+  MAX_EMAIL_PAGE_LIMIT: number = 1;
+  OFFSET: number = 0;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -46,6 +51,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private mailboxes: Mailbox[];
   private canScroll: boolean = true;
   private page: number;
+  private mails: Mail[] = [];
+  private EMAILS_PER_PAGE: number;
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
@@ -54,7 +61,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private composeMailService: ComposeMailService,
               private dateTimeUtilService: DateTimeUtilService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private sharedService: SharedService) {
   }
 
   ngOnInit() {
@@ -70,6 +78,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
+        this.mails = [...mailState.mails];
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
@@ -78,11 +87,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
             if (!this.mail.has_children && this.mail.content && !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
+              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content == null && this.mail.content))) {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
             }
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != null) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
               this.handleEmailLinks();
@@ -97,7 +106,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
 
               // Mark mail as read
-              if (!this.mail.read) {
+              if (!this.mail.read && !this.markedAsRead) {
+                this.markedAsRead = true;
                 this.markAsRead(this.mail.id);
               }
             }
@@ -131,6 +141,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.parentMailCollapsed = false;
           }
         }
+        if (this.mails.length > 0 && this.mail) {
+          this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
+          this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
+          this.currentMailNumber = ((this.EMAILS_PER_PAGE * (this.page - 1)) + this.currentMailIndex + 1) || '-';
+        }
+        if (!mailState.loaded && this.mails.length === 0 && !mailState.inProgress &&
+          this.EMAILS_PER_PAGE && this.mailFolder !== MailFolderType.SEARCH) {
+          this.store.dispatch(new GetMails({
+            limit: this.EMAILS_PER_PAGE,
+            inProgress: true, offset: this.OFFSET, folder: this.mailFolder
+          }));
+        }
       });
 
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
@@ -155,7 +177,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         });
         this.userState = user;
+        this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
+  }
+
+  changeMail(index: number) {
+    if (index < 0 || index >= this.mails.length) {
+      return;
+    }
+    this.mail = null;
+    setTimeout(() => {
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}/message/${this.mails[index].id}`);
+    }, 500);
   }
 
   handleEmailLinks() {
@@ -373,7 +406,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         allowUndo: true
       }));
       if (this.mail.children) {
-        this.mail.children  = this.mail.children.filter(child => child.id !== mail.id);
+        this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
       }
       this.onDeleteCollapseMail(index);
     }

@@ -6,6 +6,7 @@ export enum ComposeMailActionTypes {
   CREATE_MAIL_SUCCESS = '[Mail] CREATE SUCCESS',
   SEND_MAIL = '[Mail] SEND_MAIL',
   SEND_MAIL_SUCCESS = '[Mail] SEND_MAIL SUCCESS',
+  SEND_MAIL_FAILURE = '[Mail] SEND_MAIL FAILURE',
   UPDATE_LOCAL_DRAFT = '[Mail] UPDATE LOCAL DRAFT',
   CLOSE_MAILBOX = '[Mailbox] CLOSE',
   UPDATE_PGP_ENCRYPTED_CONTENT = '[PGP] UPDATE PGP ENCRYPTED CONTENT',
@@ -61,6 +62,13 @@ export class SendMail implements Action {
 
 export class SendMailSuccess implements Action {
   readonly type = ComposeMailActionTypes.SEND_MAIL_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class SendMailFailure implements Action {
+  readonly type = ComposeMailActionTypes.SEND_MAIL_FAILURE;
 
   constructor(public payload?: any) {
   }
@@ -171,6 +179,7 @@ export type ComposeMailActions =
   | CloseMailbox
   | SendMail
   | SendMailSuccess
+  | SendMailFailure
   | UpdatePGPEncryptedContent
   | UpdatePGPSshKeys
   | UploadAttachment

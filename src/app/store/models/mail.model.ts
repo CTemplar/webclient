@@ -14,7 +14,7 @@ export interface Mail {
   sender?: string;
   sender_display?: EmailDisplay;
   subject?: string;
-  encryption?: any;
+  encryption?: EncryptionNonCTemplar;
   attachments?: Array<any>;
   receiver?: Array<string>;
   receiver_list?: string;
@@ -44,6 +44,17 @@ export interface Mail {
   last_action_thread?: MailAction;
   last_action?: MailAction;
   last_action_parent_id?: number;
+}
+
+export class EncryptionNonCTemplar {
+  expires?: string;
+  expiry_hours: number = 120;
+  id?: number;
+  password: string;
+  password_hint?: string;
+  private_key?: string;
+  public_key?: string;
+  random_secret?: string;
 }
 
 export interface Mailbox {

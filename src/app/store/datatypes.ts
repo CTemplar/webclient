@@ -213,6 +213,7 @@ export interface Draft {
   getUserKeyInProgress?: boolean;
   usersKeys?: UserKey;
   isMailDetailPage?: boolean;
+  isSent?: boolean;
 
   /**
    * @var isClosed

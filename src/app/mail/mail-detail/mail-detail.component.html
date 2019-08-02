@@ -1,4 +1,3 @@
-<app-progress-bar [active]="!mail"></app-progress-bar>
 <div class="mailbox-actionbar">
   <div class="row">
     <div class="col-12 col-sm-9 mailbox-actionbar-col">
@@ -124,8 +123,29 @@
         </li>
       </ul>
     </div>
+
+    <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
+      <div class="mail-controls d-flex align-items-center justify-content-end">
+        <div class="mail-result-text text-muted">
+          <small *ngIf="currentMailNumber">{{currentMailNumber}} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+        </div>
+        <div class="mail-nav-control">
+          <button role="button" class="mail-nav-control-prev"
+                  ngbTooltip="Previous email"
+                  (click)="changeMail(currentMailIndex -1)">
+            <i class="icon icon-chevron-left"></i>
+          </button>
+          <button role="button" class="mail-nav-control-next"
+                  ngbTooltip="Next email"
+                  (click)="changeMail(currentMailIndex +1)">
+            <i class="icon icon-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<app-progress-bar [active]="!mail"></app-progress-bar>
 
 <!--Mail Info-->
 <div class="mailbox-sub-content mail-detail-content" *ngIf="mail">
@@ -229,6 +249,15 @@
               <label class="msg-received-time mb-0" id="{{mail.id}}-mail-date">
                 <ng-container *ngIf="mail.folder === mailFolderTypes.SENT && mail.sent_at; else createdAt">{{mail.sent_at | momentDate:'medium'}}</ng-container>
                 <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
+                <ng-template #createdAt>
+                  <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">{{mail.created_at | momentDate:'medium'}}</ng-container>
+                </ng-template>
+                <ng-template #outboxTime>
+                  <ng-container *ngIf="mail.delayed_delivery">{{ mail.delayed_delivery | momentDate:'medium'}}</ng-container>
+                  <ng-container *ngIf="mail.dead_man_duration">
+                    <i class="material-icons" style="font-size: 18px;">remove</i>
+                  </ng-container>
+                </ng-template>
               </label>
 
             </div>
@@ -238,7 +267,7 @@
           </div>
         </div>
       </div>
-      <app-progress-bar [active]="!decryptedContents[mail.id]"></app-progress-bar>
+      <app-progress-bar [active]="decryptedContents[mail.id]==null"></app-progress-bar>
     </div>
   </section>
 
@@ -373,7 +402,15 @@
                           <ng-container *ngIf="childMail.folder === mailFolderTypes.SENT && childMail.sent_at; else createdAt">
                             {{childMail.sent_at | momentDate:'medium'}}
                           </ng-container>
-                          <ng-template #createdAt>{{childMail.created_at | momentDate:'medium'}}</ng-template>
+                          <ng-template #createdAt>
+                            <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">{{childMail.created_at | momentDate:'medium'}}</ng-container>
+                          </ng-template>
+                          <ng-template #outboxTime>
+                            <ng-container *ngIf="childMail.delayed_delivery">{{ childMail.delayed_delivery | momentDate:'medium'}}</ng-container>
+                            <ng-container *ngIf="childMail.dead_man_duration">
+                              <i class="material-icons" style="font-size: 18px;">remove</i>
+                            </ng-container>
+                          </ng-template>
                         </label>
                       </div>
                       <div>
@@ -382,7 +419,7 @@
                     </div>
                   </div>
                 </div>
-                <app-progress-bar [active]="!decryptedContents[childMail.id]" *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
+                <app-progress-bar [active]="decryptedContents[childMail.id] == null" *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
               </div>
             </section>
 

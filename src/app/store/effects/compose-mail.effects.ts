@@ -19,7 +19,7 @@ import {
   DeleteAttachmentSuccess, DeleteMailSuccess, GetUnreadMailsCount,
   GetUsersKeys,
   GetUsersKeysSuccess,
-  SendMail,
+  SendMail, SendMailFailure,
   SendMailSuccess,
   SnackErrorPush,
   SnackPush,
@@ -135,11 +135,12 @@ export class ComposeMailEffects {
               }
               return events;
             }),
-            catchError(errorResponse => of(new SnackErrorPush({
-              message: errorResponse.error && errorResponse.error.detail ?
-                errorResponse.error.detail : 'Failed to send mail.', duration: 10000
-            })))
-          );
+            catchError(errorResponse => of(
+              new SnackErrorPush({
+                message: errorResponse.error || 'Failed to send mail.', duration: 10000
+              }),
+              new SendMailFailure(payload)
+            )));
       }));
 
   @Effect()

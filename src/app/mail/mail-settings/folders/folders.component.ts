@@ -59,13 +59,13 @@ export class FoldersComponent implements OnInit, OnDestroy {
    * Free Users - Only allow a maximum of 5 folders per account
    */
   // == Open NgbModal
-  addFolder(folder: Folder = { id: null, name: '', color: '' }) {
+  addFolder(folder: Folder = { id: null, name: '', color: '' }, edit?: boolean) {
     const options: any = {
       centered: true,
       windowClass: 'modal-sm mailbox-modal',
     };
 
-    if (this.userState.isPrime || (this.userState.customFolders === null || this.userState.customFolders.length < 5)) {
+    if (this.userState.isPrime || (this.userState.customFolders === null || (this.userState.customFolders.length < 5 || edit))) {
       const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
       component.folder = folder;
     } else {

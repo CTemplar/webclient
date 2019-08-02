@@ -13,6 +13,7 @@ export class SafePipe implements PipeTransform {
   public transform(value: any, type: string = '', fromEmail): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
+        value = this.removeTitle(value);
         const cssFilter = new cssfilter.FilterCSS({
           onIgnoreAttr: (styleName, styleValue, opts) => {
             const blackList = {
@@ -138,6 +139,15 @@ export class SafePipe implements PipeTransform {
     return inputText;
   }
 
+  private removeTitle(value: string) {
+    const el = document.createElement('div');
+    el.innerHTML = value;
+    if (el.getElementsByTagName('title').length > 0) {
+      el.getElementsByTagName('title')[0].innerText = '';
+      return el.innerHTML;
+    }
+    return value;
+  }
 }
 
 
