@@ -26,7 +26,7 @@ import {
   AuthState,
   ComposeMailState,
   Draft,
-  EmailContact,
+  EmailContact, SecureContent,
   MailAction,
   MailBoxesState,
   MailState,
@@ -36,9 +36,6 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { TagModel } from 'ngx-chips/core/accessor';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
 
 const Quill: any = QuillNamespace;
 
@@ -318,7 +315,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftId = Date.now();
 
     if (this.draftMail && this.draftMail.content) {
-      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, this.draftMail.content);
+      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
       this.isSignatureAdded = true;
       this.inlineAttachmentContentIds = this.draftMail.attachments
         .filter((attachment: Attachment) => attachment.is_inline)
@@ -790,7 +787,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateEmail() {
     this.setMailData(false, true);
-    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, this.draftMail.content);
+    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail));
   }
 
   setMailData(shouldSend: boolean, shouldSave: boolean) {
@@ -988,10 +985,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         if (item.value === tag.value) {
           const tokens = tag.value.split(',');
           emails.push(...tokens.map(token => {
-            token = token.trim();
-            return ({ value: token, display: token, email: token, name: token });
-          })
-        );
+              token = token.trim();
+              return ({ value: token, display: token, email: token, name: token });
+            })
+          );
         } else {
           emails.push(item);
         }

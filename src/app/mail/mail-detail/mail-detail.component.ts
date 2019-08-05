@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { DeleteMail, GetMailDetailSuccess, GetMails, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, SecureContent, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
@@ -89,10 +89,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (!this.mail.has_children && this.mail.content && !this.isDecrypting[this.mail.id] &&
               (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content == null && this.mail.content))) {
               this.isDecrypting[this.mail.id] = true;
-              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
+              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != null) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
+              this.mail.subject = decryptedContent.subject;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
               this.handleEmailLinks();
 
@@ -129,7 +130,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               if (!this.isDecrypting[this.mail.id] && this.mail.content &&
                 (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
                 this.isDecrypting[this.mail.id] = true;
-                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
+                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
               }
               this.mail.children.forEach((child, index) => {
                 if (index !== this.mail.children.length - 1) {
@@ -234,7 +235,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (!this.isDecrypting[child.id] &&
         (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))) {
         this.isDecrypting[child.id] = true;
-        this.pgpService.decrypt(child.mailbox, child.id, child.content, child.incoming_headers);
+        this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
       }
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         this.decryptedContents[child.id] = childDecryptedContent.content;

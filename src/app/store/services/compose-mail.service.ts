@@ -2,7 +2,7 @@ import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } 
 import { Store } from '@ngrx/store';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { ClearDraft, CreateMail, SendMail } from '../actions';
-import { AppState, ComposeMailState, Draft, DraftState, UserState } from '../datatypes';
+import { AppState, ComposeMailState, Draft, DraftState, SecureContent, UserState } from '../datatypes';
 import { OpenPgpService } from './openpgp.service';
 
 @Injectable()
@@ -22,11 +22,19 @@ export class ComposeMailService {
           const draftMail: Draft = response.drafts[key];
           if (draftMail.draft) {
             if (draftMail.shouldSave && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
-              draftMail.draft.content = draftMail.encryptedContent;
+              draftMail.draft.content = draftMail.encryptedContent.content;
+              // TODO: Apply cncrypted subject condition
+              if (true) {
+                draftMail.draft.subject = draftMail.encryptedContent.subject;
+              }
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
               if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
-                draftMail.draft.content = draftMail.encryptedContent;
+                draftMail.draft.content = draftMail.encryptedContent.content;
+                // TODO: Apply cncrypted subject condition
+                if (true) {
+                  draftMail.draft.subject = draftMail.encryptedContent.subject;
+                }
                 if (!draftMail.isSshInProgress) {
                   this.store.dispatch(new SendMail({ ...draftMail }));
                 }
@@ -37,7 +45,7 @@ export class ComposeMailService {
                     keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
                   }
                   keys.push(draftMail.draft.encryption.public_key);
-                  this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, draftMail.draft.content, keys);
+                  this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                 }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 if (!draftMail.isSshInProgress) {
@@ -52,7 +60,7 @@ export class ComposeMailService {
                     keys = [...keys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
                   if (keys.length > 0) {
-                    this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, draftMail.draft.content, keys);
+                    this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                   } else {
                     this.store.dispatch(new SendMail({ ...draftMail }));
                   }
