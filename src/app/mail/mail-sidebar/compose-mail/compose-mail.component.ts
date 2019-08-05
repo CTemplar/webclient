@@ -131,6 +131,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('editor', { static: false }) editor;
+  @ViewChild('attachmentHolder', { static: false }) attachmentHolder;
   @ViewChild('toolbar', { static: false }) toolbar;
   @ViewChild('attachImagesModal', { static: false }) attachImagesModal;
   @ViewChild('selfDestructModal', { static: false }) selfDestructModal;
@@ -478,6 +479,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadAttachment(file: File, isInline = false) {
+    this.attachmentHolder.nativeElement.scrollIntoView({ behavior: 'smooth' });
     const sizeInMBs = file.size / (1024 * 1024);
 
     if (this.userState.isPrime && sizeInMBs > 25) {
