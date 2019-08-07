@@ -155,6 +155,9 @@ export class OpenPgpService {
 
   decrypt(mailboxId, mailId, mailData: SecureContent) {
     if (this.decryptedPrivKeys) {
+      if (!mailData.isSubjectEncrypted) {
+        mailData.subject = null;
+      }
       this.store.dispatch(new UpdatePGPDecryptedContent({ id: mailId, isPGPInProgress: true, decryptedContent: {} }));
       this.pgpWorker.postMessage({ mailboxId, mailData, decrypt: true, callerId: mailId });
     } else {

@@ -195,12 +195,14 @@ export class SecureContent {
   incomingHeaders?: string;
   subject?: string;
   inProgress?: boolean;
+  isSubjectEncrypted?: boolean;
 
   constructor(data?: Mail) {
     if (data) {
       this.content = data.content;
       this.subject = data.subject;
       this.incomingHeaders = data.incoming_headers;
+      this.isSubjectEncrypted = data.is_subject_encrypted;
     }
   }
 }

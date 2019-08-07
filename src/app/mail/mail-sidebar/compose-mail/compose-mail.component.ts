@@ -276,6 +276,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           const decryptedContent = mailState.decryptedContents[this.draftMail.id];
           if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
             this.decryptedContent = decryptedContent.content;
+            if (this.draftMail.is_subject_encrypted) {
+              this.subject = decryptedContent.subject;
+              this.mailData.subject = decryptedContent.subject;
+            }
             this.addDecryptedContent();
           }
         }
@@ -805,6 +809,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
+    this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
     if (tokens.length > 1) {
@@ -923,7 +928,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver })) :
           [],
       bcc: this.draftMail ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
-      subject: this.subject ? this.subject : this.draftMail ? this.draftMail.subject : ''
+      subject: (this.draftMail && this.draftMail.is_subject_encrypted) ? '' :
+        (this.subject ? this.subject : this.draftMail ? this.draftMail.subject : '')
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;

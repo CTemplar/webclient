@@ -241,6 +241,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         this.decryptedContents[child.id] = childDecryptedContent.content;
+        if (child.is_subject_encrypted) {
+          child.subject = childDecryptedContent.subject;
+        }
         this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
         this.handleEmailLinks();
       }
