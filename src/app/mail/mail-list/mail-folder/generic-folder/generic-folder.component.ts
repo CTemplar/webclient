@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -39,6 +39,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   noEmailSelected: boolean = true;
+  isMobile: boolean;
 
   userState: UserState;
 
@@ -124,6 +125,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.isMobile = window.innerWidth <= 768;
+
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isMobile = window.innerWidth <= 768;
   }
 
   refresh() {
