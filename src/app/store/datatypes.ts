@@ -125,6 +125,7 @@ export interface Settings {
   plan_type?: PlanType;
   notification_email?: string;
   recurrence_billing?: boolean;
+  is_subject_encrypted?: boolean;
 }
 
 export interface Invoice {

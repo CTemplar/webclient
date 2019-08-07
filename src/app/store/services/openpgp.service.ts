@@ -13,12 +13,10 @@ import {
   UpdateSecureMessageEncryptedContent,
   UpdateSecureMessageKey
 } from '../actions';
-import { AppState, AuthState, SecureContent, MailBoxesState } from '../datatypes';
+import { AppState, AuthState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
 import { UsersService } from './users.service';
 import { Mailbox } from '../models';
 import { PRIMARY_DOMAIN } from '../../shared/config';
-
-declare var openpgp;
 
 @Injectable()
 export class OpenPgpService {
@@ -32,6 +30,7 @@ export class OpenPgpService {
   private isAuthenticated: boolean;
   private userKeys: any;
   private mailboxes: Mailbox[];
+  private userSettings: Settings;
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
@@ -66,6 +65,10 @@ export class OpenPgpService {
           this.clearData();
         }
         this.isAuthenticated = authState.isAuthenticated;
+      });
+    this.store.select((state: AppState) => state.user)
+      .subscribe((userState: UserState) => {
+        this.userSettings = userState.settings;
       });
   }
 
@@ -138,6 +141,9 @@ export class OpenPgpService {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
 
     publicKeys.push(this.pubkeys[mailboxId]);
+    if (!this.userSettings.is_subject_encrypted) {
+      mailData.subject = null;
+    }
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 

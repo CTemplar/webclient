@@ -243,8 +243,10 @@
                       *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
+              <span class="badge badge-warning mr-2 p-1" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>
               <div class="mail-content">
-                  {{mail.subject}}
+                <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
+                <span class="encrypted-subject-placeholder" *ngIf="mail.is_subject_encrypted">*************</span>
               </div>
             </span>
           </a>
@@ -326,8 +328,10 @@
                               *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
+                      <span class="badge badge-warning mr-2 p-1" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>
                       <div class="mail-content">
-                          {{mail.subject}}
+                         <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
+                         <span class="encrypted-subject-placeholder" *ngIf="mail.is_subject_encrypted">*************</span>
                       </div>
                     </span>
                   </a>

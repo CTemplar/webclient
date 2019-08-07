@@ -23,16 +23,14 @@ export class ComposeMailService {
           if (draftMail.draft) {
             if (draftMail.shouldSave && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
               draftMail.draft.content = draftMail.encryptedContent.content;
-              // TODO: Apply cncrypted subject condition
-              if (true) {
+              if (this.userState.settings.is_subject_encrypted) {
                 draftMail.draft.subject = draftMail.encryptedContent.subject;
               }
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
               if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
                 draftMail.draft.content = draftMail.encryptedContent.content;
-                // TODO: Apply cncrypted subject condition
-                if (true) {
+                if (this.userState.settings.is_subject_encrypted) {
                   draftMail.draft.subject = draftMail.encryptedContent.subject;
                 }
                 if (!draftMail.isSshInProgress) {

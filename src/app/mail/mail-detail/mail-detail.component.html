@@ -152,7 +152,16 @@
   <section class="mailbox-section" id="{{mail.id}}-print-section">
     <div class="ui-header ui-header-bordered border-top-0 position-relative">
       <h5 class="ui-header-subtitle text-dark mb-0">
-        <strong id="{{mail.id}}-mail-subject">{{mail.subject}}</strong>
+        <strong id="{{mail.id}}-mail-subject">
+          <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
+          <ng-container *ngIf="mail.is_subject_encrypted">
+            <ng-container *ngIf="decryptedContents[mail.id]!=null; else subjectLoader">{{mail.subject}}</ng-container>
+            <ng-template #subjectLoader>
+              <app-loading-spinner [showSpinner]="decryptedContents[mail.id]==null"
+                                   optionalClasses="subject-loading-spinner"></app-loading-spinner>
+            </ng-template>
+          </ng-container>
+        </strong>
         <i class="icon icon-secured icon-md text-muted ml-2"
            [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}"
            [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)">

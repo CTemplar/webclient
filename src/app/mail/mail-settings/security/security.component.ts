@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AppState, AuthState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import { ChangePassphraseSuccess, ChangePassword } from '../../../store/actions';
@@ -18,7 +18,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private changePasswordModalRef: NgbModalRef;
   @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
 
-  settings: any;
+  settings: Settings;
   changePasswordForm: FormGroup;
   showChangePasswordFormErrors = false;
   userState: UserState;
