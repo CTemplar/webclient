@@ -205,16 +205,9 @@ export function reducer(
     }
 
     case MailActionTypes.CLEAR_MAIL_DETAIL: {
-      delete state.decryptedContents[action.payload.id];
-      if (action.payload.children && action.payload.children.length > 0) {
-        action.payload.children.forEach(child => {
-          delete state.decryptedContents[child.id];
-        });
-      }
       return {
         ...state,
         mailDetail: null,
-        decryptedContents: { ...state.decryptedContents },
         noUnreadCountChange: true,
       };
     }
