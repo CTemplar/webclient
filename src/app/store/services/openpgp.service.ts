@@ -13,12 +13,10 @@ import {
   UpdateSecureMessageEncryptedContent,
   UpdateSecureMessageKey
 } from '../actions';
-import { AppState, AuthState, MailBoxesState } from '../datatypes';
+import { AppState, AuthState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
 import { UsersService } from './users.service';
 import { Mailbox } from '../models';
 import { PRIMARY_DOMAIN } from '../../shared/config';
-
-declare var openpgp;
 
 @Injectable()
 export class OpenPgpService {
@@ -32,6 +30,7 @@ export class OpenPgpService {
   private isAuthenticated: boolean;
   private userKeys: any;
   private mailboxes: Mailbox[];
+  private userSettings: Settings;
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
@@ -66,6 +65,10 @@ export class OpenPgpService {
           this.clearData();
         }
         this.isAuthenticated = authState.isAuthenticated;
+      });
+    this.store.select((state: AppState) => state.user)
+      .subscribe((userState: UserState) => {
+        this.userSettings = userState.settings;
       });
   }
 
@@ -104,8 +107,7 @@ export class OpenPgpService {
         this.store.dispatch(new UpdatePGPDecryptedContent({
           id: event.data.callerId,
           isPGPInProgress: false,
-          decryptedContent: event.data.decryptedContent,
-          incomingHeaders: event.data.incomingHeaders,
+          decryptedContent: event.data.decryptedContent
         }));
       } else if (event.data.decryptSecureMessageKey) {
         this.store.dispatch(new UpdateSecureMessageKey({
@@ -135,11 +137,14 @@ export class OpenPgpService {
     });
   }
 
-  encrypt(mailboxId, draftId, content, publicKeys: any[] = []) {
-    this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: null, draftId }));
+  encrypt(mailboxId, draftId, mailData: SecureContent, publicKeys: any[] = []) {
+    this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
 
     publicKeys.push(this.pubkeys[mailboxId]);
-    this.pgpWorker.postMessage({ content, publicKeys, encrypt: true, callerId: draftId });
+    if (!this.userSettings.is_subject_encrypted) {
+      mailData.subject = null;
+    }
+    this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
   encryptSecureMessageContent(content, publicKeys: any[]) {
@@ -148,13 +153,16 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }
 
-  decrypt(mailboxId, mailId, content, incomingHeaders?: string) {
+  decrypt(mailboxId, mailId, mailData: SecureContent) {
     if (this.decryptedPrivKeys) {
-      this.store.dispatch(new UpdatePGPDecryptedContent({ id: mailId, isPGPInProgress: true, decryptedContent: null }));
-      this.pgpWorker.postMessage({ mailboxId, content, incomingHeaders, decrypt: true, callerId: mailId });
+      if (!mailData.isSubjectEncrypted) {
+        mailData.subject = null;
+      }
+      this.store.dispatch(new UpdatePGPDecryptedContent({ id: mailId, isPGPInProgress: true, decryptedContent: {} }));
+      this.pgpWorker.postMessage({ mailboxId, mailData, decrypt: true, callerId: mailId });
     } else {
       setTimeout(() => {
-        this.decrypt(mailboxId, mailId, content, incomingHeaders);
+        this.decrypt(mailboxId, mailId, mailData);
       }, 1000);
     }
   }

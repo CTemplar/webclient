@@ -54,7 +54,7 @@
           <i class="icon icon-garbage"></i>
           </a>
         </li>
-        <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
+        <li class="btn-dropdown more-xs-options pl-0" *ngIf="isMobile">
           <div ngbDropdown autoClose="outside">
             <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button">
               <i class="icon icon-more"></i>
@@ -184,7 +184,8 @@
         <hr class="mt-0">
       </tr>
       <!--Desktop view html -->
-      <tr class="mail-list-row hide-on-mobile" *ngFor="let mail of mails; let i=index"
+      <ng-container *ngIf="!isMobile">
+      <tr class="mail-list-row" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-selected':mail.marked}">
@@ -243,8 +244,10 @@
                       *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
+              <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>
               <div class="mail-content">
-                  {{mail.subject}}
+                <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
+                <span class="encrypted-subject-placeholder" *ngIf="mail.is_subject_encrypted">*************</span>
               </div>
             </span>
           </a>
@@ -281,8 +284,11 @@
         </td>
 
       </tr>
+      </ng-container>
+
       <!--Mobile view html -->
-      <tr class="hidden-sm-up mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
+      <ng-container *ngIf="isMobile">
+      <tr class="mail-list-row show-on-mobile" *ngFor="let mail of mails; let i=index"
           [ngClass]="{'is-unread': (!mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-read': (mail.read && mailFolder !== mailFolderTypes.DRAFT && mailFolder !== mailFolderTypes.SENT && mailFolder !== mailFolderTypes.OUTBOX),
           'is-selected':mail.marked}">
@@ -326,8 +332,10 @@
                               *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
+                      <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>
                       <div class="mail-content">
-                          {{mail.subject}}
+                         <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
+                         <span class="encrypted-subject-placeholder" *ngIf="mail.is_subject_encrypted">*************</span>
                       </div>
                     </span>
                   </a>
@@ -350,12 +358,13 @@
               </a>
           </td>
       </tr>
+      </ng-container>
       </tbody>
     </table>
   </div>
 </div>
 
-<div class="mailbox-footer-actionbar hidden-sm-up">
+<div class="mailbox-footer-actionbar" *ngIf="isMobile">
   <div class="row justify-content-end">
 
     <div class="col-12 mailbox-actionbar-col">

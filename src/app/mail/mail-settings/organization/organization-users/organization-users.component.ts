@@ -55,7 +55,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
         Validators.maxLength(128),
-        Validators.minLength(2),
+        Validators.minLength(1),
       ]],
       domain: ['', Validators.required],
       password: ['', [Validators.required, Validators.maxLength(128)]],

@@ -29,6 +29,7 @@ export interface Mail {
   datetime?: string;
   marked?: boolean;
   is_encrypted?: boolean;
+  is_subject_encrypted?: boolean;
   is_protected?: boolean;
   sent_at?: string;
   has_attachments?: boolean;

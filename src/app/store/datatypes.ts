@@ -125,6 +125,7 @@ export interface Settings {
   plan_type?: PlanType;
   notification_email?: string;
   recurrence_billing?: boolean;
+  is_subject_encrypted?: boolean;
 }
 
 export interface Invoice {
@@ -188,22 +189,33 @@ export interface MailState {
   canGetUnreadCount: boolean;
 }
 
-export interface DecryptedContent {
-  id: number;
+export class SecureContent {
+  id?: number;
   content: string;
   incomingHeaders?: string;
-  inProgress: boolean;
+  subject?: string;
+  inProgress?: boolean;
+  isSubjectEncrypted?: boolean;
+
+  constructor(data?: Mail) {
+    if (data) {
+      this.content = data.content;
+      this.subject = data.subject;
+      this.incomingHeaders = data.incoming_headers;
+      this.isSubjectEncrypted = data.is_subject_encrypted;
+    }
+  }
 }
 
 export interface DecryptedContentState {
-  [key: number]: DecryptedContent;
+  [key: number]: SecureContent;
 }
 
 export interface Draft {
   id: number;
   draft: Mail;
   inProgress?: boolean;
-  encryptedContent?: string;
+  encryptedContent?: SecureContent;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
   isSshInProgress?: boolean;
