@@ -4,8 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  debug: false,
-  production: true,
+  debug: true,
+  production: false,
   apiServerUrl: 'https://devapi.ctemplar.com/',
   onionDomain: 'ctemplar42u6fulx.onion',
   onionApiServerUrl: 'http://api.ctemplar42u6fulx.onion/',
