@@ -157,8 +157,7 @@
           <ng-container *ngIf="mail.is_subject_encrypted">
             <ng-container *ngIf="decryptedContents[mail.id]!=null; else subjectLoader">{{mail.subject}}</ng-container>
             <ng-template #subjectLoader>
-              <app-loading-spinner [showSpinner]="decryptedContents[mail.id]==null"
-                                   optionalClasses="subject-loading-spinner"></app-loading-spinner>
+              <span id="subject-scramble"></span>
             </ng-template>
           </ng-container>
         </strong>

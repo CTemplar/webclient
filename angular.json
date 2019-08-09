@@ -43,7 +43,8 @@
               "node_modules/quill/dist/quill.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/moment-timezone/builds/moment-timezone.min.js",
-              "node_modules/bcryptjs/dist/bcrypt.js"
+              "node_modules/bcryptjs/dist/bcrypt.js",
+              "src/assets/js/scrambler.min.js"
             ]
           },
           "configurations": {

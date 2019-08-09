@@ -13,6 +13,8 @@ import { WebSocketState } from '../../store';
 import { SummarySeparator } from '../../shared/config';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
+declare var Scrambler;
+
 @Component({
   selector: 'app-mail-detail',
   templateUrl: './mail-detail.component.html',
@@ -81,6 +83,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mails = [...mailState.mails];
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
+          if (this.mail.is_subject_encrypted) {
+            this.scrambleText('subject-scramble');
+          }
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
           const decryptedContent = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
@@ -182,6 +187,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
+  }
+
+  scrambleText(elementId: string) {
+    if (!this.decryptedContents[this.mail.id]) {
+      setTimeout(() => {
+        Scrambler({
+          target: `#${elementId}`,
+          random: [1000, 20000],
+          speed: 100,
+          text: 'A7gHc6H66A9SAQfoBJDq4C7'
+        });
+      }, 200);
+    }
   }
 
   changeMail(index: number) {
