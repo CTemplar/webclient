@@ -75,7 +75,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
           this.autoresponder = userState.autoresponder;
           if (this.autoresponder.autoresponder_active ||
             (this.autoresponder.vacationautoresponder_active && this.autoresponder.vacationautoresponder_message &&
-            this.autoresponder.start_date && this.autoresponder.end_date && this.currentDate >= this.autoresponder.start_date)) {
+              this.autoresponder.start_date && this.autoresponder.end_date && this.currentDate >= this.autoresponder.start_date)) {
             this.autoresponder_status = true;
           } else {
             this.autoresponder_status = false;
@@ -102,7 +102,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.shortcuts.push(
       {
         key: ['g  i'],
-        label: 'Sequences',
+        label: 'Mail',
         preventDefault: true,
         allowIn: [AllowIn.Textarea, AllowIn.Input],
         command: e => {
@@ -114,7 +114,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
       },
       {
         key: ['g d'],
-        label: 'Sequences',
+        label: 'Mail',
         description: 'Goto Draft -> g + d',
         command: (output: ShortcutEventOutput) => {
           console.log('? a', output);
@@ -124,20 +124,11 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
         throttleTime: 250
       },
       {
-        key: ['up up down down left right left right b a enter'],
-        label: 'Sequences',
+        key: ['up'],
+        label: 'Mail',
         description: 'Konami code!',
         command: (output: ShortcutEventOutput) => console.log('Konami code!!!', output),
         throttleTime: 250
-      },
-      {
-        key: 'cmd + shift + f',
-        label: 'Sequences',
-        command: (output: ShortcutEventOutput) => console.log(output),
-        preventDefault: true,
-        throttleTime: 250,
-        description: 'Sequence cmd then shift+f',
-        //  target: this.input.nativeElement
       },
       {
         key: ['g s'],
@@ -151,7 +142,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
       },
       {
         key: ['g .'],
-        label: 'Sequences',
+        label: 'Mail',
         command: (output: ShortcutEventOutput) => {
           this.navigateToPage('/mail/starred/page/1');
         },
@@ -160,7 +151,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
         description: 'Goto Starred -> g + .',
       },
       {
-        key: '[g a]',
+        key: ['g a'],
+        label: 'Mail',
         command: (output: ShortcutEventOutput) => {
           this.navigateToPage('/mail/archive/page/1');
         },
@@ -170,25 +162,39 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
       },
       {
         key: ['g x'],
-        label: 'Sequences',
-        command: (output: ShortcutEventOutput) => console.log(output),
+        label: 'Mail',
+        command: (output: ShortcutEventOutput) => {
+          this.navigateToPage('/mail/spam/page/1');
+        },
         preventDefault: true,
         throttleTime: 250,
         description: 'Goto Spam -> g + x',
       },
       {
         key: ['g t'],
-        label: 'Sequences',
+        label: 'Mail',
         command: (output: ShortcutEventOutput) => {
           this.navigateToPage('/mail/trash/page/1');
         },
         preventDefault: true,
         throttleTime: 250,
         description: 'Goto trash -> g + t',
+      },
+      {
+        key: ['escape'],              // show the description of escape function  to User.
+        label: 'Navigation',
+        command: (output: ShortcutEventOutput) => {
+        },
+        preventDefault: true,
+        throttleTime: 250,
+        description: 'Goto Mails List',
       }
     );
 
-    this.keyboard.select('cmd + m').subscribe(e => console.log('cmd+f:   Ahsan SAddique' + e));
+    this.keyboard.select('escape').subscribe(e => {
+      console.log('cmd+f:   Ahsan SAddique' + e);
+      this.navigateToPage('/mail/inbox/page/1');
+    });
   }
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -20,13 +20,14 @@ import { SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { UpdateSearch } from '../../../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { AllowIn, KeyboardShortcutsComponent, ShortcutEventOutput, ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'app-generic-folder',
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss']
 })
-export class GenericFolderComponent implements OnInit, OnDestroy {
+export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
@@ -35,7 +36,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
 
   customFolders: Folder[];
-
+  threadListShortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   noEmailSelected: boolean = true;
@@ -124,6 +127,32 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
         }
       });
 
+  }
+
+  ngAfterViewInit() {
+    this.threadListShortcuts.push(
+      {
+        key: ['*  a'],
+        label: 'Mail',
+        preventDefault: true,
+        allowIn: [AllowIn.Textarea, AllowIn.Input],
+        command: e => {
+          console.log('select all mails ', e.key);
+          this.markAllMails(true);
+        },
+        throttleTime: 250,
+        description: 'Select all conversations -> * a',
+      },
+      {
+        key: ['g d'],
+        label: 'Mail',
+        description: 'Goto Draft -> g + d',
+        command: (output: ShortcutEventOutput) => {
+          console.log('? a', output);
+        },
+        preventDefault: true,
+        throttleTime: 250
+      });
   }
 
   refresh() {
