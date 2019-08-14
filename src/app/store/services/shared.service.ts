@@ -7,6 +7,11 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { NotificationService } from './notification.service';
 import { Folder } from '../models';
+import { AllowIn, ShortcutEventOutput } from 'ng-keyboard-shortcuts';
+import { Router } from '@angular/router';
+import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
+import { MailComponent } from '../../mail/mail.component';
+import { run } from 'tslint/lib/runner';
 
 @Injectable()
 export class SharedService {
@@ -92,4 +97,61 @@ export function sortByString(data: any[], field: string) {
     }
     return 0;
   });
+}
+
+export function getMailComponentShortcuts(mailComponent: MailComponent) {
+  return [
+    getShortcutKeyObj('g  i', 'Mail', 'Goto Inbox -> g and i', () => {
+      mailComponent.navigateToPage('/mail/inbox/page/1');
+    }),
+    getShortcutKeyObj('g  d', 'Mail', 'Goto Draft -> g + d', () => {
+      mailComponent.navigateToPage('/mail/draft/page/1');
+    }),
+    getShortcutKeyObj('g  s', 'Mail', 'Goto Sent -> g + s', () => {
+      mailComponent.navigateToPage('/mail/sent/page/1');
+    }),
+    getShortcutKeyObj('g  .', 'Mail', 'Goto Starred -> g + .', () => {
+      mailComponent.navigateToPage('/mail/starred/page/1');
+    }),
+    getShortcutKeyObj('g  a', 'Mail', 'Goto Archive -> g + a', () => {
+      mailComponent.navigateToPage('/mail/archive/page/1');
+    }),
+    getShortcutKeyObj('g  x', 'Mail', 'Goto Spam -> g + x', () => {
+      mailComponent.navigateToPage('/mail/spam/page/1');
+    }),
+    getShortcutKeyObj('g  t', 'Mail', 'Goto trash -> g + t', () => {
+      mailComponent.navigateToPage('/mail/trash/page/1');
+    })
+  ];
+}
+
+function getShortcutKeyObj(key: string, label, description: string, command) {
+  return {
+    command,
+    label,
+    description,
+    key: [key],
+    preventDefault: true,
+    throttleTime: 250
+  };
+}
+
+export function getGenericFolderShortcuts(component: GenericFolderComponent) {
+  return [
+    getShortcutKeyObj('*  a', 'Conversation', 'Select all conversations -> * a', () => {
+      component.markAllMails(true);
+    }),
+    getShortcutKeyObj('*  n', 'Conversation', 'Unselect all conversations -> * n', () => {
+      component.markAllMails(false);
+    }),
+    getShortcutKeyObj('r', 'Conversation', 'Mark as read -> r', () => {
+      component.markAsRead();
+    }),
+    getShortcutKeyObj('u', 'Conversation', 'Mark as unread -> u', () => {
+      component.markAsRead(false);
+    }),
+    getShortcutKeyObj('.', 'Conversation', 'Mark as starred -> .', () => {
+      component.markAsStarred();
+    })
+  ];
 }

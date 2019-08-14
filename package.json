@@ -36,6 +36,7 @@
     "cssfilter": "0.0.10",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.21",
+    "ng-keyboard-shortcuts": "^8.0.0",
     "ng-recaptcha": "^4.2.1",
     "ngrx-store-freeze": "^0.2.2",
     "ngx-chips": "^2.0.0-beta.0",
