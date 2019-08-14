@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -16,17 +16,18 @@ import {
 import { AppState, MailState, UserState } from '../../../../store/datatypes';
 import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
-import { SharedService } from '../../../../store/services';
+import { getGenericFolderShortcuts, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { UpdateSearch } from '../../../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { AllowIn, KeyboardShortcutsComponent, ShortcutEventOutput, ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'app-generic-folder',
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss']
 })
-export class GenericFolderComponent implements OnInit, OnDestroy {
+export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
@@ -35,7 +36,9 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
 
   customFolders: Folder[];
-
+  shortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   noEmailSelected: boolean = true;
@@ -132,6 +135,11 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.isMobile = window.innerWidth <= 768;
+  }
+
+  ngAfterViewInit() {
+    this.shortcuts = getGenericFolderShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   refresh() {

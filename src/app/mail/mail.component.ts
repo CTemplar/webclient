@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+  ViewEncapsulation
+} from '@angular/core';
 // Store
 import { Store } from '@ngrx/store';
 // Actions
@@ -14,11 +24,13 @@ import {
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
-import { SharedService } from '../store/services';
+import { getMailComponentShortcuts, SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { formatDate } from '@angular/common';
+import { AllowIn, KeyboardShortcutsComponent, ShortcutEventOutput, ShortcutInput } from 'ng-keyboard-shortcuts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mail',
@@ -27,15 +39,20 @@ import { formatDate } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
-
+  shortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
   autoresponder_status = false;
   currentDate: string;
+
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
-              private composeMailService: ComposeMailService) {
+              private composeMailService: ComposeMailService,
+              private router: Router,
+              private cdr: ChangeDetectorRef) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
@@ -69,7 +86,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
           this.autoresponder = userState.autoresponder;
           if (this.autoresponder.autoresponder_active ||
             (this.autoresponder.vacationautoresponder_active && this.autoresponder.vacationautoresponder_message &&
-            this.autoresponder.start_date && this.autoresponder.end_date && this.currentDate >= this.autoresponder.start_date)) {
+              this.autoresponder.start_date && this.autoresponder.end_date && this.currentDate >= this.autoresponder.start_date)) {
             this.autoresponder_status = true;
           } else {
             this.autoresponder_status = false;
@@ -83,6 +100,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.isMail.emit(true);
   }
 
+
   endAutoResponder() {
     this.autoresponder.autoresponder_active = false;
     this.autoresponder.vacationautoresponder_active = false;
@@ -92,6 +110,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
+    this.shortcuts = getMailComponentShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
@@ -100,5 +120,9 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.hideEntireFooter.emit(false);
     this.sharedService.isMail.emit(false);
     this.composeMailService.destroyAllComposeMailDialogs();
+  }
+
+  navigateToPage(path: string) {
+    this.router.navigateByUrl(path);
   }
 }
