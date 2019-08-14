@@ -152,6 +152,12 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
     }),
     getShortcutKeyObj('.', 'Conversation', 'Mark as starred -> .', () => {
       component.markAsStarred();
+    }),
+    getShortcutKeyObj('cmd + *', 'Conversation', 'Mark as starred -> cmd + *', () => {
+      component.markAsStarred();
+    }),
+    getShortcutKeyObj('cmd + shift + *', 'Conversation', 'Mark as unstarred -> cmd + shift + *', () => {
+      component.markAsStarred(false);
     })
   ];
 }
