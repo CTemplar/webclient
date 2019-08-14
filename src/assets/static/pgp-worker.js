@@ -67,7 +67,8 @@ onmessage = function (event) {
                         postMessage({
                             decryptedContent: {incomingHeaders, content, subject},
                             decrypted: true,
-                            callerId: event.data.callerId
+                            callerId: event.data.callerId,
+                            isDecryptingAllSubjects: event.data.isDecryptingAllSubjects
                         });
                     });
                 });

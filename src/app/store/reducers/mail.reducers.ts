@@ -241,7 +241,18 @@ export function reducer(
     }
 
     case MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT: {
-      if (!state.decryptedContents[action.payload.id]) {
+      if (action.payload.isDecryptingAllSubjects) {
+        if (!action.payload.isPGPInProgress) {
+          state.mails = state.mails.map(mail => {
+            if (mail.id === action.payload.id) {
+              mail.subject = action.payload.decryptedContent.subject;
+              mail.is_subject_encrypted = false;
+            }
+            return mail;
+          });
+        }
+        return { ...state };
+      } else if (!state.decryptedContents[action.payload.id]) {
         state.decryptedContents[action.payload.id] = {
           id: action.payload.id,
           content: action.payload.decryptedContent.content,

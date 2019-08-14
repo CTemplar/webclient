@@ -13,10 +13,10 @@ import {
   SetCurrentFolder,
   StarMail
 } from '../../../../store/actions';
-import { AppState, MailState, UserState } from '../../../../store/datatypes';
+import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
-import { getGenericFolderShortcuts, SharedService } from '../../../../store/services';
+import { getGenericFolderShortcuts, OpenPgpService, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { UpdateSearch } from '../../../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -61,6 +61,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
               private sharedService: SharedService,
               private composeMailService: ComposeMailService,
               private cdr: ChangeDetectorRef,
+              private pgpService: OpenPgpService,
               private modalService: NgbModal) {
   }
 
@@ -224,6 +225,18 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  decryptAllSubjects() {
+    let count = 0;
+    this.mails.forEach(mail => {
+      if (mail.is_subject_encrypted) {
+        setTimeout(() => {
+          this.pgpService.decrypt(mail.mailbox, mail.id, new SecureContent(mail), true);
+        }, count * 300);
+        count = count + 1;
+      }
+    });
+  }
+
   confirmEmptyTrash() {
     this.confirmEmptyTrashModalRef = this.modalService.open(this.confirmEmptyTrashModal, {
       centered: true,
@@ -241,6 +254,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       this.composeMailService.openComposeMailDialog({ draft: mail });
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
+      mail.subject = null;
       this.store.dispatch(new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }));
       this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id]);
     }

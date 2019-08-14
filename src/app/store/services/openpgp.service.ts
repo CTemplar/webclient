@@ -107,7 +107,8 @@ export class OpenPgpService {
         this.store.dispatch(new UpdatePGPDecryptedContent({
           id: event.data.callerId,
           isPGPInProgress: false,
-          decryptedContent: event.data.decryptedContent
+          decryptedContent: event.data.decryptedContent,
+          isDecryptingAllSubjects: event.data.isDecryptingAllSubjects
         }));
       } else if (event.data.decryptSecureMessageKey) {
         this.store.dispatch(new UpdateSecureMessageKey({
@@ -153,13 +154,18 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }
 
-  decrypt(mailboxId, mailId, mailData: SecureContent) {
+  decrypt(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects: boolean = false) {
     if (this.decryptedPrivKeys) {
       if (!mailData.isSubjectEncrypted) {
         mailData.subject = null;
       }
-      this.store.dispatch(new UpdatePGPDecryptedContent({ id: mailId, isPGPInProgress: true, decryptedContent: {} }));
-      this.pgpWorker.postMessage({ mailboxId, mailData, decrypt: true, callerId: mailId });
+      this.store.dispatch(new UpdatePGPDecryptedContent({
+        isDecryptingAllSubjects,
+        id: mailId,
+        isPGPInProgress: true,
+        decryptedContent: {}
+      }));
+      this.pgpWorker.postMessage({ mailboxId, mailData, isDecryptingAllSubjects, decrypt: true, callerId: mailId });
     } else {
       setTimeout(() => {
         this.decrypt(mailboxId, mailId, mailData);
