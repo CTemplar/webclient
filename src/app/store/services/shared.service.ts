@@ -11,6 +11,7 @@ import { AllowIn, ShortcutEventOutput } from 'ng-keyboard-shortcuts';
 import { Router } from '@angular/router';
 import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
 import { MailComponent } from '../../mail/mail.component';
+import { run } from 'tslint/lib/runner';
 
 @Injectable()
 export class SharedService {
@@ -174,6 +175,17 @@ export function getMailComponentShortcuts(mailComponent: MailComponent) {
   ];
 }
 
+function getShortcutKeyObj(key: string, label, description: string, command) {
+  return {
+    command,
+    label,
+    description,
+    key: [key],
+    preventDefault: true,
+    throttleTime: 250
+  };
+}
+
 export function getGenericFolderShortcuts(component: GenericFolderComponent) {
   return [
     {
@@ -197,6 +209,31 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
       },
       throttleTime: 250,
       description: 'Unselect all conversations -> * n',
-    }
+    },
+    {
+      key: ['r'],
+      label: 'Conversation',
+      preventDefault: true,
+      command: e => {
+        component.markAsRead();
+        console.log ('r pressed');
+      },
+      throttleTime: 250,
+      description: 'Mark as read -> r',
+    },
+    {
+      key: ['u'],
+      label: 'Conversation',
+      preventDefault: true,
+      command: e => {
+        component.markAsRead(false);
+        console.log ('r pressed');
+      },
+      throttleTime: 250,
+      description: 'Mark as unread -> u',
+    },
+    getShortcutKeyObj('.', 'Object test', 'Mark as starred -> u', () => {
+      component.markAsStarred();
+    })
   ];
 }
