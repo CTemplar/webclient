@@ -21,7 +21,10 @@ export function reducer(state: SecureMessageState = {
       };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_CONTENT: {
-      return { ...state, decryptedContent: action.payload.decryptedContent, isContentDecryptionInProgress: action.payload.inProgress };
+      return {
+        ...state, decryptedContent: action.payload.decryptedContent,
+        isContentDecryptionInProgress: action.payload.inProgress
+      };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_ENCRYPTED_CONTENT: {
       return { ...state, isEncryptionInProgress: action.payload.inProgress, encryptedContent: action.payload.encryptedContent };

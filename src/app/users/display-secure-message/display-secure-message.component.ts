@@ -11,6 +11,7 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
 
   @Input() message: Mail;
   @Input() decryptedContent: string;
+  @Input() decryptedSubject: string;
 
   @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() expired: EventEmitter<boolean> = new EventEmitter<boolean>();

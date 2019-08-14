@@ -100,6 +100,7 @@
             </div>
           </div>
         </li>
+
         <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down"
             *ngIf="!noEmailSelected">
           <div ngbDropdown>
@@ -154,9 +155,15 @@
             <i class="icon icon-garbage position-left"></i> <span translate="mail_list.delete_all"> Delete all permanently</span>
           </a>
         </li>
+        <li>
+          <a class="px-0" placement="top"
+             (click)="decryptAllSubjects()"
+             ngbTooltip="Decrypt all subjects on current page">
+            <i class="material-icons">lock_open</i>
+          </a>
+        </li>
       </ul>
     </div>
-
     <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
       <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="mails?.length>0">
         <div class="mail-result-text text-muted">

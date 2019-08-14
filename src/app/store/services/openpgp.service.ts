@@ -116,7 +116,7 @@ export class OpenPgpService {
           error: event.data.error
         }));
       } else if (event.data.decryptSecureMessageContent) {
-        this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.decryptedContent, inProgress: false }));
+        this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }));
       } else if (event.data.changePassphrase) {
         event.data.keys.forEach(item => {
           item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
@@ -172,8 +172,11 @@ export class OpenPgpService {
     this.store.dispatch(new UpdateSecureMessageKey({ decryptedKey: null, inProgress: true }));
   }
 
-  decryptSecureMessageContent(decryptedKey: any, content: string) {
-    this.pgpWorker.postMessage({ decryptSecureMessageContent: true, decryptedKey, content });
+  decryptSecureMessageContent(decryptedKey: any, mailData: SecureContent) {
+    if (!mailData.isSubjectEncrypted) {
+      mailData.subject = null;
+    }
+    this.pgpWorker.postMessage({ decryptSecureMessageContent: true, decryptedKey, mailData });
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
   }
 

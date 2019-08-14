@@ -254,7 +254,7 @@ export interface MailBoxesState {
 
 export interface SecureMessageState {
   message: Mail;
-  decryptedContent?: string;
+  decryptedContent?: SecureContent;
   decryptedKey?: any;
   encryptedContent?: string;
   isKeyDecryptionInProgress?: boolean;

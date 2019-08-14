@@ -38,11 +38,13 @@ onmessage = function (event) {
                 postMessage({decryptSecureMessageKey: true, error: error.message});
             });
     } else if (event.data.decryptSecureMessageContent) {
-        if (!event.data.content) {
-            postMessage({decryptedContent: event.data.content, decryptSecureMessageContent: true});
+        if (!event.data.mailData) {
+            postMessage({decryptedContent: '', decryptSecureMessageContent: true});
         } else {
-            decryptContent(event.data.content, decryptedSecureMsgPrivKeyObj).then((data) => {
-                postMessage({decryptedContent: data, decryptSecureMessageContent: true});
+            decryptContent(event.data.mailData.content, decryptedSecureMsgPrivKeyObj).then((content) => {
+                decryptContent(event.data.mailData.subject, decryptedSecureMsgPrivKeyObj).then((subject) => {
+                    postMessage({mailData: {content, subject}, decryptSecureMessageContent: true});
+                })
             })
         }
     } else if (event.data.decryptPrivateKeys) {

@@ -63,11 +63,13 @@
         <app-display-secure-message *ngIf="!isReplying; else replyMessage"
                                     [message]="message"
                                     [decryptedContent]="decryptedContent"
+                                    [decryptedSubject]="decryptedSubject"
                                     (reply)="onReply()"
                                     (expired)="onExpired()"></app-display-secure-message>
 
         <ng-template #replyMessage>
           <app-reply-secure-message [sourceMessage]="message"
+                                    *ngIf="message?.is_subject_encrypted === false || decryptedSubject"
                                     [hash]="hash"
                                     [secret]="secret"
                                     [senderId]="senderId"
