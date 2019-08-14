@@ -205,7 +205,7 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
         component.markAllMails(false);
       },
       throttleTime: 250,
-      description: 'Select all conversations -> * a',
+      description: 'Unselect all conversations -> * n',
     }
   ];
 }
