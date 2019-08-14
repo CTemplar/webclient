@@ -16,7 +16,7 @@ import {
 import { AppState, MailState, UserState } from '../../../../store/datatypes';
 import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
-import { SharedService } from '../../../../store/services';
+import { getGenericFolderShortcuts, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { UpdateSearch } from '../../../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -130,29 +130,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    this.threadListShortcuts.push(
-      {
-        key: ['*  a'],
-        label: 'Mail',
-        preventDefault: true,
-        allowIn: [AllowIn.Textarea, AllowIn.Input],
-        command: e => {
-          console.log('select all mails ', e.key);
-          this.markAllMails(true);
-        },
-        throttleTime: 250,
-        description: 'Select all conversations -> * a',
-      },
-      {
-        key: ['g d'],
-        label: 'Mail',
-        description: 'Goto Draft -> g + d',
-        command: (output: ShortcutEventOutput) => {
-          console.log('? a', output);
-        },
-        preventDefault: true,
-        throttleTime: 250
-      });
+    this.threadListShortcuts = getGenericFolderShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   refresh() {

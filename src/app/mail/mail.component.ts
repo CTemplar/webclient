@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+  ViewEncapsulation
+} from '@angular/core';
 // Store
 import { Store } from '@ngrx/store';
 // Actions
@@ -14,7 +24,7 @@ import {
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
-import { SharedService } from '../store/services';
+import { getMailComponentShortcuts, SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -41,7 +51,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
               private composeMailService: ComposeMailService,
-              private router: Router) {
+              private router: Router,
+              private cdr: ChangeDetectorRef) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
@@ -99,102 +110,11 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
-    this.shortcuts.push(
-      {
-        key: ['g  i'],
-        label: 'Mail',
-        preventDefault: true,
-        allowIn: [AllowIn.Textarea, AllowIn.Input],
-        command: e => {
-          console.log('ctrl+t , clicked ', e.key);
-          this.navigateToPage('/mail/inbox/page/1');
-        },
-        throttleTime: 250,
-        description: 'Goto Inbox -> g and i',
-      },
-      {
-        key: ['g d'],
-        label: 'Mail',
-        description: 'Goto Draft -> g + d',
-        command: (output: ShortcutEventOutput) => {
-          console.log('? a', output);
-          this.navigateToPage('/mail/draft/page/1');
-        },
-        preventDefault: true,
-        throttleTime: 250
-      },
-      {
-        key: ['up'],
-        label: 'Mail',
-        description: 'Konami code!',
-        command: (output: ShortcutEventOutput) => console.log('Konami code!!!', output),
-        throttleTime: 250
-      },
-      {
-        key: ['g s'],
-        command: (output: ShortcutEventOutput) => {
-          console.log(output);
-          this.navigateToPage('/mail/sent/page/1');
-        },
-        preventDefault: true,
-        throttleTime: 250,
-        description: 'Goto Sent -> g + d',
-      },
-      {
-        key: ['g .'],
-        label: 'Mail',
-        command: (output: ShortcutEventOutput) => {
-          this.navigateToPage('/mail/starred/page/1');
-        },
-        preventDefault: true,
-        throttleTime: 250,
-        description: 'Goto Starred -> g + .',
-      },
-      {
-        key: ['g a'],
-        label: 'Mail',
-        command: (output: ShortcutEventOutput) => {
-          this.navigateToPage('/mail/archive/page/1');
-        },
-        preventDefault: true,
-        throttleTime: 250,
-        description: 'Goto Archive -> g + a',
-      },
-      {
-        key: ['g x'],
-        label: 'Mail',
-        command: (output: ShortcutEventOutput) => {
-          this.navigateToPage('/mail/spam/page/1');
-        },
-        preventDefault: true,
-        throttleTime: 250,
-        description: 'Goto Spam -> g + x',
-      },
-      {
-        key: ['g t'],
-        label: 'Mail',
-        command: (output: ShortcutEventOutput) => {
-          this.navigateToPage('/mail/trash/page/1');
-        },
-        preventDefault: true,
-        throttleTime: 250,
-        description: 'Goto trash -> g + t',
-      },
-      {
-        key: ['escape'],              // show the description of escape function  to User.
-        label: 'Navigation',
-        command: (output: ShortcutEventOutput) => {
-        },
-        preventDefault: true,
-        throttleTime: 250,
-        description: 'Goto Mails List',
-      }
-    );
-
+    this.shortcuts = getMailComponentShortcuts(this);
     this.keyboard.select('escape').subscribe(e => {
-      console.log('cmd+f:   Ahsan SAddique' + e);
-      this.navigateToPage('/mail/inbox/page/1');
+      this.navigateToPage('mail/inbox/page/1');
     });
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {

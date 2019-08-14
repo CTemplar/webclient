@@ -7,6 +7,10 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { NotificationService } from './notification.service';
 import { Folder } from '../models';
+import { AllowIn, ShortcutEventOutput } from 'ng-keyboard-shortcuts';
+import { Router } from '@angular/router';
+import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
+import { MailComponent } from '../../mail/mail.component';
 
 @Injectable()
 export class SharedService {
@@ -92,4 +96,116 @@ export function sortByString(data: any[], field: string) {
     }
     return 0;
   });
+}
+
+export function getMailComponentShortcuts(mailComponent: MailComponent) {
+  return [
+    {
+      key: ['g  i'],
+      label: 'Mail',
+      preventDefault: true,
+      allowIn: [AllowIn.Textarea, AllowIn.Input],
+      command: e => {
+        mailComponent.navigateToPage('/mail/inbox/page/1');
+      },
+      throttleTime: 250,
+      description: 'Goto Inbox -> g and i',
+    },
+    {
+      key: ['g d'],
+      label: 'Mail',
+      description: 'Goto Draft -> g + d',
+      command: (output: ShortcutEventOutput) => {
+        mailComponent.navigateToPage('/mail/draft/page/1');
+      },
+      preventDefault: true,
+      throttleTime: 250
+    },
+    {
+      key: ['g s'],
+      command: (output: ShortcutEventOutput) => {
+        console.log(output);
+        mailComponent.navigateToPage('/mail/sent/page/1');
+      },
+      preventDefault: true,
+      throttleTime: 250,
+      description: 'Goto Sent -> g + d',
+    },
+    {
+      key: ['g .'],
+      label: 'Mail',
+      command: (output: ShortcutEventOutput) => {
+        mailComponent.navigateToPage('/mail/starred/page/1');
+      },
+      preventDefault: true,
+      throttleTime: 250,
+      description: 'Goto Starred -> g + .',
+    },
+    {
+      key: ['g a'],
+      label: 'Mail',
+      command: (output: ShortcutEventOutput) => {
+        mailComponent.navigateToPage('/mail/archive/page/1');
+      },
+      preventDefault: true,
+      throttleTime: 250,
+      description: 'Goto Archive -> g + a',
+    },
+    {
+      key: ['g x'],
+      label: 'Mail',
+      command: (output: ShortcutEventOutput) => {
+        mailComponent.navigateToPage('/mail/spam/page/1');
+      },
+      preventDefault: true,
+      throttleTime: 250,
+      description: 'Goto Spam -> g + x',
+    },
+    {
+      key: ['g t'],
+      label: 'Mail',
+      command: (output: ShortcutEventOutput) => {
+        mailComponent.navigateToPage('/mail/trash/page/1');
+      },
+      preventDefault: true,
+      throttleTime: 250,
+      description: 'Goto trash -> g + t',
+    },
+    {
+      key: ['escape'],              // show the description of escape function  to User.
+      label: 'Navigation',
+      command: (output: ShortcutEventOutput) => {
+      },
+      preventDefault: true,
+      throttleTime: 250,
+      description: 'Goto Mails-List -> Escape',
+    }
+  ];
+}
+
+export function getGenericFolderShortcuts(component: GenericFolderComponent) {
+  return [
+    {
+      key: ['*  a'],
+      label: 'ThreadList',
+      preventDefault: true,
+      allowIn: [AllowIn.Textarea, AllowIn.Input],
+      command: e => {
+        component.markAllMails(true);
+      },
+      throttleTime: 250,
+      description: 'Select all conversations -> * a',
+    },
+    {
+      key: ['*  n'],
+      label: 'ThreadList',
+      preventDefault: true,
+      allowIn: [AllowIn.Textarea, AllowIn.Input],
+      command: e => {
+        component.markAllMails(false);
+      },
+      throttleTime: 250,
+      description: 'Select all conversations -> * a',
+    }
+  ];
 }
