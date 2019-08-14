@@ -31,8 +31,9 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
-                   [separatorKeyCodes]="[32]"
-                   (onAdd)="valueChanged$.next(mailData.receiver)"
+                   [editable]='true'
+                   [separatorKeyCodes]="[188,32,13]"
+                   (onAdd)="onAddingReceiver($event, mailData.receiver)"
                    (onRemove)="valueChanged$.next(mailData.receiver)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
                               [appendToBody]="false"
@@ -60,8 +61,9 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
-                   [separatorKeyCodes]="[32]"
-                   (onAdd)="valueChanged$.next(mailData.cc)"
+                   [editable]='true'
+                   [separatorKeyCodes]="[188,32,13]"
+                   (onAdd)="onAddingReceiver($event, mailData.cc)"
                    (onRemove)="valueChanged$.next(mailData.cc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
                               [appendToBody]="false"
@@ -83,8 +85,9 @@
                    [onTextChangeDebounce]="100"
                    [onlyFromAutocomplete]="false"
                    [addOnBlur]="true"
-                   [separatorKeyCodes]="[32]"
-                   (onAdd)="valueChanged$.next(mailData.bcc)"
+                   [editable]='true'
+                   [separatorKeyCodes]="[188,32,13]"
+                   (onAdd)="onAddingReceiver($event, mailData.bcc)"
                    (onRemove)="valueChanged$.next(mailData.bcc)">
           <tag-input-dropdown [showDropdownIfEmpty]="false"
                               [appendToBody]="false"
@@ -140,6 +143,7 @@
             </div>
           </ng-container>
         </div>
+        <div #attachmentHolder style="height: 20px;"></div>
       </div>
     </div>
     <div class="mail-composer-footer">

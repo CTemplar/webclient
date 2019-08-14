@@ -26,7 +26,7 @@ import {
   AuthState,
   ComposeMailState,
   Draft,
-  EmailContact,
+  EmailContact, SecureContent,
   MailAction,
   MailBoxesState,
   MailState,
@@ -131,6 +131,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('editor', { static: false }) editor;
+  @ViewChild('attachmentHolder', { static: false }) attachmentHolder;
   @ViewChild('toolbar', { static: false }) toolbar;
   @ViewChild('attachImagesModal', { static: false }) attachImagesModal;
   @ViewChild('selfDestructModal', { static: false }) selfDestructModal;
@@ -275,6 +276,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           const decryptedContent = mailState.decryptedContents[this.draftMail.id];
           if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content) {
             this.decryptedContent = decryptedContent.content;
+            if (this.draftMail.is_subject_encrypted) {
+              this.subject = decryptedContent.subject;
+              this.mailData.subject = decryptedContent.subject;
+            }
             this.addDecryptedContent();
           }
         }
@@ -315,7 +320,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftId = Date.now();
 
     if (this.draftMail && this.draftMail.content) {
-      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, this.draftMail.content);
+      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
       this.isSignatureAdded = true;
       this.inlineAttachmentContentIds = this.draftMail.attachments
         .filter((attachment: Attachment) => attachment.is_inline)
@@ -478,6 +483,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadAttachment(file: File, isInline = false) {
+    this.attachmentHolder.nativeElement.scrollIntoView({ behavior: 'smooth' });
     const sizeInMBs = file.size / (1024 * 1024);
 
     if (this.userState.isPrime && sizeInMBs > 25) {
@@ -787,7 +793,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateEmail() {
     this.setMailData(false, true);
-    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, this.draftMail.content);
+    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail));
   }
 
   setMailData(shouldSend: boolean, shouldSave: boolean) {
@@ -803,6 +809,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
+    this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
     this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
     const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
     if (tokens.length > 1) {
@@ -818,6 +825,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail.send = true;
       this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
       this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
+    } else {
+      this.draftMail.send = false;
     }
 
     if (this.action) {
@@ -919,7 +928,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver })) :
           [],
       bcc: this.draftMail ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
-      subject: this.subject ? this.subject : this.draftMail ? this.draftMail.subject : ''
+      subject: (this.draftMail && this.draftMail.is_subject_encrypted) ? '' :
+        (this.subject ? this.subject : this.draftMail ? this.draftMail.subject : '')
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
@@ -974,5 +984,26 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     this.onFilesSelected(event.dataTransfer.files);
+  }
+
+  onAddingReceiver(tag: any, data: any[]) {
+    if (tag.value && tag.value.split(',').length > 1) {
+      const emails = [];
+      data.forEach(item => {
+        if (item.value === tag.value) {
+          const tokens = tag.value.split(',');
+          emails.push(...tokens.map(token => {
+              token = token.trim();
+              return ({ value: token, display: token, email: token, name: token });
+            })
+          );
+        } else {
+          emails.push(item);
+        }
+      });
+      data.splice(0, this.mailData.receiver.length);
+      data.push(...emails);
+    }
+    this.valueChanged$.next(data);
   }
 }

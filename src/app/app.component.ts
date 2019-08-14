@@ -24,7 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public hideFooter: boolean = false;
   public hideHeader: boolean = false;
   public windowIsResized: boolean = false;
-  public resizeTimeout: Timer = null;
   public isLoading: boolean = true;
   public isMail: boolean = false;
   public isHomepage: boolean;
@@ -72,22 +71,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
       });
-  }
-
-  // Resize event for window object
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.windowIsResized = true;
-    if (this.resizeTimeout && this.windowIsResized) {
-      // this.windowIsResized = true;
-      clearTimeout(this.resizeTimeout);
-    }
-    this.resizeTimeout = setTimeout(
-      (() => {
-        this.windowIsResized = false;
-      }).bind(this),
-      10
-    );
   }
 
   private updateLoadingStatus(): void {
