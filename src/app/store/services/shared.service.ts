@@ -170,15 +170,6 @@ export function getMailComponentShortcuts(mailComponent: MailComponent) {
       preventDefault: true,
       throttleTime: 250,
       description: 'Goto trash -> g + t',
-    },
-    {
-      key: ['escape'],              // show the description of escape function  to User.
-      label: 'Navigation',
-      command: (output: ShortcutEventOutput) => {
-      },
-      preventDefault: true,
-      throttleTime: 250,
-      description: 'Goto Mails-List -> Escape',
     }
   ];
 }
@@ -187,7 +178,7 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
   return [
     {
       key: ['*  a'],
-      label: 'ThreadList',
+      label: 'Conversation',
       preventDefault: true,
       allowIn: [AllowIn.Textarea, AllowIn.Input],
       command: e => {
@@ -198,7 +189,7 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
     },
     {
       key: ['*  n'],
-      label: 'ThreadList',
+      label: 'Conversation',
       preventDefault: true,
       allowIn: [AllowIn.Textarea, AllowIn.Input],
       command: e => {

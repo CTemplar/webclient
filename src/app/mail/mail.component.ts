@@ -111,9 +111,6 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
     this.shortcuts = getMailComponentShortcuts(this);
-    this.keyboard.select('escape').subscribe(e => {
-      this.navigateToPage('mail/inbox/page/1');
-    });
     this.cdr.detectChanges();
   }
 

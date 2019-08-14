@@ -36,7 +36,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
 
   customFolders: Folder[];
-  threadListShortcuts: ShortcutInput[] = [];
+  shortcuts: ShortcutInput[] = [];
   @ViewChild('input', { static: false }) input: ElementRef;
   @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
@@ -138,7 +138,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    this.threadListShortcuts = getGenericFolderShortcuts(this);
+    this.shortcuts = getGenericFolderShortcuts(this);
     this.cdr.detectChanges();
   }
 
