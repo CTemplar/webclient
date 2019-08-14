@@ -101,77 +101,27 @@ export function sortByString(data: any[], field: string) {
 
 export function getMailComponentShortcuts(mailComponent: MailComponent) {
   return [
-    {
-      key: ['g  i'],
-      label: 'Mail',
-      preventDefault: true,
-      allowIn: [AllowIn.Textarea, AllowIn.Input],
-      command: e => {
-        mailComponent.navigateToPage('/mail/inbox/page/1');
-      },
-      throttleTime: 250,
-      description: 'Goto Inbox -> g and i',
-    },
-    {
-      key: ['g d'],
-      label: 'Mail',
-      description: 'Goto Draft -> g + d',
-      command: (output: ShortcutEventOutput) => {
-        mailComponent.navigateToPage('/mail/draft/page/1');
-      },
-      preventDefault: true,
-      throttleTime: 250
-    },
-    {
-      key: ['g s'],
-      command: (output: ShortcutEventOutput) => {
-        console.log(output);
-        mailComponent.navigateToPage('/mail/sent/page/1');
-      },
-      preventDefault: true,
-      throttleTime: 250,
-      description: 'Goto Sent -> g + d',
-    },
-    {
-      key: ['g .'],
-      label: 'Mail',
-      command: (output: ShortcutEventOutput) => {
-        mailComponent.navigateToPage('/mail/starred/page/1');
-      },
-      preventDefault: true,
-      throttleTime: 250,
-      description: 'Goto Starred -> g + .',
-    },
-    {
-      key: ['g a'],
-      label: 'Mail',
-      command: (output: ShortcutEventOutput) => {
-        mailComponent.navigateToPage('/mail/archive/page/1');
-      },
-      preventDefault: true,
-      throttleTime: 250,
-      description: 'Goto Archive -> g + a',
-    },
-    {
-      key: ['g x'],
-      label: 'Mail',
-      command: (output: ShortcutEventOutput) => {
-        mailComponent.navigateToPage('/mail/spam/page/1');
-      },
-      preventDefault: true,
-      throttleTime: 250,
-      description: 'Goto Spam -> g + x',
-    },
-    {
-      key: ['g t'],
-      label: 'Mail',
-      command: (output: ShortcutEventOutput) => {
-        mailComponent.navigateToPage('/mail/trash/page/1');
-      },
-      preventDefault: true,
-      throttleTime: 250,
-      description: 'Goto trash -> g + t',
-    }
+    getShortcutKeyObj('g  i', 'Mail', 'Goto Inbox -> g and i', () => {
+      mailComponent.navigateToPage('/mail/inbox/page/1');
+    }),
+    getShortcutKeyObj('g  d', 'Mail', 'Goto Draft -> g + d', () => {
+      mailComponent.navigateToPage('/mail/draft/page/1');
+    }),
+    getShortcutKeyObj('g  s', 'Mail', 'Goto Sent -> g + s', () => {
+      mailComponent.navigateToPage('/mail/sent/page/1');
+    }),
+    getShortcutKeyObj('g  .', 'Mail', 'Goto Starred -> g + .', () => {
+      mailComponent.navigateToPage('/mail/starred/page/1');
+    }),
+    getShortcutKeyObj('g  a', 'Mail', 'Goto Archive -> g + a', () => {
+      mailComponent.navigateToPage('/mail/archive/page/1');
+    }),
+    getShortcutKeyObj('g  x', 'Mail', 'Goto Spam -> g + x', () => {
+      mailComponent.navigateToPage('/mail/spam/page/1');
+    }),
+    getShortcutKeyObj('g  t', 'Mail', 'Goto trash -> g + t', () => {
+      mailComponent.navigateToPage('/mail/trash/page/1');
+    })
   ];
 }
 
@@ -188,51 +138,19 @@ function getShortcutKeyObj(key: string, label, description: string, command) {
 
 export function getGenericFolderShortcuts(component: GenericFolderComponent) {
   return [
-    {
-      key: ['*  a'],
-      label: 'Conversation',
-      preventDefault: true,
-      allowIn: [AllowIn.Textarea, AllowIn.Input],
-      command: e => {
-        component.markAllMails(true);
-      },
-      throttleTime: 250,
-      description: 'Select all conversations -> * a',
-    },
-    {
-      key: ['*  n'],
-      label: 'Conversation',
-      preventDefault: true,
-      allowIn: [AllowIn.Textarea, AllowIn.Input],
-      command: e => {
-        component.markAllMails(false);
-      },
-      throttleTime: 250,
-      description: 'Unselect all conversations -> * n',
-    },
-    {
-      key: ['r'],
-      label: 'Conversation',
-      preventDefault: true,
-      command: e => {
-        component.markAsRead();
-        console.log ('r pressed');
-      },
-      throttleTime: 250,
-      description: 'Mark as read -> r',
-    },
-    {
-      key: ['u'],
-      label: 'Conversation',
-      preventDefault: true,
-      command: e => {
-        component.markAsRead(false);
-        console.log ('r pressed');
-      },
-      throttleTime: 250,
-      description: 'Mark as unread -> u',
-    },
-    getShortcutKeyObj('.', 'Object test', 'Mark as starred -> u', () => {
+    getShortcutKeyObj('*  a', 'Conversation', 'Select all conversations -> * a', () => {
+      component.markAllMails(true);
+    }),
+    getShortcutKeyObj('*  n', 'Conversation', 'Unselect all conversations -> * n', () => {
+      component.markAllMails(false);
+    }),
+    getShortcutKeyObj('r', 'Conversation', 'Mark as read -> r', () => {
+      component.markAsRead();
+    }),
+    getShortcutKeyObj('u', 'Conversation', 'Mark as unread -> u', () => {
+      component.markAsRead(false);
+    }),
+    getShortcutKeyObj('.', 'Conversation', 'Mark as starred -> .', () => {
       component.markAsStarred();
     })
   ];
