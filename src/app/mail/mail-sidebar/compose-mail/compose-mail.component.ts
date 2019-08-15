@@ -229,10 +229,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           if (!this.inProgress) {
             this.handleAttachment(draft);
           }
-          if (draft.isSent) {
-            this.resetValues();
-            this.hide.emit();
-          }
         }
 
         this.draft = draft;
@@ -583,6 +579,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setMailData(true, false);
     this.inProgress = true;
     this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: receivers }));
+    this.resetValues();
+    this.hide.emit();
   }
 
   removeAttachment(attachment: Attachment) {
