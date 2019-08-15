@@ -28,7 +28,6 @@ import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/c
 import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
 import { MailFiltersComponent } from './mail-settings/mail-filters/mail-filters.component';
 import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
-import { PaymentFailureNoticeComponent } from './dialogs/payment-failure-notice/payment-failure-notice.component';
 import { AddressesSignatureComponent } from './mail-settings/addresses-signature/addresses-signature.component';
 import { MailForwardingComponent } from './mail-settings/mail-forwarding/mail-forwarding.component';
 import { FoldersComponent } from './mail-settings/folders/folders.component';
@@ -69,7 +68,6 @@ import { PushNotificationService } from '../shared/services/push-notification.se
     GenericFolderComponent,
     MailFiltersComponent,
     CustomDomainsComponent,
-    PaymentFailureNoticeComponent,
     AddressesSignatureComponent,
     MailForwardingComponent,
     FoldersComponent,
@@ -88,7 +86,6 @@ import { PushNotificationService } from '../shared/services/push-notification.se
   ],
   entryComponents: [
     ComposeMailDialogComponent,
-    PaymentFailureNoticeComponent
   ]
 })
 export class MailModule {

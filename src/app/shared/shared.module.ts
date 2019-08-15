@@ -28,6 +28,7 @@ import { MomentDatePipe } from './pipes/moment-date.pipe';
 import { StripeFormComponent } from './components/stripe-form/stripe-form.component';
 import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.component';
 import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-folder.component';
+import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-fold
     StripeFormComponent,
     BitcoinFormComponent,
     CreateFolderComponent,
+    PaymentFailureNoticeComponent,
   ],
   exports: [
     TranslateModule,
@@ -82,6 +84,7 @@ import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-fold
     MomentDatePipe,
     StripeFormComponent,
     CreateFolderComponent,
+    PaymentFailureNoticeComponent,
   ],
   providers: [
     SpinnerService,
@@ -91,7 +94,8 @@ import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-fold
     FilenamePipe
   ],
   entryComponents: [
-    CreateFolderComponent
+    CreateFolderComponent,
+    PaymentFailureNoticeComponent
   ]
 })
 export class SharedModule {
