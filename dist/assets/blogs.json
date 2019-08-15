@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "category": 1,
+      "comments_count": 10,
+      "date": "August 08, 2018",
+      "name": "World Leading Icelandic Privacy Laws",
+      "slug": "icelandic-privacy-laws",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/12/Scales.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/12/Scales.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/12/Scales.jpg",
+      "text": "We feel Iceland is the best location for users privacy and data storage. This is because Iceland designed it’s privacy laws to protect journalists and whistleblowers like Edward Snowden."
+    },
+    {
+      "id": 2,
+      "category": 1,
+      "comments_count": 10,
+      "date": "August 08, 2018",
+      "name": "CTemplar Checksum Implementation",
+      "slug": "ctemplar-checksum-implementation",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2018/09/hacker-1944688_1280.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2018/09/hacker-1944688_1280.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2018/09/hacker-1944688_1280.jpg",
+      "text": "We implemented SRI (Subresource Integrity), which is a checksum-like verification integrated most common browsers. This is a tool you can use to give yourself assurance you do not receive malicious javascripts or backdoors. We are the only email service that provides this."
+    },
+    {
+      "id": 3,
+      "category": 1,
+      "comments_count": 10,
+      "date": "August 08, 2018",
+      "name": "Email Comparison Table",
+      "slug": "ctemplar-comparison-table",
+      "image_card": "https://blog.ctemplar.com/wp-content/uploads/2019/02/Worksheet.jpg",
+      "image_featured": "https://blog.ctemplar.com/wp-content/uploads/2019/02/Worksheet.jpg",
+      "image": "https://blog.ctemplar.com/wp-content/uploads/2019/02/Worksheet.jpg",
+      "text": "CTemplar may or may not be the right email service for you. We made this table so you can see our positives and negatives. If we do not meet your qualifications in some categories then this will help you find the right email service for you."
+    }
+  ]
+}
