@@ -196,7 +196,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         Scrambler({
           target: `#${elementId}`,
           random: [1000, 120000],
-          speed: 100,
+          speed: 70,
           text: 'A7gHc6H66A9SAQfoBJDq4C7'
         });
       }, 100);
