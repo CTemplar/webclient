@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { DeleteMail, GetMailDetailSuccess, GetMails, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, SecureContent, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { OpenPgpService, SharedService } from '../../store/services';
+import { LOADING_IMAGE, OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { WebSocketState } from '../../store';
@@ -46,6 +46,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   currentMailNumber: any;
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   OFFSET: number = 0;
+  loadingImage = LOADING_IMAGE;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;

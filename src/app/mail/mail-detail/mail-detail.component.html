@@ -275,7 +275,6 @@
           </div>
         </div>
       </div>
-      <app-progress-bar [active]="decryptedContents[mail.id]==null"></app-progress-bar>
     </div>
   </section>
 
@@ -301,6 +300,13 @@
       <div class="show_gmail_extra">
         <div class="msg-reply-content text-dark" id="{{mail.id}}-mail-content"
            [innerHTML]="decryptedContents[mail.id] | safe: 'html': mail.sender"></div>
+      </div>
+    </div>
+
+    <div align="center" class="decryption-spinner" *ngIf="decryptedContents[mail.id]==null">
+      <img class="mt-3" [src]="loadingImage | safe:'url'"/>
+      <div class="mt-3">
+        Decrypting 4096 Bit Encrypted Email
       </div>
     </div>
 
