@@ -39,30 +39,16 @@
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label class="form-label mb-sm-0">Set up 2 Factor authentication</label>
+            <label class="form-label mb-sm-0">2 Factor authentication</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
-              <div class="col-6 flex-auto-col">
-                <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="enableFa1"
-                         name="[3]" type="radio" (click)="updateSettings('enable_2fa', true); get2FASecret()"
-                         [checked]="settings.enable_2fa"/>
-                  <label for="enableFa1" translate="common.enabled">Enabled</label>
-                </div>
-              </div>
-              <div class="col-6 flex-auto-col">
-                <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="enableFa2"
-                         name="[3]" type="radio" (click)="updateSettings('enable_2fa', false)"
-                         [checked]="!settings.enable_2fa"/>
-                  <label for="enableFa2" translate="common.disabled">Disabled</label>
-                </div>
-              </div>
-            </div>
-            <div class="row row-sm" *ngIf="settings.enable_2fa">
-              <a href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"
-                 (click)="get2FASecret()"><strong><u>Set up 2 Factor authentication</u></strong></a>
+              <a *ngIf="!settings.enable_2fa"  (click)="get2FASecret(); auth2FAForm={auth2FAStep:1, enable_2fa: true}"
+                 href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"><strong>
+                <u>Set up 2 Factor authentication</u></strong></a>
+              <a *ngIf="settings.enable_2fa"  (click)="disable2FA()"
+                 href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"><strong>
+                <u>Disable 2 Factor authentication</u></strong></a>
             </div>
           </div>
         </div>
@@ -109,27 +95,80 @@
 
 <ng-template #auth2FAModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-    <h3 class="modal-title w-100 text-dark" id="auth2FAModal"><strong>Set up 2 Factor authentication</strong></h3>
+    <h3 class="modal-title w-100 text-dark" id="auth2FAModal">
+      <strong>{{auth2FAForm.enable_2fa ? 'Set up':'Disable'}} 2 Factor authentication</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
             (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body bg-faded">
-    <div class="align-items-center" *ngIf="settings.enable_2fa && auth2FA">
-      <div *ngIf="!auth2FA.inProgress">
-        <div class="card-body px-4 text-center">
-          <div class="mb-4">Scan the following QR code with your 2 Factor authentication app to set up your account.
-            You can also enter the secret key manually in order to setup.
+  <div class="modal-body bg-faded py-4">
+    <div class="align-items-center  px-4" *ngIf="auth2FA">
+      <ng-container *ngIf="auth2FAForm.auth2FAStep === 1">
+        <div *ngIf="!auth2FA.inProgress">
+          <div class="card-body text-center">
+            <div class="mb-4">Scan the following QR code with your 2 Factor authentication app to set up your account.
+              You can also enter the secret key manually in order to setup.
+            </div>
+            <img class="mb-3" style="height: 270px"
+                 src="{{apiUrl}}qr-code/?size=300x300&data={{auth2FA.secret_url}}"
+                 alt="QR">
+            <div class="bg-white px-3 py-3">
+              <span class="text-dark"><b>Secret: </b>{{ auth2FA.secret }}</span>
+              <button mat-icon-button (click)="copyToClipboard(auth2FA.secret)"
+                      class="copy-btn">
+                <i class="material-icons">file_copy</i>
+              </button>
+            </div>
           </div>
-          <img class="mb-4"
-               src="{{apiUrl}}qr-code/?size=300x300&data={{auth2FA.secret_url}}"
-               alt="QR">
-          <p class="justify-content-center">Secret: {{auth2FA.secret}}</p>
+          <div align="right" class="mt-3">
+            <button (click)="auth2FAForm.auth2FAStep=2" class="btn btn-secondary btn-sm cursor-pointer">Next</button>
+          </div>
         </div>
-      </div>
-      <div align="center">
-        <app-loading-spinner [showSpinner]="auth2FA.inProgress"></app-loading-spinner>
+        <div align="center">
+          <app-loading-spinner [showSpinner]="auth2FA.inProgress"></app-loading-spinner>
+        </div>
+      </ng-container>
+      <div *ngIf="auth2FAForm.auth2FAStep === 2">
+        <div>
+          <div class="form-group form-group-sm">
+            <label for="password" class="d-block text-muted text-left hidden-sm-up">Password</label>
+            <div class="input-group">
+              <input #password class="form-control form-control-lg" id="password" placeholder="Password"
+                     [(ngModel)]="auth2FAForm.password"
+                     type="password"/>
+              <span class="input-group-addon password-toggle bg-white text-muted"
+                    (click)="togglePassword(password)">
+                                    <i class="fa fa-eye"></i>
+                                    <i class="fa fa-eye-slash"></i>
+                                </span>
+            </div>
+            <span class="validate-message" *ngIf="auth2FAForm.submitted && !auth2FAForm.password">
+              Please enter your account password.
+            </span>
+          </div>
+          <div class="form-group form-group-sm">
+            <label for="passcode" class="d-block text-muted text-left hidden-sm-up">Passcode</label>
+            <div class="input-group">
+              <input class="form-control form-control-lg" id="passcode"
+                     placeholder="Passcode generated by 2FA app"
+                     [(ngModel)]="auth2FAForm.passcode"
+                     type="text"/>
+            </div>
+            <span class="validate-message" *ngIf="auth2FAForm.submitted && !auth2FAForm.passcode">
+              Please enter passcode generated by 2FA app.
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-sm-end">
+          <button class="btn btn-default btn-sm cursor-pointer" type="reset" (click)="d()"><span
+                  translate="common.cancel">Cancel</span></button>
+          <button class="btn btn-secondary btn-sm cursor-pointer"
+                  (click)="update2FA(auth2FAForm.enable_2fa); d()"
+                  [disabled]="!auth2FAForm.passcode || !auth2FAForm.password">
+            {{auth2FAForm.enable_2fa ? 'Enable':'Disable'}}
+          </button>
+        </div>
       </div>
     </div>
   </div>

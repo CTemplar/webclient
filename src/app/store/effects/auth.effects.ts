@@ -21,7 +21,7 @@ import {
   CheckUsernameAvailabilitySuccess,
   DeleteAccount,
   DeleteAccountFailure,
-  DeleteAccountSuccess,
+  DeleteAccountSuccess, Update2FA, Update2FASuccess,
   ExpireSession, Get2FASecret, Get2FASecretSuccess,
   GetCaptcha,
   GetCaptchaSuccess, GetInvoices,
@@ -44,7 +44,7 @@ import {
   UpgradeAccountFailure,
   UpgradeAccountSuccess,
   VerifyCaptcha,
-  VerifyCaptchaSuccess
+  VerifyCaptchaSuccess, SettingsUpdateSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -299,6 +299,27 @@ export class AuthEffects {
               new SnackErrorPush({
                 message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
                   'Failed to load OTP secret.'
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  enable2FA: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.UPDATE_2FA),
+      map((action: Update2FA) => action.payload),
+      switchMap(payload => {
+        return this.authService.update2FA(payload.data)
+          .pipe(
+            switchMap((response: any) => of(
+              new Update2FASuccess(response), new SettingsUpdateSuccess(payload.settings),
+              new SnackPush({ message: `2 Factor authenticated ${payload.data.enable_2fa ? 'enabled' : 'disabled'} successfully.` })
+            )),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: `Failed to ${payload.data.enable_2fa ? 'enable' : 'disable'} 2FA, ${errorResponse.error} Please try again.`
               })
             ))
           );

@@ -38,6 +38,14 @@ export class Auth2FA {
   secret?: string;
   secret_url?: string;
   inProgress?: boolean;
+
+  constructor(data?: any) {
+    if (data) {
+      this.inProgress = data.inProgress;
+      this.secret = data.secret;
+      this.secret_url = encodeURIComponent(data.secret_url);
+    }
+  }
 }
 
 export interface Captcha {

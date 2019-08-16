@@ -1,7 +1,7 @@
 // Custom Action
 import { AuthActionAll, AuthActionTypes } from '../actions';
 // Model
-import { AuthState, PaymentMethod, PaymentType } from '../datatypes';
+import { Auth2FA, AuthState, PaymentMethod, PaymentType } from '../datatypes';
 import { REFFERAL_CODE_KEY } from '../../shared/config';
 
 export const initialState: AuthState = {
@@ -275,7 +275,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
 
 
     case AuthActionTypes.GET_2FA_SECRET_SUCCESS: {
-      return { ...state, auth2FA: { ...action.payload, inProgress: false } };
+      return { ...state, auth2FA: new Auth2FA({ ...action.payload, inProgress: false }) };
     }
 
     case AuthActionTypes.LOGOUT: {

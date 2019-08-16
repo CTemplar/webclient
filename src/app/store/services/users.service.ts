@@ -199,7 +199,8 @@ export class UsersService {
       'auth/add-user/',
       'auth/update-user/',
       'emails/domain-users/',
-      'auth/otp-secret/'
+      'auth/otp-secret/',
+      'auth/enable-2fa/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -403,6 +404,12 @@ export class UsersService {
 
   get2FASecret(): Observable<any> {
     return this.http.get<any>(`${apiUrl}auth/otp-secret/`);
+  }
+
+
+  update2FA(data: any): Observable<any> {
+    data.password = this.hashPassword(data);
+    return this.http.post<any>(`${apiUrl}auth/enable-2fa/`, data);
   }
 
   verifyCaptcha(data: any): Observable<any> {
