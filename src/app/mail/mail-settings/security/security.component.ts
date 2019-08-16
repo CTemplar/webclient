@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AppState, AuthState, Settings, UserState } from '../../../store/datatypes';
+import { AppState, Auth2FA, AuthState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { ChangePassphraseSuccess, ChangePassword } from '../../../store/actions';
+import { ChangePassphraseSuccess, ChangePassword, Update2FA, Get2FASecret } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OpenPgpService } from '../../../store/services';
+import { OpenPgpService, SharedService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { apiUrl, getApiUrl } from '../../../shared/config';
 
 @Component({
   selector: 'app-settings-security',
@@ -17,6 +18,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 export class SecurityComponent implements OnInit, OnDestroy {
   private changePasswordModalRef: NgbModalRef;
   @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
+  @ViewChild('auth2FAModal', { static: false }) auth2FAModal;
 
   settings: Settings;
   changePasswordForm: FormGroup;
@@ -24,6 +26,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
   userState: UserState;
   inProgress: boolean;
   deleteData: boolean;
+  apiUrl = apiUrl;
+  auth2FA: Auth2FA;
+  auth2FAForm: any = {};
+
   private updatedPrivateKeys: Array<any>;
   private canDispatchChangePassphrase: boolean;
 
@@ -31,6 +37,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
               private settingsService: MailSettingsService,
               private modalService: NgbModal,
               private openPgpService: OpenPgpService,
+              private sharedService: SharedService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -41,6 +48,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       });
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
+        this.auth2FA = authState.auth2FA;
         if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
           this.canDispatchChangePassphrase = false;
           this.updatedPrivateKeys = [...authState.updatedPrivateKeys];
@@ -78,6 +86,37 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   updateSettings(key?: string, value?: any) {
     this.settingsService.updateSettings(this.settings, key, value);
+  }
+
+  get2FASecret() {
+    this.store.dispatch(new Get2FASecret());
+    this.modalService.open(this.auth2FAModal, {
+      centered: true,
+      windowClass: 'modal-md auth2fa-modal'
+    });
+  }
+
+  update2FA(enable_2fa: boolean = true) {
+    if (!this.auth2FAForm.passcode || !this.auth2FAForm.password) {
+      this.auth2FAForm.submitted = true;
+      return;
+    }
+    this.store.dispatch(new Update2FA({
+      data: { ...this.auth2FAForm, enable_2fa, username: this.userState.username },
+      settings: { ...this.settings, enable_2fa }
+    }));
+  }
+
+  disable2FA() {
+    this.auth2FAForm = { auth2FAStep: 2, enable_2fa: false };
+    this.modalService.open(this.auth2FAModal, {
+      centered: true,
+      windowClass: 'modal-md auth2fa-modal'
+    });
+  }
+
+  copyToClipboard(value: string) {
+    this.sharedService.copyToClipboard(value);
   }
 
 

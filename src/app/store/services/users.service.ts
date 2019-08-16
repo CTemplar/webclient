@@ -56,7 +56,9 @@ export class UsersService {
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
       tap(data => {
-        this.setLoginData(data, body);
+        if (data.token) {
+          this.setLoginData(data, body);
+        }
       })
     );
   }
@@ -198,7 +200,9 @@ export class UsersService {
       'auth/sign-out/',
       'auth/add-user/',
       'auth/update-user/',
-      'emails/domain-users/'
+      'emails/domain-users/',
+      'auth/otp-secret/',
+      'auth/enable-2fa/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -397,6 +401,17 @@ export class UsersService {
 
   getCaptcha(): Observable<any> {
     return this.http.get<any>(`${apiUrl}auth/captcha/`);
+  }
+
+
+  get2FASecret(): Observable<any> {
+    return this.http.get<any>(`${apiUrl}auth/otp-secret/`);
+  }
+
+
+  update2FA(data: any): Observable<any> {
+    data.password = this.hashPassword(data);
+    return this.http.post<any>(`${apiUrl}auth/enable-2fa/`, data);
   }
 
   verifyCaptcha(data: any): Observable<any> {

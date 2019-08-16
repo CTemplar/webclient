@@ -31,6 +31,23 @@ export interface AuthState {
   updatedPrivateKeys?: any;
   isChangePasswordError?: boolean;
   captcha?: Captcha;
+  auth2FA?: Auth2FA;
+}
+
+export class Auth2FA {
+  secret?: string;
+  secret_url?: string;
+  inProgress?: boolean;
+  is_2fa_enabled?: boolean;
+  show2FALogin?: boolean;
+
+  constructor(data?: any) {
+    if (data) {
+      this.inProgress = data.inProgress;
+      this.secret = data.secret;
+      this.secret_url = encodeURIComponent(data.secret_url);
+    }
+  }
 }
 
 export interface Captcha {
@@ -126,6 +143,7 @@ export interface Settings {
   notification_email?: string;
   recurrence_billing?: boolean;
   is_subject_encrypted?: boolean;
+  enable_2fa?: boolean;
 }
 
 export interface Invoice {

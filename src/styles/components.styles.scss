@@ -165,3 +165,7 @@ app-mail-detail {
   height: 20px;
   margin-top: -9px;
 }
+
+.cdk-overlay-container {
+  z-index: 10000 !important;
+}
