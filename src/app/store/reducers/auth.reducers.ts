@@ -18,6 +18,7 @@ export const initialState: AuthState = {
   resetPasswordErrorMessage: null,
   isRecoveryCodeSent: false,
   captcha: {},
+  auth2FA: {},
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -267,6 +268,16 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         },
       };
     }
+
+    case AuthActionTypes.GET_2FA_SECRET: {
+      return { ...state, auth2FA: { inProgress: true } };
+    }
+
+
+    case AuthActionTypes.GET_2FA_SECRET_SUCCESS: {
+      return { ...state, auth2FA: { ...action.payload, inProgress: false } };
+    }
+
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }

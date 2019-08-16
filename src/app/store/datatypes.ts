@@ -31,6 +31,13 @@ export interface AuthState {
   updatedPrivateKeys?: any;
   isChangePasswordError?: boolean;
   captcha?: Captcha;
+  auth2FA?: Auth2FA;
+}
+
+export class Auth2FA {
+  secret?: string;
+  secret_url?: string;
+  inProgress?: boolean;
 }
 
 export interface Captcha {
@@ -126,6 +133,7 @@ export interface Settings {
   notification_email?: string;
   recurrence_billing?: boolean;
   is_subject_encrypted?: boolean;
+  enable_2fa?: boolean;
 }
 
 export interface Invoice {

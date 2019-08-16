@@ -22,7 +22,7 @@ import {
   DeleteAccount,
   DeleteAccountFailure,
   DeleteAccountSuccess,
-  ExpireSession,
+  ExpireSession, Get2FASecret, Get2FASecretSuccess,
   GetCaptcha,
   GetCaptchaSuccess, GetInvoices,
   LogIn,
@@ -280,6 +280,25 @@ export class AuthEffects {
               new SnackErrorPush({
                 message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
                   'Failed to verify Captcha.'
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  get2FASecret: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.GET_2FA_SECRET),
+      map((action: Get2FASecret) => action.payload),
+      switchMap(payload => {
+        return this.authService.get2FASecret()
+          .pipe(
+            switchMap((response: any) => of(new Get2FASecretSuccess(response))),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
+                  'Failed to load OTP secret.'
               })
             ))
           );

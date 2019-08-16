@@ -198,7 +198,8 @@ export class UsersService {
       'auth/sign-out/',
       'auth/add-user/',
       'auth/update-user/',
-      'emails/domain-users/'
+      'emails/domain-users/',
+      'auth/otp-secret/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -397,6 +398,11 @@ export class UsersService {
 
   getCaptcha(): Observable<any> {
     return this.http.get<any>(`${apiUrl}auth/captcha/`);
+  }
+
+
+  get2FASecret(): Observable<any> {
+    return this.http.get<any>(`${apiUrl}auth/otp-secret/`);
   }
 
   verifyCaptcha(data: any): Observable<any> {

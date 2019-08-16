@@ -35,6 +35,39 @@
           </form>
         </div>
       </div>
+
+      <div class="form-content-row">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <label class="form-label mb-sm-0">Set up 2 Factor authentication</label>
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="enableFa1"
+                         name="[3]" type="radio" (click)="updateSettings('enable_2fa', true); get2FASecret()"
+                         [checked]="settings.enable_2fa"/>
+                  <label for="enableFa1" translate="common.enabled">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="enableFa2"
+                         name="[3]" type="radio" (click)="updateSettings('enable_2fa', false)"
+                         [checked]="!settings.enable_2fa"/>
+                  <label for="enableFa2" translate="common.disabled">Disabled</label>
+                </div>
+              </div>
+            </div>
+            <div class="row row-sm" *ngIf="settings.enable_2fa">
+              <a href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"
+                 (click)="get2FASecret()"><strong><u>Set up 2 Factor authentication</u></strong></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -52,18 +85,18 @@
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField1"
-                         name="[4]" type="radio" (click)="updateSettings('is_subject_encrypted', true)"
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="subjectEncryption1"
+                         name="[2]" type="radio" (click)="updateSettings('is_subject_encrypted', true)"
                          [checked]="settings.is_subject_encrypted"/>
-                  <label for="securityField1" translate="common.enabled">Enabled</label>
+                  <label for="subjectEncryption1" translate="common.enabled">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="securityField2"
-                         name="[4]" type="radio" (click)="updateSettings('is_subject_encrypted', false)"
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="subjectEncryption2"
+                         name="[2]" type="radio" (click)="updateSettings('is_subject_encrypted', false)"
                          [checked]="!settings.is_subject_encrypted"/>
-                  <label for="securityField2" translate="common.disabled">Disabled</label>
+                  <label for="subjectEncryption2" translate="common.disabled">Disabled</label>
                 </div>
               </div>
             </div>
@@ -74,6 +107,33 @@
   </div>
 </section>
 
+<ng-template #auth2FAModal let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
+    <h3 class="modal-title w-100 text-dark" id="auth2FAModal"><strong>Set up 2 Factor authentication</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="align-items-center" *ngIf="settings.enable_2fa && auth2FA">
+      <div *ngIf="!auth2FA.inProgress">
+        <div class="card-body px-4 text-center">
+          <div class="mb-4">Scan the following QR code with your 2 Factor authentication app to set up your account.
+            You can also enter the secret key manually in order to setup.
+          </div>
+          <img class="mb-4"
+               src="{{apiUrl}}qr-code/?size=300x300&data={{auth2FA.secret_url}}"
+               alt="QR">
+          <p class="justify-content-center">Secret: {{auth2FA.secret}}</p>
+        </div>
+      </div>
+      <div align="center">
+        <app-loading-spinner [showSpinner]="auth2FA.inProgress"></app-loading-spinner>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <!-- Change password Modal -->
 <ng-template #changePasswordModal let-c="close" let-d="dismiss">
