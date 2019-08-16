@@ -54,6 +54,14 @@
           <i class="icon icon-garbage"></i>
           </a>
         </li>
+        <li class="pr-0">
+          <a class="px-0" placement="top"
+             (click)="decryptAllSubjects()"
+             ngbTooltip="Decrypt all subjects on current page">
+            <i class="material-icons" style="font-size: 20px;">lock_open</i>
+          </a>
+        </li>
+
         <li class="btn-dropdown more-xs-options pl-0" *ngIf="isMobile">
           <div ngbDropdown autoClose="outside">
             <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button">
@@ -153,13 +161,6 @@
           <a (click)="confirmEmptyTrash()" class="btn btn-sm delete-permanently-btn" placement="top"
              [ngbTooltip]="'mail_list.delete_messages'| translate">
             <i class="icon icon-garbage position-left"></i> <span translate="mail_list.delete_all"> Delete all permanently</span>
-          </a>
-        </li>
-        <li>
-          <a class="px-0" placement="top"
-             (click)="decryptAllSubjects()"
-             ngbTooltip="Decrypt all subjects on current page">
-            <i class="material-icons">lock_open</i>
           </a>
         </li>
       </ul>
