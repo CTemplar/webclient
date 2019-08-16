@@ -39,15 +39,27 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
     case AuthActionTypes.LOGIN_SUCCESS: {
-      localStorage.setItem('token', action.payload.token);
-      localStorage.removeItem(REFFERAL_CODE_KEY);
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload,
-        errorMessage: null,
-        inProgress: false
-      };
+      if (action.payload.token) {
+        localStorage.setItem('token', action.payload.token);
+        localStorage.removeItem(REFFERAL_CODE_KEY);
+        return {
+          ...state,
+          isAuthenticated: true,
+          user: action.payload,
+          errorMessage: null,
+          inProgress: false,
+          auth2FA: { is_2fa_enabled: action.payload.is_2fa_enabled, show2FALogin: false }
+        };
+      } else if (action.payload.is_2fa_enabled) {
+        return {
+          ...state,
+          inProgress: false,
+          errorMessage: null,
+          auth2FA: { is_2fa_enabled: true, show2FALogin: true }
+        };
+      }
+
+      return { ...state };
     }
     case AuthActionTypes.LOGIN_FAILURE: {
       return {

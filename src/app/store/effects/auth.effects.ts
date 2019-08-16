@@ -70,7 +70,7 @@ export class AuthEffects {
       switchMap(payload => {
         return this.authService.signIn(payload)
           .pipe(
-            map((user) => new LogInSuccess(user)),
+            map((response) => new LogInSuccess(response)),
             catchError((errorResponse: any) => of(new LogInFailure(errorResponse.error)))
           );
       }));
@@ -79,8 +79,10 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   LogInSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
-    tap((user) => {
-      this.router.navigateByUrl('/mail');
+    tap((response) => {
+      if (response.payload.token) {
+        this.router.navigateByUrl('/mail');
+      }
     })
   );
 
@@ -297,8 +299,7 @@ export class AuthEffects {
             switchMap((response: any) => of(new Get2FASecretSuccess(response))),
             catchError((errorResponse) => of(
               new SnackErrorPush({
-                message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
-                  'Failed to load OTP secret.'
+                message: `Failed to load secret, ${errorResponse.error}`
               })
             ))
           );
@@ -315,7 +316,7 @@ export class AuthEffects {
           .pipe(
             switchMap((response: any) => of(
               new Update2FASuccess(response), new SettingsUpdateSuccess(payload.settings),
-              new SnackPush({ message: `2 Factor authenticated ${payload.data.enable_2fa ? 'enabled' : 'disabled'} successfully.` })
+              new SnackPush({ message: `2 Factor authentication ${payload.data.enable_2fa ? 'enabled' : 'disabled'} successfully.` })
             )),
             catchError((errorResponse) => of(
               new SnackErrorPush({

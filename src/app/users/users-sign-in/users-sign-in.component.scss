@@ -75,6 +75,12 @@ $error-red: #e94e4c;
   }
 }
 
-.main-body {
-  min-height: 317px;
+.login-main {
+  min-height: 600px;
+}
+
+.logged-in-spinner {
+  img {
+    width: 200px;
+  }
 }

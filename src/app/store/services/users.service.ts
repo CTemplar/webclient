@@ -56,7 +56,9 @@ export class UsersService {
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
       tap(data => {
-        this.setLoginData(data, body);
+        if (data.token) {
+          this.setLoginData(data, body);
+        }
       })
     );
   }

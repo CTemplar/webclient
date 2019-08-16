@@ -38,6 +38,8 @@ export class Auth2FA {
   secret?: string;
   secret_url?: string;
   inProgress?: boolean;
+  is_2fa_enabled?: boolean;
+  show2FALogin?: boolean;
 
   constructor(data?: any) {
     if (data) {
