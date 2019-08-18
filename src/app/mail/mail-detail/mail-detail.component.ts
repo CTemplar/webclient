@@ -12,6 +12,7 @@ import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { WebSocketState } from '../../store';
 import { SummarySeparator } from '../../shared/config';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
 declare var Scrambler;
 
@@ -55,7 +56,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private page: number;
   private mails: Mail[] = [];
   private EMAILS_PER_PAGE: number;
-
+  shortcuts: ShortcutInput[] = [];
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
               private pgpService: OpenPgpService,
