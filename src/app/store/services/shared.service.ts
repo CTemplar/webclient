@@ -7,11 +7,10 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { NotificationService } from './notification.service';
 import { Folder, MailFolderType } from '../models';
-import { AllowIn, ShortcutEventOutput } from 'ng-keyboard-shortcuts';
-import { Router } from '@angular/router';
+import { AllowIn } from 'ng-keyboard-shortcuts';
 import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
 import { MailComponent } from '../../mail/mail.component';
-import { run } from 'tslint/lib/runner';
+import { MailDetailComponent } from '../../mail/mail-detail/mail-detail.component';
 
 @Injectable()
 export class SharedService {
@@ -101,80 +100,111 @@ export function sortByString(data: any[], field: string) {
 
 export function getMailComponentShortcuts(mailComponent: MailComponent) {
   return [
-    getShortcutKeyObj('g  i', 'Mail', 'Go to Inbox', () => {
-      mailComponent.navigateToPage('/mail/inbox/page/1');
-    }),
-    getShortcutKeyObj('g  d', 'Mail', 'Go to Draft', () => {
-      mailComponent.navigateToPage('/mail/draft/page/1');
-    }),
-    getShortcutKeyObj('g  s', 'Mail', 'Go to Sent', () => {
-      mailComponent.navigateToPage('/mail/sent/page/1');
-    }),
-    getShortcutKeyObj('g  .', 'Mail', 'Go to Starred', () => {
-      mailComponent.navigateToPage('/mail/starred/page/1');
-    }),
-    getShortcutKeyObj('g  a', 'Mail', 'Go to Archive', () => {
-      mailComponent.navigateToPage('/mail/archive/page/1');
-    }),
-    getShortcutKeyObj('g  x', 'Mail', 'Go to Spam', () => {
-      mailComponent.navigateToPage('/mail/spam/page/1');
-    }),
-    getShortcutKeyObj('g  t', 'Mail', 'Go to trash', () => {
-      mailComponent.navigateToPage('/mail/trash/page/1');
-    })
+    getShortcutKeyObj('g i', 'Mail', 'Go to Inbox', () => {
+      if (!isComposeEditorOpen()) {
+        mailComponent.navigateToPage('/mail/inbox/page/1');
+      }
+    }, [], true),
+    getShortcutKeyObj('g d', 'Mail', 'Go to Draft', () => {
+      if (!isComposeEditorOpen()) {
+        mailComponent.navigateToPage('/mail/draft/page/1');
+      }
+    }, [], true),
+    getShortcutKeyObj('g s', 'Mail', 'Go to Sent', () => {
+      if (!isComposeEditorOpen()) {
+        mailComponent.navigateToPage('/mail/sent/page/1');
+      }
+    }, [], true),
+    getShortcutKeyObj('g .', 'Mail', 'Go to Starred', () => {
+      if (!isComposeEditorOpen()) {
+        mailComponent.navigateToPage('/mail/starred/page/1');
+      }
+    }, [], true),
+    getShortcutKeyObj('g a', 'Mail', 'Go to Archive', () => {
+      if (!isComposeEditorOpen()) {
+        mailComponent.navigateToPage('/mail/archive/page/1');
+      }
+    }, [], true),
+    getShortcutKeyObj('g x', 'Mail', 'Go to Spam', () => {
+      if (!isComposeEditorOpen()) {
+        mailComponent.navigateToPage('/mail/spam/page/1');
+      }
+    }, [], true),
+    getShortcutKeyObj('g t', 'Mail', 'Go to trash', () => {
+      if (!isComposeEditorOpen()) {
+        mailComponent.navigateToPage('/mail/trash/page/1');
+      }
+    }, [], false)
   ];
 }
 
-function getShortcutKeyObj(key: string, label, description: string, command) {
+export function isComposeEditorOpen(): boolean {
+  return (document.getElementsByTagName('app-compose-mail-dialog').length > 0);
+}
+
+function getShortcutKeyObj(key: string, label, description: string, command, allowIn = [AllowIn.Select, AllowIn.Input],
+                           preventDefault?: boolean) {
   return {
     command,
     label,
     description,
-    allowIn: [AllowIn.Textarea, AllowIn.Input, AllowIn.Select],
+    allowIn,
     key: [key],
-    preventDefault: false,
+    preventDefault,
     throttleTime: 250
   };
 }
 
 export function getGenericFolderShortcuts(component: GenericFolderComponent) {
   return [
-    getShortcutKeyObj('*  a', 'Conversation', 'Select all conversations', () => {
-      component.markAllMails(true);
+    getShortcutKeyObj('* a', 'Conversation', 'Select all conversations', () => {
+      if (!isComposeEditorOpen()) {
+        component.markAllMails(true);
+      }
     }),
-    getShortcutKeyObj('*  n', 'Conversation', 'Unselect all conversations', () => {
-      component.markAllMails(false);
+    getShortcutKeyObj('* n', 'Conversation', 'Unselect all conversations', () => {
+      if (!isComposeEditorOpen()) {
+        component.markAllMails(false);
+      }
     }),
     getShortcutKeyObj('r', 'Conversation', 'Mark as read', () => {
-      component.markAsRead();
+      if (!isComposeEditorOpen()) {
+        component.markAsRead();
+      }
     }),
     getShortcutKeyObj('u', 'Conversation', 'Mark as unread', () => {
-      component.markAsRead(false);
-    }),
-    getShortcutKeyObj('.', 'Conversation', 'Mark as starred', () => {
-      component.markAsStarred();
+      if (!isComposeEditorOpen()) {
+        component.markAsRead(false);
+      }
     }),
     getShortcutKeyObj('cmd + *', 'Conversation', 'Mark as starred', () => {
       component.markAsStarred();
     }),
-    getShortcutKeyObj('cmd + shift + *', 'Conversation', 'Mark as unstarred', () => {
+    getShortcutKeyObj('cmd + .', 'Conversation', 'Mark as unstarred', () => {
       component.markAsStarred(false);
     }),
     getShortcutKeyObj('t', 'Conversation', 'Move to trash', () => {
-      component.moveToFolder(MailFolderType.TRASH);
+      if (!isComposeEditorOpen()) {
+        component.moveToFolder(MailFolderType.TRASH);
+      }
 
     }),
     getShortcutKeyObj('i', 'Conversation', 'Move to inbox', () => {
-      component.moveToFolder(MailFolderType.INBOX);
+      if (!isComposeEditorOpen()) {
+        component.moveToFolder(MailFolderType.INBOX);
+      }
 
     }),
     getShortcutKeyObj('a', 'Conversation', 'Move to archive', () => {
-      component.moveToFolder(MailFolderType.ARCHIVE);
+      if (!isComposeEditorOpen()) {
+        component.moveToFolder(MailFolderType.ARCHIVE);
+      }
 
     }),
     getShortcutKeyObj('s', 'Conversation', 'Move to starred', () => {
-      component.moveToFolder(MailFolderType.STARRED);
-
+      if (!isComposeEditorOpen()) {
+        component.moveToFolder(MailFolderType.STARRED);
+      }
     })
   ];
 }
