@@ -6,7 +6,7 @@ import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-f
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { NotificationService } from './notification.service';
-import { Folder } from '../models';
+import { Folder, MailFolderType } from '../models';
 import { AllowIn, ShortcutEventOutput } from 'ng-keyboard-shortcuts';
 import { Router } from '@angular/router';
 import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
@@ -101,25 +101,25 @@ export function sortByString(data: any[], field: string) {
 
 export function getMailComponentShortcuts(mailComponent: MailComponent) {
   return [
-    getShortcutKeyObj('g  i', 'Mail', 'Goto Inbox -> g and i', () => {
+    getShortcutKeyObj('g  i', 'Mail', 'Go to Inbox', () => {
       mailComponent.navigateToPage('/mail/inbox/page/1');
     }),
-    getShortcutKeyObj('g  d', 'Mail', 'Goto Draft -> g + d', () => {
+    getShortcutKeyObj('g  d', 'Mail', 'Go to Draft', () => {
       mailComponent.navigateToPage('/mail/draft/page/1');
     }),
-    getShortcutKeyObj('g  s', 'Mail', 'Goto Sent -> g + s', () => {
+    getShortcutKeyObj('g  s', 'Mail', 'Go to Sent', () => {
       mailComponent.navigateToPage('/mail/sent/page/1');
     }),
-    getShortcutKeyObj('g  .', 'Mail', 'Goto Starred -> g + .', () => {
+    getShortcutKeyObj('g  .', 'Mail', 'Go to Starred', () => {
       mailComponent.navigateToPage('/mail/starred/page/1');
     }),
-    getShortcutKeyObj('g  a', 'Mail', 'Goto Archive -> g + a', () => {
+    getShortcutKeyObj('g  a', 'Mail', 'Go to Archive', () => {
       mailComponent.navigateToPage('/mail/archive/page/1');
     }),
-    getShortcutKeyObj('g  x', 'Mail', 'Goto Spam -> g + x', () => {
+    getShortcutKeyObj('g  x', 'Mail', 'Go to Spam', () => {
       mailComponent.navigateToPage('/mail/spam/page/1');
     }),
-    getShortcutKeyObj('g  t', 'Mail', 'Goto trash -> g + t', () => {
+    getShortcutKeyObj('g  t', 'Mail', 'Go to trash', () => {
       mailComponent.navigateToPage('/mail/trash/page/1');
     })
   ];
@@ -130,34 +130,51 @@ function getShortcutKeyObj(key: string, label, description: string, command) {
     command,
     label,
     description,
+    allowIn: [AllowIn.Textarea, AllowIn.Input, AllowIn.Select],
     key: [key],
-    preventDefault: true,
+    preventDefault: false,
     throttleTime: 250
   };
 }
 
 export function getGenericFolderShortcuts(component: GenericFolderComponent) {
   return [
-    getShortcutKeyObj('*  a', 'Conversation', 'Select all conversations -> * a', () => {
+    getShortcutKeyObj('*  a', 'Conversation', 'Select all conversations', () => {
       component.markAllMails(true);
     }),
-    getShortcutKeyObj('*  n', 'Conversation', 'Unselect all conversations -> * n', () => {
+    getShortcutKeyObj('*  n', 'Conversation', 'Unselect all conversations', () => {
       component.markAllMails(false);
     }),
-    getShortcutKeyObj('r', 'Conversation', 'Mark as read -> r', () => {
+    getShortcutKeyObj('r', 'Conversation', 'Mark as read', () => {
       component.markAsRead();
     }),
-    getShortcutKeyObj('u', 'Conversation', 'Mark as unread -> u', () => {
+    getShortcutKeyObj('u', 'Conversation', 'Mark as unread', () => {
       component.markAsRead(false);
     }),
-    getShortcutKeyObj('.', 'Conversation', 'Mark as starred -> .', () => {
+    getShortcutKeyObj('.', 'Conversation', 'Mark as starred', () => {
       component.markAsStarred();
     }),
-    getShortcutKeyObj('cmd + *', 'Conversation', 'Mark as starred -> cmd + *', () => {
+    getShortcutKeyObj('cmd + *', 'Conversation', 'Mark as starred', () => {
       component.markAsStarred();
     }),
-    getShortcutKeyObj('cmd + shift + *', 'Conversation', 'Mark as unstarred -> cmd + shift + *', () => {
+    getShortcutKeyObj('cmd + shift + *', 'Conversation', 'Mark as unstarred', () => {
       component.markAsStarred(false);
+    }),
+    getShortcutKeyObj('t', 'Conversation', 'Move to trash', () => {
+      component.moveToFolder(MailFolderType.TRASH);
+
+    }),
+    getShortcutKeyObj('i', 'Conversation', 'Move to inbox', () => {
+      component.moveToFolder(MailFolderType.INBOX);
+
+    }),
+    getShortcutKeyObj('a', 'Conversation', 'Move to archive', () => {
+      component.moveToFolder(MailFolderType.ARCHIVE);
+
+    }),
+    getShortcutKeyObj('s', 'Conversation', 'Move to starred', () => {
+      component.moveToFolder(MailFolderType.STARRED);
+
     })
   ];
 }
