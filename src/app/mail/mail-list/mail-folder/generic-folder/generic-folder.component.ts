@@ -204,12 +204,12 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  markAsStarred() {
+  markAsStarred(starred: boolean = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as starred event to store
-      this.store.dispatch(new StarMail({ ids, starred: true }));
+      this.store.dispatch(new StarMail({ ids, starred }));
     }
   }
 
