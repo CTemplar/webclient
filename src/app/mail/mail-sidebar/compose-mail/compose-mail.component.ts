@@ -479,7 +479,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadAttachment(file: File, isInline = false) {
-    this.attachmentHolder.nativeElement.scrollIntoView({ behavior: 'smooth' });
     const sizeInMBs = file.size / (1024 * 1024);
 
     if (this.userState.isPrime && sizeInMBs > 25) {
@@ -487,6 +486,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (!this.userState.isPrime && sizeInMBs > 5) {
       this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 5MB. Please upgrade your account to prime to send larger attachments.' }));
     } else {
+      this.attachmentHolder.nativeElement.scrollIntoView({behavior: 'smooth'});
       const attachment: Attachment = {
         draftId: this.draftId,
         document: file,
