@@ -105,6 +105,7 @@ export interface Attachment {
   attachmentId?: number;
   inProgress: boolean;
   is_inline: boolean;
+  is_encrypted?: boolean;
   content_id?: string;
   request?: Subscription;
   isRemoved?: boolean;
