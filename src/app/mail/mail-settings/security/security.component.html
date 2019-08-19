@@ -21,20 +21,6 @@
           </div>
         </div>
       </div>
-      <div class="form-content-row">
-        <div class="row align-items-center">
-          <div class="col-sm-3">
-            <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
-              email</label>
-          </div>
-          <form class="col-sm-7 col-md-5" autocomplete="off">
-            <input class="form-control form-control-sm" id="recoveryMail" type="email" name="email"
-                   autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur'}"
-                   (change)="updateSettings('recovery_email', $event.target.value)"
-                   placeholder="johnsimpson@gmail.com"/>
-          </form>
-        </div>
-      </div>
 
       <div class="form-content-row">
         <div class="row align-items-center">
@@ -51,6 +37,21 @@
                 <u>Disable 2 Factor authentication</u></strong></a>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="form-content-row">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
+              email</label>
+          </div>
+          <form class="col-sm-7 col-md-5" autocomplete="off">
+            <input class="form-control form-control-sm" id="recoveryMail" type="email" name="email"
+                   autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur'}"
+                   (change)="updateSettings('recovery_email', $event.target.value)"
+                   placeholder="johnsimpson@gmail.com"/>
+          </form>
         </div>
       </div>
 
