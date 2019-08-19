@@ -177,11 +177,8 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
         component.markAsRead(false);
       }
     }),
-    getShortcutKeyObj('cmd + *', 'Conversation', 'Mark as starred', () => {
+    getShortcutKeyObj('s', 'Conversation', 'Mark as starred', () => {
       component.markAsStarred();
-    }),
-    getShortcutKeyObj('cmd + .', 'Conversation', 'Mark as unstarred', () => {
-      component.markAsStarred(false);
     }),
     getShortcutKeyObj('t', 'Conversation', 'Move to trash', () => {
       if (!isComposeEditorOpen()) {
@@ -200,11 +197,6 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
         component.moveToFolder(MailFolderType.ARCHIVE);
       }
 
-    }),
-    getShortcutKeyObj('s', 'Conversation', 'Move to starred', () => {
-      if (!isComposeEditorOpen()) {
-        component.moveToFolder(MailFolderType.STARRED);
-      }
     })
   ];
 }
