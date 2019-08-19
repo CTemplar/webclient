@@ -169,3 +169,29 @@ app-mail-detail {
 .cdk-overlay-container {
   z-index: 10000 !important;
 }
+
+// Keyboard shortcuts modal
+.help-modal {
+  min-width: 650px !important;
+
+  .title {
+    padding: 0 0 10px !important;
+
+    h3 {
+      font-weight: bold;
+    }
+  }
+
+  .keys {
+    .key__container {
+      margin-top: -5px;
+
+      .key {
+        float: left;
+        width: 41px;
+        height: 35px;
+        text-align: center;
+      }
+    }
+  }
+}
