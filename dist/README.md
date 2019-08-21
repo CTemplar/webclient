@@ -4,7 +4,7 @@ Official Angular cross-platform client for the CTemplar secure email service ava
 
 RELEASE VERSION : **v1.2.2**    
 
-SHA-256 checksum of `index.html` : **5070112b68dfb405b1f2ebe510d92f9f0c508120d722a385a855edbeeaa4de64**  
+SHA-256 checksum of `index.html` : **ed64f7184f48b4c3644f5f91a64a0c267912a61d208779a785854ee163536a55**  
 
 Find full release code and distribution at : [https://github.com/CTemplar/webclient/releases/latest](https://github.com/CTemplar/webclient/releases/latest)
 
