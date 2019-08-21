@@ -31,6 +31,23 @@ export interface AuthState {
   updatedPrivateKeys?: any;
   isChangePasswordError?: boolean;
   captcha?: Captcha;
+  auth2FA?: Auth2FA;
+}
+
+export class Auth2FA {
+  secret?: string;
+  secret_url?: string;
+  inProgress?: boolean;
+  is_2fa_enabled?: boolean;
+  show2FALogin?: boolean;
+
+  constructor(data?: any) {
+    if (data) {
+      this.inProgress = data.inProgress;
+      this.secret = data.secret;
+      this.secret_url = encodeURIComponent(data.secret_url);
+    }
+  }
 }
 
 export interface Captcha {
@@ -125,6 +142,8 @@ export interface Settings {
   plan_type?: PlanType;
   notification_email?: string;
   recurrence_billing?: boolean;
+  is_subject_encrypted?: boolean;
+  enable_2fa?: boolean;
 }
 
 export interface Invoice {
@@ -188,22 +207,33 @@ export interface MailState {
   canGetUnreadCount: boolean;
 }
 
-export interface DecryptedContent {
-  id: number;
+export class SecureContent {
+  id?: number;
   content: string;
   incomingHeaders?: string;
-  inProgress: boolean;
+  subject?: string;
+  inProgress?: boolean;
+  isSubjectEncrypted?: boolean;
+
+  constructor(data?: Mail) {
+    if (data) {
+      this.content = data.content;
+      this.subject = data.subject;
+      this.incomingHeaders = data.incoming_headers;
+      this.isSubjectEncrypted = data.is_subject_encrypted;
+    }
+  }
 }
 
 export interface DecryptedContentState {
-  [key: number]: DecryptedContent;
+  [key: number]: SecureContent;
 }
 
 export interface Draft {
   id: number;
   draft: Mail;
   inProgress?: boolean;
-  encryptedContent?: string;
+  encryptedContent?: SecureContent;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
   isSshInProgress?: boolean;
@@ -242,7 +272,7 @@ export interface MailBoxesState {
 
 export interface SecureMessageState {
   message: Mail;
-  decryptedContent?: string;
+  decryptedContent?: SecureContent;
   decryptedKey?: any;
   encryptedContent?: string;
   isKeyDecryptionInProgress?: boolean;

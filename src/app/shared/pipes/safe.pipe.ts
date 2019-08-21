@@ -10,7 +10,7 @@ export class SafePipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  public transform(value: any, type: string = '', fromEmail): SafeHtml | SafeUrl {
+  public transform(value: any, type: string = '', fromEmail?: string): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
         value = this.removeTitle(value);

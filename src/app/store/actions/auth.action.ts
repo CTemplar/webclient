@@ -38,6 +38,10 @@ export enum AuthActionTypes {
   VERIFY_CAPTCHA = '[Auth] Verify Captcha',
   VERIFY_CAPTCHA_SUCCESS = '[Auth] Verify Captcha Success',
   VERIFY_CAPTCHA_FAILURE = '[Auth] Verify Captcha Failure',
+  GET_2FA_SECRET = '[Auth] Get 2FA otp secret',
+  GET_2FA_SECRET_SUCCESS = '[Auth] Get 2FA otp secret Success',
+  UPDATE_2FA = '[Auth] Enable 2FA',
+  UPDATE_2FA_SUCCESS = '[Auth] Enable 2FA Success'
 }
 
 export class LogIn implements Action {
@@ -278,6 +282,34 @@ export class ExpireSession implements Action {
   }
 }
 
+export class Get2FASecret implements Action {
+  readonly type = AuthActionTypes.GET_2FA_SECRET;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class Get2FASecretSuccess implements Action {
+  readonly type = AuthActionTypes.GET_2FA_SECRET_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class Update2FA implements Action {
+  readonly type = AuthActionTypes.UPDATE_2FA;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class Update2FASuccess implements Action {
+  readonly type = AuthActionTypes.UPDATE_2FA_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type AuthActionAll =
   | LogIn
   | LogInSuccess
@@ -314,4 +346,8 @@ export type AuthActionAll =
   | VerifyCaptcha
   | VerifyCaptchaSuccess
   | VerifyCaptchaFailure
-  | ExpireSession;
+  | ExpireSession
+  | Get2FASecret
+  | Get2FASecretSuccess
+  | Update2FA
+  | Update2FASuccess;

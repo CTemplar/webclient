@@ -38,6 +38,7 @@ import { ComposeMailService } from '../store/services/compose-mail.service';
 import { WebsocketService } from '../shared/services/websocket.service';
 import { OrganizationUsersComponent } from './mail-settings/organization/organization-users/organization-users.component';
 import { PushNotificationService } from '../shared/services/push-notification.service';
+import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { PushNotificationService } from '../shared/services/push-notification.se
     MatButtonModule,
     MatCheckboxModule,
     MatStepperModule,
+    KeyboardShortcutsModule.forRoot()
   ],
   declarations: [
     MailComponent,

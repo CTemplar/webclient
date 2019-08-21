@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -13,20 +13,21 @@ import {
   SetCurrentFolder,
   StarMail
 } from '../../../../store/actions';
-import { AppState, MailState, UserState } from '../../../../store/datatypes';
+import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
-import { SharedService } from '../../../../store/services';
+import { getGenericFolderShortcuts, OpenPgpService, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { UpdateSearch } from '../../../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { AllowIn, KeyboardShortcutsComponent, ShortcutEventOutput, ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'app-generic-folder',
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss']
 })
-export class GenericFolderComponent implements OnInit, OnDestroy {
+export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() mails: Mail[] = [];
   @Input() mailFolder: MailFolderType;
   @Input() showProgress: boolean;
@@ -35,10 +36,13 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
   @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
 
   customFolders: Folder[];
-
+  shortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   noEmailSelected: boolean = true;
+  isMobile: boolean;
 
   userState: UserState;
 
@@ -57,6 +61,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
               private sharedService: SharedService,
               private composeMailService: ComposeMailService,
               private cdr: ChangeDetectorRef,
+              private pgpService: OpenPgpService,
               private modalService: NgbModal) {
   }
 
@@ -124,6 +129,18 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.isMobile = window.innerWidth <= 768;
+
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
+  ngAfterViewInit() {
+    this.shortcuts = getGenericFolderShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   refresh() {
@@ -187,12 +204,12 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
     }
   }
 
-  markAsStarred() {
+  markAsStarred(starred: boolean = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as starred event to store
-      this.store.dispatch(new StarMail({ ids, starred: true }));
+      this.store.dispatch(new StarMail({ ids, starred }));
     }
   }
 
@@ -206,6 +223,18 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
     } else {
       this.moveToFolder(MailFolderType.TRASH);
     }
+  }
+
+  decryptAllSubjects() {
+    let count = 0;
+    this.mails.forEach(mail => {
+      if (mail.is_subject_encrypted) {
+        setTimeout(() => {
+          this.pgpService.decrypt(mail.mailbox, mail.id, new SecureContent(mail), true);
+        }, count * 300);
+        count = count + 1;
+      }
+    });
   }
 
   confirmEmptyTrash() {
@@ -225,6 +254,7 @@ export class GenericFolderComponent implements OnInit, OnDestroy {
       this.composeMailService.openComposeMailDialog({ draft: mail });
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
+      mail.subject = null;
       this.store.dispatch(new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }));
       this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id]);
     }

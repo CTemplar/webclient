@@ -21,8 +21,8 @@ import {
   CheckUsernameAvailabilitySuccess,
   DeleteAccount,
   DeleteAccountFailure,
-  DeleteAccountSuccess,
-  ExpireSession,
+  DeleteAccountSuccess, Update2FA, Update2FASuccess,
+  ExpireSession, Get2FASecret, Get2FASecretSuccess,
   GetCaptcha,
   GetCaptchaSuccess, GetInvoices,
   LogIn,
@@ -44,7 +44,7 @@ import {
   UpgradeAccountFailure,
   UpgradeAccountSuccess,
   VerifyCaptcha,
-  VerifyCaptchaSuccess
+  VerifyCaptchaSuccess, SettingsUpdateSuccess
 } from '../actions';
 import { SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -70,7 +70,7 @@ export class AuthEffects {
       switchMap(payload => {
         return this.authService.signIn(payload)
           .pipe(
-            map((user) => new LogInSuccess(user)),
+            map((response) => new LogInSuccess(response)),
             catchError((errorResponse: any) => of(new LogInFailure(errorResponse.error)))
           );
       }));
@@ -79,8 +79,10 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   LogInSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
-    tap((user) => {
-      this.router.navigateByUrl('/mail');
+    tap((response) => {
+      if (response.payload.token) {
+        this.router.navigateByUrl('/mail');
+      }
     })
   );
 
@@ -280,6 +282,45 @@ export class AuthEffects {
               new SnackErrorPush({
                 message: errorResponse.error && errorResponse.error.detail ? errorResponse.error.detail :
                   'Failed to verify Captcha.'
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  get2FASecret: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.GET_2FA_SECRET),
+      map((action: Get2FASecret) => action.payload),
+      switchMap(payload => {
+        return this.authService.get2FASecret()
+          .pipe(
+            switchMap((response: any) => of(new Get2FASecretSuccess(response))),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: `Failed to load secret, ${errorResponse.error}`
+              })
+            ))
+          );
+      })
+    );
+
+  @Effect()
+  enable2FA: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.UPDATE_2FA),
+      map((action: Update2FA) => action.payload),
+      switchMap(payload => {
+        return this.authService.update2FA(payload.data)
+          .pipe(
+            switchMap((response: any) => of(
+              new Update2FASuccess(response), new SettingsUpdateSuccess(payload.settings),
+              new SnackPush({ message: `2 Factor authentication ${payload.data.enable_2fa ? 'enabled' : 'disabled'} successfully.` })
+            )),
+            catchError((errorResponse) => of(
+              new SnackErrorPush({
+                message: `Failed to ${payload.data.enable_2fa ? 'enable' : 'disable'} 2FA, ${errorResponse.error} Please try again.`
               })
             ))
           );

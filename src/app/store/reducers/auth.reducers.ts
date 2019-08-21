@@ -1,7 +1,7 @@
 // Custom Action
 import { AuthActionAll, AuthActionTypes } from '../actions';
 // Model
-import { AuthState, PaymentMethod, PaymentType } from '../datatypes';
+import { Auth2FA, AuthState, PaymentMethod, PaymentType } from '../datatypes';
 import { REFFERAL_CODE_KEY } from '../../shared/config';
 
 export const initialState: AuthState = {
@@ -18,6 +18,7 @@ export const initialState: AuthState = {
   resetPasswordErrorMessage: null,
   isRecoveryCodeSent: false,
   captcha: {},
+  auth2FA: {},
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -38,15 +39,27 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       };
     }
     case AuthActionTypes.LOGIN_SUCCESS: {
-      localStorage.setItem('token', action.payload.token);
-      localStorage.removeItem(REFFERAL_CODE_KEY);
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload,
-        errorMessage: null,
-        inProgress: false
-      };
+      if (action.payload.token) {
+        localStorage.setItem('token', action.payload.token);
+        localStorage.removeItem(REFFERAL_CODE_KEY);
+        return {
+          ...state,
+          isAuthenticated: true,
+          user: action.payload,
+          errorMessage: null,
+          inProgress: false,
+          auth2FA: { is_2fa_enabled: action.payload.is_2fa_enabled, show2FALogin: false }
+        };
+      } else if (action.payload.is_2fa_enabled) {
+        return {
+          ...state,
+          inProgress: false,
+          errorMessage: null,
+          auth2FA: { is_2fa_enabled: true, show2FALogin: true }
+        };
+      }
+
+      return { ...state };
     }
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
@@ -267,6 +280,16 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         },
       };
     }
+
+    case AuthActionTypes.GET_2FA_SECRET: {
+      return { ...state, auth2FA: { inProgress: true } };
+    }
+
+
+    case AuthActionTypes.GET_2FA_SECRET_SUCCESS: {
+      return { ...state, auth2FA: new Auth2FA({ ...action.payload, inProgress: false }) };
+    }
+
     case AuthActionTypes.LOGOUT: {
       return initialState;
     }
