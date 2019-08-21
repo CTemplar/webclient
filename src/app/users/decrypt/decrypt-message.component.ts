@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { GetMessage } from '../../store/actions';
 // Store
-import { AppState, SecureMessageState } from '../../store/datatypes';
+import { AppState, SecureContent, SecureMessageState } from '../../store/datatypes';
 import { Mail } from '../../store/models';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
@@ -30,6 +30,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   isMessageExpired: boolean;
   isReplying: boolean;
+  decryptedSubject: string;
 
   private secureMessageState: SecureMessageState;
 
@@ -69,9 +70,13 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
         this.message = state.message;
         if (this.secureMessageState) {
           if (this.secureMessageState.isKeyDecryptionInProgress && !state.isKeyDecryptionInProgress && !state.errorMessage) {
-            this.openPgpService.decryptSecureMessageContent(state.decryptedKey, this.message.content);
+            this.openPgpService.decryptSecureMessageContent(state.decryptedKey, new SecureContent(this.message));
           } else if (this.secureMessageState.isContentDecryptionInProgress && !state.isContentDecryptionInProgress) {
-            this.decryptedContent = state.decryptedContent;
+            this.decryptedContent = state.decryptedContent.content;
+            if (this.message.is_subject_encrypted) {
+              this.decryptedSubject = state.decryptedContent.subject;
+              this.message.subject = state.decryptedContent.subject;
+            }
           }
         }
         this.secureMessageState = state;

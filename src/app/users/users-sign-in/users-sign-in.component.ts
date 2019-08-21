@@ -10,10 +10,11 @@ import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-m
 import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 // Service
-import { OpenPgpService, SharedService, UsersService } from '../../store/services';
+import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { quotes } from '../../store/quotes';
 
 @Component({
   selector: 'app-users-sign-in',
@@ -39,6 +40,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   isRecoverFormSubmitted: boolean;
   isGeneratingKeys: boolean;
   isRecoveryCodeSent: boolean;
+  authState: AuthState;
+  otp: string;
+  loadingImage = LOADING_IMAGE;
 
   @ViewChild('usernameVC', { static: false }) usernameVC: ElementRef;
   @ViewChild('passwordVC', { static: false }) passwordVC: ElementRef;
@@ -46,7 +50,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
-  private authState: AuthState;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -129,10 +132,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
 
-  login(user) {
+  login(user, otp?: string, isOtp?: boolean) {
     this.showFormErrors = true;
+    if (isOtp && !otp) {
+      return;
+    }
     if (this.loginForm.valid) {
-      this.store.dispatch(new LogIn(user));
+      this.store.dispatch(new LogIn({ ...user, otp }));
     }
   }
 

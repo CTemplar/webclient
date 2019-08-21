@@ -134,9 +134,6 @@ a {
       bottom: auto;
       .mail-compose-editable-box {
         background: #ffffff;
-        height: 60vh;
-        max-height: 100%;
-        overflow-y: auto;
       }
 
 	  .mail-composer-body {
@@ -309,6 +306,8 @@ a {
 	overflow-y: auto;
 	line-height: 1.67rem;
 	background: white;
+	max-height: 50vh;
+	overflow-y: auto;
 	
 	@include media(">sm") {
 		font-size: 0.75rem;
@@ -322,9 +321,6 @@ a {
 
 .mail-compose-editable-box {
 	background: $brand-white;
-	height: 250px;
-	max-height: 250px;
-	overflow-y: auto;
 
 	&[contenteditable]:focus {
 		outline: 0;
@@ -452,7 +448,7 @@ a {
 }
 
 .attach-uploader-holder {
-	margin: 1rem;
+	padding: 1rem;
 }
 
 .attach-uploader {

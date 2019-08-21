@@ -205,16 +205,9 @@ export function reducer(
     }
 
     case MailActionTypes.CLEAR_MAIL_DETAIL: {
-      delete state.decryptedContents[action.payload.id];
-      if (action.payload.children && action.payload.children.length > 0) {
-        action.payload.children.forEach(child => {
-          delete state.decryptedContents[child.id];
-        });
-      }
       return {
         ...state,
         mailDetail: null,
-        decryptedContents: { ...state.decryptedContents },
         noUnreadCountChange: true,
       };
     }
@@ -248,18 +241,32 @@ export function reducer(
     }
 
     case MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT: {
-      if (!state.decryptedContents[action.payload.id]) {
+      if (action.payload.isDecryptingAllSubjects) {
+        if (!action.payload.isPGPInProgress) {
+          state.mails = state.mails.map(mail => {
+            if (mail.id === action.payload.id) {
+              mail.subject = action.payload.decryptedContent.subject;
+              mail.is_subject_encrypted = false;
+            }
+            return mail;
+          });
+        }
+        return { ...state };
+      } else if (!state.decryptedContents[action.payload.id]) {
         state.decryptedContents[action.payload.id] = {
           id: action.payload.id,
-          content: action.payload.decryptedContent,
+          content: action.payload.decryptedContent.content,
+          subject: action.payload.decryptedContent.subject,
+          incomingHeaders: action.payload.decryptedContent.incomingHeaders,
           inProgress: action.payload.isPGPInProgress,
         };
       } else {
         state.decryptedContents[action.payload.id] = {
           ...state.decryptedContents[action.payload.id],
-          content: action.payload.decryptedContent,
+          content: action.payload.decryptedContent.content,
+          subject: action.payload.decryptedContent.subject,
           inProgress: action.payload.isPGPInProgress,
-          incomingHeaders: action.payload.incomingHeaders,
+          incomingHeaders: action.payload.decryptedContent.incomingHeaders,
         };
       }
       return { ...state, decryptedContents: { ...state.decryptedContents }, noUnreadCountChange: true };

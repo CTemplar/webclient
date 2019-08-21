@@ -1,17 +1,20 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { DeleteMail, GetMailDetailSuccess, GetMails, GetUnreadMailsCount, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailAction, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { OpenPgpService, SharedService } from '../../store/services';
+import { LOADING_IMAGE, OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { WebSocketState } from '../../store';
 import { SummarySeparator } from '../../shared/config';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
+
+declare var Scrambler;
 
 @Component({
   selector: 'app-mail-detail',
@@ -44,6 +47,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   currentMailNumber: any;
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   OFFSET: number = 0;
+  loadingImage = LOADING_IMAGE;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -53,7 +57,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private page: number;
   private mails: Mail[] = [];
   private EMAILS_PER_PAGE: number;
-
+  shortcuts: ShortcutInput[] = [];
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
               private pgpService: OpenPgpService,
@@ -81,6 +85,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mails = [...mailState.mails];
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
+          if (this.mail.is_subject_encrypted) {
+            this.scrambleText('subject-scramble');
+          }
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
           const decryptedContent = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
@@ -89,10 +96,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (!this.mail.has_children && this.mail.content && !this.isDecrypting[this.mail.id] &&
               (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content == null && this.mail.content))) {
               this.isDecrypting[this.mail.id] = true;
-              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
+              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != null) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
+              if (this.mail.is_subject_encrypted) {
+                this.mail.subject = decryptedContent.subject;
+              }
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
               this.handleEmailLinks();
 
@@ -129,7 +139,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               if (!this.isDecrypting[this.mail.id] && this.mail.content &&
                 (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
                 this.isDecrypting[this.mail.id] = true;
-                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, this.mail.content, this.mail.incoming_headers);
+                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
               }
               this.mail.children.forEach((child, index) => {
                 if (index !== this.mail.children.length - 1) {
@@ -179,6 +189,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
+  }
+
+  scrambleText(elementId: string) {
+    if (!this.decryptedContents[this.mail.id]) {
+      setTimeout(() => {
+        Scrambler({
+          target: `#${elementId}`,
+          random: [1000, 120000],
+          speed: 70,
+          text: 'A7gHc6H66A9SAQfoBJDq4C7'
+        });
+      }, 100);
+    }
   }
 
   changeMail(index: number) {
@@ -234,10 +257,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (!this.isDecrypting[child.id] &&
         (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))) {
         this.isDecrypting[child.id] = true;
-        this.pgpService.decrypt(child.mailbox, child.id, child.content, child.incoming_headers);
+        this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
       }
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         this.decryptedContents[child.id] = childDecryptedContent.content;
+        if (child.is_subject_encrypted) {
+          child.subject = childDecryptedContent.subject;
+        }
         this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
         this.handleEmailLinks();
       }
