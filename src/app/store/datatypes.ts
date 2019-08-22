@@ -144,6 +144,7 @@ export interface Settings {
   recurrence_billing?: boolean;
   is_subject_encrypted?: boolean;
   enable_2fa?: boolean;
+  is_contacts_encrypted?: boolean;
 }
 
 export interface Invoice {

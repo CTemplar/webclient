@@ -90,6 +90,33 @@
           </div>
         </div>
       </div>
+      <div class="form-content-row">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <label class="form-label mb-sm-0">Contacts encryption</label>
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="contactsEncryption1"
+                         name="[3]" type="radio" (click)="updateSettings('is_contacts_encrypted', true)"
+                         [checked]="settings.is_contacts_encrypted"/>
+                  <label for="contactsEncryption1" translate="common.enabled">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="contactsEncryption2"
+                         name="[3]" type="radio" (click)="updateSettings('is_contacts_encrypted', false)"
+                         [checked]="!settings.is_contacts_encrypted"/>
+                  <label for="contactsEncryption2" translate="common.disabled">Disabled</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
