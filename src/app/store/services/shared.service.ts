@@ -104,37 +104,37 @@ export function getMailComponentShortcuts(mailComponent: MailComponent) {
       if (!isComposeEditorOpen()) {
         mailComponent.navigateToPage('/mail/inbox/page/1');
       }
-    }, [], true),
+    }, []),
     getShortcutKeyObj('g d', 'Mail', 'Go to Draft', () => {
       if (!isComposeEditorOpen()) {
         mailComponent.navigateToPage('/mail/draft/page/1');
       }
-    }, [], true),
+    }, []),
     getShortcutKeyObj('g s', 'Mail', 'Go to Sent', () => {
       if (!isComposeEditorOpen()) {
         mailComponent.navigateToPage('/mail/sent/page/1');
       }
-    }, [], true),
+    }, []),
     getShortcutKeyObj('g .', 'Mail', 'Go to Starred', () => {
       if (!isComposeEditorOpen()) {
         mailComponent.navigateToPage('/mail/starred/page/1');
       }
-    }, [], true),
+    }, []),
     getShortcutKeyObj('g a', 'Mail', 'Go to Archive', () => {
       if (!isComposeEditorOpen()) {
         mailComponent.navigateToPage('/mail/archive/page/1');
       }
-    }, [], true),
+    }, []),
     getShortcutKeyObj('g x', 'Mail', 'Go to Spam', () => {
       if (!isComposeEditorOpen()) {
         mailComponent.navigateToPage('/mail/spam/page/1');
       }
-    }, [], true),
+    }, []),
     getShortcutKeyObj('g t', 'Mail', 'Go to trash', () => {
       if (!isComposeEditorOpen()) {
         mailComponent.navigateToPage('/mail/trash/page/1');
       }
-    }, [], false)
+    }, [])
   ];
 }
 
@@ -143,7 +143,7 @@ export function isComposeEditorOpen(): boolean {
 }
 
 function getShortcutKeyObj(key: string, label, description: string, command, allowIn = [AllowIn.Select, AllowIn.Input],
-                           preventDefault?: boolean) {
+                           preventDefault: boolean = false) {
   return {
     command,
     label,
