@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { AppState, Contact, UserState } from '../../store/datatypes';
+import { AppState, Contact, ContactsState, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
@@ -29,6 +29,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   contactsProviderType = ContactsProviderType;
   public userState: UserState;
+  public contactsState: ContactsState;
   public isNewContact: boolean;
   public selectedContact: Contact;
   public inProgress: boolean;
@@ -79,9 +80,14 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user)
       .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
       this.userState = state;
-      this.inProgress = this.userState.inProgress;
-      this.MAX_EMAIL_PAGE_LIMIT = this.userState.totalContacts;
-      if (this.contactsCount === this.userState.contact.length + this.selectedContacts.length) {
+    });
+
+    this.store.select(state => state.contacts)
+      .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
+      this.contactsState = contactsState;
+      this.inProgress = contactsState.inProgress;
+      this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
+      if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
         this.selectedContacts = [];
         this.contactsCount = null;
       }
@@ -136,7 +142,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   }
 
   openConfirmDeleteModal(modalRef) {
-    this.selectedContacts = this.userState.contact.filter(item => item.markForDelete);
+    this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
     if (this.selectedContacts.length === 0) {
       return;
     }
@@ -153,12 +159,12 @@ export class MailContactComponent implements OnInit, OnDestroy {
   deleteContacts() {
     this.confirmModalRef.close();
     this.inProgress = true;
-    this.contactsCount = this.userState.contact.length;
+    this.contactsCount = this.contactsState.contacts.length;
     this.store.dispatch(new ContactDelete(this.selectedContacts.map(item => item.id).join(',')));
   }
 
   showComposeMailDialog() {
-    this.selectedContacts = this.userState.contact.filter(item => item.markForDelete);
+    this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
     if (this.selectedContacts.length > 10) {
       this.store.dispatch(new SnackErrorPush({
         message: 'Cannot open compose for more than 10 contacts'
@@ -170,7 +176,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   }
 
   toggleSelectAll() {
-    this.userState.contact.forEach(item => item.markForDelete = this.selectAll);
+    this.contactsState.contacts.forEach(item => item.markForDelete = this.selectAll);
   }
 
   openImportContactsModal() {

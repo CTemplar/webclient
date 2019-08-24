@@ -19,16 +19,6 @@ export enum UsersActionTypes {
   BLACKLIST_ADD_ERROR = '[Users] BlackList_Add_ERROR',
   BLACKLIST_DELETE = '[Users] BlackList_Delete',
   BLACKLIST_DELETE_SUCCESS = '[Users] BlackList_Delete_Success',
-  CONTACT_GET = '[Users] ContactGet GET',
-  CONTACT_GET_SUCCESS = '[Users] Contact_GET_Success',
-  CONTACT_ADD = '[Users] Contact_Add',
-  CONTACT_ADD_SUCCESS = '[Users] Contact_Add_Success',
-  CONTACT_ADD_ERROR = '[Users] Contact_Add_Error',
-  CONTACT_DELETE = '[Users] Contact_Delete',
-  CONTACT_DELETE_SUCCESS = '[Users] Contact_Delete_Success',
-  CONTACT_IMPORT = '[Users] Contact Import',
-  CONTACT_IMPORT_SUCCESS = '[Users] Contact Import Success',
-  CONTACT_IMPORT_FAILURE = '[Users] Contact Import Failure',
   ACCOUNT_DETAILS_GET = '[Users] ACCOUNT_DETAILS_GET',
   ACCOUNT_DETAILS_GET_SUCCESS = '[Users] ACCOUNT_DETAILS_GET_SUCCESS',
   SNACK_PUSH = '[Snacks] Push',
@@ -82,8 +72,6 @@ export enum UsersActionTypes {
   SAVE_AUTORESPONDER = '[USER] SAVE AUTORESPONDER',
   SAVE_AUTORESPONDER_SUCCESS = '[USER] SAVE AUTORESPONDER SUCCESS',
   SAVE_AUTORESPONDER_FAILURE = '[USER] SAVE AUTORESPONDER FAILURE',
-  GET_EMAIL_CONTACTS = '[USER] GET EMAIL CONTACTS',
-  GET_EMAIL_CONTACTS_SUCCESS = '[USER] GET EMAIL CONTACTS SUCCESS',
   GET_INVOICES = '[USER] GET INVOICES',
   GET_INVOICES_SUCCESS = '[USER] GET INVOICES SUCCESS',
 }
@@ -195,76 +183,6 @@ export class BlackListDelete implements Action {
 
 export class BlackListDeleteSuccess implements Action {
   readonly type = UsersActionTypes.BLACKLIST_DELETE_SUCCESS;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactsGet implements Action {
-  readonly type = UsersActionTypes.CONTACT_GET;
-
-  constructor(public payload: any = {}) {
-  }
-}
-
-export class ContactGetSuccess implements Action {
-  readonly type = UsersActionTypes.CONTACT_GET_SUCCESS;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactAdd implements Action {
-  readonly type = UsersActionTypes.CONTACT_ADD;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactAddSuccess implements Action {
-  readonly type = UsersActionTypes.CONTACT_ADD_SUCCESS;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactAddError implements Action {
-  readonly type = UsersActionTypes.CONTACT_ADD_ERROR;
-
-  constructor(public payload?: any) {
-  }
-}
-
-export class ContactDelete implements Action {
-  readonly type = UsersActionTypes.CONTACT_DELETE;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactDeleteSuccess implements Action {
-  readonly type = UsersActionTypes.CONTACT_DELETE_SUCCESS;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactImport implements Action {
-  readonly type = UsersActionTypes.CONTACT_IMPORT;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactImportSuccess implements Action {
-  readonly type = UsersActionTypes.CONTACT_IMPORT_SUCCESS;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ContactImportFailure implements Action {
-  readonly type = UsersActionTypes.CONTACT_IMPORT_FAILURE;
 
   constructor(public payload: any) {
   }
@@ -635,20 +553,6 @@ export class SaveAutoResponderFailure implements Action {
   }
 }
 
-export class GetEmailContacts implements Action {
-  readonly type = UsersActionTypes.GET_EMAIL_CONTACTS;
-
-  constructor(public payload?: any) {
-  }
-}
-
-export class GetEmailContactsSuccess implements Action {
-  readonly type = UsersActionTypes.GET_EMAIL_CONTACTS_SUCCESS;
-
-  constructor(public payload: any) {
-  }
-}
-
 
 export class GetInvoices implements Action {
   readonly type = UsersActionTypes.GET_INVOICES;
@@ -681,16 +585,6 @@ export type UsersActionAll =
   | BlackListAddError
   | BlackListDelete
   | BlackListDeleteSuccess
-  | ContactsGet
-  | ContactGetSuccess
-  | ContactAdd
-  | ContactAddSuccess
-  | ContactAddError
-  | ContactDelete
-  | ContactDeleteSuccess
-  | ContactImport
-  | ContactImportSuccess
-  | ContactImportFailure
   | AccountDetailsGet
   | AccountDetailsGetSuccess
   | SnackPush
@@ -744,7 +638,5 @@ export type UsersActionAll =
   | SaveAutoResponder
   | SaveAutoResponderSuccess
   | SaveAutoResponderFailure
-  | GetEmailContacts
-  | GetEmailContactsSuccess
   | GetInvoices
   | GetInvoicesSuccess;

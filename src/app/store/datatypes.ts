@@ -86,8 +86,6 @@ export interface UserState {
   id: number | null;
   whiteList: WhiteList[];
   blackList: BlackList[];
-  contact: Contact[];
-  totalContacts: number;
   settings: Settings;
   payment_transaction?: Payment;
   isPrime?: boolean;
@@ -109,10 +107,17 @@ export interface UserState {
   isForwardingVerificationCodeSent?: boolean;
   emailForwardingErrorMessage?: string;
   autoResponderErrorMessage?: string;
-  emailContacts?: EmailContact[];
   isLoaded?: boolean;
   invoices: Invoice[];
   isInvoiceLoaded?: boolean;
+}
+
+export interface ContactsState {
+  contacts: Contact[];
+  totalContacts: number;
+  inProgress?: boolean;
+  isError?: boolean;
+  emailContacts?: EmailContact[];
 }
 
 export interface EmailContact {
@@ -325,11 +330,16 @@ export interface BlackList {
 export interface Contact {
   id?: number;
   address: string;
-  email: string;
-  name: string;
-  note: string;
-  phone: string;
+  email?: string;
+  name?: string;
+  note?: string;
+  phone?: string;
   phone2?: string;
+  extra_emails?: string;
+  extra_phones?: string;
+  is_encrypted?: boolean;
+  provider?: string;
+
   markForDelete?: boolean; // To handle delete multiple contacts using checkboxes
 }
 
@@ -340,6 +350,7 @@ export interface AppState {
   loading: LoadingState;
   keyboard: KeyboardState;
   user: UserState;
+  contacts: ContactsState;
   timezone: TimezonesState;
   bitcoin: BitcoinState;
   composeMail: ComposeMailState;

@@ -1,0 +1,128 @@
+import { HttpResponse } from '@angular/common/http';
+// Angular
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+// Ngrx
+// Rxjs
+import { Observable } from 'rxjs';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+import { of } from 'rxjs/internal/observable/of';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+// Service
+import { UsersService } from '../../store/services';
+// Custom Actions
+import {
+  Accounts,
+  ContactAddError,
+  ContactAddSuccess,
+  ContactDeleteSuccess,
+  ContactGetSuccess,
+  ContactImport,
+  ContactImportFailure,
+  ContactImportSuccess,
+  ContactsActionTypes,
+  ContactsGet,
+  GetEmailContacts,
+  GetEmailContactsSuccess,
+  SnackErrorPush,
+  SnackPush
+} from '../actions';
+
+@Injectable()
+export class ContactsEffects {
+  constructor(
+    private actions: Actions,
+    private userService: UsersService) {}
+
+  @Effect()
+  Contact: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_GET),
+    map((action: ContactsGet) => action.payload),
+    switchMap(payload => {
+      return this.userService.getContact(payload)
+        .pipe(
+          map(contact => {
+            return new ContactGetSuccess(contact);
+          }),
+          catchError((error) => EMPTY)
+        );
+    }));
+
+
+  @Effect()
+  ContactAdd: Observable<any> = this.actions
+    .pipe(
+      ofType(ContactsActionTypes.CONTACT_ADD),
+      switchMap((action: Accounts) =>
+        this.userService.addContact(action.payload)
+          .pipe(
+            switchMap(contact => {
+              contact.isUpdating = action.payload.id;
+              return of(
+                new ContactAddSuccess(contact),
+                new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` })
+              );
+            }),
+            catchError(err => of(
+              new ContactAddError(),
+              new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` })
+            )),
+          ))
+    );
+
+  @Effect()
+  ContactDelete: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_DELETE),
+    map((action: Accounts) => action.payload),
+    switchMap(payload => {
+      return this.userService.deleteContact(payload)
+        .pipe(
+          switchMap(contact => {
+            return of(
+              new ContactDeleteSuccess(payload),
+              new SnackPush({ message: 'Contacts deleted successfully.' })
+            );
+          }),
+          catchError((error) => EMPTY)
+        );
+    }));
+
+  @Effect()
+  ContactImport: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_IMPORT),
+    map((action: ContactImport) => action.payload),
+    switchMap(payload => {
+      return this.userService.importContacts(payload)
+        .pipe(
+          mergeMap(event => {
+            if (event instanceof HttpResponse) {
+              return of(
+                new ContactImportSuccess(event.body),
+                new ContactsGet({ limit: 50, offset: 0 }),
+                new SnackPush({ message: 'Contacts imported successfully' })
+              );
+            } else {
+              return EMPTY;
+            }
+          }),
+          catchError(error => {
+            return of(
+              new SnackErrorPush({ message: 'Failed to import contacts' }),
+              new ContactImportFailure(error.error)
+            );
+          })
+        );
+    }));
+
+  @Effect()
+  getEmailsContactsEffect: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.GET_EMAIL_CONTACTS),
+    map((action: GetEmailContacts) => action.payload),
+    switchMap(payload => {
+      return this.userService.getEmailContacts()
+        .pipe(
+          switchMap(res => of(new GetEmailContactsSuccess(res.results))),
+          catchError(err => EMPTY)
+        );
+    }));
+}

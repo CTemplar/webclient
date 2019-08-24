@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { ContactAdd } from '../../../store';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState, Contact, UserState } from '../../../store/datatypes';
+import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { OpenPgpService } from '../../../store/services';
 
 @Component({
   selector: 'app-save-contact',
@@ -23,9 +24,11 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
     phone: ''
   };
   public inProgress: boolean;
+  private isContactsEncrypted: boolean;
 
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>,
+              private openpgp: OpenPgpService) {
   }
 
   ngOnInit() {
@@ -43,10 +46,15 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
 
   private handleUserState(): void {
     this.store.select(state => state.user)
-      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
-      if (this.inProgress && !state.inProgress) {
+      .pipe(untilDestroyed(this)).subscribe((userState: UserState) => {
+      this.isContactsEncrypted = userState.settings.is_contacts_encrypted;
+    });
+
+    this.store.select(state => state.contacts)
+      .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
+      if (this.inProgress && !contactsState.inProgress) {
         this.inProgress = false;
-        if (!state.isError) {
+        if (!contactsState.isError) {
           this.userSaved.emit(true);
         }
       }
