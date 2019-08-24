@@ -88,6 +88,15 @@ onmessage = function (event) {
     } else if (event.data.revertPassphrase) {
         changePassphrase(event.data.passphrase).then((data) => {
         });
+    } else if (event.data.encryptJson) {
+        encryptContent(event.data.content, event.data.publicKeys).then(content => {
+            postMessage({...event.data, encryptedContent: content});
+
+        })
+    } else if (event.data.decryptJson) {
+        decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId]).then((content) => {
+            postMessage({...event.data, content});
+        })
     }
 }
 

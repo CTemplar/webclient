@@ -65,7 +65,11 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
     if (this.newContactForm.invalid) {
       return false;
     }
-    this.store.dispatch(new ContactAdd(this.newContactModel));
+    if (this.isContactsEncrypted) {
+      this.openpgp.encryptContact(this.newContactModel);
+    } else {
+      this.store.dispatch(new ContactAdd(this.newContactModel));
+    }
     this.inProgress = true;
   }
 }
