@@ -36,6 +36,8 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { getComposeMailShortcuts } from '../../../store/services';
 
 const Quill: any = QuillNamespace;
 
@@ -184,6 +186,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   public userState: UserState;
   private decryptedContent: string;
   private encryptionData: any = {};
+  shortcuts: ShortcutInput[] = [];
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -300,6 +303,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 1000);
       }
     }
+    this.shortcuts = getComposeMailShortcuts(this);
   }
 
   ngOnDestroy(): void {

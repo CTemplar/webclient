@@ -12,6 +12,7 @@ import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic
 import { MailComponent } from '../../mail/mail.component';
 import { MailDetailComponent } from '../../mail/mail-detail/mail-detail.component';
 import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.component';
+import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compose-mail.component';
 
 @Injectable()
 export class SharedService {
@@ -207,8 +208,15 @@ export function getMailSidebarShortcuts(component: MailSidebarComponent) {
     getShortcutKeyObj('c', 'Composer', 'Open new composer', () => {
       if (!isComposeEditorOpen()) {
         component.openComposeMailDialog();
-        console.log('open compose mail:');
       }
+    }),
+
+  ];
+}
+export function getComposeMailShortcuts(component: ComposeMailComponent) {
+  return [
+    getShortcutKeyObj('ctrl + enter', 'Composer', 'Open new composer', () => {
+        component.sendEmail();
     }),
 
   ];
