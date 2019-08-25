@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -23,13 +23,15 @@ import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
+import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
+import { getMailSidebarShortcuts } from '../../store/services';
 
 @Component({
   selector: 'app-mail-sidebar',
   templateUrl: './mail-sidebar.component.html',
   styleUrls: ['./mail-sidebar.component.scss']
 })
-export class MailSidebarComponent implements OnInit, OnDestroy {
+export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   LIMIT = 3;
   EMAIL_LIMIT = 20;
@@ -45,6 +47,10 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
+  shortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -153,6 +159,10 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.shortcuts = getMailSidebarShortcuts(this);
   }
 
   private updateUnreadCount(webSocketState: WebSocketState) {

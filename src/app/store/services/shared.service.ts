@@ -11,6 +11,7 @@ import { AllowIn } from 'ng-keyboard-shortcuts';
 import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
 import { MailComponent } from '../../mail/mail.component';
 import { MailDetailComponent } from '../../mail/mail-detail/mail-detail.component';
+import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.component';
 
 @Injectable()
 export class SharedService {
@@ -198,6 +199,18 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
       }
 
     })
+  ];
+}
+
+export function getMailSidebarShortcuts(component: MailSidebarComponent) {
+  return [
+    getShortcutKeyObj('c', 'Composer', 'Open new composer', () => {
+      if (!isComposeEditorOpen()) {
+        component.openComposeMailDialog();
+        console.log('open compose mail:');
+      }
+    }),
+
   ];
 }
 
