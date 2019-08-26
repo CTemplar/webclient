@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   ChangePassphraseSuccess,
-  ContactAdd,
+  ContactAdd, ContactDecryptSuccess,
   GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
@@ -145,11 +145,17 @@ export class OpenPgpService {
         }));
       } else if (event.data.encryptJson) {
         if (event.data.isAddContact) {
-          this.store.dispatch(new ContactAdd({ id: event.data.id, address: event.data.encryptedContent, is_encrypted: true }));
+          // TODO: remove contact data from here when backend support nullable name and address
+          this.store.dispatch(new ContactAdd({
+            ...event.data.contact,
+            id: event.data.id,
+            address: event.data.encryptedContent,
+            is_encrypted: true
+          }));
         }
       } else if (event.data.decryptJson) {
         if (event.data.isContact) {
-
+          this.store.dispatch(new ContactDecryptSuccess({ ...JSON.parse(event.data.content), id: event.data.id }));
         }
       }
     });
@@ -166,16 +172,18 @@ export class OpenPgpService {
   }
 
   encryptContact(contact: Contact, isAddContact = true) {
+    contact.is_encrypted = true;
     const content = JSON.stringify(contact);
-    this.pgpWorker.postMessage({ content, isAddContact, publicKeys: this.pubkeysArray, encryptJson: true, id: contact.id });
+    // TODO: remove contact data from here when backend support nullable name and address
+    this.pgpWorker.postMessage({ contact, content, isAddContact, publicKeys: this.pubkeysArray, encryptJson: true, id: contact.id });
   }
 
-  decryptContact(data: string) {
+  decryptContact(content: string, id: number) {
     if (this.decryptedPrivKeys) {
-      this.pgpWorker.postMessage({ content: data, mailboxId: this.primaryMailbox.id, decryptJson: true, isContact: true });
+      this.pgpWorker.postMessage({ id, content, mailboxId: this.primaryMailbox.id, decryptJson: true, isContact: true });
     } else {
       setTimeout(() => {
-        this.decryptContact(data);
+        this.decryptContact(content, id);
       }, 1000);
     }
   }

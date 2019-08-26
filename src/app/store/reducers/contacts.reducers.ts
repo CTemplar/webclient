@@ -1,7 +1,7 @@
 // Custom Action
 
 // Model
-import { ContactsState } from '../datatypes';
+import { Contact, ContactsState } from '../datatypes';
 import { ContactsActionAll } from '../actions/contacts.action';
 import { ContactsActionTypes } from '../actions';
 import { sortByString } from '../services';
@@ -68,6 +68,18 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
 
     case ContactsActionTypes.GET_EMAIL_CONTACTS_SUCCESS: {
       return { ...state, emailContacts: action.payload };
+    }
+
+    case ContactsActionTypes.CONTACT_DECRYPT_SUCCESS: {
+      const contacts = state.contacts.map((contact) => {
+        if (contact.id === action.payload.id) {
+          contact = action.payload;
+          contact.isDecryptedFrontend = true;
+          contact.is_decryptionInProgress = false;
+        }
+        return contact;
+      });
+      return { ...state, contacts };
     }
 
     default: {

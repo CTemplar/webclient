@@ -9,7 +9,7 @@ import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 // Service
-import { UsersService } from '../../store/services';
+import { OpenPgpService, UsersService } from '../../store/services';
 // Custom Actions
 import {
   Accounts,
@@ -27,11 +27,13 @@ import {
   SnackErrorPush,
   SnackPush
 } from '../actions';
+import { Contact } from '../datatypes';
 
 @Injectable()
 export class ContactsEffects {
   constructor(
     private actions: Actions,
+    private openPgpService: OpenPgpService,
     private userService: UsersService) {}
 
   @Effect()
@@ -41,8 +43,20 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.getContact(payload)
         .pipe(
-          map(contact => {
-            return new ContactGetSuccess(contact);
+          map(response => {
+            let count = 0;
+            const contacts: Contact[] = response.results;
+            contacts.forEach((contact) => {
+              if (contact.is_encrypted) {
+                contact.is_decryptionInProgress = true;
+                count = count + 1;
+                setTimeout(() => {
+                  // TODO: contact.address currently hold the encrypted data, it should be changed when backend has it.
+                  this.openPgpService.decryptContact(contact.address, contact.id);
+                }, (count * 300));
+              }
+            });
+            return new ContactGetSuccess(response);
           }),
           catchError((error) => EMPTY)
         );
