@@ -224,7 +224,7 @@ export const quotes = [
     author: '- Julian Assange -'
   },
   {
-    content: 'All administrations, governments, officials lie and nothing they say is to be believed. That/s a pretty good rule..',
+    content: 'All administrations, governments, officials lie and nothing they say is to be believed. That\'s a pretty good rule..',
     author: '- Daniel Ellsberg, Whistleblower -'
   },
   {
