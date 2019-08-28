@@ -51,8 +51,7 @@ export class ContactsEffects {
                 contact.is_decryptionInProgress = true;
                 count = count + 1;
                 setTimeout(() => {
-                  // TODO: contact.address currently hold the encrypted data, it should be changed when backend has it.
-                  this.openPgpService.decryptContact(contact.address, contact.id);
+                  this.openPgpService.decryptContact(contact.encrypted_json, contact.id);
                 }, (count * 300));
               }
             });
@@ -72,6 +71,11 @@ export class ContactsEffects {
           .pipe(
             switchMap(contact => {
               contact.isUpdating = action.payload.id;
+              if (contact.is_encrypted) {
+                setTimeout(() => {
+                  this.openPgpService.decryptContact(contact.encrypted_json, contact.id);
+                }, 300);
+              }
               return of(
                 new ContactAddSuccess(contact),
                 new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` })

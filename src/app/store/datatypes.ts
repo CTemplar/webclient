@@ -156,7 +156,7 @@ export interface Invoice {
   id: number;
   invoice_id: number;
   invoice_date: Date;
-  plan_type: PlanType,
+  plan_type: PlanType;
   payment_type: PaymentType;
   payment_method: PaymentMethod;
   total_amount: number;
@@ -338,7 +338,9 @@ export interface Contact {
   extra_emails?: string;
   extra_phones?: string;
   is_encrypted?: boolean;
+  encrypted_json?: string;
   provider?: string;
+  email_hash?: string;
 
   is_decryptionInProgress?: boolean;
   isDecryptedFrontend?: boolean; // If the contact is decrypted on frontend or not
@@ -372,7 +374,7 @@ export interface Timezone {
 }
 
 export interface BitcoinState {
-  bitcoinRequired: number,
+  bitcoinRequired: number;
   newWalletAddress: string;
   loaded: boolean;
   checkTransactionResponse: CheckTransactionResponse;

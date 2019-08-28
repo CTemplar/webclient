@@ -145,11 +145,10 @@ export class OpenPgpService {
         }));
       } else if (event.data.encryptJson) {
         if (event.data.isAddContact) {
-          // TODO: remove contact data from here when backend support nullable name and address
           this.store.dispatch(new ContactAdd({
-            ...event.data.contact,
+            email: event.data.email,
             id: event.data.id,
-            address: event.data.encryptedContent,
+            encrypted_json: event.data.encryptedContent,
             is_encrypted: true
           }));
         }
@@ -174,8 +173,14 @@ export class OpenPgpService {
   encryptContact(contact: Contact, isAddContact = true) {
     contact.is_encrypted = true;
     const content = JSON.stringify(contact);
-    // TODO: remove contact data from here when backend support nullable name and address
-    this.pgpWorker.postMessage({ contact, content, isAddContact, publicKeys: this.pubkeysArray, encryptJson: true, id: contact.id });
+    this.pgpWorker.postMessage({
+      content,
+      isAddContact,
+      email: contact.email,
+      publicKeys: this.pubkeysArray,
+      encryptJson: true,
+      id: contact.id
+    });
   }
 
   decryptContact(content: string, id: number) {
