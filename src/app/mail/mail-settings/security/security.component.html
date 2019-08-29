@@ -29,10 +29,10 @@
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
-              <a *ngIf="!settings.enable_2fa"  (click)="get2FASecret(); auth2FAForm={auth2FAStep:1, enable_2fa: true}"
+              <a *ngIf="!settings.enable_2fa" (click)="get2FASecret(); auth2FAForm={auth2FAStep:1, enable_2fa: true}"
                  href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"><strong>
                 <u>Set up 2 Factor authentication</u></strong></a>
-              <a *ngIf="settings.enable_2fa"  (click)="disable2FA()"
+              <a *ngIf="settings.enable_2fa" (click)="disable2FA()"
                  href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"><strong>
                 <u>Disable 2 Factor authentication</u></strong></a>
             </div>
@@ -108,7 +108,7 @@
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="contactsEncryption2"
-                         name="[3]" type="radio" (click)="updateSettings('is_contacts_encrypted', false)"
+                         name="[3]" type="radio" (click)="openDecryptContactsModal()"
                          [checked]="!settings.is_contacts_encrypted"/>
                   <label for="contactsEncryption2" translate="common.disabled">Disabled</label>
                 </div>
@@ -121,10 +121,35 @@
   </div>
 </section>
 
+<!--Decrypt Contacts Modal-->
+<ng-template #decryptContactsModal let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
+    <h3 class="modal-title w-100 text-dark" id="decryptContactsModal">
+      <strong>Confirm disable contacts encryption</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="px-4">
+      <label>
+        <label>Are you sure you want to disable contacts encryption?</label><br>
+        <b>Note:</b> Disabling contacts encryption can take several minutes depending
+        upon the number of contacts you have.
+        After you confirm, all your contacts will be decrypted inside your browser and saved on server.
+      </label>
+      <div align="right" class="mt-3">
+        <button class="btn btn-secondary btn-sm cursor-pointer">Confirm</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #auth2FAModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
     <h3 class="modal-title w-100 text-dark" id="auth2FAModal">
-      <strong>{{auth2FAForm.enable_2fa ? 'Set up':'Disable'}} 2 Factor authentication</strong></h3>
+      <strong>{{auth2FAForm.enable_2fa ? 'Set up' : 'Disable'}} 2 Factor authentication</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
             (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -194,7 +219,7 @@
           <button class="btn btn-secondary btn-sm cursor-pointer"
                   (click)="update2FA(auth2FAForm.enable_2fa); d()"
                   [disabled]="!auth2FAForm.passcode || !auth2FAForm.password">
-            {{auth2FAForm.enable_2fa ? 'Enable':'Disable'}}
+            {{auth2FAForm.enable_2fa ? 'Enable' : 'Disable'}}
           </button>
         </div>
       </div>

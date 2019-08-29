@@ -16,9 +16,12 @@ import { apiUrl, getApiUrl } from '../../../shared/config';
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss']
 })
 export class SecurityComponent implements OnInit, OnDestroy {
-  private changePasswordModalRef: NgbModalRef;
   @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
   @ViewChild('auth2FAModal', { static: false }) auth2FAModal;
+  @ViewChild('decryptContactsModal', { static: false }) decryptContactsModal;
+
+  private changePasswordModalRef: NgbModalRef;
+  private decryptContactsModalRef: NgbModalRef;
 
   settings: Settings;
   changePasswordForm: FormGroup;
@@ -130,6 +133,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
       centered: true,
       windowClass: 'modal-md change-password-modal'
     });
+  }
+
+  // == Open encrypt contacts confirmation NgbModal
+  openDecryptContactsModal() {
+    this.decryptContactsModalRef = this.modalService.open(this.decryptContactsModal, {
+      centered: true,
+      windowClass: 'modal-md change-password-modal'
+    });
+    // this.updateSettings('is_contacts_encrypted', true)
   }
 
   changePassword() {
