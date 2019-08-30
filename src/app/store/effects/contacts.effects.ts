@@ -41,7 +41,7 @@ export class ContactsEffects {
     ofType(ContactsActionTypes.CONTACT_GET),
     map((action: ContactsGet) => action.payload),
     switchMap(payload => {
-      return this.userService.getContact(payload)
+      return this.userService.getContact(payload.limit, payload.offset, payload.q)
         .pipe(
           map(response => {
             let count = 0;
@@ -51,7 +51,7 @@ export class ContactsEffects {
                 contact.is_decryptionInProgress = true;
                 count = count + 1;
                 setTimeout(() => {
-                  this.openPgpService.decryptContact(contact.encrypted_json, contact.id);
+                  this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
                 }, (count * 300));
               }
             });
@@ -73,7 +73,7 @@ export class ContactsEffects {
               contact.isUpdating = action.payload.id;
               if (contact.is_encrypted) {
                 setTimeout(() => {
-                  this.openPgpService.decryptContact(contact.encrypted_json, contact.id);
+                  this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
                 }, 300);
               }
               return of(

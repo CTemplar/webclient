@@ -265,8 +265,8 @@ export class UsersService {
     return this.http.delete<any>(url, body);
   }
 
-  getContact(data = { limit: 0, offset: 0, q: '' }) {
-    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${data.limit}&offset=${data.offset}&q=${data.q}`);
+  getContact(limit = 0, offset = 0, query = '') {
+    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${limit}&offset=${offset}&q=${query}`);
   }
 
   getEmailContacts() {

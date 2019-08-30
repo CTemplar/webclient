@@ -118,6 +118,8 @@ export interface ContactsState {
   inProgress?: boolean;
   isError?: boolean;
   emailContacts?: EmailContact[];
+  noOfDecryptedContacts: number;
+  loaded: boolean;
 }
 
 export interface EmailContact {
@@ -338,7 +340,7 @@ export interface Contact {
   extra_emails?: string;
   extra_phones?: string;
   is_encrypted?: boolean;
-  encrypted_json?: string;
+  encrypted_data?: string;
   provider?: string;
   email_hash?: string;
 

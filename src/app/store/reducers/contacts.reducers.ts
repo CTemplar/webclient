@@ -8,14 +8,20 @@ import { sortByString } from '../services';
 
 export const initialState: ContactsState = {
   contacts: [],
-  totalContacts: 0
+  totalContacts: 0,
+  noOfDecryptedContacts: 0,
+  loaded: false,
 };
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
   switch (action.type) {
 
+    case ContactsActionTypes.CONTACT_GET: {
+      return { ...state, loaded: false, inProgress: true };
+    }
+
     case ContactsActionTypes.CONTACT_GET_SUCCESS: {
-      return { ...state, contacts: action.payload.results, totalContacts: action.payload.total_count };
+      return { ...state, contacts: action.payload.results, totalContacts: action.payload.total_count, loaded: true, inProgress: false };
     }
     case ContactsActionTypes.CONTACT_DELETE:
     case ContactsActionTypes.CONTACT_ADD: {
