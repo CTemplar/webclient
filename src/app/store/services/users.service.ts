@@ -280,8 +280,9 @@ export class UsersService {
 
   addContact(payload: Contact) {
     const url = `${apiUrl}users/contacts/`;
+
+    payload.email_hash = this.hashData({ username: payload.email }, 'username');
     if (payload.is_encrypted) {
-      payload.email_hash = this.hashData({ username: payload.email }, 'username');
       payload.email = null;
     }
     if (payload.id) {
