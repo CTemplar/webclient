@@ -148,7 +148,7 @@ export class OpenPgpService {
           this.store.dispatch(new ContactAdd({
             email: event.data.email,
             id: event.data.id,
-            encrypted_json: event.data.encryptedContent,
+            encrypted_data: event.data.encryptedContent,
             is_encrypted: true
           }));
         }
