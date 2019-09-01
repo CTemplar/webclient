@@ -3,7 +3,6 @@
 import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
 import { UserState } from '../datatypes';
-import { sortByString } from '../services';
 
 export const initialState: UserState = {
   username: null,
@@ -11,8 +10,6 @@ export const initialState: UserState = {
   isPrime: false,
   whiteList: [],
   blackList: [],
-  contact: [],
-  totalContacts: 0,
   settings: {},
   membership: {},
   mailboxes: [],
@@ -101,62 +98,6 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.BLACKLIST_READ_SUCCESS: {
       return { ...state, blackList: action.payload };
-    }
-
-    case UsersActionTypes.CONTACT_GET_SUCCESS: {
-      return { ...state, contact: action.payload.results, totalContacts: action.payload.total_count };
-    }
-    case UsersActionTypes.CONTACT_DELETE:
-    case UsersActionTypes.CONTACT_ADD: {
-      return { ...state, inProgress: true, isError: false };
-    }
-    case UsersActionTypes.CONTACT_ADD_SUCCESS: {
-      if (action.payload.isUpdating) {
-        const contact = state.contact.filter(item => item.id === action.payload.id)[0];
-        contact.note = action.payload.note;
-        contact.address = action.payload.address;
-        contact.phone = action.payload.phone;
-        contact.phone2 = action.payload.phone2;
-        contact.email = action.payload.email;
-        contact.name = action.payload.name;
-        return { ...state, inProgress: false, isError: false };
-      } else {
-        state.totalContacts = state.totalContacts + 1;
-      }
-      return { ...state, contact: sortByString(state.contact.concat([action.payload]), 'name'), inProgress: false, isError: false };
-    }
-    case UsersActionTypes.CONTACT_ADD_ERROR: {
-      return { ...state, inProgress: false, isError: true };
-    }
-
-    case UsersActionTypes.CONTACT_DELETE_SUCCESS: {
-      const ids = action.payload.split(',');
-      const contacts = state.contact.filter(item => ids.indexOf(`${item.id}`) > -1);
-      contacts.forEach(contact => {
-        state.contact.splice(state.contact.indexOf(contact), 1);
-      });
-      state.totalContacts = state.totalContacts - ids.length;
-      return { ...state, inProgress: false, isError: false };
-    }
-
-    case UsersActionTypes.CONTACT_IMPORT: {
-      return { ...state, inProgress: true };
-    }
-
-    case UsersActionTypes.CONTACT_IMPORT_SUCCESS: {
-      return { ...state, inProgress: false };
-    }
-
-    case UsersActionTypes.CONTACT_IMPORT_FAILURE: {
-      return { ...state, inProgress: false };
-    }
-
-    case UsersActionTypes.GET_EMAIL_CONTACTS: {
-      return { ...state, emailContacts: [] };
-    }
-
-    case UsersActionTypes.GET_EMAIL_CONTACTS_SUCCESS: {
-      return { ...state, emailContacts: action.payload };
     }
 
     case UsersActionTypes.ACCOUNT_DETAILS_GET: {
