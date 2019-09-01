@@ -163,3 +163,38 @@ async function encryptContent(data, publicKeys) {
         return ciphertext.data.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2");
     })
 }
+
+async function encryptBinaryContent(data, publicKeys) {
+    if (!data) {
+        return Promise.resolve(data);
+    }
+    const options = {
+        data: data,
+        publicKeys: publicKeys.map(item => openpgp.key.readArmored(item).keys[0]),
+        armor: false // don't ASCII armor (for Uint8Array output)
+    };
+
+    return openpgp.encrypt(options).then(ciphertext => {
+        return ciphertext.message.packets.write(); // get raw encrypted packets as Uint8Array
+    });
+}
+
+function decryptBinaryContent(data, privKeyObj) {
+    if (!data) {
+        return Promise.resolve(data);
+    }
+    try {
+        const options = {
+            message: openpgp.message.read(data),
+            privateKeys: [privKeyObj],
+            format: 'binary' // output as Uint8Array
+        };
+
+        return openpgp.decrypt(options).then(plaintext => {
+            return plaintext.data; //Uint8Array
+        })
+    } catch (e) {
+        console.error(e);
+        return Promise.resolve(data);
+    }
+}
