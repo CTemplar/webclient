@@ -15,6 +15,10 @@ onmessage = function (event) {
                 postMessage({encryptedContent: {content, subject}, encrypted: true, callerId: event.data.callerId});
             });
         })
+    } else if (event.data.encryptAttachment) {
+        encryptBinaryContent(event.data.fileData, event.data.publicKeys).then(content => {
+            postMessage({encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment});
+        })
     } else if (event.data.encryptSecureMessageReply) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
             postMessage({encryptedContent: data, encryptSecureMessageReply: true});

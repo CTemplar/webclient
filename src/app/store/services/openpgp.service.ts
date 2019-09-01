@@ -11,11 +11,11 @@ import {
   UpdatePGPSshKeys,
   UpdateSecureMessageContent,
   UpdateSecureMessageEncryptedContent,
-  UpdateSecureMessageKey
+  UpdateSecureMessageKey, UploadAttachment
 } from '../actions';
 import { AppState, AuthState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
 import { UsersService } from './users.service';
-import { Mailbox } from '../models';
+import { Attachment, Mailbox } from '../models';
 import { PRIMARY_DOMAIN } from '../../shared/config';
 
 @Injectable()
@@ -129,6 +129,15 @@ export class OpenPgpService {
           encryptedContent: event.data.encryptedContent,
           draftId: event.data.callerId
         }));
+      } else if (event.data.encryptedAttachment) {
+        const oldDocument = event.data.attachment.document;
+        const newDocument = new File(
+          [event.data.encryptedContent.buffer],
+          oldDocument.name,
+          {type: oldDocument.type, lastModified: oldDocument.lastModified}
+          );
+        const attachment: Attachment = {...event.data.attachment, document: newDocument};
+        this.store.dispatch(new UploadAttachment({ ...attachment }));
       } else if (event.data.encryptSecureMessageReply) {
         this.store.dispatch(new UpdateSecureMessageEncryptedContent({
           inProgress: false,
@@ -146,6 +155,11 @@ export class OpenPgpService {
       mailData.subject = null;
     }
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
+  }
+
+  encryptAttachment(mailboxId, draftId, uint8Array: Uint8Array, attachment: Attachment, publicKeys: any[] = []) {
+    publicKeys.push(this.pubkeys[mailboxId]);
+    this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
   }
 
   encryptSecureMessageContent(content, publicKeys: any[]) {

@@ -221,7 +221,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             if (draft.draft.id && this.attachmentsQueue.length > 0) {
               this.attachmentsQueue.forEach(attachment => {
                 attachment.message = draft.draft.id;
-                this.store.dispatch(new UploadAttachment({ ...attachment }));
+                this.encryptAttachment(attachment);
               });
               this.attachmentsQueue = [];
             }
@@ -495,15 +495,26 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachmentId: performance.now(),
         message: this.draftMail.id,
         is_inline: isInline,
+        is_encrypted: true,
         inProgress: false
       };
       this.attachments.push(attachment);
       if (!this.draftMail.id) {
         this.attachmentsQueue.push(attachment);
       } else {
-        this.store.dispatch(new UploadAttachment({ ...attachment }));
+        this.encryptAttachment(attachment);
       }
     }
+  }
+
+  encryptAttachment(attachment: Attachment) {
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      const buffer = event.target.result;
+      const uint8Array = new Uint8Array(buffer);
+      this.openPgpService.encryptAttachment(this.selectedMailbox.id, this.draftId, uint8Array, attachment);
+    };
+    reader.readAsArrayBuffer(attachment.document);
   }
 
   handleAttachment(draft: Draft) {
