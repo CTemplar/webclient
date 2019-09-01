@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
+import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
+import { getComposeMailDialogShortcuts } from '../../../store/services';
 
 @Component({
   selector: 'app-compose-mail-dialog',
   templateUrl: './compose-mail-dialog.component.html',
   styleUrls: ['./compose-mail-dialog.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailDialogComponent {
+export class ComposeMailDialogComponent implements AfterViewInit {
   @Input() public isComposeVisible: boolean;
   @Input() public receivers: string[];
   @Input() public draft: Mail;
@@ -19,12 +21,27 @@ export class ComposeMailDialogComponent {
 
   @ViewChild(ComposeMailComponent, { static: false }) composeMail: ComposeMailComponent;
   @ViewChild('confirmDiscardModal', { static: false }) confirmDiscardModal;
+   shortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+
 
   isMinimized: boolean;
   isFullScreen: boolean;
   private confirmModalRef: NgbModalRef;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal,
+              private cdr: ChangeDetectorRef) {
+  }
+
+  ngAfterViewInit(): void {
+    this.shortcuts = getComposeMailDialogShortcuts(this);
+    // this.keyboard.select('escape').subscribe(e => {
+    //   this.onClose();
+    //   console.log(e + 'pressed ');
+    // });
+
+    this.cdr.detectChanges();
   }
 
   onClose() {

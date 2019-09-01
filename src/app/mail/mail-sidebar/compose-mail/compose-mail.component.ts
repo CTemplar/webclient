@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -195,7 +206,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
               private filesizePipe: FilesizePipe,
-              private filenamePipe: FilenamePipe) {
+              private filenamePipe: FilenamePipe,
+              private cdr: ChangeDetectorRef) {
 
   }
 
@@ -308,6 +320,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     this.shortcuts = getComposeMailShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {

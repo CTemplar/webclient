@@ -13,6 +13,7 @@ import { MailComponent } from '../../mail/mail.component';
 import { MailDetailComponent } from '../../mail/mail-detail/mail-detail.component';
 import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.component';
 import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compose-mail.component';
+import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 
 @Injectable()
 export class SharedService {
@@ -215,10 +216,16 @@ export function getMailSidebarShortcuts(component: MailSidebarComponent) {
 }
 export function getComposeMailShortcuts(component: ComposeMailComponent) {
   return [
-    getShortcutKeyObj('ctrl + enter', 'Composer', 'Open new composer', () => {
+    getShortcutKeyObj('ctrl + enter', 'Composer', 'Send e-mail', () => {
         component.sendEmail();
-    }),
-
+    })
+  ];
+}
+export function getComposeMailDialogShortcuts(component: ComposeMailDialogComponent) {
+  return [
+    getShortcutKeyObj('cmd + shift + x', 'Composer', 'Close composer', () => {
+      component.onClose();
+    })
   ];
 }
 

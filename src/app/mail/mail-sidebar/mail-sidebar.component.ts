@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -63,7 +63,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
               private pushNotificationService: PushNotificationService,
               private titleService: Title,
               private activatedRoute: ActivatedRoute,
-              @Inject(DOCUMENT) private document: Document) {
+              @Inject(DOCUMENT) private document: Document,
+              private cdr: ChangeDetectorRef) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
     const nextPage = localStorage.getItem('nextPage');
@@ -163,6 +164,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.shortcuts = getMailSidebarShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   private updateUnreadCount(webSocketState: WebSocketState) {
