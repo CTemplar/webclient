@@ -131,6 +131,7 @@
       </ng-template>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            *ngIf="!isDecryptingContacts"
             (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -150,8 +151,9 @@
                [attr.aria-valuemax]="contactsState.totalContacts"></div>
         </div>
       </div>
-      <div *ngIf="true">
-        <div class="mb-4 green">All contacts decrypted successfully</div>
+      <div *ngIf="contactsState.noOfDecryptedContacts===contactsState.totalContacts">
+        <div class="mb-4 green">
+          All contacts decrypted successfully</div>
         <div align="right" class="mt-3">
           <button (click)="d()" class="btn btn-secondary btn-sm cursor-pointer">Close</button>
         </div>

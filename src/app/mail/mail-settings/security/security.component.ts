@@ -139,7 +139,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.changePasswordForm.reset();
     this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
       centered: true,
+      backdrop: 'static',
       windowClass: 'modal-md change-password-modal'
+    });
+    this.decryptContactsModalRef.result.then((reason) => {
+      this.isDecryptingContacts = false;
+      this.decryptContactsModalRef = null;
     });
   }
 
@@ -148,11 +153,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.isContactsEncrypted = false;
     this.decryptContactsModalRef = this.modalService.open(this.decryptContactsModal, {
       centered: true,
+      backdrop: 'static',
       windowClass: 'modal-md change-password-modal'
     });
-    if (!this.contactsState.loaded) {
-      this.store.dispatch(new ContactsGet({ limit: 20, offset: 0 }));
-    }
+    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, isDecrypting: true }));
 
     setTimeout(() => {
       this.isContactsEncrypted = true;
@@ -160,13 +164,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
   confirmDecryptContacts() {
-    this.updateSettings('is_contacts_encrypted', true);
+    this.updateSettings('is_contacts_encrypted', false);
     if (this.contactsState.totalContacts === 0 && this.contactsState.loaded) {
       this.decryptContactsModalRef.close();
       return;
     }
     this.isDecryptingContacts = true;
-    this.decryptContactsModalRef.close();
+    this.openPgpService.decryptAllContacts();
   }
 
   changePassword() {

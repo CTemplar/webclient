@@ -202,7 +202,8 @@ export class UsersService {
       'auth/update-user/',
       'emails/domain-users/',
       'auth/otp-secret/',
-      'auth/enable-2fa/'
+      'auth/enable-2fa/',
+      'users/contact-bulk-update/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -273,6 +274,9 @@ export class UsersService {
     return this.http.get<any>(`${apiUrl}users/contacts-v1/`);
   }
 
+  updateBatchContacts(data: any) {
+    return this.http.post<any>(`${apiUrl}users/contact-bulk-update/`, data);
+  }
 
   getInvoices() {
     return this.http.get<any>(`${apiUrl}users/invoices/`);
