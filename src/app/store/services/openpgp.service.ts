@@ -158,11 +158,12 @@ export class OpenPgpService {
         if (event.data.isContact) {
           this.store.dispatch(new ContactDecryptSuccess({ ...JSON.parse(event.data.content), id: event.data.id }));
         } else if (event.data.isContactsArray) {
+          const totalDecryptedContacts = this.contactsState.noOfDecryptedContacts + event.data.contacts.length;
           this.store.dispatch(new UpdateBatchContacts({ contact_list: event.data.contacts }));
-          if (this.contactsState.totalContacts > this.contactsState.noOfDecryptedContacts + event.data.contacts.length) {
+          if (this.contactsState.totalContacts > totalDecryptedContacts) {
             this.store.dispatch(new ContactsGet({
               limit: 20,
-              offset: this.contactsState.noOfDecryptedContacts + this.contactsState.contactsToDecrypt.length,
+              offset: totalDecryptedContacts,
               isDecrypting: true,
             }));
           }

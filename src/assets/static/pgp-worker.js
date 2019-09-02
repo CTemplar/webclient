@@ -101,7 +101,11 @@ onmessage = function (event) {
             }
             Promise.all(promises).then(data => {
                 for (let i = 0; i < event.data.contacts.length; i++) {
-                    event.data.contacts[i] = {...event.data.contacts[i], ...JSON.parse(data[i]), encrypted_data: null};
+                    event.data.contacts[i] = {
+                        ...event.data.contacts[i], ...JSON.parse(data[i]),
+                        encrypted_data: null,
+                        is_encrypted: false
+                    };
                 }
                 postMessage({...event.data});
             });
