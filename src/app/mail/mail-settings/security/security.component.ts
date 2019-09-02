@@ -2,7 +2,14 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AppState, Auth2FA, AuthState, ContactsState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { ChangePassphraseSuccess, ChangePassword, Update2FA, Get2FASecret, ContactsGet } from '../../../store/actions';
+import {
+  ChangePassphraseSuccess,
+  ChangePassword,
+  Update2FA,
+  Get2FASecret,
+  ContactsGet,
+  ClearContactsToDecrypt
+} from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService, SharedService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -156,7 +163,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal'
     });
-    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, isDecrypting: true }));
 
     setTimeout(() => {
       this.isContactsEncrypted = true;
@@ -170,7 +176,30 @@ export class SecurityComponent implements OnInit, OnDestroy {
       return;
     }
     this.isDecryptingContacts = true;
-    this.openPgpService.decryptAllContacts();
+    this.store.dispatch(new ClearContactsToDecrypt({ clearCount: true }));
+    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, isDecrypting: true }));
+    this.decryptAllContacts();
+  }
+
+  decryptAllContacts() {
+    if (this.contactsState.totalContacts === 0 && this.contactsState.loaded) {
+      this.decryptContactsModalRef.close();
+      return;
+    }
+    if (this.contactsState.contactsToDecrypt.length > 0) {
+      this.openPgpService.decryptAllContacts();
+      return;
+    }
+    setTimeout(() => {
+      this.decryptAllContacts();
+    }, 500);
+  }
+
+  closeDecryptContactsModal() {
+    this.isDecryptingContacts = false;
+    if (this.decryptContactsModalRef) {
+      this.decryptContactsModalRef.close();
+    }
   }
 
   changePassword() {

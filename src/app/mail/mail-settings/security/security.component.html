@@ -131,7 +131,7 @@
       </ng-template>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-            (click)="d()">
+            (click)="closeDecryptContactsModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -154,7 +154,7 @@
         <div class="mb-4 green">
           All contacts decrypted successfully</div>
         <div align="right" class="mt-3">
-          <button (click)="d()" class="btn btn-secondary btn-sm cursor-pointer">Close</button>
+          <button (click)="closeDecryptContactsModal()" class="btn btn-secondary btn-sm cursor-pointer">Close</button>
         </div>
       </div>
     </div>

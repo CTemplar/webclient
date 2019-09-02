@@ -29,7 +29,11 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       };
     }
     case ContactsActionTypes.CLEAR_CONTACTS_TO_DECRYPT: {
-      return { ...state, contactsToDecrypt: [] };
+      return {
+        ...state,
+        contactsToDecrypt: [],
+        noOfDecryptedContacts: (action.payload && action.payload.clearCount) ? 0 : state.noOfDecryptedContacts
+      };
     }
 
     case ContactsActionTypes.CONTACT_BATCH_UPDATE: {
