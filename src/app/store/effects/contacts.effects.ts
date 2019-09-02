@@ -79,7 +79,7 @@ export class ContactsEffects {
               if (contact.is_encrypted) {
                 setTimeout(() => {
                   this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
-                }, 100);
+                }, 150);
               }
               return of(
                 new ContactAddSuccess(contact),
