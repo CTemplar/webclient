@@ -238,12 +238,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
+        if (user.settings.is_contacts_encrypted) {
+          this.contacts = [];
+        }
       });
 
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts = contactsState.emailContacts;
-        if (!this.contacts) {
+        if (!this.contacts && !this.userState.settings.is_contacts_encrypted) {
           this.store.dispatch(new GetEmailContacts());
         }
       });
