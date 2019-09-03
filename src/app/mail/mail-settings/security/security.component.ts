@@ -26,6 +26,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
   @ViewChild('auth2FAModal', { static: false }) auth2FAModal;
   @ViewChild('decryptContactsModal', { static: false }) decryptContactsModal;
+  @ViewChild('confirmEncryptContactsModal', { static: false }) confirmEncryptContactsModal;
 
   private changePasswordModalRef: NgbModalRef;
   private decryptContactsModalRef: NgbModalRef;
@@ -157,6 +158,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   // == Open encrypt contacts confirmation NgbModal
   openDecryptContactsModal() {
+    if (!this.settings.is_contacts_encrypted) {
+      return;
+    }
     this.isContactsEncrypted = false;
     this.decryptContactsModalRef = this.modalService.open(this.decryptContactsModal, {
       centered: true,
@@ -167,6 +171,21 @@ export class SecurityComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.isContactsEncrypted = true;
     }, 100);
+  }
+
+  openConfirmEncryptContactsModal() {
+    if (this.settings.is_contacts_encrypted) {
+      return;
+    }
+    this.isContactsEncrypted = true;
+    setTimeout(() => {
+      this.isContactsEncrypted = false;
+    }, 100);
+   this.modalService.open(this.confirmEncryptContactsModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal'
+    });
   }
 
   confirmDecryptContacts() {
