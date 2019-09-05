@@ -34,7 +34,7 @@
                 <li class="mailbox-sidebar-nav-item active">
                     <a class="mailbox-sidebar-nav-link no-icon"><span
                             class="mailbox-sidebar-nav-label" [translate]="'contacts.all_contacts'">All Contacts</span>
-                        <span class="badge badge-square">{{userState?.totalContacts}}</span></a>
+                        <span class="badge badge-square">{{contactsState?.totalContacts}}</span></a>
                 </li>
             </ul>
         </nav>
@@ -104,7 +104,7 @@
                 </li>
                 <li class="page-item">
                     <div class="pager">
-                        <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="userState?.contact?.length>0">
+                        <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="contactsState?.contacts?.length>0">
                             <div class="mail-result-text text-muted">
                                 <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
                             </div>
@@ -120,19 +120,6 @@
                     </div>
                 </li>
             </ul>
-        </div>
-
-        <!--TODO pagination to be done later.-->
-        <div class="col-sm-4 mailbox-actionbar-col hidden-xs-down" *ngIf="false">
-            <div class="mail-controls d-flex align-items-center justify-content-end">
-                <div class="mail-result-text text-muted">
-                    <small>1-50 of 2346</small>
-                </div>
-                <div class="mail-nav-control">
-                    <button role="button" class="mail-nav-control-prev"><i class="icon icon-chevron-left"></i></button>
-                    <button role="button" class="mail-nav-control-next"><i class="icon icon-chevron-right"></i></button>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -156,7 +143,7 @@
                     </div>
                     <div class="mail-contact-body is-bordered">
                         <div class="mail-listing">
-                            <div class="mail-list-row is-unread" *ngFor="let contact of userState.contact">
+                            <div class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts">
                                 <div class="mail-list-inner-row align-items-center">
                                     <div class="col-sm-4 col-lg-3 mail-contact-col-sm">
                                         <div class="mail-list-col-row">
@@ -173,14 +160,26 @@
                                             <div class="mail-list-col-item mail-from-name cursor-pointer"
                                                  ngbTooltip="{{contact.name}}"
                                                  (click)="editContact(contact, addUserContent)">
-                                                <span>{{contact.name}}</span>
+                                                <span *ngIf="contact.is_encrypted && !contact.name; else contactName" class="badge badge-warning mr-2 p-1">
+                                                    **Encrypted**
+                                                </span>
+                                                <ng-template #contactName>
+                                                    <span>{{contact.name}}</span>
+                                                </ng-template>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-8 col-lg-9 mail-contact-col-lg cursor-pointer"
                                          (click)="editContact(contact, addUserContent)">
                                         <div class="mail-desc">
-                                            <p><strong>{{contact.email}}</strong></p>
+                                            <p><strong>
+                                                <span *ngIf="contact.is_encrypted && !contact.email; else contactEmail" class="badge badge-warning mr-2 p-1">
+                                                    **Encrypted**
+                                                </span>
+                                                <ng-template #contactEmail>
+                                                    <span>{{contact.email}}</span>
+                                                </ng-template>
+                                            </strong></p>
                                         </div>
                                     </div>
                                 </div>
@@ -198,27 +197,6 @@
                     <app-save-contact *ngIf="isNewContact"
                                       [selectedContact]="selectedContact"
                                       (userSaved)="destroySplitContactLayout()"></app-save-contact>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="mailbox-footer-actionbar hidden-sm-up">
-    <div class="row justify-content-end">
-      <!--TODO pagination to be done later.-->
-        <div class="col-12 mailbox-actionbar-col" *ngIf="false">
-            <div class="mail-controls d-flex align-items-center justify-content-end">
-                <div class="mail-result-text text-muted">
-                    <small>1-50 of 2346</small>
-                </div>
-                <div class="mail-nav-control">
-                    <button role="button" class="mail-nav-control-prev">
-                        <i class="icon icon-chevron-left"></i>
-                    </button>
-                    <button role="button" class="mail-nav-control-next">
-                        <i class="icon icon-chevron-right"></i>
-                    </button>
                 </div>
             </div>
         </div>

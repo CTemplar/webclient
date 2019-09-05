@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  ChangePassphraseSuccess,
+  ChangePassphraseSuccess, ClearContactsToDecrypt,
+  ContactAdd, ContactDecryptSuccess, ContactsGet,
   GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
-  SetDecryptInProgress,
+  SetDecryptInProgress, UpdateBatchContacts,
   UpdatePGPDecryptedContent,
   UpdatePGPEncryptedContent,
   UpdatePGPSshKeys,
@@ -13,16 +14,19 @@ import {
   UpdateSecureMessageEncryptedContent,
   UpdateSecureMessageKey
 } from '../actions';
-import { AppState, AuthState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
+import { AppState, AuthState, Contact, ContactsState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
 import { UsersService } from './users.service';
 import { Mailbox } from '../models';
 import { PRIMARY_DOMAIN } from '../../shared/config';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Injectable()
 export class OpenPgpService {
   options: any;
   encrypted: any;
   private pubkeys: any;
+  private pubkeysArray: Array<string> = [];
+  private primaryMailbox: Mailbox;
   private privkeys: any;
   private decryptedPrivKeys: any;
   private decryptInProgress: boolean;
@@ -31,6 +35,7 @@ export class OpenPgpService {
   private userKeys: any;
   private mailboxes: Mailbox[];
   private userSettings: Settings;
+  private contactsState: ContactsState;
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
@@ -50,7 +55,13 @@ export class OpenPgpService {
               this.privkeys[mailbox.id] = mailbox.private_key;
               hasNewPrivateKey = true;
             }
-            this.pubkeys[mailbox.id] = mailbox.public_key;
+            if (!this.pubkeys[mailbox.id]) {
+              this.pubkeys[mailbox.id] = mailbox.public_key;
+              this.pubkeysArray.push(mailbox.public_key);
+            }
+            if (mailbox.is_default) {
+              this.primaryMailbox = mailbox;
+            }
           });
           if (hasNewPrivateKey) {
             this.decryptPrivateKeys();
@@ -134,6 +145,29 @@ export class OpenPgpService {
           inProgress: false,
           encryptedContent: event.data.encryptedContent
         }));
+      } else if (event.data.encryptJson) {
+        if (event.data.isAddContact) {
+          this.store.dispatch(new ContactAdd({
+            email: event.data.email,
+            id: event.data.id,
+            encrypted_data: event.data.encryptedContent,
+            is_encrypted: true
+          }));
+        }
+      } else if (event.data.decryptJson) {
+        if (event.data.isContact) {
+          this.store.dispatch(new ContactDecryptSuccess({ ...JSON.parse(event.data.content), id: event.data.id }));
+        } else if (event.data.isContactsArray) {
+          const totalDecryptedContacts = this.contactsState.noOfDecryptedContacts + event.data.contacts.length;
+          this.store.dispatch(new UpdateBatchContacts({ contact_list: event.data.contacts }));
+          if (this.contactsState.totalContacts > totalDecryptedContacts) {
+            this.store.dispatch(new ContactsGet({
+              limit: 20,
+              offset: totalDecryptedContacts,
+              isDecrypting: true,
+            }));
+          }
+        }
       }
     });
   }
@@ -146,6 +180,29 @@ export class OpenPgpService {
       mailData.subject = null;
     }
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
+  }
+
+  encryptContact(contact: Contact, isAddContact = true) {
+    contact.is_encrypted = true;
+    const content = JSON.stringify(contact);
+    this.pgpWorker.postMessage({
+      content,
+      isAddContact,
+      email: contact.email,
+      publicKeys: this.pubkeysArray,
+      encryptJson: true,
+      id: contact.id
+    });
+  }
+
+  decryptContact(content: string, id: number) {
+    if (this.decryptedPrivKeys) {
+      this.pgpWorker.postMessage({ id, content, mailboxId: this.primaryMailbox.id, decryptJson: true, isContact: true });
+    } else {
+      setTimeout(() => {
+        this.decryptContact(content, id);
+      }, 1000);
+    }
   }
 
   encryptSecureMessageContent(content, publicKeys: any[]) {
@@ -247,6 +304,20 @@ export class OpenPgpService {
   revertChangedPassphrase(passphrase: string, deleteData: boolean) {
     if (!deleteData) {
       this.pgpWorker.postMessage({ passphrase, revertPassphrase: true });
+    }
+  }
+
+  decryptAllContacts() {
+    if (!this.contactsState) {
+      this.store.select(state => state.contacts)
+        .subscribe((contactsState: ContactsState) => {
+          this.contactsState = contactsState;
+          if (contactsState.contactsToDecrypt.length > 0) {
+            this.store.dispatch(new ClearContactsToDecrypt());
+            const contacts = this.contactsState.contacts.filter(contact => contact.is_encrypted);
+            this.pgpWorker.postMessage({ contacts, mailboxId: this.primaryMailbox.id, decryptJson: true, isContactsArray: true });
+          }
+        });
     }
   }
 

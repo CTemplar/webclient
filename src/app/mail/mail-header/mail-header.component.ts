@@ -1,6 +1,6 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ExpireSession, Logout } from '../../store/actions';
@@ -14,6 +14,7 @@ import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SearchState } from '../../store/reducers/search.reducers';
+import { LOADING_IMAGE } from '../../store/services';
 
 @Component({
   selector: 'app-mail-header',
@@ -21,6 +22,7 @@ import { SearchState } from '../../store/reducers/search.reducers';
   styleUrls: ['./mail-header.component.scss']
 })
 export class MailHeaderComponent implements OnInit, OnDestroy {
+  @ViewChild('logoutModal', { static: false }) logoutModal;
 
   // Public property of boolean type set false by default
   menuIsOpened: boolean = false;
@@ -28,12 +30,14 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   languages = LANGUAGES;
   searchInput = new FormControl();
   searchPlaceholder: string = 'common.search';
+  loadingImage = LOADING_IMAGE;
   private isContactsPage: boolean;
 
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
               private router: Router,
               private translate: TranslateService,
+              private modalService: NgbModal,
               @Inject(DOCUMENT) private document: Document,
               private composeMailService: ComposeMailService) {
     config.autoClose = true;
@@ -89,10 +93,18 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.store.dispatch(new ExpireSession());
+    const modalRef = this.modalService.open(this.logoutModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal'
+    });
     setTimeout(() => {
-      this.store.dispatch(new Logout());
-    }, 500);
+      this.store.dispatch(new ExpireSession());
+      setTimeout(() => {
+        this.store.dispatch(new Logout());
+        modalRef.close();
+      }, 500);
+    }, 2500);
   }
 
   openComposeMailDialog(receivers) {

@@ -1,4 +1,3 @@
-import { HttpResponse } from '@angular/common/http';
 // Angular
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -8,7 +7,7 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 // Service
 import { MailService, SharedService, UsersService } from '../../store/services';
 // Custom Actions
@@ -17,21 +16,13 @@ import {
   AccountDetailsGetSuccess,
   Accounts,
   AccountsReadSuccess,
-  BlackListGet,
   BlackListAdd,
   BlackListAddError,
   BlackListAddSuccess,
   BlackListDelete,
   BlackListDeleteSuccess,
+  BlackListGet,
   BlackListsReadSuccess,
-  ContactAddError,
-  ContactAddSuccess,
-  ContactDeleteSuccess,
-  ContactsGet,
-  ContactGetSuccess,
-  ContactImport,
-  ContactImportFailure,
-  ContactImportSuccess,
   CreateDomain,
   CreateDomainFailure,
   CreateDomainSuccess,
@@ -52,6 +43,9 @@ import {
   GetDomainsSuccess,
   GetFilters,
   GetFiltersSuccess,
+  GetInvoices,
+  GetInvoicesSuccess,
+  GetUnreadMailsCount,
   PaymentFailure,
   ReadDomain,
   ReadDomainFailure,
@@ -68,6 +62,9 @@ import {
   SnackErrorPushSuccess,
   SnackPush,
   SnackPushSuccess,
+  UpdateDomain,
+  UpdateDomainFailure,
+  UpdateDomainSuccess,
   UpdateFilter,
   UpdateFilterFailure,
   UpdateFilterSuccess,
@@ -80,20 +77,13 @@ import {
   VerifyEmailForwardingCode,
   VerifyEmailForwardingCodeFailure,
   VerifyEmailForwardingCodeSuccess,
-  WhiteListGet,
   WhiteListAdd,
   WhiteListAddError,
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
-  WhiteListsReadSuccess,
-  GetEmailContacts,
-  GetEmailContactsSuccess,
-  GetInvoices,
-  GetInvoicesSuccess,
-  GetUnreadMailsCount,
-  UpdateDomain,
-  UpdateDomainSuccess, UpdateDomainFailure
+  WhiteListGet,
+  WhiteListsReadSuccess
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -243,86 +233,6 @@ export class UsersEffects {
             return of(new SettingsUpdateSuccess(payload));
           }),
           catchError(err => of(new SnackErrorPush(err))),
-        );
-    }));
-
-  @Effect()
-  Contact: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.CONTACT_GET),
-    map((action: ContactsGet) => action.payload),
-    switchMap(payload => {
-      return this.userService.getContact(payload)
-        .pipe(
-          map(contact => {
-            return new ContactGetSuccess(contact);
-          }),
-          catchError((error) => EMPTY)
-        );
-    }));
-
-
-  @Effect()
-  ContactAdd: Observable<any> = this.actions
-    .pipe(
-      ofType(UsersActionTypes.CONTACT_ADD),
-      switchMap((action: Accounts) =>
-        this.userService.addContact(action.payload)
-          .pipe(
-            switchMap(contact => {
-              contact.isUpdating = action.payload.id;
-              return of(
-                new ContactAddSuccess(contact),
-                new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` })
-              );
-            }),
-            catchError(err => of(
-              new ContactAddError(),
-              new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` })
-            )),
-          ))
-    );
-
-  @Effect()
-  ContactDelete: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.CONTACT_DELETE),
-    map((action: Accounts) => action.payload),
-    switchMap(payload => {
-      return this.userService.deleteContact(payload)
-        .pipe(
-          switchMap(contact => {
-            return of(
-              new ContactDeleteSuccess(payload),
-              new SnackPush({ message: 'Contacts deleted successfully.' })
-            );
-          }),
-          catchError((error) => EMPTY)
-        );
-    }));
-
-  @Effect()
-  ContactImport: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.CONTACT_IMPORT),
-    map((action: ContactImport) => action.payload),
-    switchMap(payload => {
-      return this.userService.importContacts(payload)
-        .pipe(
-          mergeMap(event => {
-            if (event instanceof HttpResponse) {
-              return of(
-                new ContactImportSuccess(event.body),
-                new ContactsGet({ limit: 50, offset: 0 }),
-                new SnackPush({ message: 'Contacts imported successfully' })
-              );
-            } else {
-              return EMPTY;
-            }
-          }),
-          catchError(error => {
-            return of(
-              new SnackErrorPush({ message: 'Failed to import contacts' }),
-              new ContactImportFailure(error.error)
-            );
-          })
         );
     }));
 
@@ -619,19 +529,6 @@ export class UsersEffects {
             new SnackErrorPush({ message: 'Failed to save autoresponder. Please try again.' }),
             new SaveAutoResponderFailure(errorResponse.error)
           ))
-        );
-    }));
-
-
-  @Effect()
-  getEmailsContactsEffect: Observable<any> = this.actions.pipe(
-    ofType(UsersActionTypes.GET_EMAIL_CONTACTS),
-    map((action: GetEmailContacts) => action.payload),
-    switchMap(payload => {
-      return this.userService.getEmailContacts()
-        .pipe(
-          switchMap(res => of(new GetEmailContactsSuccess(res.results))),
-          catchError(err => EMPTY)
         );
     }));
 
