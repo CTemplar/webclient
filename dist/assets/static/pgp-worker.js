@@ -88,6 +88,32 @@ onmessage = function (event) {
     } else if (event.data.revertPassphrase) {
         changePassphrase(event.data.passphrase).then((data) => {
         });
+    } else if (event.data.encryptJson) {
+        encryptContent(event.data.content, event.data.publicKeys).then(content => {
+            postMessage({...event.data, encryptedContent: content});
+
+        })
+    } else if (event.data.decryptJson) {
+        if (event.data.isContactsArray) {
+            const promises = [];
+            for (let i = 0; i < event.data.contacts.length; i++) {
+                promises.push(decryptContent(event.data.contacts[i].encrypted_data, decryptedPrivKeys[event.data.mailboxId]));
+            }
+            Promise.all(promises).then(data => {
+                for (let i = 0; i < event.data.contacts.length; i++) {
+                    event.data.contacts[i] = {
+                        ...event.data.contacts[i], ...JSON.parse(data[i]),
+                        encrypted_data: null,
+                        is_encrypted: false
+                    };
+                }
+                postMessage({...event.data});
+            });
+        } else if (event.data.isContact) {
+            decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId]).then((content) => {
+                postMessage({...event.data, content});
+            })
+        }
     }
 }
 

@@ -2,9 +2,9 @@
 
 Official Angular cross-platform client for the CTemplar secure email service available at [https://ctemplar.com](https://ctemplar.com).
 
-RELEASE VERSION : **v1.2.4**    
+RELEASE VERSION : **v1.2.5**    
 
-SHA-256 checksum of `index.html` : **44d94373ef82ffb994f25e4256c30c20dcfd5d774b240fbb509df1ec828a6101**  
+SHA-256 checksum of `index.html` : **012af408eeed3d8dab7b646e50f837dd90a133ae60f9a92c506fd6639082df71**  
 
 Find full release code and distribution at : [https://github.com/CTemplar/webclient/releases/latest](https://github.com/CTemplar/webclient/releases/latest)
 
@@ -106,3 +106,4 @@ and match their checksum. It should be same as mentioned at the top of this docu
     ![img](/docs/images/calculate-hash-online-github2.png)  
   
 
+    
