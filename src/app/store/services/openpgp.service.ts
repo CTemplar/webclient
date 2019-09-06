@@ -148,7 +148,6 @@ export class OpenPgpService {
       } else if (event.data.encryptJson) {
         if (event.data.isAddContact) {
           this.store.dispatch(new ContactAdd({
-            email: event.data.email,
             id: event.data.id,
             encrypted_data: event.data.encryptedContent,
             is_encrypted: true

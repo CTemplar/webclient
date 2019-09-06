@@ -150,10 +150,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal'
     });
-    this.decryptContactsModalRef.result.then((reason) => {
-      this.isDecryptingContacts = false;
-      this.decryptContactsModalRef = null;
-    });
   }
 
   // == Open encrypt contacts confirmation NgbModal
@@ -167,7 +163,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal'
     });
-
+    this.decryptContactsModalRef.result.then((reason) => {
+      this.isDecryptingContacts = false;
+      this.decryptContactsModalRef = null;
+    });
     setTimeout(() => {
       this.isContactsEncrypted = true;
     }, 100);
