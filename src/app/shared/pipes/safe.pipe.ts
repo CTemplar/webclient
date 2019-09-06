@@ -33,6 +33,7 @@ export class SafePipe implements PipeTransform {
             return '';
           }
         });
+        // @ts-ignore
         let xssValue = xss(value, {
           stripIgnoreTag: true,
           stripIgnoreTagBody: ['script', 'style'],

@@ -19,7 +19,7 @@ import { CustomSerializer, effects, reducers } from './index';
       maxAge: 50,
       logOnly: environment.debug
     }),
-    StoreRouterConnectingModule
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     {

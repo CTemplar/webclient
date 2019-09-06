@@ -43,7 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NgbModule.forRoot(),
+    NgbModule,
     AppStoreModule,
     FooterModule,
     HeaderModule,
