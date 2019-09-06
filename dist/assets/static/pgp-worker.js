@@ -6,7 +6,7 @@ var openpgp = window.openpgp;
 var decryptedPrivKeys = {};
 var decryptedSecureMsgPrivKeyObj;
 
-onmessage = function (event) {
+onmessage = async function (event) {
     if (event.data.clear) {
         decryptedPrivKeys = {};
     } else if (event.data.encrypt) {
@@ -29,7 +29,7 @@ onmessage = function (event) {
             });
         })
     } else if (event.data.decryptSecureMessageKey) {
-        decryptedSecureMsgPrivKeyObj = openpgp.key.readArmored(event.data.privKey).keys[0];
+        decryptedSecureMsgPrivKeyObj = (await openpgp.key.readArmored(event.data.privKey)).keys[0];
         decryptedSecureMsgPrivKeyObj.decrypt(event.data.password)
             .then(res => {
                 postMessage({decryptSecureMessageKey: true, decryptedKey: decryptedSecureMsgPrivKeyObj});
@@ -49,9 +49,9 @@ onmessage = function (event) {
         }
     } else if (event.data.decryptPrivateKeys) {
         if (event.data.privkeys) {
-            event.data.privkeys.forEach(key => {
+            event.data.privkeys.forEach(async key => {
                 if (!decryptedPrivKeys[key.mailboxId]) {
-                    decryptedPrivKeys[key.mailboxId] = openpgp.key.readArmored(key.privkey).keys[0];
+                    decryptedPrivKeys[key.mailboxId] = (await openpgp.key.readArmored(key.privkey)).keys[0];
                     decryptedPrivKeys[key.mailboxId].decrypt(event.data.user_key);
                 }
             });
@@ -117,13 +117,13 @@ onmessage = function (event) {
     }
 }
 
-function decryptContent(data, privKeyObj) {
+async function decryptContent(data, privKeyObj) {
     if (!data) {
         return Promise.resolve(data);
     }
     try {
         const options = {
-            message: openpgp.message.readArmored(data),
+            message: await openpgp.message.readArmored(data),
             privateKeys: [privKeyObj]
         };
 
@@ -137,11 +137,11 @@ function decryptContent(data, privKeyObj) {
 }
 
 function generateKeys(options) {
-    return openpgp.generateKey(options).then(key => {
+    return openpgp.generateKey(options).then(async key => {
         return {
             public_key: key.publicKeyArmored.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
             private_key: key.privateKeyArmored.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
-            fingerprint: openpgp.key.readArmored(key.publicKeyArmored).keys[0].primaryKey.getFingerprint()
+            fingerprint: (await openpgp.key.readArmored(key.publicKeyArmored)).keys[0].primaryKey.getFingerprint()
         };
     });
 }
@@ -181,9 +181,12 @@ async function encryptContent(data, publicKeys) {
     if (!data) {
         return Promise.resolve(data);
     }
+    const pubkeys = await Promise.all(publicKeys.map(async (key) => {
+        return (await openpgp.key.readArmored(key)).keys[0]
+    }));
     const options = {
-        data: data,
-        publicKeys: publicKeys.map(item => openpgp.key.readArmored(item).keys[0])
+        message: openpgp.message.fromText(data),
+        publicKeys: pubkeys
     };
     return openpgp.encrypt(options).then(ciphertext => {
         return ciphertext.data.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2");
