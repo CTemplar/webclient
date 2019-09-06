@@ -343,7 +343,6 @@ export interface Contact {
   is_encrypted?: boolean;
   encrypted_data?: string;
   provider?: string;
-  email_hash?: string;
 
   is_decryptionInProgress?: boolean;
   isDecryptedFrontend?: boolean; // If the contact is decrypted on frontend or not

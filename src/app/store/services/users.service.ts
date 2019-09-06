@@ -284,11 +284,6 @@ export class UsersService {
 
   addContact(payload: Contact) {
     const url = `${apiUrl}users/contacts/`;
-
-    payload.email_hash = this.hashData({ username: payload.email }, 'username');
-    if (payload.is_encrypted) {
-      payload.email = null;
-    }
     if (payload.id) {
       return this.http.patch<any>(`${url}${payload.id}/`, payload);
     }
