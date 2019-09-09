@@ -1,8 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AppState, Auth2FA, AuthState, Settings, UserState } from '../../../store/datatypes';
+import { AppState, Auth2FA, AuthState, ContactsState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { ChangePassphraseSuccess, ChangePassword, Update2FA, Get2FASecret } from '../../../store/actions';
+import {
+  ChangePassphraseSuccess,
+  ChangePassword,
+  Update2FA,
+  Get2FASecret,
+  ContactsGet,
+  ClearContactsToDecrypt
+} from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService, SharedService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -16,9 +23,13 @@ import { apiUrl, getApiUrl } from '../../../shared/config';
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss']
 })
 export class SecurityComponent implements OnInit, OnDestroy {
-  private changePasswordModalRef: NgbModalRef;
   @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
   @ViewChild('auth2FAModal', { static: false }) auth2FAModal;
+  @ViewChild('decryptContactsModal', { static: false }) decryptContactsModal;
+  @ViewChild('confirmEncryptContactsModal', { static: false }) confirmEncryptContactsModal;
+
+  private changePasswordModalRef: NgbModalRef;
+  private decryptContactsModalRef: NgbModalRef;
 
   settings: Settings;
   changePasswordForm: FormGroup;
@@ -29,6 +40,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
   apiUrl = apiUrl;
   auth2FA: Auth2FA;
   auth2FAForm: any = {};
+  isDecryptingContacts: boolean;
+  contactsState: ContactsState;
+  isContactsEncrypted: boolean;
 
   private updatedPrivateKeys: Array<any>;
   private canDispatchChangePassphrase: boolean;
@@ -45,6 +59,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+        this.isContactsEncrypted = this.settings.is_contacts_encrypted;
       });
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
@@ -73,6 +88,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.store.select(state => state.contacts).pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
+        this.contactsState = contactsState;
+      });
 
     this.changePasswordForm = this.formBuilder.group({
         oldPassword: ['', [Validators.required]],
@@ -128,8 +147,77 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.changePasswordForm.reset();
     this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
       centered: true,
+      backdrop: 'static',
       windowClass: 'modal-md change-password-modal'
     });
+  }
+
+  // == Open encrypt contacts confirmation NgbModal
+  openDecryptContactsModal() {
+    if (!this.settings.is_contacts_encrypted) {
+      return;
+    }
+    this.isContactsEncrypted = false;
+    this.decryptContactsModalRef = this.modalService.open(this.decryptContactsModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal'
+    });
+    this.decryptContactsModalRef.result.then((reason) => {
+      this.isDecryptingContacts = false;
+      this.decryptContactsModalRef = null;
+    });
+    setTimeout(() => {
+      this.isContactsEncrypted = true;
+    }, 100);
+  }
+
+  openConfirmEncryptContactsModal() {
+    if (this.settings.is_contacts_encrypted) {
+      return;
+    }
+    this.isContactsEncrypted = true;
+    setTimeout(() => {
+      this.isContactsEncrypted = false;
+    }, 100);
+   this.modalService.open(this.confirmEncryptContactsModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal'
+    });
+  }
+
+  confirmDecryptContacts() {
+    this.updateSettings('is_contacts_encrypted', false);
+    if (this.contactsState.totalContacts === 0 && this.contactsState.loaded) {
+      this.decryptContactsModalRef.close();
+      return;
+    }
+    this.isDecryptingContacts = true;
+    this.store.dispatch(new ClearContactsToDecrypt({ clearCount: true }));
+    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, isDecrypting: true }));
+    this.decryptAllContacts();
+  }
+
+  decryptAllContacts() {
+    if (this.contactsState.totalContacts === 0 && this.contactsState.loaded) {
+      this.decryptContactsModalRef.close();
+      return;
+    }
+    if (this.contactsState.contactsToDecrypt.length > 0) {
+      this.openPgpService.decryptAllContacts();
+      return;
+    }
+    setTimeout(() => {
+      this.decryptAllContacts();
+    }, 500);
+  }
+
+  closeDecryptContactsModal() {
+    this.isDecryptingContacts = false;
+    if (this.decryptContactsModalRef) {
+      this.decryptContactsModalRef.close();
+    }
   }
 
   changePassword() {

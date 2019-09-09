@@ -14,6 +14,7 @@ import * as search from './search.reducers';
 import * as secureMessage from './secure-message.reducers';
 import * as webSocket from '../websocket.store';
 import * as organization from '../organization.store';
+import * as contacts from './contacts.reducers';
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: auth.reducer,
@@ -22,6 +23,7 @@ export const reducers: ActionReducerMap<AppState> = {
   loading: loading.reducer,
   keyboard: keyboard.reducer,
   user: user.reducer,
+  contacts: contacts.reducer,
   timezone: timezone.reducer,
   bitcoin: bitcoin.reducer,
   composeMail: composeMail.reducer,

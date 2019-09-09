@@ -30,7 +30,7 @@ import {
   MailAction,
   MailBoxesState,
   MailState,
-  UserState
+  UserState, ContactsState
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
@@ -236,12 +236,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select((state: AppState) => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.contacts = user.emailContacts;
-        if (!this.contacts) {
-          this.store.dispatch(new GetEmailContacts());
-        }
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
+        if (user.settings.is_contacts_encrypted) {
+          this.contacts = [];
+        }
+      });
+
+    this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
+        this.contacts = contactsState.emailContacts;
+        if (!this.contacts && !this.userState.settings.is_contacts_encrypted) {
+          this.store.dispatch(new GetEmailContacts());
+        }
       });
 
     this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))

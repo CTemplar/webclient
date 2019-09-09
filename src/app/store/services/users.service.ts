@@ -9,7 +9,7 @@ import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY } from '../../shared/config';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState, AutoResponder, Domain, Settings } from '../datatypes';
+import { AppState, AutoResponder, Contact, Domain, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
 import { Filter } from '../models/filter.model';
@@ -52,7 +52,7 @@ export class UsersService {
   signIn(body): Observable<any> {
     const requestData: any = { ...body };
     requestData.username = this.trimUsername(requestData.username);
-    requestData.password = this.hashPassword(requestData);
+    requestData.password = this.hashData(requestData);
     const url = `${apiUrl}auth/sign-in/`;
     return this.http.post<any>(url, requestData).pipe(
       tap(data => {
@@ -71,7 +71,7 @@ export class UsersService {
     return username;
   }
 
-  private hashPassword(requestData: any, field = 'password'): string {
+  private hashData(requestData: any, field = 'password'): string {
     const username = requestData.username.toLowerCase();
     const salt = this.createSalt('$2a$10$', username);
     return bcrypt.hashSync(requestData[field], salt);
@@ -118,7 +118,7 @@ export class UsersService {
     if (referralCode) {
       requestData[REFFERAL_CODE_KEY] = referralCode;
     }
-    requestData.password = this.hashPassword(requestData);
+    requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
       tap(data => {
         this.setLoginData(data, user);
@@ -132,7 +132,7 @@ export class UsersService {
 
   resetPassword(data): Observable<any> {
     const requestData = { ...data };
-    requestData.password = this.hashPassword(requestData);
+    requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
       tap(res => {
         this.setLoginData(res, data);
@@ -142,9 +142,9 @@ export class UsersService {
 
   changePassword(data): Observable<any> {
     const requestData = { ...data };
-    requestData.old_password = this.hashPassword(requestData, 'old_password');
-    requestData.password = this.hashPassword(requestData, 'password');
-    requestData.confirm_password = this.hashPassword(requestData, 'confirm_password');
+    requestData.old_password = this.hashData(requestData, 'old_password');
+    requestData.password = this.hashData(requestData, 'password');
+    requestData.confirm_password = this.hashData(requestData, 'confirm_password');
     delete requestData['username'];
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
       tap(response => {
@@ -202,7 +202,8 @@ export class UsersService {
       'auth/update-user/',
       'emails/domain-users/',
       'auth/otp-secret/',
-      'auth/enable-2fa/'
+      'auth/enable-2fa/',
+      'users/contact-bulk-update/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -265,20 +266,23 @@ export class UsersService {
     return this.http.delete<any>(url, body);
   }
 
-  getContact(data = { limit: 0, offset: 0, q: '' }) {
-    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${data.limit}&offset=${data.offset}&q=${data.q}`);
+  getContact(limit = 0, offset = 0, query = '') {
+    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${limit}&offset=${offset}&q=${query}`);
   }
 
   getEmailContacts() {
     return this.http.get<any>(`${apiUrl}users/contacts-v1/`);
   }
 
+  updateBatchContacts(data: any) {
+    return this.http.post<any>(`${apiUrl}users/contact-bulk-update/`, data);
+  }
 
   getInvoices() {
     return this.http.get<any>(`${apiUrl}users/invoices/`);
   }
 
-  addContact(payload) {
+  addContact(payload: Contact) {
     const url = `${apiUrl}users/contacts/`;
     if (payload.id) {
       return this.http.patch<any>(`${url}${payload.id}/`, payload);
@@ -306,7 +310,7 @@ export class UsersService {
   }
 
   addOrganizationUser(data: any): Observable<any> {
-    data.password = this.hashPassword(data, 'password');
+    data.password = this.hashData(data, 'password');
     return this.http.post<any>(`${apiUrl}auth/add-user/`, data);
   }
 
@@ -346,7 +350,7 @@ export class UsersService {
 
   deleteAccount(data: any) {
     const requestData = { ...data };
-    requestData.password = this.hashPassword(requestData);
+    requestData.password = this.hashData(requestData);
     delete requestData['username'];
     return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
   }
@@ -410,7 +414,7 @@ export class UsersService {
 
 
   update2FA(data: any): Observable<any> {
-    data.password = this.hashPassword(data);
+    data.password = this.hashData(data);
     return this.http.post<any>(`${apiUrl}auth/enable-2fa/`, data);
   }
 
