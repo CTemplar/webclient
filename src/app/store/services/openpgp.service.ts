@@ -59,7 +59,7 @@ export class OpenPgpService {
               this.pubkeys[mailbox.id] = mailbox.public_key;
               this.pubkeysArray.push(mailbox.public_key);
             }
-            if (mailbox.is_default) {
+            if (mailbox.is_default && !this.primaryMailbox) {
               this.primaryMailbox = mailbox;
             }
           });
