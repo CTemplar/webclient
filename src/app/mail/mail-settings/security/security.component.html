@@ -138,10 +138,10 @@
   <div class="modal-body bg-faded">
     <div *ngIf="isDecryptingContacts; else decryptingContacts" class="px-4">
       <label>Please be patient while your contacts are being decrypted, don't close your browser.</label>
-      <div align="center" *ngIf="!contactsState?.loaded">
+      <div align="center" *ngIf="!contactsState?.loaded && contactsState?.totalContacts===0">
         <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
       </div>
-      <div class="my-4" *ngIf="contactsState?.loaded">
+      <div class="my-4" *ngIf="contactsState?.loaded || contactsState?.totalContacts!==0">
         <div class="info-list-val-text text-center">
           {{contactsState.noOfDecryptedContacts}} of {{contactsState.totalContacts}} contacts decrypted
         </div>
