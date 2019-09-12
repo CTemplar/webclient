@@ -585,13 +585,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;
-    this.store.dispatch(new GetUsersKeys({
-      draftId: this.draftId, emails: receivers,
-      draft: {
-        ...this.draft, isMailDetailPage: this.isMailDetailPage,
-        shouldSave: false, shouldSend: true, draft: { ...this.draftMail }
-      }
-    }));
+    this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: receivers }));
     this.resetValues();
     this.hide.emit();
   }
@@ -862,12 +856,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.checkInlineAttachments();
-    if (!shouldSend) {
-      this.store.dispatch(new UpdateLocalDraft({
-        ...this.draft, isMailDetailPage: this.isMailDetailPage,
-        shouldSave, shouldSend, draft: { ...this.draftMail }
-      }));
-    }
+    this.store.dispatch(new UpdateLocalDraft({
+      ...this.draft, isMailDetailPage: this.isMailDetailPage,
+      shouldSave, shouldSend, draft: { ...this.draftMail }
+    }));
   }
 
   checkInlineAttachments() {
