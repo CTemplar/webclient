@@ -61,6 +61,24 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       return { ...state, drafts: { ...state.drafts } };
     }
 
+    case ComposeMailActionTypes.GET_USERS_KEYS: {
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        ...action.payload.draft,
+        getUserKeyInProgress: true
+      };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.GET_USERS_KEYS_SUCCESS: {
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        getUserKeyInProgress: false,
+        usersKeys: action.payload.data
+      };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
     case ComposeMailActionTypes.UPDATE_PGP_ENCRYPTED_CONTENT: {
       if (action.payload.draftId) {
         state.drafts[action.payload.draftId] = {
@@ -200,20 +218,6 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
 
     case ComposeMailActionTypes.NEW_DRAFT: {
       state.drafts[action.payload.id] = action.payload;
-      return { ...state, drafts: { ...state.drafts } };
-    }
-
-    case ComposeMailActionTypes.GET_USERS_KEYS: {
-      state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], getUserKeyInProgress: true };
-      return { ...state, drafts: { ...state.drafts } };
-    }
-
-    case ComposeMailActionTypes.GET_USERS_KEYS_SUCCESS: {
-      state.drafts[action.payload.draftId] = {
-        ...state.drafts[action.payload.draftId],
-        getUserKeyInProgress: false,
-        usersKeys: action.payload.data
-      };
       return { ...state, drafts: { ...state.drafts } };
     }
 

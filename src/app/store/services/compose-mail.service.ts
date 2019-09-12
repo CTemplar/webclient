@@ -30,6 +30,7 @@ export class ComposeMailService {
             } else if (draftMail.shouldSend && this.drafts[key]) {
               if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
                 draftMail.draft.content = draftMail.encryptedContent.content;
+                draftMail.draft.is_encrypted = true;
                 if (this.userState.settings.is_subject_encrypted) {
                   draftMail.draft.subject = draftMail.encryptedContent.subject;
                 }
@@ -51,12 +52,15 @@ export class ComposeMailService {
                   let hasSshEncryption = false;
                   if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
                     hasSshEncryption = true;
+                    draftMail.draft.is_encrypted = true;
                     keys.push(draftMail.draft.encryption.public_key);
                   }
                   if (draftMail.usersKeys.encrypt || hasSshEncryption) {
                     draftMail.draft.is_encrypted = true;
                     keys = [...keys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
+                  console.log('Encrypting message with keys.', keys);
+                  console.log(draftMail);
                   if (keys.length > 0) {
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                   } else {
