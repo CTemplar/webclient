@@ -560,6 +560,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
+    if (this.inProgress) {
+      // If saving is in progress, then wait to send.
+      setTimeout(() => {
+        this.sendEmail();
+      }, 100);
+      return;
+    }
+
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }));
       return;
@@ -797,6 +805,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
+    this.inProgress = true;
     this.setMailData(false, true);
     this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail));
   }
