@@ -429,7 +429,13 @@
 
 	ul,
 	ol {
-		padding-left: 0.625rem;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+
+		li {
+			padding-left: 10px;
+			padding-bottom: 10px;
+		}
 	}
 
 	p {
