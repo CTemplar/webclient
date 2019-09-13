@@ -430,7 +430,10 @@
 	ul,
 	ol {
 		padding-left: 0.625rem;
-		list-style-position: inside;
+	}
+
+	p {
+		text-align: justify;
 	}
 }
 
