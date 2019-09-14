@@ -17,19 +17,19 @@ import {
   BlackListGet,
   GetDomains,
   GetDomainsSuccess,
-  GetFilters, GetInvoices,
+  GetFilters,
+  GetInvoices,
   GetMailboxes,
   SaveAutoResponder,
   WhiteListGet
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
-import { getMailComponentShortcuts, SharedService } from '../store/services';
+import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { formatDate } from '@angular/common';
-import { AllowIn, KeyboardShortcutsComponent, ShortcutEventOutput, ShortcutInput } from 'ng-keyboard-shortcuts';
 import { Router } from '@angular/router';
 
 @Component({
@@ -39,9 +39,9 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
-  shortcuts: ShortcutInput[] = [];
   @ViewChild('input', { static: false }) input: ElementRef;
-  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+  // TODO : disable shortcuts until the bugs are fixed
+  // @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
@@ -110,7 +110,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
-    this.shortcuts = getMailComponentShortcuts(this);
+    // TODO : disable shortcuts until the bugs are fixed
+    // this.shortcuts = getMailComponentShortcuts(this);
     this.cdr.detectChanges();
   }
 

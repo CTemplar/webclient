@@ -94,3 +94,23 @@
                 href=""><u translate="mail_header.undo">Undo</u></a></div>
     </div>
 </div>
+
+
+<ng-template #logoutModal let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
+    <h3 class="modal-title w-100 text-dark" id="logoutModal">
+      <strong>Permanently deleting data</strong>
+    </h3>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="px-4">
+      <div align="center" class="decryption-spinner">
+        <img class="mt-3" [src]="loadingImage | safe:'url'"/>
+        <div class="my-3">
+          Permanently deleting all usage data  from your visit
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

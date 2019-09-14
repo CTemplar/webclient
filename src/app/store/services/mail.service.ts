@@ -125,6 +125,10 @@ export class MailService {
     return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}`);
   }
 
+  deleteMailForAll(id: string): Observable<any[]> {
+    return this.http.post<any>(`${apiUrl}emails/delete-message/${id}/`, {});
+  }
+
   deleteFolder(id: string): Observable<any[]> {
     return this.http.delete<any>(`${apiUrl}emails/custom-folder/${id}/`);
   }

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { DeleteMail, GetMailDetailSuccess, GetMails, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { DeleteMail, DeleteMailForAll, GetMailDetailSuccess, GetMails, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -12,7 +12,6 @@ import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { WebSocketState } from '../../store';
 import { SummarySeparator } from '../../shared/config';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
 declare var Scrambler;
 
@@ -57,7 +56,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private page: number;
   private mails: Mail[] = [];
   private EMAILS_PER_PAGE: number;
-  shortcuts: ShortcutInput[] = [];
+
+  // shortcuts: ShortcutInput[] = [];
   constructor(private route: ActivatedRoute,
               private store: Store<AppState>,
               private pgpService: OpenPgpService,
@@ -65,8 +65,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private composeMailService: ComposeMailService,
               private dateTimeUtilService: DateTimeUtilService,
-              private modalService: NgbModal,
-              private sharedService: SharedService) {
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -93,8 +92,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
-            if (!this.mail.has_children && this.mail.content && !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content == null && this.mail.content))) {
+            if (!this.mail.has_children && this.mail.content != null && !this.isDecrypting[this.mail.id] &&
+              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content == null && this.mail.content != null))) {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
@@ -435,6 +434,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
       }
       this.onDeleteCollapseMail(index);
+    }
+    if (mail.id === this.mail.id) {
+      this.goBack(500);
+    }
+  }
+
+  onDeleteForAll(mail: Mail) {
+    this.store.dispatch(new DeleteMailForAll({ id: mail.id, isMailDetailPage: true }));
+    if (this.mail.children) {
+      this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
     }
     if (mail.id === this.mail.id) {
       this.goBack(500);

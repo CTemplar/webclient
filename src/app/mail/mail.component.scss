@@ -719,7 +719,7 @@
   }
   .mailbox-dropdown .dropdown-item{
     white-space: normal;
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 
@@ -959,7 +959,7 @@
     font-size: 0.875rem;
     line-height: 1.2;
     white-space: normal;
-    word-break: break-all;
+    word-break: break-word;
 
     // &:not(:last-of-type) {
     // 	margin-bottom: 0.5rem;

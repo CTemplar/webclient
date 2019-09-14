@@ -8,3 +8,4 @@ export * from './bitcoin.action';
 export * from './compose-mail.actions';
 export * from './secure-message.actions';
 export * from './donate.actions';
+export * from './contacts.action';

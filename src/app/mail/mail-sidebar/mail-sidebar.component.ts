@@ -60,13 +60,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
-
-    this.router.events.pipe(untilDestroyed(this))
-      .subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          this.currentRoute = event.url;
-        }
-      });
     const nextPage = localStorage.getItem('nextPage');
     if (nextPage) {
       localStorage.setItem('nextPage', '');
@@ -153,6 +146,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       });
     this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
+        this.currentRoute = event.url;
         if (event.url === '/mail/contacts') {
           this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);
         } else if (event.url.indexOf('/mail/settings/') > -1) {

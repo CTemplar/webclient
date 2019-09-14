@@ -11,7 +11,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     case ComposeMailActionTypes.SEND_MAIL:
     case ComposeMailActionTypes.CREATE_MAIL: {
       state.drafts[action.payload.id] = {
-        ...state.drafts[action.payload.id],
+        ...state.drafts[action.payload.id], isSaving: true,
         inProgress: true, shouldSend: false, shouldSave: false, isSent: false,
       };
       return { ...state, drafts: { ...state.drafts } };
@@ -34,6 +34,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
         inProgress: false,
         isSent: false,
         draft: draftMail,
+        isSaving: false,
       };
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -58,6 +59,25 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
 
     case ComposeMailActionTypes.UPDATE_LOCAL_DRAFT: {
       state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], ...action.payload, inProgress: true };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.GET_USERS_KEYS: {
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        ...action.payload.draft,
+        inProgress: true,
+        getUserKeyInProgress: true
+      };
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.GET_USERS_KEYS_SUCCESS: {
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        getUserKeyInProgress: false,
+        usersKeys: action.payload.data
+      };
       return { ...state, drafts: { ...state.drafts } };
     }
 
@@ -200,20 +220,6 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
 
     case ComposeMailActionTypes.NEW_DRAFT: {
       state.drafts[action.payload.id] = action.payload;
-      return { ...state, drafts: { ...state.drafts } };
-    }
-
-    case ComposeMailActionTypes.GET_USERS_KEYS: {
-      state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], getUserKeyInProgress: true };
-      return { ...state, drafts: { ...state.drafts } };
-    }
-
-    case ComposeMailActionTypes.GET_USERS_KEYS_SUCCESS: {
-      state.drafts[action.payload.draftId] = {
-        ...state.drafts[action.payload.draftId],
-        getUserKeyInProgress: false,
-        usersKeys: action.payload.data
-      };
       return { ...state, drafts: { ...state.drafts } };
     }
 

@@ -32,6 +32,7 @@ export interface AuthState {
   isChangePasswordError?: boolean;
   captcha?: Captcha;
   auth2FA?: Auth2FA;
+  anti_phishing_phrase?: string;
 }
 
 export class Auth2FA {
@@ -86,8 +87,6 @@ export interface UserState {
   id: number | null;
   whiteList: WhiteList[];
   blackList: BlackList[];
-  contact: Contact[];
-  totalContacts: number;
   settings: Settings;
   payment_transaction?: Payment;
   isPrime?: boolean;
@@ -109,10 +108,20 @@ export interface UserState {
   isForwardingVerificationCodeSent?: boolean;
   emailForwardingErrorMessage?: string;
   autoResponderErrorMessage?: string;
-  emailContacts?: EmailContact[];
   isLoaded?: boolean;
   invoices: Invoice[];
   isInvoiceLoaded?: boolean;
+}
+
+export interface ContactsState {
+  contacts: Contact[];
+  totalContacts: number;
+  inProgress?: boolean;
+  isError?: boolean;
+  emailContacts?: EmailContact[];
+  noOfDecryptedContacts: number;
+  contactsToDecrypt: Contact[];
+  loaded: boolean;
 }
 
 export interface EmailContact {
@@ -144,13 +153,17 @@ export interface Settings {
   recurrence_billing?: boolean;
   is_subject_encrypted?: boolean;
   enable_2fa?: boolean;
+  is_contacts_encrypted?: boolean;
+  is_anti_phishing_enabled?: boolean;
+  anti_phishing_phrase?: string;
+  is_html_disabled?: boolean;
 }
 
 export interface Invoice {
   id: number;
   invoice_id: number;
   invoice_date: Date;
-  plan_type: PlanType,
+  plan_type: PlanType;
   payment_type: PaymentType;
   payment_method: PaymentMethod;
   total_amount: number;
@@ -202,6 +215,7 @@ export interface MailState {
   loaded?: boolean;
   inProgress?: boolean;
   decryptedContents: DecryptedContentState;
+  decryptedSubjects: any;
   unreadMailsCount: any;
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
@@ -244,6 +258,7 @@ export interface Draft {
   usersKeys?: UserKey;
   isMailDetailPage?: boolean;
   isSent?: boolean;
+  isSaving?: boolean;
 
   /**
    * @var isClosed
@@ -324,11 +339,19 @@ export interface BlackList {
 export interface Contact {
   id?: number;
   address: string;
-  email: string;
-  name: string;
-  note: string;
-  phone: string;
+  email?: string;
+  name?: string;
+  note?: string;
+  phone?: string;
   phone2?: string;
+  extra_emails?: Array<string>;
+  extra_phones?: Array<string>;
+  is_encrypted?: boolean;
+  encrypted_data?: string;
+  provider?: string;
+
+  is_decryptionInProgress?: boolean;
+  isDecryptedFrontend?: boolean; // If the contact is decrypted on frontend or not
   markForDelete?: boolean; // To handle delete multiple contacts using checkboxes
 }
 
@@ -339,6 +362,7 @@ export interface AppState {
   loading: LoadingState;
   keyboard: KeyboardState;
   user: UserState;
+  contacts: ContactsState;
   timezone: TimezonesState;
   bitcoin: BitcoinState;
   composeMail: ComposeMailState;
@@ -358,7 +382,7 @@ export interface Timezone {
 }
 
 export interface BitcoinState {
-  bitcoinRequired: number,
+  bitcoinRequired: number;
   newWalletAddress: string;
   loaded: boolean;
   checkTransactionResponse: CheckTransactionResponse;

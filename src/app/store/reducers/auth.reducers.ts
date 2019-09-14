@@ -48,14 +48,16 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
           user: action.payload,
           errorMessage: null,
           inProgress: false,
-          auth2FA: { is_2fa_enabled: action.payload.is_2fa_enabled, show2FALogin: false }
+          auth2FA: { is_2fa_enabled: action.payload.is_2fa_enabled, show2FALogin: false },
+          anti_phishing_phrase: action.payload.is_2fa_enabled ? '' : action.payload.anti_phishing_phrase
         };
       } else if (action.payload.is_2fa_enabled) {
         return {
           ...state,
           inProgress: false,
           errorMessage: null,
-          auth2FA: { is_2fa_enabled: true, show2FALogin: true }
+          auth2FA: { is_2fa_enabled: true, show2FALogin: true },
+          anti_phishing_phrase: action.payload.anti_phishing_phrase
         };
       }
 
