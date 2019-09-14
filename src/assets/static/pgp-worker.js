@@ -201,9 +201,12 @@ async function encryptBinaryContent(data, publicKeys) {
     if (!data) {
         return Promise.resolve(data);
     }
+    const pubkeys = await Promise.all(publicKeys.map(async (key) => {
+        return (await openpgp.key.readArmored(key)).keys[0]
+    }));
     const options = {
-        data: data,
-        publicKeys: publicKeys.map(item => openpgp.key.readArmored(item).keys[0]),
+        message: openpgp.message.fromBinary(data),
+        publicKeys: pubkeys,
         armor: false // don't ASCII armor (for Uint8Array output)
     };
 
@@ -212,13 +215,13 @@ async function encryptBinaryContent(data, publicKeys) {
     });
 }
 
-function decryptBinaryContent(data, privKeyObj) {
+async function decryptBinaryContent(data, privKeyObj) {
     if (!data) {
         return Promise.resolve(data);
     }
     try {
         const options = {
-            message: openpgp.message.read(data),
+            message: await openpgp.message.read(data),
             privateKeys: [privKeyObj],
             format: 'binary' // output as Uint8Array
         };
