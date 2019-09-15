@@ -560,7 +560,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
-    if (this.inProgress) {
+    if (this.inProgress || this.draft.isSaving) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.sendEmail();
@@ -593,7 +593,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;
-    this.store.dispatch(new GetUsersKeys({ draftId: this.draftId, emails: receivers }));
+    this.store.dispatch(new GetUsersKeys({
+      draftId: this.draftId, emails: receivers,
+      draft: {
+        ...this.draft, isMailDetailPage: this.isMailDetailPage, isSaving: false,
+        shouldSave: false, shouldSend: true, draft: { ...this.draftMail }
+      }
+    }));
     this.resetValues();
     this.hide.emit();
   }
@@ -814,6 +820,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.draftMail) {
       this.draftMail = { content: null, folder: 'draft' };
     }
+
+    this.draft.isSaving = shouldSave;
+
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
@@ -865,10 +874,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.checkInlineAttachments();
-    this.store.dispatch(new UpdateLocalDraft({
-      ...this.draft, isMailDetailPage: this.isMailDetailPage,
-      shouldSave, shouldSend, draft: { ...this.draftMail }
-    }));
+    if (!shouldSend) {
+      this.store.dispatch(new UpdateLocalDraft({
+        ...this.draft, isMailDetailPage: this.isMailDetailPage,
+        shouldSave, shouldSend, draft: { ...this.draftMail }
+      }));
+    }
   }
 
   checkInlineAttachments() {
