@@ -11,7 +11,7 @@ import { MailService } from '../../store/services';
 import {
   AccountDetailsGet,
   CreateMail,
-  DeleteFolder,
+  DeleteFolder, DeleteMail, DeleteMailForAll, DeleteMailForAllSuccess,
   DeleteMailSuccess, EmptyTrash, EmptyTrashFailure, EmptyTrashSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
@@ -109,11 +109,24 @@ export class MailEffects {
   @Effect()
   deleteMailEffect: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.DELETE_MAIL),
-    map((action: CreateMail) => action.payload),
+    map((action: DeleteMail) => action.payload),
     switchMap(payload => {
       return this.mailService.deleteMails(payload.ids)
         .pipe(
           switchMap(res => of(new DeleteMailSuccess(payload))),
+          catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
+        );
+    }));
+
+  @Effect()
+  deleteMailForAllEffect: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.DELETE_MAIL_FOR_ALL),
+    map((action: DeleteMailForAll) => action.payload),
+    switchMap(payload => {
+      return this.mailService.deleteMailForAll(payload.id)
+        .pipe(
+          switchMap(res => of(new DeleteMailForAllSuccess(payload),
+            new SnackErrorPush({ message: 'Failed to delete mail.' }))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
         );
     }));

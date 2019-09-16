@@ -159,6 +159,7 @@ export function reducer(
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
+    case MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS:
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
       if (action.payload.isMailDetailPage) {
         return state;
