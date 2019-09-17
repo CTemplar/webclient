@@ -214,6 +214,7 @@ export interface MailState {
   loaded?: boolean;
   inProgress?: boolean;
   decryptedContents: DecryptedContentState;
+  decryptedSubjects: any;
   unreadMailsCount: any;
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
