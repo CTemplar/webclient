@@ -54,7 +54,7 @@ export function reducer(
           mails = state.folders.get(state.currentFolder);
         }
       }
-      mails = mails ? mails : []
+      mails = mails ? mails : [];
       mails.forEach((mail: Mail) => {
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
           mail.subject = state.decryptedSubjects[mail.id];
@@ -184,6 +184,10 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
+      if (action.payload.is_subject_encrypted && state.decryptedSubjects[action.payload.id]) {
+        action.payload.is_subject_encrypted = false;
+        action.payload.subject = state.decryptedSubjects[action.payload.id];
+      }
       return {
         ...state,
         mailDetail: action.payload,
