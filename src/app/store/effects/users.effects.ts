@@ -232,7 +232,7 @@ export class UsersEffects {
           switchMap(res => {
             return of(new SettingsUpdateSuccess(payload));
           }),
-          catchError(err => of(new SnackErrorPush(err))),
+          catchError(err => of(new SnackErrorPush({ message: `Failed to save changes, ${err.error}` }))),
         );
     }));
 

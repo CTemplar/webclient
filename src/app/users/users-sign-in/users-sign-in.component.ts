@@ -15,6 +15,7 @@ import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { quotes } from '../../store/quotes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-sign-in',
@@ -57,6 +58,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
               private sharedService: SharedService,
               private _keyboardService: MatKeyboardService,
               private userService: UsersService,
+              private router: Router,
               private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
@@ -140,6 +142,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (this.loginForm.valid) {
       this.store.dispatch(new LogIn({ ...user, otp }));
     }
+  }
+
+  continueLogin() {
+    this.authState.anti_phishing_phrase = '';
+    this.router.navigateByUrl('/mail');
   }
 
   recoverPassword(data) {
