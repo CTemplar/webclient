@@ -302,8 +302,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.settings.is_html_disabled) {
       this.initializeQuillEditor();
     } else {
-      this.updateSignature();
+      let content = this.mailData.content ? this.mailData.content : '';
+      if (this.content) {
+        content += this.getPlainText(this.content);
+      }
+      if (this.messageHistory) {
+        content += '\n' + this.getPlainText(this.messageHistory);
+      }
+      setTimeout(() => {
+        this.mailData.content = content + this.mailData.content ? this.mailData.content : '';
+      }, 300);
     }
+
     if (this.forwardAttachmentsMessageId) {
       if (this.editor) {
         this.updateEmail();
@@ -323,6 +333,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isAuthenticated) {
       this.store.dispatch(new CloseMailbox(this.draft));
     }
+  }
+
+  private getPlainText(html: string) {
+    const element = document.createElement('div');
+    element.innerHTML = html.replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
+    return element.innerText;
   }
 
   initializeDraft() {
@@ -616,7 +632,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   updateSignature() {
     if (this.settings.is_html_disabled) {
-      this.draftMail.content = `\n \n ${this.selectedMailbox.signature}`;
+      if (!this.isSignatureAdded) {
+        this.isSignatureAdded = true;
+        this.mailData.content = this.mailData.content ? this.mailData.content : '';
+        this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+      }
       return;
     }
     if (this.quill && this.selectedMailbox) {
@@ -638,6 +658,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addDecryptedContent() {
+    if (this.settings.is_html_disabled && this.decryptedContent) {
+      this.mailData.content = this.decryptedContent;
+      return;
+    }
     if (this.quill && this.decryptedContent) {
       this.quill.setText('');
       this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
@@ -804,7 +828,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
-    return this.quill.getLength() > 1 ||
+    return (this.settings.is_html_disabled ? this.mailData.content.length > 1 : this.quill.getLength() > 1) ||
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
@@ -859,6 +883,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
         this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
       }
+    } else {
+      this.draftMail.content = this.mailData.content;
     }
     this.draftMail.send = shouldSend;
 
@@ -893,6 +919,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkInlineAttachments() {
+    if (this.settings.is_html_disabled) {
+      return;
+    }
     const contents = this.quill.getContents().ops;
     const currentAttachments = [];
     contents.forEach(item => {
@@ -917,7 +946,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.unSubscribeAutoSave();
     this.options = {};
     this.attachments = [];
-    this.quill.setText('');
+    if (this.quill) {
+      this.quill.setText('');
+    }
     this.resetMailData();
     this.clearSelfDestructValue();
     this.clearDelayedDeliveryValue();

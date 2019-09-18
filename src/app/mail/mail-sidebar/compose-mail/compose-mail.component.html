@@ -114,7 +114,7 @@
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
           <div #editor *ngIf="!settings.is_html_disabled"></div>
           <div *ngIf="settings.is_html_disabled">
-             <textarea name="content" [(ngModel)]="mailData.content"
+             <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content"
                        (change)="valueChanged$.next(mailData.content)"
                        id="content" rows="1"></textarea>
           </div>
