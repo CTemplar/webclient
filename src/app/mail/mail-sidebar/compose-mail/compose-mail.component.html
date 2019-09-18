@@ -103,7 +103,7 @@
       <div class="mail-compose-field">
         <span class="mail-label label-subject mail-subject" translate="settings.compose.subject">Subject:</span>
         <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
-                  (change)="valueChanged$.next(mailData.subject)"
+                  (ngModelChange)="valueChanged$.next(mailData.subject)"
                   id="subject" rows="1"></textarea>
       </div>
     </div>
@@ -115,7 +115,7 @@
           <div #editor *ngIf="!settings.is_html_disabled"></div>
           <div *ngIf="settings.is_html_disabled">
              <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content"
-                       (change)="valueChanged$.next(mailData.content)"
+                       (ngModelChange)="valueChanged$.next(mailData.content)"
                        id="content" rows="1"></textarea>
           </div>
         </div>
