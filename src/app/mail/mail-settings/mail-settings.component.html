@@ -425,6 +425,38 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-content-row">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-3">
+                                        <label class="form-label mb-0">HTML editor</label>
+                                    </div>
+                                    <div class="col-sm-7 col-md-5">
+                                        <div class="row row-sm">
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor1"
+                                                           name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', false)"
+                                                           [checked]="!settings.is_html_disabled" />
+                                                    <label for="htmlEditor1" translate="common.enabled">Enabled</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 flex-auto-col">
+                                                <div class="fancy-field-group">
+                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor2"
+                                                           name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', true)"
+                                                           [checked]="settings.is_html_disabled" />
+                                                    <label for="htmlEditor2" translate="common.disabled">Disabled</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="info-card mt-2 mx-3 full-width">
+                                        <p>
+                                            Disabling HTML editor will allow you to use plain text editor for composing email.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

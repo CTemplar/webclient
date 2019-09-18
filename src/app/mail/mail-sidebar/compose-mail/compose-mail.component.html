@@ -112,7 +112,12 @@
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
-          <div #editor></div>
+          <div #editor *ngIf="!settings.is_html_disabled"></div>
+          <div *ngIf="settings.is_html_disabled">
+             <textarea name="content" [(ngModel)]="mailData.content"
+                       (change)="valueChanged$.next(mailData.content)"
+                       id="content" rows="1"></textarea>
+          </div>
         </div>
         <input type="file"
                #imageInput

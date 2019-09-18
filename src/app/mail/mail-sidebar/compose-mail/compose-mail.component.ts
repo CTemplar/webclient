@@ -30,7 +30,7 @@ import {
   MailAction,
   MailBoxesState,
   MailState,
-  UserState, ContactsState
+  UserState, ContactsState, Settings
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
@@ -161,6 +161,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
   insertLinkData: any = {};
+  settings: Settings;
 
   private isMailSent = false;
   private isSavedInDraft = false;
@@ -238,6 +239,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
+        this.settings = user.settings;
         if (user.settings.is_contacts_encrypted) {
           this.contacts = [];
         }
@@ -297,7 +299,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.initializeQuillEditor();
+    if (!this.settings.is_html_disabled) {
+      this.initializeQuillEditor();
+    } else {
+      this.updateSignature();
+    }
     if (this.forwardAttachmentsMessageId) {
       if (this.editor) {
         this.updateEmail();
@@ -609,6 +615,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateSignature() {
+    if (this.settings.is_html_disabled) {
+      this.draftMail.content = `\n \n ${this.selectedMailbox.signature}`;
+      return;
+    }
     if (this.quill && this.selectedMailbox) {
       if (!this.isSignatureAdded) {
         const index = this.quill.getLength();
@@ -833,24 +843,24 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
-    this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
-    if (tokens.length > 1) {
-      tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
-      tokens[tokens.length - 1] += `</span>`;
-      this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
-    }
-    if (!shouldSave) {
-      this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
-    }
+    if (!this.settings.is_html_disabled) {
+      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+      const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
+      if (tokens.length > 1) {
+        tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
+        tokens[tokens.length - 1] += `</span>`;
+        this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
+      }
+      if (!shouldSave) {
+        this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
+      }
 
-    if (shouldSend) {
-      this.draftMail.send = true;
-      this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
-      this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
-    } else {
-      this.draftMail.send = false;
+      if (shouldSend) {
+        this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
+        this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
+      }
     }
+    this.draftMail.send = shouldSend;
 
     if (this.action) {
       this.draftMail.last_action = this.action;

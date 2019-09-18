@@ -156,6 +156,7 @@ export interface Settings {
   is_contacts_encrypted?: boolean;
   is_anti_phishing_enabled?: boolean;
   anti_phishing_phrase?: string;
+  is_html_disabled?: boolean;
 }
 
 export interface Invoice {
