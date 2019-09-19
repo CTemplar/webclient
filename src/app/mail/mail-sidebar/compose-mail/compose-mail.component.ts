@@ -309,9 +309,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.messageHistory) {
         content += '\n' + this.getPlainText(this.messageHistory);
       }
-      setTimeout(() => {
-        this.mailData.content = content + this.mailData.content ? this.mailData.content : '';
-      }, 300);
+      if (content) {
+        setTimeout(() => {
+          this.mailData.content = content;
+        }, 300);
+      }
     }
 
     if (this.forwardAttachmentsMessageId) {
@@ -417,12 +419,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (this.content) {
+      this.content = this.content.replace(/\n/g, '<br>');
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     }
 
     this.updateSignature();
 
     if (this.messageHistory) {
+      this.messageHistory = this.messageHistory.replace(/\n/g, '<br>');
       const index = this.quill.getLength();
       this.quill.insertText(index, '\n', 'silent');
       this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
