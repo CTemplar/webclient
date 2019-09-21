@@ -19,6 +19,10 @@ onmessage = async function (event) {
         encryptBinaryContent(event.data.fileData, event.data.publicKeys).then(content => {
             postMessage({encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment});
         })
+    } else if (event.data.decryptAttachment) {
+        decryptBinaryContent(event.data.fileData, decryptedPrivKeys[event.data.mailboxId]).then(content => {
+            postMessage({decryptedContent: content, decryptedAttachment: true, fileInfo: event.data.fileInfo});
+        })
     } else if (event.data.encryptSecureMessageReply) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
             postMessage({encryptedContent: data, encryptSecureMessageReply: true});

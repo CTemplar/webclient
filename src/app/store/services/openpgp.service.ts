@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { PRIMARY_DOMAIN } from '../../shared/config';
 import {
-  ChangePassphraseSuccess, ClearContactsToDecrypt,
-  ContactAdd, ContactDecryptSuccess, ContactsGet,
+  ChangePassphraseSuccess,
+  ClearContactsToDecrypt,
+  ContactAdd,
+  ContactDecryptSuccess,
+  ContactsGet,
   GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
-  SetDecryptInProgress, UpdateBatchContacts,
+  SetDecryptInProgress,
+  UpdateBatchContacts,
   UpdatePGPDecryptedContent,
   UpdatePGPEncryptedContent,
   UpdatePGPSshKeys,
   UpdateSecureMessageContent,
   UpdateSecureMessageEncryptedContent,
-  UpdateSecureMessageKey, UploadAttachment
+  UpdateSecureMessageKey,
+  UploadAttachment
 } from '../actions';
 import { AppState, AuthState, Contact, ContactsState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
-import { UsersService } from './users.service';
 import { Attachment, Mailbox } from '../models';
-import { PRIMARY_DOMAIN } from '../../shared/config';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class OpenPgpService {
@@ -149,6 +153,13 @@ export class OpenPgpService {
           );
         const attachment: Attachment = {...event.data.attachment, document: newDocument};
         this.store.dispatch(new UploadAttachment({ ...attachment }));
+      } else if (event.data.decryptedAttachment) {
+        const array = event.data.decryptedContent;
+        const file = new File(
+          [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
+          event.data.fileInfo.name,
+          {type: event.data.fileInfo.type}
+        );
       } else if (event.data.encryptSecureMessageReply) {
         this.store.dispatch(new UpdateSecureMessageEncryptedContent({
           inProgress: false,
@@ -216,6 +227,10 @@ export class OpenPgpService {
   encryptAttachment(mailboxId, draftId, uint8Array: Uint8Array, attachment: Attachment, publicKeys: any[] = []) {
     publicKeys.push(this.pubkeys[mailboxId]);
     this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
+  }
+
+  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any) {
+    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo});
   }
 
   encryptSecureMessageContent(content, publicKeys: any[]) {
