@@ -28,7 +28,20 @@ export class ComposeMailService {
               }
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
-              if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
+              if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress && !draftMail.isProcessingAttachments) {
+                draftMail.draft.content = draftMail.encryptedContent.content;
+                if (this.userState.settings.is_subject_encrypted) {
+                  draftMail.draft.subject = draftMail.encryptedContent.subject;
+                }
+                if (!draftMail.isSshInProgress) {
+                  if (!draftMail.isSaving) {
+                    this.store.dispatch(new SendMail({ ...draftMail }));
+                  } else {
+                    this.store.dispatch(new SnackPush(
+                      { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
+                  }
+                }
+              } else if (this.drafts[key].isProcessingAttachments && !draftMail.isProcessingAttachments && !draftMail.isPGPInProgress) {
                 draftMail.draft.content = draftMail.encryptedContent.content;
                 if (this.userState.settings.is_subject_encrypted) {
                   draftMail.draft.subject = draftMail.encryptedContent.subject;
@@ -63,6 +76,9 @@ export class ComposeMailService {
                     keys = [...keys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
                   if (keys.length > 0) {
+                    draftMail.attachments.forEach(attachment => {
+                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, keys);
+                    });
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                   } else {
                     if(!draftMail.isSaving) {
