@@ -140,7 +140,7 @@ export class MailService {
     formData.append('is_inline', data.is_inline.toString());
     formData.append('is_encrypted', data.is_encrypted.toString());
 
-    const request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
+    const request = new HttpRequest('POST', `${apiUrl}emails/attachments/${data.id ? ('update/' + data.id) : 'create'}/`, formData, {
       reportProgress: true
     });
 
