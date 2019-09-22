@@ -11,7 +11,7 @@ import {
   GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
-  SetDecryptInProgress,
+  SetDecryptInProgress, StartAttachmentEncryption,
   UpdateBatchContacts,
   UpdatePGPDecryptedContent,
   UpdatePGPEncryptedContent,
@@ -236,6 +236,7 @@ export class OpenPgpService {
     reader.onload = (event: any) => {
       const buffer = event.target.result;
       const uint8Array = new Uint8Array(buffer);
+      this.store.dispatch(new StartAttachmentEncryption({...attachment}));
       this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
     };
     reader.readAsArrayBuffer(file);

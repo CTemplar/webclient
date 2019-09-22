@@ -128,6 +128,19 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       return { ...state, drafts: { ...state.drafts } };
     }
 
+    case ComposeMailActionTypes.START_ATTACHMENT_ENCRYPTION: {
+      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === action.payload.attachmentId) {
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            inProgress: true
+          };
+          state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments: true };
+        }
+      });
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT: {
       if (action.payload.id) {
         state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
