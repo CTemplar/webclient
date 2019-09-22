@@ -167,6 +167,10 @@ export class MailService {
     return this.http.post<any>(`${apiUrl}emails/empty-trash/`, null);
   }
 
+  getFile(url: string) {
+    return this.http.get(url, {responseType: 'blob'});
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
