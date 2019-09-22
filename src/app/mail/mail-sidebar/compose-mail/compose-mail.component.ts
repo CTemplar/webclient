@@ -523,6 +523,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       const attachment: Attachment = {
         draftId: this.draftId,
         document: file,
+        decryptedDocument: file,
         name: file.name,
         size: this.filesizePipe.transform(file.size),
         attachmentId: performance.now(),
