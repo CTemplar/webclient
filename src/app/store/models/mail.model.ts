@@ -98,6 +98,7 @@ export interface Attachment {
   id?: number;
   draftId: number;
   document: any;
+  decryptedDocument?: File;
   name: string;
   size: string;
   message: number;
