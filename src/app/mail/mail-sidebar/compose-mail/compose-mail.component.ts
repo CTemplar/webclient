@@ -542,13 +542,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   encryptAttachment(attachment: Attachment) {
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      const buffer = event.target.result;
-      const uint8Array = new Uint8Array(buffer);
-      this.openPgpService.encryptAttachment(this.selectedMailbox.id, this.draftId, uint8Array, attachment);
-    };
-    reader.readAsArrayBuffer(attachment.document);
+    this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment.decryptedDocument, attachment);
   }
 
   handleAttachment(draft: Draft) {

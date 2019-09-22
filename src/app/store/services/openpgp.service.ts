@@ -230,9 +230,15 @@ export class OpenPgpService {
     }
   }
 
-  encryptAttachment(mailboxId, draftId, uint8Array: Uint8Array, attachment: Attachment, publicKeys: any[] = []) {
+  encryptAttachment(mailboxId, file: File, attachment: Attachment, publicKeys: any[] = []) {
     publicKeys.push(this.pubkeys[mailboxId]);
-    this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      const buffer = event.target.result;
+      const uint8Array = new Uint8Array(buffer);
+      this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
+    };
+    reader.readAsArrayBuffer(file);
   }
 
   decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<any> {
