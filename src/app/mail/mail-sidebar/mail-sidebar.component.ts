@@ -33,7 +33,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   LIMIT = 3;
   EMAIL_LIMIT = 20;
-
+  PAGE = 1;
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
   public userState: UserState;
@@ -112,6 +112,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.store.dispatch(new ClearMailsOnLogout());
         }
       });
+
   }
 
   ngOnInit() {
@@ -142,7 +143,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
         this.updateTitle();
-
       });
     this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -153,6 +153,20 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
+
+    this.activatedRoute.paramMap.pipe(untilDestroyed(this))
+      .subscribe((paramsMap: any) => {
+        const params: any = paramsMap.params;
+        if (params) {
+          if (params.page) {
+            const page = +params.page;
+            if (page !== this.PAGE + 1) {
+              this.PAGE = page > 0 ? page - 1 : 0;
+            }
+          }
+        }
+      });
+
   }
 
   private updateUnreadCount(webSocketState: WebSocketState) {
