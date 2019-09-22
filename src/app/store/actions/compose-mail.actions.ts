@@ -19,6 +19,7 @@ export enum ComposeMailActionTypes {
   DELETE_ATTACHMENT = '[Attachment] DELETE_ATTACHMENT',
   DELETE_ATTACHMENT_SUCCESS = '[Attachment] DELETE_ATTACHMENT_SUCCESS',
   DELETE_ATTACHMENT_FAILURE = '[Attachment] DELETE_ATTACHMENT_FAILURE',
+  START_ATTACHMENT_ENCRYPTION = '[Attachment] START_ATTACHMENT_ENCRYPTION',
   GET_USERS_KEYS = '[USERS] GET KEYS',
   GET_USERS_KEYS_SUCCESS = '[USERS] GET KEYS SUCCESS',
   NEW_DRAFT = '[DraftState] NEW_DRAFT',
@@ -144,6 +145,13 @@ export class DeleteAttachmentFailure implements Action {
   }
 }
 
+export class StartAttachmentEncryption implements Action {
+  readonly type = ComposeMailActionTypes.START_ATTACHMENT_ENCRYPTION;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class GetUsersKeys implements Action {
   readonly type = ComposeMailActionTypes.GET_USERS_KEYS;
 
@@ -190,6 +198,7 @@ export type ComposeMailActions =
   | DeleteAttachment
   | DeleteAttachmentSuccess
   | DeleteAttachmentFailure
+  | StartAttachmentEncryption
   | GetUsersKeys
   | GetUsersKeysSuccess
   | NewDraft
