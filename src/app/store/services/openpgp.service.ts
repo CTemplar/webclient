@@ -147,7 +147,7 @@ export class OpenPgpService {
           draftId: event.data.callerId
         }));
       } else if (event.data.encryptedAttachment) {
-        const oldDocument = event.data.attachment.document;
+        const oldDocument = event.data.attachment.decryptedDocument;
         const newDocument = new File(
           [event.data.encryptedContent.buffer],
           oldDocument.name,
