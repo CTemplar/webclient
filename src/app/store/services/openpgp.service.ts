@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
 import { PRIMARY_DOMAIN } from '../../shared/config';
 import {
   ChangePassphraseSuccess,
@@ -40,6 +41,7 @@ export class OpenPgpService {
   private mailboxes: Mailbox[];
   private userSettings: Settings;
   private contactsState: ContactsState;
+  private subjects: any = {};
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
@@ -155,11 +157,15 @@ export class OpenPgpService {
         this.store.dispatch(new UploadAttachment({ ...attachment }));
       } else if (event.data.decryptedAttachment) {
         const array = event.data.decryptedContent;
-        const file = new File(
+        const newDocument = new File(
           [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
-          event.data.fileInfo.name,
+          event.data.fileInfo.attachment.name,
           {type: event.data.fileInfo.type}
         );
+        const newAttachment = {...event.data.fileInfo.attachment, document: newDocument};
+        this.subjects[event.data.subjectId].next(newAttachment);
+        this.subjects[event.data.subjectId].complete();
+        delete this.subjects[event.data.subjectId];
       } else if (event.data.encryptSecureMessageReply) {
         this.store.dispatch(new UpdateSecureMessageEncryptedContent({
           inProgress: false,
@@ -229,8 +235,12 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
   }
 
-  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any) {
-    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo});
+  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<any> {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo, subjectId});
+    return subject.asObservable();
   }
 
   encryptSecureMessageContent(content, publicKeys: any[]) {
