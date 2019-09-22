@@ -259,6 +259,11 @@ export interface Draft {
   isMailDetailPage?: boolean;
   isSent?: boolean;
   isSaving?: boolean;
+  /**
+   * @var isProcessingAttachments
+   * @description It represents if any of the attachments is being processed (encrypting/uploading).
+   */
+  isProcessingAttachments?: boolean;
 
   /**
    * @var isClosed
