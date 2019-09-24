@@ -36,7 +36,7 @@
                     <label class="billing-overview-label mb-0 col-3" translate="billing_info.price">Price</label>
                     <div class="billing-overview-val text-secondary col">
                       <strong *ngIf="paymentType === 'annually'">
-                        {{annualPriceTotal|currency:currency}}/<span translate="billing_information.annually">Yearly</span> ({{annualPricePerMonth|currency:currency}}/
+                        {{annualPriceTotal|currency:currency}}/<span translate="settings.annually">Yearly</span> ({{annualPricePerMonth|currency:currency}}/
                         <span translate="billing_info.month">month</span>) </strong>
                       <strong *ngIf="paymentType === 'monthly'">
                         {{monthlyPrice|currency:currency}}/  <span translate="billing_info.month">month</span>
