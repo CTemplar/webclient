@@ -30,7 +30,7 @@ import {
   MailAction,
   MailBoxesState,
   MailState,
-  UserState, ContactsState
+  UserState, ContactsState, Settings
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
@@ -161,6 +161,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
   insertLinkData: any = {};
+  settings: Settings;
 
   private isMailSent = false;
   private isSavedInDraft = false;
@@ -238,6 +239,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
+        this.settings = user.settings;
         if (user.settings.is_contacts_encrypted) {
           this.contacts = [];
         }
@@ -297,7 +299,23 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.initializeQuillEditor();
+    if (!this.settings.is_html_disabled) {
+      this.initializeQuillEditor();
+    } else {
+      let content = this.mailData.content ? this.mailData.content : '';
+      if (this.content) {
+        content += this.getPlainText(this.content);
+      }
+      if (this.messageHistory) {
+        content += '\n' + this.getPlainText(this.messageHistory);
+      }
+      if (content) {
+        setTimeout(() => {
+          this.mailData.content = content;
+        }, 300);
+      }
+    }
+
     if (this.forwardAttachmentsMessageId) {
       if (this.editor) {
         this.updateEmail();
@@ -317,6 +335,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isAuthenticated) {
       this.store.dispatch(new CloseMailbox(this.draft));
     }
+  }
+
+  private getPlainText(html: string) {
+    const element = document.createElement('div');
+    element.innerHTML = html.replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
+    return element.innerText;
   }
 
   initializeDraft() {
@@ -395,12 +419,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (this.content) {
+      this.content = this.content.replace(/\n/g, '<br>');
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     }
 
     this.updateSignature();
 
     if (this.messageHistory) {
+      this.messageHistory = this.messageHistory.replace(/\n/g, '<br>');
       const index = this.quill.getLength();
       this.quill.insertText(index, '\n', 'silent');
       this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
@@ -609,6 +635,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateSignature() {
+    if (this.settings.is_html_disabled) {
+      if (!this.isSignatureAdded) {
+        this.isSignatureAdded = true;
+        this.mailData.content = this.mailData.content ? this.mailData.content : '';
+        this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+      }
+      return;
+    }
     if (this.quill && this.selectedMailbox) {
       if (!this.isSignatureAdded) {
         const index = this.quill.getLength();
@@ -628,6 +662,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addDecryptedContent() {
+    if (this.settings.is_html_disabled && this.decryptedContent) {
+      this.mailData.content = this.decryptedContent;
+      return;
+    }
     if (this.quill && this.decryptedContent) {
       this.quill.setText('');
       this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
@@ -794,7 +832,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
-    return this.quill.getLength() > 1 ||
+    return (this.settings.is_html_disabled ? this.mailData.content.length > 1 : this.quill.getLength() > 1) ||
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
@@ -833,24 +871,26 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
-    this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-    const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
-    if (tokens.length > 1) {
-      tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
-      tokens[tokens.length - 1] += `</span>`;
-      this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
-    }
-    if (!shouldSave) {
-      this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
-    }
+    if (!this.settings.is_html_disabled) {
+      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+      const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
+      if (tokens.length > 1) {
+        tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
+        tokens[tokens.length - 1] += `</span>`;
+        this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
+      }
+      if (!shouldSave) {
+        this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
+      }
 
-    if (shouldSend) {
-      this.draftMail.send = true;
-      this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
-      this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
+      if (shouldSend) {
+        this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
+        this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
+      }
     } else {
-      this.draftMail.send = false;
+      this.draftMail.content = this.mailData.content;
     }
+    this.draftMail.send = shouldSend;
 
     if (this.action) {
       this.draftMail.last_action = this.action;
@@ -883,6 +923,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkInlineAttachments() {
+    if (this.settings.is_html_disabled) {
+      return;
+    }
     const contents = this.quill.getContents().ops;
     const currentAttachments = [];
     contents.forEach(item => {
@@ -907,7 +950,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.unSubscribeAutoSave();
     this.options = {};
     this.attachments = [];
-    this.quill.setText('');
+    if (this.quill) {
+      this.quill.setText('');
+    }
     this.resetMailData();
     this.clearSelfDestructValue();
     this.clearDelayedDeliveryValue();

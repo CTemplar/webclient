@@ -203,7 +203,8 @@ export class UsersService {
       'emails/domain-users/',
       'auth/otp-secret/',
       'auth/enable-2fa/',
-      'users/contact-bulk-update/'
+      'users/contact-bulk-update/',
+      'emails/delete-message/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;

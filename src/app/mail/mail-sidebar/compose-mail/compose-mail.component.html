@@ -103,7 +103,7 @@
       <div class="mail-compose-field">
         <span class="mail-label label-subject mail-subject" translate="settings.compose.subject">Subject:</span>
         <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
-                  (change)="valueChanged$.next(mailData.subject)"
+                  (ngModelChange)="valueChanged$.next(mailData.subject)"
                   id="subject" rows="1"></textarea>
       </div>
     </div>
@@ -112,7 +112,12 @@
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
-          <div #editor></div>
+          <div #editor *ngIf="!settings.is_html_disabled"></div>
+          <div *ngIf="settings.is_html_disabled">
+             <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content"
+                       (ngModelChange)="valueChanged$.next(mailData.content)"
+                       id="content" rows="1"></textarea>
+          </div>
         </div>
         <input type="file"
                #imageInput
@@ -161,6 +166,13 @@
               </button>
             </li>
             <li>
+              <div *ngIf="settings.is_html_disabled; else textFormatter"
+                   ngbTooltip="Text formatting is not available in plain text editor" class="dropdown">
+                <button class="actions-btn mail-typo-btn hide-arrow" disabled>
+                  <i class="icon icon-text-color"></i>
+                </button>
+              </div>
+              <ng-template #textFormatter>
               <div ngbDropdown [autoClose]="'outside'" [placement]="['top-left', 'bottom-left']" class="dropdown">
                 <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow"
                         id="typoDropdownMenu" role="button" placement="top"
@@ -374,6 +386,7 @@
                   </div>
                 </div>
               </div>
+              </ng-template>
             </li>
             <li>
               <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
@@ -382,9 +395,17 @@
               </button>
             </li>
             <li>
-              <button role="button" ngbTooltip="Insert link" (click)="openInsertLinkModal()"
-                      class="actions-btn insert-link-btn"><i class="material-icons">insert_link</i>
-              </button>
+              <div *ngIf="settings.is_html_disabled; else insertLinkRef"
+                   ngbTooltip="Insert link is not available in plain text editor" class="dropdown">
+                <button class="actions-btn insert-link-btn" disabled>
+                  <i class="material-icons">insert_link</i>
+                </button>
+              </div>
+              <ng-template #insertLinkRef>
+                <button role="button" ngbTooltip="Insert link" (click)="openInsertLinkModal()"
+                        class="actions-btn insert-link-btn"><i class="material-icons">insert_link</i>
+                </button>
+              </ng-template>
             </li>
             <li class="pr-0" [ngbTooltip]="'page_pricing.encryption'| translate">
               <button role="button" type="button"

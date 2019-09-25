@@ -32,6 +32,7 @@ export interface AuthState {
   isChangePasswordError?: boolean;
   captcha?: Captcha;
   auth2FA?: Auth2FA;
+  anti_phishing_phrase?: string;
 }
 
 export class Auth2FA {
@@ -153,6 +154,9 @@ export interface Settings {
   is_subject_encrypted?: boolean;
   enable_2fa?: boolean;
   is_contacts_encrypted?: boolean;
+  is_anti_phishing_enabled?: boolean;
+  anti_phishing_phrase?: string;
+  is_html_disabled?: boolean;
 }
 
 export interface Invoice {
@@ -211,6 +215,7 @@ export interface MailState {
   loaded?: boolean;
   inProgress?: boolean;
   decryptedContents: DecryptedContentState;
+  decryptedSubjects: any;
   unreadMailsCount: any;
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
