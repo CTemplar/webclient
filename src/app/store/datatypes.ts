@@ -446,6 +446,9 @@ export enum PaymentType {
 export enum PlanType {
   FREE = 'FREE',
   PRIME = 'PRIME',
+  KNIGHT = 'KNIGHT',
+  MARSHAL = 'MARSHAL',
+  PARAGON = 'PARAGON',
   CHAMPION = 'CHAMPION',
 }
 

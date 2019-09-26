@@ -114,6 +114,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
+        if (SharedService.PRICING_PLANS) {
+          this.annualPricePerMonth = SharedService.PRICING_PLANS[this.signupState.plan_type]['annually_price'];
+          this.monthlyPrice = SharedService.PRICING_PLANS[this.signupState.plan_type]['monthly_price'];
+        }
+
         this.authState = authState;
         if (this.inProgress && !authState.inProgress) {
           if (authState.errorMessage) {
@@ -147,6 +152,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.validateSignupData();
       }, 3000);
     }
+    this.sharedService.loadPricingPlans();
   }
 
   timer() {
@@ -280,7 +286,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    this.store.dispatch(new SignUp({...data, plan_type: this.planType}));
+    this.store.dispatch(new SignUp({ ...data, plan_type: this.planType }));
   }
 
   checkTransaction() {

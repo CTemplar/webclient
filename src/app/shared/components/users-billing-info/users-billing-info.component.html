@@ -50,13 +50,13 @@
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="payment-select-dropdown">
                           <button ngbDropdownToggle role="button"
-                                  id="paymentDropdownMenuButton" [disabled]="true">{{paymentMethod}}
+                                  id="paymentDropdownMenuButton">{{paymentMethod}}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                            <a class="dropdown-item text-muted">
+                            <a class="dropdown-item text-muted" (click)="paymentMethod=paymentMethodType.STRIPE">
                               <em>Stripe (Credit/Debit Card)</em>
                             </a>
-                            <a class="dropdown-item text-muted">
+                            <a class="dropdown-item text-muted" (click)="paymentMethod=paymentMethodType.BITCOIN">
                               <em>Bitcoin</em>
                             </a>
                           </div>

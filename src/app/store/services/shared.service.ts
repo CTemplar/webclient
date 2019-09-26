@@ -14,6 +14,7 @@ import { MailDetailComponent } from '../../mail/mail-detail/mail-detail.componen
 
 @Injectable()
 export class SharedService {
+  static PRICING_PLANS: any;
   isReady: EventEmitter<boolean> = new EventEmitter();
   hideFooter: EventEmitter<boolean> = new EventEmitter();
   hideHeader: EventEmitter<boolean> = new EventEmitter();
@@ -55,6 +56,16 @@ export class SharedService {
   private openModal(callback: { self: any, method: string } = null) {
     const modal: NgbModalRef = this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
     (<CreateFolderComponent>modal.componentInstance).callback = callback;
+  }
+
+  loadPricingPlans() {
+    if (SharedService.PRICING_PLANS) {
+      return;
+    }
+    this.http.get('./assets/static/pricing-plans.json')
+      .subscribe((data: any) => {
+        SharedService.PRICING_PLANS = data;
+      });
   }
 
   showPaymentFailureDialog() {

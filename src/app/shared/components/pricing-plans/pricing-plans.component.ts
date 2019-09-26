@@ -71,21 +71,11 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.paymentType = this.paymentType || PaymentType.MONTHLY;
     this.paymentMethod = this.paymentMethod || PaymentMethod.STRIPE;
     this.selectedCurrency = this.selectedCurrency || 'USD';
-    this.calculatePrices();
     this.store.dispatch(new FinalLoading({ loadingState: false }));
+    this.sharedService.loadPricingPlans();
   }
 
-  ngOnChanges(changes: any) {
-    if (changes.selectedStorage || changes.selectedEmailAddress || changes.selectedCustomDomain) {
-      this.selectedStorage = changes.selectedStorage && changes.selectedStorage.currentValue > 0 ?
-        changes.selectedStorage.currentValue : this.selectedStorage || this.defaultStorage;
-      this.selectedEmailAddress = changes.selectedEmailAddress && changes.selectedEmailAddress.currentValue > 0 ?
-        changes.selectedEmailAddress.currentValue : this.selectedEmailAddress || this.defaultEmailAddress;
-      this.selectedCustomDomain = changes.selectedCustomDomain && changes.selectedCustomDomain.currentValue > 0 ?
-        changes.selectedCustomDomain.currentValue : this.selectedCustomDomain || this.defaultCustomDomain;
-      this.calculatePrices();
-    }
-  }
+  ngOnChanges(changes: any) {}
 
   // == Toggle active state of the slide in price page
   toggleSlides(index) {
@@ -96,15 +86,9 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
       .classList.remove('active-slide');
   }
 
-  selectPlan(id) {
-    this.store.dispatch(new MembershipUpdate({ id }));
-    if (id === 1) {
-      this.selectedPlan = PlanType.PRIME;
-    } else if (id === 2) {
-      this.selectedPlan = PlanType.CHAMPION;
-    } else {
-      this.selectedPlan = PlanType.FREE;
-    }
+  selectPlan(plan: PlanType) {
+    // this.store.dispatch(new MembershipUpdate({ id }));
+    this.selectedPlan = plan;
 
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
@@ -115,48 +99,18 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.store.dispatch(new ClearSignUpState());
       this.store.dispatch(new ClearAuthErrorMessage());
-      if (id === 1) {
-        this.store.dispatch(new UpdateSignupData({
-          plan_type: PlanType.PRIME,
-          payment_type: this.paymentType,
-          payment_method: this.paymentMethod,
-          currency: this.selectedCurrency,
-          memory: this.selectedStorage,
-          email_count: this.selectedEmailAddress,
-          domain_count: this.selectedCustomDomain,
-          monthlyPrice: this.monthlyPrice,
-          annualPricePerMonth: this.annualPricePerMonth,
-          annualPriceTotal: this.annualPriceTotal
-        }));
-      } else if (id === 2) {
-        this.store.dispatch(new UpdateSignupData({
-          plan_type: PlanType.CHAMPION,
-          payment_type: this.paymentType,
-          payment_method: this.paymentMethod,
-          currency: this.selectedCurrency,
-          monthlyPrice: this.championMonthlyPrice,
-          annualPricePerMonth: this.championAnnualPricePerMonth,
-          annualPriceTotal: this.championAnnualPriceTotal
-        }));
-      } else {
-        this.selectedPlan = PlanType.FREE;
-      }
+      this.store.dispatch(new UpdateSignupData({
+        plan_type: this.selectedPlan,
+        payment_type: this.paymentType,
+        payment_method: this.paymentMethod,
+        currency: this.selectedCurrency
+      }));
       this.router.navigateByUrl('/create-account');
     }
   }
 
   changeCurrency(currency) {
     this.selectedCurrency = currency;
-  }
-
-  calculatePrices() {
-    let monthlyPrice = this.defaultMonthlyPrice;
-    monthlyPrice += (this.selectedStorage - this.defaultStorage);
-    monthlyPrice += ((this.selectedEmailAddress - this.defaultEmailAddress) / 10);
-    monthlyPrice += (this.selectedCustomDomain - this.defaultCustomDomain);
-    this.monthlyPrice = monthlyPrice;
-    this.annualPricePerMonth = +(this.monthlyPrice * 0.75).toFixed(2);
-    this.annualPriceTotal = +(this.annualPricePerMonth * 12).toFixed(2);
   }
 
   ngOnDestroy() {

@@ -14,39 +14,20 @@
   }
 }
 
-@media (min-width: 900px) and (max-width: 1024px) {
-  .pricing-plans {
-    margin-top: 1rem;
+.pricing-plans {
+  margin-top: 1rem;
 
-    .plan-item {
-      font-size: 0.875rem !important;
-      margin-right: 0;
-      margin-left: 0.3rem;
+  .plan-item {
+    background: #fafafa;
+    height: 150px;
 
-      .package-prime-col, .package-basic-col {
-        padding-left: 0;
-        padding-right: 15px;
-      }
+    div {
+      color: #2e4053;
+    }
 
-      .upgrade-button {
-        min-width: unset;
-        width: 100%;
-        font-size: 12px;
-        padding-right: 0;
-        padding-left: 0;
-      }
-
-      .package-card-body {
-        padding: 0 3px 0 0;
-      }
-
-      .btn-dropdown .dropdown-toggle {
-        font-size: 0.875rem !important;
-      }
-
-      .champion-price {
-        display: none;
-      }
+    .btn {
+      height: 20px;
+      line-height: 0;
     }
   }
 }
