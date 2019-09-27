@@ -82,12 +82,6 @@
                             [paymentType]="paymentType"
                             [paymentMethod]="paymentMethod"
                             [currency]="selectedCurrency"
-                            [storage]="selectedStorage"
-                            [emailAddressAliases]="selectedEmailAddress"
-                            [customDomains]="selectedCustomDomain"
-                            [monthlyPrice]="selectedPlan === planType.CHAMPION ? championMonthlyPrice : monthlyPrice"
-                            [annualPricePerMonth]="selectedPlan === planType.CHAMPION ? championAnnualPricePerMonth : annualPricePerMonth"
-                            [annualPriceTotal]="selectedPlan === planType.CHAMPION ? championAnnualPriceTotal : annualPriceTotal"
                             (close)="d()"></app-users-billing-info>
   </div>
 </ng-template><!-- /.billing info modal ends -->

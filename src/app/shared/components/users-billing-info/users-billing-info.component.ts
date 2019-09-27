@@ -23,6 +23,7 @@ import {
   PaymentMethod,
   PaymentType,
   PlanType,
+  PricingPlan,
   SignupState,
   TransactionStatus
 } from '../../../store/datatypes';
@@ -53,6 +54,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() annualPriceTotal: number;
   @Output() close = new EventEmitter<boolean>();
 
+  paymentTypeEnum = PaymentType;
   cardNumber;
   billingForm: FormGroup;
   expiryMonth = 'Month';
@@ -78,10 +80,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   isScriptsLoaded: boolean;
   isScriptsLoading: boolean;
   apiUrl: string = apiUrl;
+  currentPlan: PricingPlan;
 
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
   private modalRef: NgbModalRef;
+  private btcTimer: Subscription;
 
   constructor(private sharedService: SharedService,
               private store: Store<AppState>,
@@ -115,8 +119,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
         if (SharedService.PRICING_PLANS && this.signupState.plan_type) {
-          this.annualPricePerMonth = SharedService.PRICING_PLANS[this.signupState.plan_type]['annually_price'];
-          this.monthlyPrice = SharedService.PRICING_PLANS[this.signupState.plan_type]['monthly_price'];
+          this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type];
         }
 
         this.authState = authState;
@@ -168,6 +171,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   private loadStripeScripts() {
     this.paymentMethod = PaymentMethod.STRIPE;
+    if (this.btcTimer) {
+      this.btcTimer.unsubscribe();
+      this.btcTimer = null;
+    }
     if (this.isScriptsLoading || this.isScriptsLoaded) {
       return;
     }
@@ -231,9 +238,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.store.dispatch(new UpgradeAccount({
           stripe_token: token,
           payment_type: this.paymentType,
-          memory: this.storage,
-          email_count: this.emailAddressAliases,
-          domain_count: this.customDomains,
           plan_type: this.planType
         }));
       } else {
@@ -253,19 +257,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.store.dispatch(new UpgradeAccount({
           from_address: this.bitcoinState.newWalletAddress,
           payment_type: this.paymentType,
-          memory: this.storage,
-          email_count: this.emailAddressAliases,
-          domain_count: this.customDomains,
           plan_type: this.planType,
         }));
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
         this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({
-          ...this.signupState,
-          from_address: this.bitcoinState.newWalletAddress
-        });
+        this.waitForPGPKeys({ ...this.signupState, from_address: this.bitcoinState.newWalletAddress });
       }
     } else {
       this.store.dispatch(new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'));
@@ -287,7 +285,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    this.store.dispatch(new SignUp({ ...data, plan_type: this.planType }));
+    this.store.dispatch(new SignUp({ ...data, plan_type: this.planType, payment_type: this.paymentType }));
   }
 
   checkTransaction() {
@@ -315,9 +313,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
     this.timer();
     this.paymentMethod = PaymentMethod.BITCOIN;
+    this.paymentType = PaymentType.ANNUALLY;
     this.paymentSuccess = false;
     this.createNewWallet();
-    timer(15000, 10000)
+    this.btcTimer = timer(15000, 10000)
       .pipe(
         untilDestroyed(this),
       )

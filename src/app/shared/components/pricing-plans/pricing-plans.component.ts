@@ -2,11 +2,10 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading, MembershipUpdate } from '../../../store/actions';
+import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
 import { PaymentMethod, PaymentType, PlanType } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
-import { DEFAULT_CUSTOM_DOMAIN, DEFAULT_EMAIL_ADDRESS, DEFAULT_STORAGE } from '../../config';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
 @Component({
@@ -15,13 +14,6 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
   styleUrls: ['./pricing-plans.component.scss']
 })
 export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
-  readonly defaultMonthlyPrice = 8;
-  readonly championMonthlyPrice = 50;
-  readonly championAnnualPricePerMonth = 37.5; // 25% discount on `championMonthlyPrice`
-  readonly championAnnualPriceTotal = 450;
-  readonly defaultStorage = DEFAULT_STORAGE;
-  readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
-  readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
   readonly planType = PlanType;
 
   @Input() hideHeader: boolean;
@@ -32,9 +24,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedCurrency: string;
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
-  @Input() selectedStorage: number = this.defaultStorage;
-  @Input() selectedEmailAddress: number = this.defaultEmailAddress;
-  @Input() selectedCustomDomain: number = this.defaultCustomDomain;
 
   @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
 
@@ -45,10 +34,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   availableStorage = [];
   availableEmailAddress = [];
   availableCustomDomain = [];
-  monthlyPrice: number;
-  annualPricePerMonth: number;
-  annualPriceTotal: number;
-  isValueChanged: boolean;
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
