@@ -53,10 +53,10 @@
                                   id="paymentDropdownMenuButton">{{paymentMethod}}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                            <a class="dropdown-item text-muted" (click)="paymentMethod=paymentMethodType.STRIPE">
+                            <a class="dropdown-item text-muted" (click)="loadStripeScripts()">
                               <em>Stripe (Credit/Debit Card)</em>
                             </a>
-                            <a class="dropdown-item text-muted" (click)="paymentMethod=paymentMethodType.BITCOIN">
+                            <a class="dropdown-item text-muted" (click)="selectBitcoinMethod()">
                               <em>Bitcoin</em>
                             </a>
                           </div>

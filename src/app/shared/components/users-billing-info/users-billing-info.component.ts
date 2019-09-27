@@ -114,7 +114,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
-        if (SharedService.PRICING_PLANS) {
+        if (SharedService.PRICING_PLANS && this.signupState.plan_type) {
           this.annualPricePerMonth = SharedService.PRICING_PLANS[this.signupState.plan_type]['annually_price'];
           this.monthlyPrice = SharedService.PRICING_PLANS[this.signupState.plan_type]['monthly_price'];
         }
@@ -167,6 +167,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   private loadStripeScripts() {
+    this.paymentMethod = PaymentMethod.BITCOIN;
     if (this.isScriptsLoading || this.isScriptsLoaded) {
       return;
     }

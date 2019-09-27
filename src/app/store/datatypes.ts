@@ -447,7 +447,7 @@ export enum PlanType {
   FREE = 'FREE',
   PRIME = 'PRIME',
   KNIGHT = 'KNIGHT',
-  MARSHAL = 'MARSHAL',
+  MARSHAL = 'MARSHALL',
   PARAGON = 'PARAGON',
   CHAMPION = 'CHAMPION',
 }
