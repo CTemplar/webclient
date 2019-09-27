@@ -16,20 +16,22 @@ import {
 import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
   AppState,
-  AuthState, Invoice,
+  AuthState,
+  Invoice,
   NotificationPermission,
   Payment,
   PaymentMethod,
   PaymentType,
   PlanType,
+  PricingPlan,
   Settings,
   Timezone,
   TimezonesState,
   UserState
 } from '../../store/datatypes';
-import { OpenPgpService } from '../../store/services';
+import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
-import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
+import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import * as moment from 'moment-timezone';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -44,8 +46,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
   readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
   readonly fonts = FONTS;
-  readonly championMonthlyPrice = 50;
-  readonly championAnnualPriceTotal = 450;
   readonly planType = PlanType;
   @ViewChild('tabSet', { static: false }) tabSet;
   @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
@@ -74,6 +74,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   notificationPermissionType = NotificationPermission;
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
+  currentPlan: PricingPlan;
 
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -88,6 +89,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private pushNotificationService: PushNotificationService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
+    private sharedService: SharedService,
     private router: Router
   ) {
     // customize default values of dropdowns used by this component tree
@@ -96,6 +98,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.notificationsPermission = Notification.permission;
+    this.sharedService.loadPricingPlans();
 
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
@@ -107,15 +110,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.settings = user.settings;
         this.payment = user.payment_transaction;
         this.invoices = user.invoices;
-        this.calculatePrices();
         this.calculateExtraStorageAndEmailAddresses();
-        if (user.settings.plan_type) {
-          this.userPlanType = user.settings.plan_type;
-        } else if (user.isPrime) {
-          this.userPlanType = PlanType.PRIME;
-        } else {
-          this.userPlanType = PlanType.FREE;
+        this.userPlanType = user.settings.plan_type || PlanType.FREE;
+        if (SharedService.PRICING_PLANS && user.settings.plan_type) {
+          this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
         }
+
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
@@ -155,27 +155,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeUrlParams() {
     window.history.replaceState({}, '', `/mail/settings/` + this.selectedTabQueryParams);
-  }
-
-  calculatePrices() {
-    if (this.payment && this.payment.amount) {
-      let price = +this.payment.amount;
-      if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
-        price = +(price / 100000000).toFixed(5);
-      } else {
-        price = +(price / 100).toFixed(2);
-      }
-      if (this.payment.payment_method !== PaymentMethod.BITCOIN.toLowerCase()) {
-        // prices are calculated in `calculateExtraStorageAndEmailAddresses` method when payment method is Bitcoin
-        if (this.payment.payment_type === PaymentType.ANNUALLY) {
-          this.annualDiscountedPrice = price;
-        } else {
-          this.annualTotalPrice = +(price * 12).toFixed(2);
-        }
-      }
-    } else {
-      this.annualTotalPrice = 96;
-    }
   }
 
   calculateExtraStorageAndEmailAddresses() {

@@ -167,7 +167,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   private loadStripeScripts() {
-    this.paymentMethod = PaymentMethod.BITCOIN;
+    this.paymentMethod = PaymentMethod.STRIPE;
     if (this.isScriptsLoading || this.isScriptsLoaded) {
       return;
     }

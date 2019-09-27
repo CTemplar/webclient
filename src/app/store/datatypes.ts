@@ -425,6 +425,14 @@ export interface Domain {
   catch_all?: boolean;
 }
 
+export interface PricingPlan {
+  email_count: number;
+  domain_count: number;
+  storage: number;
+  monthly_price: number;
+  annually_price: number;
+}
+
 export enum TransactionStatus {
   WAITING = 'Waiting',
   PENDING = 'Pending',
