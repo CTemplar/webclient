@@ -258,9 +258,6 @@
                                        [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :
                                                         payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN :
                                                         payment.payment_method"
-                                       [selectedStorage]="defaultStorage + extraStorage"
-                                       [selectedEmailAddress]="defaultEmailAddress + extraEmailAddress"
-                                       [selectedCustomDomain]="defaultCustomDomain + extraCustomDomain"
                                        [openBillingInfoInModal]="true"></app-pricing-plans>
 
                 </section>

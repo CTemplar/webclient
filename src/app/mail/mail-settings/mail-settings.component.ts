@@ -3,15 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import {
-  DEFAULT_CUSTOM_DOMAIN,
-  DEFAULT_EMAIL_ADDRESS,
-  DEFAULT_STORAGE,
-  FONTS,
-  Language,
-  LANGUAGES,
-  VALID_EMAIL_REGEX
-} from '../../shared/config';
+import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
 
 import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
@@ -34,7 +26,7 @@ import { MailSettingsService } from '../../store/services/mail-settings.service'
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import * as moment from 'moment-timezone';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mail-settings',
@@ -42,9 +34,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./mail-settings.component.scss']
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly defaultStorage = DEFAULT_STORAGE;
-  readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
-  readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
   readonly fonts = FONTS;
   readonly planType = PlanType;
   @ViewChild('tabSet', { static: false }) tabSet;
@@ -63,11 +52,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
   timezones: Timezone[];
-  annualTotalPrice: number;
-  annualDiscountedPrice: number;
-  extraStorage: number = 0; // storage extra than the default 5GB
-  extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
-  extraCustomDomain: number = 0;
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
   notificationsPermission: string;
@@ -89,8 +73,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private pushNotificationService: PushNotificationService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private sharedService: SharedService,
-    private router: Router
+    private sharedService: SharedService
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -110,7 +93,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.settings = user.settings;
         this.payment = user.payment_transaction;
         this.invoices = user.invoices;
-        this.calculateExtraStorageAndEmailAddresses();
         this.userPlanType = user.settings.plan_type || PlanType.FREE;
         if (SharedService.PRICING_PLANS && user.settings.plan_type) {
           this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
@@ -155,30 +137,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeUrlParams() {
     window.history.replaceState({}, '', `/mail/settings/` + this.selectedTabQueryParams);
-  }
-
-  calculateExtraStorageAndEmailAddresses() {
-    if (this.settings) {
-      if (this.settings.allocated_storage) {
-        const storageInGB = +(this.settings.allocated_storage / 1048576).toFixed(0);
-        this.extraStorage = this.defaultStorage < storageInGB ? storageInGB - this.defaultStorage : 0;
-      }
-      if (this.settings.email_count) {
-        this.extraEmailAddress = this.defaultEmailAddress < this.settings.email_count
-          ? this.settings.email_count - this.defaultEmailAddress : 0;
-      }
-      if (this.settings.domain_count) {
-        this.extraCustomDomain = this.settings.domain_count - this.defaultCustomDomain;
-      }
-      if (this.payment) {
-        if (this.payment.payment_type === PaymentType.ANNUALLY) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10) + this.extraCustomDomain) * 12).toFixed(2);
-        } else if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10) + this.extraCustomDomain) * 12).toFixed(2);
-          this.annualDiscountedPrice = +(this.annualTotalPrice * 0.75).toFixed(2);
-        }
-      }
-    }
   }
 
   // == Toggle active state of the slide in price page
