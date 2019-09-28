@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
-import { PaymentMethod, PaymentType, PlanType } from '../../../store/datatypes';
+import { PaymentMethod, PaymentType, PlanType, PricingPlan } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
@@ -34,6 +34,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   availableStorage = [];
   availableEmailAddress = [];
   availableCustomDomain = [];
+  pricingPlans: Array<PricingPlan> = [];
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
@@ -58,6 +59,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedCurrency = this.selectedCurrency || 'USD';
     this.store.dispatch(new FinalLoading({ loadingState: false }));
     this.sharedService.loadPricingPlans();
+    this.setPricingPlans();
   }
 
   ngOnChanges(changes: any) {}
@@ -69,6 +71,16 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     document
       .querySelector('.package-prime-col')
       .classList.remove('active-slide');
+  }
+
+  setPricingPlans() {
+    if (SharedService.PRICING_PLANS_ARRAY.length > 0) {
+      this.pricingPlans = SharedService.PRICING_PLANS_ARRAY;
+      return;
+    }
+    setTimeout(() => {
+      this.setPricingPlans();
+    }, 1000);
   }
 
   selectPlan(plan: PlanType) {

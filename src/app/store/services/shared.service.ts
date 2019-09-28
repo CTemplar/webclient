@@ -10,11 +10,12 @@ import { Folder, MailFolderType } from '../models';
 import { AllowIn } from 'ng-keyboard-shortcuts';
 import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
 import { MailComponent } from '../../mail/mail.component';
-import { MailDetailComponent } from '../../mail/mail-detail/mail-detail.component';
+import { PricingPlan } from '../datatypes';
 
 @Injectable()
 export class SharedService {
   static PRICING_PLANS: any;
+  static PRICING_PLANS_ARRAY: Array<PricingPlan> = [];
   isReady: EventEmitter<boolean> = new EventEmitter();
   hideFooter: EventEmitter<boolean> = new EventEmitter();
   hideHeader: EventEmitter<boolean> = new EventEmitter();
@@ -65,6 +66,13 @@ export class SharedService {
     this.http.get('./assets/static/pricing-plans.json')
       .subscribe((data: any) => {
         SharedService.PRICING_PLANS = data;
+        SharedService.PRICING_PLANS_ARRAY = [];
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            data[key].name = key;
+            SharedService.PRICING_PLANS_ARRAY.push(data[key]);
+          }
+        }
       });
   }
 

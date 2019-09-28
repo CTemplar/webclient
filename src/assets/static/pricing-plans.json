@@ -4,41 +4,47 @@
     "domain_count": 0,
     "storage": 1,
     "monthly_price": 0,
-    "annually_price": 0
+    "annually_price": 0,
+    "background": "#f7c300"
   },
   "PRIME": {
     "email_count": 10,
     "domain_count": 1,
     "storage": 5,
     "monthly_price": 8,
-    "annually_price": 72
+    "annually_price": 72,
+    "background": "#fb8c02"
   },
   "KNIGHT": {
     "email_count": 30,
     "domain_count": 5,
     "storage": 10,
     "monthly_price": 12,
-    "annually_price": 126
+    "annually_price": 126,
+    "background": "#f72025"
   },
   "MARSHALL": {
     "email_count": 60,
     "domain_count": 10,
     "storage": 20,
     "monthly_price": 20,
-    "annually_price": 216
+    "annually_price": 216,
+    "background": "#d70c15"
   },
   "PARAGON": {
     "email_count": 100,
     "domain_count": 25,
     "storage": 30,
     "monthly_price": 30,
-    "annually_price": 270
+    "annually_price": 270,
+    "background": "#3a68e0"
   },
   "CHAMPION": {
     "email_count": 200,
     "domain_count": 100,
     "storage": 50,
     "monthly_price": 50,
-    "annually_price": 450
+    "annually_price": 450,
+    "background": "#3a35c7"
   }
 }

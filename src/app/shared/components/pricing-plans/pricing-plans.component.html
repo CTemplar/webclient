@@ -25,40 +25,18 @@
         </div>
         <div class="col-10">
           <div class="row">
-            <div class="col-2 plan-item">
-              <div class="font-weight-bold text-center">
-                <div class="mt-3">FREE</div>
-                <a class="btn btn-gradient-info cursor-pointer mt-3 free-plan" (click)="selectPlan(planType.FREE)">Select</a>
-              </div>
-            </div>
-            <div class="col-2 plan-item">
+            <div *ngFor="let plan of pricingPlans" class="col-2 plan-item">
               <div class="text-center">
-                <div class="font-weight-bold mt-3">PRIME</div>
-                <a class="btn btn-gradient-info cursor-pointer mt-3 prime-plan" (click)="selectPlan(planType.PRIME)">Select</a>
-              </div>
-            </div>
-            <div class="col-2 plan-item">
-              <div class="text-center">
-                <div class="font-weight-bold mt-3">KNIGHT</div>
-                <a class="btn btn-gradient-info cursor-pointer mt-3 knight-plan" (click)="selectPlan(planType.KNIGHT)">Select</a>
-              </div>
-            </div>
-            <div class="col-2 plan-item">
-              <div class="text-center">
-                <div class="font-weight-bold mt-3">MARSHALL</div>
-                <a class="btn btn-gradient-info cursor-pointer mt-3 marshall-plan" (click)="selectPlan(planType.MARSHAL)">Select</a>
-              </div>
-            </div>
-            <div class="col-2 plan-item">
-              <div class="text-center">
-                <div class="font-weight-bold mt-3">PARAGON</div>
-                <a class="btn btn-gradient-info cursor-pointer mt-3 paragon-plan" (click)="selectPlan(planType.PARAGON)">Select</a>
-              </div>
-            </div>
-            <div class="col-2 plan-item">
-              <div class="text-center">
-                <div class="font-weight-bold mt-3">CHAMPION</div>
-                <a class="btn btn-gradient-info cursor-pointer mt-3 champion-plan" (click)="selectPlan(planType.CHAMPION)">Select</a>
+                <div class="font-weight-bold mt-3">{{plan.name}}</div>
+                <div class="plan-title-info" *ngIf="plan.name!==planType.FREE; else freePlan">
+                  <div>$<b>{{plan.monthly_price}}</b>/m</div>
+                  <div>billed as ${{plan.annually_price}}/y</div>
+                </div>
+                <ng-template #freePlan>
+                  <div class="plan-title-info">Free</div>
+                </ng-template>
+                <a class="btn cursor-pointer mt-3" [style.background]="plan.background"
+                   (click)="selectPlan(plan.name)">Select</a>
               </div>
             </div>
           </div>

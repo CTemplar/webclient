@@ -431,6 +431,8 @@ export interface PricingPlan {
   storage: number;
   monthly_price: number;
   annually_price: number;
+  name: PlanType;
+  background: string;
 }
 
 export enum TransactionStatus {
