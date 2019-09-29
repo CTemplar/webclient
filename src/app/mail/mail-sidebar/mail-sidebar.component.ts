@@ -15,7 +15,7 @@ import {
   GetMailsSuccess,
   GetUnreadMailsCount,
   GetUnreadMailsCountSuccess,
-  ReadMailSuccess
+  ReadMailSuccess, SetCurrentFolder
 } from '../../store/actions';
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
@@ -23,6 +23,7 @@ import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
+import { UpdateSearch } from '../../store/actions/search.action';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -153,15 +154,22 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
-
-    this.activatedRoute.paramMap.pipe(untilDestroyed(this))
+    this.activatedRoute.paramMap
       .subscribe((paramsMap: any) => {
         const params: any = paramsMap.params;
         if (params) {
           if (params.page) {
             const page = +params.page;
-            if (page !== this.PAGE + 1) {
-              this.PAGE = page > 0 ? page - 1 : 0;
+            this.PAGE = page;
+          }
+          if (isNaN(this.PAGE) || !this.PAGE) {
+              this.PAGE = 1;
+          }
+          if (params.folder) {
+            const mailFolder = params.folder as MailFolderType;
+            this.store.dispatch(new SetCurrentFolder(mailFolder));
+            if (mailFolder !== MailFolderType.SEARCH) {
+              this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
             }
           }
         }
