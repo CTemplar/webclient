@@ -17,6 +17,18 @@
 .pricing-plans {
   margin-top: 1rem;
 
+  .heading {
+    height: 25px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .plan-titles {
+    div {
+      text-align: left !important;
+    }
+  }
+
   .plan-item {
     background: #fafafa;
     height: 190px;
@@ -45,4 +57,20 @@
       margin: 5px 0 15px 0;
     }
   }
+
+  .plan-sub-item {
+    background: #fafafa;
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+}
+
+.bold {
+  font-weight: bold;
 }

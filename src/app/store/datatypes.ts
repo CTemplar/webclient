@@ -433,6 +433,18 @@ export interface PricingPlan {
   annually_price: number;
   name: PlanType;
   background: string;
+  messages_per_day: number | string;
+  gb: number;
+  aliases: number;
+  custom_domains: number;
+  ssl_tls: boolean;
+  encrypted_attachments: boolean;
+  encrypted_content: boolean;
+  encrypted_contacts: boolean;
+  encrypted_subjects: boolean;
+  encrypted_metadata: boolean;
+  two_fa: boolean;
+  anti_phishing: boolean;
 }
 
 export enum TransactionStatus {

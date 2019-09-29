@@ -20,24 +20,59 @@
     <div class="l-block-body px-xs pricing-plans">
 
       <div class="row" style="margin: 0 65px;">
-        <div class="col-2 plan-item pt-4">
-          <label class="pt-3">Plan & Price</label>
+        <div class="col-3 p-0 plan-titles">
+          <div class="pl-2 plan-item pt-4"><label class="pt-3">Plan & Price</label></div>
+          <h3 class="heading mt-4">Packages</h3>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Messages per day">Messages per day</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Storage in GB">GB</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Email aliases">Aliases</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Custom domains">Custom domains</div>
+          <h3 class="heading mt-4">Features</h3>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encryption in transit(SSL/TLS)">Encryption
+            in transit(SSL/TLS)
+          </div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted attachments">Encrypted
+            attachments
+          </div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted content">Encrypted content</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted contacts">Encrypted contacts</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted subjects">Encrypted subjects</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted metadata">Encrypted metadata</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Two factor authentication">2FA</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Anti phishing">Anti phishing</div>
+
         </div>
-        <div class="col-10">
+        <div class="col-9">
           <div class="row">
-            <div *ngFor="let plan of pricingPlans" class="col-2 plan-item">
-              <div class="text-center">
-                <div class="font-weight-bold mt-3">{{plan.name}}</div>
-                <div class="plan-title-info" *ngIf="plan.name!==planType.FREE; else freePlan">
-                  <div>$<b>{{plan.monthly_price}}</b>/m</div>
-                  <div>billed as ${{plan.annually_price}}/y</div>
+            <div *ngFor="let plan of pricingPlans" class="col-2 p-0">
+              <div class="plan-item">
+                <div class="text-center">
+                  <div class="bold mt-3">{{plan.name}}</div>
+                  <div class="plan-title-info" *ngIf="plan.name!==planType.FREE; else freePlan">
+                    <div>$<b>{{plan.monthly_price}}</b>/m</div>
+                    <div>billed as ${{plan.annually_price}}/y</div>
+                  </div>
+                  <ng-template #freePlan>
+                    <div class="plan-title-info">Free</div>
+                  </ng-template>
+                  <a class="btn cursor-pointer mt-3" [style.background]="plan.background"
+                     (click)="selectPlan(plan.name)">Select</a>
                 </div>
-                <ng-template #freePlan>
-                  <div class="plan-title-info">Free</div>
-                </ng-template>
-                <a class="btn cursor-pointer mt-3" [style.background]="plan.background"
-                   (click)="selectPlan(plan.name)">Select</a>
               </div>
+              <h3 class="heading mt-4"></h3>
+              <div class="px-2 py-3 plan-sub-item">{{plan.messages_per_day}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.gb}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.aliases}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.custom_domains}}</div>
+              <h3 class="heading mt-4"></h3>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.ssl_tls}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_attachments}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_content}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_contacts}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_subjects}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_metadata}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.two_fa}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.anti_phishing}"></ng-container>
             </div>
           </div>
         </div>
@@ -48,6 +83,13 @@
   <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
+
+<ng-template #featureIcon let-value="value">
+  <div class="px-2 py-3 plan-sub-item">
+    <i class="fa fa-check text-green" *ngIf="value"></i>
+    <i class="fa fa-times text-danger" *ngIf="!value"></i>
+  </div>
+</ng-template>
 
 <!-- billing info modal -->
 <ng-template #billingInfoModal let-c="close" let-d="dismiss">
