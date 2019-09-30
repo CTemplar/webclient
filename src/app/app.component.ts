@@ -65,7 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
         window.scrollTo(0, 0);
       });
 
-    this.quote = quotes[Math.floor(Math.random() * 5)];
+    this.quote = quotes[Math.floor(Math.random() * quotes.length)];
 
     this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {

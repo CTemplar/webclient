@@ -3,36 +3,30 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import {
-  DEFAULT_CUSTOM_DOMAIN,
-  DEFAULT_EMAIL_ADDRESS,
-  DEFAULT_STORAGE,
-  FONTS,
-  Language,
-  LANGUAGES,
-  VALID_EMAIL_REGEX
-} from '../../shared/config';
+import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
 
 import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
 import {
   AppState,
-  AuthState, Invoice,
+  AuthState,
+  Invoice,
   NotificationPermission,
   Payment,
   PaymentMethod,
   PaymentType,
   PlanType,
+  PricingPlan,
   Settings,
   Timezone,
   TimezonesState,
   UserState
 } from '../../store/datatypes';
-import { OpenPgpService } from '../../store/services';
+import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
-import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
+import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import * as moment from 'moment-timezone';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mail-settings',
@@ -40,12 +34,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./mail-settings.component.scss']
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly defaultStorage = DEFAULT_STORAGE;
-  readonly defaultEmailAddress = DEFAULT_EMAIL_ADDRESS;
-  readonly defaultCustomDomain = DEFAULT_CUSTOM_DOMAIN;
   readonly fonts = FONTS;
-  readonly championMonthlyPrice = 50;
-  readonly championAnnualPriceTotal = 450;
   readonly planType = PlanType;
   @ViewChild('tabSet', { static: false }) tabSet;
   @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
@@ -63,17 +52,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedLanguage: Language;
   languages: Language[] = LANGUAGES;
   timezones: Timezone[];
-  annualTotalPrice: number;
-  annualDiscountedPrice: number;
-  extraStorage: number = 0; // storage extra than the default 5GB
-  extraEmailAddress: number = 0; // email aliases extra than the default 1 alias
-  extraCustomDomain: number = 0;
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
   notificationsPermission: string;
   notificationPermissionType = NotificationPermission;
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
+  currentPlan: PricingPlan;
 
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
@@ -88,7 +73,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private pushNotificationService: PushNotificationService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private sharedService: SharedService
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -96,6 +81,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.notificationsPermission = Notification.permission;
+    this.sharedService.loadPricingPlans();
 
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
@@ -107,15 +93,11 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.settings = user.settings;
         this.payment = user.payment_transaction;
         this.invoices = user.invoices;
-        this.calculatePrices();
-        this.calculateExtraStorageAndEmailAddresses();
-        if (user.settings.plan_type) {
-          this.userPlanType = user.settings.plan_type;
-        } else if (user.isPrime) {
-          this.userPlanType = PlanType.PRIME;
-        } else {
-          this.userPlanType = PlanType.FREE;
+        this.userPlanType = user.settings.plan_type || PlanType.FREE;
+        if (SharedService.PRICING_PLANS && user.settings.plan_type) {
+          this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
         }
+
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
@@ -155,51 +137,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeUrlParams() {
     window.history.replaceState({}, '', `/mail/settings/` + this.selectedTabQueryParams);
-  }
-
-  calculatePrices() {
-    if (this.payment && this.payment.amount) {
-      let price = +this.payment.amount;
-      if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
-        price = +(price / 100000000).toFixed(5);
-      } else {
-        price = +(price / 100).toFixed(2);
-      }
-      if (this.payment.payment_method !== PaymentMethod.BITCOIN.toLowerCase()) {
-        // prices are calculated in `calculateExtraStorageAndEmailAddresses` method when payment method is Bitcoin
-        if (this.payment.payment_type === PaymentType.ANNUALLY) {
-          this.annualDiscountedPrice = price;
-        } else {
-          this.annualTotalPrice = +(price * 12).toFixed(2);
-        }
-      }
-    } else {
-      this.annualTotalPrice = 96;
-    }
-  }
-
-  calculateExtraStorageAndEmailAddresses() {
-    if (this.settings) {
-      if (this.settings.allocated_storage) {
-        const storageInGB = +(this.settings.allocated_storage / 1048576).toFixed(0);
-        this.extraStorage = this.defaultStorage < storageInGB ? storageInGB - this.defaultStorage : 0;
-      }
-      if (this.settings.email_count) {
-        this.extraEmailAddress = this.defaultEmailAddress < this.settings.email_count
-          ? this.settings.email_count - this.defaultEmailAddress : 0;
-      }
-      if (this.settings.domain_count) {
-        this.extraCustomDomain = this.settings.domain_count - this.defaultCustomDomain;
-      }
-      if (this.payment) {
-        if (this.payment.payment_type === PaymentType.ANNUALLY) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10) + this.extraCustomDomain) * 12).toFixed(2);
-        } else if (this.payment.payment_method === PaymentMethod.BITCOIN.toLowerCase()) {
-          this.annualTotalPrice = +((8 + this.extraStorage + (this.extraEmailAddress / 10) + this.extraCustomDomain) * 12).toFixed(2);
-          this.annualDiscountedPrice = +(this.annualTotalPrice * 0.75).toFixed(2);
-        }
-      }
-    }
   }
 
   // == Toggle active state of the slide in price page
