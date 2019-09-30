@@ -86,7 +86,14 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   selectPlan(plan: PlanType) {
     // this.store.dispatch(new MembershipUpdate({ id }));
     this.selectedPlan = plan;
-
+    this.store.dispatch(new ClearSignUpState());
+    this.store.dispatch(new ClearAuthErrorMessage());
+    this.store.dispatch(new UpdateSignupData({
+      plan_type: this.selectedPlan,
+      payment_type: this.paymentType,
+      payment_method: this.paymentMethod,
+      currency: this.selectedCurrency
+    }));
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
@@ -94,14 +101,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
         backdrop: 'static',
       });
     } else {
-      this.store.dispatch(new ClearSignUpState());
-      this.store.dispatch(new ClearAuthErrorMessage());
-      this.store.dispatch(new UpdateSignupData({
-        plan_type: this.selectedPlan,
-        payment_type: this.paymentType,
-        payment_method: this.paymentMethod,
-        currency: this.selectedCurrency
-      }));
       this.router.navigateByUrl('/create-account');
     }
   }

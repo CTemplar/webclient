@@ -46,12 +46,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
   @Input() storage: number;
-  @Input() emailAddressAliases: number;
-  @Input() customDomains: number;
   @Input() planType: PlanType = PlanType.PRIME;
-  @Input() monthlyPrice: number;
-  @Input() annualPricePerMonth: number;
-  @Input() annualPriceTotal: number;
   @Output() close = new EventEmitter<boolean>();
 
   paymentTypeEnum = PaymentType;
@@ -61,7 +56,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   expiryYear = 'Year';
   cvc;
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-  years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+  years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029'];
   paymentMethodType = PaymentMethod;
   seconds: number = 60;
   minutes: number = 60;
@@ -135,12 +130,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
           this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
           this.currency = this.signupState.currency || 'USD';
-          this.storage = this.storage || this.signupState.memory;
-          this.emailAddressAliases = this.emailAddressAliases || this.signupState.email_count;
-          this.customDomains = this.customDomains || this.signupState.domain_count;
-          this.monthlyPrice = this.monthlyPrice || this.signupState.monthlyPrice;
-          this.annualPricePerMonth = this.annualPricePerMonth || this.signupState.annualPricePerMonth;
-          this.annualPriceTotal = this.annualPriceTotal || this.signupState.annualPriceTotal;
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod();
@@ -328,9 +317,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   createNewWallet() {
     this.store.dispatch(new CreateNewWallet({
       payment_type: this.paymentType,
-      memory: this.storage,
-      email_count: this.emailAddressAliases,
-      domain_count: this.customDomains,
       plan_type: this.planType
     }));
   }
