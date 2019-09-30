@@ -157,6 +157,8 @@ export interface Settings {
   is_anti_phishing_enabled?: boolean;
   anti_phishing_phrase?: string;
   is_html_disabled?: boolean;
+  attachment_size_limit?: number;
+  attachment_size_error?: string;
 }
 
 export interface Invoice {
