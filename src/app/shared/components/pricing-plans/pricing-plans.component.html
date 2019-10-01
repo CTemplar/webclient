@@ -57,7 +57,7 @@
                 <div class="text-center">
                   <div class="bold mt-3">{{plan.name}}</div>
                   <div class="plan-title-info" *ngIf="plan.name!==planType.FREE; else freePlan">
-                    <div>$<b>{{plan.monthly_price}}</b>/m</div>
+                    <div class="monthly-price">$<b>{{plan.monthly_price}}</b>/m</div>
                     <div>billed as ${{plan.annually_price}}/y</div>
                   </div>
                   <ng-template #freePlan>
