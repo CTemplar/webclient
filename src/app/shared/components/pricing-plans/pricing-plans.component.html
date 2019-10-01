@@ -1,5 +1,5 @@
 <!-- PAGE SECTION -->
-<section class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
+<section *ngIf="pricingPlans?.length>0" class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
   <div class="container">
     <header class="l-block-header position-relative text-center mb-4 mb-sm-5 mb-md-8" [hidden]="hideHeader">
       <div class="row justify-content-center">
@@ -103,6 +103,9 @@
   <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
+<div align="center" *ngIf="pricingPlans?.length===0">
+  <img class="logo" style="width: 200px; height: 300px;" [src]="loadingImage | safe:'url'"/>
+</div>
 
 <ng-template #featureIcon let-value="value">
   <div class="px-2 py-3 plan-sub-item">

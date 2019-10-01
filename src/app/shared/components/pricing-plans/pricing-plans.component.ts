@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
 import { PaymentMethod, PaymentType, PlanType, PricingPlan } from '../../../store/datatypes';
-import { SharedService } from '../../../store/services';
+import { LOADING_IMAGE, SharedService } from '../../../store/services';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 
 @Component({
@@ -35,6 +35,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   availableEmailAddress = [];
   availableCustomDomain = [];
   pricingPlans: Array<PricingPlan> = [];
+  loadingImage = LOADING_IMAGE;
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
