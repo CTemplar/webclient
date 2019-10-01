@@ -445,6 +445,21 @@ export interface PricingPlan {
   encrypted_metadata: boolean;
   two_fa: boolean;
   anti_phishing: boolean;
+  attachment_upload_limit: number;
+  brute_force_protection: boolean;
+  zero_knowledge_password: boolean;
+  strip_ips: boolean;
+  sri: boolean;
+  checksums: boolean;
+  multi_user_support: boolean;
+  self_destructing_emails: boolean;
+  dead_man_timer: boolean;
+  delayed_delivery: boolean;
+  four_data_deletion_methods: boolean;
+  virus_detection_tool: boolean;
+  catch_all_email: boolean;
+  unlimited_folders: boolean;
+  exclusive_access: boolean;
 }
 
 export enum TransactionStatus {

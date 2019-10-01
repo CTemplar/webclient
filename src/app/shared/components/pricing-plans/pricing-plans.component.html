@@ -23,23 +23,31 @@
         <div class="col-3 p-0 plan-titles">
           <div class="pl-2 plan-item pt-4"><label class="pt-3">Plan & Price</label></div>
           <h3 class="heading mt-4">Packages</h3>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Messages per day">Messages per day</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Storage in GB">GB</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Number of emails allowed to send per day">Messages per day</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Attachment upload limit in MB">Attachment limit (MB)</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Storage in GB">Storage (GB)</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Email aliases">Aliases</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Custom domains">Custom domains</div>
           <h3 class="heading mt-4">Features</h3>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encryption in transit(SSL/TLS)">Encryption
-            in transit(SSL/TLS)
-          </div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted attachments">Encrypted
-            attachments
-          </div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encryption in transit(SSL/TLS)">Encryption in transit(SSL/TLS)</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted attachments">Encrypted attachments</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted content">Encrypted content</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted contacts">Encrypted contacts</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted subjects">Encrypted subjects</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted metadata">Encrypted metadata</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Two factor authentication">2FA</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Anti phishing">Anti phishing</div>
+          <div class="bold px-2 py-3 plan-sub-item">Anti phishing</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Brute force protection">Brute force protection</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Zero knowledge passwords">Zero knowledge passwords</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Strips IP address from headers">Strips IP from headers</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Unhackable by others with SRI">Unhackable by others with SRI</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Unhackable by us with checksums">Unhackable by us with checksums</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Multi user support under custom domains">Multi user support</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Self destructing emails">Self destructing emails</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Dead man timer">Dead man timer</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Delayed delivery">Delayed delivery</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Catch all emails of a custom domain">Catch all emails</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Unlimited folders">Unlimited folders</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Exclusive access to new features">Exclusive access to new features</div>
 
         </div>
         <div class="col-9">
@@ -61,6 +69,7 @@
               </div>
               <h3 class="heading mt-4"></h3>
               <div class="px-2 py-3 plan-sub-item">{{plan.messages_per_day}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.attachment_upload_limit}}</div>
               <div class="px-2 py-3 plan-sub-item">{{plan.gb}}</div>
               <div class="px-2 py-3 plan-sub-item">{{plan.aliases}}</div>
               <div class="px-2 py-3 plan-sub-item">{{plan.custom_domains}}</div>
@@ -70,9 +79,20 @@
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_content}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_contacts}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_subjects}"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_metadata}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.two_fa}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.anti_phishing}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.brute_force_protection}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.zero_knowledge_password}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.strip_ips}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.sri}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.checksums}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.multi_user_support}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.self_destructing_emails}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.dead_man_timer}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.delayed_delivery}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.catch_all_email}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.unlimited_folders}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.exclusive_access}"></ng-container>
             </div>
           </div>
         </div>
