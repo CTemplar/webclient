@@ -10,7 +10,7 @@ import {
   CheckTransaction,
   ClearWallet,
   CreateNewWallet,
-  FinalLoading,
+  FinalLoading, GetUpgradeAmount,
   SignUp,
   SnackErrorPush,
   UpgradeAccount
@@ -25,7 +25,7 @@ import {
   PlanType,
   PricingPlan,
   SignupState,
-  TransactionStatus
+  TransactionStatus, UserState
 } from '../../../store/datatypes';
 // Service
 import { OpenPgpService, SharedService } from '../../../store/services/index';
@@ -76,6 +76,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   isScriptsLoading: boolean;
   apiUrl: string = apiUrl;
   currentPlan: PricingPlan;
+  upgradeAmount: number;
 
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
@@ -95,6 +96,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
+    if (this.isUpgradeAccount) {
+      this.store.dispatch(new GetUpgradeAmount({ plan_type: this.planType, payment_type: this.paymentType }));
+      this.store.select(state => state.user).pipe(untilDestroyed(this))
+        .subscribe((userState: UserState) => {
+          this.upgradeAmount = userState.upgradeAmount;
+        });
+    }
 
     this.billingForm = this.formBuilder.group({
       'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]]

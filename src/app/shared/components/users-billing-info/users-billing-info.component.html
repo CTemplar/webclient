@@ -81,7 +81,14 @@
                         {{currentPlan?.monthly_price|currency:currency}}/<span
                               translate="billing_info.month">month</span>
                       </strong>
-                      <!-- {{payment.payment_method === 'stripe' ? payment.currency : payment.payment_method}} -->
+                    </div>
+                  </div>
+                  <div class="billing-overview-row row" *ngIf="isUpgradeAccount" ngbTooltip="This is the amount which you will be charged right now.">
+                    <label class="billing-overview-label mb-0 col-3">Amount to charge</label>
+                    <div class="billing-overview-val text-secondary col">
+                      <strong *ngIf="upgradeAmount!=null">
+                        {{upgradeAmount|currency:currency}}
+                      </strong>
                     </div>
                   </div>
                 </div>

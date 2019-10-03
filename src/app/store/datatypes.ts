@@ -111,6 +111,7 @@ export interface UserState {
   isLoaded?: boolean;
   invoices: Invoice[];
   isInvoiceLoaded?: boolean;
+  upgradeAmount?: number;
 }
 
 export interface ContactsState {
