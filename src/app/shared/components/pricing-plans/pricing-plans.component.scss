@@ -41,12 +41,16 @@
       color: #2e4053;
     }
 
-    .btn {
+    .select-btn {
       height: 20px;
       line-height: 0;
       border-color: transparent;
       color: white !important;
       box-shadow: 5px 10px 10px #e8dcdc;
+      max-width: 90%;
+      width: 100px;
+      min-width: unset;
+      margin-top: 1.5rem;
 
       &:hover {
         opacity: 0.9;
