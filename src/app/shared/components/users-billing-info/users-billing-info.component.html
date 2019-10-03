@@ -58,10 +58,10 @@
                           </button>
                           <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
                             <a class="dropdown-item text-muted" *ngIf="paymentMethod===paymentMethodType.STRIPE"
-                               (click)="paymentType=paymentTypeEnum.MONTHLY">
+                               (click)="selectPaymentType(paymentTypeEnum.MONTHLY)">
                               <em>Monthly</em>
                             </a>
-                            <a class="dropdown-item text-muted" (click)="paymentType=paymentTypeEnum.ANNUALLY">
+                            <a class="dropdown-item text-muted" (click)="selectPaymentType(paymentTypeEnum.ANNUALLY)">
                               <em>Annually</em>
                             </a>
                           </div>

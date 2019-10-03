@@ -140,7 +140,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.currency = this.signupState.currency || 'USD';
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
-          this.selectBitcoinMethod();
+          this.selectBitcoinMethod(false);
         } else {
           this.loadStripeScripts();
         }
@@ -296,8 +296,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.dispatch(new CheckTransaction({ 'from_address': this.bitcoinState.newWalletAddress }));
   }
 
-  selectBitcoinMethod() {
-    if (this.bitcoinState && this.bitcoinState.newWalletAddress) {
+  selectBitcoinMethod(forceLoad: boolean = true) {
+    if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {
       return;
     }
     this.stripePaymentValidation = {
@@ -320,6 +320,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe(() => {
         this.checkTransaction();
       });
+    this.selectPaymentType(this.paymentType);
+  }
+
+  selectPaymentType(paymentType: PaymentType) {
+    this.paymentType = paymentType;
+    if (this.isUpgradeAccount) {
+      this.store.dispatch(new GetUpgradeAmount({ plan_type: this.planType, payment_type: this.paymentType }));
+    }
   }
 
   createNewWallet() {
