@@ -64,7 +64,8 @@
                     <div class="plan-title-info">Free</div>
                   </ng-template>
                   <a class="btn cursor-pointer select-btn" [style.background]="plan.background"
-                     (click)="selectPlan(plan.name)">Select</a>
+                     *ngIf="userPlanType!==plan.name; else currentPlan" (click)="selectPlan(plan.name)">Select</a>
+                  <ng-template #currentPlan><label class="current-plan">Current plan</label></ng-template>
                 </div>
               </div>
               <h3 class="heading mt-4"></h3>
