@@ -638,8 +638,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.settings.is_html_disabled) {
       if (!this.isSignatureAdded) {
         this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : '';
-        this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+        if (this.selectedMailbox.signature) {
+          this.mailData.content = this.mailData.content ? this.mailData.content : '';
+          this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+        }
       }
       return;
     }
