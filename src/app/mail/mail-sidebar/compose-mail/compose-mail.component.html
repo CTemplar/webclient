@@ -103,6 +103,7 @@
       <div class="mail-compose-field">
         <span class="mail-label label-subject mail-subject" translate="settings.compose.subject">Subject:</span>
         <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
+                  [disabled]="action===mailAction.REPLY || action===mailAction.REPLY_ALL"
                   (ngModelChange)="valueChanged$.next(mailData.subject)"
                   id="subject" rows="1"></textarea>
       </div>

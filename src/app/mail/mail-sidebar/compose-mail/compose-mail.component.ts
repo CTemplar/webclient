@@ -162,6 +162,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isUploadingAttachment: boolean;
   insertLinkData: any = {};
   settings: Settings;
+  mailAction = MailAction;
 
   private isMailSent = false;
   private isSavedInDraft = false;
