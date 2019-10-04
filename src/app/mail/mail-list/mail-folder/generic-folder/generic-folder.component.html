@@ -181,6 +181,11 @@
       </div>
     </div>
   </div>
+  <div align="center" *ngIf="mailFolder===mailFolderTypes.TRASH">
+    <p class="mt-2">
+      Messages that are in Trash more than 30 days will be automatically be deleted forever.
+    </p>
+  </div>
 </div>
 <app-progress-bar [active]="showProgress"></app-progress-bar>
 <div class="mail-listing mailbox-sub-content">
