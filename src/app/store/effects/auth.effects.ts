@@ -81,7 +81,9 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((response) => {
       if (response.payload.token) {
-        this.router.navigateByUrl('/mail');
+        if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
+          this.router.navigateByUrl('/mail');
+        }
       }
     })
   );

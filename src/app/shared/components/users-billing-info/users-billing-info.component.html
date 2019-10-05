@@ -26,42 +26,69 @@
                       <strong>CTemplar {{planType}}</strong>
                     </div>
                   </div>
-                  <div class="billing-overview-row row">
-                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.billing">Billing</label>
-                    <div class="billing-overview-val text-secondary col">
-                      <strong class="text-capitalize">{{paymentType === 'annually' ? 'Annually' : 'Recurring'}}</strong>
-                    </div>
-                  </div>
-                  <div class="billing-overview-row row">
-                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.price">Price</label>
-                    <div class="billing-overview-val text-secondary col">
-                      <strong *ngIf="paymentType === 'annually'">
-                        {{annualPriceTotal|currency:currency}}/<span translate="billing_information.annually">Yearly</span> ({{annualPricePerMonth|currency:currency}}/
-                        <span translate="billing_info.month">month</span>) </strong>
-                      <strong *ngIf="paymentType === 'monthly'">
-                        {{monthlyPrice|currency:currency}}/  <span translate="billing_info.month">month</span>
-                      </strong>
-                      <!-- {{payment.payment_method === 'stripe' ? payment.currency : payment.payment_method}} -->
-                    </div>
-                  </div>
+
                   <div class="billing-overview-row payment-method-row row">
                     <label class="billing-overview-label col-3" translate="billing_info.payment_method">Payment Method: </label>
                     <div class="billing-overview-val text-secondary col">
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="payment-select-dropdown">
                           <button ngbDropdownToggle role="button"
-                                  id="paymentDropdownMenuButton" [disabled]="true">{{paymentMethod}}
+                                  id="paymentDropdownMenuButton">{{paymentMethod}}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                            <a class="dropdown-item text-muted">
+                            <a class="dropdown-item text-muted" (click)="loadStripeScripts()">
                               <em>Stripe (Credit/Debit Card)</em>
                             </a>
-                            <a class="dropdown-item text-muted">
+                            <a class="dropdown-item text-muted" (click)="selectBitcoinMethod()">
                               <em>Bitcoin</em>
                             </a>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.billing">Billing</label>
+                    <div class="billing-overview-val text-secondary col">
+                      <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                        <div ngbDropdown class="payment-select-dropdown">
+                          <button ngbDropdownToggle role="button"
+                                  id="paymentTypeDropdownMenuButton">{{paymentType}}
+                          </button>
+                          <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
+                            <a class="dropdown-item text-muted" *ngIf="paymentMethod===paymentMethodType.STRIPE"
+                               (click)="selectPaymentType(paymentTypeEnum.MONTHLY)">
+                              <em>Monthly</em>
+                            </a>
+                            <a class="dropdown-item text-muted" (click)="selectPaymentType(paymentTypeEnum.ANNUALLY)">
+                              <em>Annually</em>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="billing-overview-row row">
+                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.price">Price</label>
+                    <div class="billing-overview-val text-secondary col">
+                      <strong *ngIf="paymentType === paymentTypeEnum.ANNUALLY">
+                        {{currentPlan?.annually_price|currency:currency}}/<span
+                              translate="settings.annually">Yearly</span>
+                        ({{(currentPlan?.annually_price / 12)|currency:currency}}/<span translate="billing_info.month">month</span>)
+                      </strong>
+                      <strong *ngIf="paymentType === paymentTypeEnum.MONTHLY">
+                        {{currentPlan?.monthly_price|currency:currency}}/<span
+                              translate="billing_info.month">month</span>
+                      </strong>
+                    </div>
+                  </div>
+                  <div class="billing-overview-row row" *ngIf="isUpgradeAccount" ngbTooltip="This is the amount which you will be charged right now.">
+                    <label class="billing-overview-label mb-0 col-3">Amount to charge</label>
+                    <div class="billing-overview-val text-secondary col">
+                      <strong *ngIf="upgradeAmount!=null">
+                        {{upgradeAmount|currency:currency}}
+                      </strong>
                     </div>
                   </div>
                 </div>

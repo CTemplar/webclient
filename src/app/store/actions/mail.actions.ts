@@ -19,6 +19,8 @@ export enum MailActionTypes {
   MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
   DELETE_MAIL = '[Mail] DELETE',
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
+  DELETE_MAIL_FOR_ALL = '[Mail] DELETE FOR ALL',
+  DELETE_MAIL_FOR_ALL_SUCCESS = '[Mail] DELETE FOR ALL SUCCESS',
   READ_MAIL = '[Mail] READ_MAIL',
   READ_MAIL_SUCCESS = '[Mail] READ_MAIL SUCCESS',
   STAR_MAIL = '[Mail] STAR_MAIL',
@@ -293,6 +295,18 @@ export class EmptyTrashFailure implements Action {
   }
 }
 
+export class DeleteMailForAll implements Action {
+  readonly type = MailActionTypes.DELETE_MAIL_FOR_ALL;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteMailForAllSuccess implements Action {
+  readonly type = MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -333,4 +347,6 @@ export type MailActions =
   | UpdateMailboxOrderSuccess
   | EmptyTrash
   | EmptyTrashSuccess
-  | EmptyTrashFailure;
+  | EmptyTrashFailure
+  | DeleteMailForAll
+  | DeleteMailForAllSuccess;

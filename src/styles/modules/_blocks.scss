@@ -429,8 +429,17 @@
 
 	ul,
 	ol {
-		padding-left: 0.625rem;
-		list-style-position: inside;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+
+		li {
+			padding-left: 10px;
+			padding-bottom: 10px;
+		}
+	}
+
+	p {
+		text-align: justify;
 	}
 }
 

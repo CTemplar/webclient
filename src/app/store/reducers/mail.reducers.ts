@@ -15,6 +15,7 @@ export function reducer(
     unreadMailsCount: { inbox: 0 },
     noUnreadCountChange: true,
     canGetUnreadCount: true,
+    decryptedSubjects: {}
   }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -53,9 +54,16 @@ export function reducer(
           mails = state.folders.get(state.currentFolder);
         }
       }
+      mails = mails ? mails : [];
+      mails.forEach((mail: Mail) => {
+        if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
+          mail.subject = state.decryptedSubjects[mail.id];
+          mail.is_subject_encrypted = false;
+        }
+      });
       return {
         ...state,
-        mails: mails ? mails : [],
+        mails,
         loaded: true,
         inProgress: false,
         noUnreadCountChange: true,
@@ -159,6 +167,7 @@ export function reducer(
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
+    case MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS:
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
       if (action.payload.isMailDetailPage) {
         return state;
@@ -175,6 +184,10 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
+      if (action.payload.is_subject_encrypted && state.decryptedSubjects[action.payload.id]) {
+        action.payload.is_subject_encrypted = false;
+        action.payload.subject = state.decryptedSubjects[action.payload.id];
+      }
       return {
         ...state,
         mailDetail: action.payload,
@@ -200,7 +213,8 @@ export function reducer(
         decryptedContents: {},
         unreadMailsCount: { inbox: 0 },
         noUnreadCountChange: true,
-        canGetUnreadCount: true
+        canGetUnreadCount: true,
+        decryptedSubjects: {},
       };
     }
 
@@ -246,6 +260,7 @@ export function reducer(
           state.mails = state.mails.map(mail => {
             if (mail.id === action.payload.id) {
               mail.subject = action.payload.decryptedContent.subject;
+              state.decryptedSubjects[mail.id] = mail.subject;
               mail.is_subject_encrypted = false;
             }
             return mail;

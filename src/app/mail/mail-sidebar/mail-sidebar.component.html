@@ -111,7 +111,7 @@
                             <span class="mailbox-sidebar-nav-label">
                                 {{folder.name}}
                             </span>
-                            <span class="badge badge-square hidden-sm-down" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name]>0">{{mailState?.unreadMailsCount[folder.name]}}</span>
+                            <span class="badge badge-square hidden-sm-down badge-position" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name]>0">{{mailState?.unreadMailsCount[folder.name]}}</span>
                         </a>
                     </div>
                 </li>

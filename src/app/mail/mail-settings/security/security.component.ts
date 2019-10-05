@@ -107,6 +107,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.settingsService.updateSettings(this.settings, key, value);
   }
 
+  updateAntiPhishing(status: boolean) {
+    if (this.settings.is_anti_phishing_enabled !== status) {
+      this.settings.anti_phishing_phrase = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+      this.settingsService.updateSettings(this.settings, 'is_anti_phishing_enabled', status);
+    }
+  }
+
   get2FASecret() {
     this.store.dispatch(new Get2FASecret());
     this.modalService.open(this.auth2FAModal, {
@@ -180,7 +187,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.isContactsEncrypted = false;
     }, 100);
-   this.modalService.open(this.confirmEncryptContactsModal, {
+    this.modalService.open(this.confirmEncryptContactsModal, {
       centered: true,
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal'
