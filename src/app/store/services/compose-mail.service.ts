@@ -28,20 +28,8 @@ export class ComposeMailService {
               }
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
-              if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress && !draftMail.isProcessingAttachments) {
-                draftMail.draft.content = draftMail.encryptedContent.content;
-                if (this.userState.settings.is_subject_encrypted) {
-                  draftMail.draft.subject = draftMail.encryptedContent.subject;
-                }
-                if (!draftMail.isSshInProgress) {
-                  if (!draftMail.isSaving) {
-                    this.store.dispatch(new SendMail({ ...draftMail }));
-                  } else {
-                    this.store.dispatch(new SnackPush(
-                      { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
-                  }
-                }
-              } else if (this.drafts[key].isProcessingAttachments && !draftMail.isProcessingAttachments && !draftMail.isPGPInProgress) {
+              if ((this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress && !draftMail.isProcessingAttachments) ||
+                (this.drafts[key].isProcessingAttachments && !draftMail.isProcessingAttachments && !draftMail.isPGPInProgress)) {
                 draftMail.draft.content = draftMail.encryptedContent.content;
                 if (this.userState.settings.is_subject_encrypted) {
                   draftMail.draft.subject = draftMail.encryptedContent.subject;
