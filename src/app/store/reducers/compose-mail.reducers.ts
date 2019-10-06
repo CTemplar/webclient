@@ -263,6 +263,18 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       return { ...state, drafts: { ...state.drafts } };
     }
 
+    case ComposeMailActionTypes.UPDATE_DRAFT_ATTACHMENT: {
+      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+        if (attachment.attachmentId === action.payload.attachment.attachmentId) {
+          state.drafts[action.payload.draftId].attachments[index] = {
+            ...state.drafts[action.payload.draftId].attachments[index],
+            ...action.payload.attachment
+          };
+        }
+      });
+      return { ...state, drafts: { ...state.drafts } };
+    }
+
     default: {
       return state;
     }

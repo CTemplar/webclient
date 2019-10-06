@@ -23,7 +23,8 @@ export enum ComposeMailActionTypes {
   GET_USERS_KEYS = '[USERS] GET KEYS',
   GET_USERS_KEYS_SUCCESS = '[USERS] GET KEYS SUCCESS',
   NEW_DRAFT = '[DraftState] NEW_DRAFT',
-  CLEAR_DRAFT = '[DRAFT] CLEAR'
+  CLEAR_DRAFT = '[DRAFT] CLEAR',
+  UPDATE_DRAFT_ATTACHMENT = '[Attachment] UPDATE_DRAFT_ATTACHMENT'
 }
 
 export class CreateMail implements Action {
@@ -180,6 +181,13 @@ export class ClearDraft implements Action {
   }
 }
 
+export class UpdateDraftAttachment implements Action {
+  readonly type = ComposeMailActionTypes.UPDATE_DRAFT_ATTACHMENT;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type ComposeMailActions =
   | CreateMail
   | CreateMailSuccess
@@ -202,4 +210,5 @@ export type ComposeMailActions =
   | GetUsersKeys
   | GetUsersKeysSuccess
   | NewDraft
-  | ClearDraft;
+  | ClearDraft
+  | UpdateDraftAttachment;
