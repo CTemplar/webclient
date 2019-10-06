@@ -17,9 +17,8 @@ import {
   MoveMail,
   NewDraft,
   SnackErrorPush,
-  SnackPush,
-  UpdateLocalDraft,
-  UploadAttachment
+  SnackPush, UpdateDraftAttachment,
+  UpdateLocalDraft
 } from '../../../store/actions';
 import {
   AppState,
@@ -33,6 +32,7 @@ import {
   UserState, ContactsState, Settings
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
+import { MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -191,6 +191,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
+              private mailService: MailService,
+              private sharedService: SharedService,
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
               private filesizePipe: FilesizePipe,
@@ -376,6 +378,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       usersKeys: null
     };
     this.store.dispatch(new NewDraft({ ...draft }));
+    this.decryptAttachments(draft.attachments);
+  }
+
+  decryptAttachments(attachments: Array<Attachment>) {
+    attachments.forEach(attachment => {
+      if (!attachment.decryptedDocument) {
+        this.mailService.getAttachment(attachment).pipe(untilDestroyed(this))
+          .subscribe(response => {
+              const uint8Array = this.sharedService.base64ToUint8Array(response.data);
+              const fileInfo = { attachment, type: 'image/png' }; // TODO: replace image/png with response.file_type when its fixed on backend
+              this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
+                .subscribe(decryptedAttachment => {
+                  this.store.dispatch(new UpdateDraftAttachment({
+                    draftId: this.draftId,
+                    attachment: { ...decryptedAttachment }
+                  }));
+                });
+          },
+            error => console.log(error));
+      }
+    });
   }
 
   initializeQuillEditor() {
