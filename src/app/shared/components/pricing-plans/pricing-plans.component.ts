@@ -106,10 +106,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  changeCurrency(currency) {
-    this.selectedCurrency = currency;
-  }
-
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
   }
