@@ -1,8 +1,12 @@
+import { HttpResponse } from '@angular/common/http';
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { forkJoin, Observable } from 'rxjs';
+import { finalize, take } from 'rxjs/operators';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
 import { AppState, ComposeMailState, Draft, DraftState, SecureContent, UserState } from '../datatypes';
+import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 
 @Injectable()
@@ -15,6 +19,7 @@ export class ComposeMailService {
 
   constructor(private store: Store<AppState>,
               private openPgpService: OpenPgpService,
+              private mailService: MailService,
               private componentFactoryResolver: ComponentFactoryResolver) {
     this.store.select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
@@ -69,8 +74,34 @@ export class ComposeMailService {
                     });
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                   } else {
-                    if(!draftMail.isSaving) {
-                      this.store.dispatch(new SendMail({ ...draftMail }));
+                    if (!draftMail.isSaving) {
+                      const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
+                      if (encryptedAttachments.length > 0) {
+                        forkJoin(
+                          ...encryptedAttachments.map(attachment => {
+                            attachment.is_encrypted = false;
+                            attachment.document = attachment.decryptedDocument;
+                            return Observable.create(observer => {
+                              this.mailService.uploadFile(attachment)
+                                .pipe(finalize(() => observer.complete()))
+                                .subscribe(event => {
+                                    if (event instanceof HttpResponse) {
+                                      observer.next(event.body);
+                                    }
+                                  },
+                                  error => observer.error(error));
+                            });
+                          })
+                        )
+                          .pipe(take(1))
+                          .subscribe(responses => {
+                              this.store.dispatch(new SendMail({ ...draftMail }));
+                            },
+                            error => this.store.dispatch(new SnackPush(
+                              { message: 'Failed to send email, please try again. Email has been saved in draft.' })));
+                      } else {
+                        this.store.dispatch(new SendMail({ ...draftMail }));
+                      }
                     } else {
                       this.store.dispatch(new SnackPush(
                         { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
