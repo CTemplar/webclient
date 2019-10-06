@@ -162,7 +162,7 @@ export class OpenPgpService {
           event.data.fileInfo.attachment.name,
           {type: event.data.fileInfo.type}
         );
-        const newAttachment = {...event.data.fileInfo.attachment, document: newDocument};
+        const newAttachment: Attachment = {...event.data.fileInfo.attachment, decryptedDocument: newDocument};
         this.subjects[event.data.subjectId].next(newAttachment);
         this.subjects[event.data.subjectId].complete();
         delete this.subjects[event.data.subjectId];
