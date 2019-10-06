@@ -126,7 +126,7 @@ export class MailEffects {
       return this.mailService.deleteMailForAll(payload.id)
         .pipe(
           switchMap(res => of(new DeleteMailForAllSuccess(payload),
-            new SnackErrorPush({ message: 'Failed to delete mail.' }))),
+            new SnackErrorPush({ message: 'Mail deleted successfully.' }))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
         );
     }));

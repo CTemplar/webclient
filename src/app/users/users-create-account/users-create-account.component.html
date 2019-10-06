@@ -197,7 +197,7 @@
                 </div>
               </div>
 
-              <div class="form-step-card" *ngIf="selectedPlan !== 1 && selectedPlan !== 2 && captcha">
+              <div class="form-step-card" *ngIf="selectedPlan === planType.FREE && captcha">
                 <h3 class="form-step-card-title text-dark mb-2">
                   <strong translate="create_account.security_check">Security check</strong>
                 </h3>

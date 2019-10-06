@@ -111,6 +111,7 @@ export interface UserState {
   isLoaded?: boolean;
   invoices: Invoice[];
   isInvoiceLoaded?: boolean;
+  upgradeAmount?: number;
 }
 
 export interface ContactsState {
@@ -157,6 +158,8 @@ export interface Settings {
   is_anti_phishing_enabled?: boolean;
   anti_phishing_phrase?: string;
   is_html_disabled?: boolean;
+  attachment_size_limit?: number;
+  attachment_size_error?: string;
 }
 
 export interface Invoice {
@@ -430,6 +433,43 @@ export interface Domain {
   catch_all?: boolean;
 }
 
+export interface PricingPlan {
+  email_count: number;
+  domain_count: number;
+  storage: number;
+  monthly_price: number;
+  annually_price: number;
+  name: PlanType;
+  background: string;
+  messages_per_day: number | string;
+  gb: number;
+  aliases: number;
+  custom_domains: number;
+  ssl_tls: boolean;
+  encrypted_attachments: boolean;
+  encrypted_content: boolean;
+  encrypted_contacts: boolean;
+  encrypted_subjects: boolean;
+  encrypted_metadata: boolean;
+  two_fa: boolean;
+  anti_phishing: boolean;
+  attachment_upload_limit: number;
+  brute_force_protection: boolean;
+  zero_knowledge_password: boolean;
+  strip_ips: boolean;
+  sri: boolean;
+  checksums: boolean;
+  multi_user_support: boolean;
+  self_destructing_emails: boolean;
+  dead_man_timer: boolean;
+  delayed_delivery: boolean;
+  four_data_deletion_methods: boolean;
+  virus_detection_tool: boolean;
+  catch_all_email: boolean;
+  unlimited_folders: boolean;
+  exclusive_access: boolean;
+}
+
 export enum TransactionStatus {
   WAITING = 'Waiting',
   PENDING = 'Pending',
@@ -451,6 +491,9 @@ export enum PaymentType {
 export enum PlanType {
   FREE = 'FREE',
   PRIME = 'PRIME',
+  KNIGHT = 'KNIGHT',
+  MARSHAL = 'MARSHALL',
+  PARAGON = 'PARAGON',
   CHAMPION = 'CHAMPION',
 }
 

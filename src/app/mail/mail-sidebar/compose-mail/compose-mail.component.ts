@@ -162,6 +162,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isUploadingAttachment: boolean;
   insertLinkData: any = {};
   settings: Settings;
+  mailAction = MailAction;
 
   private isMailSent = false;
   private isSavedInDraft = false;
@@ -512,12 +513,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadAttachment(file: File, isInline = false) {
-    const sizeInMBs = file.size / (1024 * 1024);
+    const attachmentLimitInMBs = this.settings.attachment_size_limit / (1024 * 1024);
 
-    if (this.userState.isPrime && sizeInMBs > 25) {
-      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 25MB.' }));
-    } else if (!this.userState.isPrime && sizeInMBs > 5) {
-      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 5MB. Please upgrade your account to prime to send larger attachments.' }));
+    if (file.size > this.settings.attachment_size_limit) {
+      this.store.dispatch(new SnackErrorPush({
+        message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`
+      }));
     } else {
       this.attachmentHolder.nativeElement.scrollIntoView({behavior: 'smooth'});
       const attachment: Attachment = {
@@ -644,8 +645,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.settings.is_html_disabled) {
       if (!this.isSignatureAdded) {
         this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : '';
-        this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+        if (this.selectedMailbox.signature) {
+          this.mailData.content = this.mailData.content ? this.mailData.content : '';
+          this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+        }
       }
       return;
     }

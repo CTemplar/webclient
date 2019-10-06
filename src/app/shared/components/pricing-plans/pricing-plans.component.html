@@ -1,5 +1,5 @@
 <!-- PAGE SECTION -->
-<section class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
+<section *ngIf="pricingPlans?.length>0" class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
   <div class="container">
     <header class="l-block-header position-relative text-center mb-4 mb-sm-5 mb-md-8" [hidden]="hideHeader">
       <div class="row justify-content-center">
@@ -8,425 +8,112 @@
             <strong translate="home_header.pricing">Pricing</strong> <span translate="settings.plans">Plans</span>
           </h1>
           <h4 class="l-block-subtitle mb-0 text-dark fw-light" translate="page_pricing.do_not_show_ads">
-            This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon subscription revenue
-            to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop CTemplar,
+            This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon
+            subscription revenue
+            to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop
+            CTemplar,
             as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails
           </h4>
         </div>
       </div>
     </header>
     <div class="l-block-body px-xs pricing-plans">
-      <div class="package-card-holder mt-3 mt-sm-0 mt-md-5">
-        <ul class="package-xs-tab list-style-none hidden-sm-up">
-          <li class="active" [class.is-active]="1 === selectedIndex"><a role="button"
-                                                                        (click)="toggleSlides(1);" translate="settings.prime">Prime</a>
-          </li>
-          <li [class.is-active]="2 === selectedIndex"><a role="button" (click)="toggleSlides(2);" translate="settings.free">Free</a>
-          </li>
-          <li [class.is-active]="3 === selectedIndex"><a role="button"
-                                                                        (click)="toggleSlides(3);"
-                                                                        translate="settings.champion">Champion</a>
-          </li>
-        </ul>
-        <div class="row flex-nowrap row-lg mb-4 plan-item">
-          <div class="col-sm-4 flex-sm-last package-prime-col active-slide"
-               [class.is-active-slide]="1 === selectedIndex">
-            <div class="package-card package-card-prime is-shadowed bg-faded text-dark">
-              <header class="package-card-header text-center">
-                <h2 class="text-white m-0">
-                  <strong translate="settings.prime">Prime</strong>
-                </h2>
-              </header>
-              <div class="package-card-body">
-                <ul class="package-list mb-0 list-style-none pl-0">
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 <span translate="page_pricing.user">User</span>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>
-                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                      <div ngbDropdown class="storage-select-dropdown">
-                        <button class="dropdown-toggle" type="button"
-                                id="storageDropdownMenuButton" ngbDropdownToggle>{{selectedStorage}} GB <span translate="settings.storage">Storage</span>
-                        </button>
-                        <div ngbDropdownMenu class="dropdown-menu-right"
-                             aria-labelledby="storageDropdownMenuButton">
-                          <a class="dropdown-item"
-                             (click)="selectedStorage = defaultStorage; calculatePrices(); isValueChanged = true;">
-                            {{defaultStorage}} GB <span translate="settings.storage">Storage</span>
-                          </a>
-                          <a *ngFor="let storage of availableStorage"
-                             class="dropdown-item" (click)="selectedStorage = storage; calculatePrices();isValueChanged = true;">
-                            {{storage}} GB <span translate="settings.storage">Storage</span> + {{(storage - defaultStorage) | currency:selectedCurrency}}/mo</a>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>
-                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                      <div ngbDropdown class="storage-select-dropdown">
-                        <button class="dropdown-toggle" type="button" id="emailAddressDropdownMenuButton"
-                                ngbDropdownToggle>
-                          {{selectedEmailAddress}}
-                          <span translate="settings.keys.email_address">Email Address</span>
-                        </button>
-                        <div ngbDropdownMenu class="dropdown-menu-right"
-                             aria-labelledby="emailAddressDropdownMenuButton">
-                          <a class="dropdown-item"
-                             (click)="selectedEmailAddress = defaultEmailAddress; calculatePrices(); isValueChanged = true;">
-                            {{defaultEmailAddress}} <span translate="page_pricing.email_alias">Email Address Aliases</span>
-                          </a>
-                          <a *ngFor="let address of availableEmailAddress"
-                             class="dropdown-item" (click)="selectedEmailAddress = address; calculatePrices(); isValueChanged = true;">
-                            {{address}} <span translate="page_pricing.email_aliases">Email Address Aliases</span> + {{(address - defaultEmailAddress) / 10 | currency:selectedCurrency}}/mo</a>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>
-                    <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                      <div ngbDropdown class="storage-select-dropdown">
-                        <button class="dropdown-toggle" type="button" id="customDomainDropdownMenuButton"
-                                ngbDropdownToggle>{{selectedCustomDomain}}
-                          <span><span translate="page_pricing.custom_domain">Custom Domain</span>{{selectedCustomDomain !== 1 ? 's' : ''}}</span>
-                        </button>
-                        <div ngbDropdownMenu class="dropdown-menu-right"
-                             aria-labelledby="customDomainDropdownMenuButton">
-                          <a class="dropdown-item"
-                             (click)="selectedCustomDomain = defaultCustomDomain; calculatePrices(); isValueChanged = true;">
-                            {{defaultCustomDomain}} <span translate="page_pricing.custom_domain">Custom Domain</span>
-                          </a>
-                          <a *ngFor="let customDomain of availableCustomDomain"
-                             class="dropdown-item"
-                             (click)="selectedCustomDomain = customDomain; calculatePrices();isValueChanged = true;">
-                            {{customDomain}} <span translate="page_pricing.custom_domain">Custom Domains</span>
-                            + {{(customDomain - defaultCustomDomain) | currency:selectedCurrency}}/mo</a>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>2000 <span translate="page_pricing.messages_per_day">Messages per Day</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>500 <span translate="page_pricing.folders">Folders</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.self_destruct">Self Destruct Timer</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.encryption">Encryption for non-CTemplar Users</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.dead_mans_timer">Dead Mans Timer</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.delayed_delivery">Delayed Delivery Timer</span>
-                  </li>
-                </ul>
-              </div>
-              <footer class="package-card-footer">
-                <div class="package-divider package-divider-sm">
-                  <ul class="pay-type-list list-style-none mb-0 pl-0">
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <input [(ngModel)]="paymentMethod" value="Stripe" (change)="isValueChanged = true"
-                                   class="d-none fancy-field-control" id="currency"  name="currency" type="radio" />
-                            <label for="currency" translate="page_pricing.currency">Currency</label>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">
-                            <div ngbDropdown class="currency-select-dropdown" id="pay-currency">
-                              <button class="dropdown-toggle" type="button" id="currencyDropdownMenuButton"
-                                      ngbDropdownToggle>
-                                <strong>{{selectedCurrency}}</strong>
-                              </button>
-                              <div ngbDropdownMenu class="ext-center" aria-labelledby="currencyDropdownMenuButton">
-                                <a class="dropdown-item" (click)="changeCurrency('USD'); isValueChanged = true;">USD</a>
-                                <a class="dropdown-item" (click)="changeCurrency('EUR'); isValueChanged = true;">EUR</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-12">
-                          <div class="fancy-field-group">
-                            <input [(ngModel)]="paymentMethod" value="Bitcoin" class="d-none fancy-field-control"
-                                   (change)="isValueChanged = true" id="btc-currency" name="currency" type="radio"/>
-                            <label for="btc-currency" translate="page_pricing.btc_currency">BTC Currency</label>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8 pb-1">
-                          <div class="fancy-field-group mb-2">
-                            <input class="d-none fancy-field-control" id="pay-monthly" name="payment_type"
-                                   value="monthly" type="radio" checked [(ngModel)]="paymentType"
-                                   (change)="isValueChanged = true"/>
-                            <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="pay-price">
-                            <strong>{{monthlyPrice | currency:selectedCurrency}}</strong>
-                            <span class="text-muted">/mo</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" id="pay-annullay" name="payment_type"
-                                   value="annually" type="radio" [(ngModel)]="paymentType"
-                                   (change)="isValueChanged = true"/>
-                            <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
-                            <span class="badge">-25%</span>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="pay-price">
-                            <strong>{{annualPricePerMonth | currency:selectedCurrency}}</strong>
-                            <span class="text-muted">/mo</span>
-                          </div>
-                          <div class="small text-muted"> <span translate="page_pricing.billed_as">Billed as </span>&nbsp; {{annualPriceTotal | currency:selectedCurrency}}/yr</div>
-                        </div>
-                      </div>
-                    </li>
 
-                  </ul>
-                </div>
-                <div class="package-actions text-center">
-                  <a (click)="selectPlan(1)" *ngIf="(showCurrentPlan && userPlanType !== planType.PRIME) || !showCurrentPlan"
-                     class="btn btn-gradient-primary cursor-pointer">
-                    <span translate="settings.select_prime">Select Prime </span>
-                    {{(paymentType === 'annually' ? annualPricePerMonth : monthlyPrice) | currency:selectedCurrency}}/<span class="text-normal">mo</span>
-                  </a>
-                  <div *ngIf="showCurrentPlan && userPlanType === planType.PRIME">
-                    <a *ngIf="isValueChanged" (click)="selectPlan(1)"
-                       class="btn btn-lg btn-gradient-primary cursor-pointer upgrade-button"><strong>Upgrade Plan</strong></a>
-                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
-                  </div>
-                </div>
-              </footer>
-            </div>
-          </div>
-          <div class="col-sm-4 flex-sm-last package-prime-col"
-               [class.is-active-slide]="3 === selectedIndex">
-            <div class="package-card package-card-champion is-shadowed bg-faded text-dark">
-              <header class="package-card-header text-center">
-                <h2 class="text-white m-0">
-                  <strong translate="settings.champion">Champion</strong>
-                </h2>
-              </header>
-              <div class="package-card-body">
-                <ul class="package-list mb-0 list-style-none pl-0">
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 <span translate="page_pricing.user">User</span>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>50 GB <span translate="settings.storage">Storage</span>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>100 <span
-                          translate="settings.keys.email_address">Email Address</span>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>10 <span translate="page_pricing.custom_domain">Custom Domains</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Unlimited <span translate="page_pricing.messages_per_day">Messages per Day</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>Unlimited <span translate="page_pricing.folders">Folders</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.self_destruct">Self Destruct Timer</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.encryption">Encryption for non-CTemplar Users</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.dead_mans_timer">Dead Mans Timer</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i> <span translate="page_pricing.delayed_delivery">Delayed Delivery Timer</span>
-                  </li>
-                </ul>
-              </div>
-              <footer class="package-card-footer">
-                <div class="package-divider package-divider-sm">
-                  <ul class="pay-type-list list-style-none mb-0 pl-0">
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <input [(ngModel)]="paymentMethod" value="Stripe" (change)="isValueChanged = true"
-                                   class="d-none fancy-field-control" name="champion-currency" type="radio"/>
-                            <label for="currency" translate="page_pricing.currency">Currency</label>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">
-                            <div ngbDropdown class="currency-select-dropdown" id="champion-pay-currency">
-                              <button class="dropdown-toggle" type="button" id="championCurrencyDropdownMenuButton"
-                                      ngbDropdownToggle>
-                                <strong>{{selectedCurrency}}</strong>
-                              </button>
-                              <div ngbDropdownMenu class="ext-center" aria-labelledby="championCurrencyDropdownMenuButton">
-                                <a class="dropdown-item" (click)="changeCurrency('USD'); isValueChanged = true;">USD</a>
-                                <a class="dropdown-item" (click)="changeCurrency('EUR'); isValueChanged = true;">EUR</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-12">
-                          <div class="fancy-field-group">
-                            <input [(ngModel)]="paymentMethod" value="Bitcoin" class="d-none fancy-field-control"
-                                   (change)="isValueChanged = true" name="champion-currency" type="radio"/>
-                            <label for="btc-currency" translate="page_pricing.btc_currency">BTC Currency</label>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="border-bottom-0 p-0 package-divider package-divider-sm"></li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8 pb-1">
-                          <div class="fancy-field-group mb-2">
-                            <input class="d-none fancy-field-control" name="champion-payment_type"
-                                   value="monthly" type="radio" checked [(ngModel)]="paymentType"
-                                   (change)="isValueChanged = true"/>
-                            <label for="pay-monthly" translate="settings.pay_monthly">Pay Monthly</label>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="pay-price">
-                            <strong>{{championMonthlyPrice | currency:selectedCurrency}}</strong>
-                            <span class="text-muted">/mo</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="row row-xs">
-                        <div class="col-8">
-                          <div class="fancy-field-group">
-                            <input class="d-none fancy-field-control" name="champion-payment_type"
-                                   value="annually" type="radio" [(ngModel)]="paymentType"
-                                   (change)="isValueChanged = true"/>
-                            <label for="pay-annullay" translate="settings.pay_annually">Pay Annually</label>
-                            <span class="badge">-25%</span>
-                          </div>
-                        </div>
-                        <div class="col-4 text-right">
-                          <div class="pay-price">
-                            <strong>{{championAnnualPricePerMonth | currency:selectedCurrency}}</strong>
-                            <span class="text-muted">/mo</span>
-                          </div>
-                          <div class="small text-muted"><span
-                                  translate="page_pricing.billed_as">Billed as </span>&nbsp; {{championAnnualPriceTotal | currency:selectedCurrency}}
-                            /yr
-                          </div>
-                        </div>
-                      </div>
-                    </li>
+      <div class="row" style="margin:0 0.4rem;">
+        <div class="col-3 p-0 plan-titles">
+          <div class="pl-2 plan-item pt-4"><label class="pt-3">Plan & Price</label></div>
+          <h3 class="heading mt-4">Packages</h3>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Number of emails allowed to send per day">Messages per day</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Attachment upload limit in MB">Attachment limit (MB)</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Storage in GB">Storage (GB)</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Email aliases">Aliases</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Custom domains">Custom domains</div>
+          <h3 class="heading mt-4">Features</h3>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encryption in transit(SSL/TLS)">Encryption in transit(SSL/TLS)</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted attachments">Encrypted attachments</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted content">Encrypted content</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted contacts">Encrypted contacts</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted subjects">Encrypted subjects</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Two factor authentication">2FA</div>
+          <div class="bold px-2 py-3 plan-sub-item">Anti phishing</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Brute force protection">Brute force protection</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Zero knowledge passwords">Zero knowledge passwords</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Strips IP address from headers">Strips IP from headers</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Unhackable by others with SRI">Unhackable by others with SRI</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Unhackable by us with checksums">Unhackable by us with checksums</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Multi user support under custom domains">Multi user support</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Self destructing emails">Self destructing emails</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Dead man timer">Dead man timer</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Delayed delivery">Delayed delivery</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Catch all emails of a custom domain">Catch all emails</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Unlimited folders">Unlimited folders</div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Exclusive access to new features">Exclusive access to new features</div>
 
-                  </ul>
-                </div>
-                <div class="package-actions text-center">
-                  <a (click)="selectPlan(2)" *ngIf="(showCurrentPlan && userPlanType !== planType.CHAMPION) || !showCurrentPlan"
-                     class="btn btn-gradient-primary cursor-pointer upgrade-button">
-                    <span translate="settings.select_champion">Select Champion </span> &nbsp;
-                    <span class="champion-price">{{(paymentType === 'annually' ? 37.5 : 50) | currency:selectedCurrency}}
-                      /<span class="text-normal">mo</span></span>
-                  </a>
-                  <div *ngIf="showCurrentPlan && userPlanType === planType.CHAMPION">
-                    <a *ngIf="isValueChanged" (click)="selectPlan(2)"
-                       class="btn btn-lg btn-gradient-primary cursor-pointer upgrade-button"><strong>Upgrade Plan</strong></a>
-                    <span *ngIf="!isValueChanged" class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
+        </div>
+        <div class="col-9">
+          <div class="row">
+            <div *ngFor="let plan of pricingPlans" class="col-2 p-0">
+              <div class="plan-item">
+                <div class="text-center">
+                  <div class="bold mt-3">{{plan.name}}</div>
+                  <div class="plan-title-info" *ngIf="plan.name!==planType.FREE; else freePlan">
+                    <div class="monthly-price">$<b>{{plan.monthly_price}}</b>/m</div>
+                    <div>billed as ${{plan.annually_price}}/y</div>
                   </div>
+                  <ng-template #freePlan>
+                    <div class="plan-title-info">Free</div>
+                  </ng-template>
+                  <a class="btn cursor-pointer select-btn" [style.background]="plan.background"
+                     *ngIf="userPlanType!==plan.name; else currentPlan" (click)="selectPlan(plan.name)">Select</a>
+                  <ng-template #currentPlan><label class="current-plan">Current plan</label></ng-template>
                 </div>
-              </footer>
-            </div>
-          </div>
-          <div class="col-sm-4 package-basic-col" [class.is-active-slide]="2 === selectedIndex">
-            <div class="package-card package-card-basic is-shadowedx bg-faded text-dark">
-              <header class="package-card-header text-center">
-                <h2 class="text-white m-0">
-                  <strong translate="settings.free">Free</strong>
-                </h2>
-              </header>
-              <div class="package-card-body">
-                <ul class="package-list mb-0 list-style-none pl-0">
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 <span translate="page_pricing.user">User</span>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 GB <span translate="settings.storage">Storage</span>
-                  </li>
-                  <li class="package-list-item has-border">
-                    <i class="fa fa-check text-green"></i>1 <span translate="settings.keys.email_address">E-mail Address</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>200 <span translate="page_pricing.messages_per_day">Messages per Day</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>5 <span translate="page_pricing.folders">Folders</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>
-                    <span translate="page_pricing.self_destruct">Self Destruct Timer</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-check text-green"></i>
-                    <span translate="page_pricing.encryption">Encryption for non-CTemplar Users</span>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-times text-danger"></i>
-                    <del translate="page_pricing.dead_mans_timer">Dead Mans Timer</del>
-                  </li>
-                  <li class="package-list-item">
-                    <i class="fa fa-times text-danger"></i>
-                    <del translate="page_pricing.delayed_delivery">Delayed Delivery Timer</del>
-                  </li>
-                </ul>
               </div>
-              <footer class="package-card-footer text-center"  *ngIf="userPlanType === planType.FREE">
-                <div class="package-divider border-bottom-0 pb-0 mb-0"></div>
-                <div class="package-actions">
-
-                  <a (click)="selectPlan(0)" *ngIf="!showCurrentPlan" class="btn btn-lg btn-gradient-info cursor-pointer" translate="settings.select_free">Select Free</a>
-                  <div *ngIf="showCurrentPlan">
-                    <span class="text-uppercase text-grey-dark"><strong translate="settings.current_plan">Current Plan</strong></span>
-                  </div>
-                </div>
-              </footer>
+              <h3 class="heading mt-4"></h3>
+              <div class="px-2 py-3 plan-sub-item">{{plan.messages_per_day}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.attachment_upload_limit}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.gb}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.aliases}}</div>
+              <div class="px-2 py-3 plan-sub-item">{{plan.custom_domains}}</div>
+              <h3 class="heading mt-4"></h3>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.ssl_tls}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_attachments}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_content}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_contacts}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_subjects}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.two_fa}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.anti_phishing}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.brute_force_protection}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.zero_knowledge_password}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.strip_ips}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.sri}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.checksums}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.multi_user_support}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.self_destructing_emails}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.dead_man_timer}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.delayed_delivery}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.catch_all_email}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.unlimited_folders}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.exclusive_access}"></ng-container>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
+<div align="center" *ngIf="pricingPlans?.length===0">
+  <img class="logo" style="width: 200px; height: 300px;" [src]="loadingImage | safe:'url'"/>
+</div>
+
+<ng-template #featureIcon let-value="value">
+  <div class="px-2 py-3 plan-sub-item">
+    <i class="fa fa-check text-green" *ngIf="value"></i>
+    <i class="fa fa-times text-danger" *ngIf="!value"></i>
+  </div>
+</ng-template>
 
 <!-- billing info modal -->
 <ng-template #billingInfoModal let-c="close" let-d="dismiss">
@@ -441,12 +128,6 @@
                             [paymentType]="paymentType"
                             [paymentMethod]="paymentMethod"
                             [currency]="selectedCurrency"
-                            [storage]="selectedStorage"
-                            [emailAddressAliases]="selectedEmailAddress"
-                            [customDomains]="selectedCustomDomain"
-                            [monthlyPrice]="selectedPlan === planType.CHAMPION ? championMonthlyPrice : monthlyPrice"
-                            [annualPricePerMonth]="selectedPlan === planType.CHAMPION ? championAnnualPricePerMonth : annualPricePerMonth"
-                            [annualPriceTotal]="selectedPlan === planType.CHAMPION ? championAnnualPriceTotal : annualPriceTotal"
                             (close)="d()"></app-users-billing-info>
   </div>
 </ng-template><!-- /.billing info modal ends -->

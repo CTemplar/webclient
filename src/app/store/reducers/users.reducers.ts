@@ -407,6 +407,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, invoices: action.payload, isInvoiceLoaded: true };
     }
 
+    case UsersActionTypes.GET_UPGRADE_AMOUNT: {
+      return { ...state, upgradeAmount: null };
+    }
+
+    case UsersActionTypes.GET_UPGRADE_AMOUNT_SUCCESS: {
+      return { ...state, upgradeAmount: action.payload.prorated_price / 100 };
+    }
+
     default: {
       return state;
     }
