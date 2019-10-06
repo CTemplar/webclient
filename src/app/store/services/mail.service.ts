@@ -159,6 +159,10 @@ export class MailService {
     return this.http.delete<any>(`${apiUrl}emails/attachments/${attachment.id}/`);
   }
 
+  getAttachment(attachment: Attachment): Observable<any> {
+    return this.http.get(`${apiUrl}emails/attachments/${attachment.id}/`);
+  }
+
   updateMailBoxSettings(data: Mailbox) {
     return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
@@ -173,10 +177,6 @@ export class MailService {
 
   emptyTrash() {
     return this.http.post<any>(`${apiUrl}emails/empty-trash/`, null);
-  }
-
-  getFile(url: string) {
-    return this.http.get(url, {responseType: 'blob'});
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

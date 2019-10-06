@@ -310,25 +310,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       } else {
         this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
-        this.mailService.getFile(attachment.document)
+        this.mailService.getAttachment(attachment)
           .subscribe(response => {
-              const reader = new FileReader();
-              reader.onload = (event: any) => {
-                const buffer = event.target.result;
-                const uint8Array = new Uint8Array(buffer);
-                attachment.name = FilenamePipe.tranformToFilename(attachment.document);
-                const fileInfo = { attachment, type: response.type };
-                this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
-                  .pipe(
-                    take(1)
-                  )
-                  .subscribe(decryptedAttachment => {
-                      this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
-                      this.downloadAttachment(decryptedAttachment);
-                    },
-                    error => console.log(error));
-              };
-              reader.readAsArrayBuffer(response);
+              const uint8Array = this.shareService.base64ToUint8Array(response.data);
+              attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+              const fileInfo = { attachment, type: 'image/png' }; // TODO: replace image/png with response.file_type when its fixed on backend
+              this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
+                .pipe(
+                  take(1)
+                )
+                .subscribe((decryptedAttachment: Attachment) => {
+                    this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
+                    this.downloadAttachment(decryptedAttachment);
+                  },
+                  error => console.log(error));
             },
             errorResponse => this.store.dispatch(new SnackErrorPush({
               message: errorResponse.error || 'Failed to download attachment.'
