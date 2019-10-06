@@ -113,6 +113,18 @@ export class SharedService {
     return uint8Array;
   }
 
+  downloadFile(file: File) {
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    const url = window.URL.createObjectURL(file);
+    a.href = url;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
+
 }
 
 export function sortByString(data: any[], field: string) {

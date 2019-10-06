@@ -333,15 +333,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   downloadAttachment(attachment: Attachment) {
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    const url = window.URL.createObjectURL(attachment.decryptedDocument);
-    a.href = url;
-    a.download = attachment.name;
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+    this.shareService.downloadFile(attachment.decryptedDocument);
   }
 
   // getAttachementFileName(filepath: string) {
