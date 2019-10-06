@@ -231,8 +231,8 @@ async function decryptBinaryContent(data, privKeyObj) {
             format: 'binary' // output as Uint8Array
         };
 
-        return openpgp.decrypt(options).then(plaintext => {
-            return plaintext.data; //Uint8Array
+        return openpgp.decrypt(options).then(binary => {
+            return binary.data; //Uint8Array
         })
     } catch (e) {
         console.error(e);
