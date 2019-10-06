@@ -84,6 +84,16 @@ export class SharedService {
     this.notificationService.showSnackBar('Copied to clipboard successfully.');
   }
 
+  base64ToUint8Array(base64Data: string): Uint8Array {
+    const decodedData: any = atob(base64Data);
+    const length = decodedData.length;
+    const uint8Array = new Uint8Array(length);
+    for (let i = 0; i < length; i++) {
+      uint8Array[i] = decodedData.charCodeAt(i);
+    }
+    return uint8Array;
+  }
+
 }
 
 export function sortByString(data: any[], field: string) {
