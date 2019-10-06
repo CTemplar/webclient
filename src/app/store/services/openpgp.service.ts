@@ -242,7 +242,7 @@ export class OpenPgpService {
     reader.readAsArrayBuffer(file);
   }
 
-  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<any> {
+  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
