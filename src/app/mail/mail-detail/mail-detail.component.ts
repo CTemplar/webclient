@@ -336,12 +336,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.shareService.downloadFile(attachment.decryptedDocument);
   }
 
-  // getAttachementFileName(filepath: string) {
-  //   const filePathTokens = filepath.split('/');
-  //   console.log("testing");
-  //   return  filePathTokens[filePathTokens.length - 1];
-  // }
-
   markAsStarred() {
     this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred: true }));
   }
