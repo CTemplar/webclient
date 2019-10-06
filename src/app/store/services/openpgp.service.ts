@@ -231,12 +231,12 @@ export class OpenPgpService {
   }
 
   encryptAttachment(mailboxId, file: File, attachment: Attachment, publicKeys: any[] = []) {
+    this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
     publicKeys.push(this.pubkeys[mailboxId]);
     const reader = new FileReader();
     reader.onload = (event: any) => {
       const buffer = event.target.result;
       const uint8Array = new Uint8Array(buffer);
-      this.store.dispatch(new StartAttachmentEncryption({...attachment}));
       this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
     };
     reader.readAsArrayBuffer(file);
