@@ -17,3 +17,7 @@
     resize: none;
     font-size: 14px;
 }
+
+textarea:disabled {
+    background: transparent !important;
+}
