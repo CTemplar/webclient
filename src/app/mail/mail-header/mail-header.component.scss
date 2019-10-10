@@ -330,3 +330,15 @@
 .show > .dropdown-menu {
   opacity: 1 !important;
 }
+
+.sri-check {
+  color: green !important;
+  background: transparent !important;
+  border: 0 !important;
+  margin-top: 10px;
+  padding: 0 !important;
+
+  i {
+    font-size: 30px;
+  }
+}
