@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AppState, Auth2FA, AuthState, ContactsState, Settings, UserState } from '../../../store/datatypes';
+import { AppState, Auth2FA, AuthState, ContactsState, PlanType, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
@@ -43,6 +43,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   isDecryptingContacts: boolean;
   contactsState: ContactsState;
   isContactsEncrypted: boolean;
+  planTypeEnum = PlanType;
 
   private updatedPrivateKeys: Array<any>;
   private canDispatchChangePassphrase: boolean;

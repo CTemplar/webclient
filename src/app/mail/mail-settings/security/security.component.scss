@@ -5,3 +5,8 @@
 .notice {
   color: red;
 }
+
+.subject-encryption.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
