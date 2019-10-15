@@ -293,7 +293,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    this.store.dispatch(new SignUp({ ...data, plan_type: this.planType, payment_type: this.paymentType }));
+    this.store.dispatch(new SignUp({
+      ...data,
+      plan_type: this.planType,
+      payment_type: this.paymentType,
+      payment_method: this.paymentMethod
+    }));
   }
 
   checkTransaction() {
@@ -308,6 +313,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   selectBitcoinMethod(forceLoad: boolean = true) {
+    this.paymentMethod = PaymentMethod.BITCOIN;
     if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {
       return;
     }
@@ -320,7 +326,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, 15000);
 
     this.timer();
-    this.paymentMethod = PaymentMethod.BITCOIN;
     this.paymentType = PaymentType.ANNUALLY;
     this.paymentSuccess = false;
     this.createNewWallet();
