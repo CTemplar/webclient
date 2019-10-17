@@ -191,7 +191,7 @@ export class AuthEffects {
       ofType(AuthActionTypes.UPGRADE_ACCOUNT),
       map((action: UpgradeAccount) => action.payload),
       switchMap(payload => {
-        if (payload.plan_type = PlanType.FREE) {
+        if (payload.plan_type === PlanType.FREE) {
           payload = { plan_type: PlanType.FREE };
         }
         return this.authService.upgradeAccount(payload)
