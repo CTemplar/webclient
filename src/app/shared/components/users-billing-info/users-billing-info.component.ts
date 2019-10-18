@@ -217,11 +217,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   getUpgradeAmount() {
-    this.store.dispatch(new GetUpgradeAmount({
-      plan_type: this.planType,
-      payment_type: this.paymentType,
-      payment_method: this.paymentMethod
-    }));
+    if (this.isUpgradeAccount) {
+      this.store.dispatch(new GetUpgradeAmount({
+        plan_type: this.planType,
+        payment_type: this.paymentType,
+        payment_method: this.paymentMethod
+      }));
+    }
   }
 
   submitForm() {
