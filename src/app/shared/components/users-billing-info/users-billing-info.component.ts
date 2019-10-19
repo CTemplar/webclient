@@ -104,7 +104,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.paymentType = null;
         this.paymentMethod = null;
       } else {
-        this.getUpgradeAmount();
         this.store.select(state => state.user).pipe(untilDestroyed(this))
           .subscribe((userState: UserState) => {
             this.upgradeAmount = userState.upgradeAmount;
@@ -348,14 +347,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe(() => {
         this.checkTransaction();
       });
-    this.selectPaymentType(this.paymentType);
   }
 
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
-    if (this.isUpgradeAccount) {
-      this.store.dispatch(new GetUpgradeAmount({ plan_type: this.planType, payment_type: this.paymentType }));
-    }
+    this.getUpgradeAmount();
   }
 
   createNewWallet() {
