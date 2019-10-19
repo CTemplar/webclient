@@ -357,7 +357,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   createNewWallet() {
     this.store.dispatch(new CreateNewWallet({
       payment_type: this.paymentType,
-      plan_type: this.planType
+      plan_type: this.planType,
+      payment_method: this.paymentMethod,
     }));
   }
 
