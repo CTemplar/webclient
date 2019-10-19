@@ -65,7 +65,13 @@
                   </ng-template>
                   <a class="btn cursor-pointer select-btn" [style.background]="plan.background"
                      *ngIf="userPlanType!==plan.name; else currentPlan" (click)="selectPlan(plan.name)">Select</a>
-                  <ng-template #currentPlan><label class="current-plan">Current plan</label></ng-template>
+                  <ng-template #currentPlan>
+                    <label class="current-plan-upgrade" *ngIf="paymentType===paymentTypeEnum.MONTHLY">
+                      <a (click)="selectPlan(plan.name, paymentTypeEnum.ANNUALLY)">Upgrade yearly</a>
+                    </label>
+                    <label [ngClass]="paymentType===paymentTypeEnum.MONTHLY?'current-plan':'current-plan-upgrade'">
+                      Current plan</label>
+                  </ng-template>
                 </div>
               </div>
               <h3 class="heading mt-4"></h3>
@@ -125,7 +131,7 @@
   <div class="modal-body bg-faded px-3 py-0 bg-white">
     <app-users-billing-info [isUpgradeAccount]="true"
                             [planType]="selectedPlan"
-                            [paymentType]="paymentType"
+                            [paymentType]="selectedPaymentType"
                             [paymentMethod]="paymentMethod"
                             [currency]="selectedCurrency"
                             (close)="d()"></app-users-billing-info>
