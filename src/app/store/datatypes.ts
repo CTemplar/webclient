@@ -153,6 +153,7 @@ export interface Settings {
   notification_email?: string;
   recurrence_billing?: boolean;
   is_subject_encrypted?: boolean;
+  is_attachments_encrypted?: boolean;
   enable_2fa?: boolean;
   is_contacts_encrypted?: boolean;
   is_anti_phishing_enabled?: boolean;
