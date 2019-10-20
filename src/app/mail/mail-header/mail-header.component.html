@@ -27,56 +27,64 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 mailbox-navbar-col">
-            <ul class="mailbox-actions-menu d-flex justify-content-end">
-
-              <li class="btn-dropdown help-icon">
-                <div ngbDropdown>
-                  <button type="button" id="helpDropdownMenuButton"
-                          [ngbTooltip]="'mail_header.need_help'| translate"
-                          class="icon-button"
-                          ngbDropdownToggle placement="bottom">
-                    <i class="material-icons">help_outline</i>
-                  </button>
-                  <div ngbDropdownMenu class="dropdown-menu-right text-center faq-dropdown"
-                       aria-labelledby="helpDropdownMenuButton">
-                    <a class="dropdown-item text-left" target="_blank"
-                       href="https://blog.ctemplar.com/faqs/">FAQs</a>
-                    <a class="dropdown-item text-left"
-                       (click)="openComposeMailDialog(['support@ctemplar.com'])" translate="settings.contact_support">Contact support</a>
-                  </div>
-                </div>
-              </li>
-                <li class=""><a routerLink="/mail/contacts" placement="bottom"
-                                routerLinkActive="active"
-                                [ngbTooltip]="'mail_header.contacts' | translate"><i
-                        class="icon icon-login"></i></a></li>
-                <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings/dashboard-and-plans" class="border-right-no-color"
-                                                        routerLinkActive="active"
-                                                        placement="bottom" [ngbTooltip]="'mail_header.settings'| translate"><i
-                        class="icon icon-gear"></i></a></li>
-                <li class="mailbox-signout pl-sm-0">
-                    <a (click)="logout()"
-                        placement="bottom" [ngbTooltip]="'common.logout' | translate"><i
-                        class="icon icon-logout cursor-pointer"></i></a></li>
-                <li class="mailbox-xs-search-item hidden-sm-up">
-                    <div ngbDropdown>
-                        <a ngbDropdownToggle role="button"><i class="icon icon-search"></i></a>
-                        <div ngbDropdownMenu>
-                            <div class="form search-form">
-                                <form>
-                                    <div class="form-group mb-0 position-relative">
-                                        <input class="form-control form-control-sm" type="text" [placeholder]="'mail_header.search'| translate"/>
-                                        <button class="btn btn-sm btn-secondary search-btn" role="button"><i
-                                                class="icon icon-search"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+      <div class="col-sm-6 mailbox-navbar-col">
+        <ul class="mailbox-actions-menu d-flex justify-content-end">
+          <li>
+            <a href="https://blog.ctemplar.com/ctemplar-checksum-implementation/" target="_blank"
+               class="sri-check" placement="bottom" ngbTooltip="Protected by SRI, click to read more">
+              <i class="material-icons">security</i>
+            </a>
+          </li>
+          <li class="btn-dropdown help-icon">
+            <div ngbDropdown>
+              <button type="button" id="helpDropdownMenuButton"
+                      [ngbTooltip]="'mail_header.need_help'| translate"
+                      class="icon-button"
+                      ngbDropdownToggle placement="bottom">
+                <i class="material-icons">help_outline</i>
+              </button>
+              <div ngbDropdownMenu class="dropdown-menu-right text-center faq-dropdown"
+                   aria-labelledby="helpDropdownMenuButton">
+                <a class="dropdown-item text-left" target="_blank"
+                   href="https://blog.ctemplar.com/faqs/">FAQs</a>
+                <a class="dropdown-item text-left"
+                   (click)="openComposeMailDialog(['support@ctemplar.com'])" translate="settings.contact_support">Contact
+                  support</a>
+              </div>
+            </div>
+          </li>
+          <li class=""><a routerLink="/mail/contacts" placement="bottom"
+                          routerLinkActive="active"
+                          [ngbTooltip]="'mail_header.contacts' | translate"><i
+                  class="icon icon-login"></i></a></li>
+          <li class="mailbox-settings pr-sm-0"><a routerLink="/mail/settings/dashboard-and-plans"
+                                                  class="border-right-no-color"
+                                                  routerLinkActive="active"
+                                                  placement="bottom" [ngbTooltip]="'mail_header.settings'| translate"><i
+                  class="icon icon-gear"></i></a></li>
+          <li class="mailbox-signout pl-sm-0">
+            <a (click)="logout()"
+               placement="bottom" [ngbTooltip]="'common.logout' | translate"><i
+                    class="icon icon-logout cursor-pointer"></i></a></li>
+          <li class="mailbox-xs-search-item hidden-sm-up">
+            <div ngbDropdown>
+              <a ngbDropdownToggle role="button"><i class="icon icon-search"></i></a>
+              <div ngbDropdownMenu>
+                <div class="form search-form">
+                  <form>
+                    <div class="form-group mb-0 position-relative">
+                      <input class="form-control form-control-sm" type="text"
+                             [placeholder]="'mail_header.search'| translate"/>
+                      <button class="btn btn-sm btn-secondary search-btn" role="button"><i
+                              class="icon icon-search"></i></button>
                     </div>
-                </li>
-            </ul>
-        </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 </nav>
 <div class="header-fixed-spacer hidden-sm-up"></div>

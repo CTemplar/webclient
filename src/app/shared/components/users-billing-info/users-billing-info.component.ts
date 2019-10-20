@@ -104,7 +104,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.paymentType = null;
         this.paymentMethod = null;
       } else {
-        this.store.dispatch(new GetUpgradeAmount({ plan_type: this.planType, payment_type: this.paymentType }));
         this.store.select(state => state.user).pipe(untilDestroyed(this))
           .subscribe((userState: UserState) => {
             this.upgradeAmount = userState.upgradeAmount;
@@ -176,6 +175,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   private loadStripeScripts() {
     this.paymentMethod = PaymentMethod.STRIPE;
+    this.getUpgradeAmount();
     if (this.btcTimer) {
       this.btcTimer.unsubscribe();
       this.btcTimer = null;
@@ -213,6 +213,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         }
       });
     });
+  }
+
+  getUpgradeAmount() {
+    if (this.isUpgradeAccount) {
+      this.store.dispatch(new GetUpgradeAmount({
+        plan_type: this.planType,
+        payment_type: this.paymentType,
+        payment_method: this.paymentMethod
+      }));
+    }
   }
 
   submitForm() {
@@ -293,7 +303,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    this.store.dispatch(new SignUp({ ...data, plan_type: this.planType, payment_type: this.paymentType }));
+    this.store.dispatch(new SignUp({
+      ...data,
+      plan_type: this.planType,
+      payment_type: this.paymentType,
+      payment_method: this.paymentMethod
+    }));
   }
 
   checkTransaction() {
@@ -308,6 +323,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   selectBitcoinMethod(forceLoad: boolean = true) {
+    this.paymentMethod = PaymentMethod.BITCOIN;
+    this.paymentType = PaymentType.ANNUALLY;
+    this.getUpgradeAmount();
     if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {
       return;
     }
@@ -320,8 +338,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, 15000);
 
     this.timer();
-    this.paymentMethod = PaymentMethod.BITCOIN;
-    this.paymentType = PaymentType.ANNUALLY;
     this.paymentSuccess = false;
     this.createNewWallet();
     this.btcTimer = timer(15000, 10000)
@@ -331,20 +347,18 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe(() => {
         this.checkTransaction();
       });
-    this.selectPaymentType(this.paymentType);
   }
 
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
-    if (this.isUpgradeAccount) {
-      this.store.dispatch(new GetUpgradeAmount({ plan_type: this.planType, payment_type: this.paymentType }));
-    }
+    this.getUpgradeAmount();
   }
 
   createNewWallet() {
     this.store.dispatch(new CreateNewWallet({
       payment_type: this.paymentType,
-      plan_type: this.planType
+      plan_type: this.planType,
+      payment_method: this.paymentMethod,
     }));
   }
 

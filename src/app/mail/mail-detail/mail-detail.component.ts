@@ -148,16 +148,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
             this.decryptChildEmails(this.mail.children[this.mail.children.length - 1], mailState);
             setTimeout(() => {
-              if (!this.isDecrypting[this.mail.id] && this.mail.content &&
-                (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
-                this.isDecrypting[this.mail.id] = true;
-                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
-              }
-              this.mail.children.forEach((child, index) => {
-                if (index !== this.mail.children.length - 1) {
-                  this.decryptChildEmails(child, mailState);
+              if (this.mail) {
+                if (!this.isDecrypting[this.mail.id] && this.mail.content &&
+                  (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
+                  this.isDecrypting[this.mail.id] = true;
+                  this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
                 }
-              });
+                this.mail.children.forEach((child, index) => {
+                  if (index !== this.mail.children.length - 1) {
+                    this.decryptChildEmails(child, mailState);
+                  }
+                });
+              }
             }, 1000);
           } else {
             this.parentMailCollapsed = false;
@@ -222,6 +224,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     this.mail = null;
     setTimeout(() => {
+      this.markedAsRead = false;
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}/message/${this.mails[index].id}`);
     }, 500);
   }
