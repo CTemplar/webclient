@@ -49,7 +49,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   LIMIT: number = 20;
   OFFSET: number = 0;
-  PAGE: number = 0;
+  PAGE: number = 1;
   private searchText: string;
   private mailState: MailState;
   private isInitialized: boolean;
@@ -110,9 +110,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     this.activatedRoute.paramMap.pipe(untilDestroyed(this))
       .subscribe((paramsMap: any) => {
         const params: any = paramsMap.params;
+        const page = +params.page;
+
         if (params) {
           if (params.page) {
-            const page = +params.page;
             if (page !== this.PAGE + 1) {
               this.PAGE = page > 0 ? page - 1 : 0;
               this.OFFSET = this.PAGE * this.LIMIT;
@@ -121,7 +122,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           }
           if (params.folder) {
             this.mailFolder = params.folder as MailFolderType;
-            this.store.dispatch(new SetCurrentFolder(this.mailFolder));
+            this.store.dispatch(new SetCurrentFolder({ folder: this.mailFolder, pageNumber: page }));
             if (this.mailFolder !== MailFolderType.SEARCH) {
               this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
             }

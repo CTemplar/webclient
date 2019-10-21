@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -143,6 +143,9 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
+        this.PAGE = this.mailState.pageNumber;
+
+        console.log(this.PAGE);
         this.updateTitle();
       });
     this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
@@ -154,27 +157,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
-    this.activatedRoute.paramMap
-      .subscribe((paramsMap: any) => {
-        const params: any = paramsMap.params;
-        if (params) {
-          if (params.page) {
-            const page = +params.page;
-            this.PAGE = page;
-          }
-          if (isNaN(this.PAGE) || !this.PAGE) {
-              this.PAGE = 1;
-          }
-          if (params.folder) {
-            const mailFolder = params.folder as MailFolderType;
-            this.store.dispatch(new SetCurrentFolder(mailFolder));
-            if (mailFolder !== MailFolderType.SEARCH) {
-              this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
-            }
-          }
-        }
-      });
-
   }
 
   private updateUnreadCount(webSocketState: WebSocketState) {

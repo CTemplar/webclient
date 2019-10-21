@@ -222,6 +222,7 @@ export interface MailState {
   unreadMailsCount: any;
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
+  pageNumber: number;
 }
 
 export class SecureContent {

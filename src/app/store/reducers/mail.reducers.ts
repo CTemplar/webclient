@@ -15,7 +15,8 @@ export function reducer(
     unreadMailsCount: { inbox: 0 },
     noUnreadCountChange: true,
     canGetUnreadCount: true,
-    decryptedSubjects: {}
+    decryptedSubjects: {},
+    pageNumber: 1
   }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -215,6 +216,7 @@ export function reducer(
         noUnreadCountChange: true,
         canGetUnreadCount: true,
         decryptedSubjects: {},
+        pageNumber: 1,
       };
     }
 
@@ -251,7 +253,7 @@ export function reducer(
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
-      return { ...state, currentFolder: action.payload };
+      return { ...state, currentFolder: action.payload.folder, pageNumber: action.payload.pageNumber };
     }
 
     case MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT: {
