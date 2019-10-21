@@ -10,7 +10,8 @@ import {
   CheckTransaction,
   ClearWallet,
   CreateNewWallet,
-  FinalLoading, GetUpgradeAmount,
+  FinalLoading,
+  GetUpgradeAmount,
   SignUp,
   SnackErrorPush,
   UpgradeAccount
@@ -19,13 +20,14 @@ import {
   AppState,
   AuthState,
   BitcoinState,
-  CheckTransactionResponse,
+  CheckTransactionResponse, Payment,
   PaymentMethod,
   PaymentType,
   PlanType,
   PricingPlan,
   SignupState,
-  TransactionStatus, UserState
+  TransactionStatus,
+  UserState
 } from '../../../store/datatypes';
 // Service
 import { OpenPgpService, SharedService } from '../../../store/services/index';
@@ -63,6 +65,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   bitcoinState: BitcoinState;
   signupState: SignupState;
   inProgress: boolean;
+  planTypeEnum = PlanType;
 
   stripePaymentValidation: any = {
     message: '',
@@ -77,6 +80,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   apiUrl: string = apiUrl;
   currentPlan: PricingPlan;
   upgradeAmount: number;
+  payment: Payment;
+
 
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
@@ -97,10 +102,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     if (this.isUpgradeAccount) {
-      this.store.dispatch(new GetUpgradeAmount({ plan_type: this.planType, payment_type: this.paymentType }));
+      if (this.planType === PlanType.FREE) {
+        this.paymentType = null;
+        this.paymentMethod = null;
+      }
       this.store.select(state => state.user).pipe(untilDestroyed(this))
         .subscribe((userState: UserState) => {
           this.upgradeAmount = userState.upgradeAmount;
+          this.payment = userState.payment_transaction;
         });
     }
 
@@ -133,7 +142,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
             this.close.emit(true);
           }
         }
-        if (!this.paymentType && !this.paymentMethod) {
+        if (!this.paymentType && !this.paymentMethod && this.planType !== PlanType.FREE) {
           this.planType = this.signupState.plan_type || this.planType;
           this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
           this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
@@ -141,7 +150,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod(false);
-        } else {
+        } else if (this.paymentMethod === PaymentMethod.STRIPE) {
           this.loadStripeScripts();
         }
         this.inProgress = authState.inProgress;
@@ -168,6 +177,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   private loadStripeScripts() {
     this.paymentMethod = PaymentMethod.STRIPE;
+    this.getUpgradeAmount();
     if (this.btcTimer) {
       this.btcTimer.unsubscribe();
       this.btcTimer = null;
@@ -207,8 +217,21 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     });
   }
 
-  submitForm() {
+  getUpgradeAmount() {
+    if (this.isUpgradeAccount) {
+      this.store.dispatch(new GetUpgradeAmount({
+        plan_type: this.planType,
+        payment_type: this.paymentType,
+        payment_method: this.paymentMethod
+      }));
+    }
+  }
 
+  submitForm() {
+    if (this.planType === PlanType.FREE && this.isUpgradeAccount) {
+      this.store.dispatch(new UpgradeAccount({ stripe_token: null, payment_type: null, plan_type: this.planType }));
+      return;
+    }
     // Reset Stripe validation
     this.stripePaymentValidation = {
       message: '',
@@ -282,7 +305,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    this.store.dispatch(new SignUp({ ...data, plan_type: this.planType, payment_type: this.paymentType }));
+    this.store.dispatch(new SignUp({
+      ...data,
+      plan_type: this.planType,
+      payment_type: this.paymentType,
+      payment_method: this.paymentMethod
+    }));
   }
 
   checkTransaction() {
@@ -297,6 +325,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   selectBitcoinMethod(forceLoad: boolean = true) {
+    this.paymentMethod = PaymentMethod.BITCOIN;
+    this.paymentType = PaymentType.ANNUALLY;
+    this.getUpgradeAmount();
     if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {
       return;
     }
@@ -309,8 +340,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, 15000);
 
     this.timer();
-    this.paymentMethod = PaymentMethod.BITCOIN;
-    this.paymentType = PaymentType.ANNUALLY;
     this.paymentSuccess = false;
     this.createNewWallet();
     this.btcTimer = timer(15000, 10000)
@@ -320,20 +349,18 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe(() => {
         this.checkTransaction();
       });
-    this.selectPaymentType(this.paymentType);
   }
 
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
-    if (this.isUpgradeAccount) {
-      this.store.dispatch(new GetUpgradeAmount({ plan_type: this.planType, payment_type: this.paymentType }));
-    }
+    this.getUpgradeAmount();
   }
 
   createNewWallet() {
     this.store.dispatch(new CreateNewWallet({
       payment_type: this.paymentType,
-      plan_type: this.planType
+      plan_type: this.planType,
+      payment_method: this.paymentMethod,
     }));
   }
 

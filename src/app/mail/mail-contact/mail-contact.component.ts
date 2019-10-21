@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { AppState, Contact, ContactsState, UserState } from '../../store/datatypes';
+import { AppState, Contact, ContactsState, PlanType, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
@@ -39,6 +39,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   importContactsError: any;
   isLayoutSplitted: boolean = false;
   isMenuOpened: boolean;
+  currentPlan: PlanType;
 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   LIMIT: number = 20;
@@ -80,6 +81,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user)
       .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
       this.userState = state;
+      this.currentPlan = state.settings.plan_type || PlanType.FREE;
     });
 
     this.store.select(state => state.contacts)

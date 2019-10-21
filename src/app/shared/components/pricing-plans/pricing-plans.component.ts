@@ -36,6 +36,8 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   availableCustomDomain = [];
   pricingPlans: Array<PricingPlan> = [];
   loadingImage = LOADING_IMAGE;
+  paymentTypeEnum = PaymentType;
+  selectedPaymentType: PaymentType;
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
@@ -84,8 +86,8 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     }, 1000);
   }
 
-  selectPlan(plan: PlanType) {
-    // this.store.dispatch(new MembershipUpdate({ id }));
+  selectPlan(plan: PlanType, paymentType: PaymentType = null) {
+    this.selectedPaymentType = paymentType || this.paymentType;
     this.selectedPlan = plan;
     this.store.dispatch(new ClearSignUpState());
     this.store.dispatch(new ClearAuthErrorMessage());
@@ -104,10 +106,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.router.navigateByUrl('/create-account');
     }
-  }
-
-  changeCurrency(currency) {
-    this.selectedCurrency = currency;
   }
 
   ngOnDestroy() {

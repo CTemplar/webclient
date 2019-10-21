@@ -57,10 +57,17 @@
       }
     }
 
-    .current-plan {
+    .current-plan-upgrade {
       margin-top: 1.5rem;
       color: #757575;
+      margin-bottom: 0;
       font-weight: bold;
+    }
+
+    .current-plan {
+      color: #757575;
+      font-weight: bold;
+      font-size: 14px;
     }
 
     .plan-title-info {

@@ -340,7 +340,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getPlainText(html: string) {
     const element = document.createElement('div');
-    element.innerHTML = html.replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
+    element.innerHTML = html.replace(/<div>/g, '<br><div>')
+      .replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
     return element.innerText;
   }
 
@@ -639,8 +640,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.settings.is_html_disabled) {
       if (!this.isSignatureAdded) {
         this.isSignatureAdded = true;
+        this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
         if (this.selectedMailbox.signature) {
-          this.mailData.content = this.mailData.content ? this.mailData.content : '';
           this.mailData.content += `\n ${this.selectedMailbox.signature}`;
         }
       }

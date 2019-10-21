@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, AuthState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
@@ -23,7 +23,6 @@ import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
-import { UpdateSearch } from '../../store/actions/search.action';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -46,6 +45,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
+  currentPlan: PlanType;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -128,6 +128,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.currentPlan = user.settings.plan_type || PlanType.FREE;
         this.EMAIL_LIMIT = this.userState.settings.emails_per_page ? this.userState.settings.emails_per_page : 20;
         this.customFolders = user.customFolders;
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {

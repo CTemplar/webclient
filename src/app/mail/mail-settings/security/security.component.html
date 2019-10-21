@@ -63,12 +63,13 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <div class="form-content-row">
+      <div class="form-content-row"
+           ngbTooltip="{{planType===planTypeEnum.FREE?'Please upgrade to paid plan in order to use this feature':''}}">
         <div class="row align-items-center">
           <div class="col-sm-3">
             <label class="form-label mb-sm-0">Subjects encryption</label>
           </div>
-          <div class="col-sm-7 col-md-5">
+          <div [class.disabled]="planType===planTypeEnum.FREE" class="col-sm-7 col-md-5 subject-encryption">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">

@@ -205,7 +205,8 @@ export class UsersService {
       'auth/enable-2fa/',
       'users/contact-bulk-update/',
       'emails/delete-message/',
-      'users/prorated'
+      'users/prorated',
+      'btc-wallet/create/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
