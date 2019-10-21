@@ -15,7 +15,7 @@
         <div class="form">
           <form [formGroup]="billingForm" #form="ngForm">
             <div class="form-card-holder billing-form-card-holder form-card-holder-top-border mt-md-3">
-              <div class="form-step-card">
+              <div class="form-step-card" *ngIf="planType!==planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong translate="settings.overview">Overview</strong>
                 </h3>
@@ -27,7 +27,7 @@
                     </div>
                   </div>
 
-                  <ng-container *ngIf="planType!==planTypeEnum.FREE">
+
                     <div class="billing-overview-row payment-method-row row">
                       <label class="billing-overview-label col-3" translate="billing_info.payment_method">Payment
                         Method: </label>
@@ -95,7 +95,7 @@
                         </strong>
                       </div>
                     </div>
-                  </ng-container>
+
                 </div>
               </div>
               <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN">
@@ -222,6 +222,13 @@
 
               <div class="form-group text-center mt-3 mt-sm-4 mb-0"
                    *ngIf="planType===planTypeEnum.FREE && isUpgradeAccount; else paidPlanButton">
+                <div class="cancel-subscription">You are about to cancel your subscription. If you cancel, you can keep using
+                  the subscription until the next billing date:
+                  {{payment?.billing_cycle_ends | momentDate:'mediumDate'}}.<br><br>
+
+                  After that date, your account will be automatically reverted to FREE.
+                  Additional aliases and domains will stop working.
+                </div>
                 <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                         (click)="submitForm()">Cancel Subscription
                 </button>

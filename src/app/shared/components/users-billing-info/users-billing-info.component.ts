@@ -20,7 +20,7 @@ import {
   AppState,
   AuthState,
   BitcoinState,
-  CheckTransactionResponse,
+  CheckTransactionResponse, Payment,
   PaymentMethod,
   PaymentType,
   PlanType,
@@ -80,6 +80,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   apiUrl: string = apiUrl;
   currentPlan: PricingPlan;
   upgradeAmount: number;
+  payment: Payment;
+
 
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
@@ -103,12 +105,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       if (this.planType === PlanType.FREE) {
         this.paymentType = null;
         this.paymentMethod = null;
-      } else {
-        this.store.select(state => state.user).pipe(untilDestroyed(this))
-          .subscribe((userState: UserState) => {
-            this.upgradeAmount = userState.upgradeAmount;
-          });
       }
+      this.store.select(state => state.user).pipe(untilDestroyed(this))
+        .subscribe((userState: UserState) => {
+          this.upgradeAmount = userState.upgradeAmount;
+          this.payment = userState.payment_transaction;
+        });
     }
 
     this.billingForm = this.formBuilder.group({
