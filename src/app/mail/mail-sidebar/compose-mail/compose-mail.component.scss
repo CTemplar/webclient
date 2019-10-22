@@ -21,3 +21,8 @@
 textarea:disabled {
     background: transparent !important;
 }
+
+.from-dropdown {
+    overflow-y: auto;
+    max-height: 310px;
+}
