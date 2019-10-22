@@ -66,7 +66,7 @@
                   <a class="btn cursor-pointer select-btn" [style.background]="plan.background"
                      *ngIf="userPlanType!==plan.name; else currentPlan" (click)="selectPlan(plan.name)">Select</a>
                   <ng-template #currentPlan>
-                    <label class="current-plan-upgrade" *ngIf="paymentType===paymentTypeEnum.MONTHLY">
+                    <label class="current-plan-upgrade" *ngIf="paymentType===paymentTypeEnum.MONTHLY && plan.name!==planType.FREE">
                       <a (click)="selectPlan(plan.name, paymentTypeEnum.ANNUALLY)">Upgrade yearly</a>
                     </label>
                     <label [ngClass]="paymentType===paymentTypeEnum.MONTHLY?'current-plan':'current-plan-upgrade'">
