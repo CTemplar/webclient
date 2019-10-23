@@ -9,10 +9,15 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { MailService } from '../../store/services';
 // Custom Actions
 import {
-  AccountDetailsGet,
-  CreateMail,
-  DeleteFolder, DeleteMail, DeleteMailForAll, DeleteMailForAllSuccess,
-  DeleteMailSuccess, EmptyTrash, EmptyTrashFailure, EmptyTrashSuccess,
+  BlackListGet,
+  DeleteFolder,
+  DeleteMail,
+  DeleteMailForAll,
+  DeleteMailForAllSuccess,
+  DeleteMailSuccess,
+  EmptyTrash,
+  EmptyTrashFailure,
+  EmptyTrashSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   GetMails,
@@ -97,7 +102,7 @@ export class MailEffects {
               }));
             }
             if (payload.folder === MailFolderType.SPAM) {
-              updateFolderActions.push(new AccountDetailsGet());
+              updateFolderActions.push(new BlackListGet());
             }
             return of(...updateFolderActions);
 

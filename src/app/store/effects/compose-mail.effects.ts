@@ -118,7 +118,7 @@ export class ComposeMailEffects {
           payload.draft.send = true;
           payload.draft.folder = MailFolderType.SENT;
         }
-        payload.draft.is_subject_encrypted = payload.draft.is_subject_encrypted ? payload.draft.is_encrypted : false;
+        payload.draft.is_subject_encrypted = payload.draft.is_subject_encrypted && payload.draft.is_encrypted;
         return this.mailService.createMail(payload.draft)
           .pipe(
             switchMap((res: any) => {

@@ -11,6 +11,7 @@
                 {{selectedMailbox?.display_name}} <{{selectedMailbox?.email}}>
               </button>
               <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu
+                   class="from-dropdown"
                    aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
                   <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled"

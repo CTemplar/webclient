@@ -67,12 +67,10 @@ export class SharedService {
       .subscribe((data: any) => {
         SharedService.PRICING_PLANS = data;
         SharedService.PRICING_PLANS_ARRAY = [];
-        for (const key in data) {
-          if (data.hasOwnProperty(key)) {
-            data[key].name = key;
-            SharedService.PRICING_PLANS_ARRAY.push(data[key]);
-          }
-        }
+        Object.keys(data).forEach(key => {
+          data[key].name = key;
+          SharedService.PRICING_PLANS_ARRAY.push(data[key]);
+        });
       });
   }
 
