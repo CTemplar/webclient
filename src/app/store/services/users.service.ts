@@ -203,7 +203,10 @@ export class UsersService {
       'emails/domain-users/',
       'auth/otp-secret/',
       'auth/enable-2fa/',
-      'users/contact-bulk-update/'
+      'users/contact-bulk-update/',
+      'emails/delete-message/',
+      'users/prorated',
+      'btc-wallet/create/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -280,6 +283,10 @@ export class UsersService {
 
   getInvoices() {
     return this.http.get<any>(`${apiUrl}users/invoices/`);
+  }
+
+  getUpgradeAmount(data: any) {
+    return this.http.post<any>(`${apiUrl}users/prorated/`, data);
   }
 
   addContact(payload: Contact) {

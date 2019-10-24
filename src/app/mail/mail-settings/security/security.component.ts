@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AppState, Auth2FA, AuthState, ContactsState, Settings, UserState } from '../../../store/datatypes';
+import { AppState, Auth2FA, AuthState, ContactsState, PlanType, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
@@ -43,6 +43,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
   isDecryptingContacts: boolean;
   contactsState: ContactsState;
   isContactsEncrypted: boolean;
+  planTypeEnum = PlanType;
+  planType: PlanType;
 
   private updatedPrivateKeys: Array<any>;
   private canDispatchChangePassphrase: boolean;
@@ -59,6 +61,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+        this.planType = user.settings.plan_type || PlanType.FREE;
         this.isContactsEncrypted = this.settings.is_contacts_encrypted;
       });
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
@@ -105,6 +108,13 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   updateSettings(key?: string, value?: any) {
     this.settingsService.updateSettings(this.settings, key, value);
+  }
+
+  updateAntiPhishing(status: boolean) {
+    if (this.settings.is_anti_phishing_enabled !== status) {
+      this.settings.anti_phishing_phrase = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+      this.settingsService.updateSettings(this.settings, 'is_anti_phishing_enabled', status);
+    }
   }
 
   get2FASecret() {
@@ -180,7 +190,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.isContactsEncrypted = false;
     }, 100);
-   this.modalService.open(this.confirmEncryptContactsModal, {
+    this.modalService.open(this.confirmEncryptContactsModal, {
       centered: true,
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal'

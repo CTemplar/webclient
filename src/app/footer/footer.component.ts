@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 // Service
 import { SharedService } from '../store/services';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-footer',
@@ -15,6 +16,7 @@ export class FooterComponent {
   hideFooterCallToAction: boolean = false;
   hideEntireFooterCallToAction: boolean = false;
   externalPageCallToAction: boolean = false;
+  currentYear = moment().format('YYYY');
 
   constructor(private sharedService: SharedService) {
     this.sharedService.hideFooter.subscribe(data => this.hideFooterCallToAction = data);

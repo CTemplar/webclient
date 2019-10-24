@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
-import { ClearDraft, CreateMail, SendMail } from '../actions';
+import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
 import { AppState, ComposeMailState, Draft, DraftState, SecureContent, UserState } from '../datatypes';
 import { OpenPgpService } from './openpgp.service';
 
@@ -34,7 +34,12 @@ export class ComposeMailService {
                   draftMail.draft.subject = draftMail.encryptedContent.subject;
                 }
                 if (!draftMail.isSshInProgress) {
-                  this.store.dispatch(new SendMail({ ...draftMail }));
+                  if (!draftMail.isSaving) {
+                    this.store.dispatch(new SendMail({ ...draftMail }));
+                  } else {
+                    this.store.dispatch(new SnackPush(
+                      { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
+                  }
                 }
               } else if (this.drafts[key].isSshInProgress && !draftMail.isSshInProgress) {
                 if (!draftMail.getUserKeyInProgress) {
@@ -60,7 +65,12 @@ export class ComposeMailService {
                   if (keys.length > 0) {
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                   } else {
-                    this.store.dispatch(new SendMail({ ...draftMail }));
+                    if(!draftMail.isSaving) {
+                      this.store.dispatch(new SendMail({ ...draftMail }));
+                    } else {
+                      this.store.dispatch(new SnackPush(
+                        { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
+                    }
                   }
                 }
               }

@@ -46,7 +46,7 @@ import {
   VerifyCaptcha,
   VerifyCaptchaSuccess, SettingsUpdateSuccess
 } from '../actions';
-import { SignupState } from '../datatypes';
+import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { of } from 'rxjs/internal/observable/of';
 import { EMPTY } from 'rxjs/internal/observable/empty';
@@ -81,7 +81,9 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((response) => {
       if (response.payload.token) {
-        this.router.navigateByUrl('/mail');
+        if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
+          this.router.navigateByUrl('/mail');
+        }
       }
     })
   );
@@ -189,6 +191,9 @@ export class AuthEffects {
       ofType(AuthActionTypes.UPGRADE_ACCOUNT),
       map((action: UpgradeAccount) => action.payload),
       switchMap(payload => {
+        if (payload.plan_type === PlanType.FREE) {
+          payload = { plan_type: PlanType.FREE };
+        }
         return this.authService.upgradeAccount(payload)
           .pipe(
             switchMap((res) => {

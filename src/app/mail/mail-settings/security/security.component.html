@@ -63,12 +63,13 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <div class="form-content-row">
+      <div class="form-content-row"
+           ngbTooltip="{{planType===planTypeEnum.FREE?'Please upgrade to paid plan in order to use this feature':''}}">
         <div class="row align-items-center">
           <div class="col-sm-3">
             <label class="form-label mb-sm-0">Subjects encryption</label>
           </div>
-          <div class="col-sm-7 col-md-5">
+          <div [class.disabled]="planType===planTypeEnum.FREE" class="col-sm-7 col-md-5 subject-encryption">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
@@ -115,6 +116,63 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="ui-header ui-header-bordered">
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong>Phishing Protection</strong></h5>
+  </header>
+  <div class="mailbox-section-body mailbox-section-body-sm">
+    <div class="form-content-holder">
+      <div class="form-content-row">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <label class="form-label mb-sm-0">Anti Phishing</label>
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="phishingProtection1"
+                         name="[phishingProtection]" type="radio" (click)="updateAntiPhishing(true)"
+                         [checked]="settings.is_anti_phishing_enabled"/>
+                  <label for="phishingProtection1" translate="common.enabled">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="phishingProtection2"
+                         name="[phishingProtection]" type="radio" (click)="updateAntiPhishing(false)"
+                         [checked]="!settings.is_anti_phishing_enabled"/>
+                  <label for="phishingProtection2" translate="common.disabled">Disabled</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center my-3" *ngIf="settings.is_anti_phishing_enabled">
+          <div class="col-sm-3">
+            <label class="form-label mb-sm-0">Anti Phishing Phrase</label>
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <input class="form-control form-control-sm" id="antiPhishingPhrase" type="text" name="antiPhishingPhrase"
+                   autocomplete="off" [(ngModel)]="settings.anti_phishing_phrase" [ngModelOptions]="{ updateOn: 'blur'}"
+                   (change)="updateSettings('anti_phishing_phrase', $event.target.value)"/>
+          </div>
+        </div>
+        <div class="info-card mt-2 full-width">
+          The Anti-Phishing phrase allows users to link a custom word or phrase of your choice to your CTemplar account.
+          Once set, if you ever log into your webmail and your Anti-Phishing phrase is either missing or incorrect,
+          you may be the victim of phishing. You should immediately confirm that you are visiting
+          <a href="https://ctemplar.com">https://ctemplar.com</a>. If you are not, then a malicious site might have your
+          login credentials for your CTemplar account. To prevent harm to your account, you should immediately visit
+          <a href="https://ctemplar.com">https://ctemplar.com </a> and change your password.
+        </div>
+      </div>
+      <div class="form-content-row">
+        <div class="row align-items-center">
         </div>
       </div>
     </div>
