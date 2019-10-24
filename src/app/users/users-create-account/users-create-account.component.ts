@@ -7,7 +7,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, Captcha, SignupState, UserState } from '../../store/datatypes';
+import { AppState, AuthState, Captcha, PlanType, SignupState, UserState } from '../../store/datatypes';
 import { CheckUsernameAvailability, FinalLoading, GetCaptcha, SignUp, UpdateSignupData, VerifyCaptcha } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
@@ -43,7 +43,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isRecoveryEmail: boolean = null;
   isConfirmedPrivacy: boolean = null;
   errorMessage: string = '';
-  selectedPlan: any;
+  selectedPlan: PlanType;
+  planType = PlanType;
   data: any = null;
   signupInProgress: boolean = false;
   signupState: SignupState;
@@ -89,20 +90,17 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         if (this.captcha.isInvalid) {
           this.captchaValue = '';
         }
-        this.errorMessage = state.errorMessage;
-      });
-
-    this.store.select(state => state.user)
-      .pipe(untilDestroyed(this))
-      .subscribe((state: UserState) => {
-        this.selectedPlan = state.membership.id;
-        if (this.selectedPlan !== 1 && this.selectedPlan !== 2 && !this.isCaptchaRetrieved) {
+        this.selectedPlan = state.signupState.plan_type;
+        if (this.selectedPlan === PlanType.FREE && !this.isCaptchaRetrieved) {
           this.isCaptchaRetrieved = true;
           this.store.dispatch(new GetCaptcha());
         }
+        this.errorMessage = state.errorMessage;
       });
+
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     this.handleUsernameAvailability();
+    this.sharedService.loadPricingPlans();
   }
 
   reloadCaptcha() {
@@ -139,17 +137,17 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.isRecoveryEmail = false;
     }
 
-    if (!this.captchaValue && this.selectedPlan === 0) {
+    if (!this.captchaValue && this.selectedPlan === PlanType.FREE) {
       this.captcha.isInvalid = true;
     }
 
     if (this.signupState.usernameExists !== false || this.signupForm.invalid || !this.isConfirmedPrivacy ||
-      (!this.captchaValue && this.selectedPlan === 0) ||
+      (!this.captchaValue && this.selectedPlan === PlanType.FREE) ||
       (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
       return false;
     }
 
-    if (this.selectedPlan === 1 || this.selectedPlan === 2) {
+    if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else if (this.captcha.verified === true) {
       this.signupFormCompleted();
@@ -176,7 +174,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   signupFormCompleted() {
-    if (this.selectedPlan === 1 || this.selectedPlan === 2) {
+    if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
       this.signupInProgress = true;

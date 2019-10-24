@@ -157,11 +157,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   inProgress: boolean;
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
-  isTrialPrimeFeaturesAvailable: boolean;
+  isTrialPrimeFeaturesAvailable: boolean = false;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
   insertLinkData: any = {};
   settings: Settings;
+  mailAction = MailAction;
 
   private isMailSent = false;
   private isSavedInDraft = false;
@@ -237,7 +238,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select((state: AppState) => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
+        // this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
         this.settings = user.settings;
         if (user.settings.is_contacts_encrypted) {
@@ -339,7 +340,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getPlainText(html: string) {
     const element = document.createElement('div');
-    element.innerHTML = html.replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
+    element.innerHTML = html.replace(/<div>/g, '<br><div>')
+      .replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
     return element.innerText;
   }
 
@@ -513,12 +515,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   uploadAttachment(file: File, isInline = false) {
     this.attachmentHolder.nativeElement.scrollIntoView({ behavior: 'smooth' });
-    const sizeInMBs = file.size / (1024 * 1024);
+    const attachmentLimitInMBs = this.settings.attachment_size_limit / (1024 * 1024);
 
-    if (this.userState.isPrime && sizeInMBs > 25) {
-      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 25MB.' }));
-    } else if (!this.userState.isPrime && sizeInMBs > 5) {
-      this.store.dispatch(new SnackErrorPush({ message: 'Maximum allowed file size is 5MB. Please upgrade your account to prime to send larger attachments.' }));
+    if (file.size > this.settings.attachment_size_limit) {
+      this.store.dispatch(new SnackErrorPush({
+        message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`
+      }));
     } else {
       const attachment: Attachment = {
         draftId: this.draftId,
@@ -638,8 +640,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.settings.is_html_disabled) {
       if (!this.isSignatureAdded) {
         this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : '';
-        this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+        this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
+        if (this.selectedMailbox.signature) {
+          this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+        }
       }
       return;
     }

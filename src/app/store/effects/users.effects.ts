@@ -45,7 +45,7 @@ import {
   GetFiltersSuccess,
   GetInvoices,
   GetInvoicesSuccess,
-  GetUnreadMailsCount,
+  GetUnreadMailsCount, GetUpgradeAmount, GetUpgradeAmountSuccess,
   PaymentFailure,
   ReadDomain,
   ReadDomainFailure,
@@ -540,6 +540,18 @@ export class UsersEffects {
       return this.userService.getInvoices()
         .pipe(
           switchMap(res => of(new GetInvoicesSuccess(res.results))),
+          catchError(err => EMPTY)
+        );
+    }));
+
+  @Effect()
+  getUpgradeAmountEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_UPGRADE_AMOUNT),
+    map((action: GetUpgradeAmount) => action.payload),
+    switchMap(payload => {
+      return this.userService.getUpgradeAmount(payload)
+        .pipe(
+          switchMap(res => of(new GetUpgradeAmountSuccess(res))),
           catchError(err => EMPTY)
         );
     }));

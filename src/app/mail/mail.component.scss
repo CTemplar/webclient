@@ -154,6 +154,10 @@
   font-size: 1rem;
   transform: translateY(-50%);
 
+  i {
+    vertical-align: bottom;
+  }
+
   @include media("<ipad", ">sm") {
     display: none;
 
@@ -762,7 +766,7 @@
 .mail-nav-control {
   display: flex;
   align-items: center;
-  justify-content: ceter;
+  justify-content: center;
 
   [class*="mail-nav-control-"] {
     background: #f5f5f5;
@@ -858,7 +862,7 @@
 .mail-nav-control {
   display: flex;
   align-items: center;
-  justify-content: ceter;
+  justify-content: center;
 
   [class*="mail-nav-control-"] {
     background: #f5f5f5;
@@ -1599,4 +1603,7 @@
 
 .item-group-label {
   font-weight: 600 !important;
+}
+.badge-position {
+  right: 1.563rem !important;
 }
