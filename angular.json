@@ -26,6 +26,7 @@
             "assets": [
               "src/assets",
               "src/README.md",
+              "src/CNAME",
               "src/favicon.ico",
               {
                 "glob": "openpgp.min.js",
@@ -101,6 +102,7 @@
             "assets": [
               "src/assets",
               "src/README.md",
+              "src/CNAME",
               "src/favicon.ico",
               {
                 "glob": "openpgp.min.js",
