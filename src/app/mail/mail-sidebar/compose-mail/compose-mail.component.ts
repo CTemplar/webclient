@@ -18,7 +18,7 @@ import {
   NewDraft,
   SnackErrorPush,
   SnackPush,
-  UpdateLocalDraft,
+  UpdateLocalDraft, UpdatePGPDecryptedContent,
   UploadAttachment
 } from '../../../store/actions';
 import {
@@ -922,6 +922,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new UpdateLocalDraft({
         ...this.draft, isMailDetailPage: this.isMailDetailPage,
         shouldSave, shouldSend, draft: { ...this.draftMail }
+      }));
+    } else {
+      this.store.dispatch(new UpdatePGPDecryptedContent({
+        id: this.draftMail.id,
+        isPGPInProgress: false,
+        decryptedContent: { content: this.draftMail.content, subject: this.draftMail.subject }
       }));
     }
   }
