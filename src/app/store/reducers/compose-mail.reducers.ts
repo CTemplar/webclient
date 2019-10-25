@@ -42,6 +42,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     case ComposeMailActionTypes.SEND_MAIL_SUCCESS: {
       state.drafts[action.payload.id] = {
         ...state.drafts[action.payload.id],
+        decryptedContent: null,
         inProgress: false, isSent: true,
       };
       return { ...state, drafts: { ...state.drafts } };
