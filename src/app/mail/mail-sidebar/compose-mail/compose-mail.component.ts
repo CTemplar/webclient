@@ -18,7 +18,7 @@ import {
   NewDraft,
   SnackErrorPush,
   SnackPush,
-  UpdateLocalDraft,
+  UpdateLocalDraft, UpdatePGPDecryptedContent,
   UploadAttachment
 } from '../../../store/actions';
 import {
@@ -157,7 +157,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   inProgress: boolean;
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
-  isTrialPrimeFeaturesAvailable: boolean;
+  isTrialPrimeFeaturesAvailable: boolean = false;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
   insertLinkData: any = {};
@@ -238,7 +238,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select((state: AppState) => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
+        // this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
         this.settings = user.settings;
         if (user.settings.is_contacts_encrypted) {
@@ -922,6 +922,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new UpdateLocalDraft({
         ...this.draft, isMailDetailPage: this.isMailDetailPage,
         shouldSave, shouldSend, draft: { ...this.draftMail }
+      }));
+    } else {
+      this.store.dispatch(new UpdatePGPDecryptedContent({
+        id: this.draftMail.id,
+        isPGPInProgress: false,
+        decryptedContent: { content: this.draftMail.content, subject: this.draftMail.subject }
       }));
     }
   }
