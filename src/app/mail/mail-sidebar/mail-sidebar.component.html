@@ -33,8 +33,8 @@
 
         <nav class="mailbox-sidebar-navbar">
             <ul class="mailbox-sidebar-nav folders-list">
-                <li class="mailbox-sidebar-nav-item" routerLinkActive="active">
-                    <a routerLink="/mail/inbox/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
+                <li class="mailbox-sidebar-nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false, __change_detection_hack__: PAGE }">
+                    <a routerLink="/mail/inbox/page/{{PAGE}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.inbox">Inbox</span>
                         <ng-container *ngIf="mailState?.unreadMailsCount?.inbox>0">
@@ -104,9 +104,9 @@
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.add_folder">Add folder</span>
                     </a>
                 </li>
-                <li class="mailbox-sidebar-nav-item custom-folder"  routerLinkActive="active"*ngFor="let folder of customFolders|slice:0:LIMIT; let i=index;">
+                <li class="mailbox-sidebar-nav-item custom-folder"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false, __change_detection_hack__: PAGE }" *ngFor="let folder of customFolders|slice:0:LIMIT; let i=index;">
                     <div>   
-                        <a routerLink="/mail/{{folder.name}}/page/{{PAGE < 0 || PAGE ==0 ? 1: PAGE}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
+                        <a routerLink="/mail/{{folder.name}}/page/{{PAGE}}" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                             <i class="folder-color-box icon" [style.background]="folder.color"></i>
                             <span class="mailbox-sidebar-nav-label">
                                 {{folder.name}}

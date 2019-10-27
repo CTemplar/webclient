@@ -15,7 +15,7 @@ import {
   GetMailsSuccess,
   GetUnreadMailsCount,
   GetUnreadMailsCountSuccess,
-  ReadMailSuccess
+  ReadMailSuccess, SetCurrentFolder
 } from '../../store/actions';
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
@@ -46,7 +46,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
   currentPlan: PlanType;
-  currentFolder: string;
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               config: NgbDropdownConfig,
@@ -145,11 +144,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
         this.PAGE = this.mailState.pageNumber;
-        if (this.currentFolder !== this.mailState.currentFolder) {
-          this.PAGE = 1;
-        } else {
-          this.currentFolder = this.mailState.currentFolder;
-        }
         console.log(this.PAGE);
         this.updateTitle();
       });
