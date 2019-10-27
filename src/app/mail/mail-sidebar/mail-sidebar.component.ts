@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, AuthState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -15,7 +15,7 @@ import {
   GetMailsSuccess,
   GetUnreadMailsCount,
   GetUnreadMailsCountSuccess,
-  ReadMailSuccess, SetCurrentFolder
+  ReadMailSuccess
 } from '../../store/actions';
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
@@ -39,6 +39,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   public userState: UserState;
 
   mailState: MailState;
+  mailFolderType = MailFolderType;
   currentRoute: string;
 
   isMenuOpened: boolean;
@@ -46,6 +47,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
   currentPlan: PlanType;
+
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
               config: NgbDropdownConfig,
@@ -143,8 +145,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        this.PAGE = this.mailState.pageNumber;
-        console.log(this.PAGE);
         this.updateTitle();
       });
     this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))

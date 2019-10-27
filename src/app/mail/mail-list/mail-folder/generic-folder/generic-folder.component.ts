@@ -110,10 +110,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     this.activatedRoute.paramMap.pipe(untilDestroyed(this))
       .subscribe((paramsMap: any) => {
         const params: any = paramsMap.params;
-        const page = +params.page;
-
         if (params) {
           if (params.page) {
+            const page = +params.page;
             if (page !== this.PAGE + 1) {
               this.PAGE = page > 0 ? page - 1 : 0;
               this.OFFSET = this.PAGE * this.LIMIT;
@@ -122,7 +121,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           }
           if (params.folder) {
             this.mailFolder = params.folder as MailFolderType;
-            this.store.dispatch(new SetCurrentFolder({ folder: this.mailFolder, pageNumber: page }));
+            this.store.dispatch(new SetCurrentFolder({ currentFolder: this.mailFolder }));
             if (this.mailFolder !== MailFolderType.SEARCH) {
               this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
             }
