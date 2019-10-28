@@ -269,6 +269,8 @@
 
         <!-- Attachment Size -->
         <td class="mail-file-size">
+          <label *ngIf="mailFolder===mailFolderTypes.SEARCH"
+                 class="folder-batch" [style.background]="folderColors[mail.folder]">{{mail.folder}}</label>
           <i class="icon icon-attachment" *ngIf="mail.has_attachments || mail.attachments?.length>0"></i>
         </td>
 

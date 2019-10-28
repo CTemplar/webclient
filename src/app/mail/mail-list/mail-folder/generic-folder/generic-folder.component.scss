@@ -26,6 +26,7 @@ a.disabled {
 .delete-permanently-btn {
   width: auto;
 }
+
 .select-all-checkbox {
   left: 8px;
   position: absolute;
@@ -42,4 +43,36 @@ a.disabled {
 
 .encrypted-subject {
   max-width: 120px;
+}
+
+.mail-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.mail-file-size {
+  position: relative;
+  width: 5.5rem;
+
+  .folder-batch {
+    background: #4d5f71;
+    color: white;
+    border-radius: 2px;
+    height: 20px;
+    line-height: 18px;
+    min-width: 50px;
+    max-width: 10rem;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+    position: absolute;
+    right: 30px;
+    top: 15px;
+  }
+
+  i {
+    float: right;
+  }
 }

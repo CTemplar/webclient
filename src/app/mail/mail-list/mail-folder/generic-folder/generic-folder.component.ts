@@ -50,6 +50,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   LIMIT: number = 20;
   OFFSET: number = 0;
   PAGE: number = 0;
+  folderColors: any = {};
+
   private searchText: string;
   private mailState: MailState;
   private isInitialized: boolean;
@@ -80,6 +82,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       .subscribe((user: UserState) => {
         this.userState = user;
         this.customFolders = user.customFolders;
+        if (this.mailFolder === MailFolderType.SEARCH) {
+          user.customFolders.forEach(folder => {
+            this.folderColors[folder.name] = folder.color;
+          });
+        }
         if (this.fetchMails && this.userState.settings && user.settings.emails_per_page) {
           this.LIMIT = user.settings.emails_per_page;
           if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isInitialized) {
