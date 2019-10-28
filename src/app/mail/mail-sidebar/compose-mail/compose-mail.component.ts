@@ -633,7 +633,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeAttachment(attachment: Attachment) {
-    this.store.dispatch(new DeleteAttachment(attachment));
+    if (!attachment.isRemoved) {
+      attachment.isRemoved = true;
+      this.store.dispatch(new DeleteAttachment(attachment));
+    }
   }
 
   updateSignature() {
