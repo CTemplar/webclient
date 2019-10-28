@@ -50,6 +50,10 @@ a.disabled {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  padding-top: 5px;
+  padding-bottom: 1px;
+  margin-bottom: -5px;
+  margin-top: -6px;
 }
 
 .mail-file-size {
@@ -63,13 +67,15 @@ a.disabled {
     height: 20px;
     line-height: 18px;
     min-width: 50px;
-    max-width: 10rem;
+    max-width: 70px;
     text-overflow: ellipsis;
     text-align: center;
     overflow: hidden;
+    white-space: nowrap;
     position: absolute;
     right: 30px;
     top: 15px;
+    padding: 1px 5px 0;
   }
 
   i {
