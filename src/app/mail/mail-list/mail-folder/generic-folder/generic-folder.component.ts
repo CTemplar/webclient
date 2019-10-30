@@ -18,7 +18,7 @@ import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { SearchState } from '../../../../store/reducers/search.reducers';
 import { OpenPgpService, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
-import { UpdateSearch } from '../../../../store/actions/search.action';
+import { ClearSearch } from '../../../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
@@ -99,20 +99,21 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       });
 
-    this.store.select(state => state.search).pipe(untilDestroyed(this))
-      .subscribe((searchState: SearchState) => {
-        this.searchText = searchState.searchText;
-        if (this.searchText) {
-          this.store.dispatch(new GetMails({
-            forceReload: true,
-            searchText: this.searchText,
-            limit: this.LIMIT,
-            offset: this.OFFSET,
-            folder: this.mailFolder
-          }));
-          return;
-        }
-      });
+    if (this.mailFolder === MailFolderType.SEARCH) {
+      this.activatedRoute.queryParams.pipe(untilDestroyed(this))
+        .subscribe((params) => {
+          if (params.search) {
+            this.searchText = params.search;
+            this.store.dispatch(new GetMails({
+              forceReload: true,
+              searchText: this.searchText,
+              limit: this.LIMIT,
+              offset: this.OFFSET,
+              folder: this.mailFolder
+            }));
+          }
+        });
+    }
 
     this.activatedRoute.paramMap.pipe(untilDestroyed(this))
       .subscribe((paramsMap: any) => {
@@ -130,7 +131,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
             this.mailFolder = params.folder as MailFolderType;
             this.store.dispatch(new SetCurrentFolder(this.mailFolder));
             if (this.mailFolder !== MailFolderType.SEARCH) {
-              this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
+              this.store.dispatch(new ClearSearch());
             }
           }
         }
@@ -263,7 +264,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
       this.store.dispatch(new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }));
-      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id]);
+      const queryParams: any = {};
+      if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
+        queryParams.search = this.searchText;
+      }
+      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], { queryParams });
     }
   }
 

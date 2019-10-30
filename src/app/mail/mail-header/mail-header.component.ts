@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES } from '../../shared/config';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { FormControl } from '@angular/forms';
-import { UpdateSearch } from '../../store/actions/search.action';
 import { DOCUMENT } from '@angular/common';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { NavigationEnd, Router } from '@angular/router';
@@ -62,17 +61,9 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
         this.setSearchPlaceholder(event.url);
       });
 
-    this.searchInput.valueChanges.pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        if (!value) {
-          this.store.dispatch(new UpdateSearch({ searchText: value, clearSearch: true }));
-        }
-      });
     this.store.select(state => state.search).pipe(untilDestroyed(this))
       .subscribe((searchState: SearchState) => {
-        if (!searchState.searchText) {
-          this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
-        }
+        this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
       });
   }
 
@@ -82,7 +73,13 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    this.store.dispatch(new UpdateSearch({ searchText: this.searchInput.value }));
+    if (this.searchInput.value) {
+      if (this.isContactsPage) {
+        this.router.navigate(['/mail/contacts'], { queryParams: { search: this.searchInput.value } });
+      } else {
+        this.router.navigate(['/mail/search/page', 1], { queryParams: { search: this.searchInput.value } });
+      }
+    }
   }
 
   // == Setup click event to toggle mobile menu
