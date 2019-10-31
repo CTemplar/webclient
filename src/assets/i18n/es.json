@@ -738,6 +738,7 @@
     "mark_not_spam": "Mark not spam",
     "delete_in": "Delete in",
     "delay_delivery": "Delay delivery in",
+    "dead_mans_timer": "Dead man timer in",
     "forward": "Forward",
     "reply": "Reply",
     "reply_all": "Reply All",

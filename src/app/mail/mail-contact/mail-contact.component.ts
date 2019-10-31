@@ -8,9 +8,8 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { SearchState } from '../../store/reducers/search.reducers';
-import { UpdateSearch } from '../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ActivatedRoute } from '@angular/router';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -55,6 +54,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
               private modalService: NgbModal,
               private breakpointsService: BreakpointsService,
               private composeMailService: ComposeMailService,
+              private activatedRoute: ActivatedRoute,
               config: NgbDropdownConfig,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
@@ -63,19 +63,14 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateUsersStatus();
-
-    this.store.select(state => state.search).pipe(untilDestroyed(this))
-      .subscribe((search: SearchState) => {
-        this.searchText = search.searchText;
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.searchText = params.search || '';
         this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
       });
   }
 
-  ngOnDestroy(): void {
-    if (this.searchText) {
-      this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
-    }
-  }
+  ngOnDestroy(): void {}
 
   private updateUsersStatus(): void {
     this.store.select(state => state.user)
