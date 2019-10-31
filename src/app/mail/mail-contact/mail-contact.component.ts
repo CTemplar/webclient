@@ -43,7 +43,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   LIMIT: number = 20;
   OFFSET: number = 0;
-  PAGE: number = 1;
+  PAGE: number = 0;
 
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;
