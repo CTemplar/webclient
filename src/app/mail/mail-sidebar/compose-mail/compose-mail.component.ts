@@ -654,16 +654,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.isSignatureAdded) {
         const index = this.quill.getLength();
         this.quill.insertText(index, '\n', 'silent');
-        this.quill.insertEmbed(index + 1, 'signature', this.selectedMailbox.signature || '', 'silent');
+        this.quill.insertText(index + 1, this.selectedMailbox.signature || '', 'silent');
         this.isSignatureAdded = true;
-      } else {
-        const updatedContents = this.quill.getContents().map(op => {
-          if (op.insert && op.insert.signature) {
-            op.insert.signature = this.selectedMailbox.signature || '';
-          }
-          return op;
-        });
-        this.quill.setContents(updatedContents);
       }
     }
   }
