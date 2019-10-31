@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  [class.active]="mailState?.currentFolder === mailFolderType.DRAFT">
-                    <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu('draft')">
+                    <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
                     </a>
