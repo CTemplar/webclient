@@ -22,7 +22,7 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
+import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -33,7 +33,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
 
   LIMIT = 3;
   EMAIL_LIMIT = 20;
-  PAGE = 1;
+
   // Public property of boolean type set false by default
   public isComposeVisible: boolean = false;
   public userState: UserState;
@@ -114,7 +114,6 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.store.dispatch(new ClearMailsOnLogout());
         }
       });
-
   }
 
   ngOnInit() {
@@ -146,6 +145,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
         this.updateTitle();
+
       });
     this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
