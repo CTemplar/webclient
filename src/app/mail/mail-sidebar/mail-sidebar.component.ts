@@ -39,6 +39,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   public userState: UserState;
 
   mailState: MailState;
+  mailFolderType = MailFolderType;
   currentRoute: string;
 
   isMenuOpened: boolean;
@@ -46,6 +47,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
   currentPlan: PlanType;
+  currentFolder: MailFolderType;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -143,6 +145,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
+        this.currentFolder = mailState.currentFolder;
         this.updateTitle();
 
       });
