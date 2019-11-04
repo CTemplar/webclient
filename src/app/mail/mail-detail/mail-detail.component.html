@@ -287,9 +287,11 @@
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
                 id="messageReplyDropdownMenuButton"></button>
         <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
+          <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
           <a class="dropdown-item" (click)="onForward(mail); scrollTo(replyActions);" translate="mail_detail.forward">Forward</a>
           <a class="dropdown-item" (click)="onReply(mail); scrollTo(replyActions);" translate="mail_detail.reply">Reply</a>
           <a class="dropdown-item" (click)="onReplyAll(mail); scrollTo(replyActions);" translate="mail_detail.reply_all">Reply All</a>
+          </ng-container>
           <a class="dropdown-item" (click)="onPrint(mail)" translate="mail_detail.print">Print</a>
           <a class="dropdown-item" (click)="onDelete(mail)" [translate]= "(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)">Delete this Message</a>
           <a class="dropdown-item" (click)="onDeleteForAll(mail)" *ngIf="mail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
@@ -518,7 +520,7 @@
   <!--Reply to mail.-->
   <div class="ui-body ui-footer-sec" #replyActions>
 
-    <div class="row">
+    <div class="row" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
       <div class="col-12">
 
         <button class="btn btn-gmail" (click)="onReply(mail, 0, false, true)">

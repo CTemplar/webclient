@@ -54,6 +54,7 @@
             </div>
           </li>
           <li class=""><a routerLink="/mail/contacts" placement="bottom"
+                          (click)="searchInput.setValue('')"
                           routerLinkActive="active"
                           [ngbTooltip]="'mail_header.contacts' | translate"><i
                   class="icon icon-login"></i></a></li>

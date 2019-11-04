@@ -120,12 +120,6 @@
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
                 <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
               </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
-                <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
-              </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-                <i class="icon icon-draft"></i><span translate="mail_sidebar.outbox">Outbox</span>
-              </a>
               <ng-container *ngFor="let folder of customFolders; let i=index;">
                 <a class="dropdown-item"
                   *ngIf="mailFolder !== folder.name"
@@ -255,7 +249,7 @@
                       *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
-                      *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
+                      *ngIf="mail.dead_man_duration"><span translate="mail_detail.dead_mans_timer">Dead mans timer in</span> {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
               <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>
@@ -269,6 +263,8 @@
 
         <!-- Attachment Size -->
         <td class="mail-file-size">
+          <label *ngIf="mailFolder===mailFolderTypes.SEARCH"
+                 class="folder-batch" [style.background]="folderColors[mail.folder]">{{mail.folder}}</label>
           <i class="icon icon-attachment" *ngIf="mail.has_attachments || mail.attachments?.length>0"></i>
         </td>
 
@@ -343,7 +339,7 @@
                               *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                         </span>
                         <span class="badge badge-danger mr-2 p-1"
-                              *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
+                              *ngIf="mail.dead_man_duration"><span translate="mail_detail.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
                       <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>

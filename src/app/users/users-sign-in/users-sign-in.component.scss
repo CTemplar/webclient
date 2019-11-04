@@ -84,3 +84,12 @@ $error-red: #e94e4c;
     width: 200px;
   }
 }
+
+// TODO: remove this class once TOR issue is fixed.
+.tor-login-issue {
+  background: whitesmoke;
+  color: #2c475e;
+  text-align: left;
+  padding: 5px 15px;
+  line-height: 1.5;
+}
