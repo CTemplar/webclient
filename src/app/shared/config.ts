@@ -77,6 +77,9 @@ export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 export const REFFERAL_CODE_KEY = 'referral_code';
 
 export function isTORBrowser() {
+  if (window.location.hostname === 'ctemplar42u6fulx.onion') {
+    return true;
+  }
   const date = new Date();
   if (window.innerWidth === 1000 &&
     navigator.userAgent.indexOf('Gecko/20100101 Firefox') > -1 &&
