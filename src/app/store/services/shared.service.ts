@@ -13,9 +13,12 @@ import { MailComponent } from '../../mail/mail.component';
 import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.component';
 import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
+import { PricingPlan } from '../datatypes';
 
 @Injectable()
 export class SharedService {
+  static PRICING_PLANS: any;
+  static PRICING_PLANS_ARRAY: Array<PricingPlan> = [];
   isReady: EventEmitter<boolean> = new EventEmitter();
   hideFooter: EventEmitter<boolean> = new EventEmitter();
   hideHeader: EventEmitter<boolean> = new EventEmitter();
@@ -57,6 +60,21 @@ export class SharedService {
   private openModal(callback: { self: any, method: string } = null) {
     const modal: NgbModalRef = this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
     (<CreateFolderComponent>modal.componentInstance).callback = callback;
+  }
+
+  loadPricingPlans() {
+    if (SharedService.PRICING_PLANS) {
+      return;
+    }
+    this.http.get('./assets/static/pricing-plans.json')
+      .subscribe((data: any) => {
+        SharedService.PRICING_PLANS = data;
+        SharedService.PRICING_PLANS_ARRAY = [];
+        Object.keys(data).forEach(key => {
+          data[key].name = key;
+          SharedService.PRICING_PLANS_ARRAY.push(data[key]);
+        });
+      });
   }
 
   showPaymentFailureDialog() {

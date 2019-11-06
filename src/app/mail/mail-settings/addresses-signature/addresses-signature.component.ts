@@ -169,6 +169,12 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   startReorder() {
     this.reorder = true;
     this.unmodifiedMailboxes = this.mailboxes.map(x => Object.assign({}, x));
+    this.mailboxes = this.mailboxes.sort((a, b) => {
+      return a.sort_order - b.sort_order;
+    }).map((item, index) => {
+      item.sort_order = index + 1;
+      return item;
+    });
   }
 
   saveOrder() {

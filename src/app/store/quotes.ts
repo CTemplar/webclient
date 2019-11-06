@@ -48,7 +48,7 @@ export const quotes = [
     author: '- Thomas Jefferson -'
   },
   {
-    content: 'the first casualty when war comes is truth.',
+    content: 'The first casualty when war comes is truth.',
     author: '- Hiram Johnson -'
   },
   {
@@ -88,7 +88,7 @@ export const quotes = [
     author: '- Mahatma Gandhi -'
   },
   {
-    content: 'They who can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety',
+    content: 'They who can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety.',
     author: '- Benjamin Franklin -'
   },
   {
@@ -201,7 +201,7 @@ export const quotes = [
   },
   {
     content: 'You are now under 24-hours per day surveillance.',
-    author: '- William Binney, Whistleblower-'
+    author: '- William Binney, Whistleblower -'
   },
   {
     content: 'Your Government is profiling you.',
@@ -224,7 +224,7 @@ export const quotes = [
     author: '- Julian Assange -'
   },
   {
-    content: 'All administrations, governments, officials lie and nothing they say is to be believed. That\'s a pretty good rule..',
+    content: 'All administrations, governments, officials lie and nothing they say is to be believed. That\'s a pretty good rule.',
     author: '- Daniel Ellsberg, Whistleblower -'
   },
   {
@@ -256,7 +256,7 @@ export const quotes = [
     author: '- Aaron Swartz, Reddit Co-Founder -'
   },
   {
-    content: 'It’s time to come into the light',
+    content: 'It’s time to come into the light.',
     author: '- Aaron Swartz, Reddit Co-Founder -'
   },
   {

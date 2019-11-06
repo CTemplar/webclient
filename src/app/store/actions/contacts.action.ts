@@ -13,8 +13,11 @@ export enum ContactsActionTypes {
   CONTACT_IMPORT_SUCCESS = '[Contacts] Contact Import Success',
   CONTACT_IMPORT_FAILURE = '[Contacts] Contact Import Failure',
   CONTACT_DECRYPT_SUCCESS = '[Contacts] Contact_Decrypt_Success',
-  GET_EMAIL_CONTACTS = '[USER] GET EMAIL CONTACTS',
-  GET_EMAIL_CONTACTS_SUCCESS = '[USER] GET EMAIL CONTACTS SUCCESS',
+  GET_EMAIL_CONTACTS = '[Contacts] GET EMAIL CONTACTS',
+  GET_EMAIL_CONTACTS_SUCCESS = '[Contacts] GET EMAIL CONTACTS SUCCESS',
+  CLEAR_CONTACTS_TO_DECRYPT = '[Contacts] CLEAR CONTACTS TO DECRYPT',
+  CONTACT_BATCH_UPDATE = '[Contacts] Batch update',
+  CONTACT_BATCH_UPDATE_SUCCESS = '[Contacts] Batch update Success',
 }
 
 
@@ -110,6 +113,27 @@ export class GetEmailContactsSuccess implements Action {
   }
 }
 
+export class ClearContactsToDecrypt implements Action {
+  readonly type = ContactsActionTypes.CLEAR_CONTACTS_TO_DECRYPT;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class UpdateBatchContacts implements Action {
+  readonly type = ContactsActionTypes.CONTACT_BATCH_UPDATE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateBatchContactsSuccess implements Action {
+  readonly type = ContactsActionTypes.CONTACT_BATCH_UPDATE_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type ContactsActionAll =
   | ContactsGet
   | ContactGetSuccess
@@ -123,4 +147,7 @@ export type ContactsActionAll =
   | ContactImportFailure
   | ContactDecryptSuccess
   | GetEmailContacts
-  | GetEmailContactsSuccess;
+  | GetEmailContactsSuccess
+  | ClearContactsToDecrypt
+  | UpdateBatchContacts
+  | UpdateBatchContactsSuccess;

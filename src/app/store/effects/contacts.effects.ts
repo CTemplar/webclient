@@ -25,7 +25,7 @@ import {
   GetEmailContacts,
   GetEmailContactsSuccess,
   SnackErrorPush,
-  SnackPush
+  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -44,17 +44,22 @@ export class ContactsEffects {
       return this.userService.getContact(payload.limit, payload.offset, payload.q)
         .pipe(
           map(response => {
-            let count = 0;
-            const contacts: Contact[] = response.results;
-            contacts.forEach((contact) => {
-              if (contact.is_encrypted) {
-                contact.is_decryptionInProgress = true;
-                count = count + 1;
-                setTimeout(() => {
-                  this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
-                }, (count * 300));
-              }
-            });
+            if (payload.isDecrypting) {
+              response.isDecrypting = true;
+              return new ContactGetSuccess(response);
+            } else {
+              let count = 0;
+              const contacts: Contact[] = response.results;
+              contacts.forEach((contact) => {
+                if (contact.is_encrypted) {
+                  contact.is_decryptionInProgress = true;
+                  count = count + 1;
+                  setTimeout(() => {
+                    this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
+                  }, (count * 300));
+                }
+              });
+            }
             return new ContactGetSuccess(response);
           }),
           catchError((error) => EMPTY)
@@ -74,7 +79,7 @@ export class ContactsEffects {
               if (contact.is_encrypted) {
                 setTimeout(() => {
                   this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
-                }, 300);
+                }, 150);
               }
               return of(
                 new ContactAddSuccess(contact),
@@ -140,6 +145,19 @@ export class ContactsEffects {
       return this.userService.getEmailContacts()
         .pipe(
           switchMap(res => of(new GetEmailContactsSuccess(res.results))),
+          catchError(err => EMPTY)
+        );
+    }));
+
+
+  @Effect()
+  updateBatchContacts: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_BATCH_UPDATE),
+    map((action: UpdateBatchContacts) => action.payload),
+    switchMap(payload => {
+      return this.userService.updateBatchContacts(payload)
+        .pipe(
+          switchMap(res => of(new UpdateBatchContactsSuccess(payload))),
           catchError(err => EMPTY)
         );
     }));

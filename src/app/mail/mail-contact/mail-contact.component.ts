@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { AppState, Contact, ContactsState, UserState } from '../../store/datatypes';
+import { AppState, Contact, ContactsState, PlanType, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
@@ -8,9 +8,8 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { SearchState } from '../../store/reducers/search.reducers';
-import { UpdateSearch } from '../../store/actions/search.action';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ActivatedRoute } from '@angular/router';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -39,6 +38,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   importContactsError: any;
   isLayoutSplitted: boolean = false;
   isMenuOpened: boolean;
+  currentPlan: PlanType;
 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   LIMIT: number = 20;
@@ -54,6 +54,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
               private modalService: NgbModal,
               private breakpointsService: BreakpointsService,
               private composeMailService: ComposeMailService,
+              private activatedRoute: ActivatedRoute,
               config: NgbDropdownConfig,
               @Inject(DOCUMENT) private document: Document) {
     // customize default values of dropdowns used by this component tree
@@ -62,24 +63,20 @@ export class MailContactComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateUsersStatus();
-
-    this.store.select(state => state.search).pipe(untilDestroyed(this))
-      .subscribe((search: SearchState) => {
-        this.searchText = search.searchText;
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
+      .subscribe((params) => {
+        this.searchText = params.search || '';
         this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
       });
   }
 
-  ngOnDestroy(): void {
-    if (this.searchText) {
-      this.store.dispatch(new UpdateSearch({ searchText: '', clearSearch: false }));
-    }
-  }
+  ngOnDestroy(): void {}
 
   private updateUsersStatus(): void {
     this.store.select(state => state.user)
       .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
       this.userState = state;
+      this.currentPlan = state.settings.plan_type || PlanType.FREE;
     });
 
     this.store.select(state => state.contacts)

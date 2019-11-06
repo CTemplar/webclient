@@ -23,11 +23,11 @@ export function reducer(
       return {
         ...state,
         mailboxes: action.payload.map((item, index) => {
-          item.sort_order = item.sort_order ? item.sort_order : index;
+          item.sort_order = item.sort_order ? item.sort_order : index + 1;
           return item;
         }),
         inProgress: false,
-        currentMailbox: action.payload[0]
+        currentMailbox: action.payload.filter((item: Mailbox) => item.is_enabled)[0]
       };
     }
 

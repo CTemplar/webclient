@@ -11,18 +11,35 @@ export const initialState: ContactsState = {
   totalContacts: 0,
   noOfDecryptedContacts: 0,
   loaded: false,
+  contactsToDecrypt: [],
 };
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
   switch (action.type) {
 
     case ContactsActionTypes.CONTACT_GET: {
-      return { ...state, loaded: false, inProgress: true };
+      return { ...state, loaded: false, inProgress: true, contactsToDecrypt: [] };
     }
 
     case ContactsActionTypes.CONTACT_GET_SUCCESS: {
-      return { ...state, contacts: action.payload.results, totalContacts: action.payload.total_count, loaded: true, inProgress: false };
+      return {
+        ...state, contacts: action.payload.results,
+        contactsToDecrypt: action.payload.isDecrypting ? action.payload.results : [],
+        totalContacts: action.payload.total_count, loaded: true, inProgress: false
+      };
     }
+    case ContactsActionTypes.CLEAR_CONTACTS_TO_DECRYPT: {
+      return {
+        ...state,
+        contactsToDecrypt: [],
+        noOfDecryptedContacts: (action.payload && action.payload.clearCount) ? 0 : state.noOfDecryptedContacts
+      };
+    }
+
+    case ContactsActionTypes.CONTACT_BATCH_UPDATE: {
+      return { ...state, noOfDecryptedContacts: state.noOfDecryptedContacts + action.payload.contact_list.length };
+    }
+
     case ContactsActionTypes.CONTACT_DELETE:
     case ContactsActionTypes.CONTACT_ADD: {
       return { ...state, inProgress: true, isError: false };

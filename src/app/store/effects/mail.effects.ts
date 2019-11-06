@@ -9,10 +9,15 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { MailService } from '../../store/services';
 // Custom Actions
 import {
-  AccountDetailsGet,
-  CreateMail,
+  BlackListGet,
   DeleteFolder,
-  DeleteMailSuccess, EmptyTrash, EmptyTrashFailure, EmptyTrashSuccess,
+  DeleteMail,
+  DeleteMailForAll,
+  DeleteMailForAllSuccess,
+  DeleteMailSuccess,
+  EmptyTrash,
+  EmptyTrashFailure,
+  EmptyTrashSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   GetMails,
@@ -97,7 +102,7 @@ export class MailEffects {
               }));
             }
             if (payload.folder === MailFolderType.SPAM) {
-              updateFolderActions.push(new AccountDetailsGet());
+              updateFolderActions.push(new BlackListGet());
             }
             return of(...updateFolderActions);
 
@@ -109,11 +114,24 @@ export class MailEffects {
   @Effect()
   deleteMailEffect: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.DELETE_MAIL),
-    map((action: CreateMail) => action.payload),
+    map((action: DeleteMail) => action.payload),
     switchMap(payload => {
       return this.mailService.deleteMails(payload.ids)
         .pipe(
           switchMap(res => of(new DeleteMailSuccess(payload))),
+          catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
+        );
+    }));
+
+  @Effect()
+  deleteMailForAllEffect: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.DELETE_MAIL_FOR_ALL),
+    map((action: DeleteMailForAll) => action.payload),
+    switchMap(payload => {
+      return this.mailService.deleteMailForAll(payload.id)
+        .pipe(
+          switchMap(res => of(new DeleteMailForAllSuccess(payload),
+            new SnackErrorPush({ message: 'Mail deleted successfully.' }))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
         );
     }));

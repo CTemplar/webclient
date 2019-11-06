@@ -15,9 +15,9 @@
                     <strong>ctemplar</strong>
                 </a>
             </figure>
-            <div class="prime-account-content" *ngIf="userState.isPrime">
+            <div class="prime-account-content">
                 <i class="icon icon-secure-shield"></i>
-                <span class="prime-account-text" translate="settings.prime">Prime</span>
+                <span class="prime-account-text">{{currentPlan}}</span>
             </div>
         </div>
 
@@ -160,14 +160,26 @@
                                             <div class="mail-list-col-item mail-from-name cursor-pointer"
                                                  ngbTooltip="{{contact.name}}"
                                                  (click)="editContact(contact, addUserContent)">
-                                                <span>{{contact.name}}</span>
+                                                <span *ngIf="contact.is_encrypted && !contact.name; else contactName" class="badge badge-warning mr-2 p-1">
+                                                    **Encrypted**
+                                                </span>
+                                                <ng-template #contactName>
+                                                    <span>{{contact.name}}</span>
+                                                </ng-template>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-8 col-lg-9 mail-contact-col-lg cursor-pointer"
                                          (click)="editContact(contact, addUserContent)">
                                         <div class="mail-desc">
-                                            <p><strong>{{contact.email}}</strong></p>
+                                            <p><strong>
+                                                <span *ngIf="contact.is_encrypted && !contact.email; else contactEmail" class="badge badge-warning mr-2 p-1">
+                                                    **Encrypted**
+                                                </span>
+                                                <ng-template #contactEmail>
+                                                    <span>{{contact.email}}</span>
+                                                </ng-template>
+                                            </strong></p>
                                         </div>
                                     </div>
                                 </div>

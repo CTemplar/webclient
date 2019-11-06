@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, AuthState, MailBoxesState, MailState, UserState } from '../../store/datatypes';
+import { AppState, AuthState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
@@ -22,7 +22,7 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { PushNotificationService, PushNotificationOptions } from '../../shared/services/push-notification.service';
+import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 import { getMailSidebarShortcuts } from '../../store/services';
 
@@ -41,6 +41,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   public userState: UserState;
 
   mailState: MailState;
+  mailFolderType = MailFolderType;
   currentRoute: string;
 
   isMenuOpened: boolean;
@@ -51,6 +52,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('input', { static: false }) input: ElementRef;
   @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
 
+  currentPlan: PlanType;
+  currentFolder: MailFolderType;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -98,7 +101,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
-              { outbox: webSocketState.message.unread_count.outbox, updateUnreadCount: true, }));
+              { ...webSocketState.message.unread_count, updateUnreadCount: true, }));
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
@@ -133,6 +136,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.currentPlan = user.settings.plan_type || PlanType.FREE;
         this.EMAIL_LIMIT = this.userState.settings.emails_per_page ? this.userState.settings.emails_per_page : 20;
         this.customFolders = user.customFolders;
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
@@ -148,6 +152,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
+        this.currentFolder = mailState.currentFolder;
         this.updateTitle();
 
       });

@@ -11,10 +11,11 @@ import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 // Service
 import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
-import { ESCAPE_KEYCODE } from '../../shared/config';
+import { ESCAPE_KEYCODE, isTORBrowser } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { quotes } from '../../store/quotes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-sign-in',
@@ -43,6 +44,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   authState: AuthState;
   otp: string;
   loadingImage = LOADING_IMAGE;
+  isTORBrowser: boolean = isTORBrowser();
 
   @ViewChild('usernameVC', { static: false }) usernameVC: ElementRef;
   @ViewChild('passwordVC', { static: false }) passwordVC: ElementRef;
@@ -57,6 +59,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
               private sharedService: SharedService,
               private _keyboardService: MatKeyboardService,
               private userService: UsersService,
+              private router: Router,
               private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
@@ -140,6 +143,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     if (this.loginForm.valid) {
       this.store.dispatch(new LogIn({ ...user, otp }));
     }
+  }
+
+  continueLogin() {
+    this.authState.anti_phishing_phrase = '';
+    this.router.navigateByUrl('/mail');
   }
 
   recoverPassword(data) {

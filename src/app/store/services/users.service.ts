@@ -202,7 +202,11 @@ export class UsersService {
       'auth/update-user/',
       'emails/domain-users/',
       'auth/otp-secret/',
-      'auth/enable-2fa/'
+      'auth/enable-2fa/',
+      'users/contact-bulk-update/',
+      'emails/delete-message/',
+      'users/prorated',
+      'btc-wallet/create/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -273,18 +277,20 @@ export class UsersService {
     return this.http.get<any>(`${apiUrl}users/contacts-v1/`);
   }
 
+  updateBatchContacts(data: any) {
+    return this.http.post<any>(`${apiUrl}users/contact-bulk-update/`, data);
+  }
 
   getInvoices() {
     return this.http.get<any>(`${apiUrl}users/invoices/`);
   }
 
+  getUpgradeAmount(data: any) {
+    return this.http.post<any>(`${apiUrl}users/prorated/`, data);
+  }
+
   addContact(payload: Contact) {
     const url = `${apiUrl}users/contacts/`;
-
-    payload.email_hash = this.hashData({ username: payload.email }, 'username');
-    if (payload.is_encrypted) {
-      payload.email = null;
-    }
     if (payload.id) {
       return this.http.patch<any>(`${url}${payload.id}/`, payload);
     }
