@@ -177,8 +177,7 @@
   </div>
   <div align="center" *ngIf="mailFolder===mailFolderTypes.TRASH || mailFolder===mailFolderTypes.SPAM">
     <p class="mt-2">
-      Messages that are in {{mailFolder === mailFolderTypes.TRASH ? 'Trash' : 'Spam'}} more than 30 days will be
-      automatically deleted forever.
+      Messages in {{mailFolder === mailFolderTypes.TRASH ? 'Trash' : 'Spam'}} will be irrecoverably deleted after 30 days.
     </p>
   </div>
 </div>
