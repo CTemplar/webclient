@@ -306,16 +306,16 @@ export function reducer(
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 
-    case MailActionTypes.EMPTY_TRASH: {
+    case MailActionTypes.EMPTY_FOLDER: {
       return { ...state, inProgress: true, noUnreadCountChange: true };
     }
 
-    case MailActionTypes.EMPTY_TRASH_SUCCESS: {
-      state.folders.set(MailFolderType.TRASH, []);
+    case MailActionTypes.EMPTY_FOLDER_SUCCESS: {
+      state.folders.set(action.payload.folder, []);
       return { ...state, mails: [], inProgress: false };
     }
 
-    case MailActionTypes.EMPTY_TRASH_FAILURE: {
+    case MailActionTypes.EMPTY_FOLDER_FAILURE: {
       return { ...state, inProgress: false };
     }
 
