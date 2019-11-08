@@ -21,7 +21,7 @@ export class ComposeMailDialogComponent implements AfterViewInit {
 
   @ViewChild(ComposeMailComponent, { static: false }) composeMail: ComposeMailComponent;
   @ViewChild('confirmDiscardModal', { static: false }) confirmDiscardModal;
-   shortcuts: ShortcutInput[] = [];
+  shortcuts: ShortcutInput[] = [];
   @ViewChild('input', { static: false }) input: ElementRef;
   @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
 
@@ -36,10 +36,6 @@ export class ComposeMailDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.shortcuts = getComposeMailDialogShortcuts(this);
-    // this.keyboard.select('escape').subscribe(e => {
-    //   this.onClose();
-    //   console.log(e + 'pressed ');
-    // });
 
     this.cdr.detectChanges();
   }
