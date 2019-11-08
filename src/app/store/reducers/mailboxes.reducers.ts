@@ -55,6 +55,7 @@ export function reducer(
 
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_SUCCESS: {
       const updatedCurrentMailBox: Mailbox = action.payload;
+      updatedCurrentMailBox.inProgress = false;
       let mailboxes: Mailbox[] = state.mailboxes;
 
       mailboxes = mailboxes.map((mailbox) => {
@@ -76,7 +77,14 @@ export function reducer(
     }
 
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_FAILURE: {
-      return { ...state };
+      return {
+        ...state, mailboxes: state.mailboxes.map((mailbox) => {
+          if (mailbox.id === action.payload.id) {
+            mailbox.inProgress = false;
+          }
+          return mailbox;
+        })
+      };
     }
 
     case MailActionTypes.CREATE_MAILBOX: {

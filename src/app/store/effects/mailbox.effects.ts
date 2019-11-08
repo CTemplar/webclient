@@ -52,6 +52,7 @@ export class MailboxEffects {
     ofType(MailActionTypes.MAILBOX_SETTINGS_UPDATE),
     map((action: MailboxSettingsUpdate) => action.payload),
     switchMap((payload: any) => {
+      payload.inProgress = false;
       return this.mailService.updateMailBoxSettings(payload)
         .pipe(
           switchMap(res => {
@@ -63,7 +64,7 @@ export class MailboxEffects {
           }),
           catchError(err => of(
             new SnackErrorPush({ message: `Failed to update mailbox settings.  ${err.error}` }),
-            new MailboxSettingsUpdateFailure())
+            new MailboxSettingsUpdateFailure(payload))
           ),
         );
     }));

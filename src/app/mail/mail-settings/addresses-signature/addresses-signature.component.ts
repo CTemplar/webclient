@@ -143,8 +143,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
     if (selectedMailbox[key] !== value) {
-      selectedMailbox[key] = value;
-      this.store.dispatch(new MailboxSettingsUpdate(selectedMailbox));
+      selectedMailbox.inProgress = true;
+      this.store.dispatch(new MailboxSettingsUpdate({ ...selectedMailbox, [key]: value }));
     }
   }
 
