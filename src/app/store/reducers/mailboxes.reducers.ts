@@ -75,6 +75,10 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.MAILBOX_SETTINGS_UPDATE_FAILURE: {
+      return { ...state };
+    }
+
     case MailActionTypes.CREATE_MAILBOX: {
       return { ...state, inProgress: true };
     }

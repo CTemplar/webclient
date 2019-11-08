@@ -16,7 +16,7 @@ import {
   CreateMailboxSuccess, GetDomains,
   GetMailboxes,
   GetMailboxesSuccess,
-  MailActionTypes,
+  MailActionTypes, MailboxSettingsUpdateFailure,
   SetDefaultMailbox,
   SetDefaultMailboxSuccess,
   UpdateMailboxOrder,
@@ -61,7 +61,10 @@ export class MailboxEffects {
             }
             return of(...actions);
           }),
-          catchError(err => of(new SnackErrorPush({ message: 'Failed to update email address settings.' }))),
+          catchError(err => of(
+            new SnackErrorPush({ message: `Failed to update mailbox settings.  ${err.error}` }),
+            new MailboxSettingsUpdateFailure())
+          ),
         );
     }));
 

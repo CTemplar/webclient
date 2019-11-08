@@ -35,6 +35,7 @@ export enum MailActionTypes {
   UPDATE_CURRENT_FOLDER = '[FOLDER] UPDATE CURRENT FOLDER',
   MAILBOX_SETTINGS_UPDATE = '[MAILBOX SETTINGS] UPDATE',
   MAILBOX_SETTINGS_UPDATE_SUCCESS = '[MAILBOX SETTINGS] UPDATE SUCCESS',
+  MAILBOX_SETTINGS_UPDATE_FAILURE = '[MAILBOX SETTINGS] UPDATE FAILURE',
   CREATE_MAILBOX = '[MAILBOX] CREATE MAILBOX',
   CREATE_MAILBOX_SUCCESS = '[MAILBOX] CREATE MAILBOX SUCCESS',
   CREATE_MAILBOX_FAILURE = '[MAILBOX] CREATE MAILBOX FAILURE',
@@ -228,6 +229,12 @@ export class MailboxSettingsUpdateSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class MailboxSettingsUpdateFailure implements Action {
+  readonly type = MailActionTypes.MAILBOX_SETTINGS_UPDATE_FAILURE;
+
+  constructor(public payload?: any) {}
+}
+
 export class CreateMailbox implements Action {
   readonly type = MailActionTypes.CREATE_MAILBOX;
 
@@ -338,6 +345,7 @@ export type MailActions =
   | UpdateCurrentFolder
   | MailboxSettingsUpdate
   | MailboxSettingsUpdateSuccess
+  | MailboxSettingsUpdateFailure
   | CreateMailbox
   | CreateMailboxSuccess
   | CreateMailboxFailure
