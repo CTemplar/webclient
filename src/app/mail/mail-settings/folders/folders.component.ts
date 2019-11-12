@@ -62,7 +62,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   addFolder(folder: Folder = { id: null, name: '', color: '' }, edit?: boolean) {
     const options: any = {
       centered: true,
-      windowClass: 'modal-sm mailbox-modal',
+      windowClass: 'modal-sm mailbox-modal create-folder-modal',
     };
 
     if (this.userState.isPrime || (this.userState.customFolders === null || (this.userState.customFolders.length < 5 || edit))) {
