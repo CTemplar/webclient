@@ -291,7 +291,12 @@ export function reducer(
       let newEntry: boolean = true;
       state.mails.map((mail, index) => {
         if (mail.id === action.payload.id || mail.id === action.payload.parent) {
-          state.mails[index] = action.payload;
+          if (mail.id === action.payload.id) {
+            state.mails[index] = action.payload;
+          } else {
+            state.mails[index].children = state.mails[index].children ? [...state.mails[index].children, action.payload] : [action.payload];
+            state.mails[index].has_children = true;
+          }
           newEntry = false;
         }
       });
