@@ -289,6 +289,10 @@
                           (click)="updateMailboxSettings(mailbox, 'is_enabled', true)"> <span translate="settings.enable">Enable</span>
                   </button>
                 </li>
+                <li><a role="button" *ngIf="!mailbox.is_default" (click)="showConfirmDeleteMailboxModal(mailbox)"
+                       ngbTooltip="Delete alias">
+                  <i class="icon icon-garbage"></i></a>
+                </li>
               </ul>
             </div>
           </div>
@@ -354,4 +358,35 @@
     </div>
   </div>
 </section>
+
+<!-- Confirm delete modal -->
+<ng-template #deleteAliasModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark modal-title"><strong translate="contacts.delete.title">Confirm
+      Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        <span> Are you sure, you want to delete alias</span>
+        <b class="font-italic"> {{mailboxToDelete?.email}}</b>?
+        <div class="mt-3">
+          <b class="warning-text">Warning</b><br>
+          <span>Deleting alias will delete all the emails associated with it.</span>
+        </div>
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" translate="common.cancel">Cancel
+        </button>
+        <button (click)="deleteMailboxConfirmed();d()" class="btn btn-danger btn-sm" role="button">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm filter modal ends -->
+
 

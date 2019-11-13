@@ -138,6 +138,10 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.DELETE_MAILBOX_SUCCESS: {
+      return { ...state, mailboxes: state.mailboxes.filter(mailbox => mailbox.id !== action.payload.id) };
+    }
+
     default: {
       return state;
     }

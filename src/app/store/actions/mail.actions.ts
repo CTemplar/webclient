@@ -46,6 +46,8 @@ export enum MailActionTypes {
   EMPTY_FOLDER = '[Mail] EMPTY TRASH',
   EMPTY_FOLDER_SUCCESS = '[Mail] EMPTY TRASH SUCCESS',
   EMPTY_FOLDER_FAILURE = '[Mail] EMPTY TRASH FAILURE',
+  DELETE_MAILBOX = '[MAILBOX] DELETE',
+  DELETE_MAILBOX_SUCCESS = '[MAILBOX] DELETE SUCCESS'
 }
 
 export class GetMails implements Action {
@@ -314,6 +316,18 @@ export class DeleteMailForAllSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeleteMailbox implements Action {
+  readonly type = MailActionTypes.DELETE_MAILBOX;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteMailboxSuccess implements Action {
+  readonly type = MailActionTypes.DELETE_MAILBOX_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -357,4 +371,6 @@ export type MailActions =
   | EmptyFolderSuccess
   | EmptyFolderFailure
   | DeleteMailForAll
-  | DeleteMailForAllSuccess;
+  | DeleteMailForAllSuccess
+  | DeleteMailbox
+  | DeleteMailboxSuccess;

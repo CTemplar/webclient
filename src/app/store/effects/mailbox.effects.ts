@@ -13,10 +13,14 @@ import { MailService } from '../../store/services';
 import {
   CreateMailbox,
   CreateMailboxFailure,
-  CreateMailboxSuccess, GetDomains,
+  CreateMailboxSuccess,
+  DeleteMailbox,
+  DeleteMailboxSuccess,
+  GetDomains,
   GetMailboxes,
   GetMailboxesSuccess,
-  MailActionTypes, MailboxSettingsUpdateFailure,
+  MailActionTypes,
+  MailboxSettingsUpdateFailure,
   SetDefaultMailbox,
   SetDefaultMailboxSuccess,
   UpdateMailboxOrder,
@@ -98,7 +102,6 @@ export class MailboxEffects {
         );
     }));
 
-
   @Effect()
   updateMailboxOrder: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.UPDATE_MAILBOX_ORDER),
@@ -110,6 +113,22 @@ export class MailboxEffects {
             new SnackErrorPush({ message: 'Sort order saved successfully.' }),
             new UpdateMailboxOrderSuccess({ mailboxes: payload.mailboxes }))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to update emails sort order.' }))),
+        );
+    }));
+
+  @Effect()
+  deleteMailbox: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.DELETE_MAILBOX),
+    map((action: DeleteMailbox) => action.payload),
+    switchMap((payload: Mailbox) => {
+      return this.mailService.deleteMailbox(payload.id)
+        .pipe(
+          switchMap(res => of(
+            new SnackErrorPush({ message: `Alias '${payload.email}' deleted successfully.` }),
+            new DeleteMailboxSuccess(payload))),
+          catchError(err => of(
+            new SnackErrorPush({ message: `Failed to delete alias. ${err.error}` })
+          )),
         );
     }));
 

@@ -162,6 +162,10 @@ export class MailService {
     return this.http.post<any>(`${apiUrl}emails/mailbox-order/`, data);
   }
 
+  deleteMailbox(id: number) {
+    return this.http.delete<any>(`${apiUrl}emails/mailboxes/${id}/`);
+  }
+
   emptyFolder(data: any) {
     return this.http.post<any>(`${apiUrl}emails/empty-folder/`, data);
   }
