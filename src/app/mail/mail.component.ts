@@ -25,12 +25,13 @@ import {
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
-import { SharedService } from '../store/services';
+import { getMailComponentShortcuts, SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
+import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'app-mail',
@@ -41,13 +42,13 @@ import { Router } from '@angular/router';
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('input', { static: false }) input: ElementRef;
   // TODO : disable shortcuts until the bugs are fixed
-  // @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+   @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
   autoresponder_status = false;
   currentDate: string;
-
+  shortcuts: ShortcutInput[] = [];
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
               private composeMailService: ComposeMailService,
@@ -111,7 +112,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
     // TODO : disable shortcuts until the bugs are fixed
-    // this.shortcuts = getMailComponentShortcuts(this);
+     this.shortcuts = getMailComponentShortcuts(this);
     this.cdr.detectChanges();
   }
 

@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -36,6 +47,8 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { getComposeMailShortcuts } from '../../../store/services';
 
 const Quill: any = QuillNamespace;
 
@@ -186,6 +199,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   public userState: UserState;
   private decryptedContent: string;
   private encryptionData: any = {};
+  shortcuts: ShortcutInput[] = [];
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -194,7 +208,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
               private filesizePipe: FilesizePipe,
-              private filenamePipe: FilenamePipe) {
+              private filenamePipe: FilenamePipe,
+              private cdr: ChangeDetectorRef) {
 
   }
 
@@ -326,6 +341,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 1000);
       }
     }
+    this.shortcuts = getComposeMailShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -371,7 +388,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachment.progress = 100;
         attachment.name = this.filenamePipe.transform(attachment.document);
         attachment.draftId = this.draftId;
-        attachment.attachmentId = performance.now();
+        attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
         return attachment;
       }) : [],
       usersKeys: null
@@ -527,7 +544,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         document: file,
         name: file.name,
         size: this.filesizePipe.transform(file.size),
-        attachmentId: performance.now(),
+        attachmentId: performance.now() + Math.floor(Math.random() * 1000),
         message: this.draftMail.id,
         is_inline: isInline,
         inProgress: false

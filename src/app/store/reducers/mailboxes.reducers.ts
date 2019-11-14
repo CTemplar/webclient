@@ -55,6 +55,7 @@ export function reducer(
 
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_SUCCESS: {
       const updatedCurrentMailBox: Mailbox = action.payload;
+      updatedCurrentMailBox.inProgress = false;
       let mailboxes: Mailbox[] = state.mailboxes;
 
       mailboxes = mailboxes.map((mailbox) => {
@@ -72,6 +73,17 @@ export function reducer(
         ...state,
         mailboxes: mailboxes,
         inProgress: false,
+      };
+    }
+
+    case MailActionTypes.MAILBOX_SETTINGS_UPDATE_FAILURE: {
+      return {
+        ...state, mailboxes: state.mailboxes.map((mailbox) => {
+          if (mailbox.id === action.payload.id) {
+            mailbox.inProgress = false;
+          }
+          return mailbox;
+        })
       };
     }
 
@@ -124,6 +136,10 @@ export function reducer(
         currentMailbox: action.payload.mailboxes[0],
         isUpdatingOrder: false,
       };
+    }
+
+    case MailActionTypes.DELETE_MAILBOX_SUCCESS: {
+      return { ...state, mailboxes: state.mailboxes.filter(mailbox => mailbox.id !== action.payload.id) };
     }
 
     default: {

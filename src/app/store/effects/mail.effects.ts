@@ -15,9 +15,9 @@ import {
   DeleteMailForAll,
   DeleteMailForAllSuccess,
   DeleteMailSuccess,
-  EmptyTrash,
-  EmptyTrashFailure,
-  EmptyTrashSuccess,
+  EmptyFolder,
+  EmptyFolderFailure,
+  EmptyFolderSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
   GetMails,
@@ -185,17 +185,17 @@ export class MailEffects {
 
   @Effect()
   emptyTrashEffect: Observable<any> = this.actions.pipe(
-    ofType(MailActionTypes.EMPTY_TRASH),
-    map((action: EmptyTrash) => action.payload),
+    ofType(MailActionTypes.EMPTY_FOLDER),
+    map((action: EmptyFolder) => action.payload),
     switchMap(payload => {
-      return this.mailService.emptyTrash()
+      return this.mailService.emptyFolder(payload)
         .pipe(
           switchMap(res => of(
-            new EmptyTrashSuccess(res),
+            new EmptyFolderSuccess(payload),
             new SnackErrorPush({ message: `Mails deleted permanently.` }))),
           catchError(err => of(
             new SnackErrorPush({ message: `Failed to delete mails, please try again.` }),
-            new EmptyTrashFailure(err.error)
+            new EmptyFolderFailure(err.error)
           ))
         );
     }));

@@ -194,7 +194,7 @@ export class UsersService {
       'emails-forward/send-verification-code',
       'emails-forward/verify-verification-code',
       'emails/folder-order',
-      'emails/empty-trash',
+      'emails/empty-folder',
       'users/autoresponder',
       'users/invoices',
       'auth/sign-out/',

@@ -44,7 +44,7 @@ import {
   UpgradeAccountFailure,
   UpgradeAccountSuccess,
   VerifyCaptcha,
-  VerifyCaptchaSuccess, SettingsUpdateSuccess
+  VerifyCaptchaSuccess, SettingsUpdateSuccess, GetMailboxes
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -197,7 +197,7 @@ export class AuthEffects {
         return this.authService.upgradeAccount(payload)
           .pipe(
             switchMap((res) => {
-              return of(new UpgradeAccountSuccess(res), new AccountDetailsGet(), new GetInvoices());
+              return of(new UpgradeAccountSuccess(res), new AccountDetailsGet(), new GetInvoices(), new GetMailboxes());
             }),
             catchError((error) => of(new UpgradeAccountFailure(error.error),
               new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })))

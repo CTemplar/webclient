@@ -72,6 +72,7 @@ export interface Mailbox {
   is_default?: boolean;
   is_enabled?: boolean;
   sort_order: number;
+  inProgress?: boolean;
 }
 
 export interface Folder {

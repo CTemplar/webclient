@@ -44,10 +44,10 @@ export const COLORS: string[] = [
 ];
 
 export const FOLDER_COLORS: string[] = [
-  '#1abc9c', '#2ecc71', '#3498db', '#9b59b6',
-  '#f1c40f', '#e67e22', '#e74c3c', '#16a085',
-  '#27ae60', '#2980b9', '#8e44ad', '#f39c12',
-  '#d35400', '#c0392b'
+  '#ced4da', '#868e96', '#212529', '#da77f2', '#be4bdb', '#8e44ad', '#f783ac', '#e64980', '#a61e4d',
+  '#748ffc', '#4c6ef5', '#364fc7', '#9775fa', '#7950f2', '#5f3dc4', '#ff8787', '#fa5252', '#c0392b',
+  '#4dabf7', '#3498db', '#1864ab', '#2ecc71', '#27ae60', '#16a085', '#ffd43b', '#fab005', '#e67e22',
+  '#3bc9db', '#15aabf', '#0b7285', '#a9e34b', '#82c91e', '#5c940d', '#f39c12', '#fd7e14', '#e74c3c',
 ];
 
 export const LANGUAGES: Language[] = [
