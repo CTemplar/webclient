@@ -388,7 +388,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachment.progress = 100;
         attachment.name = this.filenamePipe.transform(attachment.document);
         attachment.draftId = this.draftId;
-        attachment.attachmentId = performance.now();
+        attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
         return attachment;
       }) : [],
       usersKeys: null
@@ -544,7 +544,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         document: file,
         name: file.name,
         size: this.filesizePipe.transform(file.size),
-        attachmentId: performance.now(),
+        attachmentId: performance.now() + Math.floor(Math.random() * 1000),
         message: this.draftMail.id,
         is_inline: isInline,
         inProgress: false
