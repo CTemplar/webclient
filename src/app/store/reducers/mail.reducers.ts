@@ -184,7 +184,7 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
-      if (action.payload.is_subject_encrypted && state.decryptedSubjects[action.payload.id]) {
+      if (action.payload && action.payload.is_subject_encrypted && state.decryptedSubjects[action.payload.id]) {
         action.payload.is_subject_encrypted = false;
         action.payload.subject = state.decryptedSubjects[action.payload.id];
       }
@@ -291,7 +291,12 @@ export function reducer(
       let newEntry: boolean = true;
       state.mails.map((mail, index) => {
         if (mail.id === action.payload.id || mail.id === action.payload.parent) {
-          state.mails[index] = action.payload;
+          if (mail.id === action.payload.id) {
+            state.mails[index] = action.payload;
+          } else {
+            state.mails[index].children = state.mails[index].children ? [...state.mails[index].children, action.payload] : [action.payload];
+            state.mails[index].has_children = true;
+          }
           newEntry = false;
         }
       });
@@ -306,16 +311,16 @@ export function reducer(
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 
-    case MailActionTypes.EMPTY_TRASH: {
+    case MailActionTypes.EMPTY_FOLDER: {
       return { ...state, inProgress: true, noUnreadCountChange: true };
     }
 
-    case MailActionTypes.EMPTY_TRASH_SUCCESS: {
-      state.folders.set(MailFolderType.TRASH, []);
+    case MailActionTypes.EMPTY_FOLDER_SUCCESS: {
+      state.folders.set(action.payload.folder, []);
       return { ...state, mails: [], inProgress: false };
     }
 
-    case MailActionTypes.EMPTY_TRASH_FAILURE: {
+    case MailActionTypes.EMPTY_FOLDER_FAILURE: {
       return { ...state, inProgress: false };
     }
 

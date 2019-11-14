@@ -35,6 +35,7 @@ export enum MailActionTypes {
   UPDATE_CURRENT_FOLDER = '[FOLDER] UPDATE CURRENT FOLDER',
   MAILBOX_SETTINGS_UPDATE = '[MAILBOX SETTINGS] UPDATE',
   MAILBOX_SETTINGS_UPDATE_SUCCESS = '[MAILBOX SETTINGS] UPDATE SUCCESS',
+  MAILBOX_SETTINGS_UPDATE_FAILURE = '[MAILBOX SETTINGS] UPDATE FAILURE',
   CREATE_MAILBOX = '[MAILBOX] CREATE MAILBOX',
   CREATE_MAILBOX_SUCCESS = '[MAILBOX] CREATE MAILBOX SUCCESS',
   CREATE_MAILBOX_FAILURE = '[MAILBOX] CREATE MAILBOX FAILURE',
@@ -42,9 +43,11 @@ export enum MailActionTypes {
   SET_DEFAULT_MAILBOX_SUCCESS = '[MAILBOX] SET DEFAULT MAILBOX SUCCESS',
   UPDATE_MAILBOX_ORDER = '[MAILBOX] UPDATE ORDER',
   UPDATE_MAILBOX_ORDER_SUCCESS = '[MAILBOX] UPDATE ORDER SUCCESS',
-  EMPTY_TRASH = '[Mail] EMPTY TRASH',
-  EMPTY_TRASH_SUCCESS = '[Mail] EMPTY TRASH SUCCESS',
-  EMPTY_TRASH_FAILURE = '[Mail] EMPTY TRASH FAILURE',
+  EMPTY_FOLDER = '[Mail] EMPTY TRASH',
+  EMPTY_FOLDER_SUCCESS = '[Mail] EMPTY TRASH SUCCESS',
+  EMPTY_FOLDER_FAILURE = '[Mail] EMPTY TRASH FAILURE',
+  DELETE_MAILBOX = '[MAILBOX] DELETE',
+  DELETE_MAILBOX_SUCCESS = '[MAILBOX] DELETE SUCCESS'
 }
 
 export class GetMails implements Action {
@@ -228,6 +231,12 @@ export class MailboxSettingsUpdateSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class MailboxSettingsUpdateFailure implements Action {
+  readonly type = MailActionTypes.MAILBOX_SETTINGS_UPDATE_FAILURE;
+
+  constructor(public payload?: any) {}
+}
+
 export class CreateMailbox implements Action {
   readonly type = MailActionTypes.CREATE_MAILBOX;
 
@@ -274,22 +283,22 @@ export class UpdateMailboxOrderSuccess implements Action {
   }
 }
 
-export class EmptyTrash implements Action {
-  readonly type = MailActionTypes.EMPTY_TRASH;
+export class EmptyFolder implements Action {
+  readonly type = MailActionTypes.EMPTY_FOLDER;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class EmptyFolderSuccess implements Action {
+  readonly type = MailActionTypes.EMPTY_FOLDER_SUCCESS;
 
   constructor(public payload?: any) {
   }
 }
 
-export class EmptyTrashSuccess implements Action {
-  readonly type = MailActionTypes.EMPTY_TRASH_SUCCESS;
-
-  constructor(public payload?: any) {
-  }
-}
-
-export class EmptyTrashFailure implements Action {
-  readonly type = MailActionTypes.EMPTY_TRASH_FAILURE;
+export class EmptyFolderFailure implements Action {
+  readonly type = MailActionTypes.EMPTY_FOLDER_FAILURE;
 
   constructor(public payload: any) {
   }
@@ -303,6 +312,18 @@ export class DeleteMailForAll implements Action {
 
 export class DeleteMailForAllSuccess implements Action {
   readonly type = MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteMailbox implements Action {
+  readonly type = MailActionTypes.DELETE_MAILBOX;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteMailboxSuccess implements Action {
+  readonly type = MailActionTypes.DELETE_MAILBOX_SUCCESS;
 
   constructor(public payload: any) {}
 }
@@ -338,6 +359,7 @@ export type MailActions =
   | UpdateCurrentFolder
   | MailboxSettingsUpdate
   | MailboxSettingsUpdateSuccess
+  | MailboxSettingsUpdateFailure
   | CreateMailbox
   | CreateMailboxSuccess
   | CreateMailboxFailure
@@ -345,8 +367,10 @@ export type MailActions =
   | SetDefaultMailboxSuccess
   | UpdateMailboxOrder
   | UpdateMailboxOrderSuccess
-  | EmptyTrash
-  | EmptyTrashSuccess
-  | EmptyTrashFailure
+  | EmptyFolder
+  | EmptyFolderSuccess
+  | EmptyFolderFailure
   | DeleteMailForAll
-  | DeleteMailForAllSuccess;
+  | DeleteMailForAllSuccess
+  | DeleteMailbox
+  | DeleteMailboxSuccess;

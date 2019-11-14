@@ -10,6 +10,9 @@ import { Folder, MailFolderType } from '../models';
 import { AllowIn } from 'ng-keyboard-shortcuts';
 import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
 import { MailComponent } from '../../mail/mail.component';
+import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.component';
+import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compose-mail.component';
+import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { PricingPlan } from '../datatypes';
 
 @Injectable()
@@ -214,6 +217,31 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
         component.moveToFolder(MailFolderType.ARCHIVE);
       }
 
+    })
+  ];
+}
+
+export function getMailSidebarShortcuts(component: MailSidebarComponent) {
+  return [
+    getShortcutKeyObj('shift + c', 'Composer', 'Open new composer', () => {
+      if (!isComposeEditorOpen()) {
+        component.openComposeMailDialog();
+      }
+    }),
+
+  ];
+}
+export function getComposeMailShortcuts(component: ComposeMailComponent) {
+  return [
+    getShortcutKeyObj('ctrl + enter', 'Composer', 'Send e-mail', () => {
+        component.sendEmail();
+    })
+  ];
+}
+export function getComposeMailDialogShortcuts(component: ComposeMailDialogComponent) {
+  return [
+    getShortcutKeyObj('cmd + shift + x', 'Composer Dialog', 'Close composer', () => {
+      component.onClose();
     })
   ];
 }
