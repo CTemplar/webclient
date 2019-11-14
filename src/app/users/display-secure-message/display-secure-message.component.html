@@ -13,7 +13,7 @@
       <div class="msg-reply-card">
         <div class="msg-reply-card-header d-sm-flex justify-content-sm-start align-items-sm-center">
           <h5 class="text-dark mb-3 mb-sm-0">
-            <strong *ngIf="message.is_subject_encrypted; else plainSubject">{{decryptedSubject}}</strong>
+            <strong *ngIf="message?.is_subject_encrypted; else plainSubject">{{decryptedSubject}}</strong>
             <ng-template #plainSubject><strong>{{message.subject}}</strong></ng-template>
           </h5>
           <button class="btn btn-disabled btn-sm btn-reply ml-sm-auto" role="button" (click)="onReply()"><i

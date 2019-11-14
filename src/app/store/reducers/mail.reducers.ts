@@ -184,7 +184,7 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
-      if (action.payload.is_subject_encrypted && state.decryptedSubjects[action.payload.id]) {
+      if (action.payload && action.payload.is_subject_encrypted && state.decryptedSubjects[action.payload.id]) {
         action.payload.is_subject_encrypted = false;
         action.payload.subject = state.decryptedSubjects[action.payload.id];
       }
