@@ -12,7 +12,7 @@ export class RemainingTimePipe implements PipeTransform {
     }
 
     if (hoursOnly) {
-     return this.getTimeRemainingFromHours(value);
+      return this.getTimeRemainingFromHours(value);
     }
 
     return this.getTimeRemaining(value);
@@ -31,13 +31,17 @@ export class RemainingTimePipe implements PipeTransform {
 
     return this.getFormattedTime(seconds);
   }
+
   private getFormattedTime(seconds) {
+    if (seconds < 0) {
+      return 'progress';
+    }
     const days = Math.floor(seconds / (3600 * 24));
-    seconds  -= days * 3600 * 24;
-    const hrs   = Math.floor(seconds / 3600);
-    seconds  -= hrs * 3600;
+    seconds -= days * 3600 * 24;
+    const hrs = Math.floor(seconds / 3600);
+    seconds -= hrs * 3600;
     const mnts = Math.floor(seconds / 60);
-    seconds  -= hrs * 3600;
+    seconds -= hrs * 3600;
     return `${days}d ${this.padLeft(hrs)}:${this.padLeft(mnts)}`;
   }
 
@@ -45,8 +49,8 @@ export class RemainingTimePipe implements PipeTransform {
     let s = num + '';
     while (s.length < size) {
       s = '0' + s;
-      }
-      return s;
+    }
+    return s;
   }
 
 }

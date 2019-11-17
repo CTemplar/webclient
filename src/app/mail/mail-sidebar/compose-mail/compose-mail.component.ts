@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -17,8 +28,10 @@ import {
   MoveMail,
   NewDraft,
   SnackErrorPush,
-  SnackPush, UpdateDraftAttachment,
-  UpdateLocalDraft
+  SnackPush,
+  UpdateLocalDraft, UpdatePGPDecryptedContent,
+  UploadAttachment,
+  UpdateDraftAttachment
 } from '../../../store/actions';
 import {
   AppState,
@@ -36,6 +49,8 @@ import { MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { getComposeMailShortcuts } from '../../../store/services';
 
 const Quill: any = QuillNamespace;
 
@@ -157,7 +172,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   inProgress: boolean;
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
-  isTrialPrimeFeaturesAvailable: boolean;
+  isTrialPrimeFeaturesAvailable: boolean = false;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
   insertLinkData: any = {};
@@ -186,6 +201,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   public userState: UserState;
   private decryptedContent: string;
   private encryptionData: any = {};
+  shortcuts: ShortcutInput[] = [];
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -196,7 +212,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
               private filesizePipe: FilesizePipe,
-              private filenamePipe: FilenamePipe) {
+              private filenamePipe: FilenamePipe,
+              private cdr: ChangeDetectorRef) {
 
   }
 
@@ -240,7 +257,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select((state: AppState) => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
+        // this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
         this.settings = user.settings;
         if (user.settings.is_contacts_encrypted) {
@@ -328,6 +345,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 1000);
       }
     }
+    this.shortcuts = getComposeMailShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -373,7 +392,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachment.progress = 100;
         attachment.name = this.filenamePipe.transform(attachment.document);
         attachment.draftId = this.draftId;
-        attachment.attachmentId = performance.now();
+        attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
         return attachment;
       }) : [],
       usersKeys: null
@@ -551,7 +570,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         decryptedDocument: file,
         name: file.name,
         size: this.filesizePipe.transform(file.size),
-        attachmentId: performance.now(),
+        attachmentId: performance.now() + Math.floor(Math.random() * 1000),
         message: this.draftMail.id,
         is_inline: isInline,
         is_encrypted: true,
@@ -662,7 +681,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeAttachment(attachment: Attachment) {
-    this.store.dispatch(new DeleteAttachment(attachment));
+    if (!attachment.isRemoved) {
+      attachment.isRemoved = true;
+      this.store.dispatch(new DeleteAttachment(attachment));
+    }
   }
 
   updateSignature() {
@@ -680,16 +702,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.isSignatureAdded) {
         const index = this.quill.getLength();
         this.quill.insertText(index, '\n', 'silent');
-        this.quill.insertEmbed(index + 1, 'signature', this.selectedMailbox.signature || '', 'silent');
+        this.quill.insertText(index + 1, this.selectedMailbox.signature || '', 'silent');
         this.isSignatureAdded = true;
-      } else {
-        const updatedContents = this.quill.getContents().map(op => {
-          if (op.insert && op.insert.signature) {
-            op.insert.signature = this.selectedMailbox.signature || '';
-          }
-          return op;
-        });
-        this.quill.setContents(updatedContents);
       }
     }
   }
@@ -951,6 +965,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new UpdateLocalDraft({
         ...this.draft, isMailDetailPage: this.isMailDetailPage,
         shouldSave, shouldSend, draft: { ...this.draftMail }
+      }));
+    } else {
+      this.store.dispatch(new UpdatePGPDecryptedContent({
+        id: this.draftMail.id,
+        isPGPInProgress: false,
+        decryptedContent: { content: this.draftMail.content, subject: this.draftMail.subject }
       }));
     }
   }

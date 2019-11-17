@@ -417,7 +417,7 @@
                       placement="top" [ngbTooltip]="'settings.compose.encryption'| translate"><i
                       class="icon icon-mail"></i></button>
             </li>
-            <li class="px-0">
+            <li class="px-0" *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
               <button role="button" type="button" (click)="openSelfDestructModal()"
                       class="actions-btn mail-clock-btn border-left-0 border-radius-0"
                       [ngClass]="{'badge badge-warning text-white': selfDestruct.value}"
@@ -425,37 +425,44 @@
                       class="icon icon-clock"></i>
               </button>
             </li>
-            <li class="px-0"
-                [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? ('settings.not_with_free_acc'| translate) : ''">
-              <button *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn"
-                      type="button" role="button" (click)="openDelayedDeliveryModal()"
+            <ng-template #disabledSelfDestructBtn>
+              <li class="px-0" ngbTooltip="Upgrade account to use Self Destruct Email feature">
+                <button type="button" role="button" class="actions-btn mail-clock-btn border-left-0 border-radius-0"
+                        disabled><i class="icon icon-clock"></i>
+                </button>
+              </li>
+            </ng-template>
+            <li class="px-0" *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn">
+              <button type="button" role="button" (click)="openDelayedDeliveryModal()"
                       class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                       [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
                       placement="top" [ngbTooltip]="'settings.compose.delayed_delivery'| translate"><i
                       class="icon icon-self-timer"></i>
               </button>
-              <ng-template #disabledDelayedDeliveryBtn>
+            </li>
+            <ng-template #disabledDelayedDeliveryBtn>
+              <li class="px-0" ngbTooltip="Upgrade account to use Delayed Delivery feature.">
                 <button type="button" role="button"
                         class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                         disabled><i class="icon icon-self-timer"></i>
                 </button>
-              </ng-template>
-            </li>
-            <li class="px-0"
-                [ngbTooltip]="!userState.isPrime && !isTrialPrimeFeaturesAvailable ? ('settings.not_with_free_acc'| translate) : ''">
-              <button *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn"
-                      type="button" role="button" (click)="openDeadManTimerModal()"
+              </li>
+            </ng-template>
+            <li class="px-0" *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn">
+              <button type="button" role="button" (click)="openDeadManTimerModal()"
                       class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                       [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
                       placement="top" [ngbTooltip]="'settings.compose.dead_man_timer'| translate"><i
                       class="icon icon-dead"></i>
               </button>
-              <ng-template #disabledDeadManTimerBtn>
+            </li>
+            <ng-template #disabledDeadManTimerBtn>
+              <li class="px-0" ngbTooltip="Upgrade account to use Dead Man Timer feature.">
                 <button type="button" role="button" class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                         disabled><i class="icon icon-dead"></i>
                 </button>
-              </ng-template>
-            </li>
+              </li>
+            </ng-template>
           </ul>
         </div>
         <div class="mail-composer-actions-col mail-composer-actions-col-sm">
@@ -798,3 +805,6 @@
     </div>
   </div>
 </ng-template><!-- /.encryption modal ends -->
+
+<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
+<ng-keyboard-shortcuts-help key="f1" closeKey="escape"></ng-keyboard-shortcuts-help>

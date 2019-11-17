@@ -47,7 +47,7 @@ export class MailService {
     return this.http.get<Mail[]>(url);
   }
 
-  getMessage(payload: {messageId: number, folder: string}): Observable<Mail> {
+  getMessage(payload: { messageId: number, folder: string }): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
     return this.http.get<Mail>(url).pipe(map(data => {
       return data['results'] ? data['results'][0] : null;
@@ -175,8 +175,12 @@ export class MailService {
     return this.http.post<any>(`${apiUrl}emails/mailbox-order/`, data);
   }
 
-  emptyTrash() {
-    return this.http.post<any>(`${apiUrl}emails/empty-trash/`, null);
+  deleteMailbox(id: number) {
+    return this.http.delete<any>(`${apiUrl}emails/mailboxes/${id}/`);
+  }
+
+  emptyFolder(data: any) {
+    return this.http.post<any>(`${apiUrl}emails/empty-folder/`, data);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

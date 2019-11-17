@@ -25,7 +25,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
           attachment.progress = 100;
           attachment.name = FilenamePipe.tranformToFilename(attachment.document);
           attachment.draftId = oldDraft.id;
-          attachment.attachmentId = performance.now();
+          attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
           return attachment;
         });
       }
@@ -42,6 +42,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     case ComposeMailActionTypes.SEND_MAIL_SUCCESS: {
       state.drafts[action.payload.id] = {
         ...state.drafts[action.payload.id],
+        decryptedContent: null,
         inProgress: false, isSent: true,
       };
       return { ...state, drafts: { ...state.drafts } };

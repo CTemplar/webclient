@@ -120,12 +120,6 @@
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
                 <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
               </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
-                <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
-              </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-                <i class="icon icon-draft"></i><span translate="mail_sidebar.outbox">Outbox</span>
-              </a>
               <ng-container *ngFor="let folder of customFolders; let i=index;">
                 <a class="dropdown-item"
                   *ngIf="mailFolder !== folder.name"
@@ -157,8 +151,8 @@
             </div>
           </div>
         </li>
-        <li *ngIf="mailFolder === mailFolderTypes.TRASH && mails?.length > 0">
-          <a (click)="confirmEmptyTrash()" class="btn btn-sm delete-permanently-btn" placement="top"
+        <li *ngIf="(mailFolder === mailFolderTypes.TRASH || mailFolder === mailFolderTypes.SPAM) && mails?.length > 0">
+          <a (click)="confirmDeleteAll()" class="btn btn-sm delete-permanently-btn" placement="top"
              [ngbTooltip]="'mail_list.delete_messages'| translate">
             <i class="icon icon-garbage position-left"></i> <span translate="mail_list.delete_all"> Delete all permanently</span>
           </a>
@@ -183,8 +177,7 @@
   </div>
   <div align="center" *ngIf="mailFolder===mailFolderTypes.TRASH || mailFolder===mailFolderTypes.SPAM">
     <p class="mt-2">
-      Messages that are in {{mailFolder === mailFolderTypes.TRASH ? 'Trash' : 'Spam'}} more than 30 days will be
-      automatically deleted forever.
+      Messages in {{mailFolder === mailFolderTypes.TRASH ? 'Trash' : 'Spam'}} will be irrecoverably deleted after 30 days.
     </p>
   </div>
 </div>
@@ -255,10 +248,10 @@
                       *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
-                      *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
+                      *ngIf="mail.dead_man_duration"><span translate="mail_detail.dead_mans_timer">Dead mans timer in</span> {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
-              <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>
+              <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">Encrypted Subject</span>
               <div class="mail-content">
                 <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
                 <span class="encrypted-subject-placeholder" *ngIf="mail.is_subject_encrypted">*************</span>
@@ -269,6 +262,8 @@
 
         <!-- Attachment Size -->
         <td class="mail-file-size">
+          <label *ngIf="mailFolder===mailFolderTypes.SEARCH"
+                 class="folder-batch" [style.background]="folderColors[mail.folder]">{{mail.folder}}</label>
           <i class="icon icon-attachment" *ngIf="mail.has_attachments || mail.attachments?.length>0"></i>
         </td>
 
@@ -343,10 +338,10 @@
                               *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                         </span>
                         <span class="badge badge-danger mr-2 p-1"
-                              *ngIf="mail.dead_man_duration"><span translate="page_pricing.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
+                              *ngIf="mail.dead_man_duration"><span translate="mail_detail.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
-                      <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail.is_subject_encrypted">Encrypted Subject</span>
+                      <span class="badge badge-warning mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">Encrypted Subject</span>
                       <div class="mail-content">
                          <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
                          <span class="encrypted-subject-placeholder" *ngIf="mail.is_subject_encrypted">*************</span>
@@ -410,11 +405,11 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group" translate="settings.delete_all_message">
-        Are you sure, you want to delete all messages in trash?
+        Are you sure, you want to delete all messages in {{mailFolder===mailFolderTypes.TRASH?'trash':'spam'}} permanently?
       </div>
       <div class="form-group text-right mb-0">
         <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" translate="common.cancel">Cancel</button>
-        <button (click)="emptyTrashConfirmed()" class="btn btn-danger btn-sm" role="button" translate="common.delete">
+        <button (click)="emptyDeleteAllConfirmed()" class="btn btn-danger btn-sm" role="button" translate="common.delete">
           Delete
         </button>
       </div>
@@ -424,8 +419,8 @@
 
 
 <!--TODO : disable shortcuts until the bugs are fixed-->
-<!--<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>-->
+<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
 
-<!--<ng-keyboard-shortcuts-help key="f1" closeKey="escape" title="Keyboard shortcuts">-->
+<ng-keyboard-shortcuts-help key="f1" closeKey="escape" title="Keyboard shortcuts">
 
-<!--</ng-keyboard-shortcuts-help>-->
+</ng-keyboard-shortcuts-help>

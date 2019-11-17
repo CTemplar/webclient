@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, AuthState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -23,13 +23,15 @@ import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
+import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
+import { getMailSidebarShortcuts } from '../../store/services';
 
 @Component({
   selector: 'app-mail-sidebar',
   templateUrl: './mail-sidebar.component.html',
   styleUrls: ['./mail-sidebar.component.scss']
 })
-export class MailSidebarComponent implements OnInit, OnDestroy {
+export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   LIMIT = 3;
   EMAIL_LIMIT = 20;
@@ -39,13 +41,19 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
   public userState: UserState;
 
   mailState: MailState;
+  mailFolderType = MailFolderType;
   currentRoute: string;
 
   isMenuOpened: boolean;
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
+  shortcuts: ShortcutInput[] = [];
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+
   currentPlan: PlanType;
+  currentFolder: MailFolderType;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -58,7 +66,8 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
               private pushNotificationService: PushNotificationService,
               private titleService: Title,
               private activatedRoute: ActivatedRoute,
-              @Inject(DOCUMENT) private document: Document) {
+              @Inject(DOCUMENT) private document: Document,
+              private cdr: ChangeDetectorRef) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
     const nextPage = localStorage.getItem('nextPage');
@@ -92,7 +101,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
             }
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
-              { outbox: webSocketState.message.unread_count.outbox, updateUnreadCount: true, }));
+              { ...webSocketState.message.unread_count, updateUnreadCount: true, }));
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
@@ -143,6 +152,7 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
+        this.currentFolder = mailState.currentFolder;
         this.updateTitle();
 
       });
@@ -155,6 +165,11 @@ export class MailSidebarComponent implements OnInit, OnDestroy {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.shortcuts = getMailSidebarShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   private updateUnreadCount(webSocketState: WebSocketState) {

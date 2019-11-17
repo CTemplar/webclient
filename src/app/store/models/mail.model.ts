@@ -40,7 +40,7 @@ export interface Mail {
   children?: Array<Mail>;
   forward_attachments_of_message?: number;
   incoming_headers?: string;
-  spam_reason?: string;
+  spam_reason?: string | [];
   thread_count?: number;
   last_action_thread?: MailAction;
   last_action?: MailAction;
@@ -72,6 +72,7 @@ export interface Mailbox {
   is_default?: boolean;
   is_enabled?: boolean;
   sort_order: number;
+  inProgress?: boolean;
 }
 
 export interface Folder {

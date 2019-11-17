@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PRIMARY_DOMAIN } from '../../../shared/config';
 import { Mailbox } from '../../../store/models';
-import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
+import { CreateMailbox, DeleteMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-addresses-signature',
@@ -17,6 +18,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss']
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
+  @ViewChild('deleteAliasModal', { static: false }) deleteAliasModal;
   public mailBoxesState: MailBoxesState;
   public mailboxes: Mailbox[];
   public unmodifiedMailboxes: Mailbox[];
@@ -31,11 +33,13 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   customDomains: string[];
   reorder: boolean;
   reorderInProgress: boolean = false;
+  mailboxToDelete: Mailbox;
 
   constructor(private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
               private usersService: UsersService,
               private settingsService: MailSettingsService,
+              private modalService: NgbModal,
               private store: Store<AppState>) { }
 
   ngOnInit() {
@@ -143,9 +147,19 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
     if (selectedMailbox[key] !== value) {
-      selectedMailbox[key] = value;
-      this.store.dispatch(new MailboxSettingsUpdate(selectedMailbox));
+      selectedMailbox.inProgress = true;
+      this.store.dispatch(new MailboxSettingsUpdate({ ...selectedMailbox, [key]: value }));
     }
+  }
+
+  showConfirmDeleteMailboxModal(mailbox: Mailbox) {
+    this.mailboxToDelete = mailbox;
+    this.modalService.open(this.deleteAliasModal, { centered: true, windowClass: 'modal-sm users-action-modal', backdrop: 'static' });
+  }
+
+  deleteMailboxConfirmed() {
+    this.store.dispatch(new DeleteMailbox(this.mailboxToDelete));
+    this.mailboxes = this.mailboxes.filter(mailbox => mailbox.id !== this.mailboxToDelete.id);
   }
 
   sortDown(index: number) {
@@ -169,6 +183,12 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   startReorder() {
     this.reorder = true;
     this.unmodifiedMailboxes = this.mailboxes.map(x => Object.assign({}, x));
+    this.mailboxes = this.mailboxes.sort((a, b) => {
+      return a.sort_order - b.sort_order;
+    }).map((item, index) => {
+      item.sort_order = index + 1;
+      return item;
+    });
   }
 
   saveOrder() {
