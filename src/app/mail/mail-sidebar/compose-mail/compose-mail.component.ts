@@ -403,6 +403,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   decryptAttachments(attachments: Array<Attachment>) {
     attachments.forEach(attachment => {
+      // TODO: Do we need to download attachment even if its not encrypted?
       if (!attachment.decryptedDocument) {
         this.mailService.getAttachment(attachment).pipe(untilDestroyed(this))
           .subscribe(response => {
@@ -537,10 +538,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
-      if (/^image\//.test(file.type)) {
-        this.uploadAttachment(file, true);
+      if (/^image\//.test(file.type) && this.checkAttachmentSizeLimit(file)) {
+        this.embedImageInQuill(file);
       } else {
-        // TODO: add error notification here
+        // TODO: add error notification for invalid file type here
       }
     }
   }
@@ -556,13 +557,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadAttachment(file: File, isInline = false) {
-    const attachmentLimitInMBs = this.settings.attachment_size_limit / (1024 * 1024);
-
-    if (file.size > this.settings.attachment_size_limit) {
-      this.store.dispatch(new SnackErrorPush({
-        message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`
-      }));
-    } else {
+    if (this.checkAttachmentSizeLimit(file)) {
       this.attachmentHolder.nativeElement.scrollIntoView({behavior: 'smooth'});
       const attachment: Attachment = {
         draftId: this.draftId,
@@ -585,6 +580,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  checkAttachmentSizeLimit(file: File): boolean {
+    const attachmentLimitInMBs = this.settings.attachment_size_limit / (1024 * 1024);
+    if (file.size > this.settings.attachment_size_limit) {
+      this.store.dispatch(new SnackErrorPush({
+        message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`
+      }));
+      return false;
+    }
+    return true;
+  }
+
   encryptAttachment(attachment: Attachment) {
     this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment.decryptedDocument, attachment);
   }
@@ -593,11 +599,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
     this.isUploadingAttachment = false;
+    // TODO: remove this if its not required anymore due to change in handling of inline attachments?
     this.attachments.forEach(attachment => {
       if (attachment.is_inline && attachment.progress === 100 && !attachment.isRemoved &&
-        attachment.content_id && !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
+        attachment.content_id && (!attachment.is_encrypted || attachment.decryptedDocument) &&
+        !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
         this.inlineAttachmentContentIds.push(attachment.content_id);
-        this.embedImageInQuill(attachment.document, attachment.content_id);
+        this.embedImageInQuill(attachment.decryptedDocument, attachment.content_id);
       }
       if (attachment.progress < 100 && !attachment.isRemoved) {
         this.isUploadingAttachment = true;
@@ -883,15 +891,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
-  private embedImageInQuill(url: string, contentId?: string) {
-    if (url) {
+  private embedImageInQuill(source: string | File, contentId?: string) {
+    if (source) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
-      this.quill.insertEmbed(index, 'image', {
-        url: url,
-        content_id: contentId
-      });
-      this.quill.setSelection(index + 1);
+      if (typeof source === 'string') {
+        this.quill.insertEmbed(index, 'image', {
+          url: source,
+          content_id: contentId
+        });
+        this.quill.setSelection(index + 1);
+      } else {
+        const fileReader = new FileReader();
+        fileReader.onload = (event: any) => {
+          this.quill.insertEmbed(index, 'image', {
+            url: event.target.result,
+            content_id: contentId
+          });
+          this.quill.setSelection(index + 1);
+        };
+        fileReader.readAsDataURL(source);
+      }
     }
   }
 
@@ -976,6 +996,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkInlineAttachments() {
+    // keeping this method for legacy purpose. newly uploaded inline attachments are not save separately on backend but instead used as base64 url
     if (this.settings.is_html_disabled) {
       return;
     }
