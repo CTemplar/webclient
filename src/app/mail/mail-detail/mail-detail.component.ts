@@ -317,7 +317,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           .subscribe(response => {
               const uint8Array = this.shareService.base64ToUint8Array(response.data);
               attachment.name = FilenamePipe.tranformToFilename(attachment.document);
-              const fileInfo = { attachment, type: 'image/png' }; // TODO: replace image/png with response.file_type when its fixed on backend
+              const fileInfo = { attachment, type: response.file_type };
               this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
                 .pipe(
                   take(1)

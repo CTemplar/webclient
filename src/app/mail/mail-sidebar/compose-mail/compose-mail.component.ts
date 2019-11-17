@@ -407,7 +407,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mailService.getAttachment(attachment).pipe(untilDestroyed(this))
           .subscribe(response => {
               const uint8Array = this.sharedService.base64ToUint8Array(response.data);
-              const fileInfo = { attachment, type: 'image/png' }; // TODO: replace image/png with response.file_type when its fixed on backend
+              const fileInfo = { attachment, type: response.file_type };
               this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
                 .subscribe(decryptedAttachment => {
                   this.store.dispatch(new UpdateDraftAttachment({

@@ -139,6 +139,7 @@ export class MailService {
     formData.append('message', data.message.toString());
     formData.append('is_inline', data.is_inline.toString());
     formData.append('is_encrypted', data.is_encrypted.toString());
+    formData.append('file_type', data.document.type.toString());
 
     let request;
     if (data.id) {
