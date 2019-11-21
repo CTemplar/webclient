@@ -494,19 +494,6 @@
     "all_rights_reserved": "All Rights Reserved",
     "software_systems": "Templar Software Systems Ltd., a Seychelles Limited Liability Company"
   },
-  "page_about": {
-    "as_the_govt_continues": "As governments continues to gather data at an increasing pace, greater data privacy and protection is needed. Use of encrypted email is an important step in achieving greater protection. CTemplar is committed to providing the greatest level of data protection.",
-    "why_i_started": "Why <strong> CTemplar?</strong>",
-    "idea_to_create_service": " The idea to create this service grew out of a recognition of the threats facing internet privacy and security. Our effort to protect communications through encryption is an entirely new approach, one that will continually strive to employ the most advanced techniques in protecting your data. <br/><br/> CTemplar offers users the world’s most secure encrypted email program.  CTemplar’s security does not lie solely in its advanced encryption.  CTemplar is structured and domiciled so as to best protect your data from information requests.",
-    "who_does": "Who Does",
-    "protect": "Protect?",
-    "ctempler_is_a_powerful_tool": "CTemplar is a powerful tool for users who value privacy.  Our subscribers include a wide variety of users, ranging from corporate, entrusted with a fiduciary duty to protect intellectual property, to individuals, mainly concerned with person privacy.  Regardless of what you are protecting and why, CTemplar provides users with the most advanced safeguards available.",
-    "educators_and_missionaries": "<li>Educators and missionaries under threat of persecution and death</li> <li>Refugees fleeing from oppressive regimes in their home country</li> <li>Reporters in war-torn and/or dictator-led countries</li> <li>Students looking for communication but finding only oppression</li> <li>Someone working in a business environment where competitor surveillance runs rampant </li> <li>Consumers who want to protect their financial information</li> <li>A relatively safe and comfortable individual who worries about privacy</li>",
-    "regardless_who_you_are": "Regardless of who you are and what you seek, this encrypted service is here to help you find your way. If you need <span class=\"text-dark\"> <strong>assurance that your message</strong> </span>, your vision, and your words will be protected from the eyes of those who would hamper them—this service is for you.",
-    "legal_stance": "Legal Stance",
-    "ctempler_legal_team_views": "CTemplar’s legal team views internet privacy as a dynamic issue. It is an evolving landscape. Accordingly, static solutions will not afford your data the level of protection demanded by those who value security. <br/><br/> We have researched all aspects of internet privacy in various jurisdictions in order to assure that our servers are domiciled in the most secure location. Our servers are located in Iceland, recognized as the premier location for internet privacy. The Icelandic government has demonstrated itself to be at the forefront of internet privacy and vigorously enforces the right to be free of government intrusion. <br/><br/> Our legal department continues to research internet security and privacy laws throughout the world so that we may constantly provide users with the maximum level of internet privacy. If there is a proposed change in policy, we will be first to know and have a migration plan in place that ensures complete ongoing security.",
-    "explore_our_security": "Explore our security features"
-  },
   "page_security": {
     "features": "Features",
     "end_to_end_encryption": "End-to-End Encryption using Open Source Cryptography",
