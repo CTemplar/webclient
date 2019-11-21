@@ -493,17 +493,7 @@
     "software_systems": "Templar Software Systems Ltd., a Seychelles Limited Liability Company"
   },
   "page_security": {
-    "features": "Caractéristiques",
-    "end_to_end_encryption": "Encryptage de bout en bout à l'aide de la cryptographie Open Source",
-    "whether_you_are_sending": "Que vous envoyiez des informations sensibles à votre comptable, à vos partenaires commerciaux, à vos clients, à vos réseaux d'information ou simplement à vos amis, vos e-mails sont automatiquement cryptés à l'aide d'une forte cryptographie à clé publique sur nos serveurs islandais, de sorte que même nous ne pouvons pas les lire. Seuls vous et votre destinataire peuvent décoder vos emails.",
-    "benefit_from_world": "Bénéficiez des lois les plus strictes au monde en matière de protection des données.",
-    "most_encrypted_email": "La plupart des fournisseurs de services de messagerie cryptée se vantent de leurscentres de données suisses. Ce qu'ils ne vous disent pas, c'est que le gouvernement suisse a un accord de partage d'informations avec d'autres pays, ce qui signifie que vos données pourraient être partagées avec d'autres pays sans votre consentement. L'Islande n'a aucun accord de partage et maintient les lois les plus strictes en matière de confidentialité des données au monde, de sorte que vos données restent cryptées sur nos serveurs et nulle part ailleurs.",
-    "guaranted_anonymity": "Anonymat Garanti et Zéro Accès à Vos Données",
-    "we_dont_require_any": "Nous n'avons pas besoin de renseignements personnels pour créer votre compte de courriel chiffré. Choisissez simplement un nom d'utilisateur et un mot de passe pour accéder à votre interface de messagerie. Notre technique \"Hash & Salt\", leader de l'industrie, garantit que même nous ne connaissons pas vos informations de connexion. Pour plus de sécurité, nous ne stockons pas vos journaux d'adresses IP, qui peuvent être tracés jusqu'à votre compte de courrier électronique anonyme. Avec CTemplar, votre vie privée est garantie.",
-    "simple_to_use": "Interface simple à Utiliser Tout Comme une Boite de Courrier Electronique Ordinaire",
-    "unlike_the_old_days": "Contrairement à l'ancien temps où l'emailing crypté signifiait un cryptage manuel complexe, CTemplar fait tout cela pour vous. Envoyez et recevez simplement vos emails, tout comme un compte email régulier, et soyez assuré que votre vie privée est 100% sécurisée.",
-    "encrypted_email_to_non": "Courriels cryptés vers des comptes non-CTemplar, messages s'autodétruisant et bien plus encore....",
-    "your_contacts_dont_require": "Vos contacts n'ont pas besoin d'un compte CTemplar pour envoyer et recevoir des e-mails cryptés, ils ont juste besoin d'accéder à votre clé publique pour décrypter et ouvrir vos messages. Cependant, nous recommandons à tout le monde d'utiliser les comptes de messagerie CTemplar pour une sécurité maximale puisque même vos emails stockés et vos rubriques objets seront protégés, contrairement aux comptes réguliers."
+    "features": "Caractéristiques"
   },
   "page_pricing": {
     "do_not_show_ads": "Ce site n'est pas supporté par les revenus publicitaires ou le partage des données des abonnés. CTemplar compte plutôt sur les revenus d'abonnement pour maintenir et améliorer la qualité de notre service. Les revenus des comptes payants sont utilisés pour développer CTemplar, ainsi que pour soutenir les utilisateurs gratuits. Ctemplar ne peut pas être utilisé pour le spam ou pour l'envoi de courriels en masse.",

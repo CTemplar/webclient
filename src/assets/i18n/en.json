@@ -499,16 +499,6 @@
   },
   "page_security": {
     "features": "Features",
-    "end_to_end_encryption": "End-to-End Encryption using Open Source Cryptography",
-    "whether_you_are_sending": "Whether you are sending sensitive information to your accountant, business partners, clients, news networks, or simply your friends, your emails are automatically encrypted using strong public key cryptography on our Icelandic servers, so even we cannot read them. Only you and your recipient can decode your emails.",
-    "benefit_from_world": "Benefit from the World’s Strictest Data Protection Laws",
-    "most_encrypted_email": "Most encrypted email service providers boast about their Swiss data centers. What they fail to tell you is that the Swiss government has an information sharing agreement with other countries, meaning your data could be shared with others without your consent. Iceland has zero sharing agreements and maintains the strictest data privacy laws in the world, so your data stays encrypted on our servers and nowhere else.",
-    "guaranted_anonymity": "Guaranteed Anonymity and Zero Access to Your Data",
-    "we_dont_require_any": "We do not require any personal information to create your encrypted email account. Simply chose a username and password to access your email interface. Our industry leading “Hash & Salt” technique guarantee even we do not know your login information. For additional security, we do not store your IP logs, which can be traced to your anonymous email account. Your privacy is guaranteed with CTemplar.",
-    "simple_to_use": "Simple-to-use Interface Just Like a Regular Email Account",
-    "unlike_the_old_days": "Unlike the old days where encrypted emailing meant complex manual encryption CTemplar does it all for you. Simply send and receive your emails, just like a regular email account, and rest assured knowing your privacy is 100% secure.",
-    "encrypted_email_to_non": "Encrypted email to non-CTemaplar acounts, self-destructing messages & much more….",
-    "your_contacts_dont_require": "Your contacts don’t require a CTemplar account in order to send and receive encrypted emails, they just need access to your Public Key in order to decrypt and open your messages. However, we do recommend everyone use CTemplar email accounts for maximum security since even your stored emails and subject lines will be protected, unlike regular accounts."
   },
   "page_pricing": {
     "do_not_show_ads": "This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon subscription revenue to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop CTemplar, as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails",
