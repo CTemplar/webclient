@@ -395,13 +395,6 @@ button[disabled] {
   color: #757575;
 }
 
-// Resolve mail detail page paragraph margin issues
-app-mail-detail {
-  p {
-    margin: 0 !important;
-  }
-}
-
 .accordion .card {
   margin-bottom: 10px;
   border-radius: 0;
