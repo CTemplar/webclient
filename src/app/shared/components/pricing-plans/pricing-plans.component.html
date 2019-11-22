@@ -8,11 +8,8 @@
             <strong translate="home_header.pricing">Pricing</strong> <span translate="settings.plans">Plans</span>
           </h1>
           <h4 class="l-block-subtitle mb-0 text-dark fw-light" translate="page_pricing.do_not_show_ads">
-            This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon
-            subscription revenue
-            to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop
-            CTemplar,
-            as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails
+            <p>CTemplar is the world's most secure & private email service based on an analysis of technical specifications.</p>
+            <p>**CTemplar can not be used for sending spam or bulk emails</p>
           </h4>
         </div>
       </div>
@@ -34,7 +31,9 @@
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted content">Encrypted content</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted contacts">Encrypted contacts</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted subjects">Encrypted subjects</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Two factor authentication">2FA</div>
+          <div class="bold px-2 py-3 plan-sub-item">Encrypted metadata <sup> (Coming soon)</sup></div>
+          <div class="bold px-2 py-3 plan-sub-item">Virus detection tool <sup> (Coming soon)</sup></div>
+          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Two factor authentication">2 Factor authentication</div>
           <div class="bold px-2 py-3 plan-sub-item">Anti phishing</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Brute force protection">Brute force protection</div>
           <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Zero knowledge passwords">Zero knowledge passwords</div>
@@ -61,7 +60,7 @@
                     <div>billed as ${{plan.annually_price}}/y</div>
                   </div>
                   <ng-template #freePlan>
-                    <div class="plan-title-info">Free</div>
+                    <div class="plan-title-info">Upgrade<br>anytime</div>
                   </ng-template>
                   <a class="btn cursor-pointer select-btn" [style.background]="plan.background"
                      *ngIf="userPlanType!==plan.name; else currentPlan" (click)="selectPlan(plan.name)">Select</a>
@@ -86,6 +85,8 @@
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_content}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_contacts}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_subjects}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.encrypted_metadata}"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.virus_detection_tool}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.two_fa}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.anti_phishing}"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon;context: {value:plan.brute_force_protection}"></ng-container>

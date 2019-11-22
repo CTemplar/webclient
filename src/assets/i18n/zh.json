@@ -456,7 +456,7 @@
     "signup": "注册"
   },
   "home_page": {
-    "title": "Armored Email<br>Anonymous<br> Encrypted",
+    "title": "Armored Email<br>Anonymous Encrypted",
     "signup_for_free": "免费注册",
     "latest_from_our_blog": "我们博客的<strong>最新消息</strong>",
     "related_post": "相关的 <strong>帖子</strong>",
@@ -496,7 +496,6 @@
     "features": "功能"
   },
   "page_pricing": {
-    "do_not_show_ads": "本网站不支持广告收入或订阅者数据共享。相反，CTemplar依靠订阅收入来维持和改善我们的服务质量。来自付费帐户的收入用于进一步开发CTemplar，以及支持免费用户。*Ctemplar不能用于垃圾邮件或批量电子邮件的发送",
     "billed_as": "收费为",
     "select_account_type": "选择帐户类型",
     "user": "用户",

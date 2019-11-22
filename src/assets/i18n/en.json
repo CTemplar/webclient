@@ -458,7 +458,7 @@
     "signup": "Sign up"
   },
   "home_page": {
-    "title": "Armored Email<br>Anonymous<br> Encrypted",
+    "title": "Armored Email<br>Anonymous Encrypted",
     "signup_for_free": "Sign up for free",
     "latest_from_our_blog": "Latest From <strong>Our Blog</strong>",
     "related_post": "Related <strong>Post</strong>",
@@ -501,7 +501,7 @@
     "features": "Features"
   },
   "page_pricing": {
-    "do_not_show_ads": "This site is not supported by ad revenue or the sharing of subscriber data. Instead, CTemplar relies upon subscription revenue to maintain and improve the quality of our service. Revenue from paid accounts is used to further develop CTemplar, as well as support free users. *Ctemplar cannot be used for spam or for sending bulk emails",
+    "do_not_show_ads": "<p>CTemplar is the world's most secure & private email service based on an analysis of technical specifications. <br>**CTemplar can not be used for sending spam or bulk emails </p>",
     "billed_as": "Billed as",
     "select_account_type": "Select account type",
     "user": "User",
