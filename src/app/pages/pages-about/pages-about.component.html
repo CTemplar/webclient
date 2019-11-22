@@ -1,146 +1,44 @@
-<!-- PAGE INTRO SECTION -->
-<section class="l-block l-block-text bg-white gap-p-eq pb-0 text-center">
-    <div class="container">
-        <header class="l-block-header text-center">
-            <div class="row justify-content-center">
-                <div class="col-sm-12 col-md-8 px-sm-5 px-md-0">
-                    <h1 class="page-title fw-light text-uppercase text-secondary mb-3 pb-1 about-title">
-                        <strong translate="home_header.about">About</strong> CTEMPLAR</h1>
-                    <h3 class="l-block-subtitle mb-0 text-dark fw-light" translate="page_about.as_the_govt_continues">
-                        As governments continues to gather data at an increasing pace, greater data privacy and protection is needed. Use of encrypted
-                        email is an important step in achieving greater protection. CTemplar is committed to providing the
-                        greatest level of data protection.</h3>
-                </div>
-            </div>
-        </header>
-    </div>
-    <!-- /.Site container ends -->
-</section>
-<!-- /.PAGE INTRO SECTION ENDS -->
-
-<!-- TWO COLUMN TILE SECTION :: WHY I STARTED CTEMPLAR -->
 <section class="l-block l-block-tile pb-0 bg-white is-clipped bottom bottom-right">
-    <div class="container container-lg">
-        <div class="l-block-body">
-            <div class="row align-items-center">
-                <div class="col-md-7 flex-md-last mb-3 mb-sm-4 mb-md-0 pb-2 pb-sm-0">
-                    <div class="tile-card px-lg text-center text-md-left pl-md-4">
-                        <h2 class="l-block-title fw-light text-secondary mb-3 mb-sm-4 pb-1 hidden-md-up" [innerHTML]="'page_about.why_i_started' | translate">Why
-                            <strong> CTemplar?</strong>
-                        </h2>
-                        <figure>
-                            <app-spinner-image [class]="'img'" [src]="'assets/images/about/about-img-1.jpg'"></app-spinner-image>
-                        </figure>
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="tile-card is-clipped-after">
-                        <h2 class="l-block-title fw-light text-secondary mb-3 pb-1 hidden-sm-down" [innerHTML]="'page_about.why_i_started' | translate">Why
-                            <strong> CTemplar?</strong>
-                        </h2>
-                        <p [innerHTML]="'page_about.idea_to_create_service' | translate">
-                            The idea to create this service grew out of a recognition of the threats facing internet privacy and security. Our effort
-                            to protect communications through encryption is an entirely new approach, one that will continually
-                            strive to employ the most advanced techniques in protecting your data.
-                            <br/>
-                            <br/> CTemplar offers users the world’s most secure encrypted email program. CTemplar’s security does
-                            not lie solely in its advanced encryption. CTemplar is structured and domiciled so as to best
-                            protect your data from information requests.
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <div class="container container-lg">
+    <div class="l-block-body">
+      <div class="row align-items-center">
+        <div class="col-12 mb-3 mb-sm-4 mb-md-0 pb-2 pb-sm-0">
+          <div class="tile-card px-lg text-center text-md-left pl-md-4">
+            <h1 class="page-title fw-light text-uppercase text-secondary mb-3 pb-1 text-center">
+              <strong translate="home_header.about">About</strong> CTEMPLAR</h1>
+          </div>
         </div>
-    </div>
-    <!-- /.Site container ends -->
-</section>
-<!-- /.TWO COLUMN TILE SECTION ENDS -->
-
-<!-- TWO COLUMN TILE SECTION :: WHO DOES CTEMPLAR PROJECT -->
-<section class="l-block l-block-tile bg-faded pb-0 is-clipped is-clipped-lg top top-left bottom bottom-right">
-    <div class="container container-lg">
-        <div class="l-block-body">
-            <div class="row align-items-center">
-                <div class="col-md-7 flex-md-last mb-3 mb-sm-4 mb-sm-0 pb-2 pb-sm-0">
-                    <div class="tile-card px-lg text-center text-md-left pl-md-4">
-                        <h2 class="l-block-title fw-light text-secondary hidden-md-up mb-3 mb-sm-4 pb-1">
-                            <span translate="page_about.who_does">Who Does </span>
-                            <strong>CTemplar</strong>
-                            <span translate="page_about.protect">Protect?</span>
-                        </h2>
-                        <figure>
-                            <app-spinner-image [class]="'shadow img'" [src]="'assets/images/about/about-img-3.png'"></app-spinner-image>
-                        </figure>
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="tile-card">
-                        <h2 class="l-block-title fw-light text-secondary hidden-sm-down mb-3 pb-1">
-                            <span translate="page_about.who_does">Who Does </span>
-                            <strong>CTemplar</strong>
-                            <span translate="page_about.protect">Protect?</span>
-                        </h2>
-                        <p translate="page_about.ctempler_is_a_powerful_tool">
-                            CTemplar is a powerful tool for users who value privacy. Our subscribers include a wide variety of users, ranging from corporate,
-                            entrusted with a fiduciary duty to protect intellectual property, to individuals, mainly concerned
-                            with person privacy. Regardless of what you are protecting and why, CTemplar provides users with
-                            the most advanced safeguards available.
-                        </p>
-
-                    </div>
-                </div>
-            </div>
+        <div class="col-2"></div>
+        <div class="col-8" [innerHTML]="'page_about.content' | translate">
+          <p>
+            Inspired in the ways of the medieval Knights Templar, the CTemplar mail was created to provide an anonymous
+            and end-to-end encrypted mail to anyone who needs their communications shielded from prying eyes. We at
+            CTemplar recognize the value in cryptography and cryptocurrency, hence the name “CTemplar” or “Crypto
+            Templar.”
+          </p>
+          <p>
+            We provide an anonymous and end-to-end encrypted email. No one except you and the person you send the email
+            to can read the contents of your emails, including us.
+          </p>
+          <p>We are the most secure email service in the world based on side-by-side comparisons
+            <a href="https://blog.ctemplar.com/ctemplar-comparison-table/" target="_blank">Read more</a>.
+            Other independent reviews agree with this statement.
+          </p>
+          <p>We offer the most desirable security features available.
+            <a href="https://ctemplar.com/security" target="_blank">Read more</a>
+          </p>
+          <p>We are independently owned and financed by the creators. We have proven our capabilities by creating
+            security features never seen before. <a href="https://ctemplar.com/security" target="_blank">Read more.</a>
+            We refuse investment, donations & grants from all
+            Governments and corporations because they always require something in return.
+          </p>
+          <p>We are passionate about privacy and security; this is what we love. We welcome and invite you to use our
+            email service so we can serve you.
+          </p>
+          <p>The CTemplar Team</p>
         </div>
+      </div>
     </div>
-    <!-- /.Site container ends -->
+  </div>
+  <!-- /.Site container ends -->
 </section>
-<!-- /.TWO COLUMN TILE SECTION ENDS -->
-
-<!-- TWO COLUMN TILE INVERSE SECTION :: CTEMPLAR's LEGAL STANCE -->
-<section class="l-block l-block-tile pb-0 bg-white is-clipped is-clipped-lg top top-right bottom bottom-left">
-    <div class="container container">
-        <div class="l-block-body">
-            <div class="row align-items-center">
-                <div class="col-md-6 mb-3 mb-sm-4 mb-md-0 pb-2 pb-sm-0">
-                    <div class="tile-card px-lg text-center text-md-left">
-                        <h2 class="l-block-title fw-light text-secondary hidden-md-up mb-3 mb-sm-4 pb-1">CTemplar’s
-                            <strong>Legal Stance</strong>
-                        </h2>
-                        <figure>
-                            <app-spinner-image [class]="'img'" [src]="'assets/images/about/about-img-4.png'"></app-spinner-image>
-                        </figure>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="tile-card pl-md-4 is-clipped-after-50">
-                        <h2 class="l-block-title fw-light text-secondary hidden-sm-down mb-3 pb-1">CTemplar’s
-                            <strong translate="page_about.legal_stance">Legal Stance</strong>
-                        </h2>
-                        <p [innerHTML]="'page_about.ctempler_legal_team_views' | translate">
-                            CTemplar’s legal team views internet privacy as a dynamic issue. It is an evolving landscape. Accordingly, static solutions
-                            will not afford your data the level of protection demanded by those who value security.
-                            <br/> We have researched all aspects of internet privacy in various jurisdictions in order to assure
-                            that our servers are domiciled in the most secure location. Our servers are located in Iceland,
-                            recognized as the premier location for internet privacy. The Icelandic government has demonstrated
-                            itself to be at the forefront of internet privacy and vigorously enforces the right to be free
-                            of government intrusion.
-                            <br/> Our legal department continues to research internet security and privacy laws throughout the
-                            world so that we may constantly provide users with the maximum level of internet privacy. If
-                            there is a proposed change in policy, we will be first to know and have a migration plan in place
-                            that ensures complete ongoing security.
-                        </p>
-                        <p class="text-center text-md-left">
-                            <a routerLink="/security" class="btn btn-secondary btn-lg mt-2" translate="page_about.explore_our_security">Explore our security features</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.Site container ends -->
-</section>
-<!-- /.TWO COLUMN TILE SECTION ENDS -->
-
-<!-- Rendering latest blog component -->
-<!-- <app-blog-sample [mode] = "mode" [numberOfColumns] ="numberOfColumns"></app-blog-sample> -->
