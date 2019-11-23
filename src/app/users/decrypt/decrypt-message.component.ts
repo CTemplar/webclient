@@ -73,7 +73,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
             this.openPgpService.decryptSecureMessageContent(state.decryptedKey, new SecureContent(this.message));
           } else if (this.secureMessageState.isContentDecryptionInProgress && !state.isContentDecryptionInProgress) {
             this.decryptedContent = state.decryptedContent.content;
-            if (this.message.is_subject_encrypted) {
+            if (this.message && this.message.is_subject_encrypted) {
               this.decryptedSubject = state.decryptedContent.subject;
               this.message.subject = state.decryptedContent.subject;
             }

@@ -173,14 +173,22 @@
       </div>
     </div>
 
-    <div class="spam_reason" *ngIf="mail.folder === mailFolderTypes.SPAM">
-      <span class="spam_why" *ngIf="mail.spam_reason" translate="mail_detail.message_in_span">Why is this message in spam? </span>
-      <span>{{mail.spam_reason}}</span>
-      <div>
-        <button class="mark_not_spam btn btn-outline-warning"
-                (click)="markNotSpam(mail)"
-                [ngbTooltip]="'mail_detail.mail_not_spam'| translate" translate="mail_detail.mark_not_spam">Mark not spam</button>
-      </div>
+    <div class="spam_reason" *ngIf="mail.spam_reason && mail.spam_reason.length!==0">
+      <ng-container *ngIf="mail.folder === mailFolderTypes.SPAM; else spoofWarning">
+        <span class="spam_why" translate="mail_detail.message_in_span">Why is this message in spam? </span>
+        <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        <div>
+          <button class="mark_not_spam btn btn-outline-warning" (click)="markNotSpam(mail)"
+                  [ngbTooltip]="'mail_detail.mail_not_spam'| translate"
+                  translate="mail_detail.mark_not_spam">Mark not spam
+          </button>
+        </div>
+      </ng-container>
+      <ng-template #spoofWarning>
+        <span class="spam_why">Warning:</span>
+        <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        <span class="ml-1"><a href="https://blog.ctemplar.com/faq/email-domain-not-authenticated/" target="_blank">Learn more</a></span>
+      </ng-template>
     </div>
 
     <div class="ui-body is-xs bg-faded cursor-pointer mail-header"

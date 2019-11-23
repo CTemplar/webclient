@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import {
   DeleteMail,
-  EmptyTrash,
+  EmptyFolder,
   GetMailDetailSuccess,
   GetMails,
   GetUnreadMailsCount,
@@ -247,15 +247,15 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  confirmEmptyTrash() {
+  confirmDeleteAll() {
     this.confirmEmptyTrashModalRef = this.modalService.open(this.confirmEmptyTrashModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal'
     });
   }
 
-  emptyTrashConfirmed() {
-    this.store.dispatch(new EmptyTrash());
+  emptyDeleteAllConfirmed() {
+    this.store.dispatch(new EmptyFolder({ folder: this.mailFolder }));
     this.confirmEmptyTrashModalRef.dismiss();
   }
 

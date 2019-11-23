@@ -207,3 +207,12 @@ app-mail-detail {
   }
 }
 
+.create-folder-modal {
+  .modal-dialog {
+    max-width: 660px !important;
+  }
+}
+
+.help-modal .keys .key__container .key {
+  line-height: 21px;
+}

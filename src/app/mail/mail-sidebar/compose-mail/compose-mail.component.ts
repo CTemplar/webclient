@@ -388,7 +388,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachment.progress = 100;
         attachment.name = this.filenamePipe.transform(attachment.document);
         attachment.draftId = this.draftId;
-        attachment.attachmentId = performance.now();
+        attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
         return attachment;
       }) : [],
       usersKeys: null
@@ -438,14 +438,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (this.content) {
-      this.content = this.content.replace(/\n/g, '<br>');
+      this.content = this.formatContent(this.content);
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     }
 
     this.updateSignature();
 
     if (this.messageHistory) {
-      this.messageHistory = this.messageHistory.replace(/\n/g, '<br>');
+      this.messageHistory = this.formatContent(this.messageHistory);
       const index = this.quill.getLength();
       this.quill.insertText(index, '\n', 'silent');
       this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
@@ -454,6 +454,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.quill.setSelection(0, 0, 'silent');
     }, 100);
+  }
+
+  private formatContent(content: string) {
+    return this.settings.is_html_disabled ? content.replace(/\n/g, '<br>') : content;
   }
 
   insertLink(text: string, link: string) {
@@ -544,7 +548,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         document: file,
         name: file.name,
         size: this.filesizePipe.transform(file.size),
-        attachmentId: performance.now(),
+        attachmentId: performance.now() + Math.floor(Math.random() * 1000),
         message: this.draftMail.id,
         is_inline: isInline,
         inProgress: false
