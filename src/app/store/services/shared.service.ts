@@ -159,7 +159,8 @@ export function getMailComponentShortcuts(mailComponent: MailComponent) {
 }
 
 export function isComposeEditorOpen(): boolean {
-  return (document.getElementsByTagName('app-compose-mail-dialog').length > 0);
+  return (document.getElementsByTagName('app-compose-mail-dialog').length > 0 ||
+    document.getElementsByTagName('app-compose-mail').length > 0);
 }
 
 function getShortcutKeyObj(key: string, label, description: string, command, allowIn = [AllowIn.Select, AllowIn.Input],
@@ -231,13 +232,15 @@ export function getMailSidebarShortcuts(component: MailSidebarComponent) {
 
   ];
 }
+
 export function getComposeMailShortcuts(component: ComposeMailComponent) {
   return [
     getShortcutKeyObj('ctrl + enter', 'Composer', 'Send e-mail', () => {
-        component.sendEmail();
+      component.sendEmail();
     })
   ];
 }
+
 export function getComposeMailDialogShortcuts(component: ComposeMailDialogComponent) {
   return [
     getShortcutKeyObj('cmd + shift + x', 'Composer Dialog', 'Close composer', () => {
