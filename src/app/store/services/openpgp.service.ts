@@ -155,7 +155,7 @@ export class OpenPgpService {
           );
         const attachment: Attachment = {...event.data.attachment, document: newDocument};
         this.store.dispatch(new UploadAttachment({ ...attachment }));
-      } else if (event.data.decryptedAttachment) {
+      } else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
         const array = event.data.decryptedContent;
         const newDocument = new File(
           [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
@@ -286,6 +286,14 @@ export class OpenPgpService {
     }
     this.pgpWorker.postMessage({ decryptSecureMessageContent: true, decryptedKey, mailData });
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
+  }
+
+  decryptSecureMessageAttachment(decryptedKey: any, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ decryptedKey, fileData: uint8Array, decryptSecureMessageAttachment: true, fileInfo, subjectId });
+    return subject.asObservable();
   }
 
   clearData(publicKeys?: any) {

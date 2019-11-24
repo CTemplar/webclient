@@ -54,6 +54,9 @@ export class ComposeMailService {
                     keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
                   }
                   keys.push(draftMail.draft.encryption.public_key);
+                  draftMail.attachments.forEach(attachment => {
+                    this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, keys);
+                  });
                   this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                 }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {

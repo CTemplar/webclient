@@ -56,6 +56,13 @@ onmessage = async function (event) {
                 })
             })
         }
+    } else if (event.data.decryptSecureMessageAttachment) {
+        decryptBinaryContent(event.data.fileData, decryptedSecureMsgPrivKeyObj).then(content => {
+            postMessage({
+                decryptedContent: content, decryptedSecureMessageAttachment: true, fileInfo: event.data.fileInfo,
+                subjectId: event.data.subjectId
+            });
+        })
     } else if (event.data.decryptPrivateKeys) {
         if (event.data.privkeys) {
             event.data.privkeys.forEach(async key => {
