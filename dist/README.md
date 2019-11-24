@@ -2,9 +2,9 @@
 
 Official Angular cross-platform client for the CTemplar secure email service available at [https://ctemplar.com](https://ctemplar.com).
 
-RELEASE VERSION : **v1.2.14**    
+RELEASE VERSION : **v1.2.15**    
 
-SHA-256 checksum of `index.html` : **586be012e9c3c738d27d0edc3110b30b58607f0170ec5def6652574c8eafaa8f**  
+SHA-256 checksum of `index.html` : **2dc72bb9f538309749ed53fbf15872f9ae6d29e147ef1e07466642defa241670**  
 
 Find full release code and distribution at : [https://github.com/CTemplar/webclient/releases/latest](https://github.com/CTemplar/webclient/releases/latest)
 
