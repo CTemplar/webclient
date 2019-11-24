@@ -68,7 +68,7 @@ export class ComposeMailService {
                     draftMail.draft.is_encrypted = true;
                     keys = [...keys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
-                  if (keys.length > 0) {
+                  if (keys.length > 0 && this.userState.settings.is_attachments_encrypted) {
                     draftMail.attachments.forEach(attachment => {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, keys);
                     });
