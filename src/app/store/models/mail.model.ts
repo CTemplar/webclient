@@ -45,6 +45,7 @@ export interface Mail {
   last_action_thread?: MailAction;
   last_action?: MailAction;
   last_action_parent_id?: number;
+  is_html?: boolean;
 }
 
 export class EncryptionNonCTemplar {

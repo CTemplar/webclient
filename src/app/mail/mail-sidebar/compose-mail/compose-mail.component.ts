@@ -891,6 +891,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
+    this.draftMail.is_html = !this.settings.is_html_disabled;
     if (!this.settings.is_html_disabled) {
       this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
       const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
