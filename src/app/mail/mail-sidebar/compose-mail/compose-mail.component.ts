@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, finalize } from 'rxjs/operators';
 import { COLORS, ESCAPE_KEYCODE, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
@@ -175,6 +175,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isTrialPrimeFeaturesAvailable: boolean = false;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
+  isDownloadingAttachmentCounter: number = 0;
   insertLinkData: any = {};
   settings: Settings;
   mailAction = MailAction;
@@ -195,6 +196,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
+  private downloadingAttachments: any = {};
   private inlineAttachmentContentIds: Array<string> = [];
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
@@ -404,18 +406,37 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   decryptAttachments(attachments: Array<Attachment>) {
     attachments.forEach(attachment => {
       // TODO: Do we need to download attachment even if its not encrypted?
-      if (!attachment.decryptedDocument) {
+      if (!attachment.decryptedDocument && !this.downloadingAttachments[attachment.id]) {
+        this.downloadingAttachments[attachment.id] = true;
+        this.isDownloadingAttachmentCounter++;
         this.mailService.getAttachment(attachment).pipe(untilDestroyed(this))
+          .pipe(finalize(() => {
+            this.isDownloadingAttachmentCounter--;
+          }))
           .subscribe(response => {
               const uint8Array = this.sharedService.base64ToUint8Array(response.data);
-              const fileInfo = { attachment, type: response.file_type };
-              this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
-                .subscribe(decryptedAttachment => {
-                  this.store.dispatch(new UpdateDraftAttachment({
-                    draftId: this.draftId,
-                    attachment: { ...decryptedAttachment }
-                  }));
-                });
+              if (attachment.is_encrypted) {
+                const fileInfo = { attachment, type: response.file_type };
+                this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
+                  .subscribe(decryptedAttachment => {
+                    this.store.dispatch(new UpdateDraftAttachment({
+                      draftId: this.draftId,
+                      attachment: { ...decryptedAttachment }
+                    }));
+                  });
+              } else {
+                const newDocument = new File(
+                  [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
+                  attachment.name,
+                  { type: response.file_type }
+                );
+                const newAttachment: Attachment = { ...attachment, decryptedDocument: newDocument };
+                this.store.dispatch(new UpdateDraftAttachment({
+                  draftId: this.draftId,
+                  attachment: { ...newAttachment }
+                }));
+
+              }
           },
             error => console.log(error));
       }

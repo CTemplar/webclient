@@ -160,7 +160,7 @@
             <li class="send-mail-item">
               <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
                       (click)="sendEmail()"
-                      [disabled]="inProgress || isUploadingAttachment"
+                      [disabled]="inProgress || isUploadingAttachment ||  isDownloadingAttachmentCounter > 0"
                       role="button"
                       placement="top">
                 <i class="hidden-sm-up icon icon-paper-plane"></i><span
@@ -467,6 +467,9 @@
         </div>
         <div class="mail-composer-actions-col mail-composer-actions-col-sm">
           <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
+            <li class="pr-1" *ngIf="isDownloadingAttachmentCounter > 0">
+              <span>{{'settings.compose.downloading_attachments'| translate}}</span>
+            </li>
             <li class="pr-1" *ngIf="inProgress || (draftMail && draftMail.id)">
               <span>{{inProgress ? (draftMail.send ? ('settings.compose.sending'| translate) : ('settings.compose.saving'| translate))
                   : ('settings.compose.saved'| translate)}}</span>
@@ -474,7 +477,7 @@
             <li class="pr-0" *ngIf="showSaveButton">
               <button role="button"
                       (click)="saveInDrafts()"
-                      [disabled]="inProgress || isUploadingAttachment"
+                      [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                       class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
                       placement="top" [ngbTooltip]="'settings.compose.save_to_drafts'| translate"><i
                       class="icon icon-save-disk"></i>
@@ -483,7 +486,7 @@
             <li class="pl-0">
               <button role="button"
                       (click)="discardEmail()"
-                      [disabled]="inProgress || isUploadingAttachment"
+                      [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                       class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                       [ngbTooltip]="'settings.compose.delete_draft'| translate"><i class="icon icon-garbage"></i>
               </button>
