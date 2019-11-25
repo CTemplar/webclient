@@ -65,6 +65,8 @@
                                     [decryptedContent]="decryptedContent"
                                     [decryptedSubject]="decryptedSubject"
                                     [decryptedKey]="secureMessageState.decryptedKey"
+                                    [hash]="hash"
+                                    [secret]="secret"
                                     (reply)="onReply()"
                                     (expired)="onExpired()"></app-display-secure-message>
 

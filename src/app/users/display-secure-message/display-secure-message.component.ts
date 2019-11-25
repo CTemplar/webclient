@@ -19,6 +19,8 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
   @Input() decryptedContent: string;
   @Input() decryptedSubject: string;
   @Input() decryptedKey: any;
+  @Input() hash: any;
+  @Input() secret: any;
 
   @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() expired: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -56,7 +58,7 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
         }
       } else {
         this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
-        this.mailService.getAttachment(attachment)
+        this.mailService.getSecureMessageAttachment(attachment, this.hash, this.secret)
           .subscribe(response => {
               const uint8Array = this.shareService.base64ToUint8Array(response.data);
               attachment.name = FilenamePipe.tranformToFilename(attachment.document);

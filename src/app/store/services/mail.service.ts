@@ -164,6 +164,10 @@ export class MailService {
     return this.http.get(`${apiUrl}emails/attachments/${attachment.id}/`);
   }
 
+  getSecureMessageAttachment(attachment: Attachment, hash: string, randomSecret: string): Observable<any> {
+    return this.http.get(`${apiUrl}emails/secure-message/${hash}/${randomSecret}/attachment/${attachment.id}/`);
+  }
+
   updateMailBoxSettings(data: Mailbox) {
     return this.http.patch<any>(`${apiUrl}emails/mailboxes/${data.id}/`, data);
   }
