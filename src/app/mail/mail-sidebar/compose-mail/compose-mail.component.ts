@@ -623,6 +623,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   handleAttachment(draft: Draft) {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
+    this.decryptAttachments(this.attachments);
     this.isUploadingAttachment = false;
     // TODO: remove this if its not required anymore due to change in handling of inline attachments?
     this.attachments.forEach(attachment => {
