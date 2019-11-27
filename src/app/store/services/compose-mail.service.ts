@@ -1,8 +1,12 @@
+import { HttpResponse } from '@angular/common/http';
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { forkJoin, Observable } from 'rxjs';
+import { finalize, take } from 'rxjs/operators';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
 import { AppState, ComposeMailState, Draft, DraftState, SecureContent, UserState } from '../datatypes';
+import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 
 @Injectable()
@@ -15,6 +19,7 @@ export class ComposeMailService {
 
   constructor(private store: Store<AppState>,
               private openPgpService: OpenPgpService,
+              private mailService: MailService,
               private componentFactoryResolver: ComponentFactoryResolver) {
     this.store.select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
@@ -28,7 +33,8 @@ export class ComposeMailService {
               }
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
-              if (this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
+              if ((this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress && !draftMail.isProcessingAttachments) ||
+                (this.drafts[key].isProcessingAttachments && !draftMail.isProcessingAttachments && !draftMail.isPGPInProgress)) {
                 draftMail.draft.content = draftMail.encryptedContent.content;
                 if (this.userState.settings && this.userState.settings.is_subject_encrypted) {
                   draftMail.draft.subject = draftMail.encryptedContent.subject;
@@ -48,6 +54,9 @@ export class ComposeMailService {
                     keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
                   }
                   keys.push(draftMail.draft.encryption.public_key);
+                  draftMail.attachments.forEach(attachment => {
+                    this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, keys);
+                  });
                   this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                 }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
@@ -62,11 +71,40 @@ export class ComposeMailService {
                     draftMail.draft.is_encrypted = true;
                     keys = [...keys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
-                  if (keys.length > 0) {
+                  if (keys.length > 0 && this.userState.settings.is_attachments_encrypted) {
+                    draftMail.attachments.forEach(attachment => {
+                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, keys);
+                    });
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
                   } else {
-                    if(!draftMail.isSaving) {
-                      this.store.dispatch(new SendMail({ ...draftMail }));
+                    if (!draftMail.isSaving) {
+                      const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
+                      if (encryptedAttachments.length > 0) {
+                        forkJoin(
+                          ...encryptedAttachments.map(attachment => {
+                            attachment.is_encrypted = false;
+                            attachment.document = attachment.decryptedDocument;
+                            return Observable.create(observer => {
+                              this.mailService.uploadFile(attachment)
+                                .pipe(finalize(() => observer.complete()))
+                                .subscribe(event => {
+                                    if (event instanceof HttpResponse) {
+                                      observer.next(event.body);
+                                    }
+                                  },
+                                  error => observer.error(error));
+                            });
+                          })
+                        )
+                          .pipe(take(1))
+                          .subscribe(responses => {
+                              this.store.dispatch(new SendMail({ ...draftMail }));
+                            },
+                            error => this.store.dispatch(new SnackPush(
+                              { message: 'Failed to send email, please try again. Email has been saved in draft.' })));
+                      } else {
+                        this.store.dispatch(new SendMail({ ...draftMail }));
+                      }
                     } else {
                       this.store.dispatch(new SnackPush(
                         { message: 'Failed to send email, please try again. Email has been saved in draft.' }));

@@ -94,6 +94,33 @@
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
+            <label class="form-label mb-sm-0">Attachment encryption</label>
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="attachmentEncryption1"
+                         name="[attachment]" type="radio" (click)="updateSettings('is_attachments_encrypted', true)"
+                         [checked]="settings.is_attachments_encrypted"/>
+                  <label for="attachmentEncryption1" translate="common.enabled">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="attachmentEncryption2"
+                         name="[attachment]" type="radio" (click)="updateSettings('is_attachments_encrypted', false)"
+                         [checked]="!settings.is_attachments_encrypted"/>
+                  <label for="attachmentEncryption2" translate="common.disabled">Disabled</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-content-row">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
             <label class="form-label mb-sm-0">Contacts encryption</label>
           </div>
           <div class="col-sm-7 col-md-5">

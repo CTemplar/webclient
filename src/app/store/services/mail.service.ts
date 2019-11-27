@@ -138,16 +138,34 @@ export class MailService {
     formData.append('document', data.document);
     formData.append('message', data.message.toString());
     formData.append('is_inline', data.is_inline.toString());
+    formData.append('is_encrypted', data.is_encrypted.toString());
+    formData.append('file_type', data.document.type.toString());
 
-    const request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
-      reportProgress: true
-    });
+    let request;
+    if (data.id) {
+      request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${data.id}/`, formData, {
+        reportProgress: true
+      });
+    }
+    else {
+      request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
+        reportProgress: true
+      });
+    }
 
     return this.http.request(request);
   }
 
   deleteAttachment(attachment: Attachment): Observable<any> {
     return this.http.delete<any>(`${apiUrl}emails/attachments/${attachment.id}/`);
+  }
+
+  getAttachment(attachment: Attachment): Observable<any> {
+    return this.http.get(`${apiUrl}emails/attachments/${attachment.id}/`);
+  }
+
+  getSecureMessageAttachment(attachment: Attachment, hash: string, randomSecret: string): Observable<any> {
+    return this.http.get(`${apiUrl}emails/secure-message/${hash}/${randomSecret}/attachment/${attachment.id}/`);
   }
 
   updateMailBoxSettings(data: Mailbox) {

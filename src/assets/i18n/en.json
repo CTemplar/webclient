@@ -386,7 +386,8 @@
       "full_screen": "Full screen",
       "maximize": "Maximize",
       "minimize": "Minimize",
-      "close": "Close"
+      "close": "Close",
+      "downloading_attachments": "Downloading Attachments..."
     },
     "of": "of",
     "not_with_free_acc": "Feature not available with Free Account",

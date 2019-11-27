@@ -325,8 +325,10 @@
     <ul class="list-style-none mt-3">
       <ng-container *ngFor="let attachment of mail.attachments">
         <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
-          <a class="download-attachment" [href]="attachment.document" placement="top"
-             [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
+          <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
+          <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
+             [href]="attachment.document" placement="top" [ngbTooltip]="attachment.document | filename" target="_blank"
+             rel="noopener">
             <div class="attachment-icon">
               <i class="icon icon-attachment"></i>
             </div>
@@ -334,6 +336,17 @@
               {{attachment.document | filename}}
             </div>
           </a>
+          <ng-template #encryptedAttachment>
+            <a class="download-attachment" (click)="decryptAttachment(attachment, mail)" href="javascript:void(0)"
+               placement="top" [ngbTooltip]="attachment.document | filename">
+              <div class="attachment-icon">
+                <i class="icon icon-attachment"></i>
+              </div>
+              <div class="attachment-name">
+                {{attachment.document | filename}}
+              </div>
+            </a>
+          </ng-template>
         </li>
       </ng-container>
     </ul>
@@ -488,8 +501,10 @@
               <ul class="list-style-none mt-3" *ngIf="childMail.attachments?.length>0">
                 <ng-container *ngFor="let attachment of childMail.attachments">
                   <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
-                    <a class="download-attachment" [href]="attachment.document" placement="top"
-                       [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
+                    <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
+                    <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
+                       [href]="attachment.document" placement="top" [ngbTooltip]="attachment.document | filename"
+                       target="_blank" rel="noopener">
                       <div class="attachment-icon">
                         <i class="icon icon-attachment"></i>
                       </div>
@@ -497,6 +512,17 @@
                         {{attachment.document | filename}}
                       </div>
                     </a>
+                    <ng-template #encryptedAttachment>
+                      <a class="download-attachment" (click)="decryptAttachment(attachment, childMail)"
+                         href="javascript:void(0)" placement="top" [ngbTooltip]="attachment.document | filename">
+                        <div class="attachment-icon">
+                          <i class="icon icon-attachment"></i>
+                        </div>
+                        <div class="attachment-name">
+                          {{attachment.document | filename}}
+                        </div>
+                      </a>
+                    </ng-template>
                   </li>
                 </ng-container>
               </ul>
