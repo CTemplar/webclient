@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { PRIMARY_DOMAIN } from '../../shared/config';
@@ -24,6 +23,7 @@ import {
 import { AppState, AuthState, Contact, ContactsState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
 import { Attachment, Mailbox } from '../models';
 import { UsersService } from './users.service';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OpenPgpService {

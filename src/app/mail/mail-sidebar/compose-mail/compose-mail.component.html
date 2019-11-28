@@ -370,9 +370,10 @@
                           <i class="icon icon-indent-increase"></i></button>
                       </li>
 
-                      <li>
+                      <li ngbTooltip="{{settings?.is_attachments_encrypted ? 'Inline attachments are not allowed when attachment encryption is enabled.':''}}">
                         <button role="button" type="button"
                                 ngbTooltip="Insert image"
+                                [disabled]="settings?.is_attachments_encrypted"
                                 class="ql-image actions-btn mail-attach-image-btn"><i
                                 class="icon fa fa-image"></i></button>
                       </li>
