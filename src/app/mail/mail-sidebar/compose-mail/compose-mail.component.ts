@@ -563,8 +563,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
-      if (/^image\//.test(file.type) && this.checkAttachmentSizeLimit(file)) {
-        this.embedImageInQuill(file);
+      if (/^image\//.test(file.type)) {
+        this.uploadAttachment(file, true);
       } else {
         // TODO: add error notification for invalid file type here
       }
@@ -593,7 +593,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachmentId: performance.now() + Math.floor(Math.random() * 1000),
         message: this.draftMail.id,
         is_inline: isInline,
-        is_encrypted: true,
+        is_encrypted: !isInline,
         inProgress: false
       };
       this.attachments.push(attachment);
@@ -617,7 +617,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   encryptAttachment(attachment: Attachment) {
-    this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment.decryptedDocument, attachment);
+    if (attachment.is_inline) {
+      this.store.dispatch(new UploadAttachment({ ...attachment }));
+    }
+    else {
+      this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment.decryptedDocument, attachment);
+    }
   }
 
   handleAttachment(draft: Draft) {
@@ -631,7 +636,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachment.content_id && (!attachment.is_encrypted || attachment.decryptedDocument) &&
         !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
         this.inlineAttachmentContentIds.push(attachment.content_id);
-        this.embedImageInQuill(attachment.decryptedDocument, attachment.content_id);
+        this.embedImageInQuill(attachment.document, attachment.content_id);
       }
       if (attachment.progress < 100 && !attachment.isRemoved) {
         this.isUploadingAttachment = true;
@@ -917,27 +922,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
-  private embedImageInQuill(source: string | File, contentId?: string) {
+  private embedImageInQuill(source: string, contentId?: string) {
     if (source) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
-      if (typeof source === 'string') {
-        this.quill.insertEmbed(index, 'image', {
-          url: source,
-          content_id: contentId
-        });
-        this.quill.setSelection(index + 1);
-      } else {
-        const fileReader = new FileReader();
-        fileReader.onload = (event: any) => {
-          this.quill.insertEmbed(index, 'image', {
-            url: event.target.result,
-            content_id: contentId
-          });
-          this.quill.setSelection(index + 1);
-        };
-        fileReader.readAsDataURL(source);
-      }
+      this.quill.insertEmbed(index, 'image', {
+        url: source,
+        content_id: contentId
+      });
+      this.quill.setSelection(index + 1);
     }
   }
 
@@ -1023,7 +1016,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkInlineAttachments() {
-    // keeping this method for legacy purpose. newly uploaded inline attachments are not save separately on backend but instead used as base64 url
     if (this.settings.is_html_disabled) {
       return;
     }
