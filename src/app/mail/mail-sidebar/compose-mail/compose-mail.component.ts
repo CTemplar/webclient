@@ -922,27 +922,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
-  private embedImageInQuill(source: string | File, contentId?: string) {
+  private embedImageInQuill(source: string, contentId?: string) {
     if (source) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
-      if (typeof source === 'string') {
-        this.quill.insertEmbed(index, 'image', {
-          url: source,
-          content_id: contentId
-        });
-        this.quill.setSelection(index + 1);
-      } else {
-        const fileReader = new FileReader();
-        fileReader.onload = (event: any) => {
-          this.quill.insertEmbed(index, 'image', {
-            url: event.target.result,
-            content_id: contentId
-          });
-          this.quill.setSelection(index + 1);
-        };
-        fileReader.readAsDataURL(source);
-      }
+      this.quill.insertEmbed(index, 'image', {
+        url: source,
+        content_id: contentId
+      });
+      this.quill.setSelection(index + 1);
     }
   }
 
@@ -1028,7 +1016,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkInlineAttachments() {
-    // keeping this method for legacy purpose. newly uploaded inline attachments are not save separately on backend but instead used as base64 url
     if (this.settings.is_html_disabled) {
       return;
     }
