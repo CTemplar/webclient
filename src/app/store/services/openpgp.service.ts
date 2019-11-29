@@ -153,7 +153,7 @@ export class OpenPgpService {
           oldDocument.name,
           {type: oldDocument.type, lastModified: oldDocument.lastModified}
           );
-        const attachment: Attachment = {...event.data.attachment, document: newDocument};
+        const attachment: Attachment = {...event.data.attachment, document: newDocument, is_encrypted: true};
         this.store.dispatch(new UploadAttachment({ ...attachment }));
       } else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
         const array = event.data.decryptedContent;
