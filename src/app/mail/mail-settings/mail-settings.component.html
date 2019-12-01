@@ -19,7 +19,7 @@
                               <div class="desc-card">
                                 <div
                                         class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                  <h5 class="ui-header-subtitle text-dark mb-0"><strong>Plan Details</strong></h5>
+                                  <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.plan_details">Plan Details</strong></h5>
                                 </div>
                                 <div class="desc-card-body">
                                   <div class="row">
@@ -174,7 +174,7 @@
                                 <div class="col-md-6 mb-4 mb-md-0">
                                     <div class="desc-card">
                                         <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong>Bills</strong>
+                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.bills">Bills</strong>
                                             </h5>
                                         </div>
                                         <div class="plan-details">
@@ -185,21 +185,21 @@
                                                         <li class="ui-list-item ui-list-item-xs-full">
                                                             <div class="row row-xs align-items-center">
                                                                 <div class="col-5 font-weight-bold col-item">
-                                                                    # Invoice
+                                                                    # <span translate="settings.invoice">Invoice</span>
                                                                 </div>
                                                                 <div class="col-3 col-item">
-                                                                    <div class="form-label mb-0 font-weight-bold">
+                                                                    <div class="form-label mb-0 font-weight-bold" translate="settings.date">
                                                                         Date
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-2 font-weight-bold col-item">
+                                                                <div class="col-2 font-weight-bold col-item" translate="settings.amount">
                                                                     Amount
                                                                 </div>
                                                             </div>
                                                         <li class="ui-list-item ui-list-item-xs-full"
                                                             *ngFor="let invoice of invoices">
                                                             <div class="row row-xs align-items-center">
-                                                                <div class="col-5 text-dark col-item" ngbTooltip="View invoice">
+                                                                <div class="col-5 text-dark col-item" [ngbTooltip]="'settings.view_invoice'| translate">
                                                                     <a class="cursor-pointer" (click)="onViewInvoice(invoice)">
                                                                         {{invoice.invoice_id}}
                                                                     </a>
@@ -215,10 +215,10 @@
                                                                 </div>
                                                                 <div class="col-2 display-inline-flex actions">
                                                                     <i (click)="onViewInvoice(invoice)"
-                                                                       ngbTooltip="View"
+                                                                       [ngbTooltip]="'settings.view'| translate"
                                                                        class="material-icons pr-2 cursor-pointer">visibility</i>
                                                                     <i (click)="onPrintInvoice(invoice)"
-                                                                       ngbTooltip="Print"
+                                                                       [ngbTooltip]="'mail_detail.print'| translate"
                                                                        class="material-icons cursor-pointer">print_outline</i>
                                                                 </div>
                                                             </div>
@@ -226,7 +226,7 @@
                                                     </ul>
                                                 </div>
 
-                                                <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices.length===0">
+                                                <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices.length===0" translate="settings.no_bills_avail">
                                                     No bills available
                                                 </div>
 

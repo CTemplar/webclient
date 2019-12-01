@@ -424,7 +424,15 @@
     "upgrade": "Upgrade",
     "contains": "contains",
     "autoresponder_active": "Autoresponder is active:",
-    "delete_all_message": "Are you sure, you want to delete all messages in trash?"
+    "delete_all_message": "Are you sure, you want to delete all messages in trash?",
+    "plan_details": "Plan Details",
+    "bills": "Bills",
+    "invoice": "Invoice",
+    "amount": "Amount",
+    "view_invoice": "View invoice",
+    "visibility": "visibility",
+    "view": "View",
+    "no_bills_avail": "No bills available"
   },
   "mail_sidebar": {
     "inbox": "Inbox",
@@ -591,7 +599,7 @@
     "encrypted_subjects": "Encrypted subjects",
     "encypted_metadata": "Encrypted metadata <sup> (Coming soon)</sup>",
     "virus_detection": "Virus detection tool <sup> (Coming soon)</sup>",
-    "anti_phishing": "Brute force protection",
+    "anti_phishing": "Anti phishing",
     "zero_knowledge": "Zero knowledge passwords",
     "stripes_ip": "Strips IP from headers",
     "unhackable_by_siri": "Unhackable by others with SRI",
@@ -622,7 +630,14 @@
     "email_alias": "Email Address Alias",
     "custom_domain": "Custom Domain",
     "currency": "Currency",
-    "btc_currency": "BTC Currency"
+    "btc_currency": "BTC Currency",
+    "emails_allowed_to_send": "Number of emails allowed to send per day",
+    "upload_limit_MB": "Attachment upload limit in MB",
+    "storage_in_GB": "Storage in GB",
+    "mail_aliases": "Email aliases",
+    "two_fac_authentication": "Two factor authentication",
+    "support_custom_domains": "Multi user support under custom domains",
+    "mails_of_custom_dom": "Catch all emails of a custom domain"
   },
   "login": {
     "name": "login",
