@@ -497,7 +497,8 @@
     "protection_from_js": "Protection from Javascript",
     "ctemplar_exclusive": "(CTemplar Exclusive)",
     "js_required": "Javascript est requis pour autoriser les services de cryptage. Malheureusement, Javascript est souvent utilisé pour servir du code malveillant (code conçu pour vous pirater). Nous sommes le seul service qui protège nos utilisateurs des attaques Javascript. ",
-    "read_more": "Lire la suite"
+    "read_more": "Lire la suite",
+    "phishing_phrase_title": "Anti Phishing Phrase"
   },
   "page_pricing": {
     "do_not_show_ads": "<p>CTemplar est le service email le plus sécurisé et le plus privé au monde, basé sur une analyse comparative. <br>** CTemplar ne peut pas être utilisé pour envoyer des spam ou des courriers électroniques en masse.</p>",
