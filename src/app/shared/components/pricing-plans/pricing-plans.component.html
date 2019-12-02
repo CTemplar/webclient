@@ -56,8 +56,12 @@
                 <div class="text-center">
                   <div class="bold mt-3">{{plan.name}}</div>
                   <div class="plan-title-info" *ngIf="plan.name!==planType.FREE; else freePlan">
-                    <div class="monthly-price">$<b>{{plan.monthly_price}}</b>/m</div>
-                    <div>${{plan.annually_price/12}}/m <span translate="page_pricing.billed_as">billed as</span> <br>${{plan.annually_price}}/y</div>
+                    <div class="monthly-price">
+                      $<b>{{selectedPaymentType === paymentTypeEnum.MONTHLY ? plan.monthly_price : (plan.annually_price / 12)}}</b>/m
+                    </div>
+                    <!--<div>${{plan.annually_price/12}}/m billed as <br>${{plan.annually_price}}/y</div>-->
+                    <div class="mt-3"><span translate="page_pricing.billed_as">Billed </span> {{selectedPaymentType === paymentTypeEnum.MONTHLY ? 'monthly' : 'yearly'}}
+                    </div>
                   </div>
                   <ng-template #freePlan>
                     <div class="plan-title-info" [innerHTML]="'page_pricing.upgrade_anytime'| translate" >Upgrade<br>anytime</div>
@@ -73,7 +77,11 @@
                   </ng-template>
                 </div>
               </div>
-              <h3 class="heading mt-4"></h3>
+              <h3 class="heading mt-4 position-relative">
+                <a *ngIf="plan.name===planType.PRIME" class="switch-payment-type" (click)="togglePaymentType()">
+                  Click here to switch to {{selectedPaymentType === paymentTypeEnum.ANNUALLY ? 'monthly':'yearly'}}
+                </a>
+              </h3>
               <div class="px-2 py-3 plan-sub-item">{{plan.messages_per_day}}</div>
               <div class="px-2 py-3 plan-sub-item">{{plan.attachment_upload_limit}}</div>
               <div class="px-2 py-3 plan-sub-item">{{plan.gb}}</div>

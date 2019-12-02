@@ -22,7 +22,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userPlanType: PlanType = null;
   @Input() openBillingInfoInModal: boolean;
   @Input() selectedCurrency: string;
-  @Input() paymentType: PaymentType;
+  @Input() paymentType: PaymentType = PaymentType.ANNUALLY;
   @Input() paymentMethod: PaymentMethod;
 
   @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
@@ -37,7 +37,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   pricingPlans: Array<PricingPlan> = [];
   loadingImage = LOADING_IMAGE;
   paymentTypeEnum = PaymentType;
-  selectedPaymentType: PaymentType;
+  selectedPaymentType: PaymentType = PaymentType.ANNUALLY;
 
   constructor(private sharedService: SharedService,
               private store: Store<any>,
@@ -106,6 +106,11 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.router.navigateByUrl('/create-account');
     }
+  }
+
+  togglePaymentType() {
+    this.selectedPaymentType = this.selectedPaymentType === PaymentType.MONTHLY ? PaymentType.ANNUALLY : PaymentType.MONTHLY;
+    this.paymentType = this.selectedPaymentType;
   }
 
   ngOnDestroy() {

@@ -1,24 +1,29 @@
-import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { PRIMARY_DOMAIN } from '../../shared/config';
 import {
-  ChangePassphraseSuccess, ClearContactsToDecrypt,
-  ContactAdd, ContactDecryptSuccess, ContactsGet,
+  ChangePassphraseSuccess,
+  ClearContactsToDecrypt,
+  ContactAdd,
+  ContactDecryptSuccess,
+  ContactsGet,
   GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
-  SetDecryptInProgress, UpdateBatchContacts,
+  SetDecryptInProgress, StartAttachmentEncryption,
+  UpdateBatchContacts,
   UpdatePGPDecryptedContent,
   UpdatePGPEncryptedContent,
   UpdatePGPSshKeys,
   UpdateSecureMessageContent,
   UpdateSecureMessageEncryptedContent,
-  UpdateSecureMessageKey
+  UpdateSecureMessageKey,
+  UploadAttachment
 } from '../actions';
 import { AppState, AuthState, Contact, ContactsState, MailBoxesState, SecureContent, Settings, UserState } from '../datatypes';
+import { Attachment, Mailbox } from '../models';
 import { UsersService } from './users.service';
-import { Mailbox } from '../models';
-import { PRIMARY_DOMAIN } from '../../shared/config';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OpenPgpService {
@@ -36,6 +41,7 @@ export class OpenPgpService {
   private mailboxes: Mailbox[];
   private userSettings: Settings;
   private contactsState: ContactsState;
+  private subjects: any = {};
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
@@ -140,6 +146,26 @@ export class OpenPgpService {
           encryptedContent: event.data.encryptedContent,
           draftId: event.data.callerId
         }));
+      } else if (event.data.encryptedAttachment) {
+        const oldDocument = event.data.attachment.decryptedDocument;
+        const newDocument = new File(
+          [event.data.encryptedContent.buffer],
+          oldDocument.name,
+          {type: oldDocument.type, lastModified: oldDocument.lastModified}
+          );
+        const attachment: Attachment = {...event.data.attachment, document: newDocument, is_encrypted: true};
+        this.store.dispatch(new UploadAttachment({ ...attachment }));
+      } else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
+        const array = event.data.decryptedContent;
+        const newDocument = new File(
+          [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
+          event.data.fileInfo.attachment.name,
+          {type: event.data.fileInfo.type}
+        );
+        const newAttachment: Attachment = {...event.data.fileInfo.attachment, decryptedDocument: newDocument};
+        this.subjects[event.data.subjectId].next(newAttachment);
+        this.subjects[event.data.subjectId].complete();
+        delete this.subjects[event.data.subjectId];
       } else if (event.data.encryptSecureMessageReply) {
         this.store.dispatch(new UpdateSecureMessageEncryptedContent({
           inProgress: false,
@@ -204,6 +230,26 @@ export class OpenPgpService {
     }
   }
 
+  encryptAttachment(mailboxId, file: File, attachment: Attachment, publicKeys: any[] = []) {
+    this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
+    publicKeys.push(this.pubkeys[mailboxId]);
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      const buffer = event.target.result;
+      const uint8Array = new Uint8Array(buffer);
+      this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo, subjectId});
+    return subject.asObservable();
+  }
+
   encryptSecureMessageContent(content, publicKeys: any[]) {
     this.store.dispatch(new UpdateSecureMessageEncryptedContent({ inProgress: true, encryptedContent: null }));
 
@@ -240,6 +286,14 @@ export class OpenPgpService {
     }
     this.pgpWorker.postMessage({ decryptSecureMessageContent: true, decryptedKey, mailData });
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
+  }
+
+  decryptSecureMessageAttachment(decryptedKey: any, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ decryptedKey, fileData: uint8Array, decryptSecureMessageAttachment: true, fileInfo, subjectId });
+    return subject.asObservable();
   }
 
   clearData(publicKeys?: any) {

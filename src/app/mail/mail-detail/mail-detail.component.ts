@@ -2,16 +2,27 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { DeleteMail, DeleteMailForAll, GetMailDetailSuccess, GetMails, MoveMail, StarMail, WhiteListAdd } from '../../store/actions';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+import { take } from 'rxjs/operators';
+import { SummarySeparator } from '../../shared/config';
+import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { WebSocketState } from '../../store';
+import {
+  DeleteMail,
+  DeleteMailForAll,
+  GetMailDetailSuccess,
+  GetMails,
+  MoveMail,
+  SnackErrorPush,
+  StarMail,
+  WhiteListAdd
+} from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
-import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { LOADING_IMAGE, OpenPgpService, SharedService } from '../../store/services';
-import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
+import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { WebSocketState } from '../../store';
-import { SummarySeparator } from '../../shared/config';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
 declare var Scrambler;
 
@@ -29,6 +40,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   composeMailData: any = {};
   mailFolderTypes = MailFolderType;
   decryptedContents: any = {};
+  decryptedAttachments: any = {};
   decryptedHeaders: any = {};
   selectedHeaders: string;
   mailOptions: any = {};
@@ -65,7 +77,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private composeMailService: ComposeMailService,
               private dateTimeUtilService: DateTimeUtilService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private mailService: MailService) {
   }
 
   ngOnInit() {
@@ -250,7 +263,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     return arr;
   }
 
-
   decryptChildEmails(child: Mail, mailState: MailState) {
     if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
       this.decryptedContents[child.id] = child.content;
@@ -293,11 +305,39 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
   }
 
-  // getAttachementFileName(filepath: string) {
-  //   const filePathTokens = filepath.split('/');
-  //   console.log("testing");
-  //   return  filePathTokens[filePathTokens.length - 1];
-  // }
+  decryptAttachment(attachment: Attachment, mail: Mail) {
+    if (attachment.is_encrypted) {
+      if (this.decryptedAttachments[attachment.id]) {
+        if (!this.decryptedAttachments[attachment.id].inProgress) {
+          this.downloadAttachment(this.decryptedAttachments[attachment.id]);
+        }
+      } else {
+        this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
+        this.mailService.getAttachment(attachment)
+          .subscribe(response => {
+              const uint8Array = this.shareService.base64ToUint8Array(response.data);
+              attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+              const fileInfo = { attachment, type: response.file_type };
+              this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
+                .pipe(
+                  take(1)
+                )
+                .subscribe((decryptedAttachment: Attachment) => {
+                    this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
+                    this.downloadAttachment(decryptedAttachment);
+                  },
+                  error => console.log(error));
+            },
+            errorResponse => this.store.dispatch(new SnackErrorPush({
+              message: errorResponse.error || 'Failed to download attachment.'
+            })));
+      }
+    }
+  }
+
+  downloadAttachment(attachment: Attachment) {
+    this.shareService.downloadFile(attachment.decryptedDocument);
+  }
 
   markAsStarred() {
     this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred: true }));
@@ -318,7 +358,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.selectedHeaders = this.decryptedHeaders[mail.id];
     this.modalService.open(this.incomingHeadersModal, {
       centered: true,
-      windowClass: this.selectedHeaders.length === 0 ? 'modal-sm' : '',
+      windowClass: this.selectedHeaders.length === 0 ? 'modal-sm' : ''
     });
   }
 

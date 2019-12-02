@@ -415,7 +415,8 @@
       "full_screen": "Full screen",
       "maximize": "Maximize",
       "minimize": "Minimize",
-      "close": "Close"
+      "close": "Close",
+      "downloading_attachments": "Downloading Attachments..."
     },
     "of": "of",
     "not_with_free_acc": "Feature not available with Free Account",
@@ -620,7 +621,7 @@
     "select": "Select",
     "upgrade_yearly": "Upgrade yearly",
     "current_plan": "Current plan",
-    "billed_as": "Billed as",
+    "billed_as": "Billed",
     "select_account_type": "Select account type",
     "user": "User",
     "folders": "Folders",
