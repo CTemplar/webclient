@@ -45,6 +45,7 @@ export interface Mail {
   last_action_thread?: MailAction;
   last_action?: MailAction;
   last_action_parent_id?: number;
+  is_html?: boolean;
 }
 
 export class EncryptionNonCTemplar {
@@ -99,6 +100,7 @@ export interface Attachment {
   id?: number;
   draftId: number;
   document: any;
+  decryptedDocument?: File;
   name: string;
   size: string;
   message: number;
@@ -106,6 +108,7 @@ export interface Attachment {
   attachmentId?: number;
   inProgress: boolean;
   is_inline: boolean;
+  is_encrypted?: boolean;
   content_id?: string;
   request?: Subscription;
   isRemoved?: boolean;

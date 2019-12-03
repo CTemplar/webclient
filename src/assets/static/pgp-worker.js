@@ -15,6 +15,15 @@ onmessage = async function (event) {
                 postMessage({encryptedContent: {content, subject}, encrypted: true, callerId: event.data.callerId});
             });
         })
+    } else if (event.data.encryptAttachment) {
+        encryptBinaryContent(event.data.fileData, event.data.publicKeys).then(content => {
+            postMessage({encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment});
+        })
+    } else if (event.data.decryptAttachment) {
+        decryptBinaryContent(event.data.fileData, decryptedPrivKeys[event.data.mailboxId]).then(content => {
+            postMessage({decryptedContent: content, decryptedAttachment: true, fileInfo: event.data.fileInfo,
+                subjectId: event.data.subjectId});
+        })
     } else if (event.data.encryptSecureMessageReply) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
             postMessage({encryptedContent: data, encryptSecureMessageReply: true});
@@ -47,6 +56,13 @@ onmessage = async function (event) {
                 })
             })
         }
+    } else if (event.data.decryptSecureMessageAttachment) {
+        decryptBinaryContent(event.data.fileData, decryptedSecureMsgPrivKeyObj).then(content => {
+            postMessage({
+                decryptedContent: content, decryptedSecureMessageAttachment: true, fileInfo: event.data.fileInfo,
+                subjectId: event.data.subjectId
+            });
+        })
     } else if (event.data.decryptPrivateKeys) {
         if (event.data.privkeys) {
             event.data.privkeys.forEach(async key => {
@@ -191,4 +207,42 @@ async function encryptContent(data, publicKeys) {
     return openpgp.encrypt(options).then(ciphertext => {
         return ciphertext.data.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2");
     })
+}
+
+async function encryptBinaryContent(data, publicKeys) {
+    if (!data) {
+        return Promise.resolve(data);
+    }
+    const pubkeys = await Promise.all(publicKeys.map(async (key) => {
+        return (await openpgp.key.readArmored(key)).keys[0]
+    }));
+    const options = {
+        message: openpgp.message.fromBinary(data),
+        publicKeys: pubkeys,
+        armor: false // don't ASCII armor (for Uint8Array output)
+    };
+
+    return openpgp.encrypt(options).then(ciphertext => {
+        return ciphertext.message.packets.write(); // get raw encrypted packets as Uint8Array
+    });
+}
+
+async function decryptBinaryContent(data, privKeyObj) {
+    if (!data) {
+        return Promise.resolve(data);
+    }
+    try {
+        const options = {
+            message: await openpgp.message.read(data),
+            privateKeys: [privKeyObj],
+            format: 'binary' // output as Uint8Array
+        };
+
+        return openpgp.decrypt(options).then(binary => {
+            return binary.data; //Uint8Array
+        })
+    } catch (e) {
+        console.error(e);
+        return Promise.resolve(data);
+    }
 }

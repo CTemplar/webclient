@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, finalize } from 'rxjs/operators';
 import { COLORS, ESCAPE_KEYCODE, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
@@ -30,7 +30,8 @@ import {
   SnackErrorPush,
   SnackPush,
   UpdateLocalDraft, UpdatePGPDecryptedContent,
-  UploadAttachment
+  UploadAttachment,
+  UpdateDraftAttachment
 } from '../../../store/actions';
 import {
   AppState,
@@ -44,6 +45,7 @@ import {
   UserState, ContactsState, Settings
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
+import { MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -173,6 +175,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   isTrialPrimeFeaturesAvailable: boolean = false;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
+  isDownloadingAttachmentCounter: number = 0;
   insertLinkData: any = {};
   settings: Settings;
   mailAction = MailAction;
@@ -193,6 +196,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
+  private downloadingAttachments: any = {};
   private inlineAttachmentContentIds: Array<string> = [];
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
@@ -205,6 +209,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private store: Store<AppState>,
               private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
+              private mailService: MailService,
+              private sharedService: SharedService,
               private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
               private filesizePipe: FilesizePipe,
@@ -238,7 +244,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             if (draft.draft.id && this.attachmentsQueue.length > 0) {
               this.attachmentsQueue.forEach(attachment => {
                 attachment.message = draft.draft.id;
-                this.store.dispatch(new UploadAttachment({ ...attachment }));
+                this.encryptAttachment(attachment);
               });
               this.attachmentsQueue = [];
             }
@@ -394,6 +400,47 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       usersKeys: null
     };
     this.store.dispatch(new NewDraft({ ...draft }));
+    this.decryptAttachments(draft.attachments);
+  }
+
+  decryptAttachments(attachments: Array<Attachment>) {
+    attachments.forEach(attachment => {
+      // TODO: Do we need to download attachment even if its not encrypted?
+      if (!attachment.decryptedDocument && !this.downloadingAttachments[attachment.id]) {
+        this.downloadingAttachments[attachment.id] = true;
+        this.isDownloadingAttachmentCounter++;
+        this.mailService.getAttachment(attachment).pipe(untilDestroyed(this))
+          .pipe(finalize(() => {
+            this.isDownloadingAttachmentCounter--;
+          }))
+          .subscribe(response => {
+              const uint8Array = this.sharedService.base64ToUint8Array(response.data);
+              if (attachment.is_encrypted) {
+                const fileInfo = { attachment, type: response.file_type };
+                this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
+                  .subscribe(decryptedAttachment => {
+                    this.store.dispatch(new UpdateDraftAttachment({
+                      draftId: this.draftId,
+                      attachment: { ...decryptedAttachment }
+                    }));
+                  });
+              } else {
+                const newDocument = new File(
+                  [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
+                  attachment.name,
+                  { type: response.file_type }
+                );
+                const newAttachment: Attachment = { ...attachment, decryptedDocument: newDocument };
+                this.store.dispatch(new UpdateDraftAttachment({
+                  draftId: this.draftId,
+                  attachment: { ...newAttachment }
+                }));
+
+              }
+          },
+            error => console.log(error));
+      }
+    });
   }
 
   initializeQuillEditor() {
@@ -519,7 +566,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (/^image\//.test(file.type)) {
         this.uploadAttachment(file, true);
       } else {
-        // TODO: add error notification here
+        // TODO: add error notification for invalid file type here
       }
     }
   }
@@ -535,40 +582,59 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadAttachment(file: File, isInline = false) {
-    this.attachmentHolder.nativeElement.scrollIntoView({ behavior: 'smooth' });
-    const attachmentLimitInMBs = this.settings.attachment_size_limit / (1024 * 1024);
-
-    if (file.size > this.settings.attachment_size_limit) {
-      this.store.dispatch(new SnackErrorPush({
-        message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`
-      }));
-    } else {
+    if (this.checkAttachmentSizeLimit(file)) {
+      this.attachmentHolder.nativeElement.scrollIntoView({behavior: 'smooth'});
       const attachment: Attachment = {
         draftId: this.draftId,
         document: file,
+        decryptedDocument: file,
         name: file.name,
         size: this.filesizePipe.transform(file.size),
         attachmentId: performance.now() + Math.floor(Math.random() * 1000),
         message: this.draftMail.id,
         is_inline: isInline,
+        is_encrypted: !isInline,
         inProgress: false
       };
       this.attachments.push(attachment);
       if (!this.draftMail.id) {
         this.attachmentsQueue.push(attachment);
       } else {
-        this.store.dispatch(new UploadAttachment({ ...attachment }));
+        this.encryptAttachment(attachment);
       }
+    }
+  }
+
+  checkAttachmentSizeLimit(file: File): boolean {
+    const attachmentLimitInMBs = this.settings.attachment_size_limit / (1024 * 1024);
+    if (file.size > this.settings.attachment_size_limit) {
+      this.store.dispatch(new SnackErrorPush({
+        message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`
+      }));
+      return false;
+    }
+    return true;
+  }
+
+  encryptAttachment(attachment: Attachment) {
+    if (attachment.is_inline) {
+      this.store.dispatch(new UploadAttachment({ ...attachment }));
+    }
+    else {
+      this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment.decryptedDocument, attachment);
     }
   }
 
   handleAttachment(draft: Draft) {
     // usage Object.assign to create new copy and avoid storing reference of draft.attachments
     this.attachments = Object.assign([], draft.attachments);
+    this.decryptAttachments(this.attachments);
     this.isUploadingAttachment = false;
+    // TODO: remove this if its not required anymore due to change in handling of inline attachments?
     this.attachments.forEach(attachment => {
       if (attachment.is_inline && attachment.progress === 100 && !attachment.isRemoved &&
-        attachment.content_id && !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
+        attachment.content_id && (!attachment.is_encrypted || attachment.decryptedDocument) &&
+        !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
         this.inlineAttachmentContentIds.push(attachment.content_id);
         this.embedImageInQuill(attachment.document, attachment.content_id);
       }
@@ -856,12 +922,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
-  private embedImageInQuill(url: string, contentId?: string) {
-    if (url) {
+  private embedImageInQuill(source: string, contentId?: string) {
+    if (source) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
       this.quill.insertEmbed(index, 'image', {
-        url: url,
+        url: source,
         content_id: contentId
       });
       this.quill.setSelection(index + 1);
@@ -891,6 +957,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
+    this.draftMail.is_html = !this.settings.is_html_disabled;
     if (!this.settings.is_html_disabled) {
       this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
       const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);

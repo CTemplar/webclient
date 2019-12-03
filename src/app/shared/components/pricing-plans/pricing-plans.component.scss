@@ -97,3 +97,13 @@
 .bold {
   font-weight: bold;
 }
+
+.switch-payment-type {
+  font-size: 16px;
+  position: absolute;
+  top: -30px;
+  left: 50px;
+  width: 500px;
+  text-transform: none;
+  z-index: 1;
+}
