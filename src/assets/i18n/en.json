@@ -597,7 +597,7 @@
     "custom_domains": "Custom domains",
     "features": "Features",
     "encryption_in_transit": "Encryption in transit(SSL/TLS)",
-    "encrypted_attachments": "Encrypted attachments <sup> (Coming soon)</sup>",
+    "encrypted_attachments": "Encrypted attachments",
     "encrypted_contact": "Encrypted contacts",
     "encrypted_subjects": "Encrypted subjects",
     "encypted_metadata": "Encrypted metadata <sup> (Coming soon)</sup>",
