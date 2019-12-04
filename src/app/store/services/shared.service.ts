@@ -58,7 +58,10 @@ export class SharedService {
   }
 
   private openModal(callback: { self: any, method: string } = null) {
-    const modal: NgbModalRef = this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
+    const modal: NgbModalRef = this.modalService.open(CreateFolderComponent, {
+      centered: true,
+      windowClass: 'modal-sm mailbox-modal create-folder-modal',
+    });
     (<CreateFolderComponent>modal.componentInstance).callback = callback;
   }
 
