@@ -219,10 +219,10 @@
             <ng-container [ngSwitch]="mailFolder">
               <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span translate="mail_sidebar.draft">Draft</span></ng-container>
               <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-                <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
+                <label [ngbTooltip]="mail.receiver_list" placement="right">{{mail.receiver_list}}</label>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                <label [ngbTooltip]="mail.sender_display.email">{{mail.sender_display.name}}</label>
+                <label [ngbTooltip]="mail.sender_display.email" placement="right">{{mail.sender_display.name}}</label>
               </ng-container>
               <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
