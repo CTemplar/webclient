@@ -422,7 +422,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
-    const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
+    const previousMails = this.getPreviousMail(index, isChildMail, mainReply, true);
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
       messageHistory: this.getMessageHistory(previousMails),
@@ -663,7 +663,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getPreviousMail(index: number, isChildMail: boolean, mainReply: boolean = false) {
+  private getPreviousMail(index: number, isChildMail: boolean, mainReply: boolean = false, isForwarding: boolean = false) {
     let children: Mail[] = this.mail.children || [];
     if (this.mailFolder !== MailFolderType.TRASH && this.mail.children) {
       children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
@@ -673,13 +673,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       previousMail.push(children[index]);
     } else if (mainReply === true && children.length > 0) {
       previousMail.push(children[children.length - 1]);
-    } else if (this.mail.folder !== MailFolderType.TRASH) {
+    } else if (this.mail.folder !== MailFolderType.TRASH && !isForwarding) {
       previousMail.push(this.mail);
     }
     return previousMail;
   }
 
   private getMessageHistory(previousMails: Mail[]): string {
+    if (previousMails.length === 0) {
+      return '';
+    }
     let history = SummarySeparator;
     previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
     return `<div class="gmail_quote">${history}</div>`;
