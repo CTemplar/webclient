@@ -8,14 +8,14 @@
             <i class="material-icons">keyboard_backspace</i>
           </a>
         </li>
-        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE">
+        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE && !disableMoveTo">
           <a class="border-right-0 border-radius-right-0" placement="top"
              (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
              [ngbTooltip]="'mail_list.move_to_archive' | translate">
             <i class="icon icon-archive"></i>
           </a>
         </li>
-        <li class="pr-0 pl-0 hidden-xs-down" *ngIf="mailFolder !== mailFolderTypes.SPAM">
+        <li class="pr-0 pl-0 hidden-xs-down" *ngIf="mailFolder !== mailFolderTypes.SPAM && !disableMoveTo">
           <a class="border-radius-0"
              (click)="moveToFolder(mailFolderTypes.SPAM)"
              placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate"
@@ -29,7 +29,7 @@
             <i class="icon icon-garbage"></i>
           </a>
         </li>
-        <li class="btn-dropdown more-xs-options pl-0 hidden-sm-up">
+        <li class="btn-dropdown more-xs-options pl-0" *ngIf="isMobile && !disableMoveTo">
           <div ngbDropdown autoClose="outside">
             <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button">
               <i class="icon icon-more"></i>
@@ -75,7 +75,7 @@
             </div>
           </div>
         </li>
-        <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down">
+        <li class="btn-dropdown mailbox-dropdown folders-dropdown" *ngIf="!isMobile && !disableMoveTo">
           <div ngbDropdown>
             <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button" placement="top"
                     [ngbTooltip]="'mail_list.move_to' | translate">
@@ -107,7 +107,7 @@
             </div>
           </div>
         </li>
-        <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown pl-0">
+        <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown pl-0" *ngIf="!disableMoveTo">
           <div ngbDropdown class="dropdown">
             <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton"
                     translate="mail_list.more">
@@ -305,7 +305,7 @@
           <a class="dropdown-item" (click)="onDeleteForAll(mail)" *ngIf="mail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
              ngbTooltip="Message will be deleted for everyone including you and all the receivers." placement="left">Delete from Receiver Inbox</a>
           <a class="dropdown-item" (click)="showIncomingHeaders(mail)" translate="mail_detail.show_headers">Show headers</a>
-          <a class="dropdown-item" *ngIf="mail.folder !== mailFolderTypes.DRAFT" (click)="onMarkAsSpam(mail)"
+          <a class="dropdown-item" *ngIf="!disableMoveTo" (click)="onMarkAsSpam(mail)"
           translate="mail_detail.mark_as_spam">Mark as Spam</a>
         </div>
       </div>

@@ -31,7 +31,7 @@
             <i class="material-icons">refresh</i>
           </a>
         </li>
-        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE">
+        <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE && !disableMoveTo">
           <a class="border-right-0 border-radius-right-0" placement="top"
              (click)="moveToFolder(mailFolderTypes.ARCHIVE)"
              [ngbTooltip]="'mail_list.move_to_archive' | translate"
@@ -39,7 +39,7 @@
             <i class="icon icon-archive"></i>
           </a>
         </li>
-        <li class="pr-0 pl-0 hidden-xs-down" *ngIf="mailFolder !== mailFolderTypes.SPAM">
+        <li class="pr-0 pl-0 hidden-xs-down" *ngIf="mailFolder !== mailFolderTypes.SPAM && !disableMoveTo">
           <a class="border-radius-0"
              (click)="moveToFolder(mailFolderTypes.SPAM)"
              placement="top" [ngbTooltip]="'mail_list.move_to_spam' |translate"
@@ -62,7 +62,7 @@
           </a>
         </li>
 
-        <li class="btn-dropdown more-xs-options pl-0" *ngIf="isMobile">
+        <li class="btn-dropdown more-xs-options pl-0" *ngIf="isMobile && !disableMoveTo">
           <div ngbDropdown autoClose="outside">
             <button ngbDropdownToggle class="border-left-0 border-radius-left-0" id="dropdownMoreOptions" role="button">
               <i class="icon icon-more"></i>
@@ -110,7 +110,7 @@
         </li>
 
         <li class="btn-dropdown mailbox-dropdown folders-dropdown hidden-xs-down"
-            *ngIf="!noEmailSelected">
+            *ngIf="!noEmailSelected && !disableMoveTo">
           <div ngbDropdown>
             <button ngbDropdownToggle class="disabledx" id="folderDropdownMenuButton" role="button" placement="top"
                     [ngbTooltip]="'mail_list.move_to' | translate">
@@ -137,7 +137,7 @@
           </div>
         </li>
         <li class="btn-dropdown mailbox-dropdown mailbox-dropdown-lg more-options-dropdown pl-0"
-            *ngIf="!noEmailSelected">
+            *ngIf="!noEmailSelected && !disableMoveTo">
           <div ngbDropdown class="dropdown">
             <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton"
                     translate="mail_list.more">

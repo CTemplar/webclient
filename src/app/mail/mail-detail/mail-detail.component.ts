@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -59,6 +59,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   MAX_EMAIL_PAGE_LIMIT: number = 1;
   OFFSET: number = 0;
   loadingImage = LOADING_IMAGE;
+  disableMoveTo: boolean;
+  isMobile: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -190,6 +192,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         const id = +params['id'];
 
         this.mailFolder = params['folder'] as MailFolderType;
+        this.disableMoveTo = this.mailFolder === MailFolderType.OUTBOX || this.mailFolder === MailFolderType.DRAFT;
         this.page = +params['page'];
         this.getMailDetail(id);
       });
@@ -203,6 +206,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
+    this.isMobile = window.innerWidth <= 768;
+
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isMobile = window.innerWidth <= 768;
   }
 
   scrambleText(elementId: string) {
@@ -540,7 +550,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     mail.starred = !mail.starred;
   }
 
-  moveToFolder(folder: MailFolderType) {
+  moveToFolder(folder: MailFolderType | string) {
     this.store.dispatch(new MoveMail({ ids: this.mail.id, folder }));
     this.goBack(500);
   }
