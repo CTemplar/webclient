@@ -86,13 +86,30 @@
                         </strong>
                       </div>
                     </div>
-                    <div class="billing-overview-row row" *ngIf="isUpgradeAccount"
+                    <div class="billing-overview-row row">
+                      <label class="billing-overview-label mb-0 col-3">Promo code</label>
+                      <div class="billing-overview-val text-secondary col-9">
+                        <input class="form-control" [(ngModel)]="promoCode.value"
+                               id="promo-code" type="text">
+                      </div>
+                      <div class="col-12" align="right">
+                        <a align="right" (click)="validatePromoCode()">Validate</a>
+                      </div>
+                      <ng-container *ngIf="promoCode.is_valid">
+                        <label class="billing-overview-label mb-0 col-3">Discounted price</label>
+                        <div class="billing-overview-val text-secondary col-9">
+                          {{promoCode.new_amount}}
+                        </div>
+                      </ng-container>
+                    </div>
+
+
+                    <div class="billing-overview-row row"
+                         *ngIf="isUpgradeAccount && upgradeAmount!=null && promoCode.new_amount===null"
                          ngbTooltip="This is the amount which you will be charged right now.">
                       <label class="billing-overview-label mb-0 col-3">Amount to charge</label>
                       <div class="billing-overview-val text-secondary col">
-                        <strong *ngIf="upgradeAmount!=null">
-                          {{upgradeAmount|currency:currency}}
-                        </strong>
+                        <strong>{{upgradeAmount|currency:currency}}</strong>
                       </div>
                     </div>
 

@@ -14,7 +14,7 @@ import {
   GetUpgradeAmount,
   SignUp,
   SnackErrorPush,
-  UpgradeAccount
+  UpgradeAccount, ValidatePromoCode
 } from '../../../store/actions/index';
 import {
   AppState,
@@ -24,7 +24,7 @@ import {
   PaymentMethod,
   PaymentType,
   PlanType,
-  PricingPlan,
+  PricingPlan, PromoCode,
   SignupState,
   TransactionStatus,
   UserState
@@ -53,6 +53,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   paymentTypeEnum = PaymentType;
   cardNumber;
+  promoCode: PromoCode = new PromoCode();
   billingForm: FormGroup;
   expiryMonth = 'Month';
   expiryYear = 'Year';
@@ -401,6 +402,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       backdrop: 'static',
       keyboard: false
     });
+  }
+
+  validatePromoCode() {
+    if (this.promoCode.value) {
+      this.store.dispatch(new ValidatePromoCode({
+        plan_type: this.planType,
+        payment_type: this.paymentType,
+        promo_code: this.promoCode.value
+      }));
+    }
   }
 
   ngOnDestroy() {

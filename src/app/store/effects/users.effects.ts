@@ -70,7 +70,7 @@ import {
   UpdateFilterSuccess,
   UpdateFolderOrder,
   UpdateFolderOrderSuccess,
-  UsersActionTypes,
+  UsersActionTypes, ValidatePromoCode, ValidatePromoCodeSuccess,
   VerifyDomain,
   VerifyDomainFailure,
   VerifyDomainSuccess,
@@ -552,6 +552,18 @@ export class UsersEffects {
       return this.userService.getUpgradeAmount(payload)
         .pipe(
           switchMap(res => of(new GetUpgradeAmountSuccess(res))),
+          catchError(err => EMPTY)
+        );
+    }));
+
+  @Effect()
+  validatePromoCode: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.VALIDATE_PROMO_CODE),
+    map((action: ValidatePromoCode) => action.payload),
+    switchMap(payload => {
+      return this.userService.validatePromoCode(payload)
+        .pipe(
+          switchMap(res => of(new ValidatePromoCodeSuccess(res))),
           catchError(err => EMPTY)
         );
     }));

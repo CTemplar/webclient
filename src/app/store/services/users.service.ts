@@ -206,7 +206,8 @@ export class UsersService {
       'users/contact-bulk-update/',
       'emails/delete-message/',
       'users/prorated',
-      'btc-wallet/create/'
+      'btc-wallet/create/',
+      'promo-code/validate'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -287,6 +288,10 @@ export class UsersService {
 
   getUpgradeAmount(data: any) {
     return this.http.post<any>(`${apiUrl}users/prorated/`, data);
+  }
+
+  validatePromoCode(data: any) {
+    return this.http.post<any>(`${apiUrl}promo-code/validate/`, data);
   }
 
   addContact(payload: Contact) {
