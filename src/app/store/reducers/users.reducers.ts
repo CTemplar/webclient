@@ -417,12 +417,13 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.VALIDATE_PROMO_CODE: {
-      return { ...state, promoCode: { ...state.promoCode, new_amount: null, is_valid: null } };
+      return { ...state, promoCode: { ...state.promoCode, new_amount: null, is_valid: null, inProgress: true } };
     }
 
     case UsersActionTypes.VALIDATE_PROMO_CODE_SUCCESS: {
-      const promoCode = { ...state.promoCode, ...action.payload };
+      const promoCode: PromoCode = { ...state.promoCode, ...action.payload, inProgress: false };
       promoCode.new_amount = promoCode.new_amount / 100;
+      promoCode.discount_amount = promoCode.discount_amount / 100;
       return { ...state, promoCode };
     }
 

@@ -90,15 +90,26 @@
                       <label class="billing-overview-label mb-0 col-3">Promo code</label>
                       <div class="billing-overview-val text-secondary col-9">
                         <input class="form-control" [(ngModel)]="promoCode.value"
+                               formControlName="promoCode"
+                               placeholder="Optional promo code"
                                id="promo-code" type="text">
+                        <i *ngIf="promoCode.is_valid" class="fas fa-check input-ok"></i>
+                        <i *ngIf="promoCode.is_valid===false" class="fas fa-times text-danger input-invalid"></i>
+                        <app-loading-spinner class="promo-code-spinner"
+                                             [showSpinner]="promoCode.inProgress"></app-loading-spinner>
                       </div>
                       <div class="col-12" align="right">
                         <a align="right" (click)="validatePromoCode()">Validate</a>
                       </div>
                       <ng-container *ngIf="promoCode.is_valid">
-                        <label class="billing-overview-label mb-0 col-3">Discounted price</label>
+                        <label class="billing-overview-label mb-0 col-3"
+                               ngbTooltip="Actual amount that will be charged.">Discounted price</label>
                         <div class="billing-overview-val text-secondary col-9">
-                          {{promoCode.new_amount}}
+                          <strong>${{promoCode.new_amount}}/-</strong>
+                        </div>
+                        <label class="billing-overview-label mb-0 col-3">You will save</label>
+                        <div class="billing-overview-val text-secondary col-9">
+                          <strong>${{promoCode.discount_amount}}/-</strong>
                         </div>
                       </ng-container>
                     </div>

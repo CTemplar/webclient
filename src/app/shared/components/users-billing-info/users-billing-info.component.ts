@@ -107,15 +107,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.paymentType = null;
         this.paymentMethod = null;
       }
-      this.store.select(state => state.user).pipe(untilDestroyed(this))
-        .subscribe((userState: UserState) => {
+    }
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
+      .subscribe((userState: UserState) => {
+        if (this.isUpgradeAccount) {
           this.upgradeAmount = userState.upgradeAmount;
           this.payment = userState.payment_transaction;
-        });
-    }
+        }
+        this.promoCode = userState.promoCode;
+      });
 
     this.billingForm = this.formBuilder.group({
-      'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]]
+      'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]],
+      'promoCode': ''
     });
     this.store.select(state => state.bitcoin).pipe(untilDestroyed(this))
       .subscribe((bitcoinState: BitcoinState) => {
@@ -305,6 +309,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   pgpKeyGenerationCompleted(data: any) {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
+    }
+    if (this.promoCode.is_valid && this.promoCode.value) {
+      data.promo_code = this.promoCode.value;
     }
     this.store.dispatch(new SignUp({
       ...data,
