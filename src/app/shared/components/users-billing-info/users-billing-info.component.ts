@@ -82,6 +82,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   currentPlan: PricingPlan;
   upgradeAmount: number;
   payment: Payment;
+  isPrime: boolean;
 
 
   private checkTransactionResponse: CheckTransactionResponse;
@@ -115,6 +116,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.payment = userState.payment_transaction;
         }
         this.promoCode = userState.promoCode;
+        this.isPrime = userState.isPrime;
       });
 
     this.billingForm = this.formBuilder.group({

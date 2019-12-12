@@ -86,7 +86,7 @@
                         </strong>
                       </div>
                     </div>
-                    <div class="billing-overview-row row">
+                    <div class="billing-overview-row row" *ngIf="!isPrime">
                       <label class="billing-overview-label mb-0 col-3">Promo code</label>
                       <div class="billing-overview-val text-secondary col-9">
                         <input class="form-control" [(ngModel)]="promoCode.value"
