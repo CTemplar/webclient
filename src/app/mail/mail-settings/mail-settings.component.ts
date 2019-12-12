@@ -258,21 +258,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   viewInvoice(invoice: Invoice, print: boolean = false) {
     let popupWin;
 
-    const data: any = {
-      invoice: 1233423, invoice_date: new Date().toDateString(), status: 'PAID',
-      total: 28, membership: 'Yearly',
-      transactions: [
-        { date: '12-02-2019', type: 'Credit', description: 'Credit added to account', quantity: 1, amount: 18 },
-        { date: '12-02-2019', type: 'Bitcoin', description: 'Bitcoin payment', quantity: 1, amount: 10 }
-      ]
-    };
-
     let invoiceItems: string = '';
     invoice.items.forEach(item => {
       invoiceItems += `
                    <tr>
                     <td>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</td>
-                    <td>${invoice.payment_method ? invoice.payment_method : ''}</td>
+                    <td>${item.type}</td>
                     <td>${item.description}</td>
                     <td>${item.quantity}</td>
                     <td><b>$${(item.amount / 100).toFixed(2)}</b></td>

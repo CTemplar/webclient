@@ -195,6 +195,7 @@ export interface InvoiceItem {
   quantity: number;
   amount: number;
   amount_btc?: number;
+  type: string;
 }
 
 export interface AutoResponder {
