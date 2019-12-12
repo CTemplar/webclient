@@ -119,6 +119,7 @@ export class PromoCode {
   is_valid: boolean = null;
   discount_amount?: number;
   new_amount: number = null;
+  new_amount_btc: number = null;
   message?: string;
   value: string = '';
   enabled: boolean = false;

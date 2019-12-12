@@ -124,6 +124,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.bitcoin).pipe(untilDestroyed(this))
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
+        if (this.promoCode.is_valid) {
+          this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
+        }
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
         if (this.checkTransactionResponse && (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
           this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
@@ -334,8 +337,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   selectBitcoinMethod(forceLoad: boolean = true) {
     this.paymentMethod = PaymentMethod.BITCOIN;
-    this.paymentType = PaymentType.ANNUALLY;
-    this.getUpgradeAmount();
+    this.selectPaymentType(PaymentType.ANNUALLY);
     if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {
       return;
     }
@@ -362,6 +364,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
     this.getUpgradeAmount();
+    if (this.promoCode.is_valid) {
+      this.validatePromoCode();
+    }
   }
 
   createNewWallet() {
