@@ -78,6 +78,7 @@ export enum UsersActionTypes {
   GET_UPGRADE_AMOUNT_SUCCESS = '[USER] GET UPGRADE AMOUNT SUCCESS',
   VALIDATE_PROMO_CODE = '[USER] VALIDATE PROMO CODE',
   VALIDATE_PROMO_CODE_SUCCESS = '[USER] VALIDATE PROMO CODE SUCCESS',
+  CLEAR_PROMO_CODE = '[USER] CLEAR PROMO CODE',
 }
 
 export class Accounts implements Action {
@@ -599,6 +600,13 @@ export class ValidatePromoCodeSuccess implements Action {
   }
 }
 
+export class ClearPromoCode implements Action {
+  readonly type = UsersActionTypes.CLEAR_PROMO_CODE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -674,4 +682,5 @@ export type UsersActionAll =
   | GetUpgradeAmount
   | GetUpgradeAmountSuccess
   | ValidatePromoCode
-  | ValidatePromoCodeSuccess;
+  | ValidatePromoCodeSuccess
+  | ClearPromoCode;

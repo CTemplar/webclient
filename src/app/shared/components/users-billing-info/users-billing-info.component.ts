@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 import {
-  CheckTransaction,
+  CheckTransaction, ClearPromoCode,
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
@@ -260,19 +260,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.router.navigateByUrl('/signup');
   }
 
-  stripeSignup(token: any) {
-    if (token) {
+  stripeSignup(stripe_token: any) {
+    if (stripe_token) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount({
-          stripe_token: token,
-          payment_type: this.paymentType,
-          plan_type: this.planType
-        }));
+        this.store.dispatch(new UpgradeAccount(this.getSignupData({ stripe_token })));
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
         this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({ ...this.signupState, stripe_token: token });
+        this.waitForPGPKeys({ ...this.signupState, stripe_token: stripe_token });
       }
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
@@ -282,11 +278,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   bitcoinSignup() {
     if (this.bitcoinState.newWalletAddress) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount({
-          from_address: this.bitcoinState.newWalletAddress,
-          payment_type: this.paymentType,
-          plan_type: this.planType,
-        }));
+        this.store.dispatch(new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress })));
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
@@ -309,19 +301,23 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, 1000);
   }
 
-  pgpKeyGenerationCompleted(data: any) {
-    if (this.modalRef) {
-      this.modalRef.componentInstance.pgpGenerationCompleted();
-    }
+  private getSignupData(data: any = {}) {
     if (this.promoCode.is_valid && this.promoCode.value) {
       data.promo_code = this.promoCode.value;
     }
-    this.store.dispatch(new SignUp({
+    return {
       ...data,
       plan_type: this.planType,
       payment_type: this.paymentType,
       payment_method: this.paymentMethod
-    }));
+    };
+  }
+
+  pgpKeyGenerationCompleted(data: any) {
+    if (this.modalRef) {
+      this.modalRef.componentInstance.pgpGenerationCompleted();
+    }
+    this.store.dispatch(new SignUp(this.getSignupData(data)));
   }
 
   checkTransaction() {
@@ -429,6 +425,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
     this.store.dispatch(new ClearWallet());
+    this.store.dispatch(new ClearPromoCode());
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();
     }

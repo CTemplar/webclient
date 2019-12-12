@@ -427,6 +427,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, promoCode };
     }
 
+    case UsersActionTypes.CLEAR_PROMO_CODE: {
+      return { ...state, promoCode: new PromoCode() };
+    }
+
     default: {
       return state;
     }
