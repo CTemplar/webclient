@@ -263,7 +263,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       invoiceItems += `
                    <tr>
                     <td>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</td>
-                    <td>${item.type}</td>
+                    <td>${item.type || invoice.payment_method}</td>
                     <td>${item.description}</td>
                     <td>${item.quantity}</td>
                     <td><b>$${(item.amount / 100).toFixed(2)}</b></td>
