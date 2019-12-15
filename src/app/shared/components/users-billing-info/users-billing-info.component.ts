@@ -101,6 +101,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new ClearPromoCode());
     this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     if (this.isUpgradeAccount) {
@@ -427,7 +428,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
     this.store.dispatch(new ClearWallet());
-    this.store.dispatch(new ClearPromoCode());
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();
     }
