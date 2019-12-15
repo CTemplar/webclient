@@ -131,26 +131,6 @@
                                                     </li>
                                                     <li class="info-list-item">
                                                         <div class="info-list-text info-list-label"
-                                                             translate="settings.total_price">Total Price
-                                                        </div>
-                                                        <div class="info-list-text info-list-val">
-                                                            {{currentPlan?.monthly_price|currency:'USD'}}/monthly
-                                                        </div>
-                                                        <div class="info-list-text info-list-label"></div>
-                                                        <div *ngIf="payment.payment_type === paymentType.MONTHLY" class="mt-2 info-list-text info-list-val">
-                                                            {{currentPlan?.monthly_price * 12|currency:'USD'}}/annually
-                                                        </div>
-                                                    </li>
-                                                    <li class="info-list-item" *ngIf="payment.payment_type === paymentType.ANNUALLY">
-                                                        <div class="info-list-text info-list-label">Discounted Price
-                                                        </div>
-                                                        <div class="info-list-text info-list-val">
-                                                            {{currentPlan?.annually_price|currency:'USD'}}/annually
-<!--                                                            <span class="text-primary">&nbsp;(-25%)</span>-->
-                                                        </div>
-                                                    </li>
-                                                    <li class="info-list-item">
-                                                        <div class="info-list-text info-list-label"
                                                              translate="settings.billing_cycle_end">Billing
                                                             Cycle End
                                                         </div>
