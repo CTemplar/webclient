@@ -493,7 +493,9 @@ export enum TransactionStatus {
 
 export enum PaymentMethod {
   STRIPE = 'Stripe',
-  BITCOIN = 'Bitcoin'
+  BITCOIN = 'Bitcoin',
+  stripe = 'stripe',
+  bitcoin = 'bitcoin'
 }
 
 
