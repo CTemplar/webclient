@@ -24,7 +24,7 @@ export class WebsocketService implements OnDestroy {
 
   public connect() {
     const url = (window.location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + window.location.host
-      + `/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
+      + `/api/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
