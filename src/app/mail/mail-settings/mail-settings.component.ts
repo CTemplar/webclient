@@ -45,7 +45,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   authState: AuthState;
   settings: Settings;
   payment: Payment;
-  paymentType = PaymentType;
   paymentMethod = PaymentMethod;
   userPlanType: PlanType = PlanType.FREE;
   newListContact = { show: false, type: 'Whitelist' };
