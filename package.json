@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "serve": "ng serve --proxy-config=src/environments/proxy/local.proxy.json",
     "build": "ng build --prod --subresource-integrity",
     "dev": "ng build --output-hashing all",
     "test": "ng test",

@@ -8,22 +8,8 @@ export function apiHeaders() {
   };
 }
 
-export const apiUrl = getApiUrl();
+export const apiUrl = '/api/';
 export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
-
-export function getApiUrl() {
-  if (window.location && window.location.hostname === environment.onionDomain) {
-    return environment.onionApiServerUrl;
-  }
-  return environment.apiServerUrl;
-}
-
-export function getWebsocketUrl() {
-  if (window.location && window.location.hostname === environment.onionDomain) {
-    return environment.webSocketOnionUrl;
-  }
-  return environment.webSocketUrl;
-}
 
 
 export const COLORS: string[] = [
