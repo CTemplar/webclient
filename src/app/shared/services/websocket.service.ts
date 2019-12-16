@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
-import { getWebsocketUrl } from '../config';
 import { Mail } from '../../store/models';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
@@ -24,7 +23,9 @@ export class WebsocketService implements OnDestroy {
   }
 
   public connect() {
-    this.webSocket = new WebSocket(`${getWebsocketUrl()}?token=${this.authService.getToken()}&user_id=${this.userId}`);
+    const url = (window.location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + window.location.host
+      + `/api/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
+    this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
       LoggerService.log('Web socket event:', data);
