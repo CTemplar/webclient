@@ -15,7 +15,7 @@ import { OpenPgpService, SharedService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { apiUrl, getApiUrl } from '../../../shared/config';
+import { apiUrl } from '../../../shared/config';
 
 @Component({
   selector: 'app-settings-security',

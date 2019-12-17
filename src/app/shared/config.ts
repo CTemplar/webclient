@@ -1,29 +1,8 @@
 // Angular
-import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
-export function apiHeaders() {
-  return {
-    headers: new HttpHeaders({ 'Authorization': `JWT ${localStorage.getItem('token')}` })
-  };
-}
-
-export const apiUrl = getApiUrl();
+export const apiUrl = '/api/';
 export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
-
-export function getApiUrl() {
-  if (window.location && window.location.hostname === environment.onionDomain) {
-    return environment.onionApiServerUrl;
-  }
-  return environment.apiServerUrl;
-}
-
-export function getWebsocketUrl() {
-  if (window.location && window.location.hostname === environment.onionDomain) {
-    return environment.webSocketOnionUrl;
-  }
-  return environment.webSocketUrl;
-}
 
 
 export const COLORS: string[] = [
@@ -66,10 +45,6 @@ export interface Language {
 
 export const ESCAPE_KEYCODE = 27;
 
-export const DEFAULT_STORAGE = 5; // storage in GB
-export const DEFAULT_EMAIL_ADDRESS = 10;
-export const DEFAULT_CUSTOM_DOMAIN = 1;
-
 export const VALID_EMAIL_REGEX: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
@@ -77,7 +52,7 @@ export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 export const REFFERAL_CODE_KEY = 'referral_code';
 
 export function isTORBrowser() {
-  if (window.location.hostname === 'ctemplar42u6fulx.onion') {
+  if (window.location.hostname === environment.onionDomain) {
     return true;
   }
   const date = new Date();
@@ -86,8 +61,7 @@ export function isTORBrowser() {
     date.getTimezoneOffset() === 0 &&
     (navigator.plugins && navigator.plugins.length === 0)) {
     if (window.location.hostname === 'ctemplar.com') {
-      // TODO: enable redirection once issue of TOR is fixed
-      // window.location.href = `http://ctemplar42u6fulx.onion${window.location.pathname}`;
+      window.location.href = `http://${environment.onionDomain}${window.location.pathname}`;
     }
     return true;
   }

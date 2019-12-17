@@ -7,14 +7,14 @@ import { Store } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 import {
-  CheckTransaction,
+  CheckTransaction, ClearPromoCode,
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
   GetUpgradeAmount,
   SignUp,
   SnackErrorPush,
-  UpgradeAccount
+  UpgradeAccount, ValidatePromoCode
 } from '../../../store/actions/index';
 import {
   AppState,
@@ -24,7 +24,7 @@ import {
   PaymentMethod,
   PaymentType,
   PlanType,
-  PricingPlan,
+  PricingPlan, PromoCode,
   SignupState,
   TransactionStatus,
   UserState
@@ -53,6 +53,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   paymentTypeEnum = PaymentType;
   cardNumber;
+  promoCode: PromoCode = new PromoCode();
   billingForm: FormGroup;
   expiryMonth = 'Month';
   expiryYear = 'Year';
@@ -81,6 +82,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   currentPlan: PricingPlan;
   upgradeAmount: number;
   payment: Payment;
+  isPrime: boolean;
 
 
   private checkTransactionResponse: CheckTransactionResponse;
@@ -99,6 +101,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new ClearPromoCode());
     this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     if (this.isUpgradeAccount) {
@@ -106,19 +109,27 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.paymentType = null;
         this.paymentMethod = null;
       }
-      this.store.select(state => state.user).pipe(untilDestroyed(this))
-        .subscribe((userState: UserState) => {
+    }
+    this.store.select(state => state.user).pipe(untilDestroyed(this))
+      .subscribe((userState: UserState) => {
+        if (this.isUpgradeAccount) {
           this.upgradeAmount = userState.upgradeAmount;
           this.payment = userState.payment_transaction;
-        });
-    }
+        }
+        this.promoCode = userState.promoCode;
+        this.isPrime = userState.isPrime;
+      });
 
     this.billingForm = this.formBuilder.group({
-      'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]]
+      'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]],
+      'promoCode': ''
     });
     this.store.select(state => state.bitcoin).pipe(untilDestroyed(this))
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
+        if (this.promoCode.is_valid) {
+          this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
+        }
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
         if (this.checkTransactionResponse && (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
           this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
@@ -252,19 +263,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.router.navigateByUrl('/signup');
   }
 
-  stripeSignup(token: any) {
-    if (token) {
+  stripeSignup(stripe_token: any) {
+    if (stripe_token) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount({
-          stripe_token: token,
-          payment_type: this.paymentType,
-          plan_type: this.planType
-        }));
+        this.store.dispatch(new UpgradeAccount(this.getSignupData({ stripe_token })));
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
         this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({ ...this.signupState, stripe_token: token });
+        this.waitForPGPKeys({ ...this.signupState, stripe_token: stripe_token });
       }
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
@@ -274,11 +281,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   bitcoinSignup() {
     if (this.bitcoinState.newWalletAddress) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount({
-          from_address: this.bitcoinState.newWalletAddress,
-          payment_type: this.paymentType,
-          plan_type: this.planType,
-        }));
+        this.store.dispatch(new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress })));
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
@@ -301,16 +304,23 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }, 1000);
   }
 
-  pgpKeyGenerationCompleted(data: any) {
-    if (this.modalRef) {
-      this.modalRef.componentInstance.pgpGenerationCompleted();
+  private getSignupData(data: any = {}) {
+    if (this.promoCode.is_valid && this.promoCode.value) {
+      data.promo_code = this.promoCode.value;
     }
-    this.store.dispatch(new SignUp({
+    return {
       ...data,
       plan_type: this.planType,
       payment_type: this.paymentType,
       payment_method: this.paymentMethod
-    }));
+    };
+  }
+
+  pgpKeyGenerationCompleted(data: any) {
+    if (this.modalRef) {
+      this.modalRef.componentInstance.pgpGenerationCompleted();
+    }
+    this.store.dispatch(new SignUp(this.getSignupData(data)));
   }
 
   checkTransaction() {
@@ -326,8 +336,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   selectBitcoinMethod(forceLoad: boolean = true) {
     this.paymentMethod = PaymentMethod.BITCOIN;
-    this.paymentType = PaymentType.ANNUALLY;
-    this.getUpgradeAmount();
+    this.selectPaymentType(PaymentType.ANNUALLY);
     if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {
       return;
     }
@@ -354,6 +363,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
     this.getUpgradeAmount();
+    if (this.promoCode.is_valid) {
+      this.validatePromoCode();
+    }
   }
 
   createNewWallet() {
@@ -401,6 +413,16 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       backdrop: 'static',
       keyboard: false
     });
+  }
+
+  validatePromoCode() {
+    if (this.promoCode.value) {
+      this.store.dispatch(new ValidatePromoCode({
+        plan_type: this.planType,
+        payment_type: this.paymentType,
+        promo_code: this.promoCode.value
+      }));
+    }
   }
 
   ngOnDestroy() {

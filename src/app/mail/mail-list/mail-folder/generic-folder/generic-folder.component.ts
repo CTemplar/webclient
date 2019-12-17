@@ -15,7 +15,6 @@ import {
 } from '../../../../store/actions';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { Folder, Mail, MailFolderType } from '../../../../store/models';
-import { SearchState } from '../../../../store/reducers/search.reducers';
 import { getGenericFolderShortcuts, OpenPgpService, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
@@ -36,14 +35,15 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
 
   customFolders: Folder[];
-   shortcuts: ShortcutInput[] = [];
+  shortcuts: ShortcutInput[] = [];
   @ViewChild('input', { static: false }) input: ElementRef;
   // TODO : disable shortcuts until the bugs are fixed
-   @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   noEmailSelected: boolean = true;
   isMobile: boolean;
+  disableMoveTo: boolean;
 
   userState: UserState;
 
@@ -130,6 +130,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           }
           if (params.folder) {
             this.mailFolder = params.folder as MailFolderType;
+            this.disableMoveTo = this.mailFolder === MailFolderType.OUTBOX || this.mailFolder === MailFolderType.DRAFT;
             this.store.dispatch(new SetCurrentFolder(this.mailFolder));
             if (this.mailFolder !== MailFolderType.SEARCH) {
               this.store.dispatch(new ClearSearch());
@@ -149,7 +150,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
     // TODO : disable shortcuts until the bugs are fixed
-     this.shortcuts = getGenericFolderShortcuts(this);
+    this.shortcuts = getGenericFolderShortcuts(this);
     this.cdr.detectChanges();
   }
 

@@ -2,7 +2,8 @@
 import { MailActions, MailActionTypes } from '../actions';
 // Model
 import { MailState } from '../datatypes';
-import { EmailDisplay, Mail, MailFolderType } from '../models';
+import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
+import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
 export function reducer(
   state: MailState = {
@@ -184,9 +185,18 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
-      if (action.payload && action.payload.is_subject_encrypted && state.decryptedSubjects[action.payload.id]) {
-        action.payload.is_subject_encrypted = false;
-        action.payload.subject = state.decryptedSubjects[action.payload.id];
+      const mail: Mail = action.payload;
+      if (mail) {
+        if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
+          mail.is_subject_encrypted = false;
+          mail.subject = state.decryptedSubjects[mail.id];
+        }
+        mail.attachments = transformFilename(mail.attachments);
+        if (mail.children && mail.children.length > 0) {
+          mail.children.forEach(item => {
+            item.attachments = transformFilename(item.attachments);
+          });
+        }
       }
       return {
         ...state,
@@ -328,4 +338,16 @@ export function reducer(
       return state;
     }
   }
+}
+
+function transformFilename(attachments: Attachment[]) {
+  if (attachments && attachments.length > 0) {
+    attachments = attachments.map(attachment => {
+      if (!attachment.name) {
+        attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+      }
+      return attachment;
+    });
+  }
+  return attachments;
 }

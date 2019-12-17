@@ -195,13 +195,13 @@ tag-input {
     font-size: 1.1rem;
     vertical-align: middle;
   }
-  
+
   &:hover,
   &:focus{
     border: 1px solid #c6c6c6;
     color: #333;
   }
-  
+
   &:active {
       background: #dedede;
   }
@@ -287,7 +287,7 @@ button[disabled] {
 .btn-twitter {
   background-color: $twitter-color;
   border-color: $twitter-color;
- 
+
   &:hover,
   &:focus {
     background-color: darken($twitter-color , 10%);
@@ -349,7 +349,7 @@ button[disabled] {
     text-align: left;
     max-width: 100%;
   }
-} 
+}
 
 .nav-tabs.nav  {
   .nav-link{
@@ -389,7 +389,7 @@ button[disabled] {
 
 .text-grey-dark {
   color: #727272;
-} 
+}
 
 .text-grey-dark-500 {
   color: #757575;
@@ -510,4 +510,15 @@ button[disabled] {
 
 .display-inline-flex {
   display: inline-flex;
+}
+
+.input-ok, .input-invalid {
+  float: right;
+  margin-right: -28px;
+  margin-top: -31px;
+  color: green;
+}
+
+.input-invalid {
+  color: #dc3545 !important;;
 }

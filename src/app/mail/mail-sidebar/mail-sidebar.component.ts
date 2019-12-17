@@ -24,7 +24,7 @@ import { Title } from '@angular/platform-browser';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
-import { getMailSidebarShortcuts } from '../../store/services';
+import { getMailSidebarShortcuts, SharedService } from '../../store/services';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -67,6 +67,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
               private titleService: Title,
               private activatedRoute: ActivatedRoute,
               @Inject(DOCUMENT) private document: Document,
+              private sharedService: SharedService,
               private cdr: ChangeDetectorRef) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -204,14 +205,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
    * Free Users - Only allow a maximum of 5 folders per account
    */
   // == Open NgbModal
-  open() {
-    if (this.userState.isPrime) {
-      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
-    } else if (this.userState.customFolders === null || this.userState.customFolders.length < 5) {
-      this.modalService.open(CreateFolderComponent, { centered: true, windowClass: 'modal-sm mailbox-modal' });
-    } else {
-      this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
-    }
+  createFolder() {
+    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
   }
 
   // == Show mail compose modal
