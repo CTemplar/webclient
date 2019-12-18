@@ -330,8 +330,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.paymentSuccess = true;
       return;
     }
+    const data: any = { 'from_address': this.bitcoinState.newWalletAddress };
+    if (this.promoCode && this.promoCode.is_valid && this.promoCode.value) {
+      data.promo_code = this.promoCode.value;
+    }
     // check after every one minute
-    this.store.dispatch(new CheckTransaction({ 'from_address': this.bitcoinState.newWalletAddress }));
+    this.store.dispatch(new CheckTransaction(data));
   }
 
   selectBitcoinMethod(forceLoad: boolean = true) {
