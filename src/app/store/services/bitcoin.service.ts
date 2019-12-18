@@ -12,6 +12,6 @@ export class BitcoinService {
   }
 
   checkTransaction(data: any) {
-    return this.http.get(`${apiUrl}btc-wallet/check/?address=${data.from_address}`);
+    return this.http.get(`${apiUrl}btc-wallet/check/?address=${data.from_address}` + (data.promo_code ? `&promo_code=${data.promo_code}` : ''));
   }
 }
