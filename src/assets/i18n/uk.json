@@ -545,7 +545,7 @@
     "enter_display_name": "Enter Your Display Name",
     "security_check": "Security check",
     "try_another_one": "Try another one",
-    "text_from_image": "Write text from image",
+    "text_from_image": "Write text from image / Time display in clock (hh:mm) e.g: (04:20)",
     "invalid_captcha": "Invalid captcha, please try again.",
     "upgrade": "Upgrade",
     "contains": "contains",
