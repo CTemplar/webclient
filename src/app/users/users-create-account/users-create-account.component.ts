@@ -7,7 +7,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, Captcha, PlanType, SignupState, UserState } from '../../store/datatypes';
+import { AppState, AuthState, Captcha, PlanType, SignupState } from '../../store/datatypes';
 import { CheckUsernameAvailability, FinalLoading, GetCaptcha, SignUp, UpdateSignupData, VerifyCaptcha } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
@@ -90,7 +90,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         if (this.captcha.isInvalid) {
           this.captchaValue = '';
         }
-        this.selectedPlan = state.signupState.plan_type;
+        this.selectedPlan = state.signupState.plan_type || PlanType.FREE;
         if (this.selectedPlan === PlanType.FREE && !this.isCaptchaRetrieved) {
           this.isCaptchaRetrieved = true;
           this.store.dispatch(new GetCaptcha());
