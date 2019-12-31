@@ -27,18 +27,12 @@ export class ComposeMailService {
           const draftMail: Draft = response.drafts[key];
           if (draftMail.draft) {
             if (draftMail.shouldSave && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
-              draftMail.draft.content = draftMail.encryptedContent.content;
-              if (this.userState.settings && this.userState.settings.is_subject_encrypted) {
-                draftMail.draft.subject = draftMail.encryptedContent.subject;
-              }
+              this.setEncryptedContent(draftMail);
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
               if ((this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress && !draftMail.isProcessingAttachments) ||
                 (this.drafts[key].isProcessingAttachments && !draftMail.isProcessingAttachments && !draftMail.isPGPInProgress)) {
-                draftMail.draft.content = draftMail.encryptedContent.content;
-                if (this.userState.settings && this.userState.settings.is_subject_encrypted) {
-                  draftMail.draft.subject = draftMail.encryptedContent.subject;
-                }
+                this.setEncryptedContent(draftMail);
                 if (!draftMail.isSshInProgress) {
                   if (!draftMail.isSaving) {
                     this.store.dispatch(new SendMail({ ...draftMail }));
@@ -127,6 +121,17 @@ export class ComposeMailService {
         this.userState = user;
       });
 
+  }
+
+  private setEncryptedContent(draftMail: Draft) {
+    draftMail.draft.content = draftMail.encryptedContent.content;
+    if (this.userState.settings && this.userState.settings.is_subject_encrypted) {
+      draftMail.draft.subject = draftMail.encryptedContent.subject;
+    }
+    if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
+      draftMail.draft.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
+      draftMail.draft.is_encrypted = true;
+    }
   }
 
   initComposeMailContainer(container: ViewContainerRef) {
