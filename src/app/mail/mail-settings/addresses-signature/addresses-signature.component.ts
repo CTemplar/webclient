@@ -5,7 +5,7 @@ import { CreateMailbox, DeleteMailbox, SetDefaultMailbox, SnackErrorPush, Update
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { OpenPgpService, UsersService } from '../../../store/services';
+import { OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
@@ -156,6 +156,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     this.signatureChanged.next(value);
   }
 
+  signatureFocused(value) {
+    SharedService.isQuillEditorOpen = value;
+  }
+
   updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
     if (selectedMailbox[key] !== value) {
       selectedMailbox.inProgress = true;
@@ -257,6 +261,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    SharedService.isQuillEditorOpen = false;
   }
 
 }

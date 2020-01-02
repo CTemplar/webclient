@@ -19,6 +19,7 @@ import { PricingPlan } from '../datatypes';
 export class SharedService {
   static PRICING_PLANS: any;
   static PRICING_PLANS_ARRAY: Array<PricingPlan> = [];
+  static isQuillEditorOpen: boolean;
   isReady: EventEmitter<boolean> = new EventEmitter();
   hideFooter: EventEmitter<boolean> = new EventEmitter();
   hideHeader: EventEmitter<boolean> = new EventEmitter();
@@ -184,7 +185,8 @@ export function getMailComponentShortcuts(mailComponent: MailComponent) {
 }
 
 export function isComposeEditorOpen(): boolean {
-  return (document.getElementsByTagName('app-compose-mail-dialog').length > 0 ||
+  return (SharedService.isQuillEditorOpen ||
+    document.getElementsByTagName('app-compose-mail-dialog').length > 0 ||
     document.getElementsByTagName('app-compose-mail').length > 0 ||
     document.getElementsByTagName('ngb-modal-window').length > 0);
 }

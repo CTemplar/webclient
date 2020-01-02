@@ -52,7 +52,9 @@
             <div class="col">
               <quill-editor id="signature"
                             [ngModel]="selectedMailboxForSignature.signature"
-                            (ngModelChange)="onSignatureChange($event)">
+                            (ngModelChange)="onSignatureChange($event)"
+                            (onBlur)="signatureFocused(false)"
+                            (onFocus)="signatureFocused(true)">
               </quill-editor>
             </div>
           </div>
