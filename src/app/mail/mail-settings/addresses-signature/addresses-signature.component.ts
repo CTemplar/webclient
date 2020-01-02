@@ -6,11 +6,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { OpenPgpService, UsersService } from '../../../store/services';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-addresses-signature',
@@ -34,6 +35,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   reorder: boolean;
   reorderInProgress: boolean = false;
   mailboxToDelete: Mailbox;
+  signatureChanged: Subject<string> = new Subject<string>();
 
   constructor(private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
@@ -95,6 +97,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       ]
     });
 
+    this.signatureChanged.pipe(debounceTime(3000), distinctUntilChanged())
+      .subscribe(value => {
+        this.updateMailboxSettings(this.selectedMailboxForSignature, 'signature', value);
+      });
+
     this.handleUsernameAvailability();
   }
 
@@ -143,6 +150,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
     this.selectedMailboxForKey = mailbox;
     this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
+  }
+
+  onSignatureChange(value) {
+    this.signatureChanged.next(value);
   }
 
   updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
