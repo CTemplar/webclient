@@ -49,13 +49,13 @@
               <label for="signature" class="form-label mb-sm-0" translate="settings.signature">
                 Signature</label>
             </div>
-            <div class="col-sm-7 col-md-5">
-                                  <textarea class="form-control form-control-sm form-control-contenteditable"
-                                            id="signature"
-                                            [value]="selectedMailboxForSignature.signature"
-                                            (change)="updateMailboxSettings(selectedMailboxForSignature, 'signature', $event.target.value)"
-                                            contenteditable="true">
-                                  </textarea>
+            <div class="col">
+              <quill-editor id="signature"
+                            [ngModel]="selectedMailboxForSignature.signature"
+                            (ngModelChange)="onSignatureChange($event)"
+                            (onBlur)="signatureFocused(false)"
+                            (onFocus)="signatureFocused(true)">
+              </quill-editor>
             </div>
           </div>
         </div>
