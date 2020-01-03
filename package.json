@@ -40,7 +40,7 @@
     "ng-keyboard-shortcuts": "^8.0.0",
     "ng-recaptcha": "^5.0.0",
     "ngx-chips": "^2.0.2",
-    "ngx-quill": "^7.3.11",
+    "ngx-quill": "^6.3.1",
     "ngx-take-until-destroy": "^5.4.0",
     "ngx-virtual-keyboard": "^1.0.56",
     "ngx7-material-keyboard": "^0.1.2",
