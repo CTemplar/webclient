@@ -330,6 +330,9 @@ MIT
 ngx-chips
 MIT
 
+ngx-quill
+MIT
+
 ngx-take-until-destroy
 MIT
 
