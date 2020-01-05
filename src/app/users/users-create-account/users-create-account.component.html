@@ -99,7 +99,7 @@
                       <i class="fa fa-eye-slash"></i>
                     </span>
                   </div>
-                  <i class="fas fa-check green password-ok"
+                  <i class="fas fa-check green input-ok"
                      *ngIf="signupForm.controls['password']?.value?.length>0 && signupForm.controls['password']?.value?.length<=128"></i>
                   <div *ngIf="signupForm.controls['password'].errors &&
                                     (signupForm.controls['password'].touched || submitted)"
@@ -126,7 +126,7 @@
                       <i class="fa fa-eye-slash"></i>
                     </span>
                   </div>
-                  <i class="fas fa-check green password-ok"
+                  <i class="fas fa-check green input-ok"
                      *ngIf="!signupForm.controls['confirmPwd'].errors"></i>
                   <span *ngIf="signupForm.controls['confirmPwd'].errors &&
                                     (!signupForm.controls.confirmPwd.pristine || submitted)"
@@ -219,7 +219,7 @@
                                [placeholder]="'create_account.text_from_image'| translate"
                                (blur)="verifyCaptcha()"
                                type="text" [(ngModel)]="captchaValue" [ngModelOptions]="{standalone: true}"/>
-                        <i class="fas fa-check green password-ok captcha_ok"
+                        <i class="fas fa-check green input-ok captcha_ok"
                            *ngIf="captcha.verified"></i>
                       </div>
                       <span *ngIf="captcha.isInvalid"

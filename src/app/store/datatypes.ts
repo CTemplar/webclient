@@ -112,6 +112,18 @@ export interface UserState {
   invoices: Invoice[];
   isInvoiceLoaded?: boolean;
   upgradeAmount?: number;
+  promoCode: PromoCode;
+}
+
+export class PromoCode {
+  is_valid: boolean = null;
+  discount_amount?: number;
+  new_amount: number = null;
+  new_amount_btc: number = null;
+  message?: string;
+  value: string = '';
+  enabled: boolean = false;
+  inProgress: boolean = false;
 }
 
 export interface ContactsState {
@@ -183,6 +195,7 @@ export interface InvoiceItem {
   quantity: number;
   amount: number;
   amount_btc?: number;
+  type: string;
 }
 
 export interface AutoResponder {
@@ -480,7 +493,9 @@ export enum TransactionStatus {
 
 export enum PaymentMethod {
   STRIPE = 'Stripe',
-  BITCOIN = 'Bitcoin'
+  BITCOIN = 'Bitcoin',
+  stripe = 'stripe',
+  bitcoin = 'bitcoin'
 }
 
 

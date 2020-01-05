@@ -23,7 +23,9 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       if (action.payload.draft.draft.forward_attachments_of_message) {
         oldDraft.attachments = draftMail.attachments.map(attachment => {
           attachment.progress = 100;
-          attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+          if (!attachment.name) {
+            attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+          }
           attachment.draftId = oldDraft.id;
           attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
           return attachment;
@@ -150,7 +152,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
               ...state.drafts[action.payload.draftId].attachments[index],
               inProgress: true
             };
-            state.drafts[action.payload.draftId] = {...state.drafts[action.payload.draftId], isProcessingAttachments: true};
+            state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments: true };
           }
         });
       } else {
@@ -202,7 +204,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
         }
       });
       const isProcessingAttachments = !!state.drafts[data.draftId].attachments.find(attachment => attachment.inProgress);
-      state.drafts[data.draftId] = {...state.drafts[data.draftId], isProcessingAttachments};
+      state.drafts[data.draftId] = { ...state.drafts[data.draftId], isProcessingAttachments };
       return { ...state, drafts: { ...state.drafts } };
     }
 

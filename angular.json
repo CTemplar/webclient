@@ -78,7 +78,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "CTemplar:build"
+            "browserTarget": "CTemplar:build",
+            "proxyConfig": "src/environments/proxy/local.proxy.json"
           },
           "configurations": {
             "production": {

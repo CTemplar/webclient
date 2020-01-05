@@ -61,7 +61,9 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
         this.mailService.getSecureMessageAttachment(attachment, this.hash, this.secret)
           .subscribe(response => {
               const uint8Array = this.shareService.base64ToUint8Array(response.data);
-              attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+              if (!attachment.name) {
+                attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+              }
               const fileInfo = { attachment, type: response.file_type };
               this.openPgpService.decryptSecureMessageAttachment(this.decryptedKey, uint8Array, fileInfo)
                 .pipe(

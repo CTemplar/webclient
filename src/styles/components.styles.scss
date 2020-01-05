@@ -216,3 +216,15 @@ app-mail-detail {
 .help-modal .keys .key__container .key {
   line-height: 21px;
 }
+
+.user-billing-upgrade-modal {
+  padding-right: 1.5rem !important;
+}
+
+app-compose-mail {
+  tag-input-dropdown {
+    .ng2-dropdown-menu {
+      width: 350px !important;
+    }
+  }
+}

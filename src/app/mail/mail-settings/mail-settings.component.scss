@@ -513,7 +513,8 @@ $error-red: #e94e4c;
   }
 
   .invoices {
-    height: 331px;
+    max-height: 331px;
+    min-height: 273px;
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;

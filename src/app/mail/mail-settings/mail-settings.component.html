@@ -129,26 +129,14 @@
                                                             {{payment.payment_type}}
                                                         </div>
                                                     </li>
-                                                    <li class="info-list-item">
-                                                        <div class="info-list-text info-list-label"
-                                                             translate="settings.total_price">Total Price
-                                                        </div>
-                                                        <div class="info-list-text info-list-val">
-                                                            {{currentPlan?.monthly_price|currency:'USD'}}/monthly
-                                                        </div>
-                                                        <div class="info-list-text info-list-label"></div>
-                                                        <div *ngIf="payment.payment_type === paymentType.MONTHLY" class="mt-2 info-list-text info-list-val">
-                                                            {{currentPlan?.monthly_price * 12|currency:'USD'}}/annually
-                                                        </div>
-                                                    </li>
-                                                    <li class="info-list-item" *ngIf="payment.payment_type === paymentType.ANNUALLY">
-                                                        <div class="info-list-text info-list-label">Discounted Price
-                                                        </div>
-                                                        <div class="info-list-text info-list-val">
-                                                            {{currentPlan?.annually_price|currency:'USD'}}/annually
-<!--                                                            <span class="text-primary">&nbsp;(-25%)</span>-->
-                                                        </div>
-                                                    </li>
+                                                  <li class="info-list-item">
+                                                    <div class="info-list-text info-list-label"
+                                                         translate="settings.payment">Payment
+                                                    </div>
+                                                    <div class="info-list-text info-list-val text-capitalize">
+                                                      {{payment.payment_method}}
+                                                    </div>
+                                                  </li>
                                                     <li class="info-list-item">
                                                         <div class="info-list-text info-list-label"
                                                              translate="settings.billing_cycle_end">Billing
@@ -159,11 +147,37 @@
                                                         </div>
                                                     </li>
                                                     <li class="info-list-item">
-                                                        <div class="info-list-text info-list-label"
-                                                             translate="settings.payment">Payment
+                                                        <div class="info-list-text info-list-label">
+                                                            Recurring Billing
                                                         </div>
-                                                        <div class="info-list-text info-list-val text-capitalize">
-                                                            {{payment.payment_method}}
+                                                        <div class="info-list-text info-list-val">
+                                                            <div class="row row-sm" *ngIf="payment.payment_method===paymentMethod.stripe;else bitcoinMethod">
+                                                                <div class="col-6 flex-auto-col">
+                                                                    <div class="fancy-field-group">
+                                                                        <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                                               id="enableRecurringBilling"
+                                                                               name="recurringBilling" type="radio"
+                                                                               (click)="updateSettings('recurrence_billing', true)"
+                                                                               [checked]="settings.recurrence_billing"/>
+                                                                        <label for="enableRecurringBilling"
+                                                                               translate="common.yes">Yes</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 flex-auto-col">
+                                                                    <div class="fancy-field-group">
+                                                                        <input class="d-none fancy-field-control fancy-field-control-sm"
+                                                                               id="disableRecurringBilling"
+                                                                               name="recurringBilling" type="radio"
+                                                                               (click)="updateSettings('recurrence_billing', false)"
+                                                                               [checked]="!settings.recurrence_billing"/>
+                                                                        <label for="disableRecurringBilling"
+                                                                               translate="common.no">No</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <ng-template #bitcoinMethod>
+                                                              Not available for bitcoin
+                                                            </ng-template>
                                                         </div>
                                                     </li>
                                                 </ng-container>
@@ -452,53 +466,6 @@
                     </div>
 
                 </section>
-
-                <!-- Payments Section -->
-                <section class="mailbox-section" *ngIf="payment?.payment_method === 'stripe'">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong
-                                translate="settings.payments">Payments</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-0">Reoccurring Billing</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="row row-sm">
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
-                                                           id="enableRecurringBilling"
-                                                           name="recurringBilling" type="radio"
-                                                           (click)="updateSettings('recurrence_billing', true)"
-                                                           [checked]="settings.recurrence_billing"/>
-                                                    <label for="enableRecurringBilling"
-                                                           translate="common.yes">Yes</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm"
-                                                           id="disableRecurringBilling"
-                                                           name="recurringBilling" type="radio"
-                                                           (click)="updateSettings('recurrence_billing', false)"
-                                                           [checked]="!settings.recurrence_billing"/>
-                                                    <label for="disableRecurringBilling"
-                                                           translate="common.no">No</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-                <!-- Payments Section Ends -->
 
                 <!-- Notification Section -->
                 <section class="mailbox-section">

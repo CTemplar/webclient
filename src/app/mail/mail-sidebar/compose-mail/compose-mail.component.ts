@@ -362,8 +362,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getPlainText(html: string) {
+    if (!(/<\/?[a-z][\s\S]*>/i.test(html))) {
+      return html;
+    }
     const element = document.createElement('div');
-    element.innerHTML = html.replace(/<div>/g, '<br><div>')
+    element.innerHTML = html.replace(/<div>/g, '<br><div>').replace(/<p>/g, '<br><p>')
       .replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
     return element.innerText;
   }
@@ -732,16 +735,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isSignatureAdded = true;
         this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
         if (this.selectedMailbox.signature) {
-          this.mailData.content += `\n ${this.selectedMailbox.signature}`;
+          this.mailData.content += `\n ${this.getPlainText(this.selectedMailbox.signature)}`;
         }
       }
       return;
     }
     if (this.quill && this.selectedMailbox) {
-      if (!this.isSignatureAdded) {
+      if (!this.isSignatureAdded && this.selectedMailbox.signature) {
         const index = this.quill.getLength();
         this.quill.insertText(index, '\n', 'silent');
-        this.quill.insertText(index + 1, this.selectedMailbox.signature || '', 'silent');
+        const signature = this.selectedMailbox.signature.replace(/\n/g, '<br>');
+        this.quill.clipboard.dangerouslyPasteHTML(index + 1, signature || '', 'silent');
         this.isSignatureAdded = true;
       }
     }

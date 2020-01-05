@@ -2,7 +2,7 @@
 
 import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
-import { UserState } from '../datatypes';
+import { PromoCode, UserState } from '../datatypes';
 
 export const initialState: UserState = {
   username: null,
@@ -18,7 +18,8 @@ export const initialState: UserState = {
   filters: [],
   customDomains: [],
   currentCreationStep: 0,
-  invoices: []
+  invoices: [],
+  promoCode: new PromoCode(),
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -413,6 +414,21 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.GET_UPGRADE_AMOUNT_SUCCESS: {
       return { ...state, upgradeAmount: action.payload.prorated_price / 100 };
+    }
+
+    case UsersActionTypes.VALIDATE_PROMO_CODE: {
+      return { ...state, promoCode: { ...state.promoCode, new_amount: null, is_valid: null, inProgress: true } };
+    }
+
+    case UsersActionTypes.VALIDATE_PROMO_CODE_SUCCESS: {
+      const promoCode: PromoCode = { ...state.promoCode, ...action.payload, inProgress: false };
+      promoCode.new_amount = promoCode.new_amount / 100;
+      promoCode.discount_amount = promoCode.discount_amount / 100;
+      return { ...state, promoCode };
+    }
+
+    case UsersActionTypes.CLEAR_PROMO_CODE: {
+      return { ...state, promoCode: new PromoCode() };
     }
 
     default: {

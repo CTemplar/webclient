@@ -76,6 +76,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       localStorage.setItem('nextPage', '');
       this.router.navigateByUrl(nextPage);
     }
+    this.currentRoute = router.url;
 
     this.store.dispatch(new GetUnreadMailsCount());
     this.websocketService.connect();

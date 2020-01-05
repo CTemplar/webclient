@@ -99,13 +99,6 @@ $error-red: #e94e4c;
   }
 }
 
-.password-ok {
-  color: green;
-  float: right;
-  margin-right: -28px;
-  margin-top: -30px;
-}
-
 .captcha_ok {
   margin-top: 22px !important;
   margin-left: 6px !important;
@@ -133,12 +126,10 @@ $error-red: #e94e4c;
 }
 
 .captcha_image {
-  height: 79px;
-  width: 307px;
+  height: 90px;
   display: inline-block;
 
   img {
-    height: 79px;
-    width: 307px;
+    height: 90px;
   }
 }

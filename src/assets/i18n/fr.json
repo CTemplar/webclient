@@ -673,7 +673,7 @@
     "generate_key": "Générer la Clé",
     "security_check": "Vérification de sécurité",
     "try_another_one": "Essayer à nouveau",
-    "text_from_image": "Saisir le texte de l’image",
+    "text_from_image": "Saisir le texte de l’image / l'heure affichée (hh:mm) ex: (04:20)",
     "invalid_captcha": "Captcha invalide, essayez à nouveau.",
     "change_display_name": "Modifier votre nom d'utilisateur",
     "enter_display_name": "Insérer votre nom d'utilisateur",

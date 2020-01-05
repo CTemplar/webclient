@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "https://dev.ctemplar.com",
+    "secure": true,
+    "changeOrigin": true,
+    "ws":true,
+    "logLevel": "info"
+  }
+}
