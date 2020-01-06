@@ -1,20 +1,14 @@
-// Angular
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { Store } from '@ngrx/store';
 import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
-// Store
 import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
-// Service
 import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
-import { ESCAPE_KEYCODE, isTORBrowser } from '../../shared/config';
+import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { quotes } from '../../store/quotes';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,7 +38,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   authState: AuthState;
   otp: string;
   loadingImage = LOADING_IMAGE;
-  isTORBrowser: boolean = isTORBrowser();
 
   @ViewChild('usernameVC', { static: false }) usernameVC: ElementRef;
   @ViewChild('passwordVC', { static: false }) passwordVC: ElementRef;

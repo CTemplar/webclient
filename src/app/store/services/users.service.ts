@@ -389,7 +389,7 @@ export class UsersService {
   }
 
   deleteDomain(id: number) {
-    return this.http.delete<any>(`${apiUrl}emails/domains/${id}`);
+    return this.http.delete<any>(`${apiUrl}emails/domains/${id}/`);
   }
 
   verifyDomain(id: number) {

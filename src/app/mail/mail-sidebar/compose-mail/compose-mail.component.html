@@ -42,7 +42,7 @@
                               [identifyBy]="'email'"
                               [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
-              {{ item.email }}
+              {{item.name}} <{{ item.email }}>
             </ng-template>
           </tag-input-dropdown>
         </tag-input>
