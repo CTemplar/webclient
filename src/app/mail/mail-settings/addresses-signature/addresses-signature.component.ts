@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PRIMARY_DOMAIN } from '../../../shared/config';
+import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 import { Mailbox } from '../../../store/models';
 import { CreateMailbox, DeleteMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -36,6 +36,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   reorderInProgress: boolean = false;
   mailboxToDelete: Mailbox;
   signatureChanged: Subject<string> = new Subject<string>();
+  quillModules = QUILL_FORMATTING_MODULES;
 
   constructor(private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
