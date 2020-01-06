@@ -51,23 +51,4 @@ export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 
 export const REFFERAL_CODE_KEY = 'referral_code';
 
-export function isTORBrowser() {
-  if (window.location.hostname === environment.onionDomain) {
-    return true;
-  }
-  const date = new Date();
-  if (window.innerWidth === 1000 &&
-    navigator.userAgent.indexOf('Gecko/20100101 Firefox') > -1 &&
-    date.getTimezoneOffset() === 0 &&
-    (navigator.plugins && navigator.plugins.length === 0)) {
-    if (window.location.hostname === 'ctemplar.com') {
-      window.location.href = `http://${environment.onionDomain}${window.location.pathname}`;
-    }
-    return true;
-  }
-  return false;
-}
-
-isTORBrowser();
-
 export const SummarySeparator = '-----------------------------------------------------------------------------------------------';
