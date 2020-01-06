@@ -6,6 +6,7 @@ import { SaveAutoResponder, SnackErrorPush } from '../../../store/actions';
 import { AppState, AutoResponder, Settings, UserState } from '../../../store/datatypes';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { SharedService } from '../../../store/services';
 
 @Component({
   selector: 'app-mail-autoresponder',
@@ -46,6 +47,7 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    SharedService.isQuillEditorOpen = false;
   }
 
   initData(autoresponder: AutoResponder) {
@@ -84,5 +86,9 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
       }
     }
     this.store.dispatch(new SaveAutoResponder(this.autoresponder));
+  }
+
+  editorFocused(value: boolean) {
+    SharedService.isQuillEditorOpen = value;
   }
 }
