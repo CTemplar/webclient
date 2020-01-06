@@ -52,3 +52,18 @@ export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 export const REFFERAL_CODE_KEY = 'referral_code';
 
 export const SummarySeparator = '-----------------------------------------------------------------------------------------------';
+
+export const QUILL_FORMATTING_MODULES = {
+  toolbar: [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote'],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    [{ 'direction': 'rtl' }],                         // text direction
+    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    [{ 'color': COLORS }, { 'background': COLORS }],          // dropdown with defaults from theme
+    [{ 'align': [] }],
+    ['clean'],                                         // remove formatting button
+    ['link']                         // link /not-allowed-in-simple-version(and image, video)
+  ]
+};
