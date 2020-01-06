@@ -41,6 +41,7 @@
           <label for="autoresponseMessage" class="form-inline" translate="settings.forwarding.auto_message">Email autoresponse message</label>
           <quill-editor id="autoresponseMessage"
                         [(ngModel)]="autoresponder.autoresponder_message"
+                        [modules]="quillModules"
                         (onBlur)="editorFocused(false)"
                         (onFocus)="editorFocused(true)">
           </quill-editor>
@@ -75,6 +76,7 @@
           <label for="vacationAutoresponseMessage" class="form-inline" translate="settings.forwarding.auto_message">Email autoresponse message</label>
           <quill-editor id="vacationAutoresponseMessage"
                         [(ngModel)]="autoresponder.vacationautoresponder_message"
+                        [modules]="quillModules"
                         (onBlur)="editorFocused(false)"
                         (onFocus)="editorFocused(true)">
           </quill-editor>

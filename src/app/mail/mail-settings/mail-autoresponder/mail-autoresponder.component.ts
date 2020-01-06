@@ -7,6 +7,7 @@ import { AppState, AutoResponder, Settings, UserState } from '../../../store/dat
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { SharedService } from '../../../store/services';
+import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
 
 @Component({
   selector: 'app-mail-autoresponder',
@@ -26,6 +27,7 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   startDate: NgbDateStruct;
   endDate: NgbDateStruct;
   errorMessage: string;
+  quillModules = QUILL_FORMATTING_MODULES;
 
   constructor(private store: Store<AppState>,
               private formBuilder: FormBuilder,
