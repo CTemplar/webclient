@@ -15,7 +15,7 @@ import {
   Accounts,
   ContactAddError,
   ContactAddSuccess,
-  ContactDeleteSuccess,
+  ContactDeleteSuccess, ContactGetFailure,
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
@@ -62,7 +62,7 @@ export class ContactsEffects {
             }
             return new ContactGetSuccess(response);
           }),
-          catchError((error) => EMPTY)
+          catchError((error) => of(new ContactGetFailure()))
         );
     }));
 

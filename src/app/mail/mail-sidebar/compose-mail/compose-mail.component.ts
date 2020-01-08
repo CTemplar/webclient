@@ -270,7 +270,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts = contactsState.emailContacts;
-        if (!this.contacts && !this.userState.settings.is_contacts_encrypted) {
+        if (!this.contacts && !contactsState.loaded && !contactsState.inProgress && !this.userState.settings.is_contacts_encrypted) {
           this.store.dispatch(new GetEmailContacts());
         }
       });
