@@ -47,6 +47,7 @@
                     <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.draft">Draft</span>
+                        <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{mailState?.unreadMailsCount?.draft}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.SENT">
@@ -87,6 +88,7 @@
                     <a routerLink="/mail/spam/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-warning"></i>
                         <span class="mailbox-sidebar-nav-label" translate="mail_sidebar.spam">Spam</span>
+                        <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{mailState?.unreadMailsCount?.spam}}</span>
                     </a>
                 </li>
                 <li class="mailbox-sidebar-nav-item"  [class.active]="currentFolder === mailFolderType.TRASH">
