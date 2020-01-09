@@ -718,6 +718,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         shouldSave: false, shouldSend: true, draft: { ...this.draftMail }
       }
     }));
+    this.store.dispatch(new SnackPush({ message: 'Sending mail...', duration: 120000 }));
     this.resetValues();
     this.hide.emit();
   }
