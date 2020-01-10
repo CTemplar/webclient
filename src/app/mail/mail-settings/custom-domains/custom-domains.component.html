@@ -87,6 +87,11 @@
                     </div>
                     <div class="col-1 d-flex justify-content-end actions">
                       <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                        <a class="text-muted" (click)="verifyDomain(domain.id, false, true)" ngbTooltip="Verify dns records again.">
+                          <i class="material-icons reverify-domain">autorenew</i>
+                        </a>
+                      </div>
+                      <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
                         <a class="text-muted"
                            (click)="startAddingNewDomain(domain)"
                            [ngbTooltip]="'settings.edit' | translate"><i

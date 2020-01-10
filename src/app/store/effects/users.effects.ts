@@ -471,7 +471,8 @@ export class UsersEffects {
       return this.userService.verifyDomain(payload.id)
         .pipe(
           switchMap(res => {
-            return of(new VerifyDomainSuccess({ res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep }));
+            return of(new VerifyDomainSuccess(
+              { res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep, reverify: payload.reverify }));
           }),
           catchError(errorResponse => of(
             new VerifyDomainFailure({ err: errorResponse.error, step: payload.currentStep })
