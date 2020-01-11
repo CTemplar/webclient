@@ -14,6 +14,7 @@ import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.compo
 import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { PricingPlan } from '../datatypes';
+import { MailContactComponent } from '../../mail/mail-contact/mail-contact.component';
 
 @Injectable()
 export class SharedService {
@@ -267,6 +268,18 @@ export function getComposeMailShortcuts(component: ComposeMailComponent) {
       component.sendEmail();
     })
   ];
+}
+
+export function getContactsSthortcuts(component: MailContactComponent) {
+  return [
+    getShortcutKeyObj('right', 'Contacts', 'Enter contact details', () => {
+      component.editContact(null, null);
+    }),
+    getShortcutKeyObj('left', 'Contacts', 'Exit contact details', () => {
+      component.destroySplitContactLayout();
+    })
+  ];
+
 }
 
 export function getComposeMailDialogShortcuts(component: ComposeMailDialogComponent) {
