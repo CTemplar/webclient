@@ -301,6 +301,27 @@ export function getContactsSthortcuts(component: MailContactComponent) {
         }
       }
 
+    }),
+    getShortcutKeyObj('up', 'Contacts', 'Moving between contacts', () => {
+      const selectedContact = component.selectedContact;
+      const contacts = component.contactsState.contacts;
+      if (contacts.length > 0) {
+        if (!selectedContact) {
+          component.selectedContact = contacts[0];
+          component.editContact(component.selectedContact, component.addUserContent);
+        } else {
+          contacts.forEach((contact, index) => {
+            if (selectedContact.id === contact.id) {
+              if (index > 0) {
+                component.selectedContact = contacts[index - 1];
+              }
+              return;
+            }
+          });
+          component.editContact(component.selectedContact, component.addUserContent);
+        }
+      }
+
     })
   ];
 
