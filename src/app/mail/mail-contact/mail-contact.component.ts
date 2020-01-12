@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AppState, Contact, ContactsState, PlanType, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
@@ -27,6 +27,8 @@ export enum ContactsProviderType {
 })
 export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('importContactsModal', { static: false }) importContactsModal;
+  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
+  @ViewChild('addUserContent', { static: false }) addUserContent;
 
   contactsProviderType = ContactsProviderType;
   public userState: UserState;
@@ -59,7 +61,8 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
               private composeMailService: ComposeMailService,
               private activatedRoute: ActivatedRoute,
               config: NgbDropdownConfig,
-              @Inject(DOCUMENT) private document: Document) {
+              @Inject(DOCUMENT) private document: Document,
+              private cdr: ChangeDetectorRef) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
@@ -75,6 +78,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.shortcuts = getContactsSthortcuts(this);
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {}
