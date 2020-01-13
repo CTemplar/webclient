@@ -44,6 +44,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
+  @Input() isRenew: boolean;
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
@@ -141,8 +142,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
-        if (SharedService.PRICING_PLANS && this.signupState.plan_type) {
-          this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type];
+        if (SharedService.PRICING_PLANS && (this.signupState.plan_type || this.planType)) {
+          this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type || this.planType];
         }
 
         this.authState = authState;
@@ -233,7 +234,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.store.dispatch(new GetUpgradeAmount({
         plan_type: this.planType,
         payment_type: this.paymentType,
-        payment_method: this.paymentMethod
+        payment_method: this.paymentMethod,
+        is_renew: this.isRenew
       }));
     }
   }
@@ -312,7 +314,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       ...data,
       plan_type: this.planType,
       payment_type: this.paymentType,
-      payment_method: this.paymentMethod
+      payment_method: this.paymentMethod,
+      is_renew: this.isRenew
     };
   }
 
@@ -377,6 +380,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       payment_type: this.paymentType,
       plan_type: this.planType,
       payment_method: this.paymentMethod,
+      is_renew: this.isRenew,
     }));
   }
 
