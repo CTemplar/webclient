@@ -145,7 +145,8 @@
                               Cycle End
                             </div>
                             <div class="info-list-text info-list-val">
-                              {{payment.billing_cycle_ends | momentDate:'mediumDate'}}
+                              <span>{{payment.billing_cycle_ends | momentDate:'mediumDate'}}</span>
+                              <a *ngIf="!settings.recurrence_billing" class="float-right" (click)="renew()">Renew</a>
                             </div>
                           </li>
                           <li class="info-list-item">
@@ -801,3 +802,22 @@
 
 </ng-template><!-- /.Confirm delete account modal ends -->
 
+<!-- billing info modal -->
+<ng-template #billingInfoModal let-c="close" let-d="dismiss">
+  <div class="billing-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body user-billing-upgrade-modal bg-faded px-3 py-0 bg-white">
+    <app-users-billing-info [isUpgradeAccount]="true"
+                            [isRenew]="true"
+                            [planType]="userPlanType"
+                            [paymentType]="payment.payment_type"
+                            [currency]="payment.currency"
+                            [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :
+                                             payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN :
+                                             payment.payment_method"
+                            (close)="d()"></app-users-billing-info>
+  </div>
+</ng-template><!-- /.billing info modal ends -->
