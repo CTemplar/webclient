@@ -1,763 +1,803 @@
 <div class="mailbox-sub-content" #settingsContent>
 
-    <ngb-tabset #tabSet="ngbTabset" (tabChange)="navigateToTab($event); scrollTop(settingsContent)" >
+  <ngb-tabset #tabSet="ngbTabset" (tabChange)="navigateToTab($event); scrollTop(settingsContent)">
 
-        <!-- Dashboard and Plans -->
-        <ngb-tab id="dashboard-and-plans">
-            <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard & plans</span></ng-template>
-            <ng-template ngbTabContent>
+    <!-- Dashboard and Plans -->
+    <ngb-tab id="dashboard-and-plans">
+      <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard & plans</span></ng-template>
+      <ng-template ngbTabContent>
 
 
-                <!-- Overview Section -->
-                <section class="mailbox-section mt-4">
+        <!-- Overview Section -->
+        <section class="mailbox-section mt-4">
 
-                    <div class="mailbox-section-body pt-0">
-                        <div class="desc-card-holder mt-sm-3 mt-md-0">
-                          <!--START Plan details -->
-                          <div class="mb-4 row plan-details">
-                            <div class="col-12">
-                              <div class="desc-card">
-                                <div
-                                        class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                  <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.plan_details">Plan Details</strong></h5>
+          <div class="mailbox-section-body pt-0">
+            <div class="desc-card-holder mt-sm-3 mt-md-0">
+              <!--START Plan details -->
+              <div class="mb-4 row plan-details">
+                <div class="col-12">
+                  <div class="desc-card">
+                    <div
+                            class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                      <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.plan_details">Plan
+                        Details</strong></h5>
+                    </div>
+                    <div class="desc-card-body">
+                      <div class="row">
+                        <div class="col-5">
+                          <div align="center" class="subscription">
+                            <div class="subscription-tag">
+                              {{userPlanType}}
+                            </div>
+                            <div><i class="material-icons">card_membership</i></div>
+                            <div>
+                              <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer"
+                                 translate="settings.upgrade">Upgrade</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-7">
+                          <ul class="info-list list-styled text-dark">
+                            <li class="info-list-item">
+                              <div class="info-list-text info-list-label"
+                                   translate="settings.username">
+                                Username
+                              </div>
+                              <div class="info-list-text info-list-val">{{userState.username}}</div>
+                            </li>
+                            <li class="info-list-item">
+                              <div class="info-list-text info-list-label"
+                                   translate="settings.domains">
+                                Domains
+                              </div>
+                              <div class="info-list-text info-list-val">
+                                <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
+                                <span *ngIf="!userState.isPrime"
+                                      translate="settings.none">None</span>
+                              </div>
+                            </li>
+                            <li class="info-list-item align-items-start">
+                              <div class="info-list-text info-list-label"
+                                   translate="settings.addresses">
+                                Addresses
+                              </div>
+                              <div class="info-list-text info-list-val">
+                                <div *ngIf="userState.isPrime"
+                                     class="ng-tooltips-holder d-inline-block"
+                                     placement="top">
+                                  <div class="info-list-val-text"
+                                       translate="settings.address_tooltip">
+                                    {{settings?.email_count}}
+                                  </div>
                                 </div>
-                                <div class="desc-card-body">
-                                  <div class="row">
-                                    <div class="col-5">
-                                      <div align="center" class="subscription">
-                                        <div class="subscription-tag">
-                                             {{userPlanType}}
-                                        </div>
-                                        <div><i class="material-icons">card_membership</i></div>
-                                        <div>
-                                          <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer" translate="settings.upgrade">Upgrade</a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-7">
-                                      <ul class="info-list list-styled text-dark">
-                                        <li class="info-list-item">
-                                          <div class="info-list-text info-list-label"
-                                               translate="settings.username">
-                                            Username
-                                          </div>
-                                          <div class="info-list-text info-list-val">{{userState.username}}</div>
-                                        </li>
-                                        <li class="info-list-item">
-                                          <div class="info-list-text info-list-label"
-                                               translate="settings.domains">
-                                            Domains
-                                          </div>
-                                          <div class="info-list-text info-list-val">
-                                            <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
-                                            <span *ngIf="!userState.isPrime"
-                                                  translate="settings.none">None</span>
-                                          </div>
-                                        </li>
-                                        <li class="info-list-item align-items-start">
-                                          <div class="info-list-text info-list-label"
-                                               translate="settings.addresses">
-                                            Addresses
-                                          </div>
-                                          <div class="info-list-text info-list-val">
-                                            <div *ngIf="userState.isPrime"
-                                                 class="ng-tooltips-holder d-inline-block"
-                                                 placement="top">
-                                              <div class="info-list-val-text"
-                                                   translate="settings.address_tooltip">
-                                                {{settings?.email_count}}
-                                              </div>
-                                            </div>
-                                            <div *ngIf="!userState.isPrime" class="d-inline-block">
-                                              <div class="info-list-val-text"
-                                                   translate="settings.address_one">
-                                                One
-                                              </div>
-                                            </div>
+                                <div *ngIf="!userState.isPrime" class="d-inline-block">
+                                  <div class="info-list-val-text"
+                                       translate="settings.address_one">
+                                    One
+                                  </div>
+                                </div>
 
-                                          </div>
-                                        </li>
-                                        <li class="info-list-item">
-                                          <div class="info-list-text info-list-label"
-                                               translate="settings.storage">
-                                            Storage
-                                          </div>
+                              </div>
+                            </li>
+                            <li class="info-list-item">
+                              <div class="info-list-text info-list-label"
+                                   translate="settings.storage">
+                                Storage
+                              </div>
 
-                                          <div class="info-list-text info-list-val">
-                                            <div class="info-list-val-text"> {{(settings?.used_storage *
-                                                1024) | filesize}} of {{(settings?.allocated_storage *
-                                                1024) | filesize}}</div>
-                                            <div class="progress progress-secondary progress-lg">
-                                              <div class="progress-bar" role="progressbar"
-                                                   [style.width.%]="((settings.used_storage/settings.allocated_storage)*100)"
-                                                   [attr.aria-valuenow]="settings.used_storage"
-                                                   aria-valuemin="0"
-                                                   [attr.aria-valuemax]="settings.allocated_storage"></div>
-                                            </div>
-                                          </div>
-                                        </li>
-                                      </ul>
-                                    </div>
+                              <div class="info-list-text info-list-val">
+                                <div class="info-list-val-text"> {{(settings?.used_storage *
+                                    1024) | filesize}} of {{(settings?.allocated_storage *
+                                    1024) | filesize}}</div>
+                                <div class="progress progress-secondary progress-lg">
+                                  <div class="progress-bar" role="progressbar"
+                                       [style.width.%]="((settings.used_storage/settings.allocated_storage)*100)"
+                                       [attr.aria-valuenow]="settings.used_storage"
+                                       aria-valuemin="0"
+                                       [attr.aria-valuemax]="settings.allocated_storage"></div>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--END Plan details -->
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="desc-card">
+                    <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                      <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.my_subscription">My
+                        Subscription</strong></h5>
+                    </div>
+                    <div class="desc-card-body">
+                      <ul class="info-list info-list-lg list-styled text-dark" *ngIf="payment">
+                        <li class="info-list-item">
+                          <div class="info-list-item-row">
+                            <div class="info-list-text info-list-label">
+                              <span class="info-list-label-text" translate="settings.plans">Plan</span>
+                            </div>
+                            <div class="info-list-text info-list-val">{{userPlanType}}</div>
+                          </div>
+                        </li>
+                        <ng-container *ngIf="userPlanType !== planType.FREE">
+                          <li class="info-list-item">
+                            <div class="info-list-text info-list-label">Billing</div>
+                            <div class="info-list-text info-list-val">
+                              {{payment.payment_type}}
+                            </div>
+                          </li>
+                          <li class="info-list-item">
+                            <div class="info-list-text info-list-label"
+                                 translate="settings.payment">Payment
+                            </div>
+                            <div class="info-list-text info-list-val text-capitalize">
+                              {{payment.payment_method}}
+                            </div>
+                          </li>
+                          <li class="info-list-item">
+                            <div class="info-list-text info-list-label"
+                                 translate="settings.billing_cycle_end">Billing
+                              Cycle End
+                            </div>
+                            <div class="info-list-text info-list-val">
+                              {{payment.billing_cycle_ends | momentDate:'mediumDate'}}
+                            </div>
+                          </li>
+                          <li class="info-list-item">
+                            <div class="info-list-text info-list-label">
+                              Recurring Billing
+                            </div>
+                            <div class="info-list-text info-list-val">
+                              <div class="row row-sm"
+                                   *ngIf="payment.payment_method===paymentMethod.stripe;else bitcoinMethod">
+                                <div class="col-6 flex-auto-col">
+                                  <div class="fancy-field-group">
+                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                           id="enableRecurringBilling"
+                                           name="recurringBilling" type="radio"
+                                           (click)="updateSettings('recurrence_billing', true)"
+                                           [checked]="settings.recurrence_billing"/>
+                                    <label for="enableRecurringBilling"
+                                           translate="common.yes">Yes</label>
+                                  </div>
+                                </div>
+                                <div class="col-6 flex-auto-col">
+                                  <div class="fancy-field-group">
+                                    <input class="d-none fancy-field-control fancy-field-control-sm"
+                                           id="disableRecurringBilling"
+                                           name="recurringBilling" type="radio"
+                                           (click)="updateSettings('recurrence_billing', false)"
+                                           [checked]="!settings.recurrence_billing"/>
+                                    <label for="disableRecurringBilling"
+                                           translate="common.no">No</label>
                                   </div>
                                 </div>
                               </div>
+                              <ng-template #bitcoinMethod>
+                                Not available for bitcoin
+                              </ng-template>
                             </div>
-                          </div>
-                          <!--END Plan details -->
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="desc-card">
-                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.my_subscription">My
-                                                    Subscription</strong></h5>
-                                        </div>
-                                        <div class="desc-card-body">
-                                            <ul class="info-list info-list-lg list-styled text-dark" *ngIf="payment">
-                                                <li class="info-list-item">
-                                                    <div class="info-list-item-row">
-                                                        <div class="info-list-text info-list-label">
-                                                            <span class="info-list-label-text" translate="settings.plans">Plan</span>
-                                                        </div>
-                                                        <div class="info-list-text info-list-val">{{userPlanType}}</div>
-                                                    </div>
-                                                </li>
-                                                <ng-container *ngIf="userPlanType !== planType.FREE">
-                                                    <li class="info-list-item">
-                                                        <div class="info-list-text info-list-label">Billing</div>
-                                                        <div class="info-list-text info-list-val">
-                                                            {{payment.payment_type}}
-                                                        </div>
-                                                    </li>
-                                                  <li class="info-list-item">
-                                                    <div class="info-list-text info-list-label"
-                                                         translate="settings.payment">Payment
-                                                    </div>
-                                                    <div class="info-list-text info-list-val text-capitalize">
-                                                      {{payment.payment_method}}
-                                                    </div>
-                                                  </li>
-                                                    <li class="info-list-item">
-                                                        <div class="info-list-text info-list-label"
-                                                             translate="settings.billing_cycle_end">Billing
-                                                            Cycle End
-                                                        </div>
-                                                        <div class="info-list-text info-list-val">
-                                                            {{payment.billing_cycle_ends | momentDate:'mediumDate'}}
-                                                        </div>
-                                                    </li>
-                                                    <li class="info-list-item">
-                                                        <div class="info-list-text info-list-label">
-                                                            Recurring Billing
-                                                        </div>
-                                                        <div class="info-list-text info-list-val">
-                                                            <div class="row row-sm" *ngIf="payment.payment_method===paymentMethod.stripe;else bitcoinMethod">
-                                                                <div class="col-6 flex-auto-col">
-                                                                    <div class="fancy-field-group">
-                                                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                                                               id="enableRecurringBilling"
-                                                                               name="recurringBilling" type="radio"
-                                                                               (click)="updateSettings('recurrence_billing', true)"
-                                                                               [checked]="settings.recurrence_billing"/>
-                                                                        <label for="enableRecurringBilling"
-                                                                               translate="common.yes">Yes</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6 flex-auto-col">
-                                                                    <div class="fancy-field-group">
-                                                                        <input class="d-none fancy-field-control fancy-field-control-sm"
-                                                                               id="disableRecurringBilling"
-                                                                               name="recurringBilling" type="radio"
-                                                                               (click)="updateSettings('recurrence_billing', false)"
-                                                                               [checked]="!settings.recurrence_billing"/>
-                                                                        <label for="disableRecurringBilling"
-                                                                               translate="common.no">No</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <ng-template #bitcoinMethod>
-                                                              Not available for bitcoin
-                                                            </ng-template>
-                                                        </div>
-                                                    </li>
-                                                </ng-container>
-                                            </ul>
-                                        </div>
-                                    </div>
+                          </li>
+                        </ng-container>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4 mb-md-0">
+                  <div class="desc-card">
+                    <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                      <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.bills">Bills</strong>
+                      </h5>
+                    </div>
+                    <div class="plan-details">
+                      <div class="desc-card-body invoices"
+                           [ngClass]="{'no-invoice' : userState?.isInvoiceLoaded && invoices.length===0}">
+                        <div *ngIf="userState?.isInvoiceLoaded && invoices.length>0">
+                          <ul class="ui-list ui-list-styled list-styled invoices-list">
+                            <li class="ui-list-item ui-list-item-xs-full">
+                              <div class="row row-xs align-items-center">
+                                <div class="col-5 font-weight-bold col-item">
+                                  # <span translate="settings.invoice">Invoice</span>
                                 </div>
-                                <div class="col-md-6 mb-4 mb-md-0">
-                                    <div class="desc-card">
-                                        <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                                            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.bills">Bills</strong>
-                                            </h5>
-                                        </div>
-                                        <div class="plan-details">
-                                            <div class="desc-card-body invoices"
-                                                 [ngClass]="{'no-invoice' : userState?.isInvoiceLoaded && invoices.length===0}">
-                                                <div *ngIf="userState?.isInvoiceLoaded && invoices.length>0">
-                                                    <ul class="ui-list ui-list-styled list-styled invoices-list">
-                                                        <li class="ui-list-item ui-list-item-xs-full">
-                                                            <div class="row row-xs align-items-center">
-                                                                <div class="col-5 font-weight-bold col-item">
-                                                                    # <span translate="settings.invoice">Invoice</span>
-                                                                </div>
-                                                                <div class="col-3 col-item">
-                                                                    <div class="form-label mb-0 font-weight-bold" translate="settings.date">
-                                                                        Date
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-2 font-weight-bold col-item" translate="settings.amount">
-                                                                    Amount
-                                                                </div>
-                                                            </div>
-                                                        <li class="ui-list-item ui-list-item-xs-full"
-                                                            *ngFor="let invoice of invoices">
-                                                            <div class="row row-xs align-items-center">
-                                                                <div class="col-5 text-dark col-item" [ngbTooltip]="'settings.view_invoice'| translate">
-                                                                    <a class="cursor-pointer" (click)="onViewInvoice(invoice)">
-                                                                        {{invoice.invoice_id}}
-                                                                    </a>
-                                                                </div>
-                                                                <div class="col-3 col-item">
-                                                                    <div class="form-label text-dark mb-0">
-                                                                        {{invoice.invoice_date | date: 'dd/MM/yyyy'}}
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-2 text-dark col-item">
-                                                                  ${{(invoice.total_amount/100).toFixed(2)}}
-                                                                </div>
-                                                                <div class="col-2 display-inline-flex actions">
-                                                                    <i (click)="onViewInvoice(invoice)"
-                                                                       [ngbTooltip]="'settings.view'| translate"
-                                                                       class="material-icons pr-2 cursor-pointer">visibility</i>
-                                                                    <i (click)="onPrintInvoice(invoice)"
-                                                                       [ngbTooltip]="'mail_detail.print'| translate"
-                                                                       class="material-icons cursor-pointer">print_outline</i>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices.length===0" translate="settings.no_bills_avail">
-                                                    No bills available
-                                                </div>
-
-                                                <div class="loader" *ngIf="!userState?.isInvoiceLoaded">
-                                                    <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-3 col-item">
+                                  <div class="form-label mb-0 font-weight-bold" translate="settings.date">
+                                    Date
+                                  </div>
                                 </div>
-                            </div>
+                                <div class="col-2 font-weight-bold col-item" translate="settings.amount">
+                                  Amount
+                                </div>
+                              </div>
+                            <li class="ui-list-item ui-list-item-xs-full"
+                                *ngFor="let invoice of invoices">
+                              <div class="row row-xs align-items-center">
+                                <div class="col-5 text-dark col-item" [ngbTooltip]="'settings.view_invoice'| translate">
+                                  <a class="cursor-pointer" (click)="onViewInvoice(invoice)">
+                                    {{invoice.invoice_id}}
+                                  </a>
+                                </div>
+                                <div class="col-3 col-item">
+                                  <div class="form-label text-dark mb-0">
+                                    {{invoice.invoice_date | date: 'dd/MM/yyyy'}}
+                                  </div>
+                                </div>
+
+                                <div class="col-2 text-dark col-item">
+                                  ${{(invoice.total_amount / 100).toFixed(2)}}
+                                </div>
+                                <div class="col-2 display-inline-flex actions">
+                                  <i (click)="onViewInvoice(invoice)"
+                                     [ngbTooltip]="'settings.view'| translate"
+                                     class="material-icons pr-2 cursor-pointer">visibility</i>
+                                  <i (click)="onPrintInvoice(invoice)"
+                                     [ngbTooltip]="'mail_detail.print'| translate"
+                                     class="material-icons cursor-pointer">print_outline</i>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
                         </div>
+
+                        <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices.length===0"
+                             translate="settings.no_bills_avail">
+                          No bills available
+                        </div>
+
+                        <div class="loader" *ngIf="!userState?.isInvoiceLoaded">
+                          <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
+                        </div>
+
+                      </div>
                     </div>
-                </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
 
-                <!-- Account Type Section -->
-                <section class="mailbox-section" #targetUpgrade>
-                    <div class="ui-header ui-header-bordered position-relative">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account
-                                Type</strong></h5>
-                    </div>
-                    <app-pricing-plans hideHeader="true" blockGapsZero="true"
-                                       [showCurrentPlan]="true"
-                                       [userPlanType]="userPlanType"
-                                       [selectedCurrency]="payment.currency"
-                                       [paymentType]="payment.payment_type"
-                                       [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :
+        <!-- Account Type Section -->
+        <section class="mailbox-section" #targetUpgrade>
+          <div class="ui-header ui-header-bordered position-relative">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account
+              Type</strong></h5>
+          </div>
+          <app-pricing-plans hideHeader="true" blockGapsZero="true"
+                             [showCurrentPlan]="true"
+                             [userPlanType]="userPlanType"
+                             [selectedCurrency]="payment.currency"
+                             [paymentType]="payment.payment_type"
+                             [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE :
                                                         payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN :
                                                         payment.payment_method"
-                                       [openBillingInfoInModal]="true"></app-pricing-plans>
+                             [openBillingInfoInModal]="true"></app-pricing-plans>
 
-                </section>
+        </section>
 
 
-            </ng-template>
-        </ngb-tab>
+      </ng-template>
+    </ngb-tab>
 
-        <!-- General -->
-        <ngb-tab id="general">
-            <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
-            <ng-template ngbTabContent>
+    <!-- General -->
+    <ngb-tab id="general">
+      <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
+      <ng-template ngbTabContent>
 
-                <!-- General Settings -->
-                <section class="mailbox-section">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General
-                                settings</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-0" translate="settings.language">Language</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="btn-dropdown btn-dropdown-select">
-                                            <div ngbDropdown class="dropdown-sm">
-                                                <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
-                                                    {{selectedLanguage?.name}} ({{selectedLanguage?.locale}})
-                                                </button>
-                                                <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                                                    <a class="dropdown-item" *ngFor="let language of languages" (click)="updateLanguage(language)">
-                                                        {{language.name}} ({{language.locale}})
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-0" translate="settings.current_time_zone">Current
-                                            time zone</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="btn-dropdown btn-dropdown-select">
-                                            <div ngbDropdown class="dropdown-sm">
-                                                <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    {{settings.timezone}}
-                                                </button>
-                                                <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
-                                                    <a class="dropdown-item" *ngFor="let timezone of timezones" (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically
-                                            save contacts</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="row row-sm">
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField1"
-                                                        name="[1]" type="radio" (click)="updateSettings('save_contacts', true)"
-                                                        [checked]="settings.save_contacts" />
-                                                    <label for="autoSaveField1" translate="common.enabled">Enabled</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField2"
-                                                        name="[1]" type="radio" (click)="updateSettings('save_contacts', false)"
-                                                        [checked]="!settings.save_contacts" />
-                                                    <label for="autoSaveField2" translate="common.disabled">Disabled</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-0" translate="settings.compose_font">Default Mail Compose Font</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="btn-dropdown btn-dropdown-select">
-                                            <div ngbDropdown class="dropdown-sm">
-                                                <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultFontDropdownMenuButton">
-                                                    {{settings.default_font}}
-                                                </button>
-                                                <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
-                                                    <a class="dropdown-item text-capitalize" *ngFor="let font of fonts"
-                                                       (click)="updateSettings('default_font', font)">
-                                                        {{font}}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-0">HTML editor</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                        <div class="row row-sm">
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor1"
-                                                           name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', false)"
-                                                           [checked]="!settings.is_html_disabled" />
-                                                    <label for="htmlEditor1" translate="common.enabled">Enabled</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 flex-auto-col">
-                                                <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor2"
-                                                           name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', true)"
-                                                           [checked]="settings.is_html_disabled" />
-                                                    <label for="htmlEditor2" translate="common.disabled">Disabled</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="info-card mt-2 mx-3 full-width">
-                                        <p>
-                                            Disabling HTML editor will allow you to use plain text editor for composing email.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+        <!-- General Settings -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General
+              settings</strong></h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" translate="settings.language">Language</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
+                          {{selectedLanguage?.name}} ({{selectedLanguage?.locale}})
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
+                          <a class="dropdown-item" *ngFor="let language of languages"
+                             (click)="updateLanguage(language)">
+                            {{language.name}} ({{language.locale}})
+                          </a>
                         </div>
+                      </div>
                     </div>
-                </section>
-
-                <!-- Appreance Section -->
-                <section class="mailbox-section">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-row">
-                            <div class="row align-items-center">
-                                <div class="col-sm-3">
-                                    <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
-                                        per page</label>
-                                </div>
-                                <div class="col-sm-7 col-md-5">
-                                    <div class="row row-sm">
-                                        <div class="col-6 flex-auto-col">
-                                            <div class="fancy-field-group">
-                                                <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1"
-                                                    name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)"
-                                                    [checked]="settings?.emails_per_page===20" />
-                                                <label for="emailCoutField1">20</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 flex-auto-col">
-                                            <div class="fancy-field-group">
-                                                <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2"
-                                                    name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)"
-                                                    [checked]="settings?.emails_per_page===50" />
-                                                <label for="emailCoutField2">50</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 flex-auto-col">
-                                            <div class="fancy-field-group">
-                                                <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3"
-                                                    name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)"
-                                                    [checked]="settings?.emails_per_page===100" />
-                                                <label for="emailCoutField3">100</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" translate="settings.current_time_zone">Current
+                      time zone</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{settings.timezone}}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
+                          <a class="dropdown-item" *ngFor="let timezone of timezones"
+                             (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
                         </div>
+                      </div>
                     </div>
-
-                </section>
-
-                <!-- Notification Section -->
-                <section class="mailbox-section">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong
-                                translate="settings.notifications">Notifications</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <div class="form-content-row">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label for="notificationEmail" class="form-label mb-sm-0" translate="settings.notification_email">
-                                            Notification email</label>
-                                    </div>
-                                    <form class="col-sm-7 col-md-5" autocomplete="off">
-                                        <input class="form-control form-control-sm" id="notificationEmail" type="email" name="notificationEmail"
-                                               autocomplete="off" [(ngModel)]="settings.notification_email" [ngModelOptions]="{ updateOn: 'blur'}"
-                                               (change)="updateSettings('notification_email', $event.target.value)"
-                                               placeholder="johnsimpson@gmail.com"/>
-                                    </form>
-                                    <div class="info-card mx-3 mt-2 full-width">
-                                        <p translate="settings.enter_notification_email">
-                                            Enter a notification email on which you would like to receive notification
-                                            each day when you have new emails.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row align-items-center">
-                                    <div class="col-sm-3">
-                                        <label class="form-label mb-sm-0" translate="settings.desktop_notification_title">
-                                            Desktop notifications</label>
-                                    </div>
-                                    <div class="col-sm-7 col-md-5">
-                                      <div class="info-card mt-3 full-width">
-                                        <p *ngIf="notificationsPermission === notificationPermissionType.DENIED"
-                                        translate="settings.desktop_notifications_dis">
-                                          Desktop Notifications are disabled.
-                                          Please go to your browser settings in order to enable them.
-                                        </p>
-                                        <p *ngIf="notificationsPermission === notificationPermissionType.DEFAULT">
-                                          <a (click)="requestNotificationPermission()">Click here</a> in order to enable desktop notifications.
-                                        </p>
-                                        <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
-                                          <span translate="settings.desktop_notifications_en">Desktop notifications are enabled.</span>
-                                          <a (click)="testNotification()"> <span translate="settings.click_to_test">Click here to Test</span></a>
-                                        </p>
-                                      </div>
-                                    </div>
-                                </div>
-                            </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically
+                      save contacts</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField1"
+                                 name="[1]" type="radio" (click)="updateSettings('save_contacts', true)"
+                                 [checked]="settings.save_contacts"/>
+                          <label for="autoSaveField1" translate="common.enabled">Enabled</label>
                         </div>
-                    </div>
-
-                </section>
-                <!-- Payments Section Ends -->
-
-                <!-- Delete account settings -->
-                <section class="mailbox-section">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.delete_account">Delete Account</strong>
-                        </h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
-                            <div class="info-card">
-                                <p translate="settings.delete_account_guide">If you permanently delete your account you will lose all the data in your mailbox.
-                                    In 2 months this username will be available for re-use by anyone who selects it.</p>
-                                <button type="button" class="text-uppercase btn-link" role="button"
-                                        [disabled]="authState?.inProgress"
-                                        (click)="onDeleteAccount()"><strong><u translate="settings.delete_account_perm">Permanently Delete Account</u></strong>
-                                </button>
-                            </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField2"
+                                 name="[1]" type="radio" (click)="updateSettings('save_contacts', false)"
+                                 [checked]="!settings.save_contacts"/>
+                          <label for="autoSaveField2" translate="common.disabled">Disabled</label>
                         </div>
+                      </div>
                     </div>
-                </section>
-
-            </ng-template>
-        </ngb-tab>
-
-        <!-- Filters and blocked addresses -->
-        <ngb-tab id="filters-and-blocked-addresses">
-            <ng-template ngbTabTitle> <span translate="settings.filters.title">Filters & blocked addresses</span></ng-template>
-            <ng-template ngbTabContent>
-
-              <!-- Custom filters -->
-              <app-mail-filters></app-mail-filters>
-
-              <!-- Whitelist settings -->
-                <section class="mailbox-section">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.whitelist.name">Whitelist</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <ul class="ui-list ui-list-styled list-styled">
-                                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="form-label text-dark mb-0">{{item.email}}</div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li><a (click)="deleteWhiteList(item.id)" role="button"><i class="icon icon-garbage"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="info-card">
-                                <p [innerHTML]="'settings.whitelist.info' | translate">Messages from contacts in the
-                                    whitelist
-                                    always go to <strong>Inbox folder</strong>. Marking a
-                                    message as not spam adds the address to the Whitelist.</p>
-                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u
-                                            translate="settings.whitelist.add_whitelist_contact">Add whitelist
-                                            contact</u></strong></a>
-                            </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" translate="settings.compose_font">Default Mail Compose Font</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle class="text-capitalize" role="button"
+                                id="defaultFontDropdownMenuButton">
+                          {{settings.default_font}}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
+                          <a class="dropdown-item text-capitalize" *ngFor="let font of fonts"
+                             (click)="updateSettings('default_font', font)">
+                            {{font}}
+                          </a>
                         </div>
+                      </div>
                     </div>
-                </section>
-
-                <!-- Blacklist settings -->
-                <section class="mailbox-section">
-                    <header class="ui-header ui-header-bordered">
-                        <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.blacklist.name">Blacklist</strong></h5>
-                    </header>
-                    <div class="mailbox-section-body mailbox-section-body-sm">
-                        <div class="form-content-holder">
-                            <ul class="ui-list ui-list-styled list-styled">
-                                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList">
-                                    <div class="row row-xs align-items-center">
-                                        <div class="col-10 col-sm-8">
-                                            <div class="form-label text-dark mb-0">{{item.email}}</div>
-                                        </div>
-                                        <div class="col-2 col-sm-4">
-                                            <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                                                <li>
-                                                    <a (click)="deleteBlackList(item.id)" role="button">
-                                                        <i class="icon icon-garbage"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="info-card">
-                                <p [innerHTML]="'settings.blacklist.info' | translate">Messages from contacts in the
-                                    blacklist
-                                    always go to <strong>Spam folder</strong>. Marking a
-                                    message as spam adds the address to the Blacklist.</p>
-                                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u
-                                            translate="settings.blacklist.add_blacklist_contact">Add blacklist
-                                            contact</u></strong></a>
-                            </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">HTML editor</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor1"
+                                 name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', false)"
+                                 [checked]="!settings.is_html_disabled"/>
+                          <label for="htmlEditor1" translate="common.enabled">Enabled</label>
                         </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor2"
+                                 name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', true)"
+                                 [checked]="settings.is_html_disabled"/>
+                          <label for="htmlEditor2" translate="common.disabled">Disabled</label>
+                        </div>
+                      </div>
                     </div>
-                </section>
-            </ng-template>
-        </ngb-tab>
+                  </div>
+                  <div class="info-card mt-2 mx-3 full-width">
+                    <p>
+                      Disabling HTML editor will allow you to use plain text editor for composing email.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <!-- Addresses and Signatures -->
-        <ngb-tab id="addresses-and-signatures">
-            <ng-template ngbTabTitle><span translate="settings.addresses_and_signs">Addresses & signatures</span></ng-template>
-            <ng-template ngbTabContent>
-                <app-addresses-signature></app-addresses-signature>
-            </ng-template>
-        </ngb-tab>
+        <!-- Appreance Section -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-row">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
+                  <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
+                    per page</label>
+                </div>
+                <div class="col-sm-7 col-md-5">
+                  <div class="row row-sm">
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1"
+                               name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)"
+                               [checked]="settings?.emails_per_page===20"/>
+                        <label for="emailCoutField1">20</label>
+                      </div>
+                    </div>
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2"
+                               name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)"
+                               [checked]="settings?.emails_per_page===50"/>
+                        <label for="emailCoutField2">50</label>
+                      </div>
+                    </div>
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3"
+                               name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)"
+                               [checked]="settings?.emails_per_page===100"/>
+                        <label for="emailCoutField3">100</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <!-- Folders -->
-        <ngb-tab id="folders">
-            <ng-template ngbTabTitle><div translate="page_pricing.folders">Folders</div></ng-template>
-            <ng-template ngbTabContent>
-                <app-folders></app-folders>
-            </ng-template>
-        </ngb-tab>
+        </section>
 
-        <!-- Security -->
-        <ngb-tab id="security">
-            <ng-template ngbTabTitle><div translate="home_header.security">Security</div></ng-template>
-           <ng-template ngbTabContent>
-               <app-settings-security></app-settings-security>
-           </ng-template>
-        </ngb-tab>
+        <!-- Notification Section -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong
+                    translate="settings.notifications">Notifications</strong></h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label for="notificationEmail" class="form-label mb-sm-0" translate="settings.notification_email">
+                      Notification email</label>
+                  </div>
+                  <form class="col-sm-7 col-md-5" autocomplete="off">
+                    <input class="form-control form-control-sm" id="notificationEmail" type="email"
+                           name="notificationEmail"
+                           autocomplete="off" [(ngModel)]="settings.notification_email"
+                           [ngModelOptions]="{ updateOn: 'blur'}"
+                           (change)="updateSettings('notification_email', $event.target.value)"
+                           placeholder="johnsimpson@gmail.com"/>
+                  </form>
+                  <div class="info-card mx-3 mt-2 full-width">
+                    <p translate="settings.enter_notification_email">
+                      Enter a notification email on which you would like to receive notification
+                      each day when you have new emails.
+                    </p>
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-sm-0" translate="settings.desktop_notification_title">
+                      Desktop notifications</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="info-card mt-3 full-width">
+                      <p *ngIf="notificationsPermission === notificationPermissionType.DENIED"
+                         translate="settings.desktop_notifications_dis">
+                        Desktop Notifications are disabled.
+                        Please go to your browser settings in order to enable them.
+                      </p>
+                      <p *ngIf="notificationsPermission === notificationPermissionType.DEFAULT">
+                        <a (click)="requestNotificationPermission()">Click here</a> in order to enable desktop
+                        notifications.
+                      </p>
+                      <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
+                        <span translate="settings.desktop_notifications_en">Desktop notifications are enabled.</span>
+                        <a (click)="testNotification()"> <span
+                                translate="settings.click_to_test">Click here to Test</span></a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <!-- Domains -->
-        <ngb-tab id="domains-and-users">
-            <ng-template ngbTabTitle><div translate="settings.domains_and_users.title">Domains & Users</div></ng-template>
-            <ng-template ngbTabContent>
+        </section>
+        <!-- Payments Section Ends -->
 
-                <app-custom-domains (onGotoTab)="tabSet.select($event);"></app-custom-domains>
+        <!-- Delete account settings -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.delete_account">Delete
+              Account</strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
+              <div class="info-card">
+                <p translate="settings.delete_account_guide">If you permanently delete your account you will lose all
+                  the data in your mailbox.
+                  In 2 months this username will be available for re-use by anyone who selects it.</p>
+                <button type="button" class="text-uppercase btn-link" role="button"
+                        [disabled]="authState?.inProgress"
+                        (click)="onDeleteAccount()"><strong><u translate="settings.delete_account_perm">Permanently
+                  Delete Account</u></strong>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            </ng-template>
-        </ngb-tab>
+      </ng-template>
+    </ngb-tab>
 
-        <!-- Forwarding and auto responder -->
-        <ngb-tab id="forwarding-and-auto-responder">
-            <ng-template ngbTabTitle> <div translate="settings.forwarding_and_autores">Forwarding & autoresponder</div></ng-template>
-            <ng-template ngbTabContent>
-                <app-mail-forwarding></app-mail-forwarding>
-                <app-mail-autoresponder></app-mail-autoresponder>
-            </ng-template>
-        </ngb-tab>
-    </ngb-tabset>
+    <!-- Filters and blocked addresses -->
+    <ngb-tab id="filters-and-blocked-addresses">
+      <ng-template ngbTabTitle><span translate="settings.filters.title">Filters & blocked addresses</span></ng-template>
+      <ng-template ngbTabContent>
 
-    <!-- Save Button -->
-    <button mat-fab color="warn" class="fab-bottom" (click)="onUpdateSettingsBtnClick()">
-        <i class="icon icon-save-disk"></i>
-    </button>
+        <!-- Custom filters -->
+        <app-mail-filters></app-mail-filters>
 
-    <app-mail-footer></app-mail-footer>
+        <!-- Whitelist settings -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.whitelist.name">Whitelist</strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <ul class="ui-list ui-list-styled list-styled">
+                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList">
+                  <div class="row row-xs align-items-center">
+                    <div class="col-10 col-sm-8">
+                      <div class="form-label text-dark mb-0">{{item.email}}</div>
+                    </div>
+                    <div class="col-2 col-sm-4">
+                      <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                        <li><a (click)="deleteWhiteList(item.id)" role="button"><i class="icon icon-garbage"></i></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="info-card">
+                <p [innerHTML]="'settings.whitelist.info' | translate">Messages from contacts in the
+                  whitelist
+                  always go to <strong>Inbox folder</strong>. Marking a
+                  message as not spam adds the address to the Whitelist.</p>
+                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                   (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u
+                        translate="settings.whitelist.add_whitelist_contact">Add whitelist
+                  contact</u></strong></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Blacklist settings -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.blacklist.name">Blacklist</strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <ul class="ui-list ui-list-styled list-styled">
+                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList">
+                  <div class="row row-xs align-items-center">
+                    <div class="col-10 col-sm-8">
+                      <div class="form-label text-dark mb-0">{{item.email}}</div>
+                    </div>
+                    <div class="col-2 col-sm-4">
+                      <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                        <li>
+                          <a (click)="deleteBlackList(item.id)" role="button">
+                            <i class="icon icon-garbage"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="info-card">
+                <p [innerHTML]="'settings.blacklist.info' | translate">Messages from contacts in the
+                  blacklist
+                  always go to <strong>Spam folder</strong>. Marking a
+                  message as spam adds the address to the Blacklist.</p>
+                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
+                   (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u
+                        translate="settings.blacklist.add_blacklist_contact">Add blacklist
+                  contact</u></strong></a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+    </ngb-tab>
+
+    <!-- Addresses and Signatures -->
+    <ngb-tab id="addresses-and-signatures">
+      <ng-template ngbTabTitle><span translate="settings.addresses_and_signs">Addresses & signatures</span>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <app-addresses-signature></app-addresses-signature>
+      </ng-template>
+    </ngb-tab>
+
+    <!-- Folders -->
+    <ngb-tab id="folders">
+      <ng-template ngbTabTitle>
+        <div translate="page_pricing.folders">Folders</div>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <app-folders></app-folders>
+      </ng-template>
+    </ngb-tab>
+
+    <!-- Security -->
+    <ngb-tab id="security">
+      <ng-template ngbTabTitle>
+        <div translate="home_header.security">Security</div>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <app-settings-security></app-settings-security>
+      </ng-template>
+    </ngb-tab>
+
+    <!-- Domains -->
+    <ngb-tab id="domains-and-users">
+      <ng-template ngbTabTitle>
+        <div translate="settings.domains_and_users.title">Domains & Users</div>
+      </ng-template>
+      <ng-template ngbTabContent>
+
+        <app-custom-domains (onGotoTab)="tabSet.select($event);"></app-custom-domains>
+
+      </ng-template>
+    </ngb-tab>
+
+    <!-- Forwarding and auto responder -->
+    <ngb-tab id="forwarding-and-auto-responder">
+      <ng-template ngbTabTitle>
+        <div translate="settings.forwarding_and_autores">Forwarding & autoresponder</div>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <app-mail-forwarding></app-mail-forwarding>
+        <app-mail-autoresponder></app-mail-autoresponder>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+  <!-- Save Button -->
+  <button mat-fab color="warn" class="fab-bottom" (click)="onUpdateSettingsBtnClick()">
+    <i class="icon icon-save-disk"></i>
+  </button>
+
+  <app-mail-footer></app-mail-footer>
 </div>
 
 <!-- Modal groups -->
 
-<app-save-list-contact *ngIf="newListContact.show" [contactType]="newListContact.type" (closed)="newListContact.show=false;"></app-save-list-contact>
+<app-save-list-contact *ngIf="newListContact.show" [contactType]="newListContact.type"
+                       (closed)="newListContact.show=false;"></app-save-list-contact>
 
 <!-- Delete account info modal -->
 <ng-template #deleteAccountInfoModal let-c="close" let-d="dismiss">
-    <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-        <h3 class="modal-title w-100 text-dark"><strong translate="settings.delete_account_perm" >Permanently Delete Account</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <form [formGroup]="deleteAccountInfoForm" (submit)="onDeleteAccountInfoSubmit()">
-        <div class="modal-body bg-faded">
-            <div class="text-holder text-dark text-medium">
-                <p class="text-danger" translate="settings.delete_account_guide">You have selected to permanently delete your account. If you proceed you will
-                    lose all the data in your
-                    mailbox.In 2 months this username will be available for re-use by anyone who selects it.</p>
-                <p translate="settings.provide_email">Please provide an email address in case we need to contact you.</p>
-                <div class="login-content-holder mx-auto mt-2 pt-sm-2">
-                    <div class="form">
-                        <div class="form-group form-group-sm">
-                            <label for="deleteAccountEmail" class="d-block text-muted text-left hidden-sm-up">Email
-                            </label>
-                            <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off"
-                                   [placeholder]="'common.email'| translate" type="email" name="deleteAccountEmail" formControlName="contact_email"/>
-                            <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
-                                  class="validate-message" translate="settings.email_invalid">The email is invalid.
+  <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.delete_account_perm">Permanently Delete
+      Account</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="deleteAccountInfoForm" (submit)="onDeleteAccountInfoSubmit()">
+    <div class="modal-body bg-faded">
+      <div class="text-holder text-dark text-medium">
+        <p class="text-danger" translate="settings.delete_account_guide">You have selected to permanently delete your
+          account. If you proceed you will
+          lose all the data in your
+          mailbox.In 2 months this username will be available for re-use by anyone who selects it.</p>
+        <p translate="settings.provide_email">Please provide an email address in case we need to contact you.</p>
+        <div class="login-content-holder mx-auto mt-2 pt-sm-2">
+          <div class="form">
+            <div class="form-group form-group-sm">
+              <label for="deleteAccountEmail" class="d-block text-muted text-left hidden-sm-up">Email
+              </label>
+              <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off"
+                     [placeholder]="'common.email'| translate" type="email" name="deleteAccountEmail"
+                     formControlName="contact_email"/>
+              <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
+                    class="validate-message" translate="settings.email_invalid">The email is invalid.
                             </span>
-                        </div>
-                        <div class="form-group form-group-sm">
-                            <label for="deleteAccountPassword" class="d-block text-muted text-left hidden-sm-up">Current
-                                Password</label>
-                            <div class="input-group">
-                                <input #deleteAccountPasswordInput class="form-control form-control-lg"
-                                       id="deleteAccountPassword" autocomplete="new-password" name="deleteAccountPassword"
-                                       formControlName="password" [placeholder]="'settings.current_password'| translate" type="password"/>
-                                <span class="input-group-addon password-toggle bg-white text-muted"
-                                      (click)="togglePassword(deleteAccountPasswordInput)">
+            </div>
+            <div class="form-group form-group-sm">
+              <label for="deleteAccountPassword" class="d-block text-muted text-left hidden-sm-up">Current
+                Password</label>
+              <div class="input-group">
+                <input #deleteAccountPasswordInput class="form-control form-control-lg"
+                       id="deleteAccountPassword" autocomplete="new-password" name="deleteAccountPassword"
+                       formControlName="password" [placeholder]="'settings.current_password'| translate"
+                       type="password"/>
+                <span class="input-group-addon password-toggle bg-white text-muted"
+                      (click)="togglePassword(deleteAccountPasswordInput)">
                                     <i class="fa fa-eye"></i>
                                 </span>
-                            </div>
-                            <span *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors"
-                                  class="validate-message">
-                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required" translate="settings.password_req" >
+              </div>
+              <span *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors"
+                    class="validate-message">
+                                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required"
+                                      translate="settings.password_req">
                                     Your current password is required.</span>
                             </span>
-                        </div>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
-        <div class="modal-footer justify-content-center justify-content-sm-end">
-            <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span></button>
-            <button class="btn btn-danger btn-sm" type="submit" translate="common.delete">Delete</button>
-        </div>
-    </form>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-center justify-content-sm-end">
+      <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span>
+      </button>
+      <button class="btn btn-danger btn-sm" type="submit" translate="common.delete">Delete</button>
+    </div>
+  </form>
 
 </ng-template><!-- /. Delete account info modal ends -->
 
 <!-- Confirm delete account modal -->
 <ng-template #confirmDeleteAccountModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong translate="settings.permanently_delete">Confirm Permanently Account Delete</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong translate="settings.permanently_delete">Confirm Permanently Account
+      Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="text-holder text-dark text-medium">
+      <p translate="settings.permanently_delete_alert">Are you sure you want to permanently delete your account? No one
+        will be able to undo this.</p>
     </div>
-    <div class="modal-body bg-faded">
-        <div class="text-holder text-dark text-medium">
-            <p translate="settings.permanently_delete_alert">Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
-        </div>
-    </div>
-    <div class="modal-footer justify-content-center justify-content-sm-end">
-        <button (click)="d()" class="btn btn-default btn-sm" role="button" translate="common.cancel">Cancel</button>
-        <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" translate="common.delete">Delete</button>
-    </div>
+  </div>
+  <div class="modal-footer justify-content-center justify-content-sm-end">
+    <button (click)="d()" class="btn btn-default btn-sm" role="button" translate="common.cancel">Cancel</button>
+    <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" translate="common.delete">
+      Delete
+    </button>
+  </div>
 
 </ng-template><!-- /.Confirm delete account modal ends -->
 
