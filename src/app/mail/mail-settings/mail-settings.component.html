@@ -146,7 +146,7 @@
                             </div>
                             <div class="info-list-text info-list-val">
                               <span>{{payment.billing_cycle_ends | momentDate:'mediumDate'}}</span>
-                              <a *ngIf="!settings.recurrence_billing"
+                              <a *ngIf="!settings.recurrence_billing || payment?.payment_method === paymentMethod.BITCOIN"
                                  ngbTooltip="Pay again to extend your billing cycle end."
                                  class="float-right" (click)="renew()">Renew</a>
                             </div>
