@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 export enum ContactsActionTypes {
   CONTACT_GET = '[Contacts] ContactGet GET',
   CONTACT_GET_SUCCESS = '[Contacts] Contact_GET_Success',
+  CONTACT_GET_FAILURE = '[Contacts] Contact_GET_Failure',
   CONTACT_ADD = '[Contacts] Contact_Add',
   CONTACT_ADD_SUCCESS = '[Contacts] Contact_Add_Success',
   CONTACT_ADD_ERROR = '[Contacts] Contact_Add_Error',
@@ -32,6 +33,11 @@ export class ContactGetSuccess implements Action {
   readonly type = ContactsActionTypes.CONTACT_GET_SUCCESS;
 
   constructor(public payload: any) {
+  }
+}export class ContactGetFailure implements Action {
+  readonly type = ContactsActionTypes.CONTACT_GET_FAILURE;
+
+  constructor(public payload?: any) {
   }
 }
 
@@ -137,6 +143,7 @@ export class UpdateBatchContactsSuccess implements Action {
 export type ContactsActionAll =
   | ContactsGet
   | ContactGetSuccess
+  | ContactGetFailure
   | ContactAdd
   | ContactAddSuccess
   | ContactAddError

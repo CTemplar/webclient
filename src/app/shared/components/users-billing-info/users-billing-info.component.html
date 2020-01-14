@@ -119,7 +119,7 @@
 
 
                     <div class="billing-overview-row row"
-                         *ngIf="isUpgradeAccount && upgradeAmount!=null && !promoCode.is_valid">
+                         *ngIf="isUpgradeAccount && upgradeAmount!=null && !promoCode.is_valid && !isRenew">
                       <label class="billing-overview-label mb-0 col-3"
                              ngbTooltip="This is the amount which you will be charged right now.">
                         Amount to charge</label>
