@@ -928,7 +928,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private embedImageInQuill(source: string, contentId?: string) {
-    if (source) {
+    if (source && this.quill) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
       this.quill.insertEmbed(index, 'image', {
