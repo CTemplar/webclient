@@ -2,7 +2,7 @@
 
 import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
-import { PromoCode, UserState } from '../datatypes';
+import { Domain, PromoCode, UserState } from '../datatypes';
 
 export const initialState: UserState = {
   username: null,
@@ -297,7 +297,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
-      const domain = action.payload.res;
+      const domain: Domain = action.payload.res;
       let isError: boolean = false;
       let step = action.payload.step;
       if ((step === 1 && domain.is_domain_verified)
@@ -310,6 +310,12 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
+        customDomains: action.payload.reverify ? state.customDomains.map((item) => {
+          if (item.id === domain.id) {
+            return domain;
+          }
+          return item;
+        }) : state.customDomains,
         isError,
         inProgress: false,
         newCustomDomain: action.payload.res,

@@ -88,6 +88,7 @@ import {
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { GetOrganizationUsers } from '../organization.store';
+import { MatSnackBarConfig } from '@angular/material';
 
 @Injectable()
 export class UsersEffects {
@@ -246,7 +247,11 @@ export class UsersEffects {
             if (action.payload.ids && action.payload.allowUndo) {
               this.notificationService.showUndo(action.payload);
             } else {
-              this.notificationService.showSnackBar(action.payload.message);
+              const config: MatSnackBarConfig = { duration: 5000 };
+              if (action.payload.duration) {
+                config.duration = action.payload.duration;
+              }
+              this.notificationService.showSnackBar(action.payload.message, 'CLOSE', config);
             }
           } else {
             let message = 'An error has occured';
@@ -466,7 +471,8 @@ export class UsersEffects {
       return this.userService.verifyDomain(payload.id)
         .pipe(
           switchMap(res => {
-            return of(new VerifyDomainSuccess({ res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep }));
+            return of(new VerifyDomainSuccess(
+              { res, step: payload.currentStep, gotoNextStep: payload.gotoNextStep, reverify: payload.reverify }));
           }),
           catchError(errorResponse => of(
             new VerifyDomainFailure({ err: errorResponse.error, step: payload.currentStep })

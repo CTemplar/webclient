@@ -9,7 +9,7 @@ import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY } from '../../shared/config';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState, AutoResponder, Contact, Domain, Settings } from '../datatypes';
+import { AppState, AutoResponder, Contact, Settings } from '../datatypes';
 import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
 import { Filter } from '../models/filter.model';

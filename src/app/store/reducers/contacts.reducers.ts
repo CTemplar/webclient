@@ -1,9 +1,8 @@
 // Custom Action
 
 // Model
-import { Contact, ContactsState } from '../datatypes';
-import { ContactsActionAll } from '../actions/contacts.action';
-import { ContactsActionTypes } from '../actions';
+import { ContactsState } from '../datatypes';
+import { ContactsActionAll, ContactsActionTypes } from '../actions/contacts.action';
 import { sortByString } from '../services';
 
 export const initialState: ContactsState = {
@@ -28,6 +27,13 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         totalContacts: action.payload.total_count, loaded: true, inProgress: false
       };
     }
+
+    case ContactsActionTypes.CONTACT_GET_FAILURE: {
+      return {
+        ...state, loaded: true, inProgress: false
+      };
+    }
+
     case ContactsActionTypes.CLEAR_CONTACTS_TO_DECRYPT: {
       return {
         ...state,

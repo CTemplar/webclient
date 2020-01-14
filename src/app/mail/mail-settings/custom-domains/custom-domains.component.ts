@@ -114,9 +114,9 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     this.sharedService.copyToClipboard(text);
   }
 
-  verifyDomain(id: number, gotoNextStep: boolean = false) {
+  verifyDomain(id: number, gotoNextStep: boolean = false, reverify: boolean = false) {
     if (id !== null) {
-      this.store.dispatch(new VerifyDomain({ id, gotoNextStep, currentStep: this.currentStep }));
+      this.store.dispatch(new VerifyDomain({ id, gotoNextStep, reverify, currentStep: this.currentStep }));
     }
   }
 

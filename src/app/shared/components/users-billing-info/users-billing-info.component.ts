@@ -44,6 +44,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
+  @Input() isRenew: boolean;
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
@@ -59,7 +60,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   expiryYear = 'Year';
   cvc;
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-  years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029'];
+  years = [];
   paymentMethodType = PaymentMethod;
   seconds: number = 60;
   minutes: number = 60;
@@ -101,6 +102,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    let year = new Date().getFullYear();
+    for (let i = 0; i < 11; i++) {
+      this.years.push(year++);
+    }
     this.store.dispatch(new ClearPromoCode());
     this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
@@ -141,8 +146,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
-        if (SharedService.PRICING_PLANS && this.signupState.plan_type) {
-          this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type];
+        if (SharedService.PRICING_PLANS && (this.signupState.plan_type || this.planType)) {
+          this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type || this.planType];
         }
 
         this.authState = authState;
@@ -233,7 +238,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.store.dispatch(new GetUpgradeAmount({
         plan_type: this.planType,
         payment_type: this.paymentType,
-        payment_method: this.paymentMethod
+        payment_method: this.paymentMethod,
+        is_renew: this.isRenew
       }));
     }
   }
@@ -312,7 +318,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       ...data,
       plan_type: this.planType,
       payment_type: this.paymentType,
-      payment_method: this.paymentMethod
+      payment_method: this.paymentMethod,
+      is_renew: this.isRenew
     };
   }
 
@@ -377,6 +384,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       payment_type: this.paymentType,
       plan_type: this.planType,
       payment_method: this.paymentMethod,
+      is_renew: this.isRenew,
     }));
   }
 
