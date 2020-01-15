@@ -1,19 +1,32 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { ContactAdd } from '../../../store';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { OpenPgpService } from '../../../store/services';
+import { getSaveContactShortcuts, OpenPgpService } from '../../../store/services';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
   styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss']
 })
-export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
+export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;
   @Output() userSaved = new EventEmitter<boolean>();
+  shortcuts: ShortcutInput[] = [];
 
   @ViewChild('newContactForm', { static: false }) newContactForm: NgForm;
   newContactModel: Contact = {
@@ -28,7 +41,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
 
 
   constructor(private store: Store<AppState>,
-              private openpgp: OpenPgpService) {
+              private openpgp: OpenPgpService,
+              private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -39,6 +53,11 @@ export class SaveContactComponent implements OnInit, OnDestroy, OnChanges {
     if (changes['selectedContact'] && changes['selectedContact'].currentValue) {
       this.newContactModel = { ...this.selectedContact };
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.shortcuts = getSaveContactShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
