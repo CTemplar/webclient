@@ -15,6 +15,7 @@ import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compo
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { PricingPlan } from '../datatypes';
 import { MailContactComponent } from '../../mail/mail-contact/mail-contact.component';
+import { SaveContactComponent } from '../../mail/mail-contact/save-contact/save-contact.component';
 
 @Injectable()
 export class SharedService {
@@ -253,7 +254,7 @@ export function getGenericFolderShortcuts(component: GenericFolderComponent) {
 
 export function getMailSidebarShortcuts(component: MailSidebarComponent) {
   return [
-    getShortcutKeyObj('shift + c', 'Composer', 'Open new composer', () => {
+    getShortcutKeyObj('ctrl + shift + c', 'Composer', 'Open new composer', () => {
       if (!isComposeEditorOpen()) {
         component.openComposeMailDialog();
       }
@@ -270,61 +271,56 @@ export function getComposeMailShortcuts(component: ComposeMailComponent) {
   ];
 }
 
-export function getContactsSthortcuts(component: MailContactComponent) {
+export function getContactsShortcuts(component: MailContactComponent) {
   return [
     getShortcutKeyObj('right', 'Contacts', 'Enter contact details', () => {
       component.editContact(null, null);
-    }),
+    }, []),
     getShortcutKeyObj('left', 'Contacts', 'Exit contact details', () => {
       component.destroySplitContactLayout();
-    }),
+    }, []),
     getShortcutKeyObj('t', 'Contacts', 'Delete contact', () => {
       component.openConfirmDeleteModal(component.confirmDeleteModal);
     }),
     getShortcutKeyObj('down', 'Contacts', 'Moving between contacts', () => {
-      const selectedContact = component.selectedContact;
-      const contacts = component.contactsState.contacts;
-      if (contacts.length > 0) {
-        if (!selectedContact) {
-          component.selectedContact = contacts[0];
-          component.editContact(component.selectedContact, component.addUserContent);
-        } else {
-          contacts.forEach((contact, index) => {
-            if (selectedContact.id === contact.id) {
-              if (contacts.length > index + 1) {
-                component.selectedContact = contacts[index + 1];
-              }
-              return;
-            }
-          });
-          component.editContact(component.selectedContact, component.addUserContent);
-        }
-      }
-
+      onMovingBetweenContacts(component);
     }),
     getShortcutKeyObj('up', 'Contacts', 'Moving between contacts', () => {
-      const selectedContact = component.selectedContact;
-      const contacts = component.contactsState.contacts;
-      if (contacts.length > 0) {
-        if (!selectedContact) {
-          component.selectedContact = contacts[0];
-          component.editContact(component.selectedContact, component.addUserContent);
-        } else {
-          contacts.forEach((contact, index) => {
-            if (selectedContact.id === contact.id) {
-              if (index > 0) {
-                component.selectedContact = contacts[index - 1];
-              }
-              return;
-            }
-          });
-          component.editContact(component.selectedContact, component.addUserContent);
-        }
-      }
-
+      onMovingBetweenContacts(component, 'up');
     })
   ];
 
+}
+
+export function getSaveContactShortcuts(component: SaveContactComponent) {
+  return [
+    getShortcutKeyObj('cmd + s', 'Contacts', 'Save contact', () => {
+      component.createNewContact();
+    }, [], true)
+  ];
+}
+
+function onMovingBetweenContacts(component: MailContactComponent, type = 'down') {
+  const selectedContact = component.selectedContact;
+  const contacts = component.contactsState.contacts;
+  if (contacts.length > 0) {
+    if (!selectedContact) {
+      component.selectedContact = contacts[0];
+      component.editContact(component.selectedContact, component.addUserContent);
+    } else {
+      contacts.forEach((contact, index) => {
+        if (selectedContact.id === contact.id) {
+          if ((index - 1) > -1 && type === 'up') {
+            component.selectedContact = contacts[index - 1];
+          } else if ((index + 1) < contacts.length && type === 'down') {
+            component.selectedContact = contacts[index + 1];
+          }
+          return;
+        }
+      });
+      component.editContact(component.selectedContact, component.addUserContent);
+    }
+  }
 }
 
 export function getComposeMailDialogShortcuts(component: ComposeMailDialogComponent) {

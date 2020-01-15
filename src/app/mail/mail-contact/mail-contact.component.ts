@@ -10,8 +10,8 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { ActivatedRoute } from '@angular/router';
-import { Shortcut, ShortcutInput } from 'ng-keyboard-shortcuts/lib/ng-keyboard-shortcuts.interfaces';
-import { getContactsSthortcuts } from '../../store/services';
+import { ShortcutInput } from 'ng-keyboard-shortcuts/lib/ng-keyboard-shortcuts.interfaces';
+import { getContactsShortcuts } from '../../store/services';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -77,7 +77,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getContactsSthortcuts(this);
+    this.shortcuts = getContactsShortcuts(this);
     this.cdr.detectChanges();
   }
 

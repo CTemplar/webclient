@@ -143,7 +143,7 @@
                     </div>
                     <div class="mail-contact-body is-bordered">
                         <div class="mail-listing">
-                            <div class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts">
+                            <div class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts" [class.active-contact]="selectedContact==contact">
                                 <div class="mail-list-inner-row align-items-center">
                                     <div class="col-sm-4 col-lg-3 mail-contact-col-sm">
                                         <div class="mail-list-col-row">
