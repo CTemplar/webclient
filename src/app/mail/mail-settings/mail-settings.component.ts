@@ -39,6 +39,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('tabSet', { static: false }) tabSet;
   @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
   @ViewChild('confirmDeleteAccountModal', { static: false }) confirmDeleteAccountModal;
+  @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;
@@ -154,6 +155,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   billingInfoModalOpen(billingInfoContent) {
     this.modalService.open(billingInfoContent, {
       centered: true,
+      windowClass: 'modal-lg'
+    });
+  }
+
+  renew() {
+    this.modalService.open(this.billingInfoModal, {
+      centered: true,
+      backdrop: 'static',
       windowClass: 'modal-lg'
     });
   }

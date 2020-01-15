@@ -55,21 +55,23 @@ export class ComposeMailService {
                 }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 if (!draftMail.isSshInProgress) {
-                  let keys = [];
+                  let publicKeys = [];
                   let hasSshEncryption = false;
                   if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
                     hasSshEncryption = true;
-                    keys.push(draftMail.draft.encryption.public_key);
+                    publicKeys.push(draftMail.draft.encryption.public_key);
                   }
                   if (draftMail.usersKeys.encrypt || hasSshEncryption) {
                     draftMail.draft.is_encrypted = true;
-                    keys = [...keys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
+                    publicKeys = [...publicKeys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
-                  if (keys.length > 0 && this.userState.settings.is_attachments_encrypted) {
-                    draftMail.attachments.forEach(attachment => {
-                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, keys);
-                    });
-                    this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
+                  if (publicKeys.length > 0) {
+                    if (this.userState.settings.is_attachments_encrypted) {
+                      draftMail.attachments.forEach(attachment => {
+                        this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, publicKeys);
+                      });
+                    }
+                    this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), publicKeys);
                   } else {
                     if (!draftMail.isSaving) {
                       const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);

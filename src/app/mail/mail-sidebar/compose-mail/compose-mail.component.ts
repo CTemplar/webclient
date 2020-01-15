@@ -440,7 +440,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
                 }));
 
               }
-          },
+            },
             error => console.log(error));
       }
     });
@@ -586,7 +586,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   uploadAttachment(file: File, isInline = false) {
     if (this.checkAttachmentSizeLimit(file)) {
-      this.attachmentHolder.nativeElement.scrollIntoView({behavior: 'smooth'});
+      this.attachmentHolder.nativeElement.scrollIntoView({ behavior: 'smooth' });
       const attachment: Attachment = {
         draftId: this.draftId,
         document: file,
@@ -622,8 +622,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   encryptAttachment(attachment: Attachment) {
     if (attachment.is_inline) {
       this.store.dispatch(new UploadAttachment({ ...attachment }));
-    }
-    else {
+    } else {
       this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment.decryptedDocument, attachment);
     }
   }
@@ -639,7 +638,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         attachment.content_id && (!attachment.is_encrypted || attachment.decryptedDocument) &&
         !this.inlineAttachmentContentIds.includes(attachment.content_id)) {
         this.inlineAttachmentContentIds.push(attachment.content_id);
-        this.embedImageInQuill(attachment.document, attachment.content_id);
+        if (!attachment.is_forwarded) {
+          this.embedImageInQuill(attachment.document, attachment.content_id);
+        }
       }
       if (attachment.progress < 100 && !attachment.isRemoved) {
         this.isUploadingAttachment = true;
@@ -928,7 +929,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private embedImageInQuill(source: string, contentId?: string) {
-    if (source) {
+    if (source && this.quill) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
       this.quill.insertEmbed(index, 'image', {
