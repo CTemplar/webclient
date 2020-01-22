@@ -42,6 +42,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   @ViewChild('usernameVC', { static: false }) usernameVC: ElementRef;
   @ViewChild('passwordVC', { static: false }) passwordVC: ElementRef;
   @ViewChild('resetPasswordModal', { static: false }) resetPasswordModal;
+  @ViewChild('otpInput', { static: false }) otpInput: ElementRef;
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
@@ -95,6 +96,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
         }
         if (this.isRecoverFormSubmitted && this.authState.inProgress && !authState.inProgress && !authState.resetPasswordErrorMessage) {
           this.resetModalRef.dismiss();
+        }
+        if (authState.auth2FA.show2FALogin) {
+          setTimeout(() => {
+            this.otpInput.nativeElement.focus();
+          }, 200);
         }
         this.authState = authState;
       });
