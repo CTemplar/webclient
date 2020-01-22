@@ -1,13 +1,13 @@
 // Angular
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Rxjs
 // Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, Captcha, PlanType, SignupState } from '../../store/datatypes';
+import { AppState, AuthState, Captcha, PaymentType, PlanType, SignupState } from '../../store/datatypes';
 import { CheckUsernameAvailability, FinalLoading, GetCaptcha, SignUp, UpdateSignupData, VerifyCaptcha } from '../../store/actions';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
@@ -55,6 +55,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   captcha: Captcha;
   captchaValue: string;
   private isCaptchaRetrieved: boolean;
+  private paymentType: PaymentType;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -62,6 +63,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
               private store: Store<AppState>,
               private openPgpService: OpenPgpService,
               private sharedService: SharedService,
+              private activatedRoute: ActivatedRoute,
               private notificationService: NotificationService) {
   }
 
@@ -90,7 +92,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         if (this.captcha.isInvalid) {
           this.captchaValue = '';
         }
-        this.selectedPlan = state.signupState.plan_type || PlanType.FREE;
+        const queryParams = this.activatedRoute.snapshot.queryParams;
+        this.selectedPlan = state.signupState.plan_type || queryParams.plan || PlanType.PRIME;
+        this.paymentType = state.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
         if (this.selectedPlan === PlanType.FREE && !this.isCaptchaRetrieved) {
           this.isCaptchaRetrieved = true;
           this.store.dispatch(new GetCaptcha());
@@ -170,7 +174,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       password: this.signupForm.get('password').value,
       recaptcha: this.signupForm.value.captchaResponse
     }));
-    this.router.navigateByUrl('/billing-info');
+    this.router.navigateByUrl(`/billing-info?plan=${this.selectedPlan}&billing=${this.paymentType}`);
   }
 
   signupFormCompleted() {

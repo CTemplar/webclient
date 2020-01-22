@@ -1,30 +1,34 @@
 import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 import {
-  CheckTransaction, ClearPromoCode,
+  CheckTransaction,
+  ClearPromoCode,
   ClearWallet,
   CreateNewWallet,
   FinalLoading,
   GetUpgradeAmount,
   SignUp,
   SnackErrorPush,
-  UpgradeAccount, ValidatePromoCode
+  UpgradeAccount,
+  ValidatePromoCode
 } from '../../../store/actions/index';
 import {
   AppState,
   AuthState,
   BitcoinState,
-  CheckTransactionResponse, Payment,
+  CheckTransactionResponse,
+  Payment,
   PaymentMethod,
   PaymentType,
   PlanType,
-  PricingPlan, PromoCode,
+  PricingPlan,
+  PromoCode,
   SignupState,
   TransactionStatus,
   UserState
@@ -49,7 +53,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
   @Input() storage: number;
-  @Input() planType: PlanType = PlanType.PRIME;
+  @Input() planType: PlanType;
   @Output() close = new EventEmitter<boolean>();
 
   paymentTypeEnum = PaymentType;
@@ -97,6 +101,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
               private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
               private dynamicScriptLoader: DynamicScriptLoaderService,
+              private activatedRoute: ActivatedRoute,
               private modalService: NgbModal,
               private _zone: NgZone) {
   }
@@ -146,6 +151,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
+
+        const queryParams = this.activatedRoute.snapshot.queryParams;
+        this.planType = this.planType || this.signupState.plan_type || queryParams.plan || PlanType.PRIME;
+        this.paymentType = this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
+        this.paymentMethod = this.paymentMethod || this.signupState.payment_method || PaymentMethod.STRIPE;
+        this.currency = this.currency || this.signupState.currency || 'USD';
+
         if (SharedService.PRICING_PLANS && (this.signupState.plan_type || this.planType)) {
           this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type || this.planType];
         }
@@ -157,12 +169,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           } else {
             this.close.emit(true);
           }
-        }
-        if (!this.paymentType && !this.paymentMethod && this.planType !== PlanType.FREE) {
-          this.planType = this.signupState.plan_type || this.planType;
-          this.paymentType = this.signupState.payment_type || PaymentType.MONTHLY;
-          this.paymentMethod = this.signupState.payment_method || PaymentMethod.STRIPE;
-          this.currency = this.signupState.currency || 'USD';
         }
         if (this.paymentMethod === PaymentMethod.BITCOIN) {
           this.selectBitcoinMethod(false);
@@ -266,7 +272,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.signupState && this.signupState.username && this.signupState.password) {
       return true;
     }
-    this.router.navigateByUrl('/signup');
+    this.router.navigateByUrl(`/create-account?plan=${this.planType}&billing=${this.paymentType}`);
   }
 
   stripeSignup(stripe_token: any) {
