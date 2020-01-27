@@ -300,8 +300,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       const domain: Domain = action.payload.res;
       let isError: boolean = false;
       let step = action.payload.step;
-      if ((step === 1 && domain.is_domain_verified)
-        || step >= 2) {
+      if (domain.is_domain_verified) {
         if (action.payload.gotoNextStep) {
           step++;
         }
