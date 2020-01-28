@@ -25,6 +25,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 import { getMailSidebarShortcuts, SharedService } from '../../store/services';
+import { PRIMARY_WEBSITE } from '../../shared/config';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -54,6 +55,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   currentPlan: PlanType;
   currentFolder: MailFolderType;
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
