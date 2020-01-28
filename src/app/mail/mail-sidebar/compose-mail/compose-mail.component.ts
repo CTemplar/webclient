@@ -203,6 +203,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   public userState: UserState;
   private decryptedContent: string;
   private encryptionData: any = {};
+  private loadContacts: boolean = true;
+  private contactsState: ContactsState;
   shortcuts: ShortcutInput[] = [];
 
   constructor(private modalService: NgbModal,
@@ -270,14 +272,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts = contactsState.emailContacts;
-        if (!this.contacts && !contactsState.loaded && !contactsState.inProgress && !this.userState.settings.is_contacts_encrypted) {
-          this.store.dispatch(new GetEmailContacts());
-        }
+        this.contactsState = contactsState;
+        this.loadEmailContacts();
       });
 
     this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
+        this.loadEmailContacts();
       });
 
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
@@ -369,6 +371,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     element.innerHTML = html.replace(/<div>/g, '<br><div>').replace(/<p>/g, '<br><p>')
       .replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
     return element.innerText;
+  }
+
+  loadEmailContacts() {
+    if (this.isAuthenticated && this.loadContacts && !this.contacts && this.contactsState && !this.contactsState.loaded &&
+      !this.contactsState.inProgress && !this.userState.settings.is_contacts_encrypted) {
+      this.loadContacts = false;
+      this.store.dispatch(new GetEmailContacts());
+    }
   }
 
   initializeDraft() {

@@ -11,8 +11,6 @@ export const initialState: AuthState = {
   inProgress: false,
   signupState: {
     username: null, password: null, recaptcha: null,
-    payment_type: PaymentType.MONTHLY,
-    payment_method: PaymentMethod.STRIPE,
     currency: 'USD'
   },
   resetPasswordErrorMessage: null,

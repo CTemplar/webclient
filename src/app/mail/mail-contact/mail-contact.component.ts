@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AppState, Contact, ContactsState, PlanType, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
@@ -10,6 +10,8 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { ActivatedRoute } from '@angular/router';
+import { ShortcutInput } from 'ng-keyboard-shortcuts/lib/ng-keyboard-shortcuts.interfaces';
+import { getContactsShortcuts } from '../../store/services';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -23,8 +25,10 @@ export enum ContactsProviderType {
   templateUrl: './mail-contact.component.html',
   styleUrls: ['./mail-contact.component.scss']
 })
-export class MailContactComponent implements OnInit, OnDestroy {
+export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('importContactsModal', { static: false }) importContactsModal;
+  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
+  @ViewChild('addUserContent', { static: false }) addUserContent;
 
   contactsProviderType = ContactsProviderType;
   public userState: UserState;
@@ -49,6 +53,7 @@ export class MailContactComponent implements OnInit, OnDestroy {
   private confirmModalRef: NgbModalRef;
   private importContactsModalRef: NgbModalRef;
   private searchText: string;
+  shortcuts: ShortcutInput[] = [];
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -56,7 +61,8 @@ export class MailContactComponent implements OnInit, OnDestroy {
               private composeMailService: ComposeMailService,
               private activatedRoute: ActivatedRoute,
               config: NgbDropdownConfig,
-              @Inject(DOCUMENT) private document: Document) {
+              @Inject(DOCUMENT) private document: Document,
+              private cdr: ChangeDetectorRef) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
@@ -68,6 +74,11 @@ export class MailContactComponent implements OnInit, OnDestroy {
         this.searchText = params.search || '';
         this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.shortcuts = getContactsShortcuts(this);
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {}

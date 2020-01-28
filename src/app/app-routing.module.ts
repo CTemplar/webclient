@@ -5,11 +5,7 @@ import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  {
-    path: 'mail',
-    loadChildren: () => import('app/mail/mail.module').then(m => m.MailModule)
-  }
+  { path: '', component: HomeComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

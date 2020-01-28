@@ -29,6 +29,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
 import { DonationService } from './store/services/donation.service';
 import { AppRoutingModule } from './app-routing.module';
+import { MailModule } from './mail/mail.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,6 +51,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeModule,
     PagesModule,
     UsersModule,
+    MailModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

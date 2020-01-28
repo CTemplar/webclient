@@ -104,7 +104,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
         backdrop: 'static',
       });
     } else {
-      this.router.navigateByUrl('/create-account');
+      this.router.navigateByUrl(`/create-account?plan=${plan}&billing=${this.selectedPaymentType}`);
     }
   }
 
