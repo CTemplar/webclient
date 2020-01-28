@@ -106,7 +106,9 @@
                     <label for="code2FA" class="d-block text-faded text-left hidden-sm-up">2FA Code</label>
                     <div class="input-group">
                       <input class="form-control form-control-lg border-right-0" id="code2FA" type="text"
+                             #otpInput
                              [(ngModel)]="otp"
+                             (keyup.enter)="login(loginForm.value, otp, true)"
                              placeholder="2FA Code" required/>
                     </div>
                     <div *ngIf="errorMessage"
