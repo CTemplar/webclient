@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { take } from 'rxjs/operators';
-import { SummarySeparator } from '../../shared/config';
+import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { WebSocketState } from '../../store';
 import {
@@ -61,6 +61,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   loadingImage = LOADING_IMAGE;
   disableMoveTo: boolean;
   isMobile: boolean;
+  primaryWebsite = PRIMARY_WEBSITE;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
