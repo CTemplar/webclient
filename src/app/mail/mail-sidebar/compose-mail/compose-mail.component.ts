@@ -144,6 +144,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() isMailDetailPage: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
+  @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('editor', { static: false }) editor;
   @ViewChild('attachmentHolder', { static: false }) attachmentHolder;
@@ -361,6 +362,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isAuthenticated) {
       this.store.dispatch(new CloseMailbox(this.draft));
     }
+  }
+
+  onSubjectChange(subject: any) {
+  this.subjectChanged.emit(subject);
   }
 
   private getPlainText(html: string) {
