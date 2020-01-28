@@ -56,12 +56,12 @@
                                    (click)="closeMenu()" translate="home_header.support">Support</a>
                             </li>
                             <li class="nav-item hidden-sm-up">
-                                <a href="{{primaryWebsite}}/signin"
+                                <a routerLink="/signin"
                                    *ngIf="!isLoggedIn; else mobileDashboardLink"
                                    class="nav-link nav-action-link" (click)="closeMenu()" translate="home_header.login">Login</a>
 
                                 <ng-template #mobileDashboardLink>
-                                    <a href="{{primaryWebsite}}/mail"
+                                    <a routerLink="/mail"
                                        class="nav-link nav-action-link" (click)="closeMenu()"
                                        translate="settings.dashboard">Dashboard</a>
                                 </ng-template>
@@ -84,10 +84,10 @@
                         [ngClass]="{ 'external-page-user-actions-list': externalPageCallToAction }">
                         <li class="user-actions-item" routerLinkActive="active"
                             [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }">
-                            <a *ngIf="!isLoggedIn; else dashboardLink" href="{{primaryWebsite}}/signin" class="user-actions-link"
+                            <a *ngIf="!isLoggedIn; else dashboardLink" routerLink="/signin" class="user-actions-link"
                                translate="home_header.login">Login</a>
                             <ng-template #dashboardLink>
-                                <a href="{{primaryWebsite}}/mail" class="user-actions-link" translate="settings.dashboard">Dashboard</a>
+                                <a routerLink="/mail" class="user-actions-link" translate="settings.dashboard">Dashboard</a>
                             </ng-template>
                         </li>
                         <li class="user-actions-item"
@@ -96,7 +96,7 @@
                                class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
                                translate="home_header.signup">Sign Up</a>
                             <ng-template #logoutLink>
-                                <a href="{{primaryWebsite}}/signin"
+                                <a routerLink="/signin"
                                    (click)="logout()"
                                    class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
                                    translate="common.logout">
