@@ -18,10 +18,13 @@
             <span [innerHTML]="'create_account.class_encrypted_email' | translate">Best in class encrypted email <br/> Account creation in only minutes</span>
           </p>
         </div>
+        <div class="ml-1 row selected-plan">
+          <h3 class="mt-3 text-dark"><strong>Plan : {{this.selectedPlan | uppercase}}</strong></h3>
+        </div>
         <div class="form">
           <form class="signup-form" [formGroup]="signupForm" #form="ngForm" (ngSubmit)="signup()">
             <div *ngIf="errorMessage" class="signup-form__failed">{{ errorMessage }}</div>
-            <div class="form-step-card-holder mt-3 mt-sm-4">
+            <div class="form-step-card-holder">
               <div class="form-step-card">
                 <h3 class="form-step-card-title text-dark mb-0">
                   <strong translate="create_account.username_and_domain">Username and domain</strong>
