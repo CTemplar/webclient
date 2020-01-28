@@ -15,7 +15,7 @@
                         <h4 class="l-block-subtitile fw-light mb-3 pb-2" [innerHTML]="'footer.send_unbreakable_emails' |translate ">Send unbreakable emails and protect your key
                             professional and personal details trough
                             next-gen encryption.</h4>
-                        <a routerLink="/signup" class="btn btn-lg btn-gradient-primary" translate="footer.upgrade_to_prime">upgrade to prime</a>
+                        <a href="{{primaryWebsite}}/signup" class="btn btn-lg btn-gradient-primary" translate="footer.upgrade_to_prime">upgrade to prime</a>
                     </div>
                 </div>
             </div>
@@ -36,16 +36,16 @@
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a routerLink="/security" translate="home_header.security">Security</a>
+                                <a href="{{primaryWebsite}}/security" translate="home_header.security">Security</a>
                             </li>
                             <li>
-                                <a routerLink="/pricing" translate="home_header.pricing">Pricing</a>
+                                <a href="{{primaryWebsite}}/pricing" translate="home_header.pricing">Pricing</a>
                             </li>
                             <li>
-                                <a routerLink="/media-kit" translate="footer.media_kit">Media Kit</a>
+                                <a href="{{primaryWebsite}}/media-kit" translate="footer.media_kit">Media Kit</a>
                             </li>
                             <li>
-                                <a routerLink="/tor-onion" translate="footer.onion_site">Onion site</a>
+                                <a href="{{primaryWebsite}}/tor-onion" translate="footer.onion_site">Onion site</a>
                             </li>
                         </ul>
                     </div>
@@ -57,13 +57,13 @@
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a routerLink="/about" translate="home_header.about">About</a>
+                                <a href="{{primaryWebsite}}/about" translate="home_header.about">About</a>
                             </li>
                             <li>
-                                <a href="https://blog.ctemplar.com" target="_blank" rel="noopener" translate="home_header.blog">Blog</a>
+                                <a href="{{primaryWebsite}}/blog" target="_blank" rel="noopener" translate="home_header.blog">Blog</a>
                             </li>
                             <li>
-                                <a routerLink="/donate" translate="settings.donate.name">Donate</a>
+                                <a href="{{primaryWebsite}}/donate" translate="settings.donate.name">Donate</a>
                             </li>
                         </ul>
                     </div>
@@ -96,10 +96,10 @@
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a routerLink="/privacy" translate="footer.privacy_policy">Privacy Policy</a>
+                                <a href="{{primaryWebsite}}/privacy" translate="footer.privacy_policy">Privacy Policy</a>
                             </li>
                             <li>
-                                <a routerLink="/terms" [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</a>
+                                <a href="{{primaryWebsite}}/terms" [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</a>
                             </li>
                         </ul>
                     </div>
@@ -111,12 +111,12 @@
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a href="https://blog.ctemplar.com/faqs"
+                                <a href="{{primaryWebsite}}/faqs"
                                    target="_blank"
                                    translate="footer.faq">FAQ</a>
                             </li>
                             <li>
-                                <a href="https://blog.ctemplar.com/support"
+                                <a href="{{primaryWebsite}}/support"
                                    target="_blank"
                                    translate="footer.support">Contact us</a>
                             </li>

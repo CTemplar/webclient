@@ -13,7 +13,6 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule,
     RouterModule,
   ],
   declarations: [HomeComponent, HomeFeaturesComponent, HomeWelcomeComponent, BlogGridComponent]
