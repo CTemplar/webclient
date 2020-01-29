@@ -13,7 +13,7 @@ import { MailComponent } from '../../mail/mail.component';
 import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.component';
 import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
-import { PricingPlan } from '../datatypes';
+import { PlanType, PricingPlan } from '../datatypes';
 import { MailContactComponent } from '../../mail/mail-contact/mail-contact.component';
 import { SaveContactComponent } from '../../mail/mail-contact/save-contact/save-contact.component';
 
@@ -77,8 +77,10 @@ export class SharedService {
         SharedService.PRICING_PLANS = data;
         SharedService.PRICING_PLANS_ARRAY = [];
         Object.keys(data).forEach(key => {
-          data[key].name = key;
-          SharedService.PRICING_PLANS_ARRAY.push(data[key]);
+          if (key !== PlanType.PARAGON) {
+            data[key].name = key;
+            SharedService.PRICING_PLANS_ARRAY.push(data[key]);
+          }
         });
       });
   }

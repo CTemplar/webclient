@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OrganizationUser } from '../../../../store/models';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { VALID_EMAIL_REGEX } from '../../../../shared/config';
+import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../../../shared/config';
 import { PasswordValidation } from '../../../../users/users-create-account/users-create-account.component';
 import { debounceTime } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
@@ -37,6 +37,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   isAddingUserInProgress: boolean;
   userState: UserState;
   selectedUser: OrganizationUser;
+  primaryWebsite = PRIMARY_WEBSITE;
 
   private addUserModalRef: NgbModalRef;
   private confirmDeleteModalRef: NgbModalRef;

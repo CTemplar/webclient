@@ -13,7 +13,7 @@ import { CheckUsernameAvailability, FinalLoading, GetCaptcha, SignUp, UpdateSign
 import { OpenPgpService, SharedService } from '../../store/services';
 import { NotificationService } from '../../store/services/notification.service';
 import { debounceTime } from 'rxjs/operators';
-import { VALID_EMAIL_REGEX } from '../../shared/config';
+import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -54,6 +54,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   modalRef: NgbModalRef;
   captcha: Captcha;
   captchaValue: string;
+  primaryWebsite = PRIMARY_WEBSITE;
   private isCaptchaRetrieved: boolean;
   private paymentType: PaymentType;
 

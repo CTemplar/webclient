@@ -12,8 +12,6 @@ import { AppComponent } from './app.component';
 // Modules
 import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
-import { HomeModule } from './home/home.module';
-import { PagesModule } from './pages/pages.module';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { UsersModule } from './users/users.module';
 import { SharedModule } from './shared/shared.module';
@@ -28,7 +26,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TimezoneService } from './store/services/timezone.service';
 import { DonationService } from './store/services/donation.service';
-import { AppRoutingModule } from './app-routing.module';
 import { MailModule } from './mail/mail.module';
 
 // AoT requires an exported function for factories
@@ -40,7 +37,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [AppComponent],
   imports: [
     SharedModule,
-    AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -48,8 +44,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppStoreModule,
     FooterModule,
     HeaderModule,
-    HomeModule,
-    PagesModule,
     UsersModule,
     MailModule,
     TranslateModule.forRoot({

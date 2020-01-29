@@ -5,7 +5,7 @@ import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ExpireSession, Logout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
-import { Language, LANGUAGES } from '../../shared/config';
+import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { FormControl } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
@@ -31,6 +31,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   searchPlaceholder: string = 'common.search';
   loadingImage = LOADING_IMAGE;
   private isContactsPage: boolean;
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(private store: Store<AppState>,
               config: NgbDropdownConfig,
