@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 // Service
 import { SharedService } from '../store/services';
 import * as moment from 'moment';
+import { PRIMARY_WEBSITE } from '../shared/config';
 
 @Component({
   selector: 'app-footer',
@@ -17,6 +18,7 @@ export class FooterComponent {
   hideEntireFooterCallToAction: boolean = false;
   externalPageCallToAction: boolean = false;
   currentYear = moment().format('YYYY');
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(private sharedService: SharedService) {
     this.sharedService.hideFooter.subscribe(data => this.hideFooterCallToAction = data);

@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 
 export const apiUrl = '/api/';
 export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
+export const PRIMARY_WEBSITE = 'https://ctemplar.com';
 
 
 export const COLORS: string[] = [
