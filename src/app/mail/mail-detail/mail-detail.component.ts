@@ -519,7 +519,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       ids: mail.id,
       folder: MailFolderType.SPAM,
       sourceFolder: mail.folder,
-      mail: mail
+      mail: mail,
+      allowUndo: true
     }));
     if (mail.id === this.mail.id) {
       this.goBack();
@@ -531,7 +532,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       ids: mail.id,
       folder: MailFolderType.INBOX,
       sourceFolder: mail.folder,
-      mail: mail
+      mail: mail,
+      allowUndo: true
     }));
     setTimeout(() => {
       this.store.dispatch(new WhiteListAdd({ name: mail.sender, email: mail.sender }));
@@ -553,7 +555,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   moveToFolder(folder: MailFolderType | string) {
-    this.store.dispatch(new MoveMail({ ids: this.mail.id, folder }));
+    this.store.dispatch(new MoveMail({ ids: this.mail.id, folder, allowUndo: true }));
     this.goBack(500);
   }
 
