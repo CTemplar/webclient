@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState, UserState } from '../../store/datatypes';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { PRIMARY_WEBSITE } from '../../shared/config';
 
 @Component({
   selector: 'app-mail-footer',
@@ -12,6 +13,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 export class MailFooterComponent implements OnInit, OnDestroy {
   readonly destroyed$: Observable<boolean>;
   public userState: UserState;
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(private store: Store<AppState>) {}
 
