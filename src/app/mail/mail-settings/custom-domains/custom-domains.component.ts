@@ -9,6 +9,7 @@ import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } fr
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { PRIMARY_WEBSITE } from '../../../shared/config';
 
 @Component({
   selector: 'app-custom-domains',
@@ -37,6 +38,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   dkimForm: FormGroup;
   dmarcForm: FormGroup;
   isEditing: boolean;
+  primaryWebsite = PRIMARY_WEBSITE;
 
   private confirmModalRef: NgbModalRef;
 
