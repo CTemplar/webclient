@@ -297,7 +297,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         folder,
         sourceFolder: this.mailFolder,
         mail: this.getMarkedMails(),
-        allowUndo: folder === MailFolderType.TRASH
+        allowUndo: true
       }));
 
       setTimeout(() => {
