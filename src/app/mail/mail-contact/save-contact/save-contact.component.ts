@@ -84,6 +84,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     if (this.newContactForm.invalid) {
       return false;
     }
+    this.newContactModel.email = this.newContactModel.email.toLocaleLowerCase();
     if (this.isContactsEncrypted) {
       this.openpgp.encryptContact(this.newContactModel);
     } else {
