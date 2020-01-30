@@ -439,7 +439,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
       messageHistory: this.getMessageHistory(previousMails),
-      subject: this.mail.subject,
+      subject: 'Fwd: ' + this.mail.subject,
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     this.selectedMailToForward = mail;
