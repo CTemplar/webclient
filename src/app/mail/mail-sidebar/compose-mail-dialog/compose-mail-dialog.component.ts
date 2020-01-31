@@ -29,7 +29,7 @@ export class ComposeMailDialogComponent implements AfterViewInit {
   isMinimized: boolean;
   isFullScreen: boolean;
   private confirmModalRef: NgbModalRef;
-  mailSubject = 'New message';
+  mailSubject = '';
 
   constructor(private modalService: NgbModal,
               private cdr: ChangeDetectorRef) {

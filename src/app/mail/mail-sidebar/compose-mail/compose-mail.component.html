@@ -105,8 +105,8 @@
         <span class="mail-label label-subject mail-subject" translate="settings.compose.subject">Subject:</span>
         <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
                   [disabled]="action===mailAction.REPLY || action===mailAction.REPLY_ALL"
-                  (ngModelChange)="valueChanged$.next(mailData.subject)"
-                  id="subject" rows="1" (blur)="onSubjectChange(mailData.subject)"></textarea>
+                  (ngModelChange)="valueChanged$.next(mailData.subject); onSubjectChange(mailData.subject)"
+                  id="subject" rows="1"></textarea>
       </div>
     </div>
   </form>
