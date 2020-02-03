@@ -253,7 +253,7 @@ export function reducer(
         if (action.payload.parent === state.mailDetail.id) {
           state.mailDetail.children = state.mailDetail.children || [];
           state.mailDetail.children = state.mailDetail.children
-            .filter(child => !(child.id === action.payload.id && child.folder === MailFolderType.DRAFT));
+            .filter(child => !(child.id === action.payload.id));
           state.mailDetail.children = [...state.mailDetail.children, action.payload];
         }
       }
