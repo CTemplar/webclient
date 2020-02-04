@@ -44,7 +44,7 @@
                        [(ngModel)]="newContactModel.email"
                        #contactEmail="ngModel"
                        [placeholder]="'contacts.type_email'| translate" type="text"
-                       pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
+                       pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"/>
             </div>
             <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
         </div>

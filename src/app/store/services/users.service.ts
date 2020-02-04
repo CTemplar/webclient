@@ -357,7 +357,7 @@ export class UsersService {
   }
 
   deleteFilter(filterId: number) {
-    return this.http.delete<any>(`${apiUrl}users/filters/${filterId}`);
+    return this.http.delete<any>(`${apiUrl}users/filters/${filterId}/`);
   }
 
   deleteAccount(data: any) {

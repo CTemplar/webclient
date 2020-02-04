@@ -42,11 +42,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     }
 
     case ComposeMailActionTypes.SEND_MAIL_SUCCESS: {
-      state.drafts[action.payload.id] = {
-        ...state.drafts[action.payload.id],
-        decryptedContent: null,
-        inProgress: false, isSent: true,
-      };
+      delete state.drafts[action.payload.id];
       return { ...state, drafts: { ...state.drafts } };
     }
 
@@ -122,8 +118,11 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     }
 
     case ComposeMailActionTypes.CLOSE_MAILBOX: {
-      state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], isClosed: true };
-      return { ...state, drafts: { ...state.drafts } };
+      if (action.payload && state.drafts[action.payload.id]) {
+        state.drafts[action.payload.id] = { ...state.drafts[action.payload.id], isClosed: true };
+        return { ...state, drafts: { ...state.drafts } };
+      }
+      return state;
     }
 
     case ComposeMailActionTypes.CLEAR_DRAFT: {

@@ -1,6 +1,6 @@
 {
   "name": "CTemplar",
-  "version": "2.0",
+  "version": "2.0.1",
   "license": "Apache",
   "scripts": {
     "ng": "ng",
@@ -24,7 +24,7 @@
     "@angular/platform-browser": "8.2.5",
     "@angular/platform-browser-dynamic": "8.2.5",
     "@angular/router": "8.2.5",
-    "@ng-bootstrap/ng-bootstrap": "^4.2.2",
+    "@ng-bootstrap/ng-bootstrap": "^4.0.2",
     "@ngrx/effects": "^8.6.0",
     "@ngrx/router-store": "^8.6.0",
     "@ngrx/store": "^8.6.0",
@@ -32,7 +32,7 @@
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.3.1",
     "core-js": "^3.6.4",
     "cssfilter": "0.0.10",
     "moment": "^2.22.2",

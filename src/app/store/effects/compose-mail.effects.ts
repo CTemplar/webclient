@@ -123,6 +123,7 @@ export class ComposeMailEffects {
           .pipe(
             switchMap((res: any) => {
               res.last_action_data = { last_action: payload.draft.last_action, last_action_parent_id: payload.draft.last_action_parent_id };
+              res.folder = MailFolderType.SENT;
               const events: any [] = [
                 new SendMailSuccess(payload),
                 new UpdateCurrentFolder(res),

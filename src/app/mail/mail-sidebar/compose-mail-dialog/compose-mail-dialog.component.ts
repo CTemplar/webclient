@@ -29,6 +29,7 @@ export class ComposeMailDialogComponent implements AfterViewInit {
   isMinimized: boolean;
   isFullScreen: boolean;
   private confirmModalRef: NgbModalRef;
+  mailSubject = '';
 
   constructor(private modalService: NgbModal,
               private cdr: ChangeDetectorRef) {
@@ -51,6 +52,10 @@ export class ComposeMailDialogComponent implements AfterViewInit {
     } else {
       this.hideMailComposeDialog();
     }
+  }
+
+  subjectChanged($event) {
+    this.mailSubject = $event;
   }
 
   saveInDrafts() {
