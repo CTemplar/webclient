@@ -1,7 +1,7 @@
 // Angular
 import { environment } from '../../environments/environment';
 
-export const apiUrl = '/api/';
+export const apiUrl = location.hostname === 'gh.ctemplar.com' ? 'https://mail.ctemplar.com/api/' : '/api/';
 export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
 
