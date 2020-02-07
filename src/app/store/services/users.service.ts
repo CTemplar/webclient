@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
-import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY } from '../../shared/config';
+import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
@@ -117,6 +117,10 @@ export class UsersService {
     const referralCode = localStorage.getItem(REFFERAL_CODE_KEY);
     if (referralCode) {
       requestData[REFFERAL_CODE_KEY] = referralCode;
+    }
+    const referralId = localStorage.getItem(REFFERAL_ID_KEY);
+    if (referralId) {
+      requestData[REFFERAL_ID_KEY] = referralId;
     }
     requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
@@ -340,6 +344,10 @@ export class UsersService {
   }
 
   upgradeAccount(data) {
+    const referralId = localStorage.getItem(REFFERAL_ID_KEY);
+    if (referralId) {
+      data[REFFERAL_ID_KEY] = referralId;
+    }
     return this.http.post<any>(`${apiUrl}auth/upgrade/`, data);
   }
 

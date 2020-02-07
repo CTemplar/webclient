@@ -147,6 +147,12 @@ app-mail-detail {
     font-size: 1rem;
     line-height: 1.43;
   }
+
+  .mail-content {
+    p {
+      margin-bottom: 0;
+    }
+  }
 }
 
 // Modal styles for encryption to non CTemplar users
