@@ -572,13 +572,6 @@ $error-red: #e94e4c;
     color: black;
   }
 
-  ::ng-deep mat-option {
-    padding: 0.625rem 0.75rem;
-    line-height: 1;
-    font-size: 14px;
-    font-weight: 400;
-    height: 33px;
-  }
   input {
     padding-left: 11px;
   }
@@ -586,4 +579,9 @@ $error-red: #e94e4c;
   ::ng-deep .mat-form-field-underline {
     display: none;
   }
+}
+.timezone-option {
+  padding: 0.625rem 0.75rem;
+  line-height: 1;
+  height: 33px;
 }
