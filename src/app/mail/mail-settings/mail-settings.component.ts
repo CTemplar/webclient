@@ -33,8 +33,7 @@ import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
-  styleUrls: ['./mail-settings.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./mail-settings.component.scss']
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;

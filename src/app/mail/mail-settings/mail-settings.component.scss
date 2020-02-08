@@ -567,23 +567,23 @@ $error-red: #e94e4c;
 }
 
 .timezone-block {
-  .mat-form-field-appearance-legacy .mat-form-field-infix {
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
     border: 1px solid #e0e0e0;
     color: black;
   }
 
-  mat-option {
+  ::ng-deep mat-option {
     padding: 0.625rem 0.75rem;
     line-height: 1;
     font-size: 14px;
     font-weight: 400;
-    height: 20px;
+    height: 33px;
   }
   input {
     padding-left: 11px;
   }
 
-  .mat-form-field-underline {
+  ::ng-deep .mat-form-field-underline {
     display: none;
   }
 }
