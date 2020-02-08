@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 // Store
 import { Store } from '@ngrx/store';
@@ -27,11 +27,14 @@ import { PushNotificationOptions, PushNotificationService } from '../../shared/s
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import * as moment from 'moment-timezone';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
-  styleUrls: ['./mail-settings.component.scss']
+  styleUrls: ['./mail-settings.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
@@ -59,9 +62,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
   currentPlan: PricingPlan;
-
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
+
+  timeZoneFilter = new FormControl('', []);
+  timeZoneFilteredOptions: Observable<Timezone[] | void>;
+
 
   constructor(
     private modalService: NgbModal,
@@ -94,6 +100,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.payment = user.payment_transaction;
         this.invoices = user.invoices;
         this.userPlanType = user.settings.plan_type || PlanType.FREE;
+        if (this.settings.timezone) {
+          this.timeZoneFilter.setValue(this.settings.timezone);
+        }
+
         if (SharedService.PRICING_PLANS && user.settings.plan_type) {
           this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
         }
@@ -119,6 +129,18 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.changeUrlParams();
       }
     );
+
+    this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(name => name ? this._filterTimeZone(name) : this.timezones.slice())
+      );
+  }
+
+  private _filterTimeZone(name) {
+    const filterValue = name.toLowerCase();
+
+    return this.timezones.filter(option => option.value.toLowerCase().indexOf(filterValue) === 0);
   }
 
   ngAfterViewInit() {
@@ -181,6 +203,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateSettings(key?: string, value?: any) {
+
     this.settingsService.updateSettings(this.settings, key, value);
   }
 
