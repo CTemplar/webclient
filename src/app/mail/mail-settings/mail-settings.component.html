@@ -330,15 +330,23 @@
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
-                        <button ngbDropdownToggle class="dropdown-toggle" id="timeZoneDropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          {{settings.timezone}}
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="timeZoneDropdownMenuButton" class="generic-dropdown-list">
-                          <a class="dropdown-item" *ngFor="let timezone of timezones"
-                             (click)="updateSettings('timezone',timezone.value)">{{timezone.value}}</a>
-                        </div>
+                      <div class="dropdown-sm timezone-block">
+                        <mat-form-field class="timezone-filter" floatLabel='never'>
+                          <input type="text"
+                                 placeholder=""
+                                 aria-label="Number"
+                                 [formControl]="timeZoneFilter"
+                                 [matAutocomplete]="auto"
+                                 value="{{settings.timezone? settings.timezone: timezones[0]}}"
+                                 matInput>
+                          <mat-autocomplete #auto="matAutocomplete" class="timezone-option">
+                            <mat-option class="timezone-option" *ngFor="let timezone of timeZoneFilteredOptions | async"
+                                        (click)="updateSettings('timezone',timezone.value)"
+                                        [value]="timezone.value">
+                              {{timezone.value}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
                       </div>
                     </div>
                   </div>
