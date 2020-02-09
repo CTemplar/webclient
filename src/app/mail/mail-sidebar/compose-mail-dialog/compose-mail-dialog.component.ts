@@ -1,4 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
@@ -10,7 +21,7 @@ import { getComposeMailDialogShortcuts } from '../../../store/services';
   templateUrl: './compose-mail-dialog.component.html',
   styleUrls: ['./compose-mail-dialog.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailDialogComponent implements AfterViewInit {
+export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;
   @Input() public receivers: string[];
   @Input() public draft: Mail;
@@ -33,6 +44,10 @@ export class ComposeMailDialogComponent implements AfterViewInit {
 
   constructor(private modalService: NgbModal,
               private cdr: ChangeDetectorRef) {
+  }
+
+  ngOnInit(): void {
+    this.mailSubject = this.draft.subject;
   }
 
   ngAfterViewInit(): void {
