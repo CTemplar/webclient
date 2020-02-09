@@ -126,7 +126,7 @@
                         </li>
                         <ng-container *ngIf="userPlanType !== planType.FREE">
                           <li class="info-list-item">
-                            <div class="info-list-text info-list-label">Billing</div>
+                            <div class="info-list-text info-list-label" translate="billing_info.billing">Billing</div>
                             <div class="info-list-text info-list-val">
                               {{payment.payment_type}}
                             </div>
@@ -147,12 +147,12 @@
                             <div class="info-list-text info-list-val">
                               <span>{{payment.billing_cycle_ends | momentDate:'mediumDate'}}</span>
                               <a *ngIf="!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin"
-                                 ngbTooltip="Pay again to extend your billing cycle end."
-                                 class="float-right" (click)="renew()">Renew</a>
+                                 [ngbTooltip]="'settings.extend_billing_cycle'| translate"
+                                 class="float-right" (click)="renew()" translate="settings.renew" >Renew</a>
                             </div>
                           </li>
                           <li class="info-list-item">
-                            <div class="info-list-text info-list-label">
+                            <div class="info-list-text info-list-label" translate="settings.recurring_billing">
                               Recurring Billing
                             </div>
                             <div class="info-list-text info-list-val">
@@ -406,7 +406,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0">HTML editor</label>
+                    <label class="form-label mb-0" translate="settings.html_editor">HTML editor</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -429,7 +429,7 @@
                     </div>
                   </div>
                   <div class="info-card mt-2 mx-3 full-width">
-                    <p>
+                    <p translate="settings.disabling_editor_message">
                       Disabling HTML editor will allow you to use plain text editor for composing email.
                     </p>
                   </div>
@@ -528,8 +528,8 @@
                         Please go to your browser settings in order to enable them.
                       </p>
                       <p *ngIf="notificationsPermission === notificationPermissionType.DEFAULT">
-                        <a (click)="requestNotificationPermission()">Click here</a> in order to enable desktop
-                        notifications.
+                        <a (click)="requestNotificationPermission()" translate="settings.click_here">Click here</a>
+                     <span translate="settings.enable_notifications"> in order to enable desktop notifications.</span>
                       </p>
                       <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
                         <span translate="settings.desktop_notifications_en">Desktop notifications are enabled.</span>
