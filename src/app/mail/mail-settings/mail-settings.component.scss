@@ -567,17 +567,8 @@ $error-red: #e94e4c;
 }
 
 .timezone-block {
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
-    border: 1px solid #e0e0e0;
-    color: black;
-  }
-
   input {
     padding-left: 11px;
-  }
-
-  ::ng-deep .mat-form-field-underline {
-    display: none;
   }
 }
 .timezone-option {

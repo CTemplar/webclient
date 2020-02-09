@@ -137,9 +137,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _filterTimeZone(name) {
-    const filterValue = name.toLowerCase();
-
-    return this.timezones.filter(option => option.value.toLowerCase().indexOf(filterValue) === 0);
+    return this.timezones.filter(option => option.value.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
   ngAfterViewInit() {

@@ -140,6 +140,17 @@ app-mail-settings {
       }
     }
   }
+
+  .timezone-block {
+    .mat-form-field-appearance-legacy .mat-form-field-infix {
+      border: 1px solid #e0e0e0;
+      color: black;
+    }
+
+    .mat-form-field-underline {
+      display: none;
+    }
+  }
 }
 
 app-mail-detail {
