@@ -99,9 +99,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.payment = user.payment_transaction;
         this.invoices = user.invoices;
         this.userPlanType = user.settings.plan_type || PlanType.FREE;
-        if (this.settings.timezone) {
-          this.timeZoneFilter.setValue(this.settings.timezone);
-        }
 
         if (SharedService.PRICING_PLANS && user.settings.plan_type) {
           this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
@@ -137,7 +134,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _filterTimeZone(name) {
-    return this.timezones.filter(option => option.value.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    return this.timezones.filter(option => option.value.toLowerCase().indexOf(name.toLowerCase()) > -1);
   }
 
   ngAfterViewInit() {
