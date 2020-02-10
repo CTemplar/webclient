@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
-import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from '../../shared/config';
+import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
@@ -103,6 +103,7 @@ export class UsersService {
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
+    localStorage.removeItem(PROMO_CODE_KEY);
   }
 
   expireSession() {
