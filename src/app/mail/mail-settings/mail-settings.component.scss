@@ -561,3 +561,18 @@ $error-red: #e94e4c;
     padding: 14px 1.5rem;
   }
 }
+
+.timezone-filter {
+  width: 100%;
+}
+
+.timezone-block {
+  input {
+    padding-left: 11px;
+  }
+}
+.timezone-option {
+  padding: 0.625rem 0.75rem;
+  line-height: 1;
+  height: 33px;
+}

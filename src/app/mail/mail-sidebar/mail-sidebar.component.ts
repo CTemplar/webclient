@@ -247,7 +247,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     const title = mail.sender_display.name;
     const options = new PushNotificationOptions();
     options.body = 'You have received a new email';
-    options.icon = 'https://ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
+    options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
 
     this.pushNotificationService.create(title, options).subscribe((notif) => {
         if (notif.event.type === 'click') {

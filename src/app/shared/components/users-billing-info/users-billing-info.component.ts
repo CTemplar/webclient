@@ -38,7 +38,7 @@ import { OpenPgpService, SharedService } from '../../../store/services/index';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 import { timer } from 'rxjs/internal/observable/timer';
-import { apiUrl } from '../../config';
+import { apiUrl, PROMO_CODE_KEY } from '../../config';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
@@ -157,6 +157,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.paymentType = this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
         this.paymentMethod = this.paymentMethod || this.signupState.payment_method || PaymentMethod.STRIPE;
         this.currency = this.currency || this.signupState.currency || 'USD';
+        if (!this.promoCode.value) {
+          this.promoCode.value = queryParams[PROMO_CODE_KEY] || localStorage.getItem(PROMO_CODE_KEY);
+          this.validatePromoCode();
+        }
 
         if (SharedService.PRICING_PLANS && (this.signupState.plan_type || this.planType)) {
           this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type || this.planType];

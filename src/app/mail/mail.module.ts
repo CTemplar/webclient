@@ -7,6 +7,7 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { MailRoutingModule } from './mail-routing.module';
 // component
@@ -53,6 +54,9 @@ import { QuillModule } from 'ngx-quill';
     MatButtonModule,
     MatCheckboxModule,
     MatStepperModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
     KeyboardShortcutsModule.forRoot(),
     QuillModule.forRoot(),
   ],
