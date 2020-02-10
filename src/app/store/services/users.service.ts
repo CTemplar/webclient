@@ -105,6 +105,7 @@ export class UsersService {
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
+    localStorage.removeItem(PROMO_CODE_KEY);
   }
 
   expireSession() {
