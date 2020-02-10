@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
-import { apiUrl, PRIMARY_DOMAIN, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from '../../shared/config';
+import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
@@ -95,6 +95,8 @@ export class UsersService {
     if (requestData.rememberMe) {
       localStorage.setItem('user_key', this.userKey);
     }
+    localStorage.removeItem(PROMO_CODE_KEY);
+    localStorage.removeItem(REFFERAL_CODE_KEY);
   }
 
   signOut() {
@@ -103,6 +105,7 @@ export class UsersService {
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
+    localStorage.removeItem(PROMO_CODE_KEY);
   }
 
   expireSession() {
@@ -118,12 +121,8 @@ export class UsersService {
     if (referralCode) {
       requestData[REFFERAL_CODE_KEY] = referralCode;
     }
-    const referralId = localStorage.getItem(REFFERAL_ID_KEY);
-    if (referralId) {
-      requestData[REFFERAL_ID_KEY] = referralId;
-    }
     requestData.password = this.hashData(requestData);
-    return this.http.post<any>(`${apiUrl}auth/sign-up/`, requestData).pipe(
+    return this.http.post<any>(`${apiUrl}auth/sign-up/`, this.updateSignupDataWithPromo(requestData)).pipe(
       tap(data => {
         this.setLoginData(data, user);
       })
@@ -344,11 +343,20 @@ export class UsersService {
   }
 
   upgradeAccount(data) {
+    return this.http.post<any>(`${apiUrl}auth/upgrade/`, this.updateSignupDataWithPromo(data));
+  }
+
+  private updateSignupDataWithPromo(data: any = {}) {
     const referralId = localStorage.getItem(REFFERAL_ID_KEY);
     if (referralId) {
       data[REFFERAL_ID_KEY] = referralId;
     }
-    return this.http.post<any>(`${apiUrl}auth/upgrade/`, data);
+
+    const promoCode = localStorage.getItem(PROMO_CODE_KEY);
+    if (promoCode) {
+      data[PROMO_CODE_KEY] = promoCode;
+    }
+    return data;
   }
 
   getFilters(limit = 0, offset = 0) {

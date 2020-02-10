@@ -365,7 +365,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubjectChange(subject: any) {
-  this.subjectChanged.emit(subject);
+    this.subjectChanged.emit(subject);
   }
 
   private getPlainText(html: string) {
