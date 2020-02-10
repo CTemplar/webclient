@@ -10,7 +10,7 @@ import { quotes } from './store/quotes';
 
 import { TranslateService } from '@ngx-translate/core';
 import { FinalLoading } from './store/actions';
-import { REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
+import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
 import { filter } from 'rxjs/operators';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import Timer = NodeJS.Timer;
@@ -56,6 +56,10 @@ export class AppComponent implements OnInit, OnDestroy {
           const refferalId = params[REFFERAL_ID_KEY] || params[REFFERAL_ID_KEY.toUpperCase()];
           if (refferalId) {
             localStorage.setItem(REFFERAL_ID_KEY, refferalId);
+          }
+          const promoCode = params[PROMO_CODE_KEY] || params[PROMO_CODE_KEY.toUpperCase()];
+          if (promoCode) {
+            localStorage.setItem(PROMO_CODE_KEY, promoCode);
           }
         }
       });
