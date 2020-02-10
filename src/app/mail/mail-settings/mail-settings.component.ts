@@ -263,7 +263,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   testNotification() {
     const options = new PushNotificationOptions();
     options.body = 'You have received a new email';
-    options.icon = 'https://ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
+    options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
 
     this.pushNotificationService.create('Test Notification', options).subscribe((notif) => {
         if (notif.event.type === 'click') {
@@ -391,7 +391,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     <div class="container">
         <div class="row" style="margin-top: 1rem;">
             <div class="col-8">
-                <img src="https://ctemplar.com/assets/images/media-kit/mediakit-logo-sec.png"
+                <img src="https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo-sec.png"
                     style="height: 9rem;margin-left: 2rem;">
             </div>
             <div class="col-4 color-primary">
