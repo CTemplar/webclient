@@ -337,7 +337,7 @@
                                  aria-label="Number"
                                  [formControl]="timeZoneFilter"
                                  [matAutocomplete]="auto"
-                                 value="{{settings.timezone? settings.timezone: timezones[0]}}"
+                                 [value]="settings.timezone"
                                  matInput>
                           <mat-autocomplete #auto="matAutocomplete" class="timezone-option">
                             <mat-option class="timezone-option" *ngFor="let timezone of timeZoneFilteredOptions | async"

@@ -351,11 +351,6 @@ export class UsersService {
     if (referralId) {
       data[REFFERAL_ID_KEY] = referralId;
     }
-
-    const promoCode = localStorage.getItem(PROMO_CODE_KEY);
-    if (promoCode) {
-      data[PROMO_CODE_KEY] = promoCode;
-    }
     return data;
   }
 
