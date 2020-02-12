@@ -73,6 +73,9 @@ export const QUILL_FORMATTING_MODULES = {
 
 function getBaseUrl() {
   if (environment.production) {
+    if (location.hostname === 'gh.ctemplar.com') {
+      return 'https://api.ctemplar.com/';
+    }
     return location.protocol + '//' + location.host.replace('mail.', 'api.') + '/';
   }
   return 'https://devapi.ctemplar.com/';
