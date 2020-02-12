@@ -76,6 +76,9 @@ function getBaseUrl() {
     if (location.hostname === 'gh.ctemplar.com') {
       return 'https://api.ctemplar.com/';
     }
+    if (location.hostname === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion') {
+      return '/api/';
+    }
     return location.protocol + '//' + location.host.replace('mail.', 'api.') + '/';
   }
   return 'https://devapi.ctemplar.com/';
