@@ -303,6 +303,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       setTimeout(() => {
         this.refresh();
       }, 2000);
+      this.setIsSelectAll();
     }
   }
 

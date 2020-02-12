@@ -5,6 +5,5 @@
 
 export const environment = {
   debug: true,
-  production: false,
-  onionDomain: 'ctemplar42u6fulx.onion'
+  production: false
 };
