@@ -94,6 +94,9 @@ export class ComposeMailService {
                           .subscribe(responses => {
                               if (publicKeys.length === 0) {
                                 this.store.dispatch(new SendMail({ ...draftMail }));
+                              } else {
+                                this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id,
+                                  new SecureContent(draftMail.draft), publicKeys);
                               }
                             },
                             error => this.store.dispatch(new SnackPush(
@@ -101,15 +104,15 @@ export class ComposeMailService {
                       } else {
                         if (publicKeys.length === 0) {
                           this.store.dispatch(new SendMail({ ...draftMail }));
+                        } else {
+                          this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id,
+                            new SecureContent(draftMail.draft), publicKeys);
                         }
                       }
                     } else {
                       this.store.dispatch(new SnackPush(
                         { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
                     }
-                  }
-                  if (publicKeys.length > 0) {
-                    this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), publicKeys);
                   }
                 }
               }
