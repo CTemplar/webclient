@@ -173,6 +173,7 @@ export interface Settings {
   is_html_disabled?: boolean;
   attachment_size_limit?: number;
   attachment_size_error?: string;
+  is_composer_popup_enabled: boolean;
 }
 
 export interface Invoice {

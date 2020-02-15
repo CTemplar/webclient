@@ -383,6 +383,34 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
+                    <label class="form-label mb-0">Default composer size</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize1"
+                                 name="[composerSize]" type="radio" (click)="updateSettings('is_composer_popup_enabled', false)"
+                                 [checked]="!settings.is_composer_popup_enabled"/>
+                          <label for="composersize1">small pop-up</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize2"
+                                 name="[composerSize]" type="radio" (click)="updateSettings('is_composer_popup_enabled', true)"
+                                 [checked]="settings.is_composer_popup_enabled"/>
+                          <label for="composersize2">full screen</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
                     <label class="form-label mb-0" translate="settings.compose_font">Default Mail Compose Font</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
