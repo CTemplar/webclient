@@ -4,6 +4,7 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailState } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { startWith } from 'rxjs/operators';
 
 export function reducer(
   state: MailState = {
@@ -158,13 +159,18 @@ export function reducer(
     }
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
+      let index: number;
       const listOfIDs = action.payload.ids.split(',');
-      state.mails = state.mails.map(mail => {
+      state.mails = state.mails.map((mail, ind) => {
         if (listOfIDs.includes(mail.id.toString())) {
           mail.starred = action.payload.starred;
+          index = ind;
         }
         return mail;
       });
+      if (action.payload.folder === MailFolderType.STARRED) {
+        state.mails.splice(index, 1);
+      }
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 
