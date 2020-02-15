@@ -1,7 +1,7 @@
 // Angular
 import { environment } from '../../environments/environment';
 
-export const apiUrl = location.hostname === 'gh.ctemplar.com' ? 'https://mail.ctemplar.com/api/' : '/api/';
+export const apiUrl = getBaseUrl();
 export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
 
@@ -60,8 +60,8 @@ export const QUILL_FORMATTING_MODULES = {
   toolbar: [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote'],
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
     [{ 'direction': 'rtl' }],                         // text direction
     [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
     [{ 'color': COLORS }, { 'background': COLORS }],          // dropdown with defaults from theme
@@ -70,3 +70,16 @@ export const QUILL_FORMATTING_MODULES = {
     ['link']                         // link /not-allowed-in-simple-version(and image, video)
   ]
 };
+
+function getBaseUrl() {
+  if (environment.production) {
+    if (location.hostname === 'gh.ctemplar.com') {
+      return 'https://api.ctemplar.com/';
+    }
+    if (location.hostname === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion') {
+      return '/api/';
+    }
+    return location.protocol + '//' + location.host.replace('mail.', 'api.') + '/';
+  }
+  return 'https://devapi.ctemplar.com/';
+}
