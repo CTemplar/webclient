@@ -565,7 +565,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       mail: this.mail
     }));
 
-    this.goBack(2000);
+    this.goBack(500);
   }
 
   goBack(wait: number = 1) {
