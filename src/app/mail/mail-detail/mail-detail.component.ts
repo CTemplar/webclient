@@ -556,8 +556,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   moveToFolder(folder: MailFolderType | string) {
-    this.store.dispatch(new MoveMail({ ids: this.mail.id, folder, allowUndo: true }));
-    this.goBack(500);
+    // Dispatch move to selected folder event
+    this.store.dispatch(new MoveMail({
+      ids: this.mail.id,
+      folder,
+      sourceFolder: this.mailFolder,
+      allowUndo: true,
+      mail: this.mail
+    }));
+
+    this.goBack(2000);
   }
 
   goBack(wait: number = 1) {
