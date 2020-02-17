@@ -64,7 +64,7 @@
                              type="checkbox" formControlName="rememberMe"/>
                             <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
                           </span>
-                          <div class="checkbox-text lh-sm">
+                          <div class="checkbox-text lh-sm cursor-pointer" (click)="toggleRememberMe()">
                             <span class="info-text" translate="login.remember_me">
                                 Remember me on this computer.
                             </span>
