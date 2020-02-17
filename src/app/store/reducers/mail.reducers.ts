@@ -161,10 +161,10 @@ export function reducer(
     case MailActionTypes.STAR_MAIL_SUCCESS: {
       let index: number;
       const listOfIDs = action.payload.ids.split(',');
-      state.mails = state.mails.map((mail, ind) => {
+      state.mails = state.mails.map((mail, currentIndex) => {
         if (listOfIDs.includes(mail.id.toString())) {
           mail.starred = action.payload.starred;
-          index = ind;
+          index = currentIndex;
         }
         return mail;
       });
