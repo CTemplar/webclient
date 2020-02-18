@@ -113,6 +113,8 @@ export class SafePipe implements PipeTransform {
         return this.sanitizer.bypassSecurityTrustHtml(xssValue);
       case 'url':
         return this.sanitizer.bypassSecurityTrustUrl(value);
+      case 'unsafehtml':
+        return this.sanitizer.bypassSecurityTrustHtml(value);
       default:
         throw new Error(`Invalid safe type specified: ${type}`);
     }

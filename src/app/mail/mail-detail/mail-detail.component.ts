@@ -62,6 +62,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   disableMoveTo: boolean;
   isMobile: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
+  showRawContent: any = {};
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
