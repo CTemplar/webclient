@@ -143,6 +143,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       this.store.dispatch(new LogIn({ ...user, otp }));
     }
   }
+  toggleRememberMe() {
+    this.loginForm.controls['rememberMe'].setValue(!this.loginForm.controls['rememberMe'].value);
+  }
 
   continueLogin() {
     this.authState.anti_phishing_phrase = '';

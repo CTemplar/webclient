@@ -65,12 +65,10 @@ export class ComposeMailService {
                     draftMail.draft.is_encrypted = true;
                     publicKeys = [...publicKeys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
-                  if (publicKeys.length > 0) {
-                    if (this.userState.settings.is_attachments_encrypted) {
-                      draftMail.attachments.forEach(attachment => {
-                        this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, publicKeys);
-                      });
-                    }
+                  if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
+                    draftMail.attachments.forEach(attachment => {
+                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, publicKeys);
+                    });
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), publicKeys);
                   } else {
                     if (!draftMail.isSaving) {
@@ -94,12 +92,22 @@ export class ComposeMailService {
                         )
                           .pipe(take(1))
                           .subscribe(responses => {
-                              this.store.dispatch(new SendMail({ ...draftMail }));
+                              if (publicKeys.length === 0) {
+                                this.store.dispatch(new SendMail({ ...draftMail }));
+                              } else {
+                                this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id,
+                                  new SecureContent(draftMail.draft), publicKeys);
+                              }
                             },
                             error => this.store.dispatch(new SnackPush(
                               { message: 'Failed to send email, please try again. Email has been saved in draft.' })));
                       } else {
-                        this.store.dispatch(new SendMail({ ...draftMail }));
+                        if (publicKeys.length === 0) {
+                          this.store.dispatch(new SendMail({ ...draftMail }));
+                        } else {
+                          this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id,
+                            new SecureContent(draftMail.draft), publicKeys);
+                        }
                       }
                     } else {
                       this.store.dispatch(new SnackPush(

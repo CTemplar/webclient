@@ -47,7 +47,9 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.mailSubject = this.draft.subject;
+    if (this.draft) {
+      this.mailSubject = this.draft.subject;
+    }
   }
 
   ngAfterViewInit(): void {

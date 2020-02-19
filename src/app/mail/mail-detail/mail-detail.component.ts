@@ -62,6 +62,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   disableMoveTo: boolean;
   isMobile: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
+  showRawContent: any = {};
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -556,7 +557,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   moveToFolder(folder: MailFolderType | string) {
-    this.store.dispatch(new MoveMail({ ids: this.mail.id, folder, allowUndo: true }));
+    // Dispatch move to selected folder event
+    this.store.dispatch(new MoveMail({
+      ids: this.mail.id,
+      folder,
+      sourceFolder: this.mailFolder,
+      allowUndo: true,
+      mail: this.mail
+    }));
+
     this.goBack(500);
   }
 
