@@ -345,13 +345,20 @@
           <div class="col-sm-7 col-md-5">
             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                    [value]="selectedMailboxForKey?.fingerprint" readonly=""/>
-            <span *ngIf="selectedMailboxPublicKey" class="form-label-text mt-1">
-                                          <a [href]="selectedMailboxPublicKey | safe: 'url'">
-                                            <strong><u>
-                                              <span translate="settings.download_public_kay">Download public key </span>
-                                              (4096 Bit)</u></strong>
-                                          </a>
-                                        </span>
+            <ng-container *ngIf="selectedMailboxPublicKey">
+                 <span class="form-label-text mt-1">
+                   <a [href]="selectedMailboxPublicKey | safe: 'url'">
+                     <strong><u><span translate="settings.download_public_key">Download public key </span>
+                       (4096 Bit)</u></strong>
+                   </a>
+                 </span>
+              <span class="form-label-text mt-1">
+                <a [href]="selectedMailboxPrivateKey | safe: 'url'">
+                  <strong><u><span translate="settings.download_private_key">Download private key </span>
+                     (4096 Bit)</u></strong>
+                </a>
+              </span>
+            </ng-container>
           </div>
         </div>
       </div>

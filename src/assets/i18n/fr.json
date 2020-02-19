@@ -125,7 +125,7 @@
       "email_address": "Adresse email",
       "fingerprint": "Empreinte"
     },
-    "download_public_kay": "Télécharger la clé publique",
+    "download_public_key": "Télécharger la clé publique",
     "donate": {
       "name": "Donner",
       "info": "Votre don nous aide à soutenir plus d'utilisateurs et à continuer à développer CTemplar en tant que logiciel libre et open source.",
