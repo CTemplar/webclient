@@ -125,7 +125,7 @@
       "email_address": "Dirección de email",
       "fingerprint": "Huella dactilar"
     },
-    "download_public_kay": "Descargar clave pública",
+    "download_public_key": "Descargar clave pública",
     "donate": {
       "name": "Donar",
       "info": "Tu donación nos permite ayudar a más usuarios y continuar desarrollando CTemplar como un software libre y de código abierto.",
