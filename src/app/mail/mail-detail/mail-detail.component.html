@@ -305,13 +305,21 @@
           <a class="dropdown-item" (click)="onDeleteForAll(mail)" *ngIf="mail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
              ngbTooltip="Message will be deleted for everyone including you and all the receivers." placement="left">Delete from Receiver Inbox</a>
           <a class="dropdown-item" (click)="showIncomingHeaders(mail)" translate="mail_detail.show_headers">Show headers</a>
+          <a class="dropdown-item" (click)="showRawContent[mail.id] = !showRawContent[mail.id]"
+             ngbTooltip="View email raw content without xss protection. Warning: Be aware of malwares."
+             placement="left">Show raw email</a>
           <a class="dropdown-item" *ngIf="!disableMoveTo" (click)="onMarkAsSpam(mail)"
           translate="mail_detail.mark_as_spam">Mark as Spam</a>
         </div>
       </div>
       <div class="show_gmail_extra">
         <div class="msg-reply-content text-dark" id="{{mail.id}}-mail-content"
+             *ngIf="!showRawContent[mail.id]; else rawContent"
            [innerHTML]="decryptedContents[mail.id] | safe: 'html': mail.sender"></div>
+        <ng-template #rawContent>
+          <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content"
+               [innerHTML]="decryptedContents[mail.id] | safe: 'unsafehtml'"></div>
+        </ng-template>
       </div>
     </div>
 
@@ -479,12 +487,20 @@
                       <a class="dropdown-item" (click)="onDeleteForAll(childMail)" *ngIf="childMail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
                          ngbTooltip="Message will be deleted for everyone including you and all the receivers." placement="left">Delete from Receiver Inbox</a>
                       <a class="dropdown-item" (click)="showIncomingHeaders(childMail)" translate="mail_detail.show_headers">Show headers</a>
+                      <a class="dropdown-item" (click)="showRawContent[childMail.id] = !showRawContent[childMail.id]"
+                         ngbTooltip="View email raw content without xss protection. Warning: Be aware of malwares."
+                         placement="left">Show raw email</a>
                     </div>
                   </div>
 
                 <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
                   <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
+                       *ngIf="!showRawContent[childMail.id] else rawChildContent"
                        [innerHTML]="decryptedContents[childMail.id] | safe: 'html': childMail.sender"></div>
+                  <ng-template #rawChildContent>
+                    <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
+                         [innerHTML]="decryptedContents[childMail.id] | safe: 'unsafehtml'"></div>
+                  </ng-template>
 
                   <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
                      *ngIf="decryptedContents[childMail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[childMail.id]?.indexOf('gmail_quote') > -1">

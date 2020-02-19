@@ -26,6 +26,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   public currentMailBox: Mailbox;
   public userState: UserState;
   public selectedMailboxPublicKey: string;
+  public selectedMailboxPrivateKey: string;
   newAddressForm: FormGroup;
   newAddressOptions: any = {};
   selectedMailboxForSignature: Mailbox;
@@ -151,6 +152,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
     this.selectedMailboxForKey = mailbox;
     this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
+    this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.private_key)}`;
   }
 
   onSignatureChange(value) {

@@ -125,7 +125,8 @@
       "email_address": "E-mail address",
       "fingerprint": "Fingerprint"
     },
-    "download_public_kay": "Download public key",
+    "download_public_key": "Download public key",
+    "download_private_key": "Download private key",
     "donate": {
       "name": "Donate",
       "info": "Your donation helps us support more users and continue to develop CTemplar as free and open source software.",

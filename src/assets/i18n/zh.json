@@ -125,7 +125,7 @@
       "email_address": "邮箱地址",
       "fingerprint": "指纹"
     },
-    "download_public_kay": "下载公钥",
+    "download_public_key": "下载公钥",
     "donate": {
       "name": "捐款",
       "info": "您的捐款有帮助我们支持更多用户，并继续开发CTemplar作为免费及开源的软件。",
