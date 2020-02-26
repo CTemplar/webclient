@@ -16,7 +16,6 @@ import { TagInputModule } from 'ngx-chips';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { DynamicScriptLoaderService } from './services/dynamic-script-loader.service';
 import { FilenamePipe } from './pipes/filename.pipe';
-import { MatIconComponent } from './components/mat-icon/mat-icon.component';
 import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.component';
 import { FilesizePipe } from './pipes/filesize.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
@@ -29,6 +28,7 @@ import { StripeFormComponent } from './components/stripe-form/stripe-form.compon
 import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.component';
 import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
+import { LastActionPipe } from './pipes/last-action.pipe';
 
 @NgModule({
   imports: [
@@ -48,7 +48,6 @@ import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-n
     SafePipe,
     ProgressBarComponent,
     FilenamePipe,
-    MatIconComponent,
     PricingPlansComponent,
     UsersBillingInfoComponent,
     FilesizePipe,
@@ -61,6 +60,7 @@ import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-n
     BitcoinFormComponent,
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
+    LastActionPipe,
   ],
   exports: [
     TranslateModule,
@@ -69,11 +69,11 @@ import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-n
     SpinnerImageComponent,
     LoadingSpinnerComponent,
     SafePipe,
+    LastActionPipe,
     TagInputModule,
     ProgressBarComponent,
     FilenamePipe,
     MatIconModule,
-    MatIconComponent,
     PricingPlansComponent,
     UsersBillingInfoComponent,
     FilesizePipe,

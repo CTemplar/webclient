@@ -228,7 +228,8 @@
 
   .clear-btn {
     position: absolute;
-    top: 5px;
+    top: 0;
+    bottom: 0;
     right: 58px;
     min-width: 40px;
     background: transparent;
@@ -236,8 +237,6 @@
     cursor: pointer;
 
     i {
-      font-size: 20px !important;
-
       &:hover {
         color: $brand-secondary;
       }
@@ -314,7 +313,8 @@
     width: 56px;
 
     i {
-      margin-top: -4px
+      margin-top: -2px;
+      font-size: 22px;
     }
   }
 }
@@ -339,6 +339,7 @@
   padding: 0 !important;
 
   i {
-    font-size: 30px;
+    font-size: 28px;
+    line-height: 35px;
   }
 }
