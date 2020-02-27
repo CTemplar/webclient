@@ -489,8 +489,10 @@ $error-red: #e94e4c;
       text-transform: uppercase;
     }
 
-    .material-icons {
-      font-size: 110px;
+    i {
+      font-size: 81px;
+      padding-bottom: 20px;
+      padding-top: 10px;
     }
 
     .btn-gradient-primary {
@@ -547,9 +549,7 @@ $error-red: #e94e4c;
   }
 
   .actions {
-    .material-icons {
-      width: 32px;
-    }
+    justify-content: center;
   }
 
   .no-invoice {

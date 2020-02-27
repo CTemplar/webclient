@@ -211,10 +211,10 @@
                         <div class="captcha_image">
                           <img *ngIf="captcha.captcha_image" [src]="captcha.captcha_image">
                         </div>
-                        <i class="material-icons refresh-icon"
+                        <i class="fas fa-redo-alt refresh-icon"
                            *ngIf="!captcha?.inProgress"
                            (click)="reloadCaptcha()"
-                           [ngbTooltip]="'create_account.try_another_one'| translate">refresh</i>
+                           [ngbTooltip]="'create_account.try_another_one'| translate"></i>
                         <app-loading-spinner [showSpinner]="captcha.inProgress"></app-loading-spinner>
                       </div>
                       <div class="input-group">

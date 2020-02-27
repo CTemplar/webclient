@@ -28,7 +28,7 @@
         </li>
         <li class="px-0">
           <a (click)="refresh()" [ngbTooltip]="'mail_list.refresh'| translate" placement="top" class="border-right-0 border-radius-0">
-            <i class="material-icons">refresh</i>
+            <i class="fas fa-redo-alt"></i>
           </a>
         </li>
         <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE && !disableMoveTo">
@@ -58,7 +58,7 @@
           <a class="px-0" placement="top"
              (click)="decryptAllSubjects()"
              ngbTooltip="Decrypt all subjects on current page">
-            <i class="material-icons" style="font-size: 20px;">lock_open</i>
+            <i class="fas fa-unlock-alt"></i>
           </a>
         </li>
 
@@ -227,7 +227,7 @@
               <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
             <span class="position-relative" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
-            <i *ngIf="mail.last_action_thread" class="material-icons last-action">{{mail.last_action_thread | lowercase}}</i>
+            <i *ngIf="mail.last_action_thread" class="fas fa-{{mail.last_action_thread | lastAction}} last-action"></i>
             </span>
           </a>
         </td>
@@ -277,7 +277,7 @@
           <ng-template #outboxTime>
             <ng-container *ngIf="mail.delayed_delivery">{{ mail.delayed_delivery | momentDate:'mail-list'}}</ng-container>
             <ng-container *ngIf="mail.dead_man_duration">
-              <i class="material-icons" style="font-size: 18px;">remove</i>
+              <i class="fas fa-minus"></i>
             </ng-container>
           </ng-template>
         </td>

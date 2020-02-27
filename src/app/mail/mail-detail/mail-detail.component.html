@@ -5,7 +5,7 @@
         <li>
           <a placement="top"
              (click)="goBack()">
-            <i class="material-icons">keyboard_backspace</i>
+            <i class="fas fa-arrow-left"></i>
           </a>
         </li>
         <li class="px-0" *ngIf="mailFolder !== mailFolderTypes.ARCHIVE && !disableMoveTo">
@@ -209,7 +209,7 @@
                 </a>
                 <span class="position-relative">
                  <i *ngIf="mail.last_action"
-                    class="material-icons last-action">{{mail.last_action | lowercase}}</i>
+                    class="fas fa-{{mail.last_action | lastAction}} last-action"></i>
                 </span>
               </li>
               <li id="{{mail.id}}-mail-to" translate="settings.compose.to">
@@ -271,7 +271,7 @@
                 <ng-template #outboxTime>
                   <ng-container *ngIf="mail.delayed_delivery">{{ mail.delayed_delivery | momentDate:'medium'}}</ng-container>
                   <ng-container *ngIf="mail.dead_man_duration">
-                    <i class="material-icons" style="font-size: 18px;">remove</i>
+                    <i class="fas fa-minus"></i>
                   </ng-container>
                 </ng-template>
               </label>
@@ -393,7 +393,7 @@
                           </a>
                           <span class="position-relative">
                              <i *ngIf="childMail.last_action"
-                                class="material-icons last-action">{{childMail.last_action | lowercase}}</i>
+                                class="fas fa-{{childMail.last_action | lastAction}} last-action"></i>
                           </span>
                         </li>
                         <li id="{{childMail.id}}-mail-to">
@@ -455,7 +455,7 @@
                           <ng-template #outboxTime>
                             <ng-container *ngIf="childMail.delayed_delivery">{{ childMail.delayed_delivery | momentDate:'medium'}}</ng-container>
                             <ng-container *ngIf="childMail.dead_man_duration">
-                              <i class="material-icons" style="font-size: 18px;">remove</i>
+                              <i class="fas fa-minus"></i>
                             </ng-container>
                           </ng-template>
                         </label>

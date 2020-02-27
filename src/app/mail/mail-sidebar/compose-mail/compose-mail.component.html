@@ -401,12 +401,12 @@
               <div *ngIf="settings.is_html_disabled; else insertLinkRef"
                    ngbTooltip="Insert link is not available in plain text editor" class="dropdown">
                 <button class="actions-btn insert-link-btn" disabled>
-                  <i class="material-icons">insert_link</i>
+                  <i class="fas fa-link"></i>
                 </button>
               </div>
               <ng-template #insertLinkRef>
                 <button role="button" ngbTooltip="Insert link" (click)="openInsertLinkModal()"
-                        class="actions-btn insert-link-btn"><i class="material-icons">insert_link</i>
+                        class="actions-btn insert-link-btn"><i class="fas fa-link"></i>
                 </button>
               </ng-template>
             </li>
