@@ -155,7 +155,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
-    } else if (this.captcha.verified === true && this.inviteCode) {
+    } else if (this.captcha.verified === true) {
       this.signupFormCompleted();
     }
   }
