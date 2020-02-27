@@ -80,6 +80,9 @@ $error-red: #e94e4c;
   }
   .email-input {
     border: none !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     &:focus {
       box-shadow: none;
       outline: none;
@@ -115,7 +118,6 @@ $error-red: #e94e4c;
 }
 
 .refresh-icon {
-  color: black;
   margin-left: 5px;
   vertical-align: bottom;
   cursor: pointer;

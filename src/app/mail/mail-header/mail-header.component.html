@@ -17,7 +17,7 @@
                         <button class="clear-btn"
                                 *ngIf="searchInput.value?.length>0"
                                 (click)="searchInput.setValue('')">
-                            <i class="material-icons">close</i>
+                          <i class="fas fa-times"></i>
                         </button>
                         <button class="btn btn-sm btn-secondary search-btn"
                                 (click)="search()"
@@ -32,7 +32,7 @@
           <li>
             <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity" target="_blank"
                class="sri-check" placement="bottom" ngbTooltip="Protected by SRI, click to read more">
-              <i class="material-icons">security</i>
+              <i class="fas fa-shield-alt"></i>
             </a>
           </li>
           <li class="btn-dropdown help-icon">
@@ -41,7 +41,7 @@
                       [ngbTooltip]="'mail_header.need_help'| translate"
                       class="icon-button"
                       ngbDropdownToggle placement="bottom">
-                <i class="material-icons">help_outline</i>
+                <i class="far fa-question-circle"></i>
               </button>
               <div ngbDropdownMenu class="dropdown-menu-right text-center faq-dropdown"
                    aria-labelledby="helpDropdownMenuButton">
