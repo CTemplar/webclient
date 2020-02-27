@@ -54,6 +54,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   modalRef: NgbModalRef;
   captcha: Captcha;
   captchaValue: string;
+  inviteCode: string;
   primaryWebsite = PRIMARY_WEBSITE;
   private isCaptchaRetrieved: boolean;
   private paymentType: PaymentType;
@@ -154,7 +155,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
-    } else if (this.captcha.verified === true) {
+    } else if (this.captcha.verified === true && this.inviteCode) {
       this.signupFormCompleted();
     }
   }
@@ -211,6 +212,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       password: this.signupForm.get('password').value,
       captcha_key: this.captcha.captcha_key,
       captcha_value: this.captchaValue,
+      invite_code: this.inviteCode,
     };
     this.store.dispatch(new SignUp(this.data));
   }
