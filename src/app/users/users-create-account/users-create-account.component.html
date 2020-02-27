@@ -23,7 +23,8 @@
         </div>
         <div class="form">
           <form class="signup-form" [formGroup]="signupForm" #form="ngForm" (ngSubmit)="signup()">
-            <div *ngIf="errorMessage" class="l-alert l-alert-danger my-3 reset-form__failed text-center">{{ errorMessage }}</div>
+            <div *ngIf="errorMessage"
+                 class="l-alert l-alert-danger my-3 reset-form__failed text-center">{{ errorMessage }}</div>
             <div class="form-step-card-holder">
               <div class="form-step-card">
                 <h3 class="form-step-card-title text-dark mb-0">
@@ -197,6 +198,28 @@
                         id="email-valid1"
                         class="validate-message" translate="settings.email_invalid">The email is invalid.
                   </span>
+                </div>
+              </div>
+
+              <div class="form-step-card"
+                   [ngClass]="{'is-validate': !inviteCode && submitted}"
+                   *ngIf="selectedPlan === planType.FREE">
+                <h3 class="form-step-card-title text-dark mb-0">
+                  <strong translate="create_account.invite_code">Invitation code</strong>
+                </h3>
+                <div class="form-step-card-subtitle">
+                  <small>You can get invitation code from any existing paid customer or you can request from us.
+                    <br>How to get invitation code?
+                    <a target="_blank" href="https://ctemplar.com/faq/get-an-invitation-code/">Learn more</a>
+                  </small>
+                </div>
+                <div class="form-group">
+                  <label for="inviteCode" translate="create_account.invite_code"
+                         class="d-block text-muted text-left hidden-sm-up">Invitation code
+                  </label>
+                  <input class="form-control text-dark" id="inviteCode" required
+                         [placeholder]="'create_account.invite_code' | translate " type="text" name="inviteCode"
+                         [(ngModel)]="inviteCode" [ngModelOptions]="{standalone: true}"/>
                 </div>
               </div>
 

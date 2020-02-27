@@ -514,6 +514,7 @@
     "password_connected": " Tu contraseña está conectada a tu clave de encriptación, si cambias tu contraseña se te expedirá una nueva clave de encriptación y TODO el contenido de tu cuenta se perderá, con excepción de tu dirección de email.",
     "more_info": "Más información",
     "less": "Menos",
+    "invite_code": "Código de invitación",
     "recovery_email_optional": " Email de recuperación (opcional)",
     "recover_account": " Esta opción será usada para recuperar tu cuenta en caso de que olvides tu contraseña",
     "check_box": " Por favor selecciona esta casilla si aceptas respetar nuestros ",
