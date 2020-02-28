@@ -20,6 +20,7 @@ export const initialState: UserState = {
   currentCreationStep: 0,
   invoices: [],
   promoCode: new PromoCode(),
+  inviteCodes: [],
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -434,6 +435,22 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CLEAR_PROMO_CODE: {
       return { ...state, promoCode: new PromoCode() };
+    }
+
+    case UsersActionTypes.INVITE_CODE_GET: {
+      return { ...state, inProgress: true };
+    }
+
+    case UsersActionTypes.INVITE_CODE_GET_SUCCESS: {
+      return { ...state, inProgress: false, inviteCodes: action.payload };
+    }
+
+    case UsersActionTypes.INVITE_CODE_GENERATE: {
+      return { ...state, inProgress: true };
+    }
+
+    case UsersActionTypes.INVITE_CODE_GENERATE_SUCCESS: {
+      return { ...state, inProgress: false, inviteCodes: [...state.inviteCodes, action.payload] };
     }
 
     default: {

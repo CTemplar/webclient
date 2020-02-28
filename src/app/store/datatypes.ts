@@ -113,6 +113,13 @@ export interface UserState {
   isInvoiceLoaded?: boolean;
   upgradeAmount?: number;
   promoCode: PromoCode;
+  inviteCodes: InviteCode[];
+}
+
+export interface InviteCode {
+  expiration_date: string;
+  is_used: boolean;
+  code: string;
 }
 
 export class PromoCode {

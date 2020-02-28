@@ -210,7 +210,8 @@ export class UsersService {
       'emails/delete-message/',
       'users/prorated',
       'btc-wallet/create/',
-      'promo-code/validate'
+      'promo-code/validate',
+      'users/invites/'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -295,6 +296,15 @@ export class UsersService {
 
   validatePromoCode(data: any) {
     return this.http.post<any>(`${apiUrl}promo-code/validate/`, data);
+  }
+
+  getInviteCodes() {
+    return this.http.get<any>(`${apiUrl}users/invites/`)
+      .pipe(map(response => response.results));
+  }
+
+  generateInviteCodes() {
+    return this.http.post<any>(`${apiUrl}users/invites/`, {});
   }
 
   addContact(payload: Contact) {
