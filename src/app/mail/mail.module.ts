@@ -41,6 +41,7 @@ import { OrganizationUsersComponent } from './mail-settings/organization/organiz
 import { PushNotificationService } from '../shared/services/push-notification.service';
 import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 import { QuillModule } from 'ngx-quill';
+import { InviteCodesComponent } from './mail-settings/invite-codes/invite-codes.component';
 
 @NgModule({
   imports: [
@@ -82,6 +83,7 @@ import { QuillModule } from 'ngx-quill';
     MailAutoresponderComponent,
     SecurityComponent,
     OrganizationUsersComponent,
+    InviteCodesComponent,
   ],
   exports: [
     MailFooterComponent
