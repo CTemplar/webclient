@@ -453,6 +453,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false, inviteCodes: [...state.inviteCodes, action.payload] };
     }
 
+    case UsersActionTypes.INVITE_CODE_GENERATE_FAILURE: {
+      return { ...state, inProgress: false };
+    }
+
     default: {
       return state;
     }

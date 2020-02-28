@@ -38,7 +38,7 @@ import {
   DeleteFilterFailure,
   DeleteFilterSuccess,
   DeleteFolder,
-  DeleteFolderSuccess, GenerateInviteCodes, GenerateInviteCodesSuccess,
+  DeleteFolderSuccess, GenerateInviteCode, GenerateInviteCodeFailure, GenerateInviteCodeSuccess,
   GetDomains,
   GetDomainsSuccess,
   GetFilters,
@@ -589,15 +589,17 @@ export class UsersEffects {
   @Effect()
   generateInviteCode: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.INVITE_CODE_GENERATE),
-    map((action: GenerateInviteCodes) => action.payload),
+    map((action: GenerateInviteCode) => action.payload),
     switchMap(payload => {
       return this.userService.generateInviteCodes()
         .pipe(
-          switchMap(res => of(new GenerateInviteCodesSuccess(res))),
+          switchMap(res => of(new GenerateInviteCodeSuccess(res))),
           catchError(errorResponse => of(
             new SnackErrorPush(
               { message: errorResponse.error ? errorResponse.error : 'Failed generate invite code, try again or contact support.' })
-          ))
+            , new GenerateInviteCodeFailure(),
+            ),
+          )
         );
     }));
 

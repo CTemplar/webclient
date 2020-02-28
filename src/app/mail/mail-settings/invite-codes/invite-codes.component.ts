@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, InviteCode, UserState } from '../../../store/datatypes';
-import { GenerateInviteCodes, GetInviteCodes } from '../../../store/actions';
+import { GenerateInviteCode, GetInviteCodes } from '../../../store/actions';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
+import { SharedService } from '../../../store/services';
 
 @Component({
   selector: 'app-invite-codes',
@@ -12,22 +13,27 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
 })
 export class InviteCodesComponent implements OnInit, OnDestroy {
   inviteCodes: InviteCode[] = [];
-  inProgess: boolean;
+  inProgress: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>,
+              private sharedService: SharedService) { }
 
   ngOnInit() {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         this.inviteCodes = userState.inviteCodes;
-        this.inProgess = userState.inProgress;
+        this.inProgress = userState.inProgress;
       });
     this.store.dispatch(new GetInviteCodes());
   }
 
   generateCode() {
-    this.store.dispatch(new GenerateInviteCodes());
+    this.store.dispatch(new GenerateInviteCode());
+  }
+
+  copyToClipboard(value: string) {
+    this.sharedService.copyToClipboard(value);
   }
 
   ngOnDestroy(): void {

@@ -7,12 +7,10 @@
     <i class="far fa-question-circle"></i>
   </a>
 </header>
-<div class="mailbox-section-body mailbox-section-body-sm">
+<div class="mailbox-section-body mailbox-section-body-sm position-relative">
   <div class="form-content-holder">
     <div class="form-content-row">
       <div class="align-items-center">
-
-
         <div>
           <div class="row">
             <div class="col mb-2" align="left">
@@ -21,26 +19,51 @@
                       class="btn btn-sm btn-secondary"><span>Generate a code</span>
               </button>
             </div>
+            <app-loading-spinner class="loading-spinner" [showSpinner]="inProgress"></app-loading-spinner>
           </div>
           <div>
-            <ul class="ui-list ui-list-styled list-styled">
-              <li class="ui-list-item ui-list-item-xs-full" *ngFor="let inviteCode of inviteCodes">
-                <div class="row row-xs align-items-center">
-                  <div class="col-10 col-sm-8">
-                    <div class="form-label text-dark mb-0">{{inviteCode.code}}</div>
+
+            <div *ngIf="inviteCodes?.length>0">
+              <ul class="ui-list ui-list-styled list-styled users-list">
+                <li class="ui-list-item ui-list-item-xs-full">
+                  <div class="row row-xs align-items-center">
+                    <div class="col-6 font-weight-bold col-item">
+                      Code
+                    </div>
+                    <div class="col-3 col-item">
+                      <div class="form-label mb-0 font-weight-bold">
+                        Expiration date
+                      </div>
+                    </div>
+                    <div class="col-3 font-weight-bold col-item">
+                      Is Used ?
+                    </div>
                   </div>
-                  <div class="col-2 col-sm-4">
-                    <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
-                      <li>
-                        <a role="button">
-                          <i class="icon icon-garbage"></i>
-                        </a>
-                      </li>
-                    </ul>
+                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let inviteCode of inviteCodes;">
+                  <div class="row row-xs align-items-center">
+                    <div class="col-6 text-dark col-item">
+                      <span>{{inviteCode.code}}</span>
+                      <button mat-icon-button (click)="copyToClipboard(inviteCode.code)"
+                              class="copy-btn">
+                        <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
+                      </button>
+                    </div>
+                    <div class="col-3 col-item">
+                      <div class="form-label text-dark mb-0">
+                        {{inviteCode.expiration_date | date: 'medium'}}
+                      </div>
+                    </div>
+
+                    <div class="col-3 text-dark col-item">
+                      <div class="form-label text-dark mb-0">
+                        {{inviteCode.is_used ? 'YES' : 'NO'}}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </div>
+
           </div>
         </div>
       </div>

@@ -83,6 +83,7 @@ export enum UsersActionTypes {
   INVITE_CODE_GET_SUCCESS = '[USER] INVITE CODE GET SUCCESS',
   INVITE_CODE_GENERATE = '[USER] INVITE CODE GENERATE',
   INVITE_CODE_GENERATE_SUCCESS = '[USER] INVITE CODE GENERATE SUCCESS',
+  INVITE_CODE_GENERATE_FAILURE = '[USER] INVITE CODE GENERATE FAILURE',
 }
 
 export class Accounts implements Action {
@@ -626,17 +627,24 @@ export class GetInviteCodesSuccess implements Action {
 }
 
 
-export class GenerateInviteCodes implements Action {
+export class GenerateInviteCode implements Action {
   readonly type = UsersActionTypes.INVITE_CODE_GENERATE;
 
   constructor(public payload?: any) {
   }
 }
 
-export class GenerateInviteCodesSuccess implements Action {
+export class GenerateInviteCodeSuccess implements Action {
   readonly type = UsersActionTypes.INVITE_CODE_GENERATE_SUCCESS;
 
   constructor(public payload: any) {
+  }
+}
+
+export class GenerateInviteCodeFailure implements Action {
+  readonly type = UsersActionTypes.INVITE_CODE_GENERATE_FAILURE;
+
+  constructor(public payload?: any) {
   }
 }
 
@@ -719,5 +727,6 @@ export type UsersActionAll =
   | ClearPromoCode
   | GetInviteCodes
   | GetInviteCodesSuccess
-  | GenerateInviteCodes
-  | GenerateInviteCodesSuccess;
+  | GenerateInviteCode
+  | GenerateInviteCodeSuccess
+  | GenerateInviteCodeFailure;
