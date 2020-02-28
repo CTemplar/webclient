@@ -15,6 +15,8 @@ export class InviteCodesComponent implements OnInit, OnDestroy {
   inviteCodes: InviteCode[] = [];
   inProgress: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
+  isPrime: boolean;
+  isLoaded: boolean;
 
   constructor(private store: Store<AppState>,
               private sharedService: SharedService) { }
@@ -24,8 +26,12 @@ export class InviteCodesComponent implements OnInit, OnDestroy {
       .subscribe((userState: UserState) => {
         this.inviteCodes = userState.inviteCodes;
         this.inProgress = userState.inProgress;
+        this.isPrime = userState.isPrime;
+        if (this.isPrime && !this.isLoaded) {
+          this.isLoaded = true;
+          this.store.dispatch(new GetInviteCodes());
+        }
       });
-    this.store.dispatch(new GetInviteCodes());
   }
 
   generateCode() {
