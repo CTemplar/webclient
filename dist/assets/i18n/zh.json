@@ -514,6 +514,7 @@
     "password_connected": "您的密码已连接到加密密钥，如果您修改了密码，我们则会向您发出新的加密密钥，除了您的电子邮箱地址外，您帐户中的所有内容都将丢失。",
     "more_info": "更多信息",
     "less": "收起",
+    "invite_code": "邀请码",
     "recovery_email_optional": "恢复邮箱（可选择）",
     "recover_account": "当您忘记了密码时，该选项是用于恢复您的帐户",
     "check_box": "如果您同意遵守我们的要求，请在此方框内打勾",
