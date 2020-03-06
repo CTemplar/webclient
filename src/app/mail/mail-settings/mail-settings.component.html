@@ -29,7 +29,7 @@
                             <div class="subscription-tag">
                               {{userPlanType}}
                             </div>
-                            <div><i class="material-icons">card_membership</i></div>
+                            <div><i class="far fa-credit-card"></i></div>
                             <div>
                               <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer"
                                  translate="settings.upgrade">Upgrade</a>
@@ -236,10 +236,10 @@
                                 <div class="col-2 display-inline-flex actions">
                                   <i (click)="onViewInvoice(invoice)"
                                      [ngbTooltip]="'settings.view'| translate"
-                                     class="material-icons pr-2 cursor-pointer">visibility</i>
+                                     class="fas fa-eye pr-2 cursor-pointer"></i>
                                   <i (click)="onPrintInvoice(invoice)"
                                      [ngbTooltip]="'mail_detail.print'| translate"
-                                     class="material-icons cursor-pointer">print_outline</i>
+                                     class="fas fa-print cursor-pointer"></i>
                                 </div>
                               </div>
                             </li>
@@ -572,7 +572,11 @@
           </div>
 
         </section>
-        <!-- Payments Section Ends -->
+        <!-- Notification Section Ends -->
+
+        <section class="mailbox-section">
+          <app-invite-codes></app-invite-codes>
+        </section>
 
         <!-- Delete account settings -->
         <section class="mailbox-section">

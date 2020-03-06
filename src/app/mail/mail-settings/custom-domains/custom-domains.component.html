@@ -10,9 +10,9 @@
                 </h5>
                 <a href="{{primaryWebsite}}/faq/add-a-domain/"
                    ngbTooltip="Learn more"
-                   class="domains-info-icon"
+                   class="learn-more-info-icon"
                    target="_blank">
-                  <i class="material-icons">info_outline</i>
+                  <i class="far fa-question-circle"></i>
                 </a>
               </div>
               <div class="desc-card-body bg-faded domain-body">
@@ -88,7 +88,7 @@
                     <div class="col-1 d-flex justify-content-end actions">
                       <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
                         <a class="text-muted" (click)="verifyDomain(domain.id, false, true)" ngbTooltip="Verify dns records again.">
-                          <i class="material-icons reverify-domain">autorenew</i>
+                          <i class="fas fa-sync-alt reverify-domain"></i>
                         </a>
                       </div>
                       <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
@@ -286,7 +286,7 @@
                               <span class="text-dark text-small">{{ newDomain?.verification_record.value }}</span>
                               <button mat-icon-button (click)="copyToClipboard(newDomain?.verification_record.value)"
                                       class="copy-btn">
-                                <i class="material-icons">file_copy</i>
+                                <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
                           </div>
@@ -349,7 +349,7 @@
                               <span class="text-dark text-small">{{ newDomain?.mx_record.value }}</span>
                               <button mat-icon-button (click)="copyToClipboard(newDomain?.mx_record.value)"
                                       class="copy-btn">
-                                <i class="material-icons">file_copy</i>
+                               <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
                           </div>
@@ -422,7 +422,7 @@
                               <span class="text-dark text-small">{{ newDomain?.spf_record.value }}</span>
                               <button mat-icon-button (click)="copyToClipboard(newDomain?.spf_record.value)"
                                       class="copy-btn">
-                                <i class="material-icons">file_copy</i>
+                               <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
                           </div>
@@ -481,7 +481,7 @@
                               <span class="text-dark text-small">{{ newDomain?.dkim_record.value }}</span>
                               <button mat-icon-button (click)="copyToClipboard(newDomain?.dkim_record.value)"
                                       class="copy-btn">
-                                <i class="material-icons">file_copy</i>
+                               <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
                           </div>
@@ -536,7 +536,7 @@
                               <span class="text-dark text-small">{{ newDomain?.dmarc_record.value }}</span>
                               <button mat-icon-button (click)="copyToClipboard(newDomain?.dmarc_record.value)"
                                       class="copy-btn">
-                                <i class="material-icons">file_copy</i>
+                               <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
                           </div>

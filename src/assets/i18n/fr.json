@@ -125,7 +125,7 @@
       "email_address": "Adresse email",
       "fingerprint": "Empreinte"
     },
-    "download_public_kay": "Télécharger la clé publique",
+    "download_public_key": "Télécharger la clé publique",
     "donate": {
       "name": "Donner",
       "info": "Votre don nous aide à soutenir plus d'utilisateurs et à continuer à développer CTemplar en tant que logiciel libre et open source.",
@@ -600,6 +600,7 @@
     "password_connected": "Votre mot de passe est connecté à votre clé de cryptage, si vous changez votre mot de passe, vous recevrez une nouvelle clé de cryptage et TOUS les contenus de votre compte seront perdus à l'exception de votre adresse e-mail.",
     "more_info": "Plus d’info",
     "less": "Moins",
+    "invite_code": "Code d'invitation",
     "recovery_email_optional": "Email de récupération (facultatif)",
     "recover_account": "Ceci est utilisé pour récupérer votre compte si vous oubliez votre mot de passe",
     "check_box": "Veuillez cocher cette case si vous acceptez de vous conformer à notre politique de confidentialité.",

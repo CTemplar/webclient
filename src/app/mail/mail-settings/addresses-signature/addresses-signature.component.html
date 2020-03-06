@@ -260,18 +260,16 @@
             </div>
             <div class="col-2 col-sm-4 row">
               <div class="col" align="right" *ngIf="reorder">
-                <i class="material-icons cursor-pointer"
+                <i class="fas fa-chevron-up cursor-pointer mr-2"
                    [class.hidden]="i===0"
                    [ngbTooltip]="'settings.move_up'| translate"
                    (click)="sortUp(i)">
-                  keyboard_arrow_up
                 </i>
 
-                <i class="material-icons cursor-pointer"
+                <i class="fas fa-chevron-down cursor-pointer"
                    [class.hidden]="i===mailboxes.length-1"
                    [ngbTooltip]="'settings.move_down'| translate"
                    (click)="sortDown(i)">
-                  keyboard_arrow_down
                 </i>
               </div>
               <ul *ngIf="!reorder && !mailbox.inProgress" class="col setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
@@ -345,13 +343,20 @@
           <div class="col-sm-7 col-md-5">
             <input class="form-control form-control-sm" id="fingerPrint" type="text"
                    [value]="selectedMailboxForKey?.fingerprint" readonly=""/>
-            <span *ngIf="selectedMailboxPublicKey" class="form-label-text mt-1">
-                                          <a [href]="selectedMailboxPublicKey | safe: 'url'">
-                                            <strong><u>
-                                              <span translate="settings.download_public_kay">Download public key </span>
-                                              (4096 Bit)</u></strong>
-                                          </a>
-                                        </span>
+            <ng-container *ngIf="selectedMailboxPublicKey">
+                 <span class="form-label-text mt-1">
+                   <a [href]="selectedMailboxPublicKey | safe: 'url'">
+                     <strong><u><span translate="settings.download_public_key">Download public key </span>
+                       (4096 Bit)</u></strong>
+                   </a>
+                 </span>
+              <span class="form-label-text mt-1">
+                <a [href]="selectedMailboxPrivateKey | safe: 'url'">
+                  <strong><u><span translate="settings.download_private_key">Download private key </span>
+                     (4096 Bit)</u></strong>
+                </a>
+              </span>
+            </ng-container>
           </div>
         </div>
       </div>

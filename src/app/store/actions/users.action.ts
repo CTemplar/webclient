@@ -79,6 +79,11 @@ export enum UsersActionTypes {
   VALIDATE_PROMO_CODE = '[USER] VALIDATE PROMO CODE',
   VALIDATE_PROMO_CODE_SUCCESS = '[USER] VALIDATE PROMO CODE SUCCESS',
   CLEAR_PROMO_CODE = '[USER] CLEAR PROMO CODE',
+  INVITE_CODE_GET = '[USER] INVITE CODE GET',
+  INVITE_CODE_GET_SUCCESS = '[USER] INVITE CODE GET SUCCESS',
+  INVITE_CODE_GENERATE = '[USER] INVITE CODE GENERATE',
+  INVITE_CODE_GENERATE_SUCCESS = '[USER] INVITE CODE GENERATE SUCCESS',
+  INVITE_CODE_GENERATE_FAILURE = '[USER] INVITE CODE GENERATE FAILURE',
 }
 
 export class Accounts implements Action {
@@ -607,6 +612,42 @@ export class ClearPromoCode implements Action {
   }
 }
 
+export class GetInviteCodes implements Action {
+  readonly type = UsersActionTypes.INVITE_CODE_GET;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GetInviteCodesSuccess implements Action {
+  readonly type = UsersActionTypes.INVITE_CODE_GET_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+
+export class GenerateInviteCode implements Action {
+  readonly type = UsersActionTypes.INVITE_CODE_GENERATE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GenerateInviteCodeSuccess implements Action {
+  readonly type = UsersActionTypes.INVITE_CODE_GENERATE_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class GenerateInviteCodeFailure implements Action {
+  readonly type = UsersActionTypes.INVITE_CODE_GENERATE_FAILURE;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
@@ -683,4 +724,9 @@ export type UsersActionAll =
   | GetUpgradeAmountSuccess
   | ValidatePromoCode
   | ValidatePromoCodeSuccess
-  | ClearPromoCode;
+  | ClearPromoCode
+  | GetInviteCodes
+  | GetInviteCodesSuccess
+  | GenerateInviteCode
+  | GenerateInviteCodeSuccess
+  | GenerateInviteCodeFailure;

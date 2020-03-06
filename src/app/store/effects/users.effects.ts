@@ -38,11 +38,11 @@ import {
   DeleteFilterFailure,
   DeleteFilterSuccess,
   DeleteFolder,
-  DeleteFolderSuccess,
+  DeleteFolderSuccess, GenerateInviteCode, GenerateInviteCodeFailure, GenerateInviteCodeSuccess,
   GetDomains,
   GetDomainsSuccess,
   GetFilters,
-  GetFiltersSuccess,
+  GetFiltersSuccess, GetInviteCodes, GetInviteCodesSuccess,
   GetInvoices,
   GetInvoicesSuccess,
   GetUnreadMailsCount, GetUpgradeAmount, GetUpgradeAmountSuccess,
@@ -571,6 +571,35 @@ export class UsersEffects {
         .pipe(
           switchMap(res => of(new ValidatePromoCodeSuccess(res))),
           catchError(err => EMPTY)
+        );
+    }));
+
+  @Effect()
+  getInviteCodes: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.INVITE_CODE_GET),
+    map((action: GetInviteCodes) => action.payload),
+    switchMap(payload => {
+      return this.userService.getInviteCodes()
+        .pipe(
+          switchMap(res => of(new GetInviteCodesSuccess(res))),
+          catchError(err => EMPTY)
+        );
+    }));
+
+  @Effect()
+  generateInviteCode: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.INVITE_CODE_GENERATE),
+    map((action: GenerateInviteCode) => action.payload),
+    switchMap(payload => {
+      return this.userService.generateInviteCodes()
+        .pipe(
+          switchMap(res => of(new GenerateInviteCodeSuccess(res))),
+          catchError(errorResponse => of(
+            new SnackErrorPush(
+              { message: errorResponse.error ? errorResponse.error : 'Failed generate invite code, try again or contact support.' })
+            , new GenerateInviteCodeFailure(),
+            ),
+          )
         );
     }));
 

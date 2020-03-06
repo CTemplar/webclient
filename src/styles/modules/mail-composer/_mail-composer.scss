@@ -82,6 +82,7 @@ a {
 		.mail-compose-box-inner {
 			height: 82.5vh;
 			width: 100vw;
+			padding-top: 50px;
 		}
 
 		.mail-compose-editable-box {
@@ -91,13 +92,16 @@ a {
 	}
 	.mail-composer-dialog{
 		box-shadow: $shadow-dark;
+		background: white;
 	}
     @include media(">=ipad") {
       width: 40rem;
 	}
 
 	.mail-composer-body {
-		max-height: calc(100vh - 48px);
+		@include media(">sm") {
+			max-height: calc(100vh - 48px);
+		}
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
@@ -431,10 +435,6 @@ a {
 	&.insert-link-btn {
 		padding: 3px;
 		height: 2.11rem;
-
-		i {
-			font-size: 21px;
-		}
 	}
 }
 

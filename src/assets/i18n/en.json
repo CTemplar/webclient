@@ -125,7 +125,8 @@
       "email_address": "E-mail address",
       "fingerprint": "Fingerprint"
     },
-    "download_public_kay": "Download public key",
+    "download_public_key": "Download public key",
+    "download_private_key": "Download private key",
     "donate": {
       "name": "Donate",
       "info": "Your donation helps us support more users and continue to develop CTemplar as free and open source software.",
@@ -600,6 +601,7 @@
     "password_connected": "Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.",
     "more_info": "More info",
     "less": "Less",
+    "invite_code": "Invitation code",
     "recovery_email_optional": "Recovery email (optional)",
     "recover_account": "This is used to recover your account if you forget your password",
     "check_box": "Please check this box if you agree to abide by our ",
