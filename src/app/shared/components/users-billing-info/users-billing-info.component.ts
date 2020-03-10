@@ -127,6 +127,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.payment = userState.payment_transaction;
         }
         this.promoCode = userState.promoCode;
+        this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
         this.isPrime = userState.isPrime;
       });
 
@@ -138,6 +139,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
         if (this.promoCode.is_valid) {
+          this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
           this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
         }
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
