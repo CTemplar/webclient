@@ -26,9 +26,9 @@ export enum ContactsProviderType {
   styleUrls: ['./mail-contact.component.scss']
 })
 export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('importContactsModal', { static: false }) importContactsModal;
-  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
-  @ViewChild('addUserContent', { static: false }) addUserContent;
+  @ViewChild('importContactsModal') importContactsModal;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal;
+  @ViewChild('addUserContent') addUserContent;
 
   contactsProviderType = ContactsProviderType;
   public userState: UserState;

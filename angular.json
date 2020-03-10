@@ -22,7 +22,7 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/assets",
               "src/README.md",
@@ -61,7 +61,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -70,6 +69,10 @@
                   "type": "initial",
                   "maximumWarning": "5mb",
                   "maximumError": "7mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -150,6 +153,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "CTemplar"
+    }
+  },
+  "defaultProject": "CTemplar",
+  "cli": {
+    "analytics": false
+  }
 }

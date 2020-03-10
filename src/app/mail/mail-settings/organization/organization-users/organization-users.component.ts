@@ -22,8 +22,8 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   styleUrls: ['./organization-users.component.scss']
 })
 export class OrganizationUsersComponent implements OnInit, OnDestroy {
-  @ViewChild('addUserModal', { static: false }) addUserModal;
-  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
+  @ViewChild('addUserModal') addUserModal;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
   users: OrganizationUser[];
   addUserForm: FormGroup;

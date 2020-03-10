@@ -38,10 +38,10 @@ import { map, startWith } from 'rxjs/operators';
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
   readonly planType = PlanType;
-  @ViewChild('tabSet', { static: false }) tabSet;
-  @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
-  @ViewChild('confirmDeleteAccountModal', { static: false }) confirmDeleteAccountModal;
-  @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
+  @ViewChild('tabSet') tabSet;
+  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
+  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
+  @ViewChild('billingInfoModal') billingInfoModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState;

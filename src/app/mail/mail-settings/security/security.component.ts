@@ -23,10 +23,10 @@ import { apiUrl } from '../../../shared/config';
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss']
 })
 export class SecurityComponent implements OnInit, OnDestroy {
-  @ViewChild('changePasswordModal', { static: false }) changePasswordModal;
-  @ViewChild('auth2FAModal', { static: false }) auth2FAModal;
-  @ViewChild('decryptContactsModal', { static: false }) decryptContactsModal;
-  @ViewChild('confirmEncryptContactsModal', { static: false }) confirmEncryptContactsModal;
+  @ViewChild('changePasswordModal') changePasswordModal;
+  @ViewChild('auth2FAModal') auth2FAModal;
+  @ViewChild('decryptContactsModal') decryptContactsModal;
+  @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal;
 
   private changePasswordModalRef: NgbModalRef;
   private decryptContactsModalRef: NgbModalRef;

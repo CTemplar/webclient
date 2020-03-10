@@ -25,7 +25,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   @Input() paymentType: PaymentType = PaymentType.ANNUALLY;
   @Input() paymentMethod: PaymentMethod;
 
-  @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
+  @ViewChild('billingInfoModal') billingInfoModal;
 
   private billingInfoModalRef: NgbModalRef;
 

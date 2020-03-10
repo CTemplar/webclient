@@ -39,10 +39,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   otp: string;
   loadingImage = LOADING_IMAGE;
 
-  @ViewChild('usernameVC', { static: false }) usernameVC: ElementRef;
-  @ViewChild('passwordVC', { static: false }) passwordVC: ElementRef;
-  @ViewChild('resetPasswordModal', { static: false }) resetPasswordModal;
-  @ViewChild('otpInput', { static: false }) otpInput: ElementRef;
+  @ViewChild('usernameVC') usernameVC: ElementRef;
+  @ViewChild('passwordVC') passwordVC: ElementRef;
+  @ViewChild('resetPasswordModal') resetPasswordModal;
+  @ViewChild('otpInput') otpInput: ElementRef;
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
