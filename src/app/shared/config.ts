@@ -67,8 +67,9 @@ export const QUILL_FORMATTING_MODULES = {
     [{ 'color': COLORS }, { 'background': COLORS }],          // dropdown with defaults from theme
     [{ 'align': [] }],
     ['clean'],                                         // remove formatting button
-    ['link']                         // link /not-allowed-in-simple-version(and image, video)
-  ]
+    ['link', 'image']                          // link /not-allowed-in-simple-version(and c, video)
+  ],
+  ImageResize: {}
 };
 
 function getBaseUrl() {
