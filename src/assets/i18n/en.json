@@ -419,7 +419,11 @@
       "maximize": "Maximize",
       "minimize": "Minimize",
       "close": "Close",
-      "downloading_attachments": "Downloading Attachments..."
+      "downloading_attachments": "Downloading Attachments...",
+      "insert_link": "Insert Link",
+      "text_to_display": "Text to display",
+      "link_to": "Link to",
+      "expiry_time_message": "Expiry time should be minimum 1 hour and maximum 5 days."
     },
     "of": "of",
     "not_with_free_acc": "Feature not available with Free Account",
