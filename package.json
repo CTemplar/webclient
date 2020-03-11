@@ -31,7 +31,7 @@
     "@ngrx/router-store": "^8.6.0",
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
-    "@ngx-translate/core": "^11.0.1",
+    "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.3.1",

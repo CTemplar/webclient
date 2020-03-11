@@ -89,15 +89,15 @@
                             class="icon icon-garbage"></i></a>
                 </li>
                 <li class="pr-0">
-                    <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()" [translate]="'common.compose'">Compose</a>
+                    <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()"> {{'common.compose' | translate}}</a>
                 </li>
                 <li class="hidden-xs-down pr-0">
                     <a class="no-icon text-grey-dark-500" role="button"
                        [translate]="'contacts.new_contact'"
-                       (click)="editContact(null, addUserContent);" translate="contacts.new_contact">New Contact</a>
+                       (click)="editContact(null, addUserContent);" >{{'contacts.new_contact' | translate}}</a>
                 </li>
                 <li class="">
-                    <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()" translate="contacts.import_contacts">Import Contacts</a>
+                    <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()"> {{'contacts.import_contacts'| translate}}</a>
                 </li>
                 <li *ngIf="inProgress">
                     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
