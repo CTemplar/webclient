@@ -1,4 +1,3 @@
-import { MailBoxesState } from './datatypes';
 // Angular
 import { Params } from '@angular/router';
 // Ngrx
