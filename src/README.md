@@ -22,6 +22,10 @@ When we release a new version there are a few ways we guarantee there isn’t an
   They can open the source code from their browser (right click, view source code) copy the whole and generate the SHA‌-256
   checksum using their favourite offline tool (openssl, sha256sum, etc)
   or online (https://hash.online-convert.com/sha256-generator, https://md5file.com/calculator, etc).
+
+* Moreover our build is also directly served from github using github pages from [gh-pages](https://github.com/CTemplar/webclient/tree/gh-pages) branch.
+  It can be accessed on [gh.ctemplar.com](https://gh.ctemplar.com/)
+  
   
   
 ## Calculate checksum
@@ -106,4 +110,3 @@ and match their checksum. It should be same as mentioned at the top of this docu
     ![img](/docs/images/calculate-hash-online-github2.png)  
   
 
-    

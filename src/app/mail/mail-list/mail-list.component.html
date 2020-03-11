@@ -23,6 +23,12 @@
   <app-generic-folder *ngSwitchCase="mailFolderTypes.OUTBOX"
                       [fetchMails]="true"
                       [mailFolder]="mailFolderTypes.OUTBOX"></app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.UNREAD"
+                      [fetchMails]="true"
+                      [mailFolder]="mailFolderTypes.UNREAD"></app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.ALL_EMAILS"
+                      [fetchMails]="true"
+                      [mailFolder]="mailFolderTypes.ALL_EMAILS"></app-generic-folder>
   <app-generic-folder *ngSwitchCase="mailFolderTypes.SEARCH"
                       [fetchMails]="true"
                       [mailFolder]="mailFolderTypes.SEARCH"></app-generic-folder>
