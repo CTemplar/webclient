@@ -473,7 +473,9 @@
     "try_to_connect": "Try to connect",
     "moved_to_trash": "The conversation has been moved to the Trash. ",
     "learn_more": "Learn more",
-    "undo": "Undo"
+    "undo": "Undo",
+    "permanently_delete": "Permanently deleting data",
+    "permanently_delete_all": "Permanently deleting all usage data  from your visit"
   },
   "mail_list": {
     "select_messages": "Select messages",
@@ -680,7 +682,13 @@
     "attachment_message": "Do you want to forward attachments of this message?",
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers",
-    "delete_this_message": "Delete this Message"
+    "delete_this_message": "Delete this Message",
+    "messages_will_be_del": "Message will be deleted for everyone including you and all the receivers.",
+    "delete_from_receiver": "Delete from Receiver Inbox",
+    "view_mail_raw_content": "View email raw content without xss protection. Warning: Be aware of malwares.",
+    "show_raw_email": "Show raw email",
+    "decryp_4096_bit": "Decrypting 4096 Bit Encrypted Email",
+    "confirm_forward_attach": "Confirm Forward Attachments"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",
