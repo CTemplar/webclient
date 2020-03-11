@@ -2,9 +2,9 @@
 
 Official Angular cross-platform client for the CTemplar secure email service available at [https://ctemplar.com](https://ctemplar.com).
 
-RELEASE VERSION : **v2.1.2**    
+RELEASE VERSION : **v2.1.3**    
 
-SHA-256 checksum of `index.html` : **10aafa35066420670dc89fc633d6cb14582202848056f314376d0dc213351603**  
+SHA-256 checksum of `index.html` : **40239044062bd4419cbd1cc3566bd881a0c0581406f6bca58a076aafae07194f**  
 
 Find full release code and distribution at : [https://github.com/CTemplar/webclient/releases/latest](https://github.com/CTemplar/webclient/releases/latest)
 
@@ -22,6 +22,10 @@ When we release a new version there are a few ways we guarantee there isn’t an
   They can open the source code from their browser (right click, view source code) copy the whole and generate the SHA‌-256
   checksum using their favourite offline tool (openssl, sha256sum, etc)
   or online (https://hash.online-convert.com/sha256-generator, https://md5file.com/calculator, etc).
+
+* Moreover our build is also directly served from github using github pages from [gh-pages](https://github.com/CTemplar/webclient/tree/gh-pages) branch.
+  It can be accessed on [gh.ctemplar.com](https://gh.ctemplar.com/)
+  
   
   
 ## Calculate checksum
