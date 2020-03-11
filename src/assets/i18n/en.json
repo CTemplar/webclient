@@ -446,6 +446,8 @@
     "disabling_editor_message": "Disabling HTML editor will allow you to use plain text editor for composing email."
   },
   "mail_sidebar": {
+    "unread": "Unread",
+    "all_emails": "All emails",
     "inbox": "Inbox",
     "draft": "Draft",
     "sent": "Sent",

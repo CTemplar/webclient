@@ -164,6 +164,13 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.CREATE_FOLDER_FAILURE: {
+      return {
+        ...state,
+        inProgress: false,
+      };
+    }
+
     case UsersActionTypes.DELETE_FOLDER: {
       return {
         ...state,
