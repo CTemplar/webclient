@@ -290,4 +290,40 @@ tr.mail-list-row.is-selected {
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
   border: 2px solid white !important;
 }
+
+.mailbox-actionbar-col > div > div.mail-result-text.text-muted > small,
+.search-form input::placeholder {
+  color: white;
+}
+
+.search-form div.form-group {
+  border: solid 1px #474e61;
+}
+
+.search-form input {
+  background: #363d51;
+  border: 0;
+}
+
+.search-form .search-btn {
+  background: #182034;
+  border: 0;
+}
+
+.mailbox-actionbar .mailbox-actionbar-menu > li > a,
+app-mail-header .mailbox-actions-menu > li a,
+app-generic-folder div.mailbox-actionbar div.mail-nav-control button,
+.help-icon .icon-button{
+  background: #363d51 !important;
+  border: solid 1px #474e61 !important;
+  color: white !important;
+}
+
+.mailbox-actionbar .mailbox-actionbar-menu > li > a:hover,
+app-mail-header .mailbox-actions-menu > li a:hover,
+app-generic-folder div.mailbox-actionbar div.mail-nav-control button:hover,
+.help-icon .icon-button:hover {
+  border: solid 1px #394061 !important;
+}
+
 // end: dark mode-styles
