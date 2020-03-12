@@ -28,8 +28,9 @@ export enum UsersActionTypes {
   MEMBERSHIP_UPDATE = '[Membership] Update',
   SETTINGS_UPDATE = '[SETTINGS] UPDATE',
   SETTINGS_UPDATE_SUCCESS = '[SETTINGS] UPDATE SUCCESS',
-  CREATE_FOLDER = '[USER] UPDATE FOLDER',
-  CREATE_FOLDER_SUCCESS = '[USER] UPDATE FOLDER SUCCESS',
+  CREATE_FOLDER = '[USER] CREATE FOLDER',
+  CREATE_FOLDER_SUCCESS = '[USER] CREATE FOLDER SUCCESS',
+  CREATE_FOLDER_FAILURE = '[USER] CREATE FOLDER FAILURE',
   DELETE_FOLDER = '[USER] DELETE FOLDER',
   DELETE_FOLDER_SUCCESS = '[USER] DELETE FOLDER SUCCESS',
   GET_FILTERS = '[USER] GET FILTERS',
@@ -269,6 +270,12 @@ export class CreateFolderSuccess implements Action {
   readonly type = UsersActionTypes.CREATE_FOLDER_SUCCESS;
 
   constructor(public payload: any) {}
+}
+
+export class CreateFolderFailure implements Action {
+  readonly type = UsersActionTypes.CREATE_FOLDER_FAILURE;
+
+  constructor(public payload?: any) {}
 }
 
 export class DeleteFolder implements Action {
@@ -676,6 +683,7 @@ export type UsersActionAll =
   | SettingsUpdateSuccess
   | CreateFolder
   | CreateFolderSuccess
+  | CreateFolderFailure
   | DeleteFolder
   | DeleteFolderSuccess
   | GetFilters

@@ -44,10 +44,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
-  userState: UserState;
+  userState: UserState = new UserState();
   authState: AuthState;
-  settings: Settings;
-  payment: Payment;
+  settings: Settings = new Settings();
+  payment: Payment = new Payment();
   paymentMethod = PaymentMethod;
   userPlanType: PlanType = PlanType.FREE;
   newListContact = { show: false, type: 'Whitelist' };
@@ -85,7 +85,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.notificationsPermission = Notification.permission;
+    if ('Notification' in window) {
+      this.notificationsPermission = Notification.permission;
+    }
     this.sharedService.loadPricingPlans();
 
     this.store.select(state => state.auth).pipe(untilDestroyed(this))

@@ -223,40 +223,6 @@
                 </div>
               </div>
 
-              <div class="form-step-card" *ngIf="selectedPlan === planType.FREE && captcha">
-                <h3 class="form-step-card-title text-dark mb-2">
-                  <strong translate="create_account.security_check">Security check</strong>
-                </h3>
-                <div class="l-block-body px-md">
-                  <div class="">
-                    <div>
-                      <div>
-                        <div class="captcha_image">
-                          <img *ngIf="captcha.captcha_image" [src]="captcha.captcha_image">
-                        </div>
-                        <i class="fas fa-redo-alt refresh-icon"
-                           *ngIf="!captcha?.inProgress"
-                           (click)="reloadCaptcha()"
-                           [ngbTooltip]="'create_account.try_another_one'| translate"></i>
-                        <app-loading-spinner [showSpinner]="captcha.inProgress"></app-loading-spinner>
-                      </div>
-                      <div class="input-group">
-                        <input class="my-2 form-control text-dark" id="captcha" name="captcha"
-                               [placeholder]="'create_account.text_from_image'| translate"
-                               (blur)="verifyCaptcha()"
-                               type="text" [(ngModel)]="captchaValue" [ngModelOptions]="{standalone: true}"/>
-                        <i class="fas fa-check green input-ok captcha_ok"
-                           *ngIf="captcha.verified"></i>
-                      </div>
-                      <span *ngIf="captcha.isInvalid"
-                            id="captcha_invalid"
-                            class="validate-message" translate="create_account.invalid_captcha">Invalid captcha, please try again.
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div class="info-card d-flex align-items-center bg-faded mb-3"
                    [ngClass]="{'is-validate': isConfirmedPrivacy == false}">
                 <span class="fancy-field-group mr-3">
@@ -282,7 +248,7 @@
 
               <div class="form-group text-center">
                 <button class="btn btn-lg btn-secondary"
-                        [disabled]="signupInProgress || captcha?.inProgress"
+                        [disabled]="signupInProgress"
                         type="submit" role="button">
                   <span translate="login.create_account">Create Account</span>
                 </button>
