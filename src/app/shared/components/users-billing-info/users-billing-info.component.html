@@ -5,7 +5,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
           <h6 class="text-uppercase text-secondary m-0">
-            <strong translate="billing_info.payment_information">Billing Information</strong>
+            <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
           </h6>
         </div>
       </div>
@@ -17,11 +17,11 @@
             <div class="form-card-holder billing-form-card-holder form-card-holder-top-border mt-md-3">
               <div class="form-step-card" *ngIf="planType!==planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong translate="settings.overview">Overview</strong>
+                  <strong [translate]="'settings.overview'">Overview</strong>
                 </h3>
                 <div class="billing-overview">
                   <div class="billing-overview-row row">
-                    <label class="billing-overview-label mb-0 col-3" translate="billing_info.plan">Plan</label>
+                    <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.plan'">Plan</label>
                     <div class="billing-overview-val text-secondary col">
                       <strong>CTemplar {{planType}}</strong>
                     </div>
@@ -29,7 +29,7 @@
 
 
                     <div class="billing-overview-row payment-method-row row">
-                      <label class="billing-overview-label col-3" translate="billing_info.payment_method">Payment
+                      <label class="billing-overview-label col-3" [translate]="'billing_info.payment_method'">Payment
                         Method: </label>
                       <div class="billing-overview-val text-secondary col">
                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="billing-overview-row row">
-                      <label class="billing-overview-label mb-0 col-3" translate="billing_info.billing">Billing</label>
+                      <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.billing'">Billing</label>
                       <div class="billing-overview-val text-secondary col">
                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                           <div ngbDropdown class="payment-select-dropdown">
@@ -72,17 +72,17 @@
                       </div>
                     </div>
                     <div class="billing-overview-row row">
-                      <label class="billing-overview-label mb-0 col-3" translate="billing_info.price">Price</label>
+                      <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.price'">Price</label>
                       <div class="billing-overview-val text-secondary col">
                         <strong *ngIf="paymentType === paymentTypeEnum.ANNUALLY">
                           {{currentPlan?.annually_price|currency:currency}}/<span
-                                translate="settings.annually">Yearly</span>
+                                [translate]="'settings.annually'">Yearly</span>
                           ({{(currentPlan?.annually_price / 12)|currency:currency}}/<span
-                                translate="billing_info.month">month</span>)
+                                [translate]="'billing_info.month'">month</span>)
                         </strong>
                         <strong *ngIf="paymentType === paymentTypeEnum.MONTHLY">
                           {{currentPlan?.monthly_price|currency:currency}}/<span
-                                translate="billing_info.month">month</span>
+                                [translate]="'billing_info.month'">month</span>
                         </strong>
                       </div>
                     </div>
@@ -132,10 +132,10 @@
               </div>
               <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong translate="billing_info.payment_information">Billing Information</strong>
+                  <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
                 </h3>
                 <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span
-                        translate="billing_info.bitcoin_sent_timer">BTC sent after timer will be lost!</span></p>
+                        [translate]="'billing_info.bitcoin_sent_timer'">BTC sent after timer will be lost!</span></p>
 
                 <div class="card mb-3">
                   <div class="card-header text-center">
@@ -169,7 +169,7 @@
               <div class="form-step-card" [class]="stripePaymentValidation.param"
                    *ngIf="paymentMethod === paymentMethodType.STRIPE && isScriptsLoaded && planType!==planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong translate="billing_info.payment_information">Billing Information</strong>
+                  <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
                 </h3>
                 <div class="form-group">
                   <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on
@@ -179,10 +179,10 @@
                 </div>
                 <div class="form-group">
                   <span class="d-block text-right error-msg"><span
-                          translate="settings.required_field">Required field</span>
+                          [translate]="'settings.required_field'">Required field</span>
                     <sup class="font-weight-bold error-msg">*</sup></span>
                   <label for="cardName" class="d-block text-left hidden-sm-up label-error"
-                         translate="settings.donate.card_number">Card Number
+                         [translate]="'settings.donate.card_number'">Card Number
                   </label>
                   <input class="form-control error stripe-error number" id="cardName" name="cardName"
                          [placeholder]="'settings.donate.card_number'| translate" type="text"
@@ -194,7 +194,7 @@
                     <div class="form-group-col">
                       <span class="d-block text-right error-msg font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up"
-                             translate="billing_info.month">Month</label>
+                             [translate]="'billing_info.month'">Month</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class=" date-select-dropdown">
                           <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle
@@ -216,7 +216,7 @@
                     <div class="form-group-col">
                       <span class="d-block text-right error-msg font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up"
-                             translate="billing_info.year">Year</label>
+                             [translate]="'billing_info.year'">Year</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="year-select-dropdown">
                           <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle
@@ -225,7 +225,7 @@
                           </button>
                           <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                             <a class="dropdown-item text-muted" href="">
-                              <em translate="billing_info.year">Year</em>
+                              <em [translate]="'billing_info.year'">Year</em>
                             </a>
                             <a class="dropdown-item text-muted" *ngFor="let year of years"
                                (click)="selectYear(year)">
@@ -238,7 +238,7 @@
                     <div class="form-group-col">
                       <span class="d-block text-right error-msg font-weight-bold">&nbsp;</span>
                       <label for="securityCode" class="d-block text-muted text-left hidden-sm-up"
-                             translate="home_header.security">Security Code</label>
+                             [translate]="'home_header.security'">Security Code</label>
                       <input class="form-control stripe-error cvc p-2" id="securityCode"
                              [placeholder]="'home_header.security'| translate"
                              type="text" [(ngModel)]="cvc" name="securityCode"
@@ -272,15 +272,15 @@
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess)"
                           (click)="submitForm()">
-                    <span *ngIf="!isUpgradeAccount" translate="login.create_account">Create Account</span>
-                    <span *ngIf="isUpgradeAccount" translate="common.upgrade_account">Upgrade Account</span>
+                    <span *ngIf="!isUpgradeAccount" [translate]="'login.create_account'">Create Account</span>
+                    <span *ngIf="isUpgradeAccount" [translate]="'common.upgrade_account'">Upgrade Account</span>
                   </button>
                   <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
                 </div>
               </ng-template>
 
               <div class="text-holder mt-2 text-center">
-                <a href="" translate="common.cancel" (click)="onCancel($event)">Cancel</a>
+                <a href="" [translate]="'common.cancel'" (click)="onCancel($event)">Cancel</a>
               </div>
             </div>
           </form>

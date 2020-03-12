@@ -43,7 +43,7 @@
                   </div>
                   <span *ngIf="decryptForm.controls['password'].errors && showFormErrors" class="validate-message">
                 <span *ngIf="decryptForm.controls['password'].errors.required"
-                      translate="login.password_required">Message password is required.</span>
+                      [translate]="'login.password_required'">Message password is required.</span>
               </span>
                 </div>
                 <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">{{ errorMessage }}</div>
