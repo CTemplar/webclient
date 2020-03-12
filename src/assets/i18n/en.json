@@ -447,7 +447,8 @@
     "renew": "Renew",
     "recurring_billing": "Recurring Billing",
     "html_editor": "HTML editor",
-    "disabling_editor_message": "Disabling HTML editor will allow you to use plain text editor for composing email."
+    "disabling_editor_message": "Disabling HTML editor will allow you to use plain text editor for composing email.",
+    "not_available_for_bitcoin": "Not available for bitcoin"
   },
   "mail_sidebar": {
     "unread": "Unread",
