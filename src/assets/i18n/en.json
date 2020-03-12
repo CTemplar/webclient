@@ -169,7 +169,8 @@
       "type": "Type",
       "host_name": "Host Name",
       "value_data_points_to": "Value / Data / Points To",
-      "priority": "Priority"
+      "priority": "Priority",
+      "mx_failed_message": " MX Record verification failed, please add above MX record in your host DNS and try again. DNS records can take several hours to update. Once MX record is verified, you can proceed to next step."
     },
     "spf_step": {
       "name": "SPF",
@@ -308,7 +309,9 @@
       "upgrade": "upgrade",
       "users": "Users",
       "use_feature": "in order to use this feature.",
-      "custom_domain": "Please add a custom domain first in order to add users."
+      "custom_domain": "Please add a custom domain first in order to add users.",
+      "domain_verification_message": "Domain verification failed, please add above TXT record in your host DNS and try again. DNS records can take several hours to update. Once domain is verified, you can proceed to next step.",
+      "domain_deletion_message": "All the associated email aliases and users(if any) of this domain will also be deleted."
     },
     "forwarding": {
       "title": "Forwarding",
@@ -448,7 +451,10 @@
     "recurring_billing": "Recurring Billing",
     "html_editor": "HTML editor",
     "disabling_editor_message": "Disabling HTML editor will allow you to use plain text editor for composing email.",
-    "not_available_for_bitcoin": "Not available for bitcoin"
+    "not_available_for_bitcoin": "Not available for bitcoin",
+    "delete_alias_confirm": "Are you sure, you want to delete alias",
+    "catch_all": "Catch all",
+    "attachments_encryption": "Attachments encryption"
   },
   "mail_sidebar": {
     "unread": "Unread",
