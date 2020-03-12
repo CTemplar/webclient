@@ -29,7 +29,7 @@ import {
   CreateFilter,
   CreateFilterFailure,
   CreateFilterSuccess,
-  CreateFolder,
+  CreateFolder, CreateFolderFailure,
   CreateFolderSuccess,
   DeleteDomain,
   DeleteDomainFailure,
@@ -303,7 +303,10 @@ export class UsersEffects {
             }
             return of(...actions);
           }),
-          catchError(err => of(new SnackErrorPush({ message: 'Failed to create folder.' })))
+          catchError(err => of(
+            new SnackErrorPush({ message: err.error ? err.error : 'Failed to create folder.' }),
+            new CreateFolderFailure()
+          ))
         );
     }));
 
@@ -320,7 +323,7 @@ export class UsersEffects {
               new SnackErrorPush({ message: `'${folder.name}' folder deleted successfully.` })
             );
           }),
-          catchError(err => of(new SnackErrorPush({ message: 'Failed to delete folder.' })))
+          catchError(err => of(new SnackErrorPush({ message: err.error ? err.error : 'Failed to delete folder.' })))
         );
     }));
 
@@ -337,7 +340,7 @@ export class UsersEffects {
               new SnackErrorPush({ message: 'Sort order saved successfully.' }),
             );
           }),
-          catchError(err => of(new SnackErrorPush({ message: 'Failed to update folders sort order.' })))
+          catchError(err => of(new SnackErrorPush({ message: err.error ? err.error : 'Failed to update folders sort order.' })))
         );
     }));
 
@@ -386,7 +389,7 @@ export class UsersEffects {
         .pipe(
           switchMap(res => of(new DeleteFilterSuccess(filter))),
           catchError(errorResponse => of(
-            new SnackErrorPush({ message: 'Failed to delete filter.' }),
+            new SnackErrorPush({ message: errorResponse.error ? errorResponse.error : 'Failed to delete filter.' }),
             new DeleteFilterFailure(errorResponse.error)
           ))
         );
@@ -431,7 +434,7 @@ export class UsersEffects {
           )),
           catchError(errorResponse => of(
             new UpdateDomainFailure(errorResponse.error),
-            new SnackPush({ message: `Failed to update domain, please try again.` }),
+            new SnackPush({ message: errorResponse.error ? errorResponse.error : 'Failed to update domain, please try again.' }),
           )),
         );
     }));

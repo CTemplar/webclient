@@ -85,6 +85,8 @@ export interface Folder {
 
 
 export enum MailFolderType {
+  ALL_EMAILS = 'allmails',
+  UNREAD = 'allunreadmails',
   INBOX = 'inbox',
   SENT = 'sent',
   DRAFT = 'draft',
