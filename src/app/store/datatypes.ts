@@ -180,6 +180,7 @@ export class Settings {
   is_html_disabled?: boolean;
   attachment_size_limit?: number;
   attachment_size_error?: string;
+  is_composer_full_screen?: boolean;
 }
 
 export interface Invoice {

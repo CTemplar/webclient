@@ -214,7 +214,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // == Show mail compose modal
   openComposeMailDialog() {
-    this.composeMailService.openComposeMailDialog();
+    this.composeMailService.openComposeMailDialog({ isFullScreen: this.userState.settings.is_composer_full_screen });
   }
 
   toggleDisplayLimit(totalItems) {
