@@ -263,46 +263,47 @@ nav.navbar.mailbox-navbar {
   border-bottom: 1px solid #323a4c;
 }
 
-tr.mail-list-row, tr.mail-list-row.is-read, tr.mail-list-row.is-unread, tr.mail-list-row.is-selected {
+tr.mail-list-row, tr.mail-list-row.is-read, tr.mail-list-row.is-unread, tr.mail-list-row.is-selected,
+div.mail-list-row, div.mail-list-row.is-read, div.mail-list-row.is-unread, div.mail-list-row.is-selected,
+.mail-contact .mail-list-row {
   background: #20273e !important;
   color: white !important;
-  border-bottom: 1px solid #323a4c;
+  border-bottom: 1px solid #323a4c !important;
+}
+
+.mail-contact-body.is-bordered, .mail-contact-header.mail-list-row {
+  border: 1px solid #323a4c !important;
 }
 
 tr.mail-list-row.is-selected {
   background: #373c50 !important;
 }
 
-.text-dark, a.text-dark:focus, a.text-dark:hover {
+.text-dark, a.text-dark:focus, a.text-dark:hover, a.dropdown-item {
   color: white !important;
 }
+
 .mail-list-row.is-unread .mail-from-name, .mail-list-row.is-unread .mail-subject {
   font-size: 15px;
 }
+
 .mailbox-actionbar {
   border-bottom: 1px solid #323a4c !important;
 }
 
-.mail-checkbox mat-checkbox .mat-checkbox-frame {
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mail-checkbox .mat-checkbox .mat-checkbox-frame,
+.select-all-checkbox .mat-checkbox .mat-checkbox-frame {
   border: 2px solid white !important;
 }
 
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  border: 2px solid white !important;
-}
-
-.mailbox-actionbar-col > div > div.mail-result-text.text-muted > small,
-.search-form input::placeholder {
+.mail-controls div.mail-result-text.text-muted > small {
   color: white;
 }
 
 .search-form div.form-group {
   border: solid 1px #474e61;
-}
-
-.search-form input {
-  background: #363d51;
-  border: 0;
 }
 
 .search-form .search-btn {
@@ -312,8 +313,17 @@ tr.mail-list-row.is-selected {
 
 .mailbox-actionbar .mailbox-actionbar-menu > li > a,
 app-mail-header .mailbox-actions-menu > li a,
-app-generic-folder div.mailbox-actionbar div.mail-nav-control button,
-.help-icon .icon-button{
+div.mailbox-actionbar div.mail-nav-control button,
+.mailbox-actionbar-menu > li .dropdown-toggle,
+.mailbox-dropdown .dropdown-menu,
+.mailbox-dropdown .dropdown-menu a.dropdown-item:hover,
+.mailbox-dropdown .dropdown-menu a.dropdown-item:active,
+.mailbox-dropdown .dropdown-menu a.dropdown-item:focus,
+.dropdown-menu,
+textarea, input, textarea::placeholder, input::placeholder,
+button.actions-btn,
+.modal-header, .modal-body,
+.help-icon .icon-button {
   background: #363d51 !important;
   border: solid 1px #474e61 !important;
   color: white !important;
@@ -324,6 +334,14 @@ app-mail-header .mailbox-actions-menu > li a:hover,
 app-generic-folder div.mailbox-actionbar div.mail-nav-control button:hover,
 .help-icon .icon-button:hover {
   border: solid 1px #394061 !important;
+}
+
+.mailbox-dropdown .dropdown-menu a.dropdown-item {
+  border: solid 1px #363d51 !important;
+}
+
+textarea, input, textarea::placeholder, input::placeholder {
+  border: 0 !important;
 }
 
 // end: dark mode-styles
