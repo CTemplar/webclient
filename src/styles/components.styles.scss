@@ -279,7 +279,13 @@ tr.mail-list-row.is-selected {
   background: #373c50 !important;
 }
 
-.text-dark, a.text-dark:focus, a.text-dark:hover, a.dropdown-item {
+*, *::before, *::after,
+.text-dark, a.text-dark:focus, a.text-dark:hover, a.dropdown-item,
+.plan-details .subscription,
+.mailbox-footer-menu a u,
+.pricing-plans .plan-item div, .text-secondary,
+.setting-actions-list a i,
+.mail-controls div.mail-result-text.text-muted > small {
   color: white !important;
 }
 
@@ -296,10 +302,6 @@ tr.mail-list-row.is-selected {
 .mail-checkbox .mat-checkbox .mat-checkbox-frame,
 .select-all-checkbox .mat-checkbox .mat-checkbox-frame {
   border: 2px solid white !important;
-}
-
-.mail-controls div.mail-result-text.text-muted > small {
-  color: white;
 }
 
 .search-form div.form-group {
@@ -320,9 +322,15 @@ div.mailbox-actionbar div.mail-nav-control button,
 .mailbox-dropdown .dropdown-menu a.dropdown-item:active,
 .mailbox-dropdown .dropdown-menu a.dropdown-item:focus,
 .dropdown-menu,
-textarea, input, textarea::placeholder, input::placeholder,
+textarea, input, textarea::placeholder, input::placeholder, button.dropdown-toggle,
 button.actions-btn,
-.modal-header, .modal-body,
+.modal-header, .modal-body, .modal-footer,
+.plan-details .desc-card-body,
+.nav.nav-tabs, .nav-tabs.nav li, .nav-tabs.nav .nav-link,
+.info-list-item, .ui-list-item,
+.pricing-plans .plan-sub-item,.pricing-plans .plan-item,
+.form-control,
+.info-card,
 .help-icon .icon-button {
   background: #363d51 !important;
   border: solid 1px #474e61 !important;
@@ -336,12 +344,30 @@ app-generic-folder div.mailbox-actionbar div.mail-nav-control button:hover,
   border: solid 1px #394061 !important;
 }
 
-.mailbox-dropdown .dropdown-menu a.dropdown-item {
+.mailbox-dropdown .dropdown-menu a.dropdown-item,
+.ui-header.border-all-corner {
   border: solid 1px #363d51 !important;
 }
 
 textarea, input, textarea::placeholder, input::placeholder {
   border: 0 !important;
+}
+
+.nav-tabs.nav .nav-link.active,
+.nav.nav-tabs:hover, .nav-tabs.nav li:hover, .nav-tabs.nav .nav-link:hover {
+  background: #182034 !important;
+}
+
+.progress-secondary .progress-bar {
+  background-color: #c0392b !important;
+}
+
+.bg-white, .mailbox-footer, .bg-faded, .bg-light {
+  background: #363d51 !important;
+}
+
+.pricing-plans .plan-item .select-btn {
+  box-shadow: 5px 10px 10px #151e35 !important;
 }
 
 // end: dark mode-styles
