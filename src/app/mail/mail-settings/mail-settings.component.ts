@@ -66,6 +66,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   timeZoneFilter = new FormControl('', []);
   timeZoneFilteredOptions: Observable<Timezone[] | void>;
+  isEditingRecoveryEmail: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -138,6 +139,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _filterTimeZone(name) {
     return this.timezones.filter(option => option.value.toLowerCase().indexOf(name.toLowerCase()) > -1);
+  }
+
+  toggleRecoveyEmailEdit() {
+    this.isEditingRecoveryEmail = !this.isEditingRecoveryEmail;
   }
 
   ngAfterViewInit() {
