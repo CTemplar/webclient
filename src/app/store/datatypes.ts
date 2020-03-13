@@ -82,7 +82,7 @@ export interface SignupState {
   annualPriceTotal?: number;
 }
 
-export interface UserState {
+export class UserState {
   username: string | null;
   id: number | null;
   whiteList: WhiteList[];
@@ -149,7 +149,7 @@ export interface EmailContact {
   email: string;
 }
 
-export interface Settings {
+export class Settings {
   id?: number;
   emails_per_page?: number;
   embed_content?: boolean;
@@ -180,6 +180,7 @@ export interface Settings {
   is_html_disabled?: boolean;
   attachment_size_limit?: number;
   attachment_size_error?: string;
+  is_composer_full_screen?: boolean;
 }
 
 export interface Invoice {
@@ -219,7 +220,7 @@ export interface AutoResponder {
   only_contacts?: boolean;
 }
 
-export interface Payment {
+export class Payment {
   id?: number;
   transaction_id?: string;
   amount?: number;

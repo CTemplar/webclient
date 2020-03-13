@@ -46,6 +46,41 @@
                               <div class="info-list-text info-list-val">{{userState.username}}</div>
                             </li>
                             <li class="info-list-item">
+                              <div class="info-list-text info-list-label">
+                                Recovery Email
+                              </div>
+                              <div class="info-list-text info-list-val">
+                                <div class="row" *ngIf="isEditingRecoveryEmail;else recoveryEmailTemplate">
+                                  <form autocomplete="off" class="col-10">
+                                    <input class="form-control form-control-sm" id="recoveryMail" type="email"
+                                           name="email"
+                                           autocomplete="off" [(ngModel)]="settings.recovery_email"
+                                           [ngModelOptions]="{ updateOn: 'blur'}"
+                                           (change)="updateSettings('recovery_email', $event.target.value)"
+                                           placeholder="example@mail.com"/>
+                                  </form>
+
+                                  <a class="col-2 align-self-center -underline" (click)="toggleRecoveyEmailEdit()"><u>Save</u></a>
+                                </div>
+
+                                <ng-template #recoveryEmailTemplate class="-align-right">
+                                  <div class="row" *ngIf="settings.recovery_email; else addRecoveryEmailTemplate">
+                                    <div class=" col-10 info-list-text info-list-val">
+                                      {{settings.recovery_email}}</div>
+                                    <a class="col-2" (click)="toggleRecoveyEmailEdit()">
+                                      <u>Edit</u>
+                                    </a>
+                                  </div>
+                                  <ng-template #addRecoveryEmailTemplate>
+                                    <a (click)="toggleRecoveyEmailEdit()">
+                                      <u>Add</u>
+                                    </a>
+                                  </ng-template>
+                                </ng-template>
+                              </div>
+                            </li>
+
+                            <li class="info-list-item">
                               <div class="info-list-text info-list-label"
                                    translate="settings.domains">
                                 Domains
@@ -380,6 +415,34 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">Default composer size</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize1"
+                                 name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', false)"
+                                 [checked]="!settings.is_composer_full_screen"/>
+                          <label for="composersize1">small pop-up</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize2"
+                                 name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', true)"
+                                 [checked]="settings.is_composer_full_screen"/>
+                          <label for="composersize2">full screen</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
