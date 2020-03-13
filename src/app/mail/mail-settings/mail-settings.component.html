@@ -50,7 +50,7 @@
                                 Recovery Email
                               </div>
                               <div class="info-list-text info-list-val">
-                                <div class="row" *ngIf="isEditingRecoveryEmail;else displayRecoveryEmailTemplate">
+                                <div class="row" *ngIf="isEditingRecoveryEmail;else recoveryEmailTemplate">
                                   <form autocomplete="off" class="col-10">
                                     <input class="form-control form-control-sm" id="recoveryMail" type="email"
                                            name="email"
@@ -63,15 +63,15 @@
                                   <a class="col-2 align-self-center -underline" (click)="toggleRecoveyEmailEdit()"><u>Save</u></a>
                                 </div>
 
-                                <ng-template #displayRecoveryEmailTemplate class="-align-right">
-                                  <div class="row" *ngIf="settings.recovery_email; else displayAddTemplate">
+                                <ng-template #recoveryEmailTemplate class="-align-right">
+                                  <div class="row" *ngIf="settings.recovery_email; else addRecoveryEmailTemplate">
                                     <div class=" col-10 info-list-text info-list-val">
                                       {{settings.recovery_email}}</div>
                                     <a class="col-2" (click)="toggleRecoveyEmailEdit()">
                                       <u>Edit</u>
                                     </a>
                                   </div>
-                                  <ng-template #displayAddTemplate>
+                                  <ng-template #addRecoveryEmailTemplate>
                                     <a (click)="toggleRecoveyEmailEdit()">
                                       <u>Add</u>
                                     </a>
