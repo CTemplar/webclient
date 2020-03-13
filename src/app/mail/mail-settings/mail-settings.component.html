@@ -50,7 +50,7 @@
                                 Recovery Email
                               </div>
                               <div class="info-list-text info-list-val">
-                                <div class="row" *ngIf="isRecoveryEmailEdit;else showEditMode">
+                                <div class="row" *ngIf="isEditingRecoveryEmail;else editRecoveryEmailTemplate">
                                   <form autocomplete="off" class="col-10">
                                     <input class="form-control form-control-sm" id="recoveryMail" type="email"
                                            name="email"
@@ -60,20 +60,20 @@
                                            placeholder="example@mail.com"/>
                                   </form>
 
-                                  <a class="col-2 align-self-center -underline" (click)="toggleRecoveyEmailEdit()"><u>save</u></a>
+                                  <a class="col-2 align-self-center -underline" (click)="toggleRecoveyEmailEdit()"><u>Save</u></a>
                                 </div>
 
-                                <ng-template #showEditMode class="-align-right">
+                                <ng-template #editRecoveryEmailTemplate class="-align-right">
                                   <div class="row" *ngIf="settings.recovery_email; else showAdd">
                                     <div class=" col-10 info-list-text info-list-val">
                                       {{settings.recovery_email}}</div>
                                     <a class="col-2" (click)="toggleRecoveyEmailEdit()">
-                                      <u>edit</u>
+                                      <u>Edit</u>
                                     </a>
                                   </div>
                                   <ng-template #showAdd>
                                     <a (click)="toggleRecoveyEmailEdit()">
-                                      <u>add</u>
+                                      <u>Add</u>
                                     </a>
                                   </ng-template>
                                 </ng-template>
