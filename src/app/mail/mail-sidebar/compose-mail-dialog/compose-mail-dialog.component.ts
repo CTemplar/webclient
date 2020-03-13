@@ -25,6 +25,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;
   @Input() public receivers: string[];
   @Input() public draft: Mail;
+  @Input() public isFullScreen: boolean;
 
   @Output() public hide = new EventEmitter<boolean>();
   @Output() public minimize = new EventEmitter<boolean>();
@@ -38,7 +39,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
 
   isMinimized: boolean;
-  isFullScreen: boolean;
   private confirmModalRef: NgbModalRef;
   mailSubject = '';
 
