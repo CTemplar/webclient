@@ -46,6 +46,41 @@
                               <div class="info-list-text info-list-val">{{userState.username}}</div>
                             </li>
                             <li class="info-list-item">
+                              <div class="info-list-text info-list-label">
+                                Recovery Email
+                              </div>
+                              <div class="info-list-text info-list-val">
+                                <div class="row" *ngIf="isRecoveryEmailEdit;else showEditMode">
+                                  <form autocomplete="off" class="col-10">
+                                    <input class="form-control form-control-sm" id="recoveryMail" type="email"
+                                           name="email"
+                                           autocomplete="off" [(ngModel)]="settings.recovery_email"
+                                           [ngModelOptions]="{ updateOn: 'blur'}"
+                                           (change)="updateSettings('recovery_email', $event.target.value)"
+                                           placeholder="example@mail.com"/>
+                                  </form>
+
+                                  <a class="col-2 align-self-center -underline" (click)="toggleRecoveyEmailEdit()"><u>save</u></a>
+                                </div>
+
+                                <ng-template #showEditMode class="-align-right">
+                                  <div class="row" *ngIf="settings.recovery_email; else showAdd">
+                                    <div class=" col-10 info-list-text info-list-val">
+                                      {{settings.recovery_email}}</div>
+                                    <a class="col-2" (click)="toggleRecoveyEmailEdit()">
+                                      <u>edit</u>
+                                    </a>
+                                  </div>
+                                  <ng-template #showAdd>
+                                    <a (click)="toggleRecoveyEmailEdit()">
+                                      <u>add</u>
+                                    </a>
+                                  </ng-template>
+                                </ng-template>
+                              </div>
+                            </li>
+
+                            <li class="info-list-item">
                               <div class="info-list-text info-list-label"
                                    translate="settings.domains">
                                 Domains
@@ -96,21 +131,6 @@
                                        aria-valuemin="0"
                                        [attr.aria-valuemax]="settings.allocated_storage"></div>
                                 </div>
-                              </div>
-                            </li>
-                            <li class="info-list-item">
-                              <div class="info-list-text info-list-label">
-                                Recovery Email
-                              </div>
-                              <div class="info-list-text info-list-val">
-                                <form autocomplete="off">
-                                  <input class="form-control form-control-sm" id="recoveryMail" type="email"
-                                         name="email"
-                                         autocomplete="off" [(ngModel)]="settings.recovery_email"
-                                         [ngModelOptions]="{ updateOn: 'blur'}"
-                                         (change)="updateSettings('recovery_email', $event.target.value)"
-                                         placeholder="example@mail.com"/>
-                                </form>
                               </div>
                             </li>
                           </ul>
