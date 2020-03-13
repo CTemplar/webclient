@@ -199,8 +199,8 @@
                     </div>
                     <div class="plan-details">
                       <div class="desc-card-body invoices"
-                           [ngClass]="{'no-invoice' : userState?.isInvoiceLoaded && invoices.length===0}">
-                        <div *ngIf="userState?.isInvoiceLoaded && invoices.length>0">
+                           [ngClass]="{'no-invoice' : userState?.isInvoiceLoaded && invoices?.length===0}">
+                        <div *ngIf="userState?.isInvoiceLoaded && invoices?.length>0">
                           <ul class="ui-list ui-list-styled list-styled invoices-list">
                             <li class="ui-list-item ui-list-item-xs-full">
                               <div class="row row-xs align-items-center">
@@ -246,7 +246,7 @@
                           </ul>
                         </div>
 
-                        <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices.length===0"
+                        <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices?.length===0"
                              translate="settings.no_bills_avail">
                           No bills available
                         </div>
@@ -341,7 +341,7 @@
                                  matInput>
                           <mat-autocomplete #auto="matAutocomplete" class="timezone-option">
                             <mat-option class="timezone-option" *ngFor="let timezone of timeZoneFilteredOptions | async"
-                                        (click)="updateSettings('timezone',timezone.value)"
+                                        (onSelectionChange)="updateSettings('timezone',timezone.value)"
                                         [value]="timezone.value">
                               {{timezone.value}}
                             </mat-option>

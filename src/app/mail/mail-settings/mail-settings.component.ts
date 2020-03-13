@@ -67,7 +67,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   timeZoneFilter = new FormControl('', []);
   timeZoneFilteredOptions: Observable<Timezone[] | void>;
 
-
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
@@ -98,6 +97,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+        this.timeZoneFilter.setValue(user.settings.timezone);
+        this.cdr.detectChanges();
         this.payment = user.payment_transaction;
         this.invoices = user.invoices;
         this.userPlanType = user.settings.plan_type || PlanType.FREE;
