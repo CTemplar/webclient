@@ -285,6 +285,7 @@ tr.mail-list-row.is-selected {
 .mailbox-footer-menu a u,
 .pricing-plans .plan-item div, .text-secondary,
 .setting-actions-list a i,
+ngb-datepicker div.ngb-dp-months div ngb-datepicker-month-view div.ngb-dp-week .ngb-dp-weekday,
 .mail-controls div.mail-result-text.text-muted > small {
   color: white !important;
 }
@@ -323,7 +324,7 @@ div.mailbox-actionbar div.mail-nav-control button,
 .mailbox-dropdown .dropdown-menu a.dropdown-item:focus,
 .dropdown-menu,
 textarea, input, textarea::placeholder, input::placeholder, button.dropdown-toggle,
-button.actions-btn,
+button.actions-btn, button.btn.btn-default.btn-sm,
 .modal-header, .modal-body, .modal-footer,
 .plan-details .desc-card-body,
 .nav.nav-tabs, .nav-tabs.nav li, .nav-tabs.nav .nav-link,
@@ -331,6 +332,9 @@ button.actions-btn,
 .pricing-plans .plan-sub-item,.pricing-plans .plan-item,
 .form-control,
 .info-card,
+.timezone-option, app-mail-settings .timezone-block .mat-form-field-appearance-legacy .mat-form-field-infix,
+.domain-body .domains-list .row .actions .action:hover,
+.mat-stepper-horizontal, .mat-stepper-vertical, .stepper-form, .domains-list,
 .help-icon .icon-button {
   background: #363d51 !important;
   border: solid 1px #474e61 !important;
