@@ -67,6 +67,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   timeZoneFilter = new FormControl('', []);
   timeZoneFilteredOptions: Observable<Timezone[] | void>;
   isEditingRecoveryEmail: boolean;
+  isLoaded: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -96,6 +97,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
+        this.isLoaded = true;
         this.userState = user;
         this.settings = user.settings;
         this.payment = user.payment_transaction;
