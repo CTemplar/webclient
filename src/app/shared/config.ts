@@ -37,6 +37,7 @@ export const LANGUAGES: Language[] = [
   { name: 'Chinese', locale: 'zh' },
   { name: 'French', locale: 'fr' },
   { name: 'Ukrainian', locale: 'uk' },
+  { name: 'Portuguese', locale: 'pt' },
 ];
 
 export interface Language {
