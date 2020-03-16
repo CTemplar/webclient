@@ -335,6 +335,7 @@ button.actions-btn, button.btn.btn-default.btn-sm,
 .timezone-option, app-mail-settings .timezone-block .mat-form-field-appearance-legacy .mat-form-field-infix,
 .domain-body .domains-list .row .actions .action:hover,
 .mat-stepper-horizontal, .mat-stepper-vertical, .stepper-form, .domains-list,
+.mail-compose-field,
 .help-icon .icon-button {
   background: #363d51 !important;
   border: solid 1px #474e61 !important;
@@ -372,6 +373,18 @@ textarea, input, textarea::placeholder, input::placeholder {
 
 .pricing-plans .plan-item .select-btn {
   box-shadow: 5px 10px 10px #151e35 !important;
+}
+
+.mail-compose-field button {
+  border: 0 !important;
+}
+
+app-compose-mail tag, app-compose-mail .ng2-menu-item,
+app-compose-mail .mail-composer-footer,
+ul.mail-composer-actions li div div div ul li button.ql-size,
+ul.mail-composer-actions li div div div ul li button.ql-font,
+app-compose-mail .mail-compose-box-inner, app-compose-mail .mail-compose-editable-box {
+  background: #363d51 !important;
 }
 
 // end: dark mode-styles
