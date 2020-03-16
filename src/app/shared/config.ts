@@ -37,6 +37,7 @@ export const LANGUAGES: Language[] = [
   { name: 'Chinese', locale: 'zh' },
   { name: 'French', locale: 'fr' },
   { name: 'Ukrainian', locale: 'uk' },
+  { name: 'Portuguese', locale: 'pt' },
 ];
 
 export interface Language {
@@ -75,6 +76,8 @@ function getBaseUrl() {
   if (environment.production) {
     if (location.hostname === 'gh.ctemplar.com') {
       return 'https://api.ctemplar.com/';
+    } else if (location.hostname === 'dev1.ctemplar.com') {
+      return 'https://devapi.ctemplar.com/';
     }
     if (location.hostname === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion') {
       return '/api/';

@@ -19,7 +19,7 @@ import { Subject } from 'rxjs/internal/Subject';
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss']
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
-  @ViewChild('deleteAliasModal', { static: false }) deleteAliasModal;
+  @ViewChild('deleteAliasModal') deleteAliasModal;
   public mailBoxesState: MailBoxesState;
   public mailboxes: Mailbox[];
   public unmodifiedMailboxes: Mailbox[];

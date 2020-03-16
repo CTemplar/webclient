@@ -50,8 +50,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
   shortcuts: ShortcutInput[] = [];
-  @ViewChild('input', { static: false }) input: ElementRef;
-  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild('input') input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
 
   currentPlan: PlanType;
   currentFolder: MailFolderType;
@@ -214,7 +214,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // == Show mail compose modal
   openComposeMailDialog() {
-    this.composeMailService.openComposeMailDialog();
+    this.composeMailService.openComposeMailDialog({ isFullScreen: this.userState.settings.is_composer_full_screen });
   }
 
   toggleDisplayLimit(totalItems) {

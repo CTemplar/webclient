@@ -276,19 +276,29 @@ export function getComposeMailShortcuts(component: ComposeMailComponent) {
 export function getContactsShortcuts(component: MailContactComponent) {
   return [
     getShortcutKeyObj('right', 'Contacts', 'Enter contact details', () => {
-      component.editContact(null, null);
+      if (!isComposeEditorOpen()) {
+        component.editContact(null, null);
+      }
     }, []),
     getShortcutKeyObj('left', 'Contacts', 'Exit contact details', () => {
-      component.destroySplitContactLayout();
+      if (!isComposeEditorOpen()) {
+        component.destroySplitContactLayout();
+      }
     }, []),
     getShortcutKeyObj('t', 'Contacts', 'Delete contact', () => {
-      component.openConfirmDeleteModal(component.confirmDeleteModal);
+      if (!isComposeEditorOpen()) {
+        component.openConfirmDeleteModal(component.confirmDeleteModal);
+      }
     }),
     getShortcutKeyObj('down', 'Contacts', 'Moving between contacts', () => {
-      onMovingBetweenContacts(component);
+      if (!isComposeEditorOpen()) {
+        onMovingBetweenContacts(component);
+      }
     }),
     getShortcutKeyObj('up', 'Contacts', 'Moving between contacts', () => {
-      onMovingBetweenContacts(component, 'up');
+      if (!isComposeEditorOpen()) {
+        onMovingBetweenContacts(component, 'up');
+      }
     })
   ];
 
@@ -297,7 +307,9 @@ export function getContactsShortcuts(component: MailContactComponent) {
 export function getSaveContactShortcuts(component: SaveContactComponent) {
   return [
     getShortcutKeyObj('cmd + s', 'Contacts', 'Save contact', () => {
-      component.createNewContact();
+      if (!isComposeEditorOpen()) {
+        component.createNewContact();
+      }
     }, [], true)
   ];
 }

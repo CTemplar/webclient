@@ -25,20 +25,20 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;
   @Input() public receivers: string[];
   @Input() public draft: Mail;
+  @Input() public isFullScreen: boolean;
 
   @Output() public hide = new EventEmitter<boolean>();
   @Output() public minimize = new EventEmitter<boolean>();
   @Output() public fullScreen = new EventEmitter<boolean>();
 
-  @ViewChild(ComposeMailComponent, { static: false }) composeMail: ComposeMailComponent;
-  @ViewChild('confirmDiscardModal', { static: false }) confirmDiscardModal;
+  @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
+  @ViewChild('confirmDiscardModal') confirmDiscardModal;
   shortcuts: ShortcutInput[] = [];
-  @ViewChild('input', { static: false }) input: ElementRef;
-  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild('input') input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
 
 
   isMinimized: boolean;
-  isFullScreen: boolean;
   private confirmModalRef: NgbModalRef;
   mailSubject = '';
 

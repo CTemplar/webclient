@@ -38,16 +38,16 @@ import { map, startWith } from 'rxjs/operators';
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
   readonly planType = PlanType;
-  @ViewChild('tabSet', { static: false }) tabSet;
-  @ViewChild('deleteAccountInfoModal', { static: false }) deleteAccountInfoModal;
-  @ViewChild('confirmDeleteAccountModal', { static: false }) confirmDeleteAccountModal;
-  @ViewChild('billingInfoModal', { static: false }) billingInfoModal;
+  @ViewChild('tabSet') tabSet;
+  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
+  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
+  @ViewChild('billingInfoModal') billingInfoModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
-  userState: UserState;
+  userState: UserState = new UserState();
   authState: AuthState;
-  settings: Settings;
-  payment: Payment;
+  settings: Settings = new Settings();
+  payment: Payment = new Payment();
   paymentMethod = PaymentMethod;
   userPlanType: PlanType = PlanType.FREE;
   newListContact = { show: false, type: 'Whitelist' };
@@ -66,7 +66,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   timeZoneFilter = new FormControl('', []);
   timeZoneFilteredOptions: Observable<Timezone[] | void>;
-
+  isEditingRecoveryEmail: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -85,7 +85,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.notificationsPermission = Notification.permission;
+    if ('Notification' in window) {
+      this.notificationsPermission = Notification.permission;
+    }
     this.sharedService.loadPricingPlans();
 
     this.store.select(state => state.auth).pipe(untilDestroyed(this))
@@ -135,6 +137,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _filterTimeZone(name) {
     return this.timezones.filter(option => option.value.toLowerCase().indexOf(name.toLowerCase()) > -1);
+  }
+
+  toggleRecoveyEmailEdit() {
+    this.isEditingRecoveryEmail = !this.isEditingRecoveryEmail;
   }
 
   ngAfterViewInit() {

@@ -1,6 +1,6 @@
 <section class="mailbox-section">
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.security_settings">Security
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.security_settings'">Security
       settings</strong></h5>
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
@@ -8,7 +8,7 @@
       <div class="form-content-row">
         <div class="row label-align">
           <div class="col-sm-3">
-            <label for="securityPassword" class="form-label mb-sm-0" translate="settings.password">Password</label>
+            <label for="securityPassword" class="form-label mb-sm-0" [translate]="'settings.password'">Password</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <input class="form-control form-control-sm" id="securityPassword" type="password"
@@ -17,7 +17,7 @@
             <span class="form-label-text mt-1">
                                             <a href="javascript:void(0);" role="button" class="text-uppercase btn-link"
                                                (click)="openChangePasswordModal()"><strong>
-                                                    <u translate="settings.change_now">Change now</u></strong></a></span>
+                                                    <u [translate]="'settings.change_now'">Change now</u></strong></a></span>
           </div>
         </div>
       </div>
@@ -25,16 +25,16 @@
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label class="form-label mb-sm-0" translate="page_pricing.two_factore_auth">2 Factor authentication</label>
+            <label class="form-label mb-sm-0" [translate]="'page_pricing.two_factore_auth'">2 Factor authentication</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <a *ngIf="!settings.enable_2fa" (click)="get2FASecret(); auth2FAForm={auth2FAStep:1, enable_2fa: true}"
                  href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"><strong>
-                <u translate="settings.security.set_up_2FA">Set up 2 Factor authentication</u></strong></a>
+                <u [translate]="'settings.security.set_up_2FA'">Set up 2 Factor authentication</u></strong></a>
               <a *ngIf="settings.enable_2fa" (click)="disable2FA()"
                  href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button"><strong>
-                  <u translate="settings.security.disable_2FA">Disable 2 Factor authentication</u></strong></a>
+                  <u [translate]="'settings.security.disable_2FA'">Disable 2 Factor authentication</u></strong></a>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label for="recoveryMail" class="form-label mb-sm-0" translate="settings.recovery_email">Recovery
+            <label for="recoveryMail" class="form-label mb-sm-0" [translate]="'settings.recovery_email'">Recovery
               email</label>
           </div>
           <form class="col-sm-7 col-md-5" autocomplete="off">
@@ -59,7 +59,7 @@
   </div>
 
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.compose.encryption">Encryption</strong></h5>
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.compose.encryption'">Encryption</strong></h5>
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
@@ -67,7 +67,7 @@
            ngbTooltip="{{planType===planTypeEnum.FREE?('settings.security.upgrade_to_paid'| translate):''}}">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label class="form-label mb-sm-0" translate="settings.security.subjects_encryption">Subjects encryption</label>
+            <label class="form-label mb-sm-0" [translate]="'settings.security.subjects_encryption'">Subjects encryption</label>
           </div>
           <div [class.disabled]="planType===planTypeEnum.FREE" class="col-sm-7 col-md-5 subject-encryption">
             <div class="row row-sm">
@@ -76,7 +76,7 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="subjectEncryption1"
                          name="[2]" type="radio" (click)="updateSettings('is_subject_encrypted', true)"
                          [checked]="settings?.is_subject_encrypted"/>
-                  <label for="subjectEncryption1" translate="common.enabled">Enabled</label>
+                  <label for="subjectEncryption1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
@@ -84,7 +84,7 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="subjectEncryption2"
                          name="[2]" type="radio" (click)="updateSettings('is_subject_encrypted', false)"
                          [checked]="!settings?.is_subject_encrypted"/>
-                  <label for="subjectEncryption2" translate="common.disabled">Disabled</label>
+                  <label for="subjectEncryption2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
             </div>
@@ -94,7 +94,7 @@
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label class="form-label mb-sm-0" translate="settings.security.contacts_encryption">Contacts encryption</label>
+            <label class="form-label mb-sm-0" [translate]="'settings.security.contacts_encryption'">Contacts encryption</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
@@ -103,7 +103,7 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="contactsEncryption1"
                          name="[3]" type="radio" (click)="openConfirmEncryptContactsModal()"
                          [checked]="isContactsEncrypted"/>
-                  <label for="contactsEncryption1" translate="common.enabled">Enabled</label>
+                  <label for="contactsEncryption1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
@@ -111,7 +111,7 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="contactsEncryption2"
                          name="[3]" type="radio" (click)="openDecryptContactsModal()"
                          [checked]="!isContactsEncrypted"/>
-                  <label for="contactsEncryption2" translate="common.disabled">Disabled</label>
+                  <label for="contactsEncryption2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
             </div>
@@ -121,7 +121,7 @@
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label class="form-label mb-sm-0">Attachments encryption</label>
+            <label class="form-label mb-sm-0" [translate]="'settings.attachments_encryption'">Attachments encryption</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
@@ -130,7 +130,7 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="attachmentEncryption1"
                          name="[attachment]" type="radio" (click)="updateSettings('is_attachments_encrypted', true)"
                          [checked]="settings.is_attachments_encrypted"/>
-                  <label for="attachmentEncryption1" translate="common.enabled">Enabled</label>
+                  <label for="attachmentEncryption1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
@@ -138,32 +138,32 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="attachmentEncryption2"
                          name="[attachment]" type="radio" (click)="updateSettings('is_attachments_encrypted', false)"
                          [checked]="!settings.is_attachments_encrypted"/>
-                  <label for="attachmentEncryption2" translate="common.disabled">Disabled</label>
+                  <label for="attachmentEncryption2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="info-card mt-2 full-width" translate="">
-       <span translate="settings.security.enable_attachments_enc">
+        <div class="info-card mt-2 full-width">
+       <span [translate]="'settings.security.enable_attachments_enc'">
          Note: If you enable attachments encryption, inline attachments won't be available anymore, all the attachments
           that you will send/receive will be treated as external attachments and all of them will be encrypted.
        </span>
-          <a href="https://ctemplar.com/faq/attachments-encryption/" target="_blank" translate="settings.security.read_more">Read more</a>
+          <a href="https://ctemplar.com/faq/attachments-encryption/" target="_blank" [translate]="'settings.security.read_more'">Read more</a>
         </div>
       </div>
     </div>
   </div>
 
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.security.phishing_protection">Phishing Protection</strong></h5>
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.security.phishing_protection'">Phishing Protection</strong></h5>
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label class="form-label mb-sm-0" translate="settings.security.anti_phishing">Anti Phishing</label>
+            <label class="form-label mb-sm-0" [translate]="'settings.security.anti_phishing'">Anti Phishing</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
@@ -172,7 +172,7 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="phishingProtection1"
                          name="[phishingProtection]" type="radio" (click)="updateAntiPhishing(true)"
                          [checked]="settings.is_anti_phishing_enabled"/>
-                  <label for="phishingProtection1" translate="common.enabled">Enabled</label>
+                  <label for="phishingProtection1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
@@ -180,7 +180,7 @@
                   <input class="d-none fancy-field-control fancy-field-control-sm" id="phishingProtection2"
                          name="[phishingProtection]" type="radio" (click)="updateAntiPhishing(false)"
                          [checked]="!settings.is_anti_phishing_enabled"/>
-                  <label for="phishingProtection2" translate="common.disabled">Disabled</label>
+                  <label for="phishingProtection2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
             </div>
@@ -188,7 +188,7 @@
         </div>
         <div class="row align-items-center my-3" *ngIf="settings.is_anti_phishing_enabled">
           <div class="col-sm-3">
-            <label class="form-label mb-sm-0" translate="settings.security.phishing_phrase_title">Anti Phishing Phrase</label>
+            <label class="form-label mb-sm-0" [translate]="'settings.security.phishing_phrase_title'">Anti Phishing Phrase</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <input class="form-control form-control-sm" id="antiPhishingPhrase" type="text" name="antiPhishingPhrase"
@@ -197,13 +197,13 @@
           </div>
         </div>
         <div class="info-card mt-2 full-width">
-          <span translate="settings.security.anti_phishing_phrase">
+          <span [translate]="'settings.security.anti_phishing_phrase'">
           The Anti-Phishing phrase allows users to link a custom word or phrase of your choice to your CTemplar account.
           Once set, if you ever log into your webmail and your Anti-Phishing phrase is either missing or incorrect,
           you may be the victim of phishing. You should immediately confirm that you are visiting </span>
-          <a href="https://ctemplar.com">https://ctemplar.com</a>. <span translate="settings.security.malicious_site"> If you are not, then a malicious site might have your
+          <a href="https://ctemplar.com">https://ctemplar.com</a>. <span [translate]="'settings.security.malicious_site'"> If you are not, then a malicious site might have your
           login credentials for your CTemplar account. To prevent harm to your account, you should immediately visit </span>
-          &nbsp;    <a href="https://ctemplar.com">https://ctemplar.com </a> <span translate="settings.security.and_change_password">and change your password.</span>
+          &nbsp;    <a href="https://ctemplar.com">https://ctemplar.com </a> <span [translate]="'settings.security.and_change_password'">and change your password.</span>
         </div>
       </div>
       <div class="form-content-row">
@@ -218,9 +218,9 @@
 <ng-template #decryptContactsModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
     <h3 class="modal-title w-100 text-dark" id="decryptContactsModal">
-      <strong *ngIf="isDecryptingContacts; else decryptingTitle" translate="settings.security.decrypting_contacts">Decrypting contacts</strong>
+      <strong *ngIf="isDecryptingContacts; else decryptingTitle" [translate]="'settings.security.decrypting_contacts'">Decrypting contacts</strong>
       <ng-template #decryptingTitle>
-        <strong translate="settings.security.confirm_disable_contacts">Confirm disable contacts encryption</strong>
+        <strong [translate]="'settings.security.confirm_disable_contacts'">Confirm disable contacts encryption</strong>
       </ng-template>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
@@ -230,14 +230,14 @@
   </div>
   <div class="modal-body bg-faded">
     <div *ngIf="isDecryptingContacts; else decryptingContacts" class="px-4">
-      <label translate="settings.security.contacts_being_decrypt">Please be patient while your contacts are being decrypted, don't close your browser.</label>
+      <label [translate]="'settings.security.contacts_being_decrypt'">Please be patient while your contacts are being decrypted, don't close your browser.</label>
       <div align="center" *ngIf="!contactsState?.loaded && contactsState?.totalContacts===0">
         <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
       </div>
       <div class="my-4" *ngIf="contactsState?.loaded || contactsState?.totalContacts!==0">
         <div class="info-list-val-text text-center">
-          {{contactsState.noOfDecryptedContacts}} <span translate="settings.of">of </span> {{contactsState.totalContacts}}
-          <span translate="settings.security.contacts_decrypted">contacts decrypted</span>
+          {{contactsState.noOfDecryptedContacts}} <span [translate]="'settings.of'">of </span> {{contactsState.totalContacts}}
+          <span [translate]="'settings.security.contacts_decrypted'">contacts decrypted</span>
         </div>
         <div class="progress progress-secondary progress-lg">
           <div class="progress-bar" role="progressbar"
@@ -248,26 +248,26 @@
         </div>
       </div>
       <div *ngIf="contactsState.noOfDecryptedContacts===contactsState.totalContacts && contactsState.loaded">
-        <div class="mb-4 green" translate="settings.security.all_contacts_decrypt">
+        <div class="mb-4 green" [translate]="'settings.security.all_contacts_decrypt'">
           All contacts decrypted successfully
         </div>
         <div align="right" class="mt-3">
           <button (click)="closeDecryptContactsModal()" class="btn btn-secondary btn-sm cursor-pointer"
-          translate="settings.compose.close">Close</button>
+          [translate]="'settings.compose.close'">Close</button>
         </div>
       </div>
     </div>
     <ng-template #decryptingContacts>
       <div class="px-4">
         <label>
-          <label translate="settings.security.disable_contact_decrypt">Are you sure you want to disable contacts encryption?</label><br>
-          <b translate="settings.security.note">Note:</b> <span translate="settings.security.disabling_contacts">
+          <label [translate]="'settings.security.disable_contact_decrypt'">Are you sure you want to disable contacts encryption?</label><br>
+          <b [translate]="'settings.security.note'">Note:</b> <span [translate]="'settings.security.disabling_contacts'">
           Disabling contacts encryption can take several minutes depending upon the number of contacts you have.
           After you confirm, all your contacts will be decrypted inside your browser and saved on server. </span>
         </label>
         <div align="right" class="mt-3">
           <button (click)="confirmDecryptContacts()" class="btn btn-secondary btn-sm cursor-pointer"
-          translate="settings.compose.confirm">Confirm</button>
+          [translate]="'settings.compose.confirm'">Confirm</button>
         </div>
       </div>
     </ng-template>
@@ -277,7 +277,7 @@
 <ng-template #confirmEncryptContactsModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
     <h3 class="modal-title w-100 text-dark" id="confirmContactsEncryptionModal">
-      <strong translate="settings.security.decrypting_contacts">Decrypting contacts</strong>
+      <strong [translate]="'settings.security.decrypting_contacts'">Decrypting contacts</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
             (click)="d()">
@@ -287,17 +287,17 @@
   <div class="modal-body bg-faded">
     <div class="px-4">
       <div class="row row-sm">
-        <span translate="settings.security.enabling_contacts">By enabling contacts encryption</span>
+        <span [translate]="'settings.security.enabling_contacts'">By enabling contacts encryption</span>
         <ul>
-          <li translate="settings.security.all_contacts_encrypted">All your contacts will be encrypted</li>
-          <li translate="settings.security.contacts_suggestion">Contacts suggestion on compose email won't be available anymore</li>
-          <li translate="settings.security.contacts_search">Contacts can't be searched anymore</li>
+          <li [translate]="'settings.security.all_contacts_encrypted'">All your contacts will be encrypted</li>
+          <li [translate]="'settings.security.contacts_suggestion'">Contacts suggestion on compose email won't be available anymore</li>
+          <li [translate]="'settings.security.contacts_search'">Contacts can't be searched anymore</li>
 
         </ul>
       </div>
       <div align="right" class="mt-3">
         <button (click)=" d();updateSettings('is_contacts_encrypted', true);"
-                class="btn btn-secondary btn-sm cursor-pointer" translate="settings.compose.confirm">Confirm
+                class="btn btn-secondary btn-sm cursor-pointer" [translate]="'settings.compose.confirm'">Confirm
         </button>
       </div>
     </div>
@@ -309,7 +309,7 @@
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
     <h3 class="modal-title w-100 text-dark" id="auth2FAModal">
       <strong>{{auth2FAForm.enable_2fa ? ('settings.security.set_up'| translate) : ('settings.disable'| translate)}}
-        <span translate="page_pricing.two_factore_auth">2 Factor authentication</span></strong></h3>
+        <span [translate]="'page_pricing.two_factore_auth'">2 Factor authentication</span></strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
             (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -320,7 +320,7 @@
       <ng-container *ngIf="auth2FAForm.auth2FAStep === 1">
         <div *ngIf="!auth2FA.inProgress">
           <div class="card-body text-center">
-            <div class="mb-4" translate="settings.security.scan_following_QR">Scan the following QR code with your 2 Factor authentication app to set up your account.
+            <div class="mb-4" [translate]="'settings.security.scan_following_QR'">Scan the following QR code with your 2 Factor authentication app to set up your account.
               You can also enter the secret key manually in order to setup.
             </div>
             <img class="mb-3" style="height: 270px"
@@ -336,7 +336,7 @@
           </div>
           <div align="right" class="mt-3">
             <button (click)="auth2FAForm.auth2FAStep=2" class="btn btn-secondary btn-sm cursor-pointer"
-            translate="settings.next">Next</button>
+            [translate]="'settings.next'">Next</button>
           </div>
         </div>
         <div align="center">
@@ -346,7 +346,7 @@
       <div *ngIf="auth2FAForm.auth2FAStep === 2">
         <div>
           <div class="form-group form-group-sm">
-            <label for="password" class="d-block text-muted text-left hidden-sm-up" translate="settings.password">Password</label>
+            <label for="password" class="d-block text-muted text-left hidden-sm-up" [translate]="'settings.password'">Password</label>
             <div class="input-group">
               <input #password class="form-control form-control-lg" id="password" [placeholder]="'settings.password'| translate"
                      [(ngModel)]="auth2FAForm.password"
@@ -357,26 +357,26 @@
                                     <i class="fa fa-eye-slash"></i>
                                 </span>
             </div>
-            <span class="validate-message" *ngIf="auth2FAForm.submitted && !auth2FAForm.password" translate="settings.security.enter_acc_password">
+            <span class="validate-message" *ngIf="auth2FAForm.submitted && !auth2FAForm.password" [translate]="'settings.security.enter_acc_password'">
               Please enter your account password.
             </span>
           </div>
           <div class="form-group form-group-sm">
-            <label for="passcode" class="d-block text-muted text-left hidden-sm-up" translate="settins.security.passcode">Passcode</label>
+            <label for="passcode" class="d-block text-muted text-left hidden-sm-up" [translate]="'settins.security.passcode'">Passcode</label>
             <div class="input-group">
               <input class="form-control form-control-lg" id="passcode"
                      [placeholder]="'settings.security.gen_by_2FA'| translate"
                      [(ngModel)]="auth2FAForm.passcode"
                      type="text"/>
             </div>
-            <span class="validate-message" *ngIf="auth2FAForm.submitted && !auth2FAForm.passcode" translate="settings.security.enter_passcode_2FA">
+            <span class="validate-message" *ngIf="auth2FAForm.submitted && !auth2FAForm.passcode" [translate]="'settings.security.enter_passcode_2FA'">
               Please enter passcode generated by 2FA app.
             </span>
           </div>
         </div>
         <div class="modal-footer justify-content-sm-end">
           <button class="btn btn-default btn-sm cursor-pointer" type="reset" (click)="d()"><span
-                  translate="common.cancel">Cancel</span></button>
+                  [translate]="'common.cancel'">Cancel</span></button>
           <button class="btn btn-secondary btn-sm cursor-pointer"
                   (click)="update2FA(auth2FAForm.enable_2fa); d()"
                   [disabled]="!auth2FAForm.passcode || !auth2FAForm.password">
@@ -392,7 +392,7 @@
 <ng-template #changePasswordModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
     <h3 class="modal-title w-100 text-dark" id="changePasswordModalLabel"><strong
-            translate="settings.security.change_password">Change Password</strong></h3>
+            [translate]="'settings.security.change_password'">Change Password</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
             (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -400,7 +400,7 @@
   </div>
   <div class="modal-body bg-faded">
     <div>
-      <p class="text-holder text-dark text-medium" translate="settings.security.message">
+      <p class="text-holder text-dark text-medium" [translate]="'settings.security.message'">
         Your encryption key is connected to your password. You have the option to either keep all the data and
         encryption
         keys and just change the password or you can delete all the data and generate new encryption keys. Choose your
@@ -414,7 +414,7 @@
             <div [class.disabled]="inProgress">
               <div class="form-group form-group-sm">
                 <label for="oldPassword" class="d-block text-muted text-left hidden-sm-up"
-                       translate="settings.security.old_password">
+                       [translate]="'settings.security.old_password'">
                   Old Password</label>
                 <div class="input-group">
                   <input #oldPasswordInput class="form-control form-control-lg" id="oldPassword"
@@ -429,12 +429,12 @@
                 <span *ngIf="changePasswordForm.controls['oldPassword'].errors && showChangePasswordFormErrors"
                       class="validate-message">
                                 <span *ngIf="changePasswordForm.controls['oldPassword'].errors.required"
-                                      translate="settings.security.old_password_req">Old password is required.</span>
+                                      [translate]="'settings.security.old_password_req'">Old password is required.</span>
                             </span>
               </div>
               <div class="form-group form-group-sm">
                 <label for="newPassword" class="d-block text-muted text-left hidden-sm-up"
-                       translate="settings.new_password">New Password</label>
+                       [translate]="'settings.new_password'">New Password</label>
                 <div class="input-group">
                   <input #newPasswordInput class="form-control form-control-lg" id="newPassword"
                          formControlName="password" [placeholder]="'settings.new_password'| translate" type="password"/>
@@ -447,12 +447,12 @@
                 <span *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
                       class="validate-message">
                                 <span *ngIf="changePasswordForm.controls['password'].errors.required"
-                                      translate="settings.security.new_password_req">New password is required.</span>
+                                      [translate]="'settings.security.new_password_req'">New password is required.</span>
                             </span>
               </div>
               <div class="form-group form-group-sm">
                 <label for="confirmNewPassword" class="d-block text-muted text-left hidden-sm-up"
-                       translate="settings.confirm_new_password">Confirm New Password</label>
+                       [translate]="'settings.confirm_new_password'">Confirm New Password</label>
                 <div class="input-group">
                   <input #confirmNewPasswordInput class="form-control form-control-lg" id="confirmNewPassword"
                          formControlName="confirmPwd" [placeholder]="'settings.confirm_new_password'| translate"
@@ -465,12 +465,12 @@
                 </div>
                 <span *ngIf="changePasswordForm.controls['confirmPwd'].errors && showChangePasswordFormErrors"
                       class="validate-message">
-                                <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+                                <span [translate]="'create_account.passwords_not_match'">Passwords do not match.</span>
                             </span>
               </div>
 
               <div class="form-content-row">
-                <label class="font-weight-bold notice" translate="settings.security.data_message">Select option to
+                <label class="font-weight-bold notice" [translate]="'settings.security.data_message'">Select option to
                   keep/delete data!</label><br>
                 <div class="row align-items-center">
                   <div class="col-sm-7 col-md-5">
@@ -480,7 +480,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data1"
                                  [checked]="!deleteData"
                                  name="[1]" type="radio"/>
-                          <label for="keep_data1" translate="settings.security.keep_data">Keep data</label>
+                          <label for="keep_data1" [translate]="'settings.security.keep_data'">Keep data</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col" (click)="deleteData=true;">
@@ -488,7 +488,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="keep_data2"
                                  [checked]="deleteData"
                                  name="[1]" type="radio"/>
-                          <label for="keep_data2" translate="settings.security.encryption_key_message">Delete all data
+                          <label for="keep_data2" [translate]="'settings.security.encryption_key_message'">Delete all data
                             and generate new encryption keys</label>
                         </div>
                       </div>
@@ -499,13 +499,13 @@
             </div>
             <div class="mt-3" *ngIf="inProgress && deleteData">
               <span class="notice">Note : </span>
-              <span translate="settings.security.encryption_key_progress"> Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!</span>
+              <span [translate]="'settings.security.encryption_key_progress'"> Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!</span>
             </div>
             <div class="form-group form-user-actions text-center mb-0 mt-3">
               <button class="btn btn-gradient-primary btn-sm reset-btn"
                       [disabled]="inProgress"
                       role="button" type="submit">
-                <span translate="billing_info.submit">Submit</span>
+                <span [translate]="'billing_info.submit'">Submit</span>
               </button>
               <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
             </div>
