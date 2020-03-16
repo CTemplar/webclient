@@ -146,15 +146,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild('editor', { static: false }) editor;
-  @ViewChild('attachmentHolder', { static: false }) attachmentHolder;
-  @ViewChild('toolbar', { static: false }) toolbar;
-  @ViewChild('attachImagesModal', { static: false }) attachImagesModal;
-  @ViewChild('selfDestructModal', { static: false }) selfDestructModal;
-  @ViewChild('delayedDeliveryModal', { static: false }) delayedDeliveryModal;
-  @ViewChild('deadManTimerModal', { static: false }) deadManTimerModal;
-  @ViewChild('encryptionModal', { static: false }) encryptionModal;
-  @ViewChild('insertLinkModal', { static: false }) insertLinkModal;
+  @ViewChild('editor') editor;
+  @ViewChild('attachmentHolder') attachmentHolder;
+  @ViewChild('toolbar') toolbar;
+  @ViewChild('attachImagesModal') attachImagesModal;
+  @ViewChild('selfDestructModal') selfDestructModal;
+  @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
+  @ViewChild('deadManTimerModal') deadManTimerModal;
+  @ViewChild('encryptionModal') encryptionModal;
+  @ViewChild('insertLinkModal') insertLinkModal;
 
   draftId: number;
   colors = COLORS;

@@ -1,9 +1,9 @@
 <div class="mailbox-content-outer">
     <app-mail-sidebar></app-mail-sidebar>
 <div class="autoresponder-banner row ml-lg-5" *ngIf="autoresponder_status">
-    <p><span translate="settings.autoresponder_active">Autoresponder is active:</span> &nbsp;
-        <a (click)="endAutoResponder()" translate="settings.end_now">End now</a>&nbsp;-
-        <a [routerLink]="'./settings/forwarding-and-auto-responder'" translate="mail_header.settings"> Settings</a>
+    <p><span >{{"settings.autoresponder_active"| translate}}</span> &nbsp;
+        <a (click)="endAutoResponder()" >{{"settings.end_now"| translate}}</a>&nbsp;-
+        <a [routerLink]="'./settings/forwarding-and-auto-responder'">{{"mail_header.settings"| translate}}</a>
     </p>
 </div>
     <div class="mailbox-main-content">

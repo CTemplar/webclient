@@ -8,7 +8,7 @@
       <div class="mail-composer-title mr-4" (click)="toggleMinimized()">
         <span *ngIf="mailSubject; else newMessage">{{mailSubject}}</span>
         <ng-template #newMessage>
-          <span translate="settings.compose.new_message">New message</span>
+          <span>{{"settings.compose.new_message"| translate}}</span>
         </ng-template>
       </div>
       <div class="mail-composer-header-actions">
@@ -51,20 +51,20 @@
 <!-- Confirm discard email modal -->
 <ng-template #confirmDiscardModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.confirm_discard">Confirm Discard</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.confirm_discard"| translate}}</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" translate="settings.compose.want_to_discard">
-        Are you sure, you want to discard this email?
+      <div class="form-group">
+        {{"settings.compose.want_to_discard"| translate}}
       </div>
       <div class="form-group text-right mb-0">
-        <button (click)="d()" class="btn btn-secondary btn-sm mr-1" role="button" translate="common.cancel">Cancel</button>
-        <button (click)="saveInDrafts()" class="btn btn-success btn-sm mr-1" role="button" translate="settings.compose.save_in_drafts">Save in Drafts</button>
-        <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button" translate="settings.compose.discard">Discard</button>
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-1" role="button" >{{"common.cancel"| translate}}</button>
+        <button (click)="saveInDrafts()" class="btn btn-success btn-sm mr-1" role="button" >{{"settings.compose.save_in_drafts"| translate}}</button>
+        <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button" >{{"settings.compose.discard"| translate}}</button>
       </div>
     </div>
   </div>

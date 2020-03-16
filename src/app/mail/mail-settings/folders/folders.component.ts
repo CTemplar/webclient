@@ -16,7 +16,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 export class FoldersComponent implements OnInit, OnDestroy {
   folders: Array<Folder> = [];
   userState: UserState;
-  @ViewChild('confirmationModal', { static: false }) confirmationModal;
+  @ViewChild('confirmationModal') confirmationModal;
   confirmModalRef: NgbModalRef;
   selectedFolder: Folder;
 

@@ -2,7 +2,7 @@
   <form>
     <div class="mail-compose-field-group">
       <div class="mail-compose-field">
-        <span class="mail-label label-from" translate="settings.compose.from">From:</span>
+        <span class="mail-label label-from">{{"settings.compose.from"| translate}}</span>
         <div class="col-sm p-0">
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
             <div ngbDropdown class="dropdown-sm">
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="mail-compose-field mail-compose-field-to">
-        <span class="mail-label label-to" translate="settings.compose.to">To:</span>
+        <span class="mail-label label-to">{{"settings.compose.to"| translate}}</span>
         <tag-input [(ngModel)]="mailData.receiver"
                    *ngIf="isLoaded"
                    name="to"
@@ -102,7 +102,7 @@
         </tag-input>
       </div>
       <div class="mail-compose-field">
-        <span class="mail-label label-subject mail-subject" translate="settings.compose.subject">Subject:</span>
+        <span class="mail-label label-subject mail-subject">{{"settings.compose.subject"| translate}}</span>
         <textarea class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
                   [disabled]="action===mailAction.REPLY || action===mailAction.REPLY_ALL"
                   (ngModelChange)="valueChanged$.next(mailData.subject); onSubjectChange(mailData.subject)"
@@ -164,7 +164,7 @@
                       role="button"
                       placement="top">
                 <i class="hidden-sm-up icon icon-paper-plane"></i><span
-                      class="hidden-xs-down" translate="settings.compose.send">Send</span>
+                      class="hidden-xs-down">{{"settings.compose.send"| translate}}</span>
               </button>
             </li>
             <li>
@@ -217,27 +217,26 @@
                               <ul class="typo-list list-styled">
                                 <li>
                                   <button value="10px"
-                                          class="ql-size typo-select-link is-small" translate="settings.compose.small">
-                                    Small
+                                          class="ql-size typo-select-link is-small">
+                                    {{"settings.compose.small"| translate}}
                                   </button>
                                 </li>
                                 <li>
                                   <button value=""
-                                          class="ql-size typo-select-link is-normal"
-                                          translate="settings.compose.normal">
-                                    Normal
+                                          class="ql-size typo-select-link is-normal">
+                                    {{"settings.compose.normal"| translate}}
                                   </button>
                                 </li>
                                 <li>
                                   <button value="18px"
-                                          class="ql-size typo-select-link is-large" translate="settings.compose.large">
-                                    Large
+                                          class="ql-size typo-select-link is-large">
+                                    {{"settings.compose.large"| translate}}
                                   </button>
                                 </li>
                                 <li>
                                   <button value="32px"
-                                          class="ql-size typo-select-link is-huge" translate="settings.compose.huge">
-                                    Huge
+                                          class="ql-size typo-select-link is-huge">
+                                    {{"settings.compose.huge"| translate}}
                                   </button>
                                 </li>
                               </ul>
@@ -307,9 +306,8 @@
                               <div class="row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                   <div class="color-picker">
-                                    <div class="color-picker-title"><strong
-                                            translate="settings.compose.background_color">
-                                      Background Color</strong></div>
+                                    <div class="color-picker-title"><strong>
+                                      {{"settings.compose.background_color"| translate}}</strong></div>
                                     <ul class="color-picker-list d-flex flex-wrap">
                                       <li *ngFor="let color of colors">
                                         <button class="ql-background color-shape"
@@ -323,8 +321,8 @@
 
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                   <div class="color-picker">
-                                    <div class="color-picker-title"><strong translate="settings.compose.text_color">
-                                      Text Color</strong></div>
+                                    <div class="color-picker-title"><strong>
+                                      {{"settings.compose.text_color"| translate}}</strong></div>
                                     <ul class="color-picker-list d-flex flex-wrap">
                                       <li *ngFor="let color of colors">
                                         <button class="ql-color color-shape"
@@ -503,7 +501,7 @@
 <!-- attach images modal -->
 <ng-template #attachImagesModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.attach_images">Attach Images</strong>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.attach_images"| translate}}</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -511,8 +509,8 @@
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" translate="settings.compose.select_file">
-        Select files from your computer or enter a URL
+      <div class="form-group">
+        {{"settings.compose.select_file"| translate}}
       </div>
       <div class="form-group">
         <label for="imageURL">Image URL</label>
@@ -521,10 +519,10 @@
       </div>
       <div class="form-group text-right mb-0">
         <button type="button" (click)="imageInput.value = ''; imageInput.click(); d();"
-                class="btn btn-success btn-sm mr-1" role="button"><span translate="settings.compose.attach_files">Attach Files</span>
+                class="btn btn-success btn-sm mr-1" role="button"><span>{{"settings.compose.attach_files"| translate}}</span>
         </button>
         <button type="button" (click)="onAttachImageURL(imageURL.value)" class="btn btn-success btn-sm"
-                role="button"><span translate="settings.compose.attach_url">Attach URL</span>
+                role="button"><span>{{"settings.compose.attach_url"| translate}}</span>
         </button>
       </div>
     </div>
@@ -534,26 +532,25 @@
 <!-- self destruct datetime picker modal -->`
 <ng-template #selfDestructModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.self_dest_email">Self Destruct
-      Email</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.self_dest_email"| translate}}</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" translate="settings.compose.email_deleted">
-        Email will be deleted on selected datetime
+      <div class="form-group">
+        {{"settings.compose.email_deleted"| translate}}
       </div>
       <div class="row">
         <div class="col-7 form-group">
-          <label class="form-inline" translate="settings.compose.select_date">Select Date</label>
+          <label class="form-inline">{{"settings.compose.select_date"| translate}}</label>
           <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
                           [(ngModel)]="selfDestruct.date"
                           [minDate]="datePickerMinDate"></ngb-datepicker>
         </div>
         <div class="col-5 form-group">
-          <label class="form-inline" translate="settings.compose.select_time">Select Time</label>
+          <label class="form-inline">{{"settings.compose.select_time"| translate}}</label>
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
@@ -562,9 +559,9 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
                 <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 &nbsp;<span
-                        translate="settings.compose.hour">Hour</span></a>
+                        >{{"settings.compose.hour"| translate}}</span></a>
                 <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 &nbsp;<span
-                        translate="settings.compose.hour">Hour</span></a>
+                        >{{"settings.compose.hour"| translate}}</span></a>
               </div>
             </div>
           </div>
@@ -577,12 +574,12 @@
       </div>
       <div class="form-group text-center btns-xs-3 mb-0">
         <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm mr-1" role="button">
-          <span translate="settings.compose.confirm">Confirm</span>
+          <span>{{"settings.compose.confirm"| translate}}</span>
         </button>
         <button type="button" (click)="clearSelfDestructValue()" class="btn btn-primary btn-sm mr-1" role="button">
           Clear
         </button>
-        <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
+        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
       </div>
     </div>
   </div>
@@ -591,26 +588,25 @@
 <!-- delayed delivery datetime picker modal -->
 <ng-template #delayedDeliveryModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.delayed_delivery">Delayed
-      Delivery</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.delayed_delivery"| translate}}</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" translate="settings.compose.email_on_datetime">
-        Email will be sent on selected datetime
+      <div class="form-group" >
+        {{"settings.compose.email_on_datetime"| translate}}
       </div>
       <div class="row">
         <div class="col-7 form-group">
-          <label class="form-inline" translate="settings.compose.select_date">Select Date</label>
+          <label class="form-inline" >{{"settings.compose.select_date"| translate}}</label>
           <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
                           [(ngModel)]="delayedDelivery.date"
                           [minDate]="datePickerMinDate"></ngb-datepicker>
         </div>
         <div class="col-5 form-group">
-          <label class="form-inline">Select Time</label>
+          <label class="form-inline">{{"settings.compose.select_time"| translate}}</label>
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
@@ -619,9 +615,9 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="delayedDeliveryMeridianDropdownMenuButton">
                 <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true">12 <span
-                        translate="settings.compose.hour">Hour</span></a>
+                >{{"settings.compose.hour"| translate}}</span></a>
                 <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false">24 <span
-                        translate="settings.compose.hour">Hour</span></a>
+                        >{{"settings.compose.hour"| translate}}</span></a>
               </div>
             </div>
           </div>
@@ -633,12 +629,12 @@
       </div>
       <div class="form-group text-center btns-xs-3 mb-0">
         <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm mr-1" role="button"
-                translate="settings.compose.confirm">Confirm
+                >{{"settings.compose.confirm"| translate}}
         </button>
         <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm mr-1"
-                role="button" translate="settings.compose.clear">Clear
+                role="button" >{{"settings.compose.clear"| translate}}
         </button>
-        <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
+        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
       </div>
     </div>
   </div>
@@ -647,39 +643,36 @@
 <!-- dead man timer modal -->
 <ng-template #deadManTimerModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.dead_man_timer">Dead Man&apos;s
-      Timer</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong >{{"settings.compose.dead_man_timer"| translate}}</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" translate="settings.compose.email_sent_timer">
-        Email will be sent when timer expires. Logging into
-        your account resets the timer. This email can be
-        watched in the "Outbox" page.
+      <div class="form-group">
+       {{"settings.compose.email_sent_timer"| translate}}
       </div>
       <form (submit)="setDeadManTimerValue()">
         <div class="form-group">
-          <label class="form-inline" for="deadman-days" translate="settings.compose.days">Days</label>
+          <label class="form-inline" for="deadman-days">{{"settings.compose.days"| translate}}</label>
           <input type="number" class="form-control" id="deadman-days" name="deadman-days"
                  [(ngModel)]="deadManTimer.days">
         </div>
         <div class="form-group">
-          <label class="form-inline" for="deadman-hours" translate="settings.compose.hours">Hours</label>
+          <label class="form-inline" for="deadman-hours">{{"settings.compose.hours"| translate}}</label>
           <input type="number" class="form-control" id="deadman-hours" name="deadman-hours"
                  [(ngModel)]="deadManTimer.hours">
         </div>
         <div class="form-group text-center btns-xs-3 mb-0">
-          <button type="submit" class="btn btn-success btn-sm mr-1" role="button" translate="settings.compose.confirm">
-            Confirm
+          <button type="submit" class="btn btn-success btn-sm mr-1" role="button">
+            {{"settings.compose.confirm"| translate}}
           </button>
           <button type="reset" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm mr-1" role="button"
-                  translate="settings.compose.clear">
-            Clear
+                  >
+            {{"settings.compose.clear"| translate}}
           </button>
-          <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
+          <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
         </div>
       </form>
     </div>
@@ -689,7 +682,7 @@
 <!-- Insert link modal -->
 <ng-template #insertLinkModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>Insert Link</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.insert_link"| translate}}</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -698,17 +691,17 @@
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <form (submit)="insertLink(insertLinkData.text, insertLinkData.link)">
         <div class="form-group">
-          <label class="form-inline" for="text-to-display">Text to display</label>
+          <label class="form-inline" for="text-to-display">{{"settings.compose.text_to_display"| translate}}</label>
           <input type="text" class="form-control" id="text-to-display" name="text-to-display"
                  [(ngModel)]="insertLinkData.text">
         </div>
         <div class="form-group">
-          <label class="form-inline" for="link-to">Link to</label>
+          <label class="form-inline" for="link-to">{{"settings.compose.link_to"| translate}}</label>
           <input type="text" class="form-control" id="link-to" name="link-to"
                  [(ngModel)]="insertLinkData.link">
         </div>
         <div class="form-group text-center btns-xs-3 mb-0">
-          <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
+          <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
           <button type="submit" class="btn btn-success btn-sm ml-2"
                   [disabled]="!insertLinkData.text || !insertLinkData.link"
                   role="button">OK
@@ -722,8 +715,7 @@
 <!-- encryption modal -->
 <ng-template #encryptionModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.compose.encrypt_for_non">Encrypt email for non
-      CTemplar users</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.encrypt_for_non"| translate}}</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -732,7 +724,7 @@
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <form [formGroup]="encryptForm" (submit)="onSubmitEncryption()">
         <div class="form-group">
-          <label for="encrypt-password" translate="settings.compose.message_password">Message Password</label>
+          <label for="encrypt-password" >{{"settings.compose.message_password"| translate}}</label>
           <div class="input-group">
             <input #encryptPasswordInput type="password" class="form-control form-control-lg" id="encrypt-password"
                    formControlName="password" [placeholder]="'settings.compose.message_password'| translate"/>
@@ -745,11 +737,11 @@
           <span *ngIf="encryptForm.controls['password'].errors && showEncryptFormErrors"
                 class="validate-message">
             <span *ngIf="encryptForm.controls['password'].errors.required"
-                  translate="settings.compose.message_password_req">Message password is required.</span>
+                  >{{"settings.compose.message_password_req"| translate}}</span>
           </span>
         </div>
         <div class="form-group">
-          <label for="confirm-encrypt-password" translate="create_account.confirm_password">Confirm Password</label>
+          <label for="confirm-encrypt-password">{{"create_account.confirm_password"| translate}}</label>
           <div class="input-group">
             <input #encryptConfirmPasswordInput type="password" class="form-control form-control-lg"
                    id="confirm-encrypt-password" formControlName="confirmPwd"
@@ -762,25 +754,25 @@
           </div>
           <span *ngIf="encryptForm.controls['confirmPwd'].errors && showEncryptFormErrors"
                 class="validate-message">
-            <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+            <span >{{"create_account.passwords_not_match"| translate}}</span>
           </span>
         </div>
         <div class="form-group">
-          <label for="password-hint" translate="settings.compose.password_hint">Password Hint</label>
+          <label for="password-hint" >{{"settings.compose.password_hint"| translate}}</label>
           <input type="text" id="password-hint" class="form-control" formControlName="passwordHint"
                  [placeholder]="'settings.compose.password_hint'| translate">
         </div>
         <div class="form-group">
-          <label translate="settings.compose.encrypt_message_expire">Expiration Time</label>
+          <label>{{"settings.compose.encrypt_message_expire"| translate}}</label>
           <div class="row">
             <div class="col-3">
-              <label class="form-inline" for="deadman-days" translate="settings.compose.days">Days</label>
+              <label class="form-inline" for="deadman-days" >{{"settings.compose.days"| translate}}</label>
               <input type="number" class="form-control"
                      formControlName="days" min="0" max="5"
                      name="encrypt-non-ctemplar-days">
             </div>
             <div class="col-3">
-              <label class="form-inline" for="deadman-hours" translate="settings.compose.hours">Hours</label>
+              <label class="form-inline" for="deadman-hours" >{{"settings.compose.hours"| translate}}</label>
               <input type="number" class="form-control"
                      formControlName="hours" min="0" max="24"
                      name="encrypt-non-ctemplar-hours">
@@ -792,18 +784,18 @@
              (encryptForm.controls['days'].errors || encryptForm.controls['hours'].errors ||
              (encryptForm.controls['hours'].value+(encryptForm.controls['days'].value*24))===0 ||
              (encryptForm.controls['hours'].value+(encryptForm.controls['days'].value*24)) > 120) "
-                  class="validate-message">Expiry time should be minimum 1 hour and maximum 5 days.
+                  class="validate-message">{{"settings.compose.expiry_time_message"| translate}}
           </span>
           </div>
         </div>
         <div class="form-group text-center mb-0">
-          <button type="submit" class="btn btn-success btn-sm mr-1" role="button" translate="settings.compose.confirm">
-            Confirm
+          <button type="submit" class="btn btn-success btn-sm mr-1" role="button">
+            {{"settings.compose.confirm"| translate}}
           </button>
           <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm mr-1"
-                  role="button" translate="settings.compose.clear">Clear
+                  role="button">{{"settings.compose.clear"| translate}}
           </button>
-          <button (click)="d()" class="btn btn-secondary btn-sm" role="button" translate="common.cancel">Cancel</button>
+          <button (click)="d()" class="btn btn-secondary btn-sm" role="button" >{{"common.cancel"| translate}}</button>
         </div>
       </form>
     </div>

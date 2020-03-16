@@ -32,13 +32,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @Input() showProgress: boolean;
   @Input() fetchMails: boolean;
 
-  @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
+  @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
 
   customFolders: Folder[];
   shortcuts: ShortcutInput[] = [];
-  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild('input') input: ElementRef;
   // TODO : disable shortcuts until the bugs are fixed
-  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   noEmailSelected: boolean = true;

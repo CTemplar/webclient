@@ -14,8 +14,8 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 })
 export class MailForwardingComponent implements OnInit, OnDestroy {
 
-  @ViewChild('addAddressModal', { static: false }) addAddressModal;
-  @ViewChild('confirmDeleteAddressModal', { static: false }) confirmDeleteAddressModal;
+  @ViewChild('addAddressModal') addAddressModal;
+  @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal;
 
   userState: UserState;
   settings: Settings;

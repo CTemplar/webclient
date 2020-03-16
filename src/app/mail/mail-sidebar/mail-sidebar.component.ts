@@ -50,8 +50,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
   shortcuts: ShortcutInput[] = [];
-  @ViewChild('input', { static: false }) input: ElementRef;
-  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild('input') input: ElementRef;
+  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
 
   currentPlan: PlanType;
   currentFolder: MailFolderType;
