@@ -545,6 +545,33 @@
                 </div>
               </div>
             </div>
+            <div class="form-content-row">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
+                  <label class="form-label mb-0">Dark mode</label>
+                </div>
+                <div class="col-sm-7 col-md-5">
+                  <div class="row row-sm">
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode1"
+                               name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', true)"
+                               [checked]="settings.is_night_mode"/>
+                        <label for="darkMode1" [translate]="'common.enabled'">Enabled</label>
+                      </div>
+                    </div>
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode2"
+                               name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', false)"
+                               [checked]="!settings.is_night_mode"/>
+                        <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </section>
