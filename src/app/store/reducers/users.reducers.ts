@@ -21,6 +21,7 @@ export const initialState: UserState = {
   invoices: [],
   promoCode: new PromoCode(),
   inviteCodes: [],
+  notifications: null
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -124,6 +125,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         }),
         autoresponder: action.payload.autoresponder,
         isLoaded: true,
+        has_notification: action.payload.has_notification
       };
     }
 
@@ -462,6 +464,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.INVITE_CODE_GENERATE_FAILURE: {
       return { ...state, inProgress: false };
+    }
+
+    case UsersActionTypes.GET_NOTIFICATION: {
+      return { ...state };
+    }
+
+    case UsersActionTypes.GET_NOTIFICATION_SUCCESS: {
+      return { ...state, notifications: action.payload };
     }
 
     default: {
