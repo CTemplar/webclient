@@ -280,7 +280,7 @@ tr.mail-list-row.is-selected {
 }
 
 *, *::before, *::after,
-.text-dark, a.text-dark:focus, a.text-dark:hover, a.dropdown-item,
+.text-dark, a.text-dark:focus, a.text-dark:hover, a.dropdown-item, .text-gray-dark, a.text-muted,
 .plan-details .subscription,
 .mailbox-footer-menu a u,
 .pricing-plans .plan-item div, .text-secondary,
@@ -336,6 +336,9 @@ button.actions-btn, button.btn.btn-default.btn-sm,
 .domain-body .domains-list .row .actions .action:hover,
 .mat-stepper-horizontal, .mat-stepper-vertical, .stepper-form, .domains-list,
 .mail-compose-field,
+button.btn.btn-user-action, .download-attachment-wrapper .download-attachment,
+app-organization-users .actions,
+app-organization-users .actions:hover,
 .help-icon .icon-button {
   background: #363d51 !important;
   border: solid 1px #474e61 !important;
@@ -385,6 +388,15 @@ ul.mail-composer-actions li div div div ul li button.ql-size,
 ul.mail-composer-actions li div div div ul li button.ql-font,
 app-compose-mail .mail-compose-box-inner, app-compose-mail .mail-compose-editable-box {
   background: #363d51 !important;
+}
+
+app-users-sign-in .input-group {
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+app-users-sign-in .password-toggle {
+  border: 0;
 }
 
 // end: dark mode-styles
