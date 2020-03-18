@@ -53,8 +53,7 @@ tr.mail-list-row.is-selected {
     border: 0
 }
 
-.domain-body .domains-list .row .actions .action:hover, .domains-list, .
-download-attachment-wrapper .download-attachment, .dropdown-menu,
+.domain-body .domains-list .row .actions .action:hover, .domains-list, .download-attachment-wrapper .download-attachment, .dropdown-menu,
 .form-control, .help-icon .icon-button, .info-card,
 .info-list-item, .mail-compose-field, .mailbox-actionbar .mailbox-actionbar-menu > li > a,
 .mailbox-actionbar-menu > li .dropdown-toggle, .mailbox-dropdown .dropdown-menu,
@@ -65,7 +64,7 @@ download-attachment-wrapper .download-attachment, .dropdown-menu,
 app-mail-header .mailbox-actions-menu > li a, app-mail-settings .timezone-block .mat-form-field-appearance-legacy .mat-form-field-infix,
 app-organization-users .actions, app-organization-users .actions:hover, button.actions-btn, button.btn.btn-default.btn-sm,
 button.btn.btn-user-action, button.dropdown-toggle, div.mailbox-actionbar div.mail-nav-control button, input, input::placeholder,
-.bitcoin-payment.card, .bitcoin-payment.card. .card-header,
+.bitcoin-payment.card, .bitcoin-payment.card .card-header,
 textarea, textarea::placeholder {
     background: #363d51 !important;
     border: solid 1px #474e61 !important;
