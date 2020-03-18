@@ -466,10 +466,6 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false };
     }
 
-    case UsersActionTypes.GET_NOTIFICATION: {
-      return { ...state };
-    }
-
     case UsersActionTypes.GET_NOTIFICATION_SUCCESS: {
       return { ...state, notifications: action.payload };
     }
