@@ -1,6 +1,6 @@
 <section class="mailbox-section">
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.filters.name">Filters</strong>
+    <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.filters.name'">Filters</strong>
       <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </h5>
   </header>
@@ -22,9 +22,9 @@
         </li>
       </ul>
       <div class="info-card">
-        <p translate="settings.filters.add_filter">Add a filter to perform actions such as automatically labeling or archiving.</p>
+        <p [translate]="'settings.filters.add_filter'">Add a filter to perform actions such as automatically labeling or archiving.</p>
         <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
-           (click)="openCustomFilterModal()"><strong><u translate="settings.filters.add_custom_filter">Add
+           (click)="openCustomFilterModal()"><strong><u [translate]="'settings.filters.add_custom_filter'">Add
           custom filter</u></strong></a>
       </div>
     </div>
@@ -35,7 +35,7 @@
 <!-- Add custom filter Modal -->
 <ng-template #customFilterModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark" id="customFilterModalLabel"><strong translate="settings.filters.custom_filter">Custom filter</strong></h3>
+    <h3 class="modal-title w-100 text-dark" id="customFilterModalLabel"><strong [translate]="'settings.filters.custom_filter'">Custom filter</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -46,16 +46,16 @@
         <div class="form-group">
           <div class="row align-items-center">
             <div class="col-sm-3">
-              <label class="form-label mb-sm-0" for="filterName"><span translate="settings.filters.filter_name">Filter name</span>:</label>
+              <label class="form-label mb-sm-0" for="filterName"><span [translate]="'settings.filters.filter_name'">Filter name</span>:</label>
             </div>
             <div class="col-sm-9">
               <div class="form-content-row mb-0">
                 <input class="form-control form-control-sm" id="filterName" type="text" formControlName="name"/>
-                <span class="validate-message" *ngIf="hasDuplicateFilterName" translate="settings.filters.filter_name_exist">Filter name already exists.</span>
+                <span class="validate-message" *ngIf="hasDuplicateFilterName" [translate]="'settings.filters.filter_name_exist'">Filter name already exists.</span>
                 <span *ngIf="createFilterForm.controls['name'].errors && createFilterForm.controls['name'].touched"
                       id="username-valid" class="validate-message">
-                  <span *ngIf="createFilterForm.controls['name'].errors.required" translate="settings.filters.filter_name_req">Filter name is required.</span>
-                  <span *ngIf="createFilterForm.controls['name'].errors.maxlength" translate="settings.filters.filter_name_char">Filter name must be less than 64 characters.</span>
+                  <span *ngIf="createFilterForm.controls['name'].errors.required" [translate]="'settings.filters.filter_name_req'">Filter name is required.</span>
+                  <span *ngIf="createFilterForm.controls['name'].errors.maxlength" [translate]="'settings.filters.filter_name_char'">Filter name must be less than 64 characters.</span>
               </span>
               </div>
             </div>
@@ -65,7 +65,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-3">
-              <label class="form-label mb-sm-0" translate="settings.filters.conditions">Condition:</label>
+              <label class="form-label mb-sm-0" [translate]="'settings.filters.conditions'">Condition:</label>
             </div>
             <div class="col-sm-9">
               <div class="form-content-row form-content-row-sm">
@@ -73,14 +73,14 @@
                   <div ngbDropdown class="dropdown-sm">
                     <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button">
                       <span *ngIf="createFilterData.parameter; else selectCondition" >{{'If the ' + createFilterData.parameter}}</span>
-                      <ng-template #selectCondition><span translate="settings.filters.select_condition">Select condition </span></ng-template>
+                      <ng-template #selectCondition><span [translate]="'settings.filters.select_condition'">Select condition </span></ng-template>
                     </button>
                     <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
                       <a (click)="createFilterData.parameter = filterParameter.SUBJECT" class="dropdown-item">
-                       <span translate="settings.filters.if_subject">If the subject</span>
+                       <span [translate]="'settings.filters.if_subject'">If the subject</span>
                       </a>
                       <a (click)="createFilterData.parameter = filterParameter.SENDER" class="dropdown-item">
-                       <span translate="settings.filters.if_sender">If the sender</span>
+                       <span [translate]="'settings.filters.if_sender'">If the sender</span>
                       </a>
                     </div>
                   </div>
@@ -97,10 +97,10 @@
                     <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right"
                          aria-labelledby="filterConditionDropdownMenuBtn">
                       <a (click)="createFilterData.condition = filterCondition.CONTAINS" class="dropdown-item"
-                      translate="settings.contains">contains
+                      [translate]="'settings.contains'">contains
                       </a>
                       <a (click)="createFilterData.condition = filterCondition.STARTSWITH" class="dropdown-item">
-                       <span translate="settings.filters.starts_with">starts with</span>
+                       <span [translate]="'settings.filters.starts_with'">starts with</span>
                       </a>
                     </div>
                   </div>
@@ -121,7 +121,7 @@
         <div class="form-group mb-0">
           <div class="row">
             <div class="col-sm-3">
-              <label class="form-label mb-sm-0" translate="settings.filters.actions">Actions:</label>
+              <label class="form-label mb-sm-0" [translate]="'settings.filters.actions'">Actions:</label>
             </div>
             <div class="col-sm-9">
               <div class="form-content-row form-content-row-sm">
@@ -130,7 +130,7 @@
                     <div class="fancy-field-group">
                       <input formControlName="moveTo" id="filterMoveTo"
                              class="d-none fancy-field-control fancy-field-control-sm" type="checkbox"/>
-                      <label for="filterMoveTo" translate="settings.filters.move_to">move to</label>
+                      <label for="filterMoveTo" [translate]="'settings.filters.move_to'">move to</label>
                     </div>
                   </div>
                   <div class="col-sm-8">
@@ -140,18 +140,18 @@
                                 id="filterFolderDropdownMenuBtn" role="button"
                                 [disabled]="!createFilterForm.controls['moveTo'].value">
                           <i class="icon icon-{{folderIcons[createFilterData.folder] || 'icon-folder'}}"></i>
-                          <span *ngIf="!createFilterData.folder; else selectFolder" translate="settings.filters.select_folder" >Select folder</span>
+                          <span *ngIf="!createFilterData.folder; else selectFolder" [translate]="'settings.filters.select_folder'" >Select folder</span>
                          <ng-template #selectFolder>{{createFilterData.folder}} </ng-template>
                         </button>
                         <div ngbDropdownMenu aria-labelledby="filterFolderDropdownMenuBtn" class="folder-dropdown">
                           <a (click)="createFilterData.folder = mailFolderType.INBOX" class="dropdown-item has-icon">
-                            <i class="icon {{folderIcons[mailFolderType.INBOX]}}"></i><span translate="mail_sidebar.inbox">Inbox</span></a>
+                            <i class="icon {{folderIcons[mailFolderType.INBOX]}}"></i><span [translate]="'mail_sidebar.inbox'">Inbox</span></a>
                           <a (click)="createFilterData.folder = mailFolderType.ARCHIVE" class="dropdown-item has-icon">
-                            <i class="icon {{folderIcons[mailFolderType.ARCHIVE]}}"></i><span translate="mail_sidebar.archive">Archive</span></a>
+                            <i class="icon {{folderIcons[mailFolderType.ARCHIVE]}}"></i><span [translate]="'mail_sidebar.archive'">Archive</span></a>
                           <a (click)="createFilterData.folder = mailFolderType.SPAM" class="dropdown-item has-icon">
-                            <i class="icon {{folderIcons[mailFolderType.SPAM]}}"></i><span translate="mail_sidebar.spam">Spam</span></a>
+                            <i class="icon {{folderIcons[mailFolderType.SPAM]}}"></i><span [translate]="'mail_sidebar.spam'">Spam</span></a>
                           <a (click)="createFilterData.folder = mailFolderType.TRASH" class="dropdown-item has-icon">
-                            <i class="icon {{folderIcons[mailFolderType.TRASH]}}"></i> <span translate="mail_sidebar.trash">Trash</span></a>
+                            <i class="icon {{folderIcons[mailFolderType.TRASH]}}"></i> <span [translate]="'mail_sidebar.trash'">Trash</span></a>
                           <a *ngFor="let folder of customFolders" class="dropdown-item has-icon"
                              (click)="createFilterData.folder = folder.name">
                             <i class="icon icon-folder"></i><p class="folder-dropdown-item">{{folder.name}}</p></a>
@@ -168,14 +168,14 @@
                     <div class="fancy-field-group">
                       <input formControlName="markAsRead" id="filterMarkAsRead"
                              class="d-none fancy-field-control fancy-field-control-sm" type="checkbox"/>
-                      <label for="filterMarkAsRead" translate="mail_list.mark_as_read">mark as read</label>
+                      <label for="filterMarkAsRead" [translate]="'mail_list.mark_as_read'">mark as read</label>
                     </div>
                   </div>
                   <div class="col-8 flex-auto-col">
                     <div class="fancy-field-group">
                       <input formControlName="markAsStarred" id="filterMarkAsStarred"
                              class="d-none fancy-field-control fancy-field-control-sm" type="checkbox"/>
-                      <label for="filterMarkAsStarred" translate="settings.filters.mark_as_starred">mark as starred</label>
+                      <label for="filterMarkAsStarred" [translate]="'settings.filters.mark_as_starred'">mark as starred</label>
                     </div>
                   </div>
                 </div>
@@ -190,7 +190,7 @@
       </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState?.inProgress" translate="billing_info.submit">Submit</button>
+      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState?.inProgress" [translate]="'billing_info.submit'">Submit</button>
       <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </div>
   </form>
@@ -199,7 +199,7 @@
 <!-- Confirm delete filter modal -->
 <ng-template #deleteFilterModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong [translate]="'contacts.delete.title'">Confirm Delete</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -207,10 +207,10 @@
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
-       <span translate="settings.filters.delete_message"> Are you sure, you want to delete filter</span> <b>"{{selectedFilter?.name}}"</b>?
+       <span [translate]="'settings.filters.delete_message'"> Are you sure, you want to delete filter</span> <b>"{{selectedFilter?.name}}"</b>?
       </div>
       <div class="form-group text-right mb-0">
-        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" translate="common.cancel">Cancel</button>
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" [translate]="'common.cancel'">Cancel</button>
         <button (click)="deleteFilter()" class="btn btn-danger btn-sm" role="button">
           Delete
         </button>

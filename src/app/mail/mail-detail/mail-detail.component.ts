@@ -33,8 +33,8 @@ declare var Scrambler;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
 
-  @ViewChild('forwardAttachmentsModal', { static: false }) forwardAttachmentsModal;
-  @ViewChild('incomingHeadersModal', { static: false }) incomingHeadersModal;
+  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
+  @ViewChild('incomingHeadersModal') incomingHeadersModal;
 
   mail: Mail;
   composeMailData: any = {};

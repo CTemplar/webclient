@@ -40,10 +40,10 @@ import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts
   encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
-  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild('input') input: ElementRef;
   // TODO : disable shortcuts until the bugs are fixed
-   @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
-  @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+   @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
   autoresponder_status = false;

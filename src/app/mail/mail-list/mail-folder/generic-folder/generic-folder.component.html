@@ -18,11 +18,11 @@
             </span>
 
             <div ngbDropdownMenu aria-labelledby="actionsDropdownMenuButton">
-              <a class="dropdown-item" translate="mail_list.all" (click)="markAllMails(true)">All</a>
-              <a class="dropdown-item" translate="mail_list.read" (click)="markReadMails()">Read</a>
-              <a class="dropdown-item" translate="mail_list.unread" (click)="markUnreadMails()">Unread</a>
-              <a class="dropdown-item" translate="mail_list.starred" (click)="markStarredMails()">Starred</a>
-              <a class="dropdown-item" translate="mail_list.unstarred" (click)="markUnstarredMails()">Unstarred</a>
+              <a class="dropdown-item" [translate]="'mail_list.all'" (click)="markAllMails(true)">All</a>
+              <a class="dropdown-item" [translate]="'mail_list.read'" (click)="markReadMails()">Read</a>
+              <a class="dropdown-item" [translate]="'mail_list.unread'" (click)="markUnreadMails()">Unread</a>
+              <a class="dropdown-item" [translate]="'mail_list.starred'" (click)="markStarredMails()">Starred</a>
+              <a class="dropdown-item" [translate]="'mail_list.unstarred'" (click)="markUnstarredMails()">Unstarred</a>
             </div>
           </div>
         </li>
@@ -81,13 +81,13 @@
                     </button>
                     <div ngbDropdownMenu aria-labelledby="extraOptionsDropdownMenuButton">
                       <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
-                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
+                        <i class="icon icon-inbox"></i><span [translate]="'mail_sidebar.inbox'">Inbox</span>
                       </a>
                       <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
-                        <i class="icon icon-inbox"></i><span translate="mail_sidebar.draft">Draft</span>
+                        <i class="icon icon-inbox"></i><span [translate]="'mail_sidebar.draft'">Draft</span>
                       </a>
                       <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-                        <i class="icon icon-archive"></i><span translate="mail_sidebar.outbox">Outbox</span>
+                        <i class="icon icon-archive"></i><span [translate]="'mail_sidebar.outbox'">Outbox</span>
                       </a>
                       <ng-container *ngFor="let folder of customFolders; let i=index;">
                         <a class="dropdown-item"
@@ -99,7 +99,7 @@
                       </ng-container>
                       <span class="divider-item d-block"></span>
                       <a class="dropdown-item" (click)="openCreateFolderDialog()">
-                        <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
+                        <i class="icon icon-folder"></i><span [translate]="'mail_list.create_folder'">Create folder</span>
                       </a>
                     </div>
                   </div>
@@ -118,7 +118,7 @@
             </button>
             <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton" class="folder-dropdown">
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)" *ngIf="mailFolder !== mailFolderTypes.INBOX">
-                <i class="icon icon-inbox"></i><span translate="mail_sidebar.inbox">Inbox</span>
+                <i class="icon icon-inbox"></i><span [translate]="'mail_sidebar.inbox'">Inbox</span>
               </a>
               <ng-container *ngFor="let folder of customFolders; let i=index;">
                 <a class="dropdown-item"
@@ -131,7 +131,7 @@
 
               <span class="divider-item d-block"></span>
               <a class="dropdown-item" (click)="openCreateFolderDialog()">
-                <i class="icon icon-folder"></i><span translate="mail_list.create_folder">Create folder</span>
+                <i class="icon icon-folder"></i><span [translate]="'mail_list.create_folder'">Create folder</span>
               </a>
             </div>
           </div>
@@ -140,13 +140,13 @@
             *ngIf="!noEmailSelected && !disableMoveTo">
           <div ngbDropdown class="dropdown">
             <button ngbDropdownToggle class="disabledx" role="button" id="moreOptionsDropdownMenuButton"
-                    translate="mail_list.more">
+                    [translate]="'mail_list.more'">
               More
             </button>
             <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
-              <a class="dropdown-item" (click)="markAsStarred()" translate="mail_list.add_star">Add star</a>
-              <a class="dropdown-item" (click)="markAsRead()" translate="mail_list.mark_as_read">Mark as read</a>
-              <a class="dropdown-item" (click)="markAsRead(false)" translate="mail_list.mark_as_unread">Mark as
+              <a class="dropdown-item" (click)="markAsStarred()" [translate]="'mail_list.add_star'">Add star</a>
+              <a class="dropdown-item" (click)="markAsRead()" [translate]="'mail_list.mark_as_read'">Mark as read</a>
+              <a class="dropdown-item" (click)="markAsRead(false)" [translate]="'mail_list.mark_as_unread'">Mark as
                 unread</a>
             </div>
           </div>
@@ -154,7 +154,7 @@
         <li *ngIf="(mailFolder === mailFolderTypes.TRASH || mailFolder === mailFolderTypes.SPAM) && mails?.length > 0">
           <a (click)="confirmDeleteAll()" class="btn btn-sm delete-permanently-btn" placement="top"
              [ngbTooltip]="'mail_list.delete_messages'| translate">
-            <i class="icon icon-garbage position-left"></i> <span translate="mail_list.delete_all"> Delete all permanently</span>
+            <i class="icon icon-garbage position-left"></i> <span [translate]="'mail_list.delete_all'"> Delete all permanently</span>
           </a>
         </li>
       </ul>
@@ -162,7 +162,7 @@
     <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
       <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="mails?.length>0">
         <div class="mail-result-text text-muted">
-          <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span translate="settings.of">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+          <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span [translate]="'settings.of'">of</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
         </div>
         <div class="mail-nav-control">
           <button role="button" class="mail-nav-control-prev" ngbTooltip="Previous page" (click)="prevPage()">
@@ -187,7 +187,7 @@
     <table class="table table-inbox">
       <tbody>
       <tr class="bg-white text-center" *ngIf="mails?.length===0 && !showProgress">
-        <p class="py-2 mb-0" translate="mail_list.no_conversations">There are no conversations with this label.</p>
+        <p class="py-2 mb-0" [translate]="'mail_list.no_conversations'">There are no conversations with this label.</p>
         <hr class="mt-0">
       </tr>
       <!--Desktop view html -->
@@ -217,7 +217,7 @@
           <a (click)="openMail(mail)" class="text-danger display-emails"
              [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
             <ng-container [ngSwitch]="mailFolder">
-              <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span translate="mail_sidebar.draft">Draft</span></ng-container>
+              <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span [translate]="'mail_sidebar.draft'">Draft</span></ng-container>
               <ng-container *ngSwitchCase="mailFolderTypes.SENT">
                 <label [ngbTooltip]="mail.receiver_list" placement="right">{{mail.receiver_list}}</label>
               </ng-container>
@@ -239,16 +239,16 @@
 
               <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
                 <span class="badge badge-warning mr-2 p-1"
-                      *ngIf="mail.destruct_date"><span translate="mail_detail.delete_in">Delete in</span> {{mail.destruct_date | remainingTime}}
+                      *ngIf="mail.destruct_date"><span [translate]="'mail_detail.delete_in'">Delete in</span> {{mail.destruct_date | remainingTime}}
                 </span>
               </ng-container>
 
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                 <span class="badge badge-success mr-2 p-1"
-                      *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
+                      *ngIf="mail.delayed_delivery"><span [translate]="'mail_detail.delay_delivery'">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
-                      *ngIf="mail.dead_man_duration"><span translate="mail_detail.dead_mans_timer">Dead mans timer in</span> {{mail.dead_man_duration | remainingTime:true}}
+                      *ngIf="mail.dead_man_duration"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer in</span> {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
               <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">...</span>
@@ -311,7 +311,7 @@
               <a (click)="openMail(mail)" class="text-danger display-emails"
                  [ngClass]="{'text-dark': mailFolder !== mailFolderTypes.DRAFT}">
                   <ng-container [ngSwitch]="mailFolder">
-                      <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span translate="mail_sidebar.draft">Draft</span></ng-container>
+                      <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger"><span [translate]="'mail_sidebar.draft'">Draft</span></ng-container>
                       <ng-container *ngSwitchCase="mailFolderTypes.SENT">
                         <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
                       </ng-container>
@@ -328,16 +328,16 @@
 
                       <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
                         <span class="badge badge-warning mr-2 p-1"
-                              *ngIf="mail.destruct_date"><span translate="mail_detail.delete_in">Delete in</span> {{mail.destruct_date | remainingTime}}
+                              *ngIf="mail.destruct_date"><span [translate]="'mail_detail.delete_in'">Delete in</span> {{mail.destruct_date | remainingTime}}
                         </span>
                       </ng-container>
 
                       <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                         <span class="badge badge-success mr-2 p-1"
-                              *ngIf="mail.delayed_delivery"><span translate="mail_detail.delay_delivery">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
+                              *ngIf="mail.delayed_delivery"><span [translate]="'mail_detail.delay_delivery'">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
                         </span>
                         <span class="badge badge-danger mr-2 p-1"
-                              *ngIf="mail.dead_man_duration"><span translate="mail_detail.dead_mans_timer">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
+                              *ngIf="mail.dead_man_duration"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
                       <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">...</span>
@@ -395,19 +395,19 @@
 <!-- Confirm empty trash modal -->
 <ng-template #confirmEmptyTrashModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="contacts.delete.title">Confirm Delete</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong [translate]="'contacts.delete.title'">Confirm Delete</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" translate="settings.delete_all_message">
+      <div class="form-group" [translate]="'settings.delete_all_message'">
         Are you sure, you want to delete all messages in {{mailFolder===mailFolderTypes.TRASH?'trash':'spam'}} permanently?
       </div>
       <div class="form-group text-right mb-0">
-        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" translate="common.cancel">Cancel</button>
-        <button (click)="emptyDeleteAllConfirmed()" class="btn btn-danger btn-sm" role="button" translate="common.delete">
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" [translate]="'common.cancel'">Cancel</button>
+        <button (click)="emptyDeleteAllConfirmed()" class="btn btn-danger btn-sm" role="button" [translate]="'common.delete'">
           Delete
         </button>
       </div>

@@ -169,7 +169,8 @@
       "type": "Type",
       "host_name": "Host Name",
       "value_data_points_to": "Value / Data / Points To",
-      "priority": "Priority"
+      "priority": "Priority",
+      "mx_failed_message": " MX Record verification failed, please add above MX record in your host DNS and try again. DNS records can take several hours to update. Once MX record is verified, you can proceed to next step."
     },
     "spf_step": {
       "name": "SPF",
@@ -308,7 +309,9 @@
       "upgrade": "upgrade",
       "users": "Users",
       "use_feature": "in order to use this feature.",
-      "custom_domain": "Please add a custom domain first in order to add users."
+      "custom_domain": "Please add a custom domain first in order to add users.",
+      "domain_verification_message": "Domain verification failed, please add above TXT record in your host DNS and try again. DNS records can take several hours to update. Once domain is verified, you can proceed to next step.",
+      "domain_deletion_message": "All the associated email aliases and users(if any) of this domain will also be deleted."
     },
     "forwarding": {
       "title": "Forwarding",
@@ -419,7 +422,11 @@
       "maximize": "Maximize",
       "minimize": "Minimize",
       "close": "Close",
-      "downloading_attachments": "Downloading Attachments..."
+      "downloading_attachments": "Downloading Attachments...",
+      "insert_link": "Insert Link",
+      "text_to_display": "Text to display",
+      "link_to": "Link to",
+      "expiry_time_message": "Expiry time should be minimum 1 hour and maximum 5 days."
     },
     "of": "of",
     "not_with_free_acc": "Feature not available with Free Account",
@@ -443,7 +450,11 @@
     "renew": "Renew",
     "recurring_billing": "Recurring Billing",
     "html_editor": "HTML editor",
-    "disabling_editor_message": "Disabling HTML editor will allow you to use plain text editor for composing email."
+    "disabling_editor_message": "Disabling HTML editor will allow you to use plain text editor for composing email.",
+    "not_available_for_bitcoin": "Not available for bitcoin",
+    "delete_alias_confirm": "Are you sure, you want to delete alias",
+    "catch_all": "Catch all",
+    "attachments_encryption": "Attachments encryption"
   },
   "mail_sidebar": {
     "unread": "Unread",
@@ -469,7 +480,9 @@
     "try_to_connect": "Try to connect",
     "moved_to_trash": "The conversation has been moved to the Trash. ",
     "learn_more": "Learn more",
-    "undo": "Undo"
+    "undo": "Undo",
+    "permanently_delete": "Permanently deleting data",
+    "permanently_delete_all": "Permanently deleting all usage data  from your visit"
   },
   "mail_list": {
     "select_messages": "Select messages",
@@ -676,7 +689,13 @@
     "attachment_message": "Do you want to forward attachments of this message?",
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers",
-    "delete_this_message": "Delete this Message"
+    "delete_this_message": "Delete this Message",
+    "messages_will_be_del": "Message will be deleted for everyone including you and all the receivers.",
+    "delete_from_receiver": "Delete from Receiver Inbox",
+    "view_mail_raw_content": "View email raw content without xss protection. Warning: Be aware of malwares.",
+    "show_raw_email": "Show raw email",
+    "decryp_4096_bit": "Decrypting 4096 Bit Encrypted Email",
+    "confirm_forward_attach": "Confirm Forward Attachments"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

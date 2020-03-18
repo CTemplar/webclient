@@ -61,8 +61,8 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   @Output() cancel: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() replySuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @ViewChild('editor', { static: false }) editor;
-  @ViewChild('toolbar', { static: false }) toolbar;
+  @ViewChild('editor') editor;
+  @ViewChild('toolbar') toolbar;
 
   colors = COLORS;
   fonts = FONTS;

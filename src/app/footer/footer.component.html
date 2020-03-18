@@ -15,7 +15,7 @@
                         <h4 class="l-block-subtitile fw-light mb-3 pb-2" [innerHTML]="'footer.send_unbreakable_emails' |translate ">Send unbreakable emails and protect your key
                             professional and personal details trough
                             next-gen encryption.</h4>
-                        <a href="{{primaryWebsite}}/signup" class="btn btn-lg btn-gradient-primary" translate="footer.upgrade_to_prime">upgrade to prime</a>
+                        <a href="{{primaryWebsite}}/signup" class="btn btn-lg btn-gradient-primary" [translate]="'footer.upgrade_to_prime'">upgrade to prime</a>
                     </div>
                 </div>
             </div>
@@ -36,16 +36,16 @@
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a href="{{primaryWebsite}}/security" translate="home_header.security">Security</a>
+                                <a href="{{primaryWebsite}}/security" [translate]="'home_header.security'">Security</a>
                             </li>
                             <li>
-                                <a href="{{primaryWebsite}}/pricing" translate="home_header.pricing">Pricing</a>
+                                <a href="{{primaryWebsite}}/pricing" [translate]="'home_header.pricing'">Pricing</a>
                             </li>
                             <li>
-                                <a href="{{primaryWebsite}}/media-kit" translate="footer.media_kit">Media Kit</a>
+                                <a href="{{primaryWebsite}}/media-kit" [translate]="'footer.media_kit'">Media Kit</a>
                             </li>
                             <li>
-                                <a href="{{primaryWebsite}}/tor-onion" translate="footer.onion_site">Onion site</a>
+                                <a href="{{primaryWebsite}}/tor-onion" [translate]="'footer.onion_site'">Onion site</a>
                             </li>
                         </ul>
                     </div>
@@ -53,17 +53,17 @@
             </div>
             <div class="col-6 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title" translate="footer.company">Company</h4>
+                    <h4 class="footer-widget-title" [translate]="'footer.company'">Company</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a href="{{primaryWebsite}}/about" translate="home_header.about">About</a>
+                                <a href="{{primaryWebsite}}/about" [translate]="'home_header.about'">About</a>
                             </li>
                             <li>
-                                <a href="{{primaryWebsite}}/blog" target="_blank" rel="noopener" translate="home_header.blog">Blog</a>
+                                <a href="{{primaryWebsite}}/blog" target="_blank" rel="noopener" [translate]="'home_header.blog'">Blog</a>
                             </li>
                             <li>
-                                <a routerLink="/donate" translate="settings.donate.name">Donate</a>
+                                <a routerLink="/donate" [translate]="'settings.donate.name'">Donate</a>
                             </li>
                         </ul>
                     </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="col-6 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title" translate="footer.social">Social</h4>
+                    <h4 class="footer-widget-title" [translate]="'footer.social'">Social</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
@@ -92,11 +92,11 @@
             </div>
             <div class="col-6 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title" translate="footer.legal">Legal</h4>
+                    <h4 class="footer-widget-title" [translate]="'footer.legal'">Legal</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
-                                <a href="{{primaryWebsite}}/privacy" translate="footer.privacy_policy">Privacy Policy</a>
+                                <a href="{{primaryWebsite}}/privacy" [translate]="'footer.privacy_policy'">Privacy Policy</a>
                             </li>
                             <li>
                                 <a href="{{primaryWebsite}}/terms" [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</a>
@@ -107,18 +107,18 @@
             </div>
             <div class="col-6 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title" translate="footer.help">Help</h4>
+                    <h4 class="footer-widget-title" [translate]="'footer.help'">Help</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
                             <li>
                                 <a href="{{primaryWebsite}}/faqs"
                                    target="_blank"
-                                   translate="footer.faq">FAQ</a>
+                                   [translate]="'footer.faq'">FAQ</a>
                             </li>
                             <li>
                                 <a href="{{primaryWebsite}}/support"
                                    target="_blank"
-                                   translate="footer.support">Contact us</a>
+                                   [translate]="'footer.support'">Contact us</a>
                             </li>
                         </ul>
                     </div>
@@ -126,7 +126,7 @@
             </div>
             <div class="col-12 footer-col footer-col-5">
                 <div class="footer-widget">
-                    <h4 class="footer-widget-title" translate="footer.our_address">Our Address</h4>
+                    <h4 class="footer-widget-title" [translate]="'footer.our_address'">Our Address</h4>
                     <div class="footer-widget-body">
                         <address>
                             Orange Project ehf
@@ -139,7 +139,7 @@
             </div>
         </div>
         <div class="footer-bottom-row text-center">
-            <p class="app-credit small">&copy;{{currentYear}} <span translate="footer.software_systems">Templar Software Systems Ltd., a Seychelles Limited Liability Company</span></p>
+            <p class="app-credit small">&copy;{{currentYear}} <span [translate]="'footer.software_systems'">Templar Software Systems Ltd., a Seychelles Limited Liability Company</span></p>
         </div>
     </div>
 </footer><!-- /.REUSABLE COMPONENT :: FOOTER ENDS -->

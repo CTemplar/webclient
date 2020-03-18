@@ -20,7 +20,7 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
 
   @Output() public closed = new EventEmitter();
 
-  @ViewChild('modalContent', { static: false }) modalContent: any;
+  @ViewChild('modalContent') modalContent: any;
 
   public contactForm: FormGroup;
   public showFormErrors: boolean;

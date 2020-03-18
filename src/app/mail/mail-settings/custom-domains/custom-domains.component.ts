@@ -20,7 +20,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
 
   @Output() onGotoTab = new EventEmitter<string>();
 
-  @ViewChild('confirmDeleteModal', { static: false }) confirmDeleteModal;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
   userState: UserState;
   authState: AuthState;

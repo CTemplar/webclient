@@ -149,7 +149,7 @@
       // TODO: add scss variables files in refactor
       color: #8a9095;
       border-color: #8a9095;
-      border-right-color: #8a9095 !important;
+      border-right-color: #8a9095;
     }
 
     a:active,
@@ -317,10 +317,6 @@
       font-size: 22px;
     }
   }
-}
-
-.faq-dropdown {
-  padding: .5rem 0;
 }
 
 .dropdown-menu {

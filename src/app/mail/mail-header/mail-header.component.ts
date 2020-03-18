@@ -21,7 +21,7 @@ import { LOADING_IMAGE } from '../../store/services';
   styleUrls: ['./mail-header.component.scss']
 })
 export class MailHeaderComponent implements OnInit, OnDestroy {
-  @ViewChild('logoutModal', { static: false }) logoutModal;
+  @ViewChild('logoutModal') logoutModal;
 
   // Public property of boolean type set false by default
   menuIsOpened: boolean = false;

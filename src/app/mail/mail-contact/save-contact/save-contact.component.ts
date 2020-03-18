@@ -28,7 +28,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   @Output() userSaved = new EventEmitter<boolean>();
   shortcuts: ShortcutInput[] = [];
 
-  @ViewChild('newContactForm', { static: false }) newContactForm: NgForm;
+  @ViewChild('newContactForm') newContactForm: NgForm;
   newContactModel: Contact = {
     name: '',
     email: '',
