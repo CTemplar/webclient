@@ -71,12 +71,11 @@
                 <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
                     <div>
                         <button class="dropdown-toggle no-caret" role="button">
-                            <span class="fancy-field-group">
-                                <input class="d-none fancy-field-control"
-                                       id="selectAll"
-                                       [(ngModel)]="selectAll"
-                                       (change)="toggleSelectAll()"
-                                       name="selectAll" type="checkbox"/>
+                            <span class="fancy-field-group select-all-checkbox">
+                                <mat-checkbox type="checkbox" id="selectAll" name="selectAll"
+                                              (change)="toggleSelectAll()"
+                                              [(ngModel)]="selectAll">
+                                </mat-checkbox>
                                 <label for="selectAll" class="fancy-field-empty"></label>
                             </span>
                         </button>
@@ -148,11 +147,11 @@
                                         <div class="mail-list-col-row">
                                             <div class="mail-list-col-item mail-checkbox">
                                                 <div class="fancy-field-group">
-                                                    <input class="d-none fancy-field-control"
-                                                           [(ngModel)]="contact.markForDelete"
-                                                           [id]="contact.id"
-                                                           (change)="selectAll=false;"
-                                                           [name]="contact.id" type="checkbox"/>
+                                                    <mat-checkbox [(ngModel)]="contact.markForDelete"
+                                                                  (change)="selectAll=false;"
+                                                                  [name]="contact.id"
+                                                                  type="checkbox">
+                                                    </mat-checkbox>
                                                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                                                 </div>
                                             </div>

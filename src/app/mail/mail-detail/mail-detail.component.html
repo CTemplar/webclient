@@ -571,17 +571,17 @@
     <div class="row" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
       <div class="col-12">
 
-        <button class="btn btn-gmail" (click)="onReply(mail, 0, false, true)">
+        <button class="btn btn-user-action" (click)="onReply(mail, 0, false, true)">
           <i class="icon icon-reply position-left"></i> <span>{{"mail_detail.reply"| translate}}</span>
           <img src="assets/images/icon-reply.svg" class="hidden-sm-up">
         </button>
 
-        <button class="btn btn-gmail" (click)="onReplyAll(mail, 0, false, true)">
+        <button class="btn btn-user-action" (click)="onReplyAll(mail, 0, false, true)">
           <i class="icon icon-reply position-left"></i> <span>{{"mail_detail.reply_all"| translate}}</span>
           <img src="assets/images/icon-reply-all.svg" class="hidden-sm-up">
         </button>
 
-        <button class="btn btn-gmail" (click)="onForward(mail, 0, false, true)">
+        <button class="btn btn-user-action" (click)="onForward(mail, 0, false, true)">
           <i class="icon icon-mail icon-lg position-left"></i> <span>{{"mail_detail.forward"| translate}}</span>
           <img src="assets/images/icon-mail.svg" class="hidden-sm-up">
         </button>

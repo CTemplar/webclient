@@ -49,7 +49,7 @@
                               <div class="info-list-text info-list-label">
                                 Recovery Email
                               </div>
-                              <div class="info-list-text info-list-val">
+                              <div class="info-list-text info-list-val" *ngIf="userState.isLoaded">
                                 <div class="row" *ngIf="isEditingRecoveryEmail;else recoveryEmailTemplate">
                                   <form autocomplete="off" class="col-10">
                                     <input class="form-control form-control-sm" id="recoveryMail" type="email"
@@ -427,7 +427,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize1"
                                  name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', false)"
                                  [checked]="!settings.is_composer_full_screen"/>
-                          <label for="composersize1">small pop-up</label>
+                          <label for="composersize1">Small pop-up</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
@@ -435,7 +435,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize2"
                                  name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', true)"
                                  [checked]="settings.is_composer_full_screen"/>
-                          <label for="composersize2">full screen</label>
+                          <label for="composersize2">Full screen</label>
                         </div>
                       </div>
                     </div>
@@ -539,6 +539,33 @@
                                name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)"
                                [checked]="settings?.emails_per_page===100"/>
                         <label for="emailCoutField3">100</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-content-row">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
+                  <label class="form-label mb-0">Dark mode</label>
+                </div>
+                <div class="col-sm-7 col-md-5">
+                  <div class="row row-sm">
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode1"
+                               name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', true)"
+                               [checked]="settings.is_night_mode"/>
+                        <label for="darkMode1" [translate]="'common.enabled'">Enabled</label>
+                      </div>
+                    </div>
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode2"
+                               name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', false)"
+                               [checked]="!settings.is_night_mode"/>
+                        <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
                       </div>
                     </div>
                   </div>
