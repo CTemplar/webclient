@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.updateLoadingStatus();
       this.store.dispatch(new FinalLoading({ loadingState: false }));
-    }, 2000);
+    }, 3000);
 
     this.activatedRoute.queryParams.pipe(untilDestroyed(this))
       .subscribe((params: any) => {

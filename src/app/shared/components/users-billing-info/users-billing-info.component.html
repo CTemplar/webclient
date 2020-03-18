@@ -137,7 +137,7 @@
                 <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span
                         [translate]="'billing_info.bitcoin_sent_timer'">BTC sent after timer will be lost!</span></p>
 
-                <div class="card mb-3">
+                <div class="bitcoin-payment card mb-3">
                   <div class="card-header text-center">
                     <h6 [innerHTML]="'billing_info.send_exactly'| translate">SEND <strong>EXACTLY</strong></h6>
                     <h5><strong *ngIf="bitcoinState?.loaded">
