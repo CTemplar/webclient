@@ -70,8 +70,12 @@ const QuillBlockEmbed = Quill.import('blots/block/embed');
 class ImageBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
-    node.setAttribute('src', value.url);
-    if (value.content_id) {
+    if (value.url) {
+      node.setAttribute('src', value.url);
+    } else {
+      node.setAttribute('src', value);
+    }
+    if (value) {
       node.setAttribute('data-content-id', value.content_id);
     }
     return node;
