@@ -13,7 +13,6 @@ import {
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
@@ -196,7 +195,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private delayedDeliveryModalRef: NgbModalRef;
   private deadManTimerModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
-  private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
 
   private draft: Draft;
@@ -218,7 +216,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private openPgpService: OpenPgpService,
               private mailService: MailService,
               private sharedService: SharedService,
-              private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
               private filesizePipe: FilesizePipe,
               private filenamePipe: FilenamePipe,
@@ -838,22 +835,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.encryptionModalRef.dismiss();
   }
 
-  toggleOSK() {
-    if (this._keyboardService.isOpened) {
-      this.closeOSK();
-    } else {
-      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
-      this.isKeyboardOpened = true;
-    }
-  }
-
-  closeOSK() {
-    if (this._keyboardRef) {
-      this._keyboardRef.dismiss();
-      this.isKeyboardOpened = false;
-    }
-  }
-
   setSelfDestructValue() {
     this.selfDestruct.error = null;
     if (this.selfDestruct.date && this.selfDestruct.time) {
@@ -1159,13 +1140,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deadManTimer.value = null;
     this.deadManTimer.days = 0;
     this.deadManTimer.hours = 0;
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    if (event.keyCode === ESCAPE_KEYCODE) {
-      this.closeOSK();
-    }
   }
 
   onFilesDrop(event) {
