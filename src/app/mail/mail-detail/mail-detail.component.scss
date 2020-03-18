@@ -1,3 +1,7 @@
+@import '../../../styles/vendors/include-media/include-media';
+@import '../../../styles/base/variables';
+@import '../../../styles/config/include-media-config';
+@import '../../../styles/vendors/ceaser/ceaser-easing';
 
 .mail-detail-content {
   padding-bottom: 3rem;
@@ -129,8 +133,10 @@
   max-width: 97%
 }
 
-@media (max-width: 576px) {
+
+@include media("<=sm") {
   h5 {
     line-height: 1.5;
   }
 }
+
