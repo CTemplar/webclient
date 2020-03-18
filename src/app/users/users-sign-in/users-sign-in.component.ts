@@ -1,8 +1,7 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
 import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
@@ -10,13 +9,15 @@ import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { Router } from '@angular/router';
+import Keyboard from 'simple-keyboard';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users-sign-in',
   templateUrl: './users-sign-in.component.html',
   styleUrls: ['./users-sign-in.component.scss']
 })
-export class UsersSignInComponent implements OnDestroy, OnInit {
+export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   loginForm: FormGroup;
   recoverPasswordForm: FormGroup;
@@ -44,14 +45,14 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   @ViewChild('resetPasswordModal') resetPasswordModal;
   @ViewChild('otpInput') otpInput: ElementRef;
 
-  private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
-  private defaultLocale: string = 'US International';
+  keyboard: Keyboard;
+  currentInput: InputFields;
+  inputFields = InputFields;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private store: Store<AppState>,
               private sharedService: SharedService,
-              private _keyboardService: MatKeyboardService,
               private userService: UsersService,
               private router: Router,
               private openPgpService: OpenPgpService) {}
@@ -109,7 +110,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.store.dispatch(new ClearAuthErrorMessage());
     this.sharedService.hideFooter.emit(false);
-    this.closeKeyboard();
   }
 
   openResetPasswordModal() {
@@ -143,6 +143,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
       this.store.dispatch(new LogIn({ ...user, otp }));
     }
   }
+
   toggleRememberMe() {
     this.loginForm.controls['rememberMe'].setValue(!this.loginForm.controls['rememberMe'].value);
   }
@@ -198,85 +199,86 @@ export class UsersSignInComponent implements OnDestroy, OnInit {
     this.store.dispatch(new ResetPassword(requestData));
   }
 
-  openUsernameOSK() {
-    if (this.isKeyboardOpened) {
-      this.isKeyboardOpened = false;
-      this.closeKeyboard();
-      return;
-    }
-    if (!this._keyboardService.isOpened) {
-      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
-    }
-    this._keyboardRef.instance.setInputInstance(this.usernameVC);
-    this._keyboardRef.instance.attachControl(this.loginForm.controls['username']);
-    this.usernameVC.nativeElement.focus();
-    this.isKeyboardOpened = true;
-    this.prependCloseButtonToMatKeyboard();
+  // On screen keyboard handling
+  ngAfterViewInit() {
+    this.keyboard = new Keyboard({
+      onChange: input => this.onChange(input),
+      onKeyPress: button => this.onKeyPress(button)
+    });
+    this.loginForm.get(InputFields.USERNAME).valueChanges
+      .pipe(untilDestroyed(this),
+        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput()))
+      .subscribe((value) => {
+        this.onInputChange(value);
+      });
+    this.loginForm.get(InputFields.PASSWORD).valueChanges
+      .pipe(untilDestroyed(this),
+        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput()))
+      .subscribe((value) => {
+        this.onInputChange(value);
+      });
   }
 
-  openPasswordOSK() {
-    if (this.isKeyboardOpened) {
-      this.isKeyboardOpened = false;
-      this.closeKeyboard();
-      return;
-    }
-    if (!this._keyboardService.isOpened) {
-      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
-    }
-    this._keyboardRef.instance.setInputInstance(this.passwordVC);
-    this._keyboardRef.instance.attachControl(this.loginForm.controls['password']);
-    this.passwordVC.nativeElement.focus();
-    this.isKeyboardOpened = true;
-    this.prependCloseButtonToMatKeyboard();
+  onChange(input: string) {
+    this.loginForm.get(this.currentInput).setValue(input);
   }
 
-  closeKeyboard() {
-    if (this._keyboardRef) {
-      this._keyboardRef.dismiss();
+  onKeyPress(button: string) {
+    console.log('Button pressed', button);
+
+    /**
+     * If you want to handle the shift and caps lock buttons
+     */
+    if (button === '{shift}' || button === '{lock}') {
+      this.handleShift();
+    }
+  }
+
+  onInputChange(value: string) {
+    this.keyboard.setInput(value);
+  }
+
+  handleShift() {
+    const currentLayout = this.keyboard.options.layoutName;
+    const shiftToggle = currentLayout === 'default' ? 'shift' : 'default';
+
+    this.keyboard.setOptions({
+      layoutName: shiftToggle
+    });
+  }
+
+  openOSK(input) {
+    if (!(this.isKeyboardOpened && this.currentInput !== input)) {
+      this.isKeyboardOpened = !this.isKeyboardOpened;
+    }
+    this.currentInput = input;
+    if (this.isKeyboardOpened) {
+      if (this.currentInput === InputFields.PASSWORD) {
+        this.passwordVC.nativeElement.focus();
+      } else {
+        this.usernameVC.nativeElement.focus();
+      }
+      this.onInputChange(this.loginForm.get(this.currentInput).value);
     }
   }
 
   onInputFocusChange(input) {
     if (this.isKeyboardOpened) {
       this.isKeyboardOpened = false;
-      if (input === 'username') {
-        this.openUsernameOSK();
-      } else if (input === 'password') {
-        this.openPasswordOSK();
-      }
+      this.openOSK(input);
     }
-  }
-
-  private prependCloseButtonToMatKeyboard() {
-    const matKeyboardWrapper = document.getElementsByClassName('mat-keyboard-wrapper');
-    if (matKeyboardWrapper && this.checkIfCloseButtonExist()) {
-      const elChild = document.createElement('a');
-      elChild.setAttribute('id', 'close-mat-keyboard');
-      elChild.setAttribute('class', 'close-mat-keyboard');
-      elChild.innerHTML = '<i class="fa fa-times" id="close-mat-keyboard-icon"></i>';
-      // Prepend it to the parent element
-      matKeyboardWrapper[0].insertBefore(elChild, matKeyboardWrapper[0].firstChild);
-    }
-  }
-
-  private checkIfCloseButtonExist() {
-    return !document.getElementById('close-mat-keyboard');
   }
 
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
     if (event.keyCode === ESCAPE_KEYCODE) {
       this.isKeyboardOpened = false;
-      this.closeKeyboard();
     }
   }
 
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (event.target.id === 'close-mat-keyboard' || event.target.id === 'close-mat-keyboard-icon') {
-      this.isKeyboardOpened = false;
-      this.closeKeyboard();
-    }
-  }
+}
 
+enum InputFields {
+  USERNAME = 'username',
+  PASSWORD = 'password'
 }
