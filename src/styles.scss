@@ -543,3 +543,7 @@ button[disabled] {
   right: 25px;
   top: 25px;
 }
+
+.dropup .dropdown-menu {
+  bottom: unset !important;
+}
