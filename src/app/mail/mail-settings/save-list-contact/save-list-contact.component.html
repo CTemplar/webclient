@@ -1,7 +1,6 @@
 <ng-template #modalContent let-c="close" let-d="dismiss">
     <form class="whitelist-form" [formGroup]="contactForm"
-          #form="ngForm"
-          (ngSubmit)="addContact()">
+          #form="ngForm">
         <div class="modal-header">
             <h3 class="modal-title w-100 text-dark" id="whitelistModalLabel"><strong> <span [translate]="'settings.add_to'">Add to</span>
                 {{contactType.toLowerCase()}}</strong></h3>
@@ -50,10 +49,11 @@
             </div>
         </div>
         <div class="modal-footer justify-content-center justify-content-sm-end">
-            <input type="submit"
-                   [disabled]="inProgress"
-                   class="btn btn-secondary btn-sm" role="button"
-                   [value]="contact?.id?('common.save'| translate): ('settings.add'| translate)">
+            <button [disabled]="inProgress"
+                    (click)="addContact()"
+                    class="btn btn-secondary btn-sm" role="button">
+                {{contact?.id?('common.save'| translate): ('settings.add'| translate)}}
+            </button>
             <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
         </div>
     </form>

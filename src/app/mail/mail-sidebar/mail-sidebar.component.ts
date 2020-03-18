@@ -3,7 +3,6 @@ import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, AuthState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
@@ -25,7 +24,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 import { getMailSidebarShortcuts, SharedService } from '../../store/services';
-import { PRIMARY_WEBSITE } from '../../shared/config';
+import { darkModeCss, PRIMARY_WEBSITE } from '../../shared/config';
 
 @Component({
   selector: 'app-mail-sidebar',
@@ -146,6 +145,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
         }
+        this.handleDarkMode(user.settings.is_night_mode);
       });
 
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
@@ -200,6 +200,14 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       return '';
     }
     return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  handleDarkMode(isNightMode) {
+    if (isNightMode) {
+      document.getElementById('night-mode').innerHTML = darkModeCss;
+    } else {
+      document.getElementById('night-mode').innerHTML = '';
+    }
   }
 
   /**

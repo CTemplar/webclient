@@ -180,6 +180,8 @@ export class Settings {
   attachment_size_limit?: number;
   attachment_size_error?: string;
   is_composer_full_screen?: boolean;
+  is_night_mode?: boolean;
+  custom_css?: string;
 }
 
 export interface Invoice {
