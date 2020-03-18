@@ -1,9 +1,8 @@
 <ng-template #modalContent let-c="close" let-d="dismiss">
     <form class="whitelist-form" [formGroup]="contactForm"
-          #form="ngForm"
-          (ngSubmit)="addContact()">
+          #form="ngForm">
         <div class="modal-header">
-            <h3 class="modal-title w-100 text-dark" id="whitelistModalLabel"><strong> <span translate="settings.add_to">Add to</span>
+            <h3 class="modal-title w-100 text-dark" id="whitelistModalLabel"><strong> <span [translate]="'settings.add_to'">Add to</span>
                 {{contactType.toLowerCase()}}</strong></h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
                 <span aria-hidden="true">&times;</span>
@@ -14,7 +13,7 @@
                 <div class="form-group">
                     <div class="row align-items-center">
                         <div class="col-sm-3">
-                            <label class="form-label mb-sm-0" for="whitelistName" translate="common.name">Name:</label>
+                            <label class="form-label mb-sm-0" for="whitelistName" [translate]="'common.name'">Name:</label>
                         </div>
                         <div class="col-sm-9">
                             <div class="form-content-row mb-0">
@@ -25,14 +24,14 @@
                     </div>
                     <span *ngIf="contactForm.controls['name'].errors && showFormErrors" id="name-valid"
                           class="validate-message">
-                  <span *ngIf="contactForm.controls['name'].errors.required" translate="settings.username_required">The username is required.</span>
+                  <span *ngIf="contactForm.controls['name'].errors.required" [translate]="'settings.username_required'">The username is required.</span>
                 </span>
                 </div>
 
                 <div class="form-group mb-0">
                     <div class="row align-items-center">
                         <div class="col-sm-3">
-                            <label class="form-label mb-sm-0" for="whitelistEmail" translate="common.email">E-mail:</label>
+                            <label class="form-label mb-sm-0" for="whitelistEmail" [translate]="'common.email'">E-mail:</label>
                         </div>
                         <div class="col-sm-9">
                             <div class="form-content-row mb-0">
@@ -43,17 +42,18 @@
                     </div>
                     <span *ngIf="contactForm.controls['email'].errors && showFormErrors" id="email-valid"
                           class="validate-message">
-                  <span *ngIf="contactForm.hasError('email','email') " translate="settings.email_required">The email is required.</span>
+                  <span *ngIf="contactForm.hasError('email','email') " [translate]="'settings.email_required'">The email is required.</span>
                 </span>
                 </div>
 
             </div>
         </div>
         <div class="modal-footer justify-content-center justify-content-sm-end">
-            <input type="submit"
-                   [disabled]="inProgress"
-                   class="btn btn-secondary btn-sm" role="button"
-                   [value]="contact?.id?('common.save'| translate): ('settings.add'| translate)">
+            <button [disabled]="inProgress"
+                    (click)="addContact()"
+                    class="btn btn-secondary btn-sm" role="button">
+                {{contact?.id?('common.save'| translate): ('settings.add'| translate)}}
+            </button>
             <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
         </div>
     </form>

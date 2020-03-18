@@ -6,7 +6,7 @@
                 <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
                     <h1 *ngIf="!authState.auth2FA.show2FALogin && !authState.isAuthenticated"
                         class="l-block-title text-white text-uppercase">
-                        <strong translate="login.user_login" *showInIE="false">User Login</strong>
+                        <strong [translate]="'login.user_login'" *showInIE="false">User Login</strong>
                     </h1>
                   <h2 *ngIf="authState.auth2FA.show2FALogin" class="l-block-title text-white text-uppercase">
                     <strong>2 Factor Authentication</strong>
@@ -23,27 +23,27 @@
                     <form *ngIf="!authState.auth2FA.show2FALogin && !authState.isAuthenticated" class="login-form position-relative"
                           [formGroup]="loginForm" #form="ngForm" (ngSubmit)="login(loginForm.value)">
                         <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.username.invalid && showFormErrors}">
-                            <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up" translate="settings.username">Username</label>
+                            <label for="loginUsername" class="d-block text-faded text-left hidden-sm-up" [translate]="'settings.username'">Username</label>
                             <div class="input-group">
-                                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="openUsernameOSK()">
+                                <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="openOSK(inputFields.USERNAME)">
                                     <i class="fa fa-keyboard"></i>
                                 </span>
                                 <input #usernameVC class="form-control form-control-lg border-right-0" id="username_noSpan" [placeholder]="'settings.username' | translate" type="text"
-                                       (click)="onInputFocusChange('username')"
+                                       (click)="onInputFocusChange(inputFields.USERNAME)"
                                     name="username" formControlName="username" required/>
                             </div>
                             <span *ngIf="loginForm.controls['username'].errors && showFormErrors" id="email-valid" class="validate-message">
-                                <span *ngIf="loginForm.controls['username'].errors.required" translate="settings.username_required">The username is required.</span>
+                                <span *ngIf="loginForm.controls['username'].errors.required" [translate]="'settings.username_required'">The username is required.</span>
                             </span>
                         </div>
                         <div class="form-group" [ngClass]="{'is-validate': loginForm.controls.password.invalid && showFormErrors}">
-                            <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up" translate="settings.password">Password</label>
+                            <label for="loginPassword" class="d-block text-faded text-left hidden-sm-up" [translate]="'settings.password'">Password</label>
                             <div class="input-group">
-                                <span class="input-group-addon password-toggle bg-white text-muted" id="keyboardToggle" (click)="openPasswordOSK()">
+                                <span class="input-group-addon password-toggle bg-white text-muted" id="keyboardToggle" (click)="openOSK(inputFields.PASSWORD)">
                                     <i class="fa fa-keyboard"></i>
                                 </span>
                                 <input #passwordVC formControlName="password" class="form-control form-control-lg border-right-0"
-                                       (click)="onInputFocusChange('password')" type="password"
+                                       (click)="onInputFocusChange(inputFields.PASSWORD)" type="password"
                                     id="password_noSpan" [placeholder]="'settings.password' | translate" aria-describedby="passwordToggle" name="password"
                                     required/>
                                 <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(passwordVC)">
@@ -53,7 +53,7 @@
                                 </span>
                             </div>
                             <span *ngIf="loginForm.controls['password'].errors && showFormErrors" class="validate-message">
-                                <span *ngIf="loginForm.controls['password'].errors.required" translate="login.password_required">The password is required.</span>
+                                <span *ngIf="loginForm.controls['password'].errors.required" [translate]="'login.password_required'">The password is required.</span>
                             </span>
                         </div>
 
@@ -65,7 +65,7 @@
                             <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
                           </span>
                           <div class="checkbox-text lh-sm cursor-pointer" (click)="toggleRememberMe()">
-                            <span class="info-text" translate="login.remember_me">
+                            <span class="info-text" [translate]="'login.remember_me'">
                                 Remember me on this computer.
                             </span>
                           </div>
@@ -74,7 +74,7 @@
                         <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">{{ errorMessage }}</div>
                         <div class="form-group form-user-actions mt-4 pt-sm-2">
                             <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">
-                              <span translate="login.name">Login</span>
+                              <span [translate]="'login.name'">Login</span>
                             </button>
                         </div>
                     </form>
@@ -117,7 +117,7 @@
                       <button (click)="login(loginForm.value, otp, true)"
                               [disabled]="!otp"
                               class="btn btn-gradient-primary btn-lg login-btn" role="button">
-                        <span translate="billing_info.submit">Submit</span>
+                        <span [translate]="'billing_info.submit'">Submit</span>
                       </button>
                     </div>
                   </div>
@@ -128,14 +128,14 @@
                   <div class="reset-password mb-0 mb-sm-1">
                     <a class="text-faded" (click)="openResetPasswordModal()" role="button">
                       <small>
-                        <u translate="login.reset_password">Reset Password</u>
+                        <u [translate]="'login.reset_password'">Reset Password</u>
                       </small>
                     </a>
                   </div>
                   <div class="create-account">
                     <a routerLink="/signup" class="text-white">
                       <strong>
-                        <u translate="login.create_account">Create Account</u>
+                        <u [translate]="'login.create_account'">Create Account</u>
                       </strong>
                     </a>
                   </div>
@@ -147,12 +147,14 @@
 
     </div>
     <!-- /.Site container ends -->
+  <div class="simple-keyboard"
+       [style.visibility]="isKeyboardOpened ? 'visible' : 'hidden'">
+  </div>
 
   <div align="center" class="logged-in-spinner" *ngIf="authState.isAuthenticated && !authState.anti_phishing_phrase">
     <img class="logo" style="width: 400px; height: 300px;" [src]="loadingImage | safe:'url'"/>
     <p class="quote">Loading your mailbox...</p>
   </div>
-
 </section>
 <!-- /.PAGE SECTION ENDS -->
 
@@ -195,7 +197,7 @@
 
               <div class="form-group">
                 <label for="recoverPasswordemail" class="d-block text-muted text-left"
-                       translate="settings.recovery_email">Recovery Email
+                       [translate]="'settings.recovery_email'">Recovery Email
                 </label>
                 <input class="form-control form-control-lg" id="recoverPasswordemail"
                        [placeholder]="'settings.recovery_email' | translate " type="email"
@@ -258,7 +260,7 @@
 
               <div class="form-group">
                 <label for="resetPassword" class="d-block text-muted text-left"
-                       translate="settings.new_password">New Password</label>
+                       [translate]="'settings.new_password'">New Password</label>
                 <div class="input-group">
                   <input #resetPasswordInput class="form-control form-control-lg" id="resetPassword"
                          [placeholder]="'settings.password' | translate" type="password"
@@ -277,7 +279,7 @@
               </div>
               <div class="form-group">
                 <label for="resetConfirmPassword" class="d-block text-muted text-left"
-                       translate="settings.confirm_new_password">Confirm New Password</label>
+                       [translate]="'settings.confirm_new_password'">Confirm New Password</label>
                 <div class="input-group">
                   <input #resetConfirmPasswordInput class="form-control form-control-lg" id="resetConfirmPassword"
                          [placeholder]="'create_account.confirm_password' | translate" type="password"
@@ -291,7 +293,7 @@
                 </div>
                 <span *ngIf="resetPasswordForm.controls['confirmPwd'].errors && showResetPasswordFormErrors"
                       id="reset-confirm-password-valid" class="validate-message">
-                  <span translate="create_account.passwords_not_match">Passwords do not match.</span>
+                  <span [translate]="'create_account.passwords_not_match'">Passwords do not match.</span>
                 </span>
               </div>
               <div *ngIf="resetPasswordErrorMessage" class="reset-form__failed  l-alert l-alert-danger mb-3">
