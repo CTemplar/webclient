@@ -49,7 +49,7 @@
                               <div class="info-list-text info-list-label">
                                 Recovery Email
                               </div>
-                              <div class="info-list-text info-list-val">
+                              <div class="info-list-text info-list-val" *ngIf="userState.isLoaded">
                                 <div class="row" *ngIf="isEditingRecoveryEmail;else recoveryEmailTemplate">
                                   <form autocomplete="off" class="col-10">
                                     <input class="form-control form-control-sm" id="recoveryMail" type="email"
