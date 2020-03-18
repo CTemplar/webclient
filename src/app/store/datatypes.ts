@@ -113,6 +113,8 @@ export class UserState {
   upgradeAmount?: number;
   promoCode: PromoCode;
   inviteCodes: InviteCode[];
+  has_notification?: boolean;
+  notifications?: any;
 }
 
 export interface InviteCode {
