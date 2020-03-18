@@ -37,6 +37,7 @@
             "styles": [
               "src/styles.scss",
               "node_modules/quill/dist/quill.snow.css",
+              "node_modules/simple-keyboard/build/css/index.css",
               "src/styles/material-theme.scss"
             ],
             "scripts": [
