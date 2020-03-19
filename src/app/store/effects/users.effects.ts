@@ -44,7 +44,7 @@ import {
   GetFilters,
   GetFiltersSuccess, GetInviteCodes, GetInviteCodesSuccess,
   GetInvoices,
-  GetInvoicesSuccess,
+  GetInvoicesSuccess, GetNotification, GetNotificationSuccess,
   GetUnreadMailsCount, GetUpgradeAmount, GetUpgradeAmountSuccess,
   PaymentFailure,
   ReadDomain,
@@ -603,6 +603,18 @@ export class UsersEffects {
             , new GenerateInviteCodeFailure(),
             ),
           )
+        );
+    }));
+
+  @Effect()
+  GetNotificationsEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.GET_NOTIFICATION),
+    map((action: GetNotification) => action.payload),
+    switchMap(payload => {
+      return this.userService.getUserNotifications()
+        .pipe(
+          switchMap(resp => of(new GetNotificationSuccess(resp))),
+          catchError((error) => EMPTY)
         );
     }));
 
