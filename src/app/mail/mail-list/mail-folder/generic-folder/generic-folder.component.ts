@@ -32,13 +32,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @Input() showProgress: boolean;
   @Input() fetchMails: boolean;
 
-  @ViewChild('confirmEmptyTrashModal', { static: false }) confirmEmptyTrashModal;
+  @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
 
   customFolders: Folder[];
   shortcuts: ShortcutInput[] = [];
-  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild('input') input: ElementRef;
   // TODO : disable shortcuts until the bugs are fixed
-  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   noEmailSelected: boolean = true;
@@ -257,7 +257,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   openMail(mail: Mail) {
     if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
-      this.composeMailService.openComposeMailDialog({ draft: mail });
+      this.composeMailService.openComposeMailDialog({ draft: mail, isFullScreen: this.userState.settings.is_composer_full_screen });
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
       this.store.dispatch(new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }));

@@ -6,7 +6,6 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatKeyboardModule } from 'ngx7-material-keyboard';
 // Components
 import { AppComponent } from './app.component';
 // Modules
@@ -57,7 +56,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     // Material modules
     MatButtonModule,
-    MatKeyboardModule,
     MatSnackBarModule,
     MatIconModule,
   ],

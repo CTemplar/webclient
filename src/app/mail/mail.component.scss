@@ -10,7 +10,7 @@
   }
 }
 
-.autoresponder-banner {
+.banner {
   font-size: smaller;
   background-color: #fff1a8;
   z-index: 1;
@@ -1345,7 +1345,7 @@
       &.ui-footer-sec{
         background: #fafafa;
         text-align: center;
-        .btn-gmail{
+        .btn-user-action{
           background: none;
           border: none;
           font-size: 0;

@@ -13,7 +13,6 @@ import {
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx7-material-keyboard';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
@@ -70,8 +69,12 @@ const QuillBlockEmbed = Quill.import('blots/block/embed');
 class ImageBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
-    node.setAttribute('src', value.url);
-    if (value.content_id) {
+    if (value.url) {
+      node.setAttribute('src', value.url);
+    } else {
+      node.setAttribute('src', value);
+    }
+    if (value) {
       node.setAttribute('data-content-id', value.content_id);
     }
     return node;
@@ -146,15 +149,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild('editor', { static: false }) editor;
-  @ViewChild('attachmentHolder', { static: false }) attachmentHolder;
-  @ViewChild('toolbar', { static: false }) toolbar;
-  @ViewChild('attachImagesModal', { static: false }) attachImagesModal;
-  @ViewChild('selfDestructModal', { static: false }) selfDestructModal;
-  @ViewChild('delayedDeliveryModal', { static: false }) delayedDeliveryModal;
-  @ViewChild('deadManTimerModal', { static: false }) deadManTimerModal;
-  @ViewChild('encryptionModal', { static: false }) encryptionModal;
-  @ViewChild('insertLinkModal', { static: false }) insertLinkModal;
+  @ViewChild('editor') editor;
+  @ViewChild('attachmentHolder') attachmentHolder;
+  @ViewChild('toolbar') toolbar;
+  @ViewChild('attachImagesModal') attachImagesModal;
+  @ViewChild('selfDestructModal') selfDestructModal;
+  @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
+  @ViewChild('deadManTimerModal') deadManTimerModal;
+  @ViewChild('encryptionModal') encryptionModal;
+  @ViewChild('insertLinkModal') insertLinkModal;
 
   draftId: number;
   colors = COLORS;
@@ -192,7 +195,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private delayedDeliveryModalRef: NgbModalRef;
   private deadManTimerModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
-  private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   private defaultLocale: string = 'US International';
 
   private draft: Draft;
@@ -214,7 +216,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               private openPgpService: OpenPgpService,
               private mailService: MailService,
               private sharedService: SharedService,
-              private _keyboardService: MatKeyboardService,
               private dateTimeUtilService: DateTimeUtilService,
               private filesizePipe: FilesizePipe,
               private filenamePipe: FilenamePipe,
@@ -834,22 +835,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.encryptionModalRef.dismiss();
   }
 
-  toggleOSK() {
-    if (this._keyboardService.isOpened) {
-      this.closeOSK();
-    } else {
-      this._keyboardRef = this._keyboardService.open(this.defaultLocale, {});
-      this.isKeyboardOpened = true;
-    }
-  }
-
-  closeOSK() {
-    if (this._keyboardRef) {
-      this._keyboardRef.dismiss();
-      this.isKeyboardOpened = false;
-    }
-  }
-
   setSelfDestructValue() {
     this.selfDestruct.error = null;
     if (this.selfDestruct.date && this.selfDestruct.time) {
@@ -1155,13 +1140,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deadManTimer.value = null;
     this.deadManTimer.days = 0;
     this.deadManTimer.hours = 0;
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    if (event.keyCode === ESCAPE_KEYCODE) {
-      this.closeOSK();
-    }
   }
 
   onFilesDrop(event) {

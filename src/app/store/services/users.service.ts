@@ -211,7 +211,8 @@ export class UsersService {
       'users/prorated',
       'btc-wallet/create/',
       'promo-code/validate',
-      'users/invites/'
+      'users/invites/',
+      'notifications'
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -453,6 +454,10 @@ export class UsersService {
 
   verifyCaptcha(data: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/captcha-verify/`, data);
+  }
+
+  getUserNotifications() {
+    return this.http.get<any>(`${apiUrl}notifications`);
   }
 
 

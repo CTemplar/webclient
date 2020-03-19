@@ -1,4 +1,3 @@
-import { MailBoxesState } from './datatypes';
 // Angular
 import { Params } from '@angular/router';
 // Ngrx
@@ -114,6 +113,8 @@ export class UserState {
   upgradeAmount?: number;
   promoCode: PromoCode;
   inviteCodes: InviteCode[];
+  has_notification?: boolean;
+  notifications?: any;
 }
 
 export interface InviteCode {
@@ -181,6 +182,8 @@ export class Settings {
   attachment_size_limit?: number;
   attachment_size_error?: string;
   is_composer_full_screen?: boolean;
+  is_night_mode?: boolean;
+  custom_css?: string;
 }
 
 export interface Invoice {

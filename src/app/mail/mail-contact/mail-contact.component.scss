@@ -300,3 +300,11 @@
 .active-contact {
   background-color: #f5f5f5 !important;
 }
+
+.mailbox-actionbar-menu > li.checkbox-dropdown .fancy-field-group,
+.more-xs-options-list > li.checkbox-dropdown .fancy-field-group {
+  margin-top: 4px;
+}
+.mail-checkbox .fancy-field-group {
+  margin-bottom: -16px;
+}

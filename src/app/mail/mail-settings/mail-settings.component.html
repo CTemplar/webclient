@@ -4,7 +4,7 @@
 
     <!-- Dashboard and Plans -->
     <ngb-tab id="dashboard-and-plans">
-      <ng-template ngbTabTitle><span translate="settings.dashboard_plans">Dashboard & plans</span></ng-template>
+      <ng-template ngbTabTitle><span [translate]="'settings.dashboard_plans'">Dashboard & plans</span></ng-template>
       <ng-template ngbTabContent>
 
 
@@ -19,7 +19,7 @@
                   <div class="desc-card">
                     <div
                             class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                      <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.plan_details">Plan
+                      <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.plan_details'">Plan
                         Details</strong></h5>
                     </div>
                     <div class="desc-card-body">
@@ -32,7 +32,7 @@
                             <div><i class="far fa-credit-card"></i></div>
                             <div>
                               <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer"
-                                 translate="settings.upgrade">Upgrade</a>
+                                 [translate]="'settings.upgrade'">Upgrade</a>
                             </div>
                           </div>
                         </div>
@@ -40,7 +40,7 @@
                           <ul class="info-list list-styled text-dark">
                             <li class="info-list-item">
                               <div class="info-list-text info-list-label"
-                                   translate="settings.username">
+                                   [translate]="'settings.username'">
                                 Username
                               </div>
                               <div class="info-list-text info-list-val">{{userState.username}}</div>
@@ -49,7 +49,7 @@
                               <div class="info-list-text info-list-label">
                                 Recovery Email
                               </div>
-                              <div class="info-list-text info-list-val">
+                              <div class="info-list-text info-list-val" *ngIf="userState.isLoaded">
                                 <div class="row" *ngIf="isEditingRecoveryEmail;else recoveryEmailTemplate">
                                   <form autocomplete="off" class="col-10">
                                     <input class="form-control form-control-sm" id="recoveryMail" type="email"
@@ -82,18 +82,18 @@
 
                             <li class="info-list-item">
                               <div class="info-list-text info-list-label"
-                                   translate="settings.domains">
+                                   [translate]="'settings.domains'">
                                 Domains
                               </div>
                               <div class="info-list-text info-list-val">
                                 <span *ngIf="userState.isPrime">{{settings?.domain_count}}</span>
                                 <span *ngIf="!userState.isPrime"
-                                      translate="settings.none">None</span>
+                                      [translate]="'settings.none'">None</span>
                               </div>
                             </li>
                             <li class="info-list-item align-items-start">
                               <div class="info-list-text info-list-label"
-                                   translate="settings.addresses">
+                                   [translate]="'settings.addresses'">
                                 Addresses
                               </div>
                               <div class="info-list-text info-list-val">
@@ -101,13 +101,13 @@
                                      class="ng-tooltips-holder d-inline-block"
                                      placement="top">
                                   <div class="info-list-val-text"
-                                       translate="settings.address_tooltip">
+                                       [translate]="'settings.address_tooltip'">
                                     {{settings?.email_count}}
                                   </div>
                                 </div>
                                 <div *ngIf="!userState.isPrime" class="d-inline-block">
                                   <div class="info-list-val-text"
-                                       translate="settings.address_one">
+                                       [translate]="'settings.address_one'">
                                     One
                                   </div>
                                 </div>
@@ -116,7 +116,7 @@
                             </li>
                             <li class="info-list-item">
                               <div class="info-list-text info-list-label"
-                                   translate="settings.storage">
+                                   [translate]="'settings.storage'">
                                 Storage
                               </div>
 
@@ -146,7 +146,7 @@
                 <div class="col-md-6">
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                      <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.my_subscription">My
+                      <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.my_subscription'">My
                         Subscription</strong></h5>
                     </div>
                     <div class="desc-card-body">
@@ -154,21 +154,21 @@
                         <li class="info-list-item">
                           <div class="info-list-item-row">
                             <div class="info-list-text info-list-label">
-                              <span class="info-list-label-text" translate="settings.plans">Plan</span>
+                              <span class="info-list-label-text" [translate]="'settings.plans'">Plan</span>
                             </div>
                             <div class="info-list-text info-list-val">{{userPlanType}}</div>
                           </div>
                         </li>
                         <ng-container *ngIf="userPlanType !== planType.FREE">
                           <li class="info-list-item">
-                            <div class="info-list-text info-list-label" translate="billing_info.billing">Billing</div>
+                            <div class="info-list-text info-list-label" [translate]="'billing_info.billing'">Billing</div>
                             <div class="info-list-text info-list-val">
                               {{payment.payment_type}}
                             </div>
                           </li>
                           <li class="info-list-item">
                             <div class="info-list-text info-list-label"
-                                 translate="settings.payment">Payment
+                                 [translate]="'settings.payment'">Payment
                             </div>
                             <div class="info-list-text info-list-val text-capitalize">
                               {{payment.payment_method}}
@@ -176,18 +176,18 @@
                           </li>
                           <li class="info-list-item">
                             <div class="info-list-text info-list-label"
-                                 translate="settings.billing_cycle_end">Billing
+                                 [translate]="'settings.billing_cycle_end'">Billing
                               Cycle End
                             </div>
                             <div class="info-list-text info-list-val">
                               <span>{{payment.billing_cycle_ends | momentDate:'mediumDate'}}</span>
                               <a *ngIf="!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin"
                                  [ngbTooltip]="'settings.extend_billing_cycle'| translate"
-                                 class="float-right" (click)="renew()" translate="settings.renew" >Renew</a>
+                                 class="float-right" (click)="renew()" [translate]="'settings.renew'" >Renew</a>
                             </div>
                           </li>
                           <li class="info-list-item">
-                            <div class="info-list-text info-list-label" translate="settings.recurring_billing">
+                            <div class="info-list-text info-list-label" [translate]="'settings.recurring_billing'">
                               Recurring Billing
                             </div>
                             <div class="info-list-text info-list-val">
@@ -201,7 +201,7 @@
                                            (click)="updateSettings('recurrence_billing', true)"
                                            [checked]="settings.recurrence_billing"/>
                                     <label for="enableRecurringBilling"
-                                           translate="common.yes">Yes</label>
+                                           [translate]="'common.yes'">Yes</label>
                                   </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
@@ -212,12 +212,12 @@
                                            (click)="updateSettings('recurrence_billing', false)"
                                            [checked]="!settings.recurrence_billing"/>
                                     <label for="disableRecurringBilling"
-                                           translate="common.no">No</label>
+                                           [translate]="'common.no'">No</label>
                                   </div>
                                 </div>
                               </div>
                               <ng-template #bitcoinMethod>
-                                Not available for bitcoin
+                                <span [translate]="'settings.not_available_for_bitcoin'">Not available for bitcoin</span>
                               </ng-template>
                             </div>
                           </li>
@@ -229,7 +229,7 @@
                 <div class="col-md-6 mb-4 mb-md-0">
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
-                      <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.bills">Bills</strong>
+                      <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.bills'">Bills</strong>
                       </h5>
                     </div>
                     <div class="plan-details">
@@ -240,14 +240,14 @@
                             <li class="ui-list-item ui-list-item-xs-full">
                               <div class="row row-xs align-items-center">
                                 <div class="col-5 font-weight-bold col-item">
-                                  # <span translate="settings.invoice">Invoice</span>
+                                  # <span [translate]="'settings.invoice'">Invoice</span>
                                 </div>
                                 <div class="col-3 col-item">
-                                  <div class="form-label mb-0 font-weight-bold" translate="settings.date">
+                                  <div class="form-label mb-0 font-weight-bold" [translate]="'settings.date'">
                                     Date
                                   </div>
                                 </div>
-                                <div class="col-2 font-weight-bold col-item" translate="settings.amount">
+                                <div class="col-2 font-weight-bold col-item" [translate]="'settings.amount'">
                                   Amount
                                 </div>
                               </div>
@@ -282,7 +282,7 @@
                         </div>
 
                         <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices?.length===0"
-                             translate="settings.no_bills_avail">
+                             [translate]="'settings.no_bills_avail'">
                           No bills available
                         </div>
 
@@ -303,7 +303,7 @@
         <!-- Account Type Section -->
         <section class="mailbox-section" #targetUpgrade>
           <div class="ui-header ui-header-bordered position-relative">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.account_type">Account
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.account_type'">Account
               Type</strong></h5>
           </div>
           <app-pricing-plans hideHeader="true" blockGapsZero="true"
@@ -324,13 +324,13 @@
 
     <!-- General -->
     <ngb-tab id="general">
-      <ng-template ngbTabTitle><span translate="settings.general">General</span></ng-template>
+      <ng-template ngbTabTitle><span [translate]="'settings.general'">General</span></ng-template>
       <ng-template ngbTabContent>
 
         <!-- General Settings -->
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.general_settings">General
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.general_settings'">General
               settings</strong></h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -338,7 +338,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" translate="settings.language">Language</label>
+                    <label class="form-label mb-0" [translate]="'settings.language'">Language</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
@@ -360,7 +360,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" translate="settings.current_time_zone">Current
+                    <label class="form-label mb-0" [translate]="'settings.current_time_zone'">Current
                       time zone</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
@@ -390,7 +390,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" translate="settings.automatically_save_contact">Automatically
+                    <label class="form-label mb-0" [translate]="'settings.automatically_save_contact'">Automatically
                       save contacts</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
@@ -400,7 +400,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField1"
                                  name="[1]" type="radio" (click)="updateSettings('save_contacts', true)"
                                  [checked]="settings.save_contacts"/>
-                          <label for="autoSaveField1" translate="common.enabled">Enabled</label>
+                          <label for="autoSaveField1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
@@ -408,7 +408,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField2"
                                  name="[1]" type="radio" (click)="updateSettings('save_contacts', false)"
                                  [checked]="!settings.save_contacts"/>
-                          <label for="autoSaveField2" translate="common.disabled">Disabled</label>
+                          <label for="autoSaveField2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
                     </div>
@@ -427,7 +427,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize1"
                                  name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', false)"
                                  [checked]="!settings.is_composer_full_screen"/>
-                          <label for="composersize1">small pop-up</label>
+                          <label for="composersize1">Small pop-up</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
@@ -435,7 +435,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize2"
                                  name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', true)"
                                  [checked]="settings.is_composer_full_screen"/>
-                          <label for="composersize2">full screen</label>
+                          <label for="composersize2">Full screen</label>
                         </div>
                       </div>
                     </div>
@@ -446,7 +446,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" translate="settings.compose_font">Default Mail Compose Font</label>
+                    <label class="form-label mb-0" [translate]="'settings.compose_font'">Default Mail Compose Font</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
@@ -469,7 +469,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" translate="settings.html_editor">HTML editor</label>
+                    <label class="form-label mb-0" [translate]="'settings.html_editor'">HTML editor</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -478,7 +478,7 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor1"
                                  name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', false)"
                                  [checked]="!settings.is_html_disabled"/>
-                          <label for="htmlEditor1" translate="common.enabled">Enabled</label>
+                          <label for="htmlEditor1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
@@ -486,13 +486,13 @@
                           <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor2"
                                  name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', true)"
                                  [checked]="settings.is_html_disabled"/>
-                          <label for="htmlEditor2" translate="common.disabled">Disabled</label>
+                          <label for="htmlEditor2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="info-card mt-2 mx-3 full-width">
-                    <p translate="settings.disabling_editor_message">
+                    <p [translate]="'settings.disabling_editor_message'">
                       Disabling HTML editor will allow you to use plain text editor for composing email.
                     </p>
                   </div>
@@ -505,14 +505,14 @@
         <!-- Appreance Section -->
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.appearance">Appearance</strong>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.appearance'">Appearance</strong>
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-row">
               <div class="row align-items-center">
                 <div class="col-sm-3">
-                  <label class="form-label mb-sm-0" translate="settings.emails_per_page">Emails
+                  <label class="form-label mb-sm-0" [translate]="'settings.emails_per_page'">Emails
                     per page</label>
                 </div>
                 <div class="col-sm-7 col-md-5">
@@ -545,6 +545,33 @@
                 </div>
               </div>
             </div>
+            <div class="form-content-row">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
+                  <label class="form-label mb-0">Dark mode</label>
+                </div>
+                <div class="col-sm-7 col-md-5">
+                  <div class="row row-sm">
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode1"
+                               name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', true)"
+                               [checked]="settings.is_night_mode"/>
+                        <label for="darkMode1" [translate]="'common.enabled'">Enabled</label>
+                      </div>
+                    </div>
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode2"
+                               name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', false)"
+                               [checked]="!settings.is_night_mode"/>
+                        <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </section>
@@ -553,14 +580,14 @@
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0"><strong
-                    translate="settings.notifications">Notifications</strong></h5>
+                    [translate]="'settings.notifications'">Notifications</strong></h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label for="notificationEmail" class="form-label mb-sm-0" translate="settings.notification_email">
+                    <label for="notificationEmail" class="form-label mb-sm-0" [translate]="'settings.notification_email'">
                       Notification email</label>
                   </div>
                   <form class="col-sm-7 col-md-5" autocomplete="off">
@@ -572,7 +599,7 @@
                            placeholder="johnsimpson@gmail.com"/>
                   </form>
                   <div class="info-card mx-3 mt-2 full-width">
-                    <p translate="settings.enter_notification_email">
+                    <p [translate]="'settings.enter_notification_email'">
                       Enter a notification email on which you would like to receive notification
                       each day when you have new emails.
                     </p>
@@ -580,24 +607,24 @@
                 </div>
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-sm-0" translate="settings.desktop_notification_title">
+                    <label class="form-label mb-sm-0" [translate]="'settings.desktop_notification_title'">
                       Desktop notifications</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="info-card mt-3 full-width">
                       <p *ngIf="notificationsPermission === notificationPermissionType.DENIED"
-                         translate="settings.desktop_notifications_dis">
+                         [translate]="'settings.desktop_notifications_dis'">
                         Desktop Notifications are disabled.
                         Please go to your browser settings in order to enable them.
                       </p>
                       <p *ngIf="notificationsPermission === notificationPermissionType.DEFAULT">
-                        <a (click)="requestNotificationPermission()" translate="settings.click_here">Click here</a>
+                        <a (click)="requestNotificationPermission()" [translate]="'settings.click_here'">Click here</a>
                      <span translate="settings.enable_notifications"> in order to enable desktop notifications.</span>
                       </p>
                       <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
-                        <span translate="settings.desktop_notifications_en">Desktop notifications are enabled.</span>
+                        <span [translate]="'settings.desktop_notifications_en'">Desktop notifications are enabled.</span>
                         <a (click)="testNotification()"> <span
-                                translate="settings.click_to_test">Click here to Test</span></a>
+                                [translate]="'settings.click_to_test'">Click here to Test</span></a>
                       </p>
                     </div>
                   </div>
@@ -616,7 +643,7 @@
         <!-- Delete account settings -->
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.delete_account">Delete
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.delete_account'">Delete
               Account</strong>
             </h5>
           </header>
@@ -624,12 +651,12 @@
             <div class="form-content-holder">
               <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
               <div class="info-card">
-                <p translate="settings.delete_account_guide">If you permanently delete your account you will lose all
+                <p [translate]="'settings.delete_account_guide'">If you permanently delete your account you will lose all
                   the data in your mailbox.
                   In 2 months this username will be available for re-use by anyone who selects it.</p>
                 <button type="button" class="text-uppercase btn-link" role="button"
                         [disabled]="authState?.inProgress"
-                        (click)="onDeleteAccount()"><strong><u translate="settings.delete_account_perm">Permanently
+                        (click)="onDeleteAccount()"><strong><u [translate]="'settings.delete_account_perm'">Permanently
                   Delete Account</u></strong>
                 </button>
               </div>
@@ -642,7 +669,7 @@
 
     <!-- Filters and blocked addresses -->
     <ngb-tab id="filters-and-blocked-addresses">
-      <ng-template ngbTabTitle><span translate="settings.filters.title">Filters & blocked addresses</span></ng-template>
+      <ng-template ngbTabTitle><span [translate]="'settings.filters.title'">Filters & blocked addresses</span></ng-template>
       <ng-template ngbTabContent>
 
         <!-- Custom filters -->
@@ -651,7 +678,7 @@
         <!-- Whitelist settings -->
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.whitelist.name">Whitelist</strong>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.whitelist.name'">Whitelist</strong>
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -678,7 +705,7 @@
                   message as not spam adds the address to the Whitelist.</p>
                 <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
                    (click)="newListContact={show: true, type: 'Whitelist'};"><strong><u
-                        translate="settings.whitelist.add_whitelist_contact">Add whitelist
+                        [translate]="'settings.whitelist.add_whitelist_contact'">Add whitelist
                   contact</u></strong></a>
               </div>
             </div>
@@ -688,7 +715,7 @@
         <!-- Blacklist settings -->
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
-            <h5 class="ui-header-subtitle text-dark mb-0"><strong translate="settings.blacklist.name">Blacklist</strong>
+            <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.blacklist.name'">Blacklist</strong>
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -718,7 +745,7 @@
                   message as spam adds the address to the Blacklist.</p>
                 <a href="javascript:void(0);" class="text-uppercase btn-link" role="button"
                    (click)="newListContact={show: true, type: 'Blacklist'};"><strong><u
-                        translate="settings.blacklist.add_blacklist_contact">Add blacklist
+                        [translate]="'settings.blacklist.add_blacklist_contact'">Add blacklist
                   contact</u></strong></a>
               </div>
             </div>
@@ -729,7 +756,7 @@
 
     <!-- Addresses and Signatures -->
     <ngb-tab id="addresses-and-signatures">
-      <ng-template ngbTabTitle><span translate="settings.addresses_and_signs">Addresses & signatures</span>
+      <ng-template ngbTabTitle><span [translate]="'settings.addresses_and_signs'">Addresses & signatures</span>
       </ng-template>
       <ng-template ngbTabContent>
         <app-addresses-signature></app-addresses-signature>
@@ -739,7 +766,7 @@
     <!-- Folders -->
     <ngb-tab id="folders">
       <ng-template ngbTabTitle>
-        <div translate="page_pricing.folders">Folders</div>
+        <div [translate]="'page_pricing.folders'">Folders</div>
       </ng-template>
       <ng-template ngbTabContent>
         <app-folders></app-folders>
@@ -749,7 +776,7 @@
     <!-- Security -->
     <ngb-tab id="security">
       <ng-template ngbTabTitle>
-        <div translate="home_header.security">Security</div>
+        <div [translate]="'home_header.security'">Security</div>
       </ng-template>
       <ng-template ngbTabContent>
         <app-settings-security></app-settings-security>
@@ -759,7 +786,7 @@
     <!-- Domains -->
     <ngb-tab id="domains-and-users">
       <ng-template ngbTabTitle>
-        <div translate="settings.domains_and_users.title">Domains & Users</div>
+        <div [translate]="'settings.domains_and_users.title'">Domains & Users</div>
       </ng-template>
       <ng-template ngbTabContent>
 
@@ -771,7 +798,7 @@
     <!-- Forwarding and auto responder -->
     <ngb-tab id="forwarding-and-auto-responder">
       <ng-template ngbTabTitle>
-        <div translate="settings.forwarding_and_autores">Forwarding & autoresponder</div>
+        <div [translate]="'settings.forwarding_and_autores'">Forwarding & autoresponder</div>
       </ng-template>
       <ng-template ngbTabContent>
         <app-mail-forwarding></app-mail-forwarding>
@@ -796,7 +823,7 @@
 <!-- Delete account info modal -->
 <ng-template #deleteAccountInfoModal let-c="close" let-d="dismiss">
   <div class="modal-header justify-content-sm-center align-items-center text-sm-center">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.delete_account_perm">Permanently Delete
+    <h3 class="modal-title w-100 text-dark"><strong [translate]="'settings.delete_account_perm'">Permanently Delete
       Account</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -805,11 +832,11 @@
   <form [formGroup]="deleteAccountInfoForm" (submit)="onDeleteAccountInfoSubmit()">
     <div class="modal-body bg-faded">
       <div class="text-holder text-dark text-medium">
-        <p class="text-danger" translate="settings.delete_account_guide">You have selected to permanently delete your
+        <p class="text-danger" [translate]="'settings.delete_account_guide'">You have selected to permanently delete your
           account. If you proceed you will
           lose all the data in your
           mailbox.In 2 months this username will be available for re-use by anyone who selects it.</p>
-        <p translate="settings.provide_email">Please provide an email address in case we need to contact you.</p>
+        <p [translate]="'settings.provide_email'">Please provide an email address in case we need to contact you.</p>
         <div class="login-content-holder mx-auto mt-2 pt-sm-2">
           <div class="form">
             <div class="form-group form-group-sm">
@@ -819,7 +846,7 @@
                      [placeholder]="'common.email'| translate" type="email" name="deleteAccountEmail"
                      formControlName="contact_email"/>
               <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
-                    class="validate-message" translate="settings.email_invalid">The email is invalid.
+                    class="validate-message" [translate]="'settings.email_invalid'">The email is invalid.
                             </span>
             </div>
             <div class="form-group form-group-sm">
@@ -838,7 +865,7 @@
               <span *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors"
                     class="validate-message">
                                 <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required"
-                                      translate="settings.password_req">
+                                      [translate]="'settings.password_req'">
                                     Your current password is required.</span>
                             </span>
             </div>
@@ -847,9 +874,9 @@
       </div>
     </div>
     <div class="modal-footer justify-content-center justify-content-sm-end">
-      <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span translate="common.cancel">Cancel</span>
+      <button class="btn btn-default btn-sm" type="reset" (click)="d()"><span [translate]="'common.cancel'">Cancel</span>
       </button>
-      <button class="btn btn-danger btn-sm" type="submit" translate="common.delete">Delete</button>
+      <button class="btn btn-danger btn-sm" type="submit" [translate]="'common.delete'">Delete</button>
     </div>
   </form>
 
@@ -858,7 +885,7 @@
 <!-- Confirm delete account modal -->
 <ng-template #confirmDeleteAccountModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong translate="settings.permanently_delete">Confirm Permanently Account
+    <h3 class="modal-title w-100 text-dark"><strong [translate]="'settings.permanently_delete'">Confirm Permanently Account
       Delete</strong></h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -866,13 +893,13 @@
   </div>
   <div class="modal-body bg-faded">
     <div class="text-holder text-dark text-medium">
-      <p translate="settings.permanently_delete_alert">Are you sure you want to permanently delete your account? No one
+      <p [translate]="'settings.permanently_delete_alert'">Are you sure you want to permanently delete your account? No one
         will be able to undo this.</p>
     </div>
   </div>
   <div class="modal-footer justify-content-center justify-content-sm-end">
-    <button (click)="d()" class="btn btn-default btn-sm" role="button" translate="common.cancel">Cancel</button>
-    <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" translate="common.delete">
+    <button (click)="d()" class="btn btn-default btn-sm" role="button" [translate]="'common.cancel'">Cancel</button>
+    <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" [translate]="'common.delete'">
       Delete
     </button>
   </div>

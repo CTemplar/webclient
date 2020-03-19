@@ -93,3 +93,13 @@ $error-red: #e94e4c;
   padding: 5px 15px;
   line-height: 1.5;
 }
+
+.simple-keyboard {
+  position: fixed;
+  bottom: 0;
+  max-width: 800px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 10;
+}

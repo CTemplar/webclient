@@ -33,8 +33,8 @@ declare var Scrambler;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
 
-  @ViewChild('forwardAttachmentsModal', { static: false }) forwardAttachmentsModal;
-  @ViewChild('incomingHeadersModal', { static: false }) incomingHeadersModal;
+  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
+  @ViewChild('incomingHeadersModal') incomingHeadersModal;
 
   mail: Mail;
   composeMailData: any = {};
@@ -250,7 +250,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           const receivers = [anchorElements[i].href.split('mailto:')[1]];
           anchorElements[i].onclick = (event) => {
             event.preventDefault();
-            self.composeMailService.openComposeMailDialog({ receivers });
+            self.composeMailService.openComposeMailDialog({ receivers, isFullScreen: this.userState.settings.is_composer_full_screen });
           };
           anchorElements[i].href = '';
         }

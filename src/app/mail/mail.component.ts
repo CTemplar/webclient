@@ -19,7 +19,7 @@ import {
   GetDomainsSuccess,
   GetFilters,
   GetInvoices,
-  GetMailboxes,
+  GetMailboxes, GetNotification,
   SaveAutoResponder,
   WhiteListGet
 } from '../store/actions';
@@ -40,15 +40,19 @@ import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts
   encapsulation: ViewEncapsulation.None
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
-  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild('input') input: ElementRef;
   // TODO : disable shortcuts until the bugs are fixed
-   @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
-  @ViewChild('composeMailContainer', { static: false, read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
+  @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
   autoresponder_status = false;
   currentDate: string;
   shortcuts: ShortcutInput[] = [];
+  canLoadNotification = true;
+  hideNotification: boolean;
+  notificationMessage: string;
+
   constructor(private store: Store<AppState>,
               private sharedService: SharedService,
               private composeMailService: ComposeMailService,
@@ -93,6 +97,13 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
             this.autoresponder_status = false;
           }
         }
+        if (userState.has_notification && this.canLoadNotification) {
+          this.store.dispatch(new GetNotification());
+          this.canLoadNotification = false;
+        }
+        if (userState.notifications) {
+          this.notificationMessage = userState.notifications[0].message;
+        }
       });
 
     this.sharedService.hideFooter.emit(true);
@@ -100,7 +111,6 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.hideEntireFooter.emit(true);
     this.sharedService.isMail.emit(true);
   }
-
 
   endAutoResponder() {
     this.autoresponder.autoresponder_active = false;
@@ -112,7 +122,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
     // TODO : disable shortcuts until the bugs are fixed
-     this.shortcuts = getMailComponentShortcuts(this);
+    this.shortcuts = getMailComponentShortcuts(this);
     this.cdr.detectChanges();
   }
 

@@ -16,8 +16,8 @@ import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
 })
 export class MailAutoresponderComponent implements OnInit, OnDestroy {
 
-  @ViewChild('startDatePicker', { static: false }) startDatePicker: NgbDatepicker;
-  @ViewChild('endDatePicker', { static: false }) endDatePicker: NgbDatepicker;
+  @ViewChild('startDatePicker') startDatePicker: NgbDatepicker;
+  @ViewChild('endDatePicker') endDatePicker: NgbDatepicker;
 
   userState: UserState;
   settings: Settings;
