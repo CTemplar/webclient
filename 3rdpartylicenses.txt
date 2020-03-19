@@ -119,6 +119,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+@ngneat/until-destroy
+MIT
+
 @ngrx/effects
 MIT
 
@@ -321,9 +324,6 @@ ngx-chips
 MIT
 
 ngx-quill
-MIT
-
-ngx-take-until-destroy
 MIT
 
 quill
