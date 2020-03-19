@@ -16,7 +16,7 @@ import { debounceTime } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 export class PasswordValidation {
 
@@ -31,6 +31,7 @@ export class PasswordValidation {
   }
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-users-create-account',
   templateUrl: './users-create-account.component.html',

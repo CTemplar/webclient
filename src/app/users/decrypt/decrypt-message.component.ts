@@ -10,8 +10,9 @@ import { Mail } from '../../store/models';
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-decrypt-message',
   templateUrl: './decrypt-message.component.html',

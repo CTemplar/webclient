@@ -6,7 +6,7 @@ import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/ac
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 const Quill: any = QuillNamespace;
 
@@ -46,6 +46,7 @@ ImageBlot.tagName = 'img';
 
 Quill.register(ImageBlot);
 
+@UntilDestroy()
 @Component({
   selector: 'app-reply-secure-message',
   templateUrl: './reply-secure-message.component.html',

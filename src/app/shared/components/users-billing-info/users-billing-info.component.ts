@@ -39,8 +39,9 @@ import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-acco
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 import { timer } from 'rxjs/internal/observable/timer';
 import { apiUrl, PROMO_CODE_KEY } from '../../config';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',

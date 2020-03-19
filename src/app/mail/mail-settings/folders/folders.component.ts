@@ -6,8 +6,9 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteFolder, UpdateFolderOrder } from '../../../store/actions';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';
 import { NotificationService } from '../../../store/services/notification.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-folders',
   templateUrl: './folders.component.html',

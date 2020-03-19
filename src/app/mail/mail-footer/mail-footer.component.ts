@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, UserState } from '../../store/datatypes';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../shared/config';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-footer',
   templateUrl: './mail-footer.component.html',

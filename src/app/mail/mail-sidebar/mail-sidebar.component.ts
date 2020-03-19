@@ -20,12 +20,13 @@ import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
-import { untilDestroyed } from 'ngx-take-until-destroy';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 import { getMailSidebarShortcuts, SharedService } from '../../store/services';
 import { darkModeCss, PRIMARY_WEBSITE } from '../../shared/config';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-sidebar',
   templateUrl: './mail-sidebar.component.html',

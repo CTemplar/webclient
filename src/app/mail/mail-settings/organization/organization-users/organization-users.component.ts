@@ -14,8 +14,9 @@ import {
   OrganizationState,
   UpdateOrganizationUser
 } from '../../../../store/organization.store';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-organization-users',
   templateUrl: './organization-users.component.html',

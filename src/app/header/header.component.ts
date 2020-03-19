@@ -10,8 +10,9 @@ import { Store } from '@ngrx/store';
 import { ExpireSession, Logout } from '../store/actions';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../shared/config';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

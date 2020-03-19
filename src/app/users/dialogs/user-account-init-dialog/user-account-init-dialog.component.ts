@@ -3,10 +3,11 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState, SignupState } from '../../../store/datatypes';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Mailbox } from '../../../store/models';
 import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-dialog.component';
 
+@UntilDestroy()
 @Component({
   selector: 'app-user-account-init-dialog',
   templateUrl: './user-account-init-dialog.component.html',

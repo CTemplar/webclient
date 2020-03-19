@@ -1,6 +1,6 @@
 // Angular
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 // Services
 import { SharedService } from './store/services';
 // import { UsersService } from './users/shared/users.service';
@@ -11,10 +11,9 @@ import { quotes } from './store/quotes';
 import { TranslateService } from '@ngx-translate/core';
 import { FinalLoading } from './store/actions';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
-import { filter } from 'rxjs/operators';
-import { untilDestroyed } from 'ngx-take-until-destroy';
-import Timer = NodeJS.Timer;
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,8 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public hideHeader: boolean = false;
   public windowIsResized: boolean = false;
   public isLoading: boolean = true;
-  public isMail: boolean = false;
-  public isHomepage: boolean;
+  public isMail: boolean = true;
   quote: object;
   isAuthenticated: boolean;
 
@@ -68,13 +66,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((routeEvent: NavigationEnd) => {
-        this.isHomepage = routeEvent.url === '/';
-        window.scrollTo(0, 0);
-      });
-
     this.quote = quotes[Math.floor(Math.random() * quotes.length)];
 
     this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))

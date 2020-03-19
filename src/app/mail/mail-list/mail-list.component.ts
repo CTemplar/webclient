@@ -3,8 +3,9 @@ import { Folder, MailFolderType } from '../../store/models';
 import { ActivatedRoute } from '@angular/router';
 import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-list',
   templateUrl: './mail-list.component.html',

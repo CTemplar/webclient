@@ -8,9 +8,10 @@ import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } fr
 
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
 
+@UntilDestroy()
 @Component({
   selector: 'app-custom-domains',
   templateUrl: './custom-domains.component.html',

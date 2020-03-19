@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, InviteCode, UserState } from '../../../store/datatypes';
 import { GenerateInviteCode, GetInviteCodes } from '../../../store/actions';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
 import { SharedService } from '../../../store/services';
 
+@UntilDestroy()
 @Component({
   selector: 'app-invite-codes',
   templateUrl: './invite-codes.component.html',

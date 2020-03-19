@@ -2,14 +2,13 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { CreateFilter, DeleteFilter, UpdateFilter } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
 import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
-import { takeUntil } from 'rxjs/operators';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-filters',
   templateUrl: './mail-filters.component.html',

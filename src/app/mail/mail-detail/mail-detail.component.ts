@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { take } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -26,6 +26,7 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
 
 declare var Scrambler;
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-detail',
   templateUrl: './mail-detail.component.html',

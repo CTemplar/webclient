@@ -7,11 +7,12 @@ import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassw
 import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
 import Keyboard from 'simple-keyboard';
 import { filter } from 'rxjs/operators';
 
+@UntilDestroy()
 @Component({
   selector: 'app-users-sign-in',
   templateUrl: './users-sign-in.component.html',

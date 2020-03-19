@@ -24,12 +24,13 @@ import {
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment-timezone';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',

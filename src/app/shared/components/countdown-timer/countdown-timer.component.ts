@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 import { timer } from 'rxjs/internal/observable/timer';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-countdown-timer',
   templateUrl: './countdown-timer.component.html',
