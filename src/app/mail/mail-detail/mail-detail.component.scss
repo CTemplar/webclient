@@ -1,3 +1,5 @@
+@import '../../../styles/vendors/include-media/include-media';
+@import '../../../styles/config/include-media-config';
 
 .mail-detail-content {
   padding-bottom: 3rem;
@@ -7,12 +9,12 @@
   position: relative;
 
   .msg-reply-dropdown {
-    position: absolute; 
+    position: absolute;
     right: 20px;
   }
 }
 
-.mail-header { 
+.mail-header {
   border: solid 1px #e5e5e5;
   margin: 5px;
   padding: 5px 1rem;
@@ -124,3 +126,15 @@
   right: 30px;
   top: 23px;
 }
+
+.mail-subject {
+  max-width: 97%
+}
+
+
+@include media("<=sm") {
+  h5 {
+    line-height: 1.5;
+  }
+}
+
