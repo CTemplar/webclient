@@ -5,10 +5,11 @@ import { Store } from '@ngrx/store';
 import { SaveAutoResponder, SnackErrorPush } from '../../../store/actions';
 import { AppState, AutoResponder, Settings, UserState } from '../../../store/datatypes';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SharedService } from '../../../store/services';
 import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-autoresponder',
   templateUrl: './mail-autoresponder.component.html',

@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 import { AppState, BlackList, UserState, WhiteList } from '../../../store/datatypes';
 import { BlackListAdd, WhiteListAdd } from '../../../store/actions';
 import { NotificationService } from '../../../store/services/notification.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-save-list-contact',
   templateUrl: './save-list-contact.component.html',

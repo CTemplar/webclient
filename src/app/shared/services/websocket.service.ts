@@ -6,8 +6,9 @@ import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Injectable()
 export class WebsocketService implements OnDestroy {
   private webSocket: WebSocket;

@@ -8,7 +8,7 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
 import { ShortcutInput } from 'ng-keyboard-shortcuts/lib/ng-keyboard-shortcuts.interfaces';
 import { getContactsShortcuts } from '../../store/services';
@@ -20,6 +20,7 @@ export enum ContactsProviderType {
   OTHER = <any>'OTHER'
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-contact',
   templateUrl: './mail-contact.component.html',

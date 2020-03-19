@@ -47,7 +47,7 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
 import { getComposeMailShortcuts } from '../../../store/services';
 
@@ -121,6 +121,7 @@ export class PasswordValidation {
   }
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',

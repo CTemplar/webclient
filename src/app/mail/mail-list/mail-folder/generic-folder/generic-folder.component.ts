@@ -18,9 +18,10 @@ import { Folder, Mail, MailFolderType } from '../../../../store/models';
 import { getGenericFolderShortcuts, OpenPgpService, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 
+@UntilDestroy()
 @Component({
   selector: 'app-generic-folder',
   templateUrl: './generic-folder.component.html',

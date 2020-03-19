@@ -6,8 +6,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateFolder } from '../../../store/actions';
 import { FOLDER_COLORS } from '../../../shared/config';
 import { Folder } from '../../../store/models';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-create-folder',
   templateUrl: './create-folder.component.html',

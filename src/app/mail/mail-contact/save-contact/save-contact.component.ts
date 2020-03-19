@@ -14,10 +14,11 @@ import { ContactAdd } from '../../../store';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { getSaveContactShortcuts, OpenPgpService } from '../../../store/services';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
+@UntilDestroy()
 @Component({
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',

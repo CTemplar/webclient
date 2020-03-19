@@ -28,11 +28,12 @@ import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { getMailComponentShortcuts, SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail',
   templateUrl: './mail.component.html',

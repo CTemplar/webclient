@@ -9,10 +9,11 @@ import { OpenPgpService, SharedService, UsersService } from '../../../store/serv
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 
+@UntilDestroy()
 @Component({
   selector: 'app-addresses-signature',
   templateUrl: './addresses-signature.component.html',

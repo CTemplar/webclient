@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 import { VALID_EMAIL_REGEX } from '../../../shared/config';
 import { SendEmailForwardingCode, SettingsUpdate, VerifyEmailForwardingCode } from '../../../store/actions';
 import { AppState, Settings, UserState } from '../../../store/datatypes';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-mail-forwarding',
   templateUrl: './mail-forwarding.component.html',

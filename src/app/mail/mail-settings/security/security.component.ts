@@ -14,9 +14,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService, SharedService } from '../../../store/services';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { apiUrl } from '../../../shared/config';
 
+@UntilDestroy()
 @Component({
   selector: 'app-settings-security',
   templateUrl: './security.component.html',
