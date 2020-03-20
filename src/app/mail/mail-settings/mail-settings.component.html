@@ -572,6 +572,27 @@
                 </div>
               </div>
             </div>
+            <div class="form-content-row">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
+                  <label for="customCss" class="form-label mb-sm-0">
+                    Custom css</label>
+                </div>
+                <form class="col-sm-7 col-md-5" autocomplete="off">
+                  <textarea class="form-control form-control-sm resize-off" id="customCss"
+                            name="customCss"
+                            [(ngModel)]="settings.custom_css"
+                            [ngModelOptions]="{ updateOn: 'blur'}"
+                            (change)="updateSettings('custom_css', $event.target.value)"
+                            rows="3"></textarea>
+                </form>
+                <div class="info-card mx-3 mt-2 full-width">
+                  <p>
+                    You can write the custom css here in order to customize the display of your mailbox.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
         </section>
