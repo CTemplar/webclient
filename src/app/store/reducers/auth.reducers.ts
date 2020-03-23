@@ -74,7 +74,8 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         user: action.payload,
         errorMessage: null,
         inProgress: false,
-        signupState: { ...state.signupState, inProgress: false }
+        signupState: { ...state.signupState, inProgress: false },
+        recovery_key: action.payload.recovery_key
       };
     }
     case AuthActionTypes.SIGNUP_FAILURE: {

@@ -32,6 +32,7 @@ export interface AuthState {
   captcha?: Captcha;
   auth2FA?: Auth2FA;
   anti_phishing_phrase?: string;
+  recovery_key?: string;
 }
 
 export class Auth2FA {
