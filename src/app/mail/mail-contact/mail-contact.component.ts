@@ -180,7 +180,8 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
       }));
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
-      this.composeMailService.openComposeMailDialog({ receivers: receiverEmails });
+      this.composeMailService.openComposeMailDialog({ receivers: receiverEmails,
+        isFullScreen: this.userState.settings.is_composer_full_screen });
     }
   }
 

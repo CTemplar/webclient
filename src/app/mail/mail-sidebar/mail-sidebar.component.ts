@@ -147,6 +147,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.LIMIT = this.customFolders.length;
         }
         this.handleDarkMode(user.settings.is_night_mode);
+        this.handleCustomCss(user.settings.custom_css);
       });
 
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
@@ -209,6 +210,10 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       document.getElementById('night-mode').innerHTML = '';
     }
+  }
+
+  handleCustomCss(customCss: string) {
+    document.getElementById('ctemplar-custom-css').innerHTML = customCss;
   }
 
   /**
