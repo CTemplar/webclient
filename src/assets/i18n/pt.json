@@ -346,7 +346,7 @@
 			"email_deleted": "O email será deletado na data selecionada.",
 			"email_on_datetime": "Seleciona a data e a hora de quando o envio deve ser realizado",
 			"email_sent_timer": " O email será enviado quando o temporizador expirar; Acessar sua conta irá reinicia-lo. Você pode acompaha-lo na página \"Caixa de saída\", no menu esquerdo.",
-			"encrypt_for_non": "Criptografar para não usuários do email CTemplar",
+			"encrypt_for_non": "Criptografar para não usuários do CTemplar",
 			"encrypt_message_expire": "Válidade do email",
 			"encryption": "Criptografia",
 			"exit_full_screen": "Restaurar",
