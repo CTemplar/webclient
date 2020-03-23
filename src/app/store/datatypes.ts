@@ -247,6 +247,7 @@ export interface MailState {
   unreadMailsCount: any;
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
+  isMailsMoved?: boolean;
 }
 
 export class SecureContent {
