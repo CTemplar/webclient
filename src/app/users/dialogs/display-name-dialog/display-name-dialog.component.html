@@ -1,13 +1,28 @@
 <div class="modal-header justify-content-sm-center align-items-center">
-  <h3 class="modal-title w-100 text-dark title"><strong [translate]="'create_account.change_display_name'">Change
-    Your Display Name</strong></h3>
+  <h3 class="modal-title w-100 text-dark title"><strong>Welcome to CTemplar</strong></h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <form [formGroup]="changeDisplayNameForm">
   <div class="modal-body bg-faded">
+    <div class="mb-4 text-holder text-dark text-medium">
+      <h4 class="font-weight-bold">Backup Your Recovery Key</h4>
+      <p>
+        Please save this recovery key in a safe place, if you forget your password,
+        you can use it to reset your password even if you don't remember your recovery email.
+        <a href="https://ctemplar.com/faq/recovery-key/" target="_blank">Learn more</a>
+      </p>
+      <div class="bg-white px-3 py-3">
+        <span class="text-dark"><b>Recovery key: </b>{{ recoveryKey }}</span>
+        <button mat-icon-button (click)="copyToClipboard(recoveryKey)"
+                class="copy-btn">
+          <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
+        </button>
+      </div>
+    </div>
     <div class="text-holder text-dark text-medium">
+      <h4 class="font-weight-bold" [translate]="'create_account.change_display_name'">Change Your Display Name</h4>
       <p [translate]="'create_account.with_email_address'">This is the display name that will be shown next to your email address. </p>
       <div class="form">
         <div class="form-group form-group">

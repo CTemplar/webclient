@@ -177,7 +177,13 @@
         <p>Your encryption key is connected to your password. Because of this you will not be able to decrypt
           old emails
           if you reset your password.</p>
-        <p>If you did not set a recovery email then your account is not recoverable.</p>
+        <p>If you did not set a recovery email then you can use your <b>recovery key</b>
+          to reset your password.
+          Your account is not recoverable if you didn't set your recovery email and don't have recovery key as well.
+          <br>
+          <a (click)="isRecoveryCodeSent = isRecoveryKeyMode = true; showResetPasswordFormErrors = false; resetPasswordErrorMessage = null;">
+            Reset password using Recovery key</a>
+        </p>
 
         <div class="login-content-holder mx-auto mt-4 pt-sm-2">
           <div class="form">
@@ -230,15 +236,15 @@
         </div>
       </ng-container>
       <ng-template #recoveryCodeSent>
-        <p>We have sent a reset code to your recovery email.</p>
-        <p>Please enter the code and your new password below.</p>
+        <p *ngIf="!isRecoveryKeyMode">We have sent a reset code to your recovery email.</p>
+        <p>Please enter the {{isRecoveryKeyMode ? 'recovery key':'code'}} and your new password below.</p>
 
         <div class="login-content-holder mx-auto mt-4 pt-sm-2">
           <div class="form">
             <form [formGroup]="resetPasswordForm" #form="ngForm"
                   (submit)="resetPassword(resetPasswordForm.value)">
               <div class="form-group">
-                <label for="resetCode" class="d-block text-muted text-left">Code</label>
+                <label for="resetCode" class="d-block text-muted text-left">{{isRecoveryKeyMode ? 'Recovery key':'Code'}}</label>
                 <input class="form-control form-control-lg"
                        id="resetCode" placeholder="Code"
                        type="text" formControlName="code" required/>
