@@ -40,6 +40,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   authState: AuthState;
   otp: string;
   loadingImage = LOADING_IMAGE;
+  isRecoveryKeyMode: boolean;
 
   @ViewChild('usernameVC') usernameVC: ElementRef;
   @ViewChild('passwordVC') passwordVC: ElementRef;
@@ -116,6 +117,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   openResetPasswordModal() {
     this.isRecoverFormSubmitted = false;
     this.isRecoveryCodeSent = false;
+    this.isRecoveryKeyMode = false;
     this.showResetPasswordFormErrors = false;
     this.resetPasswordErrorMessage = '';
     this.recoverPasswordForm.reset();
