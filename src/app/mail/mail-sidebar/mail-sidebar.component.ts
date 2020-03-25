@@ -7,7 +7,7 @@ import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.m
 import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import {
   ClearMailsOnLogout,
   GetMails,
@@ -56,6 +56,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPlan: PlanType;
   currentFolder: MailFolderType;
   primaryWebsite = PRIMARY_WEBSITE;
+  private forceLightMode: boolean;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -171,6 +172,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
+      .subscribe((params: Params) => {
+        this.forceLightMode = params.lightMode;
+        if (this.forceLightMode) {
+          this.handleDarkMode(false);
+        }
+      });
   }
 
   ngAfterViewInit(): void {
@@ -205,7 +213,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleDarkMode(isNightMode) {
-    if (isNightMode) {
+    if (isNightMode && !this.forceLightMode) {
       document.getElementById('night-mode').innerHTML = darkModeCss;
     } else {
       document.getElementById('night-mode').innerHTML = '';

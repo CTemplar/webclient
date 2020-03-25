@@ -64,6 +64,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   isMobile: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
   showRawContent: any = {};
+  isDarkMode: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -207,6 +208,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         });
         this.userState = user;
+        this.isDarkMode = this.userState.settings.is_night_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
     this.isMobile = window.innerWidth <= 768;
@@ -258,6 +260,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
     }, 1000);
 
+  }
+
+  viewEmailInLightMode() {
+    const win = window.open(document.location.href + '?lightMode=true', '_blank');
+    win.focus();
   }
 
   toggleGmailExtra(mail: Mail) {
