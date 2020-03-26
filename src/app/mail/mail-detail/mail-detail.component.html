@@ -119,7 +119,7 @@
             </div>
           </div>
         </li>
-        <li class="px-0" *ngIf="isDarkMode">
+        <li class="px-0" *ngIf="isDarkMode && !forceLightMode">
           <a class="border-right-0 border-radius-right-0 cursor-pointer" placement="top"
              (click)="viewEmailInLightMode()"
              ngbTooltip="View email in light mode in a new window if you are having issues to view email in dark mode">
