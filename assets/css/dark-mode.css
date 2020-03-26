@@ -119,3 +119,7 @@ app-users-sign-in .input-group {
 app-users-sign-in .password-toggle {
     border: 0
 }
+
+app-mail-detail .mail-content * {
+    background: unset !important;
+}
