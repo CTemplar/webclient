@@ -43,6 +43,7 @@
             "scripts": [
               "node_modules/openpgp/dist/openpgp.min.js",
               "node_modules/quill/dist/quill.min.js",
+              "node_modules/quill-image-resize-module/image-resize.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/moment-timezone/builds/moment-timezone.min.js",
               "node_modules/bcryptjs/dist/bcrypt.js",

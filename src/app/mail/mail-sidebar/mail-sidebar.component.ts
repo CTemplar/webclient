@@ -7,7 +7,7 @@ import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.m
 import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import {
   ClearMailsOnLogout,
   GetMails,
@@ -56,6 +56,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPlan: PlanType;
   currentFolder: MailFolderType;
   primaryWebsite = PRIMARY_WEBSITE;
+  private forceLightMode: boolean;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -147,6 +148,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.LIMIT = this.customFolders.length;
         }
         this.handleDarkMode(user.settings.is_night_mode);
+        this.handleCustomCss(user.settings.custom_css);
       });
 
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
@@ -168,6 +170,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);
         } else if (event.url.indexOf('/mail/settings/') > -1) {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
+        }
+      });
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
+      .subscribe((params: Params) => {
+        this.forceLightMode = params.lightMode;
+        if (this.forceLightMode) {
+          this.handleDarkMode(false);
         }
       });
   }
@@ -204,11 +213,15 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleDarkMode(isNightMode) {
-    if (isNightMode) {
+    if (isNightMode && !this.forceLightMode) {
       document.getElementById('night-mode').innerHTML = darkModeCss;
     } else {
       document.getElementById('night-mode').innerHTML = '';
     }
+  }
+
+  handleCustomCss(customCss: string) {
+    document.getElementById('ctemplar-custom-css').innerHTML = customCss;
   }
 
   /**

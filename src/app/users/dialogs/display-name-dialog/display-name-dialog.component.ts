@@ -3,9 +3,10 @@ import { MailboxSettingsUpdate } from '../../../store/actions';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState, MailBoxesState } from '../../../store/datatypes';
+import { AppState, AuthState, MailBoxesState, UserState } from '../../../store/datatypes';
 import { Mailbox } from '../../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { SharedService } from '../../../store/services';
 
 @UntilDestroy()
 @Component({
@@ -17,11 +18,13 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   changeDisplayNameForm: FormGroup;
   email: string = 'username@ctemplar.com';
   inProgress: boolean;
+  recoveryKey: string;
 
   private selectedMailbox: Mailbox;
 
   constructor(public activeModal: NgbActiveModal,
               private store: Store<AppState>,
+              private sharedService: SharedService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -39,6 +42,10 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
           this.email = mailboxesState.mailboxes[0].email;
         }
       });
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+      .subscribe((authState: AuthState) => {
+        this.recoveryKey = authState.recovery_key;
+      });
   }
 
   submitDisplayNameForm() {
@@ -52,6 +59,10 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
       this.store.dispatch(new MailboxSettingsUpdate({ ...this.selectedMailbox, successMsg: 'Display name saved successfully.' }));
       this.close();
     }
+  }
+
+  copyToClipboard(text: string) {
+    this.sharedService.copyToClipboard(text);
   }
 
   private close() {

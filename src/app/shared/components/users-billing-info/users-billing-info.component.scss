@@ -32,3 +32,8 @@
     right: 0.75rem;
     top: 0;
 }
+
+.btn-dropdown-select .dropdown-menu {
+    max-height: 300px;
+    overflow-y: scroll;
+}

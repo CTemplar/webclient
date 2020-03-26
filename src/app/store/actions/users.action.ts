@@ -85,6 +85,22 @@ export enum UsersActionTypes {
   INVITE_CODE_GENERATE = '[USER] INVITE CODE GENERATE',
   INVITE_CODE_GENERATE_SUCCESS = '[USER] INVITE CODE GENERATE SUCCESS',
   INVITE_CODE_GENERATE_FAILURE = '[USER] INVITE CODE GENERATE FAILURE',
+  GET_NOTIFICATION = '[USER] GET NOTIFICATION',
+  GET_NOTIFICATION_SUCCESS = '[USER] GET NOTIFICATION SUCCESS',
+}
+
+export class GetNotification implements Action {
+  readonly type = UsersActionTypes.GET_NOTIFICATION;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class GetNotificationSuccess implements Action {
+  readonly type = UsersActionTypes.GET_NOTIFICATION_SUCCESS;
+
+  constructor(public payload: any) {
+  }
 }
 
 export class Accounts implements Action {
@@ -737,4 +753,6 @@ export type UsersActionAll =
   | GetInviteCodesSuccess
   | GenerateInviteCode
   | GenerateInviteCodeSuccess
-  | GenerateInviteCodeFailure;
+  | GenerateInviteCodeFailure
+  | GetNotification
+  | GetNotificationSuccess;

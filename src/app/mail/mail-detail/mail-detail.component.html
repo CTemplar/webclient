@@ -119,6 +119,13 @@
             </div>
           </div>
         </li>
+        <li class="px-0" *ngIf="isDarkMode">
+          <a class="border-right-0 border-radius-right-0 cursor-pointer" placement="top"
+             (click)="viewEmailInLightMode()"
+             ngbTooltip="View email in light mode in a new window if you are having issues to view email in dark mode">
+            <i class="fas fa-sun"></i>
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -149,7 +156,7 @@
 <div class="mailbox-sub-content mail-detail-content" *ngIf="mail">
   <section class="mailbox-section" id="{{mail.id}}-print-section">
     <div class="ui-header ui-header-bordered border-top-0 position-relative">
-      <h5 class="ui-header-subtitle text-dark mb-0">
+      <h5 class="ui-header-subtitle text-dark mb-0 mail-subject">
         <strong id="{{mail.id}}-mail-subject">
           <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
           <ng-container *ngIf="mail.is_subject_encrypted">
