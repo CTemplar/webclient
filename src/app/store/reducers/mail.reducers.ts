@@ -17,7 +17,8 @@ export function reducer(
     unreadMailsCount: { inbox: 0 },
     noUnreadCountChange: true,
     canGetUnreadCount: true,
-    decryptedSubjects: {}
+    decryptedSubjects: {},
+    isMailsMoved: false
   }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -97,7 +98,7 @@ export function reducer(
     }
 
     case MailActionTypes.MOVE_MAIL: {
-      return { ...state, inProgress: true, noUnreadCountChange: true };
+      return { ...state, inProgress: true, noUnreadCountChange: true, isMailsMoved: false };
     }
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
@@ -115,7 +116,7 @@ export function reducer(
           }
         });
       }
-      return { ...state, inProgress: false, noUnreadCountChange: true };
+      return { ...state, inProgress: false, noUnreadCountChange: true, isMailsMoved: true };
     }
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
