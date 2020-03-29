@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -64,6 +64,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   isMobile: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
   showRawContent: any = {};
+  isDarkMode: boolean;
+  forceLightMode: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -75,7 +77,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private EMAILS_PER_PAGE: number;
 
   // shortcuts: ShortcutInput[] = [];
+
   constructor(private route: ActivatedRoute,
+              private activatedRoute: ActivatedRoute,
               private store: Store<AppState>,
               private pgpService: OpenPgpService,
               private shareService: SharedService,
@@ -207,9 +211,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         });
         this.userState = user;
+        this.isDarkMode = this.userState.settings.is_night_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
       });
     this.isMobile = window.innerWidth <= 768;
+
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
+      .subscribe((params: Params) => {
+        this.forceLightMode = params.lightMode;
+      });
 
   }
 
@@ -258,6 +268,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
     }, 1000);
 
+  }
+
+  viewEmailInLightMode() {
+    const win = window.open(document.location.href + '?lightMode=true', '_blank');
+    win.focus();
   }
 
   toggleGmailExtra(mail: Mail) {

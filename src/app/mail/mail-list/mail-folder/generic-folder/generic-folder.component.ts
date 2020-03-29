@@ -58,6 +58,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   private mailState: MailState;
   private isInitialized: boolean;
   private confirmEmptyTrashModalRef: NgbModalRef;
+  isMoveMailClicked = false;
 
   constructor(public store: Store<AppState>,
               private router: Router,
@@ -77,6 +78,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = [...mailState.mails];
+        }
+        if (this.mailState.isMailsMoved && this.isMoveMailClicked) {
+          this.isMoveMailClicked = false;
+          this.setIsSelectAll();
         }
       });
 
@@ -295,11 +300,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         mail: this.getMarkedMails(),
         allowUndo: true
       }));
-
-      setTimeout(() => {
-        this.refresh();
-      }, 2000);
-      this.setIsSelectAll();
+      this.isMoveMailClicked = true;
     }
   }
 
@@ -336,6 +337,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   setIsSelectAll() {
+    if (this.mails.length < 1) {
+      this.selectAll = false;
+      return;
+    }
     this.selectAll = this.mails.filter(mail => mail.marked).length === this.mails.length;
   }
 
