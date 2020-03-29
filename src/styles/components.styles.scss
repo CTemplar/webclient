@@ -244,6 +244,12 @@ app-compose-mail {
       width: 350px !important;
     }
   }
+  .ql-editor {
+    img {
+      width: 96px;
+      height: 56px;
+    }
+  }
 }
 
 .hg-row {
@@ -254,7 +260,7 @@ app-compose-mail {
 
 quill-editor {
   img {
-    width: 40px !important;
-    height: 40px;
+    width: 96px;
+    height: 56px;
   }
 }

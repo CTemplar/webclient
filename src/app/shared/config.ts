@@ -57,11 +57,6 @@ export const REFFERAL_ID_KEY = 'cjevent';
 
 export const SummarySeparator = '-----------------------------------------------------------------------------------------------';
 
-import * as QuillNamespace from 'quill';
-const Quill: any = QuillNamespace;
-import ImageResize from 'quill-image-resize-module';
-Quill.register('modules/imageResize', ImageResize);
-
 export const QUILL_FORMATTING_MODULES = {
   toolbar: [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -74,8 +69,7 @@ export const QUILL_FORMATTING_MODULES = {
     [{ 'align': [] }],
     ['clean'],                                         // remove formatting button
     ['link', 'image']                         // link /not-allowed-in-simple-version(and image, video)
-  ],
-  imageResize: true
+  ]
 };
 
 function getBaseUrl() {
