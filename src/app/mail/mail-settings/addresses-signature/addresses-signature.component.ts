@@ -13,8 +13,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 
-
-import { QuillEditorComponent } from 'ngx-quill';
 import Quill, { DeltaStatic } from 'quill';
 import ImageResize from 'quill-image-resize-module';
 
@@ -34,13 +32,14 @@ const ImageFormatAttributesList = [
 
 class ImageFormat extends BaseImageFormat {
   static formats(domNode) {
-    return ImageFormatAttributesList.reduce(function(formats, attribute) {
+    return ImageFormatAttributesList.reduce(function (formats, attribute) {
       if (domNode.hasAttribute(attribute)) {
         formats[attribute] = domNode.getAttribute(attribute);
       }
       return formats;
     }, {});
   }
+
   format(name, value) {
     const self: any = this;
     if (ImageFormatAttributesList.indexOf(name) > -1) {
@@ -84,9 +83,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   mailboxToDelete: Mailbox;
   signatureChanged: Subject<string> = new Subject<string>();
   quillModules = QUILL_FORMATTING_MODULES;
-  _quill: Quill;
-
-  content: DeltaStatic;
 
   constructor(private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
@@ -154,10 +150,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       });
 
     this.handleUsernameAvailability();
-  }
-
-  editorCreated(quill) {
-    this._quill = quill;
   }
 
   onAddNewAddress() {
