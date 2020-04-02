@@ -13,7 +13,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 
-import Quill, { DeltaStatic } from 'quill';
+import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
 
 
