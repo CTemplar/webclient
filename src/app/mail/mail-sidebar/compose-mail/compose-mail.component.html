@@ -532,7 +532,11 @@
 <!-- self destruct datetime picker modal -->`
 <ng-template #selfDestructModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.self_dest_email"| translate}}</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.self_dest_email"| translate}}</strong>
+    <ng-container [ngTemplateOutlet]="learnMore"
+                  [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/self-destruct-timer/'}">
+    </ng-container>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -546,6 +550,7 @@
         <div class="col-7 form-group">
           <label class="form-inline">{{"settings.compose.select_date"| translate}}</label>
           <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
+                          ngbAutofocus
                           [(ngModel)]="selfDestruct.date"
                           [minDate]="datePickerMinDate"></ngb-datepicker>
         </div>
@@ -588,7 +593,11 @@
 <!-- delayed delivery datetime picker modal -->
 <ng-template #delayedDeliveryModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.delayed_delivery"| translate}}</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.delayed_delivery"| translate}}</strong>
+      <ng-container [ngTemplateOutlet]="learnMore"
+                    [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/delay-schedule-email/'}">
+      </ng-container>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -602,6 +611,7 @@
         <div class="col-7 form-group">
           <label class="form-inline" >{{"settings.compose.select_date"| translate}}</label>
           <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
+                          ngbAutofocus
                           [(ngModel)]="delayedDelivery.date"
                           [minDate]="datePickerMinDate"></ngb-datepicker>
         </div>
@@ -643,7 +653,11 @@
 <!-- dead man timer modal -->
 <ng-template #deadManTimerModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong >{{"settings.compose.dead_man_timer"| translate}}</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong >{{"settings.compose.dead_man_timer"| translate}}</strong>
+      <ng-container [ngTemplateOutlet]="learnMore"
+                    [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/send-a-dead-mans-timer/'}">
+      </ng-container>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -657,6 +671,7 @@
         <div class="form-group">
           <label class="form-inline" for="deadman-days">{{"settings.compose.days"| translate}}</label>
           <input type="number" class="form-control" id="deadman-days" name="deadman-days"
+                 ngbAutofocus
                  [(ngModel)]="deadManTimer.days">
         </div>
         <div class="form-group">
@@ -715,7 +730,11 @@
 <!-- encryption modal -->
 <ng-template #encryptionModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.encrypt_for_non"| translate}}</strong></h3>
+    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.encrypt_for_non"| translate}}</strong>
+      <ng-container [ngTemplateOutlet]="learnMore"
+                    [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/encrypted-email-non-ctemplar-users/'}">
+      </ng-container>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -727,6 +746,7 @@
           <label for="encrypt-password" >{{"settings.compose.message_password"| translate}}</label>
           <div class="input-group">
             <input #encryptPasswordInput type="password" class="form-control form-control-lg" id="encrypt-password"
+                   ngbAutofocus
                    formControlName="password" [placeholder]="'settings.compose.message_password'| translate"/>
             <span class="input-group-addon password-toggle bg-white text-muted"
                   (click)="encryptPasswordInput.type = encryptPasswordInput.type === 'password' ? 'text' : 'password'">
@@ -801,6 +821,12 @@
     </div>
   </div>
 </ng-template><!-- /.encryption modal ends -->
+
+<ng-template #learnMore let-link="link">
+  <a  ngbTooltip="Learn more" target="_blank" class="learn-more-info-icon"
+      [href]="link"><i class="far fa-question-circle"></i>
+  </a>
+</ng-template>
 
 <ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
 <ng-keyboard-shortcuts-help key="f1" closeKey="escape"></ng-keyboard-shortcuts-help>
