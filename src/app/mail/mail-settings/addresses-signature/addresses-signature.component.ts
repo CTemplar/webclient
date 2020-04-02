@@ -18,36 +18,36 @@ import { QuillEditorComponent } from 'ngx-quill';
 import Quill, { DeltaStatic } from 'quill';
 import ImageResize from 'quill-image-resize-module';
 
+
+// Register quill modules and fonts and image parameters
+Quill.register('modules/imageResize', ImageResize);
+
 // image format for retrieving custom attributes
+
 const BaseImageFormat = Quill.import('formats/image');
-const ATTRIBUTES = ['src', 'alt', 'height', 'width', 'style'];
-let domNode1;
+const ImageFormatAttributesList = [
+  'alt',
+  'height',
+  'width',
+  'style'
+];
 
 class ImageFormat extends BaseImageFormat {
-
   static formats(domNode) {
-    if (!domNode1 || !(domNode1.width < domNode.width)) {
-      domNode1 = domNode;
-    }
-
-    return ATTRIBUTES.reduce(function (formats, attribute) {
+    return ImageFormatAttributesList.reduce(function(formats, attribute) {
       if (domNode.hasAttribute(attribute)) {
         formats[attribute] = domNode.getAttribute(attribute);
       }
       return formats;
     }, {});
   }
-
   format(name, value) {
-    if (ATTRIBUTES.indexOf(name) > -1) {
+    const self: any = this;
+    if (ImageFormatAttributesList.indexOf(name) > -1) {
       if (value) {
-        domNode1.setAttribute(name, value);
-        //    super.format(name, value);
-
+        self.domNode.setAttribute(name, value);
       } else {
-        domNode1.removeAttribute(name);
-     //   super.format(name);
-
+        self.domNode.removeAttribute(name);
       }
     } else {
       super.format(name, value);
@@ -56,9 +56,6 @@ class ImageFormat extends BaseImageFormat {
 }
 
 Quill.register(ImageFormat, true);
-
-// Register quill modules and fonts and image parameters
-Quill.register('modules/imageResize', ImageResize);
 
 
 @UntilDestroy()
