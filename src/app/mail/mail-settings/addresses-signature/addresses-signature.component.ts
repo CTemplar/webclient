@@ -5,7 +5,7 @@ import { CreateMailbox, DeleteMailbox, SetDefaultMailbox, SnackErrorPush, Update
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { OpenPgpService, SharedService, UsersService } from '../../../store/services';
+import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
@@ -14,46 +14,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 
 import Quill from 'quill';
-import ImageResize from 'quill-image-resize-module';
-
-
-// Register quill modules and fonts and image parameters
-Quill.register('modules/imageResize', ImageResize);
-
-// image format for retrieving custom attributes
-
-const BaseImageFormat = Quill.import('formats/image');
-const ImageFormatAttributesList = [
-  'alt',
-  'height',
-  'width',
-  'style'
-];
-
-class ImageFormat extends BaseImageFormat {
-  static formats(domNode) {
-    return ImageFormatAttributesList.reduce(function (formats, attribute) {
-      if (domNode.hasAttribute(attribute)) {
-        formats[attribute] = domNode.getAttribute(attribute);
-      }
-      return formats;
-    }, {});
-  }
-
-  format(name, value) {
-    const self: any = this;
-    if (ImageFormatAttributesList.indexOf(name) > -1) {
-      if (value) {
-        self.domNode.setAttribute(name, value);
-      } else {
-        self.domNode.removeAttribute(name);
-      }
-    } else {
-      super.format(name, value);
-    }
-  }
-}
-
 Quill.register(ImageFormat, true);
 
 
