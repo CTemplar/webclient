@@ -17,6 +17,42 @@ import { PlanType, PricingPlan } from '../datatypes';
 import { MailContactComponent } from '../../mail/mail-contact/mail-contact.component';
 import { SaveContactComponent } from '../../mail/mail-contact/save-contact/save-contact.component';
 
+import Quill from 'quill';
+// image format for retrieving custom attributes
+
+const BaseImageFormat = Quill.import('formats/image');
+const ImageFormatAttributesList = [
+  'alt',
+  'height',
+  'width',
+  'style'
+];
+
+export class ImageFormat extends BaseImageFormat {
+  static formats(domNode) {
+    return ImageFormatAttributesList.reduce(function (formats, attribute) {
+      if (domNode.hasAttribute(attribute)) {
+        formats[attribute] = domNode.getAttribute(attribute);
+      }
+      return formats;
+    }, {});
+  }
+
+  format(name, value) {
+    const self: any = this;
+    if (ImageFormatAttributesList.indexOf(name) > -1) {
+      if (value) {
+        self.domNode.setAttribute(name, value);
+      } else {
+        self.domNode.removeAttribute(name);
+      }
+    } else {
+      super.format(name, value);
+    }
+  }
+}
+
+
 @Injectable()
 export class SharedService {
   static PRICING_PLANS: any;
