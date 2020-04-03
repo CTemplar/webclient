@@ -18,12 +18,6 @@ import { MailContactComponent } from '../../mail/mail-contact/mail-contact.compo
 import { SaveContactComponent } from '../../mail/mail-contact/save-contact/save-contact.component';
 
 import Quill from 'quill';
-import ImageResize from 'quill-image-resize-module';
-
-
-// Register quill modules and fonts and image parameters
-Quill.register('modules/imageResize', ImageResize);
-
 // image format for retrieving custom attributes
 
 const BaseImageFormat = Quill.import('formats/image');

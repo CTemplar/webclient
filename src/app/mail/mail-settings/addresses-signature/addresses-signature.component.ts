@@ -12,8 +12,12 @@ import { MailSettingsService } from '../../../store/services/mail-settings.servi
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
+import ImageResize from 'quill-image-resize-module';
 
+// Register quill modules and fonts and image parameters
+Quill.register('modules/imageResize', ImageResize);
 import Quill from 'quill';
+
 Quill.register(ImageFormat, true);
 
 
