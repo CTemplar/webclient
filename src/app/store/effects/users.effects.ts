@@ -363,8 +363,12 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.createFilter(payload)
         .pipe(
-          switchMap(res => of(new CreateFilterSuccess(res))),
-          catchError(errorResponse => of(new CreateFilterFailure(errorResponse.error)))
+          switchMap(res => of(new CreateFilterSuccess(res),
+            new SnackErrorPush({ message: `The filter “${payload.name}” has been added.` })
+          )),
+          catchError(errorResponse => of(new CreateFilterFailure(errorResponse.error),
+            new SnackErrorPush({ message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.' })
+          ))
         );
     }));
 
@@ -375,8 +379,13 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.createFilter(payload)
         .pipe(
-          switchMap(res => of(new UpdateFilterSuccess(res))),
-          catchError(errorResponse => of(new UpdateFilterFailure(errorResponse.error)))
+          switchMap(res => of(
+            new UpdateFilterSuccess(res),
+            new SnackErrorPush({ message: `The filter “${payload.name}” has been updated.` })
+          )),
+          catchError(errorResponse => of(new UpdateFilterFailure(errorResponse.error),
+            new SnackErrorPush({ message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.' })
+          ))
         );
     }));
 
@@ -387,7 +396,9 @@ export class UsersEffects {
     switchMap(filter => {
       return this.userService.deleteFilter(filter.id)
         .pipe(
-          switchMap(res => of(new DeleteFilterSuccess(filter))),
+          switchMap(res => of(new DeleteFilterSuccess(filter),
+            new SnackErrorPush({ message: `The filter “${filter.name}” has been deleted.` })
+          )),
           catchError(errorResponse => of(
             new SnackErrorPush({ message: errorResponse.error ? errorResponse.error : 'Failed to delete filter.' }),
             new DeleteFilterFailure(errorResponse.error)
