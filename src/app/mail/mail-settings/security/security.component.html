@@ -346,9 +346,9 @@
       <div *ngIf="auth2FAForm.auth2FAStep === 2">
         <div>
           <div class="form-group form-group-sm">
-            <label for="password" class="d-block text-muted text-left hidden-sm-up" [translate]="'settings.password'">Password</label>
+            <label for="password" class="d-block text-muted text-left hidden-sm-up" [translate]="'common.account_password'">Your account password</label>
             <div class="input-group">
-              <input #password class="form-control form-control-lg" id="password" [placeholder]="'settings.password'| translate"
+              <input #password class="form-control form-control-lg" id="password" [placeholder]="'common.account_password'| translate"
                      [(ngModel)]="auth2FAForm.password"
                      type="password"/>
               <span class="input-group-addon password-toggle bg-white text-muted"
