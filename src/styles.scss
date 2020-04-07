@@ -252,6 +252,7 @@ app-compose-mail {
     max-height: 75px;
     overflow-y: auto;
     max-width: calc(100% - 4rem);
+    min-width: calc(100% - 4rem);
   }
 
   .mail-compose-field textarea{
