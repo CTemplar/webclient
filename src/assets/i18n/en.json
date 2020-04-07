@@ -507,7 +507,8 @@
     "delete_all": "Delete all permanently",
     "no_conversations": "There are no conversations with this label.",
     "remove_start": "Remove Star",
-    "start_message": "Star Message"
+    "start_message": "Star Message",
+    "4_Wall_Protection": "4 Wall Protection"
   },
   "home_header": {
     "home": "Home",
