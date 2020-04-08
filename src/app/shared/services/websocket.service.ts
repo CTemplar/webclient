@@ -7,6 +7,7 @@ import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { environment } from '../../../environments/environment';
 
 @UntilDestroy()
 @Injectable()
@@ -24,8 +25,14 @@ export class WebsocketService implements OnDestroy {
   }
 
   public connect() {
-    const url = (window.location.protocol === 'https:' ? 'wss:' : 'ws:') + '//'
-    + (location.host === 'gh.ctemplar.com' ? 'mail.ctemplar.com' : location.host)
+    let protocol = window.location.protocol;
+    let host = location.host;
+    if (protocol === 'file:') {
+      protocol = 'https:';
+      host = environment.production ? 'mail.ctemplar.com' : 'dev.ctemplar.com';
+    }
+    const url = (protocol === 'https:' ? 'wss:' : 'ws:') + '//'
+    + (host === 'gh.ctemplar.com' ? 'mail.ctemplar.com' : host)
       + `/api/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = (response) => {
