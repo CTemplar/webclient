@@ -5,17 +5,18 @@
   "main": "electron/dist/main.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "serve": "ng serve",
-    "build": "ng build --prod --subresource-integrity",
-    "dev": "ng build --output-hashing all",
+    "start": "ng serve --base-href ./",
+    "serve": "ng serve --base-href ./",
+    "build": "ng build --prod --subresource-integrity --base-href ./",
+    "dev": "ng build --output-hashing all --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "ngcc",
-    "electron": "tsc --p electron && electron .",
-    "electron-build": "ng build --base-href ./ && tsc --p electron",
-    "electron-run": "ng build --base-href ./ && tsc --p electron && electron ."
+    "start:electron": "tsc --p electron && electron .",
+    "build:electron": "tsc --p electron",
+    "build-all": "ng build --prod --subresource-integrity --base-href ./ && tsc --p electron",
+    "build-all-dev": "ng build --base-href ./ && tsc --p electron"
   },
   "private": true,
   "dependencies": {

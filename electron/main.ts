@@ -2,20 +2,20 @@ import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
-let win: BrowserWindow;
+let mainWindow: BrowserWindow;
 
 app.on('ready', createWindow);
 
 app.on('activate', () => {
-  if (win === null) {
+  if (mainWindow === null) {
     createWindow();
   }
 });
 
 function createWindow() {
-  win = new BrowserWindow({ width: 1200, height: 800 });
+  mainWindow = new BrowserWindow({ width: 1200, height: 800 });
 
-  win.loadURL(
+  mainWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, `/../../dist/index.html`),
       protocol: 'file:',
@@ -23,9 +23,16 @@ function createWindow() {
     })
   );
 
-  win.webContents.openDevTools();
+  // Open dev tool for testing
+  // win.webContents.openDevTools();
 
-  win.on('closed', () => {
-    win = null;
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
 }
+
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
