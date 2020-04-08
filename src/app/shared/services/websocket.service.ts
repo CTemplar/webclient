@@ -8,6 +8,7 @@ import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { environment } from '../../../environments/environment';
+import { IS_ELECTRON } from '../config';
 
 @UntilDestroy()
 @Injectable()
@@ -27,7 +28,7 @@ export class WebsocketService implements OnDestroy {
   public connect() {
     let protocol = window.location.protocol;
     let host = location.host;
-    if (protocol === 'file:') {
+    if (IS_ELECTRON) {
       protocol = 'https:';
       host = environment.production ? 'mail.ctemplar.com' : 'dev.ctemplar.com';
     }

@@ -78,6 +78,8 @@ export const QUILL_FORMATTING_MODULES = {
   imageResize: true
 };
 
+export const IS_ELECTRON = window.location.protocol === 'file:';
+
 function getBaseUrl() {
   if (environment.production) {
     if (location.hostname === 'gh.ctemplar.com') {

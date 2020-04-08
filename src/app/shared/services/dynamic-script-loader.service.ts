@@ -19,9 +19,9 @@ export class DynamicScriptLoaderService {
 
   constructor() {
     if (environment.production) {
-      ScriptStore.push({ name: 'stripe-key', src: '../../../assets/js/stripe-key.js' });
+      ScriptStore.push({ name: 'stripe-key', src: 'assets/js/stripe-key.js' });
     } else {
-      ScriptStore.push({ name: 'stripe-key', src: '../../../assets/js/stripe-test-key.js' });
+      ScriptStore.push({ name: 'stripe-key', src: 'assets/js/stripe-test-key.js' });
     }
     ScriptStore.forEach((script: any) => {
       this.scripts[script.name] = {
