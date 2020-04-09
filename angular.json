@@ -31,7 +31,7 @@
               {
                 "glob": "openpgp.min.js",
                 "input": "node_modules/openpgp/dist",
-                "output": "/"
+                "output": "/assets/static"
               }
             ],
             "styles": [

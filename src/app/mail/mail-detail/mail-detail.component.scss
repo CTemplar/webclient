@@ -3,6 +3,7 @@
 
 .mail-detail-content {
   padding-bottom: 3rem;
+  overflow-wrap: break-word;
 }
 
 .mail-content {
@@ -37,7 +38,7 @@
   margin-top: 10px;
 
   .gmail-ellipsis {
-    background-image: url(/assets/images/more_horiz_black_20dp.png);
+    background-image: url(assets/images/more_horiz_black_20dp.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 20px;
