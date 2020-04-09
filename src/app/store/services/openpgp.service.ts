@@ -46,7 +46,7 @@ export class OpenPgpService {
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
 
-    this.pgpWorker = new Worker('/assets/static/pgp-worker.js');
+    this.pgpWorker = new Worker('assets/static/pgp-worker.js');
     this.listenWorkerPostMessages();
 
     this.store.select(state => state.mailboxes)
