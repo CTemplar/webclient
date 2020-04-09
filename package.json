@@ -16,7 +16,8 @@
     "start:electron": "tsc --p electron && electron .",
     "build:electron": "tsc --p electron",
     "build-all": "ng build --prod --subresource-integrity --base-href ./ && tsc --p electron",
-    "build-all-dev": "ng build --base-href ./ && tsc --p electron"
+    "build-all-dev": "ng build --base-href ./ && tsc --p electron",
+    "pack-mac": "electron-packager . CTemplar --platform=darwin --arch=x64"
   },
   "private": true,
   "dependencies": {
@@ -70,6 +71,7 @@
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
     "electron": "^8.2.1",
+    "electron-packager": "^14.2.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.3.0",
