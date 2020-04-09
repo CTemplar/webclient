@@ -24,7 +24,7 @@ function createWindow() {
   );
 
   // Open dev tool for testing
-  // win.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

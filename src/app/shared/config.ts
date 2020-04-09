@@ -80,10 +80,10 @@ export const QUILL_FORMATTING_MODULES = {
 };
 
 function getBaseUrl() {
-  if (IS_ELECTRON) {
-    return 'https://api.ctemplar.com/';
-  }
   if (environment.production) {
+    if (IS_ELECTRON) {
+      return 'https://api.ctemplar.com/';
+    }
     const config = getWindowConfig();
     if (config.host === 'gh.ctemplar.com') {
       return 'https://api.ctemplar.com/';
