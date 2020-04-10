@@ -1,6 +1,6 @@
 self.window = {crypto: self.crypto}; // to make UMD bundles work
 
-importScripts('/openpgp.min.js');
+importScripts('openpgp.min.js');
 var openpgp = window.openpgp;
 
 var decryptedPrivKeys = {};
