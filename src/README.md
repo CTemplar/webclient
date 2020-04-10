@@ -4,7 +4,9 @@ Official Angular cross-platform client for the CTemplar secure email service ava
 
 RELEASE VERSION : **${version}**    
 
-SHA-256 checksum of `index.html` : **${hash}**  
+SHA-256 checksum of web client `index.html` : **${hash}**  
+
+SHA-256 checksum of electron client `index.html` : **${hash}**  
 
 Find full release code and distribution at : [https://github.com/CTemplar/webclient/releases/latest](https://github.com/CTemplar/webclient/releases/latest)
 
@@ -108,5 +110,13 @@ and match their checksum. It should be same as mentioned at the top of this docu
   ii). [https://md5file.com/calculator](https://md5file.com/calculator)
   
     ![img](/docs/images/calculate-hash-online-github2.png)  
+    
   
+#Why different checksum of electron client index.html
+
+Electron client `index.html` requires a `base-href='./'` instead of `base-href='/'`.
+That is the only one difference between electron client and webclient `index.html`.
+A copy of electron client `index.html` is available inside this `dist` folder by the name of `electron-index.html`. 
+
+![img](/docs/images/electron-index-html-diff.png)
 
