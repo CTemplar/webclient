@@ -88,14 +88,18 @@
                             class="icon icon-garbage"></i></a>
                 </li>
                 <li class="pr-0">
-                    <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()"> {{'common.compose' | translate}}</a>
+                    <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()">
+                        <i class="svg-inline--fa fa-2x far fa-envelope"></i>
+                    </a>
                 </li>
                 <li class="hidden-xs-down pr-0">
                     <a class="no-icon text-grey-dark-500" role="button"
                        (click)="editContact(null, addUserContent);" >{{'contacts.new_contact' | translate}}</a>
                 </li>
                 <li class="">
-                    <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()"> {{'contacts.import_contacts'| translate}}</a>
+                    <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()">
+                        <i class="svg-inline--fa fa-2x  fas fa-upload"></i>
+                    </a>
                 </li>
                 <li *ngIf="inProgress">
                     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
