@@ -60,14 +60,9 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   onClose() {
     if (this.composeMail.hasData()) {
-      this.confirmModalRef = this.modalService.open(this.confirmDiscardModal, {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal'
-      });
+      this.saveInDrafts();
     } else if (this.composeMail.draftMail && this.composeMail.draftMail.id) {
       this.discardEmail();
-    } else {
-      this.hideMailComposeDialog();
     }
   }
 
@@ -77,12 +72,10 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   saveInDrafts() {
     this.composeMail.saveInDrafts();
-    this.hideMailComposeDialog();
   }
 
   discardEmail() {
     this.composeMail.discardEmail();
-    this.hideMailComposeDialog();
   }
 
   onHide() {
