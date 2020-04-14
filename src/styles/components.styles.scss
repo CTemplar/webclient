@@ -122,6 +122,8 @@ app-custom-domains {
 .mailbox-sub-content {
   height: calc(100vh - 115px);
   overflow-y: scroll;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 app-mail-settings {
