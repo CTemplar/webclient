@@ -32,7 +32,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Output() public fullScreen = new EventEmitter<boolean>();
 
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
-  @ViewChild('confirmDiscardModal') confirmDiscardModal;
   shortcuts: ShortcutInput[] = [];
   @ViewChild('input') input: ElementRef;
   @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
