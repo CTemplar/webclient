@@ -87,15 +87,15 @@ function getBaseUrl() {
     const config = getWindowConfig();
     if (config.host === 'gh.ctemplar.com') {
       return 'https://api.ctemplar.com/';
-    } else if (config.host === 'dev1.ctemplar.com') {
-      return 'https://devapi.ctemplar.com/';
+    } else if (config.host === 'dev1.ctemplar.net') {
+      return 'https://devapi.ctemplar.net/';
     }
     if (config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion') {
       return '/api/';
     }
     return config.protocol + '//' + config.host.replace('mail.', 'api.') + '/';
   }
-  return 'https://devapi.ctemplar.com/';
+  return 'https://devapi.ctemplar.net/';
 }
 
 export function getWindowConfig(): { host: string, protocol: string } {
