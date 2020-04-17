@@ -466,6 +466,35 @@
                   </div>
                 </div>
               </div>
+
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3" ngbTooltip="Enabling this option would block all the external images from loading automatically when you open an email">
+                    <label class="form-label mb-0">Block external images</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="blockExternalImages1"
+                                 name="[blockExternalImages]" type="radio" (click)="updateSettings('is_disable_loading_images', true)"
+                                 [checked]="settings.is_disable_loading_images"/>
+                          <label for="blockExternalImages1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="blockExternalImages2"
+                                 name="[blockExternalImages]" type="radio" (click)="updateSettings('is_disable_loading_images', false)"
+                                 [checked]="!settings.is_disable_loading_images"/>
+                          <label for="blockExternalImages2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
