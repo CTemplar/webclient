@@ -30,3 +30,19 @@ textarea:disabled {
 .learn-more-info-icon {
     margin-top: -5px;
 }
+.menu-btn {
+    button {
+        font-size: inherit !important;
+        height: inherit !important;
+    }
+    .dropdown-size {
+        min-width: 152px;
+        max-width: 152px;
+    }
+    a {
+        color: black;
+    }
+    .item {
+        margin-left: -25px;
+    }
+}
