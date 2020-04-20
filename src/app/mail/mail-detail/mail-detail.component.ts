@@ -66,6 +66,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   showRawContent: any = {};
   isDarkMode: boolean;
   forceLightMode: boolean;
+  disableExternalImages: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -213,6 +214,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.isDarkMode = this.userState.settings.is_night_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
+        this.disableExternalImages = this.userState.settings.is_disable_loading_images;
       });
     this.isMobile = window.innerWidth <= 768;
 

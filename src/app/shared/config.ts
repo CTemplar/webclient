@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
 export const apiUrl = getBaseUrl();
-export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.com';
+export const PRIMARY_DOMAIN = environment.production ? 'ctemplar.com' : 'dev.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
 
 
@@ -101,9 +101,9 @@ function getBaseUrl() {
 export function getWindowConfig(): { host: string, protocol: string } {
   let protocol = window.location.protocol;
   let host = location.host;
-  if (IS_ELECTRON) {
+  if (IS_ELECTRON || location.hostname === 'localhost') {
     protocol = 'https:';
-    host = environment.production ? 'mail.ctemplar.com' : 'dev.ctemplar.com';
+    host = environment.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
   }
   return { host, protocol };
 }

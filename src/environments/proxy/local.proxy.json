@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://dev.ctemplar.com",
+    "target": "https://dev.ctemplar.net",
     "secure": true,
     "changeOrigin": true,
     "ws":true,
