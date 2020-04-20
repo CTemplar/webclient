@@ -93,7 +93,7 @@ function getBaseUrl() {
     if (config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion') {
       return '/api/';
     }
-    return config.protocol + '//' + config.host.replace('mail.', 'api.') + '/';
+    return 'https://api.ctemplar.com';
   }
   return 'https://devapi.ctemplar.com/';
 }
