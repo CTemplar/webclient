@@ -351,10 +351,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } else {
       let content = this.mailData.content ? this.mailData.content : '';
-      if ((!this.content && this.content !== '') || content === '') {
+      if (this.editor) {
         this.content = this.editor.nativeElement.firstChild.innerHTML;
       }
-      if (this.content && content === '') {
+      this.content = this.content && this.content === '' ? content : this.content;
+
+      if (this.content) {
         content = this.getPlainText(this.content);
       }
       if (this.messageHistory) {
@@ -373,6 +375,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     //  this.initializeDraft();
     if (value) {
       this.cdr.detectChanges();
+      //  this.isSignatureAdded = false;
     }
     this.initializeComposeMail();
     if (!value) {
@@ -531,8 +534,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.quill.on('text-change', (delta, oldDelta, source) => {
       this.valueChanged$.next();
     });
-
-    if (this.content) {
+    if (this.mailData.content) {
+      this.content = this.mailData.content ? this.mailData.content.replace(/\n/g, '<br>') : this.content;
+      this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
+    } else if (this.content) {
       this.content = this.formatContent(this.content);
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     }
