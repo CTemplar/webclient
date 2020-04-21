@@ -188,10 +188,12 @@
         </button>
       </div>
     </div>
-    <div class="spam_reason" *ngIf="mail.spam_reason && mail.spam_reason.length!==0">
+    <div class="spam_reason row" *ngIf="mail.spam_reason && mail.spam_reason.length!==0">
       <ng-container *ngIf="mail.folder === mailFolderTypes.SPAM; else spoofWarning">
-        <span class="spam_why">{{"mail_detail.message_in_span"| translate}} </span>
-        <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        <div class="col pt-1">
+          <span class="spam_why text-warning">{{"mail_detail.message_in_span"| translate}} </span>
+          <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        </div>
         <div>
           <button class="mark_not_spam btn btn-outline-warning" (click)="markNotSpam(mail)"
                   [ngbTooltip]="'mail_detail.mail_not_spam'| translate">{{"mail_detail.mark_not_spam"| translate}}
