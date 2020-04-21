@@ -6,12 +6,12 @@ Official Angular cross-platform client for the CTemplar secure email service.
 
 ## Prerequisites
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3 and upgraded to 8.3.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3 and upgraded to 9.0.6.
 
 * Node (`v12.4.0` or higher)
 * Angular CLI
   ```
-  npm install -g @angular/cli@8.3.3
+  npm install -g @angular/cli@9.0.6
   ```
 
 ## Installation
@@ -29,6 +29,45 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ### Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+
+
+### Build Electron client
+
+Run the following command in order to build electron client for all platform
+
+```bash
+npm run pack-all
+```
+
+Build for a specific platform
+
+```bash
+ npm run pack -- --platform=<platform> --arch=<arch>
+```
+
+For example:
+
+```bash
+ npm run pack -- --platform=win32 --arch=x64
+
+OR
+
+ npm run pack -- --platform=darwin --arch=x64
+
+OR
+
+ npm run pack -- --platform=linux --arch=x64
+```
+
+#### Supported platforms
+
+You can generate executables/bundles for the following **target** platforms:
+
+* Windows (also known as `win32`, for x86, x86_64, and arm64 architectures)
+* macOS (also known as `darwin`) 
+* Linux (for x86, x86_64, armv7l, arm64, and mips64el architectures)
+
+For more information, visit electron-packager [documentation](https://github.com/electron/electron-packager#supported-platforms).
 
 ### Running unit tests
 
