@@ -209,7 +209,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private loadContacts: boolean = true;
   private contactsState: ContactsState;
   shortcuts: ShortcutInput[] = [];
-  isHTMLValue = false;
 
   constructor(private modalService: NgbModal,
               private store: Store<AppState>,
@@ -267,9 +266,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
         this.settings = user.settings;
-        if (this.draftMail && this.draftMail.is_html === null && !this.isHTMLValue) {
+        if (this.draftMail && this.draftMail.is_html === null) {
           this.draftMail.is_html = !this.settings.is_html_disabled;
-          this.isHTMLValue = true;
         }
         if (user.settings.is_contacts_encrypted) {
           this.contacts = [];
@@ -372,10 +370,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleHtmleditor(value: boolean) {
     this.draftMail.is_html = value;
-    //  this.initializeDraft();
     if (value) {
       this.cdr.detectChanges();
-      //  this.isSignatureAdded = false;
     }
     this.initializeComposeMail();
     if (!value) {
