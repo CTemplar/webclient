@@ -23,6 +23,7 @@ import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/m
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { SafePipe } from '../../shared/pipes/safe.pipe';
 
 declare var Scrambler;
 
@@ -67,6 +68,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   isDarkMode: boolean;
   forceLightMode: boolean;
   disableExternalImages: boolean;
+  xssPipe = SafePipe;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -92,7 +94,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    SafePipe.hasExternalImages = false;
     this.store.select(state => state.webSocket).pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
