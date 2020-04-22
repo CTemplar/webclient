@@ -320,7 +320,6 @@ a {
 
 .mail-compose-box-inner {
 	background: $brand-white;
-	min-height: 383px;
 }
 
 .mail-compose-editable-box {
@@ -331,6 +330,7 @@ a {
 	}
 
 	.ql-editor {
+		min-height: 380px;
 		p {
 			font-size: 14px;
 		}
