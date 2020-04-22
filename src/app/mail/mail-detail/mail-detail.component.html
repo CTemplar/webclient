@@ -177,11 +177,23 @@
            [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
     </div>
-
-    <div class="spam_reason" *ngIf="mail.spam_reason && mail.spam_reason.length!==0">
+    <div class="spam_reason row" *ngIf="xssPipe.hasExternalImages && disableExternalImages">
+      <div class="col pt-1"><span class="text-warning">Warning:</span>
+        This email contains external images, which have been blocked.
+      </div>
+      <div>
+        <button class="mark_not_spam btn btn-outline-warning" (click)="disableExternalImages=false;xssPipe.hasExternalImages=false;"
+                ngbTooltip="Load external images">
+          Load
+        </button>
+      </div>
+    </div>
+    <div class="spam_reason row" *ngIf="mail.spam_reason && mail.spam_reason.length!==0">
       <ng-container *ngIf="mail.folder === mailFolderTypes.SPAM; else spoofWarning">
-        <span class="spam_why">{{"mail_detail.message_in_span"| translate}} </span>
-        <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        <div class="col pt-1">
+          <span class="spam_why text-warning">{{"mail_detail.message_in_span"| translate}} </span>
+          <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        </div>
         <div>
           <button class="mark_not_spam btn btn-outline-warning" (click)="markNotSpam(mail)"
                   [ngbTooltip]="'mail_detail.mail_not_spam'| translate">{{"mail_detail.mark_not_spam"| translate}}

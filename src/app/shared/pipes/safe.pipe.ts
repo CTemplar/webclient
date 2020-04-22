@@ -8,6 +8,7 @@ import { apiUrl, PRIMARY_DOMAIN } from '../config';
   name: 'safe',
 })
 export class SafePipe implements PipeTransform {
+  static hasExternalImages: boolean;
 
   constructor(private sanitizer: DomSanitizer) {}
 
@@ -108,6 +109,7 @@ export class SafePipe implements PipeTransform {
               return `${attrName}="${xss.friendlyAttrValue(attrValue)}"`;
             } else if (disableExternalImages && tag === 'img' && attrName === 'src') {
               if (!(attrValue.indexOf('https://' + PRIMARY_DOMAIN) === 0 || attrValue.indexOf(apiUrl) === 0)) {
+                SafePipe.hasExternalImages = true;
                 return `${attrName}=""`;
               }
             }
