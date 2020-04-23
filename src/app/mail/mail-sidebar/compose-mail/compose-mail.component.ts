@@ -368,7 +368,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  toggleHtmleditor(value: boolean) {
+  setHtmlEditor(value: boolean) {
     this.draftMail.is_html = value;
     if (value) {
       this.cdr.detectChanges();

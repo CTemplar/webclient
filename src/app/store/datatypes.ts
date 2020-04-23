@@ -87,7 +87,7 @@ export class UserState {
   id: number | null;
   whiteList: WhiteList[];
   blackList: BlackList[];
-  settings: Settings = new Settings();
+  settings: Settings;
   payment_transaction?: Payment;
   isPrime?: boolean;
   joinedDate?: string;
