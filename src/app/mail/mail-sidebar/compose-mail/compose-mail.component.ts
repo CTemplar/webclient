@@ -146,6 +146,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() action: MailAction;
   @Input() action_parent: number;
   @Input() isMailDetailPage: boolean;
+  @Input() isFullScreen: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();

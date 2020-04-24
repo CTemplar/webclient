@@ -43,8 +43,7 @@
 
     <app-compose-mail *ngIf="isComposeVisible" #composeMail [receivers]="receivers" [draftMail]="draft"
                       (hide)="onHide()" (subjectChanged)="subjectChanged($event)"
-                      [ngClass]="{'d-none': isMinimized}"></app-compose-mail>
-
+                      [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"></app-compose-mail>
   </div>
 </div>
 

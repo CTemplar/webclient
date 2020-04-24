@@ -355,7 +355,7 @@ a {
 }
 
 .mail-composer-actions-row {
-	margin: 0 -0.625rem;	
+	margin: 0 -0.625rem;
 }
 
 .mail-composer-actions-col {
@@ -371,7 +371,9 @@ a {
 		max-width: 30%;
 	}
 }
-
+.composer-footer {
+	margin-bottom: 1.4rem;
+}
 .mail-composer-actions {
 	margin: 0 -.375rem;
 	padding: 0 0;
