@@ -104,6 +104,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
         modalRef.close();
       }, 500);
     }, 2500);
+    document.getElementById('night-mode').innerHTML = '';
   }
 
   openComposeMailDialog(receivers) {
