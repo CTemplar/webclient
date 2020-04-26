@@ -1,5 +1,5 @@
 {
-  "name": "CTemplar",
+  "name": "ctemplar",
   "version": "2.3.0",
   "license": "Apache",
   "main": "electron/dist/main.js",
