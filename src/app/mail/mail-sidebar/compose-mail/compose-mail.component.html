@@ -155,7 +155,7 @@
     </div>
     <div class="mail-composer-footer">
       <div class="mail-composer-actions-row d-flex align-items-center">
-        <div class="mail-composer-actions-col mail-composer-actions-col-lg">
+        <div class="mail-composer-actions-col mail-composer-actions-col-lg" [ngClass]="{'composer-footer' : !isFullScreen}">
           <ul class="mail-composer-actions d-flex align-items-center">
             <li class="send-mail-item">
               <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
@@ -495,7 +495,7 @@
             </li>
           </ul>
         </div>
-        <div class="mail-composer-actions-col mail-composer-actions-col-sm">
+        <div class="mail-composer-actions-col mail-composer-actions-col-sm" [ngClass]="{'composer-footer': !isFullScreen} ">
           <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
             <li class="pr-1" *ngIf="isDownloadingAttachmentCounter > 0">
               <span>{{'settings.compose.downloading_attachments'| translate}}</span>
@@ -560,7 +560,8 @@
   </div>
 </ng-template><!-- /.attach images modal ends -->
 
-<!-- self destruct datetime picker modal -->`
+<!-- self destruct datetime picker modal -->
+
 <ng-template #selfDestructModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.self_dest_email"| translate}}</strong>
