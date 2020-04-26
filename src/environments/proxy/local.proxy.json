@@ -1,9 +1,9 @@
 {
-  "/api": {
-    "target": "https://dev.ctemplar.net",
-    "secure": true,
+  "/api/*": {
+    "target": "http://127.0.0.1:8000",
+    "secure": false,
     "changeOrigin": true,
     "ws":true,
-    "logLevel": "info"
+    "logLevel": "debug"
   }
 }
