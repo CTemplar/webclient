@@ -207,7 +207,7 @@
 
         <!-- Starred Message -->
         <td class="mail-status">
-          <a class="mail-status-type" [ngbTooltip]="mail.starred ? ('mail_list.remove_start'| translate) : ('mail_list.start_message'| translate)"  (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
+          <a class="mail-status-type" [ngbTooltip]="mail.starred ? ('mail_list.remove_start'| translate) : ('mail_list.start_message'| translate)" placement="right"  (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
             <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
           </a>
         </td>
@@ -282,8 +282,12 @@
         </td>
 
         <!-- Icon Secured -->
-        <td class="mail-security-status" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
-          <img src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection'| translate">
+        <td class="mail-security-status fire-wall-protection" [ngClass]="{'text-faded': (!mail.is_protected && mail.sender!=='support@ctemplar.com')}">
+          <img *ngIf="!userState.settings.is_night_mode;else fireWallIcon " src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection'| translate" placement="left">
+         <ng-template #fireWallIcon>
+           <i class="fas fa-chess-rook svg-inline--fa" [ngbTooltip]="'mail_list.4_Wall_Protection'| translate" placement="left"></i>
+         </ng-template>
+
         </td>
 
         <!-- Icon Secured -->

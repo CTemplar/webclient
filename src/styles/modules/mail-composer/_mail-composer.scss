@@ -320,7 +320,6 @@ a {
 
 .mail-compose-box-inner {
 	background: $brand-white;
-	min-height: 383px;
 }
 
 .mail-compose-editable-box {
@@ -331,6 +330,7 @@ a {
 	}
 
 	.ql-editor {
+		min-height: 380px;
 		p {
 			font-size: 14px;
 		}
@@ -355,7 +355,7 @@ a {
 }
 
 .mail-composer-actions-row {
-	margin: 0 -0.625rem;	
+	margin: 0 -0.625rem;
 }
 
 .mail-composer-actions-col {
@@ -371,7 +371,9 @@ a {
 		max-width: 30%;
 	}
 }
-
+.composer-footer {
+	margin-bottom: 1.4rem;
+}
 .mail-composer-actions {
 	margin: 0 -.375rem;
 	padding: 0 0;

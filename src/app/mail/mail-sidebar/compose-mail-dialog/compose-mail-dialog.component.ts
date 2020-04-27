@@ -32,7 +32,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Output() public fullScreen = new EventEmitter<boolean>();
 
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
-  @ViewChild('confirmDiscardModal') confirmDiscardModal;
   shortcuts: ShortcutInput[] = [];
   @ViewChild('input') input: ElementRef;
   @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
@@ -60,14 +59,9 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   onClose() {
     if (this.composeMail.hasData()) {
-      this.confirmModalRef = this.modalService.open(this.confirmDiscardModal, {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal'
-      });
+      this.saveInDrafts();
     } else if (this.composeMail.draftMail && this.composeMail.draftMail.id) {
       this.discardEmail();
-    } else {
-      this.hideMailComposeDialog();
     }
   }
 
@@ -77,12 +71,10 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   saveInDrafts() {
     this.composeMail.saveInDrafts();
-    this.hideMailComposeDialog();
   }
 
   discardEmail() {
     this.composeMail.discardEmail();
-    this.hideMailComposeDialog();
   }
 
   onHide() {

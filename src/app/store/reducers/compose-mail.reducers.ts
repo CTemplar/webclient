@@ -31,6 +31,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
           return attachment;
         });
       }
+      draftMail.is_html = oldDraft.draft.is_html;
       state.drafts[action.payload.draft.id] = {
         ...oldDraft,
         inProgress: false,

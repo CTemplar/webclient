@@ -2,7 +2,7 @@
 
 import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
-import { Domain, PromoCode, UserState } from '../datatypes';
+import { Domain, PromoCode, Settings, UserState } from '../datatypes';
 
 export const initialState: UserState = {
   username: null,
@@ -10,7 +10,7 @@ export const initialState: UserState = {
   isPrime: false,
   whiteList: [],
   blackList: [],
-  settings: {},
+  settings: new Settings(),
   membership: {},
   mailboxes: [],
   payment_transaction: {},
