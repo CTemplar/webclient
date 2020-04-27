@@ -1,5 +1,5 @@
 {
-  "name": "CTemplar",
+  "name": "ctemplar",
   "version": "2.3.0",
   "license": "Apache",
   "main": "electron/dist/main.js",
@@ -17,7 +17,7 @@
     "build:electron": "tsc --p electron",
     "build-all": "ng build --prod --subresource-integrity --base-href ./ && tsc --p electron",
     "build-all-dev": "ng build --base-href ./ && tsc --p electron",
-    "pack-mac": "electron-packager . CTemplar --platform=darwin --arch=x64 --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e",
+    "pack": "electron-packager . CTemplar --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e",
     "pack-all": "./set-electron-base-href.sh && electron-packager . CTemplar --all --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e && ./revert-electron-base-href.sh"
   },
   "private": true,

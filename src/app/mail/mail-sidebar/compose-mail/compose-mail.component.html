@@ -114,8 +114,8 @@
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
-          <div #editor *ngIf="!settings.is_html_disabled"></div>
-          <div *ngIf="settings.is_html_disabled">
+          <div #editor *ngIf="draftMail?.is_html"></div>
+          <div *ngIf="!draftMail?.is_html">
              <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content"
                        (ngModelChange)="valueChanged$.next(mailData.content)"
                        id="content" rows="1"></textarea>
@@ -155,7 +155,7 @@
     </div>
     <div class="mail-composer-footer">
       <div class="mail-composer-actions-row d-flex align-items-center">
-        <div class="mail-composer-actions-col mail-composer-actions-col-lg">
+        <div class="mail-composer-actions-col mail-composer-actions-col-lg" [ngClass]="{'composer-footer' : !isFullScreen}">
           <ul class="mail-composer-actions d-flex align-items-center">
             <li class="send-mail-item">
               <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
@@ -168,7 +168,7 @@
               </button>
             </li>
             <li>
-              <div *ngIf="settings.is_html_disabled; else textFormatter"
+              <div *ngIf="!draftMail?.is_html; else textFormatter"
                    ngbTooltip="Text formatting is not available in plain text editor" class="dropdown">
                 <button class="actions-btn mail-typo-btn hide-arrow" disabled>
                   <i class="icon icon-text-color"></i>
@@ -396,7 +396,7 @@
               </button>
             </li>
             <li>
-              <div *ngIf="settings.is_html_disabled; else insertLinkRef"
+              <div *ngIf="!draftMail?.is_html; else insertLinkRef"
                    ngbTooltip="Insert link is not available in plain text editor" class="dropdown">
                 <button class="actions-btn insert-link-btn" disabled>
                   <i class="fas fa-link"></i>
@@ -416,7 +416,7 @@
                       placement="top" [ngbTooltip]="'settings.compose.encryption'| translate"><i
                       class="icon icon-mail"></i></button>
             </li>
-            <li class="px-0" *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
+            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
               <button role="button" type="button" (click)="openSelfDestructModal()"
                       class="actions-btn mail-clock-btn border-left-0 border-radius-0"
                       [ngClass]="{'badge badge-warning text-white': selfDestruct.value}"
@@ -431,7 +431,7 @@
                 </button>
               </li>
             </ng-template>
-            <li class="px-0" *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn">
+            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn">
               <button type="button" role="button" (click)="openDelayedDeliveryModal()"
                       class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
                       [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
@@ -447,7 +447,7 @@
                 </button>
               </li>
             </ng-template>
-            <li class="px-0" *ngIf="userState.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn">
+            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn">
               <button type="button" role="button" (click)="openDeadManTimerModal()"
                       class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                       [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
@@ -462,9 +462,40 @@
                 </button>
               </li>
             </ng-template>
+
+            <li class="btn-dropdown">
+              <div ngbDropdown [autoClose]="'outside'"  class="dropdown menu-btn" [placement]="['top-left', 'bottom-left']">
+                <button class="dropdown-toggle btn-more" type="button" id="btn_more" [ngbTooltip]="'More'" placement="right"
+                        ngbDropdownToggle>More
+                </button>
+                <div ngbDropdownMenu class="dropdown-menu-right text-center dropdown-size"
+                     aria-labelledby="helpDropdownMenuButton">
+                  <button class="dropdown-item row" style="margin: 0px"  (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html">
+                    <div class="row item">
+                      <div class="col-2">
+                        <i *ngIf="draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
+                      </div>
+                      <a class="col-8 ql-size-small" target="_blank">
+                        HTML Editor</a>
+                    </div>
+
+                  </button>
+
+                  <button class="dropdown-item" (click)="setHtmlEditor(false)" [disabled]="!draftMail.is_html">
+                    <div class="row item">
+                      <div class="col-2">
+                        <i *ngIf="!draftMail.is_html"  class="fa fa-check text-black-50 ng-star-inserted"></i>
+                      </div>
+                      <a  class="col-8 ql-size-small" >Plain Text</a>
+                    </div>
+                  </button>
+
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
-        <div class="mail-composer-actions-col mail-composer-actions-col-sm">
+        <div class="mail-composer-actions-col mail-composer-actions-col-sm" [ngClass]="{'composer-footer': !isFullScreen} ">
           <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
             <li class="pr-1" *ngIf="isDownloadingAttachmentCounter > 0">
               <span>{{'settings.compose.downloading_attachments'| translate}}</span>
@@ -529,7 +560,8 @@
   </div>
 </ng-template><!-- /.attach images modal ends -->
 
-<!-- self destruct datetime picker modal -->`
+<!-- self destruct datetime picker modal -->
+
 <ng-template #selfDestructModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.self_dest_email"| translate}}</strong>

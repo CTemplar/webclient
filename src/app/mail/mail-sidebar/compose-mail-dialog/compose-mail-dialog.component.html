@@ -43,33 +43,9 @@
 
     <app-compose-mail *ngIf="isComposeVisible" #composeMail [receivers]="receivers" [draftMail]="draft"
                       (hide)="onHide()" (subjectChanged)="subjectChanged($event)"
-                      [ngClass]="{'d-none': isMinimized}"></app-compose-mail>
-
+                      [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"></app-compose-mail>
   </div>
 </div>
-
-<!-- Confirm discard email modal -->
-<ng-template #confirmDiscardModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.confirm_discard"| translate}}</strong></h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group">
-        {{"settings.compose.want_to_discard"| translate}}
-      </div>
-      <div class="form-group text-right mb-0">
-        <button (click)="d()" class="btn btn-secondary btn-sm mr-1" role="button" >{{"common.cancel"| translate}}</button>
-        <button (click)="saveInDrafts()" class="btn btn-success btn-sm mr-1" role="button" >{{"settings.compose.save_in_drafts"| translate}}</button>
-        <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button" >{{"settings.compose.discard"| translate}}</button>
-      </div>
-    </div>
-  </div>
-</ng-template><!-- /.Confirm discard email modal ends -->
-
 
 
 <ng-keyboard-shortcuts-help key="f1" closeKey="escape"></ng-keyboard-shortcuts-help>

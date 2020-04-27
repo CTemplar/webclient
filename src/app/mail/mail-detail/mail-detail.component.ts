@@ -23,6 +23,7 @@ import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/m
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { SafePipe } from '../../shared/pipes/safe.pipe';
 
 declare var Scrambler;
 
@@ -66,6 +67,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   showRawContent: any = {};
   isDarkMode: boolean;
   forceLightMode: boolean;
+  disableExternalImages: boolean;
+  xssPipe = SafePipe;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -91,7 +94,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    SafePipe.hasExternalImages = false;
     this.store.select(state => state.webSocket).pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
@@ -213,6 +216,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.userState = user;
         this.isDarkMode = this.userState.settings.is_night_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
+        this.disableExternalImages = this.userState.settings.is_disable_loading_images;
       });
     this.isMobile = window.innerWidth <= 768;
 

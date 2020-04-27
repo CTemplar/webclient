@@ -177,11 +177,23 @@
            [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
     </div>
-
-    <div class="spam_reason" *ngIf="mail.spam_reason && mail.spam_reason.length!==0">
+    <div class="spam_reason row" *ngIf="xssPipe.hasExternalImages && disableExternalImages">
+      <div class="col pt-1"><span class="text-warning">Warning:</span>
+        This email contains external images, which have been blocked.
+      </div>
+      <div>
+        <button class="mark_not_spam btn btn-outline-warning" (click)="disableExternalImages=false;xssPipe.hasExternalImages=false;"
+                ngbTooltip="Load external images">
+          Load
+        </button>
+      </div>
+    </div>
+    <div class="spam_reason row" *ngIf="mail.spam_reason && mail.spam_reason.length!==0">
       <ng-container *ngIf="mail.folder === mailFolderTypes.SPAM; else spoofWarning">
-        <span class="spam_why">{{"mail_detail.message_in_span"| translate}} </span>
-        <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        <div class="col pt-1">
+          <span class="spam_why text-warning">{{"mail_detail.message_in_span"| translate}} </span>
+          <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
+        </div>
         <div>
           <button class="mark_not_spam btn btn-outline-warning" (click)="markNotSpam(mail)"
                   [ngbTooltip]="'mail_detail.mail_not_spam'| translate">{{"mail_detail.mark_not_spam"| translate}}
@@ -320,10 +332,10 @@
       <div class="show_gmail_extra">
         <div class="msg-reply-content text-dark" id="{{mail.id}}-mail-content"
              *ngIf="!showRawContent[mail.id]; else rawContent"
-           [innerHTML]="decryptedContents[mail.id] | safe: 'html': mail.sender"></div>
+           [innerHTML]="decryptedContents[mail.id] | safe: 'html': disableExternalImages :mail.sender"></div>
         <ng-template #rawContent>
           <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content"
-               [innerHTML]="decryptedContents[mail.id] | safe: 'unsafehtml'"></div>
+               [innerHTML]="decryptedContents[mail.id] | safe: 'unsafehtml': disableExternalImages"></div>
         </ng-template>
       </div>
     </div>
@@ -501,10 +513,10 @@
                 <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
                   <div class="msg-reply-content text-dark" id="{{childMail.id}}-mail-content"
                        *ngIf="!showRawContent[childMail.id] else rawChildContent"
-                       [innerHTML]="decryptedContents[childMail.id] | safe: 'html': childMail.sender"></div>
+                       [innerHTML]="decryptedContents[childMail.id] | safe: 'html': disableExternalImages :childMail.sender"></div>
                   <ng-template #rawChildContent>
                     <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
-                         [innerHTML]="decryptedContents[childMail.id] | safe: 'unsafehtml'"></div>
+                         [innerHTML]="decryptedContents[childMail.id] | safe: 'unsafehtml':disableExternalImages"></div>
                   </ng-template>
 
                   <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"

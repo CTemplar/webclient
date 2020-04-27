@@ -2,15 +2,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import * as xss from 'xss';
 import * as cssfilter from 'cssfilter';
+import { apiUrl, PRIMARY_DOMAIN } from '../config';
 
 @Pipe({
   name: 'safe',
 })
 export class SafePipe implements PipeTransform {
+  static hasExternalImages: boolean;
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  public transform(value: any, type: string = '', fromEmail?: string): SafeHtml | SafeUrl {
+  public transform(value: any, type: string = '', disableExternalImages?: boolean, fromEmail?: string): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
         value = this.removeTitle(value);
@@ -105,6 +107,11 @@ export class SafePipe implements PipeTransform {
           onTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
             if (tag === 'img' && attrName === 'src' && attrValue.indexOf('data:image/png;base64,') === 0) {
               return `${attrName}="${xss.friendlyAttrValue(attrValue)}"`;
+            } else if (disableExternalImages && tag === 'img' && attrName === 'src') {
+              if (!(attrValue.indexOf('https://' + PRIMARY_DOMAIN) === 0 || attrValue.indexOf(apiUrl) === 0)) {
+                SafePipe.hasExternalImages = true;
+                return `${attrName}=""`;
+              }
             }
             // Return nothing, means keep the default handling measure
           }

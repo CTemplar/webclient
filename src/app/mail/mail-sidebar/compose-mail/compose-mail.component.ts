@@ -1,7 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component,
+  Component, ElementRef,
   EventEmitter,
   HostListener,
   Input,
@@ -146,11 +146,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() action: MailAction;
   @Input() action_parent: number;
   @Input() isMailDetailPage: boolean;
+  @Input() isFullScreen: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild('editor') editor;
+  @ViewChild('editor', { read: ElementRef, static: false }) editor;
   @ViewChild('attachmentHolder') attachmentHolder;
   @ViewChild('toolbar') toolbar;
   @ViewChild('attachImagesModal') attachImagesModal;
@@ -184,7 +185,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   insertLinkData: any = {};
   settings: Settings;
   mailAction = MailAction;
-
   private isMailSent = false;
   private isSavedInDraft = false;
 
@@ -204,7 +204,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private inlineAttachmentContentIds: Array<string> = [];
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
-  public userState: UserState;
+  public userState: UserState = new UserState();
   private decryptedContent: string;
   private encryptionData: any = {};
   private loadContacts: boolean = true;
@@ -267,6 +267,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
         this.settings = user.settings;
+        if (this.draftMail && this.draftMail.is_html === null) {
+          this.draftMail.is_html = !this.settings.is_html_disabled;
+        }
         if (user.settings.is_contacts_encrypted) {
           this.contacts = [];
         }
@@ -326,23 +329,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (!this.settings.is_html_disabled) {
-      this.initializeQuillEditor();
-    } else {
-      let content = this.mailData.content ? this.mailData.content : '';
-      if (this.content) {
-        content += this.getPlainText(this.content);
-      }
-      if (this.messageHistory) {
-        content += '\n' + this.getPlainText(this.messageHistory);
-      }
-      if (content) {
-        setTimeout(() => {
-          this.mailData.content = content;
-        }, 300);
-      }
-    }
-
+    this.initializeComposeMail();
     if (this.forwardAttachmentsMessageId) {
       if (this.editor) {
         this.updateEmail();
@@ -354,6 +341,44 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.shortcuts = getComposeMailShortcuts(this);
     this.cdr.detectChanges();
+  }
+
+  initializeComposeMail() {
+    if (this.draftMail.is_html === null || this.draftMail.is_html) {
+      if (this.editor) {
+        this.initializeQuillEditor();
+      }
+    } else {
+      let content = this.mailData.content ? this.mailData.content : '';
+      if (this.editor) {
+        this.content = this.editor.nativeElement.firstChild.innerHTML;
+      }
+      this.content = this.content && this.content === '' ? content : this.content;
+
+      if (this.content) {
+        content = this.getPlainText(this.content);
+      }
+      if (this.messageHistory) {
+        content += '\n' + this.getPlainText(this.messageHistory);
+      }
+      if (content) {
+        setTimeout(() => {
+          this.mailData.content = content;
+        }, 300);
+      }
+    }
+  }
+
+  setHtmlEditor(value: boolean) {
+    this.draftMail.is_html = value;
+    if (value) {
+      this.cdr.detectChanges();
+    }
+    this.initializeComposeMail();
+    if (!value) {
+      this.cdr.detectChanges();
+    }
+    this.valueChanged$.next();
   }
 
   ngOnDestroy(): void {
@@ -389,6 +414,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initializeDraft() {
+    if (!this.draftMail) {
+      this.draftMail = { is_html: null, content: null, folder: 'draft' };
+    }
     this.draftId = Date.now();
 
     if (this.draftMail && this.draftMail.content) {
@@ -410,7 +438,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       id: this.draftId,
       draft: this.draftMail,
       inProgress: false,
-      attachments: this.draftMail ? this.draftMail.attachments.map(attachment => {
+      attachments: this.draftMail && this.draftMail.attachments ? this.draftMail.attachments.map(attachment => {
         attachment.progress = 100;
         attachment.name = this.filenamePipe.transform(attachment.document);
         attachment.draftId = this.draftId;
@@ -503,8 +531,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.quill.on('text-change', (delta, oldDelta, source) => {
       this.valueChanged$.next();
     });
-
-    if (this.content) {
+    if (this.mailData.content) {
+      this.content = this.mailData.content ? this.mailData.content.replace(/\n/g, '<br>') : this.content;
+      this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
+    } else if (this.content) {
       this.content = this.formatContent(this.content);
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     }
@@ -524,7 +554,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private formatContent(content: string) {
-    return this.settings.is_html_disabled ? content.replace(/\n/g, '<br>') : content;
+    return !this.draftMail.is_html ? content.replace(/\n/g, '<br>') : content;
   }
 
   insertLink(text: string, link: string) {
@@ -749,7 +779,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateSignature() {
-    if (this.settings.is_html_disabled) {
+    if (this.settings && !this.draftMail.is_html) {
       if (!this.isSignatureAdded) {
         this.isSignatureAdded = true;
         this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
@@ -771,7 +801,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addDecryptedContent() {
-    if (this.settings.is_html_disabled && this.decryptedContent) {
+    if (!this.draftMail.is_html && this.decryptedContent) {
       this.mailData.content = this.decryptedContent;
       return;
     }
@@ -925,7 +955,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
-    return (this.settings.is_html_disabled ? this.mailData.content.length > 1 : this.quill.getLength() > 1) ||
+    return (!this.draftMail.is_html ? this.mailData.content.length > 1 : this.quill.getLength() > 1) ||
       this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
   }
 
@@ -949,7 +979,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setMailData(shouldSend: boolean, shouldSave: boolean) {
     if (!this.draftMail) {
-      this.draftMail = { content: null, folder: 'draft' };
+      this.draftMail = { is_html: null, content: null, folder: 'draft' };
     }
 
     this.draft.isSaving = shouldSave;
@@ -964,11 +994,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
-    this.draftMail.is_html = !this.settings.is_html_disabled;
-    if (!this.settings.is_html_disabled) {
-      this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-      const tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
-      if (tokens.length > 1) {
+    let tokens;
+    if (this.draftMail.is_html) {
+      if (this.editor.nativeElement.firstChild !== null) {
+        this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+        tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
+      }
+      if (tokens && tokens.length > 1) {
         tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
         tokens[tokens.length - 1] += `</span>`;
         this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
@@ -1023,7 +1055,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkInlineAttachments() {
-    if (this.settings.is_html_disabled) {
+    if (!this.draftMail.is_html) {
       return;
     }
     const contents = this.quill.getContents().ops;
