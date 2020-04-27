@@ -7,7 +7,7 @@
 
 # NodeJS
 /node_modules/
-/dist/
+dist
 
 # Others
 .DS_Store
