@@ -123,3 +123,7 @@ app-users-sign-in .password-toggle {
 app-mail-detail .mail-content * {
     background: unset !important;
 }
+
+app-compose-mail .ng2-dropdown-menu.ng2-dropdown-menu--inside-element {
+    background: #363d51 !important
+}
