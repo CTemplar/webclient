@@ -341,8 +341,7 @@ a {
 .mail-composer-footer {
 	padding: 0.5rem $mail_composer_padding_x;
 	background: $brand-faded;
-	border-top: 1px solid $input-border-color;
-	border-bottom: 1px solid $input-border-color;
+	border: 1px solid $input-border-color;
 	margin-bottom: -26px;
 
 	@include media("<=sm") {

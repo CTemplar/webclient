@@ -60,7 +60,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   onClose() {
     if (this.composeMail.hasData()) {
       this.saveInDrafts();
-    } else if (this.composeMail.draftMail && this.composeMail.draftMail.id) {
+    } else if (this.composeMail.draftMail) {
       this.discardEmail();
     }
   }

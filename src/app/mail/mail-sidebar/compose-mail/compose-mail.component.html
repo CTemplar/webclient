@@ -155,7 +155,7 @@
     </div>
     <div class="mail-composer-footer">
       <div class="mail-composer-actions-row d-flex align-items-center">
-        <div class="mail-composer-actions-col mail-composer-actions-col-lg" [ngClass]="{'composer-footer' : !isFullScreen}">
+        <div class="mail-composer-actions-col mail-composer-actions-col-lg" [ngClass]="{'composer-footer' : !isFullScreen && !isMailDetailPage}">
           <ul class="mail-composer-actions d-flex align-items-center">
             <li class="send-mail-item">
               <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
@@ -495,7 +495,7 @@
             </li>
           </ul>
         </div>
-        <div class="mail-composer-actions-col mail-composer-actions-col-sm" [ngClass]="{'composer-footer': !isFullScreen} ">
+        <div class="mail-composer-actions-col mail-composer-actions-col-sm" [ngClass]="{'composer-footer': !isFullScreen && !isMailDetailPage} ">
           <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
             <li class="pr-1" *ngIf="isDownloadingAttachmentCounter > 0">
               <span>{{'settings.compose.downloading_attachments'| translate}}</span>
