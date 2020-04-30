@@ -2,11 +2,11 @@
 
 Official Angular cross-platform client for the CTemplar secure email service available at [https://ctemplar.com](https://ctemplar.com).
 
-RELEASE VERSION : **${version}**    
+RELEASE VERSION : **v2.3.2**
 
-SHA-256 checksum of web client `index.html` : **${hash}**  
+SHA-256 checksum for `index.html`: **0d7dac1a6a5de2e5519ff2cc4d7324d1f2ad54637c4147ae7a4bfcaff91ec3c3**
 
-SHA-256 checksum of electron client `index.html` : **${hash}**  
+SHA-256 checksum for `electron-index.html`: **007e52bb32fa28ee1f142373e549700edce77b67f3462cd36fc6ac3a8cb160a3**
 
 Find full release code and distribution at : [https://github.com/CTemplar/webclient/releases/latest](https://github.com/CTemplar/webclient/releases/latest)
 
@@ -27,96 +27,95 @@ When we release a new version there are a few ways we guarantee there isn’t an
 
 * Moreover our build is also directly served from github using github pages from [gh-pages](https://github.com/CTemplar/webclient/tree/gh-pages) branch.
   It can be accessed on [gh.ctemplar.com](https://gh.ctemplar.com/)
-  
-  
-  
+
+
+
 ## Calculate checksum
 
-You can calculate checksum of `index.html` served by CTemplar website and the one in our github open source build code 
+You can calculate checksum of `index.html` served by CTemplar website and the one in our github open source build code
 and match their checksum. It should be same as mentioned at the top of this document.
 
-### Calculate checksum of index.html served by CTemplar website  
+### Calculate checksum of index.html served by CTemplar website
 
-* Open [https://ctemplar.com](https://ctemplar.com)  
+* Open [https://ctemplar.com](https://ctemplar.com)
 
 *  Right click, open menu and click on `View Page Source`, it will show you the website source code(`index.html`).
-   
+
    ![img](/docs/images/right-click.png)
 
 * Copy the code and check its SHA-256 hash from any online/offline tool. In this guide we will save the code in a file and check its hash
-  from both online and offline tool.    
-  
+  from both online and offline tool.
+
   ![img](/docs/images/save-as-file.png)
-  
+
   Make sure that you save `Web page, Html only` and not the complete webpage. You can also copy
   the whole code and save it in a text/html file yourself (Note : you should copy the exact code, no empty lines at start while pasting in file).
-  
+
   ![img](/docs/images/save-as-html-only-file.png)
-  
+
 * Calculate checksum of the saved file using offline cli.
 
     ```bash
     openssl dgst -sha256 view-source_https___ctemplar.com.html
-    ```  
-           
+    ```
+
   ![img](/docs/images/calculate-hash-offline.png)
-  
-* Calculate checksum of the saved file using online tool.    
+
+* Calculate checksum of the saved file using online tool.
 
   i). [https://hash.online-convert.com/sha256-generator](https://hash.online-convert.com/sha256-generator)
-  
+
     ![img](/docs/images/calculate-hash-online-1.png)
-    
+
     ![img](/docs/images/calculate-hash-online-1.1.png)
-      
+
   ii). [https://md5file.com/calculator](https://md5file.com/calculator)
-  
+
     ![img](/docs/images/calculate-hash-online-2.png)
 
 
 
 ### Calculate checksum of index.html from open source github build code
 
-* Open CTemplar [webclient](https://github.com/CTemplar/webclient) github code and go into dist folder or directly go 
+* Open CTemplar [webclient](https://github.com/CTemplar/webclient) github code and go into dist folder or directly go
   to this link :: [/dist](/dist)
 
 * Open `index.html` file inside dist folder and click on raw in order to access the raw content of this file.
 
   ![img](/docs/images/hash-online-raw-1.png)
 
-* Copy the content and save it in a file, or right click and `save as` html/text file or you can simply copy the link of this file from 
+* Copy the content and save it in a file, or right click and `save as` html/text file or you can simply copy the link of this file from
   browser, which is [https://raw.githubusercontent.com/CTemplar/webclient/master/dist/index.html](https://raw.githubusercontent.com/CTemplar/webclient/master/dist/index.html)
-  and check its hash online by providing this link.  
+  and check its hash online by providing this link.
 
   ![img](/docs/images/save-github-file1.png)
-  
-  
+
+
 * Calculate checksum of the saved file using offline cli.
 
     ```bash
     openssl dgst -sha256 index.html
-    ```  
-           
+    ```
+
   ![img](/docs/images/calculate-hash-offline-github.png)
-  
-* Calculate checksum of the saved file using online tool.    
+
+* Calculate checksum of the saved file using online tool.
 
   i). [https://hash.online-convert.com/sha256-generator](https://hash.online-convert.com/sha256-generator)
-  
+
     ![img](/docs/images/calculate-hash-online-github.png)
-    
+
     ![img](/docs/images/calculate-hash-online-github1.png)
-      
+
   ii). [https://md5file.com/calculator](https://md5file.com/calculator)
-  
-    ![img](/docs/images/calculate-hash-online-github2.png)  
-    
-  
+
+    ![img](/docs/images/calculate-hash-online-github2.png)
+
+
 #Why different checksum of electron client index.html
 
 Electron client `index.html` requires a `base-href='./'` instead of `base-href='/'`.
 That is the only one difference between electron client and webclient `index.html`.
-A copy of electron client `index.html` is available inside this `dist` folder by the name of `electron-index.html`. 
+A copy of electron client `index.html` is available inside this `dist` folder by the name of `electron-index.html`.
 
 ![img](/docs/images/electron-index-html-diff.png)
-
