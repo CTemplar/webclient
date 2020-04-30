@@ -7,4 +7,4 @@ sed -i -e "s/href=\"\/\"/href=\".\/\"/g" electron-index.html
 rm electron-index.html-e
 openssl dgst -sha256 *index.html
 echo "Update checksums in dist/README.md"
-git subtree push --prefix dist origin gh-pages
+git subtree push --prefix . origin gh-pages
