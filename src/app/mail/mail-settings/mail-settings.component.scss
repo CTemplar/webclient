@@ -479,6 +479,12 @@ $error-red: #e94e4c;
     border: 1px solid #f2f2f2;
   }
 
+  .user-details {
+    @include media("<=sm") {
+      margin-right: 1rem;
+    }
+  }
+
   .subscription {
     color: black;
     margin-top: 10px;
