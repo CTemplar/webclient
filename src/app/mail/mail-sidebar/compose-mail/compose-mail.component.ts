@@ -1122,14 +1122,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mailData = {
       receiver: this.receivers ?
         this.receivers.map(receiver => ({ display: receiver, value: receiver })) :
-        this.draftMail ?
+        this.draftMail && this.draftMail.receiver ?
           this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver })) :
           [],
       cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) :
-        this.draftMail ?
+        this.draftMail && this.draftMail.cc ?
           this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver })) :
           [],
-      bcc: this.draftMail ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
+      bcc: this.draftMail && this.draftMail.bcc ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
       subject: (this.draftMail && this.draftMail.is_subject_encrypted) ? '' :
         (this.subject ? this.subject : this.draftMail ? this.draftMail.subject : '')
     };

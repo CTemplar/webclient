@@ -81,22 +81,22 @@
                         </button>
                     </div>
                 </li>
-                <li class="pr-0 pl-0">
+                <li class="hidden-xs-down pr-0">
+                    <a class="no-icon text-grey-dark-500" role="button"
+                       (click)="editContact(null, addUserContent);" >{{'contacts.new_contact' | translate}}</a>
+                </li>
+                <li class="pr-0" ngbTooltip="Compose mail">
+                    <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()">
+                        <i class="svg-inline--fa fa-2x far fa-envelope"></i>
+                    </a>
+                </li>
+                <li >
                     <a (click)="openConfirmDeleteModal(confirmDeleteModal)"
                        [ngbTooltip]="'contacts.delete_tooltip' | translate"
                        class="cursor-pointer border-radius-l-0"><i
                             class="icon icon-garbage"></i></a>
                 </li>
-                <li class="pr-0">
-                    <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()">
-                        <i class="svg-inline--fa fa-2x far fa-envelope"></i>
-                    </a>
-                </li>
-                <li class="hidden-xs-down pr-0">
-                    <a class="no-icon text-grey-dark-500" role="button"
-                       (click)="editContact(null, addUserContent);" >{{'contacts.new_contact' | translate}}</a>
-                </li>
-                <li class="">
+                <li class="pl-0" ngbTooltip="Import contacts">
                     <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()">
                         <i class="svg-inline--fa fa-2x  fas fa-upload"></i>
                     </a>
