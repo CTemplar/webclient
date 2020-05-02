@@ -42,7 +42,7 @@ export function reducer(
         mails = [...action.payload.mails, ...mails];
       }
       mails = mails.map((mail: Mail) => {
-        mail.receiver_list = getMailReceiverList(mail);
+        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
           || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
         return mail;
@@ -319,7 +319,7 @@ export function reducer(
       });
       if (newEntry && state.currentFolder === action.payload.folder) {
         const mail = action.payload;
-        mail.receiver_list = getMailReceiverList(mail);
+        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
           || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
 
@@ -357,22 +357,4 @@ function transformFilename(attachments: Attachment[]) {
     });
   }
   return attachments;
-}
-
-function getMailReceiverList(mail: Mail) {
-  if (mail.receiver_display.length > 1) {
-    mail.receiver_list = '';
-    mail.receiver_display.forEach((item: EmailDisplay) => {
-      if (mail.sender !== item.email && item.name) {
-        if (mail.receiver_list === '') {
-          mail.receiver_list = item.name;
-        } else {
-          mail.receiver_list += ', ' + item.name;
-        }
-      }
-    });
-  } else {
-    mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-  }
-  return mail.receiver_list;
 }

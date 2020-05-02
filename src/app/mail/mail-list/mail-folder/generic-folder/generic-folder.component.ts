@@ -14,7 +14,7 @@ import {
   StarMail
 } from '../../../../store/actions';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
-import { Folder, Mail, MailFolderType } from '../../../../store/models';
+import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
 import { getGenericFolderShortcuts, OpenPgpService, SharedService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
@@ -78,6 +78,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = [...mailState.mails];
+          if (this.mailFolder === MailFolderType.SENT && this.mails.length > 0) {
+            this.getMailReceiverList();
+          }
         }
         if (this.mailState.isMailsMoved && this.isMoveMailClicked) {
           this.isMoveMailClicked = false;
@@ -167,6 +170,25 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       searchText: this.searchText,
     }));
     this.store.dispatch(new GetUnreadMailsCount());
+  }
+
+  getMailReceiverList() {
+    this.mails.forEach(mail => {
+      if (mail.receiver_display.length > 1) {
+        mail.receiver_list = '';
+        mail.receiver_display.forEach((item: EmailDisplay) => {
+          if (mail.sender !== item.email && item.name) {
+            if (mail.receiver_list === '') {
+              mail.receiver_list = item.name;
+            } else {
+              mail.receiver_list += ', ' + item.name;
+            }
+          }
+        });
+      } else {
+        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+      }
+    });
   }
 
   markAllMails(checkAll) {
