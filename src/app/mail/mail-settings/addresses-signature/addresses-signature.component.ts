@@ -47,6 +47,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   mailboxToDelete: Mailbox;
   signatureChanged: Subject<string> = new Subject<string>();
   quillModules = QUILL_FORMATTING_MODULES;
+  isCustomDomainSelected: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
@@ -114,6 +115,31 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       });
 
     this.handleUsernameAvailability();
+  }
+
+  onDomainChange(customDomain: string) {
+    this.newAddressForm.get('username').reset();
+
+    if (customDomain !== PRIMARY_DOMAIN) {
+      this.isCustomDomainSelected = true;
+      this.newAddressForm.get('username').setValidators([Validators.required,
+        Validators.pattern(/^[a-z]*([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+        Validators.minLength(1),
+        Validators.maxLength(64)]);
+      this.newAddressForm.get('domain').setValidators([Validators.required]);
+      this.newAddressForm.get('username').updateValueAndValidity();
+    } else {
+      this.isCustomDomainSelected = false;
+
+      this.newAddressForm.get('username').setValidators([Validators.required,
+        Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+        Validators.minLength(1),
+        Validators.maxLength(64)]);
+      this.newAddressForm.get('domain').setValidators([Validators.required]);
+      this.newAddressForm.get('username').updateValueAndValidity();
+    }
+
+    this.newAddressForm.get('domain').setValue(customDomain);
   }
 
   onAddNewAddress() {

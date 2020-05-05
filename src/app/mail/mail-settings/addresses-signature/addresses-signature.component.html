@@ -181,7 +181,7 @@
                              aria-labelledby="signatureEmailAddressDropdownMenuButton">
                           <a class="dropdown-item"
                              *ngFor="let customDomain of customDomains"
-                             (click)="newAddressForm.get('domain').setValue(customDomain);newAddressForm.get('username').reset()">
+                             (click)="onDomainChange(customDomain)">
                             {{customDomain}}</a>
                         </div>
                       </div>
@@ -210,13 +210,20 @@
                                             <ng-container
                                                     *ngIf="newAddressForm.controls['username'].errors.pattern; else usernameLengthBlock">
                                               <span [translate]="'settings.username_allowed_chars'"> The username must start with a letter or a number and end with a letter or number.It may only
-                                                contain </span> <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em> <span [translate]="'settings.username_minlen'">‌characters, and minimum length is 2 characters.</span>
+                                                contain </span> <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em>
+                                              <span [translate]="'settings.username_minlen'" *ngIf="!isCustomDomainSelected; else customDomainsUserNameMinLenBlock">‌characters, and minimum length is 2 characters.</span>
+                                          <ng-template #customDomainsUserNameMinLenBlock>
+                                            <span>‌characters, and minimum length is 1 character.</span>
+                                          </ng-template>
                                             </ng-container>
                                             <ng-template #usernameLengthBlock>
                                               <ng-container
                                                       *ngIf="newAddressForm.controls['username'].errors.minlength ||
                                                       newAddressForm.controls['username'].errors.maxlength">
-                                                <span [translate]="'settings.username_chars'">The username must be between 2 and 64 characters.</span>
+                                                <span [translate]="'settings.username_chars'" *ngIf="!isCustomDomainSelected; else customDomainsUserNameLenBlock">The username must be between 2 and 64 characters.</span>
+                                           <ng-template #customDomainsUserNameLenBlock>
+                                             <span>The username must be between 1 and 64 characters.</span>
+                                           </ng-template>
                                               </ng-container>
                                             </ng-template>
                                           </span>
