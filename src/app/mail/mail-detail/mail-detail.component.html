@@ -203,7 +203,7 @@
       <ng-template #spoofWarning>
         <span class="spam_why">Warning:</span>
         <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
-        <span class="ml-1"><a href="{{primaryWebsite}}/faq/email-domain-not-authenticated/" target="_blank">
+        <span class="ml-1"><a href="{{primaryWebsite}}/faq/email-domain-not-authenticated/" target="_blank" rel="noopener noreferrer">
           {{"mail_header.learn_more"| translate}}</a></span>
       </ng-template>
     </div>
@@ -353,7 +353,7 @@
           <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
           <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
              [href]="attachment.document" placement="top" [ngbTooltip]="attachment.name" target="_blank"
-             rel="noopener">
+             rel="noopener noreferrer">
             <div class="attachment-icon">
               <i class="icon icon-attachment"></i>
             </div>
@@ -537,7 +537,7 @@
                     <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
                     <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
                        [href]="attachment.document" placement="top" [ngbTooltip]="attachment.name"
-                       target="_blank" rel="noopener">
+                       target="_blank" rel="noopener noreferrer">
                       <div class="attachment-icon">
                         <i class="icon icon-attachment"></i>
                       </div>
