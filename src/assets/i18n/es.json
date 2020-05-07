@@ -316,7 +316,7 @@
     "primary": "Primary",
     "alias_exist": "Email alias already exists.",
     "username_chars": "The username must be between 2 and 64 characters.",
-    "username_allowed_chars": "The username must start with a letter or a number and end with a letter or number.It may only contain",
+    "username_allowed_chars": "The username must start with a letter and end with a letter or number.It may only contain",
     "username_minlen": "characters, and minimum length is 2 characters.",
     "reorder": "Reorder",
     "reorder_addresses": "Reorder addresses",

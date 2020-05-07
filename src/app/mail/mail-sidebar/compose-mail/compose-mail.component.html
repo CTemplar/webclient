@@ -475,7 +475,7 @@
                       <div class="col-2">
                         <i *ngIf="draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
                       </div>
-                      <a class="col-8 ql-size-small" target="_blank">
+                      <a class="col-8 ql-size-small" target="_blank" rel="noopener noreferrer">
                         HTML Editor</a>
                     </div>
 
@@ -855,7 +855,7 @@
 </ng-template><!-- /.encryption modal ends -->
 
 <ng-template #learnMore let-link="link">
-  <a  ngbTooltip="Learn more" target="_blank" class="learn-more-info-icon"
+  <a  ngbTooltip="Learn more" target="_blank" rel="noreferrer noopener" class="learn-more-info-icon"
       [href]="link"><i class="far fa-question-circle"></i>
   </a>
 </ng-template>
