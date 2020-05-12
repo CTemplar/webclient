@@ -1,20 +1,11 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 import { getComposeMailDialogShortcuts } from '../../../store/services';
+import { MailAction } from '../../../store/datatypes';
+import { ComposeMailService } from '../../../store/services/compose-mail.service';
 
 @Component({
   selector: 'app-compose-mail-dialog',
@@ -25,6 +16,11 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;
   @Input() public receivers: string[];
   @Input() public draft: Mail;
+  @Input() action: MailAction;
+  @Input() parentId: number;
+  @Input() content: string;
+  @Input() messageHistory: string;
+
   @Input() public isFullScreen: boolean;
 
   @Output() public hide = new EventEmitter<boolean>();
@@ -54,7 +50,13 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.shortcuts = getComposeMailDialogShortcuts(this);
 
+    if (this.mailSubject && this.action) {
+      if (this.action === MailAction.REPLY) {
+        this.mailSubject = 'Reply: ' + this.mailSubject;
+      }
+    }
     this.cdr.detectChanges();
+
   }
 
   onClose() {

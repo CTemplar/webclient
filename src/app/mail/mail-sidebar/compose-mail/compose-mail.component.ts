@@ -50,6 +50,7 @@ import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
 import { getComposeMailShortcuts } from '../../../store/services';
+import { ComposeMailService } from '../../../store/services/compose-mail.service';
 
 const Quill: any = QuillNamespace;
 
@@ -147,9 +148,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() action_parent: number;
   @Input() isMailDetailPage: boolean;
   @Input() isFullScreen: boolean;
+  @Input() isPopupOpen: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onPopUpChange: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('editor', { read: ElementRef, static: false }) editor;
   @ViewChild('attachmentHolder') attachmentHolder;
@@ -381,6 +384,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.valueChanged$.next();
   }
 
+  openReplyinPopOut() {
+    this.isPopupOpen = true;
+    this.onPopUpChange.emit({
+      receivers: this.receivers,
+      draftMail: this.draftMail,
+      forwardAttachmentsMessageId: this.forwardAttachmentsMessageId,
+      action: this.action,
+      isPopupOpen: true,
+      parentId: this.parentId
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft) {
       this.saveInDrafts();
@@ -419,12 +434,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.draftId = Date.now();
 
-    if (this.draftMail && this.draftMail.content) {
+    if (this.draftMail) {
       this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
       this.isSignatureAdded = true;
-      this.inlineAttachmentContentIds = this.draftMail.attachments
-        .filter((attachment: Attachment) => attachment.is_inline)
-        .map(attachment => attachment.content_id);
+      if (this.draftMail.attachments) {
+        this.inlineAttachmentContentIds = this.draftMail.attachments
+          .filter((attachment: Attachment) => attachment.is_inline)
+          .map(attachment => attachment.content_id);
+      }
+
     }
 
     this.encryptionData = {};
@@ -523,7 +541,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       return delta;
     });
 
-    this.quill.format('font', this.userState.settings.default_font);
+    if (this.userState.settings.default_font) {
+      this.quill.format('font', this.userState.settings.default_font);
+    }
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });

@@ -167,7 +167,7 @@
           </ng-container>
         </strong>
         <i class="icon icon-secured icon-md text-muted ml-2"
-           [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}"
+           [ngClass]="{'text-faded': (!mail.is_protected && mail?.zer!=='support@ctemplar.com')}"
            [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)">
         </i>
       </h5>
@@ -382,11 +382,12 @@
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
           <div class="ui-body">
-            <div class="mail-composer is-borderd border-bottom-0 mt-2">
+          <div class="mail-composer is-borderd border-bottom-0 mt-2">
               <app-compose-mail [draftMail]="childMail"
                                 [showSaveButton]="false"
                                 [isMailDetailPage]="true"
-                                (hide)="onComposeMailHide(childMail)"></app-compose-mail>
+                                (hide)="onComposeMailHide(childMail)"
+                                (onPopUpChange)="onChangePopup($event)"></app-compose-mail>
             </div>
           </div>
         </ng-container>
@@ -574,7 +575,8 @@
                                   [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId"
                                   [showSaveButton]="false"
                                   [isMailDetailPage]="true"
-                                  (hide)="onComposeMailHide(childMail)"></app-compose-mail>
+                                  (hide)="onComposeMailHide(childMail)"
+                ></app-compose-mail>
               </div>
             </div>
           </div>
@@ -606,7 +608,7 @@
         </button>
       </div>
     </div>
-    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible">
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisiblef">
       <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
                         [cc]="composeMailData[mail.id]?.cc"
                         [content]="composeMailData[mail.id]?.content"
@@ -619,7 +621,8 @@
                         [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId"
                         [showSaveButton]="false"
                         [isMailDetailPage]="true"
-                        (hide)="onComposeMailHide(mail)"></app-compose-mail>
+                        (hide)="onComposeMailHide(mail)"
+                        (onPopUpChange)="onChangePopup($event, mail)"></app-compose-mail>
     </div>
   </div>
   <div class="mailbox-footer-actionbar hidden-sm-up">

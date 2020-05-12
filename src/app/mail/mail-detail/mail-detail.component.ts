@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -24,6 +24,7 @@ import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../..
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
+import { ComposeMailComponent } from '../mail-sidebar/compose-mail/compose-mail.component';
 
 declare var Scrambler;
 
@@ -37,7 +38,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
-
+  @ViewChild(ComposeMailComponent, { read: ComponentRef }) replyMail: ComponentRef<ComposeMailComponent>;
   mail: Mail;
   composeMailData: any = {};
   mailFolderTypes = MailFolderType;
@@ -69,6 +70,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   forceLightMode: boolean;
   disableExternalImages: boolean;
   xssPipe = SafePipe;
+  isPopupOpen: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -242,6 +244,29 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           text: 'A7gHc6H66A9SAQfoBJDq4C7'
         });
       }, 100);
+    }
+  }
+
+  onChangePopup($event: any, mail?: Mail) {
+    this.isPopupOpen = $event.isPopupOpen;
+
+    this.destroyComposeMailComponent();
+
+    this.composeMailService.openComposeMailDialog({
+      receivers: $event.receivers,
+      draft: $event.draftMail,
+      action: MailAction.REPLY,
+      parentId: $event.parentId,
+      content: mail && mail.id ? this.composeMailData[mail.id].content : '',
+      messageHistory: mail && mail.id ? this.composeMailData[mail.id].messageHistory : ''
+    });
+  }
+
+  destroyComposeMailComponent() {
+    if (this.replyMail) {
+      this.replyMail.destroy();
+    } else {
+      console.log('Unable to destroy compose mail component');
     }
   }
 
