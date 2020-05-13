@@ -587,7 +587,7 @@
 
 
   <!--Reply to mail.-->
-  <div class="ui-body ui-footer-sec" *ngIf="isPopupOpen">
+  <div class="ui-body ui-footer-sec" *ngIf="isPopupOpen && isPopupOpen !== null">
     <p>You are currently editing your reply in a separate window. <a (click)="openReply()"> Show your draft here.</a></p>
   </div>
   <div class="ui-body ui-footer-sec" #replyActions *ngIf="!isPopupOpen">

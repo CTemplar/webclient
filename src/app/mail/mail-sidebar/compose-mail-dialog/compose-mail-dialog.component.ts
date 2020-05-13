@@ -54,7 +54,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     this.store.select(state => state).pipe(untilDestroyed(this))
       .subscribe((appState: AppState) => {
         this.isPopupClosed = appState.mail.isComposerPopUp;
-        if (this.isPopupClosed !== undefined && !this.isPopupClosed && this.action === MailAction.REPLY) {
+        if (this.isPopupClosed !== undefined && !this.isPopupClosed && this.action === MailAction.REPLY && this.composeMail !== undefined) {
           this.saveInDrafts();
         }
       });
@@ -101,6 +101,9 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   onHide() {
     this.hideMailComposeDialog();
+    if (this.action === MailAction.REPLY) {
+      this.store.dispatch(new SetIsComposerPopUp(null));
+    }
   }
 
   toggleMinimized() {

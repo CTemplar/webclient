@@ -25,7 +25,7 @@ import {
   GetEmailContacts,
   GetUsersKeys,
   MoveMail,
-  NewDraft,
+  NewDraft, SetIsComposerPopUp,
   SnackErrorPush,
   SnackPush,
   UpdateDraftAttachment,
