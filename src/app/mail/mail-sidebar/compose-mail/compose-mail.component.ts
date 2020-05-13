@@ -152,7 +152,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onPopUpChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() popUpChange: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('editor', { read: ElementRef, static: false }) editor;
   @ViewChild('attachmentHolder') attachmentHolder;
@@ -386,7 +386,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openReplyinPopOut() {
     this.isPopupOpen = true;
-    this.onPopUpChange.emit({
+    this.popUpChange.emit({
       receivers: this.receivers,
       draftMail: this.draftMail,
       forwardAttachmentsMessageId: this.forwardAttachmentsMessageId,

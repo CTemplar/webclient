@@ -387,7 +387,7 @@
                                 [showSaveButton]="false"
                                 [isMailDetailPage]="true"
                                 (hide)="onComposeMailHide(childMail)"
-                                (onPopUpChange)="onChangePopup($event)"></app-compose-mail>
+                                (popUpChange)="onChangePopup($event)"></app-compose-mail>
             </div>
           </div>
         </ng-container>
@@ -608,7 +608,7 @@
         </button>
       </div>
     </div>
-    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisiblef">
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible">
       <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
                         [cc]="composeMailData[mail.id]?.cc"
                         [content]="composeMailData[mail.id]?.content"
@@ -622,7 +622,7 @@
                         [showSaveButton]="false"
                         [isMailDetailPage]="true"
                         (hide)="onComposeMailHide(mail)"
-                        (onPopUpChange)="onChangePopup($event, mail)"></app-compose-mail>
+                        (popUpChange)="onChangePopup($event)"></app-compose-mail>
     </div>
   </div>
   <div class="mailbox-footer-actionbar hidden-sm-up">
