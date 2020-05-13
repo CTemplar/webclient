@@ -1,9 +1,9 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
-import { COLORS, ESCAPE_KEYCODE, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -28,29 +28,31 @@ import {
   NewDraft,
   SnackErrorPush,
   SnackPush,
-  UpdateLocalDraft, UpdatePGPDecryptedContent,
-  UploadAttachment,
-  UpdateDraftAttachment
+  UpdateDraftAttachment,
+  UpdateLocalDraft,
+  UpdatePGPDecryptedContent,
+  UploadAttachment
 } from '../../../store/actions';
 import {
   AppState,
   AuthState,
   ComposeMailState,
+  ContactsState,
   Draft,
-  EmailContact, SecureContent,
+  EmailContact,
   MailAction,
   MailBoxesState,
   MailState,
-  UserState, ContactsState, Settings
+  SecureContent,
+  Settings,
+  UserState
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { MailService, SharedService } from '../../../store/services';
+import { getComposeMailShortcuts, MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
-import { getComposeMailShortcuts } from '../../../store/services';
-import { ComposeMailService } from '../../../store/services/compose-mail.service';
 
 const Quill: any = QuillNamespace;
 

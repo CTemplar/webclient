@@ -1,4 +1,4 @@
-import { Component, ComponentRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -6,7 +6,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { take } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { WebSocketState } from '../../store';
+import { SetIsComposerPopUp, WebSocketState } from '../../store';
 import {
   DeleteMail,
   DeleteMailForAll,
@@ -24,7 +24,6 @@ import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../..
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
-import { ComposeMailComponent } from '../mail-sidebar/compose-mail/compose-mail.component';
 
 declare var Scrambler;
 
@@ -38,7 +37,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
-  @ViewChild(ComposeMailComponent, { read: ComponentRef }) replyMail: ComponentRef<ComposeMailComponent>;
   mail: Mail;
   composeMailData: any = {};
   mailFolderTypes = MailFolderType;
@@ -178,6 +176,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           } else {
             this.parentMailCollapsed = false;
           }
+          if (this.isPopupOpen && mailState.isComposerPopUp !== undefined) {
+            this.isPopupOpen = mailState.isComposerPopUp;
+          }
         }
         if (this.mails.length > 0 && this.mail) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
@@ -247,11 +248,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  openReply() {
+    this.store.dispatch(new SetIsComposerPopUp(false));
+  }
+
   onChangePopup($event: any, mail?: Mail) {
     this.isPopupOpen = $event.isPopupOpen;
-
-    this.destroyComposeMailComponent();
-
+    this.store.dispatch(new SetIsComposerPopUp(true));
     this.composeMailService.openComposeMailDialog({
       receivers: $event.receivers,
       draft: $event.draftMail,
@@ -260,14 +263,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: mail && mail.id ? this.composeMailData[mail.id].content : '',
       messageHistory: mail && mail.id ? this.composeMailData[mail.id].messageHistory : ''
     });
-  }
-
-  destroyComposeMailComponent() {
-    if (this.replyMail) {
-      this.replyMail.destroy();
-    } else {
-      console.log('Unable to destroy compose mail component');
-    }
   }
 
   changeMail(index: number) {
