@@ -13,7 +13,7 @@ export interface Filter {
 export enum FilterParameter {
   SUBJECT = 'subject',
   SENDER = 'sender',
-  Recipient = 'recipient'
+  RECIPIENT = 'recipient'
 }
 
 export enum FilterCondition {
