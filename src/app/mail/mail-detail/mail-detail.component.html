@@ -167,7 +167,7 @@
           </ng-container>
         </strong>
         <i class="icon icon-secured icon-md text-muted ml-2"
-           [ngClass]="{'text-faded': (!mail.is_protected && mail?.sender!=='support@ctemplar.com')}"
+           [ngClass]="{'text-faded': (!mail.is_protected && mail?.zer!=='support@ctemplar.com')}"
            [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)">
         </i>
       </h5>
@@ -382,11 +382,12 @@
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
           <div class="ui-body">
-            <div class="mail-composer is-borderd border-bottom-0 mt-2">
+          <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="!isPopupOpen">
               <app-compose-mail [draftMail]="childMail"
                                 [showSaveButton]="false"
                                 [isMailDetailPage]="true"
-                                (hide)="onComposeMailHide(childMail)"></app-compose-mail>
+                                (hide)="onComposeMailHide(childMail)"
+                                (popUpChange)="onChangePopup($event)"></app-compose-mail>
             </div>
           </div>
         </ng-container>
@@ -560,7 +561,7 @@
                 </ng-container>
               </ul>
             </section>
-            <div class="ui-body" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible">
+            <div class="ui-body" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible && !isPopupOpen">
               <div class="mail-composer is-borderd border-bottom-0 mt-2">
                 <app-compose-mail [receivers]="composeMailData[childMail.id]?.receivers"
                                   [cc]="composeMailData[childMail.id]?.cc"
@@ -574,7 +575,8 @@
                                   [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId"
                                   [showSaveButton]="false"
                                   [isMailDetailPage]="true"
-                                  (hide)="onComposeMailHide(childMail)"></app-compose-mail>
+                                  (hide)="onComposeMailHide(childMail)"
+                ></app-compose-mail>
               </div>
             </div>
           </div>
@@ -585,7 +587,10 @@
 
 
   <!--Reply to mail.-->
-  <div class="ui-body ui-footer-sec" #replyActions>
+  <div class="ui-body ui-footer-sec" *ngIf="isPopupOpen && isPopupOpen !== null">
+    <p>You are currently editing your reply in a separate window. <a (click)="openReply()"> Show your draft here.</a></p>
+  </div>
+  <div class="ui-body ui-footer-sec" #replyActions *ngIf="!isPopupOpen">
 
     <div class="row" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
       <div class="col-12">
@@ -606,7 +611,7 @@
         </button>
       </div>
     </div>
-    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible">
+    <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible && !isPopupOpen">
       <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers"
                         [cc]="composeMailData[mail.id]?.cc"
                         [content]="composeMailData[mail.id]?.content"
@@ -619,7 +624,8 @@
                         [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId"
                         [showSaveButton]="false"
                         [isMailDetailPage]="true"
-                        (hide)="onComposeMailHide(mail)"></app-compose-mail>
+                        (hide)="onComposeMailHide(mail)"
+                        (popUpChange)="onChangePopup($event)"></app-compose-mail>
     </div>
   </div>
   <div class="mailbox-footer-actionbar hidden-sm-up">

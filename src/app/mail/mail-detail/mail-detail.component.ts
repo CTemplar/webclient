@@ -6,7 +6,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { take } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { WebSocketState } from '../../store';
+import { SetIsComposerPopUp, WebSocketState } from '../../store';
 import {
   DeleteMail,
   DeleteMailForAll,
@@ -37,7 +37,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
-
   mail: Mail;
   composeMailData: any = {};
   mailFolderTypes = MailFolderType;
@@ -69,6 +68,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   forceLightMode: boolean;
   disableExternalImages: boolean;
   xssPipe = SafePipe;
+  isPopupOpen: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -176,6 +176,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           } else {
             this.parentMailCollapsed = false;
           }
+          if (this.isPopupOpen && mailState.isComposerPopUp !== undefined) {
+            this.isPopupOpen = mailState.isComposerPopUp;
+          }
         }
         if (this.mails.length > 0 && this.mail) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
@@ -243,6 +246,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         });
       }, 100);
     }
+  }
+
+  openReply() {
+    this.store.dispatch(new SetIsComposerPopUp(false));
+  }
+
+  onChangePopup($event: any, mail?: Mail) {
+    this.isPopupOpen = $event.isPopupOpen;
+    this.store.dispatch(new SetIsComposerPopUp(true));
+    this.composeMailService.openComposeMailDialog({
+      receivers: $event.receivers,
+      draft: $event.draftMail,
+      action: MailAction.REPLY,
+      parentId: $event.parentId,
+      content: mail && mail.id ? this.composeMailData[mail.id].content : '',
+      messageHistory: mail && mail.id ? this.composeMailData[mail.id].messageHistory : ''
+    });
   }
 
   changeMail(index: number) {

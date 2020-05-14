@@ -521,6 +521,15 @@
                       [ngbTooltip]="'settings.compose.delete_draft'| translate"><i class="icon icon-garbage"></i>
               </button>
             </li>
+
+            <li class="pl-0  pop-up-reply" *ngIf="isMailDetailPage">
+              <button role="button"
+                      (click)="openReplyinPopOut()"
+                      [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
+                      class="actions-btn border-radius-l-0" placement="top"
+                      [ngbTooltip]="'Pop out reply'"><i class="fas fa-external-link-alt"></i>
+              </button>
+            </li>
           </ul>
         </div>
       </div>

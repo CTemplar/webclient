@@ -1,9 +1,9 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
-import { COLORS, ESCAPE_KEYCODE, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -25,31 +25,34 @@ import {
   GetEmailContacts,
   GetUsersKeys,
   MoveMail,
-  NewDraft,
+  NewDraft, SetIsComposerPopUp,
   SnackErrorPush,
   SnackPush,
-  UpdateLocalDraft, UpdatePGPDecryptedContent,
-  UploadAttachment,
-  UpdateDraftAttachment
+  UpdateDraftAttachment,
+  UpdateLocalDraft,
+  UpdatePGPDecryptedContent,
+  UploadAttachment
 } from '../../../store/actions';
 import {
   AppState,
   AuthState,
   ComposeMailState,
+  ContactsState,
   Draft,
-  EmailContact, SecureContent,
+  EmailContact,
   MailAction,
   MailBoxesState,
   MailState,
-  UserState, ContactsState, Settings
+  SecureContent,
+  Settings,
+  UserState
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { MailService, SharedService } from '../../../store/services';
+import { getComposeMailShortcuts, MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
-import { getComposeMailShortcuts } from '../../../store/services';
 
 const Quill: any = QuillNamespace;
 
@@ -147,9 +150,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() action_parent: number;
   @Input() isMailDetailPage: boolean;
   @Input() isFullScreen: boolean;
+  @Input() isPopupOpen: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() popUpChange: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('editor', { read: ElementRef, static: false }) editor;
   @ViewChild('attachmentHolder') attachmentHolder;
@@ -381,6 +386,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.valueChanged$.next();
   }
 
+  openReplyinPopOut() {
+    this.isPopupOpen = true;
+    this.popUpChange.emit({
+      receivers: this.receivers,
+      draftMail: this.draftMail,
+      forwardAttachmentsMessageId: this.forwardAttachmentsMessageId,
+      action: this.action,
+      isPopupOpen: true,
+      parentId: this.parentId
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft) {
       this.saveInDrafts();
@@ -419,12 +436,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.draftId = Date.now();
 
-    if (this.draftMail && this.draftMail.content) {
+    if (this.draftMail) {
       this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
       this.isSignatureAdded = true;
-      this.inlineAttachmentContentIds = this.draftMail.attachments
-        .filter((attachment: Attachment) => attachment.is_inline)
-        .map(attachment => attachment.content_id);
+      if (this.draftMail.attachments) {
+        this.inlineAttachmentContentIds = this.draftMail.attachments
+          .filter((attachment: Attachment) => attachment.is_inline)
+          .map(attachment => attachment.content_id);
+      }
+
     }
 
     this.encryptionData = {};
@@ -523,7 +543,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       return delta;
     });
 
-    this.quill.format('font', this.userState.settings.default_font);
+    if (this.userState.settings.default_font) {
+      this.quill.format('font', this.userState.settings.default_font);
+    }
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });
