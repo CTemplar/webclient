@@ -41,11 +41,10 @@
       </div>
     </div>
 
-    <app-compose-mail *ngIf="isComposeVisible" #composeMail [receivers]="receivers" [draftMail]="draft"
+    <app-compose-mail *ngIf="isComposeVisible" #composeMail [draftMail]="draft"
                       (hide)="onHide()" (subjectChanged)="subjectChanged($event)"
                       [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"
-                      [action]="action" [parentId]="parentId" [content]="content"
-                      [messageHistory]="messageHistory"  ></app-compose-mail>
+                      [isReplyInPopup]="action === 'REPLY'? true: false"></app-compose-mail>
   </div>
 </div>
 

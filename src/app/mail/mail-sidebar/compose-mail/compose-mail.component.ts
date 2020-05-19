@@ -4,10 +4,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
+  Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -134,7 +134,7 @@ export class PasswordValidation {
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
@@ -151,6 +151,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() isMailDetailPage: boolean;
   @Input() isFullScreen: boolean;
   @Input() isPopupOpen: boolean;
+  @Input() isReplyInPopup: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
@@ -333,6 +334,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
+
   ngAfterViewInit() {
     this.initializeComposeMail();
     if (this.forwardAttachmentsMessageId) {
@@ -386,14 +391,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.valueChanged$.next();
   }
 
-  openReplyinPopOut() {
-    this.isPopupOpen = true;
+  openReplyinPopup() {
+    console.log('hello world');
+    this.store.dispatch(new SetIsComposerPopUp(true));
     this.popUpChange.emit({
       receivers: this.receivers,
       draftMail: this.draftMail,
       forwardAttachmentsMessageId: this.forwardAttachmentsMessageId,
       action: this.action,
-      isPopupOpen: true,
       parentId: this.parentId
     });
   }
@@ -467,7 +472,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }) : [],
       usersKeys: null
     };
-    this.store.dispatch(new NewDraft({ ...draft }));
+
+    this.store.dispatch(new NewDraft({ ...draft }));     // check heere whats'
     this.decryptAttachments(draft.attachments);
   }
 
