@@ -220,9 +220,9 @@
                         </div>
                         <div class="desc-card-body bg-faded">
                             <mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
-                                <ng-template matStepperIcon="edit">
-                                    <mat-icon>check</mat-icon>
-                                </ng-template>
+                                <ng-template matStepperIcon="edit" matStepLabel>
+                                    <mat-icon svgIcon="thumbs-up" aria-hidden="false" aria-label="Example thumbs up SVG icon"></mat-icon>
+                                </ng-template>    
                                 <mat-step [stepControl]="domainNameForm">
                                     <form [formGroup]="domainNameForm">
                                         <ng-template matStepLabel>
