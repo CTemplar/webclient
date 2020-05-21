@@ -1,6 +1,6 @@
 {
   "name": "ctemplar",
-  "version": "2.3.8",
+  "version": "2.3.9",
   "license": "Apache",
   "main": "electron/dist/main.js",
   "scripts": {
