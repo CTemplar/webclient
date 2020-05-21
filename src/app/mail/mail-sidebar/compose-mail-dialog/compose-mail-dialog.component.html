@@ -4,7 +4,6 @@
      [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">
     <div class="mail-composer-header p-0">
-
       <div class="mail-composer-title mr-4" (click)="toggleMinimized()">
         <span *ngIf="mailSubject; else newMessage">{{mailSubject}}</span>
         <ng-template #newMessage>
