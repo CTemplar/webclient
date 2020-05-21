@@ -15,7 +15,7 @@
                    aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
                   <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled"
-                     (click)="onFromChanged(mailbox)">{{mailbox.email}}</a>
+                     (click)="onFromChanged(mailbox, selectedMailbox)">{{mailbox.email}}</a>
                 </ng-container>
               </div>
             </div>
