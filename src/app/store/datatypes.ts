@@ -250,6 +250,7 @@ export interface MailState {
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
   isMailsMoved?: boolean;
+  isComposerPopUp?: boolean;
 }
 
 export class SecureContent {

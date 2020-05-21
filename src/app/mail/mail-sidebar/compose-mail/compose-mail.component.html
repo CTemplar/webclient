@@ -15,7 +15,7 @@
                    aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
                   <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled"
-                     (click)="onFromChanged(mailbox)">{{mailbox.email}}</a>
+                     (click)="onFromChanged(mailbox, selectedMailbox)">{{mailbox.email}}</a>
                 </ng-container>
               </div>
             </div>
@@ -114,7 +114,9 @@
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
-          <div #editor *ngIf="draftMail?.is_html"></div>
+          <div #editor *ngIf="draftMail?.is_html">
+            
+          </div>
           <div *ngIf="!draftMail?.is_html">
              <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content"
                        (ngModelChange)="valueChanged$.next(mailData.content)"
@@ -519,6 +521,15 @@
                       [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                       class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                       [ngbTooltip]="'settings.compose.delete_draft'| translate"><i class="icon icon-garbage"></i>
+              </button>
+            </li>
+
+            <li class="pl-0  pop-up-reply" *ngIf="isMailDetailPage">
+              <button role="button"
+                      (click)="openReplyinPopup()"
+                      [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
+                      class="actions-btn border-radius-l-0" placement="top"
+                      [ngbTooltip]="'Pop out reply'"><i class="fas fa-external-link-alt"></i>
               </button>
             </li>
           </ul>

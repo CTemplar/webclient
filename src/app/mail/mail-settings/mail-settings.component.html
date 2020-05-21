@@ -646,7 +646,9 @@
                            autocomplete="off" [(ngModel)]="settings.notification_email"
                            [ngModelOptions]="{ updateOn: 'blur'}"
                            (change)="updateSettings('notification_email', $event.target.value)"
-                           placeholder="johnsimpson@gmail.com"/>
+                           placeholder="notify@example.com"
+                           onfocus="(this.placeholder='')"
+                           onfocusout="(this.placeholder='notify@example.com')"/>
                   </form>
                   <div class="info-card mx-3 mt-2 full-width">
                     <p [translate]="'settings.enter_notification_email'">

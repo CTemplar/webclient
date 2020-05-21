@@ -1,13 +1,13 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   EventEmitter,
-  HostListener,
-  Input,
+  Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
-import { COLORS, ESCAPE_KEYCODE, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -25,31 +25,34 @@ import {
   GetEmailContacts,
   GetUsersKeys,
   MoveMail,
-  NewDraft,
+  NewDraft, SetIsComposerPopUp,
   SnackErrorPush,
   SnackPush,
-  UpdateLocalDraft, UpdatePGPDecryptedContent,
-  UploadAttachment,
-  UpdateDraftAttachment
+  UpdateDraftAttachment,
+  UpdateLocalDraft,
+  UpdatePGPDecryptedContent,
+  UploadAttachment
 } from '../../../store/actions';
 import {
   AppState,
   AuthState,
   ComposeMailState,
+  ContactsState,
   Draft,
-  EmailContact, SecureContent,
+  EmailContact,
   MailAction,
   MailBoxesState,
   MailState,
-  UserState, ContactsState, Settings
+  SecureContent,
+  Settings,
+  UserState
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { MailService, SharedService } from '../../../store/services';
+import { getComposeMailShortcuts, MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
-import { getComposeMailShortcuts } from '../../../store/services';
 
 const Quill: any = QuillNamespace;
 
@@ -131,7 +134,7 @@ export class PasswordValidation {
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
 })
-export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
@@ -147,9 +150,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() action_parent: number;
   @Input() isMailDetailPage: boolean;
   @Input() isFullScreen: boolean;
+  @Input() isPopupOpen: boolean;
+  @Input() isReplyInPopup: boolean;
 
   @Output() hide: EventEmitter<void> = new EventEmitter<void>();
   @Output() subjectChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() popUpChange: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('editor', { read: ElementRef, static: false }) editor;
   @ViewChild('attachmentHolder') attachmentHolder;
@@ -209,6 +215,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private encryptionData: any = {};
   private loadContacts: boolean = true;
   private contactsState: ContactsState;
+  private oldMailbox: Mailbox;
   shortcuts: ShortcutInput[] = [];
 
   constructor(private modalService: NgbModal,
@@ -328,6 +335,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
+
   ngAfterViewInit() {
     this.initializeComposeMail();
     if (this.forwardAttachmentsMessageId) {
@@ -381,6 +392,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.valueChanged$.next();
   }
 
+  openReplyinPopup() {
+    console.log('hello world');
+    this.store.dispatch(new SetIsComposerPopUp(true));
+    this.popUpChange.emit({
+      receivers: this.receivers,
+      draftMail: this.draftMail,
+      forwardAttachmentsMessageId: this.forwardAttachmentsMessageId,
+      action: this.action,
+      parentId: this.parentId
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft) {
       this.saveInDrafts();
@@ -419,12 +442,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.draftId = Date.now();
 
-    if (this.draftMail && this.draftMail.content) {
+    if (this.draftMail) {
       this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
       this.isSignatureAdded = true;
-      this.inlineAttachmentContentIds = this.draftMail.attachments
-        .filter((attachment: Attachment) => attachment.is_inline)
-        .map(attachment => attachment.content_id);
+      if (this.draftMail.attachments) {
+        this.inlineAttachmentContentIds = this.draftMail.attachments
+          .filter((attachment: Attachment) => attachment.is_inline)
+          .map(attachment => attachment.content_id);
+      }
+
     }
 
     this.encryptionData = {};
@@ -447,7 +473,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }) : [],
       usersKeys: null
     };
-    this.store.dispatch(new NewDraft({ ...draft }));
+
+    this.store.dispatch(new NewDraft({ ...draft }));     // check heere whats'
     this.decryptAttachments(draft.attachments);
   }
 
@@ -462,30 +489,30 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             this.isDownloadingAttachmentCounter--;
           }))
           .subscribe(response => {
-              const uint8Array = this.sharedService.base64ToUint8Array(response.data);
-              if (attachment.is_encrypted) {
-                const fileInfo = { attachment, type: response.file_type };
-                this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
-                  .subscribe(decryptedAttachment => {
-                    this.store.dispatch(new UpdateDraftAttachment({
-                      draftId: this.draftId,
-                      attachment: { ...decryptedAttachment }
-                    }));
-                  });
-              } else {
-                const newDocument = new File(
-                  [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
-                  attachment.name,
-                  { type: response.file_type }
-                );
-                const newAttachment: Attachment = { ...attachment, decryptedDocument: newDocument };
-                this.store.dispatch(new UpdateDraftAttachment({
-                  draftId: this.draftId,
-                  attachment: { ...newAttachment }
-                }));
+            const uint8Array = this.sharedService.base64ToUint8Array(response.data);
+            if (attachment.is_encrypted) {
+              const fileInfo = { attachment, type: response.file_type };
+              this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
+                .subscribe(decryptedAttachment => {
+                  this.store.dispatch(new UpdateDraftAttachment({
+                    draftId: this.draftId,
+                    attachment: { ...decryptedAttachment }
+                  }));
+                });
+            } else {
+              const newDocument = new File(
+                [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
+                attachment.name,
+                { type: response.file_type }
+              );
+              const newAttachment: Attachment = { ...attachment, decryptedDocument: newDocument };
+              this.store.dispatch(new UpdateDraftAttachment({
+                draftId: this.draftId,
+                attachment: { ...newAttachment }
+              }));
 
-              }
-            },
+            }
+          },
             error => console.log(error));
       }
     });
@@ -523,7 +550,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       return delta;
     });
 
-    this.quill.format('font', this.userState.settings.default_font);
+    if (this.userState.settings.default_font) {
+      this.quill.format('font', this.userState.settings.default_font);
+    }
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });
@@ -601,8 +630,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  onFromChanged(mailbox: Mailbox) {
+  onFromChanged(mailbox: Mailbox, oldMailbox: Mailbox) {
+    if (oldMailbox === mailbox) {
+      return;
+    }
     this.selectedMailbox = mailbox;
+    this.oldMailbox = oldMailbox;
     this.updateSignature();
     this.valueChanged$.next(this.selectedMailbox);
   }
@@ -789,13 +822,38 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       return;
     }
-    if (this.quill && this.selectedMailbox) {
-      if (!this.isSignatureAdded && this.selectedMailbox.signature) {
-        const index = this.quill.getLength();
-        this.quill.insertText(index, '\n', 'silent');
-        const signature = this.selectedMailbox.signature.replace(/\n/g, '<br>');
-        this.quill.clipboard.dangerouslyPasteHTML(index + 1, signature || '', 'silent');
-        this.isSignatureAdded = true;
+    let content: string, oldSig: string, newSig: string;
+    if (this.quill && this.quill.container) {
+      content = this.quill.container.innerText || ""; // this.draftMail.content;
+      content = content.replace(/\n\n/g, '<br>');
+    }
+    if (this.quill && this.quill.container) {
+      if (this.oldMailbox && this.oldMailbox.signature) {
+        oldSig = this.oldMailbox.signature.substring(3, this.oldMailbox.signature.length - 4);
+        if (this.selectedMailbox.signature) {
+          newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
+          content = content.replace(new RegExp(oldSig + '$'), newSig);
+        }
+        else {
+          content = content.replace(new RegExp(oldSig + '$'), '');
+        }
+        this.quill.clipboard.dangerouslyPasteHTML(content);
+      }
+      else if (this.selectedMailbox.signature) {
+        newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
+        content += '<br>' + newSig;
+        this.quill.clipboard.dangerouslyPasteHTML(content);
+      }
+      else {
+        if (this.quill && this.selectedMailbox) {
+          if (!this.isSignatureAdded && this.selectedMailbox.signature) {
+            const index = this.quill.getLength();
+            this.quill.insertText(index, '\n', 'silent');
+            const signature = this.selectedMailbox.signature.replace(/\n/g, '<br>');
+            this.quill.clipboard.dangerouslyPasteHTML(index + 1, signature || '', 'silent');
+            this.isSignatureAdded = true;
+          }
+        }
       }
     }
   }

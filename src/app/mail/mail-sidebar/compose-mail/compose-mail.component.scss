@@ -38,6 +38,7 @@ textarea:disabled {
     }
     .btn-more {
         background: #f5f5f5;
+        border-radius: 2px;
     }
     .dropdown-size {
         min-width: 152px;
@@ -48,5 +49,12 @@ textarea:disabled {
     }
     .item {
         margin-left: -25px;
+    }
+}
+
+.pop-up-reply {
+    button {
+        padding: 0 !important;
+        height: 33px;
     }
 }
