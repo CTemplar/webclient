@@ -17,19 +17,15 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;
-  @Input() public receivers: string[];
   @Input() public draft: Mail;
   @Input() action: MailAction;
   @Input() parentId: number;
-  @Input() content: string;
-  @Input() messageHistory: string;
 
   @Input() public isFullScreen: boolean;
 
   @Output() public hide = new EventEmitter<boolean>();
   @Output() public minimize = new EventEmitter<boolean>();
   @Output() public fullScreen = new EventEmitter<boolean>();
-  @Output() public closeComposer = new EventEmitter<boolean>();
 
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
   shortcuts: ShortcutInput[] = [];
@@ -55,7 +51,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
       .subscribe((appState: AppState) => {
         this.isPopupClosed = appState.mail.isComposerPopUp;
         if (this.isPopupClosed !== undefined && !this.isPopupClosed && this.action === MailAction.REPLY && this.composeMail !== undefined) {
-          this.saveInDrafts();
+          this.onHide();
         }
       });
   }
@@ -100,10 +96,10 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   }
 
   onHide() {
+    this.store.dispatch(new SetIsComposerPopUp(
+      false
+    ));
     this.hideMailComposeDialog();
-    if (this.action === MailAction.REPLY) {
-      this.store.dispatch(new SetIsComposerPopUp(null));
-    }
   }
 
   toggleMinimized() {
