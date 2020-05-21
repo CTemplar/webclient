@@ -10,8 +10,6 @@ import { AppState, AuthState, Domain, Settings, UserState } from '../../../store
 import { SharedService } from '../../../store/services';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material/icon';
 
 @UntilDestroy()
 @Component({
@@ -51,14 +49,9 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private sharedService: SharedService,
-    iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
-    iconRegistry.addSvgIcon(
-      'thumbs-up',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/images/check.svg'));
   }
 
   ngOnInit() {
