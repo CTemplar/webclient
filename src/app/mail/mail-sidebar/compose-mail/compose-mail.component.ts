@@ -284,7 +284,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
-        this.contacts = contactsState.emailContacts;
+        if (contactsState.emailContacts === undefined) {
+          this.contacts = [];
+          contactsState.contacts.forEach(x => {
+            this.contacts.push({ name: x.name, email: x.email });
+          });
+        } else {
+          this.contacts = contactsState.emailContacts;
+        }
         this.contactsState = contactsState;
         this.loadEmailContacts();
       });
