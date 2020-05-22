@@ -15,7 +15,7 @@
                    aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
                   <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled"
-                     (click)="onFromChanged(mailbox)">{{mailbox.email}}</a>
+                     (click)="onFromChanged(mailbox, selectedMailbox)">{{mailbox.email}}</a>
                 </ng-container>
               </div>
             </div>
@@ -524,7 +524,7 @@
 
             <li class="pl-0  pop-up-reply" *ngIf="isMailDetailPage">
               <button role="button"
-                      (click)="openReplyinPopOut()"
+                      (click)="openReplyinPopup()"
                       [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                       class="actions-btn border-radius-l-0" placement="top"
                       [ngbTooltip]="'Pop out reply'"><i class="fas fa-external-link-alt"></i>

@@ -35,6 +35,20 @@ declare var Scrambler;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
 
+  // shortcuts: ShortcutInput[] = [];
+
+  constructor(private route: ActivatedRoute,
+              private activatedRoute: ActivatedRoute,
+              private store: Store<AppState>,
+              private pgpService: OpenPgpService,
+              private shareService: SharedService,
+              private router: Router,
+              private composeMailService: ComposeMailService,
+              private dateTimeUtilService: DateTimeUtilService,
+              private modalService: NgbModal,
+              private mailService: MailService) {
+  }
+
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
   mail: Mail;
@@ -79,19 +93,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private mails: Mail[] = [];
   private EMAILS_PER_PAGE: number;
 
-  // shortcuts: ShortcutInput[] = [];
-
-  constructor(private route: ActivatedRoute,
-              private activatedRoute: ActivatedRoute,
-              private store: Store<AppState>,
-              private pgpService: OpenPgpService,
-              private shareService: SharedService,
-              private router: Router,
-              private composeMailService: ComposeMailService,
-              private dateTimeUtilService: DateTimeUtilService,
-              private modalService: NgbModal,
-              private mailService: MailService) {
-  }
+  draftNew: Mail;
+  isReplyContext = false;
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
@@ -176,7 +179,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           } else {
             this.parentMailCollapsed = false;
           }
-          if (this.isPopupOpen && mailState.isComposerPopUp !== undefined) {
+          if (mailState.isComposerPopUp !== undefined) {
             this.isPopupOpen = mailState.isComposerPopUp;
           }
         }
@@ -248,20 +251,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  openReply() {
-    this.store.dispatch(new SetIsComposerPopUp(false));
+  openReply(mail) {
+    this.isPopupOpen = !this.isPopupOpen;
+    this.mailOptions[mail.id].isComposeMailVisible = !this.isPopupOpen;
+    this.store.dispatch(new SetIsComposerPopUp(this.isPopupOpen));
   }
 
   onChangePopup($event: any, mail?: Mail) {
-    this.isPopupOpen = $event.isPopupOpen;
-    this.store.dispatch(new SetIsComposerPopUp(true));
+    this.draftNew = $event.draftMail;
+    console.log(this.composeMailData);
     this.composeMailService.openComposeMailDialog({
-      receivers: $event.receivers,
       draft: $event.draftMail,
       action: MailAction.REPLY,
-      parentId: $event.parentId,
-      content: mail && mail.id ? this.composeMailData[mail.id].content : '',
-      messageHistory: mail && mail.id ? this.composeMailData[mail.id].messageHistory : ''
+      // parentId: $event.parentId,
+      // isMailDetailPage: true
     });
   }
 
@@ -430,6 +433,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onReply(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+    this.isReplyContext = true;
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
     this.composeMailData[mail.id] = {
