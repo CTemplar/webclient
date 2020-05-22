@@ -10,6 +10,7 @@ export function reducer(
   state: MailState = {
     mails: [],
     total_mail_count: 0,
+    total_mail_count_by_folder: new Map(),
     mailDetail: null,
     folders: new Map(),
     loaded: false,
@@ -37,6 +38,7 @@ export function reducer(
     case MailActionTypes.GET_MAILS_SUCCESS: {
       let mails = action.payload.mails;
       state.total_mail_count = action.payload.total_mail_count;
+      state.total_mail_count_by_folder.set(action.payload.folder, action.payload.total_mail_count);
       if (action.payload.read === false || action.payload.read === true) {
         const mailIDs = mails.map(item => item.id);
         mails = state.mails.filter(item => mailIDs.indexOf(item.id) < 0);
@@ -230,6 +232,7 @@ export function reducer(
       return {
         mails: [],
         total_mail_count: 0,
+        total_mail_count_by_folder: new Map(),
         mailDetail: null,
         folders: new Map(),
         loaded: false,
@@ -274,7 +277,14 @@ export function reducer(
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
-      return { ...state, currentFolder: action.payload };
+      const mails = state.folders.get(action.payload);
+      const total_mail_count = state.total_mail_count_by_folder.get(action.payload);
+      return { 
+        ...state,
+        mails: mails ? mails : [],
+        total_mail_count: total_mail_count,
+        currentFolder: action.payload
+      };
     }
 
     case MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT: {
