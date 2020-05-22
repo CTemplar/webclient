@@ -32,11 +32,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
   @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
 
-  isMinimized: boolean;
-  private confirmModalRef: NgbModalRef;
-
-  mailSubject = '';
-  mailMinimized = '';
 
   isMinimized: boolean;
   private confirmModalRef: NgbModalRef;
@@ -61,21 +56,16 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
       });
   }
 
-  subjectChanged($event) {
-    this.mailSubject = $event;
-    $event.length > 20 ?
-      this.mailMinimized = $event.trim().substr(0, 20) + '...' :
-      this.mailMinimized = $event;
-  }
-  
   ngAfterViewInit(): void {
     this.shortcuts = getComposeMailDialogShortcuts(this);
+
     if (this.mailSubject && this.action) {
       if (this.action === MailAction.REPLY) {
         this.mailSubject = 'Reply: ' + this.mailSubject;
       }
     }
     this.cdr.detectChanges();
+
   }
 
   onClose() {
