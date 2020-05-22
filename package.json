@@ -57,7 +57,6 @@
     "simple-keyboard": "^2.28.32",
     "tslib": "^1.11.1",
     "xss": "^1.0.6",
-    "@material-ui/icons": "^4.9.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

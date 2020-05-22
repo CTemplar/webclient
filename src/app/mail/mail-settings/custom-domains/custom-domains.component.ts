@@ -51,14 +51,9 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private sharedService: SharedService,
-    iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
-    iconRegistry.addSvgIcon(
-      'thumbs-up',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/images/check.svg'));
   }
 
   ngOnInit() {
