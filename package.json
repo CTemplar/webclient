@@ -8,17 +8,13 @@
     "start": "ng serve",
     "serve": "ng serve",
     "build": "ng build --prod --subresource-integrity",
-    "dev": "ng build --output-hashing all",
+    "build:dev": "ng build --output-hashing all",
+    "build:electron": "tsc --p electron",
+    "build:packager": "electron-packager dist/ CTemplar --mac --linux --out=electron/clients/ --overwrite",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ngcc",
-    "start:electron": "tsc --p electron && electron .",
-    "build:electron": "tsc --p electron",
-    "build-all": "ng build --prod --subresource-integrity --base-href ./ && tsc --p electron",
-    "build-all-dev": "ng build --base-href ./ && tsc --p electron",
-    "pack": "electron-packager . CTemplar --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e",
-    "pack-all": "electron-packager . CTemplar --all --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e"
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
