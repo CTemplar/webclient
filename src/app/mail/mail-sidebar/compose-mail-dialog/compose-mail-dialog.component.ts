@@ -36,6 +36,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   isMinimized: boolean;
   private confirmModalRef: NgbModalRef;
   mailSubject = '';
+  mailMinimized = '';
   isPopupClosed: boolean;
 
   constructor(private modalService: NgbModal,
@@ -85,7 +86,10 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   subjectChanged($event) {
     this.mailSubject = $event;
-  }
+    $event.length > 20 ?
+        this.mailMinimized = $event.trim().substr(0, 20) + '...' :
+        this.mailMinimized = $event;
+}
 
   saveInDrafts() {
     this.composeMail.saveInDrafts();
