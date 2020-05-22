@@ -17,6 +17,7 @@ git push
 echo "Preparing GH-PAGES branch..."
 npm run build
 cp dist/index.html dist/404.html # Trick for GH-Pages
+cp docs dist # The images...
 sed -e "s/href=\"\/\"/href=\".\/\"/g" dist/index.html > dist/electron-index.html
 sed -i '' -e "s/#WEBCLIENT_VERSION#/${version}/" dist/README.md
 index_hash=$(openssl dgst -sha256 dist/index.html | awk '{print $NF}')
