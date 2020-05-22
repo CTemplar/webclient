@@ -18,7 +18,7 @@
     "build-all": "ng build --prod --subresource-integrity --base-href ./ && tsc --p electron",
     "build-all-dev": "ng build --base-href ./ && tsc --p electron",
     "pack": "electron-packager . CTemplar --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e",
-    "pack-all": "./set-electron-base-href.sh && electron-packager . CTemplar --all --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e && ./revert-electron-base-href.sh"
+    "pack-all": "electron-packager . CTemplar --all --out=electron/clients --overwrite --ignore=node_modules --ignore=docs --ignore=.idea --ignore=.github --ignore=src --ignore=e2e"
   },
   "private": true,
   "dependencies": {
