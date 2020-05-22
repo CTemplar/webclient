@@ -1,10 +1,29 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState } from '../../store/datatypes';
-import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
-import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
+import {
+  ClearAuthErrorMessage,
+  FinalLoading,
+  LogIn,
+  RecoverPassword,
+  ResetPassword
+} from '../../store/actions';
+import {
+  LOADING_IMAGE,
+  OpenPgpService,
+  SharedService,
+  UsersService
+} from '../../store/services';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -19,7 +38,6 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./users-sign-in.component.scss']
 })
 export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
-
   loginForm: FormGroup;
   recoverPasswordForm: FormGroup;
   resetPasswordForm: FormGroup;
@@ -28,6 +46,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   errorMessage: string = '';
   resetPasswordErrorMessage: string = '';
   isLoading: boolean = false;
+  isConfirmedPrivacy: boolean = null;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
   username: string = '';
@@ -51,13 +70,15 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   currentInput: InputFields;
   inputFields = InputFields;
 
-  constructor(private modalService: NgbModal,
-              private formBuilder: FormBuilder,
-              private store: Store<AppState>,
-              private sharedService: SharedService,
-              private userService: UsersService,
-              private router: Router,
-              private openPgpService: OpenPgpService) {}
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private store: Store<AppState>,
+    private sharedService: SharedService,
+    private userService: UsersService,
+    private router: Router,
+    private openPgpService: OpenPgpService
+  ) {}
 
   ngOnInit() {
     this.store.dispatch(new ClearAuthErrorMessage());
@@ -70,24 +91,28 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
-      rememberMe: [false],
+      rememberMe: [false]
     });
 
     this.recoverPasswordForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      recovery_email: ['', [Validators.required, Validators.email]],
+      recovery_email: ['', [Validators.required, Validators.email]]
     });
-    this.resetPasswordForm = this.formBuilder.group({
+    this.resetPasswordForm = this.formBuilder.group(
+      {
         code: ['', [Validators.required]],
         password: ['', [Validators.required]],
         confirmPwd: ['', [Validators.required]],
-        username: ['', [Validators.required]],
+        username: ['', [Validators.required]]
       },
       {
         validator: PasswordValidation.MatchPassword
-      });
+      }
+    );
 
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (!authState.isAuthenticated) {
           this.isLoading = authState.inProgress;
@@ -97,7 +122,12 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
         this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;
         if (authState.errorMessage) {
         }
-        if (this.isRecoverFormSubmitted && this.authState.inProgress && !authState.inProgress && !authState.resetPasswordErrorMessage) {
+        if (
+          this.isRecoverFormSubmitted &&
+          this.authState.inProgress &&
+          !authState.inProgress &&
+          !authState.resetPasswordErrorMessage
+        ) {
           this.resetModalRef.dismiss();
         }
         if (authState.auth2FA.show2FALogin) {
@@ -125,7 +155,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
       windowClass: 'modal-md',
-      backdrop: 'static',
+      backdrop: 'static'
     });
   }
 
@@ -148,7 +178,9 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   toggleRememberMe() {
-    this.loginForm.controls['rememberMe'].setValue(!this.loginForm.controls['rememberMe'].value);
+    this.loginForm.controls['rememberMe'].setValue(
+      !this.loginForm.controls['rememberMe'].value
+    );
   }
 
   continueLogin() {
@@ -158,7 +190,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   recoverPassword(data) {
     this.showResetPasswordFormErrors = true;
-    if (this.recoverPasswordForm.valid) {
+    if (this.isConfirmedPrivacy === null) {
+      this.isConfirmedPrivacy = false;
+    }
+    if (this.recoverPasswordForm.valid && this.isConfirmedPrivacy) {
       data.username = this.userService.trimUsername(data.username);
       this.store.dispatch(new RecoverPassword(data));
       this.resetPasswordForm.get('username').setValue(data.username);
@@ -196,7 +231,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       code: data.code,
       username: data.username,
       password: data.password,
-      ...this.openPgpService.getUserKeys(),
+      ...this.openPgpService.getUserKeys()
     };
     this.isRecoverFormSubmitted = true;
     this.store.dispatch(new ResetPassword(requestData));
@@ -208,16 +243,26 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       onChange: input => this.onChange(input),
       onKeyPress: button => this.onKeyPress(button)
     });
-    this.loginForm.get(InputFields.USERNAME).valueChanges
-      .pipe(untilDestroyed(this),
-        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput()))
-      .subscribe((value) => {
+    this.loginForm
+      .get(InputFields.USERNAME)
+      .valueChanges.pipe(
+        untilDestroyed(this),
+        filter(
+          value => this.isKeyboardOpened && value !== this.keyboard.getInput()
+        )
+      )
+      .subscribe(value => {
         this.onInputChange(value);
       });
-    this.loginForm.get(InputFields.PASSWORD).valueChanges
-      .pipe(untilDestroyed(this),
-        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput()))
-      .subscribe((value) => {
+    this.loginForm
+      .get(InputFields.PASSWORD)
+      .valueChanges.pipe(
+        untilDestroyed(this),
+        filter(
+          value => this.isKeyboardOpened && value !== this.keyboard.getInput()
+        )
+      )
+      .subscribe(value => {
         this.onInputChange(value);
       });
   }
@@ -278,7 +323,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       this.isKeyboardOpened = false;
     }
   }
-
 }
 
 enum InputFields {

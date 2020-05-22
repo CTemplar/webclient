@@ -98,6 +98,7 @@
     "change_now": "Change now",
     "last_time_changed": "Last time changed",
     "recovery_email": "Recovery email",
+    "reset_password": "I understand that action will delete all data and generate a new encryption key.",
     "appearance": "Appearance",
     "display_name": "Display name",
     "signature": "Signature",
