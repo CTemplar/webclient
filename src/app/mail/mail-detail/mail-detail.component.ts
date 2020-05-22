@@ -6,7 +6,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { take } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { WebSocketState } from '../../store';
+import { SetIsComposerPopUp, WebSocketState } from '../../store';
 import {
   DeleteMail,
   DeleteMailForAll,
@@ -35,9 +35,22 @@ declare var Scrambler;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
 
+  // shortcuts: ShortcutInput[] = [];
+
+  constructor(private route: ActivatedRoute,
+              private activatedRoute: ActivatedRoute,
+              private store: Store<AppState>,
+              private pgpService: OpenPgpService,
+              private shareService: SharedService,
+              private router: Router,
+              private composeMailService: ComposeMailService,
+              private dateTimeUtilService: DateTimeUtilService,
+              private modalService: NgbModal,
+              private mailService: MailService) {
+  }
+
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
-
   mail: Mail;
   composeMailData: any = {};
   mailFolderTypes = MailFolderType;
@@ -69,6 +82,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   forceLightMode: boolean;
   disableExternalImages: boolean;
   xssPipe = SafePipe;
+  isPopupOpen: boolean;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -79,19 +93,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private mails: Mail[] = [];
   private EMAILS_PER_PAGE: number;
 
-  // shortcuts: ShortcutInput[] = [];
-
-  constructor(private route: ActivatedRoute,
-              private activatedRoute: ActivatedRoute,
-              private store: Store<AppState>,
-              private pgpService: OpenPgpService,
-              private shareService: SharedService,
-              private router: Router,
-              private composeMailService: ComposeMailService,
-              private dateTimeUtilService: DateTimeUtilService,
-              private modalService: NgbModal,
-              private mailService: MailService) {
-  }
+  draftNew: Mail;
+  isReplyContext = false;
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
@@ -176,6 +179,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           } else {
             this.parentMailCollapsed = false;
           }
+          if (mailState.isComposerPopUp !== undefined) {
+            this.isPopupOpen = mailState.isComposerPopUp;
+          }
         }
         if (this.mails.length > 0 && this.mail) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
@@ -243,6 +249,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         });
       }, 100);
     }
+  }
+
+  openReply(mail) {
+    this.isPopupOpen = !this.isPopupOpen;
+    this.mailOptions[mail.id].isComposeMailVisible = !this.isPopupOpen;
+    this.store.dispatch(new SetIsComposerPopUp(this.isPopupOpen));
+  }
+
+  onChangePopup($event: any, mail?: Mail) {
+    this.draftNew = $event.draftMail;
+    console.log(this.composeMailData);
+    this.composeMailService.openComposeMailDialog({
+      draft: $event.draftMail,
+      action: MailAction.REPLY,
+      // parentId: $event.parentId,
+      // isMailDetailPage: true
+    });
   }
 
   changeMail(index: number) {
@@ -410,6 +433,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onReply(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+    this.isReplyContext = true;
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
     this.composeMailData[mail.id] = {

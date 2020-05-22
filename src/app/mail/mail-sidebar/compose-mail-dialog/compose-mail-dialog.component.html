@@ -5,10 +5,9 @@
   <div class="mail-composer-dialog">
     <div class="mail-composer-header p-0">
       <div class="mail-composer-title mr-4" (click)="toggleMinimized()">
-        
         <span *ngIf="mailSubject; else newMessage">{{!isMinimized?mailSubject:mailMinimized}}</span>
         <ng-template #newMessage>
-          <span >{{"settings.compose.new_message"| translate}}</span>
+          <span>{{"settings.compose.new_message"| translate}}</span>
         </ng-template>
       </div>
       <div class="mail-composer-header-actions">
@@ -41,9 +40,10 @@
       </div>
     </div>
 
-    <app-compose-mail *ngIf="isComposeVisible" #composeMail [receivers]="receivers" [draftMail]="draft"
+    <app-compose-mail *ngIf="isComposeVisible" #composeMail [draftMail]="draft"
                       (hide)="onHide()" (subjectChanged)="subjectChanged($event)"
-                      [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"></app-compose-mail>
+                      [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"
+                      [isReplyInPopup]="action === 'REPLY'? true: false"></app-compose-mail>
   </div>
 </div>
 

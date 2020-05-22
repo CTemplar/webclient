@@ -18,7 +18,8 @@ export function reducer(
     noUnreadCountChange: true,
     canGetUnreadCount: true,
     decryptedSubjects: {},
-    isMailsMoved: false
+    isMailsMoved: false,
+    isComposerPopUp: false
   }, action: MailActions): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -96,7 +97,12 @@ export function reducer(
       }
       return { ...state, unreadMailsCount: action.payload, noUnreadCountChange: false, };
     }
-
+    case MailActionTypes.SET_IS_COMPOSER_POPUP: {
+      state.isComposerPopUp = action.payload;
+      return {
+        ...state
+      };
+    }
     case MailActionTypes.MOVE_MAIL: {
       return { ...state, inProgress: true, noUnreadCountChange: true, isMailsMoved: false };
     }

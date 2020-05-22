@@ -85,6 +85,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         if (this.mailState.isMailsMoved && this.isMoveMailClicked) {
           this.isMoveMailClicked = false;
           this.setIsSelectAll();
+          this.refresh();
         }
       });
 
