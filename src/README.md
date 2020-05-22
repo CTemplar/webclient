@@ -41,17 +41,17 @@ and match their checksum. It should be same as mentioned at the top of this docu
 
 *  Right click, open menu and click on `View Page Source`, it will show you the website source code(`index.html`).
 
-   ![img](/docs/images/right-click.png)
+   ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/right-click.png)
 
 * Copy the code and check its SHA-256 hash from any online/offline tool. In this guide we will save the code in a file and check its hash
   from both online and offline tool.
 
-  ![img](/docs/images/save-as-file.png)
+  ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/save-as-file.png)
 
   Make sure that you save `Web page, Html only` and not the complete webpage. You can also copy
   the whole code and save it in a text/html file yourself (Note : you should copy the exact code, no empty lines at start while pasting in file).
 
-  ![img](/docs/images/save-as-html-only-file.png)
+  ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/save-as-html-only-file.png)
 
 * Calculate checksum of the saved file using offline cli.
 
@@ -59,19 +59,19 @@ and match their checksum. It should be same as mentioned at the top of this docu
     openssl dgst -sha256 view-source_https___ctemplar.com.html
     ```
 
-  ![img](/docs/images/calculate-hash-offline.png)
+  ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-offline.png)
 
 * Calculate checksum of the saved file using online tool.
 
   i). [https://hash.online-convert.com/sha256-generator](https://hash.online-convert.com/sha256-generator)
 
-    ![img](/docs/images/calculate-hash-online-1.png)
+    ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-online-1.png)
 
-    ![img](/docs/images/calculate-hash-online-1.1.png)
+    ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-online-1.1.png)
 
   ii). [https://md5file.com/calculator](https://md5file.com/calculator)
 
-    ![img](/docs/images/calculate-hash-online-2.png)
+    ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-online-2.png)
 
 
 
@@ -82,13 +82,13 @@ and match their checksum. It should be same as mentioned at the top of this docu
 
 * Open `index.html` file inside dist folder and click on raw in order to access the raw content of this file.
 
-  ![img](/docs/images/hash-online-raw-1.png)
+  ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/hash-online-raw-1.png)
 
 * Copy the content and save it in a file, or right click and `save as` html/text file or you can simply copy the link of this file from
   browser, which is [https://raw.githubusercontent.com/CTemplar/webclient/master/dist/index.html](https://raw.githubusercontent.com/CTemplar/webclient/master/dist/index.html)
   and check its hash online by providing this link.
 
-  ![img](/docs/images/save-github-file1.png)
+  ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/save-github-file1.png)
 
 
 * Calculate checksum of the saved file using offline cli.
@@ -97,19 +97,19 @@ and match their checksum. It should be same as mentioned at the top of this docu
     openssl dgst -sha256 index.html
     ```
 
-  ![img](/docs/images/calculate-hash-offline-github.png)
+  ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-offline-github.png)
 
 * Calculate checksum of the saved file using online tool.
 
   i). [https://hash.online-convert.com/sha256-generator](https://hash.online-convert.com/sha256-generator)
 
-    ![img](/docs/images/calculate-hash-online-github.png)
+    ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-online-github.png)
 
-    ![img](/docs/images/calculate-hash-online-github1.png)
+    ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-online-github1.png)
 
   ii). [https://md5file.com/calculator](https://md5file.com/calculator)
 
-    ![img](/docs/images/calculate-hash-online-github2.png)
+    ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-online-github2.png)
 
 
 #Why different checksum of electron client index.html
@@ -118,4 +118,4 @@ Electron client `index.html` requires a `base-href='./'` instead of `base-href='
 That is the only one difference between electron client and webclient `index.html`.
 A copy of electron client `index.html` is available inside this `dist` folder by the name of `electron-index.html`.
 
-![img](/docs/images/electron-index-html-diff.png)
+![img](https://github.com/ctemplar/webclient/blob/master/docs/images/electron-index-html-diff.png)
