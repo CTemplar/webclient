@@ -12,6 +12,7 @@ import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } fro
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { NotificationService } from '../../store/services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
@@ -64,7 +65,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
               private openPgpService: OpenPgpService,
               private sharedService: SharedService,
               private activatedRoute: ActivatedRoute,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private translate: TranslateService) {
   }
 
   ngOnInit() {
@@ -186,6 +188,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
       invite_code: this.inviteCode,
+      language: this.translate.currentLang ? this.translate.currentLang : 'en'
     };
     this.store.dispatch(new SignUp(this.data));
   }
