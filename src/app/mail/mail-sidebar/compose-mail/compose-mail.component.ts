@@ -806,7 +806,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         shouldSave: false, shouldSend: true, draft: { ...this.draftMail }
       }
     }));
-    this.store.dispatch(new SnackPush({ message: 'Sending mail...', duration: 120000 }));
+    let message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...'
+
+    this.store.dispatch(new SnackPush({ message, duration: 120000 }));
     this.resetValues();
     this.hide.emit();
   }
