@@ -84,9 +84,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         }
         if (this.mailState.isMailsMoved && this.isMoveMailClicked) {
           this.isMoveMailClicked = false;
-          this.setIsSelectAll();
           this.refresh();
         }
+        this.setIsSelectAll();
       });
 
     this.store.select(state => state.user).pipe(untilDestroyed(this))
@@ -102,7 +102,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           this.LIMIT = user.settings.emails_per_page;
           if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isInitialized) {
             this.isInitialized = true;
-            this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
+            if (this.isNeedFetchMails()) {
+              this.store.dispatch(new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }));
+            }
             if (this.mailFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetUnreadMailsCount());
             }
@@ -424,6 +426,19 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   getMarkedMails() {
     return this.mails.filter(mail => mail.marked);
+  }
+
+  /**
+   * @name isNeedFetchMails
+   * @description Decide to fetch the mails from the backend by checking the deicated folder is existed [store->mailState->folders]
+   * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
+   */
+  private isNeedFetchMails() {
+    if (this.mailState.folders) {
+      let cachedMails = this.mailState.folders.get(this.mailFolder)
+      if (cachedMails && cachedMails.length > 0) return false
+      return true
+    }
   }
 
   ngOnDestroy() {
