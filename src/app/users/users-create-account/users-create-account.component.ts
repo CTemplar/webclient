@@ -12,8 +12,9 @@ import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } fro
 // Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { NotificationService } from '../../store/services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
-import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../shared/config';
+import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -64,7 +65,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
               private openPgpService: OpenPgpService,
               private sharedService: SharedService,
               private activatedRoute: ActivatedRoute,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private translate: TranslateService) {
   }
 
   ngOnInit() {
@@ -180,12 +182,17 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
+    let currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
+    let currentLang = LANGUAGES.find(lang => {
+      if (lang.locale === currentLocale) return true
+    })
     this.data = {
       ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
       invite_code: this.inviteCode,
+      language: currentLang.name
     };
     this.store.dispatch(new SignUp(this.data));
   }
