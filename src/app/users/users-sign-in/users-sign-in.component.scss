@@ -23,17 +23,34 @@ $error-red: #e94e4c;
   }
 }
 
+.is-validated {
+  &.input-group {
+    border: 1px solid $error-red;
+    border-radius: 4px;
+
+    .form-control {
+      border: 0;
+    }
+    .input-group-addon {
+      border: 0;
+    }
+  }
+  label::before {
+    border-color: $error-red;
+  }
+}
+
 .form-control {
   &:focus,
   &:focus + .input-group-addon {
     border-color: $dropdown-border-color !important;
   }
-  &[type="text"]{
+  &[type="text"] {
     + span .fa-eye {
       display: none;
     }
   }
-  &[type="password"]{
+  &[type="password"] {
     + span .fa-eye-slash {
       display: none;
     }
@@ -68,7 +85,8 @@ $error-red: #e94e4c;
 }
 
 .remember-me {
-  input[type="checkbox"].fancy-field-control-lg + label.fancy-field-empty::after {
+  input[type="checkbox"].fancy-field-control-lg
+    + label.fancy-field-empty::after {
     width: 6px !important;
     top: 4px !important;
     left: 7px !important;
