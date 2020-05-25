@@ -108,27 +108,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mails = [...mailState.mails];
-        console.log("mail Income", this.mails);
-        console.log('page income', this.page);
-        console.log('mailState', mailState);
-
-        if(this.shouldChangeMail && mailState.loaded) {
-          console.log('page income', this.page);
-          console.log('mailState', mailState);
-
-          if(this.shouldChangeMail === 1) {
+        if (this.shouldChangeMail && mailState.loaded) {
+          if (this.shouldChangeMail === 1) {
             this.mail.id = this.mails[this.mails.length -1].id;
             this.changeMail(this.mails.length -1);
-
-          }else if(this.shouldChangeMail === 2) {
+          } else if (this.shouldChangeMail === 2) {
             this.mail.id = this.mails[0].id;
             this.changeMail(0);
-
-
           }
           this.shouldChangeMail = 0;
         }
-        
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           if (this.mail.is_subject_encrypted) {
@@ -204,11 +193,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
           this.currentMailNumber = ((this.EMAILS_PER_PAGE * (this.page - 1)) + this.currentMailIndex + 1) || '-';
         }
-        console.log("currentMailNumber", this.currentMailNumber);
-        console.log("page", this.page);
-        console.log("EMAILS_PER_PAGE", this.EMAILS_PER_PAGE);
-        console.log("currentMailIndex", this.currentMailIndex);
-        
         if (!mailState.loaded && this.mails.length === 0 && !mailState.inProgress &&
           this.EMAILS_PER_PAGE && this.mailFolder !== MailFolderType.SEARCH) {
           this.store.dispatch(new GetMails({
@@ -273,18 +257,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   changeMail(index: number) {
-    console.log(this.currentMailNumber);
-    
     if (index < 0 || index >= this.mails.length) {
-      if(index >= this.EMAILS_PER_PAGE) {
-        console.log('page goes upp ');
+      if (index >= this.EMAILS_PER_PAGE) {
         this.shouldChangeMail = 2;
         this.page++;
       } else if(index <= 0 && this.page > 1){
         this.page--;
         this.shouldChangeMail = 1;
-        console.log('page goes down ');
-
       }
       else {
         return;
@@ -293,8 +272,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         forceReload: true, limit: this.EMAILS_PER_PAGE,
         offset: this.EMAILS_PER_PAGE * (this.page-1), folder: this.mailFolder,
       }));
-      console.log("this.EMAILS_PER_PAGE * this.page", this.EMAILS_PER_PAGE * this.page);
-      
       return;
     }
     this.mail = null;
