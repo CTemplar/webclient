@@ -93,7 +93,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
       this.mailSubject = $event.trim().substr(0, 50) + '...';
     }
     else{
-      console.log($event)
       this.mailSubject = $event
     }
 
