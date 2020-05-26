@@ -454,11 +454,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    if (this.mailState.folders) {
+    if (this.mailState.folders && this.mailFolder !== MailFolderType.TRASH) {
       let cachedMails = this.mailState.folders.get(this.mailFolder)
       if (cachedMails && cachedMails.length > 0) return false
-      return true
     }
+    return true
   }
 
   ngOnDestroy() {
