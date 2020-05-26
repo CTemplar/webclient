@@ -653,8 +653,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
-      if (/^image\//.test(file.type)) {
-        this.uploadAttachment(file, true);
+      if (/^image\//.test(file.type)) {    
+          var FR= new FileReader();          
+          FR.addEventListener("load", function(e) {
+           document.querySelector(".ql-editor p").innerHTML += `<img src=${e.target.result} alt="image" />`;
+          });           
+          FR.readAsDataURL( file );        
       } else {
         // TODO: add error notification for invalid file type here
       }
@@ -1030,10 +1034,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (source && this.quill) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
-      this.quill.insertEmbed(index, 'image', {
+      if (contentId === undefined) {
+        this.quill.insertEmbed(index, 'image', source);
+      } else {
+        this.quill.insertEmbed(index, 'image', {
         url: source,
         content_id: contentId
-      });
+        });
+      }
       this.quill.setSelection(index + 1);
     }
   }
