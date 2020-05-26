@@ -10,8 +10,6 @@ import { AppState, AuthState, Domain, Settings, UserState } from '../../../store
 import { SharedService } from '../../../store/services';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material/icon';
 
 @UntilDestroy()
 @Component({

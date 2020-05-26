@@ -47,7 +47,8 @@ export enum MailActionTypes {
   EMPTY_FOLDER_SUCCESS = '[Mail] EMPTY TRASH SUCCESS',
   EMPTY_FOLDER_FAILURE = '[Mail] EMPTY TRASH FAILURE',
   DELETE_MAILBOX = '[MAILBOX] DELETE',
-  DELETE_MAILBOX_SUCCESS = '[MAILBOX] DELETE SUCCESS'
+  DELETE_MAILBOX_SUCCESS = '[MAILBOX] DELETE SUCCESS',
+  SET_IS_COMPOSER_POPUP = '[MAIL] SET IS COMPOSERPOPUP '
 }
 
 export class GetMails implements Action {
@@ -58,6 +59,11 @@ export class GetMails implements Action {
 
 export class GetMailsSuccess implements Action {
   readonly type = MailActionTypes.GET_MAILS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+export class SetIsComposerPopUp implements Action {
+  readonly type = MailActionTypes.SET_IS_COMPOSER_POPUP;
 
   constructor(public payload: any) {}
 }
@@ -373,4 +379,5 @@ export type MailActions =
   | DeleteMailForAll
   | DeleteMailForAllSuccess
   | DeleteMailbox
-  | DeleteMailboxSuccess;
+  | DeleteMailboxSuccess
+  | SetIsComposerPopUp;

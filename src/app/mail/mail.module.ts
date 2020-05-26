@@ -7,6 +7,7 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { MailRoutingModule } from './mail-routing.module';
 // component
@@ -41,10 +42,6 @@ import { PushNotificationService } from '../shared/services/push-notification.se
 import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 import { QuillModule } from 'ngx-quill';
 import { InviteCodesComponent } from './mail-settings/invite-codes/invite-codes.component';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -95,7 +92,7 @@ import { MatInputModule } from '@angular/material/input';
     MailSettingsService,
     ComposeMailService,
     WebsocketService,
-    PushNotificationService
+    PushNotificationService,
   ],
   entryComponents: [
     ComposeMailDialogComponent,

@@ -78,6 +78,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private page: number;
   private mails: Mail[] = [];
   private EMAILS_PER_PAGE: number;
+  private shouldChangeMail: number = 0;
 
   // shortcuts: ShortcutInput[] = [];
 
@@ -107,6 +108,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mails = [...mailState.mails];
+        if (this.shouldChangeMail && mailState.loaded) {
+          if (this.shouldChangeMail === 1) {
+            this.mail.id = this.mails[this.mails.length -1].id;
+            this.changeMail(this.mails.length -1);
+          } else if (this.shouldChangeMail === 2) {
+            this.mail.id = this.mails[0].id;
+            this.changeMail(0);
+          }
+          this.shouldChangeMail = 0;
+        }
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           if (this.mail.is_subject_encrypted) {
@@ -177,7 +188,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.parentMailCollapsed = false;
           }
         }
-        if (this.mails.length > 0 && this.mail) {
+        if (this.mails.length > 0 && this.mail && mailState.loaded) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
           this.currentMailNumber = ((this.EMAILS_PER_PAGE * (this.page - 1)) + this.currentMailIndex + 1) || '-';
@@ -247,6 +258,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   changeMail(index: number) {
     if (index < 0 || index >= this.mails.length) {
+      if (index >= this.EMAILS_PER_PAGE) {
+        this.shouldChangeMail = 2;
+        this.page++;
+      } else if(index <= 0 && this.page > 1){
+        this.page--;
+        this.shouldChangeMail = 1;
+      }
+      else {
+        return;
+      }
+      this.store.dispatch(new GetMails({
+        forceReload: true, limit: this.EMAILS_PER_PAGE,
+        offset: this.EMAILS_PER_PAGE * (this.page-1), folder: this.mailFolder,
+      }));
       return;
     }
     this.mail = null;

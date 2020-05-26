@@ -239,6 +239,7 @@ export class Payment {
 export interface MailState {
   mails: Mail[];
   total_mail_count: number;
+  total_mail_count_by_folder: Map<string, number>,
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;
@@ -250,6 +251,7 @@ export interface MailState {
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
   isMailsMoved?: boolean;
+  isComposerPopUp?: boolean;
 }
 
 export class SecureContent {
