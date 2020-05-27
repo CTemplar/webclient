@@ -136,6 +136,13 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       };
     }
 
+    case UsersActionTypes.SETTINGS_UPDATE_USED_STORAGE: {
+      return {
+        ...state,
+        settings: { ...state.settings, ...action.payload }
+      }
+    }
+
     case UsersActionTypes.MEMBERSHIP_UPDATE: {
       return { ...state, membership: action.payload };
     }

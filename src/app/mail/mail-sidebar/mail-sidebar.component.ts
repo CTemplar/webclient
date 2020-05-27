@@ -14,7 +14,8 @@ import {
   GetMailsSuccess,
   GetUnreadMailsCount,
   GetUnreadMailsCountSuccess,
-  ReadMailSuccess
+  ReadMailSuccess,
+  SettingsUpdateUsedStorage
 } from '../../store/actions';
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
@@ -110,7 +111,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
-
+          } else if (webSocketState.message.used_storage) {
+            this.store.dispatch(new SettingsUpdateUsedStorage(webSocketState.message));
           } else if (webSocketState.message.marked_as_read !== null) {
             this.updateUnreadCount(webSocketState);
             this.store.dispatch(new ReadMailSuccess({

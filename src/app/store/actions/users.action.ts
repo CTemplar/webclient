@@ -28,6 +28,7 @@ export enum UsersActionTypes {
   MEMBERSHIP_UPDATE = '[Membership] Update',
   SETTINGS_UPDATE = '[SETTINGS] UPDATE',
   SETTINGS_UPDATE_SUCCESS = '[SETTINGS] UPDATE SUCCESS',
+  SETTINGS_UPDATE_USED_STORAGE = '[SETTINGS] UPDATE USED STORAGE',
   CREATE_FOLDER = '[USER] CREATE FOLDER',
   CREATE_FOLDER_SUCCESS = '[USER] CREATE FOLDER SUCCESS',
   CREATE_FOLDER_FAILURE = '[USER] CREATE FOLDER FAILURE',
@@ -274,6 +275,12 @@ export class SettingsUpdateSuccess implements Action {
   readonly type = UsersActionTypes.SETTINGS_UPDATE_SUCCESS;
 
   constructor(public payload: Settings) {}
+}
+
+export class SettingsUpdateUsedStorage implements Action {
+  readonly type = UsersActionTypes.SETTINGS_UPDATE_USED_STORAGE;
+
+  constructor(public payload: any) {}
 }
 
 export class CreateFolder implements Action {
@@ -697,6 +704,7 @@ export type UsersActionAll =
   | MembershipUpdate
   | SettingsUpdate
   | SettingsUpdateSuccess
+  | SettingsUpdateUsedStorage
   | CreateFolder
   | CreateFolderSuccess
   | CreateFolderFailure
