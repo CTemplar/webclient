@@ -1022,8 +1022,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
-    return (!this.draftMail.is_html ? this.mailData.content.length > 1 : this.quill.getLength() > 1) ||
-      this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject;
+    return (!this.draftMail.is_html && this.mailData.content.length > 1  ||
+      this.mailData.receiver.length > 0 || this.mailData.cc.length > 0 || this.mailData.bcc.length > 0 || this.mailData.subject)
   }
 
   private embedImageInQuill(source: string, contentId?: string) {
