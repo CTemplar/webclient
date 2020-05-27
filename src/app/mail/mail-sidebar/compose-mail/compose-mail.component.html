@@ -114,12 +114,7 @@
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
-          <div class="plain-editor" 
-          name="content" 
-          [(ngModel)]="mailData.content" 
-          contenteditable="true" 
-          id="content" rows="1"
-        ></div>
+          <div #editor *ngIf="draftMail?.is_html"></div>
           <div *ngIf="!draftMail?.is_html">
              <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content"
                        (ngModelChange)="valueChanged$.next(mailData.content)"
