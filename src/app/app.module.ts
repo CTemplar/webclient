@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler, Injectable } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppStoreModule } from './store/store.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import * as Sentry from '@sentry/browser';
 // Services
 import { AuthGuard, BitcoinService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
 import { NotificationService } from './store/services/notification.service';
@@ -31,6 +32,15 @@ import { PagesModule } from './pages/pages.module';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+@Injectable()
+export class SentryErrorHandler implements ErrorHandler {
+  constructor() {}
+  handleError(error) {
+    const eventId = Sentry.captureException(error.originalError || error);
+    Sentry.showReportDialog({ eventId });
+  }
 }
 
 @NgModule({
@@ -74,6 +84,10 @@ export function HttpLoaderFactory(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
+    },
+    {
+      provide: ErrorHandler,
+      useClass: SentryErrorHandler
     },
   ],
   bootstrap: [AppComponent]

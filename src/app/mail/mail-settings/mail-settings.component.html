@@ -527,6 +527,35 @@
                   </div>
                 </div>
               </div>
+
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3" ngbTooltip="Help to report bugs automatically by enabling this option">
+                    <label class="form-label mb-0">Report bugs</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="reportBugs1"
+                                 name="[reportBugs]" type="radio" (click)="updateSettings('is_enable_report_bugs', true)"
+                                 [checked]="settings.is_enable_report_bugs"/>
+                          <label for="reportBugs1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="reportBugs2"
+                                 name="[reportBugs]" type="radio" (click)="updateSettings('is_enable_report_bugs', false)"
+                                 [checked]="!settings.is_enable_report_bugs"/>
+                          <label for="reportBugs2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
