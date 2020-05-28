@@ -88,7 +88,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   }
 
   subjectChanged() {
-
     let val = document.getElementById('sub').children[1].value
     let _test = document.getElementById('test');
    _test.innerHTML = val
@@ -126,6 +125,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   });
    
   }
+
   saveInDrafts() {
     this.composeMail.saveInDrafts();
   }
