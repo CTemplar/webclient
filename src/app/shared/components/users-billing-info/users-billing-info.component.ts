@@ -37,8 +37,9 @@ import {
 import { OpenPgpService, SharedService } from '../../../store/services/index';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
+import { TranslateService } from '@ngx-translate/core';
 import { timer } from 'rxjs/internal/observable/timer';
-import { apiUrl, PROMO_CODE_KEY } from '../../config';
+import { apiUrl, PROMO_CODE_KEY, LANGUAGES } from '../../config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -101,6 +102,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
               private router: Router,
               private formBuilder: FormBuilder,
               private openPgpService: OpenPgpService,
+              private translate: TranslateService,
               private dynamicScriptLoader: DynamicScriptLoaderService,
               private activatedRoute: ActivatedRoute,
               private modalService: NgbModal,
@@ -327,12 +329,17 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.promoCode.is_valid && this.promoCode.value) {
       data.promo_code = this.promoCode.value;
     }
+    let currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
+    let currentLang = LANGUAGES.find(lang => {
+      if (lang.locale === currentLocale) return true
+    })
     return {
       ...data,
       plan_type: this.planType,
       payment_type: this.paymentType,
       payment_method: this.paymentMethod,
-      is_renew: this.isRenew
+      is_renew: this.isRenew,
+      language: currentLang.name
     };
   }
 
