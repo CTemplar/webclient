@@ -202,6 +202,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       title += 'CTemplar: Armored Email';
     }
+    //........................
     this.titleService.setTitle(title);
   }
 

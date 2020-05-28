@@ -7,3 +7,18 @@
     width: calc(100% - 65px)
   }
 }
+
+.mail-composer-title{
+  width: 85%;
+  white-space: nowrap 
+}
+
+.mail-composer-title-fullscreen{
+  width: 93% !important;
+}
+
+#test{
+  display: inline;
+  position:absolute;
+  opacity:0;
+}
