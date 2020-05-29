@@ -29,7 +29,7 @@ export class WebsocketService implements OnDestroy {
    const config = getWindowConfig();
     const url = (config.protocol === 'https:' ? 'wss:' : 'ws:') + '//'
     + (config.host === 'gh.ctemplar.com' ? 'mail.ctemplar.com' : config.host)
-      + `/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
+      + `/api/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
