@@ -5,7 +5,7 @@ export const IS_ELECTRON = window.location.protocol === 'file:';
 export const apiUrl = getBaseUrl();
 export const PRIMARY_DOMAIN = environment.production
   ? 'ctemplar.com'
-  : 'dev.ctemplar.net';
+  : 'devapi.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
 
 export const COLORS: string[] = [
@@ -182,7 +182,7 @@ export function getWindowConfig(): { host: string; protocol: string } {
   let host = location.host;
   if (IS_ELECTRON || location.hostname === 'localhost') {
     protocol = 'https:';
-    host = environment.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
+    host = environment.production ? 'mail.ctemplar.com' : 'devapi.ctemplar.net';
   }
   return { host, protocol };
 }
