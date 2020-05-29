@@ -86,4 +86,5 @@ export interface Message extends Object {
    * Id's list when a messsage is marked as read/unread.
    */
   ids?: Array<number>;
+  used_storage: number;
 }
