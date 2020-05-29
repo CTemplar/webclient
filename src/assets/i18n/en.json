@@ -258,8 +258,7 @@
       "name_exist": "Folder name already exists.",
       "name_required": "Folder name is required",
       "name_start": " Folder name must start with an alphabet and can only contain",
-      "character_len": " characters or space, and minimum length should be 4 characters.",
-      "name_len": "Folder name must be between 4 and 30 characters."
+      "name_len": "Folder name must be less than 30 characters."
     },
     "security": {
       "change_password": "Change Password",

@@ -488,7 +488,7 @@
 		"folder_messages": {
 			"character_len": " caracteres ou espaço, e o tamanho mínimo deve ser de caracteres.",
 			"name_exist": "Já existe uma pasta com este nome.",
-			"name_len": "O nome da pasta deve ter entre 4 e 30 caracteres.",
+			"name_len": "O nome da pasta deve ter entre 30 caracteres.",
 			"name_required": "O nome da pasta é necessário",
 			"name_start": " O nome da pasta deve iniciar com uma letra e só pode conter"
 		},
