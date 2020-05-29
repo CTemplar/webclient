@@ -43,8 +43,8 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   myMinMail = '';
   isPopupClosed: boolean;
   constructor(private modalService: NgbModal,
-              private cdr: ChangeDetectorRef,
-              private store: Store<AppState>) {
+    private cdr: ChangeDetectorRef,
+    private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -87,43 +87,53 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
+  truncateMailTitle() {
+    let subValue = document.getElementById('sub').children[1].value;
+    let mailTitleTextWidth  = document.getElementById('mailTitleTextWidth');
+    mailTitleTextWidth .innerHTML = subValue;
+    setTimeout(() => {
+      let MailDivWidth = document.getElementById('myMailSubject').offsetWidth
+      if (this.isFullScreen == false) {
+        this.myMailWidth = MailDivWidth;
+      }
+
+      if (mailTitleTextWidth .offsetWidth < this.myMailWidth - 20) {
+        document.getElementById('myMailSubject').classList.remove('mail-composer-title-fullscreen')
+        this.mailSubject = subValue;
+        this.myMail = subValue + '...';
+      }
+
+      if (mailTitleTextWidth .offsetWidth > this.myMailWidth - 30) {
+        document.getElementById('myMailSubject').classList.remove('mail-composer-title-fullscreen')
+        this.mailSubject = this.myMail;
+      }
+
+      if (mailTitleTextWidth .offsetWidth < MailDivWidth - 40 && this.isFullScreen == true) {
+        document.getElementById('myMailSubject').classList.add('mail-composer-title-fullscreen')
+        this.mailSubject = subValue;
+        this.myFullMail = subValue + '...';
+      }
+
+      if (mailTitleTextWidth .offsetWidth > MailDivWidth - 50 && this.isFullScreen == true) {
+        document.getElementById('myMailSubject').classList.add('mail-composer-title-fullscreen')
+        this.mailSubject = this.myFullMail;
+      }
+      
+      if (mailTitleTextWidth .offsetWidth < 140) {
+        this.myMinMail = subValue + '...';
+        this.mailMinimized = this.myMinMail;
+      }
+      
+      if (mailTitleTextWidth .offsetWidth > MailDivWidth - 100) {
+        this.mailMinimized = this.myMinMail;
+      }
+
+    });
+  }
+  
   subjectChanged() {
-    let val = document.getElementById('sub').children[1].value
-    let _test = document.getElementById('test');
-   _test.innerHTML = val
-   setTimeout(() => {
-   let MailDivWidth = document.getElementById('myMailSubject').offsetWidth
-   if(this.isFullScreen==false){
-       this.myMailWidth = MailDivWidth
-   }
-   if(_test.offsetWidth < this.myMailWidth-20 ){
-    document.getElementById('myMailSubject').classList.remove('mail-composer-title-fullscreen')
-    this.mailSubject = val;
-    this.myMail = val + '...';
-   }
-   if( _test.offsetWidth  > this.myMailWidth-30 ){
-    document.getElementById('myMailSubject').classList.remove('mail-composer-title-fullscreen')
-    this.mailSubject = this.myMail;
-   }
-   if(_test.offsetWidth < MailDivWidth-40 && this.isFullScreen==true){
-    document.getElementById('myMailSubject').classList.add('mail-composer-title-fullscreen')
-    this.mailSubject = val;
-    this.myFullMail = val + '...';
-   }
-   if( _test.offsetWidth  > MailDivWidth-30 && this.isFullScreen==true){
-    document.getElementById('myMailSubject').classList.add('mail-composer-title-fullscreen')
-    this.mailSubject = this.myFullMail;
-   }
-   if(_test.offsetWidth<120){
-     this.myMinMail = val + '...';
-     this.mailMinimized = this.myMinMail;
-   }
-   if( _test.offsetWidth>MailDivWidth-100){
-    this.mailMinimized = this.myMinMail;
-    return
-   }
-  });
-   
+
+    this.truncateMailTitle()
   }
 
   saveInDrafts() {
@@ -147,7 +157,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     if (this.isFullScreen) {
       this.isFullScreen = false;
     }
-    this.subjectChanged()
   }
 
   toggleFullScreen() {
@@ -156,7 +165,8 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     if (this.isMinimized) {
       this.isMinimized = false;
     }
-    this.subjectChanged()
+    this.myMailWidth = document.getElementById('myMailSubject').offsetWidth
+    this.truncateMailTitle()
   }
 
   private hideMailComposeDialog() {

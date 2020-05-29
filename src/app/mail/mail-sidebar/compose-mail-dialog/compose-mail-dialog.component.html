@@ -6,7 +6,7 @@
      
     <div class="mail-composer-header p-0">
       <div id="myMailSubject" class="mail-composer-title mr-4" (click)="toggleMinimized()">
-        <div id="test"></div>
+        <div id="mailTitleTextWidth"></div>
         <span  *ngIf="mailSubject; else newMessage">{{!isMinimized?mailSubject:mailMinimized}}</span>
         <ng-template #newMessage>
           <span>{{"settings.compose.new_message"| translate}}</span>
