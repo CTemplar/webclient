@@ -254,8 +254,7 @@
       "name_exist": "Le nom du dossier existe déjà.",
       "name_required": "Le nom du dossier est requis",
       "name_start": "Le nom du dossier doit commencer par une lettre alphabétique et ne peut contenir que",
-      "character_len": "caractères ou espace, et la longueur minimale doit être de 4 caractères.",
-      "name_len": "Le nom du dossier doit comporter entre 4 et 30 caractères."
+      "name_len": "Le nom du dossier doit comporter entre 30 caractères."
     },
     "security": {
       "change_password": "Changer le mot de passe",

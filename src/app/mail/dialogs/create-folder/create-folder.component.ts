@@ -23,21 +23,22 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   userState: UserState;
   submitted: boolean;
   duplicateFoldername: boolean;
-  callback: { self: any, method: string };
+  callback: { self: any; method: string };
 
-  constructor(private store: Store<AppState>,
-              private fb: FormBuilder,
-              public activeModal: NgbActiveModal) {
-  }
+  constructor(
+    private store: Store<AppState>,
+    private fb: FormBuilder,
+    public activeModal: NgbActiveModal
+  ) {}
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
-      folderName: [this.folder.name,
+      folderName: [
+        this.folder.name,
         [
           Validators.required,
-          Validators.pattern(/^[a-z]+[a-z0-9. _-]+$/i),
-          Validators.minLength(4),
-          Validators.maxLength(30),
+          Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/),
+          Validators.maxLength(30)
         ]
       ],
       color: this.folder.color
@@ -45,18 +46,24 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     if (this.folder.color) {
       this.selectedColorIndex = this.folderColors.indexOf(this.folder.color);
     }
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         if (this.userState && this.userState.inProgress && !user.inProgress) {
           if (this.callback) {
-            this.callback.self[this.callback.method](this.customFolderForm.value.folderName);
+            this.callback.self[this.callback.method](
+              this.customFolderForm.value.folderName
+            );
           }
           this.activeModal.close();
         }
         this.userState = user;
       });
-    this.customFolderForm.get('folderName').valueChanges.pipe(untilDestroyed(this))
-      .subscribe((value) => {
+    this.customFolderForm
+      .get('folderName')
+      .valueChanges.pipe(untilDestroyed(this))
+      .subscribe(value => {
         this.checkFolderExist(value);
       });
   }
@@ -79,8 +86,13 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   }
 
   checkFolderExist(folderName: string) {
-    if (this.userState.customFolders
-      .filter(folder => folder.name.toLowerCase() === folderName.toLowerCase() && folder.id !== this.folder.id).length > 0) {
+    if (
+      this.userState.customFolders.filter(
+        folder =>
+          folder.name.toLowerCase() === folderName.toLowerCase() &&
+          folder.id !== this.folder.id
+      ).length > 0
+    ) {
       this.duplicateFoldername = true;
       return true;
     }
@@ -92,7 +104,5 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     this.activeModal.close();
   }
 
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }
