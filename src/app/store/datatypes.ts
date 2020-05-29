@@ -184,6 +184,7 @@ export class Settings {
   attachment_size_error?: string;
   is_composer_full_screen?: boolean;
   is_night_mode?: boolean;
+  is_enable_report_bugs?: boolean;
   custom_css?: string;
   is_disable_loading_images?: boolean;
 }
