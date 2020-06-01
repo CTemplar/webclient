@@ -203,7 +203,7 @@
             <div class="desc-card-body bg-faded">
               <mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
                 <ng-template matStepperIcon="edit">
-                  <mat-icon>check</mat-icon>
+                  <i class="fa fa-check"></i>
                 </ng-template>
                 <mat-step [stepControl]="domainNameForm">
                   <form [formGroup]="domainNameForm">
@@ -293,7 +293,7 @@
                         </div>
                       </div>
                       <div *ngIf="userState?.isError" class="l-alert l-alert-danger mt-3"
-                      [translate]="'settings.domains_and_users.domain_verification_message'" ]>
+                      [translate]="'settings.domains_and_users.domain_verification_message'">
                         Domain verification failed, please add above TXT record in your host DNS and try again.
                         DNS records can take several hours to update. Once domain is verified, you can proceed to next
                         step.
