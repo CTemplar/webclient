@@ -54,7 +54,7 @@ export class MailEffects {
       return this.mailService.getMessages(payload)
         .pipe(
           map((response) => {
-            return new GetMailsSuccess({ ...payload, mails: response['results'], total_mail_count: response['total_count'] });
+            return new GetMailsSuccess({ ...payload, is_not_first_page: !!response['previous'], mails: response['results'], total_mail_count: response['total_count'] });
           }),
           catchError((error) => EMPTY)
         );

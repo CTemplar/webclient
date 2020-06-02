@@ -236,9 +236,22 @@ export class Payment {
   payment_type?: PaymentType;
 }
 
+export class MailStateFolderInfo {
+  is_not_first_page?: boolean;
+  total_mail_count?: number;
+  
+  constructor(data?: any) {
+    if (data) {
+      this.is_not_first_page = data.is_not_first_page
+      this.total_mail_count = data.total_mail_count
+    }
+  }
+}
+
 export interface MailState {
   mails: Mail[];
   total_mail_count: number;
+  info_by_folder: Map<string, MailStateFolderInfo>,
   total_mail_count_by_folder: Map<string, number>,
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
