@@ -250,6 +250,26 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  isNeedRemoveStar() {
+    if (this.getMarkedMails()) {
+      let starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      if (starred_mails.length > 0) {
+        return true
+      }
+    }
+    return false;
+  }
+
+  isNeedAddStar() {
+    if (this.getMarkedMails()) {
+      let starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      if (starred_mails.length === this.getMarkedMails().length) {
+        return false
+      }
+    }
+    return true;
+  }
+
   moveToTrash() {
     if (this.mailFolder === MailFolderType.TRASH) {
       const ids = this.getMailIDs();
