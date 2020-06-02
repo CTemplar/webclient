@@ -94,16 +94,15 @@ export function reducer(
     }
     case MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS: {
       if (action.payload.updateUnreadCount) {
+        let totalUnreadMailCount = getTotalUnreadCount({ ...state.unreadMailsCount, ...action.payload });
+        let unreadMailData = { ...state.unreadMailsCount, ...action.payload, total_unread_count: totalUnreadMailCount };
         return {
           ...state,
-          unreadMailsCount: {
-            ...state.unreadMailsCount,
-            ...action.payload,
-          },
+          unreadMailsCount: unreadMailData,
           noUnreadCountChange: false,
         };
       }
-      return { ...state, unreadMailsCount: action.payload, noUnreadCountChange: false, };
+      return { ...state, unreadMailsCount: { ...action.payload, total_unread_count: getTotalUnreadCount(action.payload) }, noUnreadCountChange: false, };
     }
     case MailActionTypes.SET_IS_COMPOSER_POPUP: {
       state.isComposerPopUp = action.payload;
@@ -184,7 +183,7 @@ export function reducer(
       target_folder_mails = target_folder_mails.filter(mail => {
         if (listOfIDs.includes(mail.id.toString())) {
           mail.read = action.payload.read;
-          if (state.currentFolder === MailFolderType.UNREAD) {
+          if (state.currentFolder === MailFolderType.UNREAD && action.payload.read) {
             return false;
           }
         }
@@ -496,4 +495,30 @@ function sortByDueDate(sortArray): any[] {
     let prev_updated = prev.updated || null;
     return <any>new Date(next_updated) - <any>new Date(prev_updated);
   });
+}
+
+function getTotalUnreadCount(data): number {
+  if (data) {
+    let total_count = 0;
+    Object.keys(data).map(key => {
+      if (
+        key !== MailFolderType.SENT && 
+        key !== MailFolderType.TRASH && 
+        key !== MailFolderType.DRAFT &&
+        key !== MailFolderType.OUTBOX &&
+        key !== 'total_unread_count' &&
+        key !== MailFolderType.STARRED &&
+        key !== 'updateUnreadCount' &&
+        key !== 'outbox_dead_man_counter' &&
+        key !== 'outbox_delayed_delivery_counter' &&
+        key !== 'outbox_self_destruct_counter'
+      ) 
+        {
+          if (!isNaN(data[`${key}`])) total_count += data[`${key}`];
+        }
+    })
+    
+    return total_count;
+  }
+  return 0;
 }
