@@ -208,6 +208,29 @@ export function reducer(
         } else {
           state.folders.set(MailFolderType.UNREAD, []);
         }
+      } else {
+        let folders = Array.from(state.folders.keys());
+        folders = folders.filter(
+          folder => 
+          folder !== MailFolderType.SENT && 
+          folder !== MailFolderType.TRASH && 
+          folder !== MailFolderType.DRAFT &&
+          folder !== MailFolderType.OUTBOX);
+        folders.map(folder => {
+          let folder_content = state.folders.get(folder) || [];
+          if (folder_content.length > 0) {
+            let need_to_update = false;
+            folder_content.map(mail => {
+              if (listOfIDs.includes(mail.id.toString())) {
+                mail.read = action.payload.read;
+                need_to_update = true;
+              }
+            })
+            if (need_to_update) {
+              state.folders.set(folder, folder_content);
+            }
+          }
+        });
       }
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, read: action.payload.read };
@@ -246,6 +269,23 @@ export function reducer(
         } else {
           state.folders.set(MailFolderType.STARRED, []);
         }
+      } else {
+        let folders = Array.from(state.folders.keys());
+        folders.map(folder => {
+          let folder_content = state.folders.get(folder) || [];
+          if (folder_content.length > 0) {
+            let need_to_update = false;
+            folder_content.map(mail => {
+              if (listOfIDs.includes(mail.id.toString())) {
+                mail.starred = action.payload.starred;
+                need_to_update = true;
+              }
+            })
+            if (need_to_update) {
+              state.folders.set(folder, folder_content);
+            }
+          }
+        });
       }
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
