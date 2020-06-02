@@ -17,6 +17,7 @@ import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { COLORS, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { ContactsGet } from '../../../store/actions';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -281,6 +282,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           this.contacts = [];
         }
       });
+
+      this.store.dispatch(new ContactsGet({
+      }));
 
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
