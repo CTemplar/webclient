@@ -402,18 +402,19 @@ export function reducer(
           newEntry = false;
         }
       });
-
-      if (newEntry) {
-        const mail = action.payload;
-        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-        mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
-          || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
-
-        target_folder_mails = [mail, ...target_folder_mails];
-      }
-      state.folders.set(action.payload.folder, target_folder_mails);
-      if (state.currentFolder === action.payload.folder) {
-        state.mails = target_folder_mails;
+      if (target_folder_mails.length > 0 || state.currentFolder === action.payload.folder) {
+        if (newEntry) {
+          const mail = action.payload;
+          mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+          mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+            || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
+  
+          target_folder_mails = [mail, ...target_folder_mails];
+        }
+        state.folders.set(action.payload.folder, target_folder_mails);
+        if (state.currentFolder === action.payload.folder) {
+          state.mails = target_folder_mails;
+        }
       }
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
