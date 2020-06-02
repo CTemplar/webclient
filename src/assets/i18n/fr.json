@@ -488,7 +488,7 @@
     "delete_messages": "Supprimer tous les messages définitivement",
     "delete_all": "Supprimer tout définitivement",
     "no_conversations": "Il n'y a aucune conversation avec cette étiquette.",
-    "remove_start": "Supprimer des favoris",
+    "remove_star": "Supprimer des favoris",
     "start_message": "Favoris"
   },
   "home_header": {

@@ -304,6 +304,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     win.focus();
   }
 
+  isNeedRemoveStar(mail: Mail) {
+    if (mail) {
+      return mail.starred ? true : false;
+    }
+    return false;
+  }
+
+  isNeedAddStar(mail: Mail) {
+    if (mail) {
+      return mail.starred ? false : true;
+    }
+    return true;
+  }
+
   toggleGmailExtra(mail: Mail) {
     if (!this.mailOptions[mail.id]) {
       this.mailOptions[mail.id] = {};
@@ -398,8 +412,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.shareService.downloadFile(attachment.decryptedDocument);
   }
 
-  markAsStarred() {
-    this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred: true }));
+  markAsStarred(starred: boolean = true) {
+    this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred: starred }));
   }
 
   markAsRead(mailID: number, read: boolean = true) {

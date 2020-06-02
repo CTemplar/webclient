@@ -286,6 +286,9 @@ export function reducer(
           }
         });
       }
+      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
+        state.mailDetail = { ...state.mailDetail, starred: action.payload.starred };
+      }
       return { ...state, inProgress: false, noUnreadCountChange: true };
     }
 

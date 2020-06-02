@@ -443,7 +443,7 @@
     "delete_messages": "Delete all messages",
     "delete_all": "Delete All",
     "no_conversations": "There are no conversations with this label.",
-    "remove_start": "Remove Star",
+    "remove_star": "Remove Star",
     "start_message": "Star Message"
   },
   "home_header": {
