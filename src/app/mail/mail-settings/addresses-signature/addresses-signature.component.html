@@ -138,21 +138,21 @@
 <section class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
-      <strong [translate]="'settings.addresses'">Addresses</strong></h5>
+      <strong [translate]="'settings.addresses'">Aliases</strong></h5>
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
       <div class="mb-3 row">
         <div class="col-6">
           <button type="button" *ngIf="mailboxes?.length < settings?.email_count"
-                  (click)="onAddNewAddress()" class="btn btn-sm btn-secondary"><span [translate]="'settings.add_address'">Add Address</span>
+                  (click)="onAddNewAddress()" class="btn btn-sm btn-secondary"><span [translate]="'settings.add_address'">Add Aliase</span>
           </button>
         </div>
         <div class="col-6 text-right">
           <button class="btn btn-sm btn-secondary"
                   (click)="startReorder()"
                   *ngIf="!reorder && mailboxes?.length>1"
-                  [ngbTooltip]="'settings.reorder_addresses'| translate" [translate]="'settings.reorder'">Reorder</button>
+                  [ngbTooltip]="'settings.reorder_addresses'| translate" [translate]="'settings.reorder'">Reorder Aliases</button>
         </div>
       </div>
       <ul class="ui-list ui-list-styled list-styled addresses-list">
