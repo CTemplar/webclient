@@ -458,6 +458,10 @@ export function reducer(
           state.mails = target_folder_mails;
         }
       }
+      if (action.payload.folder === MailFolderType.SENT) {
+        //Remove the draft mails from store, so that it would fetch again when needed to list
+        state.folders.set(MailFolderType.DRAFT, []); 
+      }
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 
