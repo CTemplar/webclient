@@ -342,6 +342,8 @@
              *ngIf="mail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
              [ngbTooltip]="'mail_detail.messages_will_be_del'| translate"
              placement="left">{{"mail_detail.delete_from_receiver"| translate}}</a>
+          <a class="dropdown-item"
+             (click)="onDownloadAll(mail)">Download all attachments</a>
           <a class="dropdown-item" (click)="showIncomingHeaders(mail)">{{"mail_detail.show_headers"| translate}}</a>
           <a class="dropdown-item" (click)="showRawContent[mail.id] = !showRawContent[mail.id]"
              [ngbTooltip]="'mail_detail.view_mail_raw_content'| translate"
@@ -541,6 +543,8 @@
                        *ngIf="childMail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
                        [ngbTooltip]="'mail_detail.messages_will_be_del'| translate"
                        placement="left">{{"mail_detail.delete_from_receiver"| translate}}</a>
+                    <a class="dropdown-item"
+                       (click)="onDownloadAll(childMail)">Download all attachments</a>
                     <a class="dropdown-item"
                        (click)="showIncomingHeaders(childMail)">{{"mail_detail.show_headers"| translate}}</a>
                     <a class="dropdown-item" (click)="showRawContent[childMail.id] = !showRawContent[childMail.id]"

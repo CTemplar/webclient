@@ -362,6 +362,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
   }
 
+  onDownloadAll(mail: Mail) {
+    mail.attachments.forEach(async attachment =>{
+      await attachment.is_encrypted
+        ? this.decryptAttachment(attachment, mail)
+        : window.open(attachment.document, attachment.id)
+    });
+  }
+
   decryptAttachment(attachment: Attachment, mail: Mail) {
     if (attachment.is_encrypted) {
       if (this.decryptedAttachments[attachment.id]) {
