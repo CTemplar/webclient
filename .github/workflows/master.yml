@@ -1,4 +1,4 @@
-name: Angular CI
+name: webclient-master
 
 on:
   push:
@@ -30,7 +30,6 @@ jobs:
         e_index_hash=$(openssl dgst -sha256 dist/electron-index.html | awk '{print $NF}')
         sed -i -e "s/#INDEX_HASH#/${index_hash}/" dist/README.md
         sed -i -e "s/#E_INDEX_HASH#/${e_index_hash}/" dist/README.md
-        echo $version
            
     - name: Publish to gh-pages
       env:
@@ -43,4 +42,8 @@ jobs:
         git commit -am "Release v${version}"
         git filter-branch -f --prune-empty --subdirectory-filter dist
         git push -f origin gh-pages
-        git checkout -     
+        git checkout -   
+           
+#     - name: Publish to server
+#       run: |
+#         ${{ secrets.DEPLOY_COMMAND }}
