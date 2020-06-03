@@ -1,4 +1,4 @@
-name: ${{ github.ref }}
+name: webclient-dev
 
 on:
   push:
@@ -46,4 +46,4 @@ jobs:
         
     - name: Publish to server
       run: |
-        ${{ secrets.DEPLOY_COMMAND }} ${{ github.ref }}
+        ${{ secrets.DEPLOY_COMMAND }} webclient-dev
