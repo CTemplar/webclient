@@ -13,10 +13,10 @@ jobs:
     
     - uses: actions/cache@v1 
       with:     
-       path: ~/.npm   
-       key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}                    
-       restore-keys: |    
-           ${{ runner.os }}-node-
+         path: ~/.npm   
+         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}                    
+         restore-keys: |    
+             ${{ runner.os }}-node-
       
     - name: Intall and build
       run: |
@@ -31,4 +31,13 @@ jobs:
         sed -i -e "s/#INDEX_HASH#/${index_hash}/" dist/README.md
         sed -i -e "s/#E_INDEX_HASH#/${e_index_hash}/" dist/README.md
         echo $version
-        
+           
+    - name: Publish to gh-pages 
+      run: |
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        git checkout -B gh-pages
+        git add -f dist
+        git commit -am "Release v${version}"
+        git filter-branch -f --prune-empty --subdirectory-filter dist
+        git push -f origin gh-pages
+        git checkout -     
