@@ -32,9 +32,10 @@ jobs:
         sed -i -e "s/#E_INDEX_HASH#/${e_index_hash}/" dist/README.md
         echo $version
            
-    - name: Publish to gh-pages 
-      run: |
+    - name: Publish to gh-pages
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
         git checkout -B gh-pages
         git add -f dist
         git commit -am "Release v${version}"
