@@ -13,6 +13,7 @@ dist
 .DS_Store
 Thumbs.db
 TODO.md
+.prettierrc
 
 # compiled output
 /tmp/

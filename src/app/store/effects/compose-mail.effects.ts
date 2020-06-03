@@ -111,12 +111,15 @@ export class ComposeMailEffects {
       ofType(ComposeMailActionTypes.SEND_MAIL),
       map((action: SendMail) => action.payload),
       mergeMap((payload: Draft) => {
+        let message;
         if (payload.draft.dead_man_duration || payload.draft.delayed_delivery) {
           payload.draft.send = false;
           payload.draft.folder = MailFolderType.OUTBOX;
+          message = `Mail scheduled`
         } else {
           payload.draft.send = true;
           payload.draft.folder = MailFolderType.SENT;
+          message = `Mail sent successfully`
         }
         payload.draft.is_subject_encrypted = payload.draft.is_subject_encrypted && payload.draft.is_encrypted;
         return this.mailService.createMail(payload.draft)
@@ -130,7 +133,7 @@ export class ComposeMailEffects {
                 new UpdateMailDetailChildren(res),
                 new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true, isMailDetailPage: payload.isMailDetailPage }),
                 new SnackPush({
-                  message: `Mail sent successfully`
+                  message
                 })];
               if (payload.draft.folder === MailFolderType.OUTBOX) {
                 events.push(new GetUnreadMailsCount());

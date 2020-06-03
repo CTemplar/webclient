@@ -32,6 +32,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
+import * as Sentry from '@sentry/browser';
 
 @UntilDestroy()
 @Component({
@@ -68,6 +69,10 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         if (userState.isLoaded && !this.isLoadedData) {
+          Sentry.init({
+            dsn: "https://e768a553906d4f87bcb0419a151e36b0@o190614.ingest.sentry.io/5256284",
+            enabled: userState.settings.is_enable_report_bugs
+          });
           this.isLoadedData = true;
           this.store.dispatch(new GetMailboxes());
           this.store.dispatch(new TimezoneGet());

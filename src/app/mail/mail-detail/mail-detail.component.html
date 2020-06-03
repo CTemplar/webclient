@@ -119,7 +119,8 @@
               {{"mail_list.more"| translate}}
             </button>
             <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
-              <a class="dropdown-item" (click)="markAsStarred()">{{"mail_list.add_star"| translate}}</a>
+              <a *ngIf="isNeedAddStar(mail)" class="dropdown-item" (click)="markAsStarred(true)">{{"mail_list.add_star"| translate}}</a>
+              <a *ngIf="isNeedRemoveStar(mail)" class="dropdown-item" (click)="markAsStarred(false)">{{"mail_list.remove_star"| translate}}</a>
               <a class="dropdown-item" (click)="markAsRead(mail.id)">{{"mail_list.mark_as_read"| translate}}</a>
               <a class="dropdown-item"
                  (click)="markAsRead(mail.id, false)">{{"mail_list.mark_as_unread"| translate}}</a>

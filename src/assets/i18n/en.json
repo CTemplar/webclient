@@ -98,6 +98,7 @@
     "change_now": "Change now",
     "last_time_changed": "Last time changed",
     "recovery_email": "Recovery email",
+    "reset_password": "I understand that action will delete all data and generate a new encryption key.",
     "appearance": "Appearance",
     "display_name": "Display name",
     "signature": "Signature",
@@ -257,8 +258,7 @@
       "name_exist": "Folder name already exists.",
       "name_required": "Folder name is required",
       "name_start": " Folder name must start with an alphabet and can only contain",
-      "character_len": " characters or space, and minimum length should be 4 characters.",
-      "name_len": "Folder name must be between 4 and 30 characters."
+      "name_len": "Folder name must be less than 30 characters."
     },
     "security": {
       "change_password": "Change Password",
@@ -374,11 +374,11 @@
       "delayed_delivery": "Delayed delivery",
       "dead_man_timer": "Dead Man's timer",
       "save_to_drafts": "Save to drafts",
-      "attach_images": "Attach Images",
+      "attach_images": "Input Images",
       "select_file": "Select files from your computer or enter a URL",
       "image_url": "Enter image URL",
-      "attach_files": "Attach Files",
-      "attach_url": "Attach URL",
+      "attach_files": "Input Files",
+      "attach_url": "Input URL",
       "self_dest_email": "Self Destruct Email",
       "email_deleted": "Email will be deleted on selected datetime",
       "select_date": "Select Date",
@@ -506,7 +506,7 @@
     "delete_messages": "Delete all messages",
     "delete_all": "Delete all permanently",
     "no_conversations": "There are no conversations with this label.",
-    "remove_start": "Remove Star",
+    "remove_star": "Remove Star",
     "start_message": "Star Message",
     "4_Wall_Protection": "4 Wall Protection"
   },

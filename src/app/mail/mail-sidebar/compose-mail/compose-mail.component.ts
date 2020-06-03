@@ -17,6 +17,7 @@ import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { COLORS, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { ContactsGet } from '../../../store/actions';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
 import {
@@ -282,9 +283,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
       });
 
+      this.store.dispatch(new ContactsGet({
+      }));
+
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
-        this.contacts = contactsState.emailContacts;
+        if (contactsState.emailContacts === undefined) {
+          this.contacts = [];
+          contactsState.contacts.forEach(x => {
+            this.contacts.push({ name: x.name, email: x.email });
+          });
+        } else {
+          this.contacts = contactsState.emailContacts;
+        }
         this.contactsState = contactsState;
         this.loadEmailContacts();
       });
@@ -646,8 +657,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
-      if (/^image\//.test(file.type)) {
-        this.uploadAttachment(file, true);
+      if (/^image\//.test(file.type)) {    
+          var FR= new FileReader();          
+          FR.addEventListener("load", function(e) {
+           document.querySelector(".ql-editor p").innerHTML += `<img src=${e.target.result} alt="image" />`;
+          });           
+          FR.readAsDataURL( file );        
       } else {
         // TODO: add error notification for invalid file type here
       }
@@ -799,7 +814,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         shouldSave: false, shouldSend: true, draft: { ...this.draftMail }
       }
     }));
-    this.store.dispatch(new SnackPush({ message: 'Sending mail...', duration: 120000 }));
+    let message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...'
+
+    this.store.dispatch(new SnackPush({ message, duration: 120000 }));
     this.resetValues();
     this.hide.emit();
   }
@@ -1021,10 +1038,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (source && this.quill) {
       const selection = this.quill.getSelection();
       const index = selection ? selection.index : this.quill.getLength();
-      this.quill.insertEmbed(index, 'image', {
+      if (contentId === undefined) {
+        this.quill.insertEmbed(index, 'image', source);
+      } else {
+        this.quill.insertEmbed(index, 'image', {
         url: source,
         content_id: contentId
-      });
+        });
+      }
       this.quill.setSelection(index + 1);
     }
   }
