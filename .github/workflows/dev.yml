@@ -1,4 +1,4 @@
-name: Angular CI
+name: Angular CI (dev)
 
 on:
   push:
