@@ -1,4 +1,4 @@
-name: ${{ github.head_ref }}
+name: ${{ github.ref }}
 
 on:
   push:
@@ -46,4 +46,4 @@ jobs:
         
     - name: Publish to server
       run: |
-        ${{ secrets.DEPLOY_COMMAND }} ${{ github.head_ref }}
+        ${{ secrets.DEPLOY_COMMAND }} ${{ github.ref }}
