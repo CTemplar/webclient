@@ -145,7 +145,7 @@
             </button>
             <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
               <a *ngIf="isNeedAddStar()" class="dropdown-item" (click)="markAsStarred(true)" [translate]="'mail_list.add_star'">Add star</a>
-              <a *ngIf="isNeedRemoveStar()" class="dropdown-item" (click)="markAsStarred(false)" [translate]="'mail_list.remove_start'">Remove star</a>
+              <a *ngIf="isNeedRemoveStar()" class="dropdown-item" (click)="markAsStarred(false)" [translate]="'mail_list.remove_star'">Remove star</a>
               <a class="dropdown-item" (click)="markAsRead()" [translate]="'mail_list.mark_as_read'">Mark as read</a>
               <a class="dropdown-item" (click)="markAsRead(false)" [translate]="'mail_list.mark_as_unread'">Mark as
                 unread</a>
@@ -208,7 +208,7 @@
 
         <!-- Starred Message -->
         <td class="mail-status">
-          <a class="mail-status-type" [ngbTooltip]="mail.starred ? ('mail_list.remove_start'| translate) : ('mail_list.start_message'| translate)" placement="right"  (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
+          <a class="mail-status-type" [ngbTooltip]="mail.starred ? ('mail_list.remove_star'| translate) : ('mail_list.start_message'| translate)" placement="right"  (click)="toggleStarred(mail)" [ngClass]="{'is-fav': mail.starred}">
             <i class="icon icon-star-filled" [ngClass]="{'icon-star': !mail.starred}"></i>
           </a>
         </td>
