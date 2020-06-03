@@ -1,0 +1,45 @@
+name: Angular CI
+
+on:
+  push:
+    branches: [ dev ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - uses: actions/cache@v1 
+      with:     
+         path: ~/.npm   
+         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}                    
+         restore-keys: |    
+             ${{ runner.os }}-node-
+      
+    - name: Intall and build
+      run: |
+        npm install
+        npm run build:dev
+        version=$(node -p "require('./package.json').version")
+        cp dist/index.html dist/404.html
+        sed -e "s/href=\"\/\"/href=\".\/\"/g" dist/index.html > dist/electron-index.html
+        sed -i -e "s/#WEBCLIENT_VERSION#/${version}/" dist/README.md
+        index_hash=$(openssl dgst -sha256 dist/index.html | awk '{print $NF}')
+        e_index_hash=$(openssl dgst -sha256 dist/electron-index.html | awk '{print $NF}')
+        sed -i -e "s/#INDEX_HASH#/${index_hash}/" dist/README.md
+        sed -i -e "s/#E_INDEX_HASH#/${e_index_hash}/" dist/README.md
+           
+    - name: Publish to dev-pages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.email "thh@ctemplar.com"
+        git config --global user.name "The-Hidden-Hand"
+        git checkout -B dev-pages
+        git add -f dist
+        git commit -am "Release v${version}"
+        git filter-branch -f --prune-empty --subdirectory-filter dist
+        git push -f origin dev-pages
+        git checkout -     
