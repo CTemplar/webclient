@@ -53,7 +53,8 @@ export class ComposeMailEffects {
           .pipe(
             switchMap(res => of(
               new CreateMailSuccess({ draft: payload, response: res }),
-              new UpdateCurrentFolder(res)
+              new UpdateCurrentFolder(res),
+              new GetUnreadMailsCount()
             )),
             catchError(err => of(new SnackErrorPush({ message: 'Failed to save mail.' })))
           );
@@ -134,10 +135,8 @@ export class ComposeMailEffects {
                 new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true, isMailDetailPage: payload.isMailDetailPage }),
                 new SnackPush({
                   message
-                })];
-              if (payload.draft.folder === MailFolderType.OUTBOX) {
-                events.push(new GetUnreadMailsCount());
-              }
+                }),
+                new GetUnreadMailsCount()];
               return events;
             }),
             catchError(errorResponse => of(
