@@ -46,4 +46,4 @@ jobs:
            
     - name: Publish to server
       run: |
-        ${{ secrets.DEPLOY_WEBCLIENT_MASTER }}
+        ${{ secrets.DEPLOY_COMMAND }} webclient-master

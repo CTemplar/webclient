@@ -298,7 +298,7 @@
       "enable_attachments_enc": "Remarque: Si vous activez le cryptage des pièces jointes, les pièces jointes en ligne ne seront plus disponibles, toutes les pièces jointes que vous enverrez / recevrez seront traitées comme des pièces jointes externes et toutes seront cryptées.",
       "read_more": "Lire la suite"
     },
-    "addresses_and_signs": "Adresses & signatures",
+    "signs_and_aliases": "Adresses & signatures",
     "forwarding_and_autores": "Transfert & réponse automatique",
     "domains_and_users": {
       "title": "Domaines & utilisateurs",

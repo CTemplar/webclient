@@ -267,7 +267,7 @@
       "encryption_key_message": "Delete all data and generate new encryption keys",
       "encryption_key_progress": "Generating new encryption keys is in progress, it can take several minutes, please wait for it to complete!"
     },
-    "addresses_and_signs": "Addresses & signatures",
+    "signs_and_aliases": "Signatures & aliases",
     "forwarding_and_autores": "Forwarding & autoresponder",
     "domains_and_users": {
       "title": "Domains & Users",
@@ -308,7 +308,7 @@
     "promo_code": "Promo Code",
     "type_code": "Type Your Code",
     "apply": "Apply",
-    "add_address": "Add Address",
+    "add_address": "Add Aliase",
     "disable": "Disable",
     "enable": "Enable",
     "make_default": "Make Default",
@@ -318,7 +318,7 @@
     "username_allowed_chars": "The username must start with a letter and end with a letter or number.It may only contain",
     "username_minlen": "characters, and minimum length is 2 characters.",
     "reorder": "Reorder",
-    "reorder_addresses": "Reorder addresses",
+    "reorder_addresses": "Reorder aliases",
     "move_up": "Move up",
     "move_down": "Move down",
     "warning": "Warning",
