@@ -10,6 +10,7 @@ import {
   AppState,
   AuthState,
   Invoice,
+  MailState,
   NotificationPermission,
   Payment,
   PaymentMethod,
@@ -21,6 +22,7 @@ import {
   TimezonesState,
   UserState
 } from '../../store/datatypes';
+import { MoveTab } from '../../store/actions';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
@@ -46,6 +48,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectedIndex = -1; // Assuming no element are selected initially
   userState: UserState = new UserState();
+  mailState: MailState;
   authState: AuthState;
   settings: Settings = new Settings();
   payment: Payment = new Payment();
@@ -136,6 +139,19 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         startWith(''),
         map(name => name ? this._filterTimeZone(name) : this.timezones.slice())
       );
+
+    this.store.select(state => state.mail).pipe(untilDestroyed(this))
+      .subscribe((mailState: MailState) => {
+        if(mailState.currentSettingsTab) {
+          if (this.selectedTabQueryParams === mailState.currentSettingsTab) {
+            return;
+          }
+          this.selectedTabQueryParams = mailState.currentSettingsTab;
+          this.changeUrlParams();
+          this.tabSet.select(this.selectedTabQueryParams);
+          this.cdr.detectChanges();
+        }
+      })
   }
 
   private _filterTimeZone(name) {
@@ -155,8 +171,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     const tabSelected = $event.nextId;
     if (this.selectedTabQueryParams === tabSelected) {
       return;
-    }
+    }  
     this.selectedTabQueryParams = tabSelected;
+    this.store.dispatch(new MoveTab(this.selectedTabQueryParams));
     this.changeUrlParams();
   }
 

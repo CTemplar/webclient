@@ -478,6 +478,10 @@ export function reducer(
       return { ...state, inProgress: false };
     }
 
+    case MailActionTypes.MOVE_TAB: {
+      return { ...state, currentSettingsTab: action.payload };
+    }
+
     default: {
       return state;
     }
