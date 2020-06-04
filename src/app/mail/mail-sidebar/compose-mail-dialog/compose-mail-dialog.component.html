@@ -41,7 +41,7 @@
     </div>
 
     <app-compose-mail *ngIf="isComposeVisible" #composeMail [draftMail]="draft"
-                      (hide)="onHide()" (subjectChanged)="subjectChanged($event)"
+                      (hide)="onHide()" (subjectChanged)="subjectChanged($event)" [receivers]="receivers"
                       [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"
                       [isReplyInPopup]="action === 'REPLY'? true: false"></app-compose-mail>
   </div>
