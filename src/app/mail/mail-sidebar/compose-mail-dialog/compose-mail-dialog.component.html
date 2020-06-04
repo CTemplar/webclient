@@ -5,7 +5,9 @@
   <div class="mail-composer-dialog">
     <div class="mail-composer-header p-0">
       <div class="mail-composer-title mr-4" (click)="toggleMinimized()">
-        <span *ngIf="mailSubject; else newMessage">{{!isMinimized?mailSubject:mailMinimized}}</span>
+        <span class="d-inline-block text-truncate" *ngIf="mailSubject; else newMessage"
+         [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
+          {{!isMinimized?mailSubject:mailMinimized}}</span>
         <ng-template #newMessage>
           <span>{{"settings.compose.new_message"| translate}}</span>
         </ng-template>
