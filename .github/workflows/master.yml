@@ -38,7 +38,6 @@ jobs:
         version=$(node -p "require('./package.json').version")
         git config --global user.email "45569116+The-Hidden-Hand@users.noreply.github.com"
         git config --global user.name "The-Hidden-Hand"
-        git branch --delete gh-pages
         git checkout -B --orphan gh-pages
         git add -f dist
         git commit -am "Release v${version}"
