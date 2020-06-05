@@ -253,7 +253,6 @@ export interface MailState {
   mails: Mail[];
   total_mail_count: number;
   info_by_folder: Map<string, MailStateFolderInfo>,
-  total_mail_count_by_folder: Map<string, number>,
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;

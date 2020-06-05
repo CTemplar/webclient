@@ -11,7 +11,6 @@ export function reducer(
     mails: [],
     total_mail_count: 0,
     info_by_folder: new Map(),
-    total_mail_count_by_folder: new Map(),
     mailDetail: null,
     folders: new Map(),
     loaded: false,
@@ -42,10 +41,11 @@ export function reducer(
       if (state.currentFolder === action.payload.folder) {
         state.total_mail_count = action.payload.total_mail_count;
       }
-      state.total_mail_count_by_folder.set(action.payload.folder, action.payload.total_mail_count);
+      state.total_mail_count = action.payload.total_mail_count;
+      let old_folder_info = state.info_by_folder.get(action.payload.folder);
       let folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false, total_mail_count: action.payload.total_mail_count})
       state.info_by_folder.set(action.payload.folder, folder_info);
-      if (action.payload.read === false || action.payload.read === true) {
+      if (action.payload.is_from_socket) {
         const mailIDs = mails.map(item => item.id);
         mails = target_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
         mails = [...action.payload.mails, ...mails];
@@ -57,13 +57,17 @@ export function reducer(
         return mail;
       });
       if (state.currentFolder === action.payload.folder || (state.currentFolder !== action.payload.folder && target_folder_mails.length > 0)) {
-        state.folders.set(action.payload.folder, mails);
+        if (!action.payload.is_from_socket || (old_folder_info && !old_folder_info.is_not_first_page)) {
+          state.folders.set(action.payload.folder, mails);
+        }
       }
       if (state.currentFolder !== action.payload.folder) {
         if (action.payload.folders && action.payload.folders.indexOf(state.currentFolder) > -1) {
-          mails = state.mails.filter(item => item.id !== action.payload.mails[0].id);
-          mails = [...action.payload.mails, ...mails];
-          state.folders.set(state.currentFolder, mails);
+          if (!action.payload.is_from_socket || (old_folder_info && !old_folder_info.is_not_first_page)) {
+            mails = state.mails.filter(item => item.id !== action.payload.mails[0].id);
+            mails = [...action.payload.mails, ...mails];
+            state.folders.set(state.currentFolder, mails);
+          }
         } else {
           mails = state.folders.get(state.currentFolder);
         }
@@ -75,13 +79,22 @@ export function reducer(
           mail.is_subject_encrypted = false;
         }
       });
-      return {
-        ...state,
-        mails,
-        loaded: true,
-        inProgress: false,
-        noUnreadCountChange: true,
-      };
+      if (!action.payload.is_from_socket || (old_folder_info && !old_folder_info.is_not_first_page)) {
+        return {
+          ...state,
+          mails,
+          loaded: true,
+          inProgress: false,
+          noUnreadCountChange: true,
+        };
+      } else {
+        return {
+          ...state,
+          loaded: true,
+          inProgress: false,
+          noUnreadCountChange: true,
+        };
+      }
     }
 
     case MailActionTypes.STOP_GETTING_UNREAD_MAILS_COUNT: {
@@ -343,7 +356,6 @@ export function reducer(
       return {
         mails: [],
         total_mail_count: 0,
-        total_mail_count_by_folder: new Map(),
         info_by_folder: new Map(),
         mailDetail: null,
         folders: new Map(),
@@ -459,6 +471,10 @@ export function reducer(
         if (state.currentFolder === action.payload.folder) {
           state.mails = target_folder_mails;
         }
+      }
+      if (action.payload.folder === MailFolderType.SENT) {
+        //Remove the draft mails from store, so that it would fetch again when needed to list
+        state.folders.set(MailFolderType.DRAFT, []); 
       }
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
