@@ -103,8 +103,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             if (webSocketState.message.folder !== MailFolderType.SPAM) {
               this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
-              this.updateUnreadCount(webSocketState);
             }
+            this.updateUnreadCount(webSocketState);
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
               { ...webSocketState.message.unread_count, updateUnreadCount: true, }));
