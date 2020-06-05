@@ -15,6 +15,7 @@ import {
   UpdateOrganizationUser
 } from '../../../../store/organization.store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MoveTab } from '../../../../store/actions';
 
 @UntilDestroy()
 @Component({
@@ -124,6 +125,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
 
   closeAddUserModal() {
     this.addUserModalRef.close();
+    this.store.dispatch(new MoveTab('addresses-and-signatures'));
   }
 
   submitAddUser() {
