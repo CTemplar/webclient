@@ -22,6 +22,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() parentId: number;
 
   @Input() public isFullScreen: boolean;
+  @Input() public receivers: Array<string>;
 
   @Output() public hide = new EventEmitter<boolean>();
   @Output() public minimize = new EventEmitter<boolean>();
