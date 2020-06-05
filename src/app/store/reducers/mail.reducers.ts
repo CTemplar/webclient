@@ -38,6 +38,9 @@ export function reducer(
     case MailActionTypes.GET_MAILS_SUCCESS: {
       let mails = action.payload.mails;
       let target_folder_mails = state.folders.get(action.payload.folder) || [];
+      if (state.currentFolder === action.payload.folder) {
+        state.total_mail_count = action.payload.total_mail_count;
+      }
       state.total_mail_count = action.payload.total_mail_count;
       let old_folder_info = state.info_by_folder.get(action.payload.folder);
       let folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false, total_mail_count: action.payload.total_mail_count})
