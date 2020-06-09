@@ -69,6 +69,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   forceLightMode: boolean;
   disableExternalImages: boolean;
   xssPipe = SafePipe;
+  hasDraft: boolean = false;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -199,6 +200,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             limit: this.EMAILS_PER_PAGE,
             inProgress: true, offset: this.OFFSET, folder: this.mailFolder
           }));
+        }
+
+        if(this.mail && this.mail.children) {
+          let draft_children = this.mail.children.filter((child) => child.folder === 'draft');          
+          draft_children.length > 0? this.hasDraft = true: this.hasDraft = false;
         }
       });
 
@@ -772,11 +778,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   private getMessageSummary(content: string, mail: Mail): string {
-    if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH) {
-      const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
-        this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
-      content += `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
-    }
+    // if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH) {
+    //   const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
+    //     this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
+    //   content += `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
+    // }
     return content;
   }
 
