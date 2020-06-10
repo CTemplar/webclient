@@ -132,7 +132,7 @@ export const PROMO_CODE_KEY = 'promo_code';
 export const REFFERAL_ID_KEY = 'cjevent';
 
 export const SummarySeparator =
-  '-----------------------------------------------------------------------------------------------';
+  '';
 
 import * as QuillNamespace from 'quill';
 const Quill: any = QuillNamespace;
