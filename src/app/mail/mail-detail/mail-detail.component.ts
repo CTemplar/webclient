@@ -170,7 +170,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.childMailCollapsed[this.mail.children.length - 1] = false;
             }
 
-            this.decryptChildEmails(this.mail.children[this.mail.children.length - 1], mailState);
+            this.decryptChildEmails(this.mail.children[this.mail.children.length - 1]);
+            this.mail.children.forEach(child => {
+              this.backupChildDecryptedContent(child, mailState);
+            });
             setTimeout(() => {
               if (this.mail) {
                 if (!this.isDecrypting[this.mail.id] && this.mail.content &&
@@ -178,11 +181,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   this.isDecrypting[this.mail.id] = true;
                   this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
                 }
-                this.mail.children.forEach((child, index) => {
-                  if (index !== this.mail.children.length - 1) {
-                    this.decryptChildEmails(child, mailState);
-                  }
-                });
               }
             }, 1000);
           } else {
@@ -340,16 +338,25 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     return arr;
   }
 
-  decryptChildEmails(child: Mail, mailState: MailState) {
+  decryptChildEmails(child: Mail) {
+    if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
+      this.decryptedContents[child.id] = child.content;
+    } else {
+      const childDecryptedContent = this.decryptedContents[child.id];
+      if (!this.isDecrypting[child.id] &&
+        (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))) {
+          
+        this.isDecrypting[child.id] = true;
+        this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
+      }
+    }
+  }
+
+  backupChildDecryptedContent (child: Mail, mailState: MailState) {
     if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
       this.decryptedContents[child.id] = child.content;
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
-      if (!this.isDecrypting[child.id] &&
-        (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))) {
-        this.isDecrypting[child.id] = true;
-        this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
-      }
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         this.decryptedContents[child.id] = childDecryptedContent.content;
         if (child.is_subject_encrypted) {
@@ -801,6 +808,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
     return content;
 
+  }
+
+  /**
+   * @name onClickChildHeader
+   * @description This would be called, when hitting the header of child mail. Will change the state of childMailCollapsed by index
+   * @params Index of child from mails
+   * @returns None
+   */
+  private onClickChildHeader(childIndex) {
+    this.childMailCollapsed[childIndex] = !this.childMailCollapsed[childIndex];
+    this.decryptChildEmails(this.mail.children[childIndex]);
   }
 
 }
