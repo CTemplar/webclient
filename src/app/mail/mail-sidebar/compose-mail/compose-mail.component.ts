@@ -1062,12 +1062,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
 
     this.draft.isSaving = shouldSave;
-
+  
+    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
+    
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
+
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
+    this.draftMail.receiver = this.draftMail.receiver.filter(receiver => validEmailRegex.test(receiver));    
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
+    this.draftMail.cc = this.draftMail.cc.filter(receiver => validEmailRegex.test(receiver));
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
+    this.draftMail.bcc = this.draftMail.bcc.filter(receiver => validEmailRegex.test(receiver));
+
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
