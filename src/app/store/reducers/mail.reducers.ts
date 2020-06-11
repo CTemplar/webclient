@@ -38,17 +38,50 @@ export function reducer(
     case MailActionTypes.GET_MAILS_SUCCESS: {
       let mails = action.payload.mails;
       let target_folder_mails = state.folders.get(action.payload.folder) || [];
-      if (state.currentFolder === action.payload.folder) {
-        state.total_mail_count = action.payload.total_mail_count;
-      }
-      state.total_mail_count = action.payload.total_mail_count;
       let old_folder_info = state.info_by_folder.get(action.payload.folder);
       let folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false, total_mail_count: action.payload.total_mail_count})
       state.info_by_folder.set(action.payload.folder, folder_info);
+      
       if (action.payload.is_from_socket) {
         const mailIDs = mails.map(item => item.id);
         mails = target_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
         mails = [...action.payload.mails, ...mails];
+        if (action.payload.folder !== MailFolderType.SPAM) {
+          let unread_folder_mails = state.folders.get(MailFolderType.UNREAD) || [];
+          let unread_folder_info = state.info_by_folder.get(MailFolderType.UNREAD);
+          // prepare unread mails
+          if (unread_folder_mails && unread_folder_mails.length > 0 && unread_folder_info && !unread_folder_info.is_not_first_page) {
+            unread_folder_mails = unread_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
+            unread_folder_mails = [...action.payload.mails, ...unread_folder_mails];
+            unread_folder_mails = unread_folder_mails.map((mail: Mail) => {
+              mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+              mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+                || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
+              return mail;
+            });
+            unread_folder_mails = unread_folder_mails.slice(0, action.payload.limit);
+            state.folders.set(MailFolderType.UNREAD, unread_folder_mails);
+            unread_folder_info.total_mail_count += mailIDs.length;
+            state.info_by_folder.set(MailFolderType.UNREAD, unread_folder_info);
+          }
+          // prepare all mails
+          let all_folder_mails = state.folders.get(MailFolderType.ALL_EMAILS) || [];
+          let all_folder_info = state.info_by_folder.get(MailFolderType.ALL_EMAILS);
+          if (all_folder_mails && all_folder_mails.length > 0 && all_folder_info && !all_folder_info.is_not_first_page) {
+            all_folder_mails = all_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
+            all_folder_mails = [...action.payload.mails, ...all_folder_mails];
+            all_folder_mails = all_folder_mails.map((mail: Mail) => {
+              mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+              mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+                || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
+              return mail;
+            });
+            all_folder_mails = all_folder_mails.slice(0, action.payload.limit);
+            state.folders.set(MailFolderType.ALL_EMAILS, all_folder_mails);
+            all_folder_info.total_mail_count += mailIDs.length;
+            state.info_by_folder.set(MailFolderType.ALL_EMAILS, all_folder_info);
+          }
+        }
       }
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
@@ -58,20 +91,14 @@ export function reducer(
       });
       if (state.currentFolder === action.payload.folder || (state.currentFolder !== action.payload.folder && target_folder_mails.length > 0)) {
         if (!action.payload.is_from_socket || (old_folder_info && !old_folder_info.is_not_first_page)) {
+          if (action.payload.limit) {
+            mails = mails.slice(0, action.payload.limit);
+          }
           state.folders.set(action.payload.folder, mails);
         }
       }
-      if (state.currentFolder !== action.payload.folder) {
-        if (action.payload.folders && action.payload.folders.indexOf(state.currentFolder) > -1) {
-          if (!action.payload.is_from_socket || (old_folder_info && !old_folder_info.is_not_first_page)) {
-            mails = state.mails.filter(item => item.id !== action.payload.mails[0].id);
-            mails = [...action.payload.mails, ...mails];
-            state.folders.set(state.currentFolder, mails);
-          }
-        } else {
-          mails = state.folders.get(state.currentFolder);
-        }
-      }
+      mails = state.folders.get(state.currentFolder);
+      state.total_mail_count = state.info_by_folder.get(state.currentFolder) ? state.info_by_folder.get(state.currentFolder).total_mail_count : 0;
       mails = mails ? mails : [];
       mails.forEach((mail: Mail) => {
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
@@ -79,22 +106,13 @@ export function reducer(
           mail.is_subject_encrypted = false;
         }
       });
-      if (!action.payload.is_from_socket || (old_folder_info && !old_folder_info.is_not_first_page)) {
-        return {
-          ...state,
-          mails,
-          loaded: true,
-          inProgress: false,
-          noUnreadCountChange: true,
-        };
-      } else {
-        return {
-          ...state,
-          loaded: true,
-          inProgress: false,
-          noUnreadCountChange: true,
-        };
-      }
+      return {
+        ...state,
+        mails,
+        loaded: true,
+        inProgress: false,
+        noUnreadCountChange: true,
+      };
     }
 
     case MailActionTypes.STOP_GETTING_UNREAD_MAILS_COUNT: {
@@ -531,6 +549,7 @@ function getTotalUnreadCount(data): number {
         key !== MailFolderType.TRASH && 
         key !== MailFolderType.DRAFT &&
         key !== MailFolderType.OUTBOX &&
+        key !== MailFolderType.SPAM &&
         key !== 'total_unread_count' &&
         key !== MailFolderType.STARRED &&
         key !== 'updateUnreadCount' &&
