@@ -8,7 +8,7 @@ import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { environment } from '../../../environments/environment';
-import { getWindowConfig, IS_ELECTRON } from '../config';
+import { apiUrl, getWindowConfig, IS_ELECTRON } from '../config';
 
 @UntilDestroy()
 @Injectable()
@@ -26,10 +26,7 @@ export class WebsocketService implements OnDestroy {
   }
 
   public connect() {
-   const config = getWindowConfig();
-    const url = (config.protocol === 'https:' ? 'wss:' : 'ws:') + '//'
-    + (config.host === 'gh.ctemplar.com' ? 'mail.ctemplar.com' : config.host)
-      + `/api/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
+    const url = apiUrl.replace('http', 'ws') + `/connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
