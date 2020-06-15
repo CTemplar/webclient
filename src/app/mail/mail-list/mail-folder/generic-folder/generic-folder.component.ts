@@ -42,6 +42,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
+  checkAll: boolean = false;
   noEmailSelected: boolean = true;
   isMobile: boolean;
   disableMoveTo: boolean;
@@ -194,6 +195,15 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
+  selectEntire(status) {
+    if (status) {
+      this.checkAll = true;
+    } else {
+      this.checkAll = false;
+      this.markAllMails(false);
+    }
+  }
+
   markAllMails(checkAll) {
     if (checkAll && !this.isSomeEmailsSelected()) {
       this.mails.map(mail => {
@@ -207,6 +217,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         return mail;
       });
       this.noEmailSelected = true;
+      this.checkAll = false;
     }
 
     setTimeout(() => {
@@ -440,7 +451,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
-    return this.getMarkedMails().map(mail => mail.id).join(',');
+    if (this.checkAll) {
+      return this.mailFolder;
+    } else {
+      return this.getMarkedMails().map(mail => mail.id).join(',');
+    }    
   }
 
 
