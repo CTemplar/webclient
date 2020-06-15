@@ -98,8 +98,13 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
 
   deleteAddress() {
     this.settings.enable_forwarding = false;
+    this.settings.enable_copy_forwarding = false;
     this.settings.forwarding_address = '';
     this.store.dispatch(new SettingsUpdate(this.settings));
     this.confirmDeleteAddressModalRef.dismiss();
+  }
+
+  changeKeepCopy() {
+    this.store.dispatch(new SettingsUpdate(this.settings));
   }
 }
