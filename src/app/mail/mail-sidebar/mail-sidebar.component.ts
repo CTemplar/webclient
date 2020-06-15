@@ -90,7 +90,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
           if (webSocketState.message.mail) {
-            if (this.currentRoute && this.currentRoute.indexOf('/message/') < 0) {
+            // if (this.currentRoute && this.currentRoute.indexOf('/message/') < 0) {
               this.store.dispatch(new GetMailsSuccess({
                 limit: this.EMAIL_LIMIT,
                 offset: 0,
@@ -99,12 +99,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
                 read: false,
                 mails: [webSocketState.message.mail],
                 total_mail_count: webSocketState.message.total_count,
+                is_from_socket: true
               }));
-            }
+            // }
             if (webSocketState.message.folder !== MailFolderType.SPAM) {
               this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
-              this.updateUnreadCount(webSocketState);
             }
+            this.updateUnreadCount(webSocketState);
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(new GetUnreadMailsCountSuccess(
               { ...webSocketState.message.unread_count, updateUnreadCount: true, }));

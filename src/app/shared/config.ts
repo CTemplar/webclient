@@ -132,7 +132,7 @@ export const PROMO_CODE_KEY = 'promo_code';
 export const REFFERAL_ID_KEY = 'cjevent';
 
 export const SummarySeparator =
-  '-----------------------------------------------------------------------------------------------';
+  '';
 
 import * as QuillNamespace from 'quill';
 const Quill: any = QuillNamespace;
@@ -157,22 +157,11 @@ export const QUILL_FORMATTING_MODULES = {
 
 function getBaseUrl() {
   if (environment.production) {
-    if (IS_ELECTRON) {
-      return 'https://api.ctemplar.com/';
-    }
     const config = getWindowConfig();
-    if (config.host === 'gh.ctemplar.com') {
-      return 'https://api.ctemplar.com/';
-    } else if (config.host === 'dev1.ctemplar.net') {
-      return 'https://devapi.ctemplar.net/';
-    }
-    if (
-      config.host ===
-      'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion'
-    ) {
-      return '/api/';
-    }
-    return config.protocol + '//' + config.host.replace('mail.', 'api.') + '/';
+      return config.host ===
+      'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion' ?
+      'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/' :
+      'https://api.ctemplar.com/';
   }
   return 'https://devapi.ctemplar.net/';
 }

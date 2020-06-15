@@ -43,7 +43,7 @@ jobs:
         git commit -am "Release v${version}"
         git filter-branch -f --prune-empty --subdirectory-filter dist
         git push -f origin gh-pages
-        git checkout -   
+        git checkout -
            
     - name: Publish to server
       run: |
