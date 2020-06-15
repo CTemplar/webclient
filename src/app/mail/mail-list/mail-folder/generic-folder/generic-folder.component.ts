@@ -452,8 +452,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
+    let allString = "all";
     if (this.checkAll) {
-      return this.mailFolder;
+      return allString;
     } else {
       return this.getMarkedMails().map(mail => mail.id).join(',');
     }    

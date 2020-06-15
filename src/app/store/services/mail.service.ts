@@ -117,8 +117,13 @@ export class MailService {
     return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred });
   }
 
-  moveMail(ids: string, folder: string): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder });
+  moveMail(ids: string, folder: string, sourceFolder: string): Observable<any[]> {
+    if (ids === 'all') {
+      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, { folder: folder });
+    } else {
+      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder });
+    }
+    // return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}&folder=${sourceFolder}`, { folder: folder });
   }
 
   deleteMails(ids: string): Observable<any[]> {
