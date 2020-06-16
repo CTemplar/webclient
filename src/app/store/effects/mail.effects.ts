@@ -182,7 +182,7 @@ export class MailEffects {
     ofType(MailActionTypes.UNDO_DELETE_MAIL),
     map((action: UndoDeleteMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.moveMail(payload.ids, payload.sourceFolder)
+      return this.mailService.moveMail(payload.ids, payload.sourceFolder, payload.sourceFolder)
         .pipe(
           switchMap(res => of(new UndoDeleteMailSuccess(payload))),
           catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })))
