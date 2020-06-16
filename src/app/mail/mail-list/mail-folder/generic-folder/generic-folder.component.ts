@@ -45,6 +45,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   checkAll: boolean = false;
   noEmailSelected: boolean = true;
   isMobile: boolean;
+  folderName: string;
   disableMoveTo: boolean;
 
   userState: UserState;
@@ -153,7 +154,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       });
 
     this.isMobile = window.innerWidth <= 768;
-
+    this.folderName = this.mailFolder.charAt(0).toUpperCase() + this.mailFolder.slice(1);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -451,8 +452,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
+    let allString = "all";
     if (this.checkAll) {
-      return this.mailFolder;
+      return allString;
     } else {
       return this.getMarkedMails().map(mail => mail.id).join(',');
     }    
