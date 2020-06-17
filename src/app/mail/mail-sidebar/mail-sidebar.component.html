@@ -154,10 +154,10 @@
         <div class="mailbox-sidebar-footer text-center mt-4 py-2">
                 <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">
                     <span translate="mail_sidebar.used"></span>
-                    <div class="text-white mt-1">{{(userState.settings?.used_storage * 1024) | filesize}}</div>
+                    <div class="text-white mt-1">{{(userState.settings?.used_storage) | filesize}}</div>
                 </div>
             <div class="mailbox-sidebar-footer-text hidden-in-sm">
-                <span>{{"common.used_storage"| translate}}</span>:<br> {{(userState.settings?.used_storage * 1024) | filesize}} <span>{{"settings.of"| translate}}</span> {{(userState.settings.allocated_storage  * 1024) | filesize}}</div>
+                <span>{{"common.used_storage"| translate}}</span>:<br> {{(userState.settings?.used_storage) | filesize}} <span>{{"settings.of"| translate}}</span> {{(userState.settings.allocated_storage) | filesize}}</div>
             <a routerLink="/mail/settings/dashboard-and-plans" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
                 <small>
                     <u>{{"common.upgrade_account"| translate}}</u>
