@@ -55,7 +55,8 @@ export function reducer(
             unread_folder_mails = [...action.payload.mails, ...unread_folder_mails];
             unread_folder_mails = unread_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-              mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+
+              mail.thread_count = mail.children_count + (((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH)
                 || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
               return mail;
             });
@@ -72,7 +73,7 @@ export function reducer(
             all_folder_mails = [...action.payload.mails, ...all_folder_mails];
             all_folder_mails = all_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-              mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+              mail.thread_count = mail.children_count + (((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH)
                 || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
               return mail;
             });
@@ -85,7 +86,7 @@ export function reducer(
       }
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-        mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+        mail.thread_count = mail.children_count + (((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH)
           || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
         return mail;
       });
@@ -178,6 +179,9 @@ export function reducer(
             state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.folder };
           }
         });
+      }
+      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
+        state.mailDetail = {...state.mailDetail, folder: action.payload.folder}
       }
       return { ...state, inProgress: false, noUnreadCountChange: true, isMailsMoved: true };
     }

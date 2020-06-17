@@ -86,7 +86,7 @@ export class MailEffects {
     ofType(MailActionTypes.MOVE_MAIL),
     map((action: MoveMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.moveMail(payload.ids, payload.folder)
+      return this.mailService.moveMail(payload.ids, payload.folder, payload.withChildren)
         .pipe(
           switchMap(res => {
 

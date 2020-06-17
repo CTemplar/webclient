@@ -117,8 +117,8 @@ export class MailService {
     return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred });
   }
 
-  moveMail(ids: string, folder: string): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder });
+  moveMail(ids: string, folder: string, withChildren: boolean = true): Observable<any[]> {
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder, with_children: withChildren });
   }
 
   deleteMails(ids: string): Observable<any[]> {
