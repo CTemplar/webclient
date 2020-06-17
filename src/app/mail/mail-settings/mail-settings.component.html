@@ -121,7 +121,7 @@
                               </div>
 
                               <div class="info-list-text info-list-val">
-                                <div class="info-list-val-text"> {{(settings?.used_storage) | filesize}} of {{(settings?.allocated_storage / 1024) | filesize}}</div>
+                                <div class="info-list-val-text"> {{(settings?.used_storage) | filesize}} of {{(settings?.allocated_storage) | filesize}}</div>
                                 <div class="progress progress-secondary progress-lg">
                                   <div class="progress-bar" role="progressbar"
                                        [style.width.%]="((settings.used_storage/settings.allocated_storage)*100)"
