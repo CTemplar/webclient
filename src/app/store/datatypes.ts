@@ -169,6 +169,7 @@ export class Settings {
   domain_count?: number;
   default_font?: string;
   enable_forwarding?: boolean;
+  enable_copy_forwarding?: boolean;
   forwarding_address?: string;
   plan_type?: PlanType;
   notification_email?: string;

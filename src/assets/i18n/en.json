@@ -325,6 +325,7 @@
       "code_message": "Already have the code",
       "enter_code": "Please enter the verification code sent to provided email address.",
       "verif_code": "Verification Code",
+      "keep_copy": "Keep a copy of forwarded messages",
       "code_req": "The verification code is required.",
       "delete_message": "Are you sure you want to delete forwarding address?",
       "autoresponder": "Autoresponder",

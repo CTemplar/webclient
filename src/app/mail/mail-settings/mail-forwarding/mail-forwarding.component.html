@@ -21,6 +21,12 @@
           </div>
         </li>
       </ul>
+      <div class="row row-xs align-items-center" *ngIf="settings.enable_forwarding">
+        <input type="checkbox" id="copyForwarding" name="copyForwarding"
+                 [(ngModel)]="settings.enable_copy_forwarding" (ngModelChange)="changeKeepCopy($event)"
+                 class="d-none fancy-field-control fancy-field-control-sm"/>
+        <label for="copyForwarding" [translate]="'settings.forwarding.keep_copy'">Keep a copy of forwarded messages</label>
+      </div>
       <ng-template #addForwardingAddress>
         <div class="info-card">
           <p [translate]="'settings.forwarding.auto_forward'">You can automatically forward your messages to another address.</p>
