@@ -22,6 +22,7 @@
         "!.git*",
         "!e2e/",
         "!hooks/",
+        "!docs/",
         "!angular.json",
         "!_config.yml",
         "!karma.conf.js",
@@ -29,21 +30,21 @@
         "!tslint.json"
     ],
     "win": {
-        "icon": "dist/assets/icons",
+        "icon": "dist/assets/icons/icon.png",
         "target": [
             "portable"
         ]
     },
     "mac": {
-        "icon": "dist/assets/icons",
-        "category": "public.app-category.lifestyle",
+        "icon": "dist/assets/icons/icon.png",
+        "category": "public.app-category.social-networking",
         "target": [
             "dmg"
         ]
     },
     "linux": {
-        "icon": "dist/assets/icons",
-        "category": "Office",
+        "icon": "dist/assets/icons/icon.png",
+        "category": "Network",
         "target": [
             "AppImage"
         ]
