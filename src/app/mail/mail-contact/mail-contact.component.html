@@ -126,6 +126,11 @@
     </div>
 </div>
 
+<div class="mail-check-number" *ngIf="selectAll && MAX_EMAIL_PAGE_LIMIT > LIMIT">
+    <p *ngIf="!checkAll">All {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} conversations on this page are selected. <a (click)="selectEntire(true)">Select all {{ MAX_EMAIL_PAGE_LIMIT }} conversations in Contacts</a></p>  
+    <p *ngIf="checkAll">All {{ MAX_EMAIL_PAGE_LIMIT }} conversations in Contacts are selected. <a (click)="selectEntire(false)">Clear selection</a></p>
+</div>
+
 <div class="mailbox-section">
     <div class="mailbox-section-body py-0">
         <div class="row mail-contact-layout-row" [class.is-splitted]="isLayoutSplitted">
@@ -234,8 +239,9 @@
     <div class="modal-body bg-faded">
         <div class="mail-actions-form-holder modal-mail-actions-form-holder">
             <div class="form-group">
-                <span >{{"contacts.delete.message"| translate}}</span>
-                {{selectedContacts?.length}} <span >{{"common.contact"| translate}}</span>?
+                <span >{{"contacts.delete.message"| translate}}</span> 
+                <span *ngIf="checkAll"> {{ MAX_EMAIL_PAGE_LIMIT }} </span><span *ngIf="!checkAll"> {{selectedContacts?.length}} </span>
+                <span >{{"common.contact"| translate}}</span>?
             </div>
             <div class="form-group text-right mb-0">
                 <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2"

@@ -317,8 +317,11 @@ export class UsersService {
   }
 
   deleteContact(ids) {
-    const url = `${apiUrl}users/contacts/?id__in=${ids}`;
-    return this.http.delete<any>(url);
+    if (ids === "all") {
+      return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
+    } else {
+      return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
+    }
   }
 
   importContacts(data: any) {

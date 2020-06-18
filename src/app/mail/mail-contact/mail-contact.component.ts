@@ -42,6 +42,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedContactsProvider: ContactsProviderType;
   importContactsError: any;
   isLayoutSplitted: boolean = false;
+  checkAll: boolean = false;
   isMenuOpened: boolean;
   currentPlan: PlanType;
 
@@ -165,11 +166,22 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.confirmModalRef.close();
   }
 
+  selectEntire(status) {
+    if (status) {
+      this.checkAll = true;
+    } else {
+      this.checkAll = false;
+      this.selectAll = false;
+      this.toggleSelectAll();
+    }
+  }
+
   deleteContacts() {
     this.confirmModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
-    this.store.dispatch(new ContactDelete(this.selectedContacts.map(item => item.id).join(',')));
+    let deleteContacts = this.checkAll? "all": this.selectedContacts.map(item => item.id).join(',');
+    this.store.dispatch(new ContactDelete(deleteContacts));
   }
 
   showComposeMailDialog() {
