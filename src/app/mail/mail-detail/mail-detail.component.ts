@@ -472,24 +472,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
       this.composeMailData[mail.id].receivers = mail.reply_to;
-    } else if (mail.sender !== this.currentMailbox.email) {
-      let lastSender = "", lastReceiver = "";
-      if (mail.children && mail.children.length){
-        for (let i = mail.children.length; i > 0; i--) {
-          if (mail.children[i-1].folder !== "trash") {
-            lastSender = mail.children[i-1].sender;
-            lastReceiver = mail.children[i-1].receiver[0];
-            break;
-          }
-        }
-        if (lastSender !== this.currentMailbox.email) {
-          this.composeMailData[mail.id].receivers = [lastSender];
-        } else {
-          this.composeMailData[mail.id].receivers = [lastReceiver];
-        }
-      } else {
-        this.composeMailData[mail.id].receivers = [mail.sender];
-      }      
     } else {
       let lastSender = "", lastReceiver = "";
       if (mail.children && mail.children.length){
@@ -506,8 +488,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.composeMailData[mail.id].receivers = [lastReceiver];
         }
       } else {
-        this.composeMailData[mail.id].receivers = this.mail.receiver;
-      }      
+        if (mail.sender !== this.currentMailbox.email) {
+          this.composeMailData[mail.id].receivers = [mail.sender];
+        } else {
+          this.composeMailData[mail.id].receivers = this.mail.receiver;
+        }
+      }
     }
     this.composeMailData[mail.id].action = MailAction.REPLY;
     this.setActionParent(mail, isChildMail, mainReply);
