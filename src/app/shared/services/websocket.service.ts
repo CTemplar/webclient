@@ -7,7 +7,7 @@ import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { environment } from '../../../environments/environment';
+import { AppConfig } from  '../../../environments/environment';
 import { apiUrl, getWindowConfig, IS_ELECTRON } from '../config';
 
 @UntilDestroy()

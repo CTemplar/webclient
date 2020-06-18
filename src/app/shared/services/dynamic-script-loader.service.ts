@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { AppConfig } from  '../../../environments/environment';
 
 interface Scripts {
   name: string;
@@ -18,7 +18,7 @@ export class DynamicScriptLoaderService {
   private scripts: any = {};
 
   constructor() {
-    if (environment.production) {
+    if (AppConfig.production) {
       ScriptStore.push({ name: 'stripe-key', src: 'assets/js/stripe-key.js' });
     } else {
       ScriptStore.push({ name: 'stripe-key', src: 'assets/js/stripe-test-key.js' });

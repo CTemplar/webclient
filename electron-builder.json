@@ -1,0 +1,52 @@
+{
+    "productName": "CTemplar",
+    "appId": "com.github.ctemplar.webclient",
+    "directories": {
+        "output": "release/"
+    },
+    "publish": [
+        {
+            "provider": "github",
+            "owner": "ctemplar",
+            "repo": "webclient"
+        }
+    ],
+    "files": [
+        "**/*",
+        "!**/*.ts",
+        "!*.code-workspace",
+        "!LICENSE.md",
+        "!package.json",
+        "!package-lock.json",
+        "!src/",
+        "!.git*",
+        "!e2e/",
+        "!hooks/",
+        "!docs/",
+        "!angular.json",
+        "!_config.yml",
+        "!karma.conf.js",
+        "!tsconfig.json",
+        "!tslint.json"
+    ],
+    "win": {
+        "icon": "dist/assets/icons/icon.png",
+        "target": [
+            "portable"
+        ]
+    },
+    "mac": {
+        "icon": "dist/assets/icons/icon.png",
+        "category": "public.app-category.social-networking",
+        "target": [
+            "dmg"
+        ]
+    },
+    "linux": {
+        "icon": "dist/assets/icons/icon.png",
+        "category": "Network",
+        "target": [
+            "AppImage"
+        ]
+    }
+}
