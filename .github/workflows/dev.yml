@@ -23,7 +23,7 @@ jobs:
       - name: Install and build Angular
         run: |
             npm install
-            npm run build
+            npm run build:dev
 
       - name: Publish to dev-pages
         env:
