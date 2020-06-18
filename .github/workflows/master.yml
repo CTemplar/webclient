@@ -2,7 +2,7 @@ name: webclient-master
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-              ${{ runner.os }}-node-
+            ${{ runner.os }}-node-
 
       - name: Install and build Angular
         run: |
@@ -46,9 +46,9 @@ jobs:
           git push -f origin gh-pages
           git checkout -
 
-    - name: Publish to Iceland server
-      run: |
-        ${{ secrets.DEPLOY_COMMAND }} webclient-master
+      - name: Publish to Iceland server
+        run: |
+          ${{ secrets.DEPLOY_COMMAND }} webclient-master
 
   release:
     runs-on: ${{ matrix.os }}
@@ -67,7 +67,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-              ${{ runner.os }}-node-
+            ${{ runner.os }}-node-
 
       - name: Build and release Electron app
         uses: samuelmeuli/action-electron-builder@v1
