@@ -1,4 +1,4 @@
-export const environment = {
+export const AppConfig = {
   debug: false,
   production: true
 };

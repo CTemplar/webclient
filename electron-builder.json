@@ -1,0 +1,51 @@
+{
+    "productName": "CTemplar",
+    "appId": "com.github.ctemplar.webclient",
+    "directories": {
+        "output": "release/"
+    },
+    "publish": [
+        {
+            "provider": "github",
+            "owner": "ctemplar",
+            "repo": "webclient"
+        }
+    ],
+    "files": [
+        "**/*",
+        "!**/*.ts",
+        "!*.code-workspace",
+        "!LICENSE.md",
+        "!package.json",
+        "!package-lock.json",
+        "!src/",
+        "!.git*",
+        "!e2e/",
+        "!hooks/",
+        "!angular.json",
+        "!_config.yml",
+        "!karma.conf.js",
+        "!tsconfig.json",
+        "!tslint.json"
+    ],
+    "win": {
+        "icon": "dist/assets/icons",
+        "target": [
+            "portable"
+        ]
+    },
+    "mac": {
+        "icon": "dist/assets/icons",
+        "category": "public.app-category.lifestyle",
+        "target": [
+            "dmg"
+        ]
+    },
+    "linux": {
+        "icon": "dist/assets/icons",
+        "category": "Office",
+        "target": [
+            "AppImage"
+        ]
+    }
+}
