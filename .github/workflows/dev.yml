@@ -20,25 +20,25 @@ jobs:
           restore-keys: |
               ${{ runner.os }}-node-
 
-    - name: Install and build Angular
-    run: |
-        npm install
-        npm run build:dev
+      - name: Install and build Angular
+        run: |
+            npm install
+            npm run build:dev
 
-    - name: Publish to dev-pages
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        version=$(node -p "require('./package.json').version")
-        git config --global user.email "45569116+The-Hidden-Hand@users.noreply.github.com"
-        git config --global user.name "The-Hidden-Hand"
-        git checkout -B dev-pages
-        git add -f dist
-        git commit -am "Release v${version}"
-        git filter-branch -f --prune-empty --subdirectory-filter dist
-        git push -f origin dev-pages
-        git checkout -
+      - name: Publish to dev-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          git config --global user.email "45569116+The-Hidden-Hand@users.noreply.github.com"
+          git config --global user.name "The-Hidden-Hand"
+          git checkout -B dev-pages
+          git add -f dist
+          git commit -am "Release v${version}"
+          git filter-branch -f --prune-empty --subdirectory-filter dist
+          git push -f origin dev-pages
+          git checkout -
 
-    - name: Publish to Iceland server
-      run: |
-        ${{ secrets.DEPLOY_COMMAND }} webclient-dev
+      - name: Publish to Iceland server
+        run: |
+          ${{ secrets.DEPLOY_COMMAND }} webclient-dev

@@ -3,6 +3,11 @@
   "version": "2.3.18",
   "license": "Apache",
   "main": "electron-main.js",
+  "description": "Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.",
+  "author": {
+    "name": "Templar Software Systems Ltd.",
+    "email": "support@ctemplar.com"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
