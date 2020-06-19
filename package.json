@@ -11,8 +11,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:local": "ng serve -c local",
     "start:electron": "electron .",
-    "serve": "ng serve",
     "build": "ng build --prod --subresource-integrity",
     "build:dev": "ng build --output-hashing all  --subresource-integrity",
     "build:electron": "tsc -p electron-tsconfig.json && ng build --prod --subresource-integrity --base-href ./",
@@ -92,5 +92,14 @@
     "ts-node": "^8.10.2",
     "tslint": "^6.1.2",
     "typescript": "~3.8.3"
-  }
+  },
+  "browser": {
+    "crypto": false
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead"
+  ]
 }
