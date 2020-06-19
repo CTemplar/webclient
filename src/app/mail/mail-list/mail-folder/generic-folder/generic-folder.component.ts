@@ -63,13 +63,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   isMoveMailClicked = false;
 
   constructor(public store: Store<AppState>,
-              private router: Router,
-              private activatedRoute: ActivatedRoute,
-              private sharedService: SharedService,
-              private composeMailService: ComposeMailService,
-              private cdr: ChangeDetectorRef,
-              private pgpService: OpenPgpService,
-              private modalService: NgbModal) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private sharedService: SharedService,
+    private composeMailService: ComposeMailService,
+    private cdr: ChangeDetectorRef,
+    private pgpService: OpenPgpService,
+    private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -457,7 +457,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       return allString;
     } else {
       return this.getMarkedMails().map(mail => mail.id).join(',');
-    }    
+    }
   }
 
 

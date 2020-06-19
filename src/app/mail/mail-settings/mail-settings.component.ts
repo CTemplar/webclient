@@ -142,7 +142,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
-        if(mailState.currentSettingsTab) {
+        if (mailState.currentSettingsTab) {
           if (this.selectedTabQueryParams === mailState.currentSettingsTab) {
             return;
           }
@@ -171,7 +171,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     const tabSelected = $event.nextId;
     if (this.selectedTabQueryParams === tabSelected) {
       return;
-    }  
+    }
     this.selectedTabQueryParams = tabSelected;
     this.store.dispatch(new MoveTab(this.selectedTabQueryParams));
     this.changeUrlParams();
@@ -289,10 +289,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
 
     this.pushNotificationService.create('Test Notification', options).subscribe((notif) => {
-        if (notif.event.type === 'click') {
-          notif.notification.close();
-        }
-      },
+      if (notif.event.type === 'click') {
+        notif.notification.close();
+      }
+    },
       (err) => {
         console.log(err);
       });

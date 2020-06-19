@@ -98,15 +98,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   private btcTimer: Subscription;
 
   constructor(private sharedService: SharedService,
-              private store: Store<AppState>,
-              private router: Router,
-              private formBuilder: FormBuilder,
-              private openPgpService: OpenPgpService,
-              private translate: TranslateService,
-              private dynamicScriptLoader: DynamicScriptLoaderService,
-              private activatedRoute: ActivatedRoute,
-              private modalService: NgbModal,
-              private _zone: NgZone) {
+    private store: Store<AppState>,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private openPgpService: OpenPgpService,
+    private translate: TranslateService,
+    private dynamicScriptLoader: DynamicScriptLoaderService,
+    private activatedRoute: ActivatedRoute,
+    private modalService: NgbModal,
+    private _zone: NgZone) {
   }
 
   ngOnInit() {

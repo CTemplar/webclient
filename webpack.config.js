@@ -1,7 +1,5 @@
-module.exports = {
-    node: {
-        path: true,
-        crypto: true,
-        fs: 'empty'
-    }
-}
+export const node = {
+    path: true,
+    crypto: true,
+    fs: 'empty'
+};
