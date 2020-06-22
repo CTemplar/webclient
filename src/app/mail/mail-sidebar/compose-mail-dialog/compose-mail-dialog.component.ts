@@ -86,9 +86,9 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   subjectChanged($event) {
     this.mailSubject = $event;
-    this.mailMinimized = $event;    
+    this.mailMinimized = $event;
   }
-  
+
   saveInDrafts() {
     this.composeMail.saveInDrafts();
   }

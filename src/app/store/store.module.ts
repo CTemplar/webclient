@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { logoutReducer } from './reducers/auth.reducers';
 // Environment
-import { AppConfig } from  '../../environments/environment';
+import { AppConfig } from '../../environments/environment';
 // Reducers
 import { CustomSerializer, effects, reducers } from './index';
 

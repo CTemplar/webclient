@@ -1,4 +1,5 @@
 export const AppConfig = {
   debug: false,
-  production: true
+  production: true,
+  local: false
 };

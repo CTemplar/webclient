@@ -1,5 +1,5 @@
 // Angular
-import { AppConfig } from  '../../environments/environment';
+import { AppConfig } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
 export const apiUrl = getBaseUrl();
@@ -158,10 +158,12 @@ export const QUILL_FORMATTING_MODULES = {
 function getBaseUrl() {
   if (AppConfig.production) {
     const config = getWindowConfig();
-      return config.host ===
+    return config.host ===
       'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion' ?
       'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/' :
       'https://api.ctemplar.com/';
+  } else if (AppConfig.local) {
+    return 'http://localhost:8000/';
   }
   return 'https://devapi.ctemplar.net/';
 }

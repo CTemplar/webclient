@@ -43,7 +43,7 @@ import { of } from 'rxjs/internal/observable/of';
 export class MailEffects {
 
   constructor(private actions: Actions,
-              private mailService: MailService) {
+    private mailService: MailService) {
   }
 
   @Effect()
@@ -54,10 +54,10 @@ export class MailEffects {
       return this.mailService.getMessages(payload)
         .pipe(
           map((response) => {
-            return new GetMailsSuccess({ 
-              ...payload, 
-              is_not_first_page: !!response['previous'], 
-              mails: response['results'], 
+            return new GetMailsSuccess({
+              ...payload,
+              is_not_first_page: !!response['previous'],
+              mails: response['results'],
               total_mail_count: response['total_count'],
               is_from_socket: false
             });

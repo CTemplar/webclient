@@ -1,4 +1,4 @@
-import { AppConfig } from  '../../../environments/environment';
+import { AppConfig } from '../../../environments/environment';
 
 export class LoggerService {
 

@@ -97,7 +97,7 @@ export class StripeFormComponent implements OnInit {
   /**
    * @description
    * Selection method for year and initiating form validation
-   * 
+   *
    * @param year - Expiry year specified on the card
    */
   selectYear(year) {
@@ -127,7 +127,7 @@ export class StripeFormComponent implements OnInit {
   /**
    * @description
    * Submits form to Stripe API after the inputs are validated
-   * 
+   *
    * After successful response from the Stripe API, token from the response is extracted
    * token is passed to a method that makes payment using CTemplar API
    */

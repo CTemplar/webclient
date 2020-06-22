@@ -28,7 +28,7 @@ export class SpinnerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (!this.name) throw new Error('Name attribute must be supplied for this spinner');
+    if (!this.name) { throw new Error('Name attribute must be supplied for this spinner'); }
 
     this.spinnerService.register(this);
   }

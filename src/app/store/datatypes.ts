@@ -241,11 +241,11 @@ export class Payment {
 export class MailStateFolderInfo {
   is_not_first_page?: boolean;
   total_mail_count?: number;
-  
+
   constructor(data?: any) {
     if (data) {
-      this.is_not_first_page = data.is_not_first_page
-      this.total_mail_count = data.total_mail_count
+      this.is_not_first_page = data.is_not_first_page;
+      this.total_mail_count = data.total_mail_count;
     }
   }
 }
@@ -253,7 +253,7 @@ export class MailStateFolderInfo {
 export interface MailState {
   mails: Mail[];
   total_mail_count: number;
-  info_by_folder: Map<string, MailStateFolderInfo>,
+  info_by_folder: Map<string, MailStateFolderInfo>;
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;

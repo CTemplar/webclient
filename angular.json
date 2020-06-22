@@ -65,19 +65,29 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": true
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ctemplar:build",
-            "proxyConfig": "src/environments/proxy/local.proxy.json"
+            "browserTarget": "ctemplar:build"
           },
           "configurations": {
             "production": {
               "browserTarget": "ctemplar:build:production"
+            },
+            "local": {
+              "browserTarget": "ctemplar:build:local"
             }
           }
         },
