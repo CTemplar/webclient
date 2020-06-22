@@ -566,7 +566,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (index !== -1) this.onDeleteCollapseMail(index);
 
     }
-    console.log('cccccccccccccccccccccccc', mail, this.mail)
     if (
       (mail.id === this.mail.id && (withChildren || !this.mail.children || this.mail.children.length === 0)) ||
       (mail.id !== this.mail.id && (!this.mail.children || this.mail.children.length === 0) && this.mail.folder === MailFolderType.TRASH)
