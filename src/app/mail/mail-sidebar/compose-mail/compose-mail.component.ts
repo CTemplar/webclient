@@ -658,9 +658,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
       if (/^image\//.test(file.type)) {
-        var FR = new FileReader();
-        FR.addEventListener("load", function (e) {
-          document.querySelector(".ql-editor p").innerHTML += `<img src=${e.target.result} alt="image" />`;
+        const FR = new FileReader();
+        FR.addEventListener('load', function (e) {
+          document.querySelector('.ql-editor p').innerHTML += `<img src=${e.target.result} alt="image" />`;
         });
         FR.readAsDataURL(file);
       } else {
@@ -814,7 +814,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         shouldSave: false, shouldSend: true, draft: { ...this.draftMail }
       }
     }));
-    let message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...'
+    const message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...';
 
     this.store.dispatch(new SnackPush({ message, duration: 120000 }));
     this.resetValues();
@@ -841,7 +841,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     let content: string, oldSig: string, newSig: string;
     if (this.quill && this.quill.container) {
-      content = this.quill.container.innerText || ""; // this.draftMail.content;
+      content = this.quill.container.innerText || ''; // this.draftMail.content;
       content = content.replace(/\n\n/g, '<br>');
     }
     if (this.quill && this.quill.container) {
@@ -850,18 +850,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         if (this.selectedMailbox.signature) {
           newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
           content = content.replace(new RegExp(oldSig + '$'), newSig);
-        }
-        else {
+        } else {
           content = content.replace(new RegExp(oldSig + '$'), '');
         }
         this.quill.clipboard.dangerouslyPasteHTML(content);
-      }
-      else if (this.selectedMailbox.signature) {
+      } else if (this.selectedMailbox.signature) {
         newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
         content += '<br>' + newSig;
         this.quill.clipboard.dangerouslyPasteHTML(content);
-      }
-      else {
+      } else {
         if (this.quill && this.selectedMailbox) {
           if (!this.isSignatureAdded && this.selectedMailbox.signature) {
             const index = this.quill.getLength();

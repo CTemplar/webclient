@@ -54,7 +54,7 @@ export class SpinnerService {
   }
 
   isShowing(spinnerName: string): boolean | undefined {
-    let showing = undefined;
+    let showing;
     this.spinnerCache.forEach(spinner => {
       if (spinner.name === spinnerName) {
         showing = spinner.show;

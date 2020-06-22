@@ -7,7 +7,7 @@ import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppConfig } from  '../../../environments/environment';
+import { AppConfig } from '../../../environments/environment';
 import { apiUrl, getWindowConfig, IS_ELECTRON } from '../config';
 
 @UntilDestroy()
@@ -18,7 +18,7 @@ export class WebsocketService implements OnDestroy {
   private userId: number = Date.now();
 
   constructor(private authService: UsersService,
-              private store: Store<AppState>) {
+    private store: Store<AppState>) {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         this.userId = userState.id ? userState.id : this.userId;

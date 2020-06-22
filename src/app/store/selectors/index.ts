@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import * as fromRouter from '@ngrx/router-store';
 // Model
 import { RouterStateUrl } from '../datatypes';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 
 @Injectable()

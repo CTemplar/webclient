@@ -264,9 +264,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isNeedRemoveStar() {
     if (this.getMarkedMails()) {
-      let starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      const starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
       if (starred_mails.length > 0) {
-        return true
+        return true;
       }
     }
     return false;
@@ -274,9 +274,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isNeedAddStar() {
     if (this.getMarkedMails()) {
-      let starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      const starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
       if (starred_mails.length === this.getMarkedMails().length) {
-        return false
+        return false;
       }
     }
     return true;
@@ -452,7 +452,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
-    let allString = "all";
+    const allString = 'all';
     if (this.checkAll) {
       return allString;
     } else {
@@ -471,14 +471,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    let info_by_folder = this.mailState.info_by_folder.get(this.mailFolder)
-    if (info_by_folder && info_by_folder.is_not_first_page) return true
+    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder);
+    if (info_by_folder && info_by_folder.is_not_first_page) { return true; }
     if (this.mailState.folders) {
-      let cachedMails = this.mailState.folders.get(this.mailFolder);
-      if (cachedMails && cachedMails.length > 0) return false;
+      const cachedMails = this.mailState.folders.get(this.mailFolder);
+      if (cachedMails && cachedMails.length > 0) { return false; }
       return true;
     }
-    return true
+    return true;
   }
 
   ngOnDestroy() {

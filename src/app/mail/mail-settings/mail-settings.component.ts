@@ -151,7 +151,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.tabSet.select(this.selectedTabQueryParams);
           this.cdr.detectChanges();
         }
-      })
+      });
   }
 
   private _filterTimeZone(name) {

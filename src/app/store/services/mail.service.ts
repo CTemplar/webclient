@@ -151,8 +151,7 @@ export class MailService {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${data.id}/`, formData, {
         reportProgress: true
       });
-    }
-    else {
+    } else {
       request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
         reportProgress: true
       });

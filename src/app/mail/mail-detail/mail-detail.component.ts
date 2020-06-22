@@ -201,7 +201,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
 
         if (this.mail && this.mail.children) {
-          let draft_children = this.mail.children.filter((child) => child.folder === 'draft');
+          const draft_children = this.mail.children.filter((child) => child.folder === 'draft');
           draft_children.length > 0 ? this.hasDraft = true : this.hasDraft = false;
         }
       });
@@ -268,8 +268,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       } else if (index <= 0 && this.page > 1) {
         this.page--;
         this.shouldChangeMail = 1;
-      }
-      else {
+      } else {
         return;
       }
       this.store.dispatch(new GetMails({
