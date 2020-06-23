@@ -331,6 +331,10 @@ a {
 
 	.ql-editor {
 		min-height: 380px;
+		.originalblock {
+			border-left: 1px solid rgb(204, 204, 204);
+			padding-left: 1ex;
+		}
 		p {
 			font-size: 14px;
 		}
