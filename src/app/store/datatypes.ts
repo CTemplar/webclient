@@ -240,11 +240,13 @@ export class Payment {
 export class MailStateFolderInfo {
   is_not_first_page?: boolean;
   total_mail_count?: number;
+  is_dirty?: boolean;
   
   constructor(data?: any) {
     if (data) {
       this.is_not_first_page = data.is_not_first_page
       this.total_mail_count = data.total_mail_count
+      this.is_dirty = data.is_dirty
     }
   }
 }

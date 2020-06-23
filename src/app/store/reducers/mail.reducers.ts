@@ -39,7 +39,10 @@ export function reducer(
       let mails = action.payload.mails;
       let target_folder_mails = state.folders.get(action.payload.folder) || [];
       let old_folder_info = state.info_by_folder.get(action.payload.folder);
-      let folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false, total_mail_count: action.payload.total_mail_count})
+      let folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false, 
+        total_mail_count: action.payload.total_mail_count,
+        is_dirty: false
+      })
       state.info_by_folder.set(action.payload.folder, folder_info);
       
       if (action.payload.is_from_socket) {
@@ -150,89 +153,26 @@ export function reducer(
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
-      
-      let payload_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
-      // source folder action
-      if (state.currentFolder) {
-        let oldMails = state.folders.get(state.currentFolder) || [];
-        let parent_exist = false;
-        oldMails = oldMails.filter(mail => {
-          if (!listOfIDs.includes(mail.id.toString())) {
-            payload_mails.map(payload_mail => {
-              if (payload_mail.parent && payload_mail.parent === mail.id) {
-                parent_exist = true;
-              }
-            })
-            return !parent_exist;
-          } else if (action.payload.withChildren === false && mail.children_count > 0) {
-            parent_exist = true;
-            return !parent_exist;
-          }
-          return false;
-        });
-        if (parent_exist) oldMails = [];
-        state.folders.set(state.currentFolder, oldMails);
-        state.mails = oldMails;
+      state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
+      if (action.payload.sourceFolder) {
+        const oldMails = state.folders.get(action.payload.sourceFolder) || [];
+        state.folders.set(action.payload.sourceFolder, oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())));
       }
-      // target folder action
-      if (action.payload.folder) {
-        let folders = Array.from(state.folders.keys());
-        folders = folders.filter(
-          folder => 
-          folder !== MailFolderType.SENT && 
-          folder !== MailFolderType.TRASH && 
-          folder !== MailFolderType.DRAFT &&
-          folder !== MailFolderType.OUTBOX);
-        let target_folder_mails = state.folders.get(action.payload.folder) || [];
-        if (target_folder_mails.length > 0) {
-          let should_empty = false;
-          const mailIDs = payload_mails.map(item => {
-            item.marked = false;
-            folders.map(folder => {
-              let folder_content_ids = state.folders.get(folder).map(mail => mail.id) || [];
-              if (folder_content_ids.length > 0 && folder_content_ids.indexOf(item.id) >= 0) {
-                should_empty = true;
-              }
-            });
-            if (item.has_children && item.children_count > 0) should_empty = true;
-            return item.id
-          });
-          // should check moved mails are child of originals on target folder
-          if (!should_empty) {
-            target_folder_mails = target_folder_mails.filter(item => {
-              if (mailIDs.indexOf(item.id) < 0) {
-                payload_mails.map(mail => {
-                  if (mail.parent && mail.parent === item.id) {
-                    should_empty = true;
-                  }
-                });
-                return !should_empty;
-              } else {
-                return false;
-              }
-            });
-          }
-          if (should_empty) {
-            state.folders.set(action.payload.folder, []);
-          } else {
-            payload_mails = [...payload_mails, ...target_folder_mails];
-            payload_mails = sortByDueDate(payload_mails);
-            state.folders.set(action.payload.folder, payload_mails);
-            let cur_folder_info = state.info_by_folder.get(action.payload.folder);
-            cur_folder_info.total_mail_count +=  listOfIDs.length
-            state.info_by_folder.set(action.payload.folder, cur_folder_info);
-          }
-        } else {
-          state.folders.set(action.payload.folder, []);
+      let info_keys = Array.from(state.info_by_folder.keys());
+      info_keys = info_keys.filter(
+        folder =>  
+        folder !== MailFolderType.DRAFT &&
+        folder !== MailFolderType.OUTBOX);
+        info_keys.map(key => {
+        let folder_info = state.info_by_folder.get(key);
+        if (folder_info) {
+          folder_info.is_dirty = true;
         }
-      }
+        state.info_by_folder.set(key, folder_info);
+      });
       if (state.mailDetail && state.mailDetail.children &&
         state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
         state.mailDetail.children.forEach((child, index) => {
-          // set empty the different folders of children with the current
-          if (child.folder !== state.currentFolder && !!state.folders.get(child.folder)) {
-            state.folders.set(child.folder, []);
-          }
           if (listOfIDs.includes(child.id.toString())) {
             state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.folder };
           }

@@ -455,7 +455,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    */
   private isNeedFetchMails() {
     let info_by_folder = this.mailState.info_by_folder.get(this.mailFolder)
-    if (info_by_folder && info_by_folder.is_not_first_page) return true
+    if (info_by_folder && (info_by_folder.is_not_first_page || info_by_folder.is_dirty)) return true
     if (this.mailState.folders) {
       let cachedMails = this.mailState.folders.get(this.mailFolder);
       if (cachedMails && cachedMails.length > 0) return false;
