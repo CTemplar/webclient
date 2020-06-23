@@ -560,11 +560,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         allowUndo: true,
         withChildren
       }));
-      if (this.mail.children) {
-        this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
-      }
       if (index !== -1) this.onDeleteCollapseMail(index);
-
     }
     if (
       (mail.id === this.mail.id && (withChildren || !this.mail.children || this.mail.children.length === 0)) ||

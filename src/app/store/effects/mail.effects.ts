@@ -89,7 +89,6 @@ export class MailEffects {
       return this.mailService.moveMail(payload.ids, payload.folder, payload.withChildren)
         .pipe(
           switchMap(res => {
-
             const updateFolderActions = [];
 
             if (payload.shouldDeleteFolder) {

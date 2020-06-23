@@ -205,6 +205,9 @@ export function reducer(
           }
         });
       }
+      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
+        state.mailDetail = {...state.mailDetail, folder: action.payload.sourceFolder}
+      }
       return {
         ...state,
         mails: mails,
