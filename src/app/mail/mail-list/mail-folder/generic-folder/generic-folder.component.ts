@@ -343,7 +343,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         folder,
         sourceFolder: this.mailFolder,
         mail: this.getMarkedMails(),
-        allowUndo: true
+        allowUndo: true,
+        fromTrash: this.mailFolder === MailFolderType.TRASH
       }));
       this.isMoveMailClicked = true;
     }

@@ -196,6 +196,18 @@ export function reducer(
         state.info_by_folder.set(action.payload.sourceFolder, cur_folder_info)
         state.total_mail_count = cur_folder_info.total_mail_count
       }
+      let info_keys = Array.from(state.info_by_folder.keys());
+      info_keys = info_keys.filter(
+        folder =>  
+        folder !== MailFolderType.DRAFT &&
+        folder !== MailFolderType.OUTBOX);
+        info_keys.map(key => {
+        let folder_info = state.info_by_folder.get(key);
+        if (folder_info) {
+          folder_info.is_dirty = true;
+        }
+        state.info_by_folder.set(key, folder_info);
+      });
       const listOfIDs = action.payload.ids.toString().split(',');
       if (state.mailDetail && state.mailDetail.children &&
         state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {

@@ -89,14 +89,6 @@
                  *ngIf="mailFolder !== mailFolderTypes.INBOX">
                 <i class="icon icon-inbox"></i><span>{{"mail_sidebar.inbox"| translate}}</span>
               </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)"
-                 *ngIf="mailFolder !== mailFolderTypes.DRAFT">
-                <i class="icon icon-inbox"></i><span>{{"mail_sidebar.draft"| translate}}</span>
-              </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)"
-                 *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-                <i class="icon icon-draft"></i><span>{{"mail_sidebar.outbox"| translate}}</span>
-              </a>
               <ng-container *ngFor="let folder of customFolders; let i=index;">
                 <a class="dropdown-item"
                    *ngIf="mailFolder !== folder.name"

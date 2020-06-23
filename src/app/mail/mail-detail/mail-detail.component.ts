@@ -636,7 +636,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       folder,
       sourceFolder: this.mailFolder,
       allowUndo: true,
-      mail: this.mail
+      mail: this.mail,
+      fromTrash: this.mailFolder === MailFolderType.TRASH
     }));
 
     this.goBack(500);
