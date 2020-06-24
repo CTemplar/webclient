@@ -117,8 +117,12 @@ export class MailService {
     return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred });
   }
 
-  moveMail(ids: string, folder: string, withChildren: boolean = true, fromTrash: boolean = false): Observable<any[]> {
-    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
+  moveMail(ids: string, folder: string, sourceFolder: string, withChildren: boolean = true, fromTrash: boolean = false): Observable<any[]> {
+    if (ids === 'all') {
+      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
+    } else {
+      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
+    }
   }
 
   deleteMails(ids: string, parent_only: boolean = false): Observable<any[]> {
@@ -146,8 +150,7 @@ export class MailService {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${data.id}/`, formData, {
         reportProgress: true
       });
-    }
-    else {
+    } else {
       request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
         reportProgress: true
       });

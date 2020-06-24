@@ -140,7 +140,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {
         ...state,
         settings: { ...state.settings, ...action.payload }
-      }
+      };
     }
 
     case UsersActionTypes.MEMBERSHIP_UPDATE: {

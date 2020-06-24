@@ -325,7 +325,7 @@
                (click)="onForward(mail); scrollTo(replyActions);">{{"mail_detail.forward"| translate}}</a>
             <a class="dropdown-item"
                (click)="onReply(mail); scrollTo(replyActions);">{{"mail_detail.reply"| translate}}</a>
-            <a class="dropdown-item" *ngIf="mail.cc.length || mail.bcc.length"
+            <a class="dropdown-item" *ngIf="mail.cc.length || mail.bcc.length || mail.receiver.length > 1"
                (click)="onReplyAll(mail); scrollTo(replyActions);">{{"mail_detail.reply_all"| translate}}</a>
           </ng-container>
           <a class="dropdown-item" (click)="onPrint(mail)">{{"mail_detail.print"| translate}}</a>
@@ -525,7 +525,7 @@
                        (click)="onForward(childMail, childIndex, true)">{{"mail_detail.forward"| translate}}</a>
                     <a class="dropdown-item"
                        (click)="onReply(childMail, childIndex, true)">{{"mail_detail.reply"| translate}}</a>
-                    <a class="dropdown-item" *ngIf="childMail.cc.length || childMail.bcc.length" 
+                    <a class="dropdown-item" *ngIf="childMail.cc.length || childMail.bcc.length || childMail.receiver.length > 1" 
                        (click)="onReplyAll(childMail, childIndex, true)">{{"mail_detail.reply_all"| translate}}</a>
                     <a class="dropdown-item" (click)="onPrint(childMail)">{{"mail_detail.print"| translate}}</a>
                     <a class="dropdown-item" (click)="onDelete(childMail, childIndex)"
@@ -637,7 +637,7 @@
           <img src="assets/images/icon-reply.svg" class="hidden-sm-up">
         </button>
 
-        <button class="btn btn-user-action" (click)="onReplyAll(mail, 0, false, true)" *ngIf="mail.cc.length || mail.bcc.length">
+        <button class="btn btn-user-action" (click)="onReplyAll(mail, 0, false, true)" *ngIf="mail.cc.length || mail.bcc.length || mail.receiver.length > 1">
           <i class="icon icon-reply position-left"></i> <span>{{"mail_detail.reply_all"| translate}}</span>
           <img src="assets/images/icon-reply-all.svg" class="hidden-sm-up">
         </button>

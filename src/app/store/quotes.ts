@@ -78,9 +78,9 @@ export const quotes = [
   {
     content: 'If liberty means anything at all, it means the right to tell people what they do not want to hear.',
     author: '- George Orwell -'
-   },
-   {  
-     content: 'No one likes to see a government folder with their name on it.',
+  },
+  {
+    content: 'No one likes to see a government folder with their name on it.',
     author: '- Stephen King -'
   },
   {
@@ -162,8 +162,8 @@ export const quotes = [
   {
     content: 'Injustice anywhere is a threat to justice everywhere.',
     author: '- Martin Luther King Jr. -'
-   },
-   {     
+  },
+  {
     content: 'One of the best ways to achieve justice is to expose injustice.',
     author: '- Julian Assange -'
   },
@@ -246,9 +246,9 @@ export const quotes = [
   {
     content: 'If liberty means anything at all, it means the right to tell people what they do not want to hear.',
     author: '- George Orwell -'
-   },
-   {  
-     content: 'The world’s entire scientific and cultural heritage, is being digitized and locked up by a handful of private corporations.',
+  },
+  {
+    content: 'The world’s entire scientific and cultural heritage, is being digitized and locked up by a handful of private corporations.',
     author: '- Aaron Swartz, Reddit Co-Founder -'
   },
   {
@@ -265,6 +265,6 @@ export const quotes = [
   },
   {
     content: 'In a gentle way, you can shake the world.',
-    author: '- Mahatma Gandhi -' 
+    author: '- Mahatma Gandhi -'
   }
 ];

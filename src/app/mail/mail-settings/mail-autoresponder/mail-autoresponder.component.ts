@@ -31,9 +31,9 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   quillModules = QUILL_FORMATTING_MODULES;
 
   constructor(private store: Store<AppState>,
-              private formBuilder: FormBuilder,
-              private modalService: NgbModal,
-              private dateTimeUtilService: DateTimeUtilService) {
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private dateTimeUtilService: DateTimeUtilService) {
   }
 
   ngOnInit() {

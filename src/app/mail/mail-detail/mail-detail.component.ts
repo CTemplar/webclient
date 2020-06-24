@@ -84,15 +84,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   // shortcuts: ShortcutInput[] = [];
 
   constructor(private route: ActivatedRoute,
-              private activatedRoute: ActivatedRoute,
-              private store: Store<AppState>,
-              private pgpService: OpenPgpService,
-              private shareService: SharedService,
-              private router: Router,
-              private composeMailService: ComposeMailService,
-              private dateTimeUtilService: DateTimeUtilService,
-              private modalService: NgbModal,
-              private mailService: MailService) {
+    private activatedRoute: ActivatedRoute,
+    private store: Store<AppState>,
+    private pgpService: OpenPgpService,
+    private shareService: SharedService,
+    private router: Router,
+    private composeMailService: ComposeMailService,
+    private dateTimeUtilService: DateTimeUtilService,
+    private modalService: NgbModal,
+    private mailService: MailService) {
   }
 
   ngOnInit() {
@@ -111,8 +111,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mails = [...mailState.mails];
         if (this.shouldChangeMail && mailState.loaded) {
           if (this.shouldChangeMail === 1) {
-            this.mail.id = this.mails[this.mails.length -1].id;
-            this.changeMail(this.mails.length -1);
+            this.mail.id = this.mails[this.mails.length - 1].id;
+            this.changeMail(this.mails.length - 1);
           } else if (this.shouldChangeMail === 2) {
             this.mail.id = this.mails[0].id;
             this.changeMail(0);
@@ -200,9 +200,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }));
         }
 
-        if(this.mail && this.mail.children) {
-          let draft_children = this.mail.children.filter((child) => child.folder === 'draft');          
-          draft_children.length > 0? this.hasDraft = true: this.hasDraft = false;
+        if (this.mail && this.mail.children) {
+          const draft_children = this.mail.children.filter((child) => child.folder === 'draft');
+          draft_children.length > 0 ? this.hasDraft = true : this.hasDraft = false;
         }
       });
 
@@ -265,16 +265,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (index >= this.EMAILS_PER_PAGE) {
         this.shouldChangeMail = 2;
         this.page++;
-      } else if(index <= 0 && this.page > 1){
+      } else if (index <= 0 && this.page > 1) {
         this.page--;
         this.shouldChangeMail = 1;
-      }
-      else {
+      } else {
         return;
       }
       this.store.dispatch(new GetMails({
         forceReload: true, limit: this.EMAILS_PER_PAGE,
-        offset: this.EMAILS_PER_PAGE * (this.page-1), folder: this.mailFolder,
+        offset: this.EMAILS_PER_PAGE * (this.page - 1), folder: this.mailFolder,
       }));
       return;
     }
@@ -345,14 +344,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const childDecryptedContent = this.decryptedContents[child.id];
       if (!this.isDecrypting[child.id] &&
         (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))) {
-          
+
         this.isDecrypting[child.id] = true;
         this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
       }
     }
   }
 
-  backupChildDecryptedContent (child: Mail, mailState: MailState) {
+  backupChildDecryptedContent(child: Mail, mailState: MailState) {
     if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
       this.decryptedContents[child.id] = child.content;
     } else {
@@ -399,21 +398,21 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
         this.mailService.getAttachment(attachment)
           .subscribe(response => {
-              const uint8Array = this.shareService.base64ToUint8Array(response.data);
-              if (!attachment.name) {
-                attachment.name = FilenamePipe.tranformToFilename(attachment.document);
-              }
-              const fileInfo = { attachment, type: response.file_type };
-              this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
-                .pipe(
-                  take(1)
-                )
-                .subscribe((decryptedAttachment: Attachment) => {
-                    this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
-                    this.downloadAttachment(decryptedAttachment);
-                  },
-                  error => console.log(error));
-            },
+            const uint8Array = this.shareService.base64ToUint8Array(response.data);
+            if (!attachment.name) {
+              attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+            }
+            const fileInfo = { attachment, type: response.file_type };
+            this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
+              .pipe(
+                take(1)
+              )
+              .subscribe((decryptedAttachment: Attachment) => {
+                this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
+                this.downloadAttachment(decryptedAttachment);
+              },
+                error => console.log(error));
+          },
             errorResponse => this.store.dispatch(new SnackErrorPush({
               message: errorResponse.error || 'Failed to download attachment.'
             })));
@@ -472,12 +471,28 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
       this.composeMailData[mail.id].receivers = mail.reply_to;
-    } else if (mail.sender !== this.currentMailbox.email) {
-      this.composeMailData[mail.id].receivers = [mail.sender];
-    } else if (this.mail.sender !== this.currentMailbox.email) {
-      this.composeMailData[mail.id].receivers = [this.mail.sender];
     } else {
-      this.composeMailData[mail.id].receivers = this.mail.receiver;
+      let lastSender = "", lastReceiver = "";
+      if (mail.children && mail.children.length){
+        for (let i = mail.children.length; i > 0; i--) {
+          if (mail.children[i-1].folder !== "trash") {
+            lastSender = mail.children[i-1].sender;
+            lastReceiver = mail.children[i-1].receiver[0];
+            break;
+          }
+        }
+        if (lastSender !== this.currentMailbox.email) {
+          this.composeMailData[mail.id].receivers = [lastSender];
+        } else {
+          this.composeMailData[mail.id].receivers = [lastReceiver];
+        }
+      } else {
+        if (mail.sender !== this.currentMailbox.email) {
+          this.composeMailData[mail.id].receivers = [mail.sender];
+        } else {
+          this.composeMailData[mail.id].receivers = this.mail.receiver;
+        }
+      }
     }
     this.composeMailData[mail.id].action = MailAction.REPLY;
     this.setActionParent(mail, isChildMail, mainReply);
@@ -487,21 +502,26 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onReplyAll(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
-      cc: [...mail.receiver, ...mail.cc],
       subject: mail.subject,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     if (mail.sender !== this.currentMailbox.email) {
-      this.composeMailData[mail.id].receivers = [mail.sender];
-    } else if (this.mail.sender !== this.currentMailbox.email) {
-      this.composeMailData[mail.id].receivers = [this.mail.sender];
+      let receivers = [
+        mail.sender,
+        ...mail.receiver,
+        ...mail.cc,
+        ...mail.bcc
+      ];
+      this.composeMailData[mail.id].receivers = receivers;
     } else {
-      this.composeMailData[mail.id].receivers = this.mail.receiver;
+      this.composeMailData[mail.id].receivers = Array.isArray(mail.receiver)
+        ? [...mail.receiver, ...mail.cc, ...mail.bcc]
+        : [mail.receiver, ...mail.cc, ...mail.bcc];
     }
-    this.composeMailData[mail.id].cc = this.composeMailData[mail.id].cc
-      .filter(email => email !== this.currentMailbox.email && !this.composeMailData[mail.id].receivers.includes(email));
+     this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers
+      .filter(email => email !== this.currentMailbox.email);
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
     this.setActionParent(mail, isChildMail, mainReply);
     this.mailOptions[mail.id].isComposeMailVisible = true;

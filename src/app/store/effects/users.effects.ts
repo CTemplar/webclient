@@ -88,7 +88,7 @@ import {
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { GetOrganizationUsers } from '../organization.store';
-import { MatSnackBarConfig } from '@angular/material';
+import { MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Injectable()
 export class UsersEffects {

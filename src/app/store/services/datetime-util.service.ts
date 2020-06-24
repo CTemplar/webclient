@@ -63,8 +63,7 @@ export class DateTimeUtilService {
           second: datetime.second()
         }
       };
-    }
-    else {
+    } else {
       return { date: null, time: null };
     }
   }

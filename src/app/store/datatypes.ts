@@ -169,6 +169,7 @@ export class Settings {
   domain_count?: number;
   default_font?: string;
   enable_forwarding?: boolean;
+  enable_copy_forwarding?: boolean;
   forwarding_address?: string;
   plan_type?: PlanType;
   notification_email?: string;
@@ -254,7 +255,7 @@ export class MailStateFolderInfo {
 export interface MailState {
   mails: Mail[];
   total_mail_count: number;
-  info_by_folder: Map<string, MailStateFolderInfo>,
+  info_by_folder: Map<string, MailStateFolderInfo>;
   mailDetail: Mail;
   folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;

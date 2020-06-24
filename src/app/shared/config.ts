@@ -1,9 +1,9 @@
 // Angular
-import { environment } from '../../environments/environment';
+import { AppConfig } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
 export const apiUrl = getBaseUrl();
-export const PRIMARY_DOMAIN = environment.production
+export const PRIMARY_DOMAIN = AppConfig.production
   ? 'ctemplar.com'
   : 'dev.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
@@ -156,12 +156,14 @@ export const QUILL_FORMATTING_MODULES = {
 };
 
 function getBaseUrl() {
-  if (environment.production) {
+  if (AppConfig.production) {
     const config = getWindowConfig();
-      return config.host ===
+    return config.host ===
       'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion' ?
       'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/' :
       'https://api.ctemplar.com/';
+  } else if (AppConfig.local) {
+    return 'http://localhost:8000/';
   }
   return 'https://devapi.ctemplar.net/';
 }
@@ -171,7 +173,7 @@ export function getWindowConfig(): { host: string; protocol: string } {
   let host = location.host;
   if (IS_ELECTRON || location.hostname === 'localhost') {
     protocol = 'https:';
-    host = environment.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
+    host = AppConfig.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
   }
   return { host, protocol };
 }

@@ -50,11 +50,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   isCustomDomainSelected: boolean;
 
   constructor(private formBuilder: FormBuilder,
-              private openPgpService: OpenPgpService,
-              private usersService: UsersService,
-              private settingsService: MailSettingsService,
-              private modalService: NgbModal,
-              private store: Store<AppState>) { }
+    private openPgpService: OpenPgpService,
+    private usersService: UsersService,
+    private settingsService: MailSettingsService,
+    private modalService: NgbModal,
+    private store: Store<AppState>) { }
 
   ngOnInit() {
 
@@ -123,18 +123,18 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     if (customDomain !== PRIMARY_DOMAIN) {
       this.isCustomDomainSelected = true;
       this.newAddressForm.get('username').setValidators([Validators.required,
-        Validators.pattern(/^[a-z]*([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
-        Validators.minLength(1),
-        Validators.maxLength(64)]);
+      Validators.pattern(/^[a-z]*([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+      Validators.minLength(1),
+      Validators.maxLength(64)]);
       this.newAddressForm.get('domain').setValidators([Validators.required]);
       this.newAddressForm.get('username').updateValueAndValidity();
     } else {
       this.isCustomDomainSelected = false;
 
       this.newAddressForm.get('username').setValidators([Validators.required,
-        Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
-        Validators.minLength(1),
-        Validators.maxLength(64)]);
+      Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+      Validators.minLength(1),
+      Validators.maxLength(64)]);
       this.newAddressForm.get('domain').setValidators([Validators.required]);
       this.newAddressForm.get('username').updateValueAndValidity();
     }
@@ -282,9 +282,9 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
           this.newAddressOptions.isBusy = true;
           this.usersService.checkUsernameAvailability(this.getEmail())
             .subscribe(response => {
-                this.newAddressOptions.usernameExists = response.exists;
-                this.newAddressOptions.isBusy = false;
-              },
+              this.newAddressOptions.usernameExists = response.exists;
+              this.newAddressOptions.isBusy = false;
+            },
               error => {
                 this.store.dispatch(new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }));
                 this.newAddressOptions.isBusy = false;

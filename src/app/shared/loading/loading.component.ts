@@ -11,7 +11,7 @@ export class LoadingComponent implements OnInit {
   @Input('quote') quote?: any;
   loadingImage = LOADING_IMAGE;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

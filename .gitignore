@@ -6,8 +6,9 @@
 .editorconfig
 
 # NodeJS
-/node_modules/
+node_modules
 dist
+release
 
 # Others
 .DS_Store

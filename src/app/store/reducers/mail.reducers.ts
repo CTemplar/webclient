@@ -44,14 +44,14 @@ export function reducer(
         is_dirty: false
       })
       state.info_by_folder.set(action.payload.folder, folder_info);
-      
+
       if (action.payload.is_from_socket) {
         const mailIDs = mails.map(item => item.id);
         mails = target_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
         mails = [...action.payload.mails, ...mails];
         if (action.payload.folder !== MailFolderType.SPAM) {
           let unread_folder_mails = state.folders.get(MailFolderType.UNREAD) || [];
-          let unread_folder_info = state.info_by_folder.get(MailFolderType.UNREAD);
+          const unread_folder_info = state.info_by_folder.get(MailFolderType.UNREAD);
           // prepare unread mails
           if (unread_folder_mails && unread_folder_mails.length > 0 && unread_folder_info && !unread_folder_info.is_not_first_page) {
             unread_folder_mails = unread_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
@@ -70,7 +70,7 @@ export function reducer(
           }
           // prepare all mails
           let all_folder_mails = state.folders.get(MailFolderType.ALL_EMAILS) || [];
-          let all_folder_info = state.info_by_folder.get(MailFolderType.ALL_EMAILS);
+          const all_folder_info = state.info_by_folder.get(MailFolderType.ALL_EMAILS);
           if (all_folder_mails && all_folder_mails.length > 0 && all_folder_info && !all_folder_info.is_not_first_page) {
             all_folder_mails = all_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
             all_folder_mails = [...action.payload.mails, ...all_folder_mails];
@@ -131,8 +131,8 @@ export function reducer(
     }
     case MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS: {
       if (action.payload.updateUnreadCount) {
-        let totalUnreadMailCount = getTotalUnreadCount({ ...state.unreadMailsCount, ...action.payload });
-        let unreadMailData = { ...state.unreadMailsCount, ...action.payload, total_unread_count: totalUnreadMailCount };
+        const totalUnreadMailCount = getTotalUnreadCount({ ...state.unreadMailsCount, ...action.payload });
+        const unreadMailData = { ...state.unreadMailsCount, ...action.payload, total_unread_count: totalUnreadMailCount };
         return {
           ...state,
           unreadMailsCount: unreadMailData,
@@ -187,14 +187,14 @@ export function reducer(
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
       let mails = state.mails;
       if (action.payload.sourceFolder === state.currentFolder) {
-        let undo_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
+        const undo_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
 
         mails = sortByDueDate([...state.mails, ...undo_mails]);
         state.folders.set(action.payload.sourceFolder, [...mails]);
-        let cur_folder_info = state.info_by_folder.get(action.payload.sourceFolder);
-        cur_folder_info.total_mail_count +=  undo_mails.length
-        state.info_by_folder.set(action.payload.sourceFolder, cur_folder_info)
-        state.total_mail_count = cur_folder_info.total_mail_count
+        const cur_folder_info = state.info_by_folder.get(action.payload.sourceFolder);
+        cur_folder_info.total_mail_count += undo_mails.length;
+        state.info_by_folder.set(action.payload.sourceFolder, cur_folder_info);
+        state.total_mail_count = cur_folder_info.total_mail_count;
       }
       let info_keys = Array.from(state.info_by_folder.keys());
       info_keys = info_keys.filter(
@@ -245,13 +245,13 @@ export function reducer(
       if (state.currentFolder !== MailFolderType.UNREAD) {
         let unread_mails = state.folders.get(MailFolderType.UNREAD) || [];
         if (unread_mails.length > 0) {
-          let new_unread_mails = target_folder_mails.filter(mail => {
+          const new_unread_mails = target_folder_mails.filter(mail => {
             return !mail.read && listOfIDs.includes(mail.id.toString());
           });
 
           unread_mails = unread_mails.filter(mail => {
-            return !listOfIDs.includes(mail.id.toString())
-          })
+            return !listOfIDs.includes(mail.id.toString());
+          });
           unread_mails = sortByDueDate([...new_unread_mails, ...unread_mails]);
           state.folders.set(MailFolderType.UNREAD, unread_mails);
         } else {
@@ -260,13 +260,13 @@ export function reducer(
       } else {
         let folders = Array.from(state.folders.keys());
         folders = folders.filter(
-          folder => 
-          folder !== MailFolderType.SENT && 
-          folder !== MailFolderType.TRASH && 
-          folder !== MailFolderType.DRAFT &&
-          folder !== MailFolderType.OUTBOX);
+          folder =>
+            folder !== MailFolderType.SENT &&
+            folder !== MailFolderType.TRASH &&
+            folder !== MailFolderType.DRAFT &&
+            folder !== MailFolderType.OUTBOX);
         folders.map(folder => {
-          let folder_content = state.folders.get(folder) || [];
+          const folder_content = state.folders.get(folder) || [];
           if (folder_content.length > 0) {
             let need_to_update = false;
             folder_content.map(mail => {
@@ -274,7 +274,7 @@ export function reducer(
                 mail.read = action.payload.read;
                 need_to_update = true;
               }
-            })
+            });
             if (need_to_update) {
               state.folders.set(folder, folder_content);
             }
@@ -289,7 +289,7 @@ export function reducer(
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
-      let currentFolder = action.payload.folder || state.currentFolder;
+      const currentFolder = action.payload.folder || state.currentFolder;
       let target_folder_mails = state.folders.get(currentFolder) || [];
       target_folder_mails = target_folder_mails.filter((mail, currentIndex) => {
         if (listOfIDs.includes(mail.id.toString())) {
@@ -306,22 +306,22 @@ export function reducer(
       if (currentFolder !== MailFolderType.STARRED) {
         let starred_mails = state.folders.get(MailFolderType.STARRED) || [];
         if (starred_mails.length > 0) {
-          let new_starred = target_folder_mails.filter(mail => {
+          const new_starred = target_folder_mails.filter(mail => {
             return mail.starred && listOfIDs.includes(mail.id.toString());
           });
 
           starred_mails = starred_mails.filter(mail => {
-            return !listOfIDs.includes(mail.id.toString())
-          })
+            return !listOfIDs.includes(mail.id.toString());
+          });
           starred_mails = sortByDueDate([...new_starred, ...starred_mails]);
           state.folders.set(MailFolderType.STARRED, starred_mails);
         } else {
           state.folders.set(MailFolderType.STARRED, []);
         }
       } else {
-        let folders = Array.from(state.folders.keys());
+        const folders = Array.from(state.folders.keys());
         folders.map(folder => {
-          let folder_content = state.folders.get(folder) || [];
+          const folder_content = state.folders.get(folder) || [];
           if (folder_content.length > 0) {
             let need_to_update = false;
             folder_content.map(mail => {
@@ -329,7 +329,7 @@ export function reducer(
                 mail.starred = action.payload.starred;
                 need_to_update = true;
               }
-            })
+            });
             if (need_to_update) {
               state.folders.set(folder, folder_content);
             }
@@ -446,7 +446,7 @@ export function reducer(
     case MailActionTypes.SET_CURRENT_FOLDER: {
       const mails = state.folders.get(action.payload);
       const total_mail_count = state.info_by_folder.get(action.payload) ? state.info_by_folder.get(action.payload).total_mail_count : 0;
-      return { 
+      return {
         ...state,
         mails: mails ? mails : [],
         total_mail_count: total_mail_count,
@@ -507,7 +507,7 @@ export function reducer(
           mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
           mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
             || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
-  
+
           target_folder_mails = [mail, ...target_folder_mails];
         }
         state.folders.set(action.payload.folder, target_folder_mails);
@@ -516,8 +516,8 @@ export function reducer(
         }
       }
       if (action.payload.folder === MailFolderType.SENT) {
-        //Remove the draft mails from store, so that it would fetch again when needed to list
-        state.folders.set(MailFolderType.DRAFT, []); 
+        // Remove the draft mails from store, so that it would fetch again when needed to list
+        state.folders.set(MailFolderType.DRAFT, []);
       }
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
@@ -559,8 +559,8 @@ function transformFilename(attachments: Attachment[]) {
 
 function sortByDueDate(sortArray): any[] {
   return sortArray.sort((prev: any, next: any) => {
-    let next_updated = next.updated || null;
-    let prev_updated = prev.updated || null;
+    const next_updated = next.updated || null;
+    const prev_updated = prev.updated || null;
     return <any>new Date(next_updated) - <any>new Date(prev_updated);
   });
 }
@@ -570,8 +570,8 @@ function getTotalUnreadCount(data): number {
     let total_count = 0;
     Object.keys(data).map(key => {
       if (
-        key !== MailFolderType.SENT && 
-        key !== MailFolderType.TRASH && 
+        key !== MailFolderType.SENT &&
+        key !== MailFolderType.TRASH &&
         key !== MailFolderType.DRAFT &&
         key !== MailFolderType.OUTBOX &&
         key !== MailFolderType.SPAM &&
@@ -581,12 +581,11 @@ function getTotalUnreadCount(data): number {
         key !== 'outbox_dead_man_counter' &&
         key !== 'outbox_delayed_delivery_counter' &&
         key !== 'outbox_self_destruct_counter'
-      ) 
-        {
-          if (!isNaN(data[`${key}`])) total_count += data[`${key}`];
-        }
-    })
-    
+      ) {
+        if (!isNaN(data[`${key}`])) { total_count += data[`${key}`]; }
+      }
+    });
+
     return total_count;
   }
   return 0;

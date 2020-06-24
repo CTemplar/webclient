@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "CTemplar": {
+    "ctemplar": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -65,16 +65,13 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
+              "buildOptimizer": true
+            },
+            "local": {
+              "fileReplacements": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "7mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
                 }
               ]
             }
@@ -83,19 +80,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "CTemplar:build",
-            "proxyConfig": "src/environments/proxy/local.proxy.json"
+            "browserTarget": "ctemplar:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "CTemplar:build:production"
+              "browserTarget": "ctemplar:build:production"
+            },
+            "local": {
+              "browserTarget": "ctemplar:build:local"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "CTemplar:build"
+            "browserTarget": "ctemplar:build"
           }
         },
         "test": {
@@ -142,22 +141,22 @@
             ]
           }
         },
-        "CTemplar-e2e": {
+        "ctemplar-e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "CTemplar:serve"
+            "devServerTarget": "ctemplar:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "CTemplar:serve:production"
+              "devServerTarget": "ctemplar:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "CTemplar",
+  "defaultProject": "ctemplar",
   "cli": {
     "analytics": false
   }

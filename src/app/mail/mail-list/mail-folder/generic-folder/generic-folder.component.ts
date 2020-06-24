@@ -42,8 +42,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
+  checkAll: boolean = false;
   noEmailSelected: boolean = true;
   isMobile: boolean;
+  folderName: string;
   disableMoveTo: boolean;
 
   userState: UserState;
@@ -61,13 +63,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   isMoveMailClicked = false;
 
   constructor(public store: Store<AppState>,
-              private router: Router,
-              private activatedRoute: ActivatedRoute,
-              private sharedService: SharedService,
-              private composeMailService: ComposeMailService,
-              private cdr: ChangeDetectorRef,
-              private pgpService: OpenPgpService,
-              private modalService: NgbModal) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private sharedService: SharedService,
+    private composeMailService: ComposeMailService,
+    private cdr: ChangeDetectorRef,
+    private pgpService: OpenPgpService,
+    private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -152,7 +154,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       });
 
     this.isMobile = window.innerWidth <= 768;
-
+    this.folderName = this.mailFolder.charAt(0).toUpperCase() + this.mailFolder.slice(1);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -194,6 +196,15 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
+  selectEntire(status) {
+    if (status) {
+      this.checkAll = true;
+    } else {
+      this.checkAll = false;
+      this.markAllMails(false);
+    }
+  }
+
   markAllMails(checkAll) {
     if (checkAll && !this.isSomeEmailsSelected()) {
       this.mails.map(mail => {
@@ -207,6 +218,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         return mail;
       });
       this.noEmailSelected = true;
+      this.checkAll = false;
     }
 
     setTimeout(() => {
@@ -252,9 +264,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isNeedRemoveStar() {
     if (this.getMarkedMails()) {
-      let starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      const starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
       if (starred_mails.length > 0) {
-        return true
+        return true;
       }
     }
     return false;
@@ -262,9 +274,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isNeedAddStar() {
     if (this.getMarkedMails()) {
-      let starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      const starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
       if (starred_mails.length === this.getMarkedMails().length) {
-        return false
+        return false;
       }
     }
     return true;
@@ -441,7 +453,12 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {string} Comma separated IDs
    */
   private getMailIDs() {
-    return this.getMarkedMails().map(mail => mail.id).join(',');
+    const allString = 'all';
+    if (this.checkAll) {
+      return allString;
+    } else {
+      return this.getMarkedMails().map(mail => mail.id).join(',');
+    }
   }
 
 
@@ -455,14 +472,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    let info_by_folder = this.mailState.info_by_folder.get(this.mailFolder)
-    if (info_by_folder && (info_by_folder.is_not_first_page || info_by_folder.is_dirty)) return true
+    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder)
+    if (info_by_folder && (info_by_folder.is_not_first_page || info_by_folder.is_dirty)) { return true; }
     if (this.mailState.folders) {
-      let cachedMails = this.mailState.folders.get(this.mailFolder);
-      if (cachedMails && cachedMails.length > 0) return false;
+      const cachedMails = this.mailState.folders.get(this.mailFolder);
+      if (cachedMails && cachedMails.length > 0) { return false; }
       return true;
     }
-    return true
+    return true;
   }
 
   ngOnDestroy() {

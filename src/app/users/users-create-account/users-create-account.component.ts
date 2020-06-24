@@ -182,10 +182,10 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.modalRef) {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
-    let currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
-    let currentLang = LANGUAGES.find(lang => {
-      if (lang.locale === currentLocale) return true
-    })
+    const currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
+    const currentLang = LANGUAGES.find(lang => {
+      if (lang.locale === currentLocale) { return true; }
+    });
     this.data = {
       ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,

@@ -116,11 +116,11 @@ export class ComposeMailEffects {
         if (payload.draft.dead_man_duration || payload.draft.delayed_delivery) {
           payload.draft.send = false;
           payload.draft.folder = MailFolderType.OUTBOX;
-          message = `Mail scheduled`
+          message = `Mail scheduled`;
         } else {
           payload.draft.send = true;
           payload.draft.folder = MailFolderType.SENT;
-          message = `Mail sent successfully`
+          message = `Mail sent successfully`;
         }
         payload.draft.is_subject_encrypted = payload.draft.is_subject_encrypted && payload.draft.is_encrypted;
         return this.mailService.createMail(payload.draft)

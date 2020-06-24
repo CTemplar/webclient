@@ -220,15 +220,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   shortcuts: ShortcutInput[] = [];
 
   constructor(private modalService: NgbModal,
-              private store: Store<AppState>,
-              private formBuilder: FormBuilder,
-              private openPgpService: OpenPgpService,
-              private mailService: MailService,
-              private sharedService: SharedService,
-              private dateTimeUtilService: DateTimeUtilService,
-              private filesizePipe: FilesizePipe,
-              private filenamePipe: FilenamePipe,
-              private cdr: ChangeDetectorRef) {
+    private store: Store<AppState>,
+    private formBuilder: FormBuilder,
+    private openPgpService: OpenPgpService,
+    private mailService: MailService,
+    private sharedService: SharedService,
+    private dateTimeUtilService: DateTimeUtilService,
+    private filesizePipe: FilesizePipe,
+    private filenamePipe: FilenamePipe,
+    private cdr: ChangeDetectorRef) {
 
   }
 
@@ -283,8 +283,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
       });
 
-      this.store.dispatch(new ContactsGet({
-      }));
+    this.store.dispatch(new ContactsGet({
+    }));
 
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
@@ -657,12 +657,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
-      if (/^image\//.test(file.type)) {    
-          var FR= new FileReader();          
-          FR.addEventListener("load", function(e) {
-           document.querySelector(".ql-editor p").innerHTML += `<img src=${e.target.result} alt="image" />`;
-          });           
-          FR.readAsDataURL( file );        
+      if (/^image\//.test(file.type)) {
+        const FR = new FileReader();
+        FR.addEventListener('load', function (e) {
+          document.querySelector('.ql-editor p').innerHTML += `<img src=${e.target.result} alt="image" />`;
+        });
+        FR.readAsDataURL(file);
       } else {
         // TODO: add error notification for invalid file type here
       }
@@ -814,7 +814,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         shouldSave: false, shouldSend: true, draft: { ...this.draftMail }
       }
     }));
-    let message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...'
+    const message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...';
 
     this.store.dispatch(new SnackPush({ message, duration: 120000 }));
     this.resetValues();
@@ -841,7 +841,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     let content: string, oldSig: string, newSig: string;
     if (this.quill && this.quill.container) {
-      content = this.quill.container.innerText || ""; // this.draftMail.content;
+      content = this.quill.container.innerText || ''; // this.draftMail.content;
       content = content.replace(/\n\n/g, '<br>');
     }
     if (this.quill && this.quill.container) {
@@ -850,18 +850,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         if (this.selectedMailbox.signature) {
           newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
           content = content.replace(new RegExp(oldSig + '$'), newSig);
-        }
-        else {
+        } else {
           content = content.replace(new RegExp(oldSig + '$'), '');
         }
         this.quill.clipboard.dangerouslyPasteHTML(content);
-      }
-      else if (this.selectedMailbox.signature) {
+      } else if (this.selectedMailbox.signature) {
         newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
         content += '<br>' + newSig;
         this.quill.clipboard.dangerouslyPasteHTML(content);
-      }
-      else {
+      } else {
         if (this.quill && this.selectedMailbox) {
           if (!this.isSignatureAdded && this.selectedMailbox.signature) {
             const index = this.quill.getLength();
@@ -1042,8 +1039,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.quill.insertEmbed(index, 'image', source);
       } else {
         this.quill.insertEmbed(index, 'image', {
-        url: source,
-        content_id: contentId
+          url: source,
+          content_id: contentId
         });
       }
       this.quill.setSelection(index + 1);
@@ -1062,14 +1059,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
 
     this.draft.isSaving = shouldSave;
-  
+
     const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
-    
+
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
 
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
-    this.draftMail.receiver = this.draftMail.receiver.filter(receiver => validEmailRegex.test(receiver));    
+    this.draftMail.receiver = this.draftMail.receiver.filter(receiver => validEmailRegex.test(receiver));
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
     this.draftMail.cc = this.draftMail.cc.filter(receiver => validEmailRegex.test(receiver));
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
@@ -1274,9 +1271,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         if (item.value === tag.value) {
           const tokens = tag.value.split(',');
           emails.push(...tokens.map(token => {
-              token = token.trim();
-              return ({ value: token, display: token, email: token, name: token });
-            })
+            token = token.trim();
+            return ({ value: token, display: token, email: token, name: token });
+          })
           );
         } else {
           emails.push(item);
