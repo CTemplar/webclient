@@ -546,7 +546,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onDelete(mail: Mail, index?: number, withChildren: boolean = true) {
     if (mail.folder === MailFolderType.TRASH) {
-      this.store.dispatch(new DeleteMail({ ids: mail.id.toString() }));
+      this.store.dispatch(new DeleteMail({ ids: mail.id.toString(), parent_only: !withChildren }));
         if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
         .some(child => child.folder === MailFolderType.TRASH))) {
         this.goBack(500);
@@ -562,9 +562,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }));
       if (index !== -1) this.onDeleteCollapseMail(index);
     }
+    let excepted_children = [];
+    if (this.mail.children) {
+      excepted_children = this.mailFolder === this.mailFolderTypes.TRASH ? this.mail.children.filter(child => child.folder === this.mailFolderTypes.TRASH) : this.mail.children.filter(child => child.folder !== this.mailFolderTypes.TRASH);
+      excepted_children = excepted_children.filter(child => child.id !== mail.id);
+    }
     if (
-      (mail.id === this.mail.id && (withChildren || !this.mail.children || this.mail.children.length === 0)) ||
-      (mail.id !== this.mail.id && (!this.mail.children || this.mail.children.length === 0) && this.mail.folder === MailFolderType.TRASH)
+      (mail.id === this.mail.id && (withChildren || !excepted_children || excepted_children.length === 0)) ||
+      (mail.id !== this.mail.id && (!excepted_children || excepted_children.length === 0) && this.mail.folder === MailFolderType.TRASH) || 
+      (mail.id === this.mail.id && this.mail.folder === MailFolderType.TRASH)
     ) {
       this.goBack(500);
     }

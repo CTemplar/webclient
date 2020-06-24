@@ -344,6 +344,14 @@ export function reducer(
 
     case MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS:
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
+      const folder_keys = [MailFolderType.DRAFT, MailFolderType.TRASH, MailFolderType.SPAM];
+      folder_keys.map(key => {
+        let folder_info = state.info_by_folder.get(key);
+        if (folder_info) {
+          folder_info.is_dirty = true;
+        }
+        state.info_by_folder.set(key, folder_info);
+      })
       if (action.payload.isMailDetailPage) {
         return state;
       }

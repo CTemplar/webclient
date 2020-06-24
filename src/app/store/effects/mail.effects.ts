@@ -121,7 +121,7 @@ export class MailEffects {
     ofType(MailActionTypes.DELETE_MAIL),
     map((action: DeleteMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.deleteMails(payload.ids)
+      return this.mailService.deleteMails(payload.ids, payload.parent_only)
         .pipe(
           switchMap(res => of(new DeleteMailSuccess(payload))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))

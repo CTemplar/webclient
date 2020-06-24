@@ -121,8 +121,8 @@ export class MailService {
     return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
   }
 
-  deleteMails(ids: string): Observable<any[]> {
-    return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}`);
+  deleteMails(ids: string, parent_only: boolean = false): Observable<any[]> {
+    return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}&parent_only=${parent_only ? 1 : 0}`);
   }
 
   deleteMailForAll(id: string): Observable<any[]> {
