@@ -403,6 +403,7 @@
 		"delete_account_guide": "Ao apagar sua conta permanentemente, você perderá todos os dados em sua conta de email. Dentro de 2 meses, este nome de usuário estará disponível para reutilização por qualquer pessoa que o selecione.",
 		"delete_account_perm": "Deletar conta permanentemente",
 		"delete_all_message": "Tem certeza que deseja deletar todas as mensagens na lixeira?",
+		"delete_draft_message": "Are you sure, you want to delete these messages? This cannot be undone.",
 		"delete_folder": "Deletar pasta",
 		"delete_folder_message": "Tem certeza que deseja deletar a pasta",
 		"desktop_notification_title": "Notificações na área de trabalho",

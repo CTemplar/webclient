@@ -396,7 +396,8 @@
     "upgrade": "Upgrade",
     "contains": "contains",
     "autoresponder_active": "Autoresponder is active:",
-    "delete_all_message": "Are you sure, you want to delete all messages in trash?"
+    "delete_all_message": "Are you sure, you want to delete all messages in trash?",
+    "delete_draft_message": "Are you sure, you want to delete these messages? This cannot be undone."
   },
   "mail_sidebar": {
     "inbox": "Входящие",
