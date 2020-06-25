@@ -186,6 +186,7 @@ export class Settings {
   is_composer_full_screen?: boolean;
   is_night_mode?: boolean;
   is_enable_report_bugs?: boolean;
+  include_original_message?: boolean;
   custom_css?: string;
   is_disable_loading_images?: boolean;
 }

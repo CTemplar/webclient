@@ -68,6 +68,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   isDarkMode: boolean;
   forceLightMode: boolean;
   disableExternalImages: boolean;
+  includeOriginMessage: boolean;
   xssPipe = SafePipe;
   hasDraft: boolean = false;
 
@@ -232,6 +233,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.isDarkMode = this.userState.settings.is_night_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
         this.disableExternalImages = this.userState.settings.is_disable_loading_images;
+        this.includeOriginMessage = this.userState.settings.include_original_message;
       });
     this.isMobile = window.innerWidth <= 768;
 
@@ -464,7 +466,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
     this.composeMailData[mail.id] = {
-      subject: mail.subject,
+      subject: "Re: " + mail.subject,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => allRecipients.includes(mailbox.email))
@@ -481,17 +483,22 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             break;
           }
         }
-        if (lastSender !== this.currentMailbox.email) {
-          this.composeMailData[mail.id].receivers = [lastSender];
+        if (lastSender && lastReceiver) {
+          this.composeMailData[mail.id].receivers =
+            lastSender !== this.currentMailbox.email
+              ? [lastSender]
+              : [lastReceiver];          
         } else {
-          this.composeMailData[mail.id].receivers = [lastReceiver];
-        }
+          this.composeMailData[mail.id].receivers =
+            mail.sender !== this.currentMailbox.email
+              ? [mail.sender]
+              : this.mail.receiver;
+        }        
       } else {
-        if (mail.sender !== this.currentMailbox.email) {
-          this.composeMailData[mail.id].receivers = [mail.sender];
-        } else {
-          this.composeMailData[mail.id].receivers = this.mail.receiver;
-        }
+        this.composeMailData[mail.id].receivers =
+            mail.sender !== this.currentMailbox.email
+              ? [mail.sender]
+              : this.mail.receiver;
       }
     }
     this.composeMailData[mail.id].action = MailAction.REPLY;
@@ -502,7 +509,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onReplyAll(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
-      subject: mail.subject,
+      subject: "Re: " + mail.subject,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
@@ -805,11 +812,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   private getMessageSummary(content: string, mail: Mail): string {
-    // if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH) {
-    //   const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
-    //     this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
-    //   content += `</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br>${this.decryptedContents[mail.id]}</br>`;
-    // }
+    if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
+      const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
+        this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
+      if (this.decryptedContents[mail.id] === undefined) {this.decryptedContents[mail.id] = "";}
+      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+    }
     return content;
   }
 

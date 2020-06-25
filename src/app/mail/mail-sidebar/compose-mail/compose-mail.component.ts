@@ -69,6 +69,7 @@ Quill.register(Quill.import('attributors/style/background'), true);
 Quill.register(Quill.import('attributors/style/color'), true);
 
 const QuillBlockEmbed = Quill.import('blots/block/embed');
+const Inline = Quill.import('blots/inline');
 
 class ImageBlot extends QuillBlockEmbed {
   static create(value) {
@@ -104,7 +105,7 @@ class SignatureBlot extends QuillBlockEmbed {
     node.innerText = value;
     return node;
   }
-
+  
   static value(node) {
     return node.innerHTML;
   }
@@ -115,6 +116,24 @@ SignatureBlot.tagName = 'div';
 SignatureBlot.className = 'ctemplar-signature';
 
 Quill.register(SignatureBlot);
+
+class OriginalBlot extends Inline {
+  static create(value) {
+    let node = super.create();
+    node.setAttribute('class', 'originalblock');
+    return node;  
+  }
+
+  static value(node) {
+    return node.innerHTML;
+  }
+}
+
+OriginalBlot.blotName = 'originalblock';
+OriginalBlot.tagName = 'div';
+OriginalBlot.className = 'originalblock';
+
+Quill.register(OriginalBlot);
 
 export class PasswordValidation {
 
