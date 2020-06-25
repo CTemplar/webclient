@@ -308,3 +308,14 @@
 .mail-checkbox .fancy-field-group {
   margin-bottom: -16px;
 }
+.mail-check-number {
+  background-color: lightgray;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p:first-child {
+    margin: 0;
+  }
+}

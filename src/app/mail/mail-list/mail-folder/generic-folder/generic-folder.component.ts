@@ -236,7 +236,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as read event to store
-      this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+      this.store.dispatch(new ReadMail({ ids: ids, read: isRead, folder: this.mailFolder }));
     }
   }
 
@@ -258,7 +258,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as starred event to store
-      this.store.dispatch(new StarMail({ ids, starred }));
+      this.store.dispatch(new StarMail({ ids, starred, folder: this.mailFolder }));
     }
   }
 
