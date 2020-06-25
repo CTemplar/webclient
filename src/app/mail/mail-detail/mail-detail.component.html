@@ -89,14 +89,6 @@
                  *ngIf="mailFolder !== mailFolderTypes.INBOX">
                 <i class="icon icon-inbox"></i><span>{{"mail_sidebar.inbox"| translate}}</span>
               </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)"
-                 *ngIf="mailFolder !== mailFolderTypes.DRAFT">
-                <i class="icon icon-inbox"></i><span>{{"mail_sidebar.draft"| translate}}</span>
-              </a>
-              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)"
-                 *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-                <i class="icon icon-draft"></i><span>{{"mail_sidebar.outbox"| translate}}</span>
-              </a>
               <ng-container *ngFor="let folder of customFolders; let i=index;">
                 <a class="dropdown-item"
                    *ngIf="mailFolder !== folder.name"
@@ -220,7 +212,7 @@
     </div>
 
     <div class="ui-body is-xs bg-faded cursor-pointer mail-header"
-         *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
+         *ngIf="(mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
          (click)="parentMailCollapsed = !parentMailCollapsed">
       <div class="row">
         <div class="col-8">
@@ -321,8 +313,8 @@
 
   <!--Mail Content-->
   <section class="mailbox-section"
-           *ngIf="mailFolder !== mailFolderTypes.TRASH || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
-           id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
+      *ngIf="(mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)"
+      id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">
       <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
@@ -337,7 +329,7 @@
                (click)="onReplyAll(mail); scrollTo(replyActions);">{{"mail_detail.reply_all"| translate}}</a>
           </ng-container>
           <a class="dropdown-item" (click)="onPrint(mail)">{{"mail_detail.print"| translate}}</a>
-          <a class="dropdown-item" (click)="onDelete(mail)"
+          <a class="dropdown-item" (click)="onDelete(mail, -1, false)"
              [translate]="(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)"></a>
           <a class="dropdown-item" (click)="onDeleteForAll(mail)"
              *ngIf="mail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"

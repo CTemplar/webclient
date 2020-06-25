@@ -125,17 +125,16 @@ export class MailService {
     }
   }
 
-  moveMail(ids: string, folder: string, sourceFolder: string): Observable<any[]> {
+  moveMail(ids: string, folder: string, sourceFolder: string, withChildren: boolean = true, fromTrash: boolean = false): Observable<any[]> {
     if (ids === 'all') {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, { folder: folder });
+      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
     } else {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder });
+      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
     }
-    // return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}&folder=${sourceFolder}`, { folder: folder });
   }
 
-  deleteMails(ids: string): Observable<any[]> {
-    return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}`);
+  deleteMails(ids: string, parent_only: boolean = false): Observable<any[]> {
+    return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}&parent_only=${parent_only ? 1 : 0}`);
   }
 
   deleteMailForAll(id: string): Observable<any[]> {

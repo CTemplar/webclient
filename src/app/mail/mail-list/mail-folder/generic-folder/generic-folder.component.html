@@ -327,7 +327,7 @@
                       <ng-container *ngSwitchDefault>
                           {{mail.sender_display.name}}
                       </ng-container>
-                    <span *ngIf="mail.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
+                    <span *ngIf="mail.children_count > 0" class="email-child-count">({{mailFolder !== mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH ? mail.children_count : 10}})</span>
                   </ng-container>
               </a>
 

@@ -355,7 +355,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         folder,
         sourceFolder: this.mailFolder,
         mail: this.getMarkedMails(),
-        allowUndo: true
+        allowUndo: true,
+        fromTrash: this.mailFolder === MailFolderType.TRASH
       }));
       this.isMoveMailClicked = true;
     }
@@ -471,8 +472,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder);
-    if (info_by_folder && info_by_folder.is_not_first_page) { return true; }
+    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder)
+    if (info_by_folder && (info_by_folder.is_not_first_page || info_by_folder.is_dirty)) { return true; }
     if (this.mailState.folders) {
       const cachedMails = this.mailState.folders.get(this.mailFolder);
       if (cachedMails && cachedMails.length > 0) { return false; }
