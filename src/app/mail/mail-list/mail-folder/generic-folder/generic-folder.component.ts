@@ -34,6 +34,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @Input() fetchMails: boolean;
 
   @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
+  @ViewChild('delateDraftModal') delateDraftModal;
 
   customFolders: Folder[];
   shortcuts: ShortcutInput[] = [];
@@ -60,6 +61,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   private mailState: MailState;
   private isInitialized: boolean;
   private confirmEmptyTrashModalRef: NgbModalRef;
+  private delateDraftModalRef: NgbModalRef;
   isMoveMailClicked = false;
 
   constructor(public store: Store<AppState>,
@@ -316,6 +318,22 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   emptyDeleteAllConfirmed() {
     this.store.dispatch(new EmptyFolder({ folder: this.mailFolder }));
     this.confirmEmptyTrashModalRef.dismiss();
+  }
+
+  confirmDeleteDraft() {
+    this.delateDraftModalRef = this.modalService.open(this.delateDraftModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  deleteDraft() {
+    const ids = this.getMailIDs();
+    // Dispatch permanent delete mails event.
+    if (ids) {
+      this.store.dispatch(new DeleteMail({ ids }));
+    }
+    this.delateDraftModalRef.dismiss();
   }
 
   openMail(mail: Mail) {

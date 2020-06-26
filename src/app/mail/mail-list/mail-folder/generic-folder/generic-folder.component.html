@@ -54,6 +54,13 @@
           <i class="icon icon-garbage"></i>
           </a>
         </li>
+        <li class="px-0" *ngIf="mailFolder === mailFolderTypes.DRAFT">
+          <a (click)="confirmDeleteDraft()" class="border-radius-left-0" placement="top"
+             [ngbTooltip]="('mail_list.permanently_delete' | translate)"
+             [ngClass]="{'disabled': noEmailSelected}">
+          <i class="fa fa-times"></i>
+          </a>
+        </li>
         <li class="pr-0">
           <a class="px-0" placement="top"
              (click)="decryptAllSubjects()"
@@ -424,6 +431,28 @@
   </div>
 </ng-template><!-- /.Confirm empty trash modal ends -->
 
+<!-- Confirm delete draft modal -->
+<ng-template #delateDraftModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong [translate]="'contacts.delete.title'">Confirm Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group" [translate]="'settings.delete_draft_message'">
+        Are you sure, you want to delete these messages? This cannot be undone.
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" [translate]="'common.cancel'">Cancel</button>
+        <button (click)="deleteDraft()" class="btn btn-danger btn-sm" role="button" [translate]="'common.delete'">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm delete draft modal ends -->
 
 <!--TODO : disable shortcuts until the bugs are fixed-->
 <ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
