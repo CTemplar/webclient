@@ -395,6 +395,21 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.CLEAR_MAILS_ON_CONVERSATION_MODE_CHANGE: {
+      return {
+        ...state,
+        mails: [],
+        total_mail_count: 0,
+        info_by_folder: new Map(),
+        mailDetail: null,
+        folders: new Map(),
+        loaded: false,
+        unreadMailsCount: { inbox: 0 },
+        noUnreadCountChange: true,
+        canGetUnreadCount: true,
+      };
+    }
+
     case MailActionTypes.CLEAR_MAILS_ON_LOGOUT: {
       return {
         mails: [],

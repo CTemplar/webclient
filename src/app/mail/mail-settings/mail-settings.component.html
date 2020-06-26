@@ -659,6 +659,33 @@
             <div class="form-content-row">
               <div class="row align-items-center">
                 <div class="col-sm-3">
+                  <label class="form-label mb-0">Conversation View</label>
+                </div>
+                <div class="col-sm-7 col-md-5">
+                  <div class="row row-sm">
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode1"
+                               name="[conversationMode]" type="radio" (click)="updateConversationMode(true)"
+                               [checked]="settings.is_conversation_mode"/>
+                        <label for="conversationViewMode1" [translate]="'common.enabled'">Enabled</label>
+                      </div>
+                    </div>
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode2"
+                               name="[conversationMode]" type="radio" (click)="updateConversationMode(false)"
+                               [checked]="!settings.is_conversation_mode"/>
+                        <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-content-row">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
                   <label for="customCss" class="form-label mb-sm-0">
                     Custom css</label>
                 </div>
