@@ -15,13 +15,13 @@ a {
 
 .compose-mail-container{
 	position: fixed;
-	bottom: 50px;
-	right: 15px;
-	left: 83px;
+	bottom: 0px;
+	right: 0px;
+	left: 67px;
 	z-index: 100;
 	display: flex;
 	align-items: flex-end;
-	flex-direction: row-reverse;
+	flex-direction: row;
 	@include media(">sm") {
 		> .ng-star-inserted {
 			width: 100%;
@@ -35,6 +35,18 @@ a {
             width: auto;
         }
     }
+}
+
+.minimize-compose-title {
+	max-width: 140px;
+  
+	@include media("<bs-md") {
+		  max-width: 60px;
+	  }
+}
+
+.maximize-compose-title {
+	max-width: 400px;
 }
 
 .mail-composer.is-sticky {
@@ -62,7 +74,10 @@ a {
 		width: 100%;
 		&.is-minimized {
 			@include media(">=ipad") {
-				width: 16rem;
+				width: 11rem;
+				@include media(">=bs-md") {
+					width: 16rem;
+				}
 			}
 		}
 	}
