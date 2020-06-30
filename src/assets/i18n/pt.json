@@ -170,6 +170,7 @@
 		"message_in_span": "Por que essa mensagem está no spam?",
 		"no_header": "Nenhum cabeçalho disponível",
 		"print": "Imprimir",
+		"cancel_send": "Cancel Send",
 		"reply": "Responder",
 		"reply_all": "Responder a todos",
 		"show_headers": "Mostrar cabeçalhos",

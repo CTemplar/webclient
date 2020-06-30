@@ -665,6 +665,7 @@
     "reply": "Répondre",
     "reply_all": "Répondre à tous",
     "print": "Imprimer",
+    "cancel_send": "Cancel Send",
     "delete_message": "Supprimer définitivement",
     "show_headers": "Afficher les en-têtes",
     "mark_as_spam": "Marquer comme spam",

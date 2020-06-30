@@ -688,6 +688,7 @@
     "reply": "Reply",
     "reply_all": "Reply All",
     "print": "Print",
+    "cancel_send": "Cancel Send",
     "delete_message": "Delete permanently",
     "show_headers": "Show headers",
     "mark_as_spam": "Mark as Spam",
