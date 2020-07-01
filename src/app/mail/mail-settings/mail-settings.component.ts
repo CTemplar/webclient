@@ -22,7 +22,11 @@ import {
   TimezonesState,
   UserState
 } from '../../store/datatypes';
-import { MoveTab } from '../../store/actions';
+import { 
+  MoveTab,
+  ClearMailsOnConversationModeChange,
+  GetUnreadMailsCount
+} from '../../store/actions';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
@@ -220,6 +224,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   updateLanguage(language: Language) {
     this.settings.language = language.name;
     this.updateSettings();
+  }
+
+  updateConversationMode(is_conversation_mode: boolean) {
+    this.updateSettings('is_conversation_mode', is_conversation_mode);
+    this.store.dispatch(new ClearMailsOnConversationModeChange());
+    this.store.dispatch(new GetUnreadMailsCount());
   }
 
   updateSettings(key?: string, value?: any) {
