@@ -257,10 +257,10 @@
 
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                 <span class="badge badge-success mr-2 p-1"
-                      *ngIf="mail.delayed_delivery"><span [translate]="'mail_detail.delay_delivery'">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
+                      *ngIf="mail.delayed_delivery || mail.children_delayed_delivery"><span [translate]="'mail_detail.delay_delivery'">Delay delivery in</span> {{mail.delayed_delivery ? (mail.delayed_delivery | remainingTime) : (mail.children_delayed_delivery | remainingTime)}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
-                      *ngIf="mail.dead_man_duration"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer in</span> {{mail.dead_man_duration | remainingTime:true}}
+                      *ngIf="!(mail.delayed_delivery || mail.children_delayed_delivery) && (mail.dead_man_duration || mail.children_dead_man_duration)"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer in</span> {{mail.dead_man_duration ? (mail.dead_man_duration | remainingTime:true) : (mail.children_dead_man_duration | remainingTime:true)}}
                 </span>
               </ng-container>
               <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">...</span>
