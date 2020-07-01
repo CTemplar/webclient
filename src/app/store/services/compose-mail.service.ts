@@ -152,7 +152,7 @@ export class ComposeMailService {
   openComposeMailDialog(inputData: any = {}) {
     if (this.userState &&
       ((this.userState.isPrime && this.componentRefList.length < 3) || (!this.userState.isPrime && this.componentRefList.length === 0))) {
-      this.componentRefList.forEach(componentRef => {
+        this.componentRefList.forEach(componentRef => {
         componentRef.instance.isMinimized = true;
       });
 
@@ -171,9 +171,9 @@ export class ComposeMailService {
       Object.keys(inputData).forEach(key => {
         newComponentRef.instance[key] = inputData[key];
       });
-      newComponentRef.instance.isComposeVisible = true;
-      const index = this.componentRefList.length - 1;
+      newComponentRef.instance.isComposeVisible = true;      
       newComponentRef.instance.hide.subscribe(event => {
+        const index = this.componentRefList.length - 1;
         this.destroyComponent(newComponentRef, index);
       });
       newComponentRef.instance.minimize.subscribe(isMinimized => {

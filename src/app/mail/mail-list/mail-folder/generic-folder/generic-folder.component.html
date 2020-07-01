@@ -54,6 +54,13 @@
           <i class="icon icon-garbage"></i>
           </a>
         </li>
+        <li class="px-0" *ngIf="mailFolder === mailFolderTypes.DRAFT">
+          <a (click)="confirmDeleteDraft()" class="border-radius-left-0" placement="top"
+             [ngbTooltip]="('mail_list.permanently_delete' | translate)"
+             [ngClass]="{'disabled': noEmailSelected}">
+          <i class="fa fa-times"></i>
+          </a>
+        </li>
         <li class="pr-0">
           <a class="px-0" placement="top"
              (click)="decryptAllSubjects()"
@@ -182,10 +189,10 @@
     </p>
   </div>
 </div>
-<!-- <div class="mail-check-number" *ngIf="selectAll && MAX_EMAIL_PAGE_LIMIT > LIMIT">
+<div class="mail-check-number" *ngIf="selectAll && MAX_EMAIL_PAGE_LIMIT > LIMIT">
   <p *ngIf="!checkAll">All {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} conversations on this page are selected. <a (click)="selectEntire(true)">Select all {{ MAX_EMAIL_PAGE_LIMIT }} conversations in {{ folderName }}</a></p>  
   <p *ngIf="checkAll">All {{ MAX_EMAIL_PAGE_LIMIT }} conversations in {{ folderName }} are selected. <a (click)="selectEntire(false)">Clear selection</a></p>
-</div> -->
+</div>
 <app-progress-bar [active]="showProgress"></app-progress-bar>
 <div class="mail-listing mailbox-sub-content">
   <div class="table-responsive table-hover table-fixed">
@@ -250,10 +257,10 @@
 
               <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
                 <span class="badge badge-success mr-2 p-1"
-                      *ngIf="mail.delayed_delivery"><span [translate]="'mail_detail.delay_delivery'">Delay delivery in</span> {{mail.delayed_delivery | remainingTime}}
+                      *ngIf="mail.delayed_delivery || mail.children_delayed_delivery"><span [translate]="'mail_detail.delay_delivery'">Delay delivery in</span> {{mail.delayed_delivery ? (mail.delayed_delivery | remainingTime) : (mail.children_delayed_delivery | remainingTime)}}
                 </span>
                 <span class="badge badge-danger mr-2 p-1"
-                      *ngIf="mail.dead_man_duration"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer in</span> {{mail.dead_man_duration | remainingTime:true}}
+                      *ngIf="!(mail.delayed_delivery || mail.children_delayed_delivery) && (mail.dead_man_duration || mail.children_dead_man_duration)"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer in</span> {{mail.dead_man_duration ? (mail.dead_man_duration | remainingTime:true) : (mail.children_dead_man_duration | remainingTime:true)}}
                 </span>
               </ng-container>
               <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">...</span>
@@ -327,7 +334,7 @@
                       <ng-container *ngSwitchDefault>
                           {{mail.sender_display.name}}
                       </ng-container>
-                    <span *ngIf="mail.children_count > 0" class="email-child-count">({{mail.children_count+1}})</span>
+                    <span *ngIf="mail.children_count > 0" class="email-child-count">({{mailFolder !== mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH ? mail.children_count : 10}})</span>
                   </ng-container>
               </a>
 
@@ -424,6 +431,28 @@
   </div>
 </ng-template><!-- /.Confirm empty trash modal ends -->
 
+<!-- Confirm delete draft modal -->
+<ng-template #delateDraftModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark"><strong [translate]="'contacts.delete.title'">Confirm Delete</strong></h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group" [translate]="'settings.delete_draft_message'">
+        Are you sure, you want to delete these messages? This cannot be undone.
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" [translate]="'common.cancel'">Cancel</button>
+        <button (click)="deleteDraft()" class="btn btn-danger btn-sm" role="button" [translate]="'common.delete'">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template><!-- /.Confirm delete draft modal ends -->
 
 <!--TODO : disable shortcuts until the bugs are fixed-->
 <ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>

@@ -185,7 +185,9 @@ export class Settings {
   attachment_size_error?: string;
   is_composer_full_screen?: boolean;
   is_night_mode?: boolean;
+  is_conversation_mode?: boolean;
   is_enable_report_bugs?: boolean;
+  include_original_message?: boolean;
   custom_css?: string;
   is_disable_loading_images?: boolean;
 }
@@ -241,11 +243,13 @@ export class Payment {
 export class MailStateFolderInfo {
   is_not_first_page?: boolean;
   total_mail_count?: number;
-
+  is_dirty?: boolean;
+  
   constructor(data?: any) {
     if (data) {
-      this.is_not_first_page = data.is_not_first_page;
-      this.total_mail_count = data.total_mail_count;
+      this.is_not_first_page = data.is_not_first_page
+      this.total_mail_count = data.total_mail_count
+      this.is_dirty = data.is_dirty
     }
   }
 }

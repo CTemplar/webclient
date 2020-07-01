@@ -17,8 +17,7 @@
               <div class="mb-4 row plan-details">
                 <div class="col-12">
                   <div class="desc-card">
-                    <div
-                            class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+                    <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.plan_details'">Plan
                         Details</strong></h5>
                     </div>
@@ -495,6 +494,34 @@
 
               <div class="form-content-row">
                 <div class="row align-items-center">
+                  <div class="col-sm-3" ngbTooltip="Enabling this option would include original message text when you reply">
+                    <label class="form-label mb-0">Include original message text</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="includeOriginalMsg1"
+                                 name="[includeOriginalMsg]" type="radio" (click)="updateSettings('include_original_message', true)"
+                                 [checked]="settings.include_original_message"/>
+                          <label for="includeOriginalMsg1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="includeOriginalMsg2"
+                                 name="[includeOriginalMsg]" type="radio" (click)="updateSettings('include_original_message', false)"
+                                 [checked]="!settings.include_original_message"/>
+                          <label for="includeOriginalMsg2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-content-row">
+                <div class="row align-items-center">
                   <div class="col-sm-3">
                     <label class="form-label mb-0" [translate]="'settings.html_editor'">HTML editor</label>
                   </div>
@@ -622,6 +649,33 @@
                                name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', false)"
                                [checked]="!settings.is_night_mode"/>
                         <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-content-row">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
+                  <label class="form-label mb-0">Conversation View</label>
+                </div>
+                <div class="col-sm-7 col-md-5">
+                  <div class="row row-sm">
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode1"
+                               name="[conversationMode]" type="radio" (click)="updateConversationMode(true)"
+                               [checked]="settings.is_conversation_mode"/>
+                        <label for="conversationViewMode1" [translate]="'common.enabled'">Enabled</label>
+                      </div>
+                    </div>
+                    <div class="col-6 flex-auto-col">
+                      <div class="fancy-field-group">
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode2"
+                               name="[conversationMode]" type="radio" (click)="updateConversationMode(false)"
+                               [checked]="!settings.is_conversation_mode"/>
+                        <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
                       </div>
                     </div>
                   </div>

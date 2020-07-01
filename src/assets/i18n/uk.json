@@ -396,7 +396,8 @@
     "upgrade": "Upgrade",
     "contains": "contains",
     "autoresponder_active": "Autoresponder is active:",
-    "delete_all_message": "Are you sure, you want to delete all messages in trash?"
+    "delete_all_message": "Are you sure, you want to delete all messages in trash?",
+    "delete_draft_message": "Are you sure, you want to delete these messages? This cannot be undone."
   },
   "mail_sidebar": {
     "inbox": "Вхідні",
@@ -578,6 +579,7 @@
     "reply": "Reply",
     "reply_all": "Reply All",
     "print": "Print",
+    "cancel_send": "Cancel Send",
     "delete_message": "Delete this Message",
     "show_headers": "Show headers",
     "mark_as_spam": "Mark as Spam",
