@@ -524,16 +524,22 @@ export function reducer(
             || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
 
           target_folder_mails = [mail, ...target_folder_mails];
+          let old_folder_info = state.info_by_folder.get(action.payload.folder);
+          old_folder_info.total_mail_count += 1;
+          state.info_by_folder.set(action.payload.folder, old_folder_info);
         }
         state.folders.set(action.payload.folder, target_folder_mails);
         if (state.currentFolder === action.payload.folder) {
           state.mails = target_folder_mails;
+          let folder_info = state.info_by_folder.get(action.payload.folder);
+          state.total_mail_count = folder_info.total_mail_count;
         }
       }
       if (action.payload.folder === MailFolderType.SENT) {
         // Remove the draft mails from store, so that it would fetch again when needed to list
         state.folders.set(MailFolderType.DRAFT, []);
       }
+      
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 
