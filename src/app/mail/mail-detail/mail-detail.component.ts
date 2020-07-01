@@ -15,7 +15,8 @@ import {
   MoveMail,
   SnackErrorPush,
   StarMail,
-  WhiteListAdd
+  WhiteListAdd,
+  SendMail
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
@@ -672,6 +673,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       mail: this.mail,
       fromTrash: this.mailFolder === MailFolderType.TRASH
     }));
+
+    this.goBack(500);
+  }
+
+  onCancelSend(mail) {
+    mail.delayed_delivery = "CancelSend";
+    let updatedMail = { draft: mail };
+    this.store.dispatch(new SendMail(updatedMail));
 
     this.goBack(500);
   }

@@ -114,9 +114,16 @@ export class ComposeMailEffects {
       mergeMap((payload: Draft) => {
         let message;
         if (payload.draft.dead_man_duration || payload.draft.delayed_delivery) {
-          payload.draft.send = false;
-          payload.draft.folder = MailFolderType.OUTBOX;
-          message = `Mail scheduled`;
+          if (payload.draft.delayed_delivery === "CancelSend") {
+            payload.draft.delayed_delivery = null;
+            payload.draft.send = false;
+            payload.draft.folder = MailFolderType.DRAFT;
+            message = `Delay delivery send cancelled and message reverted to draft.`;
+          } else {
+            payload.draft.send = false;
+            payload.draft.folder = MailFolderType.OUTBOX;
+            message = `Mail scheduled`;
+          }          
         } else {
           payload.draft.send = true;
           payload.draft.folder = MailFolderType.SENT;
