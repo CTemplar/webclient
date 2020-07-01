@@ -9,7 +9,9 @@
          [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
           {{!isMinimized?mailSubject:mailMinimized}}</span>
         <ng-template #newMessage>
-          <span>{{"settings.compose.new_message"| translate}}</span>
+          <span class="d-inline-block text-truncate" 
+          [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
+          {{"settings.compose.new_message"| translate}}</span>
         </ng-template>
       </div>
       <div class="mail-composer-header-actions">
