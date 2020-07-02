@@ -184,6 +184,7 @@ export class UsersService {
       'emails/mailboxes',
       'emails/custom-folder',
       'emails/unread/',
+      'emails/customfolder-message-count/',
       'users/settings',
       'emails/attachments',
       'emails/keys',
