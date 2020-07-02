@@ -63,6 +63,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   private confirmEmptyTrashModalRef: NgbModalRef;
   private delateDraftModalRef: NgbModalRef;
   isMoveMailClicked = false;
+  isDeleteDraftClicked = false;
 
   constructor(public store: Store<AppState>,
     private router: Router,
@@ -88,6 +89,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         }
         if (this.mailState.isMailsMoved && this.isMoveMailClicked) {
           this.isMoveMailClicked = false;
+          this.refresh();
+        }
+        if (this.isDeleteDraftClicked) {
+          this.isDeleteDraftClicked = false;
           this.refresh();
         }
         this.setIsSelectAll();
@@ -334,6 +339,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       this.store.dispatch(new DeleteMail({ ids }));
     }
     this.delateDraftModalRef.dismiss();
+    this.isDeleteDraftClicked = true;
   }
 
   openMail(mail: Mail) {
