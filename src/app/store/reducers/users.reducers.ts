@@ -2,7 +2,7 @@
 
 import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
-import { Domain, PromoCode, Settings, UserState } from '../datatypes';
+import { Domain, PromoCode, Settings, UserState, CardState } from '../datatypes';
 
 export const initialState: UserState = {
   username: null,
@@ -21,7 +21,8 @@ export const initialState: UserState = {
   invoices: [],
   promoCode: new PromoCode(),
   inviteCodes: [],
-  notifications: null
+  notifications: null,
+  cards: []
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -31,6 +32,63 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
     case UsersActionTypes.WHITELIST_READ_SUCCESS: {
       return { ...state, whiteList: action.payload };
+    }
+
+    case UsersActionTypes.CARD_READ_SUCCESS: {
+      const cardsPayload = action.payload.cards;
+      let cards = [];
+      cardsPayload.forEach(card => {
+        cards.push(card);
+      });
+      return { 
+        ...state,
+        cards,
+        inProgress: false
+      }
+    }
+
+    case UsersActionTypes.CARD_ADD_SUCCESS: {
+      return {
+        ...state,
+        cards: [...state.cards, action.payload],
+        inProgress: false
+      }
+    }
+
+    case UsersActionTypes.CARD_ADD_ERROR: {
+      return { 
+        ...state,
+        inProgress: false
+      }
+    }
+
+    case UsersActionTypes.CARD_DELETE_SUCCESS: {
+      let cards = state.cards;
+      cards = cards.filter(card => action.payload !== card.id);
+      return {
+        ...state,
+        cards,
+        inProgress: false
+      }
+    }
+
+    case UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS: {
+      let cards = state.cards;
+      cards.forEach(card => card.is_primary = action.payload === card.id)
+      return {
+        ...state,
+        cards,
+        inProgress: false
+      }
+    }
+
+    case UsersActionTypes.CARD_ADD:
+    case UsersActionTypes.CARD_DELETE:
+    case UsersActionTypes.CARD_MAKE_PRIMARY: {
+      return { 
+        ...state,
+        inProgress: true
+      }
     }
 
     case UsersActionTypes.WHITELIST_ADD:

@@ -21,7 +21,8 @@ import {
   GetInvoices,
   GetMailboxes, GetNotification,
   SaveAutoResponder,
-  WhiteListGet
+  WhiteListGet,
+  CardGet,
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
@@ -29,7 +30,7 @@ import { getMailComponentShortcuts, SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { formatDate } from '@angular/common';
+import { formatDate, getLocaleExtraDayPeriodRules } from '@angular/common';
 import { Router } from '@angular/router';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 import * as Sentry from '@sentry/browser';
@@ -82,6 +83,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
             this.store.dispatch(new WhiteListGet());
             this.store.dispatch(new BlackListGet());
             this.store.dispatch(new GetInvoices());
+            this.store.dispatch(new CardGet());
           }, 500);
 
           if (userState.isPrime) {
