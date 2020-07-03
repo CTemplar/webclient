@@ -457,9 +457,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
 
-  toggleEmailSelection(mail, event) {
-    mail.marked = event;
-    if (event) {
+  toggleEmailSelection(mail) {
+    mail.marked = !mail.marked;
+    if (mail.marked) {
       this.noEmailSelected = false;
     } else {
       if (this.mails.filter(email => email.marked).length > 0) {
