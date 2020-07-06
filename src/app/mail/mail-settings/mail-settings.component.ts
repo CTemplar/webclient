@@ -32,7 +32,7 @@ import { MailSettingsService } from '../../store/services/mail-settings.service'
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment-timezone';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -85,6 +85,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private settingsService: MailSettingsService,
     private pushNotificationService: PushNotificationService,
     private route: ActivatedRoute,
+    private router: Router,
     private cdr: ChangeDetectorRef,
     private sharedService: SharedService
   ) {
@@ -132,9 +133,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.params.subscribe(
       params => {
         if (params['id'] !== 'undefined') {
-          this.selectedTabQueryParams = params['id'];
+          this.store.dispatch(new MoveTab(params['id']));
         }
-        this.changeUrlParams();
       }
     );
 
@@ -176,13 +176,11 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.selectedTabQueryParams === tabSelected) {
       return;
     }
-    this.selectedTabQueryParams = tabSelected;
-    this.store.dispatch(new MoveTab(this.selectedTabQueryParams));
-    this.changeUrlParams();
+    this.store.dispatch(new MoveTab(tabSelected));
   }
 
   changeUrlParams() {
-    window.history.replaceState({}, '', `/mail/settings/` + this.selectedTabQueryParams);
+    this.router.navigateByUrl('/mail/settings/' + this.selectedTabQueryParams);
   }
 
   // == Toggle active state of the slide in price page
