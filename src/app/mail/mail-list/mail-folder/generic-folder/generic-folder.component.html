@@ -211,9 +211,9 @@
 
 
         <!-- Check box -->
-        <td class="mail-checkbox">
+        <td class="mail-checkbox"  (click)="toggleEmailSelection(mail)">
           <div class="fancy-field-group">
-            <mat-checkbox [checked]="mail.marked" (change)="toggleEmailSelection(mail, $event.checked)"></mat-checkbox>
+            <mat-checkbox [checked]="mail.marked" [disableRipple]="true" (click)="$event.preventDefault()"></mat-checkbox>
           </div>
         </td>
 
