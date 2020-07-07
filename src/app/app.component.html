@@ -1,5 +1,5 @@
 <app-loading [isLoading]="isLoading" [quote]="quote"></app-loading>
-<div class="app-outer" [class.resize-active]="windowIsResized" [hidden]="isLoading" [class.app-outer-secondary]="!isMail">
+<div class="app-outer" [class.resize-active]="windowIsResized" *ngIf="!isLoading" [class.app-outer-secondary]="!isMail">
     <app-header [hidden]="hideHeader"></app-header>
     <main id="main" role="main">
         <div class="content">
