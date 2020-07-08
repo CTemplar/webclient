@@ -29,6 +29,7 @@ import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.com
 import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { LastActionPipe } from './pipes/last-action.pipe';
+import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { LastActionPipe } from './pipes/last-action.pipe';
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
     LastActionPipe,
+    CreditCardNumberPipe
   ],
   exports: [
     TranslateModule,
@@ -85,13 +87,15 @@ import { LastActionPipe } from './pipes/last-action.pipe';
     StripeFormComponent,
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
+    CreditCardNumberPipe
   ],
   providers: [
     SpinnerService,
     DynamicScriptLoaderService,
     BrowserDetectorService,
     FilesizePipe,
-    FilenamePipe
+    FilenamePipe,
+    CreditCardNumberPipe
   ],
   entryComponents: [
     CreateFolderComponent,

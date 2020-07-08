@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Folder } from '../../../store/models';
-import { AppState, UserState } from '../../../store/datatypes';
+import { AppState, UserState, MailState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteFolder, UpdateFolderOrder } from '../../../store/actions';
+import { DeleteFolder, UpdateFolderOrder, GetCustomFolderMessageCount } from '../../../store/actions';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';
 import { NotificationService } from '../../../store/services/notification.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -25,6 +25,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   reorderInProgress: boolean = false;
 
   private unmodifiedFolders: Array<Folder>;
+  private mailState: MailState;
 
   constructor(private store: Store<AppState>,
               private modalService: NgbModal,
@@ -34,6 +35,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.store.dispatch(new GetCustomFolderMessageCount());
         if (user.inProgress) {
           this.reorderInProgress = true;
           return;
@@ -43,6 +45,18 @@ export class FoldersComponent implements OnInit, OnDestroy {
           this.reorder = false;
         }
         this.folders = [...user.customFolders];
+      });
+    
+    this.store.select(state => state.mail).pipe(untilDestroyed(this))
+      .subscribe((mailState: MailState) => {
+        this.mailState = mailState;    
+        const mergeById = (a1, a2) => 
+            a1.map(itm => ({
+              ...itm,
+              ...a2.find((item) => (item.folder === itm.name) && item)
+            }));
+        
+        this.folders = mergeById(this.folders, this.mailState.customFolderMessageCount);
       });
   }
 

@@ -34,6 +34,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @Input() fetchMails: boolean;
 
   @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
+  @ViewChild('delateDraftModal') delateDraftModal;
 
   customFolders: Folder[];
   shortcuts: ShortcutInput[] = [];
@@ -60,7 +61,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   private mailState: MailState;
   private isInitialized: boolean;
   private confirmEmptyTrashModalRef: NgbModalRef;
+  private delateDraftModalRef: NgbModalRef;
   isMoveMailClicked = false;
+  isDeleteDraftClicked = false;
 
   constructor(public store: Store<AppState>,
     private router: Router,
@@ -86,6 +89,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         }
         if (this.mailState.isMailsMoved && this.isMoveMailClicked) {
           this.isMoveMailClicked = false;
+          this.refresh();
+        }
+        if (this.isDeleteDraftClicked) {
+          this.isDeleteDraftClicked = false;
           this.refresh();
         }
         this.setIsSelectAll();
@@ -236,7 +243,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as read event to store
-      this.store.dispatch(new ReadMail({ ids: ids, read: isRead }));
+      this.store.dispatch(new ReadMail({ ids: ids, read: isRead, folder: this.mailFolder }));
     }
   }
 
@@ -258,7 +265,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as starred event to store
-      this.store.dispatch(new StarMail({ ids, starred }));
+      this.store.dispatch(new StarMail({ ids, starred, folder: this.mailFolder }));
     }
   }
 
@@ -318,6 +325,23 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     this.confirmEmptyTrashModalRef.dismiss();
   }
 
+  confirmDeleteDraft() {
+    this.delateDraftModalRef = this.modalService.open(this.delateDraftModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal'
+    });
+  }
+
+  deleteDraft() {
+    const ids = this.getMailIDs();
+    // Dispatch permanent delete mails event.
+    if (ids) {
+      this.store.dispatch(new DeleteMail({ ids }));
+    }
+    this.delateDraftModalRef.dismiss();
+    this.isDeleteDraftClicked = true;
+  }
+
   openMail(mail: Mail) {
     if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
       this.composeMailService.openComposeMailDialog({ draft: mail, isFullScreen: this.userState.settings.is_composer_full_screen });
@@ -355,7 +379,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         folder,
         sourceFolder: this.mailFolder,
         mail: this.getMarkedMails(),
-        allowUndo: true
+        allowUndo: true,
+        fromTrash: this.mailFolder === MailFolderType.TRASH
       }));
       this.isMoveMailClicked = true;
     }
@@ -432,9 +457,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
 
-  toggleEmailSelection(mail, event) {
-    mail.marked = event;
-    if (event) {
+  toggleEmailSelection(mail) {
+    mail.marked = !mail.marked;
+    if (mail.marked) {
       this.noEmailSelected = false;
     } else {
       if (this.mails.filter(email => email.marked).length > 0) {
@@ -471,8 +496,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder);
-    if (info_by_folder && info_by_folder.is_not_first_page) { return true; }
+    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder)
+    if (info_by_folder && (info_by_folder.is_not_first_page || info_by_folder.is_dirty)) { return true; }
     if (this.mailState.folders) {
       const cachedMails = this.mailState.folders.get(this.mailFolder);
       if (cachedMails && cachedMails.length > 0) { return false; }

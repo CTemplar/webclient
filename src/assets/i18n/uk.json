@@ -318,6 +318,8 @@
     "username_allowed_chars": "The username must start with a letter and end with a letter or number.It may only contain",
     "username_minlen": "characters, and minimum length is 2 characters.",
     "reorder": "Reorder",
+    "conversations": " conversations )",
+    "conversation": " conversation )",
     "reorder_addresses": "Reorder aliases",
     "move_up": "Move up",
     "move_down": "Move down",
@@ -396,7 +398,8 @@
     "upgrade": "Upgrade",
     "contains": "contains",
     "autoresponder_active": "Autoresponder is active:",
-    "delete_all_message": "Are you sure, you want to delete all messages in trash?"
+    "delete_all_message": "Are you sure, you want to delete all messages in trash?",
+    "delete_draft_message": "Are you sure, you want to delete these messages? This cannot be undone."
   },
   "mail_sidebar": {
     "inbox": "Вхідні",
@@ -578,6 +581,7 @@
     "reply": "Reply",
     "reply_all": "Reply All",
     "print": "Print",
+    "cancel_send": "Cancel Send",
     "delete_message": "Delete this Message",
     "show_headers": "Show headers",
     "mark_as_spam": "Mark as Spam",

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AppState, Contact, ContactsState, PlanType, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
@@ -42,7 +42,9 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedContactsProvider: ContactsProviderType;
   importContactsError: any;
   isLayoutSplitted: boolean = false;
+  checkAll: boolean = false;
   isMenuOpened: boolean;
+  isMobile: boolean;
   currentPlan: PlanType;
 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
@@ -75,6 +77,13 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
         this.searchText = params.search || '';
         this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
       });
+
+    this.isMobile = window.innerWidth <= 768;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isMobile = window.innerWidth <= 768;
   }
 
   ngAfterViewInit(): void {
@@ -150,6 +159,11 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  checkContact(contact: Contact) {
+    this.selectAll = false;
+    contact.markForDelete = !contact.markForDelete;
+  }
+
   openConfirmDeleteModal(modalRef) {
     this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
     if (this.selectedContacts.length === 0) {
@@ -165,11 +179,22 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.confirmModalRef.close();
   }
 
+  selectEntire(status) {
+    if (status) {
+      this.checkAll = true;
+    } else {
+      this.checkAll = false;
+      this.selectAll = false;
+      this.toggleSelectAll();
+    }
+  }
+
   deleteContacts() {
     this.confirmModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
-    this.store.dispatch(new ContactDelete(this.selectedContacts.map(item => item.id).join(',')));
+    let deleteContacts = this.checkAll? "all": this.selectedContacts.map(item => item.id).join(',');
+    this.store.dispatch(new ContactDelete(deleteContacts));
   }
 
   showComposeMailDialog() {

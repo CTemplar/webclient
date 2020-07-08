@@ -7,11 +7,14 @@ export enum MailActionTypes {
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
   GET_UNREAD_MAILS_COUNT = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT',
   GET_UNREAD_MAILS_COUNT_SUCCESS = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT_SUCCESS',
+  GET_CUSTOMFOLDER_MESSAGE_COUNT = '[Unread Mail Count] GET_CUSTOMFOLDER_MESSAGE_COUNT',
+  GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS = '[Unread Mail Count] GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS',
   STOP_GETTING_UNREAD_MAILS_COUNT = '[STOP getting unread mails] STOP_GETTING_UNREAD_MAILS_COUNT',
   GET_MAILBOXES = '[Mail] GET_MAILBOXES',
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
   GET_MAIL_DETAIL = '[Mail] GET_MAIL_DETAIL',
   CLEAR_MAILS_ON_LOGOUT = '[Mail] CLEAR_MAILS',
+  CLEAR_MAILS_ON_CONVERSATION_MODE_CHANGE = '[Mail] CLEAR_MAILS_CONVERSATION_MODE_CHANGE',
   CLEAR_MAIL_DETAIL = '[Mail] CLEAR_MAIL_DETAIL',
   GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
   UPDATE_MAIL_DETAIL_CHILDREN = '[Mail] UPDATE_MAIL_DETAIL_CHILDREN',
@@ -81,6 +84,18 @@ export class GetUnreadMailsCountSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetCustomFolderMessageCount implements Action {
+  readonly type = MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT;
+
+  constructor(public payload?: any) {}
+}
+
+export class GetCustomFolderMessageCountSuccess implements Action {
+  readonly type = MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
 export class StopGettingUnreadMailsCount implements Action {
   readonly type = MailActionTypes.STOP_GETTING_UNREAD_MAILS_COUNT;
 
@@ -103,6 +118,12 @@ export class GetMailDetail implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL;
 
   constructor(public payload: any) {}
+}
+
+export class ClearMailsOnConversationModeChange implements Action {
+  readonly type = MailActionTypes.CLEAR_MAILS_ON_CONVERSATION_MODE_CHANGE;
+
+  constructor(public payload?: any) {}
 }
 
 export class ClearMailsOnLogout implements Action {
@@ -346,10 +367,13 @@ export type MailActions =
   | GetMailsSuccess
   | GetUnreadMailsCount
   | GetUnreadMailsCountSuccess
+  | GetCustomFolderMessageCount
+  | GetCustomFolderMessageCountSuccess
   | StopGettingUnreadMailsCount
   | GetMailboxes
   | GetMailboxesSuccess
   | GetMailDetail
+  | ClearMailsOnConversationModeChange
   | ClearMailsOnLogout
   | ClearMailDetail
   | GetMailDetailSuccess

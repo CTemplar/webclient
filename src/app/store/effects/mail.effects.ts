@@ -24,6 +24,8 @@ import {
   GetMailsSuccess,
   GetUnreadMailsCount,
   GetUnreadMailsCountSuccess,
+  GetCustomFolderMessageCount,
+  GetCustomFolderMessageCountSuccess,
   MailActionTypes,
   MoveMail,
   MoveMailSuccess,
@@ -82,14 +84,27 @@ export class MailEffects {
     }));
 
   @Effect()
+  getCustomFolderMessageCountEffect: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT),
+    map((action: GetCustomFolderMessageCount) => action.payload),
+    mergeMap(payload => {
+      return this.mailService.getCustomFolderMessageCount()
+        .pipe(
+          map((response) => {
+            return new GetCustomFolderMessageCountSuccess(response);
+          }),
+          catchError((error) => EMPTY)
+        );
+    }));
+
+  @Effect()
   moveMailEffect: Observable<any> = this.actions.pipe(
     ofType(MailActionTypes.MOVE_MAIL),
     map((action: MoveMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.moveMail(payload.ids, payload.folder, payload.sourceFolder)
+      return this.mailService.moveMail(payload.ids, payload.folder, payload.sourceFolder, payload.withChildren)
         .pipe(
           switchMap(res => {
-
             const updateFolderActions = [];
 
             if (payload.shouldDeleteFolder) {
@@ -122,7 +137,7 @@ export class MailEffects {
     ofType(MailActionTypes.DELETE_MAIL),
     map((action: DeleteMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.deleteMails(payload.ids)
+      return this.mailService.deleteMails(payload.ids, payload.parent_only)
         .pipe(
           switchMap(res => of(new DeleteMailSuccess(payload))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
@@ -147,7 +162,7 @@ export class MailEffects {
     ofType(MailActionTypes.READ_MAIL),
     map((action: ReadMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.markAsRead(payload.ids, payload.read)
+      return this.mailService.markAsRead(payload.ids, payload.read, payload.folder)
         .pipe(
           switchMap(res => of(new ReadMailSuccess(payload))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to mark mail as read.' })))
@@ -159,7 +174,7 @@ export class MailEffects {
     ofType(MailActionTypes.STAR_MAIL),
     map((action: ReadMail) => action.payload),
     mergeMap(payload => {
-      return this.mailService.markAsStarred(payload.ids, payload.starred)
+      return this.mailService.markAsStarred(payload.ids, payload.starred, payload.folder)
         .pipe(
           switchMap(res => of(new StarMailSuccess(payload))),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to mark as starred.' })))

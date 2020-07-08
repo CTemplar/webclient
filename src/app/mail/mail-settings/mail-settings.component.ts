@@ -1,11 +1,19 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 // Store
 import { Store } from '@ngrx/store';
 import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
 
-import { BlackListDelete, DeleteAccount, SnackPush, WhiteListDelete } from '../../store/actions';
+import {
+  BlackListDelete,
+  DeleteAccount,
+  SnackPush,
+  WhiteListDelete,
+  CardDelete,
+  CardMakePrimary
+} from '../../store/actions';
 import {
   AppState,
   AuthState,
@@ -20,15 +28,20 @@ import {
   Settings,
   Timezone,
   TimezonesState,
-  UserState
+  UserState,
+  CardState
 } from '../../store/datatypes';
-import { MoveTab } from '../../store/actions';
+import { 
+  MoveTab,
+  ClearMailsOnConversationModeChange,
+  GetUnreadMailsCount
+} from '../../store/actions';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment-timezone';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -51,6 +64,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   mailState: MailState;
   authState: AuthState;
   settings: Settings = new Settings();
+  cards: Array<CardState> = [];
   payment: Payment = new Payment();
   paymentMethod = PaymentMethod;
   userPlanType: PlanType = PlanType.FREE;
@@ -65,6 +79,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
   currentPlan: PricingPlan;
+  isAddNewCard: boolean = false;
+  isCardUpdateMode: boolean = false;
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
 
@@ -81,8 +97,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private settingsService: MailSettingsService,
     private pushNotificationService: PushNotificationService,
     private route: ActivatedRoute,
+    private router: Router,
     private cdr: ChangeDetectorRef,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private creditcardnumber: CreditCardNumberPipe,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -105,9 +123,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.timeZoneFilter.setValue(user.settings.timezone);
         this.cdr.detectChanges();
         this.payment = user.payment_transaction;
+        this.cards = user.cards;
         this.invoices = user.invoices;
         this.userPlanType = user.settings.plan_type || PlanType.FREE;
-
         if (SharedService.PRICING_PLANS && user.settings.plan_type) {
           this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
         }
@@ -128,9 +146,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.params.subscribe(
       params => {
         if (params['id'] !== 'undefined') {
-          this.selectedTabQueryParams = params['id'];
+          this.store.dispatch(new MoveTab(params['id']));
         }
-        this.changeUrlParams();
       }
     );
 
@@ -172,13 +189,11 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.selectedTabQueryParams === tabSelected) {
       return;
     }
-    this.selectedTabQueryParams = tabSelected;
-    this.store.dispatch(new MoveTab(this.selectedTabQueryParams));
-    this.changeUrlParams();
+    this.store.dispatch(new MoveTab(tabSelected));
   }
 
   changeUrlParams() {
-    window.history.replaceState({}, '', `/mail/settings/` + this.selectedTabQueryParams);
+    this.router.navigateByUrl('/mail/settings/' + this.selectedTabQueryParams);
   }
 
   // == Toggle active state of the slide in price page
@@ -194,7 +209,29 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   // == Open billing information NgbModal
+
+  onAddNewCard() {
+    if (this.userState.inProgress) return;
+    this.isAddNewCard = true;
+    this.modalService.open(this.billingInfoModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-lg'
+    });
+  }
+
+  onDeleteCard(card: CardState) {
+    if (this.userState.inProgress) return;
+    this.store.dispatch(new CardDelete(card.id));
+  }
+
+  onMakePrimaryCard(card: CardState) {
+    if (this.userState.inProgress) return;
+    this.store.dispatch(new CardMakePrimary(card.id));
+  }
+
   billingInfoModalOpen(billingInfoContent) {
+    this.isAddNewCard = false;
     this.modalService.open(billingInfoContent, {
       centered: true,
       windowClass: 'modal-lg'
@@ -202,6 +239,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   renew() {
+    this.isAddNewCard = false;
     this.modalService.open(this.billingInfoModal, {
       centered: true,
       backdrop: 'static',
@@ -222,8 +260,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateSettings();
   }
 
-  updateSettings(key?: string, value?: any) {
+  updateConversationMode(is_conversation_mode: boolean) {
+    this.updateSettings('is_conversation_mode', is_conversation_mode);
+    this.store.dispatch(new ClearMailsOnConversationModeChange());
+    this.store.dispatch(new GetUnreadMailsCount());
+  }
 
+  updateSettings(key?: string, value?: any) {
     this.settingsService.updateSettings(this.settings, key, value);
   }
 

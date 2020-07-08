@@ -20,6 +20,7 @@ export function reducer(
     canGetUnreadCount: true,
     decryptedSubjects: {},
     isMailsMoved: false,
+    customFolderMessageCount: [],
     isComposerPopUp: false
   }, action: MailActions): MailState {
   switch (action.type) {
@@ -37,9 +38,12 @@ export function reducer(
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
       let mails = action.payload.mails;
-      const target_folder_mails = state.folders.get(action.payload.folder) || [];
-      const old_folder_info = state.info_by_folder.get(action.payload.folder);
-      const folder_info = new MailStateFolderInfo({ is_not_first_page: action.payload.is_not_first_page || false, total_mail_count: action.payload.total_mail_count });
+      let target_folder_mails = state.folders.get(action.payload.folder) || [];
+      let old_folder_info = state.info_by_folder.get(action.payload.folder);
+      let folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false, 
+        total_mail_count: action.payload.total_mail_count,
+        is_dirty: false
+      })
       state.info_by_folder.set(action.payload.folder, folder_info);
 
       if (action.payload.is_from_socket) {
@@ -55,7 +59,8 @@ export function reducer(
             unread_folder_mails = [...action.payload.mails, ...unread_folder_mails];
             unread_folder_mails = unread_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-              mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+
+              mail.thread_count = mail.children_count + (((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH)
                 || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
               return mail;
             });
@@ -72,7 +77,7 @@ export function reducer(
             all_folder_mails = [...action.payload.mails, ...all_folder_mails];
             all_folder_mails = all_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-              mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+              mail.thread_count = mail.children_count + (((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH)
                 || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
               return mail;
             });
@@ -85,7 +90,7 @@ export function reducer(
       }
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-        mail.thread_count = mail.children_count + ((action.payload.folder !== MailFolderType.TRASH
+        mail.thread_count = mail.children_count + (((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH)
           || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
         return mail;
       });
@@ -137,6 +142,9 @@ export function reducer(
       }
       return { ...state, unreadMailsCount: { ...action.payload, total_unread_count: getTotalUnreadCount(action.payload) }, noUnreadCountChange: false, };
     }
+    case MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS: {
+      return { ...state, customFolderMessageCount: action.payload };
+    }
     case MailActionTypes.SET_IS_COMPOSER_POPUP: {
       state.isComposerPopUp = action.payload;
       return {
@@ -154,23 +162,18 @@ export function reducer(
         const oldMails = state.folders.get(action.payload.sourceFolder) || [];
         state.folders.set(action.payload.sourceFolder, oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())));
       }
-      if (action.payload.folder) {
-        let target_folder_mails = state.folders.get(action.payload.folder) || [];
-        if (target_folder_mails.length > 0) {
-          let payload_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
-          payload_mails.map(mail => mail.marked = false);
-          const mailIDs = payload_mails.map(item => item.id);
-          target_folder_mails = target_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
-          payload_mails = [...payload_mails, ...target_folder_mails];
-          payload_mails = sortByDueDate(payload_mails);
-          state.folders.set(action.payload.folder, payload_mails);
-          const cur_folder_info = state.info_by_folder.get(action.payload.folder);
-          cur_folder_info.total_mail_count += listOfIDs.length;
-          state.info_by_folder.set(action.payload.folder, cur_folder_info);
-        } else {
-          state.folders.set(action.payload.folder, []);
+      let info_keys = Array.from(state.info_by_folder.keys());
+      info_keys = info_keys.filter(
+        folder =>  
+        folder !== MailFolderType.DRAFT &&
+        folder !== MailFolderType.OUTBOX);
+        info_keys.map(key => {
+        let folder_info = state.info_by_folder.get(key);
+        if (folder_info) {
+          folder_info.is_dirty = true;
         }
-      }
+        state.info_by_folder.set(key, folder_info);
+      });
       if (state.mailDetail && state.mailDetail.children &&
         state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
         state.mailDetail.children.forEach((child, index) => {
@@ -178,6 +181,9 @@ export function reducer(
             state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.folder };
           }
         });
+      }
+      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
+        state.mailDetail = {...state.mailDetail, folder: action.payload.folder}
       }
       return { ...state, inProgress: false, noUnreadCountChange: true, isMailsMoved: true };
     }
@@ -194,6 +200,18 @@ export function reducer(
         state.info_by_folder.set(action.payload.sourceFolder, cur_folder_info);
         state.total_mail_count = cur_folder_info.total_mail_count;
       }
+      let info_keys = Array.from(state.info_by_folder.keys());
+      info_keys = info_keys.filter(
+        folder =>  
+        folder !== MailFolderType.DRAFT &&
+        folder !== MailFolderType.OUTBOX);
+        info_keys.map(key => {
+        let folder_info = state.info_by_folder.get(key);
+        if (folder_info) {
+          folder_info.is_dirty = true;
+        }
+        state.info_by_folder.set(key, folder_info);
+      });
       const listOfIDs = action.payload.ids.toString().split(',');
       if (state.mailDetail && state.mailDetail.children &&
         state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))) {
@@ -202,6 +220,9 @@ export function reducer(
             state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.sourceFolder };
           }
         });
+      }
+      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
+        state.mailDetail = {...state.mailDetail, folder: action.payload.sourceFolder}
       }
       return {
         ...state,
@@ -327,6 +348,14 @@ export function reducer(
 
     case MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS:
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
+      const folder_keys = [MailFolderType.DRAFT, MailFolderType.TRASH, MailFolderType.SPAM];
+      folder_keys.map(key => {
+        let folder_info = state.info_by_folder.get(key);
+        if (folder_info) {
+          folder_info.is_dirty = true;
+        }
+        state.info_by_folder.set(key, folder_info);
+      })
       if (action.payload.isMailDetailPage) {
         return state;
       }
@@ -370,6 +399,21 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.CLEAR_MAILS_ON_CONVERSATION_MODE_CHANGE: {
+      return {
+        ...state,
+        mails: [],
+        total_mail_count: 0,
+        info_by_folder: new Map(),
+        mailDetail: null,
+        folders: new Map(),
+        loaded: false,
+        unreadMailsCount: { inbox: 0 },
+        noUnreadCountChange: true,
+        canGetUnreadCount: true,
+      };
+    }
+
     case MailActionTypes.CLEAR_MAILS_ON_LOGOUT: {
       return {
         mails: [],
@@ -383,6 +427,7 @@ export function reducer(
         noUnreadCountChange: true,
         canGetUnreadCount: true,
         decryptedSubjects: {},
+        customFolderMessageCount: [],
       };
     }
 
@@ -484,16 +529,22 @@ export function reducer(
             || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
 
           target_folder_mails = [mail, ...target_folder_mails];
+          let old_folder_info = state.info_by_folder.get(action.payload.folder);
+          old_folder_info.total_mail_count += 1;
+          state.info_by_folder.set(action.payload.folder, old_folder_info);
         }
         state.folders.set(action.payload.folder, target_folder_mails);
         if (state.currentFolder === action.payload.folder) {
           state.mails = target_folder_mails;
+          let folder_info = state.info_by_folder.get(action.payload.folder);
+          state.total_mail_count = folder_info.total_mail_count;
         }
       }
       if (action.payload.folder === MailFolderType.SENT) {
         // Remove the draft mails from store, so that it would fetch again when needed to list
         state.folders.set(MailFolderType.DRAFT, []);
       }
+      
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 
