@@ -266,6 +266,7 @@ export interface MailState {
   decryptedContents: DecryptedContentState;
   decryptedSubjects: any;
   unreadMailsCount: any;
+  customFolderMessageCount: any;
   noUnreadCountChange: boolean;
   canGetUnreadCount: boolean;
   isMailsMoved?: boolean;

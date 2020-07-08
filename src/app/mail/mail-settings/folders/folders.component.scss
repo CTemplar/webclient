@@ -1,6 +1,15 @@
 @import "~styles/base/variables";
 
 .folder-item {
+  .show-ellipses {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-right: 2px;
+    }
+  }
+
   .folder-color-box {
     height: 1rem;
     width: 1rem;

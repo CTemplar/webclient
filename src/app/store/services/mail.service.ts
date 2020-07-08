@@ -58,6 +58,10 @@ export class MailService {
     return this.http.get<Mail>(`${apiUrl}emails/unread/`);
   }
 
+  getCustomFolderMessageCount(): Observable<any> {
+    return this.http.get<Mail>(`${apiUrl}emails/customfolder-message-count/`);
+  }
+
   getMailboxes(limit: number = 50, offset: number = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url).pipe(map(data => {
