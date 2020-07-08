@@ -35,6 +35,16 @@ export interface AuthState {
   recovery_key?: string;
 }
 
+export interface CardState {
+  id: string | null;
+  brand: string | null;
+  country: string | null;
+  exp_month: number;
+  exp_year: number;
+  last4: string | null;
+  is_primary: boolean;
+}
+
 export class Auth2FA {
   secret?: string;
   secret_url?: string;
@@ -116,6 +126,7 @@ export class UserState {
   inviteCodes: InviteCode[];
   has_notification?: boolean;
   notifications?: any;
+  cards?: Array<CardState>;
 }
 
 export interface InviteCode {

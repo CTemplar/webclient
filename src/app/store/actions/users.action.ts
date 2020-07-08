@@ -12,6 +12,15 @@ export enum UsersActionTypes {
   WHITELIST_ADD_ERROR = '[Users] WhiteList_Add_Error',
   WHITELIST_DELETE = '[Users] WhiteList_Delete',
   WHITELIST_DELETE_SUCCESS = '[Users] WhiteList_Delete_Success',
+  CARD_GET = '[Users] CardLists',
+  CARD_READ_SUCCESS = '[Users] Card_Read_Success',
+  CARD_ADD = '[Users] Card_Add',
+  CARD_ADD_SUCCESS = '[Users] Card_Add_Success',
+  CARD_ADD_ERROR = '[Users] Card_Add_Error',
+  CARD_DELETE = '[Users] Card_Delete',
+  CARD_DELETE_SUCCESS = '[Users] Card_Delete_Success',
+  CARD_MAKE_PRIMARY = '[Users] Card_Make_Primary',
+  CARD_MAKE_PRIMARY_SUCCESS = '[Users] Card_Make_Primary_Success',
   BLACKLIST_GET = '[Users] BlackLists',
   BLACKLIST_READ_SUCCESS = '[Users] BlackList_Read_Success',
   BLACKLIST_ADD = '[Users] BlackList_Add',
@@ -113,6 +122,69 @@ export class Accounts implements Action {
 
 export class AccountsReadSuccess implements Action {
   readonly type = UsersActionTypes.ACCOUNTS_READ_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CardGet implements Action {
+  readonly type = UsersActionTypes.CARD_GET;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class CardReadSuccess implements Action {
+  readonly type = UsersActionTypes.CARD_READ_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CardAdd implements Action {
+  readonly type = UsersActionTypes.CARD_ADD;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CardAddSuccess implements Action {
+  readonly type = UsersActionTypes.CARD_ADD_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CardAddError implements Action {
+  readonly type = UsersActionTypes.CARD_ADD_ERROR;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class CardDelete implements Action {
+  readonly type = UsersActionTypes.CARD_DELETE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CardDeleteSuccess implements Action {
+  readonly type = UsersActionTypes.CARD_DELETE_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CardMakePrimary implements Action {
+  readonly type = UsersActionTypes.CARD_MAKE_PRIMARY;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class CardMakePrimarySuccess implements Action {
+  readonly type = UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS;
 
   constructor(public payload: any) {
   }
@@ -681,6 +753,15 @@ export class GenerateInviteCodeFailure implements Action {
 export type UsersActionAll =
   Accounts
   | AccountsReadSuccess
+  | CardGet
+  | CardReadSuccess
+  | CardAdd
+  | CardAddSuccess
+  | CardAddError
+  | CardDelete
+  | CardDeleteSuccess
+  | CardMakePrimary
+  | CardMakePrimarySuccess
   | WhiteListGet
   | WhiteListsReadSuccess
   | WhiteListAdd

@@ -175,6 +175,9 @@ export class UsersService {
     const authenticatedUrls: string[] = [
       'users/myself/',
       'users/users/',
+      'users/payment-method/',
+      'users/payment-method/add/',
+      'users/payment-method/delete/',
       'users/whitelist/',
       'users/blacklist/',
       'users/contact',
@@ -464,6 +467,21 @@ export class UsersService {
     return this.http.get<any>(`${apiUrl}notifications`);
   }
 
+  getPaymentMethods() {
+    return this.http.get<any>(`${apiUrl}users/payment-method/`);
+  }
+
+  addPaymentMethod(data: any) {
+    return this.http.post<any>(`${apiUrl}users/payment-method/add/`, { stripe_token: data });
+  }
+
+  deletePaymentMethod(data: any) {
+    return this.http.post<any>(`${apiUrl}users/payment-method/delete/`, { card_id: data });
+  }
+
+  makePaymentPrimary(data: any) {
+    return this.http.post<any>(`${apiUrl}users/payment-method/make-primary/`, { card_id: data });
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
