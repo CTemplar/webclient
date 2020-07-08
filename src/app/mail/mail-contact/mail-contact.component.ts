@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AppState, Contact, ContactsState, PlanType, UserState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
@@ -44,6 +44,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   isLayoutSplitted: boolean = false;
   checkAll: boolean = false;
   isMenuOpened: boolean;
+  isMobile: boolean;
   currentPlan: PlanType;
 
   MAX_EMAIL_PAGE_LIMIT: number = 1;
@@ -76,6 +77,13 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
         this.searchText = params.search || '';
         this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
       });
+
+    this.isMobile = window.innerWidth <= 768;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isMobile = window.innerWidth <= 768;
   }
 
   ngAfterViewInit(): void {
@@ -149,6 +157,11 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.initSplitContactLayout();
     }
+  }
+
+  checkContact(contact: Contact) {
+    this.selectAll = false;
+    contact.markForDelete = !contact.markForDelete;
   }
 
   openConfirmDeleteModal(modalRef) {
