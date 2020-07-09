@@ -58,3 +58,8 @@ textarea:disabled {
         height: 33px;
     }
 }
+
+.mail-compose-control {
+    outline: none;
+    text-overflow: ellipsis;
+}
