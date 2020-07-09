@@ -423,7 +423,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   openReplyinPopup() {
-    console.log('hello world');
     this.store.dispatch(new SetIsComposerPopUp(true));
     this.popUpChange.emit({
       receivers: this.receivers,
