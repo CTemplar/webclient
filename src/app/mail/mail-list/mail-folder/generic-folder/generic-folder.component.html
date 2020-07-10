@@ -234,7 +234,7 @@
                 <label [ngbTooltip]="mail.receiver_list" placement="right">{{mail.receiver_list}}</label>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                <label [ngbTooltip]="mail.sender_display.email" placement="right">{{mail.sender_display.name}}</label>
+                <label [ngbTooltip]="mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email" placement="right">{{mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name}}</label>
               </ng-container>
               <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
@@ -332,7 +332,7 @@
                         <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
                       </ng-container>
                       <ng-container *ngSwitchDefault>
-                          {{mail.sender_display.name}}
+                          {{mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name}}
                       </ng-container>
                     <span *ngIf="mail.children_count > 0" class="email-child-count">({{mailFolder !== mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH ? mail.children_count : 10}})</span>
                   </ng-container>

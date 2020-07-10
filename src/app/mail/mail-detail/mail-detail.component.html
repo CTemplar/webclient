@@ -223,8 +223,8 @@
                 <span class="text-secondary"> </span>
                 <a class="text-gray-dark text-muted">
                   <ng-container
-                          *ngIf="mail.sender_display.name!==mail.sender_display.email && mail.sender_display.name!==mail.sender_display.email.split('@')[0]">
-                    {{mail.sender_display?.name}}
+                    *ngIf="mail.sender_display_name || (mail.sender_display.name!==mail.sender_display.email && mail.sender_display.name!==mail.sender_display.email.split('@')[0])">
+                    {{mail.sender_display_name ? mail.sender_display_name : mail.sender_display?.name}}
                   </ng-container>
                   <{{mail.sender_display.email}}>
                 </a>
@@ -421,8 +421,8 @@
                           <span class="text-secondary"> </span>
                           <a class="text-muted text-gray-dark">
                             <ng-container
-                                    *ngIf="childMail.sender_display.name!==childMail.sender_display.email && childMail.sender_display.name!==childMail.sender_display.email.split('@')[0]">
-                              {{childMail.sender_display?.name}}
+                              *ngIf="childMail.sender_display_name || (childMail.sender_display.name!==childMail.sender_display.email && childMail.sender_display.name!==childMail.sender_display.email.split('@')[0])">
+                              {{childMail.sender_display_name ? childMail.sender_display_name : childMail.sender_display?.name}}
                             </ng-container>
                             <{{childMail.sender_display.email}}>
                           </a>
