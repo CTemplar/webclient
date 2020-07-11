@@ -134,66 +134,97 @@
 <div class="mailbox-section">
     <div class="mailbox-section-body py-0">
         <div class="row mail-contact-layout-row" [class.is-splitted]="isLayoutSplitted">
-            <div class="col-12 mail-contact-layout-col mail-contact-listing-col">
-                <div class="mail-contact">
-                    <div class="mail-contact-header mail-list-row border-bottom-0 hidden-xs-down">
-                        <div class="mail-list-inner-row align-items-center">
-                            <div class="col-sm-4 col-lg-3 mail-contact-col-sm">
-                                <div class="mail-contact-title text-uppercase">
-                                    <strong >{{"common.name"| translate}}</strong></div>
-                            </div>
-                            <div class="col-sm-8 col-lg-9 mail-contact-col-lg">
-                                <div class="mail-contact-title text-uppercase">
-                                    <strong>{{"common.email"| translate}}</strong></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mail-contact-body is-bordered">
-                        <div class="mail-listing">
-                            <div class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts" [class.active-contact]="selectedContact==contact">
-                                <div class="mail-list-inner-row align-items-center">
-                                    <div class="col-sm-4 col-lg-3 mail-contact-col-sm">
-                                        <div class="mail-list-col-row">
-                                            <div class="mail-list-col-item mail-checkbox">
-                                                <div class="fancy-field-group">
-                                                    <mat-checkbox [(ngModel)]="contact.markForDelete"
-                                                                  (change)="selectAll=false;"
-                                                                  [name]="contact.id"
-                                                                  type="checkbox">
-                                                    </mat-checkbox>
-                                                    <label [attr.for]="contact.id" class="fancy-field-empty"></label>
-                                                </div>
-                                            </div>
-                                            <div class="mail-list-col-item mail-from-name cursor-pointer"
-                                                 ngbTooltip="{{contact.name}}"
-                                                 (click)="editContact(contact, addUserContent)">
-                                                <span *ngIf="contact.is_encrypted && !contact.name; else contactName" class="badge badge-warning mr-2 p-1">
-                                                    **Encrypted**
-                                                </span>
-                                                <ng-template #contactName>
-                                                    <span>{{contact.name}}</span>
-                                                </ng-template>
-                                            </div>
-                                        </div>
+            <div class="col-12 mail-contact-layout-col mail-contact-listing-col table-responsive table-hover table-fixed">
+                <table class="table mail-contact">
+                    
+                    <thead class="mail-contact-header border-bottom-0 hidden-xs-down">
+                        <tr>
+                            <th></th>
+                            <th><strong >{{"common.name"| translate}}</strong></th>
+                            <th><strong>{{"common.email"| translate}}</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="mail-contact-body is-bordered">
+                        <ng-container *ngIf="!isMobile">
+                            <tr class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts" [class.active-contact]="selectedContact==contact">
+                                <td (click)="checkContact(contact)">
+                                    <div class="mail-list-col-item mail-checkbox">
+                                        <mat-checkbox [(ngModel)]="contact.markForDelete" [name]="contact.id"
+                                            type="checkbox" [disableRipple]="true" (click)="$event.preventDefault()">
+                                        </mat-checkbox>
+                                        <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                                     </div>
-                                    <div class="col-sm-8 col-lg-9 mail-contact-col-lg cursor-pointer"
-                                         (click)="editContact(contact, addUserContent)">
+                                </td>
+                                <td (click)="editContact(contact, addUserContent)">
+                                    <div class="mail-list-col-item mail-from-name cursor-pointer">
+                                        <span *ngIf="contact.is_encrypted && !contact.name; else contactName" class="badge badge-warning mr-2 p-1">
+                                            **Encrypted**
+                                        </span>
+                                        <ng-template #contactName>
+                                            <span ngbTooltip="{{contact.name}}">{{contact.name}}</span>
+                                        </ng-template>
+                                    </div>
+                                </td>
+                                <td (click)="editContact(contact, addUserContent)">
+                                    <div class="mail-contact-col-lg cursor-pointer">
                                         <div class="mail-desc">
-                                            <p><strong>
-                                                <span *ngIf="contact.is_encrypted && !contact.email; else contactEmail" class="badge badge-warning mr-2 p-1">
-                                                    **Encrypted**
-                                                </span>
-                                                <ng-template #contactEmail>
-                                                    <span>{{contact.email}}</span>
-                                                </ng-template>
-                                            </strong></p>
+                                            <p>
+                                                <strong>
+                                                    <span *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
+                                                        class="badge badge-warning mr-2 p-1">
+                                                        **Encrypted**
+                                                    </span>
+                                                    <ng-template #contactEmail>
+                                                        <span  class="d-inline-block text-truncate mail-contact-email-field">{{contact.email}}</span>
+                                                    </ng-template>
+                                                </strong>
+                                            </p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                        <!--Mobile view html -->
+                        <ng-container *ngIf="isMobile">
+                            <tr class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts" [class.active-contact]="selectedContact==contact">
+                                <td (click)="checkContact(contact)">
+                                    <div class="mail-list-col-item mail-checkbox">
+                                        <mat-checkbox [(ngModel)]="contact.markForDelete" [name]="contact.id"
+                                            type="checkbox" [disableRipple]="true" (click)="$event.preventDefault()">
+                                        </mat-checkbox>
+                                        <label [attr.for]="contact.id" class="fancy-field-empty"></label>
+                                    </div>
+                                </td>
+                                <td (click)="editContact(contact, addUserContent)">
+                                    <div class="mail-list-col-item cursor-pointer">
+                                        <span *ngIf="contact.is_encrypted && !contact.name; else contactName" class="badge badge-warning mr-2 p-1">
+                                            **Encrypted**
+                                        </span>
+                                        <ng-template #contactName>
+                                            <span ngbTooltip="{{contact.name}}">{{contact.name}}</span>
+                                        </ng-template>
+                                    </div>
+                                    <div class="mail-contact-col-lg cursor-pointer">
+                                        <div class="mail-desc">
+                                            <p>
+                                                <strong>
+                                                    <span *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
+                                                        class="badge badge-warning mr-2 p-1">
+                                                        **Encrypted**
+                                                    </span>
+                                                    <ng-template #contactEmail>
+                                                        <span  class="d-inline-block text-truncate mail-contact-email-field">{{contact.email}}</span>
+                                                    </ng-template>
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
             </div>
             <div class="col-12 mail-contact mail-contact-layout-col mail-contact-entry-col">
                 <div class="mail-actions-form-holder">

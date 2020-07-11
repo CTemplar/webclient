@@ -83,8 +83,18 @@ import {
   WhiteListDelete,
   WhiteListDeleteSuccess,
   WhiteListGet,
-  WhiteListsReadSuccess
+  WhiteListsReadSuccess,
+  CardAdd,
+  CardAddError,
+  CardAddSuccess,
+  CardDelete,
+  CardDeleteSuccess,
+  CardGet,
+  CardReadSuccess,
+  CardMakePrimary,
+  CardMakePrimarySuccess
 } from '../actions';
+
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { GetOrganizationUsers } from '../organization.store';
@@ -174,6 +184,84 @@ export class UsersEffects {
             );
           }),
           catchError(err => of(new SnackErrorPush({ message: 'Failed to delete whitelist contact' }))),
+        );
+    }));
+
+  @Effect()
+  CardLists: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CARD_GET),
+    map((action: CardGet) => action.payload),
+    switchMap(payload => {
+      return this.userService.getPaymentMethods()
+        .pipe(
+          map(cardList => {
+            return new CardReadSuccess(cardList);
+          }),
+          catchError((error) => EMPTY)
+        );
+    }));
+
+  @Effect()
+  CardAdd: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CARD_ADD),
+    map((action: CardAdd) => action.payload),
+    switchMap(payload => {
+      return this.userService.addPaymentMethod(payload)
+        .pipe(
+          switchMap(card => {
+            return of(
+              new CardAddSuccess(card),
+              new SnackPush({ message: 'Payment method added successfully.' })
+            );
+          }),
+          catchError(err => {
+            return of(
+              new CardAddError(err.error),
+              new SnackPush({ message: err.error.msg || '' })
+            );
+          }),
+        );
+    }));
+
+  @Effect()
+  CardDelete: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CARD_DELETE),
+    map((action: CardDelete) => action.payload),
+    switchMap(payload => {
+      return this.userService.deletePaymentMethod(payload)
+        .pipe(
+          switchMap(res => {
+            return of(
+              new CardDeleteSuccess(payload),
+              new SnackPush({ message: 'Payment method deleted successfully.' })
+            );
+          }),
+          catchError(err => {
+            return of(
+              new SnackPush({ message: err.error.msg || '' })
+            );
+          }),
+        );
+    }));
+
+  @Effect()
+  CardMakePrimary: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.CARD_MAKE_PRIMARY),
+    map((action: CardMakePrimary) => action.payload),
+    switchMap(payload => {
+      return this.userService.makePaymentPrimary(payload)
+        .pipe(
+          switchMap(res => {
+            return of(
+              new CardMakePrimarySuccess(payload),
+              new SnackPush({ message: 'Primary card has been changed successfully.' })
+            );
+          }),
+          catchError(err => {
+            return of(
+              new SnackPush({ message: err.error.msg || '' })
+            );
+          }),
         );
     }));
 

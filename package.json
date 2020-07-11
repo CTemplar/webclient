@@ -1,6 +1,6 @@
 {
   "name": "ctemplar",
-  "version": "2.3.21",
+  "version": "2.3.22",
   "license": "Apache",
   "main": "electron-main.js",
   "description": "Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.",
@@ -20,6 +20,7 @@
     "build:electron:linux": "npm run build:electron && electron-builder build --linux",
     "build:electron:windows": "npm run build:electron && electron-builder build --windows",
     "build:electron:mac": "npm run build:electron && electron-builder build --mac",
+    "build:ipfs": "ng build --prod --subresource-integrity --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

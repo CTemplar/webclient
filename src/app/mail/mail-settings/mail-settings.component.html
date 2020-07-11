@@ -168,7 +168,26 @@
                                  [translate]="'settings.payment'">Payment
                             </div>
                             <div class="info-list-text info-list-val text-capitalize">
-                              {{payment.payment_method}}
+                              <span>{{payment.payment_method}}</span>
+                              <i *ngIf="payment?.payment_method === paymentMethod.stripe"
+                                  class="{{isCardUpdateMode ? 'fas fa-chevron-up pr-2 cursor-pointer float-right' : 'fas fa-chevron-down pr-2 cursor-pointer float-right'}}"
+                                  (click)="isCardUpdateMode = !isCardUpdateMode" ></i>
+                            </div>
+                          </li>
+                          <li class="info-list-item info-list-detail" *ngIf="isCardUpdateMode">
+                            <div class="info-list-text info-list-detail-content col-12" *ngFor="let card of cards">
+                              <input class="d-none fancy-field-control fancy-field-control-sm"
+                                  id="{{'card_' + card.last4}}"
+                                  name="activeCard" type="radio"
+                                  (click)="onMakePrimaryCard(card)"
+                                  [checked]="card.is_primary"/>
+                              <label for="{{'card_' + card.last4}}">{{card.last4 | creditcardnumber}}</label>
+                              <i *ngIf="!card.is_primary" (click)="onDeleteCard(card)"
+                                [ngbTooltip]="'common.delete'| translate"
+                                class="fas fa-trash pr-2 cursor-pointer float-right"></i>
+                            </div>
+                            <div class="info-list-text info-list-action col-12">
+                              <a (click)="onAddNewCard()" [translate]="'settings.add_new_method'">ADD NEW METHOD</a>
                             </div>
                           </li>
                           <li class="info-list-item">
@@ -1049,6 +1068,7 @@
   <div class="modal-body user-billing-upgrade-modal bg-faded px-3 py-0 bg-white">
     <app-users-billing-info [isUpgradeAccount]="true"
                             [isRenew]="true"
+                            [isAddNewCard]="isAddNewCard"
                             [planType]="userPlanType"
                             [paymentType]="payment.payment_type"
                             [currency]="payment.currency"

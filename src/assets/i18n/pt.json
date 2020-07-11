@@ -662,6 +662,8 @@
 		"username_constraint": "caracteres e deve conter entre 1 e 128 caracteres.",
 		"username_exist": "Este nome de usuário já existe.",
 		"username_minlen": "caracteres, e o comprimento mínimo é de 2 caracteres.",
+		"conversations": " conversations )",
+    	"conversation": " conversation )",
 		"username_required": "O nome de usuário é necessário.",
 		"vacation_responder": "Resposta de férias",
 		"verify": "Verificar",

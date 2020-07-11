@@ -10,7 +10,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     padding-right: 1.125rem;
-    height: calc(100vh - 140px);
+    // height: calc(100vh - 140px);
 
     .is-splitted & {
       padding-right: 0.5rem;
@@ -30,6 +30,22 @@
 .mail-contact-header {
   background: #f5f5f5;
   border-radius: 2px 2px 0 0;
+
+  tr {
+    th { padding: 1rem; }
+    th:first-child {
+      width: 2.5rem;
+    }
+    th:nth-child(2) {
+      width: 12.5rem;
+
+      @include media("<laptop", ">=ipad") {
+        .is-splitted & {
+          width: 9rem;
+        }
+      }
+    }
+  }
 }
 
 .mail-contact-title {
@@ -41,7 +57,39 @@
   border: 1px solid #f5f5f5;
   border-bottom: 0;
 
+  tr { 
+    padding: 0;
+
+    td:first-child {
+      @include media(">sm") {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }      
+
+      @include media("<=sm") {
+        width: 3.5rem;
+      }
+    }
+  }
+
   @include media(">sm") {
+    border-top: 0;
+  }
+
+  @include media("<laptop", ">=ipad") {
+    .is-splitted & {
+      .mail-contact-email-field {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block !important;
+      max-width: 170px;
+      }
+    }    
+  }
+
+  @include media("<=sm") {
     border-top: 0;
   }
 }
@@ -52,12 +100,6 @@
 
   @include media("<ipad", ">sm") {
     padding: 1.0321rem 0.938rem;
-  }
-
-  @include media("<laptop", ">=ipad") {
-    .is-splitted & {
-      font-size: 0.75rem;
-    }
   }
 
   @include media("<=sm") {
@@ -88,7 +130,7 @@
   }
 
   .mail-list-row .mail-desc {
-    padding-left: 2.2rem;
+    padding-left: 0;
   }
 
   .mail-list-col-row > .mail-list-col-item.mail-status {

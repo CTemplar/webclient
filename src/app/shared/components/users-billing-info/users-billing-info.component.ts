@@ -16,7 +16,8 @@ import {
   SignUp,
   SnackErrorPush,
   UpgradeAccount,
-  ValidatePromoCode
+  ValidatePromoCode,
+  CardAdd
 } from '../../../store/actions/index';
 import {
   AppState,
@@ -51,6 +52,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
   @Input() isRenew: boolean;
+  @Input() isAddNewCard: boolean = false;
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
@@ -286,7 +288,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   stripeSignup(stripe_token: any) {
     if (stripe_token) {
-      if (this.isUpgradeAccount) {
+      if (this.isAddNewCard) {
+        this.store.dispatch(new CardAdd(stripe_token));
+        this.close.emit(true);
+      } else if (this.isUpgradeAccount) {
         this.store.dispatch(new UpgradeAccount(this.getSignupData({ stripe_token })));
       } else {
         this.inProgress = true;

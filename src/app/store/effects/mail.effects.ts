@@ -24,6 +24,8 @@ import {
   GetMailsSuccess,
   GetUnreadMailsCount,
   GetUnreadMailsCountSuccess,
+  GetCustomFolderMessageCount,
+  GetCustomFolderMessageCountSuccess,
   MailActionTypes,
   MoveMail,
   MoveMailSuccess,
@@ -76,6 +78,20 @@ export class MailEffects {
         .pipe(
           map((response) => {
             return new GetUnreadMailsCountSuccess(response);
+          }),
+          catchError((error) => EMPTY)
+        );
+    }));
+
+  @Effect()
+  getCustomFolderMessageCountEffect: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT),
+    map((action: GetCustomFolderMessageCount) => action.payload),
+    mergeMap(payload => {
+      return this.mailService.getCustomFolderMessageCount()
+        .pipe(
+          map((response) => {
+            return new GetCustomFolderMessageCountSuccess(response);
           }),
           catchError((error) => EMPTY)
         );

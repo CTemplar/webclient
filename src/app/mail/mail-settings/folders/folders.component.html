@@ -24,6 +24,9 @@
                 <i class="folder-color-box icon" [style.background]="folder.color"></i>
               </span>
               <span class="folder-name">{{folder.name}}</span>
+              <span class="folder-messages-counts">( {{folder.counts}}</span>
+              <span [translate]="'settings.conversations'" *ngIf="folder.counts > 1; else elseConversation">conversations )</span>
+              <ng-template #elseConversation><span [translate]="'settings.conversation'">conversation )</span></ng-template>
             </div>
             <div class="col-2 col-sm-4">
               <div align="right" *ngIf="reorder">
@@ -49,7 +52,6 @@
           </div>
         </li>
       </ul>
-      <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
     </div>
   </div>
 </section>

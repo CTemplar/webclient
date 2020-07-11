@@ -20,6 +20,7 @@ export function reducer(
     canGetUnreadCount: true,
     decryptedSubjects: {},
     isMailsMoved: false,
+    customFolderMessageCount: [],
     isComposerPopUp: false
   }, action: MailActions): MailState {
   switch (action.type) {
@@ -140,6 +141,9 @@ export function reducer(
         };
       }
       return { ...state, unreadMailsCount: { ...action.payload, total_unread_count: getTotalUnreadCount(action.payload) }, noUnreadCountChange: false, };
+    }
+    case MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS: {
+      return { ...state, customFolderMessageCount: action.payload };
     }
     case MailActionTypes.SET_IS_COMPOSER_POPUP: {
       state.isComposerPopUp = action.payload;
@@ -423,6 +427,7 @@ export function reducer(
         noUnreadCountChange: true,
         canGetUnreadCount: true,
         decryptedSubjects: {},
+        customFolderMessageCount: [],
       };
     }
 

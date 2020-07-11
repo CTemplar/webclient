@@ -349,6 +349,8 @@
     "username_allowed_chars": "Le nom d'utilisateur doit commencer par une lettre ou un chiffre et se terminer par une lettre ou un chiffre.Il ne peut contenir",
     "username_minlen": "caractères, et la longueur minimale est de 2 caractères.",
     "reorder": "Réorganiser",
+    "conversations": " conversations )",
+    "conversation": " conversation )",
     "reorder_addresses": "Réorganiser les adresses",
     "move_up": "Déplacer vers le bas",
     "move_down": "Déplacer vers le haut",

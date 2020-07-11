@@ -26,9 +26,7 @@
                       <strong>CTemplar {{planType}}</strong>
                     </div>
                   </div>
-
-
-                    <div class="billing-overview-row payment-method-row row">
+                    <div class="billing-overview-row payment-method-row row" *ngIf="!isAddNewCard">
                       <label class="billing-overview-label col-3" [translate]="'billing_info.payment_method'">Payment
                         Method: </label>
                       <div class="billing-overview-val text-secondary col">
@@ -50,7 +48,7 @@
                       </div>
                     </div>
 
-                    <div class="billing-overview-row row">
+                    <div class="billing-overview-row row" *ngIf="!isAddNewCard">
                       <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.billing'">Billing</label>
                       <div class="billing-overview-val text-secondary col">
                         <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
@@ -71,7 +69,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="billing-overview-row row">
+                    <div class="billing-overview-row row" *ngIf="!isAddNewCard">
                       <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.price'">Price</label>
                       <div class="billing-overview-val text-secondary col">
                         <strong *ngIf="paymentType === paymentTypeEnum.ANNUALLY">
@@ -86,7 +84,7 @@
                         </strong>
                       </div>
                     </div>
-                    <div class="billing-overview-row row" *ngIf="!isPrime">
+                    <div class="billing-overview-row row" *ngIf="!isPrime && !isAddNewCard">
                       <label class="billing-overview-label mb-0 col-3">Promo code</label>
                       <div class="billing-overview-val text-secondary col-9">
                         <input class="form-control" [(ngModel)]="promoCode.value"
@@ -119,7 +117,7 @@
 
 
                     <div class="billing-overview-row row"
-                         *ngIf="isUpgradeAccount && upgradeAmount!=null && !promoCode.is_valid && !isRenew">
+                         *ngIf="isUpgradeAccount && upgradeAmount!=null && !promoCode.is_valid && !isRenew && !isAddNewCard">
                       <label class="billing-overview-label mb-0 col-3"
                              ngbTooltip="This is the amount which you will be charged right now.">
                         Amount to charge</label>
@@ -272,8 +270,10 @@
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
                           [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess)"
                           (click)="submitForm()">
-                    <span *ngIf="!isUpgradeAccount" [translate]="'login.create_account'">Create Account</span>
-                    <span *ngIf="isUpgradeAccount" [translate]="'common.upgrade_account'">Upgrade Account</span>
+                    <span *ngIf="!isAddNewCard && !isUpgradeAccount" [translate]="'login.create_account'">Create Account</span>
+                    <span *ngIf="!isAddNewCard && isUpgradeAccount" [translate]="'common.upgrade_account'">Upgrade Account</span>
+                    <span *ngIf="isAddNewCard" [translate]="'settings.add_new_method'">Add new payment</span>
+                    
                   </button>
                   <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
                 </div>

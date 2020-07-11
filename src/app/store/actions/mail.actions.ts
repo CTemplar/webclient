@@ -7,6 +7,8 @@ export enum MailActionTypes {
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
   GET_UNREAD_MAILS_COUNT = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT',
   GET_UNREAD_MAILS_COUNT_SUCCESS = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT_SUCCESS',
+  GET_CUSTOMFOLDER_MESSAGE_COUNT = '[Unread Mail Count] GET_CUSTOMFOLDER_MESSAGE_COUNT',
+  GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS = '[Unread Mail Count] GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS',
   STOP_GETTING_UNREAD_MAILS_COUNT = '[STOP getting unread mails] STOP_GETTING_UNREAD_MAILS_COUNT',
   GET_MAILBOXES = '[Mail] GET_MAILBOXES',
   GET_MAILBOXES_SUCCESS = '[Mail] GET_MAILBOXES_SUCCESS',
@@ -78,6 +80,18 @@ export class GetUnreadMailsCount implements Action {
 
 export class GetUnreadMailsCountSuccess implements Action {
   readonly type = MailActionTypes.GET_UNREAD_MAILS_COUNT_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetCustomFolderMessageCount implements Action {
+  readonly type = MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT;
+
+  constructor(public payload?: any) {}
+}
+
+export class GetCustomFolderMessageCountSuccess implements Action {
+  readonly type = MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS;
 
   constructor(public payload: any) {}
 }
@@ -353,6 +367,8 @@ export type MailActions =
   | GetMailsSuccess
   | GetUnreadMailsCount
   | GetUnreadMailsCountSuccess
+  | GetCustomFolderMessageCount
+  | GetCustomFolderMessageCountSuccess
   | StopGettingUnreadMailsCount
   | GetMailboxes
   | GetMailboxesSuccess
