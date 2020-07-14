@@ -46,6 +46,8 @@ export interface Mail {
   last_action?: MailAction;
   last_action_parent_id?: number;
   is_html?: boolean;
+  // Added sender_display_name due to the different name with same address
+  sender_display_name?: string;
 }
 
 export class EncryptionNonCTemplar {
