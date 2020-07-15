@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { AppState, AuthState, PaymentType, PlanType, SignupState } from '../../store/datatypes';
 import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } from '../../store/actions';
 // Service
-import { OpenPgpService, SharedService } from '../../store/services';
+import { OpenPgpService, SharedService, UsersService } from '../../store/services';
 import { NotificationService } from '../../store/services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
@@ -65,6 +65,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
               private openPgpService: OpenPgpService,
               private sharedService: SharedService,
               private activatedRoute: ActivatedRoute,
+              private authService: UsersService,
               private notificationService: NotificationService,
               private translate: TranslateService) {
   }
@@ -99,6 +100,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     this.handleUsernameAvailability();
     this.sharedService.loadPricingPlans();
+    window.addEventListener("beforeunload", this.authService.onBeforeLoader, true);
   }
 
   // == Toggle password visibility
