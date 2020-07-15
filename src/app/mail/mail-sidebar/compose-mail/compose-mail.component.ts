@@ -198,7 +198,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   attachments: Attachment[] = [];
   isKeyboardOpened: boolean;
   encryptForm: FormGroup;
-  contacts: EmailContact[];
+  contacts: any = [];
   datePickerMinDate: NgbDateStruct;
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
@@ -307,13 +307,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
+        this.contacts = [];
         if (contactsState.emailContacts === undefined) {
-          this.contacts = [];
           contactsState.contacts.forEach(x => {
-            this.contacts.push({ name: x.name, email: x.email });
+            this.contacts.push({ name: x.name, email: x.email, display: `${x.name} <${x.email}>` });
           });
         } else {
-          this.contacts = contactsState.emailContacts;
+          contactsState.emailContacts.forEach(x => {
+            this.contacts.push({ name: x.name, email: x.email, display: `${x.name} <${x.email}>` });
+          });
         }
         this.contactsState = contactsState;
         this.loadEmailContacts();
@@ -1283,6 +1285,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onAddingReceiver(tag: any, data: any[]) {
+    data.forEach(item => {
+      if (item.email) {
+        item.display = item.email;
+      }
+    })
     if (tag.value && tag.value.split(',').length > 1) {
       const emails = [];
       data.forEach(item => {
