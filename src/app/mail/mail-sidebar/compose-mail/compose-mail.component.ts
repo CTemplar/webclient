@@ -158,7 +158,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
-  @Input() content: string;
+  @Input() content: string = '';
   @Input() messageHistory: string;
   @Input() subject: string;
   @Input() draftMail: Mail;
@@ -1234,7 +1234,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           [],
       bcc: this.draftMail && this.draftMail.bcc ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
       subject: (this.draftMail && this.draftMail.is_subject_encrypted) ? '' :
-        (this.subject ? this.subject : this.draftMail ? this.draftMail.subject : '')
+        (this.subject ? this.subject : this.draftMail ? this.draftMail.subject : ''),
+      content: ''
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
