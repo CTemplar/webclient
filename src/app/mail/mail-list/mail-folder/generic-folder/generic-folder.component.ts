@@ -15,7 +15,7 @@ import {
 } from '../../../../store/actions';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
-import { getGenericFolderShortcuts, OpenPgpService, SharedService } from '../../../../store/services';
+import { getGenericFolderShortcuts, OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -72,6 +72,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     private composeMailService: ComposeMailService,
     private cdr: ChangeDetectorRef,
     private pgpService: OpenPgpService,
+    private authService: UsersService,
     private modalService: NgbModal) {
   }
 
@@ -162,6 +163,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.isMobile = window.innerWidth <= 768;
     this.folderName = this.mailFolder.charAt(0).toUpperCase() + this.mailFolder.slice(1);
+
+    window.removeEventListener("beforeunload", this.authService.onBeforeLoader, true);
   }
 
   @HostListener('window:resize', ['$event'])
