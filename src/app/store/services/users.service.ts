@@ -115,6 +115,12 @@ export class UsersService {
     return this.http.get(`${apiUrl}auth/sign-out/`);
   }
 
+  onBeforeLoader(e) {
+    var confirmationMessage = "If you close the window now all the progress will be lost and your account won't be created.";
+    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+  }
+
   signUp(user): Observable<any> {
     const requestData = { ...user, timezone_offset: new Date().getTimezoneOffset() };
     const referralCode = localStorage.getItem(REFFERAL_CODE_KEY);
