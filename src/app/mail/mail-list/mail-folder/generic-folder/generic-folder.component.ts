@@ -21,6 +21,8 @@ import { ClearSearch } from '../../../../store/actions/search.action';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 
+declare var Scrambler;
+
 @UntilDestroy()
 @Component({
   selector: 'app-generic-folder',
@@ -56,6 +58,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   OFFSET: number = 0;
   PAGE: number = 0;
   folderColors: any = {};
+  decryptState: any = {};
 
   private searchText: string;
   private mailState: MailState;
@@ -96,6 +99,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           this.refresh();
         }
         this.setIsSelectAll();
+        this.mails.forEach(mail => {
+          if (this.decryptState[mail.id] === true && !mail.is_subject_encrypted) {
+            this.decryptState[mail.id] = false;
+          }
+        });
+        if (this.userState && this.userState.settings && this.userState.settings.is_subject_auto_decrypt) {
+          this.decryptAllSubjects();
+        }
       });
 
     this.store.select(state => state.user).pipe(untilDestroyed(this))
@@ -304,10 +315,12 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   decryptAllSubjects() {
     let count = 0;
     this.mails.forEach(mail => {
-      if (mail.is_subject_encrypted) {
+      if (mail.is_subject_encrypted && !this.decryptState[mail.id]) {
         setTimeout(() => {
+          this.decryptState[mail.id] = true;
           this.pgpService.decrypt(mail.mailbox, mail.id, new SecureContent(mail), true);
-        }, count * 300);
+          this.scrambleText(mail.id);
+        }, count * 1000);
         count = count + 1;
       }
     });
@@ -456,6 +469,18 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  scrambleText(mailId) {
+    if (this.decryptState[mailId]) {
+      setTimeout(() => {
+        Scrambler({
+          target: `#subject-scramble-${mailId}`,
+          random: [1000, 120000],
+          speed: 70,
+          text: 'A7gHc6H66A9SAQfoBJDq4C7'
+        });
+      }, 100);
+    }
+  }
 
   toggleEmailSelection(mail) {
     mail.marked = !mail.marked;

@@ -276,6 +276,7 @@
       "and_change_password": "et changez votre mot de passe.",
       "phishing_protection": "Protection contre le phishing",
       "subjects_encryption": "Cryptage des sujets",
+      "auto_decrypt_subject": "Subjects decryption automatically",
       "confirm_disable_contacts": "Confirmer la désactivation du cryptage des contacts",
       "contacts_decrypted": "contacts décryptés",
       "decrypting_contacts": "Décryptage des contacts",

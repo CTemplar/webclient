@@ -280,6 +280,7 @@
       "and_change_password": "and change your password.",
       "phishing_protection": "Phishing Protection",
       "subjects_encryption": "Subjects encryption",
+      "auto_decrypt_subject": "Subjects decryption automatically",
       "confirm_disable_contacts": "Confirm disable contacts encryption",
       "contacts_decrypted": "contacts decrypted",
       "decrypting_contacts": "Decrypting contacts",
