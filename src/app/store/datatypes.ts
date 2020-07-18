@@ -201,6 +201,7 @@ export class Settings {
   include_original_message?: boolean;
   custom_css?: string;
   is_disable_loading_images?: boolean;
+  is_subject_auto_decrypt?: boolean;
 }
 
 export interface Invoice {

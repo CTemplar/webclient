@@ -627,6 +627,7 @@
 			"set_up": "Configurar",
 			"set_up_2FA": "Configurar autenticação de dois fatores",
 			"subjects_encryption": "Criptografia do assunto",
+			"auto_decrypt_subject": "Subjects decryption automatically",
 			"upgrade_to_paid": "Por favor, faça um upgrade para um plano pago para poder utilizar essa função"
 		},
 		"security_settings": "Configurações de segurança",
