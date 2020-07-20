@@ -35,7 +35,9 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     email: '',
     address: '',
     note: '',
-    phone: ''
+    phone: '',
+    enabled_encryption: false,
+    public_key: ''
   };
   public inProgress: boolean;
   private isContactsEncrypted: boolean;
@@ -92,5 +94,10 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
       this.store.dispatch(new ContactAdd(this.newContactModel));
     }
     this.inProgress = true;
+  }
+
+  clearPublicKey() {
+    this.newContactModel.public_key = '';
+    return false;
   }
 }

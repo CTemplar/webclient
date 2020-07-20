@@ -8,6 +8,17 @@ textarea {
   min-height: 4.25rem;
 }
 
+.mat-checkbox {
+  label {
+    background: black;
+  }  
+}
+
+.mat-checkbox-layout {
+  margin-bottom: 0px;
+  margin-left: 10px;
+} 
+
 .form-label,
 .form-control {
   font-size: 14px;
