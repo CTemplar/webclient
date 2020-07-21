@@ -9,7 +9,7 @@ import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes } from './store/quotes';
 
 import { TranslateService } from '@ngx-translate/core';
-import { FinalLoading } from './store/actions';
+import { FinalLoading, RefreshToken } from './store/actions';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -33,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private store: Store<AppState>,
               private translate: TranslateService) {
+    this.store.dispatch(new RefreshToken());
     this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
     this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));

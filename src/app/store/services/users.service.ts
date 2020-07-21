@@ -35,14 +35,19 @@ export class UsersService {
   }
 
   refreshToken(): Observable<any> {
-    const body = { token: localStorage.getItem('token') };
-    const url = `${apiUrl}auth/refresh/`;
-    return this.http.post<any>(url, body).pipe(
-      tap(data => {
-        localStorage.setItem('token', data.token);
-        this.setTokenExpiration();
-      })
-    );
+    const token = this.getToken();
+    if (token) {
+      const body = { token };
+      const url = `${apiUrl}auth/refresh/`;
+      return this.http.post<any>(url, body).pipe(
+        tap(data => {
+          localStorage.setItem('token', data.token);
+          this.setTokenExpiration();
+        })
+      );
+    } else {
+      return of({});
+    }
   }
 
   isTokenExpired() {
