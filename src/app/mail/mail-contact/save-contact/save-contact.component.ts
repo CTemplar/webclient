@@ -40,6 +40,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     public_key: ''
   };
   public inProgress: boolean;
+  public internalUser: boolean;
   private isContactsEncrypted: boolean;
 
 
@@ -55,6 +56,9 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedContact'] && changes['selectedContact'].currentValue) {
       this.newContactModel = { ...this.selectedContact };
+      let contactEmail = this.newContactModel.email;
+      let getDomain = contactEmail.substring(contactEmail.indexOf("@")+1, contactEmail.length);
+      this.internalUser = getDomain === "ctemplar.com"? true: false;
     }
   }
 

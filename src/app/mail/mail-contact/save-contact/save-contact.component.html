@@ -42,7 +42,7 @@
             <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
         </div>
     </div>
-    <div class="form-group add-button">
+    <div class="form-group add-button" *ngIf="internalUser">
         <div class="row align-items-center">
             <div class="col-sm-2">
                 <label class="form-label mb-sm-0" for="enableEncryption">{{"contacts.encryption"| translate}}</label>
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption">
+    <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && internalUser">
         <div class="row align-items-center">
             <div class="col-sm-2">
                 <label class="form-label mb-sm-0" for="contactPublicKey">{{"contacts.publickey"| translate}}</label>
@@ -64,7 +64,7 @@
                 [placeholder]="'contacts.publickey'| translate" name="publickey" [(ngModel)]="newContactModel.public_key"
                 rows="3"></textarea>
             </div>
-            <button class="add-button-link" (click)="clearPublicKey()">
+            <button class="add-button-link contact-publickey-clear" (click)="clearPublicKey()">
                 <i class="fas fa-times"></i>
             </button>
             <!-- <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button> -->

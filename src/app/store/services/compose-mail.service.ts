@@ -92,8 +92,9 @@ export class ComposeMailService {
                         )
                           .pipe(take(1))
                           .subscribe(responses => {
+debugger;                            
                               if (publicKeys.length === 0) {
-                                this.store.dispatch(new SendMail({ ...draftMail }));
+                                // this.store.dispatch(new SendMail({ ...draftMail }));
                               } else {
                                 this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id,
                                   new SecureContent(draftMail.draft), publicKeys);

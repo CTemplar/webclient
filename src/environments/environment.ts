@@ -6,5 +6,5 @@
 export const AppConfig = {
   debug: true,
   production: false,
-  local: false
+  local: true
 };
