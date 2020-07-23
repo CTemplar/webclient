@@ -128,15 +128,15 @@
     <div class="form-group text-right mb-0"
         *ngIf="newContactModel.enabled_encryption && !newContactModel.public_key; else submitSaveContact">
         <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
-            <input type="submit" disabled class="btn btn-secondary btn-sm" 
-            role="button" [value]="'common.save' | translate">
+            <button type="submit" disabled class="btn btn-secondary btn-sm" 
+            role="button">{{"common.save"| translate}}</button>
         </div>
         <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
     </div>
     <ng-template #submitSaveContact>
         <div class="form-group text-right mb-0">
-            <input type="submit" [disabled]="inProgress" class="btn btn-secondary btn-sm" role="button"
-                [value]="'common.save' | translate">
+            <button type="submit" [disabled]="inProgress" class="btn btn-secondary btn-sm" role="button">
+                {{"common.save"| translate}}</button>
             <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
         </div>
     </ng-template>
