@@ -8,17 +8,6 @@ textarea {
   min-height: 4.25rem;
 }
 
-.mat-checkbox {
-  label {
-    background: black;
-  }  
-}
-
-.mat-checkbox-layout {
-  margin-bottom: 0px;
-  margin-left: 10px;
-} 
-
 .contact-publickey-clear {
   border: 1px solid grey;
   border-radius: 50%;
@@ -32,4 +21,12 @@ textarea {
 
 .error-msg.is-sm {
   font-size: 0.75rem;
+}
+
+.saveContactSubmit {
+  float: right;
+}
+
+.encryptionLabel {
+  margin-bottom: .5rem;
 }

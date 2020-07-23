@@ -42,9 +42,9 @@
             <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
         </div>
     </div>
-    <div class="form-group add-button" *ngIf="internalUser">
+    <div class="form-group add-button" *ngIf="!internalUser">
         <div class="row align-items-center">
-            <div class="col-sm-2">
+            <div class="col-sm-2 encryptionLabel">
                 <label class="form-label mb-sm-0" for="enableEncryption">{{"contacts.encryption"| translate}}</label>
             </div>
             <div class="col-sm-10"  id="contactEncryptionCheckbox">
@@ -54,14 +54,14 @@
             </div>
         </div>
     </div>
-    <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && internalUser">
+    <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && !internalUser">
         <div class="row align-items-center">
             <div class="col-sm-2">
                 <label class="form-label mb-sm-0" for="contactPublicKey">{{"contacts.publickey"| translate}}</label>
             </div>
             <div class="col-sm-10">
                 <textarea class="form-control form-control-sm resize-off" id="contactPublicKey"
-                [placeholder]="'contacts.publickey'| translate" name="publickey" [(ngModel)]="newContactModel.public_key"
+                [placeholder]="'contacts.publickey'| translate" name="public_key" [(ngModel)]="newContactModel.public_key"
                 rows="3"></textarea>
             </div>
             <button class="add-button-link contact-publickey-clear" (click)="clearPublicKey()">
@@ -125,9 +125,12 @@
     <div class="error-msg" *ngIf="newContactForm.submitted && newContactForm.invalid">
         {{"contacts.save.error"| translate}}
     </div>
-    <div class="form-group text-right mb-0" ngbTooltip="Public Key can't be empty when encryption is enabled."
+    <div class="form-group text-right mb-0"
         *ngIf="newContactModel.enabled_encryption && !newContactModel.public_key; else submitSaveContact">
-        <input type="submit" disabled class="btn btn-secondary btn-sm" role="button" [value]="'common.save' | translate">    
+        <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
+            <input type="submit" disabled class="btn btn-secondary btn-sm" 
+            role="button" [value]="'common.save' | translate">
+        </div>
         <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
     </div>
     <ng-template #submitSaveContact>
