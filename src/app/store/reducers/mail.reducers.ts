@@ -480,11 +480,11 @@ export function reducer(
           state.mails = state.mails.map(mail => {
             if (mail.id === action.payload.id) {
               mail.subject = action.payload.decryptedContent.subject;
-              state.decryptedSubjects[mail.id] = mail.subject;
               mail.is_subject_encrypted = false;
             }
             return mail;
           });
+          state.decryptedSubjects[action.payload.id] = action.payload.decryptedContent.subject;
         }
         return { ...state };
       } else if (!state.decryptedContents[action.payload.id]) {

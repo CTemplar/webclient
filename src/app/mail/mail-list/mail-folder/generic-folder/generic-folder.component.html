@@ -263,8 +263,8 @@
                       *ngIf="!(mail.delayed_delivery || mail.children_delayed_delivery) && (mail.dead_man_duration || mail.children_dead_man_duration)"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer in</span> {{mail.dead_man_duration ? (mail.dead_man_duration | remainingTime:true) : (mail.children_dead_man_duration | remainingTime:true)}}
                 </span>
               </ng-container>
-              <span id="{{'subject-scramble-' + mail?.id}}" *ngIf="mail?.is_subject_encrypted"></span>
-              <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted && !decryptState[mail?.id]">...</span>
+              <span id="{{'subject-scramble-' + mail?.id}}" *ngIf="mail?.is_subject_encrypted && isSubjectDecrypting(mail?.id)"></span>
+              <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted && !isSubjectDecrypting(mail?.id)">...</span>
               <div class="mail-content">
                 <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
               </div>
@@ -357,12 +357,10 @@
                               *ngIf="mail.dead_man_duration"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
-                      <ng-template #subjectLoader>
-                        <span id="{{'subject-scramble-'index">aa</span>
-                      </ng-template>
-                      <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">...</span>
+                      <span id="{{'subject-scramble-' + mail?.id}}" *ngIf="mail?.is_subject_encrypted && isSubjectDecrypting(mail?.id)"></span>
+                      <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted && !isSubjectDecrypting(mail?.id)">...</span>
                       <div class="mail-content">
-                         <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
+                        <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
                       </div>
                     </span>
                   </a>
