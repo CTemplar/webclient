@@ -130,6 +130,7 @@ export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 export const REFFERAL_CODE_KEY = 'referral_code';
 export const PROMO_CODE_KEY = 'promo_code';
 export const REFFERAL_ID_KEY = 'cjevent';
+export const JWT_AUTH_COOKIE = 'jwt_auth_cookie';
 
 export const SummarySeparator =
   '';
