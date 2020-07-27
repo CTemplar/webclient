@@ -83,10 +83,8 @@ export class AuthEffects {
   LogInSuccess: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((response) => {
-      if (response.payload.token) {
-        if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
-          this.router.navigateByUrl('/mail');
-        }
+      if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
+        this.router.navigateByUrl('/mail');
       }
     })
   );
