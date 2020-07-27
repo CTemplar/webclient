@@ -419,7 +419,8 @@ export interface Contact {
   is_encrypted?: boolean;
   encrypted_data?: string;
   provider?: string;
-
+  enabled_encryption?: boolean;
+  public_key?: string;
   is_decryptionInProgress?: boolean;
   isDecryptedFrontend?: boolean; // If the contact is decrypted on frontend or not
   markForDelete?: boolean; // To handle delete multiple contacts using checkboxes

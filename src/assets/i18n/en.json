@@ -7,6 +7,8 @@
     "delete_tooltip": "Delete selected contacts.",
     "details": "Contact Details",
     "phone2": "Phone2",
+    "encryption": "Encryption",
+    "publickey": "Public Key",
     "address": "Address",
     "note": "Note",
     "save": {
