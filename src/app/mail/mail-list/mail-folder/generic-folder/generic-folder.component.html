@@ -61,7 +61,7 @@
           <i class="fa fa-times"></i>
           </a>
         </li>
-        <li class="pr-0">
+        <li class="pr-0" *ngIf="!userState.settings.is_subject_auto_decrypt">
           <a class="px-0" placement="top"
              (click)="decryptAllSubjects()"
              ngbTooltip="Decrypt all subjects on current page">
@@ -234,7 +234,7 @@
                 <label [ngbTooltip]="mail.receiver_list" placement="right">{{mail.receiver_list}}</label>
               </ng-container>
               <ng-container *ngSwitchDefault>
-                <label [ngbTooltip]="mail.sender_display.email" placement="right">{{mail.sender_display.name}}</label>
+                <label [ngbTooltip]="mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email" placement="right">{{mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name}}</label>
               </ng-container>
               <span *ngIf="mail.thread_count > 1" class="email-child-count">({{mail.thread_count}})</span>
             </ng-container>
@@ -263,7 +263,8 @@
                       *ngIf="!(mail.delayed_delivery || mail.children_delayed_delivery) && (mail.dead_man_duration || mail.children_dead_man_duration)"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer in</span> {{mail.dead_man_duration ? (mail.dead_man_duration | remainingTime:true) : (mail.children_dead_man_duration | remainingTime:true)}}
                 </span>
               </ng-container>
-              <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">...</span>
+              <span id="{{'subject-scramble-' + mail?.id}}" *ngIf="mail?.is_subject_encrypted && isSubjectDecrypting(mail?.id)"></span>
+              <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted && !isSubjectDecrypting(mail?.id)">...</span>
               <div class="mail-content">
                 <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
               </div>
@@ -332,7 +333,7 @@
                         <label [ngbTooltip]="mail.receiver_list">{{mail.receiver_list}}</label>
                       </ng-container>
                       <ng-container *ngSwitchDefault>
-                          {{mail.sender_display.name}}
+                          {{mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name}}
                       </ng-container>
                     <span *ngIf="mail.children_count > 0" class="email-child-count">({{mailFolder !== mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH ? mail.children_count : 10}})</span>
                   </ng-container>
@@ -356,9 +357,10 @@
                               *ngIf="mail.dead_man_duration"><span [translate]="'mail_detail.dead_mans_timer'">Dead mans timer</span> {{mail.dead_man_duration | remainingTime:true}}
                         </span>
                       </ng-container>
-                      <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted">...</span>
+                      <span id="{{'subject-scramble-' + mail?.id}}" *ngIf="mail?.is_subject_encrypted && isSubjectDecrypting(mail?.id)"></span>
+                      <span class="mr-2 p-1 encrypted-subject" *ngIf="mail?.is_subject_encrypted && !isSubjectDecrypting(mail?.id)">...</span>
                       <div class="mail-content">
-                         <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
+                        <ng-container *ngIf="!mail.is_subject_encrypted">{{mail.subject}}</ng-container>
                       </div>
                     </span>
                   </a>

@@ -15,11 +15,13 @@ import {
 } from '../../../../store/actions';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
-import { getGenericFolderShortcuts, OpenPgpService, SharedService } from '../../../../store/services';
+import { getGenericFolderShortcuts, OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
+
+declare var Scrambler;
 
 @UntilDestroy()
 @Component({
@@ -55,7 +57,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   LIMIT: number = 20;
   OFFSET: number = 0;
   PAGE: number = 0;
+  MAX_DECRYPT_NUMBER = 3;
   folderColors: any = {};
+  queueForDecryptSubject: any = [];
 
   private searchText: string;
   private mailState: MailState;
@@ -72,6 +76,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     private composeMailService: ComposeMailService,
     private cdr: ChangeDetectorRef,
     private pgpService: OpenPgpService,
+    private authService: UsersService,
     private modalService: NgbModal) {
   }
 
@@ -96,6 +101,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           this.refresh();
         }
         this.setIsSelectAll();
+        if (this.userState && this.userState.settings && this.userState.settings.is_subject_auto_decrypt) {
+          this.decryptAllSubjects();
+        }
       });
 
     this.store.select(state => state.user).pipe(untilDestroyed(this))
@@ -159,9 +167,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           }
         }
       });
-
     this.isMobile = window.innerWidth <= 768;
     this.folderName = this.mailFolder.charAt(0).toUpperCase() + this.mailFolder.slice(1);
+
+    window.removeEventListener("beforeunload", this.authService.onBeforeLoader, true);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -302,15 +311,52 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   decryptAllSubjects() {
-    let count = 0;
-    this.mails.forEach(mail => {
-      if (mail.is_subject_encrypted) {
-        setTimeout(() => {
-          this.pgpService.decrypt(mail.mailbox, mail.id, new SecureContent(mail), true);
-        }, count * 300);
-        count = count + 1;
+    this.queueForDecryptSubject = this.queueForDecryptSubject.filter(decryptingMail => {
+      // Item on queue would be removed when the following condition is matched
+      // 1. decrypting is finished
+      // 2. mail doesn't be existed on mail list
+      let isExistMatchMail = false;
+      for (let i = 0; i < this.mails.length; i++) {
+        const mail = this.mails[i];
+        if (mail.id === decryptingMail) {
+          isExistMatchMail = true;
+          if (!mail.is_subject_encrypted) {
+            return false;
+          }
+        }
       }
+      return isExistMatchMail;
+      return true;
     });
+      
+    for (let i = 0; i < this.mails.length; i++) {
+      if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
+        const mail = this.mails[i];
+        if (mail.is_subject_encrypted && this.queueForDecryptSubject.indexOf(mail.id) < 0) {
+          this.processDecryptSubject(mail.id);
+          this.queueForDecryptSubject.push(mail.id);
+          this.scrambleText(mail.id);
+        }
+      } else {
+        break;
+      }
+    }
+  }
+
+  isSubjectDecrypting(mailID: number) {
+    const queuedMail = this.queueForDecryptSubject.filter(mail => mail === mailID);
+    return queuedMail.length > 0 ? true : false;
+  }
+
+  processDecryptSubject(mailId: number) {
+    const mailToDecrypt = this.mails.find(mail => {
+      return mail.id === mailId;
+    })
+    if (mailToDecrypt) {
+      setTimeout(() => {
+        this.pgpService.decrypt(mailToDecrypt.mailbox, mailToDecrypt.id, new SecureContent(mailToDecrypt), true);
+      }, 10);
+    }
   }
 
   confirmDeleteAll() {
@@ -347,6 +393,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       this.composeMailService.openComposeMailDialog({ draft: mail, isFullScreen: this.userState.settings.is_composer_full_screen });
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
+      // TODO should be regression test for this part for sender_display_name
       this.store.dispatch(new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }));
       const queryParams: any = {};
       if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
@@ -456,6 +503,16 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  scrambleText(mailId) {
+    setTimeout(() => {
+      Scrambler({
+        target: `#subject-scramble-${mailId}`,
+        random: [1000, 120000],
+        speed: 70,
+        text: 'A7gHc6H66A9SAQfoBJDq4C7'
+      });
+    }, 100);
+  }
 
   toggleEmailSelection(mail) {
     mail.marked = !mail.marked;

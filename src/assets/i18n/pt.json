@@ -78,6 +78,7 @@
 		"new_contact": "NOVO CONTATO",
 		"note": "Nota",
 		"phone2": "2.º Celular",
+		"encryption": "Encryption",
 		"save": {
 			"email_not_valid": "Endereço de email inválido",
 			"email_req": "O endereço de email é necessário",
@@ -627,6 +628,7 @@
 			"set_up": "Configurar",
 			"set_up_2FA": "Configurar autenticação de dois fatores",
 			"subjects_encryption": "Criptografia do assunto",
+			"auto_decrypt_subject": "Descriptografia de assuntos automaticamente",
 			"upgrade_to_paid": "Por favor, faça um upgrade para um plano pago para poder utilizar essa função"
 		},
 		"security_settings": "Configurações de segurança",

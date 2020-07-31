@@ -7,6 +7,7 @@
     "delete_tooltip": "Supprimer les contacts sélectionnés.",
     "details": "Coordonnées du contact",
     "phone2": "Tél. 2",
+    "encryption": "Encryption",
     "address": "Adresse",
     "note": "Note",
     "save": {
@@ -276,6 +277,7 @@
       "and_change_password": "et changez votre mot de passe.",
       "phishing_protection": "Protection contre le phishing",
       "subjects_encryption": "Cryptage des sujets",
+      "auto_decrypt_subject": "Décryptage automatique des sujets",
       "confirm_disable_contacts": "Confirmer la désactivation du cryptage des contacts",
       "contacts_decrypted": "contacts décryptés",
       "decrypting_contacts": "Décryptage des contacts",

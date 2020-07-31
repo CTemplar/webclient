@@ -44,7 +44,10 @@ import {
   UpgradeAccountFailure,
   UpgradeAccountSuccess,
   VerifyCaptcha,
-  VerifyCaptchaSuccess, SettingsUpdateSuccess, GetMailboxes
+  VerifyCaptchaSuccess,
+  SettingsUpdateSuccess,
+  GetMailboxes,
+  RefreshToken
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -92,6 +95,15 @@ export class AuthEffects {
   LogInFailure: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGIN_FAILURE)
   );
+
+  @Effect({ dispatch: false })
+  RefreshToken: Observable<any> = this.actions
+    .pipe(
+      ofType(AuthActionTypes.REFRESH_TOKEN),
+      map((action: RefreshToken) => action.payload),
+      switchMap(() => {
+        return this.authService.refreshToken()
+      }));
 
   @Effect()
   SignUp: Observable<any> = this.actions

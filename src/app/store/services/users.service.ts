@@ -35,14 +35,19 @@ export class UsersService {
   }
 
   refreshToken(): Observable<any> {
-    const body = { token: localStorage.getItem('token') };
-    const url = `${apiUrl}auth/refresh/`;
-    return this.http.post<any>(url, body).pipe(
-      tap(data => {
-        localStorage.setItem('token', data.token);
-        this.setTokenExpiration();
-      })
-    );
+    const token = this.getToken();
+    if (token) {
+      const body = { token };
+      const url = `${apiUrl}auth/refresh/`;
+      return this.http.post<any>(url, body).pipe(
+        tap(data => {
+          localStorage.setItem('token', data.token);
+          this.setTokenExpiration();
+        })
+      );
+    } else {
+      return of({});
+    }
   }
 
   isTokenExpired() {
@@ -113,6 +118,12 @@ export class UsersService {
     localStorage.removeItem('user_key');
     this.router.navigateByUrl('/signin');
     return this.http.get(`${apiUrl}auth/sign-out/`);
+  }
+
+  onBeforeLoader(e) {
+    var confirmationMessage = "If you close the window now all the progress will be lost and your account won't be created.";
+    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
   }
 
   signUp(user): Observable<any> {
