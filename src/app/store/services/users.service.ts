@@ -376,7 +376,11 @@ export class UsersService {
   }
 
   private updateSignupDataWithPromo(data: any = {}) {
-    const referralId = localStorage.getItem(REFFERAL_ID_KEY);
+    // Get cookie
+    const referralId = document.cookie
+      .split('; ')
+      .find(row => row.startsWith(REFFERAL_ID_KEY))
+      .split('=')[1];
     if (referralId) {
       data[REFFERAL_ID_KEY] = referralId;
     }
