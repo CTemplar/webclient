@@ -59,6 +59,7 @@
     "dashboard_plans": "Dashboard & plans",
     "general": "General",
     "compose_font": "Default Mail Compose Font",
+    "compose_autosave_duration": "Mail compose autosave duration",
     "overview": "Overview",
     "username": "Username",
     "domains": "Domains",

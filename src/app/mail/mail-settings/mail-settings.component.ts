@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 // Store
 import { Store } from '@ngrx/store';
-import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
+import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -53,6 +53,7 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
+  readonly autosave_duration = AUTOSAVE_DURATION;
   readonly planType = PlanType;
   @ViewChild('tabSet') tabSet;
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;

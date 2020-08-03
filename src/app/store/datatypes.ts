@@ -179,6 +179,7 @@ export class Settings {
   email_count?: number;
   domain_count?: number;
   default_font?: string;
+  autosave_duration?: string;
   enable_forwarding?: boolean;
   enable_copy_forwarding?: boolean;
   forwarding_address?: string;

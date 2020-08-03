@@ -216,7 +216,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private quill: any;
   private autoSaveSubscription: Subscription;
-  private DEBOUNCE_DURATION: number = 5000; // duration in milliseconds
   private attachImagesModalRef: NgbModalRef;
   private selfDestructModalRef: NgbModalRef;
   private delayedDeliveryModalRef: NgbModalRef;
@@ -264,7 +263,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.resetMailData();
     this.initializeDraft();
-    this.initializeAutoSave();
 
     this.store.select((state: AppState) => state.composeMail).pipe(untilDestroyed(this))
       .subscribe((response: ComposeMailState) => {
@@ -291,7 +289,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.store.select((state: AppState) => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        // this.isTrialPrimeFeaturesAvailable = this.dateTimeUtilService.getDiffToCurrentDateTime(user.joinedDate, 'days') < 14;
         this.userState = user;
         this.settings = user.settings;
         if (this.draftMail && this.draftMail.is_html === null) {
@@ -365,6 +362,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       month: now.getMonth() + 1,
       day: now.getDate()
     };
+
+    this.initializeAutoSave();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -645,13 +644,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   initializeAutoSave() {
-    this.autoSaveSubscription = this.valueChanged$
-      .pipe(
-        debounceTime(this.DEBOUNCE_DURATION)
-      )
-      .subscribe(data => {
-        this.updateEmail();
-      });
+    if (this.settings.autosave_duration !== "none") {
+      let duration = Number(this.settings.autosave_duration.slice(0, -1)) * 1000;
+      this.autoSaveSubscription = this.valueChanged$
+        .pipe(
+          debounceTime(duration)
+        )
+        .subscribe(data => {
+          this.updateEmail();
+        });
+    }
   }
 
   quillImageHandler() {
