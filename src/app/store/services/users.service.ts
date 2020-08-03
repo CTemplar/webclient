@@ -376,14 +376,9 @@ export class UsersService {
   }
 
   private updateSignupDataWithPromo(data: any = {}) {
-    // Get cookie
-    const referralId = document.cookie
-      .split('; ')
-      .find(row => row.startsWith(REFFERAL_ID_KEY))
-      .split('=')[1];
-    if (referralId) {
-      data[REFFERAL_ID_KEY] = referralId;
-    }
+    // Get cookie for cjevent
+    const referralId = document.cookie.split('; ').find(row => row.startsWith(REFFERAL_ID_KEY));
+    if (referralId) data[REFFERAL_ID_KEY] = referralId.split('=')[1];
     return data;
   }
 
