@@ -493,10 +493,10 @@
                       <div ngbDropdown class="dropdown-sm">
                         <button ngbDropdownToggle class="text-capitalize" role="button"
                                 id="defaultAutosaveDropdownMenuButton">
-                          {{settings.autosave_duration}}
+                          {{autosave_duration}}
                         </button>
                         <div ngbDropdownMenu aria-labelledby="defaultAutosaveDropdownMenuButton">
-                          <a class="dropdown-item text-capitalize" *ngFor="let duration of autosave_duration"
+                          <a class="dropdown-item text-capitalize" *ngFor="let duration of autosave_duration_list"
                              (click)="updateSettings('autosave_duration', duration)">
                             {{duration}}
                           </a>

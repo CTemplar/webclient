@@ -645,10 +645,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   initializeAutoSave() {
     if (this.settings.autosave_duration !== "none") {
-      let duration = Number(this.settings.autosave_duration.slice(0, -1)) * 1000;
       this.autoSaveSubscription = this.valueChanged$
         .pipe(
-          debounceTime(duration)
+          debounceTime(Number(this.settings.autosave_duration))
         )
         .subscribe(data => {
           this.updateEmail();
