@@ -63,7 +63,7 @@
         </li>
         <li class="pr-0" *ngIf="!userState.settings.is_subject_auto_decrypt">
           <a class="px-0" placement="top"
-             (click)="decryptAllSubjects()"
+             (click)="onDecryptSubjects()"
              ngbTooltip="Decrypt all subjects on current page">
             <i class="fas fa-unlock-alt"></i>
           </a>
