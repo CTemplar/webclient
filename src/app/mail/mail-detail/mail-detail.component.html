@@ -383,7 +383,8 @@
       </ng-container>
     </ul>
   </section>
-
+  
+  <!-- Child Mail-->
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
     <ng-container *ngIf="mailFolder === mailFolderTypes.TRASH || childMail.folder !== mailFolderTypes.TRASH">
       <ng-container [ngSwitch]="childMail.folder">
