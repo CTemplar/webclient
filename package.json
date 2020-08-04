@@ -12,6 +12,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:local": "ng serve -c local",
+    "start:local:ssl": "ng serve -c local --ssl",
     "start:electron": "electron .",
     "build": "ng build --prod --subresource-integrity",
     "build:dev": "ng build --output-hashing all  --subresource-integrity",
