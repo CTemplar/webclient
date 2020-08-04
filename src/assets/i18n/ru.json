@@ -7,25 +7,25 @@
     "delete_tooltip": "Удалить выбранные контакты.",
     "details": "Детали контакта",
     "phone2": "Телефон2",
-    "encryption": "Encryption",
+    "encryption": "шифрование",
     "address": "Адрес",
     "note": "Примечания",
     "save": {
       "error": "Пожалуйста, заполните необходимые поля.",
-      "name_required": "Name is required",
-      "email_req": "Email address is required",
-      "email_not_valid": "Email address is not valid"
+      "name_required": "Введите имя",
+      "email_req": "Введите адрес электронной почты",
+      "email_not_valid": "Адрес электронной почты недействителен"
     },
     "delete": {
       "title": "Подтвердить удаление",
       "message": "Вы уверены, что хотите удалить "
     },
-    "import_contacts": "Import Contacts",
+    "import_contacts": "Импорт контактов",
     "select_csv": "Select a CSV file from one of the following providers.",
-    "import_f_google": "Import from Google",
-    "import_f_yahoo": "Import from Yahoo",
-    "import_f_outlook": "Import from Outlook",
-    "import_f_other": "Import from Other",
+    "import_f_google": "Имя контакта Google",
+    "import_f_yahoo": "Импорт из Yahoo",
+    "import_f_outlook": "Импорт из Outlook",
+    "import_f_other": "Импорт из другого",
     "contact_name": "Contact Name",
     "type_email": "Type E-mail",
     "a_note": "A note"
@@ -54,6 +54,7 @@
   },
   "settings": {
     "compose_font": "Default Mail Compose Font",
+    "compose_autosave_duration": "Mail compose autosave duration",
     "champion_plan": "Champion Plan",
     "champion": "Champion",
     "select_champion": "Select Champion",

@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 // Store
 import { Store } from '@ngrx/store';
-import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
+import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -53,6 +53,7 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
+  readonly autosaveDurations = AUTOSAVE_DURATION;
   readonly planType = PlanType;
   @ViewChild('tabSet') tabSet;
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
@@ -75,6 +76,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
   notificationsPermission: string;
+  autosave_duration: any = {};
+  autosave_duration_list: Array<string>;
   notificationPermissionType = NotificationPermission;
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
@@ -107,6 +110,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initAutoSaving();
+
     if ('Notification' in window) {
       this.notificationsPermission = Notification.permission;
     }
@@ -132,6 +137,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
+        }
+
+        if (user.settings.autosave_duration !== "none" && user.settings.autosave_duration) {
+          let duration = Number(user.settings.autosave_duration);
+          let newDuration = duration >= 60000 ? duration/60000 + "m" : duration/1000 + "s";
+          this.autosave_duration = newDuration;
+        } else {
+          this.autosave_duration = "none";
         }
       });
     this.store.select(state => state.timezone).pipe(untilDestroyed(this))
@@ -177,6 +190,20 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleRecoveyEmailEdit() {
     this.isEditingRecoveryEmail = !this.isEditingRecoveryEmail;
+  }
+
+  initAutoSaving() {
+    let autosave_durations = [];
+    this.autosaveDurations.forEach((duration, index)=>{
+      if (duration !== "none" && duration) {
+        let perduration = Number(duration);
+        let newDuration = perduration >= 60000 ? perduration/60000 + "m" : perduration/1000 + "s";
+        autosave_durations.push(newDuration);
+      } else {
+        autosave_durations.push("none");
+      }
+    });
+    this.autosave_duration_list = autosave_durations;
   }
 
   ngAfterViewInit() {
@@ -267,6 +294,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateSettings(key?: string, value?: any) {
+    if (key === "autosave_duration") {
+      if (value.substr(-1) === "m") { value = Number(value.slice(0, -1)) * 60000; }
+      if (value.substr(-1) === "s") { value = Number(value.slice(0, -1)) * 1000; }
+    }
     this.settingsService.updateSettings(this.settings, key, value);
   }
 

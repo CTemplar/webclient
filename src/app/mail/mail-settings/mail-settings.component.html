@@ -485,6 +485,30 @@
 
               <div class="form-content-row">
                 <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_autosave_duration'">Mail compose autosave duration</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle class="text-capitalize" role="button"
+                                id="defaultAutosaveDropdownMenuButton">
+                          {{autosave_duration}}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultAutosaveDropdownMenuButton">
+                          <a class="dropdown-item text-capitalize" *ngFor="let duration of autosave_duration_list"
+                             (click)="updateSettings('autosave_duration', duration)">
+                            {{duration}}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-content-row">
+                <div class="row align-items-center">
                   <div class="col-sm-3" ngbTooltip="Enabling this option would block all the external images from loading automatically when you open an email">
                     <label class="form-label mb-0">Block external images</label>
                   </div>

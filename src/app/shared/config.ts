@@ -126,6 +126,7 @@ export const ESCAPE_KEYCODE = 27;
 export const VALID_EMAIL_REGEX: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
+export const AUTOSAVE_DURATION = ['none', '5000', '10000', '20000', '30000'];
 
 export const REFFERAL_CODE_KEY = 'referral_code';
 export const PROMO_CODE_KEY = 'promo_code';
