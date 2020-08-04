@@ -163,7 +163,7 @@ function getBaseUrl() {
       'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/' :
       'https://api.ctemplar.com/';
   } else if (AppConfig.local) {
-    return 'http://localhost:8000/';
+    return 'http://127.0.0.1:8000/';
   }
   return 'https://devapi.ctemplar.net/';
 }
