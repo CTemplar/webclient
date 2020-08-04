@@ -60,6 +60,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   MAX_DECRYPT_NUMBER = 3;
   folderColors: any = {};
   queueForDecryptSubject: any = [];
+  isEnabledToDecryptSubject: boolean = false;
 
   private searchText: string;
   private mailState: MailState;
@@ -101,7 +102,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           this.refresh();
         }
         this.setIsSelectAll();
-        if (this.userState && this.userState.settings && this.userState.settings.is_subject_auto_decrypt) {
+        if ((this.userState && this.userState.settings && this.userState.settings.is_subject_auto_decrypt) || this.isEnabledToDecryptSubject) {
           this.decryptAllSubjects();
         }
       });
@@ -310,6 +311,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  onDecryptSubjects() {
+    if (!this.isEnabledToDecryptSubject) {
+      this.isEnabledToDecryptSubject = true;
+      this.decryptAllSubjects();
+    }
+  }
+
   decryptAllSubjects() {
     this.queueForDecryptSubject = this.queueForDecryptSubject.filter(decryptingMail => {
       // Item on queue would be removed when the following condition is matched
@@ -326,7 +334,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       }
       return isExistMatchMail;
-      return true;
     });
       
     for (let i = 0; i < this.mails.length; i++) {
