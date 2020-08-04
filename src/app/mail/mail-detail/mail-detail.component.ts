@@ -491,13 +491,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.composeMailData[mail.id].receivers =
             lastSender !== this.currentMailbox.email
               ? [lastSender]
-              : [lastReceiver];          
+              : [lastReceiver];
         } else {
           this.composeMailData[mail.id].receivers =
             mail.sender !== this.currentMailbox.email
               ? [mail.sender]
               : this.mail.receiver;
-        }        
+        }
       } else {
         this.composeMailData[mail.id].receivers =
             mail.sender !== this.currentMailbox.email
@@ -600,7 +600,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     if (
       (mail.id === this.mail.id && (withChildren || !excepted_children || excepted_children.length === 0)) ||
-      (mail.id !== this.mail.id && (!excepted_children || excepted_children.length === 0) && this.mail.folder === MailFolderType.TRASH) || 
+      (mail.id !== this.mail.id && (!excepted_children || excepted_children.length === 0) && this.mail.folder === MailFolderType.TRASH) ||
       (mail.id === this.mail.id && this.mail.folder === MailFolderType.TRASH)
     ) {
       this.goBack(500);
