@@ -1409,6 +1409,11 @@
   line-height: 1.43;
   margin-right: 50px;
   word-break: normal;
+  @include media("<ipad") {
+    margin-top: 50px;
+    margin-right: 0px;
+    overflow-x: auto;
+  }
 }
 
 /* ==================================== */
