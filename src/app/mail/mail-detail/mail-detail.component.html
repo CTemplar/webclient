@@ -343,7 +343,9 @@
       </div>
       <div class="show_gmail_extra">
           <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content"
-               [innerHTML]="decryptedContents[mail.id] | safe: 'unsafehtml': disableExternalImages"></div>
+               [innerHTML]="mail.is_html ? 
+                (decryptedContents[mail.id] | safe: 'unsafehtml': disableExternalImages) : 
+                (decryptedContents[mail.id] | linebreaktobrtag | safe: 'unsafehtml': disableExternalImages)"></div>
       </div>
     </div>
 
@@ -383,7 +385,8 @@
       </ng-container>
     </ul>
   </section>
-
+  
+  <!-- Child Mail-->
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
     <ng-container *ngIf="mailFolder === mailFolderTypes.TRASH || childMail.folder !== mailFolderTypes.TRASH">
       <ng-container [ngSwitch]="childMail.folder">
@@ -535,7 +538,10 @@
 
                 <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
                     <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
-                         [innerHTML]="decryptedContents[childMail.id] | safe: 'unsafehtml':disableExternalImages"></div>
+                        [innerHTML]="childMail.is_html ? 
+                        (decryptedContents[childMail.id] | safe: 'unsafehtml': disableExternalImages) : 
+                        (decryptedContents[childMail.id] | linebreaktobrtag | safe: 'unsafehtml': disableExternalImages)"></div>
+
                   <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
                      *ngIf="decryptedContents[childMail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[childMail.id]?.indexOf('gmail_quote') > -1">
                     <div class="ellipsis-wrapper" placement="top"

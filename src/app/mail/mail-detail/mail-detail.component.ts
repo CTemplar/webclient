@@ -25,6 +25,7 @@ import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../..
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
+import { LineBreakToBrTag } from '../../shared/pipes/replace-linebreak-brtag.pipe';
 
 declare var Scrambler;
 
@@ -94,7 +95,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private composeMailService: ComposeMailService,
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
-    private mailService: MailService) {
+    private mailService: MailService,
+    private linebreaktobrtag: LineBreakToBrTag) {
   }
 
   ngOnInit() {

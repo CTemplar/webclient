@@ -181,7 +181,7 @@
             <li class="send-mail-item">
               <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
                       (click)="sendEmail()"
-                      [disabled]="inProgress || isUploadingAttachment ||  isDownloadingAttachmentCounter > 0"
+                      [disabled]="isUploadingAttachment ||  isDownloadingAttachmentCounter > 0"
                       role="button"
                       placement="top">
                 <i class="hidden-sm-up icon icon-paper-plane"></i><span
