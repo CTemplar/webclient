@@ -202,6 +202,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   datePickerMinDate: NgbDateStruct;
   valueChanged$: Subject<any> = new Subject<any>();
   inProgress: boolean;
+  isProcessingAttachments: boolean;
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
   isTrialPrimeFeaturesAvailable: boolean = false;
@@ -270,6 +271,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         if (draft) {
           this.draftMail = draft.draft;
           this.inProgress = draft.inProgress;
+          if (draft.isProcessingAttachments !== undefined) { this.isProcessingAttachments = draft.isProcessingAttachments; }
           if (draft.draft) {
             if (draft.draft.id && this.attachmentsQueue.length > 0) {
               this.attachmentsQueue.forEach(attachment => {
@@ -691,6 +693,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onFilesSelected(files: FileList) {
+    this.isProcessingAttachments = true;
     if (!this.draftMail || !this.draftMail.id) {
       this.updateEmail();
     }
@@ -795,7 +798,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   sendEmail() {
-    if (this.inProgress || this.draft.isSaving) {
+    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.sendEmail();
