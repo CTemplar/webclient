@@ -343,8 +343,8 @@
       </div>
       <div class="show_gmail_extra">
           <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content"
-               [innerHTML]="mail.is_html ? 
-                (decryptedContents[mail.id] | safe: 'unsafehtml': disableExternalImages) : 
+               [innerHTML]="mail.is_html ?
+                (decryptedContents[mail.id] | safe: 'unsafehtml': disableExternalImages) :
                 (decryptedContents[mail.id] | linebreaktobrtag | safe: 'unsafehtml': disableExternalImages)"></div>
       </div>
     </div>
@@ -356,11 +356,14 @@
       </div>
     </div>
 
+    <!-- Attachments list starts -->
     <ul class="list-style-none mt-3">
       <ng-container *ngFor="let attachment of mail.attachments">
         <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
           <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-          <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
+
+          <!-- Deprecated -->
+          <!-- <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
              [href]="attachment.document" placement="top" [ngbTooltip]="attachment.name" target="_blank"
              rel="noopener noreferrer">
             <div class="attachment-icon">
@@ -369,10 +372,11 @@
             <div class="attachment-name">
               {{attachment.name}}
             </div>
-          </a>
+          </a> -->
+          <!-- Deprecated -->
+
           <ng-template #encryptedAttachment>
-            <a class="download-attachment" (click)="decryptAttachment(attachment, mail)" href="javascript:void(0)"
-               placement="top" [ngbTooltip]="attachment.name">
+            <a class="download-attachment" (click)="decryptAttachment(attachment, mail)" href="javascript:void(0)" placement="top" [ngbTooltip]="attachment.name">
               <div class="attachment-icon">
                 <i class="icon icon-attachment"></i>
               </div>
@@ -381,11 +385,14 @@
               </div>
             </a>
           </ng-template>
+
         </li>
       </ng-container>
     </ul>
+    <!-- Attachments list ends -->
+
   </section>
-  
+
   <!-- Child Mail-->
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
     <ng-container *ngIf="mailFolder === mailFolderTypes.TRASH || childMail.folder !== mailFolderTypes.TRASH">
@@ -521,7 +528,7 @@
                        (click)="onForward(childMail, childIndex, true)">{{"mail_detail.forward"| translate}}</a>
                     <a class="dropdown-item"
                        (click)="onReply(childMail, childIndex, true)">{{"mail_detail.reply"| translate}}</a>
-                    <a class="dropdown-item" *ngIf="childMail.cc.length || childMail.bcc.length || childMail.receiver.length > 1" 
+                    <a class="dropdown-item" *ngIf="childMail.cc.length || childMail.bcc.length || childMail.receiver.length > 1"
                        (click)="onReplyAll(childMail, childIndex, true)">{{"mail_detail.reply_all"| translate}}</a>
                     <a class="dropdown-item" (click)="onPrint(childMail)">{{"mail_detail.print"| translate}}</a>
                     <a class="dropdown-item" *ngIf="childMail.delayed_delivery" (click)="onCancelSend(childMail)">{{"mail_detail.cancel_send"| translate}}</a>
@@ -538,8 +545,8 @@
 
                 <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
                     <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
-                        [innerHTML]="childMail.is_html ? 
-                        (decryptedContents[childMail.id] | safe: 'unsafehtml': disableExternalImages) : 
+                        [innerHTML]="childMail.is_html ?
+                        (decryptedContents[childMail.id] | safe: 'unsafehtml': disableExternalImages) :
                         (decryptedContents[childMail.id] | linebreaktobrtag | safe: 'unsafehtml': disableExternalImages)"></div>
 
                   <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
@@ -553,23 +560,28 @@
 
 
               </div>
+
+              <!-- Attachments list starts -->
               <ul class="list-style-none mt-3" *ngIf="childMail.attachments?.length>0">
                 <ng-container *ngFor="let attachment of childMail.attachments">
                   <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
                     <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-                    <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
-                       [href]="attachment.document" placement="top" [ngbTooltip]="attachment.name"
-                       target="_blank" rel="noopener noreferrer">
+
+                    <!-- Deprecated -->
+                    <!-- <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
+                      [href]="attachment.document" placement="top" [ngbTooltip]="attachment.name" target="_blank"
+                      rel="noopener noreferrer">
                       <div class="attachment-icon">
                         <i class="icon icon-attachment"></i>
                       </div>
                       <div class="attachment-name">
                         {{attachment.name}}
                       </div>
-                    </a>
+                    </a> -->
+                    <!-- Deprecated -->
+
                     <ng-template #encryptedAttachment>
-                      <a class="download-attachment" (click)="decryptAttachment(attachment, childMail)"
-                         href="javascript:void(0)" placement="top" [ngbTooltip]="attachment.name">
+                      <a class="download-attachment" (click)="decryptAttachment(attachment, childMail)" href="javascript:void(0)" placement="top" [ngbTooltip]="attachment.name">
                         <div class="attachment-icon">
                           <i class="icon icon-attachment"></i>
                         </div>
@@ -578,9 +590,12 @@
                         </div>
                       </a>
                     </ng-template>
+
                   </li>
                 </ng-container>
               </ul>
+              <!-- Attachments list ends -->
+
             </section>
             <div align="center" class="decryption-spinner" *ngIf="decryptedContents[childMail.id]==null && isDecrypting[childMail.id]===true">
               <img class="mt-3" [src]="loadingImage | safe:'url'"/>

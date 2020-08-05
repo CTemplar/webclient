@@ -397,34 +397,32 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   decryptAttachment(attachment: Attachment, mail: Mail) {
-    if (attachment.is_encrypted) {
-      if (this.decryptedAttachments[attachment.id]) {
-        if (!this.decryptedAttachments[attachment.id].inProgress) {
-          this.downloadAttachment(this.decryptedAttachments[attachment.id]);
-        }
-      } else {
-        this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
-        this.mailService.getAttachment(attachment)
-          .subscribe(response => {
-            const uint8Array = atob(response.data);
-            if (!attachment.name) {
-              attachment.name = FilenamePipe.tranformToFilename(attachment.document);
-            }
-            const fileInfo = { attachment, type: response.file_type };
-            this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
-              .pipe(
-                take(1)
-              )
-              .subscribe((decryptedAttachment: Attachment) => {
-                this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
-                this.downloadAttachment(decryptedAttachment);
-              },
-                error => console.log(error));
-          },
-            errorResponse => this.store.dispatch(new SnackErrorPush({
-              message: errorResponse.error || 'Failed to download attachment.'
-            })));
+    if (this.decryptedAttachments[attachment.id]) {
+      if (!this.decryptedAttachments[attachment.id].inProgress) {
+        this.downloadAttachment(this.decryptedAttachments[attachment.id]);
       }
+    } else {
+      this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
+      this.mailService.getAttachment(attachment)
+        .subscribe(response => {
+          const uint8Array = atob(response.data);
+          if (!attachment.name) {
+            attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+          }
+          const fileInfo = { attachment, type: response.file_type };
+          this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
+            .pipe(
+              take(1)
+            )
+            .subscribe((decryptedAttachment: Attachment) => {
+              this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
+              this.downloadAttachment(decryptedAttachment);
+            },
+              error => console.log(error));
+        },
+          errorResponse => this.store.dispatch(new SnackErrorPush({
+            message: errorResponse.error || 'Failed to download attachment.'
+          })));
     }
   }
 
