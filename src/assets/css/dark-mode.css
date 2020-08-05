@@ -1,129 +1,195 @@
-body {
-    background: #20273e !important;
-    color: #fff !important
-}
-
-.mailbox-sidebar-inner .mailbox-sidebar-footer, aside#mailbox-sidebar {
+.mailbox-sidebar-inner .mailbox-sidebar-footer,
+aside#mailbox-sidebar {
     background: #151e34;
-    border-right: 2px solid #323a4c
+    border-right: 2px solid #323a4c;
 }
-
 nav.navbar.mailbox-navbar {
     background: #20273e;
     border: 0;
-    border-bottom: 1px solid #323a4c
+    border-bottom: 1px solid #323a4c;
 }
-
-.mail-contact .mail-list-row, div.mail-list-row, div.mail-list-row.is-read, div.mail-list-row.is-selected, div.mail-list-row.is-unread, tr.mail-list-row, tr.mail-list-row.is-read, tr.mail-list-row.is-selected, tr.mail-list-row.is-unread {
+.mail-contact .mail-list-row,
+div.mail-list-row,
+div.mail-list-row.is-read,
+div.mail-list-row.is-selected,
+div.mail-list-row.is-unread,
+tr.mail-list-row,
+tr.mail-list-row.is-read,
+tr.mail-list-row.is-selected,
+tr.mail-list-row.is-unread {
     background: #20273e !important;
     color: #fff !important;
-    border-bottom: 1px solid #323a4c !important
+    border-bottom: 1px solid #323a4c !important;
 }
-
-.mail-contact-body.is-bordered, .mail-contact-header.mail-list-row {
-    border: 1px solid #323a4c !important
+.mail-contact-body.is-bordered,
+.mail-contact-header.mail-list-row {
+    border: 1px solid #323a4c !important;
 }
-
 tr.mail-list-row.is-selected {
-    background: #373c50 !important
+    background: #373c50 !important;
 }
-
-*, .mail-controls div.mail-result-text.text-muted > small, .mailbox-footer-menu a u, .plan-details .subscription, .pricing-plans .plan-item div, .setting-actions-list a i, .text-dark, .text-gray-dark, .text-secondary, ::after, ::before, a.dropdown-item, a.text-dark:focus, a.text-dark:hover, a.text-gray-dark:focus, a.text-gray-dark:hover, a.text-muted, a.text-muted:hover, ngb-datepicker div.ngb-dp-months div ngb-datepicker-month-view div.ngb-dp-week .ngb-dp-weekday {
-    color: #fff !important
+.mail-controls div.mail-result-text.text-muted > small,
+.mailbox-footer-menu a u,
+.plan-details .subscription,
+.pricing-plans .plan-item div,
+.setting-actions-list a i,
+.text-dark,
+.text-gray-dark,
+.text-secondary,
+::after,
+::before,
+a.dropdown-item,
+a.text-dark:focus,
+a.text-dark:hover,
+a.text-gray-dark:focus,
+a.text-gray-dark:hover,
+a.text-muted,
+a.text-muted:hover,
+ngb-datepicker div.ngb-dp-months div ngb-datepicker-month-view div.ngb-dp-week .ngb-dp-weekday {
+    color: #fff !important;
 }
-
-.mail-list-row.is-unread .mail-from-name, .mail-list-row.is-unread .mail-subject {
-    font-size: 15px
+.mail-list-row.is-unread .mail-from-name,
+.mail-list-row.is-unread .mail-subject {
+    font-size: 15px;
 }
-
 .mailbox-actionbar {
-    border-bottom: 1px solid #323a4c !important
+    border-bottom: 1px solid #323a4c !important;
 }
-
-.mail-checkbox .mat-checkbox .mat-checkbox-frame, .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .select-all-checkbox .mat-checkbox .mat-checkbox-frame {
-    border: 2px solid #fff !important
+.mail-checkbox .mat-checkbox .mat-checkbox-frame,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.select-all-checkbox .mat-checkbox .mat-checkbox-frame {
+    border: 2px solid #fff !important;
 }
-
-.search-form div.form-group, .input-group-addon {
+.input-group-addon,
+.search-form div.form-group {
     border: 1px solid #474e61 !important;
 }
-
 .search-form .search-btn {
     background: #182034;
-    border: 0
+    border: 0;
 }
-
-.domain-body .domains-list .row .actions .action:hover, .domains-list, .download-attachment-wrapper .download-attachment, .dropdown-menu,
-.form-control, .help-icon .icon-button, .info-card,
-.info-list-item, .mail-compose-field, .mailbox-actionbar .mailbox-actionbar-menu > li > a,
-.mailbox-actionbar-menu > li .dropdown-toggle, .mailbox-dropdown .dropdown-menu,
-.mailbox-dropdown .dropdown-menu a.dropdown-item:active, .mailbox-dropdown .dropdown-menu a.dropdown-item:focus,
-.mailbox-dropdown .dropdown-menu a.dropdown-item:hover, .mat-stepper-horizontal, .mat-stepper-vertical, .modal-body,
-.modal-footer, .modal-header, .nav-tabs.nav .nav-link, .nav-tabs.nav li, .nav.nav-tabs, .plan-details .desc-card-body,
-.pricing-plans .plan-item, .pricing-plans .plan-sub-item, .stepper-form, .timezone-option, .ui-list-item,
-app-mail-header .mailbox-actions-menu > li a, app-mail-settings .timezone-block .mat-form-field-appearance-legacy .mat-form-field-infix,
-app-organization-users .actions, app-organization-users .actions:hover, button.actions-btn, button.btn.btn-default.btn-sm,
-button.btn.btn-user-action, button.dropdown-toggle, div.mailbox-actionbar div.mail-nav-control button, input, input::placeholder,
-.bitcoin-payment.card, .bitcoin-payment.card .card-header,
-textarea, textarea::placeholder {
+.bitcoin-payment.card,
+.bitcoin-payment.card .card-header,
+.domain-body .domains-list .row .actions .action:hover,
+.domains-list,
+.download-attachment-wrapper .download-attachment,
+.dropdown-menu,
+.form-control,
+.help-icon .icon-button,
+.info-card,
+.info-list-item,
+.mail-compose-field,
+.mailbox-actionbar .mailbox-actionbar-menu > li > a,
+.mailbox-actionbar-menu > li .dropdown-toggle,
+.mailbox-dropdown .dropdown-menu,
+.mailbox-dropdown .dropdown-menu a.dropdown-item:active,
+.mailbox-dropdown .dropdown-menu a.dropdown-item:focus,
+.mailbox-dropdown .dropdown-menu a.dropdown-item:hover,
+.mat-stepper-horizontal,
+.mat-stepper-vertical,
+.modal-body,
+.modal-footer,
+.modal-header,
+.nav-tabs.nav .nav-link,
+.nav-tabs.nav li,
+.nav.nav-tabs,
+.plan-details .desc-card-body,
+.pricing-plans .plan-item,
+.pricing-plans .plan-sub-item,
+.stepper-form,
+.timezone-option,
+.ui-list-item,
+app-mail-header .mailbox-actions-menu > li a,
+app-mail-settings .timezone-block .mat-form-field-appearance-legacy .mat-form-field-infix,
+app-organization-users .actions,
+app-organization-users .actions:hover,
+button.actions-btn,
+button.btn.btn-default.btn-sm,
+button.btn.btn-user-action,
+button.dropdown-toggle,
+div.mailbox-actionbar div.mail-nav-control button,
+input,
+input::placeholder,
+textarea,
+textarea::placeholder {
     background: #363d51 !important;
     border: solid 1px #474e61 !important;
-    color: #fff !important
+    color: #fff !important;
 }
-
-.help-icon .icon-button:hover, .mailbox-actionbar .mailbox-actionbar-menu > li > a:hover, app-generic-folder div.mailbox-actionbar div.mail-nav-control button:hover, app-mail-header .mailbox-actions-menu > li a:hover, .input-group-addon {
-    border: solid 1px #394061 !important
+.help-icon .icon-button:hover,
+.input-group-addon,
+.mailbox-actionbar .mailbox-actionbar-menu > li > a:hover,
+app-generic-folder div.mailbox-actionbar div.mail-nav-control button:hover,
+app-mail-header .mailbox-actions-menu > li a:hover {
+    border: solid 1px #394061 !important;
 }
-
-.mailbox-dropdown .dropdown-menu a.dropdown-item, .ui-header.border-all-corner {
-    border: solid 1px #363d51 !important
+.mailbox-dropdown .dropdown-menu a.dropdown-item,
+.ui-header.border-all-corner {
+    border: solid 1px #363d51 !important;
 }
-
-input, input::placeholder, textarea, textarea::placeholder {
-    border: 0 !important
+input,
+input::placeholder,
+textarea,
+textarea::placeholder {
+    border: 0 !important;
 }
-
-.nav-tabs.nav .nav-link.active, .nav-tabs.nav .nav-link:hover, .nav-tabs.nav li:hover, .nav.nav-tabs:hover {
-    background: #182034 !important
+.nav-tabs.nav .nav-link.active,
+.nav-tabs.nav .nav-link:hover,
+.nav-tabs.nav li:hover,
+.nav.nav-tabs:hover {
+    background: #182034 !important;
 }
-
 .progress-secondary .progress-bar {
-    background-color: #c0392b !important
+    background-color: #c0392b !important;
 }
-
-.bg-faded, .bg-light, .bg-white, .mailbox-footer {
-    background: #363d51 !important
+.bg-faded,
+.bg-light,
+.bg-white,
+.mailbox-footer {
+    background: #363d51 !important;
 }
-
 .pricing-plans .plan-item .select-btn {
-    box-shadow: 5px 10px 10px #151e35 !important
+    box-shadow: 5px 10px 10px #151e35 !important;
 }
-
 .mail-compose-field button {
-    border: 0 !important
+    border: 0 !important;
 }
-
-app-compose-mail .mail-compose-box-inner, app-compose-mail .mail-compose-editable-box,
-app-compose-mail .mail-composer-footer, app-compose-mail .ng2-menu-item, app-compose-mail tag,
+.loading,
+app-compose-mail .mail-compose-box-inner,
+app-compose-mail .mail-compose-editable-box,
+app-compose-mail .mail-composer-footer,
+app-compose-mail .ng2-menu-item,
+app-compose-mail tag,
 ul.mail-composer-actions li div div div ul li button.ql-font,
-ul.mail-composer-actions li div div div ul li button.ql-size,
-.loading {
-    background: #363d51 !important
+ul.mail-composer-actions li div div div ul li button.ql-size {
+    background: #363d51 !important;
 }
-
 app-users-sign-in .input-group {
     border: 1px solid #fff;
-    border-radius: 5px
+    border-radius: 5px;
 }
-
 app-users-sign-in .password-toggle {
-    border: 0
+    border: 0;
 }
-
 app-mail-detail .mail-content * {
     background: unset !important;
 }
-
 app-compose-mail .ng2-dropdown-menu.ng2-dropdown-menu--inside-element {
-    background: #363d51 !important
+    background: #363d51 !important;
+}
+.mailbox-main-content,
+.mail-contact-header {
+    background: #20273e !important;
+}
+.ui-body li,
+.ui-body label,
+.tab-content *,
+.mail-composer-body *,
+table.table-inbox *,
+.mail-contact-header * {
+    color: #fff !important;
+}
+.msg-reply-content > *:not(style):not(title):not(meta):not(img) {
+    background: #fff !important;
 }
