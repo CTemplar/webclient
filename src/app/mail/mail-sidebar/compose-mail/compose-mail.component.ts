@@ -105,7 +105,7 @@ class SignatureBlot extends QuillBlockEmbed {
     node.innerText = value;
     return node;
   }
-  
+
   static value(node) {
     return node.innerHTML;
   }
@@ -121,7 +121,7 @@ class OriginalBlot extends Inline {
   static create(value) {
     let node = super.create();
     node.setAttribute('class', 'originalblock');
-    return node;  
+    return node;
   }
 
   static value(node) {
@@ -519,8 +519,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             this.isDownloadingAttachmentCounter--;
           }))
           .subscribe(response => {
-            const uint8Array = this.sharedService.base64ToUint8Array(response.data);
             if (attachment.is_encrypted) {
+              const uint8Array = atob(response.data);
               const fileInfo = { attachment, type: response.file_type };
               this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
                 .subscribe(decryptedAttachment => {
@@ -530,6 +530,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                   }));
                 });
             } else {
+              const uint8Array = this.sharedService.base64ToUint8Array(response.data);
               const newDocument = new File(
                 [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
                 attachment.name,

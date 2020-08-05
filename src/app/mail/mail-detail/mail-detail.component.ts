@@ -406,7 +406,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
         this.mailService.getAttachment(attachment)
           .subscribe(response => {
-            const uint8Array = this.shareService.base64ToUint8Array(response.data);
+            const uint8Array = atob(response.data);
             if (!attachment.name) {
               attachment.name = FilenamePipe.tranformToFilename(attachment.document);
             }

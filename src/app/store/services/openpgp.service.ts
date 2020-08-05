@@ -27,21 +27,21 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OpenPgpService {
-  options: any;
   encrypted: any;
-  private pubkeys: any;
-  private pubkeysArray: Array<string> = [];
-  private primaryMailbox: Mailbox;
-  private privkeys: any;
+  options: any;
+  private contactsState: ContactsState;
   private decryptedPrivKeys: any;
   private decryptInProgress: boolean;
-  private pgpWorker: Worker;
   private isAuthenticated: boolean;
-  private userKeys: any;
   private mailboxes: Mailbox[];
-  private userSettings: Settings;
-  private contactsState: ContactsState;
+  private pgpWorker: Worker;
+  private primaryMailbox: Mailbox;
+  private privkeys: any;
+  private pubkeys: any;
+  private pubkeysArray: Array<string> = [];
   private subjects: any = {};
+  private userKeys: any;
+  private userSettings: Settings;
 
   constructor(private store: Store<AppState>,
               private usersService: UsersService) {
@@ -278,7 +278,7 @@ export class OpenPgpService {
     reader.readAsArrayBuffer(file);
   }
 
-  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+  decryptAttachment(mailboxId, uint8Array: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;

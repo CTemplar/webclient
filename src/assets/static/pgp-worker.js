@@ -7,28 +7,39 @@ var decryptedPrivKeys = {};
 var decryptedSecureMsgPrivKeyObj;
 
 onmessage = async function (event) {
+
     if (event.data.clear) {
         decryptedPrivKeys = {};
-    } else if (event.data.encrypt) {
+    }
+
+    else if (event.data.encrypt) {
         encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
             encryptContent(event.data.mailData.subject, event.data.publicKeys).then(subject => {
                 postMessage({encryptedContent: {content, subject}, encrypted: true, callerId: event.data.callerId});
             });
         })
-    } else if (event.data.encryptAttachment) {
-        encryptBinaryContent(event.data.fileData, event.data.publicKeys).then(content => {
+    }
+
+    else if (event.data.encryptAttachment) {
+        attachmentEncrypt(event.data.fileData, event.data.publicKeys).then(content => {
             postMessage({encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment});
         })
-    } else if (event.data.decryptAttachment) {
+    }
+
+    else if (event.data.decryptAttachment) {
         decryptBinaryContent(event.data.fileData, decryptedPrivKeys[event.data.mailboxId]).then(content => {
             postMessage({decryptedContent: content, decryptedAttachment: true, fileInfo: event.data.fileInfo,
                 subjectId: event.data.subjectId});
         })
-    } else if (event.data.encryptSecureMessageReply) {
+    }
+
+    else if (event.data.encryptSecureMessageReply) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
             postMessage({encryptedContent: data, encryptSecureMessageReply: true});
         })
-    } else if (event.data.generateKeys) {
+    }
+
+    else if (event.data.generateKeys) {
         generateKeys(event.data.options).then((data) => {
             postMessage({
                 generateKeys: true,
@@ -37,7 +48,9 @@ onmessage = async function (event) {
                 forEmail: !!event.data.forEmail
             });
         })
-    } else if (event.data.decryptSecureMessageKey) {
+    }
+
+    else if (event.data.decryptSecureMessageKey) {
         decryptedSecureMsgPrivKeyObj = (await openpgp.key.readArmored(event.data.privKey)).keys[0];
         decryptedSecureMsgPrivKeyObj.decrypt(event.data.password)
             .then(res => {
@@ -46,24 +59,32 @@ onmessage = async function (event) {
             .catch(error => {
                 postMessage({decryptSecureMessageKey: true, error: error.message});
             });
-    } else if (event.data.decryptSecureMessageContent) {
+    }
+
+    else if (event.data.decryptSecureMessageContent) {
         if (!event.data.mailData) {
             postMessage({decryptedContent: '', decryptSecureMessageContent: true});
-        } else {
+        }
+
+        else {
             decryptContent(event.data.mailData.content, decryptedSecureMsgPrivKeyObj).then((content) => {
                 decryptContent(event.data.mailData.subject, decryptedSecureMsgPrivKeyObj).then((subject) => {
                     postMessage({mailData: {content, subject}, decryptSecureMessageContent: true});
                 })
             })
         }
-    } else if (event.data.decryptSecureMessageAttachment) {
+    }
+
+    else if (event.data.decryptSecureMessageAttachment) {
         decryptBinaryContent(event.data.fileData, decryptedSecureMsgPrivKeyObj).then(content => {
             postMessage({
                 decryptedContent: content, decryptedSecureMessageAttachment: true, fileInfo: event.data.fileInfo,
                 subjectId: event.data.subjectId
             });
         })
-    } else if (event.data.decryptPrivateKeys) {
+    }
+
+    else if (event.data.decryptPrivateKeys) {
         if (event.data.privkeys) {
             event.data.privkeys.forEach(async key => {
                 if (!decryptedPrivKeys[key.mailboxId]) {
@@ -73,10 +94,14 @@ onmessage = async function (event) {
             });
         }
         postMessage({keys: decryptedPrivKeys, decryptPrivateKeys: true});
-    } else if (event.data.decrypt) {
+    }
+
+    else if (event.data.decrypt) {
         if (!event.data.mailboxId) {
             postMessage({decryptedContent: {}, decrypted: true, callerId: event.data.callerId});
-        } else {
+        }
+
+        else {
             decryptContent(event.data.mailData.content, decryptedPrivKeys[event.data.mailboxId]).then((content) => {
                 decryptContent(event.data.mailData.subject, decryptedPrivKeys[event.data.mailboxId]).then((subject) => {
                     decryptContent(event.data.mailData.incomingHeaders, decryptedPrivKeys[event.data.mailboxId]).then((incomingHeaders) => {
@@ -91,25 +116,35 @@ onmessage = async function (event) {
 
             });
         }
-    } else if (event.data.changePassphrase) {
+    }
+
+    else if (event.data.changePassphrase) {
         if (event.data.deleteData) {
             generateNewKeys(event.data.mailboxes, event.data.passphrase, event.data.username).then((data) => {
                 postMessage(data);
             });
-        } else {
+        }
+
+        else {
             changePassphrase(event.data.passphrase).then((data) => {
                 postMessage(data);
             });
         }
-    } else if (event.data.revertPassphrase) {
+    }
+
+    else if (event.data.revertPassphrase) {
         changePassphrase(event.data.passphrase).then((data) => {
         });
-    } else if (event.data.encryptJson) {
+    }
+
+    else if (event.data.encryptJson) {
         encryptContent(event.data.content, event.data.publicKeys).then(content => {
             postMessage({...event.data, encryptedContent: content});
 
         })
-    } else if (event.data.decryptJson) {
+    }
+
+    else if (event.data.decryptJson) {
         if (event.data.isContactsArray) {
             const promises = [];
             for (let i = 0; i < event.data.contacts.length; i++) {
@@ -125,12 +160,15 @@ onmessage = async function (event) {
                 }
                 postMessage({...event.data});
             });
-        } else if (event.data.isContact) {
+        }
+
+        else if (event.data.isContact) {
             decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId]).then((content) => {
                 postMessage({...event.data, content});
             })
         }
     }
+
 }
 
 async function decryptContent(data, privKeyObj) {
@@ -209,7 +247,7 @@ async function encryptContent(data, publicKeys) {
     })
 }
 
-async function encryptBinaryContent(data, publicKeys) {
+async function attachmentEncrypt(data, publicKeys) {
     if (!data) {
         return Promise.resolve(data);
     }
@@ -233,7 +271,7 @@ async function decryptBinaryContent(data, privKeyObj) {
     }
     try {
         const options = {
-            message: await openpgp.message.read(data),
+            message: await openpgp.message.readArmored(data),
             privateKeys: [privKeyObj],
             format: 'binary' // output as Uint8Array
         };
