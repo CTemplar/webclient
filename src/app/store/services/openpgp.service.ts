@@ -119,57 +119,36 @@ export class OpenPgpService {
         } else {
           this.userKeys = event.data.keys;
         }
-      }
-
-      // Decrypt Private Keys
-      else if (event.data.decryptPrivateKeys) {
+      } else if (event.data.decryptPrivateKeys) {
         this.decryptedPrivKeys = event.data.keys;
         this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedPrivKeys }));
-      }
-
-      // Decrypted
-      else if (event.data.decrypted) {
+      } else if (event.data.decrypted) {
         this.store.dispatch(new UpdatePGPDecryptedContent({
           id: event.data.callerId,
           isPGPInProgress: false,
           decryptedContent: event.data.decryptedContent,
           isDecryptingAllSubjects: event.data.isDecryptingAllSubjects
         }));
-      }
-
-      // Decrypt Secure Message Key
-      else if (event.data.decryptSecureMessageKey) {
+      } else if (event.data.decryptSecureMessageKey) {
         this.store.dispatch(new UpdateSecureMessageKey({
           decryptedKey: event.data.decryptedKey,
           inProgress: false,
           error: event.data.error
         }));
-      }
-
-      // Decrypt Secure Message Content
-      else if (event.data.decryptSecureMessageContent) {
+      } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }));
-      }
-
-      // Change Passphrase
-      else if (event.data.changePassphrase) {
+      } else if (event.data.changePassphrase) {
         event.data.keys.forEach(item => {
           item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
         });
         this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
-      }
-
-      // Encrypted
-      else if (event.data.encrypted) {
+      } else if (event.data.encrypted) {
         this.store.dispatch(new UpdatePGPEncryptedContent({
           isPGPInProgress: false,
           encryptedContent: event.data.encryptedContent,
           draftId: event.data.callerId
         }));
-      }
-
-      // Encrypted Attachment
-      else if (event.data.encryptedAttachment) {
+      } else if (event.data.encryptedAttachment) {
         const oldDocument = event.data.attachment.decryptedDocument;
         const newDocument = new File(
           [event.data.encryptedContent.buffer],
@@ -178,10 +157,7 @@ export class OpenPgpService {
         );
         const attachment: Attachment = { ...event.data.attachment, document: newDocument, is_encrypted: true };
         this.store.dispatch(new UploadAttachment({ ...attachment }));
-      }
-
-      // Decrypted Attachment
-      else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
+      } else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
         const array = event.data.decryptedContent;
         const newDocument = new File(
           [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
@@ -192,18 +168,12 @@ export class OpenPgpService {
         this.subjects[event.data.subjectId].next(newAttachment);
         this.subjects[event.data.subjectId].complete();
         delete this.subjects[event.data.subjectId];
-      }
-
-      // Encrypt Secure Message Reply
-      else if (event.data.encryptSecureMessageReply) {
+      } else if (event.data.encryptSecureMessageReply) {
         this.store.dispatch(new UpdateSecureMessageEncryptedContent({
           inProgress: false,
           encryptedContent: event.data.encryptedContent
         }));
-      }
-
-      // Encrypt JSON
-      else if (event.data.encryptJson) {
+      } else if (event.data.encryptJson) {
         if (event.data.isAddContact) {
           this.store.dispatch(new ContactAdd({
             id: event.data.id,
@@ -211,10 +181,7 @@ export class OpenPgpService {
             is_encrypted: true
           }));
         }
-      }
-
-      // Decrypt JSON
-      else if (event.data.decryptJson) {
+      } else if (event.data.decryptJson) {
         if (event.data.isContact) {
           this.store.dispatch(new ContactDecryptSuccess({ ...JSON.parse(event.data.content), id: event.data.id }));
         } else if (event.data.isContactsArray) {

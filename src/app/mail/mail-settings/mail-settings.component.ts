@@ -31,7 +31,7 @@ import {
   UserState,
   CardState
 } from '../../store/datatypes';
-import { 
+import {
   MoveTab,
   ClearMailsOnConversationModeChange,
   GetUnreadMailsCount
@@ -139,12 +139,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
 
-        if (user.settings.autosave_duration !== "none" && user.settings.autosave_duration) {
-          let duration = Number(user.settings.autosave_duration);
-          let newDuration = duration >= 60000 ? duration/60000 + "m" : duration/1000 + "s";
+        if (user.settings.autosave_duration !== 'none' && user.settings.autosave_duration) {
+          const duration = Number(user.settings.autosave_duration);
+          const newDuration = duration >= 60000 ? duration / 60000 + 'm' : duration / 1000 + 's';
           this.autosave_duration = newDuration;
         } else {
-          this.autosave_duration = "none";
+          this.autosave_duration = 'none';
         }
       });
     this.store.select(state => state.timezone).pipe(untilDestroyed(this))
@@ -193,14 +193,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initAutoSaving() {
-    let autosave_durations = [];
-    this.autosaveDurations.forEach((duration, index)=>{
-      if (duration !== "none" && duration) {
-        let perduration = Number(duration);
-        let newDuration = perduration >= 60000 ? perduration/60000 + "m" : perduration/1000 + "s";
+    const autosave_durations = [];
+    this.autosaveDurations.forEach((duration, index) => {
+      if (duration !== 'none' && duration) {
+        const perduration = Number(duration);
+        const newDuration = perduration >= 60000 ? perduration / 60000 + 'm' : perduration / 1000 + 's';
         autosave_durations.push(newDuration);
       } else {
-        autosave_durations.push("none");
+        autosave_durations.push('none');
       }
     });
     this.autosave_duration_list = autosave_durations;
@@ -238,7 +238,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   // == Open billing information NgbModal
 
   onAddNewCard() {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) { return; }
     this.isAddNewCard = true;
     this.modalService.open(this.billingInfoModal, {
       centered: true,
@@ -248,12 +248,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onDeleteCard(card: CardState) {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) { return; }
     this.store.dispatch(new CardDelete(card.id));
   }
 
   onMakePrimaryCard(card: CardState) {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) { return; }
     this.store.dispatch(new CardMakePrimary(card.id));
   }
 
@@ -294,9 +294,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateSettings(key?: string, value?: any) {
-    if (key === "autosave_duration") {
-      if (value.substr(-1) === "m") { value = Number(value.slice(0, -1)) * 60000; }
-      if (value.substr(-1) === "s") { value = Number(value.slice(0, -1)) * 1000; }
+    if (key === 'autosave_duration') {
+      if (value.substr(-1) === 'm') { value = Number(value.slice(0, -1)) * 60000; }
+      if (value.substr(-1) === 's') { value = Number(value.slice(0, -1)) * 1000; }
     }
     this.settingsService.updateSettings(this.settings, key, value);
   }

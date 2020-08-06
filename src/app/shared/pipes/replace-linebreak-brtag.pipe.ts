@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class LineBreakToBrTag implements PipeTransform {
 
   transform(mailContent: string): string {
-    mailContent = mailContent.replace(new RegExp('\r?\n','g'), '<br />');
+    mailContent = mailContent.replace(new RegExp('\r?\n', 'g'), '<br />');
     return mailContent;
   }
 }

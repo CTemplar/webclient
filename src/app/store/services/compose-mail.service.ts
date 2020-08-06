@@ -171,7 +171,7 @@ export class ComposeMailService {
       Object.keys(inputData).forEach(key => {
         newComponentRef.instance[key] = inputData[key];
       });
-      newComponentRef.instance.isComposeVisible = true;      
+      newComponentRef.instance.isComposeVisible = true;
       newComponentRef.instance.hide.subscribe(event => {
         const index = this.componentRefList.length - 1;
         this.destroyComponent(newComponentRef, index);

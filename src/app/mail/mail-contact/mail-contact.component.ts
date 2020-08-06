@@ -193,7 +193,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.confirmModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
-    let deleteContacts = this.checkAll? "all": this.selectedContacts.map(item => item.id).join(',');
+    const deleteContacts = this.checkAll ? 'all' : this.selectedContacts.map(item => item.id).join(',');
     this.store.dispatch(new ContactDelete(deleteContacts));
   }
 

@@ -1,13 +1,13 @@
 // Ngrx
 import { Action } from '@ngrx/store';
-import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs/internal/Observable';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { GetDomains, SnackErrorPush } from './actions';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { OrganizationUser } from './models';
 import { sortByString, UsersService } from './services';
-import { GetDomains, SnackErrorPush } from './actions';
 
 export enum OrganizationActionTypes {
   GET_ORGANIZATION_USERS = '[ORGANIZATION] GET USERS',
@@ -291,4 +291,3 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
     }
   }
 }
-

@@ -470,7 +470,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
     this.composeMailData[mail.id] = {
-      subject: "Re: " + mail.subject,
+      subject: 'Re: ' + mail.subject,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => allRecipients.includes(mailbox.email))
@@ -478,12 +478,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.reply_to && mail.reply_to.length > 0) {
       this.composeMailData[mail.id].receivers = mail.reply_to;
     } else {
-      let lastSender = "", lastReceiver = "";
-      if (mail.children && mail.children.length){
+      let lastSender = '', lastReceiver = '';
+      if (mail.children && mail.children.length) {
         for (let i = mail.children.length; i > 0; i--) {
-          if (mail.children[i-1].folder !== "trash") {
-            lastSender = mail.children[i-1].sender;
-            lastReceiver = mail.children[i-1].receiver[0];
+          if (mail.children[i - 1].folder !== 'trash') {
+            lastSender = mail.children[i - 1].sender;
+            lastReceiver = mail.children[i - 1].receiver[0];
             break;
           }
         }
@@ -513,13 +513,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onReplyAll(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
-      subject: "Re: " + mail.subject,
+      subject: 'Re: ' + mail.subject,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
     };
     if (mail.sender !== this.currentMailbox.email) {
-      let receivers = [
+      const receivers = [
         mail.sender,
         ...mail.receiver,
         ...mail.cc,
@@ -591,7 +591,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         allowUndo: true,
         withChildren
       }));
-      if (index !== -1) this.onDeleteCollapseMail(index);
+      if (index !== -1) { this.onDeleteCollapseMail(index); }
     }
     let excepted_children = [];
     if (this.mail.children) {
@@ -681,8 +681,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onCancelSend(mail) {
-    mail.delayed_delivery = "CancelSend";
-    let updatedMail = { draft: mail };
+    mail.delayed_delivery = 'CancelSend';
+    const updatedMail = { draft: mail };
     this.store.dispatch(new SendMail(updatedMail));
 
     this.goBack(500);
@@ -835,7 +835,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
       const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
         this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
-      if (this.decryptedContents[mail.id] === undefined) {this.decryptedContents[mail.id] = "";}
+      if (this.decryptedContents[mail.id] === undefined) {this.decryptedContents[mail.id] = ''; }
       content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
     }
     return content;

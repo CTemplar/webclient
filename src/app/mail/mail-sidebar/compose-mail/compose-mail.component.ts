@@ -119,7 +119,7 @@ Quill.register(SignatureBlot);
 
 class OriginalBlot extends Inline {
   static create(value) {
-    let node = super.create();
+    const node = super.create();
     node.setAttribute('class', 'originalblock');
     return node;
   }
@@ -647,7 +647,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   initializeAutoSave() {
-    if (this.settings.autosave_duration !== "none") {
+    if (this.settings.autosave_duration !== 'none') {
       this.autoSaveSubscription = this.valueChanged$
         .pipe(
           debounceTime(Number(this.settings.autosave_duration))
@@ -1295,7 +1295,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       if (item.email) {
         item.display = item.email;
       }
-    })
+    });
     if (tag.value && tag.value.split(',').length > 1) {
       const emails = [];
       data.forEach(item => {

@@ -171,7 +171,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     this.isMobile = window.innerWidth <= 768;
     this.folderName = this.mailFolder.charAt(0).toUpperCase() + this.mailFolder.slice(1);
 
-    window.removeEventListener("beforeunload", this.authService.onBeforeLoader, true);
+    window.removeEventListener('beforeunload', this.authService.onBeforeLoader, true);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -335,7 +335,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       }
       return isExistMatchMail;
     });
-      
+
     for (let i = 0; i < this.mails.length; i++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
         const mail = this.mails[i];
@@ -358,7 +358,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   processDecryptSubject(mailId: number) {
     const mailToDecrypt = this.mails.find(mail => {
       return mail.id === mailId;
-    })
+    });
     if (mailToDecrypt) {
       setTimeout(() => {
         this.pgpService.decrypt(mailToDecrypt.mailbox, mailToDecrypt.id, new SecureContent(mailToDecrypt), true);
@@ -560,7 +560,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder)
+    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder);
     if (info_by_folder && (info_by_folder.is_not_first_page || info_by_folder.is_dirty)) { return true; }
     if (this.mailState.folders) {
       const cachedMails = this.mailState.folders.get(this.mailFolder);

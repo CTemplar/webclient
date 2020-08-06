@@ -100,7 +100,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     this.handleUsernameAvailability();
     this.sharedService.loadPricingPlans();
-    window.addEventListener("beforeunload", this.authService.onBeforeLoader, true);
+    window.addEventListener('beforeunload', this.authService.onBeforeLoader, true);
   }
 
   // == Toggle password visibility

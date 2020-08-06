@@ -46,16 +46,16 @@ export class FoldersComponent implements OnInit, OnDestroy {
         }
         this.folders = [...user.customFolders];
       });
-    
+
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
-        this.mailState = mailState;    
-        const mergeById = (a1, a2) => 
+        this.mailState = mailState;
+        const mergeById = (a1, a2) =>
             a1.map(itm => ({
               ...itm,
               ...a2.find((item) => (item.folder === itm.name) && item)
             }));
-        
+
         this.folders = mergeById(this.folders, this.mailState.customFolderMessageCount);
       });
   }
