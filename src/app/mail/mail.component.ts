@@ -53,10 +53,10 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   notificationMessage: string;
 
   constructor(private store: Store<AppState>,
-              private sharedService: SharedService,
-              private composeMailService: ComposeMailService,
-              private router: Router,
-              private cdr: ChangeDetectorRef) {
+    private sharedService: SharedService,
+    private composeMailService: ComposeMailService,
+    private router: Router,
+    private cdr: ChangeDetectorRef) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
@@ -65,6 +65,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
+
         if (userState.isLoaded && !this.isLoadedData) {
           Sentry.init({
             dsn: 'https://e768a553906d4f87bcb0419a151e36b0@o190614.ingest.sentry.io/5256284',
