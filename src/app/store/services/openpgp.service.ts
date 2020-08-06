@@ -44,7 +44,7 @@ export class OpenPgpService {
   private userSettings: Settings;
 
   constructor(private store: Store<AppState>,
-              private usersService: UsersService) {
+    private usersService: UsersService) {
 
     this.pgpWorker = new Worker('assets/static/pgp-worker.js');
     this.listenWorkerPostMessages();
@@ -174,9 +174,9 @@ export class OpenPgpService {
         const newDocument = new File(
           [event.data.encryptedContent.buffer],
           oldDocument.name,
-          {type: oldDocument.type, lastModified: oldDocument.lastModified}
-          );
-        const attachment: Attachment = {...event.data.attachment, document: newDocument, is_encrypted: true};
+          { type: oldDocument.type, lastModified: oldDocument.lastModified }
+        );
+        const attachment: Attachment = { ...event.data.attachment, document: newDocument, is_encrypted: true };
         this.store.dispatch(new UploadAttachment({ ...attachment }));
       }
 
@@ -186,9 +186,9 @@ export class OpenPgpService {
         const newDocument = new File(
           [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
           event.data.fileInfo.attachment.name,
-          {type: event.data.fileInfo.type}
+          { type: event.data.fileInfo.type }
         );
-        const newAttachment: Attachment = {...event.data.fileInfo.attachment, decryptedDocument: newDocument};
+        const newAttachment: Attachment = { ...event.data.fileInfo.attachment, decryptedDocument: newDocument };
         this.subjects[event.data.subjectId].next(newAttachment);
         this.subjects[event.data.subjectId].complete();
         delete this.subjects[event.data.subjectId];
@@ -282,7 +282,7 @@ export class OpenPgpService {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo, subjectId});
+    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo, subjectId });
     return subject.asObservable();
   }
 

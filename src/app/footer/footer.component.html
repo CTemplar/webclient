@@ -1,51 +1,20 @@
-<!-- FOOTER SECURE EMAIL BLOCK -->
-<section class="l-block secure-email-block is-clipped top top-left gap-p-sm bg-faded text-dark text-center"
-         [hidden]="hideFooterCallToAction || hideEntireFooterCallToAction">
-    <div class="container">
-        <header class="l-block-header">
-            <figure class="secure-logo-holder">
-                <img alt="" class="img logo-lg" src="assets/images/logo.svg"/>
-            </figure>
-            <div class="row justify-content-center">
-                <div class="col-sm-10 col-md-7">
-                    <div class="text-card">
-                        <!-- TODO: Fix translations -->
-                        <h2 class="l-block-title mb-3 pb-1" [innerHTML]="'footer.register_to_world_most' | translate">Register <strong>World’s Most Secure Email</strong> Now!
-                        </h2>
-                        <h4 class="l-block-subtitile fw-light mb-3 pb-2" [innerHTML]="'footer.send_unbreakable_emails' |translate ">Send unbreakable emails and protect your key
-                            professional and personal details trough
-                            next-gen encryption.</h4>
-                        <a href="{{primaryWebsite}}/signup" class="btn btn-lg btn-gradient-primary" [translate]="'footer.upgrade_to_prime'">upgrade to prime</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-    </div>
-    <!-- /.Site container ends -->
-</section>
-<!-- /.FOOTER SECURE EMAIL BLOCK ENDS -->
 
 <!-- REUSABLE COMPONENT :: FOOTER -->
-<footer id="colphon" class="site-footer bg-inverse" role="contetinfo" [hidden]="hideEntireFooterCallToAction"
-        [ngClass]="{ 'is-external-page-site-footer': externalPageCallToAction }">
+<footer id="colphon" class="site-footer bg-inverse" role="contentinfo">
     <div class="container">
-        <div class="row footer-widgets" [hidden]="externalPageCallToAction">
+        <div class="row footer-widgets">
             <div class="col-6 footer-col footer-col-5">
                 <div class="footer-widget">
                     <h4 class="footer-widget-title">CTemplar</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
-                            <li>
-                                <a href="{{primaryWebsite}}/security" [translate]="'home_header.security'">Security</a>
+                            <li> <a href="https://ctemplar.com/security" [translate]="'home_header.security'">Security</a>
                             </li>
-                            <li>
-                                <a href="{{primaryWebsite}}/pricing" [translate]="'home_header.pricing'">Pricing</a>
+                            <li> <a href="https://ctemplar.com/pricing" [translate]="'home_header.pricing'">Pricing</a>
                             </li>
-                            <li>
-                                <a href="{{primaryWebsite}}/media-kit" [translate]="'footer.media_kit'">Media Kit</a>
+                            <li> <a href="https://ctemplar.com/media-kit" [translate]="'footer.media_kit'">Media Kit</a>
                             </li>
-                            <li>
-                                <a href="{{primaryWebsite}}/tor-onion" [translate]="'footer.onion_site'">Onion site</a>
+                            <li> <a href="https://ctemplar.com/tor-onion" [translate]="'footer.onion_site'">Onion site</a>
                             </li>
                         </ul>
                     </div>
@@ -56,15 +25,10 @@
                     <h4 class="footer-widget-title" [translate]="'footer.company'">Company</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
-                            <li>
-                                <a href="{{primaryWebsite}}/about" [translate]="'home_header.about'">About</a>
-                            </li>
-                            <li>
-                                <a href="{{primaryWebsite}}/blog" target="_blank" rel="noopener" [translate]="'home_header.blog'">Blog</a>
-                            </li>
-                            <li>
-                                <a routerLink="/donate" [translate]="'settings.donate.name'">Donate</a>
-                            </li>
+                            <li> <a href="https://ctemplar.com/about" [translate]="'home_header.about'">About</a> </li>
+                            <li> <a href="https://ctemplar.com/blog" target="_blank" rel="noopener"
+                                    [translate]="'home_header.blog'">Blog</a> </li>
+                            <li> <a routerLink="/donate" [translate]="'settings.donate.name'">Donate</a> </li>
                         </ul>
                     </div>
                 </div>
@@ -74,18 +38,12 @@
                     <h4 class="footer-widget-title" [translate]="'footer.social'">Social</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
-                            <li>
-                                <a href="https://www.facebook.com/CTemplarEncryption" target="_blank">Facebook</a>
+                            <li> <a href="https://www.facebook.com/CTemplarEncryption" target="_blank">Facebook</a>
                             </li>
-                            <li>
-                                <a href="https://twitter.com/RealCTemplar" target="_blank">Twitter</a>
-                            </li>
-                            <li>
-                                <a href="https://www.linkedin.com/company/ctemplarencryption/" target="_blank">LinkedIn</a>
-                            </li>
-                            <li>
-                                <a href="https://www.reddit.com/r/ctemplar/" target="_blank">Reddit</a>
-                            </li>
+                            <li> <a href="https://twitter.com/RealCTemplar" target="_blank">Twitter</a> </li>
+                            <li> <a href="https://www.linkedin.com/company/ctemplarencryption/"
+                                    target="_blank">LinkedIn</a> </li>
+                            <li> <a href="https://www.reddit.com/r/ctemplar/" target="_blank">Reddit</a> </li>
                         </ul>
                     </div>
                 </div>
@@ -95,12 +53,11 @@
                     <h4 class="footer-widget-title" [translate]="'footer.legal'">Legal</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
-                            <li>
-                                <a href="{{primaryWebsite}}/privacy" [translate]="'footer.privacy_policy'">Privacy Policy</a>
-                            </li>
-                            <li>
-                                <a href="{{primaryWebsite}}/terms" [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</a>
-                            </li>
+                            <li> <a href="https://ctemplar.com/privacy" [translate]="'footer.privacy_policy'">Privacy
+                                    Policy</a> </li>
+                            <li> <a href="https://ctemplar.com/terms"
+                                    [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp;
+                                    Conditions</a> </li>
                         </ul>
                     </div>
                 </div>
@@ -110,16 +67,10 @@
                     <h4 class="footer-widget-title" [translate]="'footer.help'">Help</h4>
                     <div class="footer-widget-body">
                         <ul class="lists lists-arrow">
-                            <li>
-                                <a href="{{primaryWebsite}}/faqs"
-                                   target="_blank"
-                                   [translate]="'footer.faq'">FAQ</a>
+                            <li> <a href="https://get.ctemplar.help" target="_blank" [translate]="'footer.faq'">Knowledge Base</a>
                             </li>
-                            <li>
-                                <a href="{{primaryWebsite}}/support"
-                                   target="_blank"
-                                   [translate]="'footer.support'">Contact us</a>
-                            </li>
+                            <li> <a href="https://ctemplar.com/support" target="_blank"
+                                    [translate]="'footer.support'">Contact us</a> </li>
                         </ul>
                     </div>
                 </div>
@@ -128,18 +79,70 @@
                 <div class="footer-widget">
                     <h4 class="footer-widget-title" [translate]="'footer.our_address'">Our Address</h4>
                     <div class="footer-widget-body">
-                        <address>
-                            Orange Project ehf
-                            <br/> Armula 4 &amp; 6
-                            <br/> Reykjavík, 108
-                            <br/> Iceland
+                        <address> Orange Project ehf <br /> Armula 4 &amp; 6 <br /> Reykjavík, 108 <br /> Iceland
                         </address>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom-row text-center">
-            <p class="app-credit small">&copy;{{currentYear}} <span [translate]="'footer.software_systems'">Templar Software Systems Ltd., a Seychelles Limited Liability Company</span></p>
+            <p class="app-credit small">&copy;2020 <span [translate]="'footer.software_systems'">Templar Software
+                    Systems Ltd., a Seychelles Limited Liability Company</span></p>
         </div>
     </div>
-</footer><!-- /.REUSABLE COMPONENT :: FOOTER ENDS -->
+</footer>
+
+
+<footer>
+    <section class="bg-light mt-5 pb-5 pt-5 text-center text-sm-left">
+        <div class="container">
+            <div class="row">
+                <div class="col-3 d-md-block d-none text-center">
+                    <img class="img-fluid" src="/assets/img/logo.svg" alt="CTemplar's logo" width="155"/>
+                </div>
+                <div class="col">
+                    <h3 class="font-weight-bold">Regain your right to privacy now!</h3>
+                    <p class="lead">Stand with us in the fight to protect privacy, civil liberties, and the right for anonymity. Create your anonymous encrypted email today.</p>
+                    <a class="btn btn-danger" href="/pricing/">Sign Up</a>
+                    <a class="btn btn-outline-dark" href="/tor-browser/">Tor Browser</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-dark pb-3 pt-5 text-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-12 col-lg-3 col-md-4 col-sm-6 text-sm-left">
+                    <nav class="flex-column nav">
+                        <a class="nav-link pl-0 text-light" href="/about/">About</a>
+                        <a class="nav-link pl-0 text-light" href="/blog/">Blog</a>
+                        <a class="nav-link pl-0 text-light" href="/donate/">Donate</a>
+                        <a class="nav-link pl-0 text-light" href="/features/">Features</a>
+                        <a class="nav-link pl-0 text-light" href="https://get.ctemplar.help" target="_blank">Helpdesk</a>
+                        <a class="nav-link pl-0 text-light" href="/media-kit/">Media Kit</a>
+                    </nav>
+                </div>
+                <div class="col-12 col-lg-3 col-md-4 col-sm-6 mt-5 mt-sm-0 text-sm-left">
+                    <a class="nav-link pl-0 text-light" href="/security/">Security</a>
+                    <a class="nav-link pl-0 text-light" href="/support/">Support</a>
+                    <a class="nav-link pl-0 text-light" href="/privacy/">Privacy Policy</a>
+                    <a class="nav-link pl-0 text-light" href="/terms/">Terms &amp; Conditions</a>
+                    <a class="nav-link pl-0 text-light" href="/tor-browser/">Tor Browser</a>
+                </div>
+                <div class="col-12 col-lg-3 col-md-4 mt-5 mt-md-0 text-md-left">
+                    <h4 class="font-weight-bold">Send a letter</h4>
+                    <p>Orange Project ehf Armula<br>4&amp;6 Reykjavik, 108<br>Iceland</p>
+                </div>
+                <div class="col-12 col-lg-2 ml-auto mt-4 mt-lg-0 text-lg-left">
+                    <h4 class="font-weight-bold ml-2">Follow us</h4>
+                    <p class="lead"> <a class="ml-0 mx-2" href="https://facebook.com/CTemplarEncryption" target="_blank"><i class="fa-facebook fab text-light" aria-hidden="true"></i></a><a class="mx-2" href="https://github.com/ctemplar/" target="_blank"><i class="fa-github fab text-light" aria-hidden="true"></i></a><a class="mx-2" href="https://linkedin.com/company/ctemplarencryption/" target="_blank"><i class="fa-linkedin fab text-light" aria-hidden="true"></i></a><a class="mx-2" href="https://mastodon.social/@ctemplar" target="_blank"><i class="fa-mastodon fab text-light" aria-hidden="true"></i></a><a class="mx-2" href="https://reddit.com/r/ctemplar/" target="_blank"><i class="fa-reddit fab text-light" aria-hidden="true"></i></a>s<a class="mx-2" href="https://twitter.com/RealCTemplar" target="_blank"><i class="fa-twitter fab text-light" aria-hidden="true"></i></a></p>
+                </div>
+            </div>
+            <h4 class="lead mt-5 text-center">Made with <i class="fa-heart fa-w-16 fas text-danger"></i> for Human Rights</h4>
+            <hr>
+            <div class="text-center">
+                <small>&copy;2020 Templar Software Systems Ltd., a Seychelles Limited Liability Company.</small>
+            </div>
+        </div>
+    </section>
+</footer>

@@ -1,4 +1,4 @@
-self.window = {crypto: self.crypto}; // to make UMD bundles work
+self.window = { crypto: self.crypto }; // to make UMD bundles work
 
 importScripts('openpgp.min.js');
 var openpgp = window.openpgp;
@@ -15,27 +15,29 @@ onmessage = async function (event) {
     else if (event.data.encrypt) {
         encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
             encryptContent(event.data.mailData.subject, event.data.publicKeys).then(subject => {
-                postMessage({encryptedContent: {content, subject}, encrypted: true, callerId: event.data.callerId});
+                postMessage({ encryptedContent: { content, subject }, encrypted: true, callerId: event.data.callerId });
             });
         })
     }
 
     else if (event.data.encryptAttachment) {
         attachmentEncrypt(event.data.fileData, event.data.publicKeys).then(content => {
-            postMessage({encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment});
+            postMessage({ encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment });
         })
     }
 
     else if (event.data.decryptAttachment) {
         decryptBinaryContent(event.data.fileData, decryptedPrivKeys[event.data.mailboxId]).then(content => {
-            postMessage({decryptedContent: content, decryptedAttachment: true, fileInfo: event.data.fileInfo,
-                subjectId: event.data.subjectId});
+            postMessage({
+                decryptedContent: content, decryptedAttachment: true, fileInfo: event.data.fileInfo,
+                subjectId: event.data.subjectId
+            });
         })
     }
 
     else if (event.data.encryptSecureMessageReply) {
         encryptContent(event.data.content, event.data.publicKeys).then(data => {
-            postMessage({encryptedContent: data, encryptSecureMessageReply: true});
+            postMessage({ encryptedContent: data, encryptSecureMessageReply: true });
         })
     }
 
@@ -54,22 +56,22 @@ onmessage = async function (event) {
         decryptedSecureMsgPrivKeyObj = (await openpgp.key.readArmored(event.data.privKey)).keys[0];
         decryptedSecureMsgPrivKeyObj.decrypt(event.data.password)
             .then(res => {
-                postMessage({decryptSecureMessageKey: true, decryptedKey: decryptedSecureMsgPrivKeyObj});
+                postMessage({ decryptSecureMessageKey: true, decryptedKey: decryptedSecureMsgPrivKeyObj });
             })
             .catch(error => {
-                postMessage({decryptSecureMessageKey: true, error: error.message});
+                postMessage({ decryptSecureMessageKey: true, error: error.message });
             });
     }
 
     else if (event.data.decryptSecureMessageContent) {
         if (!event.data.mailData) {
-            postMessage({decryptedContent: '', decryptSecureMessageContent: true});
+            postMessage({ decryptedContent: '', decryptSecureMessageContent: true });
         }
 
         else {
             decryptContent(event.data.mailData.content, decryptedSecureMsgPrivKeyObj).then((content) => {
                 decryptContent(event.data.mailData.subject, decryptedSecureMsgPrivKeyObj).then((subject) => {
-                    postMessage({mailData: {content, subject}, decryptSecureMessageContent: true});
+                    postMessage({ mailData: { content, subject }, decryptSecureMessageContent: true });
                 })
             })
         }
@@ -93,12 +95,12 @@ onmessage = async function (event) {
                 }
             });
         }
-        postMessage({keys: decryptedPrivKeys, decryptPrivateKeys: true});
+        postMessage({ keys: decryptedPrivKeys, decryptPrivateKeys: true });
     }
 
     else if (event.data.decrypt) {
         if (!event.data.mailboxId) {
-            postMessage({decryptedContent: {}, decrypted: true, callerId: event.data.callerId});
+            postMessage({ decryptedContent: {}, decrypted: true, callerId: event.data.callerId });
         }
 
         else {
@@ -106,7 +108,7 @@ onmessage = async function (event) {
                 decryptContent(event.data.mailData.subject, decryptedPrivKeys[event.data.mailboxId]).then((subject) => {
                     decryptContent(event.data.mailData.incomingHeaders, decryptedPrivKeys[event.data.mailboxId]).then((incomingHeaders) => {
                         postMessage({
-                            decryptedContent: {incomingHeaders, content, subject},
+                            decryptedContent: { incomingHeaders, content, subject },
                             decrypted: true,
                             callerId: event.data.callerId,
                             isDecryptingAllSubjects: event.data.isDecryptingAllSubjects
@@ -139,7 +141,7 @@ onmessage = async function (event) {
 
     else if (event.data.encryptJson) {
         encryptContent(event.data.content, event.data.publicKeys).then(content => {
-            postMessage({...event.data, encryptedContent: content});
+            postMessage({ ...event.data, encryptedContent: content });
 
         })
     }
@@ -158,13 +160,13 @@ onmessage = async function (event) {
                         is_encrypted: false
                     };
                 }
-                postMessage({...event.data});
+                postMessage({ ...event.data });
             });
         }
 
         else if (event.data.isContact) {
             decryptContent(event.data.content, decryptedPrivKeys[event.data.mailboxId]).then((content) => {
-                postMessage({...event.data, content});
+                postMessage({ ...event.data, content });
             })
         }
     }
@@ -205,14 +207,14 @@ async function generateNewKeys(mailboxes, password, username) {
     const newKeys = [];
     for (let i = 0; i < mailboxes.length; i++) {
         const options = {
-            userIds: [{name: username, email: mailboxes[i].email}],
+            userIds: [{ name: username, email: mailboxes[i].email }],
             numBits: 4096,
             passphrase: password
         };
         const keys = await generateKeys(options);
-        newKeys.push({...keys, mailbox_id: mailboxes[i].id});
+        newKeys.push({ ...keys, mailbox_id: mailboxes[i].id });
     }
-    return {keys: newKeys, changePassphrase: true};
+    return { keys: newKeys, changePassphrase: true };
 }
 
 async function changePassphrase(passphrase) {
@@ -227,7 +229,7 @@ async function changePassphrase(passphrase) {
             decryptedPrivKeys[key].decrypt(passphrase);
         }
     }
-    return {keys: privkeys, changePassphrase: true};
+    return { keys: privkeys, changePassphrase: true };
 }
 
 

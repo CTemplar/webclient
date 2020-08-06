@@ -29,10 +29,10 @@ export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean;
 
   constructor(public router: Router,
-              private sharedService: SharedService,
-              private activatedRoute: ActivatedRoute,
-              private store: Store<AppState>,
-              private translate: TranslateService) {
+    private sharedService: SharedService,
+    private activatedRoute: ActivatedRoute,
+    private store: Store<AppState>,
+    private translate: TranslateService) {
     this.store.dispatch(new RefreshToken());
     this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
@@ -62,13 +62,10 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       });
-
   }
-
 
   ngOnInit() {
     this.quote = quotes[Math.floor(Math.random() * quotes.length)];
-
     this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
