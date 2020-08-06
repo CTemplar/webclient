@@ -350,7 +350,6 @@
 
     <!-- Attachments list starts -->
     <ul class="list-style-none mt-3" *ngIf="mail.attachments?.length>0">
-      {{mail.attachments.length}}
       <ng-container *ngFor="let attachment of mail.attachments">
         <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
           <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
