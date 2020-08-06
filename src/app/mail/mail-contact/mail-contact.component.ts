@@ -39,16 +39,16 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedContacts: Contact[] = [];
   selectedContactsProvider: ContactsProviderType;
   importContactsError: any;
-  isLayoutSplitted: boolean = false;
-  checkAll: boolean = false;
+  isLayoutSplitted = false;
+  checkAll = false;
   isMenuOpened: boolean;
   isMobile: boolean;
   currentPlan: PlanType;
 
-  MAX_EMAIL_PAGE_LIMIT: number = 1;
-  LIMIT: number = 20;
-  OFFSET: number = 0;
-  PAGE: number = 0;
+  MAX_EMAIL_PAGE_LIMIT = 1;
+  LIMIT = 20;
+  OFFSET = 0;
+  PAGE = 0;
 
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;

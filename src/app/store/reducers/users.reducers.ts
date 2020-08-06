@@ -373,7 +373,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
       const domain: Domain = action.payload.res;
-      let isError: boolean = false;
+      let isError = false;
       let step = action.payload.step;
       if (domain.is_domain_verified) {
         if (action.payload.gotoNextStep) {

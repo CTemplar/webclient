@@ -52,7 +52,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
   @Input() isRenew: boolean;
-  @Input() isAddNewCard: boolean = false;
+  @Input() isAddNewCard = false;
   @Input() paymentType: PaymentType;
   @Input() paymentMethod: PaymentMethod;
   @Input() currency;
@@ -70,8 +70,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
   years = [];
   paymentMethodType = PaymentMethod;
-  seconds: number = 60;
-  minutes: number = 60;
+  seconds = 60;
+  minutes = 60;
   bitcoinState: BitcoinState;
   signupState: SignupState;
   inProgress: boolean;

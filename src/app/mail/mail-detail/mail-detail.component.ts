@@ -51,7 +51,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   selectedMailToForward: Mail;
   isDecrypting: any = {};
 
-  parentMailCollapsed: boolean = true;
+  parentMailCollapsed = true;
   childMailCollapsed: boolean[] = [];
   mailFolder: MailFolderType;
   customFolders: Folder[] = [];
@@ -60,8 +60,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   markedAsRead: boolean;
   currentMailIndex: number;
   currentMailNumber: any;
-  MAX_EMAIL_PAGE_LIMIT: number = 1;
-  OFFSET: number = 0;
+  MAX_EMAIL_PAGE_LIMIT = 1;
+  OFFSET = 0;
   loadingImage = LOADING_IMAGE;
   disableMoveTo: boolean;
   isMobile: boolean;
@@ -72,17 +72,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   disableExternalImages: boolean;
   includeOriginMessage: boolean;
   xssPipe = SafePipe;
-  hasDraft: boolean = false;
+  hasDraft = false;
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
   private userState: UserState;
   private mailboxes: Mailbox[];
-  private canScroll: boolean = true;
+  private canScroll = true;
   private page: number;
   private mails: Mail[] = [];
   private EMAILS_PER_PAGE: number;
-  private shouldChangeMail: number = 0;
+  private shouldChangeMail = 0;
 
   constructor(private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,

@@ -22,7 +22,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   selectedFolder: Folder;
 
   reorder: boolean;
-  reorderInProgress: boolean = false;
+  reorderInProgress = false;
 
   private unmodifiedFolders: Array<Folder>;
   private mailState: MailState;

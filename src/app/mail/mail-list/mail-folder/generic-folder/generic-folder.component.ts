@@ -41,22 +41,22 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('input') input: ElementRef;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
-  checkAll: boolean = false;
-  noEmailSelected: boolean = true;
+  checkAll = false;
+  noEmailSelected = true;
   isMobile: boolean;
   folderName: string;
   disableMoveTo: boolean;
 
   userState: UserState;
 
-  MAX_EMAIL_PAGE_LIMIT: number = 1;
-  LIMIT: number = 20;
-  OFFSET: number = 0;
-  PAGE: number = 0;
+  MAX_EMAIL_PAGE_LIMIT = 1;
+  LIMIT = 20;
+  OFFSET = 0;
+  PAGE = 0;
   MAX_DECRYPT_NUMBER = 3;
   folderColors: any = {};
   queueForDecryptSubject: any = [];
-  isEnabledToDecryptSubject: boolean = false;
+  isEnabledToDecryptSubject = false;
 
   private searchText: string;
   private mailState: MailState;

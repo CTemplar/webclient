@@ -508,7 +508,7 @@ export function reducer(
     }
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
-      let newEntry: boolean = true;
+      let newEntry = true;
       let target_folder_mails = state.folders.get(action.payload.folder) || [];
       target_folder_mails.map((mail, index) => {
         if (mail.id === action.payload.id || mail.id === action.payload.parent) {

@@ -82,8 +82,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
   currentPlan: PricingPlan;
-  isAddNewCard: boolean = false;
-  isCardUpdateMode: boolean = false;
+  isAddNewCard = false;
+  isCardUpdateMode = false;
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
 
@@ -383,7 +383,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   viewInvoice(invoice: Invoice, print: boolean = false) {
     let popupWin;
 
-    let invoiceItems: string = '';
+    let invoiceItems = '';
     invoice.items.forEach(item => {
       invoiceItems += `
                    <tr>

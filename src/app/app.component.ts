@@ -20,11 +20,11 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public hideFooter: boolean = false;
-  public hideHeader: boolean = false;
-  public windowIsResized: boolean = false;
-  public isLoading: boolean = true;
-  public isMail: boolean = true;
+  public hideFooter = false;
+  public hideHeader = false;
+  public windowIsResized = false;
+  public isLoading = true;
+  public isMail = true;
   quote: object;
   isAuthenticated: boolean;
 

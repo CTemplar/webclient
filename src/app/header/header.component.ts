@@ -24,11 +24,11 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   // Public property of boolean type set false by default
-  public navIsFixed: boolean = false;
-  public menuIsOpened: boolean = false;
+  public navIsFixed = false;
+  public menuIsOpened = false;
 
   // Switch the footer call to action for this view.
-  externalPageCallToAction: boolean = false;
+  externalPageCallToAction = false;
   isLoggedIn: boolean;
   selectedLanguage: Language = { name: 'English', locale: 'en' };
   languages = LANGUAGES;

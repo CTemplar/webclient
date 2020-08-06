@@ -157,13 +157,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @Input() receivers: Array<string>;
   @Input() cc: Array<string>;
-  @Input() content: string = '';
+  @Input() content = '';
   @Input() messageHistory: string;
   @Input() subject: string;
   @Input() draftMail: Mail;
   @Input() selectedMailbox: Mailbox;
   @Input() parentId: number;
-  @Input() showSaveButton: boolean = true;
+  @Input() showSaveButton = true;
   @Input() forwardAttachmentsMessageId: number;
   @Input() action: MailAction;
   @Input() action_parent: number;
@@ -204,10 +204,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   isProcessingAttachments: boolean;
   isLoaded: boolean;
   showEncryptFormErrors: boolean;
-  isTrialPrimeFeaturesAvailable: boolean = false;
+  isTrialPrimeFeaturesAvailable = false;
   mailBoxesState: MailBoxesState;
   isUploadingAttachment: boolean;
-  isDownloadingAttachmentCounter: number = 0;
+  isDownloadingAttachmentCounter = 0;
   insertLinkData: any = {};
   settings: Settings;
   mailAction = MailAction;
@@ -221,7 +221,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   private delayedDeliveryModalRef: NgbModalRef;
   private deadManTimerModalRef: NgbModalRef;
   private encryptionModalRef: NgbModalRef;
-  private defaultLocale: string = 'US International';
+  private defaultLocale = 'US International';
 
   private draft: Draft;
   private attachmentsQueue: Array<Attachment> = [];
@@ -232,7 +232,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   public userState: UserState = new UserState();
   private decryptedContent: string;
   private encryptionData: any = {};
-  private loadContacts: boolean = true;
+  private loadContacts = true;
   private contactsState: ContactsState;
   private oldMailbox: Mailbox;
 

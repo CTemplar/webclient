@@ -52,7 +52,7 @@ export interface Mail {
 
 export class EncryptionNonCTemplar {
   expires?: string;
-  expiry_hours: number = 120;
+  expiry_hours = 120;
   id?: number;
   password: string;
   password_hint?: string;

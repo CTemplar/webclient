@@ -25,11 +25,11 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('logoutModal') logoutModal;
 
   // Public property of boolean type set false by default
-  menuIsOpened: boolean = false;
+  menuIsOpened = false;
   selectedLanguage: Language = { name: 'English', locale: 'en' };
   languages = LANGUAGES;
   searchInput = new FormControl();
-  searchPlaceholder: string = 'common.search';
+  searchPlaceholder = 'common.search';
   loadingImage = LOADING_IMAGE;
   private isContactsPage: boolean;
   primaryWebsite = PRIMARY_WEBSITE;

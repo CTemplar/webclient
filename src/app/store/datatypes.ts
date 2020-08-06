@@ -141,9 +141,9 @@ export class PromoCode {
   new_amount: number = null;
   new_amount_btc: number = null;
   message?: string;
-  value: string = '';
-  enabled: boolean = false;
-  inProgress: boolean = false;
+  value = '';
+  enabled = false;
+  inProgress = false;
 }
 
 export interface ContactsState {

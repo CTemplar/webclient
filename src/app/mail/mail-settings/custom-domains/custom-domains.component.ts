@@ -31,7 +31,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   newDomainError: string;
 
   isAddingNewDomain = false;
-  currentStep: number = 0;
+  currentStep = 0;
   domainNameForm: FormGroup;
   verifyForm: FormGroup;
   mxForm: FormGroup;

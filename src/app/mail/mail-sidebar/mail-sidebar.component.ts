@@ -38,7 +38,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   EMAIL_LIMIT = 20;
 
   // Public property of boolean type set false by default
-  public isComposeVisible: boolean = false;
+  public isComposeVisible = false;
   public userState: UserState;
 
   mailState: MailState;
