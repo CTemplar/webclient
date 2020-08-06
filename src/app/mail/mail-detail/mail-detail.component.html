@@ -357,25 +357,10 @@
     </div>
 
     <!-- Attachments list starts -->
-    <ul class="list-style-none mt-3">
+    <ul class="list-style-none mt-3" *ngIf="mail.attachments?.length>0">
       <ng-container *ngFor="let attachment of mail.attachments">
         <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
           <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-
-          <!-- Deprecated -->
-          <!-- <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
-             [href]="attachment.document" placement="top" [ngbTooltip]="attachment.name" target="_blank"
-             rel="noopener noreferrer">
-            <div class="attachment-icon">
-              <i class="icon icon-attachment"></i>
-            </div>
-            <div class="attachment-name">
-              {{attachment.name}}
-            </div>
-          </a> -->
-          <!-- Deprecated -->
-
-          <ng-template #encryptedAttachment>
             <a class="download-attachment" (click)="decryptAttachment(attachment, mail)" href="javascript:void(0)" placement="top" [ngbTooltip]="attachment.name">
               <div class="attachment-icon">
                 <i class="icon icon-attachment"></i>
@@ -384,8 +369,6 @@
                 {{attachment.name}}
               </div>
             </a>
-          </ng-template>
-
         </li>
       </ng-container>
     </ul>
@@ -566,21 +549,6 @@
                 <ng-container *ngFor="let attachment of childMail.attachments">
                   <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
                     <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-
-                    <!-- Deprecated -->
-                    <!-- <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment"
-                      [href]="attachment.document" placement="top" [ngbTooltip]="attachment.name" target="_blank"
-                      rel="noopener noreferrer">
-                      <div class="attachment-icon">
-                        <i class="icon icon-attachment"></i>
-                      </div>
-                      <div class="attachment-name">
-                        {{attachment.name}}
-                      </div>
-                    </a> -->
-                    <!-- Deprecated -->
-
-                    <ng-template #encryptedAttachment>
                       <a class="download-attachment" (click)="decryptAttachment(attachment, childMail)" href="javascript:void(0)" placement="top" [ngbTooltip]="attachment.name">
                         <div class="attachment-icon">
                           <i class="icon icon-attachment"></i>
@@ -589,8 +557,6 @@
                           {{attachment.name}}
                         </div>
                       </a>
-                    </ng-template>
-
                   </li>
                 </ng-container>
               </ul>
