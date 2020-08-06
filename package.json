@@ -56,7 +56,6 @@
     "electron-updater": "^4.3.1",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.27",
-    "ng-keyboard-shortcuts": "^8.2.5",
     "ngx-chips": "^2.1.0",
     "ngx-quill": "^8.0.0",
     "openpgp": "^4.10.4",

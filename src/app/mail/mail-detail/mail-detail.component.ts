@@ -84,8 +84,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private EMAILS_PER_PAGE: number;
   private shouldChangeMail: number = 0;
 
-  // shortcuts: ShortcutInput[] = [];
-
   constructor(private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,

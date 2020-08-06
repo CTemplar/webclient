@@ -49,11 +49,10 @@ import {
   UserState
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { getComposeMailShortcuts, MailService, SharedService } from '../../../store/services';
+import { MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
 const Quill: any = QuillNamespace;
 
@@ -236,7 +235,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   private loadContacts: boolean = true;
   private contactsState: ContactsState;
   private oldMailbox: Mailbox;
-  shortcuts: ShortcutInput[] = [];
 
   constructor(private modalService: NgbModal,
     private store: Store<AppState>,
@@ -383,7 +381,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }, 1000);
       }
     }
-    this.shortcuts = getComposeMailShortcuts(this);
     this.cdr.detectChanges();
   }
 

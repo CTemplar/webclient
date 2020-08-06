@@ -10,8 +10,6 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
-import { ShortcutInput } from 'ng-keyboard-shortcuts/lib/ng-keyboard-shortcuts.interfaces';
-import { getContactsShortcuts } from '../../store/services';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -56,16 +54,15 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   private confirmModalRef: NgbModalRef;
   private importContactsModalRef: NgbModalRef;
   private searchText: string;
-  shortcuts: ShortcutInput[] = [];
 
   constructor(private store: Store<AppState>,
-              private modalService: NgbModal,
-              private breakpointsService: BreakpointsService,
-              private composeMailService: ComposeMailService,
-              private activatedRoute: ActivatedRoute,
-              config: NgbDropdownConfig,
-              @Inject(DOCUMENT) private document: Document,
-              private cdr: ChangeDetectorRef) {
+    private modalService: NgbModal,
+    private breakpointsService: BreakpointsService,
+    private composeMailService: ComposeMailService,
+    private activatedRoute: ActivatedRoute,
+    config: NgbDropdownConfig,
+    @Inject(DOCUMENT) private document: Document,
+    private cdr: ChangeDetectorRef) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
@@ -87,29 +84,28 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getContactsShortcuts(this);
     this.cdr.detectChanges();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   private updateUsersStatus(): void {
     this.store.select(state => state.user)
       .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
-      this.userState = state;
-      this.currentPlan = state.settings.plan_type || PlanType.FREE;
-    });
+        this.userState = state;
+        this.currentPlan = state.settings.plan_type || PlanType.FREE;
+      });
 
     this.store.select(state => state.contacts)
       .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
-      this.contactsState = contactsState;
-      this.inProgress = contactsState.inProgress;
-      this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
-      if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
-        this.selectedContacts = [];
-        this.contactsCount = null;
-      }
-    });
+        this.contactsState = contactsState;
+        this.inProgress = contactsState.inProgress;
+        this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
+        if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
+          this.selectedContacts = [];
+          this.contactsCount = null;
+        }
+      });
   }
 
   toggleMenu() { // click handler
@@ -205,8 +201,10 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
       }));
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
-      this.composeMailService.openComposeMailDialog({ receivers: receiverEmails,
-        isFullScreen: this.userState.settings.is_composer_full_screen });
+      this.composeMailService.openComposeMailDialog({
+        receivers: receiverEmails,
+        isFullScreen: this.userState.settings.is_composer_full_screen
+      });
     }
   }
 

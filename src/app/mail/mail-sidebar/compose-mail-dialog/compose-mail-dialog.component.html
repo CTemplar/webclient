@@ -9,7 +9,7 @@
          [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
           {{!isMinimized?mailSubject:mailMinimized}}</span>
         <ng-template #newMessage>
-          <span class="d-inline-block text-truncate" 
+          <span class="d-inline-block text-truncate"
           [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
           {{"settings.compose.new_message"| translate}}</span>
         </ng-template>
@@ -50,7 +50,3 @@
                       [isReplyInPopup]="action === 'REPLY'? true: false"></app-compose-mail>
   </div>
 </div>
-
-
-<ng-keyboard-shortcuts-help key="f1" closeKey="escape"></ng-keyboard-shortcuts-help>
-<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>

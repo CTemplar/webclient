@@ -15,8 +15,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { getSaveContactShortcuts, OpenPgpService } from '../../../store/services';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { OpenPgpService } from '../../../store/services';
 
 @UntilDestroy()
 @Component({
@@ -27,7 +26,6 @@ import { ShortcutInput } from 'ng-keyboard-shortcuts';
 export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;
   @Output() userSaved = new EventEmitter<boolean>();
-  shortcuts: ShortcutInput[] = [];
 
   @ViewChild('newContactForm') newContactForm: NgForm;
   newContactModel: Contact = {
@@ -63,7 +61,6 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getSaveContactShortcuts(this);
     this.cdr.detectChanges();
   }
 

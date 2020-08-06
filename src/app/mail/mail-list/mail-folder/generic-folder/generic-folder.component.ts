@@ -15,11 +15,10 @@ import {
 } from '../../../../store/actions';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
-import { getGenericFolderShortcuts, OpenPgpService, SharedService, UsersService } from '../../../../store/services';
+import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 
 declare var Scrambler;
 
@@ -39,10 +38,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('delateDraftModal') delateDraftModal;
 
   customFolders: Folder[];
-  shortcuts: ShortcutInput[] = [];
   @ViewChild('input') input: ElementRef;
-  // TODO : disable shortcuts until the bugs are fixed
-  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   checkAll: boolean = false;
@@ -180,8 +176,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    // TODO : disable shortcuts until the bugs are fixed
-    this.shortcuts = getGenericFolderShortcuts(this);
     this.cdr.detectChanges();
   }
 

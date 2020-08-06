@@ -66,7 +66,7 @@
             </button>
         </div>
     </div>
-    <div class="mb-2 hidden-xs-down">&nbsp;</div>    
+    <div class="mb-2 hidden-xs-down">&nbsp;</div>
     <div class="form-group add-button">
         <div class="row align-items-center">
             <div class="col-sm-2">
@@ -124,7 +124,7 @@
     <div class="form-group text-right mb-0"
         *ngIf="newContactModel.enabled_encryption && !newContactModel.public_key; else submitSaveContact">
         <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
-            <button type="submit" disabled class="btn btn-secondary btn-sm" 
+            <button type="submit" disabled class="btn btn-secondary btn-sm"
             role="button">{{"common.save"| translate}}</button>
         </div>
         <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
@@ -138,6 +138,3 @@
     </ng-template>
 
 </form>
-
-<ng-keyboard-shortcuts-help [key]="'f1'" [closeKey]="'escape'"></ng-keyboard-shortcuts-help>
-<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
