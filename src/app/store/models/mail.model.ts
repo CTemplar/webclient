@@ -3,59 +3,58 @@ import { MailAction } from '../datatypes';
 
 export interface Mail {
   id?: number;
-  content: string;
-  folder?: string;
-  read?: boolean;
-  starred?: boolean;
-  send?: boolean;
-  mailbox?: number;
-  from?: string;
-  checked?: boolean;
-  sender?: string;
-  sender_display?: EmailDisplay;
-  subject?: string;
-  encryption?: EncryptionNonCTemplar;
   attachments?: Array<any>;
-  receiver?: Array<string>;
-  receiver_list?: string;
-  receiver_display?: Array<EmailDisplay>;
-  reply_to?: Array<string>;
-  cc?: Array<string>;
-  bcc?: Array<string>;
   bcc_display?: Array<EmailDisplay>;
-  destruct_date?: string;
-  delayed_delivery?: string;
-  dead_man_duration?: string;
-  datetime?: string;
-  marked?: boolean;
-  is_encrypted?: boolean;
-  is_subject_encrypted?: boolean;
-  is_protected?: boolean;
-  sent_at?: string;
-  has_attachments?: boolean;
-  created_at?: string;
-  parent?: number;
-  has_children?: boolean;
+  bcc?: Array<string>;
+  cc?: Array<string>;
+  checked?: boolean;
   children_count?: number;
   children?: Array<Mail>;
+  content: string;
+  created_at?: string;
+  datetime?: string;
+  dead_man_duration?: string;
+  delayed_delivery?: string;
+  destruct_date?: string;
+  encryption?: EncryptionNonCTemplar;
+  folder?: string;
   forward_attachments_of_message?: number;
+  from?: string;
+  has_attachments?: boolean;
+  has_children?: boolean;
   incoming_headers?: string;
-  spam_reason?: string | [];
-  thread_count?: number;
+  is_encrypted?: boolean;
+  is_html?: boolean;
+  is_protected?: boolean;
+  is_subject_encrypted?: boolean;
+  last_action_parent_id?: number;
   last_action_thread?: MailAction;
   last_action?: MailAction;
-  last_action_parent_id?: number;
-  is_html?: boolean;
-  // Added sender_display_name due to the different name with same address
+  mailbox?: number;
+  marked?: boolean;
+  parent?: number;
+  read?: boolean;
+  receiver_display?: Array<EmailDisplay>;
+  receiver_list?: string;
+  receiver?: Array<string>;
+  reply_to?: Array<string>;
+  send?: boolean;
   sender_display_name?: string;
+  sender_display?: EmailDisplay;
+  sender?: string;
+  sent_at?: string;
+  spam_reason?: string | [];
+  starred?: boolean;
+  subject?: string;
+  thread_count?: number;
 }
 
 export class EncryptionNonCTemplar {
+  id?: number;
   expires?: string;
   expiry_hours = 120;
-  id?: number;
-  password: string;
   password_hint?: string;
+  password: string;
   private_key?: string;
   public_key?: string;
   random_secret?: string;
@@ -63,19 +62,19 @@ export class EncryptionNonCTemplar {
 
 export interface Mailbox {
   id?: number;
-  folders: string[];
-  messages: string[];
-  email: string;
-  is_active?: boolean;
-  private_key: string;
-  public_key: string;
-  fingerprint?: string;
-  signature?: string;
   display_name?: string;
+  email: string;
+  fingerprint?: string;
+  folders: string[];
+  inProgress?: boolean;
+  is_active?: boolean;
   is_default?: boolean;
   is_enabled?: boolean;
+  messages: string[];
+  private_key: string;
+  public_key: string;
+  signature?: string;
   sort_order: number;
-  inProgress?: boolean;
 }
 
 export interface Folder {
@@ -102,24 +101,24 @@ export enum MailFolderType {
 
 export interface Attachment {
   id?: number;
-  draftId: number;
-  document: any;
-  decryptedDocument?: File;
-  name: string;
-  size: string;
-  message: number;
-  progress?: number;
   attachmentId?: number;
+  content_id?: string;
+  decryptedDocument?: File;
+  document: any;
+  draftId: number;
   inProgress: boolean;
-  is_inline: boolean;
   is_encrypted?: boolean;
   is_forwarded?: boolean;
-  content_id?: string;
-  request?: Subscription;
+  is_inline: boolean;
   isRemoved?: boolean;
+  message: number;
+  name: string;
+  progress?: number;
+  request?: Subscription;
+  size: string;
 }
 
 export interface EmailDisplay {
-  name?: string;
   email: string;
+  name?: string;
 }

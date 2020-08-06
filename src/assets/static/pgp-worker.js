@@ -21,13 +21,13 @@ onmessage = async function (event) {
     }
 
     else if (event.data.encryptAttachment) {
-        attachmentEncrypt(event.data.fileData, event.data.publicKeys).then(content => {
+        encryptAttachment(event.data.fileData, event.data.publicKeys).then(content => {
             postMessage({ encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment });
         })
     }
 
     else if (event.data.decryptAttachment) {
-        decryptBinaryContent(event.data.fileData, decryptedPrivKeys[event.data.mailboxId]).then(content => {
+        decryptAttachment(event.data.fileData, decryptedPrivKeys[event.data.mailboxId]).then(content => {
             postMessage({
                 decryptedContent: content, decryptedAttachment: true, fileInfo: event.data.fileInfo,
                 subjectId: event.data.subjectId
@@ -67,7 +67,6 @@ onmessage = async function (event) {
         if (!event.data.mailData) {
             postMessage({ decryptedContent: '', decryptSecureMessageContent: true });
         }
-
         else {
             decryptContent(event.data.mailData.content, decryptedSecureMsgPrivKeyObj).then((content) => {
                 decryptContent(event.data.mailData.subject, decryptedSecureMsgPrivKeyObj).then((subject) => {
@@ -78,7 +77,7 @@ onmessage = async function (event) {
     }
 
     else if (event.data.decryptSecureMessageAttachment) {
-        decryptBinaryContent(event.data.fileData, decryptedSecureMsgPrivKeyObj).then(content => {
+        decryptAttachment(event.data.fileData, decryptedSecureMsgPrivKeyObj).then(content => {
             postMessage({
                 decryptedContent: content, decryptedSecureMessageAttachment: true, fileInfo: event.data.fileInfo,
                 subjectId: event.data.subjectId
@@ -102,7 +101,6 @@ onmessage = async function (event) {
         if (!event.data.mailboxId) {
             postMessage({ decryptedContent: {}, decrypted: true, callerId: event.data.callerId });
         }
-
         else {
             decryptContent(event.data.mailData.content, decryptedPrivKeys[event.data.mailboxId]).then((content) => {
                 decryptContent(event.data.mailData.subject, decryptedPrivKeys[event.data.mailboxId]).then((subject) => {
@@ -115,7 +113,6 @@ onmessage = async function (event) {
                         });
                     });
                 });
-
             });
         }
     }
@@ -170,38 +167,17 @@ onmessage = async function (event) {
             })
         }
     }
-
-}
-
-async function decryptContent(data, privKeyObj) {
-    if (!data) {
-        return Promise.resolve(data);
-    }
-    try {
-        const options = {
-            message: await openpgp.message.readArmored(data),
-            privateKeys: [privKeyObj]
-        };
-
-        return openpgp.decrypt(options).then(plaintext => {
-            return plaintext.data;
-        })
-    } catch (e) {
-        console.error(e);
-        return Promise.resolve(data);
-    }
 }
 
 function generateKeys(options) {
     return openpgp.generateKey(options).then(async key => {
         return {
-            public_key: key.publicKeyArmored.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
-            private_key: key.privateKeyArmored.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
+            public_key: key.publicKeyArmored,
+            private_key: key.privateKeyArmored,
             fingerprint: (await openpgp.key.readArmored(key.publicKeyArmored)).keys[0].primaryKey.getFingerprint()
         };
     });
 }
-
 
 async function generateNewKeys(mailboxes, password, username) {
     const newKeys = [];
@@ -224,14 +200,13 @@ async function changePassphrase(passphrase) {
             await decryptedPrivKeys[key].encrypt(passphrase);
             privkeys.push({
                 mailbox_id: key,
-                private_key: decryptedPrivKeys[key].armor().replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2"),
+                private_key: decryptedPrivKeys[key].armor(),
             });
             decryptedPrivKeys[key].decrypt(passphrase);
         }
     }
     return { keys: privkeys, changePassphrase: true };
 }
-
 
 async function encryptContent(data, publicKeys) {
     if (!data) {
@@ -244,12 +219,30 @@ async function encryptContent(data, publicKeys) {
         message: openpgp.message.fromText(data),
         publicKeys: pubkeys
     };
-    return openpgp.encrypt(options).then(ciphertext => {
-        return ciphertext.data.replace(/(\r\n|\n|\r)((\r\n|\n|\r)\S+(\r\n|\n|\r)-+END PGP)/m, "$2");
+    return openpgp.encrypt(options).then(payload => {
+        return payload.data;
     })
 }
 
-async function attachmentEncrypt(data, publicKeys) {
+async function decryptContent(data, privKeyObj) {
+    if (!data) {
+        return Promise.resolve(data);
+    }
+    try {
+        const options = {
+            message: await openpgp.message.readArmored(data),
+            privateKeys: [privKeyObj],
+        };
+        return openpgp.decrypt(options).then(payload => {
+            return payload.data;
+        })
+    } catch (e) {
+        console.error(e);
+        return Promise.resolve(data);
+    }
+}
+
+async function encryptAttachment(data, publicKeys) {
     if (!data) {
         return Promise.resolve(data);
     }
@@ -259,15 +252,13 @@ async function attachmentEncrypt(data, publicKeys) {
     const options = {
         message: openpgp.message.fromBinary(data),
         publicKeys: pubkeys,
-        armor: false // don't ASCII armor (for Uint8Array output)
     };
-
-    return openpgp.encrypt(options).then(ciphertext => {
-        return ciphertext.message.packets.write(); // get raw encrypted packets as Uint8Array
+    return openpgp.encrypt(options).then(payload => {
+        return payload.data;
     });
 }
 
-async function decryptBinaryContent(data, privKeyObj) {
+async function decryptAttachment(data, privKeyObj) {
     if (!data) {
         return Promise.resolve(data);
     }
@@ -275,12 +266,11 @@ async function decryptBinaryContent(data, privKeyObj) {
         const options = {
             message: await openpgp.message.readArmored(data),
             privateKeys: [privKeyObj],
-            format: 'binary' // output as Uint8Array
+            format: 'binary',
         };
-
-        return openpgp.decrypt(options).then(binary => {
-            return binary.data; //Uint8Array
-        })
+        return openpgp.decrypt(options).then(payload => {
+            return payload.data;
+        });
     } catch (e) {
         console.error(e);
         return Promise.resolve(data);
