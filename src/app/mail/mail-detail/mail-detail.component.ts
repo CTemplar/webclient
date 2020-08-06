@@ -1,11 +1,13 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { LineBreakToBrTag } from '../../shared/pipes/replace-linebreak-brtag.pipe';
+import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { WebSocketState } from '../../store';
 import {
   DeleteMail,
@@ -13,10 +15,12 @@ import {
   GetMailDetailSuccess,
   GetMails,
   MoveMail,
-  SnackErrorPush,
+
+
+
+  SendMail, SnackErrorPush,
   StarMail,
-  WhiteListAdd,
-  SendMail
+  WhiteListAdd
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
@@ -24,8 +28,6 @@ import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/m
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { SafePipe } from '../../shared/pipes/safe.pipe';
-import { LineBreakToBrTag } from '../../shared/pipes/replace-linebreak-brtag.pipe';
 
 declare var Scrambler;
 
@@ -394,6 +396,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
   }
 
+  // TODO: Merge with display-secure-message and compose-mail components
   decryptAttachment(attachment: Attachment, mail: Mail) {
     if (this.decryptedAttachments[attachment.id]) {
       if (!this.decryptedAttachments[attachment.id].inProgress) {
@@ -403,12 +406,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
       this.mailService.getAttachment(attachment)
         .subscribe(response => {
-          const uint8Array = atob(response.data);
           if (!attachment.name) {
             attachment.name = FilenamePipe.tranformToFilename(attachment.document);
           }
           const fileInfo = { attachment, type: response.file_type };
-          this.pgpService.decryptAttachment(mail.mailbox, uint8Array, fileInfo)
+          this.pgpService.decryptAttachment(mail.mailbox, atob(response.data), fileInfo)
             .pipe(
               take(1)
             )
@@ -498,9 +500,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       } else {
         this.composeMailData[mail.id].receivers =
-            mail.sender !== this.currentMailbox.email
-              ? [mail.sender]
-              : this.mail.receiver;
+          mail.sender !== this.currentMailbox.email
+            ? [mail.sender]
+            : this.mail.receiver;
       }
     }
     this.composeMailData[mail.id].action = MailAction.REPLY;
@@ -529,7 +531,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         ? [...mail.receiver, ...mail.cc, ...mail.bcc]
         : [mail.receiver, ...mail.cc, ...mail.bcc];
     }
-     this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers
+    this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers
       .filter(email => email !== this.currentMailbox.email);
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
     this.setActionParent(mail, isChildMail, mainReply);
@@ -576,7 +578,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onDelete(mail: Mail, index?: number, withChildren: boolean = true) {
     if (mail.folder === MailFolderType.TRASH) {
       this.store.dispatch(new DeleteMail({ ids: mail.id.toString(), parent_only: !withChildren }));
-        if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
+      if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
         .some(child => child.folder === MailFolderType.TRASH))) {
         this.goBack(500);
       }
@@ -833,7 +835,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
       const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
         this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
-      if (this.decryptedContents[mail.id] === undefined) {this.decryptedContents[mail.id] = ''; }
+      if (this.decryptedContents[mail.id] === undefined) { this.decryptedContents[mail.id] = ''; }
       content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
     }
     return content;

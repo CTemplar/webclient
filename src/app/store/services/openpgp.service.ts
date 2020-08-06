@@ -245,11 +245,11 @@ export class OpenPgpService {
     reader.readAsArrayBuffer(file);
   }
 
-  decryptAttachment(mailboxId, uint8Array: string, fileInfo: any): Observable<Attachment> {
+  decryptAttachment(mailboxId, pgpMessage: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo, subjectId });
+    this.pgpWorker.postMessage({ mailboxId, fileData: pgpMessage, decryptAttachment: true, fileInfo, subjectId });
     return subject.asObservable();
   }
 
@@ -291,11 +291,11 @@ export class OpenPgpService {
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
   }
 
-  decryptSecureMessageAttachment(decryptedKey: any, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+  decryptSecureMessageAttachment(decryptedKey: any, pgpMessage: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.pgpWorker.postMessage({ decryptedKey, fileData: uint8Array, decryptSecureMessageAttachment: true, fileInfo, subjectId });
+    this.pgpWorker.postMessage({ decryptedKey, fileData: pgpMessage, decryptSecureMessageAttachment: true, fileInfo, subjectId });
     return subject.asObservable();
   }
 

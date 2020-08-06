@@ -507,6 +507,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.decryptAttachments(draft.attachments);
   }
 
+  // TODO: Merge with display-secure-message and mail-detail components
   decryptAttachments(attachments: Array<Attachment>) {
     attachments.forEach(attachment => {
       // TODO: Do we need to download attachment even if its not encrypted?
@@ -519,9 +520,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }))
           .subscribe(response => {
             if (attachment.is_encrypted) {
-              const uint8Array = atob(response.data);
               const fileInfo = { attachment, type: response.file_type };
-              this.openPgpService.decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
+              this.openPgpService.decryptAttachment(this.draftMail.mailbox, atob(response.data), fileInfo)
                 .subscribe(decryptedAttachment => {
                   this.store.dispatch(new UpdateDraftAttachment({
                     draftId: this.draftId,
