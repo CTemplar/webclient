@@ -1,7 +1,7 @@
 // Angular
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PricingPlansComponent } from 'app/shared/components/pricing-plans/pricing-plans.component';
+import { PricingPlansComponent } from '../shared/components/pricing-plans/pricing-plans.component';
 import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-options.component';
 import { StripeFormComponent } from '../shared/components/stripe-form/stripe-form.component';
 import { BitcoinFormComponent } from '../shared/components/bitcoin-form/bitcoin-form.component';
