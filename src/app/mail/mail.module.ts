@@ -48,6 +48,9 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuillModule } from 'ngx-quill';
 
 @NgModule({
+  entryComponents: [
+    ComposeMailDialogComponent,
+  ],
   declarations: [
     AddressesSignatureComponent,
     ComposeMailComponent,
@@ -97,8 +100,5 @@ import { QuillModule } from 'ngx-quill';
     WebsocketService,
     PushNotificationService,
   ],
-  entryComponents: [
-    ComposeMailDialogComponent,
-  ]
 })
 export class MailModule { }
