@@ -66,7 +66,7 @@
                         </li>
                         <li class="user-actions-item"
                             [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }"
-                            *showInIE="false"> <a *ngIf="!isLoggedIn; else logoutLink" href="{{primaryWebsite}}/signup"
+                            *showInIE="false"> <a *ngIf="!isLoggedIn; else logoutLink" routerLink="/signup"
                                 class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
                                 [translate]="'home_header.signup'">Sign Up</a>
                             <ng-template #logoutLink> <a routerLink="/signin" (click)="logout()"
