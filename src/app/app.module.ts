@@ -4,34 +4,34 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule, ErrorHandler, Injectable } from '@angular/core';
 
-// Bootstrap
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 // Components
 import { AppComponent } from './app.component';
 
 // Modules
 import { AppStoreModule } from './store/store.module';
-import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MailModule } from './mail/mail.module';
+import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 import { UsersModule } from './users/users.module';
-import * as Sentry from '@sentry/browser';
 
 // Services
 import { AuthGuard, BitcoinService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
 import { BreakpointsService } from './store/services/breakpoint.service';
+import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { DonationService } from './store/services/donation.service';
-import { MailModule } from './mail/mail.module';
 import { NotificationService } from './store/services/notification.service';
-import { PagesModule } from './pages/pages.module';
 import { TimezoneService } from './store/services/timezone.service';
+
+// Third-party
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import * as Sentry from '@sentry/browser';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,16 +50,17 @@ export class SentryErrorHandler implements ErrorHandler {
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    SharedModule,
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    NgbModule,
     AppStoreModule,
+    BrowserAnimationsModule,
+    BrowserModule,
     FooterModule,
     HeaderModule,
-    UsersModule,
+    HttpClientModule,
     MailModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    NgbModule,
     PagesModule,
     TranslateModule.forRoot({
       loader: {
@@ -68,31 +69,22 @@ export class SentryErrorHandler implements ErrorHandler {
         deps: [HttpClient]
       }
     }),
-    // Material modules
-    MatButtonModule,
-    MatSnackBarModule,
-    MatIconModule,
+    SharedModule,
+    UsersModule,
   ],
   providers: [
     AuthGuard,
-    SharedService,
-    OpenPgpService,
     BitcoinService,
-    NotificationService,
     BreakpointsService,
-    TimezoneService,
-    MailService,
     DateTimeUtilService,
     DonationService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
-    {
-      provide: ErrorHandler,
-      useClass: SentryErrorHandler
-    },
+    MailService,
+    NotificationService,
+    OpenPgpService,
+    SharedService,
+    TimezoneService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
   bootstrap: [AppComponent]
 })
