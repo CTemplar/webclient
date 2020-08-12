@@ -17,6 +17,7 @@ export const initialState: AuthState = {
   isRecoveryCodeSent: false,
   captcha: {},
   auth2FA: {},
+  saveDraftOnLogout: false,
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -34,6 +35,12 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         ...state,
         errorMessage: null,
         inProgress: true,
+      };
+    }
+    case AuthActionTypes.SAVE_DRAFT_ON_LOGOUT: {
+      return {
+        ...state,
+        saveDraftOnLogout: true,
       };
     }
     case AuthActionTypes.LOGIN_SUCCESS: {

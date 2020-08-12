@@ -33,6 +33,7 @@ export interface AuthState {
   auth2FA?: Auth2FA;
   anti_phishing_phrase?: string;
   recovery_key?: string;
+  saveDraftOnLogout?: boolean;
 }
 
 export interface CardState {
