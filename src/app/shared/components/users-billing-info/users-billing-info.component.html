@@ -41,14 +41,10 @@
                               </a>
                               <a class="dropdown-item text-muted" (click)="selectBitcoinMethod()">
                                 <em>Bitcoin</em>
-                              <a class="dropdown-item text-muted" (click)="selectMoneroMethod()"></a>
+                              <a class="dropdown-item text-muted" (click)="selectMoneroMethod()">
                                 <em>Monero</em>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  <div>
+                                </a>
+                    <div>
                     <div class="billing-overview-row row" *ngIf="!isAddNewCard">
                       <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.billing'">Billing</label>
                       <div class="billing-overview-val text-secondary col">
@@ -66,10 +62,10 @@
                                 <em>Annually</em>
                               </a>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                          
+                        
+                      
+                    
                     <div class="billing-overview-row row" *ngIf="!isAddNewCard">
                       <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.price'">Price</label>
                       <div class="billing-overview-val text-secondary col">
@@ -127,16 +123,16 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="monero"*ngIf="Monero">
-                <h1 class="moneroInfo">Payment Information</h1>
-                <p class="moneroInfo">To complete your payment using Monero (XMR) please create a free account then email
-                  Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment
+              
+              
+              <div class="monero"*ngIf="monero">
+                <h1 class="monero-info">Payment Information</h1>
+                <p class="monero-info">To complete your payment using Monero (XMR) please create a free account then email
+                  support@ctemplar.com. Our Support team will send you instructions on how to complete the payment
                   and then upgrade your account once payment is made.
                 </p>
               </div>
-              <div *ngIf="Credit" class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN && planType!==planTypeEnum.FREE">
+              <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN && planType!==planTypeEnum.FREE && credit==true">
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
                 </h3>
@@ -289,13 +285,7 @@
 
               <div class="text-holder mt-2 text-center">
                 <a href="" [translate]="'common.cancel'" (click)="onCancel($event)">Cancel</a>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <!-- /.Site container ends -->
-</section>
+
 <!-- /.PAGE SECTION ENDS -->

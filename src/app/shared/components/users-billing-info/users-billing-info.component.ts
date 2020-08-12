@@ -92,8 +92,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   upgradeAmount: number;
   payment: Payment;
   isPrime: boolean;
-  Monero: boolean;
-  Credit: boolean;
+  monero: boolean;
+  credit: boolean;
 
 
   private checkTransactionResponse: CheckTransactionResponse;
@@ -398,10 +398,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       });
   }
   
-  selectMoneroMethod(){
-    this.Credit = false;
-    this.Monero = true;
-  }
+    selectMoneroMethod(){
+      this.credit = false;
+      this.monero = true;
+    }
 
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
