@@ -9,6 +9,7 @@ export enum AuthActionTypes {
   SIGNUP_SUCCESS = '[Auth] Signup Success',
   SIGNUP_FAILURE = '[Auth] Signup Failure',
   LOGOUT = '[Auth] Logout',
+  SAVE_DRAFT_ON_LOGOUT = '[Auth] Save Draft on Logout',
   EXPIRE_SESSION = '[Auth] EXPIRE SESSION',
   GET_STATUS = '[Auth] GetStatus',
   UPDATE_SIGNUP_DATA = '[Auth] Update Signup Data',
@@ -83,6 +84,12 @@ export class SignUpFailure implements Action {
 
 export class Logout implements Action {
   readonly type = AuthActionTypes.LOGOUT;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class SaveDraftOnLogout implements Action {
+  readonly type = AuthActionTypes.SAVE_DRAFT_ON_LOGOUT;
 
   constructor(public payload: any = {}) {}
 }
@@ -325,6 +332,7 @@ export type AuthActionAll =
   | SignUpSuccess
   | SignUpFailure
   | Logout
+  | SaveDraftOnLogout
   | GetStatus
   | UpdateSignupData
   | CheckUsernameAvailability
