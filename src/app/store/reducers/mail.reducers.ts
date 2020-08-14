@@ -491,6 +491,7 @@ export function reducer(
         state.decryptedContents[action.payload.id] = {
           id: action.payload.id,
           content: action.payload.decryptedContent.content,
+          content_plain: action.payload.decryptedContent.content_plain,
           subject: action.payload.decryptedContent.subject,
           incomingHeaders: action.payload.decryptedContent.incomingHeaders,
           inProgress: action.payload.isPGPInProgress,
@@ -499,6 +500,7 @@ export function reducer(
         state.decryptedContents[action.payload.id] = {
           ...state.decryptedContents[action.payload.id],
           content: action.payload.decryptedContent.content,
+          content_plain: action.payload.decryptedContent.content_plain,
           subject: action.payload.decryptedContent.subject,
           inProgress: action.payload.isPGPInProgress,
           incomingHeaders: action.payload.decryptedContent.incomingHeaders,

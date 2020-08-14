@@ -290,6 +290,7 @@ export interface MailState {
 export class SecureContent {
   id?: number;
   content: string;
+  content_plain?: string;
   incomingHeaders?: string;
   subject?: string;
   inProgress?: boolean;
@@ -298,6 +299,7 @@ export class SecureContent {
   constructor(data?: Mail) {
     if (data) {
       this.content = data.content;
+      this.content_plain = data.content_plain;
       this.subject = data.subject;
       this.incomingHeaders = data.incoming_headers;
       this.isSubjectEncrypted = data.is_subject_encrypted;

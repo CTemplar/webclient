@@ -678,7 +678,9 @@
     "attachment_message": "Voulez-vous inclure les pièces jointes de ce message ?",
     "no_header": "Aucun en-tête disponible",
     "incoming_head": "En-têtes entrants",
-    "delete_this_message": "Supprimer ce message"
+    "delete_this_message": "Supprimer ce message",
+    "show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {
     "payment_failed": "Paiement échoué",

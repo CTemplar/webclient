@@ -127,6 +127,102 @@ export class SafePipe implements PipeTransform {
     }
   }
 
+  processSanitization(value: string, disableExternalImages: boolean) {
+    const allowedTags = {
+      a: [],
+      b: [],
+      br: [],
+      div: [],
+      font: [],
+      h1: [],
+      h2: [],
+      h3: [],
+      h4: [],
+      h5: [],
+      h6: [],
+      hr: [],
+      img: [],
+      label: [],
+      li: [],
+      ol: [],
+      p: [],
+      span: [],
+      strong: [],
+      table: [],
+      td: [],
+      th: [],
+      tr: [],
+      u: [],
+      ul: [],
+      i: [],
+    };
+    let headingAttributes = [
+      'align', 'dir', 'id', 'style'
+    ];
+    const allowedAttributes = {
+      'a': ['href', 'style', 'target'],
+      'b': ['style'],
+      'br': ['style'],
+      'div': ['align', 'dir', 'style'],
+      'font': ['color', 'face', 'size', 'style'],
+      'h1': headingAttributes,
+      'h2': headingAttributes,
+      'h3': headingAttributes,
+      'h4': headingAttributes,
+      'h5': headingAttributes,
+      'h6': headingAttributes,
+      'hr': ['align', 'size', 'width'],
+      'img': [
+        'align', 'border', 'height', 'hspace',
+        'src', 'style', 'usemap', 'vspace', 'width'
+      ],
+      'label': ['id', 'style'],
+      'li': ['dir', 'style', 'type'],
+      'ol': ['dir', 'style', 'type'],
+      'p': ['align', 'dir', 'style'],
+      'span': ['style'],
+      'strong': ['style'],
+      'table': [
+        'align', 'bgcolor', 'border', 'cellpadding', 'cellspacing',
+        'dir', 'frame', 'rules', 'style', 'width'
+      ],
+      'td': [
+        'abbr', 'align', 'bgcolor', 'colspan', 'dir',
+        'height', 'lang', 'rowspan', 'scope', 'style', 'valign', 'width'
+      ],
+      'th': [
+        'abbr', 'align', 'background', 'bgcolor', 'colspan',
+        'dir', 'height', 'lang', 'scope', 'style', 'valign', 'width'
+      ],
+      'tr': ['align', 'bgcolor', 'dir', 'style', 'valign'],
+      'u': ['style'],
+      'ul': ['dir', 'style']
+    };
+    // @ts-ignore
+    value = xss(value, {
+      whiteList: allowedTags,
+      stripIgnoreTag: true,
+      stripIgnoreTagBody: ['script', 'style'],
+      onIgnoreTagAttr: (tag, name, value, isWhiteAttr) => {
+        if (name !== 'class') {
+          // get attr whitelist for specific tag
+          let attrWhitelist = allowedAttributes[tag];
+          // if the current attr is whitelisted, should be added to tag
+          if (attrWhitelist.indexOf(name) !== -1) {
+            if (disableExternalImages && tag === 'img' && name === 'src') {
+              if (!(value.indexOf('https://' + PRIMARY_DOMAIN) === 0 || value.indexOf(apiUrl) === 0)) {
+                SafePipe.hasExternalImages = true;
+                return `${value}=""`;
+              }
+            }
+            return name + '="' + xss.escapeAttrValue(value) + '"';
+          }
+        }
+      }
+    });
+    return value;
+  }
+
   replaceLinksInText(inputText: string) {
     if (!(/<[a-z][\s\S]*>/i.test(inputText))) {
       if (typeof (inputText) === 'string') {
