@@ -79,16 +79,15 @@ export class ComposeMailService {
                     publicKeys = [...publicKeys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
                   }
 
-                  if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
+                  if (publicKeys.length > 0) {
                     draftMail.attachments.forEach(attachment => {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, publicKeys);
                     });
                     this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), publicKeys);
 
                   } else {
-
                     if (!draftMail.isSaving) {
-                      const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
+                      let encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
                       if (encryptedAttachments.length > 0) {
                         forkJoin(
                           ...encryptedAttachments.map(attachment => {
