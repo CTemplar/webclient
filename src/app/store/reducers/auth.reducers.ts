@@ -17,6 +17,7 @@ export const initialState: AuthState = {
   isRecoveryCodeSent: false,
   captcha: {},
   auth2FA: {},
+  saveDraftOnLogout: false,
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -36,9 +37,14 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         inProgress: true,
       };
     }
+    case AuthActionTypes.SAVE_DRAFT_ON_LOGOUT: {
+      return {
+        ...state,
+        saveDraftOnLogout: true,
+      };
+    }
     case AuthActionTypes.LOGIN_SUCCESS: {
       if (action.payload.token) {
-        localStorage.setItem('token', action.payload.token);
         localStorage.removeItem(REFFERAL_CODE_KEY);
         return {
           ...state,

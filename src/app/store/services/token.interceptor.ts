@@ -19,15 +19,10 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(UsersService);
-    const token: string = this.authService.getToken();
-    const is_necessary_token = this.authService.getNecessaryTokenUrl(request.url);
-    if (is_necessary_token && token) {
-      request = request.clone({
-        setHeaders: {
-          'Authorization': `JWT ${token}`
-        }
-      });
-    }
+    request = request.clone({
+      withCredentials: true
+    });
+    
     return next.handle(request)
       .pipe(catchError((error: any) => {
         if (error instanceof HttpErrorResponse) {

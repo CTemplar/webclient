@@ -229,6 +229,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   private inlineAttachmentContentIds: Array<string> = [];
   private isSignatureAdded: boolean;
   private isAuthenticated: boolean;
+  private saveDraftOnLogout: boolean;
   public userState: UserState = new UserState();
   private decryptedContent: string;
   private encryptionData: any = {};
@@ -321,6 +322,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
+        this.saveDraftOnLogout = authState.saveDraftOnLogout;
+        if (authState.saveDraftOnLogout) { this.updateEmail(); }
         this.loadEmailContacts();
       });
 
@@ -434,7 +437,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   ngOnDestroy(): void {
-    if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft) {
+    if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft && !this.saveDraftOnLogout) {
       this.saveInDrafts();
       this.isSavedInDraft = true;
     }
@@ -895,11 +898,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   addDecryptedContent() {
-    if (!this.draftMail.is_html && this.decryptedContent) {
+    if (!this.draftMail.is_html) {
       this.mailData.content = this.decryptedContent;
       return;
     }
-    if (this.quill && this.decryptedContent) {
+    if (this.quill) {
       this.quill.setText('');
       this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
     }

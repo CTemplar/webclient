@@ -8,7 +8,7 @@ import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AppConfig } from '../../../environments/environment';
-import { apiUrl, getWindowConfig, IS_ELECTRON } from '../config';
+import { apiUrl, getWindowConfig, IS_ELECTRON, JWT_AUTH_COOKIE } from '../config';
 
 @UntilDestroy()
 @Injectable()
@@ -26,7 +26,7 @@ export class WebsocketService implements OnDestroy {
   }
 
   public connect() {
-    const url = apiUrl.replace('http', 'ws') + `connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
+    const url = apiUrl.replace('http', 'ws') + `connect/?user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = (response) => {
       const data = JSON.parse(response.data);
@@ -40,7 +40,7 @@ export class WebsocketService implements OnDestroy {
     };
 
     this.webSocket.onclose = (e) => {
-      if (this.authService.getToken()) {
+      if (this.authService.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE)) {
         LoggerService.log(`Socket is closed. Reconnect will be attempted in ${(1000 + (this.retryCount * 1000))} second. ${e.reason}`);
         setTimeout(() => {
           this.connect();
