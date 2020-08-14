@@ -2,8 +2,6 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
-import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
-import { getComposeMailDialogShortcuts } from '../../../store/services';
 import { AppState, MailAction } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { SetIsComposerPopUp } from '../../../store/actions';
@@ -29,9 +27,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Output() public fullScreen = new EventEmitter<boolean>();
 
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
-  shortcuts: ShortcutInput[] = [];
   @ViewChild('input') input: ElementRef;
-  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
 
 
   isMinimized: boolean;
@@ -58,7 +54,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getComposeMailDialogShortcuts(this);
 
     if (this.mailSubject && this.action) {
       if (this.action === MailAction.REPLY) {

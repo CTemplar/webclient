@@ -40,15 +40,15 @@ export class PasswordValidation {
 })
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
-  isTextToggled: boolean = false;
+  isTextToggled = false;
   signupForm: FormGroup;
   isRecoveryEmail: boolean = null;
   isConfirmedPrivacy: boolean = null;
-  errorMessage: string = '';
+  errorMessage = '';
   selectedPlan: PlanType;
   planType = PlanType;
   data: any = null;
-  signupInProgress: boolean = false;
+  signupInProgress = false;
   signupState: SignupState;
   submitted = false;
   userKeys: any;
@@ -100,7 +100,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     this.handleUsernameAvailability();
     this.sharedService.loadPricingPlans();
-    window.addEventListener("beforeunload", this.authService.onBeforeLoader, true);
+    window.addEventListener('beforeunload', this.authService.onBeforeLoader, true);
   }
 
   // == Toggle password visibility

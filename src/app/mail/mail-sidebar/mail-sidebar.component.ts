@@ -22,8 +22,7 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { Title } from '@angular/platform-browser';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
-import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
-import { getMailSidebarShortcuts, SharedService } from '../../store/services';
+import { SharedService } from '../../store/services';
 import { darkModeCss, PRIMARY_WEBSITE } from '../../shared/config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -39,7 +38,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   EMAIL_LIMIT = 20;
 
   // Public property of boolean type set false by default
-  public isComposeVisible: boolean = false;
+  public isComposeVisible = false;
   public userState: UserState;
 
   mailState: MailState;
@@ -50,9 +49,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   isSidebarOpened: boolean;
   customFolders: Folder[] = [];
   currentMailbox: Mailbox;
-  shortcuts: ShortcutInput[] = [];
   @ViewChild('input') input: ElementRef;
-  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
 
   currentPlan: PlanType;
   currentFolder: MailFolderType;
@@ -60,11 +57,9 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   private forceLightMode: boolean;
 
   constructor(private store: Store<AppState>,
-              private modalService: NgbModal,
               config: NgbDropdownConfig,
               private breakpointsService: BreakpointsService,
               private composeMailService: ComposeMailService,
-              private notificationService: NotificationService,
               private router: Router,
               private websocketService: WebsocketService,
               private pushNotificationService: PushNotificationService,
@@ -185,7 +180,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getMailSidebarShortcuts(this);
     this.cdr.detectChanges();
   }
 

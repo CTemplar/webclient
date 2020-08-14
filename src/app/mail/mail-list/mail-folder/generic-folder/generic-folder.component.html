@@ -63,7 +63,7 @@
         </li>
         <li class="pr-0" *ngIf="!userState.settings.is_subject_auto_decrypt">
           <a class="px-0" placement="top"
-             (click)="decryptAllSubjects()"
+             (click)="onDecryptSubjects()"
              ngbTooltip="Decrypt all subjects on current page">
             <i class="fas fa-unlock-alt"></i>
           </a>
@@ -190,7 +190,7 @@
   </div>
 </div>
 <div class="mail-check-number" *ngIf="selectAll && MAX_EMAIL_PAGE_LIMIT > LIMIT">
-  <p *ngIf="!checkAll">All {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} conversations on this page are selected. <a (click)="selectEntire(true)">Select all {{ MAX_EMAIL_PAGE_LIMIT }} conversations in {{ folderName }}</a></p>  
+  <p *ngIf="!checkAll">All {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} conversations on this page are selected. <a (click)="selectEntire(true)">Select all {{ MAX_EMAIL_PAGE_LIMIT }} conversations in {{ folderName }}</a></p>
   <p *ngIf="checkAll">All {{ MAX_EMAIL_PAGE_LIMIT }} conversations in {{ folderName }} are selected. <a (click)="selectEntire(false)">Clear selection</a></p>
 </div>
 <app-progress-bar [active]="showProgress"></app-progress-bar>
@@ -455,10 +455,3 @@
     </div>
   </div>
 </ng-template><!-- /.Confirm delete draft modal ends -->
-
-<!--TODO : disable shortcuts until the bugs are fixed-->
-<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
-
-<ng-keyboard-shortcuts-help key="f1" closeKey="escape" title="Keyboard shortcuts">
-
-</ng-keyboard-shortcuts-help>

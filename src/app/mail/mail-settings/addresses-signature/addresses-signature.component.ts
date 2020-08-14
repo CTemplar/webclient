@@ -43,7 +43,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   settings: Settings;
   customDomains: string[];
   reorder: boolean;
-  reorderInProgress: boolean = false;
+  reorderInProgress = false;
   mailboxToDelete: Mailbox;
   signatureChanged: Subject<string> = new Subject<string>();
   quillModules = QUILL_FORMATTING_MODULES;

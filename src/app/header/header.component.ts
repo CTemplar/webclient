@@ -1,16 +1,20 @@
 // Angular
-import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-// Service
+
+// Services
+import { AppState, AuthState } from '../store/datatypes';
+import { ExpireSession, Logout } from '../store/actions';
+import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../shared/config';
 import { SharedService } from '../store/services';
 import { UsersService } from '../store/services/users.service';
-import { AppState, AuthState } from '../store/datatypes';
-import { Store } from '@ngrx/store';
-import { ExpireSession, Logout } from '../store/actions';
-import { TranslateService } from '@ngx-translate/core';
-import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../shared/config';
+
+// Third-party
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @UntilDestroy()
 @Component({
@@ -20,11 +24,11 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   // Public property of boolean type set false by default
-  public navIsFixed: boolean = false;
-  public menuIsOpened: boolean = false;
+  public navIsFixed = false;
+  public menuIsOpened = false;
 
   // Switch the footer call to action for this view.
-  externalPageCallToAction: boolean = false;
+  externalPageCallToAction = false;
   isLoggedIn: boolean;
   selectedLanguage: Language = { name: 'English', locale: 'en' };
   languages = LANGUAGES;
@@ -32,12 +36,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(DOCUMENT) private document: any,
-    private route: ActivatedRoute,
     public router: Router,
     private sharedService: SharedService,
     public usersService: UsersService,
     private store: Store<AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }
@@ -82,6 +85,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void { }
 }

@@ -100,7 +100,7 @@ export class AuthEffects {
       ofType(AuthActionTypes.REFRESH_TOKEN),
       map((action: RefreshToken) => action.payload),
       switchMap(() => {
-        return this.authService.refreshToken()
+        return this.authService.refreshToken();
       }));
 
   @Effect()

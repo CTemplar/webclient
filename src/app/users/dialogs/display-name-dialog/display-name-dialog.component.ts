@@ -16,7 +16,7 @@ import { SharedService } from '../../../store/services';
 })
 export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   changeDisplayNameForm: FormGroup;
-  email: string = 'username@ctemplar.com';
+  email = 'username@ctemplar.com';
   inProgress: boolean;
   recoveryKey: string;
 

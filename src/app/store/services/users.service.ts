@@ -112,9 +112,9 @@ export class UsersService {
   }
 
   onBeforeLoader(e) {
-    var confirmationMessage = "If you close the window now all the progress will be lost and your account won't be created.";
-    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    const confirmationMessage = 'If you close the window now all the progress will be lost and your account won\'t be created.';
+    (e || window.event).returnValue = confirmationMessage; // Gecko + IE
+    return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
   }
 
   signUp(user): Observable<any> {
@@ -319,7 +319,7 @@ export class UsersService {
   }
 
   deleteContact(ids) {
-    if (ids === "all") {
+    if (ids === 'all') {
       return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
     } else {
       return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
@@ -363,14 +363,9 @@ export class UsersService {
   }
 
   private updateSignupDataWithPromo(data: any = {}) {
-    // Get cookie
-    const referralId = document.cookie
-      .split('; ')
-      .find(row => row.startsWith(REFFERAL_ID_KEY))
-      .split('=')[1];
-    if (referralId) {
-      data[REFFERAL_ID_KEY] = referralId;
-    }
+    // Get cookie for cjevent
+    const referralId = document.cookie.split('; ').find(row => row.startsWith(REFFERAL_ID_KEY));
+    if (referralId) { data[REFFERAL_ID_KEY] = referralId.split('=')[1]; }
     return data;
   }
 

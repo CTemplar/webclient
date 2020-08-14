@@ -4,7 +4,7 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 // Store
 import { Store } from '@ngrx/store';
-import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
+import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -31,7 +31,7 @@ import {
   UserState,
   CardState
 } from '../../store/datatypes';
-import { 
+import {
   MoveTab,
   ClearMailsOnConversationModeChange,
   GetUnreadMailsCount
@@ -53,6 +53,7 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
+  readonly autosaveDurations = AUTOSAVE_DURATION;
   readonly planType = PlanType;
   @ViewChild('tabSet') tabSet;
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
@@ -75,12 +76,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
   notificationsPermission: string;
+  autosave_duration: any = {};
+  autosave_duration_list: Array<string>;
   notificationPermissionType = NotificationPermission;
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
   currentPlan: PricingPlan;
-  isAddNewCard: boolean = false;
-  isCardUpdateMode: boolean = false;
+  isAddNewCard = false;
+  isCardUpdateMode = false;
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
 
@@ -107,6 +110,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initAutoSaving();
+
     if ('Notification' in window) {
       this.notificationsPermission = Notification.permission;
     }
@@ -132,6 +137,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
+        }
+
+        if (user.settings.autosave_duration !== 'none' && user.settings.autosave_duration) {
+          const duration = Number(user.settings.autosave_duration);
+          const newDuration = duration >= 60000 ? duration / 60000 + 'm' : duration / 1000 + 's';
+          this.autosave_duration = newDuration;
+        } else {
+          this.autosave_duration = 'none';
         }
       });
     this.store.select(state => state.timezone).pipe(untilDestroyed(this))
@@ -179,6 +192,20 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isEditingRecoveryEmail = !this.isEditingRecoveryEmail;
   }
 
+  initAutoSaving() {
+    const autosave_durations = [];
+    this.autosaveDurations.forEach((duration, index) => {
+      if (duration !== 'none' && duration) {
+        const perduration = Number(duration);
+        const newDuration = perduration >= 60000 ? perduration / 60000 + 'm' : perduration / 1000 + 's';
+        autosave_durations.push(newDuration);
+      } else {
+        autosave_durations.push('none');
+      }
+    });
+    this.autosave_duration_list = autosave_durations;
+  }
+
   ngAfterViewInit() {
     this.tabSet.select(this.selectedTabQueryParams);
     this.cdr.detectChanges();
@@ -211,7 +238,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   // == Open billing information NgbModal
 
   onAddNewCard() {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) { return; }
     this.isAddNewCard = true;
     this.modalService.open(this.billingInfoModal, {
       centered: true,
@@ -221,12 +248,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onDeleteCard(card: CardState) {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) { return; }
     this.store.dispatch(new CardDelete(card.id));
   }
 
   onMakePrimaryCard(card: CardState) {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) { return; }
     this.store.dispatch(new CardMakePrimary(card.id));
   }
 
@@ -267,6 +294,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateSettings(key?: string, value?: any) {
+    if (key === 'autosave_duration') {
+      if (value.substr(-1) === 'm') { value = Number(value.slice(0, -1)) * 60000; }
+      if (value.substr(-1) === 's') { value = Number(value.slice(0, -1)) * 1000; }
+    }
     this.settingsService.updateSettings(this.settings, key, value);
   }
 
@@ -352,7 +383,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   viewInvoice(invoice: Invoice, print: boolean = false) {
     let popupWin;
 
-    let invoiceItems: string = '';
+    let invoiceItems = '';
     invoice.items.forEach(item => {
       invoiceItems += `
                    <tr>

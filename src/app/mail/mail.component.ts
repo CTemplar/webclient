@@ -26,13 +26,12 @@ import {
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
-import { getMailComponentShortcuts, SharedService } from '../store/services';
+import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { formatDate, getLocaleExtraDayPeriodRules } from '@angular/common';
 import { Router } from '@angular/router';
-import { KeyboardShortcutsComponent, ShortcutInput } from 'ng-keyboard-shortcuts';
 import * as Sentry from '@sentry/browser';
 
 @UntilDestroy()
@@ -44,23 +43,20 @@ import * as Sentry from '@sentry/browser';
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
-  // TODO : disable shortcuts until the bugs are fixed
-  @ViewChild(KeyboardShortcutsComponent) private keyboard: KeyboardShortcutsComponent;
   @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
   private isLoadedData: boolean;
   autoresponder: AutoResponder = {};
   autoresponder_status = false;
   currentDate: string;
-  shortcuts: ShortcutInput[] = [];
   canLoadNotification = true;
   hideNotification: boolean;
   notificationMessage: string;
 
   constructor(private store: Store<AppState>,
-              private sharedService: SharedService,
-              private composeMailService: ComposeMailService,
-              private router: Router,
-              private cdr: ChangeDetectorRef) {
+    private sharedService: SharedService,
+    private composeMailService: ComposeMailService,
+    private router: Router,
+    private cdr: ChangeDetectorRef) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
@@ -69,6 +65,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
+
         if (userState.isLoaded && !this.isLoadedData) {
           Sentry.init({
             dsn: 'https://e768a553906d4f87bcb0419a151e36b0@o190614.ingest.sentry.io/5256284',
@@ -129,8 +126,6 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.composeMailService.initComposeMailContainer(this.composeMailContainer);
-    // TODO : disable shortcuts until the bugs are fixed
-    this.shortcuts = getMailComponentShortcuts(this);
     this.cdr.detectChanges();
   }
 

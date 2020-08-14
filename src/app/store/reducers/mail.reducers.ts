@@ -38,12 +38,12 @@ export function reducer(
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
       let mails = action.payload.mails;
-      let target_folder_mails = state.folders.get(action.payload.folder) || [];
-      let old_folder_info = state.info_by_folder.get(action.payload.folder);
-      let folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false, 
+      const target_folder_mails = state.folders.get(action.payload.folder) || [];
+      const old_folder_info = state.info_by_folder.get(action.payload.folder);
+      const folder_info = new MailStateFolderInfo({is_not_first_page: action.payload.is_not_first_page || false,
         total_mail_count: action.payload.total_mail_count,
         is_dirty: false
-      })
+      });
       state.info_by_folder.set(action.payload.folder, folder_info);
 
       if (action.payload.is_from_socket) {
@@ -164,11 +164,11 @@ export function reducer(
       }
       let info_keys = Array.from(state.info_by_folder.keys());
       info_keys = info_keys.filter(
-        folder =>  
+        folder =>
         folder !== MailFolderType.DRAFT &&
         folder !== MailFolderType.OUTBOX);
         info_keys.map(key => {
-        let folder_info = state.info_by_folder.get(key);
+        const folder_info = state.info_by_folder.get(key);
         if (folder_info) {
           folder_info.is_dirty = true;
         }
@@ -183,7 +183,7 @@ export function reducer(
         });
       }
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
-        state.mailDetail = {...state.mailDetail, folder: action.payload.folder}
+        state.mailDetail = {...state.mailDetail, folder: action.payload.folder};
       }
       return { ...state, inProgress: false, noUnreadCountChange: true, isMailsMoved: true };
     }
@@ -202,11 +202,11 @@ export function reducer(
       }
       let info_keys = Array.from(state.info_by_folder.keys());
       info_keys = info_keys.filter(
-        folder =>  
+        folder =>
         folder !== MailFolderType.DRAFT &&
         folder !== MailFolderType.OUTBOX);
         info_keys.map(key => {
-        let folder_info = state.info_by_folder.get(key);
+        const folder_info = state.info_by_folder.get(key);
         if (folder_info) {
           folder_info.is_dirty = true;
         }
@@ -222,7 +222,7 @@ export function reducer(
         });
       }
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
-        state.mailDetail = {...state.mailDetail, folder: action.payload.sourceFolder}
+        state.mailDetail = {...state.mailDetail, folder: action.payload.sourceFolder};
       }
       return {
         ...state,
@@ -350,12 +350,12 @@ export function reducer(
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
       const folder_keys = [MailFolderType.DRAFT, MailFolderType.TRASH, MailFolderType.SPAM];
       folder_keys.map(key => {
-        let folder_info = state.info_by_folder.get(key);
+        const folder_info = state.info_by_folder.get(key);
         if (folder_info) {
           folder_info.is_dirty = true;
         }
         state.info_by_folder.set(key, folder_info);
-      })
+      });
       if (action.payload.isMailDetailPage) {
         return state;
       }
@@ -508,7 +508,7 @@ export function reducer(
     }
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
-      let newEntry: boolean = true;
+      let newEntry = true;
       let target_folder_mails = state.folders.get(action.payload.folder) || [];
       target_folder_mails.map((mail, index) => {
         if (mail.id === action.payload.id || mail.id === action.payload.parent) {
@@ -529,14 +529,14 @@ export function reducer(
             || (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)) ? 1 : 0);
 
           target_folder_mails = [mail, ...target_folder_mails];
-          let old_folder_info = state.info_by_folder.get(action.payload.folder);
+          const old_folder_info = state.info_by_folder.get(action.payload.folder);
           old_folder_info.total_mail_count += 1;
           state.info_by_folder.set(action.payload.folder, old_folder_info);
         }
         state.folders.set(action.payload.folder, target_folder_mails);
         if (state.currentFolder === action.payload.folder) {
           state.mails = target_folder_mails;
-          let folder_info = state.info_by_folder.get(action.payload.folder);
+          const folder_info = state.info_by_folder.get(action.payload.folder);
           state.total_mail_count = folder_info.total_mail_count;
         }
       }
@@ -544,7 +544,7 @@ export function reducer(
         // Remove the draft mails from store, so that it would fetch again when needed to list
         state.folders.set(MailFolderType.DRAFT, []);
       }
-      
+
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
 

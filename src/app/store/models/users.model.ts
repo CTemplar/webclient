@@ -55,13 +55,13 @@ export interface Storage {
 
 export interface Payment {
   id: number;
-  title: string;
-  selected: boolean;
-  monthlyFee: any;
-  totalAnnualFee: any;
-  monthlyDiscountRate?: number;
   annualDiscountRate?: number;
   classId?: string;
+  monthlyDiscountRate?: number;
+  monthlyFee: any;
+  selected: boolean;
+  title: string;
+  totalAnnualFee: any;
 }
 
 export interface UserMailbox {
@@ -80,22 +80,22 @@ export const StorageData: Storage[] = [
 export const PaymentData: Payment[] = [
   {
     id: 1,
-    title: 'Pay Monthly',
-    selected: true,
-    monthlyFee: 0,
-    totalAnnualFee: 0,
-    monthlyDiscountRate: 0.8,
     annualDiscountRate: 0.9,
-    classId: 'pay-monthly'
+    classId: 'pay-monthly',
+    monthlyDiscountRate: 0.8,
+    monthlyFee: 0,
+    selected: true,
+    title: 'Pay Monthly',
+    totalAnnualFee: 0,
   },
   {
     id: 2,
-    title: 'Pay Annually',
-    selected: false,
-    monthlyFee: 0,
-    totalAnnualFee: 0,
-    monthlyDiscountRate: 0.8,
     annualDiscountRate: 0.9,
-    classId: 'pay-monthly'
+    classId: 'pay-monthly',
+    monthlyDiscountRate: 0.8,
+    monthlyFee: 0,
+    selected: false,
+    title: 'Pay Annually',
+    totalAnnualFee: 0,
   }
 ];

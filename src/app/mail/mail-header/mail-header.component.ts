@@ -3,7 +3,7 @@ import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { ExpireSession, Logout } from '../../store/actions';
+import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -25,11 +25,11 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('logoutModal') logoutModal;
 
   // Public property of boolean type set false by default
-  menuIsOpened: boolean = false;
+  menuIsOpened = false;
   selectedLanguage: Language = { name: 'English', locale: 'en' };
   languages = LANGUAGES;
   searchInput = new FormControl();
-  searchPlaceholder: string = 'common.search';
+  searchPlaceholder = 'common.search';
   loadingImage = LOADING_IMAGE;
   private isContactsPage: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
@@ -92,6 +92,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.store.dispatch(new SaveDraftOnLogout());
     const modalRef = this.modalService.open(this.logoutModal, {
       centered: true,
       backdrop: 'static',

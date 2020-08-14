@@ -1,14 +1,17 @@
 // Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-// Bootstrap
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+// Components
+import { PagesDonateComponent } from './pages-donate/pages-donate.component';
+import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-options.component';
+
 // Modules
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '../shared/shared.module';
-// Components
-import { PaymentOptionsComponent } from './pages-donate/payment-options/payment-options.component';
-import { PagesDonateComponent } from './pages-donate/pages-donate.component';
+
+// Third-party
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -18,9 +21,8 @@ import { PagesDonateComponent } from './pages-donate/pages-donate.component';
     SharedModule
   ],
   declarations: [
+    PagesDonateComponent,
     PaymentOptionsComponent,
-    PagesDonateComponent
   ]
 })
-export class PagesModule {
-}
+export class PagesModule { }

@@ -33,6 +33,7 @@ export interface AuthState {
   auth2FA?: Auth2FA;
   anti_phishing_phrase?: string;
   recovery_key?: string;
+  saveDraftOnLogout?: boolean;
 }
 
 export interface CardState {
@@ -141,9 +142,9 @@ export class PromoCode {
   new_amount: number = null;
   new_amount_btc: number = null;
   message?: string;
-  value: string = '';
-  enabled: boolean = false;
-  inProgress: boolean = false;
+  value = '';
+  enabled = false;
+  inProgress = false;
 }
 
 export interface ContactsState {
@@ -179,6 +180,7 @@ export class Settings {
   email_count?: number;
   domain_count?: number;
   default_font?: string;
+  autosave_duration?: string;
   enable_forwarding?: boolean;
   enable_copy_forwarding?: boolean;
   forwarding_address?: string;
@@ -256,12 +258,12 @@ export class MailStateFolderInfo {
   is_not_first_page?: boolean;
   total_mail_count?: number;
   is_dirty?: boolean;
-  
+
   constructor(data?: any) {
     if (data) {
-      this.is_not_first_page = data.is_not_first_page
-      this.total_mail_count = data.total_mail_count
-      this.is_dirty = data.is_dirty
+      this.is_not_first_page = data.is_not_first_page;
+      this.total_mail_count = data.total_mail_count;
+      this.is_dirty = data.is_dirty;
     }
   }
 }

@@ -29,7 +29,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
 
   private billingInfoModalRef: NgbModalRef;
 
-  selectedIndex: number = -1; // Assuming no element are selected initially
+  selectedIndex = -1; // Assuming no element are selected initially
   selectedPlan: PlanType;
   availableStorage = [];
   availableEmailAddress = [];

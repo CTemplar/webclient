@@ -51,11 +51,11 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private canDispatchChangePassphrase: boolean;
 
   constructor(private store: Store<AppState>,
-              private settingsService: MailSettingsService,
-              private modalService: NgbModal,
-              private openPgpService: OpenPgpService,
-              private sharedService: SharedService,
-              private formBuilder: FormBuilder) { }
+    private settingsService: MailSettingsService,
+    private modalService: NgbModal,
+    private openPgpService: OpenPgpService,
+    private sharedService: SharedService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
@@ -98,10 +98,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
       });
 
     this.changePasswordForm = this.formBuilder.group({
-        oldPassword: ['', [Validators.required]],
-        password: ['', [Validators.required]],
-        confirmPwd: ['', [Validators.required]]
-      },
+      oldPassword: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      confirmPwd: ['', [Validators.required]]
+    },
       {
         validator: PasswordValidation.MatchPassword
       });

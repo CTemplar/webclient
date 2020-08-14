@@ -1,22 +1,22 @@
 export interface Filter {
   id?: number;
-  name: string;
-  parameter?: FilterParameter;
   condition?: FilterCondition;
   filter_text?: string;
-  move_to?: boolean;
   folder?: string;
   mark_as_read?: boolean;
   mark_as_starred?: boolean;
+  move_to?: boolean;
+  name: string;
+  parameter?: FilterParameter;
 }
 
 export enum FilterParameter {
-  SUBJECT = 'subject',
+  RECIPIENT = 'recipient',
   SENDER = 'sender',
-  RECIPIENT = 'recipient'
+  SUBJECT = 'subject',
 }
 
 export enum FilterCondition {
   CONTAINS = 'contains',
-  STARTSWITH = 'startswith'
+  STARTSWITH = 'startswith',
 }

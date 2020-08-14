@@ -36,15 +36,15 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CARD_READ_SUCCESS: {
       const cardsPayload = action.payload.cards;
-      let cards = [];
+      const cards = [];
       cardsPayload.forEach(card => {
         cards.push(card);
       });
-      return { 
+      return {
         ...state,
         cards,
         inProgress: false
-      }
+      };
     }
 
     case UsersActionTypes.CARD_ADD_SUCCESS: {
@@ -52,14 +52,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         cards: [...state.cards, action.payload],
         inProgress: false
-      }
+      };
     }
 
     case UsersActionTypes.CARD_ADD_ERROR: {
-      return { 
+      return {
         ...state,
         inProgress: false
-      }
+      };
     }
 
     case UsersActionTypes.CARD_DELETE_SUCCESS: {
@@ -69,26 +69,26 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         cards,
         inProgress: false
-      }
+      };
     }
 
     case UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS: {
-      let cards = state.cards;
-      cards.forEach(card => card.is_primary = action.payload === card.id)
+      const cards = state.cards;
+      cards.forEach(card => card.is_primary = action.payload === card.id);
       return {
         ...state,
         cards,
         inProgress: false
-      }
+      };
     }
 
     case UsersActionTypes.CARD_ADD:
     case UsersActionTypes.CARD_DELETE:
     case UsersActionTypes.CARD_MAKE_PRIMARY: {
-      return { 
+      return {
         ...state,
         inProgress: true
-      }
+      };
     }
 
     case UsersActionTypes.WHITELIST_ADD:
@@ -373,7 +373,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
       const domain: Domain = action.payload.res;
-      let isError: boolean = false;
+      let isError = false;
       let step = action.payload.step;
       if (domain.is_domain_verified) {
         if (action.payload.gotoNextStep) {

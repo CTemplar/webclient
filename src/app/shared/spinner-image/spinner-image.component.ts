@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./spinner-image.component.scss']
 })
 export class SpinnerImageComponent implements OnInit {
-  isLoaded: boolean = false;
+  isLoaded = false;
   @Input() src: string;
   @Input() class: string;
 

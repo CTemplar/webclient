@@ -15,8 +15,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { getSaveContactShortcuts, OpenPgpService } from '../../../store/services';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { OpenPgpService } from '../../../store/services';
 
 @UntilDestroy()
 @Component({
@@ -27,7 +26,6 @@ import { ShortcutInput } from 'ng-keyboard-shortcuts';
 export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;
   @Output() userSaved = new EventEmitter<boolean>();
-  shortcuts: ShortcutInput[] = [];
 
   @ViewChild('newContactForm') newContactForm: NgForm;
   newContactModel: Contact = {
@@ -56,14 +54,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedContact'] && changes['selectedContact'].currentValue) {
       this.newContactModel = { ...this.selectedContact };
-      let contactEmail = this.newContactModel.email;
-      let getDomain = contactEmail.substring(contactEmail.indexOf("@")+1, contactEmail.length);
-      this.internalUser = getDomain === "ctemplar.com"? true: false;
+      const contactEmail = this.newContactModel.email;
+      const getDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
+      this.internalUser = getDomain === 'ctemplar.com' ? true : false;
     }
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getSaveContactShortcuts(this);
     this.cdr.detectChanges();
   }
 

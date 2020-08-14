@@ -43,14 +43,14 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   resetPasswordForm: FormGroup;
   showFormErrors = false;
   showResetPasswordFormErrors = false;
-  errorMessage: string = '';
-  resetPasswordErrorMessage: string = '';
-  isLoading: boolean = false;
+  errorMessage = '';
+  resetPasswordErrorMessage = '';
+  isLoading = false;
   isConfirmedPrivacy: boolean = null;
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
-  username: string = '';
-  password: string = 'password';
+  username = '';
+  password = 'password';
   layout: any = 'alphanumeric';
   isKeyboardOpened: boolean;
   isRecoverFormSubmitted: boolean;

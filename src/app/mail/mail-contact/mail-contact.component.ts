@@ -10,8 +10,6 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
-import { ShortcutInput } from 'ng-keyboard-shortcuts/lib/ng-keyboard-shortcuts.interfaces';
-import { getContactsShortcuts } from '../../store/services';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -41,31 +39,30 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedContacts: Contact[] = [];
   selectedContactsProvider: ContactsProviderType;
   importContactsError: any;
-  isLayoutSplitted: boolean = false;
-  checkAll: boolean = false;
+  isLayoutSplitted = false;
+  checkAll = false;
   isMenuOpened: boolean;
   isMobile: boolean;
   currentPlan: PlanType;
 
-  MAX_EMAIL_PAGE_LIMIT: number = 1;
-  LIMIT: number = 20;
-  OFFSET: number = 0;
-  PAGE: number = 0;
+  MAX_EMAIL_PAGE_LIMIT = 1;
+  LIMIT = 20;
+  OFFSET = 0;
+  PAGE = 0;
 
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;
   private importContactsModalRef: NgbModalRef;
   private searchText: string;
-  shortcuts: ShortcutInput[] = [];
 
   constructor(private store: Store<AppState>,
-              private modalService: NgbModal,
-              private breakpointsService: BreakpointsService,
-              private composeMailService: ComposeMailService,
-              private activatedRoute: ActivatedRoute,
-              config: NgbDropdownConfig,
-              @Inject(DOCUMENT) private document: Document,
-              private cdr: ChangeDetectorRef) {
+    private modalService: NgbModal,
+    private breakpointsService: BreakpointsService,
+    private composeMailService: ComposeMailService,
+    private activatedRoute: ActivatedRoute,
+    config: NgbDropdownConfig,
+    @Inject(DOCUMENT) private document: Document,
+    private cdr: ChangeDetectorRef) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
@@ -87,29 +84,28 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getContactsShortcuts(this);
     this.cdr.detectChanges();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   private updateUsersStatus(): void {
     this.store.select(state => state.user)
       .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
-      this.userState = state;
-      this.currentPlan = state.settings.plan_type || PlanType.FREE;
-    });
+        this.userState = state;
+        this.currentPlan = state.settings.plan_type || PlanType.FREE;
+      });
 
     this.store.select(state => state.contacts)
       .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
-      this.contactsState = contactsState;
-      this.inProgress = contactsState.inProgress;
-      this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
-      if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
-        this.selectedContacts = [];
-        this.contactsCount = null;
-      }
-    });
+        this.contactsState = contactsState;
+        this.inProgress = contactsState.inProgress;
+        this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
+        if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
+          this.selectedContacts = [];
+          this.contactsCount = null;
+        }
+      });
   }
 
   toggleMenu() { // click handler
@@ -193,7 +189,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.confirmModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
-    let deleteContacts = this.checkAll? "all": this.selectedContacts.map(item => item.id).join(',');
+    const deleteContacts = this.checkAll ? 'all' : this.selectedContacts.map(item => item.id).join(',');
     this.store.dispatch(new ContactDelete(deleteContacts));
   }
 
@@ -205,8 +201,10 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
       }));
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
-      this.composeMailService.openComposeMailDialog({ receivers: receiverEmails,
-        isFullScreen: this.userState.settings.is_composer_full_screen });
+      this.composeMailService.openComposeMailDialog({
+        receivers: receiverEmails,
+        isFullScreen: this.userState.settings.is_composer_full_screen
+      });
     }
   }
 

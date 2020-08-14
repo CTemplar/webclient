@@ -5,15 +5,19 @@ import { RouterModule } from '@angular/router';
 
 // Components
 import { FooterComponent } from './footer.component';
-import {TranslateModule} from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+
+// Third-party
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
+  declarations: [FooterComponent],
   imports: [
     CommonModule,
+    NgbModule,
     RouterModule,
-    TranslateModule
+    TranslateModule,
   ],
-  declarations: [FooterComponent],
   exports: [FooterComponent]
 })
 export class FooterModule { }

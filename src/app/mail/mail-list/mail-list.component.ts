@@ -16,7 +16,7 @@ export class MailListComponent implements OnInit, OnDestroy {
   mailFolder: string = MailFolderType.INBOX;
   mailFolderTypes = MailFolderType;
   customFolders: Folder[] = [];
-  private page: number = 1;
+  private page = 1;
 
   constructor(public route: ActivatedRoute,
               private store: Store<AppState>) {

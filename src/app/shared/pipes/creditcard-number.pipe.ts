@@ -11,7 +11,7 @@ export class CreditCardNumberPipe implements PipeTransform {
     if (plainCreditCard.length < 16) {
       plainCreditCard = plainCreditCard.padStart(defaultCardNumberLength, '0');
     }
-    return plainCreditCard.replace(/\s+/g, '').replace(/(\d{4})/g, '$1 ').replace(/\d{4}(?= \d{4})/g, "xxxx").trim();
+    return plainCreditCard.replace(/\s+/g, '').replace(/(\d{4})/g, '$1 ').replace(/\d{4}(?= \d{4})/g, 'xxxx').trim();
   }
 
 }

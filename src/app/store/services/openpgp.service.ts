@@ -27,24 +27,24 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OpenPgpService {
-  options: any;
   encrypted: any;
-  private pubkeys: any;
-  private pubkeysArray: Array<string> = [];
-  private primaryMailbox: Mailbox;
-  private privkeys: any;
+  options: any;
+  private contactsState: ContactsState;
   private decryptedPrivKeys: any;
   private decryptInProgress: boolean;
-  private pgpWorker: Worker;
   private isAuthenticated: boolean;
-  private userKeys: any;
   private mailboxes: Mailbox[];
-  private userSettings: Settings;
-  private contactsState: ContactsState;
+  private pgpWorker: Worker;
+  private primaryMailbox: Mailbox;
+  private privkeys: any;
+  private pubkeys: any;
+  private pubkeysArray: Array<string> = [];
   private subjects: any = {};
+  private userKeys: any;
+  private userSettings: Settings;
 
   constructor(private store: Store<AppState>,
-              private usersService: UsersService) {
+    private usersService: UsersService) {
 
     this.pgpWorker = new Worker('assets/static/pgp-worker.js');
     this.listenWorkerPostMessages();
@@ -107,6 +107,8 @@ export class OpenPgpService {
 
   listenWorkerPostMessages() {
     this.pgpWorker.onmessage = ((event: MessageEvent) => {
+
+      // Generate Keys
       if (event.data.generateKeys) {
         if (event.data.forEmail) {
           this.store.dispatch(new UpdatePGPSshKeys({
@@ -151,18 +153,18 @@ export class OpenPgpService {
         const newDocument = new File(
           [event.data.encryptedContent.buffer],
           oldDocument.name,
-          {type: oldDocument.type, lastModified: oldDocument.lastModified}
-          );
-        const attachment: Attachment = {...event.data.attachment, document: newDocument, is_encrypted: true};
+          { type: oldDocument.type, lastModified: oldDocument.lastModified }
+        );
+        const attachment: Attachment = { ...event.data.attachment, document: newDocument, is_encrypted: true };
         this.store.dispatch(new UploadAttachment({ ...attachment }));
       } else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
         const array = event.data.decryptedContent;
         const newDocument = new File(
           [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
           event.data.fileInfo.attachment.name,
-          {type: event.data.fileInfo.type}
+          { type: event.data.fileInfo.type }
         );
-        const newAttachment: Attachment = {...event.data.fileInfo.attachment, decryptedDocument: newDocument};
+        const newAttachment: Attachment = { ...event.data.fileInfo.attachment, decryptedDocument: newDocument };
         this.subjects[event.data.subjectId].next(newAttachment);
         this.subjects[event.data.subjectId].complete();
         delete this.subjects[event.data.subjectId];
@@ -194,6 +196,7 @@ export class OpenPgpService {
           }
         }
       }
+
     });
   }
 
@@ -242,11 +245,11 @@ export class OpenPgpService {
     reader.readAsArrayBuffer(file);
   }
 
-  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+  decryptAttachment(mailboxId, pgpMessage: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo, subjectId});
+    this.pgpWorker.postMessage({ mailboxId, fileData: pgpMessage, decryptAttachment: true, fileInfo, subjectId });
     return subject.asObservable();
   }
 
@@ -288,11 +291,11 @@ export class OpenPgpService {
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
   }
 
-  decryptSecureMessageAttachment(decryptedKey: any, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+  decryptSecureMessageAttachment(decryptedKey: any, pgpMessage: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.pgpWorker.postMessage({ decryptedKey, fileData: uint8Array, decryptSecureMessageAttachment: true, fileInfo, subjectId });
+    this.pgpWorker.postMessage({ decryptedKey, fileData: pgpMessage, decryptSecureMessageAttachment: true, fileInfo, subjectId });
     return subject.asObservable();
   }
 

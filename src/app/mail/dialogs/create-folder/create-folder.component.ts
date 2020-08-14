@@ -19,7 +19,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   customFolderForm: FormGroup;
   folderColors: string[] = FOLDER_COLORS;
-  selectedColorIndex: number = 0;
+  selectedColorIndex = 0;
   userState: UserState;
   submitted: boolean;
   duplicateFoldername: boolean;
