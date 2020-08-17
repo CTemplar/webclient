@@ -22,7 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
     request = request.clone({
       withCredentials: true
     });
-    
+
     return next.handle(request)
       .pipe(catchError((error: any) => {
         if (error instanceof HttpErrorResponse) {

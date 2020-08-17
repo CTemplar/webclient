@@ -87,7 +87,7 @@ export class ComposeMailService {
 
                   } else {
                     if (!draftMail.isSaving) {
-                      let encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
+                      const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
                       if (encryptedAttachments.length > 0) {
                         forkJoin(
                           ...encryptedAttachments.map(attachment => {

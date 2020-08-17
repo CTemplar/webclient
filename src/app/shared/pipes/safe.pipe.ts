@@ -160,7 +160,7 @@ export class SafePipe implements PipeTransform {
       u: [],
       ul: [],
     };
-    let headingAttributes = [
+    const headingAttributes = [
       'align', 'dir', 'id', 'style'
     ];
     const allowedAttributes = {
@@ -210,7 +210,7 @@ export class SafePipe implements PipeTransform {
       onIgnoreTagAttr: (tag, name, value, isWhiteAttr) => {
         if (name !== 'class') {
           // get attr whitelist for specific tag
-          let attrWhitelist = allowedAttributes[tag];
+          const attrWhitelist = allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag
           if (attrWhitelist.indexOf(name) !== -1) {
             if (disableExternalImages && tag === 'img' && name === 'src') {

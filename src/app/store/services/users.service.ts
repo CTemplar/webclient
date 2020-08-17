@@ -493,11 +493,11 @@ export class UsersService {
   // TODO
   // This part is almost trick, but would work perfectly, needs to update later
   doesHttpOnlyCookieExist(cookiename) {
-    var d = new Date();
+    const d = new Date();
     d.setTime(d.getTime() + (1000));
-    var expires = "expires=" + d.toUTCString();
-  
-    document.cookie = cookiename + "=new_value;path=/;" + expires;
+    const expires = 'expires=' + d.toUTCString();
+
+    document.cookie = cookiename + '=new_value;path=/;' + expires;
     if (document.cookie.indexOf(cookiename + '=') == -1) {
       return true;
     } else {
