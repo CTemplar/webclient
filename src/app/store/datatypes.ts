@@ -33,6 +33,7 @@ export interface AuthState {
   auth2FA?: Auth2FA;
   anti_phishing_phrase?: string;
   recovery_key?: string;
+  saveDraftOnLogout?: boolean;
 }
 
 export interface CardState {
@@ -359,16 +360,16 @@ export interface MailBoxesState {
 }
 
 export interface SecureMessageState {
-  message: Mail;
   decryptedContent?: SecureContent;
   decryptedKey?: any;
   encryptedContent?: string;
-  isKeyDecryptionInProgress?: boolean;
-  isContentDecryptionInProgress?: boolean;
-  isEncryptionInProgress?: boolean;
-  inProgress?: boolean;
   errorMessage?: string;
   getUserKeyInProgress?: boolean;
+  inProgress?: boolean;
+  isContentDecryptionInProgress?: boolean;
+  isEncryptionInProgress?: boolean;
+  isKeyDecryptionInProgress?: boolean;
+  message: Mail;
   usersKeys?: PublicKey[];
 }
 
@@ -413,37 +414,37 @@ export interface Contact {
   id?: number;
   address: string;
   email?: string;
+  enabled_encryption?: boolean;
+  encrypted_data?: string;
+  extra_emails?: Array<string>;
+  extra_phones?: Array<string>;
+  is_decryptionInProgress?: boolean;
+  is_encrypted?: boolean;
+  isDecryptedFrontend?: boolean; // If the contact is decrypted on frontend or not
+  markForDelete?: boolean; // To handle delete multiple contacts using checkboxes
   name?: string;
   note?: string;
   phone?: string;
   phone2?: string;
-  extra_emails?: Array<string>;
-  extra_phones?: Array<string>;
-  is_encrypted?: boolean;
-  encrypted_data?: string;
   provider?: string;
-  enabled_encryption?: boolean;
   public_key?: string;
-  is_decryptionInProgress?: boolean;
-  isDecryptedFrontend?: boolean; // If the contact is decrypted on frontend or not
-  markForDelete?: boolean; // To handle delete multiple contacts using checkboxes
 }
 
 export interface AppState {
   auth: AuthState;
-  mail: MailState;
-  mailboxes: MailBoxesState;
-  loading: LoadingState;
-  keyboard: KeyboardState;
-  user: UserState;
-  contacts: ContactsState;
-  timezone: TimezonesState;
   bitcoin: BitcoinState;
   composeMail: ComposeMailState;
-  secureMessage: SecureMessageState;
-  search: SearchState;
-  webSocket: WebSocketState;
+  contacts: ContactsState;
+  keyboard: KeyboardState;
+  loading: LoadingState;
+  mail: MailState;
+  mailboxes: MailBoxesState;
   organization: OrganizationState;
+  search: SearchState;
+  secureMessage: SecureMessageState;
+  timezone: TimezonesState;
+  user: UserState;
+  webSocket: WebSocketState;
 }
 
 export interface TimezonesState {
@@ -465,89 +466,89 @@ export interface BitcoinState {
 export interface CheckTransactionResponse {
   address?: string;
   balance?: number;
-  required_balance?: number;
-  pending_balance?: number;
-  paid_out?: number;
   confirmed?: boolean;
+  paid_out?: number;
+  pending_balance?: number;
+  required_balance?: number;
   status: TransactionStatus;
 }
 
 export interface DomainRecord {
-  type: string;
   host: string;
-  value: string;
   priority?: number;
+  type: string;
+  value: string;
 }
 
 export interface Domain {
   id: number;
-  verification_record: DomainRecord;
-  mx_record: DomainRecord;
-  spf_record: DomainRecord;
+  catch_all?: boolean;
+  created: string;
   dkim_record: DomainRecord;
   dmarc_record: DomainRecord;
   domain: string;
+  is_dkim_verified: boolean;
+  is_dmarc_verified: boolean;
   is_domain_verified: boolean;
   is_mx_verified: boolean;
   is_spf_verified: boolean;
-  is_dkim_verified: boolean;
-  is_dmarc_verified: boolean;
-  created: string;
-  verified_at?: string;
-  number_of_users?: number;
+  mx_record: DomainRecord;
   number_of_aliases?: number;
-  catch_all?: boolean;
+  number_of_users?: number;
+  spf_record: DomainRecord;
+  verification_record: DomainRecord;
+  verified_at?: string;
 }
 
 export interface PricingPlan {
-  email_count: number;
-  domain_count: number;
-  storage: number;
-  monthly_price: number;
-  annually_price: number;
-  name: PlanType;
-  background: string;
-  messages_per_day: number | string;
-  gb: number;
   aliases: number;
-  custom_domains: number;
-  ssl_tls: boolean;
-  encrypted_attachments: boolean;
-  encrypted_content: boolean;
-  encrypted_contacts: boolean;
-  encrypted_subjects: boolean;
-  encrypted_metadata: boolean;
-  two_fa: boolean;
+  annually_price: number;
   anti_phishing: boolean;
   attachment_upload_limit: number;
+  background: string;
   brute_force_protection: boolean;
-  zero_knowledge_password: boolean;
-  strip_ips: boolean;
-  sri: boolean;
+  catch_all_email: boolean;
   checksums: boolean;
-  multi_user_support: boolean;
-  self_destructing_emails: boolean;
+  custom_domains: number;
   dead_man_timer: boolean;
   delayed_delivery: boolean;
-  four_data_deletion_methods: boolean;
-  virus_detection_tool: boolean;
-  catch_all_email: boolean;
-  unlimited_folders: boolean;
+  domain_count: number;
+  email_count: number;
+  encrypted_attachments: boolean;
+  encrypted_contacts: boolean;
+  encrypted_content: boolean;
+  encrypted_metadata: boolean;
+  encrypted_subjects: boolean;
   exclusive_access: boolean;
+  four_data_deletion_methods: boolean;
+  gb: number;
+  messages_per_day: number | string;
+  monthly_price: number;
+  multi_user_support: boolean;
+  name: PlanType;
+  self_destructing_emails: boolean;
+  sri: boolean;
+  ssl_tls: boolean;
+  storage: number;
+  strip_ips: boolean;
+  two_fa: boolean;
+  unlimited_folders: boolean;
+  virus_detection_tool: boolean;
+  zero_knowledge_password: boolean;
 }
 
 export enum TransactionStatus {
-  WAITING = 'Waiting',
   PENDING = 'Pending',
   RECEIVED = 'Received',
-  SENT = 'Sent'
+  SENT = 'Sent',
+  WAITING = 'Waiting',
 }
 
 export enum PaymentMethod {
-  STRIPE = 'Stripe',
+  bitcoin = 'bitcoin',
   BITCOIN = 'Bitcoin',
   stripe = 'stripe',
-  bitcoin = 'bitcoin'
+  STRIPE = 'Stripe',
 }
 
 

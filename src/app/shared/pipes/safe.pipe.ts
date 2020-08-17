@@ -3,6 +3,7 @@ import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import * as xss from 'xss';
 import * as cssfilter from 'cssfilter';
 import { apiUrl, PRIMARY_DOMAIN } from '../config';
+import * as juice from 'juice';
 
 @Pipe({
   name: 'safe',
@@ -120,7 +121,11 @@ export class SafePipe implements PipeTransform {
         return this.sanitizer.bypassSecurityTrustHtml(xssValue);
       case 'url':
         return this.sanitizer.bypassSecurityTrustUrl(value);
-      case 'unsafehtml':
+      case 'sanitize':
+        // Move style from style tag to inline style
+        value = juice(value);
+        // Sanitize Mail
+        value = this.processSanitization(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
       default:
         throw new Error(`Invalid safe type specified: ${type}`);

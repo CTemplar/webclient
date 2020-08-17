@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // Helpers
-import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from '../../shared/config';
+import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY, JWT_AUTH_COOKIE } from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
@@ -16,7 +16,6 @@ import { Filter } from '../models/filter.model';
 
 @Injectable()
 export class UsersService {
-  private token: string | null;
   private userKey: string;
 
   constructor(
@@ -24,8 +23,8 @@ export class UsersService {
     private router: Router,
     private store: Store<AppState>,
   ) {
-    if (this.getToken() && this.getUserKey() && !this.isTokenExpired()) {
-      this.store.dispatch(new LogInSuccess({ token: this.getToken() }));
+    if (this.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE) && this.getUserKey() && !this.isTokenExpired()) {
+      this.store.dispatch(new LogInSuccess({}));
     }
   }
 
@@ -35,13 +34,11 @@ export class UsersService {
   }
 
   refreshToken(): Observable<any> {
-    const token = this.getToken();
-    if (token) {
-      const body = { token };
+    if (this.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE)) {
+      const body = {};
       const url = `${apiUrl}auth/refresh/`;
       return this.http.post<any>(url, body).pipe(
         tap(data => {
-          localStorage.setItem('token', data.token);
           this.setTokenExpiration();
         })
       );
@@ -93,21 +90,15 @@ export class UsersService {
   }
 
   private setLoginData(tokenResponse: any, requestData) {
-    this.token = tokenResponse.token;
     this.userKey = btoa(requestData.password);
-    localStorage.setItem('token', tokenResponse.token);
     this.setTokenExpiration();
-    if (requestData.rememberMe) {
-      localStorage.setItem('user_key', this.userKey);
-    }
+    localStorage.setItem('user_key', this.userKey);
     localStorage.removeItem(PROMO_CODE_KEY);
     localStorage.removeItem(REFFERAL_CODE_KEY);
   }
 
   signOut() {
     this.router.navigateByUrl('/signin');
-    this.userKey = this.token = null;
-    localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
     localStorage.removeItem(PROMO_CODE_KEY);
@@ -171,10 +162,6 @@ export class UsersService {
     const body = { token: localStorage.getItem('token') };
     const url = `${apiUrl}auth/verify/`;
     return this.http.post<any>(url, body);
-  }
-
-  getToken(): string {
-    return this.token || localStorage.getItem('token');
   }
 
   getUserKey(): string {
@@ -501,5 +488,20 @@ export class UsersService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  // TODO
+  // This part is almost trick, but would work perfectly, needs to update later
+  doesHttpOnlyCookieExist(cookiename) {
+    var d = new Date();
+    d.setTime(d.getTime() + (1000));
+    var expires = "expires=" + d.toUTCString();
+  
+    document.cookie = cookiename + "=new_value;path=/;" + expires;
+    if (document.cookie.indexOf(cookiename + '=') == -1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
