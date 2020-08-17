@@ -175,7 +175,9 @@
 		"reply": "Responder",
 		"reply_all": "Responder a todos",
 		"show_headers": "Mostrar cabeçalhos",
-		"show_trimmed": "Mostrar conteúdo cortado"
+		"show_trimmed": "Mostrar conteúdo cortado",
+		"show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
 	},
 	"mail_dialogs": {
 		"payment_failed": "Falha no pagamento",

@@ -11,6 +11,7 @@ export interface Mail {
   children_count?: number;
   children?: Array<Mail>;
   content: string;
+  content_plain?: string;
   created_at?: string;
   datetime?: string;
   dead_man_duration?: string;

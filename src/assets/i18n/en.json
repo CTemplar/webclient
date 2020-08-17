@@ -709,7 +709,9 @@
     "view_mail_raw_content": "View email raw content without xss protection. Warning: Be aware of malwares.",
     "show_raw_email": "Show raw email",
     "decryp_4096_bit": "Decrypting 4096 Bit Encrypted Email",
-    "confirm_forward_attach": "Confirm Forward Attachments"
+    "confirm_forward_attach": "Confirm Forward Attachments",
+    "show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

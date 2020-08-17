@@ -159,6 +159,7 @@ export class SafePipe implements PipeTransform {
       tr: [],
       u: [],
       ul: [],
+      i: [],
     };
     let headingAttributes = [
       'align', 'dir', 'id', 'style'
