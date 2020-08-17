@@ -519,6 +519,8 @@
     "more_info": "更多信息",
     "less": "收起",
     "invite_code": "邀请码",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": "恢复邮箱（可选择）",
     "recover_account": "当您忘记了密码时，该选项是用于恢复您的帐户",
     "check_box": "如果您同意遵守我们的要求，请在此方框内打勾",

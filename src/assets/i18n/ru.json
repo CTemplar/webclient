@@ -519,6 +519,8 @@
     "more_info": "Узнать больше",
     "less": "Меньше",
     "invite_code": "Код приглашения",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": "Адрес эл. почты для восстановления (необязательно)",
     "recover_account": "Этот адрес необходим для восстановления вашего аккаунта, если вы забудете свой пароль.",
     "check_box": "Поставьте отметку здесь, если вы согласны следовать нашим",

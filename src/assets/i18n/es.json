@@ -519,6 +519,8 @@
     "more_info": "Más información",
     "less": "Menos",
     "invite_code": "Código de invitación",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": " Email de recuperación (opcional)",
     "recover_account": " Esta opción será usada para recuperar tu cuenta en caso de que olvides tu contraseña",
     "check_box": " Por favor selecciona esta casilla si aceptas respetar nuestros ",

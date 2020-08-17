@@ -103,6 +103,8 @@
 		"generate_key": "Gerar chave",
 		"invalid_captcha": "Captcha inválido. Por favor, tente novamente.",
 		"invite_code": "Código do convite",
+		"invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    	"about_invite_code": "Why invite codes and how to get one? ",
 		"less": "Menos",
 		"more_info": "Mais informações",
 		"name": "Criar sua conta",
