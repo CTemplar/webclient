@@ -5,7 +5,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
           <h6 class="text-uppercase text-secondary m-0">
-            <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
+            <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
           </h6>
         </div>
       </div>
@@ -41,6 +41,9 @@
                               </a>
                               <a class="dropdown-item text-muted" (click)="selectBitcoinMethod()">
                                 <em>Bitcoin</em>
+                              </a>
+                              <a class="dropdown-item text-muted" (click)="selectMoneroMethod()">
+                                <em>Monero</em>
                               </a>
                             </div>
                           </div>
@@ -130,7 +133,7 @@
               </div>
               <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN && planType!==planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
+                  <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
                 </h3>
                 <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span
                         [translate]="'billing_info.bitcoin_sent_timer'">BTC sent after timer will be lost!</span></p>
@@ -161,13 +164,21 @@
                 </strong>
               </div>
 
+              <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.MONERO && planType!==planTypeEnum.FREE">
+                <h3 class="form-step-card-title text-dark mb-3">
+                  <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
+                </h3>
+                <p><span [translate]="'billing_info.about_monero'">To complete your payment
+                    using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you
+                    instructions on how to complete the payment and thenupgrade your account once payment is made.</span></p>
+              </div>
               <app-loading-spinner *ngIf="paymentMethod === paymentMethodType.STRIPE"
                                    [showSpinner]="isScriptsLoading"></app-loading-spinner>
 
               <div class="form-step-card" [class]="stripePaymentValidation.param"
                    *ngIf="paymentMethod === paymentMethodType.STRIPE && isScriptsLoaded && planType!==planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
+                  <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
                 </h3>
                 <div class="form-group">
                   <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on
@@ -268,7 +279,7 @@
                 <div class="form-group text-center mt-3 mt-sm-4 mb-0"
                      [ngbTooltip]="(paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) ? ('billing_info.pay_to_proceed'| translate):''">
                   <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                          [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess)"
+                          [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) || (paymentMethod === paymentMethodType.MONERO)"
                           (click)="submitForm()">
                     <span *ngIf="!isAddNewCard && !isUpgradeAccount" [translate]="'login.create_account'">Create Account</span>
                     <span *ngIf="!isAddNewCard && isUpgradeAccount" [translate]="'common.upgrade_account'">Upgrade Account</span>

@@ -22,6 +22,7 @@
 	"billing_info": {
 		"billing": "Faturamento",
 		"bitcoin_sent_timer": "O BTC enviado após o temporizador será perdido!",
+		"about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
 		"donation_amount": "Quantia",
 		"month": "Mês",
 		"name_on_card": "Nome no cartão",
@@ -103,6 +104,8 @@
 		"generate_key": "Gerar chave",
 		"invalid_captcha": "Captcha inválido. Por favor, tente novamente.",
 		"invite_code": "Código do convite",
+		"invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    	"about_invite_code": "Why invite codes and how to get one? ",
 		"less": "Menos",
 		"more_info": "Mais informações",
 		"name": "Criar sua conta",
@@ -175,7 +178,9 @@
 		"reply": "Responder",
 		"reply_all": "Responder a todos",
 		"show_headers": "Mostrar cabeçalhos",
-		"show_trimmed": "Mostrar conteúdo cortado"
+		"show_trimmed": "Mostrar conteúdo cortado",
+		"show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
 	},
 	"mail_dialogs": {
 		"payment_failed": "Falha no pagamento",

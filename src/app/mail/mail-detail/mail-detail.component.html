@@ -332,12 +332,22 @@
           <a class="dropdown-item" (click)="showIncomingHeaders(mail)">{{"mail_detail.show_headers"| translate}}</a>
           <a class="dropdown-item" *ngIf="!disableMoveTo"
             (click)="onMarkAsSpam(mail)">{{"mail_detail.mark_as_spam"| translate}}</a>
+          <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode(mail)" *ngIf="decryptedContentsPlain[mail.id]">
+            {{plainTextViewState[mail.id] ? ("mail_detail.show_rich_text"| translate) : ("mail_detail.show_plain_text"| translate)}}
+          </a>
         </div>
       </div>
       <div class="show_gmail_extra">
-        <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content" [innerHTML]="mail.is_html ?
+        <div *ngIf="plainTextViewState[mail.id]; then plainBlock else htmlBlock"></div>
+        <ng-template #htmlBlock>
+          <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content" [innerHTML]="mail.is_html ?
                 (decryptedContents[mail.id] | safe: 'sanitize': disableExternalImages) :
                 (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+        </ng-template>
+        <ng-template #plainBlock>
+          <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content" 
+            [innerHTML]="(decryptedContentsPlain[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+        </ng-template>
       </div>
     </div>
 
@@ -516,14 +526,23 @@
                       placement="left">{{"mail_detail.delete_from_receiver"| translate}}</a>
                     <a class="dropdown-item"
                       (click)="showIncomingHeaders(childMail)">{{"mail_detail.show_headers"| translate}}</a>
+                    <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode(childMail)" *ngIf="decryptedContentsPlain[childMail.id]">
+                      {{plainTextViewState[childMail.id] ? ("mail_detail.show_rich_text"| translate) : ("mail_detail.show_plain_text"| translate)}}
+                    </a>
                   </div>
                 </div>
 
                 <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
-                  <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
-                    [innerHTML]="childMail.is_html ?
-                        (decryptedContents[childMail.id] | safe: 'sanitize': disableExternalImages) :
-                        (decryptedContents[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+                  <div *ngIf="plainTextViewState[childMail.id]; then plainBlock else htmlBlock"></div>
+                  <ng-template #htmlBlock>
+                    <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content" [innerHTML]="childMail.is_html ?
+                          (decryptedContents[childMail.id] | safe: 'sanitize': disableExternalImages) :
+                          (decryptedContents[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+                  </ng-template>
+                  <ng-template #plainBlock>
+                    <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content" 
+                      [innerHTML]="(decryptedContentsPlain[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+                  </ng-template>
                   <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
                     *ngIf="decryptedContents[childMail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[childMail.id]?.indexOf('gmail_quote') > -1">
                     <div class="ellipsis-wrapper" placement="top"
@@ -532,8 +551,6 @@
                     </div>
                   </a>
                 </div>
-
-
               </div>
 
               <!-- Attachments list starts -->

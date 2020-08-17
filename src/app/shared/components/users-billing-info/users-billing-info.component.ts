@@ -396,6 +396,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       });
   }
 
+  selectMoneroMethod() {
+    this.paymentMethod = PaymentMethod.MONERO;
+  }
+
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
     this.getUpgradeAmount();

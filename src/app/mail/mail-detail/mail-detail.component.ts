@@ -15,10 +15,8 @@ import {
   GetMailDetailSuccess,
   GetMails,
   MoveMail,
-
-
-
-  SendMail, SnackErrorPush,
+  SendMail,
+  SnackErrorPush,
   StarMail,
   WhiteListAdd
 } from '../../store/actions';
@@ -46,6 +44,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   composeMailData: any = {};
   mailFolderTypes = MailFolderType;
   decryptedContents: any = {};
+  decryptedContentsPlain: any = {};
   decryptedAttachments: any = {};
   decryptedHeaders: any = {};
   selectedHeaders: string;
@@ -75,6 +74,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   includeOriginMessage: boolean;
   xssPipe = SafePipe;
   hasDraft = false;
+  plainTextViewState: any = {};
 
   private currentMailbox: Mailbox;
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -143,6 +143,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
               }
+              this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
               this.handleEmailLinks();
 
@@ -363,6 +364,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         this.decryptedContents[child.id] = childDecryptedContent.content;
+        this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
         if (child.is_subject_encrypted) {
           child.subject = childDecryptedContent.subject;
         }
@@ -804,6 +806,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         });
       }, 100);
     }
+  }
+
+  onSwitchHtmlPlainTextMode(mail: Mail) {
+    this.plainTextViewState[mail.id] = !this.plainTextViewState[mail.id];
   }
 
   private getPreviousMail(index: number, isChildMail: boolean, mainReply: boolean = false, isForwarding: boolean = false) {

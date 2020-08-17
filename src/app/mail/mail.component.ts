@@ -7,7 +7,8 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
-  ViewEncapsulation
+  ViewEncapsulation,
+  HostListener,
 } from '@angular/core';
 // Store
 import { Store } from '@ngrx/store';
@@ -115,6 +116,12 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.sharedService.hideHeader.emit(true);
     this.sharedService.hideEntireFooter.emit(true);
     this.sharedService.isMail.emit(true);
+    this.composeMailService.getWindowWidth(window.innerWidth);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.composeMailService.getWindowWidth(window.innerWidth);
   }
 
   endAutoResponder() {
