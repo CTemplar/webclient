@@ -605,6 +605,8 @@
     "more_info": "Plus d’info",
     "less": "Moins",
     "invite_code": "Code d'invitation",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": "Email de récupération (facultatif)",
     "recover_account": "Ceci est utilisé pour récupérer votre compte si vous oubliez votre mot de passe",
     "check_box": "Veuillez cocher cette case si vous acceptez de vous conformer à notre politique de confidentialité.",

@@ -208,10 +208,9 @@
                   <strong [translate]="'create_account.invite_code'">Invitation code</strong>
                 </h3>
                 <div class="form-step-card-subtitle">
-                  <small>You can get invitation code from any existing paid customer or you can request from us.
-                    <br>How to get invitation code?
-                    <a target="_blank" href="{{primaryWebsite}}/faq/get-an-invitation-code/">Learn more</a>
-                  </small>
+                  <small [translate]="'create_account.invite_code_explanation'">You can get invitation code from any existing paid customer or you can request from us.</small><br />
+                  <small [translate]="'create_account.about_invite_code'">Why invite codes and how to get one?</small>
+                  <small><a target="_blank" href="{{primaryWebsite}}/email-creation-restriction/">{{"mail_header.learn_more"| translate}}</a></small>
                 </div>
                 <div class="form-group">
                   <label for="inviteCode" [translate]="'create_account.invite_code'"
