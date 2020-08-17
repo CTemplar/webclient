@@ -17,7 +17,6 @@ a {
 	position: fixed;
 	bottom: 0px;
 	right: 0px;
-	left: 67px;
 	z-index: 100;
 	display: flex;
 	align-items: flex-end;
@@ -73,12 +72,7 @@ a {
 		overflow: inherit;
 		width: 100%;
 		&.is-minimized {
-			@include media(">=ipad") {
-				width: 11rem;
-				@include media(">=bs-md") {
-					width: 16rem;
-				}
-			}
+			width: 12rem;
 		}
 	}
 
