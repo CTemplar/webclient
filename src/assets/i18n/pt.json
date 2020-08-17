@@ -22,6 +22,7 @@
 	"billing_info": {
 		"billing": "Faturamento",
 		"bitcoin_sent_timer": "O BTC enviado após o temporizador será perdido!",
+		"about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
 		"donation_amount": "Quantia",
 		"month": "Mês",
 		"name_on_card": "Nome no cartão",

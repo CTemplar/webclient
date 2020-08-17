@@ -540,6 +540,7 @@
   "billing_info": {
     "pending_payment_alert": "Ваша оплата еще не осуществлена. Однако, вы можете создать бесплатный аккаунт ­– после подтверждения оплаты вы автоматически перейдете на премиум-план.",
     "bitcoin_sent_timer": "BTC, отправленные по истечении времени на таймере, будут утеряны!",
+    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
     "payment_information": "Информация об оплате",
     "plan": "План",
     "billing": "Платежи",
