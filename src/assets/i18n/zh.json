@@ -538,6 +538,7 @@
   "billing_info": {
     "pending_payment_alert": "您的付款正在处理中，但您仍可以创建免费帐户，并且在验证付款后，您的帐户将升级为付费账户",
     "bitcoin_sent_timer": "倒计时结束后发送比特币将会丢失！",
+    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
     "payment_information": "支付信息",
     "plan": "计费方案",
     "billing": "收据",

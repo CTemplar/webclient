@@ -547,6 +547,8 @@ export enum PaymentMethod {
   BITCOIN = 'Bitcoin',
   stripe = 'stripe',
   STRIPE = 'Stripe',
+  monero = 'monero',
+  MONERO = 'Monero',
 }
 
 
