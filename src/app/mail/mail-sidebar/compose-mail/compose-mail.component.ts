@@ -393,6 +393,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.initializeQuillEditor();
       }
     } else {
+      this.updateSignature();
       let content = this.mailData.content ? this.mailData.content : '';
       if (this.editor) {
         this.content = this.editor.nativeElement.firstChild.innerHTML;
@@ -401,9 +402,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
       if (this.content) {
         content = this.getPlainText(this.content);
-      }
-      if (this.messageHistory) {
-        content += '\n' + this.getPlainText(this.messageHistory);
       }
       if (content) {
         setTimeout(() => {
@@ -455,7 +453,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       return html;
     }
     const element = document.createElement('div');
-    element.innerHTML = html.replace(/<div>/g, '<br><div>').replace(/<p>/g, '<br><p>')
+    element.innerHTML = html.replace(/<br>/g, '').replace(/<\/div>/g, '<br></div>').replace(/<\/p>/g, '<br></p>')
       .replace(/<br>/g, '\n').replace(/<\/br>/g, '\n');
     return element.innerText;
   }
@@ -469,12 +467,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   initializeDraft() {
+    this.draftId = Date.now();
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
-    }
-    this.draftId = Date.now();
-
-    if (this.draftMail) {
+    } else {
       this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
       this.isSignatureAdded = true;
       if (this.draftMail.attachments) {
@@ -603,12 +599,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.updateSignature();
 
-    if (this.messageHistory) {
-      this.messageHistory = this.formatContent(this.messageHistory);
-      const index = this.quill.getLength();
-      this.quill.insertText(index, '\n', 'silent');
-      this.quill.clipboard.dangerouslyPasteHTML(index + 1, this.messageHistory);
-    }
 
     setTimeout(() => {
       this.quill.setSelection(0, 0, 'silent');
@@ -854,47 +844,48 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   updateSignature() {
-    if (this.settings && !this.draftMail.is_html) {
-      if (!this.isSignatureAdded) {
+    if (this.isSignatureAdded) { return; }
+    else {
+      if (this.settings && !this.draftMail.is_html) {
         this.isSignatureAdded = true;
         this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
         if (this.selectedMailbox.signature) {
-          this.mailData.content += `\n ${this.getPlainText(this.selectedMailbox.signature)}`;
+          this.mailData.content += `\n\n ${this.getPlainText(this.selectedMailbox.signature)}`;
         }
+        return;
       }
-      return;
-    }
-    let content: string, oldSig: string, newSig: string;
-    if (this.quill && this.quill.container) {
-      content = this.quill.container.innerText || ''; // this.draftMail.content;
-      content = content.replace(/\n\n/g, '<br>');
-    }
-    if (this.quill && this.quill.container) {
-      if (this.oldMailbox && this.oldMailbox.signature) {
-        oldSig = this.oldMailbox.signature.substring(3, this.oldMailbox.signature.length - 4);
-        if (this.selectedMailbox.signature) {
-          newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
-          content = content.replace(new RegExp(oldSig + '$'), newSig);
+      let content: string, oldSig: string, newSig: string;
+      if (this.quill && this.quill.container) {
+        content = this.quill.container.innerText || ''; // this.draftMail.content;
+        content = content.replace(/\n\n/g, '<br>');
+      }
+      if (this.quill && this.quill.container) {
+        if (this.oldMailbox && this.oldMailbox.signature) {
+          oldSig = this.oldMailbox.signature.substring(0, this.oldMailbox.signature.length);
+          if (this.selectedMailbox.signature) {
+            newSig = this.selectedMailbox.signature.substring(0, this.selectedMailbox.signature.length);
+            content = content.replace(new RegExp(oldSig + '$'), newSig);
+          } else {
+            content = content.replace(new RegExp(oldSig + '$'), '');
+          }
+          this.quill.clipboard.dangerouslyPasteHTML(content);
+        } else if (this.selectedMailbox.signature) {
+          newSig = this.selectedMailbox.signature.substring(0, this.selectedMailbox.signature.length);
+          content += '<br><br>' + newSig;
+          this.quill.clipboard.dangerouslyPasteHTML(content);
         } else {
-          content = content.replace(new RegExp(oldSig + '$'), '');
-        }
-        this.quill.clipboard.dangerouslyPasteHTML(content);
-      } else if (this.selectedMailbox.signature) {
-        newSig = this.selectedMailbox.signature.substring(3, this.selectedMailbox.signature.length - 4);
-        content += '<br>' + newSig;
-        this.quill.clipboard.dangerouslyPasteHTML(content);
-      } else {
-        if (this.quill && this.selectedMailbox) {
-          if (!this.isSignatureAdded && this.selectedMailbox.signature) {
-            const index = this.quill.getLength();
-            this.quill.insertText(index, '\n', 'silent');
-            const signature = this.selectedMailbox.signature.replace(/\n/g, '<br>');
-            this.quill.clipboard.dangerouslyPasteHTML(index + 1, signature || '', 'silent');
-            this.isSignatureAdded = true;
+          if (this.quill && this.selectedMailbox) {
+            if (this.selectedMailbox.signature) {
+              const index = this.quill.getLength();
+              this.quill.insertText(index, '\n', 'silent');
+              const signature = this.selectedMailbox.signature.replace(/\n/g, '<br>');
+              this.quill.clipboard.dangerouslyPasteHTML(index + 1, signature || '', 'silent');
+              this.isSignatureAdded = true;
+            }
           }
         }
       }
-    }
+    }    
   }
 
   addDecryptedContent() {
