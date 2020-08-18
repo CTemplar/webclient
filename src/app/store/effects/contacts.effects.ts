@@ -16,6 +16,7 @@ import {
   ContactAddError,
   ContactAddSuccess,
   ContactDeleteSuccess, ContactGetFailure,
+  ContactNotifySuccess,
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
@@ -104,6 +105,23 @@ export class ContactsEffects {
             return of(
               new ContactDeleteSuccess(payload),
               new SnackPush({ message: 'Contacts deleted successfully.' })
+            );
+          }),
+          catchError((error) => EMPTY)
+        );
+    }));
+
+  @Effect()
+  ContactNotify: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_NOTIFY),
+    map((action: Accounts) => action.payload),
+    switchMap(payload => {
+      return this.userService.notifyContact(payload)
+        .pipe(
+          switchMap(contact => {
+            return of(
+              new ContactNotifySuccess(payload),
+              new SnackPush({ message: 'Notification emails have been sent successfully.' })
             );
           }),
           catchError((error) => EMPTY)

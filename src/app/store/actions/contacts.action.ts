@@ -10,6 +10,8 @@ export enum ContactsActionTypes {
   CONTACT_ADD_ERROR = '[Contacts] Contact_Add_Error',
   CONTACT_DELETE = '[Contacts] Contact_Delete',
   CONTACT_DELETE_SUCCESS = '[Contacts] Contact_Delete_Success',
+  CONTACT_NOTIFY = '[Contacts] Contact_Notify',
+  CONTACT_NOTIFY_SUCCESS = '[Contacts] Contact_Notify_Success',
   CONTACT_IMPORT = '[Contacts] Contact Import',
   CONTACT_IMPORT_SUCCESS = '[Contacts] Contact Import Success',
   CONTACT_IMPORT_FAILURE = '[Contacts] Contact Import Failure',
@@ -71,6 +73,20 @@ export class ContactDelete implements Action {
 
 export class ContactDeleteSuccess implements Action {
   readonly type = ContactsActionTypes.CONTACT_DELETE_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ContactNotify implements Action {
+  readonly type = ContactsActionTypes.CONTACT_NOTIFY;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ContactNotifySuccess implements Action {
+  readonly type = ContactsActionTypes.CONTACT_NOTIFY_SUCCESS;
 
   constructor(public payload: any) {
   }
@@ -157,4 +173,6 @@ export type ContactsActionAll =
   | GetEmailContactsSuccess
   | ClearContactsToDecrypt
   | UpdateBatchContacts
-  | UpdateBatchContactsSuccess;
+  | UpdateBatchContactsSuccess
+  | ContactNotify
+  | ContactNotifySuccess;

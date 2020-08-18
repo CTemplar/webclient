@@ -326,6 +326,14 @@ export class UsersService {
     }
   }
 
+  notifyContact(ids) {
+    if (ids === 'all') {
+      return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
+    } else {
+      return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
+    }
+  }
+
   importContacts(data: any) {
     const formData = new FormData();
     formData.append('csv_file', data.file);

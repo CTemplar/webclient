@@ -85,6 +85,10 @@
                     <a class="no-icon text-grey-dark-500" role="button"
                        (click)="editContact(null, addUserContent);" >{{'contacts.new_contact' | translate}}</a>
                 </li>
+                <li class="hidden-xs-down pr-0">
+                    <a class="no-icon text-grey-dark-500" role="button"
+                       (click)="openNotifyContactsModal();" >{{'contacts.notify_contacts' | translate}}</a>
+                </li>
                 <li class="pr-0" ngbTooltip="Compose mail">
                     <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()">
                         <i class="svg-inline--fa fa-2x far fa-envelope"></i>
@@ -332,3 +336,40 @@
         </div>
     </div>
 </ng-template><!-- /.import contacts modal ends -->
+
+<!-- Notify Contacts Modal -->
+<ng-template #notifyContactsModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h3 class="modal-title w-100 text-dark"><strong>{{"contacts.notify_contacts_title"| translate}}</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-faded">
+        <div class="modal-description">
+            <span class="text-small">{{"contacts.notify_contacts_description.before"| translate}}</span>
+            <span class="text-small" *ngIf="checkAll"> {{ MAX_EMAIL_PAGE_LIMIT }} </span><span class="text-small" *ngIf="!checkAll"> {{selectedContacts?.length}} </span>
+            <span class="text-small">{{"contacts.notify_contacts_description.after"| translate}}</span>
+            <span class="text-small"><a> Learn more</a></span>
+        </div>
+        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+            <div class="modal-content-email">
+                <span >{{"contacts.notify_contacts_email.title"| translate}}</span>
+                <br/>
+                <br/>
+                <span >{{"contacts.notify_contacts_email.content_before"| translate}}</span>
+                <span><a>{{ currentMailbox.email }}</a></span>
+                <span >{{"contacts.notify_contacts_email.content_after"| translate}}</span>
+                <span>{{ currentMailbox.display_name }}</span>
+            </div>
+            <div class="form-group text-right mb-0">
+                <button (click)="cancelNotifyContacts()" class="btn btn-secondary btn-sm mr-2"
+                        role="button">{{"common.cancel"| translate}}
+                </button>
+                <button (click)="notifyContacts()" class="btn btn-danger btn-sm"
+                        role="button">{{"contacts.send_email"| translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template><!-- /.Notify Contacts modal ends -->
