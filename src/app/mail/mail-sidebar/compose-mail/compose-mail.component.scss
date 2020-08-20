@@ -64,7 +64,3 @@ textarea:disabled {
     text-overflow: ellipsis;
 }
 
-// apply theme to the tags
-::ng-deep tag-input .ng2-tag-input tag {
-    border-radius: 40px !important;
-}
