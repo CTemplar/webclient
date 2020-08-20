@@ -190,6 +190,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   colors = COLORS;
   fonts = FONTS;
   mailData: any = {};
+  inputTextValue = "";
   options: any = {};
   selfDestruct: any = {};
   delayedDelivery: any = {};
@@ -211,6 +212,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   insertLinkData: any = {};
   settings: Settings;
   mailAction = MailAction;
+  isPasted = false;
   private isMailSent = false;
   private isSavedInDraft = false;
 
@@ -246,9 +248,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     private dateTimeUtilService: DateTimeUtilService,
     private filesizePipe: FilesizePipe,
     private filenamePipe: FilenamePipe,
-    private cdr: ChangeDetectorRef) {
-
-  }
+    private cdr: ChangeDetectorRef) {    
+  
+    }
 
   ngOnInit() {
     this.encryptForm = this.formBuilder.group({
@@ -367,6 +369,26 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     };
 
     this.initializeAutoSave();
+  }
+
+  onPaste($event) {
+    this.isPasted = true;
+  }
+
+  updateInputTextValue(val) {
+    if(this.isPasted && this.validateEmail(val)){
+      this.mailData.receiver.push({
+        display: val,
+        value: val
+      });
+      this.inputTextValue = '';
+      this.isPasted = false;
+    }
+  }
+  
+  validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -872,6 +894,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         } else if (this.selectedMailbox.signature) {
           newSig = this.selectedMailbox.signature.substring(0, this.selectedMailbox.signature.length);
           content += '<br><br>' + newSig;
+          this.isSignatureAdded = true;
           this.quill.clipboard.dangerouslyPasteHTML(content);
         } else {
           if (this.quill && this.selectedMailbox) {

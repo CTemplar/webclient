@@ -23,8 +23,8 @@
           class="mail-label label-to">{{"settings.compose.to"| translate}}</span>
         <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" #receiverInput [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.recipient_email'| translate" [onTextChangeDebounce]="100"
-          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]='true' [separatorKeyCodes]="[188,13]"
-          (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)">
+          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]='true' [separatorKeyCodes]="[188,13]" [(inputText)]="inputTextValue"
+          (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste($event)">
           <ng-template let-item="item" let-index="index">
             <div class="tag-wrapper" title="{{item.display}}"> <span>{{ item.value }}</span>
               <delete-icon (click)="receiverInput.removeItem(item, index)"></delete-icon>
