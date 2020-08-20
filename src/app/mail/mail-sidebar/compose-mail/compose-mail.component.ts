@@ -191,6 +191,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   fonts = FONTS;
   mailData: any = {};
   inputTextValue = "";
+  ccInputTextValue = "";
+  bccInputTextValue = "";
   options: any = {};
   selfDestruct: any = {};
   delayedDelivery: any = {};
@@ -213,6 +215,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   settings: Settings;
   mailAction = MailAction;
   isPasted = false;
+  ccIsPasted = false;
+  bccIsPasted = false;
   private isMailSent = false;
   private isSavedInDraft = false;
 
@@ -374,6 +378,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   onPaste($event) {
     this.isPasted = true;
   }
+  ccOnPaste($event) {
+    this.ccIsPasted = true;
+  }
+  bccOnPaste($event) {
+    this.bccIsPasted = true;
+  }
 
   updateInputTextValue(val) {
     if(this.isPasted && this.validateEmail(val)){
@@ -386,9 +396,43 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
   
+  ccUpdateInputTextValue(val) {
+    if(this.ccIsPasted && this.validateEmail(val)){
+      this.mailData.cc.push({
+        display: val,
+        value: val
+      });
+      this.ccInputTextValue = '';
+      this.ccIsPasted = false;
+    }
+  }
+
+  bccUpdateInputTextValue(val) {
+    if(this.bccIsPasted && this.validateEmail(val)){
+      this.mailData.bcc.push({
+        display: val,
+        value: val
+      });
+      this.bccInputTextValue = '';
+      this.bccIsPasted = false;
+    }
+  }
+
   validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  onTagEdited($event) {
+    this.mailData.receiver[$event.index] = {display: $event.display, value:$event.value};
+  }
+
+  ccOnTagEdited($event) {
+    this.mailData.cc[$event.index] = {display: $event.display, value:$event.value};
+  }
+
+  bccOnTagEdited($event) {
+    this.mailData.bcc[$event.index] = {display: $event.display, value:$event.value};
   }
 
   ngOnChanges(changes: SimpleChanges): void {
