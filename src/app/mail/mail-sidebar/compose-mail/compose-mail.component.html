@@ -19,13 +19,13 @@
         </div>
       </div><!-- 'From' field -->
       <!-- 'To' field -->
-      <div class="mail-compose-field mail-compose-field-to"> <span
+      <div class="mail-compose-field mail-compose-field-to" #receiverInput> <span
           class="mail-label label-to">{{"settings.compose.to"| translate}}</span>
-        <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" #receiverInput [placeholder]="' '"
+        <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.recipient_email'| translate" [onTextChangeDebounce]="100"
           [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="inputTextValue"
           (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)" (onTextChange)="updateInputTextValue($event)" 
-          (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)">
+          (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)" (click)="onClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index"> {{ item.display }} </ng-template>
@@ -37,13 +37,13 @@
         </div>
       </div><!-- 'To' field -->
       <!-- 'Cc' field -->
-      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}"> <span
+      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}"  #ccReceiverInput> <span
           class="mail-label label-cc">Cc:</span>
-        <tag-input [(ngModel)]="mailData.cc" name="cc" #ccReceiverInput [placeholder]="' '"
+        <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.cc_email'| translate" [onTextChangeDebounce]="100"
           [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="ccInputTextValue"
           (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="valueChanged$.next(mailData.cc)" (onTextChange)="ccUpdateInputTextValue($event)" 
-          (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)">
+          (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index"> {{item.display}} </ng-template>
@@ -51,13 +51,13 @@
         </tag-input>
       </div><!-- 'Cc' field -->
       <!-- 'Bcc' field -->
-      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}"> <span
+      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}" #bccReceiverInput> <span
           class="mail-label label-bcc">Bcc:</span>
-        <tag-input [(ngModel)]="mailData.bcc" name="bcc" #bccReceiverInput [placeholder]="' '"
+        <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.bcc_email'| translate" [onTextChangeDebounce]="100"
           [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="bccInputTextValue"
           (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="valueChanged$.next(mailData.bcc)" (onTextChange)="bccUpdateInputTextValue($event)" 
-          (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)">
+          (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index"> {{item.display}} </ng-template>
@@ -324,12 +324,12 @@
               <span>{{inProgress ? (draftMail.send ? ('settings.compose.sending'| translate) : ('settings.compose.saving'| translate)) : ('settings.compose.saved'| translate)}}</span>
             </li>
             <li class="pr-0" *ngIf="showSaveButton"> <button role="button" (click)="saveInDrafts()"
-                [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
+                [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                 class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0" placement="top"
                 [ngbTooltip]="'settings.compose.save_to_drafts'| translate"><i class="icon icon-save-disk"></i>
               </button> </li>
             <li class="pl-0"> <button role="button" (click)="discardEmail()"
-                [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
+                [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                 class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
                 [ngbTooltip]="'settings.compose.delete_draft'| translate"><i class="icon icon-garbage"></i> </button>
             </li>
