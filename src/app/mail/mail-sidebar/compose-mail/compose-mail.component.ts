@@ -190,6 +190,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   colors = COLORS;
   fonts = FONTS;
   mailData: any = {};
+  inputTextValue = "";
+  ccInputTextValue = "";
+  bccInputTextValue = "";
   options: any = {};
   selfDestruct: any = {};
   delayedDelivery: any = {};
@@ -211,6 +214,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   insertLinkData: any = {};
   settings: Settings;
   mailAction = MailAction;
+  isPasted = false;
+  ccIsPasted = false;
+  bccIsPasted = false;
   private isMailSent = false;
   private isSavedInDraft = false;
 
@@ -246,9 +252,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     private dateTimeUtilService: DateTimeUtilService,
     private filesizePipe: FilesizePipe,
     private filenamePipe: FilenamePipe,
-    private cdr: ChangeDetectorRef) {
-
-  }
+    private cdr: ChangeDetectorRef) {    
+  
+    }
 
   ngOnInit() {
     this.encryptForm = this.formBuilder.group({
@@ -367,6 +373,66 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     };
 
     this.initializeAutoSave();
+  }
+
+  onPaste($event) {
+    this.isPasted = true;
+  }
+  ccOnPaste($event) {
+    this.ccIsPasted = true;
+  }
+  bccOnPaste($event) {
+    this.bccIsPasted = true;
+  }
+
+  updateInputTextValue(val) {
+    if(this.isPasted && this.validateEmail(val)){
+      this.mailData.receiver.push({
+        display: val,
+        value: val
+      });
+      this.inputTextValue = '';
+      this.isPasted = false;
+    }
+  }
+  
+  ccUpdateInputTextValue(val) {
+    if(this.ccIsPasted && this.validateEmail(val)){
+      this.mailData.cc.push({
+        display: val,
+        value: val
+      });
+      this.ccInputTextValue = '';
+      this.ccIsPasted = false;
+    }
+  }
+
+  bccUpdateInputTextValue(val) {
+    if(this.bccIsPasted && this.validateEmail(val)){
+      this.mailData.bcc.push({
+        display: val,
+        value: val
+      });
+      this.bccInputTextValue = '';
+      this.bccIsPasted = false;
+    }
+  }
+
+  validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  onTagEdited($event) {
+    this.mailData.receiver[$event.index] = {display: $event.display, value:$event.value};
+  }
+
+  ccOnTagEdited($event) {
+    this.mailData.cc[$event.index] = {display: $event.display, value:$event.value};
+  }
+
+  bccOnTagEdited($event) {
+    this.mailData.bcc[$event.index] = {display: $event.display, value:$event.value};
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -872,6 +938,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         } else if (this.selectedMailbox.signature) {
           newSig = this.selectedMailbox.signature.substring(0, this.selectedMailbox.signature.length);
           content += '<br><br>' + newSig;
+          this.isSignatureAdded = true;
           this.quill.clipboard.dangerouslyPasteHTML(content);
         } else {
           if (this.quill && this.selectedMailbox) {

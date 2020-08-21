@@ -23,13 +23,9 @@
           class="mail-label label-to">{{"settings.compose.to"| translate}}</span>
         <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" #receiverInput [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.recipient_email'| translate" [onTextChangeDebounce]="100"
-          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]='true' [separatorKeyCodes]="[188,13]"
-          (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)">
-          <ng-template let-item="item" let-index="index">
-            <div class="tag-wrapper" title="{{item.display}}"> <span>{{ item.value }}</span>
-              <delete-icon (click)="receiverInput.removeItem(item, index)"></delete-icon>
-            </div>
-          </ng-template>
+          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="inputTextValue"
+          (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)" (onTextChange)="updateInputTextValue($event)" 
+          (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index"> {{ item.display }} </ng-template>
@@ -45,13 +41,9 @@
           class="mail-label label-cc">Cc:</span>
         <tag-input [(ngModel)]="mailData.cc" name="cc" #ccReceiverInput [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.cc_email'| translate" [onTextChangeDebounce]="100"
-          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]='true' [separatorKeyCodes]="[188,13]"
-          (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="valueChanged$.next(mailData.cc)">
-          <ng-template let-item="item" let-index="index">
-            <div class="tag-wrapper" title="{{item.display}}"> <span>{{ item.value }}</span>
-              <delete-icon (click)="ccReceiverInput.removeItem(item, index)"></delete-icon>
-            </div>
-          </ng-template>
+          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="ccInputTextValue"
+          (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="valueChanged$.next(mailData.cc)" (onTextChange)="ccUpdateInputTextValue($event)" 
+          (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index"> {{item.display}} </ng-template>
@@ -63,13 +55,9 @@
           class="mail-label label-bcc">Bcc:</span>
         <tag-input [(ngModel)]="mailData.bcc" name="bcc" #bccReceiverInput [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.bcc_email'| translate" [onTextChangeDebounce]="100"
-          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]='true' [separatorKeyCodes]="[188,13]"
-          (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="valueChanged$.next(mailData.bcc)">
-          <ng-template let-item="item" let-index="index">
-            <div class="tag-wrapper" title="{{item.display}}"> <span>{{ item.value }}</span>
-              <delete-icon (click)="bccReceiverInput.removeItem(item, index)"></delete-icon>
-            </div>
-          </ng-template>
+          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="bccInputTextValue"
+          (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="valueChanged$.next(mailData.bcc)" (onTextChange)="bccUpdateInputTextValue($event)" 
+          (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index"> {{item.display}} </ng-template>

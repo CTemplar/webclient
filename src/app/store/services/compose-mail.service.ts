@@ -270,7 +270,7 @@ export class ComposeMailService {
           });
           let count = Math.trunc(this.windowWidth/this.minimizedWidth);
           if (this.componentRefList.length < count) { count = this.componentRefList.length; }
-          for (let i = (this.componentRefList.length - 1); i > (this.componentRefList.length - count); i--) {
+          for (let i = (this.componentRefList.length - 1); i >= (this.componentRefList.length - count); i--) {
             this.componentRefList[i].instance.isComposeVisible = true;
           }
         }
