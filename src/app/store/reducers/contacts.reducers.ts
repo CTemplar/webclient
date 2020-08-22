@@ -51,7 +51,8 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     case ContactsActionTypes.CONTACT_ADD: {
       return { ...state, inProgress: true, isError: false };
     }
-    case ContactsActionTypes.CONTACT_NOTIFY_SUCCESS: {
+    case ContactsActionTypes.CONTACT_NOTIFY_SUCCESS:
+    case ContactsActionTypes.CONTACT_NOTIFY_FAILURE: {
       return { ...state, inProgress: false, isError: false };
     }
     case ContactsActionTypes.CONTACT_ADD_SUCCESS: {

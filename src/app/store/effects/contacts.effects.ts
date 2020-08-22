@@ -9,7 +9,7 @@ import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 // Service
-import { OpenPgpService, UsersService } from '../../store/services';
+import { OpenPgpService, UsersService, MailService } from '../../store/services';
 // Custom Actions
 import {
   Accounts,
@@ -17,6 +17,7 @@ import {
   ContactAddSuccess,
   ContactDeleteSuccess, ContactGetFailure,
   ContactNotifySuccess,
+  ContactNotifyFailure,
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
@@ -26,7 +27,7 @@ import {
   GetEmailContacts,
   GetEmailContactsSuccess,
   SnackErrorPush,
-  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess
+  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess, UpdateCurrentFolder
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -35,7 +36,8 @@ export class ContactsEffects {
   constructor(
     private actions: Actions,
     private openPgpService: OpenPgpService,
-    private userService: UsersService) {}
+    private userService: UsersService,
+    private mailService: MailService) {}
 
   @Effect()
   Contact: Observable<any> = this.actions.pipe(
@@ -116,15 +118,21 @@ export class ContactsEffects {
     ofType(ContactsActionTypes.CONTACT_NOTIFY),
     map((action: Accounts) => action.payload),
     switchMap(payload => {
-      return this.userService.notifyContact(payload)
+        return this.userService.notifyContact(payload)
         .pipe(
-          switchMap(contact => {
+          switchMap(res => {
             return of(
+              new UpdateCurrentFolder(res),
               new ContactNotifySuccess(payload),
               new SnackPush({ message: 'Notification emails have been sent successfully.' })
             );
           }),
-          catchError((error) => EMPTY)
+          catchError(error => {
+            return of(
+              new SnackErrorPush({ message: error.error }),
+              new ContactNotifyFailure(error.error),
+            );
+          })
         );
     }));
 

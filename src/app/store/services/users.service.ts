@@ -326,12 +326,8 @@ export class UsersService {
     }
   }
 
-  notifyContact(ids) {
-    if (ids === 'all') {
-      return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
-    } else {
-      return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
-    }
+  notifyContact(payload: any) {
+    return this.http.post<any>(`${apiUrl}users/notify-contacts/`, payload);
   }
 
   importContacts(data: any) {

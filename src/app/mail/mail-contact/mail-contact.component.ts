@@ -11,7 +11,9 @@ import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
 
-import { Mailbox } from '../../store/models';
+import { Mailbox, Mail } from '../../store/models';
+import { CreateMail } from '../../store/actions/';
+import { TranslateService } from '@ngx-translate/core';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -48,6 +50,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   isMobile: boolean;
   currentPlan: PlanType;
   currentMailbox: Mailbox;
+  notifyContactsMail: Mail;
 
   MAX_EMAIL_PAGE_LIMIT = 1;
   LIMIT = 20;
@@ -65,6 +68,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     private breakpointsService: BreakpointsService,
     private composeMailService: ComposeMailService,
     private activatedRoute: ActivatedRoute,
+    private translateService: TranslateService,
     config: NgbDropdownConfig,
     @Inject(DOCUMENT) private document: Document,
     private cdr: ChangeDetectorRef) {
@@ -248,8 +252,23 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notifyContactsModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
-    const contacts = this.checkAll ? 'all' : this.selectedContacts.map(item => item.id).join(',');
-    this.store.dispatch(new ContactNotify(contacts));
+    const contacts = this.selectedContacts.map(item => item.email);
+    const subject = this.translateService.instant('contacts.notify_contacts_email.title');
+    const display_name = this.currentMailbox.display_name ? this.currentMailbox.display_name : '';
+    const content = '<div style="white-space: pre-wrap;">' + '<span>' + this.translateService.instant('contacts.notify_contacts_email.content_before') + '</span><span><a style="color:#3498db; cursor:pointer;">' + this.currentMailbox.email + '</a>.</span><span>' + this.translateService.instant('contacts.notify_contacts_email.content_after') + '</span>' + '<span>' + display_name + '</span>';
+    // generating mails
+    this.notifyContactsMail = {
+      is_html: true,
+      folder: 'sent',
+      subject: subject,
+      content: content,
+      mailbox: this.currentMailbox.id,
+      sender: this.currentMailbox.email,
+      receiver: contacts,
+      is_subject_encrypted: false,
+      send: true
+    }
+    this.store.dispatch(new ContactNotify(this.notifyContactsMail));
   }
 
   openNotifyContactsModal() {

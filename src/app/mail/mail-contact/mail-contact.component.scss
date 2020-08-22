@@ -363,6 +363,9 @@
 }
 .modal-description {
   padding: 0 1.5rem 1rem 1.5rem;
+  a {
+    text-decoration: underline;
+  }
 }
 .modal-content-email {
   white-space: pre-wrap;
