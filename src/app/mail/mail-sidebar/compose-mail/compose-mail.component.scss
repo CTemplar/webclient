@@ -64,3 +64,18 @@ textarea:disabled {
     text-overflow: ellipsis;
 }
 
+.compose-contacts-container {
+    display: flex;
+    align-items: center;
+    line-height: normal;
+    height: 100%;
+
+    img {
+        height: 70%;
+    }
+    .compose-contacts-userinfo {
+        margin-left: 10px;
+        height: 70%;
+        font-size: 12px;
+    }
+}
