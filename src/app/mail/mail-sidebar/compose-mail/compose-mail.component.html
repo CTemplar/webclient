@@ -54,7 +54,15 @@
           (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
-            <ng-template let-item="item" let-index="index"> {{item.display}} </ng-template>
+            <ng-template let-item="item" let-index="index">
+              <div class="compose-contacts-container">
+                <img src="assets/images/user-icon-grey.png" alt="user-image">
+                <div class="compose-contacts-userinfo">
+                  <div>{{ item.name }}</div>
+                  <div>{{ item.email }}</div>
+                </div>              
+              </div>
+            </ng-template>
           </tag-input-dropdown>
         </tag-input>
       </div><!-- 'Cc' field -->
@@ -68,7 +76,15 @@
           (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
-            <ng-template let-item="item" let-index="index"> {{item.display}} </ng-template>
+            <ng-template let-item="item" let-index="index">
+              <div class="compose-contacts-container">
+                <img src="assets/images/user-icon-grey.png" alt="user-image">
+                <div class="compose-contacts-userinfo">
+                  <div>{{ item.name }}</div>
+                  <div>{{ item.email }}</div>
+                </div>              
+              </div>
+            </ng-template>
           </tag-input-dropdown>
         </tag-input>
       </div><!-- 'Bcc' field -->
