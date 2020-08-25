@@ -12,7 +12,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
 
 import { Mailbox, Mail } from '../../store/models';
-import { CreateMail } from '../../store/actions/';
 import { TranslateService } from '@ngx-translate/core';
 
 export enum ContactsProviderType {
