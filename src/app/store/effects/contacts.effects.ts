@@ -27,7 +27,7 @@ import {
   GetEmailContacts,
   GetEmailContactsSuccess,
   SnackErrorPush,
-  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess, UpdateCurrentFolder
+  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess, EmptyFolderSuccess
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -122,14 +122,14 @@ export class ContactsEffects {
         .pipe(
           switchMap(res => {
             return of(
-              new UpdateCurrentFolder(res),
+              new EmptyFolderSuccess({folder: 'sent'}),
               new ContactNotifySuccess(payload),
               new SnackPush({ message: 'Notification emails have been sent successfully.' })
             );
           }),
           catchError(error => {
             return of(
-              new SnackErrorPush({ message: error.error }),
+              new SnackErrorPush({ message: error.error.msg ? error.error.msg : 'Failed to notify updated email' }),
               new ContactNotifyFailure(error.error),
             );
           })
