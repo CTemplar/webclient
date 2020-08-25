@@ -28,6 +28,10 @@
 
 .dropdown-menu-right {
     left: auto !important;
+
+    button:disabled {
+        a { color: grey !important; }        
+    }
 }
 
 .dropdown-toggle {

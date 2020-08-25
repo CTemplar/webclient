@@ -79,3 +79,24 @@ textarea:disabled {
         font-size: 12px;
     }
 }
+
+.mail-composer-footer {
+    .actions-btn {
+        &.more-btn {
+            width: 2.25rem;
+            display: flex;
+            justify-content: center;
+        }
+        &:disabled {
+            background-color: inherit;
+            i {
+                color: grey;
+                opacity: 0.7;
+            }
+        }
+        border: none;
+        i {
+            color: black;
+        }
+    }
+}
