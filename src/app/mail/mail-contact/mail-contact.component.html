@@ -360,7 +360,7 @@
                 <span >{{"contacts.notify_contacts_email.content_before"| translate}}</span>
                 <span><a>{{ currentMailbox.email }}</a></span>
                 <span >{{"contacts.notify_contacts_email.content_after"| translate}}</span>
-                <span>{{ currentMailbox.display_name }}</span>
+                <span>{{ currentMailbox.display_name ? currentMailbox.display_name : currentMailbox.email }}</span>
             </div>
             <div class="form-group text-right mb-0">
                 <button (click)="cancelNotifyContacts()" class="btn btn-secondary btn-sm mr-2"

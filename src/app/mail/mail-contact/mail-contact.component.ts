@@ -254,7 +254,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.contactsCount = this.contactsState.contacts.length;
     const contacts = this.selectedContacts.map(item => item.email);
     const subject = this.translateService.instant('contacts.notify_contacts_email.title');
-    const display_name = this.currentMailbox.display_name ? this.currentMailbox.display_name : '';
+    const display_name = this.currentMailbox.display_name ? this.currentMailbox.display_name : this.currentMailbox.email;
     const content = '<div style="white-space: pre-wrap;">' + '<span>' + this.translateService.instant('contacts.notify_contacts_email.content_before') + '</span><span><a style="color:#3498db; cursor:pointer;">' + this.currentMailbox.email + '</a>.</span><span>' + this.translateService.instant('contacts.notify_contacts_email.content_after') + '</span>' + '<span>' + display_name + '</span>';
     // generating mails
     this.notifyContactsMail = {
