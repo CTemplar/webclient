@@ -567,6 +567,11 @@ export function reducer(
       return { ...state, currentSettingsTab: action.payload };
     }
 
+    case MailActionTypes.EMPTY_ONLY_FOLDER: {
+      state.folders.set(action.payload.folder, []);
+      return { ...state, inProgress: false };
+    }
+
     default: {
       return state;
     }

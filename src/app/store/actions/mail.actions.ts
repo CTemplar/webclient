@@ -52,7 +52,8 @@ export enum MailActionTypes {
   DELETE_MAILBOX = '[MAILBOX] DELETE',
   DELETE_MAILBOX_SUCCESS = '[MAILBOX] DELETE SUCCESS',
   SET_IS_COMPOSER_POPUP = '[MAIL] SET IS COMPOSERPOPUP ',
-  MOVE_TAB = '[MAIL] MOVE TAB'
+  MOVE_TAB = '[MAIL] MOVE TAB',
+  EMPTY_ONLY_FOLDER = '[Mail] EMPTY ONLY FOLDER',
 }
 
 export class GetMails implements Action {
@@ -362,6 +363,12 @@ export class MoveTab implements Action {
   constructor(public payload: any) {}
 }
 
+export class EmptyOnlyFolder implements Action {
+  readonly type = MailActionTypes.EMPTY_ONLY_FOLDER;
+
+  constructor(public payload: any) {}
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -412,4 +419,5 @@ export type MailActions =
   | DeleteMailbox
   | DeleteMailboxSuccess
   | SetIsComposerPopUp
-  | MoveTab;
+  | MoveTab
+  | EmptyOnlyFolder;

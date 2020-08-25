@@ -27,7 +27,7 @@ import {
   GetEmailContacts,
   GetEmailContactsSuccess,
   SnackErrorPush,
-  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess, EmptyFolderSuccess
+  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess, EmptyOnlyFolder
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -128,7 +128,7 @@ export class ContactsEffects {
               );
             }
             return of( 
-              new EmptyFolderSuccess({folder: 'sent'}),
+              new EmptyOnlyFolder({folder: 'sent'}),
               new ContactNotifySuccess(payload),
               new SnackPush({ message: 'Notification emails have been sent successfully.' })
             );
