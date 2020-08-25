@@ -182,6 +182,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   @ViewChild('attachImagesModal') attachImagesModal;
   @ViewChild('selfDestructModal') selfDestructModal;
   @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
+  @ViewChild('receiverInput') receiverInputRange: ElementRef;
+  @ViewChild('ccReceiverInput') ccReceiverInputRange: ElementRef;
+  @ViewChild('bccReceiverInput') bccReceiverInputRange: ElementRef;
+
   @ViewChild('deadManTimerModal') deadManTimerModal;
   @ViewChild('encryptionModal') encryptionModal;
   @ViewChild('insertLinkModal') insertLinkModal;
@@ -433,6 +437,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   bccOnTagEdited($event) {
     this.mailData.bcc[$event.index] = {display: $event.display, value:$event.value};
+  }
+
+  onClick($event) {
+    this.receiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
+  }
+
+  onCcClick($event) {
+    this.ccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
+  }
+
+  onBccClick($event) {
+    this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -830,6 +846,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   saveInDrafts() {
+    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+      // If saving is in progress, then wait to send.
+      setTimeout(() => {
+        this.saveInDrafts();
+      }, 100);
+      return;
+    }
     if (this.isSavedInDraft) {     // if email already saved in ngOnDestroy.
       return;
     }
@@ -840,6 +863,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   discardEmail() {
+    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+      // If saving is in progress, then wait to send.
+      setTimeout(() => {
+        this.discardEmail();
+      }, 100);
+      return;
+    }
     this.isSavedInDraft = true;
     if (this.draftMail && this.draftMail.id) {
       this.store.dispatch(new MoveMail({
