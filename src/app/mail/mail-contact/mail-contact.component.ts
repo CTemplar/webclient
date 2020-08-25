@@ -49,7 +49,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   isMobile: boolean;
   currentPlan: PlanType;
   currentMailbox: Mailbox;
-  notifyContactsMail: Mail;
+  notifyContactsMail: any = {};
 
   MAX_EMAIL_PAGE_LIMIT = 1;
   LIMIT = 20;
@@ -252,20 +252,13 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
     const contacts = this.selectedContacts.map(item => item.email);
-    const subject = this.translateService.instant('contacts.notify_contacts_email.title');
     const display_name = this.currentMailbox.display_name ? this.currentMailbox.display_name : this.currentMailbox.email;
-    const content = '<div style="white-space: pre-wrap;">' + '<span>' + this.translateService.instant('contacts.notify_contacts_email.content_before') + '</span><span><a style="color:#3498db; cursor:pointer;">' + this.currentMailbox.email + '</a>.</span><span>' + this.translateService.instant('contacts.notify_contacts_email.content_after') + '</span>' + '<span>' + display_name + '</span>';
     // generating mails
     this.notifyContactsMail = {
-      is_html: true,
-      folder: 'sent',
-      subject: subject,
-      content: content,
       mailbox: this.currentMailbox.id,
       sender: this.currentMailbox.email,
       receiver: contacts,
-      is_subject_encrypted: false,
-      send: true
+      display_name
     }
     this.store.dispatch(new ContactNotify(this.notifyContactsMail));
   }
