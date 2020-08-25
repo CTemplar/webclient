@@ -121,7 +121,13 @@ export class ContactsEffects {
         return this.userService.notifyContact(payload)
         .pipe(
           switchMap(res => {
-            return of(
+            if (res && res.length === 0) {
+              return of(
+                new SnackErrorPush({ message: 'Failed to notify' }),
+                new ContactNotifyFailure({}),
+              );
+            }
+            return of( 
               new EmptyFolderSuccess({folder: 'sent'}),
               new ContactNotifySuccess(payload),
               new SnackPush({ message: 'Notification emails have been sent successfully.' })
@@ -129,7 +135,7 @@ export class ContactsEffects {
           }),
           catchError(error => {
             return of(
-              new SnackErrorPush({ message: error.error.msg ? error.error.msg : 'Failed to notify updated email' }),
+              new SnackErrorPush({ message: error.error.msg ? error.error.msg : 'Failed to notify' }),
               new ContactNotifyFailure(error.error),
             );
           })
