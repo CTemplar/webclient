@@ -23,19 +23,20 @@
           class="mail-label label-to">{{"settings.compose.to"| translate}}</span>
         <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.recipient_email'| translate" [onTextChangeDebounce]="100"
-          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="inputTextValue"
-          (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)" (onTextChange)="updateInputTextValue($event)" 
+          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]"
+          [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)"
+          (onRemove)="valueChanged$.next(mailData.receiver)" (onTextChange)="updateInputTextValue($event)"
           (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)" (click)="onClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
-            <ng-template let-item="item" let-index="index"> 
+            <ng-template let-item="item" let-index="index">
               <div class="compose-contacts-container">
                 <img src="assets/images/user-icon-grey.png" alt="user-image">
                 <div class="compose-contacts-userinfo">
                   <div>{{ item.name }}</div>
                   <div>{{ item.email }}</div>
-                </div>              
-              </div>              
+                </div>
+              </div>
             </ng-template>
           </tag-input-dropdown>
         </tag-input>
@@ -45,12 +46,13 @@
         </div>
       </div><!-- 'To' field -->
       <!-- 'Cc' field -->
-      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}"  #ccReceiverInput> <span
+      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}" #ccReceiverInput> <span
           class="mail-label label-cc">Cc:</span>
         <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.cc_email'| translate" [onTextChangeDebounce]="100"
-          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="ccInputTextValue"
-          (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="valueChanged$.next(mailData.cc)" (onTextChange)="ccUpdateInputTextValue($event)" 
+          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]"
+          [(inputText)]="ccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.cc)"
+          (onRemove)="valueChanged$.next(mailData.cc)" (onTextChange)="ccUpdateInputTextValue($event)"
           (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
@@ -60,7 +62,7 @@
                 <div class="compose-contacts-userinfo">
                   <div>{{ item.name }}</div>
                   <div>{{ item.email }}</div>
-                </div>              
+                </div>
               </div>
             </ng-template>
           </tag-input-dropdown>
@@ -71,8 +73,9 @@
           class="mail-label label-bcc">Bcc:</span>
         <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '"
           [secondaryPlaceholder]="'settings.compose.bcc_email'| translate" [onTextChangeDebounce]="100"
-          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]" [(inputText)]="bccInputTextValue"
-          (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="valueChanged$.next(mailData.bcc)" (onTextChange)="bccUpdateInputTextValue($event)" 
+          [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188,13]"
+          [(inputText)]="bccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.bcc)"
+          (onRemove)="valueChanged$.next(mailData.bcc)" (onTextChange)="bccUpdateInputTextValue($event)"
           (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'"
             [identifyBy]="'email'" [autocompleteItems]="contacts">
@@ -82,7 +85,7 @@
                 <div class="compose-contacts-userinfo">
                   <div>{{ item.name }}</div>
                   <div>{{ item.email }}</div>
-                </div>              
+                </div>
               </div>
             </ng-template>
           </tag-input-dropdown>
@@ -134,7 +137,7 @@
                 (click)="sendEmail()" [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                 role="button" placement="top"> <i class="hidden-sm-up icon icon-paper-plane"></i><span
                   class="hidden-xs-down">{{"settings.compose.send"| translate}}</span> </button> </li>
-            <li>
+            <li class="pr-0">
               <div *ngIf="!draftMail?.is_html; else textFormatter"
                 ngbTooltip="Text formatting is not available in plain text editor" class="dropdown"> <button
                   class="actions-btn mail-typo-btn hide-arrow" disabled> <i class="icon icon-text-color"></i> </button>
@@ -264,11 +267,11 @@
                 </div>
               </ng-template>
             </li>
-            <li> <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
+            <li class="p-0"> <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
                 class="actions-btn mail-attach-btn" placement="top"
                 [ngbTooltip]="'settings.compose.attachments'| translate"><i class="icon icon-attachment"></i> </button>
             </li>
-            <li>
+            <li class="p-0">
               <div *ngIf="!draftMail?.is_html; else insertLinkRef"
                 ngbTooltip="Insert link is not available in plain text editor" class="dropdown"> <button
                   class="actions-btn insert-link-btn" disabled> <i class="fas fa-link"></i> </button> </div>
@@ -276,12 +279,12 @@
                   (click)="openInsertLinkModal()" class="actions-btn insert-link-btn"><i class="fas fa-link"></i>
                 </button> </ng-template>
             </li>
-            <li class="pr-0" [ngbTooltip]="'page_pricing.encryption'| translate"> <button role="button" type="button"
+            <li class="p-0" [ngbTooltip]="'page_pricing.encryption'| translate"> <button role="button" type="button"
                 class="actions-btn mail-envelop-btn border-radius-r-0"
                 [ngClass]="{'text-primary': draftMail?.encryption?.password}" (click)="openEncryptionModal()"
                 placement="top" [ngbTooltip]="'settings.compose.encryption'| translate"><i
                   class="icon icon-mail"></i></button> </li>
-            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
+            <li class="p-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
               <button role="button" type="button" (click)="openSelfDestructModal()"
                 class="actions-btn mail-clock-btn border-left-0 border-radius-0"
                 [ngClass]="{'badge badge-warning text-white': selfDestruct.value}" placement="top"
@@ -292,7 +295,7 @@
                   role="button" class="actions-btn mail-clock-btn border-left-0 border-radius-0" disabled><i
                     class="icon icon-clock"></i> </button> </li>
             </ng-template>
-            <li class="px-0"
+            <li class="p-0"
               *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn">
               <button type="button" role="button" (click)="openDelayedDeliveryModal()"
                 class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
@@ -300,41 +303,46 @@
                 [ngbTooltip]="'settings.compose.delayed_delivery'| translate"><i class="icon icon-self-timer"></i>
               </button> </li>
             <ng-template #disabledDelayedDeliveryBtn>
-              <li class="px-0" ngbTooltip="Upgrade account to use Delayed Delivery feature."> <button type="button"
+              <li class="p-0" ngbTooltip="Upgrade account to use Delayed Delivery feature."> <button type="button"
                   role="button" class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0" disabled><i
                     class="icon icon-self-timer"></i> </button> </li>
             </ng-template>
-            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn">
+            <li class="p-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn">
               <button type="button" role="button" (click)="openDeadManTimerModal()"
                 class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
                 [ngClass]="{'badge badge-danger text-white': deadManTimer.value}" placement="top"
                 [ngbTooltip]="'settings.compose.dead_man_timer'| translate"><i class="icon icon-dead"></i> </button>
             </li>
             <ng-template #disabledDeadManTimerBtn>
-              <li class="px-0" ngbTooltip="Upgrade account to use Dead Man Timer feature."> <button type="button"
+              <li class="p-0" ngbTooltip="Upgrade account to use Dead Man Timer feature."> <button type="button"
                   role="button" class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0" disabled><i
                     class="icon icon-dead"></i> </button> </li>
             </ng-template>
             <li class="btn-dropdown">
               <div ngbDropdown [autoClose]="'outside'" class="dropdown menu-btn"
-                [placement]="['top-left', 'bottom-left']"> <button class="dropdown-toggle btn-more" type="button"
-                  id="btn_more" [ngbTooltip]="'More'" placement="right" ngbDropdownToggle>More </button>
+                [placement]="['top-left', 'bottom-left']">
+                <button class="actions-btn more-btn hide-arrow" id="btn_more" [ngbTooltip]="'More'" placement="right"
+                  ngbDropdownToggle> <i class="fa fa-ellipsis-v"></i></button>
                 <div ngbDropdownMenu class="dropdown-menu-right text-center dropdown-size"
-                  aria-labelledby="helpDropdownMenuButton"> <button class="dropdown-item row" style="margin: 0px"
-                    (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html">
+                  aria-labelledby="helpDropdownMenuButton">
+                  <button class="dropdown-item row" style="margin: 0px" (click)="setHtmlEditor(true)"
+                    [disabled]="draftMail.is_html">
                     <div class="row item">
-                      <div class="col-2"> <i *ngIf="draftMail.is_html"
-                          class="fa fa-check text-black-50 ng-star-inserted"></i> </div> <a class="col-8 ql-size-small"
-                        target="_blank" rel="noopener noreferrer"> HTML Editor</a>
+                      <div class="col-2">
+                        <i *ngIf="draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
+                      </div>
+                      <a class="col-8 ql-size-small" target="_blank" rel="noopener noreferrer"> HTML Editor</a>
                     </div>
-                  </button> <button class="dropdown-item" (click)="setHtmlEditor(false)"
-                    [disabled]="!draftMail.is_html">
+                  </button>
+                  <button class="dropdown-item" (click)="setHtmlEditor(false)" [disabled]="!draftMail.is_html">
                     <div class="row item">
-                      <div class="col-2"> <i *ngIf="!draftMail.is_html"
-                          class="fa fa-check text-black-50 ng-star-inserted"></i> </div> <a
-                        class="col-8 ql-size-small">Plain Text</a>
+                      <div class="col-2">
+                        <i *ngIf="!draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
+                      </div>
+                      <a class="col-8 ql-size-small">Plain Text</a>
                     </div>
-                  </button> </div>
+                  </button>
+                </div>
               </div>
             </li>
           </ul>

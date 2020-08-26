@@ -548,4 +548,5 @@ button[disabled] {
 
 .dropup .dropdown-menu {
   bottom: unset !important;
+  transition: inherit;
 }
