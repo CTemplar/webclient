@@ -326,6 +326,10 @@ export class UsersService {
     }
   }
 
+  notifyContact(payload: any) {
+    return this.http.post<any>(`${apiUrl}notify-contacts/`, payload);
+  }
+
   importContacts(data: any) {
     const formData = new FormData();
     formData.append('csv_file', data.file);

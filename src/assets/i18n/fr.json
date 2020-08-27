@@ -1,6 +1,18 @@
 {
   "contacts": {
     "new_contact": "NOUVEAU CONTACT",
+    "notify_contacts": "NOTIFIER LES CONTACTS",
+    "notify_contacts_title": "Notify contacts about my new email address",
+    "notify_contacts_description": {
+      "before": "The email below will be send to ",
+      "after": " contacts you have selected to inform them you have a new email address."
+    },
+    "notify_contacts_email": {
+      "title": "Hi! I have chanaged my email address",
+      "content_before": "Hello,\nI want to inform you that I have changed my email address to ",
+      "content_after": "\nPlease, update my contact information in your address book.\nThank you.\n...\n"
+    },
+    "send_email": "SEND EMAIL",
     "all_contacts": "TOUS LES CONTACTS",
     "back_to_mail": "RETOUR",
     "edit_tooltip": "Cliquez sur Nom ou Email pour modifier un élément.",

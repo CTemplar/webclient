@@ -46,9 +46,14 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { ...state, noOfDecryptedContacts: state.noOfDecryptedContacts + action.payload.contact_list.length };
     }
 
+    case ContactsActionTypes.CONTACT_NOTIFY:
     case ContactsActionTypes.CONTACT_DELETE:
     case ContactsActionTypes.CONTACT_ADD: {
       return { ...state, inProgress: true, isError: false };
+    }
+    case ContactsActionTypes.CONTACT_NOTIFY_SUCCESS:
+    case ContactsActionTypes.CONTACT_NOTIFY_FAILURE: {
+      return { ...state, inProgress: false, isError: false };
     }
     case ContactsActionTypes.CONTACT_ADD_SUCCESS: {
       if (action.payload.isUpdating) {

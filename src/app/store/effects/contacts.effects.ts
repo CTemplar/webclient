@@ -9,13 +9,15 @@ import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 // Service
-import { OpenPgpService, UsersService } from '../../store/services';
+import { OpenPgpService, UsersService, MailService } from '../../store/services';
 // Custom Actions
 import {
   Accounts,
   ContactAddError,
   ContactAddSuccess,
   ContactDeleteSuccess, ContactGetFailure,
+  ContactNotifySuccess,
+  ContactNotifyFailure,
   ContactGetSuccess,
   ContactImport,
   ContactImportFailure,
@@ -25,7 +27,7 @@ import {
   GetEmailContacts,
   GetEmailContactsSuccess,
   SnackErrorPush,
-  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess
+  SnackPush, UpdateBatchContacts, UpdateBatchContactsSuccess, EmptyOnlyFolder
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -34,7 +36,8 @@ export class ContactsEffects {
   constructor(
     private actions: Actions,
     private openPgpService: OpenPgpService,
-    private userService: UsersService) {}
+    private userService: UsersService,
+    private mailService: MailService) {}
 
   @Effect()
   Contact: Observable<any> = this.actions.pipe(
@@ -107,6 +110,35 @@ export class ContactsEffects {
             );
           }),
           catchError((error) => EMPTY)
+        );
+    }));
+
+  @Effect()
+  ContactNotify: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_NOTIFY),
+    map((action: Accounts) => action.payload),
+    switchMap(payload => {
+        return this.userService.notifyContact(payload)
+        .pipe(
+          switchMap(res => {
+            if (res && res.length === 0) {
+              return of(
+                new SnackErrorPush({ message: 'Failed to notify' }),
+                new ContactNotifyFailure({}),
+              );
+            }
+            return of( 
+              new EmptyOnlyFolder({folder: 'sent'}),
+              new ContactNotifySuccess(payload),
+              new SnackPush({ message: 'Notification emails have been sent successfully.' })
+            );
+          }),
+          catchError(error => {
+            return of(
+              new SnackErrorPush({ message: error.error.msg ? error.error.msg : 'Failed to notify' }),
+              new ContactNotifyFailure(error.error),
+            );
+          })
         );
     }));
 
