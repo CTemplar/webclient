@@ -387,6 +387,8 @@
       "attach_files": "Input Files",
       "attach_url": "Input URL",
       "self_dest_email": "Self Destruct Email",
+      "confirm_send": "Confirm Send",
+      "send_without_all": "Are you sure, send this message without a subject or text in the body?",
       "email_deleted": "Email will be deleted on selected datetime",
       "select_date": "Select Date",
       "select_time": "Select Time",

@@ -380,6 +380,8 @@
 			"select_file": "Selecione arquivos do seu computador ou insira uma URL",
 			"select_time": "Hora",
 			"self_dest_email": "Email autodestrutivo",
+			"confirm_send": "Confirm Send",
+      		"send_without_all": "Are you sure, send this message without a subject or text in the body?",
 			"self_destr_timer": "Temporizador do email autodestrutivo",
 			"send": "Enviar",
 			"sending": "Enviado...",

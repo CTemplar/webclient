@@ -189,14 +189,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   @ViewChild('deadManTimerModal') deadManTimerModal;
   @ViewChild('encryptionModal') encryptionModal;
   @ViewChild('insertLinkModal') insertLinkModal;
+  @ViewChild('confirmationModal') confirmationModal;
 
+  confirmModalRef: NgbModalRef;
   draftId: number;
   colors = COLORS;
   fonts = FONTS;
   mailData: any = {};
-  inputTextValue = "";
-  ccInputTextValue = "";
-  bccInputTextValue = "";
+  inputTextValue = '';
+  ccInputTextValue = '';
+  bccInputTextValue = '';
   options: any = {};
   selfDestruct: any = {};
   delayedDelivery: any = {};
@@ -884,15 +886,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.resetValues();
   }
 
-  sendEmail() {
+  sendEmailCheck() {
     if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
-        this.sendEmail();
+        this.sendEmailCheck();
       }, 100);
       return;
     }
-
+    
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }));
       return;
@@ -912,6 +914,24 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
       return;
     }
+    if (this.mailData.subject === '' && ((this.draftMail.is_html && this.getPlainText(this.editor.nativeElement.firstChild.innerHTML).replace(/ /g, '').replace(/\n/g, '').length === 0) || 
+      (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))) {
+        this.confirmModalRef = this.modalService.open(this.confirmationModal, {
+          centered: true,
+          windowClass: 'modal-sm users-action-modal'
+        });
+      } else {
+        this.sendEmail();
+      }
+  }
+
+  sendEmail() {
+    this.confirmModalRef && this.confirmModalRef.dismiss();
+    const receivers: string[] = [
+      ...this.mailData.receiver.map(receiver => receiver.display),
+      ...this.mailData.cc.map(cc => cc.display),
+      ...this.mailData.bcc.map(bcc => bcc.display)
+    ];
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
     }

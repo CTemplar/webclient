@@ -378,6 +378,8 @@
       "attach_files": "Joindre des fichiers",
       "attach_url": "Joindre une URL",
       "self_dest_email": "Email avec délai d'expiration",
+      "confirm_send": "Confirm Send",
+      "send_without_all": "Are you sure, send this message without a subject or text in the body?",
       "email_deleted": "L'email sera supprimé à la date et à l'heure sélectionnées",
       "select_date": "Sélectionner une date",
       "select_time": "Heure",
