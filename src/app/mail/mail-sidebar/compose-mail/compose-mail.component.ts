@@ -312,9 +312,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
       });
 
-    this.store.dispatch(new ContactsGet({
-    }));
-
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts = [];
@@ -623,7 +620,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 draftId: this.draftId,
                 attachment: { ...newAttachment }
               }));
-
             }
           },
             error => console.log(error));
@@ -640,28 +636,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         matchVisual: false
       },
     });
-    this.quill.clipboard.addMatcher(Node.TEXT_NODE, (node, delta) => {
-      const regex = /https?:\/\/[^\s]+/g;
-      if (typeof (node.data) !== 'string') {
-        return;
-      }
-      const matches = node.data.match(regex);
-
-      if (matches && matches.length > 0) {
-        const ops = [];
-        let str = node.data;
-        matches.forEach((match) => {
-          const split = str.split(match);
-          const beforeLink = split.shift();
-          ops.push({ insert: beforeLink });
-          ops.push({ insert: match, attributes: { link: match } });
-          str = split.join(match);
-        });
-        ops.push({ insert: str });
-        delta.ops = ops;
-      }
-      return delta;
-    });
 
     if (this.userState.settings.default_font) {
       this.quill.format('font', this.userState.settings.default_font);
@@ -669,7 +643,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.quill.getModule('toolbar').addHandler('image', () => {
       this.quillImageHandler();
     });
-
     this.quill.on('text-change', (delta, oldDelta, source) => {
       this.valueChanged$.next();
     });
@@ -680,10 +653,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.content = this.formatContent(this.content);
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     }
-
     this.updateSignature();
-
-
     setTimeout(() => {
       this.quill.setSelection(0, 0, 'silent');
     }, 100);
@@ -1197,14 +1167,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
-
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
     this.draftMail.receiver = this.draftMail.receiver.filter(receiver => validEmailRegex.test(receiver));
     this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
     this.draftMail.cc = this.draftMail.cc.filter(receiver => validEmailRegex.test(receiver));
     this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
     this.draftMail.bcc = this.draftMail.bcc.filter(receiver => validEmailRegex.test(receiver));
-
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
