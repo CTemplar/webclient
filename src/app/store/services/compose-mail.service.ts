@@ -26,6 +26,7 @@ export class ComposeMailService {
   minimizedWidth: number = 192;
   originWidth: number = 640;
   windowWidth: number;
+  maxComposeCount: number = 5;
   composesWidth: number;
   countCommonCompose: number;
 
@@ -171,12 +172,12 @@ export class ComposeMailService {
     this.componentRefList = [];
   }
 
-  getWindowWidth(width: any = {}) {
+  getWindowWidth(width: any = {}) { // get current window's width
     this.windowWidth = (width > 768 && width < 999) ? width - 68 : width;
     if (this.windowWidth > this.originWidth) {
       this.countCommonCompose =
-        Math.trunc((this.windowWidth - this.originWidth) / this.minimizedWidth) + 1 > 5
-          ? 5
+        Math.trunc((this.windowWidth - this.originWidth) / this.minimizedWidth) + 1 > this.maxComposeCount
+          ? this.maxComposeCount
           : Math.trunc((this.windowWidth - this.originWidth) / this.minimizedWidth) + 1;
     } else {
       this.countCommonCompose = 0;
@@ -200,7 +201,7 @@ export class ComposeMailService {
     }
   }
 
-  getComposesWidth() {
+  getComposesWidth() { // get entire width of opened Compose windows
     let tempWidth = 0;
     this.componentRefList.forEach(componentRef => {
       if (componentRef.instance.isComposeVisible) {
@@ -211,7 +212,8 @@ export class ComposeMailService {
   }
 
   openComposeMailDialog(inputData: any = {}) {
-    if (this.userState && this.componentRefList.length < 5) {
+
+    if (this.userState && this.componentRefList.length < this.maxComposeCount) {
       this.componentRefList.forEach(componentRef => {
         componentRef.instance.isMinimized = true;
       });
@@ -284,6 +286,9 @@ export class ComposeMailService {
           newComponentRef.instance.isFullScreen = true;
         }
       });
+    } else {
+      // display error message when user open more than 5 composer
+      this.store.dispatch(new SnackPush({ message: 'Maximum composer reached.', duration: 5000 }));
     }
   }
 
