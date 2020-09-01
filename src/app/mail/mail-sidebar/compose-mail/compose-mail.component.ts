@@ -56,6 +56,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 const Quill: any = QuillNamespace;
 
+/**
+ * Add custom fonts, sizes, styles to quill
+ */
 const FontAttributor = Quill.import('attributors/style/font');
 FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
@@ -70,7 +73,11 @@ Quill.register(Quill.import('attributors/style/color'), true);
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 const Inline = Quill.import('blots/inline');
 
+/**
+ * Define Custom Image Blot to store meta-data in Quill Editor
+ */
 class ImageBlot extends QuillBlockEmbed {
+  // Converts the HTML tag to image blot
   static create(value) {
     const node: any = super.create(value);
     if (value.url) {
@@ -83,7 +90,7 @@ class ImageBlot extends QuillBlockEmbed {
     }
     return node;
   }
-
+  // Converts the image blot to HTML tag
   static value(node) {
     return {
       content_id: node.getAttribute('data-content-id'),
@@ -97,7 +104,11 @@ ImageBlot.tagName = 'img';
 
 Quill.register(ImageBlot);
 
+/**
+ * Custom Signature Blot to add custom html signature to Quill Editor
+ */
 class SignatureBlot extends QuillBlockEmbed {
+  // Converts the HTML tag to text version
   static create(value) {
     const node: any = super.create(value);
     value = value.replace(/<br>/g, '\n');
@@ -116,7 +127,11 @@ SignatureBlot.className = 'ctemplar-signature';
 
 Quill.register(SignatureBlot);
 
+/**
+ * Custom Inline Blot to Quill Editor
+ */
 class OriginalBlot extends Inline {
+  // add custom class to node
   static create(value) {
     const node = super.create();
     node.setAttribute('class', 'originalblock');
@@ -135,10 +150,9 @@ OriginalBlot.className = 'originalblock';
 Quill.register(OriginalBlot);
 
 export class PasswordValidation {
-
   static MatchPassword(AC: AbstractControl) {
-    const password = AC.get('password').value; // to get value in input tag
-    const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
+    const password = AC.get('password').value; // to get value in password input tag
+    const confirmPassword = AC.get('confirmPwd').value; // to get value in confirm password input tag
     if (password !== confirmPassword) {
       AC.get('confirmPwd').setErrors({ MatchPassword: true });
     } else {
@@ -258,9 +272,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     private dateTimeUtilService: DateTimeUtilService,
     private filesizePipe: FilesizePipe,
     private filenamePipe: FilenamePipe,
-    private cdr: ChangeDetectorRef) {    
-  
-    }
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.encryptForm = this.formBuilder.group({
@@ -276,6 +288,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.resetMailData();
     this.initializeDraft();
 
+    /**
+     * Get current Compose state from Store and
+     * Encrypt attachments of compose mail
+     */
     this.store.select((state: AppState) => state.composeMail).pipe(untilDestroyed(this))
       .subscribe((response: ComposeMailState) => {
         const draft = response.drafts[this.draftId];
@@ -283,27 +299,29 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           this.draftMail = draft.draft;
           this.inProgress = draft.inProgress;
           if (draft.isProcessingAttachments !== undefined) { this.isProcessingAttachments = draft.isProcessingAttachments; }
-          if (draft.draft) {
-            if (draft.draft.id && this.attachmentsQueue.length > 0) {
+          if (draft.draft && draft.draft.id && this.attachmentsQueue.length > 0) {
+              // when open draft mail with attachments
               this.attachmentsQueue.forEach(attachment => {
                 attachment.message = draft.draft.id;
                 this.encryptAttachment(attachment);
               });
               this.attachmentsQueue = [];
-            }
           }
           if (!this.inProgress) {
             this.handleAttachment(draft);
           }
         }
-
         this.draft = draft;
       });
 
+    /**
+     * Get user's information from store.
+     */
     this.store.select((state: AppState) => state.user).pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+        // Set html/plain version from user's settings.
         if (this.draftMail && this.draftMail.is_html === null) {
           this.draftMail.is_html = !this.settings.is_html_disabled;
         }
@@ -312,9 +330,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
       });
 
-    this.store.dispatch(new ContactsGet({
+    this.store.dispatch(new ContactsGet({ // call API to get user's contacts from DB
     }));
 
+    /**
+     * Get user's contacts from store.
+     */
     this.store.select((state: AppState) => state.contacts).pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts = [];
@@ -331,14 +352,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.loadEmailContacts();
       });
 
+    /**
+     * Get user's current authentication status
+     */
     this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
         this.saveDraftOnLogout = authState.saveDraftOnLogout;
-        if (authState.saveDraftOnLogout) { this.updateEmail(); }
+        if (authState.saveDraftOnLogout) { this.updateEmail(); } // save draft before logout
         this.loadEmailContacts();
       });
 
+    /**
+     * Get user's mailbox information
+     */
     this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
         if (!this.selectedMailbox) {
@@ -356,6 +383,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.mailBoxesState = mailBoxesState;
       });
 
+    /**
+     * Get mail status and
+     * add decrypted content if content is not decrypted
+     */
     this.store.select(state => state.mail).pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         if (this.draftMail && !this.decryptedContent) {
@@ -378,20 +409,21 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       day: now.getDate()
     };
 
-    this.initializeAutoSave(); //set interval of autosave function
+    this.initializeAutoSave(); // start auto save function
   }
 
-  onPaste($event) { // paste event on To field
+  onPaste($event) { 
     this.isPasted = true;
   }
-  ccOnPaste($event) { // paste event on Cc field
+  ccOnPaste($event) { 
     this.ccIsPasted = true;
   }
-  bccOnPaste($event) { // paste event on Bcc field
+  bccOnPaste($event) { 
     this.bccIsPasted = true;
   }
 
-  updateInputTextValue(val) { // add pasted email to To field
+  updateInputTextValue(val) { 
+    // add tag if pasted item is valid email
     if(this.isPasted && this.validateEmail(val)){
       this.mailData.receiver.push({
         display: val,
@@ -402,7 +434,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
   
-  ccUpdateInputTextValue(val) { // add pasted email to Cc field
+  ccUpdateInputTextValue(val) { 
+    // add tag if pasted item is valid email
     if(this.ccIsPasted && this.validateEmail(val)){
       this.mailData.cc.push({
         display: val,
@@ -413,7 +446,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
-  bccUpdateInputTextValue(val) { // add pasted email to Bcc field
+  bccUpdateInputTextValue(val) { 
+    // add tag if pasted item is valid email
     if(this.bccIsPasted && this.validateEmail(val)){
       this.mailData.bcc.push({
         display: val,
@@ -429,27 +463,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     return re.test(String(email).toLowerCase());
   }
 
-  onTagEdited($event) { // edit tag event on To field
+  onTagEdited($event) { 
     this.mailData.receiver[$event.index] = {display: $event.display, value:$event.value};
   }
 
-  ccOnTagEdited($event) { // edit tag event on Cc field
+  ccOnTagEdited($event) { 
     this.mailData.cc[$event.index] = {display: $event.display, value:$event.value};
   }
 
-  bccOnTagEdited($event) { // edit tag event on Bcc field
+  bccOnTagEdited($event) { 
     this.mailData.bcc[$event.index] = {display: $event.display, value:$event.value};
   }
 
-  onClick($event) { // set focus when click "To" field
+  onClick($event) { 
     this.receiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  onCcClick($event) { // set focus when click "Cc" field
+  onCcClick($event) { 
     this.ccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  onBccClick($event) { // set focus when click "Bcc" field
+  onBccClick($event) { 
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
@@ -478,6 +512,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }
     } else {
       this.updateSignature();
+      // display mail content and change from html to text if html version
       let content = this.mailData.content ? this.mailData.content : '';
       if (this.editor) {
         this.content = this.editor.nativeElement.firstChild.innerHTML;
@@ -519,6 +554,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   ngOnDestroy(): void {
+    // save to draft when close compose
     if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft && !this.saveDraftOnLogout) {
       this.saveInDrafts();
       this.isSavedInDraft = true;
@@ -532,7 +568,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.subjectChanged.emit(subject);
   }
 
-  private getPlainText(html: string) {
+  private getPlainText(html: string) { // Change html content to text content by deletng html tags
     if (!(/<\/?[a-z][\s\S]*>/i.test(html))) {
       return html;
     }
@@ -550,7 +586,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
-  initializeDraft() {
+  initializeDraft() { // save compose content to draft for the first time
     this.draftId = Date.now();
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
@@ -562,7 +598,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           .filter((attachment: Attachment) => attachment.is_inline)
           .map(attachment => attachment.content_id);
       }
-
     }
 
     this.encryptionData = {};
@@ -586,14 +621,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       usersKeys: null
     };
 
-    this.store.dispatch(new NewDraft({ ...draft }));     // check heere whats'
+    this.store.dispatch(new NewDraft({ ...draft }));
     this.decryptAttachments(draft.attachments);
   }
 
-  // TODO: Merge with display-secure-message and mail-detail components
   decryptAttachments(attachments: Array<Attachment>) {
     attachments.forEach(attachment => {
-      // TODO: Do we need to download attachment even if its not encrypted?
+      // TODO: Do we need to download attachment even if it is not encrypted?
       if (!attachment.decryptedDocument && !this.downloadingAttachments[attachment.id]) {
         this.downloadingAttachments[attachment.id] = true;
         this.isDownloadingAttachmentCounter++;
@@ -603,6 +637,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }))
           .subscribe(response => {
             if (attachment.is_encrypted) {
+              // if attachment is encrypted, update draft attachment with decrypted attachment
               const fileInfo = { attachment, type: response.file_type };
               this.openPgpService.decryptAttachment(this.draftMail.mailbox, atob(response.data), fileInfo)
                 .subscribe(decryptedAttachment => {
@@ -612,6 +647,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                   }));
                 });
             } else {
+              // if attachment is not encrypted, update draft attachment with decoded attachment
               const uint8Array = this.sharedService.base64ToUint8Array(response.data);
               const newDocument = new File(
                 [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
@@ -623,7 +659,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 draftId: this.draftId,
                 attachment: { ...newAttachment }
               }));
-
             }
           },
             error => console.log(error));
@@ -651,6 +686,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.quill.on('text-change', (delta, oldDelta, source) => {
       this.valueChanged$.next();
     });
+    // need to change text to html contents
     if (this.mailData.content) {
       this.content = this.mailData.content ? this.mailData.content.replace(/\n/g, '<br>') : this.content;
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
@@ -661,17 +697,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.updateSignature();
 
-
     setTimeout(() => {
       this.quill.setSelection(0, 0, 'silent');
     }, 100);
   }
 
-  private formatContent(content: string) {
+  private formatContent(content: string) { // convert text content to html content
     return !this.draftMail.is_html ? content.replace(/\n/g, '<br>') : content;
   }
 
   insertLink(text: string, link: string) {
+    // add content with link based on https or http to quill
     this.insertLinkData.modalRef.close();
     if (!/^https?:\/\//i.test(link)) {
       link = 'http://' + link;
@@ -702,7 +738,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.settings.autosave_duration !== 'none') {
       this.autoSaveSubscription = this.valueChanged$
         .pipe(
-          debounceTime(Number(this.settings.autosave_duration))
+          debounceTime(Number(this.settings.autosave_duration)) // get autosave interval from user's settings
         )
         .subscribe(data => {
           this.updateEmail();
@@ -718,6 +754,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onFromChanged(mailbox: Mailbox, oldMailbox: Mailbox) {
+    // when user change current mailbox on From field of Compose window
     if (oldMailbox === mailbox) {
       return;
     }
@@ -781,6 +818,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   checkAttachmentSizeLimit(file: File): boolean {
+    // there is limit size of attachment from user's settings
     const attachmentLimitInMBs = this.settings.attachment_size_limit / (1024 * 1024);
     if (file.size > this.settings.attachment_size_limit) {
       this.store.dispatch(new SnackErrorPush({
@@ -864,6 +902,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.resetValues();
   }
 
+  /**
+   * Check exceptions and validations of subject and receiver before send mail
+   */
   sendEmailCheck() {
     if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
@@ -938,10 +979,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
+  /**
+   * Add signature on content of Compose message
+   */
   updateSignature() {
     if (this.isSignatureAdded) { return; }
     else {
       if (this.settings && !this.draftMail.is_html) {
+        // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
         this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
         if (this.selectedMailbox.signature) {
@@ -949,13 +994,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
         return;
       }
+      /**
+       * add html signature if html version
+       */
       let content: string, oldSig: string, newSig: string;
       if (this.quill && this.quill.container) {
-        content = this.quill.container.innerText || ''; // this.draftMail.content;
+        content = this.quill.container.innerText || ''; 
         content = content.replace(/\n\n/g, '<br>');
       }
       if (this.quill && this.quill.container) {
         if (this.oldMailbox && this.oldMailbox.signature) {
+          // update signature from old to new if signature is updated
           oldSig = this.oldMailbox.signature.substring(0, this.oldMailbox.signature.length);
           if (this.selectedMailbox.signature) {
             newSig = this.selectedMailbox.signature.substring(0, this.selectedMailbox.signature.length);
@@ -965,6 +1014,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
           this.quill.clipboard.dangerouslyPasteHTML(content);
         } else if (this.selectedMailbox.signature) {
+          // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.substring(0, this.selectedMailbox.signature.length);
           content += '<br><br>' + newSig;
           this.isSignatureAdded = true;
@@ -1116,6 +1166,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onSubmitEncryption() {
+    // Set password and expire date for message to non-ctemplar users
     this.showEncryptFormErrors = true;
     const value = this.encryptForm.value;
     const expiryHours = value.hours + (value.days * 24);
@@ -1165,6 +1216,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail));
   }
 
+  /**
+   * Handle all compose contents and save to draft or send according to shouldSend and shouldSave
+   */
   setMailData(shouldSend: boolean, shouldSave: boolean) {
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
@@ -1191,6 +1245,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
     let tokens;
     if (this.draftMail.is_html) {
+      // if html version, convert text to html format with html tags
       if (this.editor.nativeElement.firstChild !== null) {
         this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
         tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
@@ -1209,6 +1264,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
       }
     } else {
+      // if text version, don't convert content 
       this.draftMail.content = this.mailData.content;
     }
     this.draftMail.send = shouldSend;
@@ -1260,6 +1316,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         currentAttachments.push(item.insert.image.content_id);
       }
     });
+    // inline attachments don't have attachment id
     this.inlineAttachmentContentIds = this.inlineAttachmentContentIds.filter(contentId => {
       if (!currentAttachments.includes(contentId)) {
         const attachmentToRemove = this.attachments.find(attachment => attachment.content_id === contentId);
@@ -1378,6 +1435,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onAddingReceiver(tag: any, data: any[]) {
+    // convert tag values to custom format with value, display, email, name
     data.forEach(item => {
       if (item.email) {
         item.display = item.email;
