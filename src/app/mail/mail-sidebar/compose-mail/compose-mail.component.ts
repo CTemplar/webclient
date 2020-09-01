@@ -378,20 +378,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       day: now.getDate()
     };
 
-    this.initializeAutoSave();
+    this.initializeAutoSave(); //set interval of autosave function
   }
 
-  onPaste($event) {
+  onPaste($event) { // paste event on To field
     this.isPasted = true;
   }
-  ccOnPaste($event) {
+  ccOnPaste($event) { // paste event on Cc field
     this.ccIsPasted = true;
   }
-  bccOnPaste($event) {
+  bccOnPaste($event) { // paste event on Bcc field
     this.bccIsPasted = true;
   }
 
-  updateInputTextValue(val) {
+  updateInputTextValue(val) { // add pasted email to To field
     if(this.isPasted && this.validateEmail(val)){
       this.mailData.receiver.push({
         display: val,
@@ -402,7 +402,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
   
-  ccUpdateInputTextValue(val) {
+  ccUpdateInputTextValue(val) { // add pasted email to Cc field
     if(this.ccIsPasted && this.validateEmail(val)){
       this.mailData.cc.push({
         display: val,
@@ -413,7 +413,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
-  bccUpdateInputTextValue(val) {
+  bccUpdateInputTextValue(val) { // add pasted email to Bcc field
     if(this.bccIsPasted && this.validateEmail(val)){
       this.mailData.bcc.push({
         display: val,
@@ -429,27 +429,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     return re.test(String(email).toLowerCase());
   }
 
-  onTagEdited($event) {
+  onTagEdited($event) { // edit tag event on To field
     this.mailData.receiver[$event.index] = {display: $event.display, value:$event.value};
   }
 
-  ccOnTagEdited($event) {
+  ccOnTagEdited($event) { // edit tag event on Cc field
     this.mailData.cc[$event.index] = {display: $event.display, value:$event.value};
   }
 
-  bccOnTagEdited($event) {
+  bccOnTagEdited($event) { // edit tag event on Bcc field
     this.mailData.bcc[$event.index] = {display: $event.display, value:$event.value};
   }
 
-  onClick($event) {
+  onClick($event) { // set focus when click "To" field
     this.receiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  onCcClick($event) {
+  onCcClick($event) { // set focus when click "Cc" field
     this.ccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  onBccClick($event) {
+  onBccClick($event) { // set focus when click "Bcc" field
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
@@ -894,6 +894,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     if (this.mailData.subject === '' && ((this.draftMail.is_html && this.getPlainText(this.editor.nativeElement.firstChild.innerHTML).replace(/ /g, '').replace(/\n/g, '').length === 0) || 
       (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))) {
+        // show message to confirm without subject and content
         this.confirmModalRef = this.modalService.open(this.confirmationModal, {
           centered: true,
           windowClass: 'modal-sm users-action-modal'
