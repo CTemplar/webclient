@@ -197,9 +197,9 @@
       <ng-template #spoofWarning>
         <span class="spam_why">Warning:</span>
         <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
-        <span class="ml-1"><a href="{{primaryWebsite}}/faq/email-domain-not-authenticated/" target="_blank"
+        <!-- <span class="ml-1"><a href="{{primaryWebsite}}/help/answer/email-domain-not-authenticated/" target="_blank"
             rel="noopener noreferrer">
-            {{"mail_header.learn_more"| translate}}</a></span>
+            {{"mail_header.learn_more"| translate}}</a></span> -->
       </ng-template>
     </div>
 
@@ -345,7 +345,7 @@
                 (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
         </ng-template>
         <ng-template #plainBlock>
-          <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content" 
+          <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content"
             [innerHTML]="(decryptedContentsPlain[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
         </ng-template>
       </div>
@@ -540,7 +540,7 @@
                           (decryptedContents[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
                   </ng-template>
                   <ng-template #plainBlock>
-                    <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content" 
+                    <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
                       [innerHTML]="(decryptedContentsPlain[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
                   </ng-template>
                   <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"

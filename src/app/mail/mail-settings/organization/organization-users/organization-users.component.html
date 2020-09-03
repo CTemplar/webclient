@@ -4,7 +4,7 @@
       <app-loading-spinner [showSpinner]="false"
                            optionalClasses="custom-domains-spinner"></app-loading-spinner>
     </h5>
-    <a href="{{primaryWebsite}}/faq/add-users/"
+    <a href="{{primaryWebsite}}/help/answer/add-an-user/"
        ngbTooltip="Learn more"
        class="users-info-icon"
        target="_blank">
@@ -115,10 +115,10 @@
               <div class="full-width">
                 <strong [translate]="'create_account.information_label'">Information:</strong>
                 <span class="information-content mb-4" [translate]="'create_account.create_address_warning'">
-                  By adding a user, a new mailbox will be created with a free plan. It is usually used when you have a team and you want to create a separate mailbox. If you are the one who will use the address, in order to keep the benefits of your paid plan, you have to 
+                  By adding a user, a new mailbox will be created with a free plan. It is usually used when you have a team and you want to create a separate mailbox. If you are the one who will use the address, in order to keep the benefits of your paid plan, you have to
                   <a class="ml-1" [translate]="'create_account.go_to_create_address'" (click)="closeAddUserModal()">Create an address.</a>
-                </span>                   
-              </div>              
+                </span>
+              </div>
               <div class="form-step-card">
                 <label class="text-dark mb-0">
                   <strong [translate]="'create_account.username_and_domain'">Username and domain</strong>
@@ -326,4 +326,3 @@
     </div>
   </div>
 </ng-template><!-- /.Confirm delete modal ends -->
-

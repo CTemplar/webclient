@@ -6,7 +6,6 @@ import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
-import { NotificationService } from '../../store/services/notification.service';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import {
   ClearMailsOnLogout,
