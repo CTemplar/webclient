@@ -37,11 +37,7 @@ a {
 }
 
 .minimize-compose-title {
-	max-width: 140px;
-  
-	@include media("<bs-md") {
-		  max-width: 60px;
-	  }
+	max-width: 80px;
 }
 
 .maximize-compose-title {
@@ -70,7 +66,7 @@ a {
 		top: auto;
 		left: auto;
 		overflow: inherit;
-		width: 100%;
+		width: 40rem;
 		&.is-minimized {
 			width: 12rem;
 		}
@@ -100,7 +96,7 @@ a {
 		}
 	}
 	.mail-composer-dialog{
-		box-shadow: $shadow-dark;
+		box-shadow: 0px 20px 15px 0px rgba(0, 0, 0, 0.5);
 		background: white;
 	}
     @include media(">=ipad") {
@@ -154,6 +150,13 @@ a {
 		  display: flex;
 		  flex-direction: column;
 		  justify-content: flex-end;
+
+		  .mail-compose-box {
+			  max-height: none;
+
+			  .ql-editor { min-height: 640.867px; }
+			  .plain-editor { min-height: 635px; }
+		  }
 	  }
     }
   
@@ -339,7 +342,9 @@ a {
 	}
 
 	.ql-editor {
-		min-height: 380px;
+		min-height: 385.867px;
+		line-height: inherit;
+		color: black;
 		.originalblock {
 			border-left: 1px solid rgb(204, 204, 204);
 			padding-left: 1ex;

@@ -5,15 +5,18 @@
 .from-text{
     font-size: 14px;
 }
-.mail-subject {
-    width: 55px;
+.label-subject {
+    min-width: 55px;
+}
+.label-from {
+    min-width: 40px;
 }
 
 .plain-editor {
-    height: 248px;
+    min-height: 380px;
     border: 0;
     width: 100%;
-    padding: 5px 10px;
+    padding: 12px 15px;
     resize: none;
     font-size: 14px;
 }
@@ -86,6 +89,7 @@ textarea:disabled {
             width: 2.25rem;
             display: flex;
             justify-content: center;
+            background: #fafafa;
         }
         &:disabled {
             background-color: inherit;
